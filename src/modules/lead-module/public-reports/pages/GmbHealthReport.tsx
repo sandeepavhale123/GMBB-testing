@@ -111,7 +111,8 @@ export const GmbHealthReport: React.FC = () => {
     rating: review.rating,
     text: review.body,
     date: review.date,
-    platform: "Google"
+    source_image: review.source_image,
+    date_utc: review.date_utc
   }));
   // Transform competitors from API data
   const competitors = reportData.top20Competitors.competitors.slice(0, 10).map((competitor) => ({
@@ -156,7 +157,8 @@ export const GmbHealthReport: React.FC = () => {
   const posts = reportData.communication.posts.slice(0, 3).map((post) => ({
     id: post.position.toString(),
     image: post.image,
-    description: post.body
+    description: post.body,
+    link: post.link
   }));
 
   return <PublicReportLayout title={transformedReportData.title} listingName={transformedReportData.listingName} address={transformedReportData.address} logo={transformedReportData.logo} date={transformedReportData.date} brandingData={brandingData}>
@@ -266,40 +268,40 @@ export const GmbHealthReport: React.FC = () => {
               Your Google Business Profile emerges precisely when people are seeking your business or similar ones on Google Search or Maps. With Google Business Profile, managing and enhancing your Business Profile is simple, enabling you to distinguish yourself and attract more customers.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <MapPin className="h-5 w-5 text-green-600" />
+              <div className={`${reportData.businessInfo.businessName ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.businessName ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <MapPin className={`h-5 w-5 ${reportData.businessInfo.businessName ? 'text-green-600' : 'text-red-600'}`} />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Business Name</div>
-                  <div className="font-medium">{transformedReportData.listingName}</div>
+                  <div className="font-medium">{reportData.businessInfo.businessName || 'Business name is missing'}</div>
                 </div>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Phone className="h-5 w-5 text-green-600" />
+              <div className={`${reportData.businessInfo.phoneNumber ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.phoneNumber ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <Phone className={`h-5 w-5 ${reportData.businessInfo.phoneNumber ? 'text-green-600' : 'text-red-600'}`} />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Phone No</div>
-                  <div className="font-medium">{reportData.businessInfo.phoneNumber}</div>
+                  <div className="font-medium">{reportData.businessInfo.phoneNumber || 'Phone number is missing'}</div>
                 </div>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <MapPin className="h-5 w-5 text-green-600" />
+              <div className={`${reportData.businessInfo.address ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.address ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <MapPin className={`h-5 w-5 ${reportData.businessInfo.address ? 'text-green-600' : 'text-red-600'}`} />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Location</div>
-                  <div className="font-medium">{transformedReportData.address}</div>
+                  <div className="font-medium">{reportData.businessInfo.address || 'Address is missing'}</div>
                 </div>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Globe className="h-5 w-5 text-green-600" />
+              <div className={`${reportData.businessInfo.website ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.website ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <Globe className={`h-5 w-5 ${reportData.businessInfo.website ? 'text-green-600' : 'text-red-600'}`} />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Website</div>
-                  <div className="font-medium">{reportData.businessInfo.website}</div>
+                  <div className="font-medium">{reportData.businessInfo.website || 'Website is missing'}</div>
                 </div>
               </div>
             </div>
@@ -328,26 +330,6 @@ export const GmbHealthReport: React.FC = () => {
         {/* CTA Section */}
         <CTASection />
 
-        {/* GMB Ranking Factors */}
-        <RankingFactorsGrid factors={rankingFactors} />
-
-        {/* Posts On GMB */}
-        <PostsOnGMB posts={posts} />
-
-        {/* Route to GMB - Photo Gallery */}
-        <PhotoGallery photos={photos} totalCount={transformedReportData.totalPhotos} />
-
-        {/* Business Hours */}
-        <BusinessHours hours={businessHours} />
-
-        {/* Reviews Section */}
-        <ReviewsSection reviews={reviews} averageRating={transformedReportData.avgRating} totalReviews={transformedReportData.totalReviews} />
-
-        {/* Top 10 Competitors */}
-        <CompetitorTable competitors={competitors} />
-
-        {/* CTA Section */}
-        <CTASection />
 
         {/* Category Breakdown */}
         <Card>

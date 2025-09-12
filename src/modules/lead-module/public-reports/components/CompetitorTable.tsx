@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Star } from "lucide-react";
 
 interface Competitor {
@@ -49,7 +50,23 @@ export const CompetitorTable: React.FC<CompetitorTableProps> = ({ competitors })
                 <tr key={competitor.rank} className="border-b hover:bg-gray-50">
                   <td className="p-2 font-medium">#{competitor.rank}</td>
                   <td className="p-2">
-                    <div className="font-medium">{competitor.businessName}</div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="font-medium cursor-help">
+                            {competitor.businessName.length > 60 
+                              ? `${competitor.businessName.slice(0, 60)}...`
+                              : competitor.businessName
+                            }
+                          </div>
+                        </TooltipTrigger>
+                        {competitor.businessName.length > 60 && (
+                          <TooltipContent>
+                            <p>{competitor.businessName}</p>
+                          </TooltipContent>
+                        )}
+                      </Tooltip>
+                    </TooltipProvider>
                   </td>
                   <td className="p-2">
                     <div className="flex items-center gap-1">

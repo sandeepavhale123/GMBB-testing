@@ -6,6 +6,7 @@ interface Post {
   id: string;
   image: string;
   description: string;
+  link?: string;
 }
 
 interface PostsOnGMBProps {
@@ -37,10 +38,14 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
                 />
               </div>
               <CardContent className="p-4 space-y-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground line-clamp-2 overflow-hidden">
                   {post.description}
                 </p>
-                <Button variant="outline" className="w-full">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => post.link && window.open(post.link, '_blank')}
+                >
                   View Post
                 </Button>
               </CardContent>
