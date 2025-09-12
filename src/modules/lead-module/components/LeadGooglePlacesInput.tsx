@@ -34,6 +34,7 @@ export function LeadGooglePlacesInput({
   const autocompleteRef = useRef<any>(null);
   const [inputValue, setInputValue] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
+  const styleRef = useRef<HTMLStyleElement | null>(null);
 
   useEffect(() => {
     const initializeAutocomplete = async () => {
@@ -119,18 +120,56 @@ export function LeadGooglePlacesInput({
     };
   }, [disabled, onPlaceSelect]);
 
+  // Ensure Google suggestions overlay works inside modals
+  useEffect(() => {
+    // elevate z-index for Google suggestions dropdown
+    const style = document.createElement('style');
+    style.innerHTML = `.pac-container{ z-index: 999999 !important; }`;
+    document.head.appendChild(style);
+    styleRef.current = style;
+
+    // prevent Radix Dialog from blocking clicks on Google suggestions
+    const stopPropagation = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('.pac-container')) {
+        e.stopPropagation();
+      }
+    };
+    document.addEventListener('pointerdown', stopPropagation, true);
+    document.addEventListener('mousedown', stopPropagation, true);
+    document.addEventListener('click', stopPropagation, true);
+
+    return () => {
+      if (styleRef.current) {
+        document.head.removeChild(styleRef.current);
+        styleRef.current = null;
+      }
+      document.removeEventListener('pointerdown', stopPropagation, true);
+      document.removeEventListener('mousedown', stopPropagation, true);
+      document.removeEventListener('click', stopPropagation, true);
+    };
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   return (
     <Input
+      id="business-name"
       ref={inputRef}
       value={inputValue}
       onChange={handleInputChange}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+        }
+      }}
       placeholder={loading ? "Loading Google Places..." : placeholder}
       disabled={disabled || loading}
       className="w-full"
+      autoComplete="off"
+      aria-autocomplete="list"
     />
   );
 }

@@ -124,7 +124,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
           Add Lead
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg" onInteractOutside={(e) => { const target = e.target as HTMLElement; if (target.closest('.pac-container')) e.preventDefault(); }}>
         <DialogHeader>
           <DialogTitle>Add New Lead</DialogTitle>
         </DialogHeader>
