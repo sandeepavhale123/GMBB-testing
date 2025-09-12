@@ -5,6 +5,7 @@ import { Card, CardContent } from "../ui/card";
 import { useToast } from "../../hooks/use-toast";
 import { useProfile } from "../../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ProfileHeaderProps {
   activeTab: "edit" | "password";
@@ -20,6 +21,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { profileData, isLoading, updateProfile, isUpdating } = useProfile();
   const [isUploading, setIsUploading] = useState(false);
+  const { t } = useI18nNamespace("Profile/profileHeader");
 
   // Helper function to check if subscription info should be hidden
   const shouldHideSubscriptionInfo = () => {
@@ -36,8 +38,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     // Validate file type
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Invalid file type",
-        description: "Please select an image file.",
+        title: t("invalidFileType"),
+        description: t("invalidFileTypeDesc"),
         variant: "destructive",
       });
       return;
@@ -206,7 +208,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
               >
                 <Lock className="w-4 h-4 mr-2" />
-                Change Password
+                {t("changePassword")}
               </Button>
               {/* Conditionally show manage subscription button */}
               {!shouldHideSubscriptionInfo() && (
@@ -217,7 +219,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
                 >
                   <Settings className="w-4 h-4 mr-2" />
-                  Manage Subscription
+                  {t("manageSubscription")}
                 </Button>
               )}
             </div>

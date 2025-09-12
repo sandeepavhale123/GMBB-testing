@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { TimezoneOption } from "../../services/profileService";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ProfilePreferencesFormProps {
   formData: {
@@ -44,16 +45,22 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
 }) => {
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const { profileData } = useProfile();
-  
+  console.log("profile data", profileData);
+
   const isAdmin = userRole === "admin";
-  const currentDashboardType = profileData?.dashboardType || parseInt(formData.dashboardType);
-  const shouldShowDashboardType = isAdmin && (currentDashboardType === 0 || currentDashboardType === 1);
+  const currentDashboardType =
+    profileData?.dashboardType || parseInt(formData.dashboardType);
+  const shouldShowDashboardType =
+    isAdmin && (currentDashboardType === 0 || currentDashboardType === 1);
+
+  // ✅ load both "profile" namespaces
+  const { t } = useI18nNamespace("Profile/profilePreferencesForm");
 
   return (
     <Card className="shadow-lg border-0">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-gray-900">
-          Preferences & Settings
+          {t("preferencesTitle")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -65,7 +72,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
           {/* Timezone with Search */}
           <div>
             <Label htmlFor="timezone" className="text-gray-700 font-medium">
-              Timezone
+              {t("timezone")}
             </Label>
             <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
               <PopoverTrigger asChild>
@@ -122,7 +129,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
                 htmlFor="dashboardType"
                 className="text-gray-700 font-medium"
               >
-                Dashboard Type
+                {t("labels.dashboardType")}
               </Label>
               <Select
                 value={formData.dashboardType}

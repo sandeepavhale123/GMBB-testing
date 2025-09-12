@@ -1,0 +1,28 @@
+{
+  "pageTitle": "Configuración de Perfil",
+  "pageSubtext": "Administra la información de tu cuenta, configuraciones de seguridad y preferencias de suscripción.",
+
+  "editProfileTitle": "Editar Perfil",
+  "preferencesTitle": "Preferencias y Configuraciones",
+
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "email": "Correo Electrónico",
+
+  "language": "Idioma",
+  "timezone": "Zona Horaria",
+
+  "saveChanges": "Guardar Cambios",
+  "changePassword": "Cambiar Contraseña",
+  "manageSubscription": "Administrar Suscripción",
+
+  "profilePicUpdated": "Foto de perfil actualizada",
+  "invalidFileType": "Tipo de archivo inválido",
+  "invalidFileTypeDesc": "Por favor sube un archivo de imagen válido.",
+  "fileTooLarge": "Archivo demasiado grande",
+  "fileTooLargeDesc": "Selecciona una imagen menor a 5MB.",
+
+  "updateFailed": "Error en la Actualización",
+  "profileUpdated": "Perfil Actualizado",
+  "updateErrorDesc": "Ocurrió un error al actualizar tu perfil."
+}

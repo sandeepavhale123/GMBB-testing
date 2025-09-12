@@ -8,6 +8,9 @@ import { ProfileBasicInfoForm } from "./ProfileBasicInfoForm";
 import { ProfilePreferencesForm } from "./ProfilePreferencesForm";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { profileSchema, ProfileFormData } from "../../schemas/authSchemas";
+import i18n, { loadNamespace } from "@/i18n";
+import { languageMap } from "@/lib/languageMap"; // optional mapping
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
@@ -56,6 +59,19 @@ export const ProfileFormContainer: React.FC = () => {
     }
   }, [profileData]);
 
+  // inside the component
+  useEffect(() => {
+    if (profileData?.language) {
+      const lngCode = languageMap[profileData.language] ?? profileData.language;
+      (async () => {
+        // ensure english profile ns is loaded and then the user's language ns
+        await loadNamespace("en", "Profile/profile");
+        if (lngCode !== "en") await loadNamespace(lngCode, "Profile/profile");
+        i18n.changeLanguage(lngCode);
+      })();
+    }
+  }, [profileData]);
+
   useEffect(() => {
     if (updateError) {
       toast({
@@ -66,6 +82,7 @@ export const ProfileFormContainer: React.FC = () => {
       clearProfileErrors();
     }
   }, [updateError, toast, clearProfileErrors]);
+  const { t } = useI18nNamespace("Profile/profile");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,10 +110,15 @@ export const ProfileFormContainer: React.FC = () => {
         profilePic: profileData.profilePic || "",
         // Password is intentionally NEVER included in profile updates
       });
+      // 🔹 Update frontend language immediately after successful save
+      const langCode = languageMap[formData.language] ?? formData.language;
+      await loadNamespace("en", "Profile/profile");
+      if (langCode !== "en") await loadNamespace(langCode, "Profile/profile");
+      i18n.changeLanguage(langCode);
 
       toast({
-        title: "Profile Updated",
-        description: "Your profile has been successfully updated.",
+        title: t("profileUpdated"),
+        description: t("profileUpdatedtext"), // or a more general success message
       });
 
       // Check if we need to redirect to multi-dashboard
@@ -110,11 +132,11 @@ export const ProfileFormContainer: React.FC = () => {
       }
     } catch (error) {
       toast({
-        title: "Update Failed",
+        title: t("updateFailed"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to update profile. Please try again.",
+          t("updateErrorDesc"),
         variant: "destructive",
       });
     }

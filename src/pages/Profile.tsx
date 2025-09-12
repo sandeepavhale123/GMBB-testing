@@ -9,6 +9,7 @@ import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { useListingContext } from "@/context/ListingContext";
 import { useParams } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"edit" | "password">("edit");
@@ -18,7 +19,8 @@ const Profile = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { listings, selectedListing, initializeSelectedListing } =
     useListingContext();
-
+  // ✅ load namespace for Profile page (with safe fallback)
+  const { t } = useI18nNamespace("Profile/profile");
   useEffect(() => {
     if (listingId && listings.length > 0 && !selectedListing) {
       // console.log(
@@ -86,11 +88,10 @@ const Profile = () => {
               {/* Page Title and Subtext */}
               <div className="mb-6">
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                  Profile Settings
+                  {t("pageTitle")}
                 </h1>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Manage your account information, security settings, and
-                  subscription preferences.
+                  {t("pageSubtext")}
                 </p>
               </div>
 
