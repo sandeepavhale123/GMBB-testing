@@ -13,10 +13,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { LeadGooglePlacesInput } from "./LeadGooglePlacesInput";
-import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin } from "lucide-react";
+import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2 } from "lucide-react";
+import { addLead, AddLeadRequest } from "@/api/leadApi";
+import { useToast } from "@/hooks/use-toast";
+import { useFormValidation } from "@/hooks/useFormValidation";
+import { z } from "zod";
 
 interface AddLeadModalProps {
-  onAddLead: (leadData: LeadFormData) => void;
+  onSuccess?: () => void;
 }
 
 interface LeadFormData {
@@ -30,9 +34,38 @@ interface LeadFormData {
   inputMethod: 'name' | 'url' | 'cid';
 }
 
-export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
+// Form validation schema
+const leadFormSchema = z.object({
+  businessName: z.string().optional(),
+  mapUrl: z.string().optional(), 
+  cid: z.string().optional(),
+  email: z.string().email("Please enter a valid email").or(z.literal("")),
+  phone: z.string().optional(),
+  location: z.string().optional(),
+  inputMethod: z.enum(['name', 'url', 'cid']),
+}).refine((data) => {
+  if (data.inputMethod === 'name' && !data.businessName) {
+    return false;
+  }
+  if (data.inputMethod === 'url' && !data.mapUrl) {
+    return false;
+  }
+  if (data.inputMethod === 'cid' && !data.cid) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Please fill in the required field for the selected input method",
+  path: ["inputMethod"],
+});
+
+export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
   const [open, setOpen] = useState(false);
   const [showOptionalDetails, setShowOptionalDetails] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(leadFormSchema);
+  
   const [formData, setFormData] = useState<LeadFormData>({
     businessName: "",
     address: "",
@@ -44,21 +77,74 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
     inputMethod: 'name',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onAddLead(formData);
-    setFormData({
-      businessName: "",
-      address: "",
-      mapUrl: "",
-      cid: "",
-      email: "",
-      phone: "",
-      location: "",
-      inputMethod: 'name',
-    });
-    setShowOptionalDetails(false);
-    setOpen(false);
+    
+    if (isSubmitting) return;
+    
+    // Validate form data
+    const validation = validate(formData);
+    if (!validation.isValid) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Please fix the errors and try again.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Prepare API request based on input method
+      const apiRequest: AddLeadRequest = {
+        inputtype: formData.inputMethod === 'name' ? "0" : 
+                  formData.inputMethod === 'url' ? "1" : "2",
+        inputtext: formData.inputMethod === 'name' ? formData.businessName :
+                  formData.inputMethod === 'url' ? formData.mapUrl : formData.cid,
+        email: formData.email || undefined,
+        phone: formData.phone || undefined,
+        location: formData.location || undefined,
+      };
+
+      const response = await addLead(apiRequest);
+      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: response.message || "Lead added successfully",
+        });
+        
+        // Reset form and close modal
+        setFormData({
+          businessName: "",
+          address: "",
+          mapUrl: "",
+          cid: "",
+          email: "",
+          phone: "",
+          location: "",
+          inputMethod: 'name',
+        });
+        setShowOptionalDetails(false);
+        clearErrors();
+        setOpen(false);
+        
+        // Notify parent component
+        onSuccess?.();
+      } else {
+        throw new Error(response.message || "Failed to add lead");
+      }
+    } catch (error) {
+      console.error('Error adding lead:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to add lead. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handlePlaceSelect = (business: { name: string; address: string; latitude: string; longitude: string }) => {
@@ -86,6 +172,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
               placeholder="Search for business name..."
               defaultValue={formData.businessName}
             />
+            {hasFieldError("businessName") && (
+              <p className="text-sm text-destructive">{getFieldError("businessName")}</p>
+            )}
           </div>
         );
       case 'url':
@@ -101,6 +190,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
                 setFormData(prev => ({ ...prev, mapUrl: e.target.value }))
               }
             />
+            {hasFieldError("mapUrl") && (
+              <p className="text-sm text-destructive">{getFieldError("mapUrl")}</p>
+            )}
           </div>
         );
       case 'cid':
@@ -115,6 +207,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
                 setFormData(prev => ({ ...prev, cid: e.target.value }))
               }
             />
+            {hasFieldError("cid") && (
+              <p className="text-sm text-destructive">{getFieldError("cid")}</p>
+            )}
           </div>
         );
       default:
@@ -205,6 +300,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
                     setFormData(prev => ({ ...prev, email: e.target.value }))
                   }
                 />
+                {hasFieldError("email") && (
+                  <p className="text-sm text-destructive">{getFieldError("email")}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone" className="flex items-center space-x-2">
@@ -239,10 +337,19 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
           )}
 
           <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit">Add Lead</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Adding Lead...
+                </>
+              ) : (
+                "Add Lead"
+              )}
+            </Button>
           </div>
         </form>
       </DialogContent>

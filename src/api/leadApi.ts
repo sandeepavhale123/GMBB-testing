@@ -135,3 +135,26 @@ export const useLeadCredits = () => {
     retry: 3,
   });
 };
+
+// Add Lead API interfaces
+export interface AddLeadRequest {
+  inputtype: "0" | "1" | "2"; // 0 - google auto suggest, 1 - map url, 2-cid
+  inputtext: string;
+  email?: string;
+  phone?: string;
+  location?: string;
+}
+
+export interface AddLeadResponse {
+  code: number;
+  message: string;
+  data: {
+    leadId: number;
+  };
+}
+
+// Add Lead API function
+export const addLead = async (params: AddLeadRequest): Promise<AddLeadResponse> => {
+  const response = await apiClient.post<AddLeadResponse>('/lead/add-lead', params);
+  return response.data;
+};

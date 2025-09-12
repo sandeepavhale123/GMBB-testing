@@ -73,11 +73,9 @@ const Dashboard: React.FC = () => {
     toast.error("Failed to fetch leads. Please try again.");
   }
 
-  const handleAddLead = (leadData: any) => {
-    // In a real app, this would call an API to create the lead
-    console.log("Add lead:", leadData);
-    toast.success("Lead added successfully!");
-    refetch(); // Refetch leads after adding
+  const handleAddLead = () => {
+    // Refetch leads after adding a new lead
+    refetch();
   };
 
   const handleSelectLead = (leadId: string, checked: boolean) => {
@@ -114,7 +112,7 @@ const Dashboard: React.FC = () => {
           <h1 className="text-3xl font-bold tracking-tight">Lead Dashboard</h1>
           <p className="text-muted-foreground">Manage and track your leads effectively</p>
         </div>
-        <AddLeadModal onAddLead={handleAddLead} />
+        <AddLeadModal onSuccess={handleAddLead} />
       </div>
 
       {/* Summary Cards */}
