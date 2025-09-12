@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
+import { LeadGooglePlacesInput } from "./LeadGooglePlacesInput";
 import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin } from "lucide-react";
 
 interface AddLeadModalProps {
@@ -61,7 +61,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
     setOpen(false);
   };
 
-  const handlePlaceSelect = (business: any) => {
+  const handlePlaceSelect = (business: { name: string; address: string; latitude: string; longitude: string }) => {
     setFormData(prev => ({
       ...prev,
       businessName: business.name || "",
@@ -75,13 +75,10 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
         return (
           <div className="space-y-2">
             <Label htmlFor="business-name">Search by business name</Label>
-            <Input
-              id="business-name"
-              placeholder="Enter business name"
-              value={formData.businessName}
-              onChange={(e) =>
-                setFormData(prev => ({ ...prev, businessName: e.target.value }))
-              }
+            <LeadGooglePlacesInput
+              onPlaceSelect={handlePlaceSelect}
+              placeholder="Search for business name..."
+              defaultValue={formData.businessName}
             />
           </div>
         );
