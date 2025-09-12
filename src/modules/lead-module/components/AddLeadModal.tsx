@@ -73,26 +73,17 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
     switch (formData.inputMethod) {
       case 'name':
         return (
-          <>
-            <div className="space-y-2">
-              <Label htmlFor="google-places">Business Address</Label>
-              <BusinessGooglePlacesInput
-                onPlaceSelect={handlePlaceSelect}
-                placeholder="Search for business address..."
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="business-name">Business Name</Label>
-              <Input
-                id="business-name"
-                placeholder="Enter business name"
-                value={formData.businessName}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, businessName: e.target.value }))
-                }
-              />
-            </div>
-          </>
+          <div className="space-y-2">
+            <Label htmlFor="business-name">Search by business name</Label>
+            <Input
+              id="business-name"
+              placeholder="Enter business name"
+              value={formData.businessName}
+              onChange={(e) =>
+                setFormData(prev => ({ ...prev, businessName: e.target.value }))
+              }
+            />
+          </div>
         );
       case 'url':
         return (
