@@ -34,9 +34,15 @@ export function LeadGooglePlacesInput({
 }: LeadGooglePlacesInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
+  const onPlaceSelectRef = useRef(onPlaceSelect);
   const [inputValue, setInputValue] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
   const styleRef = useRef<HTMLStyleElement | null>(null);
+
+  // Keep the callback reference up to date
+  useEffect(() => {
+    onPlaceSelectRef.current = onPlaceSelect;
+  }, [onPlaceSelect]);
 
   useEffect(() => {
     const extractCidFromUrl = (url: string): string | null => {
@@ -127,7 +133,7 @@ export function LeadGooglePlacesInput({
                 if (extracted) cid = extracted;
               }
               const payload = { ...businessBase, cid } as LeadBusinessDetails;
-              onPlaceSelect?.(payload);
+              onPlaceSelectRef.current?.(payload);
               if (!cid) {
                 console.warn('CID not found for placeId:', place.place_id, 'url:', res?.url);
               } else {
@@ -135,7 +141,7 @@ export function LeadGooglePlacesInput({
               }
             });
           } else {
-            onPlaceSelect?.(businessBase);
+            onPlaceSelectRef.current?.(businessBase);
           }
         }
       });
@@ -150,7 +156,7 @@ export function LeadGooglePlacesInput({
         window.google?.maps?.event?.clearInstanceListeners(autocompleteRef.current);
       }
     };
-  }, [disabled, onPlaceSelect]);
+  }, [disabled]);
 
   // Ensure Google suggestions overlay works inside modals
   useEffect(() => {

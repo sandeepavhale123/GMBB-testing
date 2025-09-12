@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -152,14 +152,14 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     }
   };
 
-  const handlePlaceSelect = (business: { name: string; address: string; latitude: string; longitude: string; cid?: string; placeId?: string }) => {
+  const handlePlaceSelect = useCallback((business: { name: string; address: string; latitude: string; longitude: string; cid?: string; placeId?: string }) => {
     setFormData(prev => ({
       ...prev,
       businessName: business.name || "",
       address: business.address || "",
       cid: business.cid || "",
     }));
-  };
+  }, []);
 
   const isFromPac = (e: any) => {
     const original = e?.detail?.originalEvent as Event | undefined;
