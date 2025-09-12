@@ -11,25 +11,36 @@ import { Button } from "@/components/ui/button";
 import { 
   MoreHorizontal, 
   FileText, 
-  Globe, 
   Search, 
-  Target, 
   TrendingUp, 
   Mail, 
   Trash2 
 } from "lucide-react";
 
+interface ReportStatus {
+  status: 0 | 1;
+  viewUrl: string | null;
+}
+
+interface Reports {
+  gmbReport: ReportStatus;
+  onPage: ReportStatus;
+  citation: ReportStatus;
+  prospect: ReportStatus;
+}
+
 interface ActionDropdownProps {
   onAction: (action: string, leadId: string) => void;
   leadId: string;
+  reports: Reports;
 }
 
-export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId }) => {
+export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports }) => {
   const navigate = useNavigate();
   
-  const handleAction = (action: string) => {
-    if (action === 'gmb-report') {
-      navigate('/module/lead/gmb-health-report');
+  const handleAction = (action: string, viewUrl?: string) => {
+    if (viewUrl) {
+      window.open(viewUrl, '_blank');
       return;
     }
     onAction(action, leadId);
@@ -44,25 +55,32 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem onClick={() => handleAction('gmb-report')}>
+        <DropdownMenuItem 
+          onClick={() => handleAction(
+            reports.gmbReport.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
+            reports.gmbReport.viewUrl || undefined
+          )}
+        >
           <FileText className="mr-2 h-4 w-4" />
-          View GMB Report
+          {reports.gmbReport.status === 1 ? 'View GMB Health Report' : 'Generate GMB Health Report'}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleAction('onpage-report')}>
-          <Globe className="mr-2 h-4 w-4" />
-          View On Page Report
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleAction('citation-audit')}>
+        <DropdownMenuItem 
+          onClick={() => handleAction(
+            reports.citation.status === 1 ? 'view-citation' : 'generate-citation',
+            reports.citation.viewUrl || undefined
+          )}
+        >
           <Search className="mr-2 h-4 w-4" />
-          View Citation Audit Report
+          {reports.citation.status === 1 ? 'View Citation Audit Report' : 'Generate Citation Audit Report'}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleAction('competitor-report')}>
-          <Target className="mr-2 h-4 w-4" />
-          View Competitor Report
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleAction('gmb-prospect')}>
+        <DropdownMenuItem 
+          onClick={() => handleAction(
+            reports.prospect.status === 1 ? 'view-prospect' : 'generate-prospect',
+            reports.prospect.viewUrl || undefined
+          )}
+        >
           <TrendingUp className="mr-2 h-4 w-4" />
-          View GMB Prospect Report
+          {reports.prospect.status === 1 ? 'View GMB Prospect Report' : 'Generate GMB Prospect Report'}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleAction('send-email')}>

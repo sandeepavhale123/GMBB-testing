@@ -39,7 +39,24 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
   date: apiLead.generated_date,
   leadCategoryLabel: apiLead.leadCategoryLabel,
   reportId: apiLead.report_id,
-  reports: apiLead.reports,
+  reports: {
+    gmbReport: {
+      status: (apiLead.reports.gmbReport.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports.gmbReport.viewUrl,
+    },
+    onPage: {
+      status: (apiLead.reports.onPage.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports.onPage.viewUrl,
+    },
+    citation: {
+      status: (apiLead.reports.citation.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports.citation.viewUrl,
+    },
+    prospect: {
+      status: (apiLead.reports.prospect.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports.prospect.viewUrl,
+    },
+  },
 });
 
 const Dashboard: React.FC = () => {

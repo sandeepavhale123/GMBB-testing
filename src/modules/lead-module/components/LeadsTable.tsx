@@ -23,19 +23,19 @@ export interface Lead {
   reportId: string;
   reports: {
     gmbReport: {
-      status: number;
+      status: 0 | 1;
       viewUrl: string | null;
     };
     onPage: {
-      status: number;
+      status: 0 | 1;
       viewUrl: string | null;
     };
     citation: {
-      status: number;
+      status: 0 | 1;
       viewUrl: string | null;
     };
     prospect: {
-      status: number;
+      status: 0 | 1;
       viewUrl: string | null;
     };
   };
@@ -161,7 +161,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
                 </TableCell>
                 <TableCell>
-                  <ActionDropdown onAction={onAction} leadId={lead.id} />
+                  <ActionDropdown onAction={onAction} leadId={lead.id} reports={lead.reports} />
                 </TableCell>
               </TableRow>
             ))
