@@ -6,11 +6,16 @@ import {
   deleteReportBranding,
   UpdateReportBrandingPayload,
 } from "@/api/reportBrandingApi";
+import {
+  getLeadReportBranding,
+  GetLeadReportBrandingRequest,
+} from "@/api/leadApi";
 
 // Query keys
 export const reportBrandingKeys = {
   all: ["reportBranding"] as const,
   details: () => [...reportBrandingKeys.all, "details"] as const,
+  leadReport: (reportId: string) => [...reportBrandingKeys.all, "leadReport", reportId] as const,
 };
 
 // Get Report Branding hook
@@ -75,5 +80,15 @@ export const useDeleteReportBranding = () => {
         variant: "destructive",
       });
     },
+  });
+};
+
+// Get Lead Report Branding hook
+export const useGetLeadReportBranding = (reportId: string) => {
+  return useQuery({
+    queryKey: reportBrandingKeys.leadReport(reportId),
+    queryFn: () => getLeadReportBranding({ reportId }),
+    enabled: !!reportId,
+    retry: false, // Don't retry on 404 - means no branding exists
   });
 };

@@ -428,6 +428,32 @@ export const getCitationAuditReport = async (params: GetCitationAuditReportReque
   return response.data;
 };
 
+// Lead Report Branding interfaces
+export interface GetLeadReportBrandingRequest {
+  reportId: string;
+}
+
+export interface GetLeadReportBrandingResponse {
+  code: number;
+  message: string;
+  data: {
+    company_name: string;
+    company_email: string;
+    company_website: string;
+    company_phone: string;
+    company_address: string;
+    company_logo: string;
+  };
+}
+
+// Get Lead Report Branding function
+export const getLeadReportBranding = async (
+  params: GetLeadReportBrandingRequest
+): Promise<GetLeadReportBrandingResponse> => {
+  const response = await apiClient.post("/lead/get-report-branding", params);
+  return response.data;
+};
+
 // Get Citation Audit Report React Query hook
 export const useGetCitationAuditReport = (reportId: string) => {
   return useQuery({

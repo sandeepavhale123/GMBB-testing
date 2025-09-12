@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, CheckCircle, XCircle, AlertTriangle, TrendingUp, Copy, MapPin, Loader2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { useGetCitationAuditReport } from "@/api/leadApi";
-import { usePerformanceBrandingReport } from "@/hooks/useReports";
+import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 
 export const CitationAuditReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   const { data: apiResponse, isLoading, error } = useGetCitationAuditReport(reportId || '');
-  const { data: brandingResponse } = usePerformanceBrandingReport(reportId || '');
+  const { data: brandingResponse } = useGetLeadReportBranding(reportId || '');
 
   if (isLoading) {
     return (
