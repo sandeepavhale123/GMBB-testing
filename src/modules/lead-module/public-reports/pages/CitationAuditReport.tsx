@@ -37,24 +37,44 @@ export const CitationAuditReport: React.FC = () => {
     );
   }
 
-  const safeCitations = apiResponse?.data?.citations ?? {
-    total: 0,
-    listed: 0,
-    nonListed: 0,
-    missing: 0,
-    duplicates: 0,
-    accuracy: 0,
-  };
+  // Transform API response to match expected format
+  const reportDetails = apiResponse?.data?.reportDetails;
+  const summary = apiResponse?.data?.summary;
+  const existingCitations = apiResponse?.data?.existingCitation ?? [];
+  const possibleCitations = apiResponse?.data?.possibleCitation ?? [];
+
+  // Calculate listed and non-listed counts from existing citations
+  const totalCitations = summary?.totalCitations ?? 0;
+  const listed = existingCitations.length;
+  const nonListed = Math.max(0, totalCitations - listed);
 
   const reportData = {
     title: "Citation Audit Report",
-    listingName: apiResponse?.data?.listingName ?? "",
-    address: apiResponse?.data?.address ?? "",
+    listingName: reportDetails?.bname || "Business Name",
+    address: reportDetails?.address || "",
     logo: "",
-    date: apiResponse?.data?.date ?? "",
-    citations: safeCitations,
-    existingCitations: apiResponse?.data?.existingCitations ?? [],
-    possibleCitations: apiResponse?.data?.possibleCitations ?? [],
+    date: new Date().toLocaleDateString(),
+    citations: {
+      total: totalCitations,
+      listed: listed,
+      nonListed: nonListed,
+      missing: summary?.missingCitations ?? 0,
+      duplicates: summary?.duplicateListings ?? 0,
+      accuracy: summary?.accuracyScore ?? 0,
+    },
+    existingCitations: existingCitations.map(citation => ({
+      siteName: citation.host || citation.title,
+      businessName: citation.found_bname || citation.title,
+      phone: citation.found_phone || "",
+      url: citation.url,
+    })),
+    possibleCitations: possibleCitations.map(citation => ({
+      siteName: citation.host || citation.sitename,
+      businessName: reportDetails?.bname || "",
+      phone: reportDetails?.phone || "",
+      url: citation.url,
+      status: citation.site_status,
+    })),
   };
 
 

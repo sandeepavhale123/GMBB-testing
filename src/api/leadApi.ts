@@ -388,28 +388,37 @@ export interface GetCitationAuditReportResponse {
   code: number;
   message: string;
   data: {
-    reportId: string;
-    listingName: string;
-    address: string;
-    date: string;
-    citations: {
-      total: number;
-      listed: number;
-      nonListed: number;
-      missing: number;
-      duplicates: number;
-      accuracy: number;
+    reportDetails: {
+      bname: string;
+      website: string;
+      address: string;
+      state: string;
+      phone: string;
+      email: string;
+      category: string;
+      mapurl: string;
     };
-    existingCitations: Array<{
-      siteName: string;
-      businessName: string;
-      phone: string;
+    existingCitation: Array<{
+      title: string;
+      url: string;
+      host: string;
+      found_bname: string;
+      found_phone: string;
+      created_at: string;
+      count: number;
     }>;
-    possibleCitations: Array<{
-      siteName: string;
-      businessName: string;
-      phone: string;
+    possibleCitation: Array<{
+      sitename: string;
+      host: string | null;
+      site_status: string;
+      url: string;
     }>;
+    summary: {
+      totalCitations: number;
+      accuracyScore: number;
+      missingCitations: number;
+      duplicateListings: number;
+    };
   };
 }
 
