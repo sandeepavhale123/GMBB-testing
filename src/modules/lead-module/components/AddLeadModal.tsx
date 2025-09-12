@@ -149,26 +149,24 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
               onValueChange={(value: 'name' | 'url' | 'cid') =>
                 setFormData(prev => ({ ...prev, inputMethod: value }))
               }
+              className="flex flex-col sm:flex-row sm:gap-6 gap-3"
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="name" id="name" />
-                <Label htmlFor="name" className="flex items-center space-x-2 cursor-pointer">
-                  <Building2 className="h-4 w-4" />
-                  <span>Business Name</span>
+                <Label htmlFor="name" className="cursor-pointer">
+                  Google Auto suggestion
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="url" id="url" />
-                <Label htmlFor="url" className="flex items-center space-x-2 cursor-pointer">
-                  <ExternalLink className="h-4 w-4" />
-                  <span>Google Maps URL</span>
+                <Label htmlFor="url" className="cursor-pointer">
+                  Google Maps URL
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="cid" id="cid" />
-                <Label htmlFor="cid" className="flex items-center space-x-2 cursor-pointer">
-                  <Hash className="h-4 w-4" />
-                  <span>Customer ID (CID)</span>
+                <Label htmlFor="cid" className="cursor-pointer">
+                  Customer ID (CID)
                 </Label>
               </div>
             </RadioGroup>
