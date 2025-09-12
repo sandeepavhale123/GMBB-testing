@@ -338,3 +338,43 @@ export const useGetGmbHealthReport = (reportId: string) => {
     enabled: !!reportId,
   });
 };
+
+// Lead Citation Report API interfaces
+export interface CreateLeadCitationReportRequest {
+  leadId: string;
+  bname: string;
+  phone: string;
+  city: string;
+  keyword: string;
+  lat: string;
+  long: string;
+  short_country: string;
+}
+
+export interface CreateLeadCitationReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    reportUrl: string;
+  };
+}
+
+// Lead Citation Report API function
+export const createLeadCitationReport = async (params: CreateLeadCitationReportRequest): Promise<CreateLeadCitationReportResponse> => {
+  const response = await apiClient.post<CreateLeadCitationReportResponse>('/lead/create-citation-report', params);
+  return response.data;
+};
+
+// Lead Citation Report React Query hook
+export const useCreateLeadCitationReport = () => {
+  return useMutation({
+    mutationFn: createLeadCitationReport,
+    onSuccess: (data) => {
+      toast.success('Citation audit report created successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create citation audit report');
+    },
+  });
+};

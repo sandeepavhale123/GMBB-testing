@@ -15,6 +15,7 @@ import {
 import { AddLeadModal } from "../components/AddLeadModal";
 import { LeadTableFilters } from "../components/LeadTableFilters";
 import { LeadsTable, Lead } from "../components/LeadsTable";
+import { CitationAuditModal } from "../components/CitationAuditModal";
 import { 
   Pagination,
   PaginationContent,
@@ -67,6 +68,8 @@ const Dashboard: React.FC = () => {
   const [emailFilter, setEmailFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [citationModalOpen, setCitationModalOpen] = useState(false);
+  const [selectedLeadId, setSelectedLeadId] = useState<string>("");
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
@@ -128,7 +131,19 @@ const Dashboard: React.FC = () => {
       }
     }
     
+    if (action === 'generate-citation') {
+      setSelectedLeadId(leadId);
+      setCitationModalOpen(true);
+    }
+    
     // Handle other actions here
+  };
+
+  const handleCitationModalClose = () => {
+    setCitationModalOpen(false);
+    setSelectedLeadId("");
+    // Optionally refetch leads to update citation report status
+    refetch();
   };
 
   const handleClearFilters = () => {
@@ -345,6 +360,13 @@ const Dashboard: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Citation Audit Modal */}
+      <CitationAuditModal
+        open={citationModalOpen}
+        onClose={handleCitationModalClose}
+        leadId={selectedLeadId}
+      />
     </div>
   );
 };
