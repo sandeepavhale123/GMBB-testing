@@ -69,6 +69,12 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
     }));
   };
 
+  const isFromPac = (e: any) => {
+    const original = e?.detail?.originalEvent as Event | undefined;
+    const t = (original?.target as HTMLElement) || (e.target as HTMLElement | null);
+    return !!t?.closest?.('.pac-container');
+  };
+
   const renderPrimaryFields = () => {
     switch (formData.inputMethod) {
       case 'name':
@@ -124,7 +130,12 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onAddLead }) => {
           Add Lead
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg" onInteractOutside={(e) => { const anyEvt = e as any; const original = anyEvt?.detail?.originalEvent?.target as HTMLElement | undefined; const t = original || (e.target as HTMLElement | null); if (t && t.closest('.pac-container')) e.preventDefault(); }}>
+      <DialogContent
+          className="sm:max-w-lg"
+          onPointerDownOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
+          onFocusOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
+          onInteractOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
+        >
         <DialogHeader>
           <DialogTitle>Add New Lead</DialogTitle>
         </DialogHeader>

@@ -140,24 +140,26 @@ export function LeadGooglePlacesInput({
     document.head.appendChild(style);
     styleRef.current = style;
 
-    // Prevent input blur/outside-dismiss while selecting a suggestion
-    const preventBlurOnSuggestion = (e: Event) => {
+    // Stop propagation to Radix Dialog while keeping Google interactions intact
+    const stopOutsideDismiss = (e: Event) => {
       const target = e.target as HTMLElement | null;
       if (target && target.closest('.pac-container')) {
-        // keep focus on input and allow Google's own click handlers
-        e.preventDefault();
+        e.stopPropagation();
       }
     };
-    document.addEventListener('mousedown', preventBlurOnSuggestion, true);
-    document.addEventListener('touchstart', preventBlurOnSuggestion, true);
+    // Use bubble phase so the event reaches the target first (Google handlers)
+    document.addEventListener('pointerdown', stopOutsideDismiss, false);
+    document.addEventListener('mousedown', stopOutsideDismiss, false);
+    document.addEventListener('click', stopOutsideDismiss, false);
 
     return () => {
       if (styleRef.current) {
         document.head.removeChild(styleRef.current);
         styleRef.current = null;
       }
-      document.removeEventListener('mousedown', preventBlurOnSuggestion, true);
-      document.removeEventListener('touchstart', preventBlurOnSuggestion, true);
+      document.removeEventListener('pointerdown', stopOutsideDismiss, false);
+      document.removeEventListener('mousedown', stopOutsideDismiss, false);
+      document.removeEventListener('click', stopOutsideDismiss, false);
     };
   }, []);
 
