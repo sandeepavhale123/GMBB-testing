@@ -87,7 +87,7 @@ export function LeadGooglePlacesInput({
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
         componentRestrictions: { country: 'in' },
-        fields: ['name', 'geometry.location', 'formatted_address'],
+        fields: ['name', 'geometry', 'formatted_address'],
       });
 
       autocompleteRef.current = autocomplete;
@@ -122,31 +122,42 @@ export function LeadGooglePlacesInput({
 
   // Ensure Google suggestions overlay works inside modals
   useEffect(() => {
-    // elevate z-index for Google suggestions dropdown
+    // Elevate z-index and ensure solid background for dropdown
     const style = document.createElement('style');
-    style.innerHTML = `.pac-container{ z-index: 999999 !important; }`;
+    style.innerHTML = `
+      .pac-container{ 
+        z-index: 999999 !important; 
+        background: hsl(var(--popover)) !important; 
+        color: hsl(var(--popover-foreground)) !important;
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 20px -5px hsl(var(--foreground)/0.1);
+        pointer-events: auto !important;
+      }
+      .pac-item{ padding: 8px 12px; }
+      .pac-item:hover{ background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); }
+    `;
     document.head.appendChild(style);
     styleRef.current = style;
 
-    // prevent Radix Dialog from blocking clicks on Google suggestions
-    const stopPropagation = (e: Event) => {
+    // Prevent input blur/outside-dismiss while selecting a suggestion
+    const preventBlurOnSuggestion = (e: Event) => {
       const target = e.target as HTMLElement | null;
       if (target && target.closest('.pac-container')) {
-        e.stopPropagation();
+        // keep focus on input and allow Google's own click handlers
+        e.preventDefault();
       }
     };
-    document.addEventListener('pointerdown', stopPropagation, true);
-    document.addEventListener('mousedown', stopPropagation, true);
-    document.addEventListener('click', stopPropagation, true);
+    document.addEventListener('mousedown', preventBlurOnSuggestion, true);
+    document.addEventListener('touchstart', preventBlurOnSuggestion, true);
 
     return () => {
       if (styleRef.current) {
         document.head.removeChild(styleRef.current);
         styleRef.current = null;
       }
-      document.removeEventListener('pointerdown', stopPropagation, true);
-      document.removeEventListener('mousedown', stopPropagation, true);
-      document.removeEventListener('click', stopPropagation, true);
+      document.removeEventListener('mousedown', preventBlurOnSuggestion, true);
+      document.removeEventListener('touchstart', preventBlurOnSuggestion, true);
     };
   }, []);
 
