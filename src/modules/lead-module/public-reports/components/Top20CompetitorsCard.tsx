@@ -174,10 +174,30 @@ export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {comparisonData.map((business, index) => (
-                  <tr key={index} className={business.keywordInName === "YES" ? "bg-green-50" : ""}>
-                    <td className="border border-gray-200 p-3 text-sm font-medium">#{index + 1}</td>
-                    <td className="border border-gray-200 p-3 text-sm font-medium">{business.name}</td>
+                {comparisonData.map((business, index) => {
+                  const isYourBusiness = business.name === yourBusiness.name;
+                  const rowClassName = isYourBusiness 
+                    ? "bg-blue-100 border-blue-300" 
+                    : business.keywordInName === "YES" 
+                      ? "bg-green-50" 
+                      : "";
+                  
+                  return (
+                    <tr key={index} className={rowClassName}>
+                      <td className="border border-gray-200 p-3 text-sm font-medium">
+                        {isYourBusiness && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded-full mr-2">
+                            YOU
+                          </span>
+                        )}
+                        #{index + 1}
+                      </td>
+                      <td className="border border-gray-200 p-3 text-sm font-medium">
+                        {business.name}
+                        {isYourBusiness && (
+                          <span className="ml-2 text-blue-600 font-semibold">(Your Business)</span>
+                        )}
+                      </td>
                     <td className="border border-gray-200 p-3 text-sm">
                       {business.category}
                       {business.additionalCategory && business.additionalCategory !== "Not Found" && (
@@ -220,8 +240,9 @@ export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
                         {business.keywordInName}
                       </span>
                     </td>
-                  </tr>
-                ))}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
