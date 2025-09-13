@@ -43,13 +43,13 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
   const handleAction = (action: string, viewUrl?: string, reportId?: string) => {
     // Handle GMB Health Report navigation
     if (action === 'view-gmb-health' && reportId) {
-      navigate(`/module/lead/gmb-health-report/${reportId}`);
+      navigate(`/lead/gbp/${reportId}`);
       return;
     }
     
     // Handle Citation Audit Report navigation
     if (action === 'view-citation' && citationReportId) {
-      navigate(`/module/lead/citation-audit-report/${citationReportId}`);
+      navigate(`/lead/citation/${citationReportId}`);
       return;
     }
     

@@ -88,7 +88,7 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
         toast.success("Citation audit report created successfully!");
         
         // Navigate to the report page
-        navigate(`/module/lead/citation-audit-report/${response.data.reportId}`);
+        navigate(`/lead/citation/${response.data.reportId}`);
         
         onClose();
         form.reset();

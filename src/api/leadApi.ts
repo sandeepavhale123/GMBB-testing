@@ -557,7 +557,7 @@ export const useCreateGmbProspectReport = () => {
 
 export const useGetGmbProspectReport = (reportId: string) => {
   return useQuery({
-    queryKey: ['gmb-prospect-report', reportId],
+    queryKey: ['lead-prospect-report', reportId],
     queryFn: () => getGmbProspectReport({ reportId }),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes

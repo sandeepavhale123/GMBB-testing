@@ -87,7 +87,7 @@ export const publicReportRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/module/lead/gmb-health-report/:reportId",
+    path: "/lead/gbp/:reportId",
     element: (
       <ThemePreloader loadFromAPI={true}>
         <GmbHealthReport />
@@ -95,7 +95,7 @@ export const publicReportRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/module/lead/gmb-prospect-report/:reportId",
+    path: "/lead/prospect/:reportId",
     element: (
       <ThemePreloader loadFromAPI={true}>
         <GmbProspectReport />
@@ -103,7 +103,7 @@ export const publicReportRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/module/lead/citation-audit-report/:reportId",
+    path: "/lead/citation/:reportId",
     element: (
       <ThemePreloader loadFromAPI={true}>
         <CitationAuditReport />

@@ -35,23 +35,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       id: "gmb-health",
       label: "GMB Health Report",
-      name: "gmb-health-report",
+      name: "gbp",
       icon: Heart,
-      path: "/module/lead/gmb-health-report",
+      path: "/lead/gbp",
     },
     {
       id: "gmb-prospect",
       label: "GMB Prospect Report",
-      name: "gmb-prospect-report",
+      name: "prospect",
       icon: BarChart3,
-      path: "/module/lead/gmb-prospect-report",
+      path: "/lead/prospect",
     },
     {
       id: "citation-audit",
       label: "Citation Audit Report",
-      name: "citation-audit-report",
+      name: "citation",
       icon: BookOpen,
-      path: "/module/lead/citation-audit-report",
+      path: "/lead/citation",
     },
   ];
 

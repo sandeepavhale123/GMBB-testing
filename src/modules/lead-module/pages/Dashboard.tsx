@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
           { reportId: lead.reportId },
           {
             onSuccess: (data) => {
-              navigate(`/module/lead/gmb-health-report/${data.data.reportId}`);
+              navigate(`/lead/gbp/${data.data.reportId}`);
             }
           }
         );
@@ -147,7 +147,7 @@ const Dashboard: React.FC = () => {
           { reportId: lead.reportId },
           {
             onSuccess: (data) => {
-              navigate(`/module/lead/gmb-prospect-report/${data.data.reportId}`);
+              navigate(`/lead/prospect/${data.data.reportId}`);
             }
           }
         );
