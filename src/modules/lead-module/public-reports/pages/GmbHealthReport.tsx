@@ -189,49 +189,49 @@ export const GmbHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* GMB Lead Score Detailed Section */}
-        <Card>
-          <CardContent className="pt-5">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-center ">GMB Lead Score</h2>
-                
-              </div>
-              <div className="flex justify-center items-center">
+        {/* Listing Reputation & GMB Lead Score - Responsive Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Listing Reputation Section - 8 columns on large screens */}
+          <div className="lg:col-span-8 col-span-12">
+            <Card>
+              <CardHeader>
+                <CardTitle>Listing Reputation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Google reviews are important because they provide potential customers with insights and feedback from other customers, which can influence their decision to use your business. They also improve your visibility and search ranking on Google.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl font-bold text-green-600">{transformedReportData.totalReviews}</div>
+                    <div className="text-sm text-muted-foreground">Review Count</div>
+                  </div>
+                  <div className="text-center p-4 border rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">{transformedReportData.avgRating}</div>
+                    <div className="text-sm text-muted-foreground">GMB Average Rating</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* GMB Lead Score Section - 4 columns on large screens */}
+          <div className="lg:col-span-4 col-span-12">
+            <Card className="h-full">
+              <CardContent className="pt-5 flex flex-col items-center justify-center h-full">
+                <h2 className="text-lg font-semibold text-center mb-4">GMB Lead Score</h2>
                 <div className="flex flex-col items-center space-y-4">
-                  <CircularProgress value={transformedReportData.healthScore} size={200} strokeWidth={12} className={transformedReportData.healthScore > 70 ? 'text-success' : transformedReportData.healthScore > 40 ? 'text-warning' : 'text-destructive'}>
+                  <CircularProgress value={transformedReportData.healthScore} size={160} strokeWidth={10} className={transformedReportData.healthScore > 70 ? 'text-success' : transformedReportData.healthScore > 40 ? 'text-warning' : 'text-destructive'}>
                     <div className="text-center">
-                      <div className="text-3xl font-bold">{transformedReportData.healthScore}%</div>
+                      <div className="text-2xl font-bold">{transformedReportData.healthScore}%</div>
                       <div className="text-sm text-muted-foreground">Health Score</div>
                     </div>
                   </CircularProgress>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Listing Reputation */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Listing Reputation</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-6">
-              Google reviews are important because they provide potential customers with insights and feedback from other customers, which can influence their decision to use your business. They also improve your visibility and search ranking on Google.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-green-600">{transformedReportData.totalReviews}</div>
-                <div className="text-sm text-muted-foreground">Review Count</div>
-              </div>
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">{transformedReportData.avgRating}</div>
-                <div className="text-sm text-muted-foreground">GMB Average Rating</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* Listing Presence */}
         <Card>
