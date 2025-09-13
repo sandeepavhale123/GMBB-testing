@@ -11,7 +11,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
-import { CircularProgress } from "@/components/ui/circular-progress";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useGetGmbHealthReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 export const GmbHealthReport: React.FC = () => {
@@ -194,27 +194,42 @@ export const GmbHealthReport: React.FC = () => {
           <CardContent className="pt-5">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold">GMB Lead Score</h2>
-                <div className={`${transformedReportData.healthScore > 50 ? 'bg-green-100 border border-green-200' : 'bg-red-100 border border-red-200'} rounded-lg p-4`}>
-                  <div className={`text-sm ${transformedReportData.healthScore > 50 ? 'text-green-900' : 'text-red-900'} font-medium mb-1`}>GMB Lead Score</div>
-                  <div className={`text-3xl font-bold ${transformedReportData.healthScore > 50 ? 'text-green-900' : 'text-red-900'}`}>{transformedReportData.healthScore}%</div>
+                <h2 className="font-semibold text-lg text-center">GMB Lead Score</h2>
+                
+                <div className="bg-green-100 border border-green-200 rounded-lg p-4">
+                  <div className="text-sm text-green-900 font-medium mb-1">No. Of Reviews</div>
+                  <div className="text-3xl font-bold text-green-900">{transformedReportData.totalReviews}</div>
+                </div>
+                <div className="bg-blue-100 border border-blue-200 rounded-lg p-4">
+                  <div className="text-sm text-blue-900 font-medium mb-1">GMB Average Rating</div>
+                  <div className="text-3xl font-bold text-blue-900">{transformedReportData.avgRating}</div>
                 </div>
               </div>
-              <div className="flex justify-center items-center">
-                <div className="flex flex-col items-center space-y-4">
-                  <CircularProgress 
-                    value={transformedReportData.healthScore} 
-                    size={200} 
-                    strokeWidth={12}
-                    className={transformedReportData.healthScore > 70 ? 'text-success' : transformedReportData.healthScore > 40 ? 'text-warning' : 'text-destructive'}
-                  >
-                    <div className="text-center">
-                      <div className="text-3xl font-bold">{transformedReportData.healthScore}%</div>
-                      <div className="text-sm text-muted-foreground">Health Score</div>
-                    </div>
-                  </CircularProgress>
+              <div className="p-6 flex justify-center items-center">
+                <div className="flex flex-col items-center justify-center">
+                <div className="w-64 h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={[{
+                        name: 'GMB Leads',
+                        value: transformedReportData.healthScore,
+                        fill: '#ef4444'
+                      }, {
+                        name: 'Reviews',
+                        value: transformedReportData.totalReviews,
+                        fill: '#22c55e'
+                      }, {
+                        name: 'Average Rating',
+                        value: Number(transformedReportData.avgRating) * 100,
+                        fill: '#3b82f6'
+                      }]} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
+                    <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
+                  </PieChart>
+                    </ResponsiveContainer>
+                  
                 </div>
               </div>
+               </div>
             </div>
           </CardContent>
         </Card>
