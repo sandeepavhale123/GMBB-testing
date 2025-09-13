@@ -13,12 +13,12 @@ import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useGetGmbHealthReport } from "@/api/leadApi";
-import { usePerformanceBrandingReport } from "@/hooks/useReports";
+import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 
 export const GmbHealthReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   const { data: apiResponse, isLoading, error } = useGetGmbHealthReport(reportId || '');
-  const { data: brandingResponse } = usePerformanceBrandingReport(reportId || '');
+  const { data: brandingResponse } = useGetLeadReportBranding(reportId || '');
 
   if (isLoading) {
     return (
