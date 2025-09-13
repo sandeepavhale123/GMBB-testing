@@ -1,5 +1,5 @@
-import React from 'react';
-import { BarChart3 } from 'lucide-react';
+import React, { useState } from 'react';
+import { BarChart3, Menu, X } from 'lucide-react';
 
 interface TopHeaderProps {
   reportId?: string;
@@ -28,6 +28,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   reportType = 'gmb-health',
   reportTitle
 }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleSmoothScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -39,6 +41,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         top: offsetPosition,
         behavior: 'smooth'
       });
+      
+      // Close mobile menu after navigation
+      setIsMobileMenuOpen(false);
     }
   };
 
@@ -75,17 +80,50 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
         {/* Right section - Navigation Menu */}
         {reportType === 'gmb-health' && (
-          <nav className="flex items-center space-x-1">
-            {navigationItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleSmoothScroll(item.id)}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
+          <div className="flex items-center">
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-1">
+              {navigationItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleSmoothScroll(item.id)}
+                  className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+              aria-label="Toggle navigation menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+
+            {/* Mobile Dropdown Menu */}
+            {isMobileMenuOpen && (
+              <div className="absolute top-full right-0 mt-1 w-48 bg-background border border-border rounded-lg shadow-lg z-50 md:hidden">
+                <nav className="py-2">
+                  {navigationItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleSmoothScroll(item.id)}
+                      className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </header>
