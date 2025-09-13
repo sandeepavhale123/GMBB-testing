@@ -8,7 +8,7 @@ import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
 import { PostsOnGMB } from "../components/PostsOnGMB";
 import { PhotoGallery } from "../components/PhotoGallery";
 import { ReviewsSection } from "../components/ReviewsSection";
-import { CompetitorTable } from "../components/CompetitorTable";
+
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
 import { Top20CompetitorsCard } from "../components/Top20CompetitorsCard";
@@ -340,8 +340,6 @@ export const GmbHealthReport: React.FC = () => {
         {/* Reviews Section */}
         <ReviewsSection reviews={reviews} averageRating={transformedReportData.avgRating} totalReviews={transformedReportData.totalReviews} />
 
-        {/* Top 10 Competitors */}
-        <CompetitorTable competitors={competitors} />
 
         {/* CTA Section */}
         <CTASection />
