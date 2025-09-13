@@ -11,6 +11,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
+import { Top20CompetitorsCard } from "../components/Top20CompetitorsCard";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { useGetGmbHealthReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
@@ -162,6 +163,18 @@ export const GmbHealthReport: React.FC = () => {
     description: post.body,
     link: post.link
   }));
+
+  // Transform top 20 competitors data
+  const top20CompetitorsData = {
+    searchInfo: reportData.top20Competitors.searchInfo,
+    yourBusiness: reportData.top20Competitors.yourBusiness,
+    competitorStats: {
+      totalCompetitors: reportData.top20Competitors.competitors.length,
+      averageRating: reportData.top20Competitors.competitors.reduce((sum, comp) => sum + comp.averageRating, 0) / reportData.top20Competitors.competitors.length,
+      totalReviews: reportData.top20Competitors.competitors.reduce((sum, comp) => sum + comp.reviewCount, 0),
+      yourPosition: reportData.top20Competitors.yourBusiness.position
+    }
+  };
   return <PublicReportLayout title={transformedReportData.title} listingName={transformedReportData.listingName} address={transformedReportData.address} logo={transformedReportData.logo} date={transformedReportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
@@ -300,6 +313,13 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={transformedReportData.totalPhotos} />
+
+        {/* Top 20 Competitors Analysis */}
+        <Top20CompetitorsCard 
+          searchInfo={top20CompetitorsData.searchInfo}
+          yourBusiness={top20CompetitorsData.yourBusiness}
+          competitorStats={top20CompetitorsData.competitorStats}
+        />
 
         {/* Business Hours */}
         <BusinessHours hours={businessHours} />
