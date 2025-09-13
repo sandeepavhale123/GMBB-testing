@@ -143,17 +143,6 @@ export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
           </div>
         </div>
 
-        {/* Performance Indicator */}
-        <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
-          <TrendingUp className="h-5 w-5 text-green-600" />
-          <div>
-            <div className="font-medium">Competitive Performance</div>
-            <div className="text-sm text-muted-foreground">
-              You're ranking #{yourBusiness.position} out of {competitorStats.totalCompetitors} competitors in your area
-            </div>
-          </div>
-        </div>
-
         {/* Comparison Analysis Table */}
         <div className="border-t pt-6">
           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
