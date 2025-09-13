@@ -195,19 +195,11 @@ export const GmbHealthReport: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h2 className="text-lg font-semibold">GMB Lead Score</h2>
-                <div className={`${transformedReportData.healthScore > 50 ? 'bg-green-100 border border-green-200' : 'bg-red-100 border border-red-200'} rounded-lg p-4`}>
-                  <div className={`text-sm ${transformedReportData.healthScore > 50 ? 'text-green-900' : 'text-red-900'} font-medium mb-1`}>GMB Lead Score</div>
-                  <div className={`text-3xl font-bold ${transformedReportData.healthScore > 50 ? 'text-green-900' : 'text-red-900'}`}>{transformedReportData.healthScore}%</div>
-                </div>
+                
               </div>
               <div className="flex justify-center items-center">
                 <div className="flex flex-col items-center space-y-4">
-                  <CircularProgress 
-                    value={transformedReportData.healthScore} 
-                    size={200} 
-                    strokeWidth={12}
-                    className={transformedReportData.healthScore > 70 ? 'text-success' : transformedReportData.healthScore > 40 ? 'text-warning' : 'text-destructive'}
-                  >
+                  <CircularProgress value={transformedReportData.healthScore} size={200} strokeWidth={12} className={transformedReportData.healthScore > 70 ? 'text-success' : transformedReportData.healthScore > 40 ? 'text-warning' : 'text-destructive'}>
                     <div className="text-center">
                       <div className="text-3xl font-bold">{transformedReportData.healthScore}%</div>
                       <div className="text-sm text-muted-foreground">Health Score</div>
