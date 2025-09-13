@@ -186,13 +186,22 @@ export const GmbHealthReport: React.FC = () => {
     rating: business.rating,
     keywordInName: business.keywordInName
   })) : [];
-  return <PublicReportLayout title={transformedReportData.title} listingName={transformedReportData.listingName} address={transformedReportData.address} logo={transformedReportData.logo} date={transformedReportData.date} brandingData={brandingData}>
+  return <PublicReportLayout 
+    title={transformedReportData.title} 
+    listingName={transformedReportData.listingName} 
+    address={transformedReportData.address} 
+    logo={transformedReportData.logo} 
+    date={transformedReportData.date} 
+    brandingData={brandingData}
+    reportId={reportId}
+    reportType="gmb-health"
+  >
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
         
 
         {/* GMB Lead Score Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="overall-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <ProgressCard title="GMB Health Score" value={transformedReportData.healthScore.toString()} percentage={transformedReportData.healthScore} color={transformedReportData.healthScore >= 70 ? "green" : transformedReportData.healthScore >= 50 ? "yellow" : "red"} />
           <ProgressCard title="GMB Review" value={transformedReportData.totalReviews} color="blue" />
           <ProgressCard title="GMB Post" value={reportData.communication.posts.length.toString()} color="blue" />
@@ -258,7 +267,7 @@ export const GmbHealthReport: React.FC = () => {
         </div>
 
         {/* Listing Presence */}
-        <Card>
+        <Card id="presence-section">
           <CardHeader>
             <CardTitle>Listing Presence</CardTitle>
           </CardHeader>
@@ -320,25 +329,31 @@ export const GmbHealthReport: React.FC = () => {
         <RankingFactorsGrid factors={rankingFactors} />
 
         {/* Posts On GMB */}
-        <PostsOnGMB posts={posts} />
+        <div id="post-section">
+          <PostsOnGMB posts={posts} />
+        </div>
 
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={transformedReportData.totalPhotos} />
 
         {/* Top 20 Competitors Analysis */}
-        <Top20CompetitorsCard 
-          searchInfo={top20CompetitorsData.searchInfo}
-          yourBusiness={top20CompetitorsData.yourBusiness}
-          competitorStats={top20CompetitorsData.competitorStats}
-          comparisonData={comparisonData}
-        />
+        <div id="competitors-section">
+          <Top20CompetitorsCard 
+            searchInfo={top20CompetitorsData.searchInfo}
+            yourBusiness={top20CompetitorsData.yourBusiness}
+            competitorStats={top20CompetitorsData.competitorStats}
+            comparisonData={comparisonData}
+          />
+        </div>
 
         {/* Business Hours */}
         <BusinessHours hours={businessHours} />
 
 
         {/* Reviews Section */}
-        <ReviewsSection reviews={reviews} averageRating={transformedReportData.avgRating} totalReviews={transformedReportData.totalReviews} />
+        <div id="reviews-section">
+          <ReviewsSection reviews={reviews} averageRating={transformedReportData.avgRating} totalReviews={transformedReportData.totalReviews} />
+        </div>
 
 
         {/* CTA Section */}

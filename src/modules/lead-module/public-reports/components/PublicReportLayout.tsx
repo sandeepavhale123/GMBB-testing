@@ -20,6 +20,8 @@ interface PublicReportLayoutProps {
     company_phone?: string;
     company_address?: string;
   } | null;
+  reportId?: string;
+  reportType?: 'gmb-health' | 'citation' | 'prospect';
 }
 
 export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
@@ -31,10 +33,16 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
   date,
   compareDate,
   brandingData,
+  reportId,
+  reportType = 'gmb-health',
 }) => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <TopHeader />
+      <TopHeader 
+        reportId={reportId}
+        brandingData={brandingData}
+        reportType={reportType}
+      />
       
       <div className="flex-1 flex flex-col w-full">
         <Header
