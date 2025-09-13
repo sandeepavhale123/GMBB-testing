@@ -14,34 +14,36 @@ import { CTASection } from "../components/CTASection";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useGetGmbHealthReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
-
 export const GmbHealthReport: React.FC = () => {
-  const { reportId } = useParams<{ reportId: string }>();
-  const { data: apiResponse, isLoading, error } = useGetGmbHealthReport(reportId || '');
-  const { data: brandingResponse } = useGetLeadReportBranding(reportId || '');
-
+  const {
+    reportId
+  } = useParams<{
+    reportId: string;
+  }>();
+  const {
+    data: apiResponse,
+    isLoading,
+    error
+  } = useGetGmbHealthReport(reportId || '');
+  const {
+    data: brandingResponse
+  } = useGetLeadReportBranding(reportId || '');
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
+    return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground">Loading GMB Health Report...</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (error || !apiResponse?.data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
+    return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-2">Error loading report</p>
           <p className="text-muted-foreground">Please check the report ID and try again.</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   const reportData = apiResponse.data;
   // Transform API data
   const transformedReportData = {
@@ -49,7 +51,11 @@ export const GmbHealthReport: React.FC = () => {
     listingName: reportData.businessInfo.businessName,
     address: reportData.businessInfo.address,
     logo: "",
-    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    date: new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }),
     healthScore: parseInt(reportData.healthScore),
     leadScore: parseInt(reportData.healthScore),
     avgRating: parseFloat(reportData.reviewRating),
@@ -117,7 +123,7 @@ export const GmbHealthReport: React.FC = () => {
     date_utc: review.date_utc
   }));
   // Transform competitors from API data
-  const competitors = reportData.top20Competitors.competitors.slice(0, 10).map((competitor) => ({
+  const competitors = reportData.top20Competitors.competitors.slice(0, 10).map(competitor => ({
     rank: competitor.position,
     businessName: competitor.name,
     rating: competitor.averageRating,
@@ -126,7 +132,7 @@ export const GmbHealthReport: React.FC = () => {
     distance: competitor.isYourBusiness ? "0.0 mi" : `${(competitor.position * 0.2).toFixed(1)} mi`
   }));
   // Transform business hours from API data
-  const businessHours = reportData.communication.businessHours.per_day.map((day) => ({
+  const businessHours = reportData.communication.businessHours.per_day.map(day => ({
     day: day.name,
     hours: day.value,
     isToday: new Date().getDay() === day.day_number
@@ -150,13 +156,12 @@ export const GmbHealthReport: React.FC = () => {
   const brandingData = brandingResponse?.data || null;
 
   // Transform posts from API data
-  const posts = reportData.communication.posts.slice(0, 3).map((post) => ({
+  const posts = reportData.communication.posts.slice(0, 3).map(post => ({
     id: post.position.toString(),
     image: post.image,
     description: post.body,
     link: post.link
   }));
-
   return <PublicReportLayout title={transformedReportData.title} listingName={transformedReportData.listingName} address={transformedReportData.address} logo={transformedReportData.logo} date={transformedReportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
@@ -171,7 +176,7 @@ export const GmbHealthReport: React.FC = () => {
         </div>
 
         {/* Business Details Section */}
-        <Card>
+        <Card className="hidden">
           <CardHeader>
             <CardTitle className="text-lg font-semibold">Business Details</CardTitle>
           </CardHeader>
@@ -340,8 +345,7 @@ export const GmbHealthReport: React.FC = () => {
             </p>
             
             <div className="space-y-6">
-              {reportData.categories.topCategory.slice(0, 3).map((categoryGroup) => (
-                <div key={categoryGroup.rank} className="flex items-start gap-4">
+              {reportData.categories.topCategory.slice(0, 3).map(categoryGroup => <div key={categoryGroup.rank} className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
                     {categoryGroup.rank}
                   </div>
@@ -353,8 +357,7 @@ export const GmbHealthReport: React.FC = () => {
                       {categoryGroup.categories[0].count} of competitors are utilizing this category.
                     </p>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -366,12 +369,10 @@ export const GmbHealthReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {reportData.categories.all.slice(0, 10).map((category, index) => (
-                <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
+              {reportData.categories.all.slice(0, 10).map((category, index) => <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
                   <div className="text-sm font-medium text-gray-900">{category.category}</div>
                   <div className="text-xs text-gray-600">{category.count} businesses</div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
