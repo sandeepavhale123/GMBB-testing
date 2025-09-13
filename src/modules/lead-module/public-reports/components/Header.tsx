@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, X, Menu } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeaderProps {
@@ -9,8 +9,6 @@ interface HeaderProps {
   logo: string;
   date: string;
   compareDate?: string;
-  sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,8 +18,6 @@ export const Header: React.FC<HeaderProps> = ({
   logo,
   date,
   compareDate,
-  sidebarOpen,
-  setSidebarOpen,
 }) => {
   const isMobile = useIsMobile();
 
@@ -32,19 +28,6 @@ export const Header: React.FC<HeaderProps> = ({
         background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`,
       }}
     >
-      {/* Mobile Menu Button */}
-      {isMobile && (
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute top-4 left-4 p-2 bg-white/20 rounded-lg backdrop-blur-sm z-20"
-        >
-          {sidebarOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
-        </button>
-      )}
       
       {compareDate && (
         <div className="absolute right-1 top-2 bg-black rounded-2xl px-3 py-2">

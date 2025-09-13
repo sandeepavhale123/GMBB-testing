@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import React from "react";
+import { TopHeader } from "./TopHeader";
 import { Header } from "./Header";
 import { MainBody } from "./MainBody";
 import { Footer } from "./Footer";
-import { Sidebar } from "./Sidebar";
 
 interface PublicReportLayoutProps {
   children: React.ReactNode;
@@ -33,23 +32,11 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
   compareDate,
   brandingData,
 }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const isMobile = useIsMobile();
-
   return (
-    <div className="min-h-screen bg-white flex relative">
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        brandingData={brandingData}
-      />
-
-      {/* Main Content Area */}
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 w-svw ${
-          isMobile ? "ml-0" : "ml-16 sm:ml-16 lg:ml-24"
-        }`}
-      >
+    <div className="min-h-screen bg-white flex flex-col">
+      <TopHeader />
+      
+      <div className="flex-1 flex flex-col w-full">
         <Header
           title={title}
           listingName={listingName}
@@ -57,8 +44,6 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
           logo={logo}
           date={date}
           compareDate={compareDate}
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
         />
 
         <MainBody>{children}</MainBody>
