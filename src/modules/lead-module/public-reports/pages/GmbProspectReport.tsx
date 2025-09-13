@@ -90,7 +90,7 @@ export const GmbProspectReport: React.FC = () => {
       reportId={reportId}
       reportType="prospect"
     >
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="mx-auto space-y-8">
         {/* Introduction Section */}
         <Card>
           <CardContent className="p-6">
