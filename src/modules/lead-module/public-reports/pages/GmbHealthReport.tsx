@@ -197,7 +197,7 @@ export const GmbHealthReport: React.FC = () => {
     reportId={reportId}
     reportType="gmb-health"
   >
-      <div className="space-y-6">
+      <div className="max-w-6xl mx-auto space-y-6">
         {/* Main Health Score - Large Display */}
         
 
