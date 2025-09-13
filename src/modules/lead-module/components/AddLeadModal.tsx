@@ -235,7 +235,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         </Button>
       </DialogTrigger>
       <DialogContent
-          className="sm:max-w-lg"
+          className="sm:max-w-xl"
           onPointerDownOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
           onFocusOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
           onInteractOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
