@@ -137,6 +137,37 @@ export const useLeadCredits = () => {
   });
 };
 
+// Lead Summary API interfaces
+export interface GetLeadSummaryResponse {
+  code: number;
+  message: string;
+  data: {
+    totalLeads: number;
+    credits: {
+      remaining: number;
+      total: number;
+    };
+    totalEmailTemplates: number;
+    convertedLeads: number;
+  };
+}
+
+// Lead Summary API function
+export const getLeadSummary = async (): Promise<GetLeadSummaryResponse> => {
+  const response = await apiClient.post<GetLeadSummaryResponse>('/lead/get-lead-summary', {});
+  return response.data;
+};
+
+// Lead Summary React Query hook
+export const useLeadSummary = () => {
+  return useQuery({
+    queryKey: ['leadSummary'],
+    queryFn: () => getLeadSummary(),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+  });
+};
+
 // Add Lead API interfaces
 export interface AddLeadRequest {
   inputtype: "0" | "1" | "2"; // 0 - google auto suggest, 1 - map url, 2-cid

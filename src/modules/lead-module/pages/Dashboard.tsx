@@ -10,7 +10,9 @@ import {
   Mail, 
   TrendingUp, 
   ArrowUpRight,
-  Plus
+  Plus,
+  UserCheck,
+  CreditCard
 } from "lucide-react";
 import { AddLeadModal } from "../components/AddLeadModal";
 import { LeadTableFilters } from "../components/LeadTableFilters";
@@ -26,7 +28,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport } from "@/api/leadApi";
+import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary } from "@/api/leadApi";
 import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
@@ -87,6 +89,12 @@ const Dashboard: React.FC = () => {
     limit: ITEMS_PER_PAGE,
     search: debouncedSearchQuery
   });
+
+  // Lead summary API integration
+  const { 
+    data: summaryResponse, 
+    isLoading: isSummaryLoading 
+  } = useLeadSummary();
 
   const leads = leadsResponse?.data.leads.map(transformApiLead) || [];
   const totalPages = leadsResponse?.data.pagination ? 
@@ -192,17 +200,15 @@ const Dashboard: React.FC = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Campaigns</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Converted Leads</CardTitle>
+            <UserCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">
+              {isSummaryLoading ? "-" : summaryResponse?.data.convertedLeads || 0}
+            </div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-emerald-500 inline-flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +8.2%
-              </span>{" "}
-              from last month
+              Leads converted to customers
             </p>
           </CardContent>
         </Card>
@@ -213,30 +219,26 @@ const Dashboard: React.FC = () => {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalLeads}</div>
+            <div className="text-2xl font-bold">
+              {isSummaryLoading ? "-" : summaryResponse?.data.totalLeads || 0}
+            </div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-emerald-500 inline-flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +12.5%
-              </span>{" "}
-              from last week
+              Total leads in database
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Contact List</CardTitle>
-            <Database className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Remaining Credits</CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2,847</div>
+            <div className="text-2xl font-bold">
+              {isSummaryLoading ? "-" : summaryResponse?.data.credits.remaining.toLocaleString() || 0}
+            </div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-emerald-500 inline-flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +5.3%
-              </span>{" "}
-              from last month
+              Credits available for reports
             </p>
           </CardContent>
         </Card>
@@ -247,13 +249,11 @@ const Dashboard: React.FC = () => {
             <Mail className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
+            <div className="text-2xl font-bold">
+              {isSummaryLoading ? "-" : summaryResponse?.data.totalEmailTemplates || 0}
+            </div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-emerald-500 inline-flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +2 new
-              </span>{" "}
-              this week
+              Email templates created
             </p>
           </CardContent>
         </Card>
