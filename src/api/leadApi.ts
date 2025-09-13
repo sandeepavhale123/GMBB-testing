@@ -479,13 +479,70 @@ export interface CreateGmbProspectReportResponse {
   };
 }
 
-// GMB Prospect Report API function
+export interface GetGmbProspectReportRequest {
+  reportId: string;
+}
+
+export interface GetGmbProspectReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportDetails: {
+      bname: string;
+      website: string;
+      address: string;
+      state: string;
+      phone: string;
+      email: string;
+      category: string;
+      mapurl: string;
+    };
+    scoreDetails: {
+      totalPass: number;
+      totalFail: number;
+      passPercent: number;
+      failPercent: number;
+    };
+    breakdownDetails: Array<{
+      id: number;
+      title: string;
+      impact: string;
+      status: string;
+    }>;
+    compData: Array<{
+      position: string | number;
+      bname: string;
+      cid: string;
+      rating: number;
+      reviews: number;
+    }>;
+    citationCompData: Array<{
+      position: string | number;
+      bname: string;
+      cid: string;
+      localCitation: number;
+    }>;
+    advancedSuggestions: Array<{
+      id: number;
+      suggestion: string;
+      impact: string;
+    }>;
+    recommendationsSummary: string[];
+  };
+}
+
+// GMB Prospect Report API functions
 export const createGmbProspectReport = async (params: CreateGmbProspectReportRequest): Promise<CreateGmbProspectReportResponse> => {
   const response = await apiClient.post<CreateGmbProspectReportResponse>('/lead/create-prospect-report', params);
   return response.data;
 };
 
-// GMB Prospect Report React Query hook
+export const getGmbProspectReport = async (params: GetGmbProspectReportRequest): Promise<GetGmbProspectReportResponse> => {
+  const response = await apiClient.post<GetGmbProspectReportResponse>('/lead/get-prospect-report', params);
+  return response.data;
+};
+
+// GMB Prospect Report React Query hooks
 export const useCreateGmbProspectReport = () => {
   return useMutation({
     mutationFn: createGmbProspectReport,
@@ -495,5 +552,15 @@ export const useCreateGmbProspectReport = () => {
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || 'Failed to create GMB Prospect report');
     },
+  });
+};
+
+export const useGetGmbProspectReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ['gmb-prospect-report', reportId],
+    queryFn: () => getGmbProspectReport({ reportId }),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
   });
 };

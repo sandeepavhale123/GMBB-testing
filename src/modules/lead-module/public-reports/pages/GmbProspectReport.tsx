@@ -5,145 +5,91 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, TrendingUp, Users, Eye, CheckCircle, XCircle, AlertTriangle, Star } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { CTASection } from "../components/CTASection";
+import { useGetGmbProspectReport, getLeadReportBranding } from "@/api/leadApi";
+import { InsightsErrorState } from "@/components/Insights/InsightsErrorState";
 
 export const GmbProspectReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   
-  // TODO: Replace with actual API call using reportId
-  // For now, using mock data until the API endpoint for fetching report data is available
-  const reportData = {
-    title: "GMB Prospect Report",
-    listingName: "Sample Business",
-    address: "123 Main St, City, State 12345",
-    logo: "",
-    date: "January 15, 2025",
-    gmbScore: {
-      current: 30,
-      potential: 70,
-    },
-    auditItems: [
-      { 
-        id: 1, 
-        item: "Missing Description or Description Less Than 300 Characters", 
-        status: "fail", 
-        whyItMatters: "A detailed description helps customers quickly understand what your business offers and builds trust. Short or missing descriptions can make your profile less engaging.",
-        recommendation: "Write a compelling description of at least 300 characters that highlights your unique offerings, key services, and values."
-      },
-      { 
-        id: 2, 
-        item: "Missing Website", 
-        status: "pass", 
-        whyItMatters: "A website link allows customers to explore your business in greater detail. Without it, potential customers might turn to competitors for more information.",
-        recommendation: "Add a working website link to your GMB profile to boost credibility and drive traffic to your site."
-      },
-      { 
-        id: 3, 
-        item: "Review Count", 
-        status: "pass", 
-        whyItMatters: "Reviews are social proof. Listings with fewer than 10 reviews appear less credible, and customers are more likely to choose competitors with more reviews.",
-        recommendation: "Encourage your satisfied customers to leave reviews. You can send them a direct link to your GMB profile for convenience."
-      },
-      { 
-        id: 4, 
-        item: "Rating Below", 
-        status: "pass", 
-        whyItMatters: "Great GMB A rating of 4 or above is a strong indicator of customer satisfaction.",
-        recommendation: "Continue responding to reviews to show customers that you value their feedback."
-      },
-      { 
-        id: 5, 
-        item: "Additional Categories Not Present or Less Than 5", 
-        status: "fail", 
-        whyItMatters: "Additional categories help Google understand your services and display your business for relevant searches. Missing categories limit your visibility.",
-        recommendation: "Add additional categories that reflect all your services. For example, if you're a plumber, include categories like 'Emergency Plumbing' or 'Water Heater Installation.'"
-      },
-      { 
-        id: 6, 
-        item: "Less Than 5 Photos", 
-        status: "pass", 
-        whyItMatters: "High-quality photos enhance your profile's appeal and help customers visualize your offerings.",
-        recommendation: "Regularly update photos to keep your profile fresh and engaging."
-      },
-      { 
-        id: 7, 
-        item: "Missing Working Hours", 
-        status: "pass", 
-        whyItMatters: "Customers need to know when you're open. Missing hours can lead to lost business and frustrated customers.",
-        recommendation: "Update your business hours, including holiday schedules, to ensure customers always have accurate information."
-      },
-      { 
-        id: 8, 
-        item: "Missing or Fewer Than 5 Attributes", 
-        status: "pass", 
-        whyItMatters: "Customers need to know when you're open. Missing hours can lead to lost business and frustrated customers.",
-        recommendation: "Update your business hours, including holiday schedules, to ensure customers always have accurate information."
-      },
-      { 
-        id: 9, 
-        item: "The logo is present and professional.", 
-        status: "pass", 
-        whyItMatters: "Your logo helps build brand recognition and makes your profile look professional.",
-        recommendation: "Your logo looks great! Ensure it stays consistent across all platforms."
-      },
-    ],
-    competitorData: [
-      { name: "Webmarts Software Solution", avgRating: 4.1, reviewCount: 10 },
-      { name: "Redbytes Software", avgRating: 4.7, reviewCount: 23 },
-      { name: "Websar IT Solutions", avgRating: 5.0, reviewCount: 61 },
-      { name: "Web Square IT Solutions", avgRating: 4.3, reviewCount: 10 },
-      { name: "WebNTT Technologies", avgRating: 5.0, reviewCount: 7 },
-    ],
-    citationData: [
-      { rank: "YOU", name: "Webmarts Software Solution", citations: 14 },
-      { rank: "2", name: "Redbytes Software", citations: 18 },
-      { rank: "3", name: "Websar IT Solutions", citations: 13 },
-      { rank: "4", name: "Web Square IT Solutions", citations: 26 },
-      { rank: "5", name: "WebNTT Technologies", citations: 20 },
-    ],
-    businessListings: [
-      { platform: "Google My Business", status: "claimed", url: "google.com/business" },
-      { platform: "Yelp", status: "unclaimed", url: "" },
-      { platform: "Facebook", status: "claimed", url: "facebook.com/business" },
-      { platform: "Bing Places", status: "unclaimed", url: "" },
-    ],
-    advancedSuggestions: [
-      { number: 1, suggestion: "Use question and Answer (Q&A)", impact: "High Impact" },
-      { number: 2, suggestion: "Add a virtual Tour", impact: "High Impact" },
-      { number: 3, suggestion: "Highlight Special Features with Posts", impact: "High Impact" },
-      { number: 4, suggestion: "Use Call Tracking", impact: "Moderate Impact" },
-      { number: 5, suggestion: "Optimize for Voice Search", impact: "Moderate Impact" },
-      { number: 6, suggestion: "Add Service Areas", impact: "High Impact" },
-      { number: 7, suggestion: "Use Google Posts to Announce Offers", impact: "High Impact" },
-      { number: 8, suggestion: "Use Emoji in Posts", impact: "Moderate Impact" },
-      { number: 9, suggestion: "Integrate Booking Options", impact: "Moderate Impact" },
-      { number: 10, suggestion: "Share Customer Stories", impact: "Moderate Impact" },
-    ],
-  };
+  // Fetch prospect report data
+  const { data: reportResponse, isLoading: reportLoading, error: reportError, refetch: refetchReport } = useGetGmbProspectReport(reportId || '');
+  
+  // Fetch branding data
+  const [brandingData, setBrandingData] = React.useState(null);
+  const [brandingLoading, setBrandingLoading] = React.useState(true);
 
-  const brandingData = {
-    company_name: "Digital Marketing Solutions",
-    company_logo: "",
-    company_website: "www.digitalmarketing.com", 
-    company_email: "contact@digitalmarketing.com",
-    company_phone: "(555) 123-4567",
-    company_address: "456 Business Ave, Marketing City, MC 67890",
-  };
+  React.useEffect(() => {
+    if (reportId) {
+      getLeadReportBranding({ reportId })
+        .then(response => setBrandingData(response.data))
+        .catch(() => setBrandingData(null))
+        .finally(() => setBrandingLoading(false));
+    }
+  }, [reportId]);
+
+  if (reportLoading || brandingLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+          <p className="mt-4 text-muted-foreground">Loading report...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (reportError || !reportResponse?.data) {
+    return <InsightsErrorState error="Failed to load prospect report" onRetry={refetchReport} />;
+  }
+
+  const reportData = reportResponse.data;
+
+  // Transform API data to component format
+  const auditItems = reportData.breakdownDetails.map(item => ({
+    id: item.id,
+    item: item.title,
+    status: item.status.toLowerCase() === 'failed' ? 'fail' : 'pass',
+    whyItMatters: `This ${item.impact.toLowerCase()} item affects your GMB performance.`,
+    recommendation: `Address this issue to improve your GMB score.`
+  }));
+
+  const competitorData = reportData.compData
+    .filter(comp => comp.position !== "YOU")
+    .map(comp => ({
+      name: comp.bname,
+      avgRating: comp.rating,
+      reviewCount: comp.reviews
+    }));
+
+  const citationData = reportData.citationCompData.map(comp => ({
+    rank: comp.position === "YOU" ? "YOU" : comp.position.toString(),
+    name: comp.bname,
+    citations: comp.localCitation
+  }));
+
+  const advancedSuggestions = reportData.advancedSuggestions.map(suggestion => ({
+    number: suggestion.id,
+    suggestion: suggestion.suggestion,
+    impact: suggestion.impact
+  }));
 
   const pieData = [
-    { name: 'Current Score', value: reportData.gmbScore.current, fill: '#ef4444' },
-    { name: 'Potential Score', value: reportData.gmbScore.potential, fill: '#22c55e' },
+    { name: 'Failed Tests', value: reportData.scoreDetails.failPercent, fill: '#ef4444' },
+    { name: 'Passed Tests', value: reportData.scoreDetails.passPercent, fill: '#22c55e' },
   ];
 
   const COLORS = ['#ef4444', '#22c55e'];
 
   return (
     <PublicReportLayout
-      title={reportData.title}
-      listingName={reportData.listingName}
-      address={reportData.address}
-      logo={reportData.logo}
-      date={reportData.date}
+      title="GMB Prospect Report"
+      listingName={reportData.reportDetails.bname}
+      address={reportData.reportDetails.address}
+      logo=""
+      date={new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       brandingData={brandingData}
+      reportId={reportId}
+      reportType="prospect"
     >
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Introduction Section */}
@@ -183,10 +129,10 @@ export const GmbProspectReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-red-900">
-                        {reportData.auditItems.filter(item => item.status === 'fail').length}
+                        {reportData.scoreDetails.totalFail}
                       </div>
                       <div className="text-sm text-red-700">
-                        {Math.round((reportData.auditItems.filter(item => item.status === 'fail').length / reportData.auditItems.length) * 100)}%
+                        {reportData.scoreDetails.failPercent}%
                       </div>
                     </div>
                   </div>
@@ -207,10 +153,10 @@ export const GmbProspectReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-green-900">
-                        {reportData.auditItems.filter(item => item.status === 'pass').length}
+                        {reportData.scoreDetails.totalPass}
                       </div>
                       <div className="text-sm text-green-700">
-                        {Math.round((reportData.auditItems.filter(item => item.status === 'pass').length / reportData.auditItems.length) * 100)}%
+                        {reportData.scoreDetails.passPercent}%
                       </div>
                     </div>
                   </div>
@@ -286,7 +232,7 @@ export const GmbProspectReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {reportData.auditItems.map((item) => (
+              {auditItems.map((item) => (
                 <div 
                   key={item.id} 
                   className={`border-2 rounded-lg p-6 relative ${
@@ -402,7 +348,7 @@ export const GmbProspectReport: React.FC = () => {
 
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={reportData.competitorData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <BarChart data={competitorData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                     <XAxis 
                       dataKey="name" 
                       angle={-45}
@@ -434,7 +380,7 @@ export const GmbProspectReport: React.FC = () => {
                 <div className="p-3 text-center">No. Local Citation</div>
               </div>
               
-              {reportData.citationData.map((item, index) => (
+              {citationData.map((item, index) => (
                 <div key={index} className={`grid grid-cols-3 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
                   <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
                   <div className="p-3 text-gray-800">{item.name}</div>
@@ -464,10 +410,10 @@ export const GmbProspectReport: React.FC = () => {
               </div>
               
               {/* Table Rows */}
-              {reportData.advancedSuggestions.map((suggestion, index) => (
+              {advancedSuggestions.map((suggestion, index) => (
                 <div key={index} className={`grid grid-cols-12 border-b last:border-b-0 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
                   <div className="col-span-1 p-4 text-center font-medium text-gray-900">
-                    {suggestion.number}
+                    {index + 1}
                   </div>
                   <div className="col-span-8 p-4 text-gray-800">
                     {suggestion.suggestion}
