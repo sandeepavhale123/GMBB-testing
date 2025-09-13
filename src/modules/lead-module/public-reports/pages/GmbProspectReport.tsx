@@ -54,7 +54,6 @@ export const GmbProspectReport: React.FC = () => {
   }));
 
   const competitorData = reportData.compData
-    .filter(comp => comp.position !== "YOU")
     .map(comp => ({
       name: comp.bname,
       avgRating: comp.rating,
