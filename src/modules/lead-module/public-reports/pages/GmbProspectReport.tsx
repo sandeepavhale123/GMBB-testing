@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, TrendingUp, Users, Eye, CheckCircle, XCircle, AlertTriangle, Star } from "lucide-react";
@@ -6,7 +7,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, 
 import { CTASection } from "../components/CTASection";
 
 export const GmbProspectReport: React.FC = () => {
-  // Mock data - replace with actual data fetching
+  const { reportId } = useParams<{ reportId: string }>();
+  
+  // TODO: Replace with actual API call using reportId
+  // For now, using mock data until the API endpoint for fetching report data is available
   const reportData = {
     title: "GMB Prospect Report",
     listingName: "Sample Business",
@@ -141,7 +145,7 @@ export const GmbProspectReport: React.FC = () => {
       date={reportData.date}
       brandingData={brandingData}
     >
-      <div className="space-y-8">
+      <div className="max-w-6xl mx-auto space-y-8">
         {/* Introduction Section */}
         <Card>
           <CardContent className="p-6">

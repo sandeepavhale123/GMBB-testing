@@ -95,8 +95,12 @@ export const publicReportRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/module/lead/gmb-prospect-report",
-    element: <GmbProspectReport />,
+    path: "/module/lead/gmb-prospect-report/:reportId",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <GmbProspectReport />
+      </ThemePreloader>
+    ),
   },
   {
     path: "/module/lead/citation-audit-report/:reportId",

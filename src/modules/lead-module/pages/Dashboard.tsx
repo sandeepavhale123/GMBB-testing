@@ -26,7 +26,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useLeads, ApiLead, useCreateGmbHealthReport } from "@/api/leadApi";
+import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport } from "@/api/leadApi";
 import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
@@ -74,6 +74,7 @@ const Dashboard: React.FC = () => {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
+  const createGmbProspectReport = useCreateGmbProspectReport();
 
   // API integration
   const { 
@@ -135,6 +136,18 @@ const Dashboard: React.FC = () => {
     if (action === 'generate-citation') {
       setSelectedLeadId(leadId);
       setCitationModalOpen(true);
+    }
+    
+    if (action === 'generate-prospect') {
+      // Create prospect report for the lead
+      createGmbProspectReport.mutate(
+        { leadId: leadId },
+        {
+          onSuccess: (data) => {
+            navigate(`/module/lead/gmb-prospect-report/${data.data.reportId}`);
+          }
+        }
+      );
     }
     
     // Handle other actions here
@@ -274,7 +287,7 @@ const Dashboard: React.FC = () => {
             onSelectLead={handleSelectLead}
             onSelectAll={handleSelectAll}
             onAction={handleAction}
-            isLoading={isLoading || createGmbHealthReport.isPending}
+            isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending}
           />
 
           {totalPages > 1 && (

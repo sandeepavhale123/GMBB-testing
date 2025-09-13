@@ -464,3 +464,36 @@ export const useGetCitationAuditReport = (reportId: string) => {
     enabled: !!reportId,
   });
 };
+
+// GMB Prospect Report API interfaces
+export interface CreateGmbProspectReportRequest {
+  leadId: string;
+}
+
+export interface CreateGmbProspectReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    reportUrl: string;
+  };
+}
+
+// GMB Prospect Report API function
+export const createGmbProspectReport = async (params: CreateGmbProspectReportRequest): Promise<CreateGmbProspectReportResponse> => {
+  const response = await apiClient.post<CreateGmbProspectReportResponse>('/lead/create-prospect-report', params);
+  return response.data;
+};
+
+// GMB Prospect Report React Query hook
+export const useCreateGmbProspectReport = () => {
+  return useMutation({
+    mutationFn: createGmbProspectReport,
+    onSuccess: (data) => {
+      toast.success('GMB Prospect report created successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create GMB Prospect report');
+    },
+  });
+};
