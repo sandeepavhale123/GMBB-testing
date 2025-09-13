@@ -175,6 +175,17 @@ export const GmbHealthReport: React.FC = () => {
       yourPosition: reportData.top20Competitors.yourBusiness.position
     }
   };
+
+  // Transform comparison data
+  const comparisonData = reportData.comparison ? reportData.comparison.map(business => ({
+    name: business.name,
+    category: business.category,
+    additionalCategory: business.additionalCategory,
+    website: business.website,
+    reviewCount: business.reviewCount,
+    rating: business.rating,
+    keywordInName: business.keywordInName
+  })) : [];
   return <PublicReportLayout title={transformedReportData.title} listingName={transformedReportData.listingName} address={transformedReportData.address} logo={transformedReportData.logo} date={transformedReportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
@@ -319,6 +330,7 @@ export const GmbHealthReport: React.FC = () => {
           searchInfo={top20CompetitorsData.searchInfo}
           yourBusiness={top20CompetitorsData.yourBusiness}
           competitorStats={top20CompetitorsData.competitorStats}
+          comparisonData={comparisonData}
         />
 
         {/* Business Hours */}

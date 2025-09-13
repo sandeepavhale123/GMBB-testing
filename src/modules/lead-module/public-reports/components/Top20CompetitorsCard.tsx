@@ -28,16 +28,28 @@ interface CompetitorStats {
   yourPosition: number;
 }
 
+interface ComparisonData {
+  name: string;
+  category: string;
+  additionalCategory: string;
+  website: string;
+  reviewCount: number;
+  rating: number;
+  keywordInName: string;
+}
+
 interface Top20CompetitorsCardProps {
   searchInfo: SearchInfo;
   yourBusiness: YourBusiness;
   competitorStats: CompetitorStats;
+  comparisonData: ComparisonData[];
 }
 
 export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
   searchInfo,
   yourBusiness,
   competitorStats,
+  comparisonData,
 }) => {
   return (
     <Card>
@@ -139,6 +151,79 @@ export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
             <div className="text-sm text-muted-foreground">
               You're ranking #{yourBusiness.position} out of {competitorStats.totalCompetitors} competitors in your area
             </div>
+          </div>
+        </div>
+
+        {/* Comparison Analysis Table */}
+        <div className="border-t pt-6">
+          <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+            <Target className="h-5 w-5" />
+            Comparison Analysis
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-200 rounded-lg">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Rank</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Business Name</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Category</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Website</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Rating</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Reviews</th>
+                  <th className="border border-gray-200 p-3 text-left font-medium text-sm">Keyword Match</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonData.map((business, index) => (
+                  <tr key={index} className={business.keywordInName === "YES" ? "bg-green-50" : ""}>
+                    <td className="border border-gray-200 p-3 text-sm font-medium">#{index + 1}</td>
+                    <td className="border border-gray-200 p-3 text-sm font-medium">{business.name}</td>
+                    <td className="border border-gray-200 p-3 text-sm">
+                      {business.category}
+                      {business.additionalCategory && business.additionalCategory !== "Not Found" && (
+                        <div className="text-xs text-muted-foreground mt-1">{business.additionalCategory}</div>
+                      )}
+                    </td>
+                    <td className="border border-gray-200 p-3 text-sm">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        business.website && business.website !== "Not Found" 
+                          ? "bg-green-100 text-green-800" 
+                          : "bg-red-100 text-red-800"
+                      }`}>
+                        {business.website && business.website !== "Not Found" ? "Yes" : "No"}
+                      </span>
+                    </td>
+                    <td className="border border-gray-200 p-3 text-sm">
+                      <div className="flex items-center gap-1">
+                        <div className="flex">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <Star
+                              key={i}
+                              className={`h-3 w-3 ${
+                                i < Math.floor(business.rating)
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="font-medium">{business.rating}</span>
+                      </div>
+                    </td>
+                    <td className="border border-gray-200 p-3 text-sm font-medium">{business.reviewCount}</td>
+                    <td className="border border-gray-200 p-3 text-sm">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        business.keywordInName === "YES" 
+                          ? "bg-green-100 text-green-800" 
+                          : "bg-gray-100 text-gray-800"
+                      }`}>
+                        {business.keywordInName}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </CardContent>
