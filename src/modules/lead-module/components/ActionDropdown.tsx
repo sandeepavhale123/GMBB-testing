@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,23 +37,9 @@ interface ActionDropdownProps {
 }
 
 export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId, citationReportId }) => {
-  const navigate = useNavigate();
-  
-  const handleAction = (action: string, viewUrl?: string, reportId?: string) => {
-    // Handle GMB Health Report navigation
-    if (action === 'view-gmb-health' && reportId) {
-      navigate(`/lead/gbp/${reportId}`);
-      return;
-    }
-    
-    // Handle Citation Audit Report navigation
-    if (action === 'view-citation' && citationReportId) {
-      navigate(`/lead/citation/${citationReportId}`);
-      return;
-    }
-    
-    // Handle other report views with external URLs
-    if (viewUrl && action !== 'view-gmb-health' && action !== 'view-citation') {
+  const handleAction = (action: string, viewUrl?: string) => {
+    // Handle view actions with external URLs
+    if (viewUrl && (action === 'view-gmb-health' || action === 'view-citation' || action === 'view-prospect')) {
       window.open(viewUrl, '_blank');
       return;
     }
@@ -74,8 +59,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         <DropdownMenuItem 
           onClick={() => handleAction(
             reports.gmbReport.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
-            reports.gmbReport.viewUrl || undefined,
-            reportId
+            reports.gmbReport.viewUrl || undefined
           )}
         >
           <FileText className="mr-2 h-4 w-4" />
@@ -84,8 +68,7 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         <DropdownMenuItem 
           onClick={() => handleAction(
             reports.citation.status === 1 ? 'view-citation' : 'generate-citation',
-            reports.citation.viewUrl || undefined,
-            citationReportId
+            reports.citation.viewUrl || undefined
           )}
         >
           <Search className="mr-2 h-4 w-4" />
