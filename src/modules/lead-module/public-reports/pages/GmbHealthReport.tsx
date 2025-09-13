@@ -242,7 +242,7 @@ export const GmbHealthReport: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-6">
               Your Google Business Profile emerges precisely when people are seeking your business or similar ones on Google Search or Maps. With Google Business Profile, managing and enhancing your Business Profile is simple, enabling you to distinguish yourself and attract more customers.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className={`${reportData.businessInfo.businessName ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
                 <div className={`w-10 h-10 ${reportData.businessInfo.businessName ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
                   <MapPin className={`h-5 w-5 ${reportData.businessInfo.businessName ? 'text-green-600' : 'text-red-600'}`} />
@@ -277,6 +277,15 @@ export const GmbHealthReport: React.FC = () => {
                 <div>
                   <div className="text-sm text-muted-foreground">Website</div>
                   <div className="font-medium">{reportData.businessInfo.website || 'Website is missing'}</div>
+                </div>
+              </div>
+              <div className={`${reportData.businessInfo.category ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.category ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <Users className={`h-5 w-5 ${reportData.businessInfo.category ? 'text-green-600' : 'text-red-600'}`} />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground">Category</div>
+                  <div className="font-medium">{reportData.businessInfo.category || 'Category is missing'}</div>
                 </div>
               </div>
             </div>
