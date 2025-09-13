@@ -42,6 +42,7 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
         reportId={reportId}
         brandingData={brandingData}
         reportType={reportType}
+        reportTitle={title}
       />
       
       <div className="flex-1 flex flex-col w-full">

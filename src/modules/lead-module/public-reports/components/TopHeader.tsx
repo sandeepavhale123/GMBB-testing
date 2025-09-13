@@ -12,6 +12,7 @@ interface TopHeaderProps {
     company_address?: string;
   } | null;
   reportType?: 'gmb-health' | 'citation' | 'prospect';
+  reportTitle?: string;
 }
 
 const navigationItems = [
@@ -24,7 +25,8 @@ const navigationItems = [
 
 export const TopHeader: React.FC<TopHeaderProps> = ({ 
   brandingData, 
-  reportType = 'gmb-health' 
+  reportType = 'gmb-health',
+  reportTitle
 }) => {
   const handleSmoothScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -43,9 +45,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   // Use branding data if available, otherwise fallback to default
   const displayLogo = brandingData?.company_logo;
   const displayName = brandingData?.company_name || 'Report Ranking';
-  const displaySubtitle = brandingData?.company_name 
-    ? 'Professional Business Reports' 
-    : 'Professional Business Reports';
+  const displaySubtitle = reportTitle || 'Professional Business Reports';
 
   return (
     <header 
