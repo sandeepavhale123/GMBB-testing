@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Heart, Star, MapPin, Phone, Globe, Users, Loader2, Check, X } from "lucide-react";
+import { Heart, Star, MapPin, Phone, Globe, Users, Loader2, Check, X, CheckCircle, Lightbulb } from "lucide-react";
 import { ProgressCard } from "../components/ProgressCard";
 import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
 import { PostsOnGMB } from "../components/PostsOnGMB";
@@ -462,6 +462,54 @@ export const GmbHealthReport: React.FC = () => {
                   </TableBody>
                 </Table>
               </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Recommendations Section */}
+        {(reportData as any).recommendations && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Recommendations</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              {/* GMB Checklist */}
+              {(reportData as any).recommendations.gmbChecklist && Array.isArray((reportData as any).recommendations.gmbChecklist) && (reportData as any).recommendations.gmbChecklist.length > 0 && (
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <CheckCircle className="h-6 w-6 text-green-600" />
+                    GMB Checklist
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(reportData as any).recommendations.gmbChecklist.map((item: any, index: number) => (
+                      <div key={index} className="p-4 border rounded-lg bg-green-50 hover:bg-green-100 transition-colors">
+                        <h4 className="font-semibold text-green-800 mb-2">{item.title}</h4>
+                        <p className="text-green-700 text-sm">{item.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Hacks */}
+              {(reportData as any).recommendations.quickHack && Array.isArray((reportData as any).recommendations.quickHack) && (reportData as any).recommendations.quickHack.length > 0 && (
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Lightbulb className="h-6 w-6 text-yellow-600" />
+                    Quick Hacks
+                  </h3>
+                  <div className="space-y-3">
+                    {(reportData as any).recommendations.quickHack.map((hack: string, index: number) => (
+                      <div key={index} className="flex items-start gap-3 p-3 border rounded-lg bg-yellow-50 hover:bg-yellow-100 transition-colors">
+                        <span className="flex-shrink-0 w-6 h-6 bg-yellow-600 text-white text-sm font-bold rounded-full flex items-center justify-center">
+                          {index + 1}
+                        </span>
+                        <p className="text-yellow-800">{hack}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
