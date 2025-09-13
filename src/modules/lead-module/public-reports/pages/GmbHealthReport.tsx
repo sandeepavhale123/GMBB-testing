@@ -2,7 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Star, MapPin, Phone, Globe, Users, Loader2 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Heart, Star, MapPin, Phone, Globe, Users, Loader2, Check, X } from "lucide-react";
 import { ProgressCard } from "../components/ProgressCard";
 import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
 import { PostsOnGMB } from "../components/PostsOnGMB";
@@ -404,6 +405,66 @@ export const GmbHealthReport: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Top 15 Keywords Used by Competitors */}
+        {(reportData as any).top15Keywords && Array.isArray((reportData as any).top15Keywords) && (reportData as any).top15Keywords.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>The top 15 Keywords used by competitors</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-6">
+                These are the most common keywords found in competitor business names and descriptions. 
+                Understanding these keywords can help you optimize your business profile to improve visibility.
+              </p>
+              
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-16">#</TableHead>
+                      <TableHead>Keyword</TableHead>
+                      <TableHead className="text-center">Count</TableHead>
+                      <TableHead className="text-center">In Name</TableHead>
+                      <TableHead className="text-center">In Description</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(reportData as any).top15Keywords?.slice(0, 15).map((keyword: any, index: number) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium text-center">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {keyword.keyword}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                            {keyword.count}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {keyword.inName ? (
+                            <Check className="h-5 w-5 text-green-600 mx-auto" />
+                          ) : (
+                            <X className="h-5 w-5 text-red-500 mx-auto" />
+                          )}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {keyword.inDesc ? (
+                            <Check className="h-5 w-5 text-green-600 mx-auto" />
+                          ) : (
+                            <X className="h-5 w-5 text-red-500 mx-auto" />
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </PublicReportLayout>;
 };
