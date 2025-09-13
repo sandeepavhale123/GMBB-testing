@@ -1,0 +1,15 @@
+{
+  "healthScoreCard": {
+    "title": "Health Score",
+    "statusGood": "Good",
+    "listingOptimizationScore": "Your listing optimization score",
+    "aiAutoOptimize": "AI Auto-Optimize",
+    "viewDetailedReport": "View Detailed Report",
+    "quickWinsTitle": "Quick Wins",
+    "quickWinItems": {
+      "addPhotos": "Add 5+ recent photos",
+      "updateHours": "Update business hours"
+    },
+    "moreSuggestions": "+1 more suggestions"
+  }
+}

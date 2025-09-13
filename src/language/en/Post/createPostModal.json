@@ -1,0 +1,77 @@
+{
+  "title": {
+    "create": "Create Post",
+    "clone": "Clone Post"
+  },
+  "validation": {
+    "titleRequired": "Title is required for event and offer posts.",
+    "urlRequired": "URL is required when CTA button is enabled.",
+    "listingsRequired": "Please select at least one listing or group.",
+    "genericError": "Please fix the validation errors before submitting."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Listing Required",
+      "description": "Please select at least one listing."
+    },
+    "titleRequired": {
+      "title": "Title Required",
+      "description": "Title is required for event and offer posts."
+    },
+    "urlRequired": {
+      "title": "URL Required",
+      "description": "URL is required when CTA button is enabled."
+    },
+    "validationError": {
+      "title": "Validation Error",
+      "description": "Please fix the validation errors before submitting."
+    },
+    "error": {
+      "title": "Error",
+      "noListing": "No business listing selected. Please select a listing first."
+    },
+    "success": {
+      "bulk": {
+        "created": {
+          "title": "Bulk Post Created Successfully.",
+          "description": "Bulk post created for {{count}} listings."
+        },
+        "cloned": {
+          "title": "Bulk Post Cloned Successfully",
+          "description": "Bulk post cloned for {{count}} listings."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Post Created Successfully.",
+          "description": "Post created with ID: {{id}}"
+        },
+        "cloned": {
+          "title": "Post Cloned Successfully",
+          "description": "Post cloned with ID: {{id}}"
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "Failed to Create Bulk Post.",
+        "cloned": "Failed to Clone Bulk Post"
+      },
+      "single": {
+        "created": "Failed to Create Post.",
+        "cloned": "Failed to Clone Post"
+      }
+    }
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "preview": "Preview",
+    "create": "Create Post",
+    "clone": "Clone Post",
+    "creating": "Creating...",
+    "cloning": "Cloning..."
+  },
+  "preview": {
+    "title": "Live Preview"
+  }
+}

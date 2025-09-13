@@ -1,5 +1,5 @@
 // src/hooks/useI18nNamespace.ts
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n, { loadNamespace } from "@/i18n";
 
@@ -19,9 +19,9 @@ import i18n, { loadNamespace } from "@/i18n";
  */
 export function useI18nNamespace(ns: string | string[]) {
   const nsArray = Array.isArray(ns) ? ns : [ns];
-
-  // Keeps component reactive on language change
   useTranslation(nsArray as any);
+
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -46,7 +46,7 @@ export function useI18nNamespace(ns: string | string[]) {
         );
       }
 
-      if (!mounted) return;
+      if (mounted) setLoaded(true);
     })();
 
     return () => {
@@ -79,5 +79,5 @@ export function useI18nNamespace(ns: string | string[]) {
     return key;
   };
 
-  return { t: safeT, i18n };
+  return { t: safeT, i18n, loaded };
 }

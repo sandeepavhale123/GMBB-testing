@@ -1,0 +1,27 @@
+{
+  "insightsCard": {
+    "title": "Performance Insights",
+    "viewButton": "View",
+    "dateRange": {
+      "placeholder": "Select period",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "last90Days": "Last 90 Days"
+    },
+   
+    "visibility": {
+      "searchViews": "Search Views",
+      "mapsViews": "Maps Views"
+    },
+    "customerActions": {
+      "title": "Customer Actions",
+      "calls": "Calls",
+      "website": "Website",
+      "directions": "Directions",
+      "messages": "Messages"
+    },
+    "topSearchQueries": {
+      "title": "Top Search Queries"
+    }
+  }
+}

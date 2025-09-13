@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { MultiListingSelector } from '@/components/Posts/CreatePostModal/MultiListingSelector';
-import { generateShareableReport } from '@/api/dashboardApi';
-import { toast } from '@/hooks/use-toast';
+import React, { useState } from "react";
+import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
+import { generateShareableReport } from "@/api/dashboardApi";
+import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ShareReportModalProps {
   open: boolean;
@@ -19,18 +25,19 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
   dashboardFilterType,
   onReportGenerated,
 }) => {
+  const { t } = useI18nNamespace("Dashboard/shareReportModal");
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const handleGenerateReport = async () => {
     if (selectedListings.length === 0) {
-      setError('Please select at least one listing or group');
+      setError("Please select at least one listing or group");
       return;
     }
 
     setIsGenerating(true);
-    setError('');
+    setError("");
 
     try {
       const response = await generateShareableReport({
@@ -43,15 +50,15 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
         onOpenChange(false);
         // Reset state
         setSelectedListings([]);
-        setError('');
+        setError("");
       } else {
-        setError(response.message || 'Failed to generate report');
+        setError(response.message || t("errors.failed"));
       }
     } catch (err) {
-      setError('Failed to generate report. Please try again.');
+      setError(t("errors.failedRetry"));
       toast({
-        title: "Error",
-        description: "Failed to generate report. Please try again.",
+        title: t("errors.toastTitle"),
+        description: t("errors.toastDescription"),
         variant: "destructive",
       });
     } finally {
@@ -62,7 +69,7 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
   const handleClose = () => {
     if (!isGenerating) {
       setSelectedListings([]);
-      setError('');
+      setError("");
       onOpenChange(false);
     }
   };
@@ -71,7 +78,7 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Share Report</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -89,7 +96,7 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
               onClick={handleClose}
               disabled={isGenerating}
             >
-              Cancel
+              {t("buttons.cancel")}
             </Button>
             <Button
               onClick={handleGenerateReport}
@@ -98,7 +105,7 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
               {isGenerating && (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Generate Report
+              {t("buttons.generate")}
             </Button>
           </div>
         </div>

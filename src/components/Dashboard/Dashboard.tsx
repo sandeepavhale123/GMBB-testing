@@ -44,9 +44,7 @@ import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
 import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
-import { FaComments, FaQuestion, FaEdit } from "react-icons/fa";
-import { BiSupport } from "react-icons/bi";
-import { useProfile } from "@/hooks/useProfile";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace"; // ✅ import hook for language
 
 // Lazy load heavy components for better performance
 const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
@@ -84,6 +82,7 @@ const LazyComponentLoader = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const Dashboard: React.FC = () => {
+  const { t, loaded: i18nLoaded } = useI18nNamespace("Dashboard/dashboard"); // ✅ use namespace
   const { selectedListing, isLoading, isInitialLoading } = useListingContext();
   const [activeTab, setActiveTab] = useState("posts");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -111,8 +110,8 @@ export const Dashboard: React.FC = () => {
   const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } =
     useAppSelector((state) => state.insights);
 
-  console.log("listingid", selectedListing?.id);
-  console.log("listings", listings);
+  // console.log("listingid", selectedListing?.id);
+  // console.log("listings", listings);
 
   // Fetch insights data when insights tab is active and listing is selected
   React.useEffect(() => {
@@ -133,18 +132,18 @@ export const Dashboard: React.FC = () => {
 
   // Handle media context - open modal when image is selected from gallery
   useEffect(() => {
-    console.log("🎯 Dashboard media context changed:", {
-      shouldOpenCreatePost,
-      selectedMedia,
-    });
+    // console.log("🎯 Dashboard media context changed:", {
+    //   shouldOpenCreatePost,
+    //   selectedMedia,
+    // });
     if (shouldOpenCreatePost && selectedMedia) {
-      console.log("🎯 Opening create post modal from media context");
+      // console.log("🎯 Opening create post modal from media context");
       setIsCreateModalOpen(true);
     }
   }, [shouldOpenCreatePost, selectedMedia]);
 
   const handleApprovePost = (post: any) => {
-    console.log("🎯 Dashboard handleApprovePost called with:", post);
+    // console.log("🎯 Dashboard handleApprovePost called with:", post);
     setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
@@ -167,7 +166,7 @@ export const Dashboard: React.FC = () => {
   };
 
   // Show loading state during initial load
-  if (isInitialLoading) {
+  if (isInitialLoading || !i18nLoaded) {
     return (
       <ListingLoader isLoading={true}>
         <div />
@@ -205,7 +204,7 @@ export const Dashboard: React.FC = () => {
           <Card className="h-full from-slate-800 to-slate-900 text-white border-grey-700">
             <CardHeader className="pb-3 sm:pb-4">
               <CardTitle className="text-base sm:text-lg font-semibold text-black">
-                GBP Profile Optimization
+                {t("gbpProfileOptimization")}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center space-y-4 sm:space-y-6 flex-1 mt-4 sm:mt-[28px] my-0">
@@ -229,13 +228,13 @@ export const Dashboard: React.FC = () => {
               <div className="text-center space-y-1">
                 <p className="text-xs sm:text-sm text-black">
                   {(overviewData?.healthScore || 0) >= 75
-                    ? "Optimization level is excellent"
+                    ? t("optimizationExcellent")
                     : (overviewData?.healthScore || 0) >= 50
-                    ? "Optimization level is healthy"
-                    : "Optimization needs improvement"}
+                    ? t("optimizationHealthy")
+                    : t("optimizationNeedsImprovement")}
                 </p>
                 <p className="text-blue-400 font-medium text-sm sm:text-base">
-                  {overviewData?.healthScore || 0}% optimized
+                  {overviewData?.healthScore || 0}% {t("optmized")}
                 </p>
               </div>
 
@@ -244,7 +243,7 @@ export const Dashboard: React.FC = () => {
                 className="w-full font-medium text-sm sm:text-base"
                 onClick={handleOptimize}
               >
-                Check GMB health report
+                {t("checkGMBReport")}
               </Button>
             </CardContent>
           </Card>
@@ -264,20 +263,20 @@ export const Dashboard: React.FC = () => {
             <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50  rounded-none p-0 h-auto">
               <TabsTrigger value="posts">
                 <FileText className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Posts</span>
+                <span>{t("posts")}</span>
               </TabsTrigger>
               <TabsTrigger value="reviews">
                 <MessageSquare className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Reviews</span>
+                <span>{t("reviews")}</span>
               </TabsTrigger>
               <TabsTrigger value="geo-ranking">
                 <MapPin className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">GEO Ranking</span>
-                <span className="sm:hidden">GEO</span>
+                <span className="hidden sm:inline"> {t("GeoRanking")}</span>
+                <span className="sm:hidden"> {t("Geo")}</span>
               </TabsTrigger>
               <TabsTrigger value="insights">
                 <TrendingUp className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Insights</span>
+                <span> {t("insights")}</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-4 sm:mt-6">
@@ -362,18 +361,18 @@ export const Dashboard: React.FC = () => {
         <DialogContent className="max-w-sm sm:max-w-md mx-4 sm:mx-auto">
           <DialogHeader>
             <DialogTitle className="text-base sm:text-lg">
-              Post Preview
+              {t("postPreviewTitle")}
             </DialogTitle>
           </DialogHeader>
           {selectedPost && (
             <div>
               <p className="text-sm text-gray-500 mb-4">
-                Previewing post: {selectedPost.title}
+                {t("previewText")}: {selectedPost.title}
               </p>
               <PostPreviewErrorBoundary
                 fallback={
                   <div className="p-4 text-center text-red-600 bg-red-50 rounded-lg border border-red-200">
-                    <p className="text-sm">Unable to display preview</p>
+                    <p className="text-sm">{t("previewError")}</p>
                   </div>
                 }
               >
@@ -397,7 +396,7 @@ export const Dashboard: React.FC = () => {
               onClick={() => setIsPreviewModalOpen(false)}
               className="w-full sm:w-auto text-sm"
             >
-              Close
+              {t("close")}
             </Button>
           </DialogFooter>
         </DialogContent>

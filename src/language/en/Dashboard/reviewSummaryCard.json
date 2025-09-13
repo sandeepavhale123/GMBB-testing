@@ -1,0 +1,7 @@
+{
+  "reviewSummaryTitle": "Review Summary",
+  "tryAgainButton": "Try Again",
+  "reviewsLabel": "{{count}} reviews",
+  "errorTitle": "Error",
+  "errorDescription": "Something went wrong. Please try again."
+}

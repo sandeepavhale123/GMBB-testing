@@ -7,6 +7,7 @@ export const namespaces = [
   "Profile/profileHeader",
   "Profile/profileBasicInfoForm",
   "Profile/profilePreferencesForm",
+  "Dashboard/dashboard",
 ];
 
 i18n.use(initReactI18next).init({
@@ -40,8 +41,16 @@ export async function loadNamespace(lng: string, ns: string) {
 }
 
 // Load all known namespaces for a given language (helper)
-export async function loadAllNamespaces(lng: string) {
-  return Promise.all(namespaces.map((ns) => loadNamespace(lng, ns)));
+export async function loadAllNamespaces(lng?: string) {
+  const language = lng || i18n.language;
+  return Promise.all(namespaces.map((ns) => loadNamespace(language, ns)));
+}
+
+// Preload all namespaces before app renders
+export async function preloadNamespaces(lng?: string) {
+  const language = lng || i18n.language;
+  await loadAllNamespaces(language);
+  return i18n;
 }
 
 export default i18n;

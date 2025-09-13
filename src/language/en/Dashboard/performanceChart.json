@@ -1,0 +1,11 @@
+{
+  "performanceChart": {
+    "title": "Performance Overview",
+    "description": "Track your business metrics over time",
+    "metrics": {
+      "views": "Views",
+      "clicks": "Clicks",
+      "calls": "Calls"
+    }
+  }
+}

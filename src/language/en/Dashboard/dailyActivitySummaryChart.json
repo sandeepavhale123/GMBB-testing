@@ -1,0 +1,14 @@
+{
+  "title": "Daily Activity Summary",
+  "subtitle": "Last 30 days",
+  "buttons": {
+    "line": "Line",
+    "area": "Area"
+  },
+  "labels": {
+    "posts": "Posts",
+    "mediaResponded": "Media Responded",
+    "reviews": "Reviews",
+    "qa": "Q & A"
+  }
+}

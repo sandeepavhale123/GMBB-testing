@@ -1,0 +1,58 @@
+{
+  "recentReviews": {
+    "title": "Recent Reviews",
+    "viewAll": "View All Reviews",
+    "searchPlaceholder": "Search reviews...",
+    "sort": {
+      "placeholder": "Sort by",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "highest": "Highest",
+      "lowest": "Lowest"
+    },
+    "filter": {
+      "placeholder": "Rating",
+      "all": "All Ratings",
+      "5": "5 Stars",
+      "4": "4 Stars",
+      "3": "3 Stars",
+      "2": "2 Stars",
+      "1": "1 Star"
+    },
+    "badges": {
+      "new": "New",
+      "noReply": "No Reply",
+      "aiResponded": "AI Responded",
+      "manualReply": "Manual Reply"
+    },
+    "actions": {
+      "generateAI": "Generate AI Response",
+      "manualReply": "Reply Manually",
+      "useResponse": "Use Response",
+      "cancel": "Cancel",
+      "sendReply": "Send Reply"
+    },
+    "aiSection": {
+      "title": "AI Suggested Response",
+      "placeholder": "AI suggested response will appear here..."
+    },
+    "manualSection": {
+      "title": "Write your reply",
+      "placeholder": "Type your response..."
+    },
+    "toasts": {
+      "aiGenerated": {
+        "title": "AI Response Generated",
+        "description": "AI has generated a response for this review."
+      },
+      "responseUsed": {
+        "title": "Response Used",
+        "description": "The AI suggested response has been used for this review."
+      },
+      "replySent": {
+        "title": "Reply Sent",
+        "description": "Your manual reply has been sent successfully."
+      }
+    }
+  }
+}

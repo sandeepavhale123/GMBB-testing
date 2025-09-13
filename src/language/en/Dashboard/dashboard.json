@@ -1,0 +1,17 @@
+{
+  "gbpProfileOptimization": "GBP Profile Optimization",
+  "optimizationExcellent": "Optimization level is excellent",
+  "optimizationHealthy": "Optimization level is healthy",
+  "optimizationNeedsImprovement": "Optimization needs improvement",
+  "optmized":"optimized",
+  "checkGMBReport": "Check GMB health report",
+  "posts": "Posts",
+  "reviews": "Reviews",
+  "geoRanking": "GEO Ranking",
+  "geo": "GEO",
+  "insights": "Insights",
+  "postPreviewTitle": "Post Preview",
+  "previewText": " Previewing post",
+  "previewError": " Unable to display preview",
+  "close": "Close"
+}

@@ -1,22 +1,23 @@
-
-import React, { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { AlertCircle, RefreshCw } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
+import React, { useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { AlertCircle, RefreshCw } from "lucide-react";
+import { Button } from "../ui/button";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
+import {
+  fetchReviewSummary,
+  clearSummaryError,
+} from "../../store/slices/reviews";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const SentimentBreakdownCard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  const { 
-    sentimentAnalysis, 
-    summaryLoading, 
-    summaryError 
-  } = useAppSelector(state => state.reviews);
-
+  const { sentimentAnalysis, summaryLoading, summaryError } = useAppSelector(
+    (state) => state.reviews
+  );
+  const { t } = useI18nNamespace("Dashboard/sentimentBreakdownCard");
   // Fetch review summary when listing changes
   useEffect(() => {
     if (selectedListing?.id) {
@@ -30,9 +31,13 @@ export const SentimentBreakdownCard: React.FC = () => {
         <CardContent className="p-6 text-center">
           <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
           <p className="text-red-600 mb-2 text-sm">{summaryError}</p>
-          <Button onClick={() => dispatch(clearSummaryError())} variant="outline" size="sm">
+          <Button
+            onClick={() => dispatch(clearSummaryError())}
+            variant="outline"
+            size="sm"
+          >
             <RefreshCw className="w-4 h-4 mr-2" />
-            Try Again
+            {t("tryAgain")}
           </Button>
         </CardContent>
       </Card>
@@ -43,7 +48,9 @@ export const SentimentBreakdownCard: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Sentiment breakdown</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("sentimentBreakdownTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse">
@@ -68,29 +75,43 @@ export const SentimentBreakdownCard: React.FC = () => {
   }
 
   const sentimentData = [
-    { name: 'Positive', value: sentimentAnalysis.positive.percentage, fill: '#10b981' },
-    { name: 'Neutral', value: sentimentAnalysis.neutral.percentage, fill: '#6b7280' },
-    { name: 'Negative', value: sentimentAnalysis.negative.percentage, fill: '#ef4444' }
+    {
+      name: "Positive",
+      value: sentimentAnalysis.positive.percentage,
+      fill: "#10b981",
+    },
+    {
+      name: "Neutral",
+      value: sentimentAnalysis.neutral.percentage,
+      fill: "#6b7280",
+    },
+    {
+      name: "Negative",
+      value: sentimentAnalysis.negative.percentage,
+      fill: "#ef4444",
+    },
   ];
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Sentiment breakdown</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          {t("sentimentBreakdownTitle")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-center mb-4">
           <div className="w-32 h-32">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie 
-                  data={sentimentData} 
-                  cx="50%" 
-                  cy="50%" 
-                  innerRadius={30} 
-                  outerRadius={60} 
-                  dataKey="value" 
-                  startAngle={90} 
+                <Pie
+                  data={sentimentData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={30}
+                  outerRadius={60}
+                  dataKey="value"
+                  startAngle={90}
                   endAngle={450}
                 >
                   {sentimentData.map((entry, index) => (
@@ -105,23 +126,33 @@ export const SentimentBreakdownCard: React.FC = () => {
           <div>
             <div className="flex items-center justify-center gap-1 mb-1">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Positive</span>
+              <span className="text-sm text-gray-600">
+                {t("positiveLabel")}
+              </span>
             </div>
-            <div className="font-semibold">{sentimentAnalysis.positive.percentage}%</div>
+            <div className="font-semibold">
+              {sentimentAnalysis.positive.percentage}%
+            </div>
           </div>
           <div>
             <div className="flex items-center justify-center gap-1 mb-1">
               <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Neutral</span>
+              <span className="text-sm text-gray-600">{t("neutralLabel")}</span>
             </div>
-            <div className="font-semibold">{sentimentAnalysis.neutral.percentage}%</div>
+            <div className="font-semibold">
+              {sentimentAnalysis.neutral.percentage}%
+            </div>
           </div>
           <div>
             <div className="flex items-center justify-center gap-1 mb-1">
               <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Negative</span>
+              <span className="text-sm text-gray-600">
+                {t("negativeLabel")}
+              </span>
             </div>
-            <div className="font-semibold">{sentimentAnalysis.negative.percentage}%</div>
+            <div className="font-semibold">
+              {sentimentAnalysis.negative.percentage}%
+            </div>
           </div>
         </div>
       </CardContent>

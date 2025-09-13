@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CopyUrlModalProps {
   open: boolean;
@@ -21,6 +22,7 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
   onOpenChange,
   reportUrl,
 }) => {
+  const { t } = useI18nNamespace("Dashboard/copyUrlModal");
   const [copied, setCopied] = useState(false);
   const pathname = location.pathname;
   const handleCopy = async () => {
@@ -46,12 +48,12 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Report Generated Successfully</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="report-url">Shareable Report URL</Label>
+            <Label htmlFor="report-url">{t("label")}</Label>
             <div className="flex gap-2">
               <Input
                 id="report-url"
@@ -81,9 +83,9 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
               className="flex items-center gap-2"
             >
               <ExternalLink className="w-4 h-4" />
-              Open in New Tab
+              {t("buttons.openInNewTab")}
             </Button>
-            <Button onClick={handleClose}>Done</Button>
+            <Button onClick={handleClose}>{t("buttons.done")}</Button>
           </div>
         </div>
       </DialogContent>

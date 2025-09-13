@@ -6,6 +6,7 @@ import { MapPin, Eye, FileBarChart } from "lucide-react";
 import { useProfile } from "../../hooks/useProfile";
 import { useListingContext } from "@/context/ListingContext";
 import { OverviewData } from "../../api/overviewApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface BusinessProfileHeaderProps {
   overviewData?: OverviewData | null;
 }
@@ -13,6 +14,7 @@ interface BusinessProfileHeaderProps {
 export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
   overviewData,
 }) => {
+  const { t } = useI18nNamespace("Dashboard/businessProfileHeader"); // ✅ use namespace
   const navigate = useNavigate();
   const { selectedListing } = useListingContext();
   const { profileData } = useProfile();
@@ -74,7 +76,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
             <div className="flex-1">
               <div className="mb-3 sm:mb-4">
                 <div className="text-xs sm:text-sm text-purple-200 mb-1">
-                  BUSINESS OVERVIEW
+                  {t("businessOverview")}
                 </div>
                 <div className="flex items-center gap-3 mb-2">
                   <h2 className="text-xl sm:text-2xl font-bold">
@@ -82,7 +84,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                   </h2>
                 </div>
                 <p className="text-sm sm:text-base text-purple-100 mb-2">
-                  Here's the summary for: "{listingName}"
+                  {t("summaryFor", { listingName })}
                 </p>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
@@ -116,8 +118,8 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                   disabled={!overviewData?.placeId}
                 >
                   <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">View on Google</span>
-                  <span className="sm:hidden">View</span>
+                  <span className="hidden sm:inline">{t("viewOnGoogle")}</span>
+                  <span className="sm:hidden">{t("view")}</span>
                 </Button>
                 <Button
                   size="sm"
@@ -125,8 +127,8 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                   onClick={handleViewReports}
                 >
                   <FileBarChart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">View Reports</span>
-                  <span className="sm:hidden">Reports</span>
+                  <span className="hidden sm:inline">{t("viewReports")} </span>
+                  <span className="sm:hidden">{t("reports")} </span>
                 </Button>
               </div>
             </div>

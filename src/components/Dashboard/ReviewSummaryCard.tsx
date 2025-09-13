@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Star, AlertCircle, RefreshCw } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
+import React, { useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Star, AlertCircle, RefreshCw } from "lucide-react";
+import { Button } from "../ui/button";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
+import {
+  fetchReviewSummary,
+  clearSummaryError,
+} from "../../store/slices/reviews";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ReviewSummaryCard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  const { 
-    summaryCards, 
-    starDistribution, 
-    summaryLoading, 
-    summaryError 
-  } = useAppSelector(state => state.reviews);
+  const { summaryCards, starDistribution, summaryLoading, summaryError } =
+    useAppSelector((state) => state.reviews);
+
+  const { t } = useI18nNamespace("Dashboard/reviewSummaryCard");
 
   // Fetch review summary when listing changes
   useEffect(() => {
@@ -29,8 +31,8 @@ export const ReviewSummaryCard: React.FC = () => {
         key={index}
         className={`w-4 h-4 ${
           index < Math.floor(rating)
-            ? 'text-yellow-400 fill-current'
-            : 'text-gray-300'
+            ? "text-yellow-400 fill-current"
+            : "text-gray-300"
         }`}
       />
     ));
@@ -42,9 +44,13 @@ export const ReviewSummaryCard: React.FC = () => {
         <CardContent className="p-6 text-center">
           <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
           <p className="text-red-600 mb-2 text-sm">{summaryError}</p>
-          <Button onClick={() => dispatch(clearSummaryError())} variant="outline" size="sm">
+          <Button
+            onClick={() => dispatch(clearSummaryError())}
+            variant="outline"
+            size="sm"
+          >
             <RefreshCw className="w-4 h-4 mr-2" />
-            Try Again
+            {t("tryAgainButton")}
           </Button>
         </CardContent>
       </Card>
@@ -55,7 +61,9 @@ export const ReviewSummaryCard: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Review Summary</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("reviewSummaryTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-4">
@@ -85,14 +93,16 @@ export const ReviewSummaryCard: React.FC = () => {
     .map(([stars, data]) => ({
       stars: parseInt(stars),
       count: data.count,
-      percentage: data.percentage
+      percentage: data.percentage,
     }))
     .sort((a, b) => b.stars - a.stars);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Review Summary</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          {t("reviewSummaryTitle")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-6 mb-6">
@@ -104,11 +114,11 @@ export const ReviewSummaryCard: React.FC = () => {
               {renderStars(summaryCards.overall_rating)}
             </div>
             <div className="text-sm text-gray-600 mt-1">
-              {summaryCards.total_reviews} reviews
+              {t("reviewsLabel", { count: summaryCards.total_reviews })}
             </div>
           </div>
         </div>
-        
+
         {/* Rating Breakdown with Stars */}
         <div className="space-y-2">
           {starDistributionArray.map((item) => (
@@ -118,8 +128,8 @@ export const ReviewSummaryCard: React.FC = () => {
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
               </div>
               <div className="flex-1 bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-gray-600 h-2 rounded-full" 
+                <div
+                  className="bg-gray-600 h-2 rounded-full"
                   style={{ width: `${item.percentage}%` }}
                 ></div>
               </div>

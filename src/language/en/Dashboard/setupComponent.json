@@ -1,0 +1,44 @@
+{
+  "header": {
+    "preparing": "We're preparing your business data. This usually takes a few minutes."
+  },
+  "progress": {
+    "modulesComplete": "{{completed}} of {{total}} modules complete",
+    "allDone": "All done!",
+    "remaining": "{{remaining}} remaining"
+  },
+  "modules": {
+    "gmbInfo": {
+      "label": "GMB Info",
+      "description": "Setting up Google My Business profile data"
+    },
+    "reviewData": {
+      "label": "Reviews",
+      "description": "Importing review data and analytics"
+    },
+    "insightData": {
+      "label": "Insights",
+      "description": "Processing performance insights"
+    },
+    "qaData": {
+      "label": "Q&A",
+      "description": "Loading questions and answers"
+    },
+    "postData": {
+      "label": "Posts",
+      "description": "Syncing post content and media"
+    },
+    "mediaData": {
+      "label": "Media",
+      "description": "Processing images and media files"
+    }
+  },
+  "status": {
+    "complete": "Setup complete ✅",
+    "processing": "{{description}}...",
+    "failed": "Setup failed - please try again"
+  },
+  "loading": {
+    "checking": "Checking setup status..."
+  }
+}

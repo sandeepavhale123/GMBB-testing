@@ -26,12 +26,14 @@ import { fetchInsightsSummary } from "../../store/slices/insightsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState("30");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedListing } = useListingContext();
+  const { t } = useI18nNamespace("Dashboard/insightsCard");
 
   const { summary, isLoadingSummary, summaryError } = useAppSelector(
     (state) => state.insights
@@ -83,22 +85,30 @@ export const InsightsCard: React.FC = () => {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <BarChart3 className="w-5 h-5 text-blue-600" />
-          Performance Insights
+          {t("insightsCard.title")}
         </CardTitle>
         <div className="flex items-center gap-2">
           <Select value={dateRange} onValueChange={handleDateRangeChange}>
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Select period" />
+              <SelectValue
+                placeholder={t("insightsCard.dateRange.placeholder")}
+              />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 Days</SelectItem>
-              <SelectItem value="30">Last 30 Days</SelectItem>
-              <SelectItem value="90">Last 90 Days</SelectItem>
+              <SelectItem value="7">
+                {t("insightsCard.dateRange.last7Days")}
+              </SelectItem>
+              <SelectItem value="30">
+                {t("insightsCard.dateRange.last30Days")}
+              </SelectItem>
+              <SelectItem value="90">
+                {t("insightsCard.dateRange.last90Days")}
+              </SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={handleViewInsights} variant="outline" size="sm">
             <Eye className="w-4 h-4 mr-2" />
-            View
+            {t("insightsCard.viewButton")}
           </Button>
         </div>
       </CardHeader>
@@ -121,7 +131,7 @@ export const InsightsCard: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Search className="w-4 h-4 text-blue-600" />
                   <span className="text-sm font-medium text-gray-700">
-                    Search Views
+                    {t("insightsCard.visibility.searchViews")}
                   </span>
                 </div>
                 <p className="text-2xl font-bold text-gray-900">
@@ -155,7 +165,7 @@ export const InsightsCard: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-red-600" />
                   <span className="text-sm font-medium text-gray-700">
-                    Maps Views
+                    {t("insightsCard.visibility.mapsViews")}
                   </span>
                 </div>
                 <p className="text-2xl font-bold text-gray-900">
@@ -189,7 +199,7 @@ export const InsightsCard: React.FC = () => {
             {/* Customer Interactions */}
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-3">
-                Customer Actions
+                {t("insightsCard.customerActions.title")}
               </h4>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
@@ -200,7 +210,9 @@ export const InsightsCard: React.FC = () => {
                     <p className="text-lg font-bold text-gray-900">
                       {summary?.customer_actions.phone_calls.value || 0}
                     </p>
-                    <p className="text-xs text-gray-600">Calls</p>
+                    <p className="text-xs text-gray-600">
+                      {t("insightsCard.customerActions.calls")}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
@@ -211,7 +223,9 @@ export const InsightsCard: React.FC = () => {
                     <p className="text-lg font-bold text-gray-900">
                       {summary?.customer_actions.website_clicks.value || 0}
                     </p>
-                    <p className="text-xs text-gray-600">Website</p>
+                    <p className="text-xs text-gray-600">
+                      {t("insightsCard.customerActions.website")}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
@@ -222,7 +236,9 @@ export const InsightsCard: React.FC = () => {
                     <p className="text-lg font-bold text-gray-900">
                       {summary?.customer_actions.direction_requests.value || 0}
                     </p>
-                    <p className="text-xs text-gray-600">Directions</p>
+                    <p className="text-xs text-gray-600">
+                      {t("insightsCard.customerActions.directions")}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
@@ -233,7 +249,9 @@ export const InsightsCard: React.FC = () => {
                     <p className="text-lg font-bold text-gray-900">
                       {summary?.customer_actions.messages.value || 0}
                     </p>
-                    <p className="text-xs text-gray-600">Messages</p>
+                    <p className="text-xs text-gray-600">
+                      {t("insightsCard.customerActions.messages")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -242,7 +260,7 @@ export const InsightsCard: React.FC = () => {
             {/* Top Search Queries */}
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-3">
-                Top Search Queries
+                {t("insightsCard.topSearchQueries.title")}
               </h4>
               <div className="space-y-2">
                 {topQueries.map((query, index) => (

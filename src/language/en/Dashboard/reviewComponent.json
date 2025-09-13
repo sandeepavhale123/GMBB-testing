@@ -1,0 +1,54 @@
+{
+  "reviewSummary": "Review Summary",
+  "sentimentBreakdown": "Sentiment Breakdown",
+  "reviewsCount": "{{count}} reviews",
+  "positive": "Positive",
+  "neutral": "Neutral",
+  "negative": "Negative",
+  "recentReviews": "Recent Reviews",
+  "searchPlaceholder": "Search reviews...",
+  "filters": {
+    "sortBy": "Sort by",
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "highest": "Highest Rating",
+    "lowest": "Lowest Rating",
+    "rating": "Rating",
+    "allRatings": "All Ratings",
+    "stars": "{{count}} Stars",
+    "star": "1 Star",
+    "sentiment": "Sentiment",
+    "all": "All",
+    "replyStatus": "Reply Status",
+    "allStatus": "All Status",
+    "responded": "Responded",
+    "notResponded": "Not Responded"
+  },
+  "badges": {
+    "new": "New",
+    "noReply": "No Reply",
+    "aiResponded": "AI Responded",
+    "manualReply": "Manual Reply"
+  },
+  "buttons": {
+    "generateAIResponse": "Generate AI Response",
+    "replyManually": "Reply Manually",
+    "useResponse": "Use Response",
+    "cancel": "Cancel",
+    "sendReply": "Send Reply"
+  },
+  "aiSuggestedResponse": "AI Suggested Response",
+  "writeYourReply": "Write your reply",
+  "placeholders": {
+    "aiResponse": "AI suggested response will appear here...",
+    "manualResponse": "Type your response..."
+  },
+  "toasts": {
+    "aiGeneratedTitle": "AI Response Generated",
+    "aiGeneratedDesc": "AI has generated a response for this review.",
+    "responseUsedTitle": "Response Used",
+    "responseUsedDesc": "The AI suggested response has been used for this review.",
+    "replySentTitle": "Reply Sent",
+    "replySentDesc": "Your manual reply has been sent successfully."
+  }
+}

@@ -1,13 +1,22 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { BarChart3 } from 'lucide-react';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { BarChart3 } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ActivitySummaryChart: React.FC = () => {
+  const { t } = useI18nNamespace("Dashboard/activitySummaryChart");
   const barChartData = [
-    { name: 'Success', value: 55, fill: '#10b981' },
-    { name: 'Failed', value: 5, fill: '#ef4444' }
+    { name: t("labels.success"), value: 55, fill: "#10b981" },
+    { name: t("labels.failed"), value: 5, fill: "#ef4444" },
   ];
 
   return (
@@ -15,7 +24,7 @@ export const ActivitySummaryChart: React.FC = () => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <BarChart3 className="w-5 h-5" />
-          Activity Summary
+          {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -32,7 +41,7 @@ export const ActivitySummaryChart: React.FC = () => {
             </ResponsiveContainer>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">% Success vs. Failed</span>
+            <span className="text-sm text-gray-600">{t("summary")} </span>
             <span className="text-2xl font-bold">60</span>
           </div>
         </div>

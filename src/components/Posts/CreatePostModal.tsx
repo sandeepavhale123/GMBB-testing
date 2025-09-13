@@ -28,6 +28,7 @@ import {
   transformPostForCloning,
   CreatePostFormData,
 } from "../../utils/postCloneUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -49,9 +50,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const { selectedListing } = useListingContext();
   const { selectedMedia, clearSelection } = useMediaContext();
   const { createLoading, createError } = useAppSelector((state) => state.posts);
+  const { t } = useI18nNamespace("Post/createPostModal");
 
   // Check if we're in multi-dashboard context
-  const isMultiDashboard = location.pathname.includes('/main-dashboard');
+  const isMultiDashboard = location.pathname.includes("/main-dashboard");
 
   const getInitialFormData = () => {
     if (initialData) {
@@ -59,7 +61,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
     // Check if there's a selected media from gallery
     if (selectedMedia) {
-      console.log('🖼️ Gallery media selected for post:', selectedMedia);
+      console.log("🖼️ Gallery media selected for post:", selectedMedia);
       return {
         listings: [] as string[],
         title: "",
@@ -86,8 +88,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       title: "",
       postType: "",
       description: "",
-        image: null as File | string | null,
-        imageSource: null as "local" | "ai" | "gallery" | null,
+      image: null as File | string | null,
+      imageSource: null as "local" | "ai" | "gallery" | null,
       ctaButton: "",
       ctaUrl: "",
       publishOption: "now",
@@ -158,7 +160,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       (formData.postType === "event" || formData.postType === "offer") &&
       !formData.title.trim()
     ) {
-      errors.title = "Title is required for event and offer posts.";
+      errors.title = t("validation.titleRequired");
     }
 
     // CTA URL validation when CTA button is enabled and not CALL type
@@ -167,12 +169,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       formData.ctaButton !== "CALL" &&
       !formData.ctaUrl.trim()
     ) {
-      errors.ctaUrl = "URL is required when CTA button is enabled.";
+      errors.ctaUrl = t("validation.urlRequired");
     }
 
     // Listings validation for multi-dashboard context (bulk posting)
     if (isMultiDashboard && formData.listings.length === 0) {
-      errors.listings = "Please select at least one listing or group.";
+      errors.listings = t("validation.listingsRequired");
     }
 
     setValidationErrors(errors);
@@ -187,26 +189,26 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       // Check for specific validation errors and show appropriate messages
       if (validationErrors.listings) {
         toast({
-          title: "Listing Required",
-          description: "Please select at least one listing.",
+          title: t("toast.listingRequired.title"),
+          description: t("toast.listingRequired.description"),
           variant: "destructive",
         });
       } else if (validationErrors.title) {
         toast({
-          title: "Title Required", 
+          title: t("toast.titleRequired.title"),
           description: validationErrors.title,
           variant: "destructive",
         });
       } else if (validationErrors.ctaUrl) {
         toast({
-          title: "URL Required",
+          title: t("toast.urlRequired.title"),
           description: validationErrors.ctaUrl,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Validation Error",
-          description: "Please fix the validation errors before submitting.",
+          title: t("toast.validationError.title"),
+          description: t("toast.validationError.description"),
           variant: "destructive",
         });
       }
@@ -215,14 +217,15 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
     // Determine if this is bulk posting or single posting
     const isBulkPosting = isMultiDashboard && formData.listings.length > 0;
-    
+
     // For single posting, get listingId from context or URL
-    const singleListingId = selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+    const singleListingId =
+      selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
 
     if (!isBulkPosting && !singleListingId) {
       toast({
-        title: "Error",
-        description: "No business listing selected. Please select a listing first.",
+        title: t("toast.error.title"),
+        description: t("toast.error.noListing"),
         variant: "destructive",
       });
       return;
@@ -237,7 +240,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       if (isBulkPosting) {
         // Create bulk post data with comma-separated listingId
         const bulkPostData = {
-          listingId: formData.listings.join(','), // Convert array to comma-separated string
+          listingId: formData.listings.join(","), // Convert array to comma-separated string
           title: formData.title,
           postType: formData.postType,
           description: formData.description,
@@ -262,9 +265,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           couponCode:
             formData.postType === "offer" ? formData.couponCode : undefined,
           redeemOnlineUrl:
-            formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
+            formData.postType === "offer"
+              ? formData.redeemOnlineUrl
+              : undefined,
           termsConditions:
-            formData.postType === "offer" ? formData.termsConditions : undefined,
+            formData.postType === "offer"
+              ? formData.termsConditions
+              : undefined,
           postTags: formData.postTags,
           siloPost: formData.siloPost,
           // Handle image based on source
@@ -278,16 +285,20 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               ? formData.image
               : undefined,
           galleryImageUrl:
-            formData.imageSource === "gallery" && typeof formData.image === "string"
+            formData.imageSource === "gallery" &&
+            typeof formData.image === "string"
               ? formData.image
               : undefined,
         };
 
-        console.log('📤 Sending bulk post data to backend:', bulkPostData);
-        console.log('🔄 Selected listings for bulk posting:', formData.listings);
-        
+        console.log("📤 Sending bulk post data to backend:", bulkPostData);
+        console.log(
+          "🔄 Selected listings for bulk posting:",
+          formData.listings
+        );
+
         response = await dispatch(createBulkPost(bulkPostData)).unwrap();
-        
+
         // Call the bulk post created callback if provided
         if (onBulkPostCreated) {
           onBulkPostCreated();
@@ -320,9 +331,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           couponCode:
             formData.postType === "offer" ? formData.couponCode : undefined,
           redeemOnlineUrl:
-            formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
+            formData.postType === "offer"
+              ? formData.redeemOnlineUrl
+              : undefined,
           termsConditions:
-            formData.postType === "offer" ? formData.termsConditions : undefined,
+            formData.postType === "offer"
+              ? formData.termsConditions
+              : undefined,
           postTags: formData.postTags,
           siloPost: formData.siloPost,
           // Handle image based on source
@@ -336,24 +351,33 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               ? formData.image
               : undefined,
           galleryImageUrl:
-            formData.imageSource === "gallery" && typeof formData.image === "string"
+            formData.imageSource === "gallery" &&
+            typeof formData.image === "string"
               ? formData.image
               : undefined,
         };
 
-        console.log('📤 Sending single post data to backend:', createPostData);
-        
+        console.log("📤 Sending single post data to backend:", createPostData);
+
         response = await dispatch(createPost(createPostData)).unwrap();
       }
 
       // Show success message
-      const successTitle = isBulkPosting 
-        ? (isCloning ? "Bulk Post Cloned Successfully" : "Bulk Post Created Successfully.")
-        : (isCloning ? "Post Cloned Successfully" : "Post Created Successfully.");
-      
+      const successTitle = isBulkPosting
+        ? isCloning
+          ? t("toast.success.bulk.cloned.title")
+          : t("toast.success.bulk.created.title")
+        : isCloning
+        ? t("toast.success.single.cloned.title")
+        : t("toast.success.single.created.title");
+
       const successDescription = isBulkPosting
-        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${formData.listings.length} listings.`
-        : `Post ${isCloning ? "cloned" : "created"} with ID: ${response.data.postId}`;
+        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${
+            formData.listings.length
+          } listings.`
+        : `Post ${isCloning ? "cloned" : "created"} with ID: ${
+            response.data.postId
+          }`;
 
       toast({
         title: successTitle,
@@ -401,9 +425,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     } catch (error) {
       console.error("Error creating post:", error);
       toast({
-        title: isBulkPosting 
-          ? (isCloning ? "Failed to Clone Bulk Post" : "Failed to Create Bulk Post.")
-          : (isCloning ? "Failed to Clone Post" : "Failed to Create Post."),
+        title: isBulkPosting
+          ? isCloning
+            ? t("toast.failure.bulk.cloned")
+            : t("toast.failure.bulk.created")
+          : isCloning
+          ? t("toast.failure.single.cloned")
+          : t("toast.failure.single.created"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
@@ -433,20 +461,29 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (Object.keys(validationErrors).length > 0) {
       validateForm();
     }
-  }, [formData.title, formData.postType, formData.ctaUrl, formData.listings, showCTAButton]);
+  }, [
+    formData.title,
+    formData.postType,
+    formData.ctaUrl,
+    formData.listings,
+    showCTAButton,
+  ]);
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={(open) => {
-        if (!open) {
-          clearSelection();
-          onClose();
-        }
-      }}>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            clearSelection();
+            onClose();
+          }
+        }}
+      >
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <DialogTitle className="text-xl sm:text-2xl font-semibold">
-              {isCloning ? "Clone Post" : "Create Post"}
+              {isCloning ? t("title.clone") : t("title.create")}
             </DialogTitle>
           </DialogHeader>
 
@@ -454,8 +491,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
             <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-
-                
                 {/* Multi-Listing Selector (only in multi-dashboard) */}
                 {isMultiDashboard && (
                   <MultiListingSelector
@@ -466,7 +501,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     error={validationErrors.listings}
                   />
                 )}
-                
+
                 {/* Post Description Field */}
                 <PostDescriptionSection
                   description={formData.description}
@@ -475,7 +510,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   }
                   onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
                 />
-
 
                 {/* Post Image Upload */}
                 <PostImageSection
@@ -517,7 +551,9 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <div className="hidden lg:flex lg:flex-[4] border-l bg-gray-50/50 p-6">
               <ScrollArea className="w-full h-full">
                 <div className="space-y-4 w-full">
-                  <h3 className="font-semibold text-lg">Live Preview</h3>
+                  <h3 className="font-semibold text-lg">
+                    {t("preview.title")}{" "}
+                  </h3>
                   <PostPreview data={formData} />
                 </div>
               </ScrollArea>
@@ -535,9 +571,9 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               }}
               className="hidden sm:block"
             >
-              Cancel
+              {t("buttons.cancel")}
             </Button>
-            
+
             {/* Mobile: Preview and Create buttons in single row */}
             <div className="flex gap-3 sm:hidden w-full">
               <Button
@@ -555,11 +591,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               >
                 {createLoading
                   ? isCloning
-                    ? "Cloning..."
-                    : "Creating..."
+                    ? t("buttons.cloning")
+                    : t("buttons.creating")
                   : isCloning
-                  ? "Clone Post"
-                  : "Create Post"}
+                  ? t("buttons.clone")
+                  : t("buttons.create")}
               </Button>
             </div>
 
@@ -572,11 +608,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             >
               {createLoading
                 ? isCloning
-                  ? "Cloning..."
-                  : "Creating..."
+                  ? t("buttons.cloning")
+                  : t("buttons.creating")
                 : isCloning
-                ? "Clone Post"
-                : "Create Post"}
+                ? t("buttons.clone")
+                : t("buttons.create")}
             </Button>
           </div>
         </DialogContent>

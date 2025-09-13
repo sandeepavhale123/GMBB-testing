@@ -1,30 +1,34 @@
-
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { MessageSquare, AlertCircle } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { fetchReviews, clearReviewsError, sendReviewReply } from '../../store/slices/reviews';
-import { useNavigate } from 'react-router-dom';
-import { DashboardReviewCard } from './DashboardReviewCard';
-import { useToast } from '../../hooks/use-toast';
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { MessageSquare, AlertCircle } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
+import {
+  fetchReviews,
+  clearReviewsError,
+  sendReviewReply,
+} from "../../store/slices/reviews";
+import { useNavigate } from "react-router-dom";
+import { DashboardReviewCard } from "./DashboardReviewCard";
+import { useToast } from "../../hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const DashboardRecentReviews: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
-  const {
-    reviews,
-    reviewsLoading,
-    reviewsError,
-    replyLoading
-  } = useAppSelector(state => state.reviews);
+  const { reviews, reviewsLoading, reviewsError, replyLoading } =
+    useAppSelector((state) => state.reviews);
+
+  const { t } = useI18nNamespace("Dashboard/dashboardRecentReviews");
 
   // Local state for reply interactions
   const [editingReply, setEditingReply] = useState<string | null>(null);
-  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(
+    null
+  );
 
   // Fetch recent reviews when listing changes
   useEffect(() => {
@@ -33,28 +37,28 @@ export const DashboardRecentReviews: React.FC = () => {
         pagination: {
           page: 1,
           limit: 10,
-          offset: 0
+          offset: 0,
         },
         filters: {
-          search: '',
-          status: 'all',
+          search: "",
+          status: "all",
           dateRange: {
-            startDate: '2018-01-01',
-            endDate: '2025-12-31'
+            startDate: "2018-01-01",
+            endDate: "2025-12-31",
           },
           rating: {
             min: 1,
-            max: 5
+            max: 5,
           },
-          sentiment: 'All',
-          listingId: selectedListing.id
+          sentiment: "All",
+          listingId: selectedListing.id,
         },
         sorting: {
-          sortBy: 'date',
-          sortOrder: 'desc' as const
-        }
+          sortBy: "date",
+          sortOrder: "desc" as const,
+        },
       };
-      
+
       dispatch(fetchReviews(params));
     }
   }, [dispatch, selectedListing?.id]);
@@ -79,32 +83,34 @@ export const DashboardRecentReviews: React.FC = () => {
     if (!replyText || !selectedListing?.id) return;
 
     try {
-      const result = await dispatch(sendReviewReply({
-        reviewId: parseInt(reviewId),
-        replyText,
-        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual',
-        listingId: selectedListing.id
-      }));
+      const result = await dispatch(
+        sendReviewReply({
+          reviewId: parseInt(reviewId),
+          replyText,
+          replyType: showingAIGenerator === reviewId ? "AI" : "manual",
+          listingId: selectedListing.id,
+        })
+      );
 
       if (sendReviewReply.fulfilled.match(result)) {
         toast({
-          title: "Reply Sent",
-          description: "Your reply has been sent successfully."
+          title: t("replySentTitle"),
+          description: t("replySentDescription"),
         });
         setEditingReply(null);
         setShowingAIGenerator(null);
       } else {
         toast({
-          title: "Error",
-          description: "Failed to send reply. Please try again.",
-          variant: "destructive"
+          title: t("replyErrorTitle"),
+          description: t("replyErrorDescription"),
+          variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to send reply. Please try again.",
-        variant: "destructive"
+        title: t("replyErrorTitle"),
+        description: t("replyErrorDescription"),
+        variant: "destructive",
       });
     }
   };
@@ -119,8 +125,12 @@ export const DashboardRecentReviews: React.FC = () => {
         <CardContent className="p-6 text-center">
           <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
           <p className="text-red-600 mb-2 text-sm">{reviewsError}</p>
-          <Button onClick={() => dispatch(clearReviewsError())} variant="outline" size="sm">
-            Try Again
+          <Button
+            onClick={() => dispatch(clearReviewsError())}
+            variant="outline"
+            size="sm"
+          >
+            {t("tryAgainButton")}
           </Button>
         </CardContent>
       </Card>
@@ -131,14 +141,16 @@ export const DashboardRecentReviews: React.FC = () => {
     <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">Recent Reviews</CardTitle>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <CardTitle className="text-lg font-semibold">
+            {t("recentReviewsTitle")}
+          </CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleViewAll}
             className="text-blue-600 border-blue-200 hover:bg-blue-50"
           >
-            View All
+            {t("viewAllButton")}
           </Button>
         </div>
       </CardHeader>
@@ -158,7 +170,7 @@ export const DashboardRecentReviews: React.FC = () => {
         ) : reviews.length === 0 ? (
           <div className="text-center py-6">
             <MessageSquare className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-gray-600 text-sm">No reviews available</p>
+            <p className="text-gray-600 text-sm"> {t("noReviews")} </p>
           </div>
         ) : (
           <div className="space-y-4 max-h-96 overflow-y-auto">

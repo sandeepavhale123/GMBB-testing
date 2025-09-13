@@ -1,0 +1,16 @@
+{
+  "title": "Share Report",
+  "validation": {
+    "selectAtLeastOne": "Please select at least one listing or group"
+  },
+  "errors": {
+    "failed": "Failed to generate report",
+    "failedRetry": "Failed to generate report. Please try again.",
+    "toastTitle": "Error",
+    "toastDescription": "Failed to generate report. Please try again."
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "generate": "Generate Report"
+  }
+}

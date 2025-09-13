@@ -1,0 +1,10 @@
+{
+    "title": "Health Score & Actions",
+    "overallHealthScore": "Overall Health Score",
+    "aiActions": "AI Actions",
+    "manualActions": "Manual Actions",
+    "aiAutoOptimize": "AI Auto-Optimize",
+    "quickWinsTitle": "Quick Wins",
+    "quickWinsDescription": "Recommended actions to improve your profile",
+    "complete": "Complete"
+}

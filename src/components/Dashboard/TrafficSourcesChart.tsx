@@ -2,6 +2,8 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { PieChart as PieChartIcon } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 type TrafficSourcesChartProps = {
   live: number;
   failed: number;
@@ -11,10 +13,11 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
+  const { t } = useI18nNamespace("Dashboard/trafficSourcesChart");
   // console.log("donut values", live, failed);
   const donutChartData = [
-    { name: "Live Posts", value: live, fill: "green" },
-    { name: "Failed Posts", value: failed, fill: "red" },
+    { name: t("livePosts"), value: live, fill: "green" },
+    { name: t("failedPosts"), value: failed, fill: "red" },
   ];
 
   return (
@@ -22,7 +25,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <PieChartIcon className="w-5 h-5" />
-          Activity Summary
+          {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -49,11 +52,11 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>{live} Success posts</span>
+              <span>{t("successPosts", { count: live })}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-              <span>{failed} Failed posts</span>
+              <span>{t("failedCountPosts", { count: failed })}</span>
             </div>
           </div>
         </div>
