@@ -139,15 +139,21 @@ const Dashboard: React.FC = () => {
     }
     
     if (action === 'generate-prospect') {
-      // Create prospect report for the lead
-      createGmbProspectReport.mutate(
-        { leadId: leadId },
-        {
-          onSuccess: (data) => {
-            navigate(`/module/lead/gmb-prospect-report/${data.data.reportId}`);
+      // Find the lead to get its reportId
+      const lead = leads?.find(l => l.id === leadId);
+      if (lead?.reportId) {
+        // Create prospect report for the lead
+        createGmbProspectReport.mutate(
+          { reportId: lead.reportId },
+          {
+            onSuccess: (data) => {
+              navigate(`/module/lead/gmb-prospect-report/${data.data.reportId}`);
+            }
           }
-        }
-      );
+        );
+      } else {
+        toast.error('No report ID found for this lead');
+      }
     }
     
     // Handle other actions here

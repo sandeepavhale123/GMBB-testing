@@ -467,7 +467,7 @@ export const useGetCitationAuditReport = (reportId: string) => {
 
 // GMB Prospect Report API interfaces
 export interface CreateGmbProspectReportRequest {
-  leadId: string;
+  reportId: string;
 }
 
 export interface CreateGmbProspectReportResponse {
