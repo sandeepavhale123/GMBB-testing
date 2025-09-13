@@ -295,6 +295,15 @@ export const GmbHealthReport: React.FC = () => {
                   <div className="font-medium">{reportData.businessInfo.phoneNumber || 'Phone number is missing'}</div>
                 </div>
               </div>
+              <div className={`${reportData.businessInfo.category ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
+                <div className={`w-10 h-10 ${reportData.businessInfo.category ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
+                  <Users className={`h-5 w-5 ${reportData.businessInfo.category ? 'text-green-600' : 'text-red-600'}`} />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground">Category</div>
+                  <div className="font-medium">{reportData.businessInfo.category || 'Category is missing'}</div>
+                </div>
+              </div>
               <div className={`${reportData.businessInfo.address ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
                 <div className={`w-10 h-10 ${reportData.businessInfo.address ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
                   <MapPin className={`h-5 w-5 ${reportData.businessInfo.address ? 'text-green-600' : 'text-red-600'}`} />
@@ -310,16 +319,20 @@ export const GmbHealthReport: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Website</div>
-                  <div className="font-medium">{reportData.businessInfo.website || 'Website is missing'}</div>
-                </div>
-              </div>
-              <div className={`${reportData.businessInfo.category ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
-                <div className={`w-10 h-10 ${reportData.businessInfo.category ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
-                  <Users className={`h-5 w-5 ${reportData.businessInfo.category ? 'text-green-600' : 'text-red-600'}`} />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Category</div>
-                  <div className="font-medium">{reportData.businessInfo.category || 'Category is missing'}</div>
+                  <div className="font-medium">
+                    {reportData.businessInfo.website ? (
+                      <a 
+                        href={reportData.businessInfo.website.startsWith('http') ? reportData.businessInfo.website : `https://${reportData.businessInfo.website}`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        {reportData.businessInfo.website}
+                      </a>
+                    ) : (
+                      'Website is missing'
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
