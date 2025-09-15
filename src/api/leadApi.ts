@@ -226,7 +226,7 @@ export const useCreateGmbHealthReport = () => {
 
 // GEO Report API interfaces
 export interface CreateGeoReportRequest {
-  reportId: string;
+  report_id: string;
   keywords: string;
   distanceValue: number;
   gridSize: number;

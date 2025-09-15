@@ -77,7 +77,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
 
   const onSubmit = async (data: GeoRankingFormData) => {
     const payload = {
-      reportId: leadId,
+      report_id: leadId,
       keywords: data.keywords,
       distanceValue: data.distanceValue,
       gridSize: data.gridSize,
