@@ -18,6 +18,7 @@ import { AddLeadModal } from "../components/AddLeadModal";
 import { LeadTableFilters } from "../components/LeadTableFilters";
 import { LeadsTable, Lead } from "../components/LeadsTable";
 import { CitationAuditModal } from "../components/CitationAuditModal";
+import { GeoRankingModal } from "../components/GeoRankingModal";
 import { 
   Pagination,
   PaginationContent,
@@ -28,7 +29,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary } from "@/api/leadApi";
+import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport } from "@/api/leadApi";
 import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
@@ -76,11 +77,13 @@ const Dashboard: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [citationModalOpen, setCitationModalOpen] = useState(false);
+  const [geoModalOpen, setGeoModalOpen] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string>("");
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
+  const createGeoReport = useCreateGeoReport();
 
   // API integration
   const { 
@@ -149,6 +152,11 @@ const Dashboard: React.FC = () => {
       setSelectedLeadId(leadId);
       setCitationModalOpen(true);
     }
+
+    if (action === 'generate-geo') {
+      setSelectedLeadId(leadId);
+      setGeoModalOpen(true);
+    }
     
     if (action === 'generate-prospect') {
       // Find the lead to get its reportId
@@ -175,6 +183,13 @@ const Dashboard: React.FC = () => {
     setCitationModalOpen(false);
     setSelectedLeadId("");
     // Optionally refetch leads to update citation report status
+    refetch();
+  };
+
+  const handleGeoModalClose = () => {
+    setGeoModalOpen(false);
+    setSelectedLeadId("");
+    // Optionally refetch leads to update geo report status
     refetch();
   };
 
@@ -297,7 +312,7 @@ const Dashboard: React.FC = () => {
             onSelectLead={handleSelectLead}
             onSelectAll={handleSelectAll}
             onAction={handleAction}
-            isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending}
+            isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending}
           />
 
           {totalPages > 1 && (
@@ -389,6 +404,13 @@ const Dashboard: React.FC = () => {
       <CitationAuditModal
         open={citationModalOpen}
         onClose={handleCitationModalClose}
+        leadId={selectedLeadId}
+      />
+
+      {/* GEO Ranking Modal */}
+      <GeoRankingModal
+        open={geoModalOpen}
+        onClose={handleGeoModalClose}
         leadId={selectedLeadId}
       />
     </div>

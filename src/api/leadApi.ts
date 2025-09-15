@@ -224,6 +224,42 @@ export const useCreateGmbHealthReport = () => {
   });
 };
 
+// GEO Report API interfaces
+export interface CreateGeoReportRequest {
+  reportId: string;
+  keywords: string;
+  distanceValue: number;
+  gridSize: number;
+}
+
+export interface CreateGeoReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    reportUrl: string;
+  };
+}
+
+// GEO Report API function
+export const createGeoReport = async (params: CreateGeoReportRequest): Promise<CreateGeoReportResponse> => {
+  const response = await apiClient.post<CreateGeoReportResponse>('/lead/create-geo-report', params);
+  return response.data;
+};
+
+// GEO Report React Query hook
+export const useCreateGeoReport = () => {
+  return useMutation({
+    mutationFn: createGeoReport,
+    onSuccess: (data) => {
+      toast.success('GEO Ranking report created successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create GEO ranking report');
+    },
+  });
+};
+
 // Get GMB Health Report API interfaces
 export interface GetGmbHealthReportRequest {
   reportId: string;
