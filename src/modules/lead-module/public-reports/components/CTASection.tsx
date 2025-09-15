@@ -80,7 +80,12 @@ export const CTASection: React.FC<CTASectionProps> = ({ settings: overrideSettin
             <Button 
               variant="secondary" 
               size="lg"
-              className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+              className="font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+              style={{ 
+                backgroundColor: settings.textColor, 
+                color: settings.backgroundColor,
+                borderColor: settings.backgroundColor
+              }}
             >
               {settings.buttonLabel}
             </Button>
@@ -89,7 +94,12 @@ export const CTASection: React.FC<CTASectionProps> = ({ settings: overrideSettin
           <Button 
             variant="secondary" 
             size="lg"
-            className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+            className="font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+            style={{ 
+              backgroundColor: settings.textColor, 
+              color: settings.backgroundColor,
+              borderColor: settings.backgroundColor
+            }}
             onClick={handleButtonClick}
           >
             {settings.buttonLabel}
