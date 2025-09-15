@@ -1,9 +1,15 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { DateRangePicker } from '../ui/date-range-picker';
-import { DateRange } from 'react-day-picker';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { DateRangePicker } from "../ui/date-range-picker";
+import { DateRange } from "react-day-picker";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CustomPeriodModalProps {
   isOpen: boolean;
@@ -18,7 +24,10 @@ export const CustomPeriodModal: React.FC<CustomPeriodModalProps> = ({
   onSubmit,
   initialDateRange,
 }) => {
-  const [selectedDateRange, setSelectedDateRange] = useState<DateRange | undefined>(initialDateRange);
+  const { t } = useI18nNamespace("Insights/customPeriodModal");
+  const [selectedDateRange, setSelectedDateRange] = useState<
+    DateRange | undefined
+  >(initialDateRange);
 
   const handleSubmit = () => {
     onSubmit(selectedDateRange);
@@ -34,27 +43,27 @@ export const CustomPeriodModal: React.FC<CustomPeriodModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Select Custom Period</DialogTitle>
+          <DialogTitle>{t("customPeriodModal.title")}</DialogTitle>
         </DialogHeader>
-        
+
         <div className="py-4">
           <DateRangePicker
             date={selectedDateRange}
             onDateChange={setSelectedDateRange}
-            placeholder="Select date range"
+            placeholder={t("customPeriodModal.dateRangePlaceholder")}
             className="w-full"
           />
         </div>
 
         <DialogFooter className="flex gap-2">
           <Button variant="outline" onClick={handleClose}>
-            Cancel
+            {t("customPeriodModal.cancel")}
           </Button>
-          <Button 
+          <Button
             onClick={handleSubmit}
             disabled={!selectedDateRange?.from || !selectedDateRange?.to}
           >
-            Submit
+            {t("customPeriodModal.submit")}
           </Button>
         </DialogFooter>
       </DialogContent>

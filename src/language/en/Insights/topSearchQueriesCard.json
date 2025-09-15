@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesCard": {
+    "title": "Top Search Queries",
+    "description": "Most popular search terms that led customers to your business",
+    "impressions": "{{count}} impressions",
+    "clicks": "{{count}} clicks",
+    "ctr": "{{percent}}% CTR",
+    "rank": "#{{rank}}"
+  }
+}

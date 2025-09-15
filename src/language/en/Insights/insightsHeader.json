@@ -1,0 +1,20 @@
+{
+  "insightsHeader": {
+    "title": "GMB Insights",
+    "subtitle": "Performance analytics for your Google Business Profile.",
+    "selectDateRange": "Select date range",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "last6Months": "Last 6 Months",
+    "last9Months": "Last 9 Months",
+    "last12Months": "Last 12 Months",
+    "customPeriod": "Custom Period",
+    "fromTo": "From: {{from}} - To: {{to}}",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing...",
+    "loading": "Loading...",
+    "exportImage": "Export Image",
+    "exporting": "Exporting..."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesWithAPI": {
+    "title": "Top Search Queries",
+    "description": "Most popular search terms that led customers to your business.",
+    "selectMonthPlaceholder": "Select month",
+    "loadingErrorTitle": "Failed to load search queries",
+    "noDataMessage": "No search keyword available.",
+    "impressionBelowThreshold": "< 15"
+  }
+}

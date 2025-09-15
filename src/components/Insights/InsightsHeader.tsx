@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { RefreshCw, Image } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
 import { CustomPeriodModal } from "./CustomPeriodModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface InsightsHeaderProps {
   dateRange: string;
   customDateRange: DateRange | undefined;
@@ -29,8 +36,9 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   onDateRangeChange,
   onCustomDateRangeChange,
   onRefresh,
-  onExportImage
+  onExportImage,
 }) => {
+  const { t } = useI18nNamespace("Insights/insightsHeader");
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const handleDateRangeChange = (value: string) => {
     if (value === "custom") {
@@ -39,7 +47,9 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
       onDateRangeChange(value);
     }
   };
-  const handleCustomPeriodSubmit = (selectedDateRange: DateRange | undefined) => {
+  const handleCustomPeriodSubmit = (
+    selectedDateRange: DateRange | undefined
+  ) => {
     if (selectedDateRange) {
       onCustomDateRangeChange(selectedDateRange);
       onDateRangeChange("custom");
@@ -48,11 +58,18 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   const getDateRangeLabel = () => {
     if (dateRange === "custom" && customDateRange?.from) {
       const fromDate = format(customDateRange.from, "dd MMM yyyy");
-      const toDate = customDateRange.to ? format(customDateRange.to, "dd MMM yyyy") : fromDate;
-      return `From: ${fromDate} - To: ${toDate}`;
+      const toDate = customDateRange.to
+        ? format(customDateRange.to, "dd MMM yyyy")
+        : fromDate;
+      return t("insightsHeader.fromTo", { from: fromDate, to: toDate });
+
+      // `From: ${fromDate} - To: ${toDate}`;
     }
     if (summary?.timeframe) {
-      return `From: ${format(new Date(summary.timeframe.start_date), "dd MMM yyyy")} - To: ${format(new Date(summary.timeframe.end_date), "dd MMM yyyy")}`;
+      return `From: ${format(
+        new Date(summary.timeframe.start_date),
+        "dd MMM yyyy"
+      )} - To: ${format(new Date(summary.timeframe.end_date), "dd MMM yyyy")}`;
     }
     const today = new Date();
     let startDate: Date;
@@ -64,25 +81,45 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
         startDate = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
         break;
       case "180":
-        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 6,
+          today.getDate()
+        );
         break;
       case "270":
-        startDate = new Date(today.getFullYear(), today.getMonth() - 9, today.getDate());
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 9,
+          today.getDate()
+        );
         break;
       case "365":
-        startDate = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 12,
+          today.getDate()
+        );
         break;
       default:
         // 30 days
         startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
-    return `From: ${format(startDate, "dd MMM yyyy")} - To: ${format(today, "dd MMM yyyy")}`;
+    return `From: ${format(startDate, "dd MMM yyyy")} - To: ${format(
+      today,
+      "dd MMM yyyy"
+    )}`;
   };
-  return <>
+  return (
+    <>
       <div className="flex flex-col xl:flex-row xl:items-center lg:justify-between gap-4">
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900">GMB Insights</h1>
-          <p className="text-sm text-gray-600">Performance analytics for your Google Business Profile.</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {t("insightsHeader.title")}
+          </h1>
+          <p className="text-sm text-gray-600">
+            {t("insightsHeader.subtitle")}
+          </p>
         </div>
 
         <div className="flex-shrink-0">
@@ -94,31 +131,69 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
         <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
           <Select value={dateRange} onValueChange={handleDateRangeChange}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Select date range" />
+              <SelectValue placeholder={t("insightsHeader.selectDateRange")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 Days</SelectItem>
-              <SelectItem value="30">Last 30 Days</SelectItem>
-              <SelectItem value="90">Last 90 Days</SelectItem>
-              <SelectItem value="180">Last 6 Months</SelectItem>
-              <SelectItem value="270">Last 9 Months</SelectItem>
-              <SelectItem value="365">Last 12 Months</SelectItem>
-              <SelectItem value="custom">Custom Period</SelectItem>
+              <SelectItem value="7">{t("insightsHeader.last7Days")}</SelectItem>
+              <SelectItem value="30">
+                {t("insightsHeader.last30Days")}
+              </SelectItem>
+              <SelectItem value="90">
+                {t("insightsHeader.last90Days")}
+              </SelectItem>
+              <SelectItem value="180">
+                {t("insightsHeader.last6Months")}
+              </SelectItem>
+              <SelectItem value="270">
+                {t("insightsHeader.last9Months")}
+              </SelectItem>
+              <SelectItem value="365">
+                {t("insightsHeader.last12Months")}
+              </SelectItem>
+              <SelectItem value="custom">
+                {t("insightsHeader.customPeriod")}
+              </SelectItem>
             </SelectContent>
           </Select>
 
-          <Button variant="outline" className="w-full sm:w-auto" onClick={onRefresh} disabled={isLoading || isRefreshing}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading || isRefreshing ? "animate-spin" : ""}`} />
-            {isRefreshing ? "Refreshing..." : isLoading ? "Loading..." : "Refresh"}
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={onRefresh}
+            disabled={isLoading || isRefreshing}
+          >
+            <RefreshCw
+              className={`w-4 h-4 mr-2 ${
+                isLoading || isRefreshing ? "animate-spin" : ""
+              }`}
+            />
+            {isRefreshing
+              ? t("insightsHeader.refreshing")
+              : isLoading
+              ? t("insightsHeader.loading")
+              : t("insightsHeader.refresh")}
           </Button>
 
-          <Button variant="outline" disabled={isExporting} onClick={onExportImage} className="w-full sm:w-auto hidden">
+          <Button
+            variant="outline"
+            disabled={isExporting}
+            onClick={onExportImage}
+            className="w-full sm:w-auto hidden"
+          >
             <Image className="w-4 h-4 mr-2" />
-            {isExporting ? "Exporting..." : "Export Image"}
+            {isExporting
+              ? t("insightsHeader.exporting")
+              : t("insightsHeader.exportImage")}
           </Button>
         </div>
       </div>
 
-      <CustomPeriodModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} onSubmit={handleCustomPeriodSubmit} initialDateRange={customDateRange} />
-    </>;
+      <CustomPeriodModal
+        isOpen={isCustomModalOpen}
+        onClose={() => setIsCustomModalOpen(false)}
+        onSubmit={handleCustomPeriodSubmit}
+        initialDateRange={customDateRange}
+      />
+    </>
+  );
 };
