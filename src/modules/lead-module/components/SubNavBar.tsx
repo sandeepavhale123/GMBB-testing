@@ -35,7 +35,10 @@ export const SubNavBar: React.FC = () => {
         <div className="flex items-center justify-end md:justify-end gap-1 md:gap-6 flex-wrap">
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
-            const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+            // Special handling for Settings to include nested routes
+            const isActive = item.path === '/module/lead/settings' 
+              ? location.pathname.startsWith('/module/lead/settings')
+              : location.pathname === item.path;
             
             return (
               <NavLink
