@@ -154,8 +154,14 @@ const Dashboard: React.FC = () => {
     }
 
     if (action === 'generate-geo') {
-      setSelectedLeadId(leadId);
-      setGeoModalOpen(true);
+      // Find the lead to get its reportId
+      const lead = leads.find(l => l.id === leadId);
+      if (lead?.reportId) {
+        setSelectedLeadId(lead.reportId);
+        setGeoModalOpen(true);
+      } else {
+        toast.error('Report ID not found for this lead');
+      }
     }
     
     if (action === 'generate-prospect') {
