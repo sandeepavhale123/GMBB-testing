@@ -11,7 +11,7 @@ interface TopHeaderProps {
     company_phone?: string;
     company_address?: string;
   } | null;
-  reportType?: 'gmb-health' | 'citation' | 'prospect';
+  reportType?: 'gmb-health' | 'citation' | 'prospect' | 'geo-ranking';
   reportTitle?: string;
 }
 

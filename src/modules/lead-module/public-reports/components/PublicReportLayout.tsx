@@ -21,7 +21,7 @@ interface PublicReportLayoutProps {
     company_address?: string;
   } | null;
   reportId?: string;
-  reportType?: 'gmb-health' | 'citation' | 'prospect';
+  reportType?: 'gmb-health' | 'citation' | 'prospect' | 'geo-ranking';
 }
 
 export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({

@@ -12,6 +12,7 @@ import { ShareableGEORankingReport } from "@/modules/GEO-Ranking/sharable-report
 import { GmbHealthReport } from "@/modules/lead-module/public-reports/pages/GmbHealthReport";
 import { GmbProspectReport } from "@/modules/lead-module/public-reports/pages/GmbProspectReport";
 import { CitationAuditReport } from "@/modules/lead-module/public-reports/pages/CitationAuditReport";
+import { LeadGeoRankingReport } from "@/modules/lead-module/public-reports/pages/LeadGeoRankingReport";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -107,6 +108,14 @@ export const publicReportRoutes: RouteConfig[] = [
     element: (
       <ThemePreloader loadFromAPI={true}>
         <CitationAuditReport />
+      </ThemePreloader>
+    ),
+  },
+  {
+    path: "/lead/geo/:reportId",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <LeadGeoRankingReport />
       </ThemePreloader>
     ),
   },

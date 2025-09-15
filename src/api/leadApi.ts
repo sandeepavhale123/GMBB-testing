@@ -631,3 +631,70 @@ export const useGetGmbProspectReport = (reportId: string) => {
     retry: 2,
   });
 };
+
+// ============= GEO Report API =============
+
+export interface CreateLeadGeoReportRequest {
+  reportId: string;
+  keywords: string;
+  distanceValue: number;
+  gridSize: number;
+}
+
+export interface CreateLeadGeoReportResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    reportId: string;
+  };
+}
+
+export interface GetLeadGeoReportRequest {
+  reportId: string;
+}
+
+export interface GetLeadGeoReportResponse {
+  success: boolean;
+  data: {
+    keywords: Array<{
+      id: string;
+      keyword: string;
+      date: string;
+    }>;
+    projectName: string;
+  };
+}
+
+// GEO Report API functions
+export const createLeadGeoReport = async (params: CreateLeadGeoReportRequest): Promise<CreateLeadGeoReportResponse> => {
+  const response = await apiClient.post<CreateLeadGeoReportResponse>('/lead/create-geo-report', params);
+  return response.data;
+};
+
+export const getLeadGeoReport = async (params: GetLeadGeoReportRequest): Promise<GetLeadGeoReportResponse> => {
+  const response = await apiClient.post<GetLeadGeoReportResponse>('/lead/get-geo-report', params);
+  return response.data;
+};
+
+// GEO Report React Query hooks
+export const useCreateLeadGeoReport = () => {
+  return useMutation({
+    mutationFn: createLeadGeoReport,
+    onSuccess: (data) => {
+      toast.success('GEO Ranking report created successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create GEO Ranking report');
+    },
+  });
+};
+
+export const useGetLeadGeoReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ['lead-geo-report', reportId],
+    queryFn: () => getLeadGeoReport({ reportId }),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
