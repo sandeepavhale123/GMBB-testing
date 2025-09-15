@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ZodSchema, ZodError } from "zod";
 
 interface ValidationResult<T> {
@@ -12,7 +12,7 @@ export const useFormValidation = <T extends Record<string, any>>(
 ) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validate = (data: T): ValidationResult<T> => {
+  const validate = useCallback((data: T): ValidationResult<T> => {
     const result = schema.safeParse(data);
 
     if (result.success) {
@@ -36,27 +36,27 @@ export const useFormValidation = <T extends Record<string, any>>(
         errors: fieldErrors,
       };
     }
-  };
+  }, [schema]);
 
-  const getFieldError = (field: string) => {
+  const getFieldError = useCallback((field: string) => {
     return errors[field] || "";
-  };
+  }, [errors]);
 
-  const hasFieldError = (field: string) => {
+  const hasFieldError = useCallback((field: string) => {
     return !!errors[field];
-  };
+  }, [errors]);
 
-  const clearErrors = () => {
+  const clearErrors = useCallback(() => {
     setErrors({});
-  };
+  }, []);
 
-  const clearFieldError = (field: string) => {
+  const clearFieldError = useCallback((field: string) => {
     setErrors((prev) => {
       const updated = { ...prev };
       delete updated[field];
       return updated;
     });
-  };
+  }, []);
 
   return {
     validate,

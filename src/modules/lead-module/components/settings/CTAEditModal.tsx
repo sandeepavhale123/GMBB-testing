@@ -49,7 +49,8 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
       setFormData(settingsWithDefaults);
       clearErrors();
     }
-  }, [isOpen, clearErrors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const handleInputChange = (field: keyof CTASettings, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -107,7 +108,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Input
               id="header"
               autoFocus
-              value={formData.header}
+              value={formData.header ?? ""}
               onChange={(e) => handleInputChange("header", e.target.value)}
               placeholder="Enter CTA header text"
               className={hasFieldError("header") ? "border-destructive" : ""}
@@ -122,7 +123,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Label htmlFor="description">CTA Description</Label>
             <Textarea
               id="description"
-              value={formData.description}
+              value={formData.description ?? ""}
               onChange={(e) => handleInputChange("description", e.target.value)}
               placeholder="Enter CTA description text"
               className={hasFieldError("description") ? "border-destructive" : ""}
@@ -138,7 +139,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Label htmlFor="buttonLabel">Button Label</Label>
             <Input
               id="buttonLabel"
-              value={formData.buttonLabel}
+              value={formData.buttonLabel ?? ""}
               onChange={(e) => handleInputChange("buttonLabel", e.target.value)}
               placeholder="Enter button text"
               className={hasFieldError("buttonLabel") ? "border-destructive" : ""}
@@ -153,8 +154,8 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Label htmlFor="buttonLink">Button Link (Optional)</Label>
             <Input
               id="buttonLink"
-              type="url"
-              value={formData.buttonLink}
+              type="text"
+              value={formData.buttonLink ?? ""}
               onChange={(e) => handleInputChange("buttonLink", e.target.value)}
               placeholder="https://example.com or #contact"
               className={hasFieldError("buttonLink") ? "border-destructive" : ""}
@@ -174,9 +175,9 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
               <Input
                 id="backgroundColor"
                 type="color"
-                value={formData.backgroundColor}
+                value={formData.backgroundColor ?? "#3B82F6"}
                 onChange={(e) => handleInputChange("backgroundColor", e.target.value)}
-                className={hasFieldError("backgroundColor") ? "border-destructive h-10" : "h-10"}
+                className={hasFieldError("backgroundColor") ? "border-destructive h-10 cursor-pointer" : "h-10 cursor-pointer"}
               />
               {hasFieldError("backgroundColor") && (
                 <p className="text-sm text-destructive">{getFieldError("backgroundColor")}</p>
@@ -188,9 +189,9 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
               <Input
                 id="textColor"
                 type="color"
-                value={formData.textColor}
+                value={formData.textColor ?? "#FFFFFF"}
                 onChange={(e) => handleInputChange("textColor", e.target.value)}
-                className={hasFieldError("textColor") ? "border-destructive h-10" : "h-10"}
+                className={hasFieldError("textColor") ? "border-destructive h-10 cursor-pointer" : "h-10 cursor-pointer"}
               />
               {hasFieldError("textColor") && (
                 <p className="text-sm text-destructive">{getFieldError("textColor")}</p>
