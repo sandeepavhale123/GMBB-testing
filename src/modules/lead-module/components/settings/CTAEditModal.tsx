@@ -91,7 +91,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Edit CTA Section</DialogTitle>
@@ -106,6 +106,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Label htmlFor="header">CTA Header</Label>
             <Input
               id="header"
+              autoFocus
               value={formData.header}
               onChange={(e) => handleInputChange("header", e.target.value)}
               placeholder="Enter CTA header text"
