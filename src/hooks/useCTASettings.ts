@@ -6,6 +6,8 @@ export const ctaSettingsSchema = z.object({
   description: z.string().min(1, "Description is required").max(500, "Description must be less than 500 characters"),
   buttonLabel: z.string().min(1, "Button label is required").max(50, "Button label must be less than 50 characters"),
   buttonLink: z.string().url("Please enter a valid URL").or(z.literal("")),
+  backgroundColor: z.string().min(1, "Background color is required"),
+  textColor: z.string().min(1, "Text color is required"),
 });
 
 export type CTASettings = z.infer<typeof ctaSettingsSchema>;
@@ -15,6 +17,8 @@ const DEFAULT_CTA_SETTINGS: CTASettings = {
   description: "Let's work together to boost your Google My Business score and increase your local visibility. Our team of experts will help you implement all the recommendations from this audit and create a comprehensive local SEO strategy tailored to your business.",
   buttonLabel: "Let's Work Together",
   buttonLink: "#contact",
+  backgroundColor: "#3B82F6",
+  textColor: "#FFFFFF",
 };
 
 const CTA_SETTINGS_KEY = "lead-module-cta-settings";

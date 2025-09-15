@@ -156,6 +156,37 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
               Enter a full URL (https://...) or leave empty for no link
             </p>
           </div>
+
+          {/* Color Settings */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="backgroundColor">Background Color</Label>
+              <Input
+                id="backgroundColor"
+                type="color"
+                value={formData.backgroundColor}
+                onChange={(e) => handleInputChange("backgroundColor", e.target.value)}
+                className={hasFieldError("backgroundColor") ? "border-destructive h-10" : "h-10"}
+              />
+              {hasFieldError("backgroundColor") && (
+                <p className="text-sm text-destructive">{getFieldError("backgroundColor")}</p>
+              )}
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="textColor">Text Color</Label>
+              <Input
+                id="textColor"
+                type="color"
+                value={formData.textColor}
+                onChange={(e) => handleInputChange("textColor", e.target.value)}
+                className={hasFieldError("textColor") ? "border-destructive h-10" : "h-10"}
+              />
+              {hasFieldError("textColor") && (
+                <p className="text-sm text-destructive">{getFieldError("textColor")}</p>
+              )}
+            </div>
+          </div>
         </div>
 
         <DialogFooter>

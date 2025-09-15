@@ -8,6 +8,8 @@ interface CTASectionProps {
     description?: string;
     buttonLabel?: string;
     buttonLink?: string;
+    backgroundColor?: string;
+    textColor?: string;
   };
   isPreview?: boolean;
 }
@@ -21,6 +23,8 @@ export const CTASection: React.FC<CTASectionProps> = ({ settings: overrideSettin
     description: overrideSettings?.description ?? storedSettings.description,
     buttonLabel: overrideSettings?.buttonLabel ?? storedSettings.buttonLabel,
     buttonLink: overrideSettings?.buttonLink ?? storedSettings.buttonLink,
+    backgroundColor: overrideSettings?.backgroundColor ?? storedSettings.backgroundColor,
+    textColor: overrideSettings?.textColor ?? storedSettings.textColor,
   };
 
   const handleButtonClick = (e: React.MouseEvent) => {
@@ -41,11 +45,20 @@ export const CTASection: React.FC<CTASectionProps> = ({ settings: overrideSettin
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-8 rounded-lg my-8 relative overflow-hidden">
+    <div 
+      className="p-8 rounded-lg my-8 relative overflow-hidden"
+      style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
+    >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 right-4 w-32 h-32 border border-white/20 rounded-full"></div>
-        <div className="absolute bottom-4 left-4 w-24 h-24 border border-white/20 rounded-full"></div>
+        <div 
+          className="absolute top-4 right-4 w-32 h-32 border rounded-full"
+          style={{ borderColor: `${settings.textColor}33` }}
+        ></div>
+        <div 
+          className="absolute bottom-4 left-4 w-24 h-24 border rounded-full"
+          style={{ borderColor: `${settings.textColor}33` }}
+        ></div>
       </div>
       
       <div className="text-center max-w-4xl mx-auto relative z-10">
