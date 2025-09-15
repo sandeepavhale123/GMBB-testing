@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { 
-  Users, 
   Palette, 
   FileText, 
   Settings,
@@ -19,11 +18,6 @@ interface SettingsNavItem {
 }
 
 const settingsNavItems: SettingsNavItem[] = [
-  {
-    label: 'Team Members',
-    path: '/module/lead/settings/team-members',
-    icon: Users
-  },
   {
     label: 'Theme Customization',
     path: '/module/lead/settings/theme-customization',
@@ -55,11 +49,7 @@ export const LeadSettingsLayout: React.FC = () => {
     const currentPath = location.pathname;
     
     if (currentPath === '/module/lead/settings') {
-      return '/module/lead/settings/team-members';
-    }
-    
-    if (currentPath.includes('/team-members/edit/')) {
-      return '/module/lead/settings/team-members';
+      return '/module/lead/settings/theme-customization';
     }
     
     return currentPath;
