@@ -23,6 +23,7 @@ import {
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PostsContentProps {
   posts: Post[];
@@ -47,6 +48,7 @@ export const PostsContent: React.FC<PostsContentProps> = ({
   onPageChange,
   onClonePost,
 }) => {
+  const { t } = useI18nNamespace("Post/postsContent");
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
@@ -77,9 +79,8 @@ export const PostsContent: React.FC<PostsContentProps> = ({
 
     if (!listingId) {
       toast({
-        title: "Error",
-        description:
-          "No business listing selected. Please select a listing first.",
+        title: t("toast.error"),
+        description: t("toast.noListingDesc"),
         variant: "destructive",
       });
       return;
@@ -87,8 +88,8 @@ export const PostsContent: React.FC<PostsContentProps> = ({
 
     if (selectedPosts.size === 0) {
       toast({
-        title: "No Posts Selected",
-        description: "Please select posts to delete.",
+        title: t("toast.noPostsTitle"),
+        description: t("toast.noPostsDesc"),
         variant: "destructive",
       });
       return;
@@ -108,10 +109,11 @@ export const PostsContent: React.FC<PostsContentProps> = ({
       ).unwrap();
 
       toast({
-        title: "Posts Deleted",
-        description: `${selectedPosts.size} post${
-          selectedPosts.size > 1 ? "s" : ""
-        } have been successfully deleted.`,
+        title: t("toast.postsDeletedTitle"),
+        description: t("toast.postsDeletedDesc", {
+          count: selectedPosts.size,
+          plural: selectedPosts.size > 1 ? "s" : "",
+        }),
       });
 
       // Reset selection and exit selection mode
@@ -129,11 +131,11 @@ export const PostsContent: React.FC<PostsContentProps> = ({
     } catch (error) {
       console.error("Error deleting posts:", error);
       toast({
-        title: "Failed to Delete Posts",
+        title: t("toast.deleteFailedTitle"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "An unexpected error occurred. Please try again.",
+            : t("toast.deleteFailedDesc"),
         variant: "destructive",
       });
     }
@@ -143,7 +145,7 @@ export const PostsContent: React.FC<PostsContentProps> = ({
   React.useEffect(() => {
     if (deleteError) {
       toast({
-        title: "Error",
+        title: t("toast.error"),
         description: deleteError,
         variant: "destructive",
       });
@@ -160,21 +162,21 @@ export const PostsContent: React.FC<PostsContentProps> = ({
       {/* Single Row Layout: Total Posts Count and Selection Controls */}
       <div className="flex items-center justify-between mb-4">
         <div className="text-md">
-          Total Posts: {pagination.totalPosts}
+          {t("totalPosts", { count: pagination.totalPosts })}
           {hasActiveFilters && " (filtered)"}
         </div>
 
         <div className="flex items-center gap-4">
           <Button variant="outline" onClick={toggleSelectionMode} size="sm">
-            {isSelectionMode ? "Cancel Selection" : "Select Posts"}
+            {isSelectionMode ? t("cancelSelection") : t("selectPosts")}
           </Button>
 
           {isSelectionMode && (
             <>
               <Button variant="outline" onClick={handleSelectAll} size="sm">
                 {selectedPosts.size === posts.length
-                  ? "Deselect All"
-                  : "Select All"}
+                  ? t("deselectAll")
+                  : t("selectAll")}
               </Button>
 
               {selectedPosts.size > 0 && (
@@ -191,26 +193,34 @@ export const PostsContent: React.FC<PostsContentProps> = ({
                         <Trash2 className="w-4 h-4 mr-2" />
                       )}
                       {deleteLoading
-                        ? "Deleting..."
-                        : `Delete Selected (${selectedPosts.size})`}
+                        ? t("deleting")
+                        : t("deleteSelected", {
+                            count: selectedPosts.size,
+                          })}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete Posts</AlertDialogTitle>
+                      <AlertDialogTitle>
+                        {t("deletePostsTitle")}
+                      </AlertDialogTitle>
                       <AlertDialogDescription>
-                        Are you sure you want to delete {selectedPosts.size}{" "}
+                        {t("deletePostsDescription", {
+                          count: selectedPosts.size,
+                          plural: selectedPosts.size > 1 ? "s" : "",
+                        })}
+                        {/* Are you sure you want to delete {selectedPosts.size}{" "}
                         selected post{selectedPosts.size > 1 ? "s" : ""}? This
-                        action cannot be undone.
+                        action cannot be undone. */}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDeleteSelected}
                         disabled={deleteLoading}
                       >
-                        {deleteLoading ? "Deleting..." : "Delete"}
+                        {deleteLoading ? t("deleting") : t("delete")}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -258,11 +268,15 @@ export const PostsContent: React.FC<PostsContentProps> = ({
             onClick={() => onPageChange(pagination.currentPage - 1)}
             disabled={!pagination.hasPrevious}
           >
-            Previous
+            {t("previous")}
           </Button>
 
           <span className="text-sm text-gray-600">
-            Page {pagination.currentPage} of {pagination.totalPages}
+            {t("pageInfo", {
+              current: pagination.currentPage,
+              toatl: pagination.totalPages,
+            })}
+            {/* Page {pagination.currentPage} of {pagination.totalPages} */}
           </span>
 
           <Button
@@ -271,7 +285,7 @@ export const PostsContent: React.FC<PostsContentProps> = ({
             onClick={() => onPageChange(pagination.currentPage + 1)}
             disabled={!pagination.hasNext}
           >
-            Next
+            {t("next")}
           </Button>
         </div>
       )}

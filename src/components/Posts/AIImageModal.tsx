@@ -14,6 +14,7 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { generateAIImage } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIImageModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
   onClose,
   onSelect,
 }) => {
+  const { t } = useI18nNamespace("Post/aiImageModal");
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     prompt: "",
@@ -39,8 +41,8 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
   const handleGenerate = async () => {
     if (!formData.prompt.trim()) {
       toast({
-        title: "Error",
-        description: "Please enter a prompt to generate images.",
+        title: t("toast.errorTitle"),
+        description: t("toast.errorDescription"),
         variant: "destructive",
       });
       return;
@@ -62,8 +64,10 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
         setGeneratedImages(imageUrls);
 
         toast({
-          title: "Success",
-          description: `Generated ${imageUrls.length} image(s) successfully.`,
+          title: t("toast.successTitle"),
+          description: t("toast.successDescription", {
+            count: imageUrls.length,
+          }),
         });
       } else {
         throw new Error(response.message || "Failed to generate images");
@@ -71,11 +75,11 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
     } catch (error) {
       console.error("AI Image generation error:", error);
       toast({
-        title: "Error",
+        title: t("toast.failedTitle"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to generate images. Please try again.",
+          t("toast.failedDescription"),
         variant: "destructive",
       });
     } finally {
@@ -105,7 +109,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center text-lg sm:text-xl">
             <Wand2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-            GMB Genie Image Generator
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -117,7 +121,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                 htmlFor="image-prompt"
                 className="text-sm font-medium mb-2 block"
               >
-                Image Title / Prompt
+                {t("form.prompt")}
               </Label>
               <Textarea
                 id="image-prompt"
@@ -128,7 +132,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                     prompt: e.target.value,
                   }))
                 }
-                placeholder="Describe the image you want to generate..."
+                placeholder={t("form.promptPlaceholder")}
                 className="text-sm sm:text-base min-h-[80px]"
                 rows={3}
               />
@@ -137,7 +141,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label className="text-sm font-medium mb-2 block">
-                  Number of Variants
+                  {t("form.variants")}
                 </Label>
                 <Select
                   value={formData.variants}
@@ -160,7 +164,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
 
               <div>
                 <Label className="text-sm font-medium mb-2 block">
-                  Image Style (Optional)
+                  {t("form.style")}
                 </Label>
                 <Select
                   value={formData.style}
@@ -172,14 +176,20 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose style" />
+                    <SelectValue placeholder={t("form.stylePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="flat">Flat</SelectItem>
-                    <SelectItem value="illustration">Illustration</SelectItem>
-                    <SelectItem value="realistic">Realistic</SelectItem>
-                    <SelectItem value="modern">Modern</SelectItem>
-                    <SelectItem value="vintage">Vintage</SelectItem>
+                    <SelectItem value="flat">{t("styles.flat")}</SelectItem>
+                    <SelectItem value="illustration">
+                      {t("styles.illustration")}
+                    </SelectItem>
+                    <SelectItem value="realistic">
+                      {t("styles.realistic")}
+                    </SelectItem>
+                    <SelectItem value="modern">{t("styles.modern")}</SelectItem>
+                    <SelectItem value="vintage">
+                      {t("styles.vintage")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -193,12 +203,12 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating Images...
+                  {t("buttons.generating")}
                 </>
               ) : (
                 <>
                   <Wand2 className="w-4 h-4 mr-2" />
-                  Generate Images
+                  {t("buttons.generate")}
                 </>
               )}
             </Button>
@@ -209,7 +219,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 className="font-medium text-sm sm:text-base">
-                  Generated Images
+                  {t("labels.generatedImages")}
                 </h3>
                 <Button
                   variant="outline"
@@ -218,7 +228,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                   className="w-full sm:w-auto"
                 >
                   <RotateCcw className="w-4 h-4 mr-2" />
-                  Regenerate
+                  {t("buttons.regenerate")}
                 </Button>
               </div>
 
@@ -240,7 +250,9 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                                 toggleImageSelection(image)
                               }
                             />
-                            <span className="text-sm">Select</span>
+                            <span className="text-sm">
+                              {t("labels.select")}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -255,7 +267,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
         {/* Footer - Fixed position */}
         <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 border-t bg-white">
           <span className="text-sm text-gray-500 text-center sm:text-left">
-            {selectedImages.length} image(s) selected
+            {t("labels.selectedCount", { count: selectedImages.length })}
           </span>
           <div className="flex flex-col sm:flex-row gap-3">
             <Button
@@ -263,14 +275,14 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
               onClick={onClose}
               className="w-full sm:w-auto"
             >
-              Close
+              {t("buttons.close")}
             </Button>
             <Button
               disabled={selectedImages.length === 0}
               onClick={handleUseSelected}
               className="w-full sm:w-auto"
             >
-              Use Selected ({selectedImages.length})
+              {t("buttons.useSelected")} ({selectedImages.length})
             </Button>
           </div>
         </div>

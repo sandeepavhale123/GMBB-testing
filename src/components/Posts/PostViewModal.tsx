@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { formatScheduledDate } from "../../utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface Post {
   id: string;
   title: string;
@@ -32,6 +33,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   onClose,
   post,
 }) => {
+  const { t } = useI18nNamespace("Post/postViewModal");
   if (!post) return null;
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -50,13 +52,13 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   const getStatusText = (status: string) => {
     switch (status) {
       case "published":
-        return "Live";
+        return t("postViewModal.status.published");
       case "scheduled":
-        return "Scheduled";
+        return t("postViewModal.status.scheduled");
       case "draft":
-        return "Draft";
+        return t("postViewModal.status.draft");
       case "failed":
-        return "Failed";
+        return t("postViewModal.status.failed");
       default:
         return status;
     }
@@ -70,7 +72,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-xs sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Post Preview</DialogTitle>
+          <DialogTitle>{t("postViewModal.title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -79,18 +81,20 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
             {post.media?.images ? (
               <img
                 src={post.media.images}
-                alt="Post"
+                alt={t("postViewModal.imageAlt")}
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <span className="text-white font-medium">Post Image</span>
+              <span className="text-white font-medium">
+                {t("postViewModal.imagePlaceholder")}
+              </span>
             )}
           </div>
 
           {/* Post Header */}
           <div className="flex items-start justify-between">
             <h3 className="font-semibold text-gray-900 text-lg">
-              {post.title || "Untitled Post"}
+              {post.title || t("postViewModal.untitled")}
             </h3>
             <Badge className={getStatusColor(post.status)}>
               {getStatusText(post.status)}

@@ -1,12 +1,29 @@
 import React, { useState } from "react";
-import { Calendar, Trash2, Copy, Eye, Loader2, ArrowUpRight } from "lucide-react";
+import {
+  Calendar,
+  Trash2,
+  Copy,
+  Eye,
+  Loader2,
+  ArrowUpRight,
+} from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { PostViewModal } from "./PostViewModal";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
@@ -15,6 +32,7 @@ import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Post } from "../../types/postTypes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import axiosInstance from "../../api/axiosInstance";
 interface PostCardProps {
   post: Post;
@@ -28,25 +46,21 @@ export const PostCard: React.FC<PostCardProps> = ({
   isSelectionMode = false,
   isSelected = false,
   onSelect,
-  onClonePost
+  onClonePost,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const queryClient = useQueryClient();
-  const {
-    selectedListing
-  } = useListingContext();
+  const { selectedListing } = useListingContext();
   const [isDeleting, setIsDeleting] = useState(false);
-  const {
-    deleteLoading,
-    deleteError
-  } = useAppSelector(state => state.posts);
+  const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const { t } = useI18nNamespace("Post/postCard");
 
   // Check if we're on bulk dashboard
-  const isBulkDashboard = location.pathname.startsWith('/main-dashboard');
+  const isBulkDashboard = location.pathname.startsWith("/main-dashboard");
 
   // Debug logging to check post status
   // console.log(
@@ -75,13 +89,13 @@ export const PostCard: React.FC<PostCardProps> = ({
   const getStatusText = (status: string) => {
     switch (status) {
       case "published":
-        return "Live";
+        return t("status.published");
       case "scheduled":
-        return "Scheduled";
+        return t("status.scheduled");
       case "draft":
-        return "Draft";
+        return t("status.draft");
       case "failed":
-        return "Failed";
+        return t("status.failed");
       default:
         return status;
     }
@@ -94,10 +108,13 @@ export const PostCard: React.FC<PostCardProps> = ({
     setImageError(true);
   };
   const formatPublishDate = (dateString: string) => {
-    if (!dateString) return "No date";
+    if (!dateString) return t("labels.noDate");
 
     // If the date is already in a readable format (like "27/06/2025 11:30 AM"), return as is
-    if (dateString.includes("/") && (dateString.includes("AM") || dateString.includes("PM"))) {
+    if (
+      dateString.includes("/") &&
+      (dateString.includes("AM") || dateString.includes("PM"))
+    ) {
       return dateString;
     }
 
@@ -115,31 +132,43 @@ export const PostCard: React.FC<PostCardProps> = ({
   };
   const handleDeletePost = async () => {
     // Get listingId from post data first, then context or URL
-    const listingId = post.listingId || selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+    const listingId =
+      post.listingId ||
+      selectedListing?.id ||
+      parseInt(window.location.pathname.split("/")[2]);
     if (!listingId) {
       toast({
-        title: "Error",
-        description: "No business listing selected. Please select a listing first.",
-        variant: "destructive"
+        title: t("toast.error.title"),
+        description: t("toast.error.noListing"),
+        variant: "destructive",
       });
       return;
     }
 
     // Show progress toast
     const progressToast = toast({
-      title: <div className="flex items-center gap-2">
+      title: (
+        <div className="flex items-center gap-2">
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-          Deleting post...
-        </div>,
-      description: <div className="space-y-2 w-full">
-          <div className="text-sm text-muted-foreground">Preparing deletion...</div>
-          <div className="w-full bg-muted rounded-full h-3">
-            <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
-            width: '10%'
-          }} />
+          {t("toast.deleting")}
+        </div>
+      ),
+      description: (
+        <div className="space-y-2 w-full">
+          <div className="text-sm text-muted-foreground">
+            {t("toast.preparing")}
           </div>
-        </div>,
-      duration: Infinity // Keep open until we dismiss it
+          <div className="w-full bg-muted rounded-full h-3">
+            <div
+              className="bg-primary h-3 rounded-full transition-all duration-300"
+              style={{
+                width: "10%",
+              }}
+            />
+          </div>
+        </div>
+      ),
+      duration: Infinity, // Keep open until we dismiss it
     });
     try {
       // Clear any previous errors
@@ -150,56 +179,89 @@ export const PostCard: React.FC<PostCardProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2 w-full">
-              <div className="text-sm text-muted-foreground">Deleting post...</div>
+          description: (
+            <div className="space-y-2 w-full">
+              <div className="text-sm text-muted-foreground">
+                {t("toast.deleting")}
+              </div>
               <div className="w-full bg-muted rounded-full h-3 flex-1 min-w-0">
-                <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
-                width: '60%'
-              }} />
+                <div
+                  className="bg-primary h-3 rounded-full transition-all duration-300"
+                  style={{
+                    width: "60%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 300);
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2 w-full">
-              <div className="text-sm text-muted-foreground">Finalizing...</div>
+          description: (
+            <div className="space-y-2 w-full">
+              <div className="text-sm text-muted-foreground">
+                {t("toast.finalizing")}
+              </div>
               <div className="w-full bg-muted rounded-full h-3 min-w-0 flex-1">
-                <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
-                width: '90%'
-              }} />
+                <div
+                  className="bg-primary h-3 rounded-full transition-all duration-300"
+                  style={{
+                    width: "90%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 600);
-      await dispatch(deletePost({
-        postId: [parseInt(post.id)],
-        listingId: parseInt(listingId.toString())
-      })).unwrap();
+      await dispatch(
+        deletePost({
+          postId: [parseInt(post.id)],
+          listingId: parseInt(listingId.toString()),
+        })
+      ).unwrap();
 
       // Invalidate React Query cache to refresh data without page reload
-      queryClient.invalidateQueries({ queryKey: ['posts-dashboard-data'] });
+      queryClient.invalidateQueries({ queryKey: ["posts-dashboard-data"] });
 
       // Complete progress and show success
       progressToast.update({
         id: progressToast.id,
-        title: <div className="flex items-center gap-2">
+        title: (
+          <div className="flex items-center gap-2">
             <div className="h-4 w-4 bg-green-500 rounded-full flex items-center justify-center">
-              <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="h-2 w-2 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
-            Post deleted successfully
-          </div>,
-        description: <div className="space-y-2 w-full">
-            <div className="text-sm text-green-600">Deletion completed</div>
+            {t("toast.success.title")}
+          </div>
+        ),
+        description: (
+          <div className="space-y-2 w-full">
+            <div className="text-sm text-green-600">
+              {t("toast.success.desc")}
+            </div>
             <div className="w-full bg-muted rounded-full h-3">
-              <div className="bg-green-500 h-3 rounded-full transition-all duration-300" style={{
-              width: '100%'
-            }} />
+              <div
+                className="bg-green-500 h-3 rounded-full transition-all duration-300"
+                style={{
+                  width: "100%",
+                }}
+              />
             </div>
           </div>
+        ),
       });
 
       // Auto-dismiss success toast after 2 seconds
@@ -214,9 +276,12 @@ export const PostCard: React.FC<PostCardProps> = ({
       // Dismiss progress toast and show error
       progressToast.dismiss();
       toast({
-        title: "Failed to Delete Post",
-        description: error instanceof Error ? (error as any)?.response?.data?.message || error.message : "An unexpected error occurred. Please try again.",
-        variant: "destructive"
+        title: t("toast.failed.title"),
+        description:
+          error instanceof Error
+            ? (error as any)?.response?.data?.message || error.message
+            : t("toast.failed.desc"),
+        variant: "destructive",
       });
     } finally {
       setIsDeleting(false); // ✅ reset local loading
@@ -232,54 +297,89 @@ export const PostCard: React.FC<PostCardProps> = ({
   React.useEffect(() => {
     if (deleteError) {
       toast({
-        title: "Error",
+        title: t("toast.error.title"),
         description: deleteError,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   }, [deleteError]);
-  return <>
+  return (
+    <>
       <Card className="overflow-hidden hover:shadow-md transition-shadow relative flex flex-col h-full">
         {/* Selection Checkbox */}
-        {isSelectionMode && <div className="absolute top-2 left-2 z-10">
-            <Checkbox checked={isSelected} onCheckedChange={handleCheckboxChange} className="bg-white border-2" />
-          </div>}
+        {isSelectionMode && (
+          <div className="absolute top-2 left-2 z-10">
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={handleCheckboxChange}
+              className="bg-white border-2"
+            />
+          </div>
+        )}
 
         {/* Post Image */}
         <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
           {/* External Link Button */}
-          {post.searchUrl && <Button variant="ghost" size="sm" onClick={() => window.open(post.searchUrl, "_blank")} title="Open post on Google" className="absolute top-2 right-2 h-8 w-8 p-0 text-white rounded-full z-20 bg-gray-800 hover:bg-gray-700 hover:text-white ">
+          {post.searchUrl && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.open(post.searchUrl, "_blank")}
+              title="Open post on Google"
+              className="absolute top-2 right-2 h-8 w-8 p-0 text-white rounded-full z-20 bg-gray-800 hover:bg-gray-700 hover:text-white "
+            >
               <ArrowUpRight className="w-4 h-4" />
-            </Button>}
-          {post.media?.images ? <>
-              {imageLoading && <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            </Button>
+          )}
+          {post.media?.images ? (
+            <>
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                   <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-                </div>}
-              {imageError ? <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                </div>
+              )}
+              {imageError ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                   <span className="text-gray-500 text-sm font-medium">
-                    Image not available
+                    {t("labels.imageNotAvailable")}
                   </span>
-                </div> : <img src={post.media.images} alt="Post" className="w-full h-full object-cover" onLoad={handleImageLoad} onError={handleImageError} style={{
-            display: imageLoading ? "none" : "block"
-          }} />}
-            </> : <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                </div>
+              ) : (
+                <img
+                  src={post.media.images}
+                  alt="Post"
+                  className="w-full h-full object-cover"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  style={{
+                    display: imageLoading ? "none" : "block",
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
               <span className="text-gray-500 text-sm font-medium">
-                Image not available
+                {t("labels.imageNotAvailable")}
               </span>
-            </div>}
+            </div>
+          )}
         </div>
 
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-2">
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-gray-900 line-clamp-2">
-                {post.title || "Untitled Post"}
+                {post.title || t("labels.untitledPost")}
               </h3>
-              {post.listingName && <p className="text-sm text-muted-foreground mt-1 font-medium">
+              {post.listingName && (
+                <p className="text-sm text-muted-foreground mt-1 font-medium">
                   {post.listingName}
-                </p>}
+                </p>
+              )}
             </div>
-            {post.status === "failed" ? <Tooltip>
+            {post.status === "failed" ? (
+              <Tooltip>
                 <TooltipTrigger asChild>
                   <Badge className={getStatusColor(post.status)}>
                     {getStatusText(post.status)}
@@ -288,9 +388,12 @@ export const PostCard: React.FC<PostCardProps> = ({
                 <TooltipContent>
                   <p>{post.reason}</p>
                 </TooltipContent>
-              </Tooltip> : <Badge className={getStatusColor(post.status)}>
+              </Tooltip>
+            ) : (
+              <Badge className={getStatusColor(post.status)}>
                 {getStatusText(post.status)}
-              </Badge>}
+              </Badge>
+            )}
           </div>
 
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">
@@ -298,47 +401,80 @@ export const PostCard: React.FC<PostCardProps> = ({
           </p>
 
           {/* Tags */}
-          {post.tags && <div className="text-xs text-blue-600 mb-2">{post.tags}</div>}
+          {post.tags && (
+            <div className="text-xs text-blue-600 mb-2">{post.tags}</div>
+          )}
         </CardContent>
 
         <CardFooter className="p-4 pt-0 flex justify-between mt-auto">
           <div className="flex items-center text-xs text-gray-500 mb-3">
             <Calendar className="w-3 h-3 mr-1" />
-            {post.status === "scheduled" ? `Scheduled: ${formatPublishDate(post.publishDate)}` : formatPublishDate(post.publishDate)}
+            {post.status === "scheduled"
+              ? t("labels.scheduledAt", {
+                  date: formatPublishDate(post.publishDate),
+                })
+              : formatPublishDate(post.publishDate)}
           </div>
           <div className="flex gap-1">
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setIsViewModalOpen(true)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setIsViewModalOpen(true)}
+            >
               <Eye className="w-3 h-3" />
             </Button>
-            {!isSelectionMode && <AlertDialog>
+            {!isSelectionMode && (
+              <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700" disabled={deleteLoading}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                    disabled={deleteLoading}
+                  >
                     <Trash2 className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Delete Post</AlertDialogTitle>
+                    <AlertDialogTitle>
+                      {t("modal.delete.title")}
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete this post? This action
-                      cannot be undone.
+                      {t("modal.delete.description")}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDeletePost} disabled={isDeleting}>
-                      {isDeleting ? <div className="flex items-center gap-2">
+                    <AlertDialogCancel>
+                      {t("modal.delete.cancel")}
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeletePost}
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? (
+                        <div className="flex items-center gap-2">
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          Deleting...
-                        </div> : "Delete"}
+                          {t("modal.delete.deleting")}
+                        </div>
+                      ) : (
+                        t("modal.delete.confirm")
+                      )}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
-              </AlertDialog>}
+              </AlertDialog>
+            )}
           </div>
         </CardFooter>
       </Card>
 
-      <PostViewModal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} post={post} />
-    </>;
+      <PostViewModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        post={post}
+      />
+    </>
+  );
 };

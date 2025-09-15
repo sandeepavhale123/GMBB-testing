@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Calendar, Edit, Trash2, Copy, Eye, Loader2, ExternalLink } from "lucide-react";
+import {
+  Calendar,
+  Edit,
+  Trash2,
+  Copy,
+  Eye,
+  Loader2,
+  ExternalLink,
+} from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { formatScheduledDate } from "../../utils/dateUtils";
 import { Button } from "../ui/button";
@@ -23,6 +31,7 @@ import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
 import { useQueryClient } from "@tanstack/react-query";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import axiosInstance from "../../api/axiosInstance";
 interface PostListItemProps {
   post: Post;
@@ -44,6 +53,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   const { selectedListing } = useListingContext();
   const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const { t } = useI18nNamespace("Post/postListItem");
 
   // Check if we're on bulk dashboard
   const isBulkDashboard = location.pathname.startsWith("/main-dashboard");
@@ -64,13 +74,13 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   const getStatusText = (status: string) => {
     switch (status) {
       case "published":
-        return "Live";
+        return t("status.published");
       case "scheduled":
-        return "Scheduled";
+        return t("status.scheduled");
       case "draft":
-        return "Draft";
+        return t("status.draft");
       case "failed":
-        return "Failed";
+        return t("status.failed");
       default:
         return status;
     }
@@ -83,9 +93,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       parseInt(window.location.pathname.split("/")[2]);
     if (!listingId) {
       toast({
-        title: "Error",
-        description:
-          "No business listing selected. Please select a listing first.",
+        title: t("toast.errorTitle"),
+        description: t("toast.noListingSelected"),
         variant: "destructive",
       });
       return;
@@ -96,13 +105,13 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       title: (
         <div className="flex items-center gap-2">
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-          Deleting post...
+          {t("toast.deletingPost")}
         </div>
       ),
       description: (
         <div className="space-y-2">
           <div className="text-sm text-muted-foreground">
-            Preparing deletion...
+            {t("toast.preparingDeletion")}
           </div>
           <div className="w-full bg-muted rounded-full h-2">
             <div
@@ -127,7 +136,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
           description: (
             <div className="space-y-2">
               <div className="text-sm text-muted-foreground">
-                Deleting post...
+                {t("toast.deletingPost")}
               </div>
               <div className="w-full bg-muted rounded-full h-2">
                 <div
@@ -146,7 +155,9 @@ export const PostListItem: React.FC<PostListItemProps> = ({
           id: progressToast.id,
           description: (
             <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">Finalizing...</div>
+              <div className="text-sm text-muted-foreground">
+                {t("toast.finalizing")}
+              </div>
               <div className="w-full bg-muted rounded-full h-2">
                 <div
                   className="bg-primary h-2 rounded-full transition-all duration-300"
@@ -187,12 +198,14 @@ export const PostListItem: React.FC<PostListItemProps> = ({
                 />
               </svg>
             </div>
-            Post deleted successfully
+            {t("toast.successTitle")}
           </div>
         ),
         description: (
           <div className="space-y-2">
-            <div className="text-sm text-green-600">Deletion completed</div>
+            <div className="text-sm text-green-600">
+              {t("toast.successDescription")}
+            </div>
             <div className="w-full bg-muted rounded-full h-2">
               <div
                 className="bg-green-500 h-2 rounded-full transition-all duration-300"
@@ -217,11 +230,11 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       // Dismiss progress toast and show error
       progressToast.dismiss();
       toast({
-        title: "Failed to Delete Post",
+        title: t("toast.failedTitle"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "An unexpected error occurred. Please try again.",
+            : t("toast.unexpectedError"),
         variant: "destructive",
       });
     }
@@ -236,7 +249,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   React.useEffect(() => {
     if (deleteError) {
       toast({
-        title: "Error",
+        title: t("toast.errorTitle"),
         description: deleteError,
         variant: "destructive",
       });
@@ -281,7 +294,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
             <div className="flex-1 min-w-0 sm:pr-20">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-medium text-foreground truncate">
-                  {post.title || "Untitled Post"}
+                  {post.title || t("ui.untitled")}
                 </h3>
                 <Badge className={getStatusColor(post.status)}>
                   {getStatusText(post.status)}
@@ -313,9 +326,9 @@ export const PostListItem: React.FC<PostListItemProps> = ({
                 className="h-8 w-8 p-0"
                 onClick={(e) => {
                   e.stopPropagation();
-                  window.open(post.searchUrl, '_blank');
+                  window.open(post.searchUrl, "_blank");
                 }}
-                title="Open on Google"
+                title={t("ui.openOnGoogle")}
               >
                 <ExternalLink className="w-3 h-3" />
               </Button>
@@ -333,19 +346,18 @@ export const PostListItem: React.FC<PostListItemProps> = ({
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Post</AlertDialogTitle>
+                  <AlertDialogTitle>{t("dialog.deleteTitle")}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this post? This action
-                    cannot be undone.
+                    {t("dialog.deleteDescription")}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>{t("dialog.cancel")}</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleDeletePost}
                     disabled={deleteLoading}
                   >
-                    {deleteLoading ? "Deleting..." : "Delete"}
+                    {deleteLoading ? t("dialog.deleting") : t("dialog.delete")}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

@@ -1,0 +1,21 @@
+{
+  "placeholders": {
+    "businessName": "Business Name",
+    "businessInitial": "B",
+    "uploadImage": "Upload an image",
+    "timeAgo": "1 minute ago"
+  },
+  "cta": {
+    "LEARN_MORE": "Learn More",
+    "BOOK": "Book Now",
+    "CALL": "Call Now",
+    "ORDER": "Order Online",
+    "SHOP": "Shop Now",
+    "SIGN_UP": "Sign Up"
+  },
+  "engagement": {
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share"
+  }
+}

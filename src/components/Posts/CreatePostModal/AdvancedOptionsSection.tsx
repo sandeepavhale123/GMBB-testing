@@ -1,13 +1,13 @@
-
-import React from 'react';
-import { Switch } from '../../ui/switch';
-import { Label } from '../../ui/label';
-import { Separator } from '../../ui/separator';
-import { PostTypeSelector } from './PostTypeSelector';
-import { TitleField } from './TitleField';
-import { EventFields } from './EventFields';
-import { OfferFields } from './OfferFields';
-import { PublishOptionsSection } from './PublishOptionsSection';
+import React from "react";
+import { Switch } from "../../ui/switch";
+import { Label } from "../../ui/label";
+import { Separator } from "../../ui/separator";
+import { PostTypeSelector } from "./PostTypeSelector";
+import { TitleField } from "./TitleField";
+import { EventFields } from "./EventFields";
+import { OfferFields } from "./OfferFields";
+import { PublishOptionsSection } from "./PublishOptionsSection";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PostFormData {
   listings: string[];
@@ -15,7 +15,7 @@ interface PostFormData {
   postType: string;
   description: string;
   image: File | string | null;
-  imageSource: 'local' | 'ai' | 'gallery' | null;
+  imageSource: "local" | "ai" | "gallery" | null;
   ctaButton: string;
   ctaUrl: string;
   publishOption: string;
@@ -41,7 +41,7 @@ interface AdvancedOptionsSectionProps {
   listingsSearch: string;
   onListingsSearchChange: (value: string) => void;
   onListingToggle: (listing: string) => void;
-  validationErrors?: {[key: string]: string};
+  validationErrors?: { [key: string]: string };
 }
 
 export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
@@ -49,25 +49,32 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
   onShowAdvancedOptionsChange,
   formData,
   onFormDataChange,
-  validationErrors = {}
+  validationErrors = {},
 }) => {
+  const { t } = useI18nNamespace("Post/advancedOptionsSection");
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-3">
-        <Switch 
-          id="advanced-options" 
-          checked={showAdvancedOptions} 
-          onCheckedChange={onShowAdvancedOptionsChange} 
+        <Switch
+          id="advanced-options"
+          checked={showAdvancedOptions}
+          onCheckedChange={onShowAdvancedOptionsChange}
         />
-        <Label htmlFor="advanced-options" className="text-sm font-medium">Advanced Post Options</Label>
+        <Label htmlFor="advanced-options" className="text-sm font-medium">
+          {" "}
+          {t("advancedPostOptions")}
+        </Label>
       </div>
 
       {showAdvancedOptions && (
         <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <PostTypeSelector formData={formData} onFormDataChange={onFormDataChange} />
-            <TitleField 
-              formData={formData} 
+            <PostTypeSelector
+              formData={formData}
+              onFormDataChange={onFormDataChange}
+            />
+            <TitleField
+              formData={formData}
               onFormDataChange={onFormDataChange}
               error={validationErrors.title}
             />
@@ -76,14 +83,22 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
           {/* Divider after Post Type */}
           <Separator />
 
-          <EventFields formData={formData} onFormDataChange={onFormDataChange} />
+          <EventFields
+            formData={formData}
+            onFormDataChange={onFormDataChange}
+          />
 
-          <OfferFields formData={formData} onFormDataChange={onFormDataChange} />
+          <OfferFields
+            formData={formData}
+            onFormDataChange={onFormDataChange}
+          />
 
-          <PublishOptionsSection formData={formData} onFormDataChange={onFormDataChange} />
+          <PublishOptionsSection
+            formData={formData}
+            onFormDataChange={onFormDataChange}
+          />
 
           {/* Divider after Publish Options */}
-         
         </div>
       )}
     </div>

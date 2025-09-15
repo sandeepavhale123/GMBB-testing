@@ -1,7 +1,8 @@
-import React from 'react';
-import { Button } from '../ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useListingContext } from '../../context/ListingContext';
+import React from "react";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useListingContext } from "../../context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface PostPreviewProps {
   data: {
     title: string;
@@ -14,49 +15,53 @@ interface PostPreviewProps {
   };
 }
 
-// CTA button options mapping
-const ctaOptions = [{
-  value: 'LEARN_MORE',
-  label: 'Learn More'
-}, {
-  value: 'BOOK',
-  label: 'Book Now'
-}, {
-  value: 'CALL',
-  label: 'Call Now'
-}, {
-  value: 'ORDER',
-  label: 'Order Online'
-}, {
-  value: 'SHOP',
-  label: 'Shop Now'
-}, {
-  value: 'SIGN_UP',
-  label: 'Sign Up'
-}];
-export const PostPreview: React.FC<PostPreviewProps> = ({
-  data
-}) => {
-  const {
-    selectedListing
-  } = useListingContext();
+export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
+  const { selectedListing } = useListingContext();
+  const { t } = useI18nNamespace("Post/postPreview");
+  // CTA button options mapping
+  const ctaOptions = [
+    {
+      value: "LEARN_MORE",
+      label: t("cta.LEARN_MORE"),
+    },
+    {
+      value: "BOOK",
+      label: t("cta.BOOK"),
+    },
+    {
+      value: "CALL",
+      label: t("cta.CALL"),
+    },
+    {
+      value: "ORDER",
+      label: t("cta.ORDER"),
+    },
+    {
+      value: "SHOP",
+      label: t("cta.SHOP"),
+    },
+    {
+      value: "SIGN_UP",
+      label: t("cta.SIGN_UP"),
+    },
+  ];
 
   // Add debug logging
   React.useEffect(() => {
-    console.log('🎯 PostPreview mounted with data:', data);
+    console.log("🎯 PostPreview mounted with data:", data);
     return () => {
-      console.log('🎯 PostPreview unmounting');
+      console.log("🎯 PostPreview unmounting");
     };
   }, []);
 
   React.useEffect(() => {
-    console.log('🎯 PostPreview data changed:', data);
+    console.log("🎯 PostPreview data changed:", data);
   }, [data]);
 
   // Helper function to get image URL with proper cleanup
   const getImageUrl = () => {
     if (!data.image) return null;
-    if (typeof data.image === 'string') {
+    if (typeof data.image === "string") {
       // It's a URL from AI generation
       return data.image;
     } else {
@@ -68,14 +73,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
   // Add cleanup for object URLs
   React.useEffect(() => {
     let objectUrl: string | null = null;
-    
-    if (data.image && typeof data.image !== 'string') {
+
+    if (data.image && typeof data.image !== "string") {
       objectUrl = URL.createObjectURL(data.image);
     }
 
     return () => {
       if (objectUrl) {
-        console.log('🧹 Cleaning up object URL:', objectUrl);
+        console.log("🧹 Cleaning up object URL:", objectUrl);
         URL.revokeObjectURL(objectUrl);
       }
     };
@@ -83,32 +88,42 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
   // Helper function to get business name with character limit
   const getBusinessName = () => {
-    if (!selectedListing?.name) return 'Business Name';
-    return selectedListing.name.length > 40 ? selectedListing.name.slice(0, 40) + '...' : selectedListing.name;
+    if (!selectedListing?.name) return t("placeholders.businessName");
+    return selectedListing.name.length > 40
+      ? selectedListing.name.slice(0, 40) + "..."
+      : selectedListing.name;
   };
 
   // Helper function to get business initials for avatar fallback
   const getBusinessInitials = () => {
-    if (!selectedListing?.name) return 'B';
-    return selectedListing.name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+    if (!selectedListing?.name) return "B";
+    return selectedListing.name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   // Helper function to limit description text to 200 characters
   const getLimitedDescription = (description: string) => {
-    if (!description) return '';
-    return description.length > 200 ? description.slice(0, 200) + '...' : description;
+    if (!description) return "";
+    return description.length > 200
+      ? description.slice(0, 200) + "..."
+      : description;
   };
 
   // Helper function to get CTA button label
   const getCTAButtonLabel = (value: string) => {
-    const option = ctaOptions.find(opt => opt.value === value);
+    const option = ctaOptions.find((opt) => opt.value === value);
     return option ? option.label : value;
   };
   const imageUrl = getImageUrl();
-  
-  console.log('🎯 PostPreview rendering with imageUrl:', imageUrl);
-  
-  return <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
+
+  console.log("🎯 PostPreview rendering with imageUrl:", imageUrl);
+
+  return (
+    <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
@@ -120,45 +135,66 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           </Avatar>
           <div>
             <h4 className="font-medium text-sm">{getBusinessName()}</h4>
-            <p className="text-xs text-gray-500">{data.scheduledDate || '1 minutes ago'}</p>
+            <p className="text-xs text-gray-500">
+              {data.scheduledDate || t("placeholders.timeAgo")}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Image */}
-      {imageUrl ? <img src={imageUrl} alt="Post" className="w-full  h-fulll max-h-[300px] object-cover" /> : <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-          <span className="text-white font-medium">Upload an image</span>
-        </div>}
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt="Post"
+          className="w-full  h-fulll max-h-[300px] object-cover"
+        />
+      ) : (
+        <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+          <span className="text-white font-medium">
+            {t("placeholders.uploadImage")}{" "}
+          </span>
+        </div>
+      )}
 
       {/* Post Content - Now below the image */}
       <div className="p-4">
-        {data.title && <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>}
-        {data.description && <p className="text-gray-700 text-sm mb-1 leading-relaxed">{getLimitedDescription(data.description)}</p>}
+        {data.title && (
+          <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">
+            {data.title}
+          </h3>
+        )}
+        {data.description && (
+          <p className="text-gray-700 text-sm mb-1 leading-relaxed">
+            {getLimitedDescription(data.description)}
+          </p>
+        )}
       </div>
 
       {/* CTA Button */}
-      {data.ctaButton && <div className="p-4">
+      {data.ctaButton && (
+        <div className="p-4">
           <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium">
             {getCTAButtonLabel(data.ctaButton)}
           </Button>
-        </div>}
+        </div>
+      )}
 
       {/* Engagement Placeholder */}
       <div className="px-4 pb-4 flex items-center justify-between text-xs text-gray-500 border-t pt-3">
         <button className="flex items-center gap-1 hover:text-blue-600 transition-colors">
-          <span>👍</span> Like
+          <span>👍</span> {t("engagement.like")}
         </button>
         <button className="flex items-center gap-1 hover:text-blue-600 transition-colors">
-          <span>💬</span> Comment
+          <span>💬</span> {t("engagement.comment")}
         </button>
         <button className="flex items-center gap-1 hover:text-blue-600 transition-colors">
-          <span>📤</span> Share
+          <span>📤</span> {t("engagement.share")}
         </button>
       </div>
 
       {/* Platform Tags */}
-      {data.platforms.length > 0 && <div className="px-4 pb-4">
-          
-        </div>}
-    </div>;
+      {data.platforms.length > 0 && <div className="px-4 pb-4"></div>}
+    </div>
+  );
 };

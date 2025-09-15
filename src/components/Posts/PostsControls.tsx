@@ -1,11 +1,17 @@
-
-import React from 'react';
-import { Grid2x2, List, Search, Filter, X } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { DateRangePicker } from '../ui/date-range-picker';
-import { DateRange } from 'react-day-picker';
+import React from "react";
+import { Grid2x2, List, Search, Filter, X } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { DateRangePicker } from "../ui/date-range-picker";
+import { DateRange } from "react-day-picker";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PostsControlsProps {
   loading: boolean;
@@ -18,8 +24,8 @@ interface PostsControlsProps {
   dateRange: DateRange | undefined;
   onDateRangeChange: (dateRange: DateRange | undefined) => void;
   onResetFilters: () => void;
-  viewMode: 'grid' | 'list';
-  onViewModeChange: (mode: 'grid' | 'list') => void;
+  viewMode: "grid" | "list";
+  onViewModeChange: (mode: "grid" | "list") => void;
 }
 
 export const PostsControls: React.FC<PostsControlsProps> = ({
@@ -34,8 +40,9 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
   onDateRangeChange,
   onResetFilters,
   viewMode,
-  onViewModeChange
+  onViewModeChange,
 }) => {
+  const { t } = useI18nNamespace("Post/postsControls");
   return (
     <div className="bg-white rounded-lg border p-4">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -43,11 +50,11 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
           {/* Search */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <Input 
-              placeholder="Search posts..." 
-              value={localSearchQuery} 
-              onChange={e => onSearchChange(e.target.value)} 
-              className="pl-10 w-full" 
+            <Input
+              placeholder={t("postsControls.searchPlaceholder")}
+              value={localSearchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-10 w-full"
             />
           </div>
 
@@ -58,10 +65,18 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Posts</SelectItem>
-              <SelectItem value="scheduled">Scheduled Posts</SelectItem>
-              <SelectItem value="live">Live Posts</SelectItem>
-              <SelectItem value="failed">Failed Posts</SelectItem>
+              <SelectItem value="all">
+                {t("postsControls.filter.all")}
+              </SelectItem>
+              <SelectItem value="scheduled">
+                {t("postsControls.filter.scheduled")}
+              </SelectItem>
+              <SelectItem value="live">
+                {t("postsControls.filter.live")}
+              </SelectItem>
+              <SelectItem value="failed">
+                {t("postsControls.filter.failed")}
+              </SelectItem>
             </SelectContent>
           </Select>
 
@@ -70,31 +85,41 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
             <DateRangePicker
               date={dateRange}
               onDateChange={onDateRangeChange}
-              placeholder="Filter by date range"
+              placeholder={t("postsControls.dateRange.placeholder")}
               className="w-full"
             />
           </div>
 
           {/* Reset Filters Button */}
           {hasActiveFilters && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onResetFilters}
               className="whitespace-nowrap"
             >
               <X className="w-4 h-4 mr-2" />
-              Reset Filters
+              {t("postsControls.resetFilters")}
             </Button>
           )}
         </div>
 
         {/* View Toggle */}
         <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 self-center">
-          <Button variant={viewMode === 'grid' ? 'default' : 'ghost'} size="sm" onClick={() => onViewModeChange('grid')} className="h-8">
+          <Button
+            variant={viewMode === "grid" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => onViewModeChange("grid")}
+            className="h-8"
+          >
             <Grid2x2 className="w-4 h-4" />
           </Button>
-          <Button variant={viewMode === 'list' ? 'default' : 'ghost'} size="sm" onClick={() => onViewModeChange('list')} className="h-8">
+          <Button
+            variant={viewMode === "list" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => onViewModeChange("list")}
+            className="h-8"
+          >
             <List className="w-4 h-4" />
           </Button>
         </div>

@@ -1,7 +1,7 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -15,20 +15,20 @@ interface State {
 
 export class PostPreviewErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    console.error('🚨 PostPreview error caught by boundary:', error);
+    console.error("🚨 PostPreview error caught by boundary:", error);
     return { hasError: true, error };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('🚨 PostPreview error details:', error, errorInfo);
+    console.error("🚨 PostPreview error details:", error, errorInfo);
   }
 
   private handleRetry = () => {
-    console.log('🔄 Retrying PostPreview render');
+    console.log("🔄 Retrying PostPreview render");
     this.setState({ hasError: false, error: undefined });
   };
 
@@ -50,8 +50,8 @@ export class PostPreviewErrorBoundary extends Component<Props, State> {
                 Unable to display post preview. Please try again.
               </p>
             </div>
-            <Button 
-              onClick={this.handleRetry} 
+            <Button
+              onClick={this.handleRetry}
               size="sm"
               variant="outline"
               className="border-red-300 text-red-700 hover:bg-red-100"

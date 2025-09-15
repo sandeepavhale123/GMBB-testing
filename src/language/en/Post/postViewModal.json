@@ -1,0 +1,22 @@
+{
+  "postViewModal": {
+    "title": "Post Preview",
+    "imageAlt": "Post",
+    "imagePlaceholder": "Post Image",
+    "untitled": "Untitled Post",
+    "status": {
+      "published": "Live",
+      "scheduled": "Scheduled",
+      "draft": "Draft",
+      "failed": "Failed"
+    },
+    "tagsLabel": "Tags",
+    "meta": {
+      "publishDate": "Publish Date"
+    },
+    "buttons": {
+      "viewPost": "View Post",
+      "close": "Close"
+    }
+  }
+}

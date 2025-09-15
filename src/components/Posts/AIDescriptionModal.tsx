@@ -16,6 +16,7 @@ import {
   GeneratedContent,
 } from "../../api/aiContentApi";
 import { useToast } from "../../hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIDescriptionModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
   onClose,
   onSelect,
 }) => {
+  const { t } = useI18nNamespace("Post/aiDescriptionModal");
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     description: "",
@@ -43,8 +45,8 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
   const handleGenerate = async () => {
     if (!formData.description.trim()) {
       toast({
-        title: "Error",
-        description: "Please enter a description to generate content.",
+        title: t("toast.errorTitle"),
+        description: t("toast.errorDescription"),
         variant: "destructive",
       });
       return;
@@ -69,8 +71,8 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
           setSelectedVariant(firstVariantText);
         }
         toast({
-          title: "Success",
-          description: response.message || "Content generated successfully!",
+          title: t("toast.successTitle"),
+          description: response.message || t("toast.successDescription"),
         });
       } else {
         throw new Error(response.message || "Failed to generate content");
@@ -78,11 +80,11 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
     } catch (error: any) {
       console.error("Error generating content:", error);
       toast({
-        title: "Generation Failed",
+        title: t("toast.failedTitle"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to generate content. Please try again.",
+          t("toast.failedDescription"),
         variant: "destructive",
       });
     } finally {
@@ -113,7 +115,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center text-lg sm:text-xl">
             <Wand2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-            GMB Genie Description Generator
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -128,7 +130,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                     htmlFor="ai-description"
                     className="text-sm font-medium mb-2 block"
                   >
-                    Short Description
+                    {t("shortDescription")}
                   </Label>
                   <Textarea
                     id="ai-description"
@@ -139,7 +141,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                         description: e.target.value,
                       }))
                     }
-                    placeholder="Brief description of what you want to promote..."
+                    placeholder={t("shortDescriptionPlaceholder")}
                     rows={3}
                     className="text-sm sm:text-base w-full"
                   />
@@ -148,7 +150,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label className="text-sm font-medium mb-2 block">
-                      Number of Variants
+                      {t("variants")}
                     </Label>
                     <Select
                       value={formData.variants}
@@ -171,7 +173,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
 
                   <div>
                     <Label className="text-sm font-medium mb-2 block">
-                      Tone
+                      {t("tone")}
                     </Label>
                     <Select
                       value={formData.tone}
@@ -184,15 +186,23 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="professional">
-                          Professional
+                          {t("tones.professional")}
                         </SelectItem>
-                        <SelectItem value="friendly">Friendly</SelectItem>
-                        <SelectItem value="casual">Casual</SelectItem>
-                        <SelectItem value="formal">Formal</SelectItem>
+                        <SelectItem value="friendly">
+                          {t("tones.friendly")}
+                        </SelectItem>
+                        <SelectItem value="casual">
+                          {t("tones.casual")}
+                        </SelectItem>
+                        <SelectItem value="formal">
+                          {t("tones.formal")}
+                        </SelectItem>
                         <SelectItem value="enthusiastic">
-                          Enthusiastic
+                          {t("tones.enthusiastic")}
                         </SelectItem>
-                        <SelectItem value="persuasive">Persuasive</SelectItem>
+                        <SelectItem value="persuasive">
+                          {t("tones.persuasive")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -207,12 +217,12 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                     {isGenerating ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
+                        {t("buttons.generating")}
                       </>
                     ) : (
                       <>
                         <Wand2 className="w-4 h-4 mr-2" />
-                        Generate
+                        {t("buttons.generate")}
                       </>
                     )}
                   </Button>
@@ -223,7 +233,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                       onClick={handleReset}
                       className="min-h-[44px]"
                     >
-                      Reset
+                      {t("buttons.reset")}
                     </Button>
                   )}
                 </div>
@@ -233,7 +243,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
               {generatedVariants.length > 0 && (
                 <div className="flex-1 min-h-0">
                   <h3 className="font-medium mb-3 text-sm sm:text-base flex-shrink-0">
-                    Generated Variants
+                    {t("generatedVariants")}
                   </h3>
                   <div className="max-h-[40vh] lg:max-h-[50vh] overflow-y-auto">
                     <div className="space-y-3">
@@ -287,12 +297,12 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
             <div className="flex flex-col space-y-4 min-h-0">
               <div className="flex-1 flex flex-col min-h-0">
                 <Label className="text-sm font-medium mb-2 block flex-shrink-0">
-                  Edit Selected Variant
+                  {t("editSelected")}
                 </Label>
                 <Textarea
                   value={selectedVariant}
                   onChange={(e) => setSelectedVariant(e.target.value)}
-                  placeholder="Select a variant from the left to edit here..."
+                  placeholder={t("editPlaceholder")}
                   className="flex-1 min-h-[200px] lg:min-h-[300px] resize-none text-sm sm:text-base"
                 />
               </div>
@@ -307,14 +317,14 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
             onClick={onClose}
             className="hidden sm:block min-h-[44px]"
           >
-            Close
+            {t("buttons.close")}
           </Button>
           <Button
             onClick={() => selectedVariant && onSelect(selectedVariant)}
             disabled={!selectedVariant}
             className="w-full sm:w-auto min-h-[44px]"
           >
-            Use Selected
+            {t("buttons.useSelected")}
           </Button>
         </div>
       </DialogContent>

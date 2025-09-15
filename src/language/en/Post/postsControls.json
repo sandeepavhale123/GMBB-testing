@@ -1,0 +1,16 @@
+{
+  "postsControls": {
+    "searchPlaceholder": "Search posts...",
+    "filter": {
+      "label": "Filter",
+      "all": "All Posts",
+      "scheduled": "Scheduled Posts",
+      "live": "Live Posts",
+      "failed": "Failed Posts"
+    },
+    "dateRange": {
+      "placeholder": "Filter by date range"
+    },
+    "resetFilters": "Reset Filters"
+  }
+}

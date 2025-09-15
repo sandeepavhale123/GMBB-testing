@@ -1,0 +1,15 @@
+{
+  "publishOptionsSection": {
+    "label": "Publish Options",
+    "publishOptionLabel": "Publish Option",
+    "publishNow": "Publish Now",
+    "schedulePost": "Schedule Post",
+    "scheduleLabel": "Schedule Date & Time",
+    "placeholder": {
+      "publishOption": "Choose publish option",
+      "postTags": "Enter tags separated by commas"
+    },
+    "postTagsLabel": "Post Tags",
+    "siloCheckbox": "Add previous post tag url by this post (Silo post)."
+  }
+}

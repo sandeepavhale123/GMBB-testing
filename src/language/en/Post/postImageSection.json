@@ -1,0 +1,15 @@
+{
+  "postImage": {
+    "label": "Post Image",
+    "clickToUpload": "Click to upload",
+    "orDragAndDrop": "or drag and drop",
+    "fileNote": "PNG, JPG up to 10MB",
+    "remove": "Remove",
+    "aiImageName": "AI Generated Image",
+    "aiImageSize": "Generated",
+    "modal": {
+      "close": "Close",
+      "apply": "Apply"
+    }
+  }
+}

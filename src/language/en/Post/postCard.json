@@ -1,0 +1,43 @@
+{
+  "status": {
+    "published": "Live",
+    "scheduled": "Scheduled",
+    "draft": "Draft",
+    "failed": "Failed"
+  },
+  "labels": {
+    "noDate": "No date",
+    "untitledPost": "Untitled Post",
+    "imageNotAvailable": "Image not available",
+    "scheduledAt": "Scheduled: {{date}}"
+  },
+  "toast": {
+    "error": {
+      "title": "Error",
+      "noListing": "No business listing selected. Please select a listing first."
+    },
+    "deleting": "Deleting post...",
+    "preparing": "Preparing deletion...",
+    "finalizing": "Finalizing...",
+    "success": {
+      "title": "Post deleted successfully",
+      "desc": "Deletion completed"
+    },
+    "failed": {
+      "title": "Failed to Delete Post",
+      "desc": "An unexpected error occurred. Please try again."
+    }
+  },
+  "modal": {
+    "delete": {
+      "title": "Delete Post",
+      "description": "Are you sure you want to delete this post? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    }
+  },
+  "buttons": {
+    "openOnGoogle": "Open post on Google"
+  }
+}

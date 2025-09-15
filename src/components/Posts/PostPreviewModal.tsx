@@ -1,9 +1,9 @@
-
-import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { PostPreview } from './PostPreview';
-import { PostPreviewErrorBoundary } from './PostPreviewErrorBoundary';
+import React from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { PostPreview } from "./PostPreview";
+import { PostPreviewErrorBoundary } from "./PostPreviewErrorBoundary";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PostPreviewModalProps {
   isOpen: boolean;
@@ -21,15 +21,16 @@ interface PostPreviewModalProps {
 export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
   isOpen,
   onClose,
-  data
+  data,
 }) => {
+  const { t } = useI18nNamespace("Post/postPreviewModal");
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Post Preview</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
-        
+
         <div className="mt-4">
           <PostPreviewErrorBoundary>
             <PostPreview data={data} />
@@ -38,7 +39,7 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
 
         <div className="flex justify-end pt-4 border-t">
           <Button variant="outline" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         </div>
       </DialogContent>
