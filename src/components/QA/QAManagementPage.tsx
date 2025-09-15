@@ -16,7 +16,10 @@ import {
   dismissTipBanner,
   setError,
 } from "@/store/slices/qaSlice";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const QAManagementPage: React.FC = () => {
+  const { t } = useI18nNamespace("QA/qaManagementPage");
   const { selectedListing } = useListingContext();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
@@ -50,8 +53,8 @@ export const QAManagementPage: React.FC = () => {
     if (error) {
       dispatch(setError("Failed to load Q&A data"));
       toast({
-        title: "Error",
-        description: "Failed to load Q&A data",
+        title: t("qaManagementPage.error.title"),
+        description: t("qaManagementPage.error.description"),
         variant: "destructive",
       });
     }
@@ -90,10 +93,10 @@ export const QAManagementPage: React.FC = () => {
       <div className="space-y-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 mb-2">
-            No Listing Selected
+            {t("qaManagementPage.noListingSelected.title")}
           </h2>
           <p className="text-gray-600">
-            Please select a business listing to view Q&A.
+            {t("qaManagementPage.noListingSelected.description")}
           </p>
         </div>
       </div>
@@ -113,7 +116,9 @@ export const QAManagementPage: React.FC = () => {
 
       {isLoading ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-          <p className="text-gray-600">Loading Q&A data...</p>
+          <p className="text-gray-600">
+            {t("qaManagementPage.loading.message")}
+          </p>
         </div>
       ) : questions.length > 0 ? (
         <>

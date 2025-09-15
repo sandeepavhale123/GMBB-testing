@@ -1,0 +1,18 @@
+{
+  "qaCard": {
+    "answered": "Answered",
+    "unanswered": "Unanswered",
+    "askedBy": "Asked by",
+    "anonymousUser": "Anonymous User",
+    "reply": "Reply",
+    "replyTitle": "Use relevant keywords in your answer",
+    "answerPlaceholder": "Write your answer using relevant keywords like city names, services, or products to boost local SEO...",
+    "postAnswer": "Post Answer",
+    "cancel": "Cancel",
+    "answeredLabel": "Answered {{timeAgo}}",
+    "listingFallback": {
+      "name": "Business Listing",
+      "address": "Location"
+    }
+  }
+}

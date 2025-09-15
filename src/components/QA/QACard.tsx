@@ -7,6 +7,7 @@ import { Reply, CheckCircle, XCircle, User } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Question } from "../../types/qaTypes";
 import { useListingContext } from "@/context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface QACardProps {
   question: Question;
@@ -16,6 +17,7 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
   const { selectedListing } = useListingContext();
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const { t } = useI18nNamespace("QA/qaCard");
 
   const handleReply = () => {
     // Handle reply submission - would need another API endpoint
@@ -76,11 +78,12 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
               </h3>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="secondary" className="text-xs">
-                  {selectedListing?.name || "Business Listing"}
+                  {selectedListing?.name || t("qaCard.listingFallback.name")}
                 </Badge>
                 <span className="text-xs text-gray-500">•</span>
                 <span className="text-xs text-gray-500">
-                  {selectedListing?.address || "Location"}
+                  {selectedListing?.address ||
+                    t("qaCard.listingFallback.address")}
                 </span>
               </div>
             </div>
@@ -97,7 +100,9 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
                 ) : (
                   <XCircle className="h-3 w-3" />
                 )}
-                {question.status === "answered" ? "Answered" : "Unanswered"}
+                {question.status === "answered"
+                  ? t("qaCard.answered")
+                  : t("qaCard.unanswered")}
               </Badge>
             </div>
           </div>
@@ -120,9 +125,9 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
               </AvatarFallback>
             </Avatar>
             <div className="text-xs text-gray-500">
-              Asked by{" "}
+              {t("qaCard.askedBy")}
               <span className="font-medium">
-                {question.name || "Anonymous User"}
+                {question.name || t("qaCard.anonymousUser")}
               </span>{" "}
               • {formatTimestamp(question.timestamp)}
             </div>
@@ -139,7 +144,10 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
               />
               {question.answerTimestamp && (
                 <div className="text-xs text-gray-500 mt-2">
-                  Answered {formatTimestamp(question.answerTimestamp)}
+                  {t("qaCard.answeredLabel", {
+                    timeAgo: formatTimestamp(question.answerTimestamp),
+                  })}
+                  {/* Answered {formatTimestamp(question.answerTimestamp)} */}
                 </div>
               )}
             </div>
@@ -149,29 +157,29 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
                 <Button
                   onClick={() => setIsReplying(true)}
                   className="w-full sm:w-auto flex items-center gap-2"
-                  title="Use relevant keywords in your answer"
+                  title={t("qaCard.replyTitle")}
                 >
                   <Reply className="h-4 w-4" />
-                  Reply
+                  {t("qaCard.reply")}
                 </Button>
               ) : (
                 <div className="space-y-3">
                   <Textarea
-                    placeholder="Write your answer using relevant keywords like city names, services, or products to boost local SEO..."
+                    placeholder={t("qaCard.answerPlaceholder")}
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     className="min-h-24"
                   />
                   <div className="flex gap-2">
                     <Button onClick={handleReply} size="sm">
-                      Post Answer
+                      {t("qaCard.postAnswer")}
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setIsReplying(false)}
                     >
-                      Cancel
+                      {t("qaCard.cancel")}
                     </Button>
                   </div>
                 </div>

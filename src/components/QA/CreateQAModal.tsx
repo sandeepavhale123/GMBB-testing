@@ -1,10 +1,16 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Label } from "../ui/label";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CreateQAModalProps {
   open: boolean;
@@ -15,16 +21,17 @@ interface CreateQAModalProps {
 export const CreateQAModal: React.FC<CreateQAModalProps> = ({
   open,
   onOpenChange,
-  onSubmit
+  onSubmit,
 }) => {
-  const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
+  const { t } = useI18nNamespace("QA/createQAModal");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
     if (question.trim() && answer.trim()) {
       onSubmit(question, answer);
-      setQuestion('');
-      setAnswer('');
+      setQuestion("");
+      setAnswer("");
       onOpenChange(false);
     }
   };
@@ -33,23 +40,23 @@ export const CreateQAModal: React.FC<CreateQAModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Q&A</DialogTitle>
+          <DialogTitle>{t("createQAModal.title")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="question">Question</Label>
+            <Label htmlFor="question">{t("createQAModal.questionLabel")}</Label>
             <Input
               id="question"
-              placeholder="Enter the question..."
+              placeholder={t("createQAModal.questionPlaceholder")}
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="answer">Answer</Label>
+            <Label htmlFor="answer">{t("createQAModal.answerLabel")}</Label>
             <Textarea
               id="answer"
-              placeholder="Enter your answer..."
+              placeholder={t("createQAModal.answerPlaceholder")}
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               className="min-h-[100px]"
@@ -58,9 +65,9 @@ export const CreateQAModal: React.FC<CreateQAModalProps> = ({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t("createQAModal.cancel")}
           </Button>
-          <Button onClick={handleSubmit}>Add Q&A</Button>
+          <Button onClick={handleSubmit}>{t("createQAModal.submit")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

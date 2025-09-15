@@ -1,0 +1,12 @@
+{
+  "qaEmptyState": {
+    "title": {
+      "noQuestions": "No customer questions yet",
+      "noMatches": "No questions match your filters"
+    },
+    "description": {
+      "noQuestions": "Encourage engagement on your listings to increase trust and discoverability.",
+      "noMatches": "Try adjusting your search criteria or filters to see more results."
+    }
+  }
+}

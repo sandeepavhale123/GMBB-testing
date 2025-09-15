@@ -1,8 +1,14 @@
-
-import React from 'react';
-import { Button } from '../ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from "react";
+import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface QAPaginationProps {
   currentPage: number;
@@ -25,6 +31,7 @@ export const QAPagination: React.FC<QAPaginationProps> = ({
   onPageChange,
   onLimitChange,
 }) => {
+  const { t } = useI18nNamespace("QA/qaPagination");
   const startItem = (currentPage - 1) * limit + 1;
   const endItem = Math.min(currentPage * limit, total);
 
@@ -33,14 +40,20 @@ export const QAPagination: React.FC<QAPaginationProps> = ({
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Results info */}
         <div className="text-sm text-gray-600">
-          Showing {startItem}-{endItem} of {total} questions
+          {t("qaPagination.showing", { start: startItem, end: endItem, total })}
+          {/* Showing {startItem}-{endItem} of {total} questions */}
         </div>
 
         <div className="flex items-center gap-4">
           {/* Items per page */}
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Per page:</span>
-            <Select value={limit.toString()} onValueChange={(value) => onLimitChange(parseInt(value))}>
+            <span className="text-sm text-gray-600">
+              {t("qaPagination.perPage")}
+            </span>
+            <Select
+              value={limit.toString()}
+              onValueChange={(value) => onLimitChange(parseInt(value))}
+            >
               <SelectTrigger className="w-20">
                 <SelectValue />
               </SelectTrigger>
@@ -63,7 +76,7 @@ export const QAPagination: React.FC<QAPaginationProps> = ({
               className="flex items-center gap-1"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              {t("qaPagination.previous")}
             </Button>
 
             <div className="flex items-center gap-1">
@@ -101,7 +114,7 @@ export const QAPagination: React.FC<QAPaginationProps> = ({
               disabled={!hasNext}
               className="flex items-center gap-1"
             >
-              Next
+              {t("qaPagination.next")}
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>

@@ -1,0 +1,15 @@
+{
+  "qaManagementPage": {
+    "noListingSelected": {
+      "title": "No Listing Selected",
+      "description": "Please select a business listing to view Q&A."
+    },
+    "loading": {
+      "message": "Loading Q&A data..."
+    },
+    "error": {
+      "title": "Error",
+      "description": "Failed to load Q&A data"
+    }
+  }
+}

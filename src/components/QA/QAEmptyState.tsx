@@ -1,12 +1,13 @@
-
-import React from 'react';
-import { MessageCircleQuestion } from 'lucide-react';
+import React from "react";
+import { MessageCircleQuestion } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface QAEmptyStateProps {
   hasQuestions: boolean;
 }
 
 export const QAEmptyState: React.FC<QAEmptyStateProps> = ({ hasQuestions }) => {
+  const { t } = useI18nNamespace("QA/qaEmptyState");
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-8 sm:p-12 text-center">
       <div className="max-w-md mx-auto space-y-4">
@@ -15,16 +16,17 @@ export const QAEmptyState: React.FC<QAEmptyStateProps> = ({ hasQuestions }) => {
             <MessageCircleQuestion className="h-8 w-8 text-gray-400" />
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-900">
-            {hasQuestions ? 'No questions match your filters' : 'No customer questions yet'}
+            {hasQuestions
+              ? t("qaEmptyState.title.noMatches")
+              : t("qaEmptyState.title.noQuestions")}
           </h3>
           <p className="text-sm text-gray-600 leading-relaxed">
-            {hasQuestions 
-              ? 'Try adjusting your search criteria or filters to see more results.'
-              : 'Encourage engagement on your listings to increase trust and discoverability.'
-            }
+            {hasQuestions
+              ? t("qaEmptyState.description.noMatches")
+              : t("qaEmptyState.description.noQuestions")}
           </p>
         </div>
       </div>
