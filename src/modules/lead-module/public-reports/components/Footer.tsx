@@ -65,7 +65,16 @@ export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
                     {brandingData?.company_name}
                   </h3>
                   <div className="text-white/90">
-                    {brandingData?.company_website}
+                    {brandingData?.company_website && (
+                      <a 
+                        href={brandingData.company_website.startsWith('http') ? brandingData.company_website : `https://${brandingData.company_website}`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:text-white hover:underline transition-colors"
+                      >
+                        {brandingData.company_website}
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
