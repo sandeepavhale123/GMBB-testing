@@ -6,11 +6,6 @@ import { GeoRankingMapSection } from '@/components/GeoRanking/GeoRankingMapSecti
 import { UnderPerformingTable } from '@/components/GeoRanking/UnderPerformingTable';
 import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
-import { useGetLeadGeoReport } from '@/api/leadApi';
-import { useGetLeadReportBranding } from '@/hooks/useReportBranding';
-import { useShareableKeywordDetails } from '@/hooks/useShareableKeywordDetails';
-import { useShareableKeywordPositionDetails } from '@/hooks/useShareableKeywordPositionDetails';
 
 interface ModalData {
   isOpen: boolean;
@@ -26,15 +21,163 @@ interface ModalData {
   loading: boolean;
 }
 
+// Mock data for the GEO ranking report
+const mockKeywords = [
+  {
+    id: '1',
+    keyword: 'restaurant near me',
+    visibility: 85,
+    date: '2024-01-15'
+  },
+  {
+    id: '2', 
+    keyword: 'best pizza place',
+    visibility: 72,
+    date: '2024-01-15'
+  },
+  {
+    id: '3',
+    keyword: 'italian food delivery',
+    visibility: 91,
+    date: '2024-01-15'
+  }
+];
+
+const mockAvailableDates = [
+  {
+    id: '1',
+    prev_id: '0',
+    date: '2024-01-15'
+  },
+  {
+    id: '2', 
+    prev_id: '1',
+    date: '2024-01-14'
+  },
+  {
+    id: '3',
+    prev_id: '2', 
+    date: '2024-01-13'
+  }
+];
+
+const mockProjectDetails = {
+  id: '1',
+  sab: 'sample',
+  keyword: 'restaurant near me',
+  mappoint: '40.7128,-74.0060',
+  prev_id: '0',
+  distance: '10 Miles',
+  grid: '3x3',
+  last_checked: '2024-01-15',
+  schedule: 'daily',
+  date: '2024-01-15'
+};
+
+const mockRankStats = {
+  atr: '85',
+  atrp: '75', 
+  solvability: '90'
+};
+
+const mockRankDetails = [
+  {
+    coordinate: '40.7128,-74.0060',
+    positionId: '1',
+    rank: '1'
+  },
+  {
+    coordinate: '40.7130,-74.0062',
+    positionId: '2',
+    rank: '3'
+  },
+  {
+    coordinate: '40.7126,-74.0058',
+    positionId: '3',
+    rank: '2'
+  },
+  {
+    coordinate: '40.7132,-74.0064',
+    positionId: '4',
+    rank: '5'
+  },
+  {
+    coordinate: '40.7124,-74.0056',
+    positionId: '5',
+    rank: '4'
+  }
+];
+
+const mockUnderPerformingAreas = [
+  {
+    id: '1',
+    areaName: 'Downtown District',
+    coordinate: '40.7132,-74.0064',
+    compRank: 1,
+    compName: 'Tony\'s Italian Bistro',
+    compRating: '4.5',
+    compReview: '324',
+    priority: 'High',
+    youRank: '5',
+    youName: 'Mama\'s Italian Restaurant',
+    youRating: '4.2',
+    youReview: '156'
+  },
+  {
+    id: '2',
+    areaName: 'Business Quarter',
+    coordinate: '40.7124,-74.0056',
+    compRank: 2,
+    compName: 'Bella Notte Restaurant',
+    compRating: '4.2',
+    compReview: '198',
+    priority: 'Medium',
+    youRank: '4',
+    youName: 'Mama\'s Italian Restaurant',
+    youRating: '4.2',
+    youReview: '156'
+  }
+];
+
+const mockCompetitors = [
+  {
+    position: 1,
+    name: 'Tony\'s Italian Bistro',
+    address: '123 Main St, New York, NY 10001',
+    rating: 4.5,
+    reviewCount: 324,
+    selected: false
+  },
+  {
+    position: 2,
+    name: 'Bella Notte Restaurant',
+    address: '456 Broadway Ave, New York, NY 10002', 
+    rating: 4.2,
+    reviewCount: 198,
+    selected: true
+  },
+  {
+    position: 3,
+    name: 'Giuseppe\'s Pizza Palace',
+    address: '789 Central Park West, New York, NY 10003',
+    rating: 4.8,
+    reviewCount: 542,
+    selected: false
+  }
+];
+
+const mockBrandingData = {
+  company_name: 'Mama\'s Italian Restaurant',
+  company_email: 'info@mamasitalian.com',
+  company_website: 'www.mamasitalian.com',
+  company_phone: '(555) 123-4567',
+  company_address: '567 Little Italy St, New York, NY 10013',
+  company_logo: ''
+};
+
 export const LeadGeoRankingReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   
-  // Fetch lead GEO report data
-  const { data: geoReportData, isLoading, error } = useGetLeadGeoReport(reportId || '');
-  
-  // Fetch branding data
-  const { data: brandingResponse } = useGetLeadReportBranding(reportId || '');
-
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
@@ -42,100 +185,34 @@ export const LeadGeoRankingReport: React.FC = () => {
     loading: false
   });
 
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedKeyword, setSelectedKeyword] = useState<string>('1');
+  const [selectedDate, setSelectedDate] = useState<string>('1');
 
-  // Extract data from API response
-  const keywords = geoReportData?.data?.keywords?.map(kw => ({
-    id: kw.id,
-    keyword: kw.keyword,
-    visibility: 85, // Default visibility since not provided by API
-    date: kw.date
-  })) || [];
+  const keywords = mockKeywords;
+  const userBusinessName = "Mama's Italian Restaurant";
 
-  const userBusinessName = geoReportData?.data?.projectName || "Business Location";
-
-  // Auto-select first keyword when keywords are loaded
-  useEffect(() => {
-    if (keywords.length > 0 && !selectedKeyword) {
-      setSelectedKeyword(keywords[0].id);
-    }
-  }, [keywords, selectedKeyword]);
-
-  // Fetch keyword details when keyword is selected
-  const { 
-    data: keywordDetailsData, 
-    isLoading: keywordDetailsLoading, 
-    error: keywordDetailsError 
-  } = useShareableKeywordDetails({
-    reportId: reportId || '',
-    keywordId: parseInt(selectedKeyword) || 0,
-    enabled: Boolean(selectedKeyword) && Boolean(reportId)
-  });
-
-  // Auto-select first date when keyword details are loaded
-  useEffect(() => {
-    if (keywordDetailsData?.data?.dates && keywordDetailsData.data.dates.length > 0 && !selectedDate) {
-      setSelectedDate(keywordDetailsData.data.dates[0].id);
-    }
-  }, [keywordDetailsData, selectedDate]);
-
-  // Hook for fetching keyword position details
-  const { 
-    data: positionDetailsData, 
-    loading: positionDetailsLoading, 
-    error: positionDetailsError,
-    fetchPositionDetails 
-  } = useShareableKeywordPositionDetails({
-    reportId: reportId || '',
-    keywordId: parseInt(selectedKeyword) || 0
-  });
+  // Mock keyword details data
+  const keywordDetails = {
+    rankDetails: mockRankDetails,
+    dates: mockAvailableDates,
+    rankStats: mockRankStats,
+    projectDetails: mockProjectDetails,
+    underPerformingArea: mockUnderPerformingAreas
+  };
 
   // Handle keyword change
   const handleKeywordChange = (keywordId: string) => {
     setSelectedKeyword(keywordId);
-    setSelectedDate(''); // Reset selected date when keyword changes
   };
 
-  // Handle date change
+  // Handle date change  
   const handleDateChange = (dateId: string) => {
     setSelectedDate(dateId);
   };
 
-  // Get available dates for the selected keyword
-  const availableDates = keywordDetailsData?.data?.dates?.map(date => ({
-    id: date.id,
-    prev_id: date.prev_id,
-    date: date.date
-  })) || [];
-
-  // Get current keyword details or use mock data
-  const keywordDetails = keywordDetailsData?.data || {
-    rankDetails: [],
-    dates: [],
-    rankStats: {
-      atr: '85',
-      atrp: '75',
-      solvability: '90'
-    },
-    projectDetails: {
-      id: '1',
-      sab: 'sample',
-      keyword: 'Sample Keyword', 
-      mappoint: '40.7128,-74.0060',
-      prev_id: '0',
-      distance: '10',
-      grid: '3x3',
-      last_checked: '2024-01-15',
-      schedule: 'daily',
-      date: '2024-01-15',
-      coordinate: '40.7128,-74.0060'
-    },
-    underPerformingArea: []
-  };
-
+  // Mock marker click handler
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
-    // Clear previous modal data and show loading
+    // Show loading state
     setModalData({
       isOpen: true,
       gpsCoordinates,
@@ -143,39 +220,16 @@ export const LeadGeoRankingReport: React.FC = () => {
       loading: true
     });
 
-    try {
-      await fetchPositionDetails(parseInt(positionId));
-    } catch (error) {
-      console.error('Error fetching position details:', error);
+    // Simulate API delay
+    setTimeout(() => {
       setModalData({
         isOpen: true,
         gpsCoordinates,
-        competitors: [],
+        competitors: mockCompetitors,
         loading: false
       });
-    }
-  }, [fetchPositionDetails]);
-
-  // Update modal data when position details are fetched
-  useEffect(() => {
-    if (positionDetailsData?.data && modalData.isOpen) {
-      const competitors = positionDetailsData.data.keywordDetails.map(detail => ({
-        position: detail.position,
-        name: detail.name,
-        address: detail.address,
-        rating: parseFloat(detail.rating),
-        reviewCount: parseInt(detail.review),
-        selected: detail.selected
-      }));
-
-      setModalData({
-        isOpen: true,
-        gpsCoordinates: positionDetailsData.data.coordinate,
-        competitors,
-        loading: false
-      });
-    }
-  }, [positionDetailsData, modalData.isOpen]);
+    }, 1000);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setModalData(prev => ({
@@ -187,52 +241,27 @@ export const LeadGeoRankingReport: React.FC = () => {
   // Dummy handlers for public view
   const dummyHandler = () => {};
 
-  // Use branding data from API or fallback to empty object
-  const brandingData = brandingResponse?.data || null;
-
-  if (isLoading || (selectedKeyword && keywordDetailsLoading)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading GEO Ranking Report...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || keywordDetailsError) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-2">Error loading report</p>
-          <p className="text-muted-foreground">Please check the report ID and try again.</p>
-        </div>
-      </div>
-    );
-  }
-
   // Transform data for PublicReportLayout
   const transformedReportData = {
     title: "GEO Ranking Report",
     listingName: userBusinessName,
-    address: "", // Will be filled from project details if available
+    address: "567 Little Italy St, New York, NY 10013",
     logo: "",
     date: new Date().toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'long',
+      month: 'long', 
       day: 'numeric'
     })
   };
 
   return (
     <PublicReportLayout 
-      title={transformedReportData.title} 
-      listingName={transformedReportData.listingName} 
-      address={transformedReportData.address} 
-      logo={transformedReportData.logo} 
-      date={transformedReportData.date} 
-      brandingData={brandingData}
+      title={transformedReportData.title}
+      listingName={transformedReportData.listingName}
+      address={transformedReportData.address}
+      logo={transformedReportData.logo}
+      date={transformedReportData.date}
+      brandingData={mockBrandingData}
       reportId={reportId}
       reportType="geo-ranking"
     >
@@ -241,39 +270,39 @@ export const LeadGeoRankingReport: React.FC = () => {
           <CardContent className="p-4 sm:p-6">
             <div data-export-target>
               <GeoRankingHeader 
-                keywords={keywords} 
-                selectedKeyword={selectedKeyword} 
-                selectedDate={selectedDate} 
-                keywordDetails={keywordDetails} 
-                credits={{ allowedCredit: '0', remainingCredit: 0 }} 
-                onKeywordChange={handleKeywordChange} 
-                onDateChange={handleDateChange} 
-                onClone={dummyHandler} 
-                onRefresh={dummyHandler} 
+                keywords={keywords}
+                selectedKeyword={selectedKeyword}
+                selectedDate={selectedDate}
+                keywordDetails={keywordDetails}
+                credits={{ allowedCredit: '0', remainingCredit: 0 }}
+                onKeywordChange={handleKeywordChange}
+                onDateChange={handleDateChange}
+                onClone={dummyHandler}
+                onRefresh={dummyHandler}
                 onCheckRank={dummyHandler}
-                isRefreshing={false} 
-                refreshProgress={0} 
-                loading={keywordDetailsLoading} 
-                keywordChanging={keywordDetailsLoading} 
-                dateChanging={false} 
-                error={keywordDetailsError?.message || null}
+                isRefreshing={false}
+                refreshProgress={0}
+                loading={false}
+                keywordChanging={false}
+                dateChanging={false}
+                error={null}
                 isShareableView={true}
-                projectName={geoReportData?.data?.projectName}
+                projectName={userBusinessName}
               />
 
               <div className="space-y-4 sm:space-y-6">
                 <GeoRankingMapSection 
-                  gridSize={keywordDetails.projectDetails?.grid || "3x3"} 
-                  onMarkerClick={handleMarkerClick} 
-                  rankDetails={keywordDetails.rankDetails} 
-                  rankStats={keywordDetails.rankStats} 
-                  projectDetails={keywordDetails.projectDetails} 
-                  loading={keywordDetailsLoading} 
+                  gridSize={keywordDetails.projectDetails?.grid || "3x3"}
+                  onMarkerClick={handleMarkerClick}
+                  rankDetails={keywordDetails.rankDetails}
+                  rankStats={keywordDetails.rankStats}
+                  projectDetails={keywordDetails.projectDetails}
+                  loading={false}
                 />
 
                 <UnderPerformingTable 
-                  underPerformingAreas={keywordDetails.underPerformingArea} 
-                  loading={keywordDetailsLoading} 
+                  underPerformingAreas={keywordDetails.underPerformingArea}
+                  loading={false}
                 />
               </div>
             </div>
@@ -282,12 +311,12 @@ export const LeadGeoRankingReport: React.FC = () => {
       </div>
 
       <GeoPositionModal 
-        isOpen={modalData.isOpen} 
-        onClose={handleCloseModal} 
-        gpsCoordinates={modalData.gpsCoordinates} 
-        competitors={modalData.competitors} 
-        loading={modalData.loading} 
-        userBusinessName={userBusinessName} 
+        isOpen={modalData.isOpen}
+        onClose={handleCloseModal}
+        gpsCoordinates={modalData.gpsCoordinates}
+        competitors={modalData.competitors}
+        loading={modalData.loading}
+        userBusinessName={userBusinessName}
       />
     </PublicReportLayout>
   );
