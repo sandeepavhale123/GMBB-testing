@@ -39,6 +39,10 @@ export interface Lead {
       status: 0 | 1;
       viewUrl: string | null;
     };
+    geo?: {
+      status: 0 | 1;
+      viewUrl: string | null;
+    };
   };
 }
 

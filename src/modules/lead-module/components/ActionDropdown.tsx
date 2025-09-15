@@ -13,7 +13,8 @@ import {
   Search, 
   TrendingUp, 
   Mail, 
-  Trash2 
+  Trash2,
+  MapPin
 } from "lucide-react";
 
 interface ReportStatus {
@@ -26,6 +27,7 @@ interface Reports {
   onPage?: ReportStatus;
   citation?: ReportStatus;
   prospect?: ReportStatus;
+  geo?: ReportStatus;
 }
 
 interface ActionDropdownProps {
@@ -39,7 +41,7 @@ interface ActionDropdownProps {
 export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId, citationReportId }) => {
   const handleAction = (action: string, viewUrl?: string) => {
     // Handle view actions with external URLs
-    if (viewUrl && (action === 'view-gmb-health' || action === 'view-citation' || action === 'view-prospect')) {
+    if (viewUrl && (action === 'view-gmb-health' || action === 'view-citation' || action === 'view-prospect' || action === 'view-geo')) {
       window.open(viewUrl, '_blank');
       return;
     }
@@ -73,6 +75,15 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         >
           <Search className="mr-2 h-4 w-4" />
           {reports?.citation?.status === 1 ? 'View Citation Audit Report' : 'Generate Citation Audit Report'}
+        </DropdownMenuItem>
+        <DropdownMenuItem 
+          onClick={() => handleAction(
+            reports?.geo?.status === 1 ? 'view-geo' : 'generate-geo',
+            reports?.geo?.viewUrl || undefined
+          )}
+        >
+          <MapPin className="mr-2 h-4 w-4" />
+          {reports?.geo?.status === 1 ? 'View GEO Ranking Report' : 'Generate GEO Ranking Report'}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => handleAction(
