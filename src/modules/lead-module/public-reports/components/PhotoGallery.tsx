@@ -20,7 +20,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Camera className="h-5 w-5" />
-          Route to GMB ({totalCount} photos)
+          GMB photo ({totalCount} photos)
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -35,6 +35,11 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
                   e.currentTarget.src = '/placeholder.svg';
                 }}
               />
+              {photo.category && (
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
+                  {photo.category}
+                </div>
+              )}
             </div>
           ))}
           {photos.length < totalCount && (
