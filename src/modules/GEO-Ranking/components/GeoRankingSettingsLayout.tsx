@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Palette } from 'lucide-react';
+import { Menu, Palette, Key } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface SettingsNavItem {
@@ -17,6 +17,11 @@ const settingsNavItems: SettingsNavItem[] = [
     label: 'Theme Customization',
     path: '/module/geo-ranking/settings/theme-customization',
     icon: Palette,
+  },
+  {
+    label: 'Google Places API Key',
+    path: '/module/geo-ranking/settings/google-api-key',
+    icon: Key,
   },
 ];
 

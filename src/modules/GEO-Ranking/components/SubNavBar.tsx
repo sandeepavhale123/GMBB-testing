@@ -12,10 +12,6 @@ const navItems = [{
   path: '/module/geo-ranking/check-rank',
   icon: Search
 }, {
-  label: 'Google Place API Key',
-  path: '/module/geo-ranking/google-api-key',
-  icon: Key
-}, {
   label: 'Credits History',
   path: '/module/geo-ranking/credit-history',
   icon: History

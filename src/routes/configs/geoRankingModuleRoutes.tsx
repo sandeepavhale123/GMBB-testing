@@ -9,6 +9,7 @@ import { ViewProjectDetails } from "@/modules/GEO-Ranking/pages/ViewProjectDetai
 import { AIChatBoxPage } from "@/modules/GEO-Ranking/pages/AI-ChatBoxPage";
 import { GeoRankingSettingsLayout } from "@/modules/GEO-Ranking/components/GeoRankingSettingsLayout";
 import { ThemeCustomizationWrapper } from "@/modules/GEO-Ranking/components/settings/ThemeCustomizationWrapper";
+import { GoogleApiKeyWrapper } from "@/modules/GEO-Ranking/components/settings/GoogleApiKeyWrapper";
 import type { RouteConfig } from "../routeConfig";
 
 export const geoRankingModuleRoutes: RouteConfig[] = [
@@ -29,10 +30,6 @@ export const geoRankingModuleRoutes: RouteConfig[] = [
       {
         path: "check-rank",
         element: <CheckRanking />,
-      },
-      {
-        path: "google-api-key",
-        element: <ManageGoogleAPIKey />,
       },
       {
         path: "credit-history",
@@ -57,6 +54,10 @@ export const geoRankingModuleRoutes: RouteConfig[] = [
           {
             path: "theme-customization",
             element: <ThemeCustomizationWrapper />,
+          },
+          {
+            path: "google-api-key",
+            element: <GoogleApiKeyWrapper />,
           },
         ],
       },
