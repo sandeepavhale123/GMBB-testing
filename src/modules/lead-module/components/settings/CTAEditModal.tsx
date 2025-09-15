@@ -34,7 +34,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(ctaSettingsSchema);
   const { toast } = useToast();
 
-  // Reset form when modal opens/closes or settings change
+  // Reset form when modal opens only
   useEffect(() => {
     if (isOpen) {
       // Ensure all required fields exist with defaults
@@ -49,7 +49,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
       setFormData(settingsWithDefaults);
       clearErrors();
     }
-  }, [isOpen, currentSettings, clearErrors]);
+  }, [isOpen, clearErrors]);
 
   const handleInputChange = (field: keyof CTASettings, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
