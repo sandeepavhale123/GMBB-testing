@@ -7,6 +7,8 @@ import { ManageGoogleAPIKey } from "@/modules/GEO-Ranking/pages/ManageGoogleAPIK
 import { CreditHistory } from "@/modules/GEO-Ranking/pages/CreditHistory";
 import { ViewProjectDetails } from "@/modules/GEO-Ranking/pages/ViewProjectDetails";
 import { AIChatBoxPage } from "@/modules/GEO-Ranking/pages/AI-ChatBoxPage";
+import { GeoRankingSettingsLayout } from "@/modules/GEO-Ranking/components/GeoRankingSettingsLayout";
+import { ThemeCustomizationWrapper } from "@/modules/GEO-Ranking/components/settings/ThemeCustomizationWrapper";
 import type { RouteConfig } from "../routeConfig";
 
 export const geoRankingModuleRoutes: RouteConfig[] = [
@@ -43,6 +45,20 @@ export const geoRankingModuleRoutes: RouteConfig[] = [
       {
         path: "aiChatBox/:projectId",
         element: <AIChatBoxPage />,
+      },
+      {
+        path: "settings",
+        element: <GeoRankingSettingsLayout />,
+        children: [
+          {
+            path: "",
+            element: <ThemeCustomizationWrapper />,
+          },
+          {
+            path: "theme-customization",
+            element: <ThemeCustomizationWrapper />,
+          },
+        ],
       },
     ],
   },

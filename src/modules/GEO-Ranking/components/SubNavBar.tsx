@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Search, Key, History, ArrowLeft, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Search, Key, History, ArrowLeft, MessageSquare, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 const navItems = [{
   label: 'Dashboard',
@@ -19,6 +19,10 @@ const navItems = [{
   label: 'Credits History',
   path: '/module/geo-ranking/credit-history',
   icon: History
+}, {
+  label: 'Settings',
+  path: '/module/geo-ranking/settings',
+  icon: Settings
 }
 // { label: 'AI Chatbot', path: '/module/geo-ranking/aiChatBox/1', icon: MessageSquare },
 ];
@@ -44,7 +48,10 @@ export const SubNavBar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-end md:justify-end gap-1 md:gap-6 flex-wrap">
           {navItems.map(item => {
-          const isActive = location.pathname === item.path;
+          // Special handling for Settings to include nested routes
+          const isActive = item.path === '/module/geo-ranking/settings' 
+            ? location.pathname.startsWith('/module/geo-ranking/settings')
+            : location.pathname === item.path;
           const IconComponent = item.icon;
           return <NavLink key={item.path} to={item.path} className={cn("flex items-center gap-2 px-3 py-4 text-sm font-medium transition-colors relative", isActive ? "text-primary border-b-2 border-primary" : "text-muted-foreground hover:text-foreground")}>
                 <IconComponent size={18} />
