@@ -11,15 +11,15 @@ const navItems = [
     type: 'link'
   },
   {
-    label: 'Settings',
-    path: '/module/lead/settings',
-    icon: Settings,
-    type: 'link'
-  },
-  {
     label: 'Credits',
     path: '/module/lead/credits',
     icon: History,
+    type: 'link'
+  },
+  {
+    label: 'Settings',
+    path: '/module/lead/settings',
+    icon: Settings,
     type: 'link'
   }
 ];
