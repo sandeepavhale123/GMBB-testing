@@ -1,0 +1,133 @@
+import React, { useState } from 'react';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { 
+  Users, 
+  Palette, 
+  FileText, 
+  Settings,
+  Menu,
+  MousePointer2
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+interface SettingsNavItem {
+  label: string;
+  path: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const settingsNavItems: SettingsNavItem[] = [
+  {
+    label: 'Team Members',
+    path: '/module/lead/settings/team-members',
+    icon: Users
+  },
+  {
+    label: 'Theme Customization',
+    path: '/module/lead/settings/theme-customization',
+    icon: Palette
+  },
+  {
+    label: 'Report Branding',
+    path: '/module/lead/settings/report-branding',
+    icon: FileText
+  },
+  {
+    label: 'Integrations',
+    path: '/module/lead/settings/integrations',
+    icon: Settings
+  },
+  {
+    label: 'CTA Customization',
+    path: '/module/lead/settings/cta-customization',
+    icon: MousePointer2
+  }
+];
+
+export const LeadSettingsLayout: React.FC = () => {
+  const location = useLocation();
+  const isMobile = useIsMobile(1024);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const getActivePath = (itemPath: string) => {
+    const currentPath = location.pathname;
+    
+    if (currentPath === '/module/lead/settings') {
+      return '/module/lead/settings/team-members';
+    }
+    
+    if (currentPath.includes('/team-members/edit/')) {
+      return '/module/lead/settings/team-members';
+    }
+    
+    return currentPath;
+  };
+
+  const SettingsNav = () => (
+    <nav className="space-y-1">
+      {settingsNavItems.map((item) => {
+        const Icon = item.icon;
+        const isActive = getActivePath(item.path) === item.path;
+        
+        return (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            onClick={() => isMobile && setIsSheetOpen(false)}
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              isActive
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+            }`}
+          >
+            <Icon className="h-4 w-4" />
+            {item.label}
+          </NavLink>
+        );
+      })}
+    </nav>
+  );
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
+      {isMobile && (
+        <div className="flex items-center justify-between p-4 bg-white border border-border rounded-lg lg:hidden">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Settings</h3>
+            <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+          </div>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-foreground">Settings</h3>
+                <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+              </div>
+              <SettingsNav />
+            </SheetContent>
+          </Sheet>
+        </div>
+      )}
+
+      {!isMobile && (
+        <div className="w-64 bg-white border border-border rounded-lg p-4" style={{minWidth:"270px"}}>
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-foreground">Settings</h3>
+            <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+          </div>
+          <SettingsNav />
+        </div>
+      )}
+
+      <div className="flex-1 bg-white border border-border rounded-lg" >
+        <Outlet />
+      </div>
+    </div>
+  );
+};
