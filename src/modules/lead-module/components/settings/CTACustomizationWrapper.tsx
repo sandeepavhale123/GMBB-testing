@@ -1,28 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Edit, RotateCcw } from "lucide-react";
+import { CTASection } from "@/modules/lead-module/public-reports/components/CTASection";
+import { CTAEditModal } from "./CTAEditModal";
+import { useCTASettings } from "@/hooks/useCTASettings";
+import { useToast } from "@/hooks/use-toast";
 
 export const CTACustomizationWrapper: React.FC = () => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { settings, updateSettings, resetToDefaults, isLoading } = useCTASettings();
+  const { toast } = useToast();
+
+  const handleResetToDefaults = () => {
+    resetToDefaults();
+    toast({
+      title: "CTA Reset",
+      description: "CTA settings have been reset to defaults.",
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">CTA Customization</h1>
-          <p className="text-muted-foreground">Customize your call-to-action buttons and settings.</p>
-        </div>
-        
-        <div className="bg-muted/50 border border-dashed border-border rounded-lg p-8 text-center">
-          <div className="max-w-md mx-auto space-y-4">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">CTA Customization Coming Soon</h3>
-            <p className="text-sm text-muted-foreground">
-              This feature is currently under development. You'll be able to customize your call-to-action buttons, 
-              colors, text, and positioning here.
-            </p>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">CTA Customization</h1>
+            <p className="text-muted-foreground">Customize your call-to-action section for lead reports.</p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleResetToDefaults}
+              className="flex items-center gap-2"
+            >
+              <RotateCcw className="w-4 h-4" />
+              Reset
+            </Button>
+            <Button
+              onClick={() => setIsEditModalOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <Edit className="w-4 h-4" />
+              Edit CTA
+            </Button>
           </div>
         </div>
+
+        {/* CTA Preview */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">Preview</h2>
+            <span className="text-sm text-muted-foreground">
+              This is how your CTA will appear in lead reports
+            </span>
+          </div>
+          
+          <div className="border border-border rounded-lg p-4 bg-background">
+            <CTASection settings={settings} isPreview={true} />
+          </div>
+        </div>
+
+        {/* Current Settings Display */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Current Settings</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Header</label>
+              <div className="p-3 bg-muted/50 rounded-md text-sm">
+                {settings.header}
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Button Label</label>
+              <div className="p-3 bg-muted/50 rounded-md text-sm">
+                {settings.buttonLabel}
+              </div>
+            </div>
+            
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-medium text-foreground">Description</label>
+              <div className="p-3 bg-muted/50 rounded-md text-sm">
+                {settings.description}
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Button Link</label>
+              <div className="p-3 bg-muted/50 rounded-md text-sm">
+                {settings.buttonLink || "No link set"}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Edit Modal */}
+        <CTAEditModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          currentSettings={settings}
+          onSave={updateSettings}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );
