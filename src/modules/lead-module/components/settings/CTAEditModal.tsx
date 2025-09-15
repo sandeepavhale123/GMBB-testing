@@ -91,7 +91,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-6 py-4">
+        <div className="grid gap-6 py-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg px-4">
           {/* Header Input */}
           <div className="grid gap-2">
             <Label htmlFor="header">CTA Header</Label>
