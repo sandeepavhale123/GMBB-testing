@@ -57,7 +57,7 @@ export const CTACustomizationWrapper: React.FC = () => {
             </span>
           </div>
           
-          <div className="border border-border rounded-lg p-4 bg-background">
+          <div className="">
             <CTASection settings={settings} isPreview={true} />
           </div>
         </div>
