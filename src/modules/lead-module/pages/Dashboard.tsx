@@ -46,21 +46,25 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
   citationReportId: apiLead.report_id,
   reports: {
     gmbReport: {
-      status: (apiLead.reports.gmbReport.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports.gmbReport.viewUrl,
+      status: (apiLead.reports?.gmbReport?.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports?.gmbReport?.viewUrl ?? null,
     },
     onPage: {
-      status: (apiLead.reports.onPage.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports.onPage.viewUrl,
+      status: (apiLead.reports?.onPage?.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports?.onPage?.viewUrl ?? null,
     },
     citation: {
-      status: (apiLead.reports.citation.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports.citation.viewUrl,
+      status: (apiLead.reports?.citation?.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports?.citation?.viewUrl ?? null,
     },
     prospect: {
-      status: (apiLead.reports.prospect.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports.prospect.viewUrl,
+      status: (apiLead.reports?.prospect?.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: apiLead.reports?.prospect?.viewUrl ?? null,
     },
+    geo: {
+      status: (((apiLead as any)?.reports?.geo?.status) === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: ((apiLead as any)?.reports?.geo?.viewUrl) ?? null,
+    }
   },
 });
 
