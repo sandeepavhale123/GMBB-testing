@@ -23,19 +23,19 @@ export interface Lead {
   reportId: string;
   citationReportId?: string;
   reports: {
-    gmbReport: {
+    gmbReport?: {
       status: 0 | 1;
       viewUrl: string | null;
     };
-    onPage: {
+    onPage?: {
       status: 0 | 1;
       viewUrl: string | null;
     };
-    citation: {
+    citation?: {
       status: 0 | 1;
       viewUrl: string | null;
     };
-    prospect: {
+    prospect?: {
       status: 0 | 1;
       viewUrl: string | null;
     };

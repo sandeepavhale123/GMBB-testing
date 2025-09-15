@@ -22,10 +22,10 @@ interface ReportStatus {
 }
 
 interface Reports {
-  gmbReport: ReportStatus;
-  onPage: ReportStatus;
-  citation: ReportStatus;
-  prospect: ReportStatus;
+  gmbReport?: ReportStatus;
+  onPage?: ReportStatus;
+  citation?: ReportStatus;
+  prospect?: ReportStatus;
 }
 
 interface ActionDropdownProps {
@@ -58,30 +58,30 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuItem 
           onClick={() => handleAction(
-            reports.gmbReport.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
-            reports.gmbReport.viewUrl || undefined
+            reports?.gmbReport?.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
+            reports?.gmbReport?.viewUrl || undefined
           )}
         >
           <FileText className="mr-2 h-4 w-4" />
-          {reports.gmbReport.status === 1 ? 'View GMB Health Report' : 'Generate GMB Health Report'}
+          {reports?.gmbReport?.status === 1 ? 'View GMB Health Report' : 'Generate GMB Health Report'}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => handleAction(
-            reports.citation.status === 1 ? 'view-citation' : 'generate-citation',
-            reports.citation.viewUrl || undefined
+            reports?.citation?.status === 1 ? 'view-citation' : 'generate-citation',
+            reports?.citation?.viewUrl || undefined
           )}
         >
           <Search className="mr-2 h-4 w-4" />
-          {reports.citation.status === 1 ? 'View Citation Audit Report' : 'Generate Citation Audit Report'}
+          {reports?.citation?.status === 1 ? 'View Citation Audit Report' : 'Generate Citation Audit Report'}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => handleAction(
-            reports.prospect.status === 1 ? 'view-prospect' : 'generate-prospect',
-            reports.prospect.viewUrl || undefined
+            reports?.prospect?.status === 1 ? 'view-prospect' : 'generate-prospect',
+            reports?.prospect?.viewUrl || undefined
           )}
         >
           <TrendingUp className="mr-2 h-4 w-4" />
-          {reports.prospect.status === 1 ? 'View GMB Prospect Report' : 'Generate GMB Prospect Report'}
+          {reports?.prospect?.status === 1 ? 'View GMB Prospect Report' : 'Generate GMB Prospect Report'}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleAction('send-email')}>
