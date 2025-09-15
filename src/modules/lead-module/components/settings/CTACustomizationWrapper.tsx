@@ -62,39 +62,6 @@ export const CTACustomizationWrapper: React.FC = () => {
           </div>
         </div>
 
-        {/* Current Settings Display */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-foreground">Current Settings</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Header</label>
-              <div className="p-3 bg-muted/50 rounded-md text-sm">
-                {settings.header}
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Button Label</label>
-              <div className="p-3 bg-muted/50 rounded-md text-sm">
-                {settings.buttonLabel}
-              </div>
-            </div>
-            
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium text-foreground">Description</label>
-              <div className="p-3 bg-muted/50 rounded-md text-sm">
-                {settings.description}
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Button Link</label>
-              <div className="p-3 bg-muted/50 rounded-md text-sm">
-                {settings.buttonLink || "No link set"}
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Edit Modal */}
         <CTAEditModal
