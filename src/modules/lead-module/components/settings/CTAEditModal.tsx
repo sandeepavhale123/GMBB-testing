@@ -37,7 +37,16 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   // Reset form when modal opens/closes or settings change
   useEffect(() => {
     if (isOpen) {
-      setFormData(currentSettings);
+      // Ensure all required fields exist with defaults
+      const settingsWithDefaults = {
+        header: currentSettings.header || "Ready to Improve Your GMB Performance?",
+        description: currentSettings.description || "Let's work together to boost your Google My Business score and increase your local visibility.",
+        buttonLabel: currentSettings.buttonLabel || "Let's Work Together",
+        buttonLink: currentSettings.buttonLink || "#contact",
+        backgroundColor: currentSettings.backgroundColor || "#3B82F6",
+        textColor: currentSettings.textColor || "#FFFFFF",
+      };
+      setFormData(settingsWithDefaults);
       clearErrors();
     }
   }, [isOpen, currentSettings, clearErrors]);
