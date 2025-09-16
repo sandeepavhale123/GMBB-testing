@@ -6,6 +6,8 @@ import { GeoRankingMapSection } from '@/components/GeoRanking/GeoRankingMapSecti
 import { UnderPerformingTable } from '@/components/GeoRanking/UnderPerformingTable';
 import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
+import { useLeadGeoRanking } from '@/hooks/useLeadGeoRanking';
+import { useGetLeadReportBranding } from '@/api/leadApi';
 
 interface ModalData {
   isOpen: boolean;
@@ -21,124 +23,7 @@ interface ModalData {
   loading: boolean;
 }
 
-// Mock data for the GEO ranking report
-const mockKeywords = [
-  {
-    id: '1',
-    keyword: 'restaurant near me',
-    visibility: 85,
-    date: '2024-01-15'
-  },
-  {
-    id: '2', 
-    keyword: 'best pizza place',
-    visibility: 72,
-    date: '2024-01-15'
-  },
-  {
-    id: '3',
-    keyword: 'italian food delivery',
-    visibility: 91,
-    date: '2024-01-15'
-  }
-];
-
-const mockAvailableDates = [
-  {
-    id: '1',
-    prev_id: '0',
-    date: '2024-01-15'
-  },
-  {
-    id: '2', 
-    prev_id: '1',
-    date: '2024-01-14'
-  },
-  {
-    id: '3',
-    prev_id: '2', 
-    date: '2024-01-13'
-  }
-];
-
-const mockProjectDetails = {
-  id: '1',
-  sab: 'sample',
-  keyword: 'restaurant near me',
-  mappoint: '40.7128,-74.0060',
-  prev_id: '0',
-  distance: '10 Miles',
-  grid: '3x3',
-  last_checked: '2024-01-15',
-  schedule: 'daily',
-  date: '2024-01-15'
-};
-
-const mockRankStats = {
-  atr: '85',
-  atrp: '75', 
-  solvability: '90'
-};
-
-const mockRankDetails = [
-  {
-    coordinate: '40.7128,-74.0060',
-    positionId: '1',
-    rank: '1'
-  },
-  {
-    coordinate: '40.7130,-74.0062',
-    positionId: '2',
-    rank: '3'
-  },
-  {
-    coordinate: '40.7126,-74.0058',
-    positionId: '3',
-    rank: '2'
-  },
-  {
-    coordinate: '40.7132,-74.0064',
-    positionId: '4',
-    rank: '5'
-  },
-  {
-    coordinate: '40.7124,-74.0056',
-    positionId: '5',
-    rank: '4'
-  }
-];
-
-const mockUnderPerformingAreas = [
-  {
-    id: '1',
-    areaName: 'Downtown District',
-    coordinate: '40.7132,-74.0064',
-    compRank: 1,
-    compName: 'Tony\'s Italian Bistro',
-    compRating: '4.5',
-    compReview: '324',
-    priority: 'High',
-    youRank: '5',
-    youName: 'Mama\'s Italian Restaurant',
-    youRating: '4.2',
-    youReview: '156'
-  },
-  {
-    id: '2',
-    areaName: 'Business Quarter',
-    coordinate: '40.7124,-74.0056',
-    compRank: 2,
-    compName: 'Bella Notte Restaurant',
-    compRating: '4.2',
-    compReview: '198',
-    priority: 'Medium',
-    youRank: '4',
-    youName: 'Mama\'s Italian Restaurant',
-    youRating: '4.2',
-    youReview: '156'
-  }
-];
-
+// Mock competitors data for modal (since we don't have competitor details API yet)
 const mockCompetitors = [
   {
     position: 1,
@@ -166,17 +51,24 @@ const mockCompetitors = [
   }
 ];
 
-const mockBrandingData = {
-  company_name: 'Mama\'s Italian Restaurant',
-  company_email: 'info@mamasitalian.com',
-  company_website: 'www.mamasitalian.com',
-  company_phone: '(555) 123-4567',
-  company_address: '567 Little Italy St, New York, NY 10013',
-  company_logo: ''
-};
-
 export const LeadGeoRankingReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
+  
+  // Use the lead geo ranking hook for real data
+  const {
+    keywords,
+    businessInfo,
+    rankingData,
+    availableDates,
+    selectedKeyword,
+    isLoading,
+    error,
+    handleKeywordChange,
+    handleDateChange
+  } = useLeadGeoRanking(reportId || '');
+
+  // Get branding data
+  const { data: brandingData } = useGetLeadReportBranding(reportId || '');
   
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
@@ -185,34 +77,15 @@ export const LeadGeoRankingReport: React.FC = () => {
     loading: false
   });
 
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('1');
-  const [selectedDate, setSelectedDate] = useState<string>('1');
+  // Set first keyword as default when data loads
+  useEffect(() => {
+    if (keywords.length > 0 && !selectedKeyword) {
+      handleKeywordChange(keywords[0].id);
+    }
+  }, [keywords, selectedKeyword, handleKeywordChange]);
 
-  const keywords = mockKeywords;
-  const userBusinessName = "Mama's Italian Restaurant";
-
-  // Mock keyword details data
-  const keywordDetails = {
-    rankDetails: mockRankDetails,
-    dates: mockAvailableDates,
-    rankStats: mockRankStats,
-    projectDetails: mockProjectDetails,
-    underPerformingArea: mockUnderPerformingAreas
-  };
-
-  // Handle keyword change
-  const handleKeywordChange = (keywordId: string) => {
-    setSelectedKeyword(keywordId);
-  };
-
-  // Handle date change  
-  const handleDateChange = (dateId: string) => {
-    setSelectedDate(dateId);
-  };
-
-  // Mock marker click handler
+  // Mock marker click handler (until competitor details API is available)
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
-    // Show loading state
     setModalData({
       isOpen: true,
       gpsCoordinates,
@@ -241,11 +114,82 @@ export const LeadGeoRankingReport: React.FC = () => {
   // Dummy handlers for public view
   const dummyHandler = () => {};
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-lg text-gray-600">Loading GEO Ranking Report...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error || !businessInfo) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg text-red-600">Error loading report data</p>
+          <p className="text-gray-600">Please try again later</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Create mock underperforming areas (until this data is available from API)
+  const mockUnderPerformingAreas = rankingData?.rankDetails?.slice(0, 2).map((detail, index) => ({
+    id: detail.positionId,
+    areaName: `Area ${index + 1}`,
+    coordinate: detail.coordinates,
+    compRank: 1,
+    compName: mockCompetitors[0]?.name || 'Competitor',
+    compRating: '4.5',
+    compReview: '324',
+    priority: index === 0 ? 'High' : 'Medium',
+    youRank: detail.rank.toString(),
+    youName: businessInfo.name,
+    youRating: '4.2',
+    youReview: '156'
+  })) || [];
+
+  // Create project details from available data
+  const projectDetails = {
+    id: reportId,
+    sab: 'sample',
+    keyword: keywords.find(k => k.id === selectedKeyword)?.keyword || '',
+    mappoint: rankingData?.rankDetails?.[0]?.coordinates || '40.7128,-74.0060',
+    prev_id: '0',
+    distance: '10 Miles', // Mock value
+    grid: '3x3', // Mock value
+    last_checked: new Date().toISOString().split('T')[0],
+    schedule: 'daily',
+    date: availableDates?.[0]?.date || new Date().toISOString().split('T')[0]
+  };
+
+  // Prepare keyword details for components
+  const keywordDetails = {
+    rankDetails: rankingData?.rankDetails.map(detail => ({
+      coordinate: detail.coordinates,
+      positionId: detail.positionId,
+      rank: detail.rank.toString()
+    })) || [],
+    dates: availableDates,
+    rankStats: {
+      atr: rankingData?.atr?.toString() || '0',
+      atrp: rankingData?.atrp?.toString() || '0',
+      solvability: rankingData?.solvability?.toString() || '0'
+    },
+    projectDetails,
+    underPerformingArea: mockUnderPerformingAreas
+  };
+
   // Transform data for PublicReportLayout
   const transformedReportData = {
     title: "GEO Ranking Report",
-    listingName: userBusinessName,
-    address: "567 Little Italy St, New York, NY 10013",
+    listingName: businessInfo.name,
+    address: businessInfo.address,
     logo: "",
     date: new Date().toLocaleDateString('en-US', {
       year: 'numeric',
@@ -261,7 +205,7 @@ export const LeadGeoRankingReport: React.FC = () => {
       address={transformedReportData.address}
       logo={transformedReportData.logo}
       date={transformedReportData.date}
-      brandingData={mockBrandingData}
+      brandingData={brandingData?.data || null}
       reportId={reportId}
       reportType="geo-ranking"
     >
@@ -272,7 +216,7 @@ export const LeadGeoRankingReport: React.FC = () => {
               <GeoRankingHeader 
                 keywords={keywords}
                 selectedKeyword={selectedKeyword}
-                selectedDate={selectedDate}
+                selectedDate={availableDates?.[0]?.id || '1'}
                 keywordDetails={keywordDetails}
                 credits={{ allowedCredit: '0', remainingCredit: 0 }}
                 onKeywordChange={handleKeywordChange}
@@ -282,27 +226,27 @@ export const LeadGeoRankingReport: React.FC = () => {
                 onCheckRank={dummyHandler}
                 isRefreshing={false}
                 refreshProgress={0}
-                loading={false}
+                loading={isLoading}
                 keywordChanging={false}
                 dateChanging={false}
                 error={null}
                 isShareableView={true}
-                projectName={userBusinessName}
+                projectName={businessInfo.name}
               />
 
               <div className="space-y-4 sm:space-y-6">
                 <GeoRankingMapSection 
-                  gridSize={keywordDetails.projectDetails?.grid || "3x3"}
+                  gridSize={projectDetails.grid}
                   onMarkerClick={handleMarkerClick}
                   rankDetails={keywordDetails.rankDetails}
                   rankStats={keywordDetails.rankStats}
                   projectDetails={keywordDetails.projectDetails}
-                  loading={false}
+                  loading={isLoading}
                 />
 
                 <UnderPerformingTable 
                   underPerformingAreas={keywordDetails.underPerformingArea}
-                  loading={false}
+                  loading={isLoading}
                 />
               </div>
             </div>
@@ -316,7 +260,7 @@ export const LeadGeoRankingReport: React.FC = () => {
         gpsCoordinates={modalData.gpsCoordinates}
         competitors={modalData.competitors}
         loading={modalData.loading}
-        userBusinessName={userBusinessName}
+        userBusinessName={businessInfo.name}
       />
     </PublicReportLayout>
   );

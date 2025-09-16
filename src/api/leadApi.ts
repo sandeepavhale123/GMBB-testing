@@ -521,6 +521,17 @@ export const getLeadReportBranding = async (
   return response.data;
 };
 
+// Get Lead Report Branding React Query hook
+export const useGetLeadReportBranding = (reportId: string) => {
+  return useQuery({
+    queryKey: ['leadReportBranding', reportId],
+    queryFn: () => getLeadReportBranding({ reportId }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    enabled: !!reportId,
+  });
+};
+
 // Get Citation Audit Report React Query hook
 export const useGetCitationAuditReport = (reportId: string) => {
   return useQuery({
@@ -665,6 +676,56 @@ export interface GetLeadGeoReportResponse {
   };
 }
 
+// GEO Keywords API interfaces
+export interface GetLeadGeoKeywordsRequest {
+  reportId: string;
+}
+
+export interface GetLeadGeoKeywordsResponse {
+  code: number;
+  message: string;
+  data: {
+    reportDetails: {
+      bname: string;
+      website: string;
+      address: string;
+      state: string;
+      phone: string;
+      email: string;
+      category: string;
+      mapurl: string;
+    };
+    keywordDetails: Array<{
+      keywordId: string;
+      keyword: string;
+      date: string;
+    }>;
+  };
+}
+
+// Keyword Details API interfaces
+export interface GetLeadKeywordDetailsRequest {
+  reportId: string;
+  keywordId: string;
+}
+
+export interface GetLeadKeywordDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    rankDetails: Array<{
+      positionId: string;
+      rank: string;
+      coordinate: string;
+    }>;
+    rankStats: {
+      atr: string;
+      atrp: string;
+      solvability: string;
+    };
+  };
+}
+
 // GEO Report API functions
 export const createLeadGeoReport = async (params: CreateLeadGeoReportRequest): Promise<CreateLeadGeoReportResponse> => {
   const response = await apiClient.post<CreateLeadGeoReportResponse>('/lead/create-geo-report', params);
@@ -673,6 +734,17 @@ export const createLeadGeoReport = async (params: CreateLeadGeoReportRequest): P
 
 export const getLeadGeoReport = async (params: GetLeadGeoReportRequest): Promise<GetLeadGeoReportResponse> => {
   const response = await apiClient.post<GetLeadGeoReportResponse>('/lead/get-geo-report', params);
+  return response.data;
+};
+
+// GEO Keywords API functions
+export const getLeadGeoKeywords = async (params: GetLeadGeoKeywordsRequest): Promise<GetLeadGeoKeywordsResponse> => {
+  const response = await apiClient.post<GetLeadGeoKeywordsResponse>('/lead/get-geo-keywords', params);
+  return response.data;
+};
+
+export const getLeadKeywordDetails = async (params: GetLeadKeywordDetailsRequest): Promise<GetLeadKeywordDetailsResponse> => {
+  const response = await apiClient.post<GetLeadKeywordDetailsResponse>('/lead/get-keyword-details', params);
   return response.data;
 };
 
@@ -694,6 +766,26 @@ export const useGetLeadGeoReport = (reportId: string) => {
     queryKey: ['lead-geo-report', reportId],
     queryFn: () => getLeadGeoReport({ reportId }),
     enabled: !!reportId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+export const useGetLeadGeoKeywords = (reportId: string) => {
+  return useQuery({
+    queryKey: ['lead-geo-keywords', reportId],
+    queryFn: () => getLeadGeoKeywords({ reportId }),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+export const useGetLeadKeywordDetails = (reportId: string, keywordId: string) => {
+  return useQuery({
+    queryKey: ['lead-keyword-details', reportId, keywordId],
+    queryFn: () => getLeadKeywordDetails({ reportId, keywordId }),
+    enabled: !!reportId && !!keywordId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });
