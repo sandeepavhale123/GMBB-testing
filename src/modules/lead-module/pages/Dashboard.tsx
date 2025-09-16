@@ -19,6 +19,7 @@ import { LeadTableFilters } from "../components/LeadTableFilters";
 import { LeadsTable, Lead } from "../components/LeadsTable";
 import { CitationAuditModal } from "../components/CitationAuditModal";
 import { GeoRankingModal } from "../components/GeoRankingModal";
+import { LeadClassifierModal } from "../components/LeadClassifierModal";
 import { 
   Pagination,
   PaginationContent,
@@ -78,6 +79,7 @@ const Dashboard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [citationModalOpen, setCitationModalOpen] = useState(false);
   const [geoModalOpen, setGeoModalOpen] = useState(false);
+  const [leadClassifierModalOpen, setLeadClassifierModalOpen] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string>("");
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
@@ -153,6 +155,11 @@ const Dashboard: React.FC = () => {
       setCitationModalOpen(true);
     }
 
+    if (action === 'lead-classifier') {
+      setSelectedLeadId(leadId);
+      setLeadClassifierModalOpen(true);
+    }
+
     if (action === 'generate-geo') {
       // Find the lead to get its reportId
       const lead = leads.find(l => l.id === leadId);
@@ -196,6 +203,13 @@ const Dashboard: React.FC = () => {
     setGeoModalOpen(false);
     setSelectedLeadId("");
     // Optionally refetch leads to update geo report status
+    refetch();
+  };
+
+  const handleLeadClassifierModalClose = () => {
+    setLeadClassifierModalOpen(false);
+    setSelectedLeadId("");
+    // Optionally refetch leads to update lead classification
     refetch();
   };
 
@@ -417,6 +431,13 @@ const Dashboard: React.FC = () => {
       <GeoRankingModal
         open={geoModalOpen}
         onClose={handleGeoModalClose}
+        leadId={selectedLeadId}
+      />
+
+      {/* Lead Classifier Modal */}
+      <LeadClassifierModal
+        open={leadClassifierModalOpen}
+        onClose={handleLeadClassifierModalClose}
         leadId={selectedLeadId}
       />
     </div>

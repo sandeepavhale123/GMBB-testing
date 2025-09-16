@@ -14,7 +14,8 @@ import {
   TrendingUp, 
   Mail, 
   Trash2,
-  MapPin
+  MapPin,
+  Tags
 } from "lucide-react";
 
 interface ReportStatus {
@@ -95,6 +96,10 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
           {reports?.prospect?.status === 1 ? 'View GMB Prospect Report' : 'Generate GMB Prospect Report'}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => handleAction('lead-classifier')}>
+          <Tags className="mr-2 h-4 w-4" />
+          Lead Classifier
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleAction('send-email')}>
           <Mail className="mr-2 h-4 w-4" />
           Send Email
