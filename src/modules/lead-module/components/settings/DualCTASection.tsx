@@ -6,33 +6,39 @@ interface DualCTASectionProps {
   settings: CTASettings;
   onEditCall: () => void;
   onEditAppointment: () => void;
+  onResetCall: () => void;
+  onResetAppointment: () => void;
   isPreview?: boolean;
 }
 
-export const DualCTASection: React.FC<DualCTASectionProps> = ({ 
-  settings, 
-  onEditCall, 
-  onEditAppointment, 
-  isPreview = false 
+export const DualCTASection: React.FC<DualCTASectionProps> = ({
+  settings,
+  onEditCall,
+  onEditAppointment,
+  onResetCall,
+  onResetAppointment,
+  isPreview = false
 }) => {
   return (
     <div className="space-y-4">
-      {settings.callCTA.isVisible && (
-        <CTACard
-          type="call"
-          settings={settings.callCTA}
-          onEdit={onEditCall}
-          isPreview={isPreview}
-        />
-      )}
-      {settings.appointmentCTA.isVisible && (
-        <CTACard
-          type="appointment"
-          settings={settings.appointmentCTA}
-          onEdit={onEditAppointment}
-          isPreview={isPreview}
-        />
-      )}
+        {settings.callCTA.isVisible && (
+          <CTACard
+            type="call"
+            settings={settings.callCTA}
+            onEdit={onEditCall}
+            onReset={onResetCall}
+            isPreview={isPreview}
+          />
+        )}
+        {settings.appointmentCTA.isVisible && (
+          <CTACard
+            type="appointment"
+            settings={settings.appointmentCTA}
+            onEdit={onEditAppointment}
+            onReset={onResetAppointment}
+            isPreview={isPreview}
+          />
+        )}
     </div>
   );
 };

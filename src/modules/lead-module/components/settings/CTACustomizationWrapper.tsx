@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export const CTACustomizationWrapper: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingCTAType, setEditingCTAType] = useState<'call' | 'appointment'>('call');
-  const { settings, updateSingleCTA, resetToDefaults, isLoading } = useCTASettings();
+  const { settings, updateSingleCTA, resetToDefaults, resetSingleCTA, isLoading } = useCTASettings();
   const { toast } = useToast();
 
   const handleResetToDefaults = () => {
@@ -43,6 +43,23 @@ export const CTACustomizationWrapper: React.FC = () => {
       });
     }
     return success;
+  };
+
+  const handleResetSingleCTA = async (ctaType: 'call' | 'appointment') => {
+    const ctaKey = ctaType === 'call' ? 'callCTA' : 'appointmentCTA';
+    const success = await resetSingleCTA(ctaKey);
+    if (success) {
+      toast({
+        title: "CTA Reset",
+        description: `${ctaType === 'call' ? 'Call' : 'Appointment'} CTA has been reset to defaults.`,
+      });
+    } else {
+      toast({
+        title: "Error", 
+        description: "Failed to reset CTA settings. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -84,6 +101,8 @@ export const CTACustomizationWrapper: React.FC = () => {
               settings={settings} 
               onEditCall={() => handleEditCTA('call')}
               onEditAppointment={() => handleEditCTA('appointment')}
+              onResetCall={() => handleResetSingleCTA('call')}
+              onResetAppointment={() => handleResetSingleCTA('appointment')}
               isPreview={true} 
             />
           </div>

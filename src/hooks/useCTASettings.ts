@@ -92,11 +92,17 @@ export const useCTASettings = () => {
     setSettings(DEFAULT_CTA_SETTINGS);
   };
 
+  const resetSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA'): Promise<boolean> => {
+    const defaultSettings = DEFAULT_CTA_SETTINGS[ctaType];
+    return updateSingleCTA(ctaType, defaultSettings);
+  };
+
   return {
     settings,
     updateSettings,
     updateSingleCTA,
     resetToDefaults,
+    resetSingleCTA,
     isLoading,
   };
 };

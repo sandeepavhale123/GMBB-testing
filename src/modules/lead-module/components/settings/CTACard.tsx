@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Edit, Phone, Calendar } from "lucide-react";
+import { Edit, Phone, Calendar, RotateCcw } from "lucide-react";
 import { SingleCTASettings } from "@/hooks/useCTASettings";
 
 interface CTACardProps {
   type: 'call' | 'appointment';
   settings: SingleCTASettings;
   onEdit: () => void;
+  onReset: () => void;
   isPreview?: boolean;
 }
 
@@ -14,6 +15,7 @@ export const CTACard: React.FC<CTACardProps> = ({
   type, 
   settings, 
   onEdit, 
+  onReset,
   isPreview = false 
 }) => {
   const Icon = type === 'call' ? Phone : Calendar;
@@ -38,16 +40,27 @@ export const CTACard: React.FC<CTACardProps> = ({
       className="relative p-6 rounded-lg overflow-hidden"
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
     >
-      {/* Edit Button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onEdit}
-        className="absolute top-2 right-2 z-10 h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-        style={{ color: settings.textColor }}
-      >
-        <Edit className="w-4 h-4" />
-      </Button>
+      {/* Action Buttons */}
+      <div className="absolute top-2 right-2 z-10 flex gap-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onReset}
+          className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+          style={{ color: settings.textColor }}
+        >
+          <RotateCcw className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onEdit}
+          className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+          style={{ color: settings.textColor }}
+        >
+          <Edit className="w-4 h-4" />
+        </Button>
+      </div>
 
       <div className="flex items-center gap-4">
         {/* Icon */}
