@@ -71,20 +71,6 @@ export const CTACustomizationWrapper: React.FC = () => {
             <h1 className="text-2xl font-bold text-foreground">CTA Customization</h1>
             <p className="text-muted-foreground">Customize your call-to-action section for lead reports.</p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleResetToDefaults}
-              className="flex items-center gap-2"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Reset
-            </Button>
-            <span className="text-sm text-muted-foreground">
-              Use edit buttons on individual CTA cards
-            </span>
-          </div>
         </div>
 
         {/* CTA Preview */}
