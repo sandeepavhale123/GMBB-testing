@@ -110,7 +110,6 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
       <DialogContent
         className="sm:max-w-md"
-        onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>Generate GEO Ranking Report</DialogTitle>

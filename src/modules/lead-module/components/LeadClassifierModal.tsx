@@ -171,6 +171,12 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
     setSelectedCategory("");
     setNotes("");
     setActiveTab("web-lead");
+    
+    // Import and call comprehensive cleanup to fix pointer-events issue
+    import("@/utils/domUtils").then(({ comprehensiveCleanup }) => {
+      comprehensiveCleanup();
+    });
+    
     onClose();
   };
 
@@ -184,7 +190,6 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
       <DialogContent
         className="sm:max-w-6xl max-h-[85vh] overflow-y-auto"
-        onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>Lead Classifier</DialogTitle>
