@@ -81,6 +81,7 @@ const Dashboard: React.FC = () => {
   const [geoModalOpen, setGeoModalOpen] = useState(false);
   const [leadClassifierModalOpen, setLeadClassifierModalOpen] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string>("");
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
@@ -156,7 +157,9 @@ const Dashboard: React.FC = () => {
     }
 
     if (action === 'lead-classifier') {
+      const lead = leads.find(l => l.id === leadId);
       setSelectedLeadId(leadId);
+      setSelectedLead(lead || null);
       setLeadClassifierModalOpen(true);
     }
 
@@ -209,6 +212,7 @@ const Dashboard: React.FC = () => {
   const handleLeadClassifierModalClose = () => {
     setLeadClassifierModalOpen(false);
     setSelectedLeadId("");
+    setSelectedLead(null);
     // Optionally refetch leads to update lead classification
     refetch();
   };
@@ -438,7 +442,7 @@ const Dashboard: React.FC = () => {
       <LeadClassifierModal
         open={leadClassifierModalOpen}
         onClose={handleLeadClassifierModalClose}
-        leadId={selectedLeadId}
+        lead={selectedLead}
       />
     </div>
   );

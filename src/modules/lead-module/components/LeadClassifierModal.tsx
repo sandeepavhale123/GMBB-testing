@@ -12,13 +12,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Globe, UserCheck, Trash2, Settings, Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Globe, UserCheck, Trash2, Settings, Loader2, Building2, Mail, Phone, Calendar, Tag } from "lucide-react";
 import { toast } from "sonner";
+import { Lead } from "./LeadsTable";
 
 interface LeadClassifierModalProps {
   open: boolean;
   onClose: () => void;
-  leadId: string;
+  lead: Lead | null;
 }
 
 // Lead classification data structure based on the provided HTML
@@ -62,10 +64,75 @@ const leadCategories = {
   }
 };
 
+// Business Details Component
+const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+          <Building2 className="h-5 w-5" />
+          Business Details
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <Building2 className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Business Name</p>
+              <p className="text-sm">{lead.businessName || "Not provided"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <Mail className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Email</p>
+              <p className="text-sm">{lead.email || "Not provided"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <Phone className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Phone</p>
+              <p className="text-sm">{lead.phone || "Not provided"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <Tag className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Report Type</p>
+              <p className="text-sm">{lead.reportTypeLabel || "Not specified"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <Settings className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Lead Category</p>
+              <p className="text-sm">{lead.leadCategoryLabel || "Not classified"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <Calendar className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-muted-foreground">Date</p>
+              <p className="text-sm">{lead.date || "Not available"}</p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
   open,
   onClose,
-  leadId,
+  lead,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
@@ -83,7 +150,7 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
     try {
       // TODO: Replace with actual API call when backend is ready
       // const response = await updateLeadClassification({
-      //   leadId,
+      //   leadId: lead?.id,
       //   category: selectedCategory,
       //   notes
       // });
@@ -111,10 +178,12 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
     setSelectedCategory(value);
   };
 
+  if (!lead) return null;
+
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[80vh] overflow-y-auto"
+        className="sm:max-w-6xl max-h-[85vh] overflow-y-auto"
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
@@ -124,7 +193,14 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Business Details Panel - Left Side */}
+          <div className="lg:col-span-2">
+            <BusinessDetailsPanel lead={lead} />
+          </div>
+          
+          {/* Classification Panel - Right Side */}
+          <div className="lg:col-span-3 space-y-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4 h-auto bg-muted p-1 rounded-lg">
               {Object.entries(leadCategories).map(([key, category]) => {
@@ -180,18 +256,19 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
             </div>
           </Tabs>
 
-          <div className="space-y-2">
-            <Label htmlFor="notes" className="text-sm font-medium">
-              Lead Notes
-            </Label>
-            <Textarea
-              id="notes"
-              placeholder="Add any additional notes about this lead..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-              className="resize-none"
-            />
+            <div className="space-y-2">
+              <Label htmlFor="notes" className="text-sm font-medium">
+                Lead Notes
+              </Label>
+              <Textarea
+                id="notes"
+                placeholder="Add any additional notes about this lead..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+                className="resize-none"
+              />
+            </div>
           </div>
         </div>
 
