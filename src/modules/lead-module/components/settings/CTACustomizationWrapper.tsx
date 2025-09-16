@@ -94,7 +94,14 @@ export const CTACustomizationWrapper: React.FC = () => {
         <CTAEditModal
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
-          currentSettings={settings[editingCTAType === 'call' ? 'callCTA' : 'appointmentCTA']}
+          currentSettings={settings?.[editingCTAType === 'call' ? 'callCTA' : 'appointmentCTA'] || {
+            header: "BOOST YOUR GBP SCORE &&& Increase your calls",
+            description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+            buttonLabel: "BOOK A CALL",
+            buttonLink: "#contact",
+            backgroundColor: "#FEF3C7",
+            textColor: "#1F2937",
+          }}
           onSave={handleSaveCTA}
           isLoading={isLoading}
           ctaType={editingCTAType}

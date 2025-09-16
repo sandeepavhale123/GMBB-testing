@@ -32,27 +32,37 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   isLoading,
   ctaType,
 }) => {
-  const [formData, setFormData] = useState<SingleCTASettings>(currentSettings);
+  const [formData, setFormData] = useState<SingleCTASettings>(() => {
+    // Initialize with safe defaults to prevent undefined errors
+    return currentSettings || {
+      header: "BOOST YOUR GBP SCORE &&& Increase your calls",
+      description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+      buttonLabel: "BOOK A CALL",
+      buttonLink: "#contact",
+      backgroundColor: "#FEF3C7",
+      textColor: "#1F2937",
+    };
+  });
   const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(singleCTASettingsSchema);
   const { toast } = useToast();
 
   // Reset form when modal opens only
   useEffect(() => {
     if (isOpen) {
-      // Ensure all required fields exist with defaults
+      // Ensure all required fields exist with defaults - handle undefined currentSettings
       const settingsWithDefaults = {
-        header: currentSettings.header || "BOOST YOUR GBP SCORE &&& Increase your calls",
-        description: currentSettings.description || "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
-        buttonLabel: currentSettings.buttonLabel || "BOOK A CALL",
-        buttonLink: currentSettings.buttonLink || "#contact",
-        backgroundColor: currentSettings.backgroundColor || "#FEF3C7",
-        textColor: currentSettings.textColor || "#1F2937",
+        header: currentSettings?.header || "BOOST YOUR GBP SCORE &&& Increase your calls",
+        description: currentSettings?.description || "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+        buttonLabel: currentSettings?.buttonLabel || "BOOK A CALL",
+        buttonLink: currentSettings?.buttonLink || "#contact",
+        backgroundColor: currentSettings?.backgroundColor || "#FEF3C7",
+        textColor: currentSettings?.textColor || "#1F2937",
       };
       setFormData(settingsWithDefaults);
       clearErrors();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, currentSettings]);
 
   const handleInputChange = (field: keyof SingleCTASettings, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -88,7 +98,14 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   };
 
   const handleCancel = () => {
-    setFormData(currentSettings);
+    setFormData(currentSettings || {
+      header: "BOOST YOUR GBP SCORE &&& Increase your calls",
+      description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+      buttonLabel: "BOOK A CALL",
+      buttonLink: "#contact",
+      backgroundColor: "#FEF3C7",
+      textColor: "#1F2937",
+    });
     clearErrors();
     onClose();
   };
