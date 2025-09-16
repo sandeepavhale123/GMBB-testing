@@ -126,46 +126,58 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
 
         <div className="space-y-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-4 h-auto bg-muted p-1 rounded-lg">
               {Object.entries(leadCategories).map(([key, category]) => {
                 const IconComponent = category.icon;
                 return (
                   <TabsTrigger
                     key={key}
                     value={key}
-                    className="flex flex-col items-center gap-1 text-xs py-3"
+                    className="flex flex-col items-center gap-1 text-xs py-3 px-2 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all min-h-[60px]"
                   >
-                    <IconComponent className="h-4 w-4" />
-                    <span className="hidden sm:inline">{category.label}</span>
+                    <IconComponent className="h-4 w-4 flex-shrink-0" />
+                    <span className="text-center leading-tight">{category.label}</span>
                   </TabsTrigger>
                 );
               })}
             </TabsList>
 
-            {Object.entries(leadCategories).map(([key, category]) => (
-              <TabsContent key={key} value={key} className="space-y-4">
-                <RadioGroup
-                  value={selectedCategory}
-                  onValueChange={handleRadioChange}
-                  className="space-y-3"
+            <div className="mt-6">
+              {Object.entries(leadCategories).map(([key, category]) => (
+                <TabsContent 
+                  key={key} 
+                  value={key} 
+                  className="space-y-4 mt-0 bg-background border border-border rounded-lg p-4"
                 >
-                  {category.options.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value={option.value}
-                        id={`radio-${option.value}`}
-                      />
-                      <Label
-                        htmlFor={`radio-${option.value}`}
-                        className="text-sm font-normal cursor-pointer flex-1"
-                      >
-                        {option.label}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </TabsContent>
-            ))}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                      Select {category.label} Classification:
+                    </h4>
+                    <RadioGroup
+                      value={selectedCategory}
+                      onValueChange={handleRadioChange}
+                      className="space-y-3"
+                    >
+                      {category.options.map((option) => (
+                        <div key={option.value} className="flex items-start space-x-3 py-1">
+                          <RadioGroupItem
+                            value={option.value}
+                            id={`radio-${option.value}`}
+                            className="mt-0.5 flex-shrink-0"
+                          />
+                          <Label
+                            htmlFor={`radio-${option.value}`}
+                            className="text-sm font-normal cursor-pointer flex-1 leading-5"
+                          >
+                            {option.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                </TabsContent>
+              ))}
+            </div>
           </Tabs>
 
           <div className="space-y-2">
