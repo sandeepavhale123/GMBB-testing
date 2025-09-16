@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { PublicReportLayout } from '../components/PublicReportLayout';
 import { GeoRankingHeader } from '@/components/GeoRanking/GeoRankingHeader';
 import { GeoRankingMapSection } from '@/components/GeoRanking/GeoRankingMapSection';
-import { UnderPerformingTable } from '@/components/GeoRanking/UnderPerformingTable';
 import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLeadGeoRanking } from '@/hooks/useLeadGeoRanking';
@@ -235,11 +234,6 @@ export const LeadGeoRankingReport: React.FC = () => {
                   rankDetails={keywordDetails.rankDetails}
                   rankStats={keywordDetails.rankStats}
                   projectDetails={keywordDetails.projectDetails}
-                  loading={isLoading}
-                />
-
-                <UnderPerformingTable 
-                  underPerformingAreas={keywordDetails.underPerformingArea}
                   loading={isLoading}
                 />
               </div>
