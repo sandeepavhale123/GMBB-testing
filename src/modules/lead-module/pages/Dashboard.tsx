@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Database, 
-  Mail, 
-  TrendingUp, 
+import {
+  LayoutDashboard,
+  Users,
+  Database,
+  Mail,
+  TrendingUp,
   ArrowUpRight,
   Plus,
   UserCheck,
@@ -20,7 +20,7 @@ import { LeadsTable, Lead } from "../components/LeadsTable";
 import { CitationAuditModal } from "../components/CitationAuditModal";
 import { GeoRankingModal } from "../components/GeoRankingModal";
 import { LeadClassifierModal } from "../components/LeadClassifierModal";
-import { 
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -89,11 +89,11 @@ const Dashboard: React.FC = () => {
   const createGeoReport = useCreateGeoReport();
 
   // API integration
-  const { 
-    data: leadsResponse, 
-    isLoading, 
+  const {
+    data: leadsResponse,
+    isLoading,
     error,
-    refetch 
+    refetch
   } = useLeads({
     page: currentPage,
     limit: ITEMS_PER_PAGE,
@@ -101,13 +101,13 @@ const Dashboard: React.FC = () => {
   });
 
   // Lead summary API integration
-  const { 
-    data: summaryResponse, 
-    isLoading: isSummaryLoading 
+  const {
+    data: summaryResponse,
+    isLoading: isSummaryLoading
   } = useLeadSummary();
 
   const leads = leadsResponse?.data.leads.map(transformApiLead) || [];
-  const totalPages = leadsResponse?.data.pagination ? 
+  const totalPages = leadsResponse?.data.pagination ?
     Math.ceil(leadsResponse.data.pagination.total / ITEMS_PER_PAGE) : 0;
   const totalLeads = leadsResponse?.data.pagination?.total || 0;
 
@@ -122,7 +122,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSelectLead = (leadId: string, checked: boolean) => {
-    setSelectedLeads(prev => 
+    setSelectedLeads(prev =>
       checked ? [...prev, leadId] : prev.filter(id => id !== leadId)
     );
   };
@@ -133,7 +133,7 @@ const Dashboard: React.FC = () => {
 
   const handleAction = (action: string, leadId: string) => {
     console.log(`Action: ${action} for lead: ${leadId}`);
-    
+
     if (action === 'generate-gmb-health') {
       // Find the lead to get its reportId
       const lead = leads.find(l => l.id === leadId);
@@ -150,7 +150,7 @@ const Dashboard: React.FC = () => {
         toast.error('Report ID not found for this lead');
       }
     }
-    
+
     if (action === 'generate-citation') {
       setSelectedLeadId(leadId);
       setCitationModalOpen(true);
@@ -173,7 +173,7 @@ const Dashboard: React.FC = () => {
         toast.error('Report ID not found for this lead');
       }
     }
-    
+
     if (action === 'generate-prospect') {
       // Find the lead to get its reportId
       const lead = leads?.find(l => l.id === leadId);
@@ -191,7 +191,7 @@ const Dashboard: React.FC = () => {
         toast.error('No report ID found for this lead');
       }
     }
-    
+
     // Handle other actions here
   };
 
@@ -241,67 +241,76 @@ const Dashboard: React.FC = () => {
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Converted Leads</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isSummaryLoading ? "-" : summaryResponse?.data.convertedLeads || 0}
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+          <div className="flex items-center justify-between">
+            <div className="flex-1 space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">
+                Converted Leads
+              </h3>
+              <div className="text-3xl font-bold text-gray-900">
+                {isSummaryLoading ? "-" : summaryResponse?.data.convertedLeads || 0}
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Leads converted to customers
-            </p>
-          </CardContent>
-        </Card>
+            <div
+              className={`bg-blue-500 rounded-lg p-3 flex items-center justify-center ml-4`}
+            >
+              <UserCheck className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isSummaryLoading ? "-" : summaryResponse?.data.totalLeads || 0}
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+          <div className="flex items-center justify-between">
+            <div className="flex-1 space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">
+                Total Leads
+              </h3>
+              <div className="text-3xl font-bold text-gray-900">
+                {isSummaryLoading ? "-" : summaryResponse?.data.totalLeads || 0}
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Total leads in database
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Remaining Credits</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isSummaryLoading ? "-" : summaryResponse?.data.credits.remaining.toLocaleString() || 0}
+            <div
+              className={`bg-green-500 rounded-lg p-3 flex items-center justify-center ml-4`}
+            >
+              <Users className="w-6 h-6 text-white" />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Credits available for reports
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Email Templates</CardTitle>
-            <Mail className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isSummaryLoading ? "-" : summaryResponse?.data.totalEmailTemplates || 0}
+          </div>
+        </div>
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+          <div className="flex items-center justify-between">
+            <div className="flex-1 space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">
+                Remaining Credits
+              </h3>
+              <div className="text-3xl font-bold text-gray-900">
+                {isSummaryLoading ? "-" : summaryResponse?.data.credits.remaining.toLocaleString() || 0}
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Email templates created
-            </p>
-          </CardContent>
-        </Card>
+            <div
+              className={`bg-orange-500 rounded-lg p-3 flex items-center justify-center ml-4`}
+            >
+              <CreditCard className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        </div>
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+          <div className="flex items-center justify-between">
+            <div className="flex-1 space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">
+                Total Email Templates
+              </h3>
+              <div className="text-3xl font-bold text-gray-900">
+                {isSummaryLoading ? "-" : summaryResponse?.data.totalEmailTemplates || 0}
+              </div>
+            </div>
+            <div
+              className={`bg-purple-500 rounded-lg p-3 flex items-center justify-center ml-4`}
+            >
+              <Mail className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        </div>
       </div>
-
       {/* Leads Table Section */}
       <Card>
         <CardHeader>
@@ -329,7 +338,7 @@ const Dashboard: React.FC = () => {
             onCategoryFilterChange={setCategoryFilter}
             onClearFilters={handleClearFilters}
           />
-          
+
           <LeadsTable
             leads={leads}
             selectedLeads={selectedLeads}
@@ -352,7 +361,7 @@ const Dashboard: React.FC = () => {
                       className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"}
                     />
                   </PaginationItem>
-                  
+
                   {/* Show first page if not in first few pages */}
                   {currentPage > 3 && (
                     <>
@@ -371,7 +380,7 @@ const Dashboard: React.FC = () => {
                       )}
                     </>
                   )}
-                  
+
                   {/* Show pages around current page */}
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                     const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
@@ -391,7 +400,7 @@ const Dashboard: React.FC = () => {
                     }
                     return null;
                   })}
-                  
+
                   {/* Show last page if not in last few pages */}
                   {currentPage < totalPages - 2 && (
                     <>
@@ -410,7 +419,7 @@ const Dashboard: React.FC = () => {
                       </PaginationItem>
                     </>
                   )}
-                  
+
                   <PaginationItem>
                     <PaginationNext
                       onClick={() => handlePageChange(currentPage + 1)}
