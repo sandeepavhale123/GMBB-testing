@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       )}
 
-      <h2
+      {/* <h2
         className="text-xl sm:text-2xl lg:text-3xl font-bold text-white"
         style={{
           marginTop: isMobile ? "60px" : "40px",
@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
         }}
       >
         {title}
-      </h2>
+      </h2> */}
       
       <div
         className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${
