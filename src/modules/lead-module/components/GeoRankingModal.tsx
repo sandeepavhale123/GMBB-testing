@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -45,6 +46,7 @@ const geoRankingSchema = z.object({
       return keywordsList.length > 0;
     }, "At least 1 keyword is required"),
   gridSize: z.number().refine((val) => val === 3 || val === 5, "Grid size must be 3 or 5"),
+  distanceUnit: z.enum(["Meters", "Miles"]),
   distanceValue: z.number().min(1, "Distance value is required"),
 });
 
@@ -69,16 +71,19 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
     defaultValues: {
       keywords: "",
       gridSize: 3,
+      distanceUnit: "Meters",
       distanceValue: 100,
     },
   });
 
-  const distanceOptions = getDistanceOptions('Meters'); // Default to Meters
+  const distanceUnit = form.watch("distanceUnit");
+  const distanceOptions = getDistanceOptions(distanceUnit);
 
   const onSubmit = async (data: GeoRankingFormData) => {
     const payload = {
       reportId: leadId,
       keywords: data.keywords,
+      distanceUnit: data.distanceUnit,
       distanceValue: data.distanceValue,
       gridSize: data.gridSize,
     };
@@ -164,10 +169,37 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
 
             <FormField
               control={form.control}
+              name="distanceUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Distance Unit *</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-row space-x-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Meters" id="meters" />
+                        <FormLabel htmlFor="meters" className="font-normal">Meters</FormLabel>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Miles" id="miles" />
+                        <FormLabel htmlFor="miles" className="font-normal">Miles</FormLabel>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="distanceValue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Distance *</FormLabel>
+                  <FormLabel>Distance Value *</FormLabel>
                   <Select
                     onValueChange={(value) => field.onChange(parseFloat(value))}
                     defaultValue={field.value.toString()}
