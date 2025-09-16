@@ -44,7 +44,7 @@ export const CTACard: React.FC<CTACardProps> = ({
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
     >
       {disabled && (
-        <div className="absolute inset-0 bg-black/10 z-5 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/10 z-10 flex items-center justify-center">
           <div className="bg-black/80 text-white px-3 py-1 rounded-md text-sm font-medium">
             Hidden in Reports
           </div>
