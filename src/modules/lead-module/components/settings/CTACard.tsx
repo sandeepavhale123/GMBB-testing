@@ -65,7 +65,7 @@ export const CTACard: React.FC<CTACardProps> = ({
           <h3 className="text-lg font-bold mb-2 leading-tight">
             {settings.header}
           </h3>
-          <p className="text-sm leading-relaxed opacity-90 mb-4">
+          <p className="text-sm leading-relaxed opacity-90 mb-4 ms:mb-0">
             {settings.description}
           </p>
         </div>
