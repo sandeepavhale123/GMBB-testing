@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
       </h2> */}
       
       <div
-        className={`container mx-auto flex items-center justify-between px-4 md:px-8 mt-[60px] ${
+        className={`container mx-auto flex items-center justify-between px-4 md:px-8 mt-[70px] ${
           isMobile ? "flex-col space-y-4" : ""
         }`}
         style={{
