@@ -10,6 +10,7 @@ interface CTACardProps {
   onEdit: () => void;
   onReset: () => void;
   isPreview?: boolean;
+  disabled?: boolean;
 }
 
 export const CTACard: React.FC<CTACardProps> = ({ 
@@ -17,7 +18,8 @@ export const CTACard: React.FC<CTACardProps> = ({
   settings, 
   onEdit, 
   onReset,
-  isPreview = false 
+  isPreview = false,
+  disabled = false
 }) => {
   const Icon = type === 'call' ? Phone : Calendar;
   
@@ -38,9 +40,16 @@ export const CTACard: React.FC<CTACardProps> = ({
 
   return (
     <div 
-      className="relative p-6 rounded-lg overflow-hidden"
+      className={`relative p-6 rounded-lg overflow-hidden transition-all ${disabled ? 'opacity-50 grayscale' : ''}`}
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
     >
+      {disabled && (
+        <div className="absolute inset-0 bg-black/10 z-5 flex items-center justify-center">
+          <div className="bg-black/80 text-white px-3 py-1 rounded-md text-sm font-medium">
+            Hidden in Reports
+          </div>
+        </div>
+      )}
       {/* Action Buttons */}
       <TooltipProvider>
         <div className="absolute top-2 right-2 z-10 flex gap-1">
