@@ -128,7 +128,7 @@ const EmbeddedIframe: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 mr-2" />
+                    <Copy className="w-4 h-4 mr-1" />
                     Copy
                   </>
                 )}

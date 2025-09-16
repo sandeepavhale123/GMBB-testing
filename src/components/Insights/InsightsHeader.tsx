@@ -108,12 +108,12 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
           </Select>
 
           <Button variant="outline" className="w-full sm:w-auto" onClick={onRefresh} disabled={isLoading || isRefreshing}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading || isRefreshing ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-4 h-4 mr-1 ${isLoading || isRefreshing ? "animate-spin" : ""}`} />
             {isRefreshing ? "Refreshing..." : isLoading ? "Loading..." : "Refresh"}
           </Button>
 
           <Button variant="outline" disabled={isExporting} onClick={onExportImage} className="w-full sm:w-auto hidden">
-            <Image className="w-4 h-4 mr-2" />
+            <Image className="w-4 h-4 mr-1" />
             {isExporting ? "Exporting..." : "Export Image"}
           </Button>
         </div>

@@ -54,7 +54,7 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
           {/* Filter */}
           <Select value={filter} onValueChange={onFilterChange}>
             <SelectTrigger className="w-full sm:w-40">
-              <Filter className="w-4 h-4 mr-2" />
+              <Filter className="w-4 h-4 mr-1" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -83,7 +83,7 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
               onClick={onResetFilters}
               className="whitespace-nowrap"
             >
-              <X className="w-4 h-4 mr-2" />
+              <X className="w-4 h-4 mr-1" />
               Reset Filters
             </Button>
           )}

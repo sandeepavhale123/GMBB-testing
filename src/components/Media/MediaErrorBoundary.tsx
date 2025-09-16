@@ -45,7 +45,7 @@ export class MediaErrorBoundary extends Component<Props, State> {
               </p>
             </div>
             <Button onClick={this.handleRetry} className="w-full">
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <RefreshCw className="w-4 h-4 mr-1" />
               Try Again
             </Button>
           </CardContent>

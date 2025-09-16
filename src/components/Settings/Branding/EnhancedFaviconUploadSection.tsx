@@ -169,7 +169,7 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
               className="w-full"
               onClick={() => document.getElementById('favicon-upload')?.click()}
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="w-4 h-4 mr-1" />
               Choose Favicon
             </Button>
             

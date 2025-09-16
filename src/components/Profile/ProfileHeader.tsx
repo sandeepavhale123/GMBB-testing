@@ -205,7 +205,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 onClick={() => onTabChange("password")}
                 className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
               >
-                <Lock className="w-4 h-4 mr-2" />
+                <Lock className="w-4 h-4 mr-1" />
                 Change Password
               </Button>
               {/* Conditionally show manage subscription button */}
@@ -216,7 +216,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   onClick={handleManageSubscription}
                   className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
                 >
-                  <Settings className="w-4 h-4 mr-2" />
+                  <Settings className="w-4 h-4 mr-1" />
                   Manage Subscription
                 </Button>
               )}

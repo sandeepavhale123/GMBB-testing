@@ -456,7 +456,7 @@ Thank you`);
                           disabled={isGenerating}
                           className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
                         >
-                          <Sparkles className="w-4 h-4 mr-2" />
+                          <Sparkles className="w-4 h-4 mr-1" />
                           {isGenerating
                             ? "Generating AI Response..."
                             : aiResponse
@@ -479,12 +479,12 @@ Thank you`);
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                   Saving...
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 mr-2" />
+                  <Sparkles className="w-4 h-4 mr-1" />
                   Save AI Settings
                 </>
               )}

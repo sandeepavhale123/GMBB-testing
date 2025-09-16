@@ -110,7 +110,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
               {isDownloading ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
               ) : (
-                <Download className="w-4 h-4 mr-2" />
+                <Download className="w-4 h-4 mr-1" />
               )}
               Download
             </Button>

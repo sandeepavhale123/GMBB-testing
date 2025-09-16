@@ -210,7 +210,7 @@ export const ReportBrandingSection: React.FC = () => {
                 onClick={() => document.getElementById('report-logo-upload')?.click()}
                 className="w-full"
               >
-                <Upload className="w-4 h-4 mr-2" />
+                <Upload className="w-4 h-4 mr-1" />
                 Choose Logo
               </Button>
               

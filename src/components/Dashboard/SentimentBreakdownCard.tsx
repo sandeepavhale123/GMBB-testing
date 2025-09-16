@@ -31,7 +31,7 @@ export const SentimentBreakdownCard: React.FC = () => {
           <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
           <p className="text-red-600 mb-2 text-sm">{summaryError}</p>
           <Button onClick={() => dispatch(clearSummaryError())} variant="outline" size="sm">
-            <RefreshCw className="w-4 h-4 mr-2" />
+            <RefreshCw className="w-4 h-4 mr-1" />
             Try Again
           </Button>
         </CardContent>

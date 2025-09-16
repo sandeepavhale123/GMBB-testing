@@ -213,7 +213,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                       onClick={() => onGenerateReply(review.id)}
                       disabled={isDNR || replyLoading}
                     >
-                      <Bot className="w-4 h-4 mr-2" />
+                      <Bot className="w-4 h-4 mr-1" />
                       Generate using Genie
                     </Button>
                   </span>
@@ -239,7 +239,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                       onClick={() => onManualReply(review.id)}
                       disabled={isDNR || replyLoading}
                     >
-                      <MessageSquare className="w-4 h-4 mr-2" />
+                      <MessageSquare className="w-4 h-4 mr-1" />
                       Reply Manually
                     </Button>
                   </span>
@@ -265,7 +265,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
               onClick={() => onManualReply(review.id)}
               disabled={replyLoading}
             >
-              <Edit className="w-4 h-4 mr-2" />
+              <Edit className="w-4 h-4 mr-1" />
               Edit Reply
             </Button>
 
@@ -281,7 +281,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                   onClick={handleDeleteClick}
                   disabled={deleteLoading}
                 >
-                  <Trash2 className="w-4 h-4 mr-2" />
+                  <Trash2 className="w-4 h-4 mr-1" />
                   Delete Reply
                 </Button>
               </AlertDialogTrigger>

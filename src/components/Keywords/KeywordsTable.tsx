@@ -151,7 +151,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
       <div className="text-center py-12">
         <div className="text-red-600 mb-4">{error}</div>
         <Button onClick={onRefresh} variant="outline">
-          <RefreshCw className="w-4 h-4 mr-2" />
+          <RefreshCw className="w-4 h-4 mr-1" />
           Try Again
         </Button>
       </div>
@@ -206,12 +206,12 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               >
                 {deleteLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                     Deleting...
                   </>
                 ) : (
                   <>
-                    <Trash className="w-4 h-4 mr-2" />
+                    <Trash className="w-4 h-4 mr-1" />
                     Delete Selected
                   </>
                 )}

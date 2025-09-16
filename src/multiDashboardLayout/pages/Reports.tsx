@@ -188,7 +188,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({ isSingleListingDash
           navigate(path);
         }}
       >
-        <FileText className="w-4 h-4 mr-2" />
+        <FileText className="w-4 h-4 mr-1" />
         Generate Report
       </Button>
     </div>

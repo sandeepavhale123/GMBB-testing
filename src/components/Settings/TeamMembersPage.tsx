@@ -270,7 +270,7 @@ const TeamMembersPage: React.FC = () => {
             </p>
             {!searchTerm && !roleFilter && (
               <Button onClick={() => setShowAddModal(true)}>
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4 mr-1" />
                 Add Member
               </Button>
             )}
@@ -404,14 +404,14 @@ const TeamMembersPage: React.FC = () => {
                                 <DropdownMenuItem
                                   onClick={() => handleEditMember(member)}
                                 >
-                                  <Edit className="w-4 h-4 mr-2" />
+                                  <Edit className="w-4 h-4 mr-1" />
                                   Edit
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => handleDeleteMember(member)}
                                   className="text-destructive"
                                 >
-                                  <Trash2 className="w-4 h-4 mr-2" />
+                                  <Trash2 className="w-4 h-4 mr-1" />
                                   Delete
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
@@ -462,14 +462,14 @@ const TeamMembersPage: React.FC = () => {
                             <DropdownMenuItem
                               onClick={() => handleEditMember(member)}
                             >
-                              <Edit className="w-4 h-4 mr-2" />
+                              <Edit className="w-4 h-4 mr-1" />
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleDeleteMember(member)}
                               className="text-destructive"
                             >
-                              <Trash2 className="w-4 h-4 mr-2" />
+                              <Trash2 className="w-4 h-4 mr-1" />
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

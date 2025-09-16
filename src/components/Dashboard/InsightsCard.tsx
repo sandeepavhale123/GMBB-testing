@@ -97,7 +97,7 @@ export const InsightsCard: React.FC = () => {
             </SelectContent>
           </Select>
           <Button onClick={handleViewInsights} variant="outline" size="sm">
-            <Eye className="w-4 h-4 mr-2" />
+            <Eye className="w-4 h-4 mr-1" />
             View
           </Button>
         </div>

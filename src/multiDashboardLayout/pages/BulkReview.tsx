@@ -201,7 +201,7 @@ export const BulkReview: React.FC = () => {
           onClick={() => navigate("/main-dashboard/bulk-auto-reply")}
           className="self-start sm:self-auto"
         >
-          <MessageCircle className="w-4 h-4 mr-2" />
+          <MessageCircle className="w-4 h-4 mr-1" />
           Configure Auto Reply
         </Button>
       </div>
@@ -215,7 +215,7 @@ export const BulkReview: React.FC = () => {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold">Customer Reviews</h3>
             <Button className="hidden ">
-              <MessageCircle className="w-4 h-4 mr-2" />
+              <MessageCircle className="w-4 h-4 mr-1" />
               Configure Auto Reply
             </Button>
           </div>

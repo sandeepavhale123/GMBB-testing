@@ -460,13 +460,13 @@ export const Dashboard: React.FC = () => {
                                 )
                               }
                             >
-                              <Eye className="w-4 h-4 mr-2" />
+                              <Eye className="w-4 h-4 mr-1" />
                               View
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleEditProject(project)}
                             >
-                              <Edit className="w-4 h-4 mr-2" />
+                              <Edit className="w-4 h-4 mr-1" />
                               Edit
                             </DropdownMenuItem>
                             {project.numberOfChecks > 0 && (
@@ -478,7 +478,7 @@ export const Dashboard: React.FC = () => {
                                   )
                                 }
                               >
-                                <Share className="w-4 h-4 mr-2" />
+                                <Share className="w-4 h-4 mr-1" />
                                 Shareable Link
                               </DropdownMenuItem>
                             )}
@@ -487,7 +487,7 @@ export const Dashboard: React.FC = () => {
                               className="text-destructive"
                               onClick={() => handleDeleteClick(project)}
                             >
-                              <Trash2 className="w-4 h-4 mr-2" />
+                              <Trash2 className="w-4 h-4 mr-1" />
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

@@ -317,7 +317,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
             <Button type="submit" className="flex-1" disabled={isAdding}>
               {isAdding ? (
                 <>
-                  <Loader className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader className="w-4 h-4 mr-1 animate-spin" />
                   Adding...
                 </>
               ) : (

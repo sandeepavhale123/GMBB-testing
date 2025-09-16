@@ -107,12 +107,12 @@ const Integration: React.FC = () => {
                     >
                       {integration.status === 'Connected' ? (
                         <>
-                          <Settings className="w-4 h-4 mr-2" />
+                          <Settings className="w-4 h-4 mr-1" />
                           Configure
                         </>
                       ) : (
                         <>
-                          <Plus className="w-4 h-4 mr-2" />
+                          <Plus className="w-4 h-4 mr-1" />
                           Connect
                         </>
                       )}

@@ -70,7 +70,7 @@ export const ReviewSummary: React.FC = () => {
           </h3>
           <p className="text-gray-600 mb-4">{summaryError}</p>
           <Button onClick={handleRetry} variant="outline">
-            <RefreshCw className="w-4 h-4 mr-2" />
+            <RefreshCw className="w-4 h-4 mr-1" />
             Try Again
           </Button>
         </CardContent>

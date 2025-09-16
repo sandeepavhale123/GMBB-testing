@@ -112,7 +112,7 @@ export const BulkMedia: React.FC = () => {
           <p className="text-muted-foreground">Upload and organize media across multiple listings.</p>
         </div>
         <Button onClick={() => setShowUploadModal(true)} className='self-start sm:self-auto'>
-          <Upload className="w-4 h-4 mr-2 " />
+          <Upload className="w-4 h-4 mr-1 " />
           Upload Media
         </Button>
       </div>
@@ -151,7 +151,7 @@ export const BulkMedia: React.FC = () => {
                 <h4 className="text-lg font-medium text-foreground mb-2">No bulk media yet</h4>
                 <p className="text-muted-foreground mb-4">Upload your first bulk media to get started</p>
                 <Button onClick={() => setShowUploadModal(true)}>
-                  <Upload className="w-4 h-4 mr-2" />
+                  <Upload className="w-4 h-4 mr-1" />
                   Upload Media
                 </Button>
               </div> :

@@ -74,18 +74,18 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
             <p className="text-sm text-gray-500">{userEmail.length > 20? userEmail.slice(0,19)+'...' : userEmail}</p>
           </div>
           <DropdownMenuItem onClick={handleViewProfile} className="cursor-pointer">
-            <User className="w-4 h-4 mr-2" />
+            <User className="w-4 h-4 mr-1" />
             View Profile
           </DropdownMenuItem>
           {!shouldHideAccountSettings() && (
             <DropdownMenuItem onClick={handleAccountSettings} className="cursor-pointer">
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className="w-4 h-4 mr-1" />
               Account Settings
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50" onClick={logout}>
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut className="w-4 h-4 mr-1" />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

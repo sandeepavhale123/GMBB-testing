@@ -148,7 +148,7 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
             {selectedMedias.size} media{selectedMedias.size > 1 ? 's' : ''} selected
           </span>
           <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
-            <Trash2 className="w-4 h-4 mr-2" />
+            <Trash2 className="w-4 h-4 mr-1" />
             Delete Selected
           </Button>
         </div>}

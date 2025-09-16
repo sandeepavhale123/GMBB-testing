@@ -19,7 +19,7 @@ export const PostsEmptyState: React.FC<PostsEmptyStateProps> = ({ hasActiveFilte
         {hasActiveFilters ? 'Try adjusting your filters' : 'Get started by creating your first post'}
       </p>
       <Button onClick={onCreatePost}>
-        <Plus className="w-4 h-4 mr-2" />
+        <Plus className="w-4 h-4 mr-1" />
         Create Post
       </Button>
     </div>

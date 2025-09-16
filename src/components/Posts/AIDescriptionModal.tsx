@@ -206,12 +206,12 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                   >
                     {isGenerating ? (
                       <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                         Generating...
                       </>
                     ) : (
                       <>
-                        <Wand2 className="w-4 h-4 mr-2" />
+                        <Wand2 className="w-4 h-4 mr-1" />
                         Generate
                       </>
                     )}

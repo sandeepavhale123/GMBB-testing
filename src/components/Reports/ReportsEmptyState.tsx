@@ -18,7 +18,7 @@ export const ReportsEmptyState: React.FC<ReportsEmptyStateProps> = ({ onRefresh 
       </p>
       {onRefresh && (
         <Button onClick={onRefresh} variant="outline">
-          <FileText className="w-4 h-4 mr-2" />
+          <FileText className="w-4 h-4 mr-1" />
           Try Again
         </Button>
       )}

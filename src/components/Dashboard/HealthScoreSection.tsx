@@ -79,7 +79,7 @@ export const HealthScoreSection: React.FC = () => {
             </div>
 
             <Button className="w-full">
-              <Zap className="w-4 h-4 mr-2" />
+              <Zap className="w-4 h-4 mr-1" />
               AI Auto-Optimize
             </Button>
           </div>
