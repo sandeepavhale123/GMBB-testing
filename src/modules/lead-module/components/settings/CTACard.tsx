@@ -46,7 +46,7 @@ export const CTACard: React.FC<CTACardProps> = ({
         </div>}
       {/* Action Buttons */}
       <TooltipProvider>
-        <div className="absolute top-2 right-2 z-12 flex gap-1">
+        <div className="absolute top-2 right-2 z-15 flex gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon" onClick={onReset} className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm" style={{
