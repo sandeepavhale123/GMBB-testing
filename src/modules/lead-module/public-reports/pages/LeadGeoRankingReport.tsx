@@ -64,7 +64,8 @@ export const LeadGeoRankingReport: React.FC = () => {
     isLoading,
     error,
     handleKeywordChange,
-    handleDateChange
+    handleDateChange,
+    setSelectedKeyword
   } = useLeadGeoRanking(reportId || '');
 
   // Get branding data
@@ -80,9 +81,9 @@ export const LeadGeoRankingReport: React.FC = () => {
   // Set first keyword as default when data loads
   useEffect(() => {
     if (keywords.length > 0 && !selectedKeyword) {
-      handleKeywordChange(keywords[0].id);
+      setSelectedKeyword(keywords[0].id);
     }
-  }, [keywords, selectedKeyword, handleKeywordChange]);
+  }, [keywords, selectedKeyword, setSelectedKeyword]);
 
   // Mock marker click handler (until competitor details API is available)
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {

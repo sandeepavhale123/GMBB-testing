@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useGetLeadGeoKeywords, useGetLeadKeywordDetails } from '@/api/leadApi';
 
 export interface LeadGeoKeyword {
@@ -101,13 +101,6 @@ export const useLeadGeoRanking = (reportId: string) => {
     }));
   }, [keywords]);
 
-  // Set first keyword as selected by default
-  useEffect(() => {
-    if (keywords.length > 0 && !selectedKeyword) {
-      setSelectedKeyword(keywords[0].id);
-    }
-  }, [keywords, selectedKeyword]);
-
   const handleKeywordChange = (keywordId: string) => {
     setSelectedKeyword(keywordId);
   };
@@ -128,6 +121,7 @@ export const useLeadGeoRanking = (reportId: string) => {
     isLoading,
     error,
     handleKeywordChange,
-    handleDateChange
+    handleDateChange,
+    setSelectedKeyword
   };
 };
