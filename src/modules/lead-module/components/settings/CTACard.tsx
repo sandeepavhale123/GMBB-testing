@@ -52,7 +52,7 @@ export const CTACard: React.FC<CTACardProps> = ({
       )}
       {/* Action Buttons */}
       <TooltipProvider>
-        <div className="absolute top-2 right-2 z-10 flex gap-1">
+        <div className="absolute top-2 right-2 z-20 flex gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
