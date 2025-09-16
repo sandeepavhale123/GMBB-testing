@@ -193,58 +193,62 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
                   No results found
                 </div>
               ) : (
-                competitors.map((competitor) => (
-                  <div
-                    key={competitor.position}
-                    className={`flex items-start gap-3 py-3 border-b border-gray-100 last:border-b-0 ${
-                      competitor.selected
-                        ? 'bg-blue-50 border-blue-200 rounded-lg px-3 -mx-1 mb-2'
-                        : ''
-                    }`}
-                  >
-                    {/* Position Avatar */}
-                    <Avatar className="h-10 w-10 flex-shrink-0">
-                      <AvatarFallback className={`text-sm font-semibold ${
-                        competitor.selected
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-blue-100 text-blue-700'
-                      }`}>
-                        {competitor.position}
-                      </AvatarFallback>
-                    </Avatar>
-                    
-                    {/* Business Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className={`text-sm font-medium truncate ${
-                          competitor.selected
-                            ? 'text-blue-900'
-                            : 'text-gray-900'
+                competitors.map((competitor) => {
+                  const isUserBusiness = competitor.selected || competitor.name === userBusinessName;
+                  
+                  return (
+                    <div
+                      key={competitor.position}
+                      className={`flex items-start gap-3 py-3 border-b border-gray-100 last:border-b-0 transition-all duration-200 ${
+                        isUserBusiness
+                          ? 'bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-lg px-3 -mx-1 mb-2 shadow-sm'
+                          : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      {/* Position Avatar */}
+                      <Avatar className="h-10 w-10 flex-shrink-0">
+                        <AvatarFallback className={`text-sm font-semibold ${
+                          isUserBusiness
+                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                            : 'bg-blue-100 text-blue-700'
                         }`}>
-                          {competitor.name}
-                        </h4>
-                        {competitor.selected && (
-                          <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">
-                            Your Business
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                        {competitor.address}
-                      </p>
+                          {competitor.position}
+                        </AvatarFallback>
+                      </Avatar>
                       
-                      {/* Rating */}
-                      <div className="flex items-center gap-1 mt-2">
-                        <div className="flex">
-                          {renderStars(competitor.rating)}
+                      {/* Business Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className={`text-sm font-semibold truncate ${
+                            isUserBusiness
+                              ? 'text-blue-900 font-bold'
+                              : 'text-gray-900'
+                          }`}>
+                            {competitor.name}
+                          </h4>
+                          {isUserBusiness && (
+                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-sm border border-blue-700">
+                              ✓ Your Business
+                            </span>
+                          )}
                         </div>
-                        <span className="text-xs text-gray-600 ml-1">
-                          {competitor.rating} ({competitor.reviewCount} reviews)
-                        </span>
+                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                          {competitor.address}
+                        </p>
+                        
+                        {/* Rating */}
+                        <div className="flex items-center gap-1 mt-2">
+                          <div className="flex">
+                            {renderStars(competitor.rating)}
+                          </div>
+                          <span className="text-xs text-gray-600 ml-1">
+                            {competitor.rating} ({competitor.reviewCount} reviews)
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </ScrollArea>
