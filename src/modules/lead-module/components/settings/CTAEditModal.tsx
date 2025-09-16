@@ -12,15 +12,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import { CTASettings, ctaSettingsSchema } from "@/hooks/useCTASettings";
+import { SingleCTASettings, singleCTASettingsSchema } from "@/hooks/useCTASettings";
 import { useToast } from "@/hooks/use-toast";
 
 interface CTAEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  currentSettings: CTASettings;
-  onSave: (settings: CTASettings) => Promise<boolean>;
-  isLoading?: boolean;
+  currentSettings: SingleCTASettings;
+  onSave: (settings: SingleCTASettings) => Promise<boolean>;
+  isLoading: boolean;
+  ctaType: 'call' | 'appointment';
 }
 
 export const CTAEditModal: React.FC<CTAEditModalProps> = ({
@@ -28,10 +29,11 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   onClose,
   currentSettings,
   onSave,
-  isLoading = false,
+  isLoading,
+  ctaType,
 }) => {
-  const [formData, setFormData] = useState<CTASettings>(currentSettings);
-  const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(ctaSettingsSchema);
+  const [formData, setFormData] = useState<SingleCTASettings>(currentSettings);
+  const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(singleCTASettingsSchema);
   const { toast } = useToast();
 
   // Reset form when modal opens only
@@ -39,12 +41,12 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
     if (isOpen) {
       // Ensure all required fields exist with defaults
       const settingsWithDefaults = {
-        header: currentSettings.header || "Ready to Improve Your GMB Performance?",
-        description: currentSettings.description || "Let's work together to boost your Google My Business score and increase your local visibility.",
-        buttonLabel: currentSettings.buttonLabel || "Let's Work Together",
+        header: currentSettings.header || "BOOST YOUR GBP SCORE &&& Increase your calls",
+        description: currentSettings.description || "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+        buttonLabel: currentSettings.buttonLabel || "BOOK A CALL",
         buttonLink: currentSettings.buttonLink || "#contact",
-        backgroundColor: currentSettings.backgroundColor || "#3B82F6",
-        textColor: currentSettings.textColor || "#FFFFFF",
+        backgroundColor: currentSettings.backgroundColor || "#FEF3C7",
+        textColor: currentSettings.textColor || "#1F2937",
       };
       setFormData(settingsWithDefaults);
       clearErrors();
@@ -52,7 +54,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  const handleInputChange = (field: keyof CTASettings, value: string) => {
+  const handleInputChange = (field: keyof SingleCTASettings, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -95,7 +97,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Edit CTA Section</DialogTitle>
+          <DialogTitle>Edit {ctaType === 'call' ? 'Call' : 'Appointment'} CTA Settings</DialogTitle>
           <DialogDescription>
             Customize your call-to-action header, description, button text, and link.
           </DialogDescription>

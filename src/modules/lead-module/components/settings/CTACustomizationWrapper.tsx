@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Edit, RotateCcw } from "lucide-react";
-import { CTASection } from "@/modules/lead-module/public-reports/components/CTASection";
+import { DualCTASection } from "./DualCTASection";
 import { CTAEditModal } from "./CTAEditModal";
+import { SingleCTASettings } from "@/hooks/useCTASettings";
 import { useCTASettings } from "@/hooks/useCTASettings";
 import { useToast } from "@/hooks/use-toast";
 
 export const CTACustomizationWrapper: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { settings, updateSettings, resetToDefaults, isLoading } = useCTASettings();
+  const [editingCTAType, setEditingCTAType] = useState<'call' | 'appointment'>('call');
+  const { settings, updateSingleCTA, resetToDefaults, isLoading } = useCTASettings();
   const { toast } = useToast();
 
   const handleResetToDefaults = () => {
@@ -17,6 +19,30 @@ export const CTACustomizationWrapper: React.FC = () => {
       title: "CTA Reset",
       description: "CTA settings have been reset to defaults.",
     });
+  };
+
+  const handleEditCTA = (ctaType: 'call' | 'appointment') => {
+    setEditingCTAType(ctaType);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveCTA = async (newSettings: SingleCTASettings) => {
+    const ctaKey = editingCTAType === 'call' ? 'callCTA' : 'appointmentCTA';
+    const success = await updateSingleCTA(ctaKey, newSettings);
+    if (success) {
+      toast({
+        title: "CTA Updated",
+        description: `${editingCTAType === 'call' ? 'Call' : 'Appointment'} CTA has been updated successfully.`,
+      });
+      setIsEditModalOpen(false);
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to update CTA settings. Please try again.",
+        variant: "destructive",
+      });
+    }
+    return success;
   };
 
   return (
@@ -38,13 +64,9 @@ export const CTACustomizationWrapper: React.FC = () => {
               <RotateCcw className="w-4 h-4" />
               Reset
             </Button>
-            <Button
-              onClick={() => setIsEditModalOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <Edit className="w-4 h-4" />
-              Edit CTA
-            </Button>
+            <span className="text-sm text-muted-foreground">
+              Use edit buttons on individual CTA cards
+            </span>
           </div>
         </div>
 
@@ -58,7 +80,12 @@ export const CTACustomizationWrapper: React.FC = () => {
           </div>
           
           <div className="">
-            <CTASection settings={settings} isPreview={true} />
+            <DualCTASection 
+              settings={settings} 
+              onEditCall={() => handleEditCTA('call')}
+              onEditAppointment={() => handleEditCTA('appointment')}
+              isPreview={true} 
+            />
           </div>
         </div>
 
@@ -67,9 +94,10 @@ export const CTACustomizationWrapper: React.FC = () => {
         <CTAEditModal
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
-          currentSettings={settings}
-          onSave={updateSettings}
+          currentSettings={settings[editingCTAType === 'call' ? 'callCTA' : 'appointmentCTA']}
+          onSave={handleSaveCTA}
           isLoading={isLoading}
+          ctaType={editingCTAType}
         />
       </div>
     </div>
