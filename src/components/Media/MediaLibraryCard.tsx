@@ -1,20 +1,20 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
-import { MediaFilters } from './MediaFilters';
-import { EnhancedMediaCard } from './EnhancedMediaCard';
-import { MediaPagination } from './MediaPagination';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { MediaFilters } from "./MediaFilters";
+import { EnhancedMediaCard } from "./EnhancedMediaCard";
+import { MediaPagination } from "./MediaPagination";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaItem {
   id: string;
   name: string;
   views: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   url: string;
   uploadDate: string;
   size: string;
-  status: 'Live' | 'Schedule' | 'Failed';
+  status: "Live" | "Schedule" | "Failed";
   category: string;
   isScheduled: boolean;
 }
@@ -74,20 +74,31 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
   hasPrev,
   onPageChange,
   totalItems,
-  itemsPerPage
+  itemsPerPage,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaLibraryCard");
   return (
     <Card className="overflow-hidden">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-gray-700">
-            Media Library
+            {t("mediaLibraryCard.title")}
           </CardTitle>
-          <Tabs value={mediaTypeTab} onValueChange={onMediaTypeTabChange} className="w-auto">
+          <Tabs
+            value={mediaTypeTab}
+            onValueChange={onMediaTypeTabChange}
+            className="w-auto"
+          >
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="image">Images</TabsTrigger>
-              <TabsTrigger value="video">Videos</TabsTrigger>
+              <TabsTrigger value="all">
+                {t("mediaLibraryCard.tabs.all")}
+              </TabsTrigger>
+              <TabsTrigger value="image">
+                {t("mediaLibraryCard.tabs.image")}
+              </TabsTrigger>
+              <TabsTrigger value="video">
+                {t("mediaLibraryCard.tabs.video")}
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -110,13 +121,13 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
         {/* Loading State */}
         {isLoading ? (
           <div className="text-center py-12">
-            <div className="text-gray-500">Loading media...</div>
+            <div className="text-gray-500">{t("mediaLibraryCard.loading")}</div>
           </div>
         ) : (
           <>
             {/* Media Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-6 gap-4">
-              {mediaItems.map(item => (
+              {mediaItems.map((item) => (
                 <EnhancedMediaCard
                   key={item.id}
                   id={item.id}
@@ -136,11 +147,11 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
                 />
               ))}
             </div>
-            
+
             {/* Empty State */}
             {mediaItems.length === 0 && !isLoading && (
               <div className="text-center py-12 text-gray-500">
-                <p>No media files found.</p>
+                <p>{t("mediaLibraryCard.empty")}</p>
               </div>
             )}
 

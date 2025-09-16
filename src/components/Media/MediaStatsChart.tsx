@@ -1,9 +1,9 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
-import { FileImage } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { FileImage } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaStatsChartProps {
   imageCount: number;
@@ -14,21 +14,22 @@ interface MediaStatsChartProps {
 export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
   imageCount,
   videoCount,
-  isLoading = false
+  isLoading = false,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaStatsChart");
   const data = [
     {
-      name: 'Images',
+      name: t("mediaStatsChart.images"),
       count: imageCount,
       views: imageCount * 50, // Placeholder calculation
-      fill: '#3b82f6'
+      fill: "#3b82f6",
     },
     {
-      name: 'Videos', 
+      name: t("mediaStatsChart.videos"),
       count: videoCount,
       views: videoCount * 92, // Placeholder calculation
-      fill: '#10b981'
-    }
+      fill: "#10b981",
+    },
   ];
 
   if (isLoading) {
@@ -37,7 +38,7 @@ export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
         <CardHeader>
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <FileImage className="w-5 h-5" />
-            Media Distribution
+            {t("mediaStatsChart.title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -54,7 +55,7 @@ export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <FileImage className="w-5 h-5" />
-          Media Distribution
+          {t("mediaStatsChart.title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -74,17 +75,17 @@ export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
                   <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
               </Pie>
-              <Legend 
-                verticalAlign="middle" 
+              <Legend
+                verticalAlign="middle"
                 align="right"
                 layout="vertical"
                 iconType="circle"
                 wrapperStyle={{
-                  paddingLeft: '20px',
-                  fontSize: '14px'
+                  paddingLeft: "20px",
+                  fontSize: "14px",
                 }}
                 formatter={(value) => {
-                  const item = data.find(d => d.name === value);
+                  const item = data.find((d) => d.name === value);
                   return (
                     <span style={{ color: item?.fill }}>
                       {item?.count} {value}

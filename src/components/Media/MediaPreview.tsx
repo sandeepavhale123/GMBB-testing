@@ -1,18 +1,18 @@
-
-import React from 'react';
-import { X, Play, Eye } from 'lucide-react';
-import { Button } from '../ui/button';
+import React from "react";
+import { X, Play, Eye } from "lucide-react";
+import { Button } from "../ui/button";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaFile {
   id: string;
   file?: File;
   url: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   title?: string;
   altText?: string;
   category?: string;
   location?: string;
-  selectedImage: 'local' | 'ai' | 'gallery';
+  selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
   galleryImageUrl?: string;
 }
@@ -22,47 +22,49 @@ interface MediaPreviewProps {
   onRemove: () => void;
 }
 
-export const MediaPreview: React.FC<MediaPreviewProps> = ({ file, onRemove }) => {
+export const MediaPreview: React.FC<MediaPreviewProps> = ({
+  file,
+  onRemove,
+}) => {
+  const { t } = useI18nNamespace("Media/mediaPreview");
   const handlePreview = () => {
-    window.open(file.url, '_blank');
+    window.open(file.url, "_blank");
   };
 
   const getFileName = () => {
-    if (file.selectedImage === 'ai') {
-      return file.title || 'AI Generated Image';
+    if (file.selectedImage === "ai") {
+      return file.title || t("mediaPreview.aiGeneratedImage");
     }
-    if (file.selectedImage === 'gallery') {
-      return file.title || 'Gallery Image';
+    if (file.selectedImage === "gallery") {
+      return file.title || t("mediaPreview.galleryImage");
     }
-    return file.title || file.file?.name || 'Unknown';
+    return file.title || file.file?.name || t("mediaPreview.unknownFile");
   };
 
   const getFileSize = () => {
-    if (file.selectedImage === 'ai') {
-      return 'AI Generated';
+    if (file.selectedImage === "ai") {
+      return t("mediaPreview.aiGenerated");
     }
-    if (file.selectedImage === 'gallery') {
-      return 'From Gallery';
+    if (file.selectedImage === "gallery") {
+      return t("mediaPreview.fromGallery");
     }
-    return file.file ? `${(file.file.size / 1024 / 1024).toFixed(1)}MB` : 'Unknown size';
+    return file.file
+      ? `${(file.file.size / 1024 / 1024).toFixed(1)}MB`
+      : t("mediaPreview.unknownSize");
   };
 
   return (
     <div className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-200">
       {/* Media Content */}
-      {file.type === 'image' ? (
-        <img 
-          src={file.url} 
+      {file.type === "image" ? (
+        <img
+          src={file.url}
           alt={file.title || getFileName()}
           className="w-full h-full object-cover"
         />
       ) : (
         <div className="relative w-full h-full bg-gray-900 flex items-center justify-center">
-          <video 
-            src={file.url}
-            className="w-full h-full object-cover"
-            muted
-          />
+          <video src={file.url} className="w-full h-full object-cover" muted />
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
             <div className="bg-black bg-opacity-50 rounded-full p-2">
               <Play className="w-6 h-6 text-white fill-white" />

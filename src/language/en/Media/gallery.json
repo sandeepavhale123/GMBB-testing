@@ -1,0 +1,68 @@
+{
+  "gallery": {
+    "title": "Gallery",
+    "uploaded": "Uploaded",
+    "aiGenerated": "AI Generated",
+    "uploadedImages": "Uploaded Images",
+    "searchPlaceholder": "Search media",
+    "sortBy": "Sort by",
+    "newestFirst": "Newest First",
+    "oldestFirst": "Oldest First",
+    "uploadMedia": "Upload Media",
+    "uploading": "Uploading...",
+    "images": "Images",
+    "videos": "Videos",
+    "items": "{{count}} items",
+    "loadMore": "Load More",
+    "quickView": "Quick View",
+    "download": "Download",
+    "downloadVideo": "Download Video",
+    "useForPost": "Use for Post",
+    "useForMedia": "Use for Media",
+    "delete": "Delete",
+    "deleteMediaTitle": "Delete Media",
+    "deleteMediaDescription": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete",
+    "deleting": "Deleting...",
+    "aiSection": {
+      "title": "Generate AI Images",
+      "promptPlaceholder": "Describe the image you want to generate...",
+      "selectStyle": "Select Style",
+      "realistic": "Realistic",
+      "artistic": "Artistic",
+      "cartoon": "Cartoon",
+      "abstract": "Abstract",
+      "minimalist": "Minimalist",
+      "vintage": "Vintage",
+      "modern": "Modern",
+      "numVariants": "No. of Variants",
+      "variant": "{{count}} variant",
+      "variants": "{{count}} variants",
+      "generate": "Generate",
+      "generating": "Generating..."
+    },
+    "emptyState": {
+      "title": "No media found",
+      "description": "Try adjusting your search criteria or generate new AI images."
+    },
+    "errTitle":{
+        "invalideTitle": "Invalid File Type",
+        "fileTitle": "File Too Large",
+        "uploadeTitle": "Upload Successful",
+        "uploadFailedTitle": "Upload Failed",
+        "generateTitle": "Images Generated",
+        "generateFailedTitle": "Generation Failed",
+        "downloadTitle": "Download Failed"
+    },
+    "messages": {
+      "uploadSuccess": "Successfully uploaded {{count}} file(s).",
+      "uploadFailed": "An error occurred while uploading your files. Please try again.",
+      "invalidFileType": "Only JPG, PNG, WebP, GIF, MP4, MOV, and AVI files are allowed.",
+      "fileTooLarge": "File size must be less than 10MB. Your file is {{size}}MB.",
+      "geneateSuccess": "Successfully generated {{count}} image(s).",
+      "generationFailed": "Failed to generate images. Please try again.",
+      "downloadFailed": "Unable to download the media. Please try again."
+    }
+  }
+}

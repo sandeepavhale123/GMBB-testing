@@ -56,6 +56,8 @@ import {
   useSaveAIImageMutation,
 } from "@/hooks/useGalleryMutations";
 import { GalleryImageItem } from "@/api/mediaApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export interface MediaItem {
   id: string;
   url: string;
@@ -394,6 +396,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   onCloseModal,
   className = "",
 }) => {
+  const { t } = useI18nNamespace("Media/gallery");
   const { triggerCreatePost, triggerMediaUpload } = useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -505,9 +508,8 @@ export const Gallery: React.FC<GalleryProps> = ({
 
     if (!allowedTypes.includes(file.type)) {
       toast({
-        title: "Invalid File Type",
-        description:
-          "Only JPG, PNG, WebP, GIF, MP4, MOV, and AVI files are allowed.",
+        title: t("gallery.errTitle.invalidTitle"),
+        description: t("gallery.messages.invalidFileType"),
         variant: "error",
       });
       return false;
@@ -516,11 +518,14 @@ export const Gallery: React.FC<GalleryProps> = ({
     if (file.size > maxSize) {
       console.log("inside test size");
       toast({
-        title: "File Too Large",
-        description: `File size must be less than 10MB. Your file is ${(
-          file.size /
-          (1024 * 1024)
-        ).toFixed(1)}MB.`,
+        title: t("gallery.errTitle.fileTitle"),
+        description: t("gallery.messages.fileTooLarge", {
+          size: (file.size / (1024 * 1024)).toFixed(1),
+        }),
+        // `File size must be less than 10MB. Your file is ${(
+        //   file.size /
+        //   (1024 * 1024)
+        // ).toFixed(1)}MB.`,
         variant: "error",
       });
       return false;
@@ -561,16 +566,17 @@ export const Gallery: React.FC<GalleryProps> = ({
       }
 
       toast({
-        title: "Upload Successful",
-        description: `Successfully uploaded ${validFiles.length} file(s).`,
+        title: t("gallery.errTitle.uploadeTitle"),
+        description: t("gallery.messages.uploadSuccess", {
+          count: files.length,
+        }), // `Successfully uploaded ${validFiles.length} file(s).`
         variant: "success",
       });
     } catch (error) {
       console.error("Upload error:", error);
       toast({
-        title: "Upload Failed",
-        description:
-          "An error occurred while uploading your files. Please try again.",
+        title: t("gallery.errTitle.uploadFailedTitle"),
+        description: t("gallery.messages.uploadFailed"),
         variant: "error",
       });
     } finally {
@@ -629,15 +635,18 @@ export const Gallery: React.FC<GalleryProps> = ({
         setGeneratedImages(imageUrls);
         setSelectedImageIndex(0);
         toast({
-          title: "Images Generated",
-          description: `Successfully generated ${imageUrls.length} image(s).`,
+          title: t("gallery.errTitle.generateTitle"),
+          description: t("gallery.messages.geneateSuccess", {
+            count: imageUrls.length,
+          }),
+          // `Successfully generated ${imageUrls.length} image(s).`,
         });
       }
     } catch (error) {
       console.error("AI generation error:", error);
       toast({
-        title: "Generation Failed",
-        description: "Failed to generate images. Please try again.",
+        title: t("gallery.errTitle.generateFailedTitle"),
+        description: t("gallery.messages.generationFailed"),
         variant: "destructive",
       });
     } finally {
@@ -680,7 +689,9 @@ export const Gallery: React.FC<GalleryProps> = ({
       {showHeader && (
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <h1 className="font-bold text-foreground text-2xl">Gallery</h1>
+            <h1 className="font-bold text-foreground text-2xl">
+              {t("gallery.title")}
+            </h1>
           </div>
           <div className="flex align-center gap-4">
             <Badge
@@ -702,13 +713,13 @@ export const Gallery: React.FC<GalleryProps> = ({
                     value="local"
                     className="data-[state=active]:bg-background"
                   >
-                    Uploaded
+                    {t("gallery.uploaded")}
                   </TabsTrigger>
                   <TabsTrigger
                     value="ai-generated"
                     className="data-[state=active]:bg-background"
                   >
-                    AI Generated
+                    {t("gallery.aiGenerated")}
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -724,14 +735,14 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Search and Upload */}
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">
-                Uploaded Images
+                {t("gallery.uploadedImages")}
               </h2>
               <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div className="relative w-full sm:flex-1">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="Search media"
+                    placeholder={t("gallery.searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 bg-background border-border"
@@ -745,11 +756,15 @@ export const Gallery: React.FC<GalleryProps> = ({
                   }
                 >
                   <SelectTrigger className="w-full sm:w-[140px]">
-                    <SelectValue placeholder="Sort by" />
+                    <SelectValue placeholder={t("gallery.sortBy")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="desc">Newest First</SelectItem>
-                    <SelectItem value="asc">Oldest First</SelectItem>
+                    <SelectItem value="desc">
+                      {t("gallery.newestFirst")}
+                    </SelectItem>
+                    <SelectItem value="asc">
+                      {t("gallery.oldestFirst")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -772,7 +787,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                       disabled={isUploading}
                     >
                       <Upload className="h-4 w-4" />
-                      {isUploading ? "Uploading..." : "Upload Media"}
+                      {isUploading
+                        ? t("gallery.uploading")
+                        : t("gallery.uploadMedia")}
                     </Button>
                   </>
                 )}
@@ -788,7 +805,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   className="h-8"
                   onClick={() => setMediaType("IMAGE")}
                 >
-                  Images
+                  {t("gallery.images")}
                 </Button>
                 <Button
                   variant={mediaType === "VIDEO" ? "secondary" : "ghost"}
@@ -796,10 +813,13 @@ export const Gallery: React.FC<GalleryProps> = ({
                   className="h-8"
                   onClick={() => setMediaType("VIDEO")}
                 >
-                  Videos
+                  {t("gallery.videos")}
                 </Button>
               </div>
-              <div className="text-sm text-muted-foreground">{total} items</div>
+              <div className="text-sm text-muted-foreground">
+                {t("gallery.items", { count: total })}
+                {/* {total} items */}
+              </div>
             </div>
 
             {/* Media Grid */}
@@ -939,9 +959,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                                           error
                                         );
                                         toast({
-                                          title: "Download Failed",
-                                          description:
-                                            "Unable to download the media. Please try again.",
+                                          title: t(
+                                            "gallery.errTitle.downloadTitle"
+                                          ),
+                                          description: t(
+                                            "gallery.messages.downloadFailed"
+                                          ),
                                           variant: "destructive",
                                         });
                                       }
@@ -949,7 +972,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                   >
                                     <Download className="h-4 w-4" />
-                                    Download{" "}
+                                    {t("gallery.download")}
                                     {item.type === "video" ? "Video" : "Image"}
                                   </DropdownMenuItem>
 
@@ -966,7 +989,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     >
                                       <FileImage className="h-4 w-4" />
-                                      Use for Post
+                                      {t("gallery.useForPost")}
                                     </DropdownMenuItem>
                                   )}
 
@@ -982,7 +1005,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                   >
                                     <Film className="h-4 w-4" />
-                                    Use for Media
+                                    {t("gallery.useForMedia")}
                                   </DropdownMenuItem>
 
                                   {showDeleteButton && (
@@ -995,23 +1018,27 @@ export const Gallery: React.FC<GalleryProps> = ({
                                             className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
                                           >
                                             <Trash2 className="h-4 w-4" />
-                                            Delete
+                                            {t("gallery.delete")}
                                           </DropdownMenuItem>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                           <AlertDialogHeader>
                                             <AlertDialogTitle>
-                                              Delete Media
+                                              {t("gallery.deleteMediaTitle")}
                                             </AlertDialogTitle>
                                             <AlertDialogDescription>
-                                              Are you sure you want to delete "
+                                              {t(
+                                                "gallery.deleteMediaDescription",
+                                                { title: item.title }
+                                              )}
+                                              {/* Are you sure you want to delete "
                                               {item.title}"? This action cannot
-                                              be undone.
+                                              be undone. */}
                                             </AlertDialogDescription>
                                           </AlertDialogHeader>
                                           <AlertDialogFooter>
                                             <AlertDialogCancel>
-                                              Cancel
+                                              {t("gallery.cancel")}
                                             </AlertDialogCancel>
                                             <AlertDialogAction
                                               onClick={() =>
@@ -1027,8 +1054,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                                             >
                                               {deletingItemKey ===
                                               (item.key || item.id)
-                                                ? "Deleting..."
-                                                : "Delete"}
+                                                ? t("gallery.deleting")
+                                                : t("gallery.confirmDelete")}
                                             </AlertDialogAction>
                                           </AlertDialogFooter>
                                         </AlertDialogContent>
@@ -1059,7 +1086,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   variant="outline"
                   className="px-6 whitespace-nowrap"
                 >
-                  Load More
+                  {t("gallery.loadMore")}
                 </Button>
               </div>
             )}
@@ -1072,13 +1099,13 @@ export const Gallery: React.FC<GalleryProps> = ({
             {showAIGeneration && (
               <div className="bg-card border border-border rounded-lg p-6 space-y-6">
                 <h2 className="text-xl font-semibold text-foreground">
-                  Generate AI Images
+                  {t("gallery.aiSection.title")}
                 </h2>
 
                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                   <Input
                     type="text"
-                    placeholder="Describe the image you want to generate..."
+                    placeholder={t("gallery.aiSection.promptPlaceholder")}
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     maxLength={200}
@@ -1091,15 +1118,29 @@ export const Gallery: React.FC<GalleryProps> = ({
                     className="w-full sm:min-w-[120px] sm:w-auto h-10 px-3 bg-background border border-border rounded-md text-sm"
                   >
                     <option value="" disabled>
-                      Select Style
+                      {t("gallery.aiSection.selectStyle")}
                     </option>
-                    <option value="realistic">Realistic</option>
-                    <option value="artistic">Artistic</option>
-                    <option value="cartoon">Cartoon</option>
-                    <option value="abstract">Abstract</option>
-                    <option value="minimalist">Minimalist</option>
-                    <option value="vintage">Vintage</option>
-                    <option value="modern">Modern</option>
+                    <option value="realistic">
+                      {t("gallery.aiSection.realistic")}
+                    </option>
+                    <option value="artistic">
+                      {t("gallery.aiSection.artistic")}
+                    </option>
+                    <option value="cartoon">
+                      {t("gallery.aiSection.cartoon")}
+                    </option>
+                    <option value="abstract">
+                      {t("gallery.aiSection.abstract")}
+                    </option>
+                    <option value="minimalist">
+                      {t("gallery.aiSection.minimalist")}
+                    </option>
+                    <option value="vintage">
+                      {t("gallery.aiSection.vintage")}
+                    </option>
+                    <option value="modern">
+                      {t("gallery.aiSection.modern")}
+                    </option>
                   </select>
 
                   <select
@@ -1108,12 +1149,20 @@ export const Gallery: React.FC<GalleryProps> = ({
                     className="w-full sm:min-w-[140px] sm:w-auto h-10 px-3 bg-background border border-border rounded-md text-sm"
                   >
                     <option value="" disabled>
-                      No. of Variants
+                      {t("gallery.aiSection.numVariants")}
                     </option>
-                    <option value="1">1 variant</option>
-                    <option value="2">2 variants</option>
-                    <option value="3">3 variants</option>
-                    <option value="4">4 variants</option>
+                    <option value="1">
+                      {t("gallery.aiSection.variant", { count: 1 })}
+                    </option>
+                    <option value="2">
+                      {t("gallery.aiSection.variants", { count: 2 })}
+                    </option>
+                    <option value="3">
+                      {t("gallery.aiSection.variants", { count: 3 })}
+                    </option>
+                    <option value="4">
+                      {t("gallery.aiSection.variants", { count: 4 })}
+                    </option>
                   </select>
 
                   <Button
@@ -1121,7 +1170,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                     disabled={!aiPrompt.trim() || isGenerating}
                     className="w-full sm:w-auto h-10 px-6 bg-primary hover:bg-primary/90 whitespace-nowrap"
                   >
-                    {isGenerating ? "Generating..." : "Generate"}
+                    {isGenerating
+                      ? t("gallery.aiSection.generating")
+                      : t("gallery.aiSection.generate")}
                   </Button>
                 </div>
 
@@ -1204,7 +1255,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   variant="secondary"
                                   onClick={() => handleViewMedia(item)}
                                   className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                  title="Quick View"
+                                  title={t("gallery.quickView")}
                                 >
                                   <Eye className="h-4 w-4 text-gray-700" />
                                 </Button>
@@ -1276,9 +1327,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     } catch (error) {
                                       console.error("Download failed:", error);
                                       toast({
-                                        title: "Download Failed",
-                                        description:
-                                          "Unable to download the media. Please try again.",
+                                        title: t(
+                                          "gallery.errTitle.downloadTitle"
+                                        ),
+                                        description: t(
+                                          "gallery.messages.downloadFailed"
+                                        ),
                                         variant: "destructive",
                                       });
                                     }
@@ -1286,7 +1340,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                   <Download className="h-4 w-4" />
-                                  Download{" "}
+                                  {t("gallery.download")}
                                   {item.type === "video" ? "Video" : "Image"}
                                 </DropdownMenuItem>
 
@@ -1302,7 +1356,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                   <FileImage className="h-4 w-4" />
-                                  Use for Post
+                                  {t("gallery.useForPost")}
                                 </DropdownMenuItem>
 
                                 <DropdownMenuItem
@@ -1317,7 +1371,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                   <Film className="h-4 w-4" />
-                                  Use for Media
+                                  {t("gallery.useForMedia")}
                                 </DropdownMenuItem>
 
                                 {showDeleteButton && (
@@ -1330,23 +1384,27 @@ export const Gallery: React.FC<GalleryProps> = ({
                                           className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
                                         >
                                           <Trash2 className="h-4 w-4" />
-                                          Delete
+                                          {t("gallery.delete")}
                                         </DropdownMenuItem>
                                       </AlertDialogTrigger>
                                       <AlertDialogContent>
                                         <AlertDialogHeader>
                                           <AlertDialogTitle>
-                                            Delete Media
+                                            {t("gallery.deleteMediaTitle")}
                                           </AlertDialogTitle>
                                           <AlertDialogDescription>
-                                            Are you sure you want to delete "
+                                            {t(
+                                              "gallery.deleteMediaDescription",
+                                              { title: item.title }
+                                            )}
+                                            {/* Are you sure you want to delete "
                                             {item.title}"? This action cannot be
-                                            undone.
+                                            undone. */}
                                           </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                           <AlertDialogCancel>
-                                            Cancel
+                                            {t("gallery.cancel")}
                                           </AlertDialogCancel>
                                           <AlertDialogAction
                                             onClick={() =>
@@ -1362,8 +1420,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                                           >
                                             {deletingItemKey ===
                                             (item.key || item.id)
-                                              ? "Deleting..."
-                                              : "Delete"}
+                                              ? t("gallery.deleting")
+                                              : t("gallery.confirmDelete")}
                                           </AlertDialogAction>
                                         </AlertDialogFooter>
                                       </AlertDialogContent>
@@ -1395,10 +1453,10 @@ export const Gallery: React.FC<GalleryProps> = ({
               <Search className="h-8 w-8 text-muted-foreground" />
             </div>
             <h3 className="text-lg font-medium text-foreground mb-2">
-              No media found
+              {t("gallery.emptyState.title")}
             </h3>
             <p className="text-muted-foreground">
-              Try adjusting your search criteria or generate new AI images.
+              {t("gallery.emptyState.description")}
             </p>
           </div>
         )}

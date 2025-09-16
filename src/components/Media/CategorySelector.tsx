@@ -1,35 +1,66 @@
-
-import React from 'react';
-import { Check, ChevronDown } from 'lucide-react';
-import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-
-const categories = [
-  { value: 'product', label: 'Product', icon: '📦' },
-  { value: 'interior', label: 'Interior', icon: '🏠' },
-  { value: 'team', label: 'Team', icon: '👥' },
-  { value: 'food', label: 'Food & Drinks', icon: '🍽️' },
-  { value: 'exterior', label: 'Exterior', icon: '🏢' },
-  { value: 'event', label: 'Events', icon: '🎉' },
-  { value: 'service', label: 'Services', icon: '⚙️' },
-  { value: 'atmosphere', label: 'Atmosphere', icon: '✨' },
-];
+import React from "react";
+import { Check, ChevronDown } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CategorySelectorProps {
   value: string;
   onChange: (value: string) => void;
 }
 
-export const CategorySelector: React.FC<CategorySelectorProps> = ({ value, onChange }) => {
-  const selectedCategory = categories.find(cat => cat.value === value);
+export const CategorySelector: React.FC<CategorySelectorProps> = ({
+  value,
+  onChange,
+}) => {
+  const { t } = useI18nNamespace("Media/categorySelector");
+
+  const categories = [
+    {
+      value: "product",
+      label: t("categorySelector.categories.product"),
+      icon: "📦",
+    },
+    {
+      value: "interior",
+      label: t("categorySelector.categories.interior"),
+      icon: "🏠",
+    },
+    { value: "team", label: t("categorySelector.categories.team"), icon: "👥" },
+    { value: "food", label: t("categorySelector.categories.food"), icon: "🍽️" },
+    {
+      value: "exterior",
+      label: t("categorySelector.categories.exterior"),
+      icon: "🏢",
+    },
+    {
+      value: "event",
+      label: t("categorySelector.categories.event"),
+      icon: "🎉",
+    },
+    {
+      value: "service",
+      label: t("categorySelector.categories.service"),
+      icon: "⚙️",
+    },
+    {
+      value: "atmosphere",
+      label: t("categorySelector.categories.atmosphere"),
+      icon: "✨",
+    },
+  ];
+
+  const selectedCategory = categories.find((cat) => cat.value === value);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="w-full justify-between h-10"
-        >
+        <Button variant="outline" className="w-full justify-between h-10">
           <div className="flex items-center gap-2">
             {selectedCategory ? (
               <>
@@ -37,7 +68,9 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ value, onCha
                 <span>{selectedCategory.label}</span>
               </>
             ) : (
-              <span className="text-gray-500">Select category...</span>
+              <span className="text-gray-500">
+                {t("categorySelector.placeholder")}
+              </span>
             )}
           </div>
           <ChevronDown className="h-4 w-4 opacity-50" />

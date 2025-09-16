@@ -1,8 +1,8 @@
-
-import React from 'react';
-import { Button } from '../../ui/button';
-import { ChevronLeft, ChevronRight, Check, Loader2 } from 'lucide-react';
-import { useMediaContext } from '../../../context/MediaContext';
+import React from "react";
+import { Button } from "../../ui/button";
+import { ChevronLeft, ChevronRight, Check, Loader2 } from "lucide-react";
+import { useMediaContext } from "../../../context/MediaContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIImagePreviewProps {
   images: string[];
@@ -27,22 +27,23 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
   onSelectImage,
   onSaveImage,
   savingImageIndex,
-  onCloseModal
+  onCloseModal,
 }) => {
   const { triggerCreatePost } = useMediaContext();
+  const { t } = useI18nNamespace("Media/aiImagePreview");
 
   const handleUseImage = async (imageUrl: string) => {
     // First save to gallery if onSaveImage is provided
     if (onSaveImage) {
       await onSaveImage(imageUrl);
     }
-    
+
     // Then trigger create post modal with the image
     triggerCreatePost({
       url: imageUrl,
       title: `AI Generated - ${prompt.slice(0, 30)}...`,
-      source: 'ai',
-      type: 'image'
+      source: "ai",
+      type: "image",
     });
 
     // Close the gallery modal
@@ -57,9 +58,9 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
           key={index}
           className="relative w-full aspect-square rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all group"
         >
-          <img 
-            src={imageUrl} 
-            alt={`AI generated image ${index + 1}`}
+          <img
+            src={imageUrl}
+            alt={t("aiImagePreview.altText", { index: index + 1 })}
             className="w-full h-full object-cover"
           />
           {onSaveImage && (
@@ -73,12 +74,12 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
                 {savingImageIndex === index ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
+                    {t("aiImagePreview.saving")}
                   </>
                 ) : (
                   <>
                     <Check className="w-4 h-4 mr-2" />
-                    Use Image
+                    {t("aiImagePreview.useImage")}
                   </>
                 )}
               </Button>

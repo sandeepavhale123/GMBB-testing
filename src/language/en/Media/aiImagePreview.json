@@ -1,0 +1,7 @@
+{
+  "aiImagePreview": {
+    "altText": "AI generated image {{index}}",
+    "saving": "Saving...",
+    "useImage": "Use Image"
+  }
+}

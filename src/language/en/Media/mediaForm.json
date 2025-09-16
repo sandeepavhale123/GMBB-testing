@@ -1,0 +1,34 @@
+{
+  "mediaForm": {
+    "title": "Media Details",
+    "fields": {
+      "titleLabel": "Title or Caption",
+      "titlePlaceholder": "Enter media title or caption...",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "Select category",
+      "publishOptionsLabel": "Publish Options",
+      "publishOptionsPlaceholder": "Choose publish option",
+      "scheduleLabel": "Schedule Date & Time",
+      "timezoneLabel": "Your timezone: {{timezone}}"
+    },
+    "categories": {
+      "cover": "Cover",
+      "profile": "Profile",
+      "logo": "Logo",
+      "exterior": "Exterior",
+      "interior": "Interior",
+      "product": "Product",
+      "atWork": "At Work",
+      "foodAndDrink": "Food and Drink",
+      "menu": "Menu",
+      "commonArea": "Common Area",
+      "rooms": "Rooms",
+      "teams": "Teams",
+      "additional": "Additional"
+    },
+    "publishOptions": {
+      "now": "Publish Now",
+      "schedule": "Schedule"
+    }
+  }
+}

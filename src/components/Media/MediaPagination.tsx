@@ -1,7 +1,7 @@
-
-import React from 'react';
-import { Button } from '../ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from "react";
+import { Button } from "../ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaPaginationProps {
   currentPage: number;
@@ -20,8 +20,9 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
   hasPrev,
   onPageChange,
   totalItems,
-  itemsPerPage
+  itemsPerPage,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaPagination");
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -42,9 +43,14 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
   return (
     <div className="flex items-center justify-between mt-6">
       <div className="text-sm text-gray-600">
-        Showing {startItem} to {endItem} of {totalItems} media files
+        {t("mediaPagination.showing", {
+          start: startItem,
+          end: endItem,
+          total: totalItems,
+        })}
+        {/* Showing {startItem} to {endItem} of {totalItems} media files */}
       </div>
-      
+
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
@@ -54,13 +60,17 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           className="flex items-center gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
-          Previous
+          {t("mediaPagination.previous")}
         </Button>
-        
+
         <span className="text-sm text-gray-600 px-3">
-          Page {currentPage} of {totalPages}
+          {t("mediaPagination.pageInfo", {
+            current: currentPage,
+            total: totalPages,
+          })}
+          {/* Page {currentPage} of {totalPages} */}
         </span>
-        
+
         <Button
           variant="outline"
           size="sm"
@@ -68,7 +78,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           disabled={!hasNext}
           className="flex items-center gap-1"
         >
-          Next
+          {t("mediaPagination.next")}
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>

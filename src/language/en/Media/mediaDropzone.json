@@ -1,0 +1,19 @@
+{
+  "mediaDropzone": {
+    "generateWithGenie": "Generate with Genie",
+    "dropFileHere": "Drop your file here",
+    "dragDropFile": "Drag & drop your media file",
+    "chooseFromGallery": "choose from gallery",
+    "uploadOneFile": "Upload one file at a time",
+    "fileTypes": {
+      "images": "JPG, PNG, WebP",
+      "videos": "MP4, MOV",
+      "maxSize": "• Max 10MB"
+    },
+    "errors": {
+      "invalidFile": "Only JPG, PNG, WebP, and MP4 files are allowed",
+      "fileTooLarge": "File size must be less than 10MB"
+    },
+    "close": "Close"
+  }
+}

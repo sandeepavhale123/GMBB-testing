@@ -1,7 +1,7 @@
-
-import React from 'react';
-import { Button } from '../../ui/button';
-import { RefreshCw, Check, Sparkles, Wand2 } from 'lucide-react';
+import React from "react";
+import { Button } from "../../ui/button";
+import { RefreshCw, Check, Sparkles, Wand2 } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIActionButtonsProps {
   // Generation state
@@ -9,7 +9,7 @@ interface AIActionButtonsProps {
   hasGenerated: boolean;
   prompt: string;
   onGenerate: () => void;
-  
+
   // Preview state
   isDownloading: boolean;
   onRegenerate: () => void;
@@ -23,8 +23,9 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
   onGenerate,
   isDownloading,
   onRegenerate,
-  onUseMedia
+  onUseMedia,
 }) => {
+  const { t } = useI18nNamespace("Media/aiActionButtons");
   if (!hasGenerated) {
     return (
       <Button
@@ -35,12 +36,12 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
         {isGenerating ? (
           <>
             <Wand2 className="w-5 h-5 mr-2 animate-spin" />
-            Generating...
+            {t("aiActionButtons.generating")}
           </>
         ) : (
           <>
             <Sparkles className="w-5 h-5 mr-2" />
-            Generate Image
+            {t("aiActionButtons.generateImage")}
           </>
         )}
       </Button>
@@ -56,7 +57,7 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
         disabled={isGenerating || isDownloading}
       >
         <RefreshCw className="w-4 h-4 mr-2" />
-        Regenerate
+        {t("aiActionButtons.regenerate")}
       </Button>
       <Button
         onClick={onUseMedia}
@@ -66,12 +67,12 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
         {isDownloading ? (
           <>
             <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-            Processing...
+            {t("aiActionButtons.processing")}
           </>
         ) : (
           <>
             <Check className="w-4 h-4 mr-2" />
-            Use This
+            {t("aiActionButtons.useThis")}
           </>
         )}
       </Button>

@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Search, Filter } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaFiltersProps {
   searchQuery: string;
@@ -34,33 +35,34 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   sortOrder,
   onSortOrderChange,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaFilters");
   const categories = [
-    { value: "all", label: "All Categories" },
-    { value: "COVER", label: "Cover" },
-    { value: "PROFILE", label: "Profile" },
-    { value: "LOGO", label: "Logo" },
-    { value: "EXTERIOR", label: "Exterior" },
-    { value: "INTERIOR", label: "Interior" },
-    { value: "PRODUCT", label: "Product" },
-    { value: "AT_WORK", label: "At Work" },
-    { value: "FOOD_AND_DRINK", label: "Food and Drink" },
-    { value: "MENU", label: "Menu" },
-    { value: "COMMON_AREA", label: "Common Area" },
-    { value: "ROOMS", label: "Rooms" },
-    { value: "TEAMS", label: "Teams" },
-    { value: "ADDITIONAL", label: "Additional" },
+    { value: "all", label: t("mediaFilters.category.all") },
+    { value: "COVER", label: t("mediaFilters.category.cover") },
+    { value: "PROFILE", label: t("mediaFilters.category.profile") },
+    { value: "LOGO", label: t("mediaFilters.category.logo") },
+    { value: "EXTERIOR", label: t("mediaFilters.category.exterior") },
+    { value: "INTERIOR", label: t("mediaFilters.category.interior") },
+    { value: "PRODUCT", label: t("mediaFilters.category.product") },
+    { value: "AT_WORK", label: t("mediaFilters.category.atWork") },
+    { value: "FOOD_AND_DRINK", label: t("mediaFilters.category.foodAndDrink") },
+    { value: "MENU", label: t("mediaFilters.category.menu") },
+    { value: "COMMON_AREA", label: t("mediaFilters.category.commonArea") },
+    { value: "ROOMS", label: t("mediaFilters.category.rooms") },
+    { value: "TEAMS", label: t("mediaFilters.category.teams") },
+    { value: "ADDITIONAL", label: t("mediaFilters.category.additional") },
   ];
 
   const statuses = [
-    { value: "all", label: "All Status" },
-    { value: "Live", label: "Live" },
-    { value: "Schedule", label: "Scheduled" },
-    { value: "failed", label: "Failed" },
+    { value: "all", label: t("mediaFilters.status.all") },
+    { value: "Live", label: t("mediaFilters.status.live") },
+    { value: "Schedule", label: t("mediaFilters.status.scheduled") },
+    { value: "failed", label: t("mediaFilters.status.failed") },
   ];
 
   const sortOrderOptions = [
-    { value: "desc", label: "Descending" },
-    { value: "asc", label: "Ascending" },
+    { value: "desc", label: t("mediaFilters.sortOrder.desc") },
+    { value: "asc", label: t("mediaFilters.sortOrder.asc") },
   ];
 
   return (
@@ -68,7 +70,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         <Input
-          placeholder="Search media files..."
+          placeholder={t("mediaFilters.searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-10"
@@ -78,7 +80,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
       <div className="flex gap-3 flex-wrap">
         <Select value={category || "all"} onValueChange={onCategoryChange}>
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="Category" />
+            <SelectValue placeholder={t("mediaFilters.category.placeholder")} />
           </SelectTrigger>
           <SelectContent>
             {categories.map((cat) => (
@@ -91,7 +93,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
 
         <Select value={status || "all"} onValueChange={onStatusChange}>
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="Status" />
+            <SelectValue placeholder={t("mediaFilters.status.placeholder")} />
           </SelectTrigger>
           <SelectContent>
             {statuses.map((stat) => (
@@ -104,7 +106,9 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
 
         <Select value={sortOrder} onValueChange={onSortOrderChange}>
           <SelectTrigger className="w-32">
-            <SelectValue placeholder="Order" />
+            <SelectValue
+              placeholder={t("mediaFilters.sortOrder.placeholder")}
+            />
           </SelectTrigger>
           <SelectContent>
             {sortOrderOptions.map((option) => (

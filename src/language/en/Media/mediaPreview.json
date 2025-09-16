@@ -1,0 +1,10 @@
+{
+  "mediaPreview": {
+    "aiGeneratedImage": "AI Generated Image",
+    "galleryImage": "Gallery Image",
+    "unknownFile": "Unknown",
+    "aiGenerated": "AI Generated",
+    "fromGallery": "From Gallery",
+    "unknownSize": "Unknown size"
+  }
+}

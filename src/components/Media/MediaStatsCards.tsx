@@ -1,8 +1,7 @@
-
-import React from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Skeleton } from '../ui/skeleton';
-
+import React from "react";
+import { Card, CardContent } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface MediaStatsCardsProps {
   totalItems: number;
   currentPageItems: number;
@@ -12,8 +11,9 @@ interface MediaStatsCardsProps {
 export const MediaStatsCards: React.FC<MediaStatsCardsProps> = ({
   totalItems,
   currentPageItems,
-  isLoading = false
+  isLoading = false,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaPreview");
   if (isLoading) {
     return (
       <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -40,16 +40,24 @@ export const MediaStatsCards: React.FC<MediaStatsCardsProps> = ({
     <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-md text-black mb-2">Total media uploaded</h3>
+          <h3 className="text-md text-black mb-2">
+            {t("mediaStatsCards.totalMediaUploaded")}
+          </h3>
         </div>
         <div className="space-y-6">
           <div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">{totalItems}</div>
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {totalItems}
+            </div>
           </div>
           <hr />
           <div>
-            <div className="text-md text-black mb-2">Last week uploaded image</div>
-            <div className="text-3xl font-bold text-gray-900">{currentPageItems}</div>
+            <div className="text-md text-black mb-2">
+              {t("mediaStatsCards.lastWeekUploadedImage")}
+            </div>
+            <div className="text-3xl font-bold text-gray-900">
+              {currentPageItems}
+            </div>
           </div>
         </div>
       </CardContent>

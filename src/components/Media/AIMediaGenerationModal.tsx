@@ -8,6 +8,7 @@ import { AIPromptInput } from "./AIGeneration/AIPromptInput";
 import { AIParameters } from "./AIGeneration/AIParameters";
 import { AIImagePreview } from "./AIGeneration/AIImagePreview";
 import { AIActionButtons } from "./AIGeneration/AIActionButtons";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   onClose,
   onGenerated,
 }) => {
+  const { t } = useI18nNamespace("Media/aiMediaGeneration");
   const [prompt, setPrompt] = useState("");
   const [variants, setVariants] = useState(1);
   const [style, setStyle] = useState("realistic");
@@ -36,8 +38,8 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast({
-        title: "Missing Prompt",
-        description: "Please describe the image you want to create.",
+        title: t("aiMediaGeneration.missingPromptTitle"),
+        description: t("aiMediaGeneration.missingPromptDescription"),
         variant: "destructive",
       });
       return;
@@ -58,10 +60,14 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         setSelectedImageIndex(0);
 
         toast({
-          title: "Images Generated",
-          description: `Successfully generated ${imageUrls.length} image${
-            imageUrls.length > 1 ? "s" : ""
-          }.`,
+          title: t("aiMediaGeneration.generationSuccessTitle"),
+          description: t("aiMediaGeneration.generationSuccessDescription", {
+            count: imageUrls.length,
+            plural: imageUrls.length > 1 ? "s" : "",
+          }),
+          // `Successfully generated ${imageUrls.length} image${
+          //   imageUrls.length > 1 ? "s" : ""
+          // }.`,
         });
       } else {
         throw new Error(response.message || "Failed to generate images");
@@ -69,11 +75,11 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     } catch (error) {
       console.error("AI image generation error:", error);
       toast({
-        title: "Generation Failed",
+        title: t("aiMediaGeneration.generationFailedTitle"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "Failed to generate images. Please try again.",
+            : t("aiMediaGeneration.generationFailedDescription"),
         variant: "destructive",
       });
     } finally {
@@ -95,8 +101,8 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
       });
 
       toast({
-        title: "Image Ready",
-        description: "AI-generated image has been prepared for upload.",
+        title: t("aiMediaGeneration.imageReadyTitle"),
+        description: t("aiMediaGeneration.imageReadyDescription"),
       });
     }
   };
@@ -138,7 +144,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-blue-600" />
-                Create Image with Genie
+                {t("aiMediaGeneration.title")}
               </DialogTitle>
               <Button
                 variant="ghost"

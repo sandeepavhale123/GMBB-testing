@@ -1,0 +1,26 @@
+{
+  "mediaUploadModal": {
+    "titleSingle": "Upload Media",
+    "titleBulk": "Upload Media to Multiple Listings",
+    "uploadError": "Upload Error",
+    "selectFileError": "Please select a file.",
+    "selectListingError": "Please select at least one listing or group.",
+    "noListingError": "Please ensure a business listing is selected.",
+    "uploadCompleteTitle": "Upload Complete!",
+    "uploadCompleteMessage": "Your {{fileType}} has been uploaded successfully.",
+    "mediaPreview": "Media Preview",
+    "typeLabel": "Type:",
+    "aiImage": "AI IMAGE",
+    "galleryImage": "GALLERY IMAGE",
+    "cancel": "Cancel",
+    "uploadingSingle": "Uploading...",
+    "uploadingBulk": "Uploading to Multiple Listings...",
+    "uploadButtonSingle": "Upload Media",
+    "uploadButtonBulk": "Upload to Selected Listings",
+    "uploadSuccess": "Upload Successful",
+    "uploadFailed": "Upload Failed",
+    "bulkSuccess": "Bulk Media Posted Successfully",
+    "bulkSuccessMessage": "Media has been posted to {{count}} listing(s).",
+    "generatedImage": "Generated Image"
+  }
+}

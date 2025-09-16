@@ -1,0 +1,30 @@
+{
+  "mediaPage": {
+    "title": "Your Media",
+    "uploadButton": "Upload Media",
+    "toast": {
+      "errorTitle": "Error",
+      "errorFetch": "Failed to fetch media list",
+      "errorFetchRetry": "Failed to fetch media list. Please try again.",
+      "errorDelete": "Failed to delete media",
+      "errorDeleteRetry": "Failed to delete media. Please try again.",
+      "successfully":"Success",
+      "successDelete": "Media deleted successfully.",
+      "downloadStarted": "Download Started",
+      "downloading": "Downloading {{name}}...",
+      "coverImageSetTitle": "Cover Image Set",
+      "coverImageSetDesc": "Media has been set as cover image.",
+      "mediaUploadedTitle": "Media Uploaded",
+      "mediaUploadedDesc": "{{count}} media file(s) uploaded successfully.",
+      "editMediaTitle": "Edit Media",
+      "editMediaDesc": "Edit functionality will be implemented."
+    },
+    "deleteDialog": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone. This will permanently delete the media file.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    }
+  }
+}

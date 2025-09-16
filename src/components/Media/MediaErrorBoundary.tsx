@@ -1,8 +1,7 @@
-
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -15,7 +14,7 @@ interface State {
 
 export class MediaErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -23,7 +22,7 @@ export class MediaErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Media page error:', error, errorInfo);
+    console.error("Media page error:", error, errorInfo);
   }
 
   private handleRetry = () => {
@@ -41,7 +40,8 @@ export class MediaErrorBoundary extends Component<Props, State> {
                 Something went wrong
               </h3>
               <p className="text-sm text-gray-600">
-                There was an error loading the media page. Please try refreshing or contact support if the problem persists.
+                There was an error loading the media page. Please try refreshing
+                or contact support if the problem persists.
               </p>
             </div>
             <Button onClick={this.handleRetry} className="w-full">

@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { Badge } from '../ui/badge';
-import { Loader } from '../ui/loader';
-import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage } from 'lucide-react';
-import { formatScheduledDate } from '../../utils/dateUtils';
+import React, { useState } from "react";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Badge } from "../ui/badge";
+import { Loader } from "../ui/loader";
+import {
+  MoreVertical,
+  Eye,
+  Edit,
+  Trash2,
+  Download,
+  Star,
+  Play,
+  FileImage,
+} from "lucide-react";
+import { formatScheduledDate } from "../../utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaCardProps {
   id: string;
   name: string;
   url: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   size: string;
   uploadDate: string;
-  status: 'Live' | 'Schedule' | 'Failed';
+  status: "Live" | "Schedule" | "Failed";
   views: string;
   isScheduled?: boolean;
   onView: () => void;
@@ -24,9 +39,9 @@ interface MediaCardProps {
   onSetAsCover: () => void;
 }
 const statusColors = {
-  Live: 'bg-blue-100 text-blue-800',
-  Schedule: 'bg-yellow-100 text-yellow-800',
-  Failed: 'bg-red-100 text-red-800'
+  Live: "bg-blue-100 text-blue-800",
+  Schedule: "bg-yellow-100 text-yellow-800",
+  Failed: "bg-red-100 text-red-800",
 };
 export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   id,
@@ -42,8 +57,9 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   onEdit,
   onDelete,
   onDownload,
-  onSetAsCover
+  onSetAsCover,
 }) => {
+  const { t } = useI18nNamespace("Media/enhancedMediaCard");
   const [imageLoading, setImageLoading] = useState(true);
 
   const handleDropdownClick = (e: React.MouseEvent) => {
@@ -63,9 +79,13 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
     setImageLoading(false);
   };
 
-  return <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow">
+  return (
+    <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
-      <div className="aspect-square bg-gray-100 relative overflow-hidden cursor-pointer" onClick={onView}>
+      <div
+        className="aspect-square bg-gray-100 relative overflow-hidden cursor-pointer"
+        onClick={onView}
+      >
         {/* Loading indicator */}
         {imageLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
@@ -73,66 +93,90 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
           </div>
         )}
 
-        <img 
-          src={url} 
-          alt={name} 
-          className="w-full h-full object-cover transition-transform group-hover:scale-105" 
+        <img
+          src={url}
+          alt={name}
+          className="w-full h-full object-cover transition-transform group-hover:scale-105"
           onLoad={handleImageLoad}
           onError={handleImageError}
-          style={{ display: imageLoading ? 'none' : 'block' }}
+          style={{ display: imageLoading ? "none" : "block" }}
         />
-        
+
         {/* Video indicator */}
-        {type === 'video' && !imageLoading && <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
+        {type === "video" && !imageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
             <div className="bg-black bg-opacity-50 rounded-full p-2">
               <Play className="w-6 h-6 text-white fill-white" />
             </div>
-          </div>}
-
+          </div>
+        )}
 
         {/* Status badge */}
-        {!imageLoading && <div className="absolute top-2 right-2">
-          <Badge className={`text-xs ${statusColors[status]}`}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </Badge>
-        </div>}
+        {!imageLoading && (
+          <div className="absolute top-2 right-2">
+            <Badge className={`text-xs ${statusColors[status]}`}>
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </Badge>
+          </div>
+        )}
 
         {/* Action menu */}
-        {!imageLoading && <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleDropdownClick}>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
-                <MoreVertical className="w-4 h-4 text-gray-700" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={handleMenuItemClick(onView)}>
-                <Eye className="w-4 h-4 mr-2" />
-                View
-              </DropdownMenuItem>
-             
-              <DropdownMenuItem onClick={handleMenuItemClick(onDelete)} className="text-red-600">
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>}
+        {!imageLoading && (
+          <div
+            className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={handleDropdownClick}
+          >
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full"
+                >
+                  <MoreVertical className="w-4 h-4 text-gray-700" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={handleMenuItemClick(onView)}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  {t("mediaCard.actions.view")}
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  onClick={handleMenuItemClick(onDelete)}
+                  className="text-red-600"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  {t("mediaCard.actions.delete")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
 
       {/* Metadata */}
       <div className="p-3 space-y-2">
         <div className="flex items-center gap-2">
-          {type === 'image' ? <FileImage className="w-4 h-4 text-gray-500" /> : <Play className="w-4 h-4 text-gray-500" />}
-          <h3 className="font-medium text-sm text-gray-900 truncate flex-1">{name}</h3>
+          {type === "image" ? (
+            <FileImage className="w-4 h-4 text-gray-500" />
+          ) : (
+            <Play className="w-4 h-4 text-gray-500" />
+          )}
+          <h3 className="font-medium text-sm text-gray-900 truncate flex-1">
+            {name}
+          </h3>
         </div>
-        
+
         <div className="text-xs text-gray-500 space-y-1">
           <div>
-            {isScheduled ? 'Scheduled for: ' : 'Uploaded: '}
+            {isScheduled
+              ? t("mediaCard.labels.scheduled")
+              : t("mediaCard.labels.uploaded")}
             {formatScheduledDate(uploadDate)}
           </div>
         </div>
       </div>
-    </Card>;
+    </Card>
+  );
 };

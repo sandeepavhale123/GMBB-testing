@@ -11,6 +11,8 @@ import { useMediaContext } from "../../context/MediaContext";
 import { uploadMedia, createBulkMedia } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { count } from "console";
 
 interface MediaFile {
   id: string;
@@ -43,6 +45,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   onUpload,
   isBulkUpload = false,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaUploadModal");
   const [file, setFile] = useState<MediaFile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
@@ -59,10 +62,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const { toast } = useToast();
 
   // Helper function to detect media type from URL
-  const getMediaTypeFromUrl = (url: string): 'image' | 'video' => {
-    const extension = url.split('.').pop()?.toLowerCase() || '';
-    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
-    return videoExtensions.includes(extension) ? 'video' : 'image';
+  const getMediaTypeFromUrl = (url: string): "image" | "video" => {
+    const extension = url.split(".").pop()?.toLowerCase() || "";
+    const videoExtensions = ["mp4", "avi", "mov", "wmv", "flv", "webm", "mkv"];
+    return videoExtensions.includes(extension) ? "video" : "image";
   };
 
   // Effect to auto-populate with selected media from context
@@ -74,11 +77,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         type: selectedMedia.type,
         title: selectedMedia.title,
         selectedImage: selectedMedia.source,
-        aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
-        galleryImageUrl: selectedMedia.source === 'gallery' ? selectedMedia.url : undefined,
+        aiImageUrl:
+          selectedMedia.source === "ai" ? selectedMedia.url : undefined,
+        galleryImageUrl:
+          selectedMedia.source === "gallery" ? selectedMedia.url : undefined,
       };
       setFile(mediaFile);
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         title: selectedMedia.title,
       }));
@@ -113,8 +118,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const handleUpload = async () => {
     if (!file) {
       toast({
-        title: "Upload Error",
-        description: "Please select a file.",
+        title: t("mediaUploadModal.uploadError"),
+        description: t("mediaUploadModal.selectFileError"),
         variant: "destructive",
       });
       return;
@@ -122,8 +127,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
     if (isBulkUpload && selectedListings.length === 0) {
       toast({
-        title: "Upload Error",
-        description: "Please select at least one listing or group.",
+        title: t("mediaUploadModal.uploadError"),
+        description: t("mediaUploadModal.selectListingError"),
         variant: "destructive",
       });
       return;
@@ -131,8 +136,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
     if (!isBulkUpload && !selectedListing) {
       toast({
-        title: "Upload Error",
-        description: "Please ensure a business listing is selected.",
+        title: t("mediaUploadModal.uploadError"),
+        description: t("mediaUploadModal.noListingError"),
         variant: "destructive",
       });
       return;
@@ -154,14 +159,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     try {
       if (isBulkUpload) {
         // Handle bulk upload using new bulk API
-        const formattedListingId = selectedListings.join(',');
-        
+        const formattedListingId = selectedListings.join(",");
+
         const bulkUploadData = {
           file: file.file,
           title:
             formData.title ||
             file.file?.name.replace(/\.[^/.]+$/, "") ||
-            "Generated Image",
+            t("mediaUploadModal.generatedImage"),
           category: formData.category || "additional",
           publishOption: formData.publishOption,
           scheduleDate: formData.scheduleDate,
@@ -169,17 +174,20 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           selectedImage: file.selectedImage,
           aiImageUrl: file.aiImageUrl,
           galleryImageUrl: file.galleryImageUrl,
-          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video",
+          galleryMediaType: (selectedMedia?.type === "video"
+            ? "video"
+            : "photo") as "photo" | "video",
         };
-        
+
         const response = await createBulkMedia(bulkUploadData);
-        
+
         // Create media item for local state update
         const mediaItem: MediaItem = {
           id: file.id,
-          name: formData.title ||
+          name:
+            formData.title ||
             file.file?.name.replace(/\.[^/.]+$/, "") ||
-            "Generated Image",
+            t("mediaUploadModal.generatedImage"),
           views: "0 views",
           type: file.type,
           url: file.url,
@@ -187,21 +195,25 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         };
         onUpload([mediaItem]);
         setUploadComplete(true);
-        
+
         // Clear MediaContext to prevent modal reopening on page navigation
         clearSelection();
-        
+
         toast({
-          title: "Bulk Media Posted Successfully",
-          description: `Media has been posted to ${selectedListings.length} listing${selectedListings.length > 1 ? 's' : ''}.`,
+          title: t("mediaUploadModal.bulkSuccess"),
+          description: t("mediaUploadModal.bulkSuccessMessage", {
+            count: selectedListings.length,
+          }),
+          // `Media has been posted to ${selectedListings.length} listing${
+          //   selectedListings.length > 1 ? "s" : ""
+          // }.`,
           variant: "default",
         });
-        
+
         // Close modal after showing success briefly
         setTimeout(() => {
           handleClose();
         }, 2000);
-        
       } else {
         // Handle single listing upload
         const uploadData = {
@@ -209,7 +221,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           title:
             formData.title ||
             file.file?.name.replace(/\.[^/.]+$/, "") ||
-            "Generated Image",
+            t("mediaUploadModal.generatedImage"),
           category: formData.category || "additional",
           publishOption: formData.publishOption,
           scheduleDate: formData.scheduleDate,
@@ -217,17 +229,19 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           selectedImage: file.selectedImage,
           aiImageUrl: file.aiImageUrl,
           galleryImageUrl: file.galleryImageUrl,
-          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video",
+          galleryMediaType: (selectedMedia?.type === "video"
+            ? "video"
+            : "photo") as "photo" | "video",
         };
-      // console.log("Upload data prepared:", {
-      //   fileName: uploadData.file?.name,
-      //   title: uploadData.title,
-      //   category: uploadData.category,
-      //   publishOption: uploadData.publishOption,
-      //   listingId: uploadData.listingId,
-      //   selectedImage: uploadData.selectedImage,
-      //   aiImageUrl: uploadData.aiImageUrl,
-      // });
+        // console.log("Upload data prepared:", {
+        //   fileName: uploadData.file?.name,
+        //   title: uploadData.title,
+        //   category: uploadData.category,
+        //   publishOption: uploadData.publishOption,
+        //   listingId: uploadData.listingId,
+        //   selectedImage: uploadData.selectedImage,
+        //   aiImageUrl: uploadData.aiImageUrl,
+        // });
         const response = await uploadMedia(uploadData);
         // console.log("Upload response:", response);
         if (response.code === 200) {
@@ -242,12 +256,12 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           };
           onUpload([mediaItem]);
           setUploadComplete(true);
-          
+
           // Clear MediaContext to prevent modal reopening on page navigation
           clearSelection();
-          
+
           toast({
-            title: "Upload Successful",
+            title: t("mediaUploadModal.uploadSuccess"),
             description: response.message,
           });
 
@@ -256,13 +270,15 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             handleClose();
           }, 1500);
         } else {
-          throw new Error(response.message || "Upload failed");
+          throw new Error(
+            response.message || t("mediaUploadModal.uploadFailed")
+          );
         }
       }
     } catch (error) {
       console.error("Upload error:", error);
       toast({
-        title: "Upload Failed",
+        title: t("mediaUploadModal.uploadFailed"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
@@ -330,7 +346,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             <DialogHeader className="p-6 pb-4">
               <div className="flex items-center justify-between">
                 <DialogTitle className="text-2xl font-bold text-gray-900">
-                  {isBulkUpload ? "Upload Media to Multiple Listings" : "Upload Media"}
+                  {isBulkUpload
+                    ? t("mediaUploadModal.titleBulk")
+                    : t("mediaUploadModal.titleSingle")}
                 </DialogTitle>
                 <Button
                   variant="ghost"
@@ -364,7 +382,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Upload Complete!
+                  {t("mediaUploadModal.uploadCompleteTitle")}
                 </h3>
                 <p className="text-gray-600">
                   Your{" "}
@@ -383,7 +401,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     <MultiListingSelector
                       selectedListings={selectedListings}
                       onListingsChange={setSelectedListings}
-                      error={selectedListings.length === 0 ? "Please select at least one listing or group." : undefined}
+                      error={
+                        selectedListings.length === 0
+                          ? t("mediaUploadModal.mediaUploadModal")
+                          : undefined
+                      }
                     />
                   </div>
                 )}
@@ -401,15 +423,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Media Preview
+                        {t("mediaUploadModal.mediaPreview")}
                       </h3>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Type:</span>
+                        <span className="text-sm text-gray-500">
+                          {t("mediaUploadModal.typeLabel")}
+                        </span>
                         <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
                           {file.selectedImage === "ai"
-                            ? "AI IMAGE"
+                            ? t("mediaUploadModal.aiImage")
                             : file.selectedImage === "gallery"
-                            ? "GALLERY IMAGE"
+                            ? t("mediaUploadModal.galleryImage")
                             : file.type.toUpperCase()}
                         </span>
                       </div>
@@ -435,17 +459,26 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     onClick={handleClose}
                     disabled={isUploading}
                   >
-                    Cancel
+                    {t("mediaUploadModal.cancel")}
                   </Button>
                   <Button
                     onClick={handleUpload}
-                    disabled={!file || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)}
+                    disabled={
+                      !file ||
+                      isUploading ||
+                      (isBulkUpload
+                        ? selectedListings.length === 0
+                        : !selectedListing)
+                    }
                     className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
                   >
-                    {isUploading 
-                      ? (isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading...") 
-                      : (isBulkUpload ? "Upload to Selected Listings" : "Upload Media")
-                    }
+                    {isUploading
+                      ? isBulkUpload
+                        ? t("mediaUploadModal.uploadingBulk")
+                        : t("mediaUploadModal.uploadingSingle")
+                      : isBulkUpload
+                      ? t("mediaUploadModal.uploadButtonBulk")
+                      : t("mediaUploadModal.uploadButtonSingle")}
                   </Button>
                 </div>
               </>
