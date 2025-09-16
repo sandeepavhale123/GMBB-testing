@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
 
   return (
     <header 
-      className="fixed top-0 left-0 right-0 z-[420] w-full px-4 py-3 border-b border-border"
+      className="fixed top-0 left-0 right-0 z-[405] w-full px-4 py-3 border-b border-border"
       style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
