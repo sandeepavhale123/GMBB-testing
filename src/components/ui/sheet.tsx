@@ -22,7 +22,7 @@ const SheetOverlay = React.forwardRef<
   <SheetPrimitive.Overlay
     className={cn(
       "fixed inset-0  bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      pathname.startsWith("/module/geo-ranking") ? "z-[499]" : "z-0",
+      pathname.startsWith("/module/geo-ranking") ? "z-[499]" : "z-[51]",
       className
     )}
     {...props}

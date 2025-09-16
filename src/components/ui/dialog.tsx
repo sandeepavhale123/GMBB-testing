@@ -24,7 +24,7 @@ const DialogOverlay = React.forwardRef<
       pathname.startsWith("/module/geo-ranking") ||
         pathname.startsWith("/geo-ranking/")
         ? "z-[9999]"
-        : "z-50",
+        : "z-[54]",
       className
     )}
     {...props}
@@ -46,7 +46,7 @@ const DialogContent = React.forwardRef<
         pathname.startsWith("/module/geo-ranking") ||
           pathname.startsWith("/geo-ranking/")
           ? "z-[10000]"
-          : "z-50",
+          : "z-[55]",
 
         className
       )}

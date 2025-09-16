@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
         backgroundColor: theme.bg_color || "hsl(var(--background))",
       }}
       className={`fixed top-0 left-0 right-0 ${
-        pathname.startsWith("/module/geo-ranking") ? "z-[420]" : "z-0"
+        pathname.startsWith("/module/geo-ranking") ? "z-[420]" : "z-[50]"
       } w-full px-4 py-3 border-b border-border`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
