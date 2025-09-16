@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Edit, Phone, Calendar, RotateCcw } from "lucide-react";
 import { SingleCTASettings } from "@/hooks/useCTASettings";
 
@@ -41,26 +42,42 @@ export const CTACard: React.FC<CTACardProps> = ({
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
     >
       {/* Action Buttons */}
-      <div className="absolute top-2 right-2 z-10 flex gap-1">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onReset}
-          className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-          style={{ color: settings.textColor }}
-        >
-          <RotateCcw className="w-4 h-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onEdit}
-          className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-          style={{ color: settings.textColor }}
-        >
-          <Edit className="w-4 h-4" />
-        </Button>
-      </div>
+      <TooltipProvider>
+        <div className="absolute top-2 right-2 z-10 flex gap-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onReset}
+                className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+                style={{ color: settings.textColor }}
+              >
+                <RotateCcw className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Reset to default</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onEdit}
+                className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+                style={{ color: settings.textColor }}
+              >
+                <Edit className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit CTA</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
 
       <div className="flex items-center gap-4">
         {/* Icon */}
