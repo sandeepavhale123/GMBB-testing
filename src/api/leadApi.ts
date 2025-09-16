@@ -790,3 +790,41 @@ export const useGetLeadKeywordDetails = (reportId: string, keywordId: string) =>
     retry: 2,
   });
 };
+
+// Keyword Position Details API interfaces
+export interface GetKeywordPositionDetailsRequest {
+  positionId: number;
+}
+
+export interface GetKeywordPositionDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    keywordDetails: Array<{
+      name: string;
+      address: string;
+      rating: string;
+      review: string;
+      position: number;
+      selected: boolean;
+    }>;
+    coordinate: string;
+  };
+}
+
+// Keyword Position Details API function
+export const getKeywordPositionDetails = async (params: GetKeywordPositionDetailsRequest): Promise<GetKeywordPositionDetailsResponse> => {
+  const response = await apiClient.post<GetKeywordPositionDetailsResponse>('/lead/get-keyword-position-details', params);
+  return response.data;
+};
+
+// Keyword Position Details React Query hook
+export const useGetKeywordPositionDetails = (positionId: number | null) => {
+  return useQuery({
+    queryKey: ['lead-keyword-position-details', positionId],
+    queryFn: () => getKeywordPositionDetails({ positionId: positionId! }),
+    enabled: !!positionId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};

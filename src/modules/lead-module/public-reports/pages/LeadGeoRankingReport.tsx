@@ -7,6 +7,7 @@ import { UnderPerformingTable } from '@/components/GeoRanking/UnderPerformingTab
 import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLeadGeoRanking } from '@/hooks/useLeadGeoRanking';
+import { useLeadKeywordPositionDetails } from '@/hooks/useLeadKeywordPositionDetails';
 import { useGetLeadReportBranding } from '@/api/leadApi';
 
 interface ModalData {
@@ -22,34 +23,6 @@ interface ModalData {
   }>;
   loading: boolean;
 }
-
-// Mock competitors data for modal (since we don't have competitor details API yet)
-const mockCompetitors = [
-  {
-    position: 1,
-    name: 'Tony\'s Italian Bistro',
-    address: '123 Main St, New York, NY 10001',
-    rating: 4.5,
-    reviewCount: 324,
-    selected: false
-  },
-  {
-    position: 2,
-    name: 'Bella Notte Restaurant',
-    address: '456 Broadway Ave, New York, NY 10002', 
-    rating: 4.2,
-    reviewCount: 198,
-    selected: true
-  },
-  {
-    position: 3,
-    name: 'Giuseppe\'s Pizza Palace',
-    address: '789 Central Park West, New York, NY 10003',
-    rating: 4.8,
-    reviewCount: 542,
-    selected: false
-  }
-];
 
 export const LeadGeoRankingReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
@@ -71,6 +44,14 @@ export const LeadGeoRankingReport: React.FC = () => {
   // Get branding data
   const { data: brandingData } = useGetLeadReportBranding(reportId || '');
   
+  // Position details hook for modal
+  const {
+    data: positionDetailsData,
+    loading: positionDetailsLoading,
+    error: positionDetailsError,
+    fetchPositionDetails
+  } = useLeadKeywordPositionDetails();
+  
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
@@ -85,7 +66,19 @@ export const LeadGeoRankingReport: React.FC = () => {
     }
   }, [keywords, selectedKeyword, setSelectedKeyword]);
 
-  // Mock marker click handler (until competitor details API is available)
+  // Update modal data when position details are fetched
+  useEffect(() => {
+    if (positionDetailsData && modalData.isOpen) {
+      setModalData(prev => ({
+        ...prev,
+        competitors: positionDetailsData.competitors,
+        gpsCoordinates: positionDetailsData.coordinates,
+        loading: false
+      }));
+    }
+  }, [positionDetailsData, modalData.isOpen]);
+
+  // Handle marker click with real API call
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
     setModalData({
       isOpen: true,
@@ -94,16 +87,16 @@ export const LeadGeoRankingReport: React.FC = () => {
       loading: true
     });
 
-    // Simulate API delay
-    setTimeout(() => {
-      setModalData({
-        isOpen: true,
-        gpsCoordinates,
-        competitors: mockCompetitors,
+    try {
+      await fetchPositionDetails(parseInt(positionId));
+    } catch (error) {
+      console.error('Error fetching position details:', error);
+      setModalData(prev => ({
+        ...prev,
         loading: false
-      });
-    }, 1000);
-  }, []);
+      }));
+    }
+  }, [fetchPositionDetails]);
 
   const handleCloseModal = useCallback(() => {
     setModalData(prev => ({
@@ -145,7 +138,7 @@ export const LeadGeoRankingReport: React.FC = () => {
     areaName: `Area ${index + 1}`,
     coordinate: detail.coordinates,
     compRank: 1,
-    compName: mockCompetitors[0]?.name || 'Competitor',
+    compName: 'Competitor',
     compRating: '4.5',
     compReview: '324',
     priority: index === 0 ? 'High' : 'Medium',
