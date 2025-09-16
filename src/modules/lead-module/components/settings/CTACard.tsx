@@ -54,7 +54,7 @@ export const CTACard: React.FC<CTACardProps> = ({
         <div className="flex-shrink-0">
           <div 
             className="w-16 h-16 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: type === 'call' ? '#EF4444' : '#DC2626' }}
+            style={{ backgroundColor:'#EF4444' }}
           >
             <Icon className="w-8 h-8 text-white" />
           </div>
