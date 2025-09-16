@@ -60,7 +60,7 @@ export const CTACard: React.FC<CTACardProps> = ({
                 size="icon"
                 onClick={onReset}
                 className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                style={{ color: settings.textColor }}
+                style={{ color: 'black' }}
               >
                 <RotateCcw className="w-4 h-4" />
               </Button>
@@ -76,7 +76,7 @@ export const CTACard: React.FC<CTACardProps> = ({
                 size="icon"
                 onClick={onEdit}
                 className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                style={{ color: settings.textColor }}
+                style={{ color: 'black' }}
               >
                 <Edit className="w-4 h-4" />
               </Button>
