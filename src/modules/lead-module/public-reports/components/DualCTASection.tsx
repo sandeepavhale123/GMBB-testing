@@ -88,8 +88,12 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
 
   return (
     <div className="space-y-4 my-8">
-      <CTACard type="call" ctaSettings={settings.callCTA} />
-      <CTACard type="appointment" ctaSettings={settings.appointmentCTA} />
+      {settings.callCTA.isVisible && (
+        <CTACard type="call" ctaSettings={settings.callCTA} />
+      )}
+      {settings.appointmentCTA.isVisible && (
+        <CTACard type="appointment" ctaSettings={settings.appointmentCTA} />
+      )}
     </div>
   );
 };

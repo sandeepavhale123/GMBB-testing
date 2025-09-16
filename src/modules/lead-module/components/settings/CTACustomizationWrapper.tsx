@@ -101,6 +101,7 @@ export const CTACustomizationWrapper: React.FC = () => {
             buttonLink: "#contact",
             backgroundColor: "#FEF3C7",
             textColor: "#1F2937",
+            isVisible: true,
           }}
           onSave={handleSaveCTA}
           isLoading={isLoading}

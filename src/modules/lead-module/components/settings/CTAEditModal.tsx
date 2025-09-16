@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { SingleCTASettings, singleCTASettingsSchema } from "@/hooks/useCTASettings";
 import { useToast } from "@/hooks/use-toast";
@@ -54,9 +55,10 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
         header: currentSettings?.header || "BOOST YOUR GBP SCORE &&& Increase your calls",
         description: currentSettings?.description || "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
         buttonLabel: currentSettings?.buttonLabel || "BOOK A CALL",
-        buttonLink: currentSettings?.buttonLink || "#contact",
-        backgroundColor: currentSettings?.backgroundColor || "#FEF3C7",
-        textColor: currentSettings?.textColor || "#1F2937",
+      buttonLink: currentSettings?.buttonLink || "#contact",
+      backgroundColor: currentSettings?.backgroundColor || "#FEF3C7",
+      textColor: currentSettings?.textColor || "#1F2937",
+      isVisible: currentSettings?.isVisible ?? true,
       };
       setFormData(settingsWithDefaults);
       clearErrors();
@@ -64,7 +66,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, currentSettings]);
 
-  const handleInputChange = (field: keyof SingleCTASettings, value: string) => {
+  const handleInputChange = (field: keyof SingleCTASettings, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -105,6 +107,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
       buttonLink: "#contact",
       backgroundColor: "#FEF3C7",
       textColor: "#1F2937",
+      isVisible: true,
     });
     clearErrors();
     onClose();
@@ -121,6 +124,21 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
         </DialogHeader>
 
         <div className="grid gap-6 py-4">
+          {/* Visibility Toggle */}
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="isVisible">Show CTA in Reports</Label>
+              <p className="text-xs text-muted-foreground">
+                Toggle to show or hide this CTA section in generated reports
+              </p>
+            </div>
+            <Switch
+              id="isVisible"
+              checked={formData.isVisible ?? true}
+              onCheckedChange={(checked) => handleInputChange("isVisible", checked)}
+            />
+          </div>
+
           {/* Header Input */}
           <div className="grid gap-2">
             <Label htmlFor="header">CTA Header</Label>

@@ -8,6 +8,7 @@ export const singleCTASettingsSchema = z.object({
   buttonLink: z.string().url("Please enter a valid URL").or(z.literal("")).or(z.string().regex(/^#/, "Hash links must start with #")),
   backgroundColor: z.string().min(1, "Background color is required"),
   textColor: z.string().min(1, "Text color is required"),
+  isVisible: z.boolean().default(true),
 });
 
 export const ctaSettingsSchema = z.object({
@@ -26,6 +27,7 @@ const DEFAULT_CTA_SETTINGS: CTASettings = {
     buttonLink: "#contact",
     backgroundColor: "#FEF3C7",
     textColor: "#1F2937",
+    isVisible: true,
   },
   appointmentCTA: {
     header: "BOOST YOUR GBP SCORE &&& Increase your calls",
@@ -34,6 +36,7 @@ const DEFAULT_CTA_SETTINGS: CTASettings = {
     buttonLink: "#contact",
     backgroundColor: "#FEF3C7",
     textColor: "#1F2937",
+    isVisible: true,
   },
 };
 

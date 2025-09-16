@@ -17,18 +17,22 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <CTACard
-        type="call"
-        settings={settings.callCTA}
-        onEdit={onEditCall}
-        isPreview={isPreview}
-      />
-      <CTACard
-        type="appointment"
-        settings={settings.appointmentCTA}
-        onEdit={onEditAppointment}
-        isPreview={isPreview}
-      />
+      {settings.callCTA.isVisible && (
+        <CTACard
+          type="call"
+          settings={settings.callCTA}
+          onEdit={onEditCall}
+          isPreview={isPreview}
+        />
+      )}
+      {settings.appointmentCTA.isVisible && (
+        <CTACard
+          type="appointment"
+          settings={settings.appointmentCTA}
+          onEdit={onEditAppointment}
+          isPreview={isPreview}
+        />
+      )}
     </div>
   );
 };
