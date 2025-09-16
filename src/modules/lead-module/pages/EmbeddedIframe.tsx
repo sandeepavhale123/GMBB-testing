@@ -28,7 +28,7 @@ const EmbeddedIframe: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Embedded Iframe</h1>
+        <h1 className="text-2xl font-bold text-foreground">Embedded Iframe</h1>
         <p className="text-muted-foreground">Generate and manage embeddable lead forms</p>
       </div>
 
