@@ -134,8 +134,8 @@ const BusinessDetailsPanel: React.FC<{ lead: Lead; fetchedData: any; isLoading: 
           <div className="flex items-start gap-3">
             <Tag className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-muted-foreground">Report Type</p>
-              <p className="text-sm">{lead.reportTypeLabel || "Not specified"}</p>
+              <p className="text-sm font-medium text-muted-foreground">Lead Note</p>
+              <p className="text-sm">{displayData?.leadnote || "No notes added"}</p>
             </div>
           </div>
           
