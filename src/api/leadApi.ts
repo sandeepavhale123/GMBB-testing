@@ -987,23 +987,13 @@ export const useGetCTADetails = () => {
 export const useSaveCTACustomizer = () => {
   return useMutation({
     mutationFn: saveCTACustomizer,
-    onSuccess: () => {
-      toast.success('CTA settings saved successfully!');
-    },
-    onError: () => {
-      toast.error('Failed to save CTA settings');
-    },
+    // Remove duplicate toasts - let component handle success/error messages
   });
 };
 
 export const useResetCTACustomizer = () => {
   return useMutation({
     mutationFn: resetCTACustomizer,
-    onSuccess: () => {
-      toast.success('CTA reset successfully!');
-    },
-    onError: () => {
-      toast.error('Failed to reset CTA settings');
-    },
+    // Remove duplicate toasts - let component handle success/error messages
   });
 };

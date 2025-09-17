@@ -125,17 +125,36 @@ export const useCTASettings = () => {
 
   const resetSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA'): Promise<boolean> => {
     try {
+      console.log('Starting reset for CTA type:', ctaType);
       const result = await resetCtaMutation({ ctaType });
+      console.log('Reset API response:', result);
       
       if (result.code === 200 && result.data) {
-        // Update local state with the reset data
-        setSettings(prev => ({
-          ...prev,
-          [ctaType]: result.data[ctaType] || DEFAULT_CTA_SETTINGS[ctaType],
-        }));
-        return true;
+        // The API returns the reset data for the specific CTA type
+        const resetData = result.data[ctaType];
+        console.log('Reset data for', ctaType, ':', resetData);
+        
+        if (resetData) {
+          // Update local state with the reset data from API
+          setSettings(prev => ({
+            ...prev,
+            [ctaType]: resetData,
+          }));
+          console.log('Successfully updated local state for', ctaType);
+          return true;
+        } else {
+          console.warn('No reset data returned for', ctaType, 'using defaults');
+          // Fallback to defaults if no data returned
+          setSettings(prev => ({
+            ...prev,
+            [ctaType]: DEFAULT_CTA_SETTINGS[ctaType],
+          }));
+          return true;
+        }
+      } else {
+        console.error('Reset API returned error:', result.code, result.message);
+        return false;
       }
-      return false;
     } catch (error) {
       console.error("Failed to reset CTA settings:", error);
       return false;
