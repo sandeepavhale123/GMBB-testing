@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react';
 interface CreatePostCardProps {
   onCreatePost: () => void;
 }
-export const CreatePostCard: React.FC<CreatePostCardProps> = ({
+const CreatePostCard: React.FC<CreatePostCardProps> = ({
   onCreatePost
 }) => {
   return <Card>
@@ -23,3 +23,5 @@ export const CreatePostCard: React.FC<CreatePostCardProps> = ({
       </CardContent>
     </Card>;
 };
+
+export default CreatePostCard;
