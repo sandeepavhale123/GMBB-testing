@@ -40,7 +40,7 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
           <div className="flex-shrink-0">
             <div 
               className="w-16 h-16 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: type === 'call' ? '#EF4444' : '#DC2626' }}
+              style={{ backgroundColor: 'hsl(217 91% 45%)' }}
             >
               <Icon className="w-8 h-8 text-white" />
             </div>
@@ -67,14 +67,14 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
                 rel={ctaSettings.buttonLink.startsWith('http') ? 'noopener noreferrer' : undefined}
               >
                 <Button 
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2 rounded-md transition-colors"
+                  className="bg-white hover:bg-gray-50 text-primary border border-primary font-semibold px-6 py-2 rounded-md transition-colors"
                 >
                   {ctaSettings.buttonLabel}
                 </Button>
               </a>
             ) : (
               <Button 
-                className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2 rounded-md transition-colors"
+                className="bg-white hover:bg-gray-50 text-primary border border-primary font-semibold px-6 py-2 rounded-md transition-colors"
                 onClick={(e) => handleButtonClick(e, ctaSettings.buttonLink)}
               >
                 {ctaSettings.buttonLabel}
