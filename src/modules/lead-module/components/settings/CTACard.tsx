@@ -40,7 +40,7 @@ export const CTACard: React.FC<CTACardProps> = ({
 
   return (
     <div 
-      className={`relative p-6 rounded-lg overflow-hidden transition-all bg-primary text-primary-foreground ${disabled ? 'opacity-50 grayscale' : ''}`}
+      className={`relative p-4 md:p-6 rounded-lg overflow-hidden transition-all bg-primary text-primary-foreground ${disabled ? 'opacity-50 grayscale' : ''}`}
     >
       {disabled && (
         <div className="absolute inset-0 bg-black/10 z-10 flex items-center justify-center">
@@ -87,28 +87,28 @@ export const CTACard: React.FC<CTACardProps> = ({
         </div>
       </TooltipProvider>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         {/* Icon */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 self-center sm:self-auto">
           <div 
-            className="w-16 h-16 rounded-lg flex items-center justify-center bg-white/30 backdrop-blur-sm"
+            className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center bg-white/30 backdrop-blur-sm"
           >
-            <Icon className="w-8 h-8 text-white" />
+            <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold mb-2 leading-tight">
+        <div className="flex-1 min-w-0 text-center sm:text-left">
+          <h3 className="text-base sm:text-lg font-bold mb-2 leading-tight">
             {settings.header}
           </h3>
-          <p className="text-sm leading-relaxed opacity-90 mb-4 md:mb-0">
+          <p className="text-xs sm:text-sm leading-relaxed opacity-90 mb-4 sm:mb-0">
             {settings.description}
           </p>
         </div>
 
         {/* Button */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 self-center sm:self-auto">
           {settings.buttonLink ? (
             <a
               href={isPreview ? undefined : settings.buttonLink}
