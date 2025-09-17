@@ -49,8 +49,6 @@ export const ApiKeyProvider: React.FC<ApiKeyProviderProps> = ({ children }) => {
 
 export const useApiKeyContext = (): ApiKeyContextType => {
   const context = useContext(ApiKeyContext);
-  if (context === undefined) {
-    throw new Error('useApiKeyContext must be used within an ApiKeyProvider');
-  }
-  return context;
+  // Return a safe fallback when provider is not mounted (e.g., on public routes)
+  return context ?? { apiKey: null, isLoading: false, error: null };
 };
