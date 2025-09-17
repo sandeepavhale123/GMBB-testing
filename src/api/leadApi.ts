@@ -32,6 +32,42 @@ export interface ApiLead {
   };
 }
 
+// Lead Classifier Interfaces
+export interface GetLeadClassifierDetailsRequest {
+  leadId: number;
+}
+
+export interface GetLeadClassifierDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    email: string | null;
+    business_name: string;
+    phone: string;
+    website: string;
+    address: string;
+    leadCategoryLabel: string;
+    leadCategoryValue: string;
+    leadnote: string;
+  };
+}
+
+export interface UpdateLeadClassifierDetailsRequest {
+  leadId: number;
+  leadCategoryValue: number;
+  leadNote: string;
+}
+
+export interface UpdateLeadClassifierDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    leadId: number;
+    leadCategoryValue: number;
+    leadNote: string;
+  };
+}
+
 export interface GetLeadsRequest {
   page: number;
   limit: number;
@@ -826,5 +862,44 @@ export const useGetKeywordPositionDetails = (positionId: number | null) => {
     enabled: !!positionId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+  });
+};
+
+// Lead Classifier API Functions
+export const getLeadClassifierDetails = async (params: GetLeadClassifierDetailsRequest): Promise<GetLeadClassifierDetailsResponse> => {
+  const { data } = await apiClient.post('/lead/get-leadclassifer-details', {
+    leadId: params.leadId
+  });
+  return data;
+};
+
+export const updateLeadClassifierDetails = async (params: UpdateLeadClassifierDetailsRequest): Promise<UpdateLeadClassifierDetailsResponse> => {
+  const { data } = await apiClient.post('/lead/update-leadclassifer-details', {
+    leadId: params.leadId,
+    leadCategoryValue: params.leadCategoryValue,
+    leadNote: params.leadNote
+  });
+  return data;
+};
+
+// Lead Classifier React Query hooks
+export const useGetLeadClassifierDetails = (leadId: number | null) => {
+  return useQuery({
+    queryKey: ['lead-classifier-details', leadId],
+    queryFn: () => getLeadClassifierDetails({ leadId: leadId! }),
+    enabled: !!leadId,
+    retry: 2,
+  });
+};
+
+export const useUpdateLeadClassifierDetails = () => {
+  return useMutation({
+    mutationFn: updateLeadClassifierDetails,
+    onSuccess: () => {
+      toast.success('Lead classification updated successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to update lead classification');
+    },
   });
 };

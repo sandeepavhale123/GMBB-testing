@@ -20,6 +20,10 @@ export interface Lead {
   reportTypeLabel: string;
   date: string;
   leadCategoryLabel: string;
+  leadCategoryValue?: string;
+  leadnote?: string;
+  website?: string;
+  address?: string;
   reportId: string;
   citationReportId?: string;
   reports: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,9 +13,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, UserCheck, Trash2, Settings, Loader2, Building2, Mail, Phone, Calendar, Tag } from "lucide-react";
+import { Globe, UserCheck, Trash2, Settings, Loader2, Building2, Mail, Phone, Calendar, Tag, MapPin, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Lead } from "./LeadsTable";
+import { useGetLeadClassifierDetails, useUpdateLeadClassifierDetails } from "@/api/leadApi";
 
 interface LeadClassifierModalProps {
   open: boolean;
@@ -65,13 +66,16 @@ const leadCategories = {
 };
 
 // Business Details Component
-const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
+const BusinessDetailsPanel: React.FC<{ lead: Lead; fetchedData: any; isLoading: boolean }> = ({ lead, fetchedData, isLoading }) => {
+  const displayData = fetchedData || lead;
+  
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <Building2 className="h-5 w-5" />
           Business Details
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -80,7 +84,7 @@ const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
             <Building2 className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-muted-foreground">Business Name</p>
-              <p className="text-sm">{lead.businessName || "Not provided"}</p>
+              <p className="text-sm">{displayData?.business_name || displayData?.businessName || "Not provided"}</p>
             </div>
           </div>
           
@@ -88,7 +92,7 @@ const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
             <Mail className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-muted-foreground">Email</p>
-              <p className="text-sm">{lead.email || "Not provided"}</p>
+              <p className="text-sm">{displayData?.email || "Not provided"}</p>
             </div>
           </div>
           
@@ -96,9 +100,36 @@ const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
             <Phone className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-muted-foreground">Phone</p>
-              <p className="text-sm">{lead.phone || "Not provided"}</p>
+              <p className="text-sm">{displayData?.phone || "Not provided"}</p>
             </div>
           </div>
+
+          {displayData?.website && (
+            <div className="flex items-start gap-3">
+              <ExternalLink className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-muted-foreground">Website</p>
+                <a 
+                  href={displayData.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  {displayData.website}
+                </a>
+              </div>
+            </div>
+          )}
+
+          {displayData?.address && (
+            <div className="flex items-start gap-3">
+              <MapPin className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-muted-foreground">Address</p>
+                <p className="text-sm">{displayData.address}</p>
+              </div>
+            </div>
+          )}
           
           <div className="flex items-start gap-3">
             <Tag className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
@@ -112,7 +143,7 @@ const BusinessDetailsPanel: React.FC<{ lead: Lead }> = ({ lead }) => {
             <Settings className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-muted-foreground">Lead Category</p>
-              <p className="text-sm">{lead.leadCategoryLabel || "Not classified"}</p>
+              <p className="text-sm">{displayData?.leadCategoryLabel || lead.leadCategoryLabel || "Not classified"}</p>
             </div>
           </div>
           
@@ -139,29 +170,78 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
   const [activeTab, setActiveTab] = useState<string>("web-lead");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Fetch lead classifier details
+  const { 
+    data: classifierData, 
+    isLoading: isLoadingClassifier,
+    refetch
+  } = useGetLeadClassifierDetails(lead ? parseInt(lead.id) : null);
+
+  const updateClassifierMutation = useUpdateLeadClassifierDetails();
+
+  // Function to determine which tab a category value belongs to
+  const getCategoryTab = (categoryValue: string): string => {
+    for (const [tabKey, category] of Object.entries(leadCategories)) {
+      if (category.options.some(option => option.value === categoryValue)) {
+        return tabKey;
+      }
+    }
+    return "web-lead"; // Default fallback
+  };
+
+  // Initialize form data when classifier data is loaded
+  useEffect(() => {
+    if (classifierData?.data) {
+      const { leadCategoryValue, leadnote } = classifierData.data;
+      if (leadCategoryValue) {
+        setSelectedCategory(leadCategoryValue);
+        setActiveTab(getCategoryTab(leadCategoryValue));
+      }
+      setNotes(leadnote || "");
+    }
+  }, [classifierData]);
+
+  // Reset form when modal opens/closes
+  useEffect(() => {
+    if (open && lead) {
+      // Reset to defaults, will be overridden by useEffect above when data loads
+      setSelectedCategory("");
+      setNotes("");
+      setActiveTab("web-lead");
+    } else if (!open) {
+      // Reset form when closing
+      setSelectedCategory("");
+      setNotes("");
+      setActiveTab("web-lead");
+    }
+  }, [open, lead]);
+
   const handleSubmit = async () => {
     if (!selectedCategory) {
       toast.error("Please select a lead classification");
       return;
     }
 
+    if (!lead) {
+      toast.error("Lead data is not available");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await updateLeadClassification({
-      //   leadId: lead?.id,
-      //   category: selectedCategory,
-      //   notes
-      // });
+      await updateClassifierMutation.mutateAsync({
+        leadId: parseInt(lead.id),
+        leadCategoryValue: parseInt(selectedCategory),
+        leadNote: notes
+      });
       
-      // Simulate API call for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast.success("Lead classification updated successfully!");
+      // Refetch the classifier data to get updated values
+      refetch();
       handleClose();
     } catch (error) {
-      toast.error("Failed to update lead classification");
+      // Error handling is done in the mutation
+      console.error('Failed to update lead classification:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -201,7 +281,11 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Business Details Panel - Left Side */}
           <div className="lg:col-span-2">
-            <BusinessDetailsPanel lead={lead} />
+            <BusinessDetailsPanel 
+              lead={lead} 
+              fetchedData={classifierData?.data} 
+              isLoading={isLoadingClassifier} 
+            />
           </div>
           
           {/* Classification Panel - Right Side */}
