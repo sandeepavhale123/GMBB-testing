@@ -125,7 +125,7 @@ export const GmbHealthReport: React.FC = () => {
     date_utc: review.date_utc
   }));
   // Transform competitors from API data
-  const competitors = reportData.top20Competitors.competitors.slice(0, 10).map(competitor => ({
+  const competitors = (reportData.top20Competitors?.competitors || []).slice(0, 10).map(competitor => ({
     rank: competitor.position,
     businessName: competitor.name,
     rating: competitor.averageRating,
@@ -134,7 +134,7 @@ export const GmbHealthReport: React.FC = () => {
     distance: competitor.isYourBusiness ? "0.0 mi" : `${(competitor.position * 0.2).toFixed(1)} mi`
   }));
   // Transform business hours from API data
-  const businessHours = reportData.communication.businessHours.per_day.map(day => ({
+  const businessHours = (reportData.communication?.businessHours?.per_day || []).map(day => ({
     day: day.name,
     hours: day.value,
     isToday: new Date().getDay() === day.day_number
@@ -178,7 +178,7 @@ export const GmbHealthReport: React.FC = () => {
   };
 
   // Transform comparison data
-  const comparisonData = reportData.comparison ? reportData.comparison.map(business => ({
+  const comparisonData = (reportData.comparison || []).map(business => ({
     name: business.name,
     category: business.category,
     additionalCategory: business.additionalCategory,
@@ -186,7 +186,7 @@ export const GmbHealthReport: React.FC = () => {
     reviewCount: business.reviewCount,
     rating: business.rating,
     keywordInName: business.keywordInName
-  })) : [];
+  }));
   return <PublicReportLayout 
     title={transformedReportData.title} 
     listingName={transformedReportData.listingName} 
@@ -387,7 +387,7 @@ export const GmbHealthReport: React.FC = () => {
             </p>
             
             <div className="space-y-6">
-              {reportData.categories.topCategory.slice(0, 3).map(categoryGroup => <div key={categoryGroup.rank} className="flex items-start gap-4">
+              {(reportData.categories?.topCategory || []).slice(0, 3).map(categoryGroup => <div key={categoryGroup.rank} className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
                     {categoryGroup.rank}
                   </div>
@@ -411,7 +411,7 @@ export const GmbHealthReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {reportData.categories.all.slice(0, 10).map((category, index) => <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
+              {(reportData.categories?.all || []).slice(0, 10).map((category, index) => <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
                   <div className="text-sm font-medium text-gray-900">{category.category}</div>
                   <div className="text-xs text-gray-600">{category.count} businesses</div>
                 </div>)}
@@ -494,7 +494,7 @@ export const GmbHealthReport: React.FC = () => {
                     GMB Checklist
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {(reportData as any).recommendations.gmbChecklist.map((item: any, index: number) => (
+                    {((reportData as any).recommendations?.gmbChecklist || []).map((item: any, index: number) => (
                       <div key={index} className="p-4 border rounded-lg bg-green-50 hover:bg-green-100 transition-colors">
                         <h4 className="font-semibold text-green-800 mb-2">{item.title}</h4>
                         <p className="text-green-700 text-sm">{item.description}</p>
@@ -512,7 +512,7 @@ export const GmbHealthReport: React.FC = () => {
                     Quick Hacks
                   </h3>
                   <div className="space-y-3">
-                    {(reportData as any).recommendations.quickHack.map((hack: string, index: number) => (
+                    {((reportData as any).recommendations?.quickHack || []).map((hack: string, index: number) => (
                       <div key={index} className="flex items-start gap-3 p-3 border rounded-lg bg-yellow-50 hover:bg-yellow-100 transition-colors">
                         <span className="flex-shrink-0 w-6 h-6 bg-yellow-600 text-white text-sm font-bold rounded-full flex items-center justify-center">
                           {index + 1}
