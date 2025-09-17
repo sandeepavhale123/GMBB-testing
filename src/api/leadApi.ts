@@ -945,6 +945,19 @@ export interface SaveCTACustomizerResponse {
   };
 }
 
+export interface ResetCTACustomizerRequest {
+  ctaType: 'callCTA' | 'appointmentCTA';
+}
+
+export interface ResetCTACustomizerResponse {
+  code: number;
+  message: string;
+  data: {
+    callCTA?: CTAData;
+    appointmentCTA?: CTAData;
+  };
+}
+
 // CTA API Functions
 export const getCTADetails = async (): Promise<GetCTADetailsResponse> => {
   const response = await apiClient.post<GetCTADetailsResponse>('/lead/get-cta-details', {});
@@ -953,6 +966,11 @@ export const getCTADetails = async (): Promise<GetCTADetailsResponse> => {
 
 export const saveCTACustomizer = async (params: SaveCTACustomizerRequest): Promise<SaveCTACustomizerResponse> => {
   const response = await apiClient.post<SaveCTACustomizerResponse>('/lead/save-cta-customizer', params);
+  return response.data;
+};
+
+export const resetCTACustomizer = async (params: ResetCTACustomizerRequest): Promise<ResetCTACustomizerResponse> => {
+  const response = await apiClient.post<ResetCTACustomizerResponse>('/lead/reset-cta-customizer', params);
   return response.data;
 };
 
@@ -974,6 +992,18 @@ export const useSaveCTACustomizer = () => {
     },
     onError: () => {
       toast.error('Failed to save CTA settings');
+    },
+  });
+};
+
+export const useResetCTACustomizer = () => {
+  return useMutation({
+    mutationFn: resetCTACustomizer,
+    onSuccess: () => {
+      toast.success('CTA reset successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to reset CTA settings');
     },
   });
 };

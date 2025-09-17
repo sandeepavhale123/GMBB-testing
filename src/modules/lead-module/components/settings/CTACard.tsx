@@ -1,14 +1,13 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Edit, Phone, Calendar, RotateCcw } from "lucide-react";
+import { Edit, Phone, Calendar } from "lucide-react";
 import { SingleCTASettings } from "@/hooks/useCTASettings";
 
 interface CTACardProps {
   type: 'call' | 'appointment';
   settings: SingleCTASettings;
   onEdit: () => void;
-  onReset: () => void;
   isPreview?: boolean;
   disabled?: boolean;
 }
@@ -16,8 +15,7 @@ interface CTACardProps {
 export const CTACard: React.FC<CTACardProps> = ({ 
   type, 
   settings, 
-  onEdit, 
-  onReset,
+  onEdit,
   isPreview = false,
   disabled = false
 }) => {
@@ -51,23 +49,7 @@ export const CTACard: React.FC<CTACardProps> = ({
       )}
       {/* Action Buttons */}
       <TooltipProvider>
-        <div className="absolute top-2 right-2 z-20 flex gap-1">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onReset}
-                className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                style={{ color: 'black' }}
-              >
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Reset to default</p>
-            </TooltipContent>
-          </Tooltip>
+        <div className="absolute top-2 right-2 z-20">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
