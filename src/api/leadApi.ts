@@ -1,5 +1,5 @@
 import apiClient from '@/api/axiosInstance';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 // API Response interfaces
@@ -984,10 +984,12 @@ export const useGetCTADetails = () => {
 };
 
 export const useSaveCTACustomizer = () => {
+  const queryClient = useQueryClient();
+  
   return useMutation({
     mutationFn: saveCTACustomizer,
     onSuccess: () => {
-      toast.success('CTA settings saved successfully!');
+      queryClient.invalidateQueries({ queryKey: ['cta-details'] });
     },
     onError: () => {
       toast.error('Failed to save CTA settings');
@@ -996,10 +998,12 @@ export const useSaveCTACustomizer = () => {
 };
 
 export const useResetCTACustomizer = () => {
+  const queryClient = useQueryClient();
+  
   return useMutation({
     mutationFn: resetCTACustomizer,
     onSuccess: () => {
-      toast.success('CTA reset successfully!');
+      queryClient.invalidateQueries({ queryKey: ['cta-details'] });
     },
     onError: () => {
       toast.error('Failed to reset CTA settings');
