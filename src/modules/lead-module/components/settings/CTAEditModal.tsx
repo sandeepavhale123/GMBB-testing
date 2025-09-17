@@ -47,6 +47,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   const {
     toast
   } = useToast();
+  const [isResetting, setIsResetting] = useState(false);
 
   // Reset form when modal opens only
   useEffect(() => {
@@ -108,19 +109,24 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   };
 
   const handleReset = async () => {
-    const success = await onReset();
-    if (success) {
-      toast({
-        title: "CTA Reset",
-        description: `${ctaType === 'call' ? 'Call' : 'Appointment'} CTA has been reset to defaults.`,
-      });
-      onClose();
-    } else {
-      toast({
-        title: "Reset Failed",  
-        description: "Failed to reset CTA settings. Please try again.",
-        variant: "destructive",
-      });
+    try {
+      setIsResetting(true);
+      const success = await onReset();
+      if (success) {
+        toast({
+          title: "CTA Reset",
+          description: `${ctaType === 'call' ? 'Call' : 'Appointment'} CTA has been reset to defaults.`,
+        });
+        onClose();
+      } else {
+        toast({
+          title: "Reset Failed",  
+          description: "Failed to reset CTA settings. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsResetting(false);
     }
   };
   return <Dialog open={isOpen} onOpenChange={open => {
@@ -182,7 +188,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
         <DialogFooter className="flex justify-between">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" disabled={isLoading} className="mr-auto">
+              <Button variant="outline" disabled={isResetting} className="mr-auto">
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset to Default
               </Button>
@@ -196,8 +202,8 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleReset} disabled={isLoading}>
-                  {isLoading ? "Resetting..." : "Reset"}
+                <AlertDialogAction onClick={handleReset} disabled={isResetting}>
+                  {isResetting ? "Resetting..." : "Reset"}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
