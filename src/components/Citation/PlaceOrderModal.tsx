@@ -1,34 +1,44 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PlaceOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const PlaceOrderModal: React.FC<PlaceOrderModalProps> = ({ isOpen, onClose }) => {
-  const [buttonText, setButtonText] = useState('');
-  const [buttonUrl, setButtonUrl] = useState('');
+export const PlaceOrderModal: React.FC<PlaceOrderModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
+  const { t } = useI18nNamespace("Citation/PlaceOrderModal");
+  const [buttonText, setButtonText] = useState("");
+  const [buttonUrl, setButtonUrl] = useState("");
 
   const handleSave = () => {
     // Handle save logic here
-    console.log('Button Text:', buttonText);
-    console.log('Button URL:', buttonUrl);
-    
+    console.log("Button Text:", buttonText);
+    console.log("Button URL:", buttonUrl);
+
     // Reset form and close modal
-    setButtonText('');
-    setButtonUrl('');
+    setButtonText("");
+    setButtonUrl("");
     onClose();
   };
 
   const handleCancel = () => {
     // Reset form and close modal
-    setButtonText('');
-    setButtonUrl('');
+    setButtonText("");
+    setButtonUrl("");
     onClose();
   };
 
@@ -36,36 +46,38 @@ export const PlaceOrderModal: React.FC<PlaceOrderModalProps> = ({ isOpen, onClos
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Place Order</DialogTitle>
+          <DialogTitle>{t("PlaceOrderModal.title")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="buttonText">Button Text</Label>
+            <Label htmlFor="buttonText">
+              {t("PlaceOrderModal.buttonTextLabel")}
+            </Label>
             <Input
               id="buttonText"
               value={buttonText}
               onChange={(e) => setButtonText(e.target.value)}
-              placeholder="Enter button text"
+              placeholder={t("PlaceOrderModal.buttonTextPlaceholder")}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="buttonUrl">Button URL</Label>
+            <Label htmlFor="buttonUrl">
+              {t("PlaceOrderModal.buttonUrlLabel")}
+            </Label>
             <Input
               id="buttonUrl"
               type="url"
               value={buttonUrl}
               onChange={(e) => setButtonUrl(e.target.value)}
-              placeholder="https://example.com"
+              placeholder={t("PlaceOrderModal.buttonUrlPlaceholder")}
             />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={handleCancel}>
-            Cancel
+            {t("PlaceOrderModal.cancel")}
           </Button>
-          <Button onClick={handleSave}>
-            Save
-          </Button>
+          <Button onClick={handleSave}>{t("PlaceOrderModal.save")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
