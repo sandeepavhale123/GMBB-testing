@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getLeadApiKeyForSearch } from '@/modules/lead-module/api/leadSearchApi';
+import { getApiKeyForSearch } from '@/api/businessSearchApi';
 
 interface ApiKeyContextType {
   apiKey: string | null;
@@ -23,7 +24,18 @@ export const ApiKeyProvider: React.FC<ApiKeyProviderProps> = ({ children }) => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await getLeadApiKeyForSearch();
+        
+        // Determine which API to call based on current route
+        const currentPath = window.location.pathname;
+        const isGeoRankingRoute = currentPath.startsWith('/module/geo-ranking') || currentPath.startsWith('/geo-ranking');
+        
+        let response;
+        if (isGeoRankingRoute) {
+          response = await getApiKeyForSearch(); // GEO module API
+        } else {
+          response = await getLeadApiKeyForSearch(); // Lead module API (default)
+        }
+        
         if (response.code === 200 && response.data?.apikey) {
           setApiKey(response.data.apikey);
         } else {

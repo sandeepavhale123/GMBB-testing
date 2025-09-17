@@ -10,6 +10,7 @@ interface ConditionalApiKeyProviderProps {
 const routesNeedingApiKey = [
   '/business', // Business search forms
   '/geo-ranking', // GEO ranking report creation
+  '/module/geo-ranking', // GEO ranking module
   '/module/lead', // Lead module (for AddLeadModal)
   '/keywords', // Keyword management (might use business search)
   '/settings', // Settings that might include business forms
