@@ -104,8 +104,6 @@ export const CTACustomizationWrapper: React.FC = () => {
             description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
             buttonLabel: "BOOK A CALL",
             buttonLink: "#contact",
-            backgroundColor: "#FEF3C7",
-            textColor: "#1F2937",
             isVisible: true,
           }}
           onSave={handleSaveCTA}

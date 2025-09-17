@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { z } from "zod";
+import { useGetCTADetails, useSaveCTACustomizer } from "@/api/leadApi";
+import { useToast } from "@/hooks/use-toast";
 
 export const singleCTASettingsSchema = z.object({
   header: z.string().min(1, "Header is required").max(100, "Header must be less than 100 characters"),
   description: z.string().min(1, "Description is required").max(500, "Description must be less than 500 characters"),
   buttonLabel: z.string().min(1, "Button label is required").max(50, "Button label must be less than 50 characters"),
   buttonLink: z.string().url("Please enter a valid URL").or(z.literal("")).or(z.string().regex(/^#/, "Hash links must start with #")),
-  backgroundColor: z.string().min(1, "Background color is required"),
-  textColor: z.string().min(1, "Text color is required"),
   isVisible: z.boolean().default(true),
 });
 
@@ -25,8 +25,6 @@ const DEFAULT_CTA_SETTINGS: CTASettings = {
     description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
     buttonLabel: "BOOK A CALL",
     buttonLink: "#contact",
-    backgroundColor: "hsl(217 91% 60%)",
-    textColor: "#FFFFFF",
     isVisible: true,
   },
   appointmentCTA: {
@@ -34,8 +32,6 @@ const DEFAULT_CTA_SETTINGS: CTASettings = {
     description: "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
     buttonLabel: "BOOK A CALL", 
     buttonLink: "#contact",
-    backgroundColor: "hsl(217 91% 60%)",
-    textColor: "#FFFFFF",
     isVisible: true,
   },
 };
@@ -44,80 +40,82 @@ const CTA_SETTINGS_KEY = "lead-module-cta-settings";
 
 export const useCTASettings = () => {
   const [settings, setSettings] = useState<CTASettings>(DEFAULT_CTA_SETTINGS);
-  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  
+  // Use API hooks
+  const { 
+    data: apiData, 
+    isLoading: isLoadingData, 
+    error: fetchError 
+  } = useGetCTADetails();
+  
+  const { 
+    mutateAsync: saveCtaMutation, 
+    isPending: isSaving 
+  } = useSaveCTACustomizer();
 
-  // Load settings from localStorage on mount
+  // Update settings when API data is loaded
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(CTA_SETTINGS_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        let validated = ctaSettingsSchema.parse(parsed);
-        
-        // Migration: Update old yellow backgrounds to primary color
-        let needsMigration = false;
-        const migratedSettings = { ...validated };
-        
-        if (validated.callCTA.backgroundColor === "#FEF3C7") {
-          migratedSettings.callCTA = {
-            ...validated.callCTA,
-            backgroundColor: "hsl(217 91% 60%)",
-            textColor: "#FFFFFF"
-          };
-          needsMigration = true;
-        }
-        
-        if (validated.appointmentCTA.backgroundColor === "#FEF3C7") {
-          migratedSettings.appointmentCTA = {
-            ...validated.appointmentCTA,
-            backgroundColor: "hsl(217 91% 60%)",
-            textColor: "#FFFFFF"
-          };
-          needsMigration = true;
-        }
-        
-        if (needsMigration) {
-          localStorage.setItem(CTA_SETTINGS_KEY, JSON.stringify(migratedSettings));
-          setSettings(migratedSettings);
-        } else {
-          setSettings(validated);
-        }
-      }
-    } catch (error) {
-      console.warn("Failed to load CTA settings from localStorage:", error);
-      // Keep default settings on error
+    if (apiData?.code === 200 && apiData.data) {
+      setSettings(apiData.data);
     }
-  }, []);
+  }, [apiData]);
 
-  const updateSettings = async (newSettings: CTASettings): Promise<boolean> => {
-    setIsLoading(true);
+  // Show error toast if API fetch fails
+  useEffect(() => {
+    if (fetchError) {
+      toast({
+        title: "Error loading CTA settings",
+        description: "Using default settings. Please refresh to try again.",
+        variant: "destructive",
+      });
+    }
+  }, [fetchError, toast]);
+
+  const updateSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA', newSettings: SingleCTASettings): Promise<boolean> => {
     try {
-      // Validate settings
-      const validated = ctaSettingsSchema.parse(newSettings);
+      const validated = singleCTASettingsSchema.parse(newSettings);
       
-      // Save to localStorage
-      localStorage.setItem(CTA_SETTINGS_KEY, JSON.stringify(validated));
-      setSettings(validated);
-      setIsLoading(false);
+      await saveCtaMutation({
+        ctaType,
+        header: validated.header,
+        description: validated.description,
+        buttonLabel: validated.buttonLabel,
+        buttonLink: validated.buttonLink,
+        isVisible: validated.isVisible,
+      });
+
+      // Update local state
+      setSettings(prev => ({
+        ...prev,
+        [ctaType]: validated,
+      }));
+
       return true;
     } catch (error) {
       console.error("Failed to update CTA settings:", error);
-      setIsLoading(false);
       return false;
     }
   };
 
-  const updateSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA', newSettings: SingleCTASettings): Promise<boolean> => {
-    const updatedSettings = {
-      ...settings,
-      [ctaType]: newSettings,
-    };
-    return updateSettings(updatedSettings);
+  const updateSettings = async (newSettings: CTASettings): Promise<boolean> => {
+    // Update both CTAs
+    const callSuccess = await updateSingleCTA('callCTA', newSettings.callCTA);
+    const appointmentSuccess = await updateSingleCTA('appointmentCTA', newSettings.appointmentCTA);
+    
+    return callSuccess && appointmentSuccess;
   };
 
-  const resetToDefaults = () => {
-    localStorage.removeItem(CTA_SETTINGS_KEY);
-    setSettings(DEFAULT_CTA_SETTINGS);
+  const resetToDefaults = async () => {
+    const callSuccess = await updateSingleCTA('callCTA', DEFAULT_CTA_SETTINGS.callCTA);
+    const appointmentSuccess = await updateSingleCTA('appointmentCTA', DEFAULT_CTA_SETTINGS.appointmentCTA);
+    
+    if (callSuccess && appointmentSuccess) {
+      toast({
+        title: "CTA Reset",
+        description: "CTA settings have been reset to defaults.",
+      });
+    }
   };
 
   const resetSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA'): Promise<boolean> => {
@@ -131,6 +129,6 @@ export const useCTASettings = () => {
     updateSingleCTA,
     resetToDefaults,
     resetSingleCTA,
-    isLoading,
+    isLoading: isLoadingData || isSaving,
   };
 };

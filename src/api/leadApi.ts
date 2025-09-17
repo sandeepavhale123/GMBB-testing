@@ -903,3 +903,77 @@ export const useUpdateLeadClassifierDetails = () => {
     },
   });
 };
+
+// CTA API Interfaces
+export interface CTAData {
+  header: string;
+  description: string;
+  buttonLabel: string;
+  buttonLink: string;
+  isVisible: boolean;
+}
+
+export interface GetCTADetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    callCTA: CTAData;
+    appointmentCTA: CTAData;
+  };
+}
+
+export interface SaveCTACustomizerRequest {
+  ctaType: 'callCTA' | 'appointmentCTA';
+  header: string;
+  description: string;
+  buttonLabel: string;
+  buttonLink: string;
+  isVisible: boolean;
+}
+
+export interface SaveCTACustomizerResponse {
+  code: number;
+  message: string;
+  data: {
+    ctaId: string;
+    ctaType: 'callCTA' | 'appointmentCTA';
+    header: string;
+    description: string;
+    buttonLabel: string;
+    buttonLink: string;
+    isVisible: boolean;
+  };
+}
+
+// CTA API Functions
+export const getCTADetails = async (): Promise<GetCTADetailsResponse> => {
+  const response = await apiClient.post<GetCTADetailsResponse>('/lead/get-cta-details', {});
+  return response.data;
+};
+
+export const saveCTACustomizer = async (params: SaveCTACustomizerRequest): Promise<SaveCTACustomizerResponse> => {
+  const response = await apiClient.post<SaveCTACustomizerResponse>('/lead/save-cta-customizer', params);
+  return response.data;
+};
+
+// CTA React Query Hooks
+export const useGetCTADetails = () => {
+  return useQuery({
+    queryKey: ['cta-details'],
+    queryFn: getCTADetails,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+export const useSaveCTACustomizer = () => {
+  return useMutation({
+    mutationFn: saveCTACustomizer,
+    onSuccess: () => {
+      toast.success('CTA settings saved successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to save CTA settings');
+    },
+  });
+};
