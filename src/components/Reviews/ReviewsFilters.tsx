@@ -17,6 +17,7 @@ import {
 } from "../ui/tooltip";
 import { Search, X, RefreshCw } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ReviewsFiltersProps {
   searchQuery: string;
@@ -51,12 +52,13 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
   onClearDateRange,
   onRefresh,
 }) => {
+  const { t } = useI18nNamespace("Reviews/reviewsFilters");
   return (
     <div className="flex flex-wrap items-center gap-3 mt-4">
       <div className="relative flex-1 min-w-[200px]">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         <Input
-          placeholder="Search reviews..."
+          placeholder={t("reviewsFilters.search.placeholder")}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-10"
@@ -65,43 +67,65 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
 
       <Select value={filter} onValueChange={onFilterChange}>
         <SelectTrigger className="w-[140px]">
-          <SelectValue placeholder="All Reviews" />
+          <SelectValue placeholder={t("reviewsFilters.filter.placeholder")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Reviews</SelectItem>
-          <SelectItem value="pending">Pending Reply</SelectItem>
-          <SelectItem value="replied">Replied</SelectItem>
+          <SelectItem value="all">{t("reviewsFilters.filter.all")}</SelectItem>
+          <SelectItem value="pending">
+            {t("reviewsFilters.filter.pending")}
+          </SelectItem>
+          <SelectItem value="replied">
+            {t("reviewsFilters.filter.replied")}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <Select value={sentimentFilter} onValueChange={onSentimentFilterChange}>
         <SelectTrigger className="w-[130px]">
-          <SelectValue placeholder="All Sentiment" />
+          <SelectValue
+            placeholder={t("reviewsFilters.sentiment.placeholder")}
+          />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Sentiment</SelectItem>
-          <SelectItem value="positive">Positive</SelectItem>
-          <SelectItem value="neutral">Neutral</SelectItem>
-          <SelectItem value="negative">Negative</SelectItem>
+          <SelectItem value="all">
+            {t("reviewsFilters.sentiment.all")}
+          </SelectItem>
+          <SelectItem value="positive">
+            {t("reviewsFilters.sentiment.positive")}
+          </SelectItem>
+          <SelectItem value="neutral">
+            {t("reviewsFilters.sentiment.neutral")}
+          </SelectItem>
+          <SelectItem value="negative">
+            {t("reviewsFilters.sentiment.negative")}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <Select value={sortBy} onValueChange={onSortChange}>
         <SelectTrigger className="w-[130px]">
-          <SelectValue placeholder="Newest First" />
+          <SelectValue placeholder={t("reviewsFilters.sort.placeholder")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="newest">Newest First</SelectItem>
-          <SelectItem value="oldest">Oldest First</SelectItem>
-          <SelectItem value="rating-low">Highest Rating</SelectItem>
-          <SelectItem value="rating-high">Lowest Rating</SelectItem>
+          <SelectItem value="newest">
+            {t("reviewsFilters.sort.newest")}
+          </SelectItem>
+          <SelectItem value="oldest">
+            {t("reviewsFilters.sort.oldest")}
+          </SelectItem>
+          <SelectItem value="rating-low">
+            {t("reviewsFilters.sort.ratingLow")}
+          </SelectItem>
+          <SelectItem value="rating-high">
+            {t("reviewsFilters.sort.ratingHigh")}
+          </SelectItem>
         </SelectContent>
       </Select>
 
       <DateRangePicker
         date={localDateRange}
         onDateChange={onDateRangeChange}
-        placeholder="Select date range"
+        placeholder={t("reviewsFilters.dateRange.placeholder")}
         className="w-[200px] max-w-[200]"
       />
 
@@ -130,14 +154,13 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
                   <RefreshCw
                     className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
                   />
-                  <span className="ml-2">Refresh</span>
+                  <span className="ml-2">
+                    {t("reviewsFilters.refresh.button")}
+                  </span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>
-                  This button will refresh your review page to get the latest
-                  reviews from google
-                </p>
+                <p>{t("reviewsFilters.refresh.tooltip")}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

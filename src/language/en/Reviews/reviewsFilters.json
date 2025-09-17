@@ -1,0 +1,36 @@
+{
+  "reviewsFilters": {
+    "search": {
+      "placeholder": "Search reviews..."
+    },
+    "filter": {
+      "placeholder": "All Reviews",
+      "all": "All Reviews",
+      "pending": "Pending Reply",
+      "replied": "Replied"
+    },
+    "sentiment": {
+      "placeholder": "All Sentiment",
+      "all": "All Sentiment",
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "sort": {
+      "placeholder": "Newest First",
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "ratingLow": "Highest Rating",
+      "ratingHigh": "Lowest Rating"
+    },
+    "dateRange": {
+      "placeholder": "Select date range",
+      "clearAria": "Clear date range"
+    },
+    "refresh": {
+      "button": "Refresh",
+      "aria": "Refresh reviews",
+      "tooltip": "This button will refresh your review page to get the latest reviews from Google"
+    }
+  }
+}

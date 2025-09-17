@@ -1,0 +1,17 @@
+{
+  "personalizationGuide": {
+    "title": "Personalize Your Reply Templates",
+    "description": "You can use the following variables while creating your templates to make your responses more dynamic and personalized:",
+    "variables": {
+      "fullName": "Reviewer's full name",
+      "firstName": "Reviewer's first name",
+      "lastName": "Reviewer's last name",
+      "ownerName": "Your (business owner's) name"
+    },
+    "example": {
+      "title": "Example Usage:",
+      "message": "Hi {first_name}, thank you for your {rating}-star review! We're glad you enjoyed your experience with us.",
+      "signature": "Best regards,\n{owner_name}"
+    }
+  }
+}

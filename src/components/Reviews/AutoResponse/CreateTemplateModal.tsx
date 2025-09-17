@@ -1,16 +1,22 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '../../ui/dialog';
-import { Button } from '../../ui/button';
-import { Textarea } from '../../ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
-import { Star, X } from 'lucide-react';
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import { Textarea } from "../../ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
+import { Star, X } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CreateTemplateModalProps {
   isOpen: boolean;
@@ -24,10 +30,11 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
   isOpen,
   onClose,
   onSave,
-  isLoading = false
+  isLoading = false,
 }) => {
+  const { t } = useI18nNamespace("Reviews/createTemplateModal");
   const [selectedRating, setSelectedRating] = useState<number | null>(5);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
 
   const getDefaultContent = (rating: number): string => {
     const templates = {
@@ -45,7 +52,7 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
 ~ {owner_name}`,
       1: `Hello {first_name}, we're very sorry to see your 1-star review. This is clearly not the experience we want for our customers. Please reach out to us directly so we can resolve this immediately.
 
-~ {owner_name}`
+~ {owner_name}`,
     };
     return templates[rating as keyof typeof templates] || templates[5];
   };
@@ -69,37 +76,45 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
       <DialogContent className="max-w-5xl max-h-[90vh] p-0 gap-0">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle className="text-xl font-semibold text-gray-900 text-center">
-            Edit Template
+            {t("createTemplateModal.title")}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Panel - Green Personalization Guide */}
           <div className="bg-emerald-500 text-white p-8 flex flex-col">
             <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-2">Personalize</h2>
-              <h3 className="text-xl font-semibold mb-6">Your Reply Templates</h3>
-              
+              <h2 className="text-2xl font-bold mb-2">
+                {t("createTemplateModal.leftPanel.title")}
+              </h2>
+              <h3 className="text-xl font-semibold mb-6">
+                {t("createTemplateModal.leftPanel.subtitle")}
+              </h3>
+
               <p className="text-sm opacity-90 mb-6 leading-relaxed">
-                You can use the following variables while creating your templates to make your responses more dynamic and personalized:
+                {t("createTemplateModal.leftPanel.description")}
               </p>
-              
+
               <div className="space-y-3 mb-8">
                 <div className="text-sm">
-                  <span className="font-semibold">{"{full_name}"}</span> – Displays the reviewer's full name.
+                  <span className="font-semibold">{"{full_name}"}</span>
+                  {t("createTemplateModal.leftPanel.variables.fullName")}
                 </div>
                 <div className="text-sm">
-                  <span className="font-semibold">{"{first_name}"}</span> – Displays the reviewer's first name.
+                  <span className="font-semibold">{"{first_name}"}</span>
+                  {t("createTemplateModal.leftPanel.variables.firstName")}
                 </div>
                 <div className="text-sm">
-                  <span className="font-semibold">{"{last_name}"}</span> – Displays the reviewer's last name.
+                  <span className="font-semibold">{"{last_name}"}</span>
+                  {t("createTemplateModal.leftPanel.variables.lastName")}
                 </div>
                 <div className="text-sm">
-                  <span className="font-semibold">{"{owner_name}"}</span> – Displays your (business owner's) name.
+                  <span className="font-semibold">{"{owner_name}"}</span>
+                  {t("createTemplateModal.leftPanel.variables.ownerName")}
                 </div>
               </div>
             </div>
-            
+
             {/* Illustration */}
             <div className="flex justify-center">
               <div className="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -111,16 +126,16 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
               </div>
             </div>
           </div>
-          
+
           {/* Right Panel - Form */}
           <div className=" p-8">
             <div className="space-y-6">
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
-                  Select rating
+                  {t("createTemplateModal.form.selectRatingLabel")}
                 </label>
-                <Select 
-                  value={selectedRating?.toString()} 
+                <Select
+                  value={selectedRating?.toString()}
                   onValueChange={handleRatingChange}
                 >
                   <SelectTrigger className="w-full">
@@ -130,15 +145,17 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <SelectItem key={rating} value={rating.toString()}>
                         <div className="flex items-center gap-2">
-                          <span>{rating} Star{rating !== 1 ? 's' : ''}</span>
+                          <span>
+                            {rating} Star{rating !== 1 ? "s" : ""}
+                          </span>
                           <div className="flex">
                             {Array.from({ length: 5 }, (_, index) => (
                               <Star
                                 key={index}
                                 className={`w-3 h-3 ${
                                   index < rating
-                                    ? 'text-yellow-400 fill-yellow-400'
-                                    : 'text-gray-300'
+                                    ? "text-yellow-400 fill-yellow-400"
+                                    : "text-gray-300"
                                 }`}
                               />
                             ))}
@@ -152,7 +169,9 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
 
               <div>
                 <Textarea
-                  placeholder="Enter your template message..."
+                  placeholder={t(
+                    "createTemplateModal.form.textareaPlaceholder"
+                  )}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={12}
@@ -162,23 +181,21 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
             </div>
           </div>
         </div>
-        
+
         {/* Modal Footer */}
         <DialogFooter className="px-8 py-6 border-t bg-gray-50">
           <div className="flex justify-end gap-3 w-full">
-            <Button 
-              variant="outline" 
-              onClick={onClose}
-              disabled={isLoading}
-            >
-              Close
+            <Button variant="outline" onClick={onClose} disabled={isLoading}>
+              {t("createTemplateModal.footer.close")}
             </Button>
-            <Button 
+            <Button
               onClick={handleSave}
               disabled={!isValid || isLoading}
               className="bg-blue-600 hover:bg-blue-700"
             >
-              {isLoading ? 'Saving...' : 'Save changes'}
+              {isLoading
+                ? t("createTemplateModal.footer.saving")
+                : t("createTemplateModal.footer.save")}
             </Button>
           </div>
         </DialogFooter>

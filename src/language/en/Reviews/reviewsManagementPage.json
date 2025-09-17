@@ -1,0 +1,22 @@
+{
+  "reviewsManagementPage": {
+    "tabs": {
+      "summary": "Summary",
+      "autoResponse": "Auto Response"
+    },
+    "errors": {
+      "summaryError": {
+        "title": "Error Loading Review Summary",
+        "description": "Something went wrong while loading the review summary."
+      },
+      "reviewsError": {
+        "title": "Error Loading Reviews",
+        "description": "Something went wrong while fetching reviews."
+      },
+      "replyError": {
+        "title": "Error Sending Reply",
+        "description": "Something went wrong while sending your reply."
+      }
+    }
+  }
+}

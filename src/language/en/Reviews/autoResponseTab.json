@@ -1,0 +1,54 @@
+{
+  "autoResponseTab": {
+    "replyTemplates": {
+      "title": "Reply Templates",
+      "description": "Create personalized templates for different star ratings.",
+      "tabs": {
+        "review": "Reply for Review",
+        "ratingOnly": "Reply for Rating Only"
+      }
+    },
+    "aiAutoResponse": {
+      "title": "AI Auto Response",
+      "badge": "AI Powered",
+      "description": "Let AI generate personalized, contextual responses based on review content and sentiment.",
+      "advancedOptions": {
+        "title": "Advanced Options",
+        "variables": {
+          "title": "Note:",
+          "description": "You can use the following variables in your reply text to display the reviewer’s name:",
+          "descBold": "{full_name}, {first_name}, {last_name}.",
+          "descEnd": "To insert the response content, use",
+          "descEndVb": "{responcetext}",
+          "descTextEnd": ". Don’t forget to include it in your template."
+        },
+        "replyText": "Reply Text",
+        "applyForStars": "Apply For Star Ratings"
+      },
+      "latestReview": {
+        "title": "Generate a sample AI response",
+        "preview": "Latest Review Preview"
+      },
+      "buttons": {
+        "generate": "Generate AI Response",
+        "regenerate": "Regenerate",
+        "generating": "Generating AI Response...",
+        "save": "Save AI Settings",
+        "saving": "Saving..."
+      }
+    },
+    "noResponseMode": {
+      "title": "Do not respond to review in manual or automated way",
+      "tooltip": "Sometimes your clients don't allow marketing agencies to respond to reviews. In that case this label helps you to identify such listings.",
+      "modal": {
+        "title": "Enable No Response Mode?",
+        "description": "If you enable this mode, both auto response and AI auto response data will be deleted. Are you sure you want to delete this data and proceed?",
+        "buttons": {
+          "cancel": "Cancel",
+          "confirm": "Yes, Delete and Enable",
+          "processing": "Processing..."
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { Badge } from "../ui/badge";
 import { useAppSelector } from "../../hooks/useRedux";
 import { useListingContext } from "../../context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface ReviewsSubHeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -13,17 +14,18 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   activeTab,
   onTabChange,
 }) => {
+  const { t } = useI18nNamespace("Reviews/reviewsSubHeader");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { selectedListing } = useListingContext();
   const { summaryCards } = useAppSelector((state) => state.reviews);
   const tabs = [
     {
       id: "summary",
-      label: "Review Summary",
+      label: t("reviewsSubHeader.tabs.summary"),
     },
     {
       id: "auto-response",
-      label: "Auto Response",
+      label: t("reviewsSubHeader.tabs.autoResponse"),
     },
   ];
   const isActiveTab = (tabId: string) => {
@@ -34,17 +36,32 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
     if (!summaryCards?.reply_setting) return null;
 
     const badgeConfig = {
-      AI: { text: "AI Reply", variant: "default" as const },
-      CUSTOM: { text: "Custom Template", variant: "secondary" as const },
-      DNR: { text: "Do Not Respond", variant: "destructive" as const },
+      AI: {
+        text: t("reviewsSubHeader.replySettingBadge.AI"),
+        variant: "default" as const,
+      },
+      CUSTOM: {
+        text: t("reviewsSubHeader.replySettingBadge.CUSTOM"),
+        variant: "secondary" as const,
+      },
+      DNR: {
+        text: t("reviewsSubHeader.replySettingBadge.DNR"),
+        variant: "destructive" as const,
+      },
     };
 
-    const config = badgeConfig[summaryCards.reply_setting as keyof typeof badgeConfig];
+    const config =
+      badgeConfig[summaryCards.reply_setting as keyof typeof badgeConfig];
     if (!config) return null;
 
     return (
-      <Badge variant={config.variant} className="ml-2" style={{backgroundColor:"#f9a300",color:"white"}}>
-        Activated auto reply setting : {config.text}
+      <Badge
+        variant={config.variant}
+        className="ml-2"
+        style={{ backgroundColor: "#f9a300", color: "white" }}
+      >
+        {t("reviewsSubHeader.replySettingBadge.prefix")}
+        {config.text}
       </Badge>
     );
   };
@@ -71,7 +88,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
         <div className="flex items-center justify-end sm:justify-end ml-auto">
           {/* Reply Setting Badge */}
           {getReplySettingBadge()}
-          
+
           {/* Mobile Menu Toggle */}
           <Button
             variant="ghost"

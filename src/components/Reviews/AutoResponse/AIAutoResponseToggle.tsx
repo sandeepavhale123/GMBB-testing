@@ -26,6 +26,7 @@ import {
 } from "@/store/slices/reviews/thunks";
 import { toast } from "@/hooks/use-toast";
 import { ReplyToOldReviewsCard } from "./ReplyToOldReviewsCard";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface AIAutoResponseToggleProps {
   enabled: boolean;
   onToggle: () => void;
@@ -38,6 +39,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   autoAiSettings,
   review,
 }) => {
+  const { t } = useI18nNamespace("Reviews/aiAutoResponse");
   const [responseStyle, setResponseStyle] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -104,14 +106,15 @@ Thank you`);
       .unwrap()
       .then((res) => {
         toast({
-          title: "Success",
-          description: res.message || "AI Auto Reply saved successfully!",
+          title: t("aiAutoResponse.toast.success.saveTitle"),
+          description:
+            res.message || t("aiAutoResponse.toast.success.saveDescription"),
         });
       })
       .catch((err) => {
         toast({
-          title: "Error",
-          description: err || "Failed to save AI auto reply settings",
+          title: t("aiAutoResponse.toast.error.saveTitle"),
+          description: err || t("aiAutoResponse.toast.error.saveDescription"),
           variant: "destructive",
         });
       })
@@ -135,17 +138,18 @@ Thank you`);
         setAiResponse(generatedText);
         setReplyTemplate(generatedText);
         toast({
-          title: "Success",
-          description: "AI Response generated successfully!",
+          title: t("aiAutoResponse.toast.success.saveTitle"),
+          description: t("aiAutoResponse.toast.success.generateDescription"),
         });
       })
       .catch((err) => {
         toast({
-          title: "Error",
+          title: t("aiAutoResponse.toast.error.saveTitle"),
           description:
             typeof err === "string"
               ? err
-              : err?.message || "Failed to generate response",
+              : err?.message ||
+                t("aiAutoResponse.toast.error.generateDescription"),
           variant: "destructive",
         });
       })
@@ -162,18 +166,17 @@ Thank you`);
           <div>
             <div className="flex items-center gap-4 sm:gap-2">
               <h3 className="text-base font-medium text-gray-900">
-                AI Auto Response
+                {t("aiAutoResponse.header.title")}
               </h3>
               <Badge
                 variant="secondary"
                 className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
               >
-                AI Powered
+                {t("aiAutoResponse.header.badge")}
               </Badge>
             </div>
             <p className="text-sm text-gray-500">
-              Let AI generate personalized, contextual responses based on review
-              content and sentiment.
+              {t("aiAutoResponse.header.description")}
             </p>
           </div>
         </div>
@@ -194,12 +197,16 @@ Thank you`);
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                   <label className="text-sm font-semibold text-foreground">
-                    AI Response Style
+                    {t("aiAutoResponse.responseStyle.label")}
                   </label>
                 </div>
                 <Select value={responseStyle} onValueChange={setResponseStyle}>
                   <SelectTrigger className="bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20">
-                    <SelectValue placeholder="Choose your response style..." />
+                    <SelectValue
+                      placeholder={t(
+                        "aiAutoResponse.responseStyle.placeholder"
+                      )}
+                    />
                   </SelectTrigger>
                   <SelectContent className="bg-background border-border/60 shadow-lg">
                     <SelectItem
@@ -207,17 +214,23 @@ Thank you`);
                       className="hover:bg-muted/80"
                     >
                       <div className="flex items-center gap-2">
-                        Professional
+                        {t("aiAutoResponse.responseStyle.options.professional")}
                       </div>
                     </SelectItem>
                     <SelectItem value="friendly" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">Friendly</div>
+                      <div className="flex items-center gap-2">
+                        {t("aiAutoResponse.responseStyle.options.friendly")}
+                      </div>
                     </SelectItem>
                     <SelectItem value="casual" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">Casual</div>
+                      <div className="flex items-center gap-2">
+                        {t("aiAutoResponse.responseStyle.options.casual")}
+                      </div>
                     </SelectItem>
                     <SelectItem value="formal" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">Formal</div>
+                      <div className="flex items-center gap-2">
+                        {t("aiAutoResponse.responseStyle.options.formal")}
+                      </div>
                     </SelectItem>
                     <SelectItem
                       value="empathetic"
@@ -225,7 +238,7 @@ Thank you`);
                     >
                       <div className="flex items-center gap-2">
                         {/* <div className="w-2 h-2 bg-red-500 rounded-full"></div> */}
-                        Empathetic
+                        {t("aiAutoResponse.responseStyle.options.empathetic")}
                       </div>
                     </SelectItem>
                   </SelectContent>
@@ -238,7 +251,7 @@ Thank you`);
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-semibold text-foreground">
-                        Advanced Options
+                        {t("aiAutoResponse.advancedOptions.label")}
                       </label>
                     </div>
                     <Switch
@@ -254,28 +267,29 @@ Thank you`);
               {showAdvanced && (
                 <div className="space-y-4 group">
                   <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded-md">
-                    💡 AI will adapt this style to each review's specific
-                    content and rating.
+                    {t("aiAutoResponse.advancedOptions.note")}
                   </p>
 
                   {/* Variables Info Card */}
                   <div className="rounded-2xl p-4 bg-blue-900 text-white mb-4">
                     <label className="block text-sm font-semibold text-gray-200 mb-1">
-                      Note:
+                      {t("aiAutoResponse.advancedOptions.variables.title")}
                     </label>
                     <p className="text-sm leading-relaxed">
-                      You can use the following variables in your reply text to
-                      display the reviewer’s name:
+                      {t(
+                        "aiAutoResponse.advancedOptions.variables.description"
+                      )}
                       <span className="font-medium text-white">
-                        {" "}
                         {"{full_name}"}, {"{first_name}"}, {"{last_name}"}
                       </span>
-                      . To insert the response content, use
+                      {t("aiAutoResponse.advancedOptions.variables.descEnd")}
                       <span className="font-medium text-white">
                         {" "}
                         {"{responcetext}"}
                       </span>
-                      . Don’t forget to include it in your template.
+                      {t(
+                        "aiAutoResponse.advancedOptions.variables.descTextEnd"
+                      )}
                     </p>
                   </div>
 
@@ -284,11 +298,13 @@ Thank you`);
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                       <label className="text-sm font-semibold text-foreground">
-                        Reply Text
+                        {t("aiAutoResponse.advancedOptions.replyText.label")}
                       </label>
                     </div>
                     <Textarea
-                      placeholder="Enter your response template..."
+                      placeholder={t(
+                        "aiAutoResponse.advancedOptions.replyText.placeholder"
+                      )}
                       className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
                       rows={6}
                       value={replyTemplate}
@@ -298,7 +314,7 @@ Thank you`);
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
                     <h4 className="text-sm font-semibold text-foreground">
-                      Apply For Star Ratings
+                      {t("aiAutoResponse.advancedOptions.starRatings.label")}
                     </h4>
                   </div>
                   <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
@@ -317,7 +333,13 @@ Thank you`);
                               htmlFor={`checkbox-star-${star}`}
                               className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
                             >
-                              {star} Star
+                              {t(
+                                "aiAutoResponse.advancedOptions.starRatings.option",
+                                {
+                                  count: star,
+                                }
+                              )}
+                              {/* {star} Star */}
                             </label>
                             <Checkbox
                               id={`checkbox-star-${star}`}
@@ -348,8 +370,10 @@ Thank you`);
                   onToggle={setReplyToExistingReviews}
                   onSave={() => {
                     toast({
-                      title: "Saved",
-                      description: "Old review reply setting updated.",
+                      title: t("aiAutoResponse.replyToOldReviews.savedTitle"),
+                      description: t(
+                        "aiAutoResponse.replyToOldReviews.savedDescription"
+                      ),
                     });
                   }}
                   isAutoResponseMode={false}
@@ -363,7 +387,7 @@ Thank you`);
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                   <h4 className="text-sm font-semibold text-foreground">
-                    Generate a sample AI response{" "}
+                    {t("aiAutoResponse.latestReview.title")}
                   </h4>
                 </div>
 
@@ -374,7 +398,7 @@ Thank you`);
                         <Sparkles className="w-4 h-4 text-blue-600" />
                       </div>
                       <span className="text-sm font-medium text-blue-600">
-                        Latest Review Preview
+                        {t("aiAutoResponse.latestReview.previewLabel")}
                       </span>
                     </div>
 
@@ -458,10 +482,10 @@ Thank you`);
                         >
                           <Sparkles className="w-4 h-4 mr-2" />
                           {isGenerating
-                            ? "Generating AI Response..."
+                            ? t("aiAutoResponse.buttons.generating")
                             : aiResponse
-                            ? "Regenerate"
-                            : "Generate AI Response"}
+                            ? t("aiAutoResponse.buttons.regenerate")
+                            : t("aiAutoResponse.buttons.generate")}
                         </Button>
                       </div>
                     </div>
@@ -480,12 +504,12 @@ Thank you`);
               {isSaving ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Saving...
+                  {t("aiAutoResponse.buttons.saving")}
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Save AI Settings
+                  {t("aiAutoResponse.buttons.save")}
                 </>
               )}
             </Button>

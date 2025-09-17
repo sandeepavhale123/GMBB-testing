@@ -1,26 +1,37 @@
-import React, { useMemo } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { MessageSquare, Clock, Bot, User } from 'lucide-react';
-import { useAppSelector } from '../../hooks/useRedux';
+import React, { useMemo } from "react";
+import { Card, CardContent } from "../ui/card";
+import { MessageSquare, Clock, Bot, User } from "lucide-react";
+import { useAppSelector } from "../../hooks/useRedux";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ReviewStats: React.FC = () => {
-  const { summaryCards, summaryLoading, refreshLoading, reviewsLoading, reviews } = useAppSelector(state => state.reviews);
-
+  const {
+    summaryCards,
+    summaryLoading,
+    refreshLoading,
+    reviewsLoading,
+    reviews,
+  } = useAppSelector((state) => state.reviews);
+  const { t } = useI18nNamespace("Reviews/reviewStats");
   // Calculate dynamic counts based on current reviews in state
   const dynamicCounts = useMemo(() => {
     if (!summaryCards) return null;
 
     // Count pending replies, AI replies, and manual replies from current reviews
-    const pendingReplies = reviews.filter(review => !review.replied).length;
-    const aiReplies = reviews.filter(review => review.replied && review.reply_type === 'AI').length;
-    const manualReplies = reviews.filter(review => review.replied && review.reply_type === 'manual').length;
+    const pendingReplies = reviews.filter((review) => !review.replied).length;
+    const aiReplies = reviews.filter(
+      (review) => review.replied && review.reply_type === "AI"
+    ).length;
+    const manualReplies = reviews.filter(
+      (review) => review.replied && review.reply_type === "manual"
+    ).length;
 
     return {
       total_reviews: summaryCards.total_reviews,
       pending_replies: pendingReplies,
       ai_replies: aiReplies,
       manual_replies: manualReplies,
-      overall_rating: summaryCards.overall_rating
+      overall_rating: summaryCards.overall_rating,
     };
   }, [summaryCards, reviews]);
 
@@ -47,33 +58,33 @@ export const ReviewStats: React.FC = () => {
 
   const stats = [
     {
-      title: 'Total Reviews',
+      title: t("reviewStats.cards.totalReviews"),
       value: dynamicCounts.total_reviews.toString(),
       icon: MessageSquare,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
     },
     {
-      title: 'Pending Replies',
+      title: t("reviewStats.cards.pendingReplies"),
       value: dynamicCounts.pending_replies.toString(),
       icon: Clock,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100'
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
     },
     {
-      title: 'AI Replies',
+      title: t("reviewStats.cards.aiReplies"),
       value: dynamicCounts.ai_replies.toString(),
       icon: Bot,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100'
+      color: "text-green-600",
+      bgColor: "bg-green-100",
     },
     {
-      title: 'Manual Replies',
+      title: t("reviewStats.cards.manualReplies"),
       value: dynamicCounts.manual_replies.toString(),
       icon: User,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
-    }
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+    },
   ];
 
   return (
@@ -85,8 +96,12 @@ export const ReviewStats: React.FC = () => {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-gray-600 mb-1 truncate">{stat.title}</p>
-                  <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-sm font-medium text-gray-600 mb-1 truncate">
+                    {stat.title}
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                    {stat.value}
+                  </p>
                 </div>
                 <div className={`p-3 rounded-lg ${stat.bgColor} flex-shrink-0`}>
                   <Icon className={`w-6 h-6 ${stat.color}`} />

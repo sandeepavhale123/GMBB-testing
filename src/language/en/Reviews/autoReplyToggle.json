@@ -1,0 +1,6 @@
+{
+  "autoReplyToggle": {
+    "title": "Auto Response Templates",
+    "description": "Create custom response templates for different star ratings. Templates will be automatically sent when reviews are received."
+  }
+}

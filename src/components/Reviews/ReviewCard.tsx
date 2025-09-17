@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ReviewCardProps {
   review: Review;
@@ -43,6 +44,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   onDeleteReply,
   onCancelAIGenerator,
 }) => {
+  const { t } = useI18nNamespace("Reviews/reviewCard");
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -75,9 +77,9 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   };
 
   const getSentimentFromRating = (rating: number) => {
-    if (rating >= 4) return "positive";
-    if (rating <= 2) return "negative";
-    return "neutral";
+    if (rating >= 4) return t("reviewCard.sentiments.positive");
+    if (rating <= 2) return t("reviewCard.sentiments.negative");
+    return t("reviewCard.sentiments.neutral");
   };
 
   return (
@@ -138,7 +140,8 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                 <p className="text-sm text-gray-700">{review.reply_text}</p>
                 {review.reply_date && (
                   <p className="text-xs text-gray-500 mt-2">
-                    Replied on{" "}
+                    {t("reviewCard.reply.repliedOn")}
+
                     {formatToDayMonthYear(new Date(review.reply_date))}
                   </p>
                 )}
@@ -182,9 +185,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                   >
                     <Bot className="w-4 h-4" />
                     <span className="hidden sm:inline">
-                      Generate using Genie
+                      {t("reviewCard.actions.generateUsingGenie")}
                     </span>
-                    <span className="sm:hidden">AI Reply</span>
+                    <span className="sm:hidden">
+                      {t("reviewCard.actions.aiReply")}
+                    </span>
                   </Button>
                   <Button
                     size="sm"
@@ -193,8 +198,12 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                     className="flex items-center gap-1 text-xs sm:text-sm"
                   >
                     <MessageSquare className="w-4 h-4" />
-                    <span className="hidden sm:inline">Reply Manually</span>
-                    <span className="sm:hidden">Reply</span>
+                    <span className="hidden sm:inline">
+                      {t("reviewCard.actions.replyManually")}
+                    </span>
+                    <span className="sm:hidden">
+                      {t("reviewCard.actions.reply")}
+                    </span>
                   </Button>
                 </>
               )}
@@ -209,7 +218,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                     className="flex items-center gap-1 text-xs sm:text-sm"
                   >
                     <Edit3 className="w-4 h-4" />
-                    Edit Reply
+                    {t("reviewCard.reply.editReply")}
                   </Button>
 
                   {onDeleteReply && (
@@ -221,27 +230,36 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                           className="flex items-center gap-1 text-xs sm:text-sm border-red-200 text-red-600 hover:bg-red-50"
                         >
                           <Trash2 className="w-4 h-4" />
-                          <span className="hidden sm:inline">Delete Reply</span>
-                          <span className="sm:hidden">Delete</span>
+                          <span className="hidden sm:inline">
+                            {t("reviewCard.reply.deleteDialog.title")}
+                          </span>
+                          <span className="sm:hidden">
+                            {t("reviewCard.reply.delete")}
+                          </span>
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Reply</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            {" "}
+                            {t("reviewCard.reply.deleteDialog.title")}
+                          </AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete this reply? This
-                            action cannot be undone and the reply will be
-                            permanently removed from the review.
+                            {t("reviewCard.reply.deleteDialog.description")}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>
+                            {t("reviewCard.reply.deleteDialog.cancel")}
+                          </AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => onDeleteReply(review.id)}
                             disabled={deleteLoading}
                             className="bg-red-600 hover:bg-red-700"
                           >
-                            {deleteLoading ? "Deleting..." : "Delete Reply"}
+                            {deleteLoading
+                              ? t("reviewCard.reply.deleteDialog.deleting")
+                              : t("reviewCard.reply.deleteDialog.confirm")}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

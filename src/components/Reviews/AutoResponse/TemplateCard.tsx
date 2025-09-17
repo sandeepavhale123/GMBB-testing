@@ -25,6 +25,7 @@ import { reviewService } from "@/services/reviewService";
 import { toast } from "@/hooks/use-toast";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchAutoReviewReplySettings } from "@/store/slices/reviews/thunks";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface TemplateCardProps {
   starRating: number;
@@ -44,6 +45,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   onDeleteTemplate,
   isRatingOnly = false,
 }) => {
+  const { t } = useI18nNamespace("Reviews/templateCard");
   const [isManageOpen, setIsManageOpen] = useState(false);
   const [editContent, setEditContent] = useState("");
   const dispatch = useAppDispatch();
@@ -84,10 +86,12 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
     } catch (error) {
       console.error("❌ Failed to update auto-reply:", error);
       toast({
-        title: "Error",
-        description: `Failed to ${
-          status === 1 ? "enable" : "disable"
-        } auto-reply setting.`,
+        title: t("templateCard.toast.error.title"),
+        description:
+          status === 1
+            ? t("templateCard.toast.error.enable")
+            : t("templateCard.toast.error.disable"),
+
         variant: "destructive",
       });
     } finally {
@@ -181,7 +185,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               <>
                 {template?.status === 0 ? (
                   <Button onClick={() => handleEnable(1)} disabled={isSaving}>
-                    {isSaving ? "Enabling..." : "Enable"}
+                    {isSaving
+                      ? t("templateCard.enabling")
+                      : t("templateCard.enable")}
                   </Button>
                 ) : (
                   <div className="flex gap-2 mt-8">
@@ -191,13 +197,13 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                       onClick={handleManageClick}
                       className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 me-2 h-10"
                     >
-                      Manage
+                      {t("templateCard.manage")}
                     </Button>
                     <Button
                       onClick={() => setShowDisableConfirm(true)}
                       variant="destructive"
                     >
-                      Disable
+                      {t("templateCard.disable")}
                     </Button>
                   </div>
                 )}
@@ -209,7 +215,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 onClick={() => onCreateTemplate(starRating)}
                 className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900"
               >
-                Create
+                {t("templateCard.create")}
               </Button>
             )}
           </div>
@@ -222,8 +228,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <span>
-                Manage {isRatingOnly ? "Rating Only" : `${starRating}-Star`}{" "}
-                Template
+                {isRatingOnly
+                  ? t("templateCard.manageDialog.title.ratingOnly")
+                  : t("templateCard.manageDialog.title.rating", { starRating })}
+                {/* Manage {isRatingOnly ? "Rating Only" : `${starRating}-Star`}{" "}
+                Template */}
               </span>
               <div className="flex">{renderStars(starRating)}</div>
             </DialogTitle>
@@ -233,7 +242,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <div className="space-y-4">
               <div>
                 <h3 className="text-lg font-semibold mb-3">
-                  Available Variables
+                  {t("templateCard.availableVariables")}
                 </h3>
                 <div className="space-y-2 text-sm">
                   <div className="bg-gray-50 p-2 rounded font-mono">
@@ -268,10 +277,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               )} */}
 
               <div className="border-t pt-4">
-                <h4 className="font-medium mb-2">Multiple Responses</h4>
+                <h4 className="font-medium mb-2">
+                  {t("templateCard.multipleResponses.title")}
+                </h4>
                 <p className="text-sm text-gray-600 mb-2">
-                  Note: If you want to use multiple responses, use a pipe symbol
-                  after each response.
+                  {t("templateCard.multipleResponses.note")}
                 </p>
                 <div className="bg-gray-50 p-2 rounded text-sm font-mono">
                   {"{response 1 | response 2}"}
@@ -283,7 +293,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
-                  Template Content
+                  {t("templateCard.templateContent")}
                 </label>
                 <Textarea
                   value={editContent}
@@ -293,8 +303,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 />
                 {template?.isSystem && (
                   <p className="text-xs text-gray-500 mt-1">
-                    This is a system template loaded from your settings. Changes
-                    should be made through the main settings panel.
+                    {t("templateCard.systemTemplateNotice")}
                   </p>
                 )}
               </div>
@@ -302,10 +311,12 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           </div>
           <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
             <Button variant="outline" onClick={() => setIsManageOpen(false)}>
-              {template?.isSystem ? "Close" : "Cancel"}
+              {template?.isSystem
+                ? t("templateCard.close")
+                : t("templateCard.cancel")}
             </Button>
             <Button onClick={handleSave} disabled={isSaving}>
-              {isSaving ? "Saving..." : "Save Template"}
+              {isSaving ? t("templateCard.saving") : t("templateCard.save")}
             </Button>
           </div>
         </DialogContent>
@@ -318,11 +329,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to remove this rating?
+              {t("templateCard.disableDialog.title")}
             </AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("templateCard.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 handleEnable(0);
@@ -331,7 +342,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               disabled={isSaving}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              {isSaving ? "Disabling..." : "Yes, Remove"}
+              {isSaving
+                ? t("templateCard.disabling")
+                : t("templateCard.disableDialog.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

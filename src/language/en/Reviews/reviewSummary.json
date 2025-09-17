@@ -1,0 +1,29 @@
+{
+  "reviewSummary": {
+    "errors": {
+      "failedTitle": "Failed to Load Review Summary",
+      "failedDescription": "Something went wrong while loading the review summary.",
+      "retry": "Try Again"
+    },
+    "stats": {
+      "totalReviews": "Total Reviews",
+      "pendingReplies": "Pending Replies",
+      "aiReplies": "AI Replies",
+      "manualReplies": "Manual Replies"
+    },
+    "overallRating": {
+      "title": "Overall Rating",
+      "reviewsLabel": "{{count}} reviews"
+    },
+    "sentiment": {
+      "title": "Sentiment Analysis",
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "loading": {
+      "skeletonTitle": "Loading...",
+      "skeletonSubtitle": "Please wait while we fetch your data"
+    }
+  }
+}

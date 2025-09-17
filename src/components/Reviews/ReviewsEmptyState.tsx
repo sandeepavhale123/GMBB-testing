@@ -1,18 +1,18 @@
-
-import React from 'react';
-import { MessageSquare, Filter } from 'lucide-react';
+import React from "react";
+import { MessageSquare, Filter } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ReviewsEmptyStateProps {
   hasFilters: boolean;
   totalReviewsCount: number;
 }
 
-export const ReviewsEmptyState: React.FC<ReviewsEmptyStateProps> = ({ 
-  hasFilters, 
-  totalReviewsCount 
+export const ReviewsEmptyState: React.FC<ReviewsEmptyStateProps> = ({
+  hasFilters,
+  totalReviewsCount,
 }) => {
   const isFiltered = hasFilters && totalReviewsCount > 0;
-  
+  const { t } = useI18nNamespace("Reviews/reviewsEmptyState");
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-8 sm:p-12 text-center">
       <div className="max-w-md mx-auto space-y-4">
@@ -25,16 +25,17 @@ export const ReviewsEmptyState: React.FC<ReviewsEmptyStateProps> = ({
             )}
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-900">
-            {isFiltered ? 'No reviews match your filters' : 'No reviews yet'}
+            {isFiltered
+              ? t("reviewsEmptyState.title.filtered")
+              : t("reviewsEmptyState.title.default")}
           </h3>
           <p className="text-sm text-gray-600 leading-relaxed">
-            {isFiltered 
-              ? 'Try adjusting your search criteria or filters to see more results.'
-              : 'Reviews will appear here once customers leave feedback on your business listings.'
-            }
+            {isFiltered
+              ? t("reviewsEmptyState.description.filtered")
+              : t("reviewsEmptyState.description.default")}
           </p>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { reviewService } from "@/services/reviewService";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface Props {
   checked: boolean;
@@ -21,6 +22,7 @@ export const ReplyToOldReviewsCard: React.FC<Props> = ({
   listingId,
   isAutoResponseMode = true,
 }) => {
+  const { t } = useI18nNamespace("Reviews/replyToOldReviewsCard");
   const [isUpdating, setIsUpdating] = useState(false);
   const handleToggle = async (value: boolean) => {
     // Only call API for Auto Response Template, not AI Auto Response
@@ -40,18 +42,18 @@ export const ReplyToOldReviewsCard: React.FC<Props> = ({
       onToggle(value);
 
       toast({
-        title: "Success",
-        description: `Reply to existing reviews ${
-          value ? "enabled" : "disabled"
-        } successfully.`,
+        title: t("replyToOldReviewsCard.toast.success.title"),
+        description: value
+          ? t("replyToOldReviewsCard.toast.success.enabled")
+          : t("replyToOldReviewsCard.toast.success.disabled"),
         variant: "default",
       });
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t("replyToOldReviewsCard.toast.error.title"),
         description:
           error?.response?.data?.message ||
-          "Something went wrong while updating setting.",
+          t("replyToOldReviewsCard.toast.error.default"),
         variant: "destructive",
       });
     } finally {
@@ -65,7 +67,7 @@ export const ReplyToOldReviewsCard: React.FC<Props> = ({
           htmlFor="reply-old-review-switch"
           className="text-sm font-medium text-gray-900"
         >
-          Reply to existing reviews (old review)
+          {t("replyToOldReviewsCard.label")}
         </Label>
         <Switch
           id="reply-old-review-switch"

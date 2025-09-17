@@ -2,6 +2,7 @@ import React from "react";
 import { Switch } from "../../ui/switch";
 import { Label } from "../../ui/label";
 import { Settings } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface AutoReplyToggleProps {
   enabled: boolean;
   onToggle: () => void;
@@ -10,6 +11,7 @@ export const AutoReplyToggle: React.FC<AutoReplyToggleProps> = ({
   enabled,
   onToggle,
 }) => {
+  const { t } = useI18nNamespace("Reviews/autoReplyToggle");
   return (
     <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
       <div className="flex items-center gap-3">
@@ -18,11 +20,10 @@ export const AutoReplyToggle: React.FC<AutoReplyToggleProps> = ({
         </div>
         <div>
           <Label className="text-base font-medium text-gray-900">
-            Auto Response Templates
+            {t("autoReplyToggle.title")}
           </Label>
           <p className="text-sm text-gray-600">
-            Create custom response templates for different star ratings.
-            Templates will be automatically sent when reviews are received.
+            {t("autoReplyToggle.description")}
           </p>
         </div>
       </div>

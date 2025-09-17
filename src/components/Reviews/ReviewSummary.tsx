@@ -18,9 +18,11 @@ import {
   fetchReviewSummary,
   clearSummaryError,
 } from "../../store/slices/reviews";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ReviewSummary: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useI18nNamespace("Reviews/reviewSummary");
   const { selectedListing } = useListingContext();
   const {
     summaryCards,
@@ -66,12 +68,12 @@ export const ReviewSummary: React.FC = () => {
         <CardContent className="p-6 text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Failed to Load Review Summary
+            {t("reviewSummary.errors.failedTitle")}
           </h3>
           <p className="text-gray-600 mb-4">{summaryError}</p>
           <Button onClick={handleRetry} variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Try Again
+            {t("reviewSummary.errors.retry")}
           </Button>
         </CardContent>
       </Card>
@@ -127,19 +129,19 @@ export const ReviewSummary: React.FC = () => {
   // Convert sentiment analysis to chart data
   const sentimentData = [
     {
-      name: "Positive",
+      name: t("reviewSummary.sentiment.positive"),
       value: sentimentAnalysis.positive.percentage,
       color: "#10B981",
       count: sentimentAnalysis.positive.count,
     },
     {
-      name: "Neutral",
+      name: t("reviewSummary.sentiment.neutral"),
       value: sentimentAnalysis.neutral.percentage,
       color: "#F59E0B",
       count: sentimentAnalysis.neutral.count,
     },
     {
-      name: "Negative",
+      name: t("reviewSummary.sentiment.negative"),
       value: sentimentAnalysis.negative.percentage,
       color: "#EF4444",
       count: sentimentAnalysis.negative.count,
@@ -149,28 +151,28 @@ export const ReviewSummary: React.FC = () => {
   // Stats data for the first 4 cards
   const stats = [
     {
-      title: "Total Reviews",
+      title: t("reviewSummary.stats.totalReviews"),
       value: summaryCards.total_reviews.toString(),
       icon: MessageSquare,
       color: "text-blue-600",
       bgColor: "bg-blue-100",
     },
     {
-      title: "Pending Replies",
+      title: t("reviewSummary.stats.pendingReplies"),
       value: summaryCards.pending_replies.toString(),
       icon: Clock,
       color: "text-orange-600",
       bgColor: "bg-orange-100",
     },
     {
-      title: "AI Replies",
+      title: t("reviewSummary.stats.aiReplies"),
       value: summaryCards.ai_replies.toString(),
       icon: Bot,
       color: "text-green-600",
       bgColor: "bg-green-100",
     },
     {
-      title: "Manual Replies",
+      title: t("reviewSummary.stats.manualReplies"),
       value: summaryCards.manual_replies.toString(),
       icon: User,
       color: "text-purple-600",
@@ -210,7 +212,9 @@ export const ReviewSummary: React.FC = () => {
       <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-medium text-gray-600">Overall Rating</p>
+            <p className="text-sm font-medium text-gray-600">
+              {t("reviewSummary.overallRating.title")}
+            </p>
             <div className="p-2 rounded-lg bg-yellow-100 flex-shrink-0">
               <Star className="w-5 h-5 text-yellow-600" />
             </div>
@@ -225,7 +229,10 @@ export const ReviewSummary: React.FC = () => {
               {renderStars(summaryCards.overall_rating)}
             </div>
             <p className="text-sm text-gray-600">
-              {summaryCards.total_reviews} reviews
+              {t("reviewSummary.overallRating.reviewsLabel", {
+                count: summaryCards.total_reviews,
+              })}
+              {/* {summaryCards.total_reviews} reviews */}
             </p>
           </div>
 
@@ -254,7 +261,7 @@ export const ReviewSummary: React.FC = () => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-gray-600">
-              Sentiment Analysis
+              {t("reviewSummary.sentiment.title")}
             </p>
             <div className="p-2 rounded-lg bg-green-100 flex-shrink-0">
               <MessageSquare className="w-5 h-5 text-green-600" />

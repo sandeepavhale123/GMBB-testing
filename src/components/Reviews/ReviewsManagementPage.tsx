@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { ReviewSummary } from './ReviewSummary';
-import { ReviewsList } from './ReviewsList';
-import { AutoResponseTab } from './AutoResponse/AutoResponseTab';
-import { ReviewsSubHeader } from './ReviewsSubHeader';
-import { useToast } from '../../hooks/use-toast';
-import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
+import React, { useEffect, useState } from "react";
+import { ReviewSummary } from "./ReviewSummary";
+import { ReviewsList } from "./ReviewsList";
+import { AutoResponseTab } from "./AutoResponse/AutoResponseTab";
+import { ReviewsSubHeader } from "./ReviewsSubHeader";
+import { useToast } from "../../hooks/use-toast";
+import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
+import {
+  clearSummaryError,
+  clearReviewsError,
+  clearReplyError,
+} from "../../store/slices/reviews";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const ReviewsManagementPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('summary');
-  const {
-    toast
-  } = useToast();
+  const [activeTab, setActiveTab] = useState("summary");
+  const { t } = useI18nNamespace("Reviews/reviewsManagementPage");
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
-  const {
-    summaryError,
-    reviewsError,
-    replyError
-  } = useAppSelector(state => state.reviews);
+  const { summaryError, reviewsError, replyError } = useAppSelector(
+    (state) => state.reviews
+  );
 
   // Show toast for API errors
   useEffect(() => {
     if (summaryError) {
       toast({
-        title: "Error Loading Review Summary",
+        title: t("reviewsManagementPage.errors.summaryError.title"),
         description: summaryError,
-        variant: "destructive"
+        variant: "destructive",
       });
       const timer = setTimeout(() => {
         dispatch(clearSummaryError());
@@ -35,9 +38,9 @@ export const ReviewsManagementPage: React.FC = () => {
   useEffect(() => {
     if (reviewsError) {
       toast({
-        title: "Error Loading Reviews",
+        title: t("reviewsManagementPage.errors.reviewsError.title"),
         description: reviewsError,
-        variant: "destructive"
+        variant: "destructive",
       });
       const timer = setTimeout(() => {
         dispatch(clearReviewsError());
@@ -48,9 +51,9 @@ export const ReviewsManagementPage: React.FC = () => {
   useEffect(() => {
     if (replyError) {
       toast({
-        title: "Error Sending Reply",
+        title: t("reviewsManagementPage.errors.replyError.title"),
         description: replyError,
-        variant: "destructive"
+        variant: "destructive",
       });
       const timer = setTimeout(() => {
         dispatch(clearReplyError());
@@ -60,26 +63,32 @@ export const ReviewsManagementPage: React.FC = () => {
   }, [replyError, toast, dispatch]);
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'summary':
-        return <div className="space-y-6">
+      case "summary":
+        return (
+          <div className="space-y-6">
             <ReviewSummary />
             <ReviewsList />
-          </div>;
-      case 'auto-response':
-        return <div className="space-y-6">
+          </div>
+        );
+      case "auto-response":
+        return (
+          <div className="space-y-6">
             <AutoResponseTab />
-          </div>;
+          </div>
+        );
       default:
-        return <div className="space-y-6">
+        return (
+          <div className="space-y-6">
             <ReviewSummary />
             <ReviewsList />
-          </div>;
+          </div>
+        );
     }
   };
-  return <div className="flex flex-col min-h-full">
+  return (
+    <div className="flex flex-col min-h-full">
       <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
-      <div className="flex-1 p-0\n">
-        {renderTabContent()}
-      </div>
-    </div>;
+      <div className="flex-1 p-0\n">{renderTabContent()}</div>
+    </div>
+  );
 };

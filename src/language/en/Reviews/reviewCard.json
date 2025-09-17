@@ -1,0 +1,29 @@
+{
+  "reviewCard": {
+    "sentiments": {
+      "positive": "positive",
+      "negative": "negative",
+      "neutral": "neutral"
+    },
+    "rating": "({rating}/5)",
+    "reply": {
+      "repliedOn": "Replied on ",
+      "editReply": "Edit Reply",
+      "deleteReply": "Delete Reply",
+      "delete": "Delete",
+      "deleteDialog": {
+        "title": "Delete Reply",
+        "description": "Are you sure you want to delete this reply? This action cannot be undone and the reply will be permanently removed from the review.",
+        "cancel": "Cancel",
+        "deleting": "Deleting...",
+        "confirm": "Delete Reply"
+      }
+    },
+    "actions": {
+      "generateUsingGenie": "Generate using Genie",
+      "aiReply": "AI Reply",
+      "replyManually": "Reply Manually",
+      "reply": "Reply"
+    }
+  }
+}

@@ -27,11 +27,13 @@ import { ReviewsEmptyState } from "./ReviewsEmptyState";
 import { DateRange } from "react-day-picker";
 import { format, subDays } from "date-fns";
 import { useToast } from "../../hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ReviewsList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
+  const { t } = useI18nNamespace("Reviews/reviewsList");
   const {
     reviews,
     pagination,
@@ -140,11 +142,9 @@ export const ReviewsList: React.FC = () => {
 
     // Determine the correct sortOrder based on sortBy
     let apiSortOrder: "asc" | "desc" = "desc";
-    if (sortBy === "oldest" ) {
+    if (sortBy === "oldest") {
       apiSortOrder = "asc";
-    }
-    else if(sortBy === "rating-low")
-    {
+    } else if (sortBy === "rating-low") {
       apiSortOrder = "desc";
     }
 
@@ -193,7 +193,7 @@ export const ReviewsList: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Review data refreshed successfully",
+        description: t("reviewsList.success.refresh"),
       });
     } catch (error) {
       // Error will be handled by the useEffect below
@@ -205,7 +205,7 @@ export const ReviewsList: React.FC = () => {
   useEffect(() => {
     if (refreshError) {
       toast({
-        title: "Error Refreshing Data",
+        title: t("reviewsList.errors.refreshError"),
         description: refreshError,
         variant: "destructive",
       });
@@ -223,7 +223,7 @@ export const ReviewsList: React.FC = () => {
   useEffect(() => {
     if (replyError) {
       toast({
-        title: "Error Sending Reply",
+        title: t("reviewsList.errors.replyError"),
         description: replyError,
         variant: "destructive",
       });
@@ -241,7 +241,7 @@ export const ReviewsList: React.FC = () => {
   useEffect(() => {
     if (deleteReplyError) {
       toast({
-        title: "Error Deleting Reply",
+        title: t("reviewsList.errors.deleteReplyError"),
         description: deleteReplyError,
         variant: "destructive",
       });
@@ -271,7 +271,7 @@ export const ReviewsList: React.FC = () => {
     if (!finalReplyText?.trim()) {
       toast({
         title: "Error",
-        description: "Please enter a reply message",
+        description: t("reviewsList.errors.emptyReply"),
         variant: "destructive",
       });
       return;
@@ -294,7 +294,7 @@ export const ReviewsList: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Reply sent successfully",
+        description: t("reviewsList.success.replySent"),
       });
     } catch (error) {
       // Error will be handled by the useEffect above
@@ -315,7 +315,7 @@ export const ReviewsList: React.FC = () => {
 
       toast({
         title: "Reply Deleted",
-        description: "The reply has been deleted successfully",
+        description: t("reviewsList.success.replyDeleted"),
       });
     } catch (error) {
       // Error will be handled by the useEffect above
@@ -363,7 +363,7 @@ export const ReviewsList: React.FC = () => {
             onClick={() => dispatch(clearReviewsError())}
             variant="outline"
           >
-            Try Again
+            {t("reviewsList.buttons.tryAgain")}
           </Button>
         </CardContent>
       </Card>
@@ -374,7 +374,7 @@ export const ReviewsList: React.FC = () => {
     <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">
-          Customer Reviews
+          {t("reviewsList.title")}
         </CardTitle>
 
         <ReviewsFilters

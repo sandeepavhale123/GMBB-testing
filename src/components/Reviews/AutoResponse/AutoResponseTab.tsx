@@ -47,8 +47,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import { ReplyToOldReviewsCard } from "./ReplyToOldReviewsCard";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const AutoResponseTab: React.FC = () => {
+  const { t } = useI18nNamespace("Reviews/autoResponseTab");
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const { autoResponse, templateLoading, dnrUpdating } = useAppSelector(
@@ -323,10 +325,10 @@ export const AutoResponseTab: React.FC = () => {
               <div className="flex-1">
                 {/* ✨ Removed unnecessary nested flex containers */}
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Reply Templates
+                  {t("autoResponseTab.replyTemplates.title")}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Create personalized templates for different star ratings.
+                  {t("autoResponseTab.replyTemplates.description")}
                 </p>
               </div>
 
@@ -335,9 +337,11 @@ export const AutoResponseTab: React.FC = () => {
                 {/* ✨ Ensures full width on mobile, auto on sm and up */}
                 <TabsList className="grid grid-cols-2 gap-2 sm:gap-4">
                   {/* ✨ Removed conflicting w-full and w-auto, added gap for spacing */}
-                  <TabsTrigger value="review">Reply for Review</TabsTrigger>
+                  <TabsTrigger value="review">
+                    {t("autoResponseTab.replyTemplates.tabs.review")}
+                  </TabsTrigger>
                   <TabsTrigger value="rating-only">
-                    Reply for Rating Only
+                    {t("autoResponseTab.replyTemplates.tabs.ratingOnly")}
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -445,7 +449,7 @@ export const AutoResponseTab: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <Label className="text-base font-medium text-gray-900">
-                Do not respond to review in manual or automated way
+                {t("autoResponseTab.noResponseMode.title")}
               </Label>
               <Tooltip>
                 <TooltipTrigger>
@@ -453,9 +457,7 @@ export const AutoResponseTab: React.FC = () => {
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">
-                    Sometimes your clients don't allow marketing agencies to
-                    respond to reviews. In that case this label helps you to
-                    identify such listings.
+                    {t("autoResponseTab.noResponseMode.tooltip")}
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -486,23 +488,26 @@ export const AutoResponseTab: React.FC = () => {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Enable No Response Mode?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {" "}
+              {t("autoResponseTab.noResponseMode.modal.title")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              If you enable this mode, both auto response and AI auto response
-              data will be deleted. Are you sure you want to delete this data
-              and proceed?
+              {t("autoResponseTab.noResponseMode.modal.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancelNoResponseMode}>
-              Cancel
+              {t("autoResponseTab.noResponseMode.modal.buttons.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmNoResponseMode}
               className="bg-red-600 hover:bg-red-700"
               disabled={isUpdating}
             >
-              {isUpdating ? "Processing..." : "Yes, Delete and Enable"}
+              {isUpdating
+                ? t("autoResponseTab.noResponseMode.modal.buttons.processing")
+                : t("autoResponseTab.noResponseMode.modal.buttons.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,0 +1,12 @@
+{
+  "reviewsEmptyState": {
+    "title": {
+      "filtered": "No reviews match your filters",
+      "default": "No reviews yet"
+    },
+    "description": {
+      "filtered": "Try adjusting your search criteria or filters to see more results.",
+      "default": "Reviews will appear here once customers leave feedback on your business listings."
+    }
+  }
+}

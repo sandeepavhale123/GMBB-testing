@@ -9,6 +9,7 @@ import {
 } from "../../store/slices/reviews";
 import { useListingContext } from "../../context/ListingContext";
 import { useToast } from "../../hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AIReplyGeneratorProps {
   reviewId: string;
@@ -29,6 +30,7 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
   onSave,
   onCancel,
 }) => {
+  const { t } = useI18nNamespace("Reviews/aiReplyGenerator");
   const dispatch = useAppDispatch();
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
@@ -59,19 +61,19 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
         setHasGenerated(true);
       } else {
         toast({
-          title: "AI Generation Failed",
+          title: t("aiReplyGenerator.generationFailed"),
           description:
             (result.payload as string) ||
-            "Failed to generate AI reply. Please try again.",
+            t("aiReplyGenerator.generationFailedMessage"),
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("aiReplyGenerator.errorTitle"),
         description:
           error?.response?.data?.message ||
-          "An unexpected error occurred while generating the reply.",
+          t("aiReplyGenerator.unexpectedError"),
         variant: "destructive",
       });
     }
@@ -97,14 +99,14 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
       <div className="flex items-center gap-2 mb-3">
         <Bot className="w-4 h-4 text-blue-600" />
         <span className="text-sm font-medium text-blue-700">
-          AI Reply Generator
+          {t("aiReplyGenerator.title")}
         </span>
       </div>
 
       {aiGenerationLoading && (
         <div className="flex items-center gap-2 text-blue-600">
           <Loader2 className="w-4 h-4 animate-spin" />
-          <span className="text-sm">Generating AI reply...</span>
+          <span className="text-sm">{t("aiReplyGenerator.loading")}</span>
         </div>
       )}
 
@@ -119,12 +121,12 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
           <Textarea
             value={aiReply}
             onChange={(e) => setAiReply(e.target.value)}
-            placeholder="AI generated reply..."
+            placeholder={t("aiReplyGenerator.placeholder")}
             className="min-h-[100px]"
           />
           <div className="flex gap-2">
             <Button size="sm" onClick={handleSave} disabled={!aiReply.trim()}>
-              Save Reply
+              {t("aiReplyGenerator.saveReply")}
             </Button>
             <Button
               size="sm"
@@ -133,10 +135,10 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
               disabled={aiGenerationLoading}
             >
               <RotateCcw className="w-4 h-4 mr-1" />
-              Regenerate
+              {t("aiReplyGenerator.regenerate")}
             </Button>
             <Button size="sm" variant="outline" onClick={onCancel}>
-              Cancel
+              {t("aiReplyGenerator.cancel")}
             </Button>
           </div>
         </div>
