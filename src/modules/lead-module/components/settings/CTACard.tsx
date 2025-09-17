@@ -40,8 +40,7 @@ export const CTACard: React.FC<CTACardProps> = ({
 
   return (
     <div 
-      className={`relative p-6 rounded-lg overflow-hidden transition-all ${disabled ? 'opacity-50 grayscale' : ''}`}
-      style={{ backgroundColor: settings.backgroundColor, color: settings.textColor }}
+      className={`relative p-6 rounded-lg overflow-hidden transition-all bg-primary text-primary-foreground ${disabled ? 'opacity-50 grayscale' : ''}`}
     >
       {disabled && (
         <div className="absolute inset-0 bg-black/10 z-10 flex items-center justify-center">
@@ -92,8 +91,7 @@ export const CTACard: React.FC<CTACardProps> = ({
         {/* Icon */}
         <div className="flex-shrink-0">
           <div 
-            className="w-16 h-16 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'hsl(217 91% 45%)' }}
+            className="w-16 h-16 rounded-lg flex items-center justify-center bg-primary/80"
           >
             <Icon className="w-8 h-8 text-white" />
           </div>

@@ -32,15 +32,13 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
     
     return (
       <div 
-        className="p-6 rounded-lg overflow-hidden"
-        style={{ backgroundColor: ctaSettings.backgroundColor, color: ctaSettings.textColor }}
+        className="p-6 rounded-lg overflow-hidden bg-primary text-primary-foreground"
       >
         <div className="flex items-center gap-4">
           {/* Icon */}
           <div className="flex-shrink-0">
             <div 
-              className="w-16 h-16 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: 'hsl(217 91% 45%)' }}
+              className="w-16 h-16 rounded-lg flex items-center justify-center bg-primary/80"
             >
               <Icon className="w-8 h-8 text-white" />
             </div>
