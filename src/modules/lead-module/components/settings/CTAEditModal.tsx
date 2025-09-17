@@ -8,14 +8,11 @@ import { Switch } from "@/components/ui/switch";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { SingleCTASettings, singleCTASettingsSchema } from "@/hooks/useCTASettings";
 import { useToast } from "@/hooks/use-toast";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { RotateCcw } from "lucide-react";
 interface CTAEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   currentSettings: SingleCTASettings;
   onSave: (settings: SingleCTASettings) => Promise<boolean>;
-  onReset: () => Promise<boolean>;
   isLoading: boolean;
   ctaType: 'call' | 'appointment';
 }
@@ -24,7 +21,6 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   onClose,
   currentSettings,
   onSave,
-  onReset,
   isLoading,
   ctaType
 }) => {
@@ -47,7 +43,6 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   const {
     toast
   } = useToast();
-  const [isResetting, setIsResetting] = useState(false);
 
   // Reset form when modal opens only
   useEffect(() => {
@@ -107,28 +102,6 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
     clearErrors();
     onClose();
   };
-
-  const handleReset = async () => {
-    try {
-      setIsResetting(true);
-      const success = await onReset();
-      if (success) {
-        toast({
-          title: "CTA Reset",
-          description: `${ctaType === 'call' ? 'Call' : 'Appointment'} CTA has been reset to defaults.`,
-        });
-        onClose();
-      } else {
-        toast({
-          title: "Reset Failed",  
-          description: "Failed to reset CTA settings. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } finally {
-      setIsResetting(false);
-    }
-  };
   return <Dialog open={isOpen} onOpenChange={open => {
     if (!open) onClose();
   }}>
@@ -185,38 +158,13 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
 
         </div>
 
-        <DialogFooter className="flex justify-between">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline" disabled={isResetting} className="mr-auto">
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset to Default
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Reset CTA to Default?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will reset all {ctaType === 'call' ? 'call' : 'appointment'} CTA settings to their default values. This action cannot be undone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleReset} disabled={isResetting}>
-                  {isResetting ? "Resetting..." : "Reset"}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
-              Cancel
-            </Button>
-            <Button onClick={handleSave} disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave} disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save Changes"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>;

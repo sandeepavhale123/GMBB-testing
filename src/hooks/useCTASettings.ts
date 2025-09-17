@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { z } from "zod";
-import { useGetCTADetails, useSaveCTACustomizer, useResetCTACustomizer } from "@/api/leadApi";
+import { useGetCTADetails, useSaveCTACustomizer } from "@/api/leadApi";
 import { useToast } from "@/hooks/use-toast";
 
 export const singleCTASettingsSchema = z.object({
@@ -53,11 +53,6 @@ export const useCTASettings = () => {
     mutateAsync: saveCtaMutation, 
     isPending: isSaving 
   } = useSaveCTACustomizer();
-  
-  const { 
-    mutateAsync: resetCtaMutation, 
-    isPending: isResetting 
-  } = useResetCTACustomizer();
 
   // Update settings when API data is loaded
   useEffect(() => {
@@ -124,41 +119,8 @@ export const useCTASettings = () => {
   };
 
   const resetSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA'): Promise<boolean> => {
-    try {
-      console.log('Starting reset for CTA type:', ctaType);
-      const result = await resetCtaMutation({ ctaType });
-      console.log('Reset API response:', result);
-      
-      if (result.code === 200 && result.data) {
-        // The API returns the reset data for the specific CTA type
-        const resetData = result.data[ctaType];
-        console.log('Reset data for', ctaType, ':', resetData);
-        
-        if (resetData) {
-          // Update local state with the reset data from API
-          setSettings(prev => ({
-            ...prev,
-            [ctaType]: resetData,
-          }));
-          console.log('Successfully updated local state for', ctaType);
-          return true;
-        } else {
-          console.warn('No reset data returned for', ctaType, 'using defaults');
-          // Fallback to defaults if no data returned
-          setSettings(prev => ({
-            ...prev,
-            [ctaType]: DEFAULT_CTA_SETTINGS[ctaType],
-          }));
-          return true;
-        }
-      } else {
-        console.error('Reset API returned error:', result.code, result.message);
-        return false;
-      }
-    } catch (error) {
-      console.error("Failed to reset CTA settings:", error);
-      return false;
-    }
+    const defaultSettings = DEFAULT_CTA_SETTINGS[ctaType];
+    return updateSingleCTA(ctaType, defaultSettings);
   };
 
   return {
@@ -167,6 +129,6 @@ export const useCTASettings = () => {
     updateSingleCTA,
     resetToDefaults,
     resetSingleCTA,
-    isLoading: isLoadingData || isSaving || isResetting,
+    isLoading: isLoadingData || isSaving,
   };
 };

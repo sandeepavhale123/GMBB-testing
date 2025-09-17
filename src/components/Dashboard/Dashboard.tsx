@@ -50,7 +50,11 @@ import { useProfile } from "@/hooks/useProfile";
 
 // Lazy load heavy components for better performance
 const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
-const CreatePostCard = lazy(() => import("./CreatePostCard"));
+const CreatePostCard = lazy(() =>
+  import("./CreatePostCard").then((module) => ({
+    default: module.CreatePostCard,
+  }))
+);
 const ScheduledPostCard = lazy(() =>
   import("./ScheduledPostCard").then((module) => ({
     default: module.ScheduledPostCard,

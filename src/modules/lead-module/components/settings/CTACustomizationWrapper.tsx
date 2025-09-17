@@ -45,11 +45,6 @@ export const CTACustomizationWrapper: React.FC = () => {
     return success;
   };
 
-  const handleResetCTA = async () => {
-    const ctaKey = editingCTAType === 'call' ? 'callCTA' : 'appointmentCTA';
-    return await resetSingleCTA(ctaKey);
-  };
-
   const handleResetSingleCTA = async (ctaType: 'call' | 'appointment') => {
     const ctaKey = ctaType === 'call' ? 'callCTA' : 'appointmentCTA';
     const success = await resetSingleCTA(ctaKey);
@@ -92,6 +87,8 @@ export const CTACustomizationWrapper: React.FC = () => {
               settings={settings} 
               onEditCall={() => handleEditCTA('call')}
               onEditAppointment={() => handleEditCTA('appointment')}
+              onResetCall={() => handleResetSingleCTA('call')}
+              onResetAppointment={() => handleResetSingleCTA('appointment')}
               isPreview={true} 
             />
           </div>
@@ -110,7 +107,6 @@ export const CTACustomizationWrapper: React.FC = () => {
             isVisible: true,
           }}
           onSave={handleSaveCTA}
-          onReset={handleResetCTA}
           isLoading={isLoading}
           ctaType={editingCTAType}
         />
