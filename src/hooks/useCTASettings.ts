@@ -52,8 +52,36 @@ export const useCTASettings = () => {
       const stored = localStorage.getItem(CTA_SETTINGS_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        const validated = ctaSettingsSchema.parse(parsed);
-        setSettings(validated);
+        let validated = ctaSettingsSchema.parse(parsed);
+        
+        // Migration: Update old yellow backgrounds to primary color
+        let needsMigration = false;
+        const migratedSettings = { ...validated };
+        
+        if (validated.callCTA.backgroundColor === "#FEF3C7") {
+          migratedSettings.callCTA = {
+            ...validated.callCTA,
+            backgroundColor: "hsl(217 91% 60%)",
+            textColor: "#FFFFFF"
+          };
+          needsMigration = true;
+        }
+        
+        if (validated.appointmentCTA.backgroundColor === "#FEF3C7") {
+          migratedSettings.appointmentCTA = {
+            ...validated.appointmentCTA,
+            backgroundColor: "hsl(217 91% 60%)",
+            textColor: "#FFFFFF"
+          };
+          needsMigration = true;
+        }
+        
+        if (needsMigration) {
+          localStorage.setItem(CTA_SETTINGS_KEY, JSON.stringify(migratedSettings));
+          setSettings(migratedSettings);
+        } else {
+          setSettings(validated);
+        }
       }
     } catch (error) {
       console.warn("Failed to load CTA settings from localStorage:", error);
