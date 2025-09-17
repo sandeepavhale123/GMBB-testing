@@ -1,20 +1,21 @@
-
-import React from 'react';
-import { cn } from '../../lib/utils';
+import React from "react";
+import { cn } from "../../lib/utils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessTabsProps {
-  activeTab: 'business-info' | 'opening-hours' | 'edit-log';
-  onTabChange: (tab: 'business-info' | 'opening-hours' | 'edit-log') => void;
+  activeTab: "business-info" | "opening-hours" | "edit-log";
+  onTabChange: (tab: "business-info" | "opening-hours" | "edit-log") => void;
 }
 
 export const BusinessTabs: React.FC<BusinessTabsProps> = ({
   activeTab,
-  onTabChange
+  onTabChange,
 }) => {
+  const { t } = useI18nNamespace("BusinessManagement/businessTabs");
   const tabs = [
-    { id: 'business-info' as const, label: 'Business Information' },
-    { id: 'opening-hours' as const, label: 'Opening Hours' },
-    { id: 'edit-log' as const, label: 'Edit Log' }
+    { id: "business-info" as const, label: t("businessTabs.businessInfo") },
+    { id: "opening-hours" as const, label: t("businessTabs.openingHours") },
+    { id: "edit-log" as const, label: t("businessTabs.editLog") },
   ];
 
   return (

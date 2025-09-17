@@ -11,6 +11,7 @@ import type {
   BusinessStatistics,
 } from "../../types/businessInfoTypes";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
@@ -31,10 +32,17 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   onTabChange,
   onRefresh,
 }) => {
+  const { t } = useI18nNamespace("BusinessManagement/businessProfileCard");
   const tabs = [
-    { id: "business-info" as const, label: "Business Information" },
-    { id: "opening-hours" as const, label: "Opening Hours" },
-    { id: "edit-log" as const, label: "Edit Log" },
+    {
+      id: "business-info" as const,
+      label: t("businessProfileCard.tabs.businessInfo"),
+    },
+    {
+      id: "opening-hours" as const,
+      label: t("businessProfileCard.tabs.openingHours"),
+    },
+    { id: "edit-log" as const, label: t("businessProfileCard.tabs.editLog") },
   ];
 
   if (isLoading) {
@@ -87,7 +95,8 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   businessInfo?.profile_photo ? "hidden" : ""
                 }`}
               >
-                {businessInfo?.name?.charAt(0) || "B"}
+                {businessInfo?.name?.charAt(0) ||
+                  t("businessProfileCard.fallback.avatar")}
               </div>
             </div>
 
@@ -95,7 +104,8 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {businessInfo?.name || "Business Name"}
+                  {businessInfo?.name ||
+                    t("businessProfileCard.labels.businessName")}
                 </h2>
                 {businessInfo?.verification_status === "verified" && (
                   <Check className="w-5 h-5 text-primary bg-primary/20 rounded-full p-1" />
@@ -111,7 +121,9 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.profile_views || 0}
                   </div>
-                  <div className="text-xs text-gray-500">Profile views</div>
+                  <div className="text-xs text-gray-500">
+                    {t("businessProfileCard.labels.profileViews")}
+                  </div>
                 </div>
 
                 <div
@@ -121,7 +133,10 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.position || 0}
                   </div>
-                  <div className="text-xs text-gray-500">Position</div>
+                  <div className="text-xs text-gray-500">
+                    {" "}
+                    {t("businessProfileCard.labels.position")}
+                  </div>
                 </div>
               </div>
             </div>
@@ -138,10 +153,10 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 {isRefreshing ? (
                   <>
                     <Loader size="sm" className="mr-2" />
-                    Refreshing...
+                    {t("businessProfileCard.buttons.refreshing")}
                   </>
                 ) : (
-                  "Refresh"
+                  t("businessProfileCard.buttons.refresh")
                 )}
               </Button>
               {/* <Button variant="outline" className="px-4 py-2 text-sm">
@@ -152,7 +167,9 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             {/* Visibility Section */}
             <div className="w-64 hidden lg:block">
               <div className="flex items-center justify-between mb-2">
-                <div className="text-sm text-gray-500">Visibility</div>
+                <div className="text-sm text-gray-500">
+                  {t("businessProfileCard.labels.visibility")}
+                </div>
                 <div className="text-sm font-medium text-gray-900">
                   {statistics?.visibility_score || 0}%
                 </div>
@@ -187,7 +204,11 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             ))} */}
             <Tabs
               value={activeTab}
-              onValueChange={(value) => onTabChange?.(value as "business-info" | "opening-hours" | "edit-log")}
+              onValueChange={(value) =>
+                onTabChange?.(
+                  value as "business-info" | "opening-hours" | "edit-log"
+                )
+              }
               className="w-full"
             >
               <TabsList className="flex flex-wrap gap-2 max-w-max  min-h-max h-min justify-start">

@@ -12,13 +12,16 @@ import {
   transformBusinessInfo,
   transformWorkingHours,
 } from "../../utils/businessDataTransform";
-import { EditLogTab } from '../EditLog/EditLogTab';
+import { EditLogTab } from "../EditLog/EditLogTab";
 import { Alert, AlertDescription } from "../ui/alert";
 import { AlertTriangle, ExternalLink } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 import { NoListingSelected } from "../ui/no-listing-selected";
 type TabType = "business-info" | "opening-hours" | "edit-log";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const BusinessManagement: React.FC = () => {
+  const { t } = useI18nNamespace("BusinessManagement/businessManagement");
   const { listingId } = useParams();
   const { selectedListing, isInitialLoading } = useListingContext();
   const dispatch = useAppDispatch();
@@ -46,14 +49,14 @@ export const BusinessManagement: React.FC = () => {
           })
         ).unwrap();
         toast({
-          title: "Success",
-          description: "GMB profile info refreshed successfully",
+          title: t("businessManagement.toast.refreshSuccessTitle"),
+          description: t("businessManagement.toast.refreshSuccessDesc"),
           variant: "success",
         });
       } catch (error) {
         toast({
-          title: "Error",
-          description: "Failed to refresh business info",
+          title: t("businessManagement.toast.refreshErrorTitle"),
+          description: t("businessManagement.toast.refreshErrorDesc"),
           variant: "error",
         });
       }
@@ -90,7 +93,7 @@ export const BusinessManagement: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Error Loading Business Info
+            {t("businessManagement.errorState.title")}
           </h3>
           <p className="text-gray-600">{error}</p>
         </div>
@@ -134,7 +137,7 @@ export const BusinessManagement: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Name
+                      {t("businessManagement.fields.name")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.name)}
@@ -143,7 +146,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Address
+                      {t("businessManagement.fields.address")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.address)}
@@ -152,7 +155,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Phone
+                      {t("businessManagement.fields.phone")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.phone)}
@@ -161,7 +164,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Website
+                      {t("businessManagement.fields.website")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3  break-all">
                       {formatFieldValue(transformedBusinessInfo.website)}
@@ -170,7 +173,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Store code
+                      {t("businessManagement.fields.storeCode")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.storeCode)}
@@ -179,7 +182,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Category
+                      {t("businessManagement.fields.category")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.category)}
@@ -188,7 +191,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Additional category
+                      {t("businessManagement.fields.additionalCategory")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(
@@ -199,7 +202,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Labels
+                      {t("businessManagement.fields.labels")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.labels)}
@@ -208,7 +211,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Appointment url
+                      {t("businessManagement.fields.appointmentUrl")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3  break-all">
                       {formatFieldValue(transformedBusinessInfo.appointmentUrl)}
@@ -217,7 +220,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Map url
+                      {t("businessManagement.fields.mapUrl")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3  break-all">
                       {formatFieldValue(transformedBusinessInfo.mapUrl)}
@@ -226,7 +229,7 @@ export const BusinessManagement: React.FC = () => {
 
                   <div className="flex justify-between items-start py-4">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
-                      Description
+                      {t("businessManagement.fields.description")}
                     </span>
                     <span className="text-sm text-gray-900 w-2/3 ">
                       {formatFieldValue(transformedBusinessInfo.description)}
@@ -239,10 +242,7 @@ export const BusinessManagement: React.FC = () => {
                   <AlertTriangle className="h-4 w-4 text-yellow-600" />
                   <AlertDescription className="text-yellow-800">
                     <div className="flex items-center justify-between">
-                      <span>
-                        To avoid getting suspended, don't add fake info to get
-                        more reviews and other policy violating content.
-                      </span>
+                      <span>{t("businessManagement.warnings.fakeInfo")}</span>
                     </div>
                   </AlertDescription>
                 </Alert>
@@ -250,7 +250,7 @@ export const BusinessManagement: React.FC = () => {
             ) : (
               <div className="text-center py-8">
                 <p className="text-gray-500">
-                  No business information available
+                  {t("businessManagement.emptyState.businessInfo")}
                 </p>
               </div>
             )}

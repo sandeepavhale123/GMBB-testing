@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { Clock, Edit } from "lucide-react";
 import type { TransformedWorkingHour } from "../../utils/businessDataTransform";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 type WorkingHour = {
   day: string;
@@ -84,6 +85,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   onCancel,
   onEdit,
 }) => {
+  const { t } = useI18nNamespace("BusinessManagement/editableBusinessHours");
   const [hoursState, setHoursState] =
     useState<TransformedWorkingHour[]>(initialWorkingHours);
 
@@ -124,7 +126,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
         ...arr[index],
         isOpen: !checked,
         hours: checked
-          ? "Closed"
+          ? t("editableBusinessHours.view.closed")
           : `${convertTo12Hour(defaultHours.open)} - ${convertTo12Hour(
               defaultHours.close
             )}`,
@@ -141,7 +143,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-lg font-bold">Opening Hours</CardTitle>
+          <CardTitle className="text-lg font-bold">
+            {t("editableBusinessHours.view.title")}
+          </CardTitle>
           {/* <Button
             variant="outline"
             size="sm"
@@ -171,7 +175,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                     {schedule.hours}
                   </span>
                   <Badge variant={schedule.isOpen ? "default" : "secondary"}>
-                    {schedule.isOpen ? "Open" : "Closed"}
+                    {schedule.isOpen
+                      ? t("editableBusinessHours.view.open")
+                      : t("editableBusinessHours.view.closed")}
                   </Badge>
                 </div>
               </div>
@@ -185,7 +191,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-bold">Edit Opening Hours</CardTitle>
+        <CardTitle className="text-lg font-bold">
+          {t("editableBusinessHours.edit.title")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -217,12 +225,14 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         handleClosedToggle(index, e.target.checked)
                       }
                     />
-                    <span className="text-sm">Closed</span>
+                    <span className="text-sm">
+                      {t("editableBusinessHours.edit.closedLabel")}
+                    </span>
                   </label>
                   {schedule.isOpen && (
                     <div className="flex items-center gap-2">
                       <Label htmlFor={`open-${index}`} className="text-xs">
-                        Open
+                        {t("editableBusinessHours.edit.openLabel")}
                       </Label>
                       <input
                         id={`open-${index}`}
@@ -234,9 +244,11 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         }
                         required
                       />
-                      <span className="mx-1 text-gray-400">to</span>
+                      <span className="mx-1 text-gray-400">
+                        {t("editableBusinessHours.edit.to")}
+                      </span>
                       <Label htmlFor={`close-${index}`} className="text-xs">
-                        Close
+                        {t("editableBusinessHours.edit.closeLabel")}
                       </Label>
                       <input
                         id={`close-${index}`}
@@ -256,9 +268,12 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
           })}
           <div className="flex justify-end gap-2 pt-4">
             <Button type="button" variant="outline" onClick={onCancel}>
-              Cancel
+              {t("editableBusinessHours.edit.cancel")}
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit">
+              {" "}
+              {t("editableBusinessHours.edit.save")}
+            </Button>
           </div>
         </form>
       </CardContent>
