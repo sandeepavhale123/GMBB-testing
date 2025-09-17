@@ -91,7 +91,7 @@ export const CTACard: React.FC<CTACardProps> = ({
         {/* Icon */}
         <div className="flex-shrink-0">
           <div 
-            className="w-16 h-16 rounded-lg flex items-center justify-center bg-primary/80"
+            className="w-16 h-16 rounded-lg flex items-center justify-center hover:bg-white/30 backdrop-blur-sm"
           >
             <Icon className="w-8 h-8 text-white" />
           </div>
