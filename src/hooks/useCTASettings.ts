@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { z } from "zod";
-import { useGetCTADetails, useSaveCTACustomizer } from "@/api/leadApi";
+import { useGetCTADetails, useSaveCTACustomizer, useResetCTACustomizer } from "@/api/leadApi";
 import { useToast } from "@/hooks/use-toast";
 
 export const singleCTASettingsSchema = z.object({
@@ -53,6 +53,11 @@ export const useCTASettings = () => {
     mutateAsync: saveCtaMutation, 
     isPending: isSaving 
   } = useSaveCTACustomizer();
+  
+  const { 
+    mutateAsync: resetCtaMutation, 
+    isPending: isResetting 
+  } = useResetCTACustomizer();
 
   // Update settings when API data is loaded
   useEffect(() => {
@@ -119,8 +124,25 @@ export const useCTASettings = () => {
   };
 
   const resetSingleCTA = async (ctaType: 'callCTA' | 'appointmentCTA'): Promise<boolean> => {
-    const defaultSettings = DEFAULT_CTA_SETTINGS[ctaType];
-    return updateSingleCTA(ctaType, defaultSettings);
+    try {
+      const response = await resetCtaMutation({ ctaType });
+      
+      if (response.code === 200 && response.data) {
+        // Update local state with the API response data
+        const resetData = response.data[ctaType];
+        if (resetData) {
+          setSettings(prev => ({
+            ...prev,
+            [ctaType]: resetData,
+          }));
+        }
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Failed to reset CTA settings:", error);
+      return false;
+    }
   };
 
   return {
@@ -129,6 +151,6 @@ export const useCTASettings = () => {
     updateSingleCTA,
     resetToDefaults,
     resetSingleCTA,
-    isLoading: isLoadingData || isSaving,
+    isLoading: isLoadingData || isSaving || isResetting,
   };
 };
