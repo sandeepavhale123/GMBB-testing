@@ -17,7 +17,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
   ({
     gridSize,
     onMarkerClick,
-    rankDetails,
+    rankDetails = [],
     rankStats,
     projectDetails,
     loading,

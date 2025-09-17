@@ -19,7 +19,7 @@ interface RankingMapProps {
 }
 
 export const RankingMap: React.FC<RankingMapProps> = memo(
-  ({ onMarkerClick, rankDetails, centerCoordinates }) => {
+  ({ onMarkerClick, rankDetails = [], centerCoordinates }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
     const markersRef = useRef<L.Marker[]>([]);
