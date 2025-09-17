@@ -62,7 +62,7 @@ export const GmbHealthReport: React.FC = () => {
     leadScore: parseInt(reportData.healthScore),
     avgRating: parseFloat(reportData.reviewRating),
     totalReviews: parseInt(reportData.reviewCount),
-    totalPhotos: reportData.communication.photos.length,
+    totalPhotos: (reportData.communication?.photos?.length || 0),
     responseRate: 92,
     listingViews: 15420,
     webClicks: 892,
@@ -85,7 +85,7 @@ export const GmbHealthReport: React.FC = () => {
   }, {
     id: "5",
     label: "Business Hours",
-    status: reportData.communication.businessHours.per_day.length > 0 ? "good" as const : "needs-work" as const,
+    status: ((reportData.communication?.businessHours?.per_day?.length || 0) > 0 ? "good" as const : "needs-work" as const),
     description: "Provide your regular customer-facing hours of operation.",
     icon: "clock"
   }, {
@@ -103,19 +103,19 @@ export const GmbHealthReport: React.FC = () => {
   }, {
     id: "9",
     label: "Photos",
-    status: reportData.communication.photos.length > 5 ? "good" as const : "needs-work" as const,
+    status: ((reportData.communication?.photos?.length || 0) > 5 ? "good" as const : "needs-work" as const),
     description: "Photos help customers visualize your business and services",
     icon: "camera"
   }];
   // Transform photos from API data
-  const photos = reportData.communication.photos.map((photo, index) => ({
+  const photos = (reportData.communication?.photos || []).map((photo, index) => ({
     id: (index + 1).toString(),
     url: photo.image,
     alt: `Business photo ${index + 1}`,
     category: "Business"
   }));
   // Transform reviews from API data
-  const reviews = reportData.listingReputation.reviews.slice(0, 10).map((review, index) => ({
+  const reviews = (reportData.listingReputation?.reviews || []).slice(0, 10).map((review, index) => ({
     id: review.id,
     author: review.source,
     rating: review.rating,
@@ -158,7 +158,7 @@ export const GmbHealthReport: React.FC = () => {
   const brandingData = brandingResponse?.data || null;
 
   // Transform posts from API data
-  const posts = reportData.communication.posts.slice(0, 3).map(post => ({
+  const posts = (reportData.communication?.posts || []).slice(0, 3).map(post => ({
     id: post.position.toString(),
     image: post.image,
     description: post.body,
@@ -170,10 +170,10 @@ export const GmbHealthReport: React.FC = () => {
     searchInfo: reportData.top20Competitors.searchInfo,
     yourBusiness: reportData.top20Competitors.yourBusiness,
     competitorStats: {
-      totalCompetitors: reportData.top20Competitors.competitors.length,
-      averageRating: reportData.top20Competitors.competitors.reduce((sum, comp) => sum + comp.averageRating, 0) / reportData.top20Competitors.competitors.length,
-      totalReviews: reportData.top20Competitors.competitors.reduce((sum, comp) => sum + comp.reviewCount, 0),
-      yourPosition: reportData.top20Competitors.yourBusiness.position
+      totalCompetitors: (reportData.top20Competitors?.competitors?.length || 0),
+      averageRating: ((reportData.top20Competitors?.competitors?.reduce((sum, comp) => sum + comp.averageRating, 0) || 0) / (reportData.top20Competitors?.competitors?.length || 1)),
+      totalReviews: (reportData.top20Competitors?.competitors?.reduce((sum, comp) => sum + comp.reviewCount, 0) || 0),
+      yourPosition: (reportData.top20Competitors?.yourBusiness?.position || 0)
     }
   };
 
@@ -487,7 +487,7 @@ export const GmbHealthReport: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-8">
               {/* GMB Checklist */}
-              {(reportData as any).recommendations.gmbChecklist && Array.isArray((reportData as any).recommendations.gmbChecklist) && (reportData as any).recommendations.gmbChecklist.length > 0 && (
+              {(reportData as any).recommendations?.gmbChecklist && Array.isArray((reportData as any).recommendations?.gmbChecklist) && (((reportData as any).recommendations?.gmbChecklist?.length || 0) > 0) && (
                 <div>
                   <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <CheckCircle className="h-6 w-6 text-green-600" />
@@ -505,7 +505,7 @@ export const GmbHealthReport: React.FC = () => {
               )}
 
               {/* Quick Hacks */}
-              {(reportData as any).recommendations.quickHack && Array.isArray((reportData as any).recommendations.quickHack) && (reportData as any).recommendations.quickHack.length > 0 && (
+              {(reportData as any).recommendations?.quickHack && Array.isArray((reportData as any).recommendations?.quickHack) && (((reportData as any).recommendations?.quickHack?.length || 0) > 0) && (
                 <div>
                   <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Lightbulb className="h-6 w-6 text-yellow-600" />
