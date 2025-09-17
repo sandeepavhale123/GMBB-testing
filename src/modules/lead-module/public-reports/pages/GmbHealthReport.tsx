@@ -205,7 +205,7 @@ export const GmbHealthReport: React.FC = () => {
         <div id="overall-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <ProgressCard title="GMB Health Score" value={transformedReportData.healthScore.toString()} percentage={transformedReportData.healthScore} color={transformedReportData.healthScore >= 70 ? "green" : transformedReportData.healthScore >= 50 ? "yellow" : "red"} />
           <ProgressCard title="GMB Review" value={transformedReportData.totalReviews} color="blue" />
-          <ProgressCard title="GMB Post" value={reportData.communication.posts.length.toString()} color="blue" />
+          <ProgressCard title="GMB Post" value={(reportData.communication?.posts?.length || 0).toString()} color="blue" />
           <ProgressCard title="GMB Average Rating" value={transformedReportData.avgRating} color="blue" />
         </div>
 
