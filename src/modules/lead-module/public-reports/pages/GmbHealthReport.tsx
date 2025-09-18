@@ -12,6 +12,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
+import { SingleCTASection } from "../components/SingleCTASection";
 import { Top20CompetitorsCard } from "../components/Top20CompetitorsCard";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { useGetGmbHealthReport } from "@/api/leadApi";
@@ -350,6 +351,9 @@ export const GmbHealthReport: React.FC = () => {
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={transformedReportData.totalPhotos} />
 
+        {/* Call CTA Section */}
+        <SingleCTASection reportId={reportId || ''} ctaType="callCTA" />
+
         {/* Top 20 Competitors Analysis */}
         <div id="competitors-section">
           <Top20CompetitorsCard 
@@ -370,8 +374,8 @@ export const GmbHealthReport: React.FC = () => {
         </div>
 
 
-        {/* CTA Section */}
-        <CTASection reportId={reportId || ''} />
+        {/* Appointment CTA Section */}
+        <SingleCTASection reportId={reportId || ''} ctaType="appointmentCTA" />
 
 
         {/* Category Breakdown */}
