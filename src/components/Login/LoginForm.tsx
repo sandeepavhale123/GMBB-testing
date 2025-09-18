@@ -14,8 +14,10 @@ import { loginSchema, LoginFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { useCompanyName } from "@/hooks/useCompanyName";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const LoginForm = () => {
+  const { t } = useI18nNamespace("Login/loginForm");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -43,8 +45,8 @@ export const LoginForm = () => {
 
     if (!validation.isValid) {
       toast({
-        title: "Validation Error",
-        description: "Please fix the highlighted fields and try again.",
+        title: t("validationErrorTitle"),
+        description: t("validationErrorDescription"),
         variant: "destructive",
       });
       return;
@@ -61,8 +63,8 @@ export const LoginForm = () => {
         // );
 
         toast({
-          title: "Subscription Expired",
-          description: "Your plan has expired. Please renew to continue.",
+          title: t("subscriptionExpiredTitle"),
+          description: t("subscriptionExpiredDescription"),
           variant: "destructive",
         });
 
@@ -71,25 +73,25 @@ export const LoginForm = () => {
       }
 
       toast({
-        title: "Success",
-        description: "Logged in successfully!",
+        title: t("loginSuccessTitle"),
+        description: t("loginSuccessDescription"),
       });
-      
+
       // Set flag to indicate user just logged in
       sessionStorage.setItem("just_logged_in", "true");
-      
+
       const onboarding = Number(localStorage.getItem("onboarding"));
       const currentStep =
         onboarding !== 1
           ? localStorage.setItem("onboarding_current_step", "6")
           : localStorage.setItem("onboarding_current_step", "1");
-      
+
       // Always redirect to root to let SmartRedirect handle dashboard routing
       navigate("/");
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Login failed. Please check your credentials.",
+        title: t("loginErrorTitle"),
+        description: t("loginErrorDescription"),
         variant: "destructive",
       });
     } finally {
@@ -123,13 +125,13 @@ export const LoginForm = () => {
 
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">{companyName}</h2>
-        <p className="mt-2 text-gray-600">Sign in to your account</p>
+        <p className="mt-2 text-gray-600">{t("signInAccount")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <Label htmlFor="email" className="text-gray-700">
-            Email
+            {t("emailLabel")}
           </Label>
           <Input
             id="email"
@@ -149,7 +151,7 @@ export const LoginForm = () => {
 
         <div>
           <Label htmlFor="password" className="text-gray-700">
-            Password
+            {t("passwordLabel")}
           </Label>
           <div className="relative mt-1">
             <Input
@@ -184,7 +186,7 @@ export const LoginForm = () => {
               onCheckedChange={(checked) => setRememberMe(checked as boolean)}
             />
             <Label htmlFor="remember" className="text-sm text-gray-600">
-              Remember me
+              {t("rememberMe")}
             </Label>
           </div>
           <button
@@ -192,7 +194,7 @@ export const LoginForm = () => {
             onClick={() => setIsForgotPasswordOpen(true)}
             className="text-sm text-blue-600 hover:text-blue-500"
           >
-            Forgot Password?
+            {t("forgotPassword")}
           </button>
         </div>
 
@@ -204,10 +206,10 @@ export const LoginForm = () => {
           {isLoading ? (
             <span className="flex items-center gap-2">
               <LoaderCircle className="animate-spin" />
-              Logging in...
+              {t("loggingIn")}
             </span>
           ) : (
-            "Log In"
+            t("logInButton")
           )}
         </Button>
 

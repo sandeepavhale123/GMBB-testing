@@ -23,8 +23,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import PlanExpiredPage from "@/pages/PlanExpiredPage";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const Index = () => {
+  const { t } = useI18nNamespace("pages/index");
   const { user } = useAuthRedux();
   useAxiosAuth();
   const { isLoading } = useListingContext();
@@ -104,9 +106,9 @@ const Index = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Coming Soon
+                {t("comingSoon")}
               </h2>
-              <p className="text-gray-600">This section is coming soon.</p>
+              <p className="text-gray-600">{t("comingSoonDescription")}</p>
             </div>
           </div>
         );
@@ -117,7 +119,7 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">Loading user profile...</p>
+          <p className="text-muted-foreground">{t("loadingUserProfile")}</p>
         </div>
       </div>
     );

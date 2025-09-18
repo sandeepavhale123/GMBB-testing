@@ -15,6 +15,7 @@ import {
   ForgotPasswordFormData,
 } from "@/schemas/authSchemas"; // adjust path as needed
 import { useFormValidation } from "@/hooks/useFormValidation";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t } = useI18nNamespace("Login/forgotPasswordModal");
   const [formData, setFormData] = useState<ForgotPasswordFormData>({
     email: "",
   });
@@ -64,12 +66,12 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       // console.log("response from api", data);
       if (!response.ok) {
         toast({
-          title: "Error found!",
+          title: t("errorFoundTitle"),
           description: data.message,
         });
       } else {
         toast({
-          title: "Reset link sent!",
+          title: t("resetLinkSentTitle"),
           description: data.message,
         });
       }
@@ -79,7 +81,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       onClose();
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("errorTitle"),
         description: error?.response?.data?.message || error.message,
         variant: "destructive",
       });
@@ -105,17 +107,17 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center space-y-3">
           <DialogTitle className="text-2xl font-bold text-gray-900">
-            Forgot Password?
+            {t("forgotPasswordTitle")}
           </DialogTitle>
           <p className="text-gray-600 text-sm">
-            No worries, we'll send you reset instructions
+            {t("forgotPasswordDescription")}
           </p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-6">
           <div className="space-y-2">
             <Label htmlFor="reset-email" className="text-gray-700">
-              Email
+              {t("emailLabel")}
             </Label>
             <Input
               id="reset-email"
@@ -123,7 +125,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               type="text"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email address"
+              placeholder={t("emailPlaceholder")}
               className={`h-12 text-base ${
                 hasFieldError("email") ? "border-red-500" : ""
               }`}
@@ -142,10 +144,10 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             {isLoading ? (
               <span className="flex items-center gap-2">
                 <LoaderCircle className="animate-spin" size={20} />
-                Sending...
+                {t("sending")}
               </span>
             ) : (
-              "Reset password"
+              t("resetPasswordButton")
             )}
           </Button>
 
@@ -155,7 +157,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               onClick={handleClose}
               className="text-sm text-gray-600 hover:text-gray-800 font-medium"
             >
-              Back to log in
+              {t("backToLogin")}
             </button>
           </div>
         </form>

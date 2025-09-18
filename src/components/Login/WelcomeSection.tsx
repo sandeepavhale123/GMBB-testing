@@ -1,12 +1,18 @@
 import React from "react";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const WelcomeSection = () => {
-  const {
-    lightLogo
-  } = useThemeLogo();
-  return <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{
-    background: 'linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))'
-  }}>
+  const { lightLogo } = useThemeLogo();
+  const { t } = useI18nNamespace("Login/loginLayout");
+  return (
+    <div
+      className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))",
+      }}
+    >
       <div className="absolute inset-0 bg-black/10"></div>
 
       {/* Decorative Elements */}
@@ -18,30 +24,37 @@ export const WelcomeSection = () => {
       {/* Logo */}
       <div className="absolute top-8 left-8">
         <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-2">
-          <img src={lightLogo} alt="GMB Briefcase Logo" style={{
-          maxHeight: "60px",
-          height: "auto",
-          width: "auto",
-          maxWidth: "130px"
-        }} />
+          <img
+            src={lightLogo}
+            alt="GMB Briefcase Logo"
+            style={{
+              maxHeight: "60px",
+              height: "auto",
+              width: "auto",
+              maxWidth: "130px",
+            }}
+          />
         </div>
       </div>
 
       {/* Welcome Text */}
       <div className="flex flex-col justify-center items-center px-16 z-10">
-        <img style={{
-        height: "auto",
-        width: "90%",
-        maxWidth: "250px",
-        marginBottom: "30px"
-      }} src="/lovable-uploads/1925fff2-0bb1-4c0c-a281-a1a23bc5622b.png" />
-        <h1 className="text-4xl font-bold text-white mb-4 text-center">Manage Your GMB Listing Like a Pro</h1>
+        <img
+          style={{
+            height: "auto",
+            width: "90%",
+            maxWidth: "250px",
+            marginBottom: "30px",
+          }}
+          src="/lovable-uploads/1925fff2-0bb1-4c0c-a281-a1a23bc5622b.png"
+        />
+        <h1 className="text-4xl font-bold text-white mb-4 text-center">
+          {t("welcomeSection.heading")}
+        </h1>
         <p className="text-md text-blue-100 text-center">
-          Take charge of your local SEO efforts with powerful tools designed
-          to simplify your Google Business Profile management. Schedule posts,
-          monitor reviews, track performance, and boost your local visibility
-          — all from one intuitive dashboard.
+          {t("welcomeSection.description")}
         </p>
       </div>
-    </div>;
+    </div>
+  );
 };
