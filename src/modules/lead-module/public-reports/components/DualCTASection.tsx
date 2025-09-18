@@ -1,16 +1,23 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Phone, Calendar } from "lucide-react";
-import { useCTASettings } from "@/hooks/useCTASettings";
+import { usePublicCTASettings } from "@/hooks/usePublicCTASettings";
 
 interface DualCTASectionProps {
+  reportId: string;
   isPreview?: boolean;
 }
 
 export const DualCTASection: React.FC<DualCTASectionProps> = ({ 
+  reportId,
   isPreview = false 
 }) => {
-  const { settings } = useCTASettings();
+  const { settings, isLoading, error } = usePublicCTASettings(reportId);
+
+  // Don't render anything if loading, error, or no settings
+  if (isLoading || error || !settings) {
+    return null;
+  }
 
   const handleButtonClick = (e: React.MouseEvent, buttonLink: string) => {
     if (isPreview || !buttonLink) {
@@ -86,10 +93,10 @@ export const DualCTASection: React.FC<DualCTASectionProps> = ({
 
   return (
     <div className="space-y-4 my-8">
-      {settings.callCTA.isVisible && (
+      {settings.callCTA && (
         <CTACard type="call" ctaSettings={settings.callCTA} />
       )}
-      {settings.appointmentCTA.isVisible && (
+      {settings.appointmentCTA && (
         <CTACard type="appointment" ctaSettings={settings.appointmentCTA} />
       )}
     </div>

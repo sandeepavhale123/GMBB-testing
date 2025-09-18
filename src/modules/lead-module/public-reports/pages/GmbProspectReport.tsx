@@ -392,7 +392,7 @@ export const GmbProspectReport: React.FC = () => {
 
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection reportId={reportId || ''} />
 
         {/* Advanced Suggestions */}
         <Card>

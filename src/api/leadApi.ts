@@ -935,6 +935,19 @@ export interface GetCTADetailsResponse {
   };
 }
 
+export interface GetCTAWithoutLoginRequest {
+  reportId: string;
+}
+
+export interface GetCTAWithoutLoginResponse {
+  code: number;
+  message: string;
+  data: {
+    callCTA: CTAData;
+    appointmentCTA: CTAData;
+  };
+}
+
 export interface SaveCTACustomizerRequest {
   ctaType: 'callCTA' | 'appointmentCTA';
   header: string;
@@ -976,6 +989,11 @@ export const getCTADetails = async (): Promise<GetCTADetailsResponse> => {
   return response.data;
 };
 
+export const getCTAWithoutLogin = async (params: GetCTAWithoutLoginRequest): Promise<GetCTAWithoutLoginResponse> => {
+  const response = await apiClient.post<GetCTAWithoutLoginResponse>('/lead/get-cta-withoutlogin', params);
+  return response.data;
+};
+
 export const saveCTACustomizer = async (params: SaveCTACustomizerRequest): Promise<SaveCTACustomizerResponse> => {
   const response = await apiClient.post<SaveCTACustomizerResponse>('/lead/save-cta-customizer', params);
   return response.data;
@@ -991,6 +1009,16 @@ export const useGetCTADetails = () => {
   return useQuery({
     queryKey: ['cta-details'],
     queryFn: getCTADetails,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+export const useGetCTAWithoutLogin = (reportId: string) => {
+  return useQuery({
+    queryKey: ['cta-without-login', reportId],
+    queryFn: () => getCTAWithoutLogin({ reportId }),
+    enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });

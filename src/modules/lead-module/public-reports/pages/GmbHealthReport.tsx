@@ -371,7 +371,7 @@ export const GmbHealthReport: React.FC = () => {
 
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection reportId={reportId || ''} />
 
 
         {/* Category Breakdown */}
