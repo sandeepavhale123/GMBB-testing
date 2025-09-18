@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 // import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const NotFound = () => {
+  const { t } = useI18nNamespace("pages/notfound");
   const location = useLocation();
   const navigate = useNavigate();
   const { profileData } = useProfile();
@@ -40,20 +42,22 @@ const NotFound = () => {
 
         {/* 404 Text */}
         <h1 className="text-8xl font-bold text-gray-300 mb-4 tracking-tight">
-          404
+          {t("notFound.title")}
         </h1>
 
         {/* Oops! Text */}
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3">Oops!</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+          {t("notFound.oops")}
+        </h2>
 
         {/* Description */}
         <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-          We can't find the page you're looking for.
+          {t("notFound.description")}
         </p>
 
         {/* Back to Home Button */}
         <Button onClick={handleBackHome} className="px-8 py-3 text-base">
-          Back to home
+          {t("notFound.backToHome")}
         </Button>
       </div>
     </div>

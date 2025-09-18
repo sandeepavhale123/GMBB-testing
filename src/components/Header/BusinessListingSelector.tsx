@@ -17,8 +17,10 @@ import { BusinessListing } from "./types";
 import { useBusinessSearch } from "@/hooks/useBusinessSearch";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useListingContext } from "@/context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const BusinessListingSelector: React.FC = () => {
+  const { t } = useI18nNamespace("Header/businessListingSelector");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const {
@@ -61,7 +63,7 @@ export const BusinessListingSelector: React.FC = () => {
           variant="outline"
           className="w-72 lg:w-96 justify-between border-gray-200"
         >
-          No listings available
+          {t("businessListingSelector.noListings")}
         </Button>
       </div>
     );
@@ -77,7 +79,7 @@ export const BusinessListingSelector: React.FC = () => {
           variant="outline"
           className="w-72 lg:w-96 justify-between border-gray-200"
         >
-          Loading...
+          {t("businessListingSelector.loading")}
         </Button>
       </div>
     );
@@ -128,16 +130,18 @@ export const BusinessListingSelector: React.FC = () => {
         >
           <Command shouldFilter={false}>
             <CommandInput
-              placeholder="Search listings..."
+              placeholder={t("businessListingSelector.searchPlaceholder")}
               value={searchQuery}
               onValueChange={setSearchQuery}
             />
             {searching && (
               <div className="p-2 text-center text-sm text-gray-500">
-                Searching...
+                {t("businessListingSelector.searching")}
               </div>
             )}
-            <CommandEmpty>No listing found.</CommandEmpty>
+            <CommandEmpty>
+              {t("businessListingSelector.noResults")}
+            </CommandEmpty>
             <CommandList>
               <CommandGroup>
                 {displayListings.map((business) => (

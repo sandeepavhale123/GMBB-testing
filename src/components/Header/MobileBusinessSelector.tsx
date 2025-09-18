@@ -22,8 +22,10 @@ import { Skeleton } from "../ui/skeleton";
 import { useBusinessSearch } from "@/hooks/useBusinessSearch";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useListingContext } from "@/context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const MobileBusinessSelector: React.FC = () => {
+  const { t } = useI18nNamespace("Header/mobileBusinessSelector");
   const [mobileListingOpen, setMobileListingOpen] = useState(false);
 
   // Check if ListingProvider context is available
@@ -100,16 +102,16 @@ export const MobileBusinessSelector: React.FC = () => {
         >
           <Command shouldFilter={false}>
             <CommandInput
-              placeholder="Search listings..."
+              placeholder={t("mobileBusinessSelector.searchPlaceholder")}
               value={searchQuery}
               onValueChange={setSearchQuery}
             />
             {searching && (
               <div className="p-2 text-center text-sm text-gray-500">
-                Searching...
+                {t("mobileBusinessSelector.searching")}
               </div>
             )}
-            <CommandEmpty>No listing found.</CommandEmpty>
+            <CommandEmpty>{t("mobileBusinessSelector.noResults")}</CommandEmpty>
             <CommandList>
               <CommandGroup>
                 {displayListings.map((business) => (

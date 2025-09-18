@@ -1,42 +1,51 @@
-
-import React from 'react';
-import { User, LogOut, Settings } from 'lucide-react';
-import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '../ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from "react";
+import { User, LogOut, Settings } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
-import { useProfile } from '../../hooks/useProfile';
+import { useProfile } from "../../hooks/useProfile";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface UserProfileDropdownProps {
   className?: string;
 }
 
-export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ className }) => {
+export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
+  className,
+}) => {
+  const { t } = useI18nNamespace("Header/userProfileDropdown");
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuthRedux();
   const { profileData } = useProfile();
 
   const handleAccountSettings = () => {
-    const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
+    const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
     if (isInMainDashboard) {
-      navigate('/main-dashboard/settings');
+      navigate("/main-dashboard/settings");
     } else {
-      navigate('/settings');
+      navigate("/settings");
     }
   };
 
   const handleViewProfile = () => {
     const isDashboardType2 = profileData?.dashboardType === 2;
-    const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
-    
+    const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
+
     if (isDashboardType2) {
-      navigate('/geo-ranking-dashboard/profile');
+      navigate("/geo-ranking-dashboard/profile");
     } else if (isInMainDashboard) {
-      navigate('/main-dashboard/profile');
+      navigate("/main-dashboard/profile");
     } else {
-      navigate('/profile');
+      navigate("/profile");
     }
   };
 
@@ -44,22 +53,32 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
   const shouldHideAccountSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
     const isDashboardType2 = profileData?.dashboardType === 2;
-    return userRole === 'staff' || userRole === 'client' || isDashboardType2;
+    return userRole === "staff" || userRole === "client" || isDashboardType2;
   };
 
   // Get user info from profile data
-  const userName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
-  const userEmail = profileData?.username || "user@example.com";
-  const userInitials = profileData ? 
-    `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
-    "U";
-  const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
+  const userName = profileData
+    ? `${profileData.first_name} ${profileData.last_name}`
+    : t("userProfileDropdown.defaultUserName");
+  const userEmail =
+    profileData?.username || t("userProfileDropdown.defaultUserEmail");
+  const userInitials = profileData
+    ? `${profileData.first_name?.charAt(0) || ""}${
+        profileData.last_name?.charAt(0) || ""
+      }`
+    : "U";
+  const userProfilePic =
+    profileData?.profilePic ||
+    "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
 
   return (
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className={`p-0 rounded-full  ${className || ''}`}>
+          <Button
+            variant="ghost"
+            className={`p-0 rounded-full  ${className || ""}`}
+          >
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
               <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">
@@ -68,25 +87,41 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg border">
+        <DropdownMenuContent
+          align="end"
+          className="w-56 bg-white shadow-lg border"
+        >
           <div className="px-3 py-2 border-b">
             <p className="font-medium text-gray-900">{userName}</p>
-            <p className="text-sm text-gray-500">{userEmail.length > 20? userEmail.slice(0,19)+'...' : userEmail}</p>
+            <p className="text-sm text-gray-500">
+              {userEmail.length > 20
+                ? userEmail.slice(0, 19) + "..."
+                : userEmail}
+            </p>
           </div>
-          <DropdownMenuItem onClick={handleViewProfile} className="cursor-pointer">
+          <DropdownMenuItem
+            onClick={handleViewProfile}
+            className="cursor-pointer"
+          >
             <User className="w-4 h-4 mr-2" />
-            View Profile
+            {t("userProfileDropdown.viewProfile")}
           </DropdownMenuItem>
           {!shouldHideAccountSettings() && (
-            <DropdownMenuItem onClick={handleAccountSettings} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={handleAccountSettings}
+              className="cursor-pointer"
+            >
               <Settings className="w-4 h-4 mr-2" />
-              Account Settings
+              {t("userProfileDropdown.accountSettings")}
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50" onClick={logout}>
+          <DropdownMenuItem
+            className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+            onClick={logout}
+          >
             <LogOut className="w-4 h-4 mr-2" />
-            Logout
+            {t("userProfileDropdown.logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

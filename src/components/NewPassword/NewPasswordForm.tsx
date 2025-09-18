@@ -11,7 +11,10 @@ import {
   resetPasswordSchema,
   ResetPasswordFormData,
 } from "@/schemas/authSchemas";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const NewPasswordForm = () => {
+  const { t } = useI18nNamespace("NewPassword/newPasswordForm");
   const [passwords, setPasswords] = useState<ResetPasswordFormData>({
     newPassword: "",
     confirmPassword: "",
@@ -57,15 +60,14 @@ export const NewPasswordForm = () => {
 
       if (!response.ok) {
         toast({
-          title: "Reset Failed",
+          title: t("newPasswordForm.toast.resetFailed.title"),
           description:
-            data.message ||
-            "An error occurred while resetting your password. Please try again.",
+            data.message || t("newPasswordForm.toast.resetFailed.description"),
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Password Reset Successful",
+          title: t("newPasswordForm.toast.resetSuccess.title"),
           description: data.message,
         });
         // Navigate to success page
@@ -73,11 +75,11 @@ export const NewPasswordForm = () => {
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("newPasswordForm.toast.error.title"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to update password. Please try again.",
+          t("newPasswordForm.toast.error.description"),
         variant: "destructive",
       });
     } finally {
@@ -110,16 +112,16 @@ export const NewPasswordForm = () => {
       </div>
 
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Set New Password</h2>
-        <p className="mt-2 text-gray-600">
-          Create a strong password for your account
-        </p>
+        <h2 className="text-3xl font-bold text-gray-900">
+          {t("newPasswordForm.title")}
+        </h2>
+        <p className="mt-2 text-gray-600">{t("newPasswordForm.subtitle")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <Label htmlFor="newPassword" className="text-gray-700">
-            New Password
+            {t("newPasswordForm.newPasswordLabel")}
           </Label>
           <div className="relative mt-1">
             <Input
@@ -151,7 +153,7 @@ export const NewPasswordForm = () => {
 
         <div>
           <Label htmlFor="confirmPassword" className="text-gray-700">
-            Confirm Password
+            {t("newPasswordForm.confirmPasswordLabel")}
           </Label>
           <div className="relative mt-1">
             <Input
@@ -189,10 +191,10 @@ export const NewPasswordForm = () => {
           {isLoading ? (
             <span className="flex items-center gap-2">
               <LoaderCircle className="animate-spin" />
-              Updating Password...
+              {t("newPasswordForm.updatingPasswordButton")}
             </span>
           ) : (
-            "Update Password"
+            t("newPasswordForm.updatePasswordButton")
           )}
         </Button>
 
@@ -203,7 +205,7 @@ export const NewPasswordForm = () => {
             onClick={() => navigate("/login")}
             className="text-sm text-blue-600 hover:text-blue-500 font-medium"
           >
-            Back to Login
+            {t("newPasswordForm.backToLogin")}
           </button>
         </div>
       </form>
