@@ -39,12 +39,16 @@ interface CitationAuditModalProps {
   open: boolean;
   onClose: () => void;
   leadId: string;
+  businessName?: string;
+  phone?: string;
 }
 
 export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   open,
   onClose,
   leadId,
+  businessName,
+  phone,
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
   const createCitationReport = useCreateLeadCitationReport();
@@ -53,8 +57,8 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   const form = useForm<CitationAuditFormData>({
     resolver: zodResolver(citationAuditSchema),
     defaultValues: {
-      businessName: "",
-      phone: "",
+      businessName: businessName || "",
+      phone: phone || "",
       keyword: "",
       city: "",
     },
