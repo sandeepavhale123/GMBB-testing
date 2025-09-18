@@ -126,12 +126,12 @@ export const GmbHealthReport: React.FC = () => {
   }));
   // Transform competitors from API data
   const competitors = (reportData.top20Competitors?.competitors || []).slice(0, 10).map(competitor => ({
-    rank: competitor.position,
-    businessName: competitor.name,
-    rating: competitor.averageRating,
-    reviewCount: competitor.reviewCount,
-    category: competitor.category,
-    distance: competitor.isYourBusiness ? "0.0 mi" : `${(competitor.position * 0.2).toFixed(1)} mi`
+    rank: competitor?.position || 0,
+    businessName: competitor?.name || '',
+    rating: competitor?.averageRating || 0,
+    reviewCount: competitor?.reviewCount || 0,
+    category: competitor?.category || '',
+    distance: competitor?.isYourBusiness ? "0.0 mi" : `${((competitor?.position || 0) * 0.2).toFixed(1)} mi`
   }));
   // Transform business hours from API data
   const businessHours = (reportData.communication?.businessHours?.per_day || []).map(day => ({
@@ -179,13 +179,13 @@ export const GmbHealthReport: React.FC = () => {
 
   // Transform comparison data
   const comparisonData = (reportData.comparison || []).map(business => ({
-    name: business.name,
-    category: business.category,
-    additionalCategory: business.additionalCategory,
-    website: business.website,
-    reviewCount: business.reviewCount,
-    rating: business.rating,
-    keywordInName: business.keywordInName
+    name: business?.name || '',
+    category: business?.category || '',
+    additionalCategory: business?.additionalCategory || '',
+    website: business?.website || '',
+    reviewCount: business?.reviewCount || 0,
+    rating: business?.rating || 0,
+    keywordInName: business?.keywordInName || ''
   }));
   return <PublicReportLayout 
     title={transformedReportData.title} 
@@ -387,16 +387,16 @@ export const GmbHealthReport: React.FC = () => {
             </p>
             
             <div className="space-y-6">
-              {(reportData.categories?.topCategory || []).slice(0, 3).map(categoryGroup => <div key={categoryGroup.rank} className="flex items-start gap-4">
+              {(reportData.categories?.topCategory || []).slice(0, 3).map(categoryGroup => <div key={categoryGroup?.rank || Math.random()} className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
-                    {categoryGroup.rank}
+                    {categoryGroup?.rank || 0}
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                      {categoryGroup.categories[0].category}
+                      {categoryGroup?.categories?.[0]?.category || 'Unknown Category'}
                     </h3>
                     <p className="text-gray-600">
-                      {categoryGroup.categories[0].count} of competitors are utilizing this category.
+                      {categoryGroup?.categories?.[0]?.count || 0} of competitors are utilizing this category.
                     </p>
                   </div>
                 </div>)}
@@ -412,8 +412,8 @@ export const GmbHealthReport: React.FC = () => {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {(reportData.categories?.all || []).slice(0, 10).map((category, index) => <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
-                  <div className="text-sm font-medium text-gray-900">{category.category}</div>
-                  <div className="text-xs text-gray-600">{category.count} businesses</div>
+                  <div className="text-sm font-medium text-gray-900">{category?.category || 'Unknown Category'}</div>
+                  <div className="text-xs text-gray-600">{category?.count || 0} businesses</div>
                 </div>)}
             </div>
           </CardContent>
