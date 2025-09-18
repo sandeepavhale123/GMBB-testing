@@ -34,7 +34,7 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
   compareDate,
   brandingData,
   reportId,
-  reportType = 'gmb-health',
+  reportType,
 }) => {
   return (
     <div className="min-h-screen bg-white flex flex-col">

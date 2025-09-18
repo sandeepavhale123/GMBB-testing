@@ -117,6 +117,7 @@ export const CitationAuditReport: React.FC = () => {
       logo={reportData.logo}
       date={reportData.date}
       brandingData={brandingData}
+      reportType="citation"
     >
       <div className="space-y-6">
         {/* Metrics Cards */}
