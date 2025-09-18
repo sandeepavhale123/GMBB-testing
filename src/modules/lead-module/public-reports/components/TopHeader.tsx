@@ -18,7 +18,7 @@ interface TopHeaderProps {
 const navigationItems = [
   { id: 'overall-section', label: 'Overall' },
   { id: 'presence-section', label: 'Presence' },
-  { id: 'post-section', label: 'Post' },
+  { id: 'post-section', label: 'Posts' },
   { id: 'competitors-section', label: 'Competitors' },
   { id: 'reviews-section', label: 'Reviews' }
 ];
