@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -63,6 +63,14 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       city: "",
     },
   });
+
+  // Update form values when props change
+  useEffect(() => {
+    if (businessName || phone) {
+      form.setValue("businessName", businessName || "");
+      form.setValue("phone", phone || "");
+    }
+  }, [businessName, phone, form]);
 
   const handleCitySelect = (selectedCityData: CityData) => {
     setCityData(selectedCityData);
