@@ -333,7 +333,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
                   <MapPin className="h-4 w-4" />
                   <span>Latitude, Longitude or City (Optional)</span>
                 </Label>
-                <Textarea
+                <Input
                   id="location"
                   placeholder="Enter location lat , long or city"
                   value={formData.location}
