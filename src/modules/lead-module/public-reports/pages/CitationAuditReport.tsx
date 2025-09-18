@@ -300,7 +300,13 @@ export const CitationAuditReport: React.FC = () => {
                               {citation.siteName}
                             </div>
                           </TableCell>
-                          <TableCell>{citation.businessName}</TableCell>
+                          <TableCell>
+                            {citation.businessName?.includes('Not Matching') ? (
+                              <span className="text-red-600 font-medium">Not Matching</span>
+                            ) : (
+                              citation.businessName
+                            )}
+                          </TableCell>
                           <TableCell>
                             {citation.phone?.includes('Not Matching') ? (
                               <span className="text-red-600 font-medium">Not Matching</span>
@@ -349,7 +355,13 @@ export const CitationAuditReport: React.FC = () => {
                               {citation.siteName}
                             </div>
                           </TableCell>
-                          <TableCell>{citation.businessName}</TableCell>
+                          <TableCell>
+                            {citation.businessName?.includes('Not Matching') ? (
+                              <span className="text-red-600 font-medium">Not Matching</span>
+                            ) : (
+                              citation.businessName
+                            )}
+                          </TableCell>
                           <TableCell>
                             {citation.phone?.includes('Not Matching') ? (
                               <span className="text-red-600 font-medium">Not Matching</span>
