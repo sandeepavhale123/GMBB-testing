@@ -100,10 +100,10 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
           <Tags className="mr-2 h-4 w-4" />
           Lead Classifier
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleAction('send-email')}>
+        {/* <DropdownMenuItem onClick={() => handleAction('send-email')}>
           <Mail className="mr-2 h-4 w-4" />
           Send Email
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem 
           onClick={() => handleAction('delete')}
