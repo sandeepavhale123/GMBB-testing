@@ -1,0 +1,26 @@
+{
+  "reportsTable": {
+    "loading": "Loading reports...",
+    "error": "Failed to load reports. Please try again later.",
+    "noReports": {
+      "title": "No reports found",
+      "description": "Create your first report to get started"
+    },
+    "tableHeaders": {
+      "reportName": "Report Name",
+      "reports": "Reports",
+      "reportType": "Report Type",
+      "reportDate": "Report Date",
+      "action": "Action"
+    },
+    "reportTypes": {
+      "compare": "Comparision",
+      "individual": "Individual"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{current}} of {{total}}"
+    }
+  }
+}

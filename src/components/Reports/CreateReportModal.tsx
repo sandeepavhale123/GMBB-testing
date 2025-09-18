@@ -16,6 +16,7 @@ import { REPORT_SECTIONS, ReportSectionId } from "@/types/reportTypes";
 import { DateRange } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CreateReportModalProps {
   open: boolean;
@@ -26,6 +27,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   open,
   onOpenChange,
 }) => {
+  const { t } = useI18nNamespace("Reports/createReportModal");
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();
   const navigate = useNavigate();
@@ -207,19 +209,19 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[88vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Performance Report</DialogTitle>
+          <DialogTitle>{t("createReportModal.title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Report Name Field */}
           <div className="space-y-2">
             <Label htmlFor="reportName" className="text-sm font-medium">
-              Report Name
+              {t("createReportModal.fields.reportName.label")}
             </Label>
             <Input
               id="reportName"
               type="text"
-              placeholder="Enter report name"
+              placeholder={t("createReportModal.fields.reportName.placeholder")}
               value={reportName}
               onChange={(e) => setReportName(e.target.value)}
             />
@@ -227,7 +229,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
 
           {/* Report Type Toggle */}
           <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium">Report Type</Label>
+            <Label className="text-sm font-medium">
+              {t("createReportModal.fields.reportType.label")}
+            </Label>
             <div className="flex items-center space-x-2">
               <Switch
                 checked={reportType === "Compare"}
@@ -237,8 +241,8 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
               />
               <Label>
                 {reportType === "Individual"
-                  ? "Comparision Report"
-                  : "Comparision Report"}
+                  ? t("createReportModal.fields.reportType.compareLabel")
+                  : t("createReportModal.fields.reportType.compareLabel")}
               </Label>
             </div>
           </div>
@@ -248,7 +252,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
             {reportType === "Individual" ? (
               <div>
                 <Label className="text-sm font-medium mb-2 block">
-                  Date Range
+                  {t("createReportModal.fields.dateRange.label")}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -270,7 +274,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                           format(individualDate.from, "LLL dd, y")
                         )
                       ) : (
-                        <span>Select date range</span>
+                        <span>
+                          {t("createReportModal.fields.dateRange.select")}
+                        </span>
                       )}
                     </Button>
                   </PopoverTrigger>
@@ -291,7 +297,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium mb-2 block">
-                    Period 1 (Current)
+                    {t("createReportModal.fields.dateRange.period1.label")}
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -313,7 +319,11 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                             format(period1Date.from, "LLL dd, y")
                           )
                         ) : (
-                          <span>Select first period</span>
+                          <span>
+                            {t(
+                              "createReportModal.fields.dateRange.period1.select"
+                            )}
+                          </span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -332,7 +342,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                 </div>
                 <div>
                   <Label className="text-sm font-medium mb-2 block">
-                    Period 2 (Previous)
+                    {t("createReportModal.fields.dateRange.period2.label")}
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -354,7 +364,11 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                             format(period2Date.from, "LLL dd, y")
                           )
                         ) : (
-                          <span>Select second period</span>
+                          <span>
+                            {t(
+                              "createReportModal.fields.dateRange.period2.select"
+                            )}
+                          </span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -378,13 +392,15 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
           {/* Section Toggle */}
           <div className="flex items-center space-x-2">
             <Switch checked={showSections} onCheckedChange={setShowSections} />
-            <Label>Toggle to show or hide sections of the report</Label>
+            <Label>{t("createReportModal.fields.sectionsToggle.label")}</Label>
           </div>
 
           {/* Report Sections */}
           {showSections && (
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Report Sections</Label>
+              <Label className="text-sm font-medium">
+                {t("createReportModal.fields.sections.label")}
+              </Label>
               <div className="grid grid-cols-1 gap-3">
                 {REPORT_SECTIONS.map((section) => {
                   const isDisabled =
@@ -428,7 +444,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                           className="text-xs h-7"
                         >
                           <ExternalLink className="w-3 h-3 mr-1" />
-                          Generate Report
+                          {t(
+                            "createReportModal.fields.sections.generateReport"
+                          )}
                         </Button>
                       )}
                     </div>
@@ -441,7 +459,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4">
             <Button variant="outline" onClick={handleClose}>
-              Close
+              {t("createReportModal.buttons.close")}
             </Button>
             <Button
               onClick={handleGenerate}
@@ -452,7 +470,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                 selectedSections.length === 0
               }
             >
-              {isPending ? "Generating..." : "Generate"}
+              {isPending
+                ? t("createReportModal.buttons.generating")
+                : t("createReportModal.buttons.generate")}
             </Button>
           </div>
         </div>

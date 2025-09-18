@@ -1,0 +1,7 @@
+{
+  "reportsEmptyState": {
+    "title": "Reports Not Generated Yet",
+    "description": "Your reports are being generated. This may take a few minutes. Please try again later.",
+    "tryAgainButton": "Try Again"
+  }
+}

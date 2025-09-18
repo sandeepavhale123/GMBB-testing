@@ -16,12 +16,15 @@ import { Report, DateRange, CompareDateRange } from "@/types/reportTypes";
 import { useNavigate } from "react-router-dom";
 import { useAllReports } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { current } from "@reduxjs/toolkit";
 
 interface ReportsTableProps {
   listingId: string;
 }
 
 export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
+  const { t } = useI18nNamespace("Reports/reportsTable");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, isError } = useAllReports(
@@ -37,7 +40,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
     return (
       <div className="text-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-500">Loading reports...</p>
+        <p className="mt-4 text-gray-500">{t("reportsTable.loading")}</p>
       </div>
     );
   }
@@ -45,7 +48,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   if (isError || !data?.data) {
     return (
       <div className="text-center py-10 text-destructive">
-        Failed to load reports. Please try again later.
+        {t("reportsTable.error")}
       </div>
     );
   }
@@ -129,9 +132,11 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
     return (
       <Card>
         <CardContent className="p-12 text-center">
-          <p className="text-muted-foreground mb-4">No reports found</p>
+          <p className="text-muted-foreground mb-4">
+            {t("reportsTable.noReports.title")}
+          </p>
           <p className="text-sm text-muted-foreground">
-            Create your first report to get started
+            {t("reportsTable.noReports.description")}
           </p>
         </CardContent>
       </Card>
@@ -146,25 +151,28 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
             <TableHeader>
               <TableRow className="bg-gray-50">
                 <TableHead className="font-semibold text-gray-900">
-                  Report Name
+                  {t("reportsTable.tableHeaders.reportName")}
                 </TableHead>
                 <TableHead className="font-semibold text-gray-900">
-                  Reports
+                  {t("reportsTable.tableHeaders.reports")}
                 </TableHead>
                 <TableHead className="font-semibold text-gray-900">
-                  Report Type
+                  {t("reportsTable.tableHeaders.reportType")}
                 </TableHead>
                 <TableHead className="font-semibold text-gray-900">
-                  Report Date
+                  {t("reportsTable.tableHeaders.reportDate")}
                 </TableHead>
                 <TableHead className="text-right font-semibold text-gray-900">
-                  Action
+                  {t("reportsTable.tableHeaders.action")}
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {reports.map((report) => (
-                <TableRow key={report.report_id || report.id} className="hover:bg-gray-50">
+                <TableRow
+                  key={report.report_id || report.id}
+                  className="hover:bg-gray-50"
+                >
                   <TableCell>
                     <div className="font-medium text-gray-900">
                       {report.title || report.name}
@@ -193,7 +201,10 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                   </TableCell>
                   <TableCell className="min-w-[200px]">
                     <div className="text-gray-600">
-                      {formatDateRange(report.date_range || report.dateRange, report.type)}
+                      {formatDateRange(
+                        report.date_range || report.dateRange,
+                        report.type
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
@@ -225,13 +236,18 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
             variant="outline"
             size="sm"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={!(pagination.has_prev ?? (pagination.page > 1))}
+            disabled={!(pagination.has_prev ?? pagination.page > 1)}
           >
-            Previous
+            {t("reportsTable.pagination.previous")}
           </Button>
 
           <span className="text-sm text-gray-600">
-            Page {pagination.page} of {pagination.total_pages || pagination.totalPages}
+            {t("reportsTable.pagination.page", {
+              current: pagination.page,
+              total: pagination.total_pages || pagination.totalPages,
+            })}
+            {/* Page {pagination.page} of{" "}
+            {pagination.total_pages || pagination.totalPages} */}
           </span>
 
           <Button
@@ -239,12 +255,21 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
             size="sm"
             onClick={() =>
               setCurrentPage((prev) =>
-                Math.min(prev + 1, pagination.total_pages || pagination.totalPages || 1)
+                Math.min(
+                  prev + 1,
+                  pagination.total_pages || pagination.totalPages || 1
+                )
               )
             }
-            disabled={!(pagination.has_next ?? (pagination.page < (pagination.total_pages || pagination.totalPages || 1)))}
+            disabled={
+              !(
+                pagination.has_next ??
+                pagination.page <
+                  (pagination.total_pages || pagination.totalPages || 1)
+              )
+            }
           >
-            Next
+            {t("reportsTable.pagination.next")}
           </Button>
         </div>
       )}

@@ -29,6 +29,7 @@ import {
 } from "../ui/alert-dialog";
 import { useChat } from "../../hooks/useChat";
 import { ChatMessageRenderer } from "./ChatMessageRenderer";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface AIChatbotContentProps {
   keyword?: string;
   keywordId?: string;
@@ -39,6 +40,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
   keywordId,
   projectId,
 }) => {
+  const { t } = useI18nNamespace("AIChatbot/aiChatbotContent");
   const [showHistory, setShowHistory] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
@@ -114,14 +116,16 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
         <div className="h-full flex flex-col">
           <div className="p-4 border-b">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-gray-900">Chat History</h3>
+              <h3 className="font-semibold text-gray-900">
+                {t("aiChatbotContent.sidebar.title")}
+              </h3>
               <div className="flex items-center gap-1">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={startNewChat}
                   className="h-8 w-8 p-0"
-                  title="New Chat"
+                  title={t("aiChatbotContent.sidebar.newChat")}
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
@@ -142,12 +146,16 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
               {isLoadingHistory ? (
                 <div className="text-center py-8 text-gray-500">
                   <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
-                  <p className="text-sm">Loading chat history...</p>
+                  <p className="text-sm">
+                    {t("aiChatbotContent.sidebar.loadingHistory")}
+                  </p>
                 </div>
               ) : chatHistory.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No chat history yet</p>
+                  <p className="text-sm">
+                    {t("aiChatbotContent.sidebar.noHistory")}
+                  </p>
                 </div>
               ) : (
                 chatHistory.map((chat) => (
@@ -212,7 +220,11 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
               size="sm"
               onClick={toggleSidebar}
               className="h-8 w-8 p-0 mr-1 sm:mr-2"
-              title={showHistory ? "Hide History" : "Show History"}
+              title={
+                showHistory
+                  ? t("aiChatbotContent.sidebar.hideHistory")
+                  : t("aiChatbotContent.sidebar.showHistory")
+              }
             >
               <Menu className="h-4 w-4" />
             </Button>
@@ -231,7 +243,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg sm:text-xl lg:text-1xl font-bold text-gray-900 truncate">
-                AI Genie Assistance
+                {t("aiChatbotContent.mainChat.title")}
               </h1>
             </div>
             {keyword && (
@@ -247,7 +259,9 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
           {keyword && (
             <div className="sm:hidden mt-2 flex items-center gap-2 bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium w-fit">
               <Tag className="h-3 w-3" />
-              <span className="truncate max-w-32">{decodeURIComponent(keyword)}</span>
+              <span className="truncate max-w-32">
+                {decodeURIComponent(keyword)}
+              </span>
             </div>
           )}
         </div>
@@ -260,19 +274,17 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center">
                   <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 animate-spin text-blue-500" />
                   <p className="text-xs sm:text-sm text-gray-600">
-                    Loading chat messages...
+                    {t("aiChatbotContent.mainChat.loadingMessages")}
                   </p>
                 </div>
               ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center px-4">
                   <Bot className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mb-3 sm:mb-4" />
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                    Welcome to AI Genie Assistance
+                    {t("aiChatbotContent.mainChat.welcomeTitle")}
                   </h2>
                   <p className="text-sm sm:text-base text-gray-600 mb-6 max-w-sm sm:max-w-md">
-                    Ask me questions about your business performance, SEO
-                    optimization, geo-ranking insights, and more. Try the
-                    suggested questions to get started!
+                    {t("aiChatbotContent.mainChat.welcomeDescription")}
                   </p>
                 </div>
               ) : (
@@ -303,7 +315,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                         {message.isLoading ? (
                           <div className="flex items-center gap-2 text-xs sm:text-sm">
                             <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
-                            AI is thinking...
+                            {t("aiChatbotContent.mainChat.aiThinking")}
                           </div>
                         ) : (
                           <ChatMessageRenderer
@@ -325,7 +337,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                               className="h-8 px-2 text-xs hover:bg-accent"
                             >
                               <Copy className="w-3 h-3 mr-1" />
-                              Copy
+                              {t("aiChatbotContent.actions.copy")}
                             </Button>
                             <Button
                               variant="ghost"
@@ -339,7 +351,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                               }`}
                             >
                               <ThumbsUp className="w-3 h-3 mr-1" />
-                              Good
+                              {t("aiChatbotContent.actions.good")}
                             </Button>
                             <Button
                               variant="ghost"
@@ -353,7 +365,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                               }`}
                             >
                               <ThumbsDown className="w-3 h-3 mr-1" />
-                              Bad
+                              {t("aiChatbotContent.actions.bad")}
                             </Button>
                           </div>
                         )}
@@ -386,14 +398,17 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Chat Session</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("aiChatbotContent.deleteDialog.title")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this chat session? This action
-              cannot be undone.
+              {t("aiChatbotContent.deleteDialog.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("aiChatbotContent.deleteDialog.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -402,10 +417,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
               {isDeleting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Deleting...
+                  {t("aiChatbotContent.deleteDialog.deleting")}
                 </>
               ) : (
-                "Delete"
+                t("aiChatbotContent.deleteDialog.delete")
               )}
             </AlertDialogAction>
           </AlertDialogFooter>
