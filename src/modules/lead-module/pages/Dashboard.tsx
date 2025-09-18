@@ -133,9 +133,7 @@ const Dashboard: React.FC = () => {
       }
     }
     if (action === 'generate-citation') {
-      const lead = leads.find(l => l.id === leadId);
       setSelectedLeadId(leadId);
-      setSelectedLead(lead || null);
       setCitationModalOpen(true);
     }
     if (action === 'lead-classifier') {
@@ -184,7 +182,6 @@ const Dashboard: React.FC = () => {
   const handleCitationModalClose = () => {
     setCitationModalOpen(false);
     setSelectedLeadId("");
-    setSelectedLead(null);
     // Optionally refetch leads to update citation report status
     refetch();
   };
@@ -379,13 +376,7 @@ const Dashboard: React.FC = () => {
       </Card>
 
       {/* Citation Audit Modal */}
-      <CitationAuditModal 
-        open={citationModalOpen} 
-        onClose={handleCitationModalClose} 
-        leadId={selectedLeadId}
-        businessName={selectedLead?.businessName}
-        phone={selectedLead?.phone}
-      />
+      <CitationAuditModal open={citationModalOpen} onClose={handleCitationModalClose} leadId={selectedLeadId} />
 
       {/* GEO Ranking Modal */}
       <GeoRankingModal open={geoModalOpen} onClose={handleGeoModalClose} leadId={selectedLeadId} />
