@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { LeadGooglePlacesInput } from "./LeadGooglePlacesInput";
-import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2 } from "lucide-react";
+import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2, X } from "lucide-react";
 import { addLead, AddLeadRequest } from "@/api/leadApi";
 import { useToast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
@@ -241,7 +241,17 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
           onInteractOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
         >
         <DialogHeader>
-          <DialogTitle>Add New Lead</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Add New Lead</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setOpen(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Input Method Selection */}
