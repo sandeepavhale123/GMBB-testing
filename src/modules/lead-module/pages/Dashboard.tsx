@@ -3,36 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  LayoutDashboard,
-  Users,
-  Database,
-  Mail,
-  TrendingUp,
-  ArrowUpRight,
-  Plus,
-  UserCheck,
-  CreditCard
-} from "lucide-react";
+import { LayoutDashboard, Users, Database, Mail, TrendingUp, ArrowUpRight, Plus, UserCheck, CreditCard } from "lucide-react";
 import { AddLeadModal } from "../components/AddLeadModal";
 import { LeadTableFilters } from "../components/LeadTableFilters";
 import { LeadsTable, Lead } from "../components/LeadsTable";
 import { CitationAuditModal } from "../components/CitationAuditModal";
 import { GeoRankingModal } from "../components/GeoRankingModal";
 import { LeadClassifierModal } from "../components/LeadClassifierModal";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport } from "@/api/leadApi";
 import { toast } from "sonner";
-
 const ITEMS_PER_PAGE = 10;
 
 // Transform API lead to UI lead
@@ -49,27 +30,26 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
   reports: {
     gmbReport: {
       status: (apiLead.reports?.gmbReport?.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports?.gmbReport?.viewUrl ?? null,
+      viewUrl: apiLead.reports?.gmbReport?.viewUrl ?? null
     },
     onPage: {
       status: (apiLead.reports?.onPage?.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports?.onPage?.viewUrl ?? null,
+      viewUrl: apiLead.reports?.onPage?.viewUrl ?? null
     },
     citation: {
       status: (apiLead.reports?.citation?.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports?.citation?.viewUrl ?? null,
+      viewUrl: apiLead.reports?.citation?.viewUrl ?? null
     },
     prospect: {
       status: (apiLead.reports?.prospect?.status === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: apiLead.reports?.prospect?.viewUrl ?? null,
+      viewUrl: apiLead.reports?.prospect?.viewUrl ?? null
     },
     geo: {
-      status: (((apiLead as any)?.reports?.geo?.status) === 1 ? 1 : 0) as 0 | 1,
-      viewUrl: ((apiLead as any)?.reports?.geo?.viewUrl) ?? null,
+      status: ((apiLead as any)?.reports?.geo?.status === 1 ? 1 : 0) as 0 | 1,
+      viewUrl: (apiLead as any)?.reports?.geo?.viewUrl ?? null
     }
-  },
+  }
 });
-
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
@@ -82,7 +62,6 @@ const Dashboard: React.FC = () => {
   const [leadClassifierModalOpen, setLeadClassifierModalOpen] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string>("");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
@@ -105,64 +84,51 @@ const Dashboard: React.FC = () => {
     data: summaryResponse,
     isLoading: isSummaryLoading
   } = useLeadSummary();
-
   const leads = leadsResponse?.data.leads.map(transformApiLead) || [];
-  const totalPages = leadsResponse?.data.pagination ?
-    Math.ceil(leadsResponse.data.pagination.total / ITEMS_PER_PAGE) : 0;
+  const totalPages = leadsResponse?.data.pagination ? Math.ceil(leadsResponse.data.pagination.total / ITEMS_PER_PAGE) : 0;
   const totalLeads = leadsResponse?.data.pagination?.total || 0;
 
   // Show error toast
   if (error) {
     toast.error("Failed to fetch leads. Please try again.");
   }
-
   const handleAddLead = () => {
     // Refetch leads after adding a new lead
     refetch();
   };
-
   const handleSelectLead = (leadId: string, checked: boolean) => {
-    setSelectedLeads(prev =>
-      checked ? [...prev, leadId] : prev.filter(id => id !== leadId)
-    );
+    setSelectedLeads(prev => checked ? [...prev, leadId] : prev.filter(id => id !== leadId));
   };
-
   const handleSelectAll = (checked: boolean) => {
     setSelectedLeads(checked ? leads.map(lead => lead.id) : []);
   };
-
   const handleAction = (action: string, leadId: string) => {
     console.log(`Action: ${action} for lead: ${leadId}`);
-
     if (action === 'generate-gmb-health') {
       // Find the lead to get its reportId
       const lead = leads.find(l => l.id === leadId);
       if (lead?.reportId) {
-        createGmbHealthReport.mutate(
-          { reportId: lead.reportId },
-          {
-            onSuccess: (data) => {
-              navigate(`/lead/gbp/${data.data.reportId}`);
-            }
+        createGmbHealthReport.mutate({
+          reportId: lead.reportId
+        }, {
+          onSuccess: data => {
+            navigate(`/lead/gbp/${data.data.reportId}`);
           }
-        );
+        });
       } else {
         toast.error('Report ID not found for this lead');
       }
     }
-
     if (action === 'generate-citation') {
       setSelectedLeadId(leadId);
       setCitationModalOpen(true);
     }
-
     if (action === 'lead-classifier') {
       const lead = leads.find(l => l.id === leadId);
       setSelectedLeadId(leadId);
       setSelectedLead(lead || null);
       setLeadClassifierModalOpen(true);
     }
-
     if (action === 'generate-geo') {
       // Find the lead to get its reportId
       const lead = leads.find(l => l.id === leadId);
@@ -173,20 +139,18 @@ const Dashboard: React.FC = () => {
         toast.error('Report ID not found for this lead');
       }
     }
-
     if (action === 'generate-prospect') {
       // Find the lead to get its reportId
       const lead = leads?.find(l => l.id === leadId);
       if (lead?.reportId) {
         // Create prospect report for the lead
-        createGmbProspectReport.mutate(
-          { reportId: lead.reportId },
-          {
-            onSuccess: (data) => {
-              navigate(`/lead/prospect/${data.data.reportId}`);
-            }
+        createGmbProspectReport.mutate({
+          reportId: lead.reportId
+        }, {
+          onSuccess: data => {
+            navigate(`/lead/prospect/${data.data.reportId}`);
           }
-        );
+        });
       } else {
         toast.error('No report ID found for this lead');
       }
@@ -194,21 +158,18 @@ const Dashboard: React.FC = () => {
 
     // Handle other actions here
   };
-
   const handleCitationModalClose = () => {
     setCitationModalOpen(false);
     setSelectedLeadId("");
     // Optionally refetch leads to update citation report status
     refetch();
   };
-
   const handleGeoModalClose = () => {
     setGeoModalOpen(false);
     setSelectedLeadId("");
     // Optionally refetch leads to update geo report status
     refetch();
   };
-
   const handleLeadClassifierModalClose = () => {
     setLeadClassifierModalOpen(false);
     setSelectedLeadId("");
@@ -216,20 +177,16 @@ const Dashboard: React.FC = () => {
     // Optionally refetch leads to update lead classification
     refetch();
   };
-
   const handleClearFilters = () => {
     setSearchQuery("");
     setEmailFilter("");
     setCategoryFilter("all");
     setCurrentPage(1);
   };
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -241,7 +198,7 @@ const Dashboard: React.FC = () => {
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
               <h3 className="text-sm font-medium text-gray-600">
@@ -251,15 +208,13 @@ const Dashboard: React.FC = () => {
                 {isSummaryLoading ? "-" : summaryResponse?.data.convertedLeads || 0}
               </div>
             </div>
-            <div
-              className={`bg-blue-500 rounded-lg p-3 flex items-center justify-center ml-4`}
-            >
+            <div className={`bg-blue-500 rounded-lg p-3 flex items-center justify-center ml-4`}>
               <UserCheck className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
               <h3 className="text-sm font-medium text-gray-600">
@@ -269,14 +224,12 @@ const Dashboard: React.FC = () => {
                 {isSummaryLoading ? "-" : summaryResponse?.data.totalLeads || 0}
               </div>
             </div>
-            <div
-              className={`bg-green-500 rounded-lg p-3 flex items-center justify-center ml-4`}
-            >
+            <div className={`bg-green-500 rounded-lg p-3 flex items-center justify-center ml-4`}>
               <Users className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
-        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
               <h3 className="text-sm font-medium text-gray-600">
@@ -286,14 +239,12 @@ const Dashboard: React.FC = () => {
                 {isSummaryLoading ? "-" : summaryResponse?.data.credits.remaining.toLocaleString() || 0}
               </div>
             </div>
-            <div
-              className={`bg-orange-500 rounded-lg p-3 flex items-center justify-center ml-4`}
-            >
+            <div className={`bg-orange-500 rounded-lg p-3 flex items-center justify-center ml-4`}>
               <CreditCard className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
-        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
               <h3 className="text-sm font-medium text-gray-600">
@@ -303,9 +254,7 @@ const Dashboard: React.FC = () => {
                 {isSummaryLoading ? "-" : summaryResponse?.data.totalEmailTemplates || 0}
               </div>
             </div>
-            <div
-              className={`bg-purple-500 rounded-lg p-3 flex items-center justify-center ml-4`}
-            >
+            <div className={`bg-purple-500 rounded-lg p-3 flex items-center justify-center ml-4`}>
               <Mail className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -321,140 +270,83 @@ const Dashboard: React.FC = () => {
                 Manage your lead database and track interactions
               </CardDescription>
             </div>
-            {selectedLeads.length > 0 && (
-              <Badge variant="secondary">
+            {selectedLeads.length > 0 && <Badge variant="secondary">
                 {selectedLeads.length} selected
-              </Badge>
-            )}
+              </Badge>}
           </div>
         </CardHeader>
         <CardContent>
-          <LeadTableFilters
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            emailFilter={emailFilter}
-            onEmailFilterChange={setEmailFilter}
-            categoryFilter={categoryFilter}
-            onCategoryFilterChange={setCategoryFilter}
-            onClearFilters={handleClearFilters}
-          />
+          <LeadTableFilters searchQuery={searchQuery} onSearchChange={setSearchQuery} emailFilter={emailFilter} onEmailFilterChange={setEmailFilter} categoryFilter={categoryFilter} onCategoryFilterChange={setCategoryFilter} onClearFilters={handleClearFilters} />
 
-          <LeadsTable
-            leads={leads}
-            selectedLeads={selectedLeads}
-            onSelectLead={handleSelectLead}
-            onSelectAll={handleSelectAll}
-            onAction={handleAction}
-            isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending}
-          />
+          <LeadsTable leads={leads} selectedLeads={selectedLeads} onSelectLead={handleSelectLead} onSelectAll={handleSelectAll} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending} />
 
-          {totalPages > 1 && (
-            <div className="mt-6 flex justify-between items-center">
+          {totalPages > 1 && <div className="mt-6 flex justify-between items-center">
               <div className="text-sm text-muted-foreground">
                 Showing page {currentPage} of {totalPages} ({leads?.length || 0} leads)
               </div>
               <Pagination>
-                <PaginationContent>
+                <PaginationContent className="ml-auto ">
                   <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"}
-                    />
+                    <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"} />
                   </PaginationItem>
 
                   {/* Show first page if not in first few pages */}
-                  {currentPage > 3 && (
-                    <>
+                  {currentPage > 3 && <>
                       <PaginationItem>
-                        <PaginationLink
-                          onClick={() => handlePageChange(1)}
-                          className="cursor-pointer hover:bg-accent"
-                        >
+                        <PaginationLink onClick={() => handlePageChange(1)} className="cursor-pointer hover:bg-accent">
                           1
                         </PaginationLink>
                       </PaginationItem>
-                      {currentPage > 4 && (
-                        <PaginationItem>
+                      {currentPage > 4 && <PaginationItem>
                           <PaginationEllipsis />
-                        </PaginationItem>
-                      )}
-                    </>
-                  )}
+                        </PaginationItem>}
+                    </>}
 
                   {/* Show pages around current page */}
-                  {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                    const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
-                    const page = startPage + i;
-                    if (page <= totalPages) {
-                      return (
-                        <PaginationItem key={page}>
-                          <PaginationLink
-                            onClick={() => handlePageChange(page)}
-                            isActive={currentPage === page}
-                            className="cursor-pointer hover:bg-accent"
-                          >
+                  {Array.from({
+                length: Math.min(3, totalPages)
+              }, (_, i) => {
+                const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+                const page = startPage + i;
+                if (page <= totalPages) {
+                  return <PaginationItem key={page}>
+                          <PaginationLink onClick={() => handlePageChange(page)} isActive={currentPage === page} className="cursor-pointer hover:bg-accent">
                             {page}
                           </PaginationLink>
-                        </PaginationItem>
-                      );
-                    }
-                    return null;
-                  })}
+                        </PaginationItem>;
+                }
+                return null;
+              })}
 
                   {/* Show last page if not in last few pages */}
-                  {currentPage < totalPages - 2 && (
-                    <>
-                      {currentPage < totalPages - 3 && (
-                        <PaginationItem>
+                  {currentPage < totalPages - 2 && <>
+                      {currentPage < totalPages - 3 && <PaginationItem>
                           <PaginationEllipsis />
-                        </PaginationItem>
-                      )}
+                        </PaginationItem>}
                       <PaginationItem>
-                        <PaginationLink
-                          onClick={() => handlePageChange(totalPages)}
-                          className="cursor-pointer hover:bg-accent"
-                        >
+                        <PaginationLink onClick={() => handlePageChange(totalPages)} className="cursor-pointer hover:bg-accent">
                           {totalPages}
                         </PaginationLink>
                       </PaginationItem>
-                    </>
-                  )}
+                    </>}
 
                   <PaginationItem>
-                    <PaginationNext
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"}
-                    />
+                    <PaginationNext onClick={() => handlePageChange(currentPage + 1)} className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"} />
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
-            </div>
-          )}
+            </div>}
         </CardContent>
       </Card>
 
       {/* Citation Audit Modal */}
-      <CitationAuditModal
-        open={citationModalOpen}
-        onClose={handleCitationModalClose}
-        leadId={selectedLeadId}
-      />
+      <CitationAuditModal open={citationModalOpen} onClose={handleCitationModalClose} leadId={selectedLeadId} />
 
       {/* GEO Ranking Modal */}
-      <GeoRankingModal
-        open={geoModalOpen}
-        onClose={handleGeoModalClose}
-        leadId={selectedLeadId}
-      />
+      <GeoRankingModal open={geoModalOpen} onClose={handleGeoModalClose} leadId={selectedLeadId} />
 
       {/* Lead Classifier Modal */}
-      <LeadClassifierModal
-        open={leadClassifierModalOpen}
-        onClose={handleLeadClassifierModalClose}
-        lead={selectedLead}
-      />
-    </div>
-  );
+      <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
+    </div>;
 };
-
 export default Dashboard;
