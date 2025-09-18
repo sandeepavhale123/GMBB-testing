@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 
 interface PlaceGeometry {
@@ -45,6 +45,8 @@ export const CityPlacesInput = React.forwardRef<
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
   const lastSelectedValue = useRef<string>("");
+  const [inputValue, setInputValue] = useState(defaultValue || "");
+  const isAutocompleteSelection = useRef(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.google && window.google.maps) {
@@ -65,6 +67,10 @@ export const CityPlacesInput = React.forwardRef<
           if (place && place.formatted_address && place.geometry) {
             const formattedAddress = place.formatted_address;
             lastSelectedValue.current = formattedAddress;
+            isAutocompleteSelection.current = true;
+            
+            // Update internal state
+            setInputValue(formattedAddress);
             
             // Get coordinates
             const lat = place.geometry.location.lat().toString();
@@ -91,6 +97,19 @@ export const CityPlacesInput = React.forwardRef<
             if (onPlaceSelect) {
               onPlaceSelect(cityData);
             }
+            
+            // Create synthetic event for onChange
+            if (onChange) {
+              const syntheticEvent = {
+                target: { value: formattedAddress }
+              } as React.ChangeEvent<HTMLInputElement>;
+              onChange(syntheticEvent);
+            }
+            
+            // Reset flag after processing
+            setTimeout(() => {
+              isAutocompleteSelection.current = false;
+            }, 0);
           }
         });
       }
@@ -99,20 +118,18 @@ export const CityPlacesInput = React.forwardRef<
 
   // Set default value
   useEffect(() => {
-    if (defaultValue && inputRef.current) {
-      inputRef.current.value = defaultValue;
+    if (defaultValue) {
+      setInputValue(defaultValue);
     }
   }, [defaultValue]);
 
   // Expose imperative methods
   React.useImperativeHandle(ref, () => ({
     getValue: () => {
-      return inputRef.current?.value || '';
+      return inputValue;
     },
     setValue: (value: string) => {
-      if (inputRef.current) {
-        inputRef.current.value = value;
-      }
+      setInputValue(value);
     },
     focus: () => {
       inputRef.current?.focus();
@@ -120,8 +137,15 @@ export const CityPlacesInput = React.forwardRef<
   }));
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only call onChange if we're not dealing with a Google Places selection
-    if (onChange && e.target.value !== lastSelectedValue.current) {
+    const newValue = e.target.value;
+    
+    // Always update internal state for manual input
+    if (!isAutocompleteSelection.current) {
+      setInputValue(newValue);
+    }
+    
+    // Always call onChange for manual input (not autocomplete selections)
+    if (onChange && !isAutocompleteSelection.current) {
       onChange(e);
     }
   };
@@ -129,6 +153,7 @@ export const CityPlacesInput = React.forwardRef<
   return (
     <Input
       ref={inputRef}
+      value={inputValue}
       className={className}
       onChange={handleInputChange}
       autoComplete="off"
