@@ -343,7 +343,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
                 />
               </div>
 
-              <div className="bg-gray-1000 p-4 rounded-md ">
+              <div className="bg-gray-100 p-4 rounded-md ">
                  <p className="text-sm mb-2"># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
                  <p className="text-sm"># The free text should be entered as follows: City, State, Country</p>
               </div>
