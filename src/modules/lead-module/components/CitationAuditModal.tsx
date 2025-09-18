@@ -107,7 +107,7 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) handleClose(); }}>
       <DialogContent
         className="sm:max-w-md"
       >
