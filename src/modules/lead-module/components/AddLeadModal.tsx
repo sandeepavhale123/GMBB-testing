@@ -207,7 +207,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       case 'cid':
         return (
           <div className="space-y-2">
-            <Label htmlFor="cid">Customer ID (CID)</Label>
+            <Label htmlFor="cid"> Listing CID</Label>
             <Input
               id="cid"
               placeholder="Enter CID"
@@ -269,7 +269,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="cid" id="cid" />
                 <Label htmlFor="cid" className="cursor-pointer">
-                  Customer ID (CID)
+                  Listing CID
                 </Label>
               </div>
             </RadioGroup>
@@ -331,16 +331,21 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
               <div className="space-y-2">
                 <Label htmlFor="location" className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4" />
-                  <span>Additional Location Notes</span>
+                  <span>Latitude,Longitude or City (Optional)</span>
                 </Label>
                 <Textarea
                   id="location"
-                  placeholder="Enter additional location details..."
+                  placeholder="Enter location lat and long or city"
                   value={formData.location}
                   onChange={(e) =>
                     setFormData(prev => ({ ...prev, location: e.target.value }))
                   }
                 />
+              </div>
+
+              <div>
+                 <p># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
+                 <p># The free text should be entered as follows: City, State, Country</p>
               </div>
             </div>
           )}
