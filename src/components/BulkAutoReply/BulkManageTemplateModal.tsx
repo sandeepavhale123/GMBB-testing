@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Star } from 'lucide-react';
+import { Star, X } from 'lucide-react';
 interface Template {
   id: string;
   starRating: number;
@@ -58,15 +58,25 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
   return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-3">
-            <span>
-              {isNewTemplate ? 'Create' : 'Manage'} {template.isRatingOnly ? 'Rating Only' : 'Review'} Template
-            </span>
-            <div className="flex items-center gap-1">
-              <span className="text-lg font-bold">{template.starRating}</span>
-              <div className="flex">{renderStars(template.starRating)}</div>
-            </div>
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="flex items-center gap-3">
+              <span>
+                {isNewTemplate ? 'Create' : 'Manage'} {template.isRatingOnly ? 'Rating Only' : 'Review'} Template
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="text-lg font-bold">{template.starRating}</span>
+                <div className="flex">{renderStars(template.starRating)}</div>
+              </div>
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => onOpenChange(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-6">

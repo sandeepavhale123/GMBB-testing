@@ -22,7 +22,7 @@ import { CityPlacesInput, CityData } from "@/components/ui/city-places-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { useCreateLeadCitationReport } from "@/api/leadApi";
 import { toast } from "sonner";
 
@@ -126,10 +126,22 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
         className="sm:max-w-md"
       >
         <DialogHeader>
-          <DialogTitle>Generate Citation Audit Report</DialogTitle>
-          <DialogDescription>
-            Fill in the business details to generate a comprehensive citation audit report.
-          </DialogDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <DialogTitle>Generate Citation Audit Report</DialogTitle>
+              <DialogDescription>
+                Fill in the business details to generate a comprehensive citation audit report.
+              </DialogDescription>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <Form {...form}>

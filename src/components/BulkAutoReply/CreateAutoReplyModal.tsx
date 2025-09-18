@@ -252,10 +252,22 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       <Dialog open={isOpen && !showConflictDialog} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Create Auto Reply Project</DialogTitle>
-            <DialogDescription>
-              Set up automated replies for your listings by configuring templates and settings.
-            </DialogDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <DialogTitle>Create Auto Reply Project</DialogTitle>
+                <DialogDescription>
+                  Set up automated replies for your listings by configuring templates and settings.
+                </DialogDescription>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={onClose}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -8,6 +8,7 @@ import { GroupsList, useCreateGroupMutation, useUpdateGroupMutation } from '@/ap
 import { toast } from '@/hooks/use-toast';
 import { useFormValidation } from '@/hooks/useFormValidation';
 import { z } from 'zod';
+import { X } from 'lucide-react';
 
 const createGroupSchema = z.object({
   groupName: z.string().min(2, 'Group name must be at least 2 characters').max(50, 'Group name must be less than 50 characters'),
@@ -110,9 +111,19 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>
-            {editingGroup ? 'Edit Group' : 'Create New Group'}
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>
+              {editingGroup ? 'Edit Group' : 'Create New Group'}
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">

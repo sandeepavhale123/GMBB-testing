@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye } from "lucide-react";
+import { Eye, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
@@ -445,9 +445,22 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       }}>
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
-            <DialogTitle className="text-xl sm:text-2xl font-semibold">
-              {isCloning ? "Clone Post" : "Create Post"}
-            </DialogTitle>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-xl sm:text-2xl font-semibold">
+                {isCloning ? "Clone Post" : "Create Post"}
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => {
+                  clearSelection();
+                  onClose();
+                }}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </DialogHeader>
 
           <div className="flex flex-1 min-h-0">

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { AvailableGroupListingSelector } from './AvailableGroupListingSelector';
 import { useUpdateGroupListingsMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 
 interface AddListingToGroupModalProps {
   isOpen: boolean;
@@ -72,7 +72,17 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[700px] bg-background border shadow-xl z-50">
         <DialogHeader>
-          <DialogTitle>Add Listings to {groupName}</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Add Listings to {groupName}</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <AvailableGroupListingSelector

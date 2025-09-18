@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { X } from 'lucide-react';
 
 interface PlaceOrderModalProps {
   isOpen: boolean;
@@ -36,7 +37,17 @@ export const PlaceOrderModal: React.FC<PlaceOrderModalProps> = ({ isOpen, onClos
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Place Order</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Place Order</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
