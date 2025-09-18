@@ -179,22 +179,6 @@ export const CitationAuditReport: React.FC = () => {
           <CardContent>
             <div className="flex flex-col lg:flex-row items-center gap-8">
               <div className="flex-1 space-y-4">
-                {/* Non-Listed Card */}
-                <div className="bg-red-100 border border-red-200 rounded-lg p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-red-900">Non-Listed</h3>
-                      <p className="text-sm text-red-700">Areas that need attention</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl font-bold text-red-900">{reportData.citations.nonListed}</div>
-                      <div className="text-lg font-medium text-red-700">
-                        {reportData.citations.total > 0 ? Math.round((reportData.citations.nonListed / reportData.citations.total) * 100) : 0}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Listed Card */}
                 <div className="bg-green-100 border border-green-200 rounded-lg p-6">
                   <div className="flex items-center justify-between">
@@ -206,6 +190,22 @@ export const CitationAuditReport: React.FC = () => {
                       <div className="text-3xl font-bold text-green-900">{reportData.citations.listed}</div>
                       <div className="text-lg font-medium text-green-700">
                         {reportData.citations.total > 0 ? Math.round((reportData.citations.listed / reportData.citations.total) * 100) : 0}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Non-Listed Card */}
+                <div className="bg-red-100 border border-red-200 rounded-lg p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-red-900">Non-Listed</h3>
+                      <p className="text-sm text-red-700">Areas that need attention</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-red-900">{reportData.citations.nonListed}</div>
+                      <div className="text-lg font-medium text-red-700">
+                        {reportData.citations.total > 0 ? Math.round((reportData.citations.nonListed / reportData.citations.total) * 100) : 0}%
                       </div>
                     </div>
                   </div>
