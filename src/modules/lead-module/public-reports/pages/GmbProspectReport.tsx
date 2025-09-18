@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, TrendingUp, Users, Eye, CheckCircle, XCircle, AlertTriangle, Star } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { CTASection } from "../components/CTASection";
+import { SingleCTASection } from "../components/SingleCTASection";
 import { useGetGmbProspectReport, getLeadReportBranding } from "@/api/leadApi";
 import { InsightsErrorState } from "@/components/Insights/InsightsErrorState";
 
@@ -289,6 +290,9 @@ export const GmbProspectReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Call CTA Section */}
+        <SingleCTASection reportId={reportId || ''} ctaType="call" />
+
         {/* Competitor Analysis */}
         <Card>
           <CardHeader>
@@ -391,8 +395,8 @@ export const GmbProspectReport: React.FC = () => {
         </Card>
 
 
-        {/* CTA Section */}
-        <CTASection reportId={reportId || ''} />
+        {/* Appointment CTA Section */}
+        <SingleCTASection reportId={reportId || ''} ctaType="appointment" />
 
         {/* Advanced Suggestions */}
         <Card>
