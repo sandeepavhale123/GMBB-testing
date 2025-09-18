@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
           reportId: lead.reportId
         }, {
           onSuccess: data => {
-            navigate(`/lead/gbp/${data.data.reportId}`);
+            window.open(data.data.reportUrl, '_blank');
           }
         });
       } else {
