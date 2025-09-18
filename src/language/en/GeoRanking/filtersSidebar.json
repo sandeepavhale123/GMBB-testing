@@ -1,0 +1,22 @@
+{
+  "filtersSidebar": {
+    "title": "Filters",
+    "labels": {
+      "selectKeyword": "Select keyword",
+      "selectDate": "Select Date",
+      "gridSize": "Grid Size"
+    },
+    "keywords": {
+      "webDesign": "Web Design",
+      "digitalMarketing": "Digital Marketing",
+      "seoServices": "SEO Services",
+      "localBusiness": "Local Business"
+    },
+    "gridOptions": {
+      "4x4": "4×4 Grid",
+      "5x5": "5×5 Grid",
+      "6x6": "6×6 Grid"
+    },
+    "button": "Rescan"
+  }
+}

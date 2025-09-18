@@ -1,0 +1,25 @@
+{
+  "underPerformingTable": {
+    "title": "Top Performance",
+    "loading": "Loading under-performing areas...",
+    "noData": "No under-performing areas found",
+    "headers": {
+      "area": "Area",
+      "coordinate": "Coordinate",
+      "compName": "Competitor Name",
+      "compRank": "Competitor Rank",
+      "youRank": "Your Rank",
+      "compRating": "Competitor Rating",
+      "compReview": "Competitor Review"
+    },
+    "labels": {
+      "notRanked": "Not Ranked"
+    },
+    "toast": {
+      "copied": {
+        "title": "Copied!",
+        "description": "Coordinate copied to clipboard"
+      }
+    }
+  }
+}

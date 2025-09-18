@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { RankingMap } from "./RankingMap";
 import { RankDetail, RankStats, ProjectDetails } from "../../api/geoRankingApi";
 import { Loader } from "../ui/loader";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface GeoRankingMapSectionProps {
   gridSize: string;
@@ -22,6 +23,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
     projectDetails,
     loading,
   }) => {
+    const { t } = useI18nNamespace("GeoRanking/GeoRankingMapSection");
+
     // Memoize position summary calculation
     const positionSummary = useMemo(() => {
       const summary = {
@@ -90,11 +93,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
         if (!schedule) return "Daily";
         switch (schedule.toLowerCase()) {
           case "daily":
-            return "Daily";
+            return t("GeoRankingMapSection.frequencyOptions.daily");
           case "weekly":
-            return "Weekly";
+            return t("GeoRankingMapSection.frequencyOptions.weekly");
           case "monthly":
-            return "Monthly";
+            return t("GeoRankingMapSection.frequencyOptions.monthly");
           default:
             return schedule;
         }
@@ -133,26 +136,27 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
             <div className="mb-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                  GEO Grid Ranking Map
+                  {t("GeoRankingMapSection.title")}
                 </h3>
               </div>
 
               {/* Info Badges */}
               <div className="flex flex-wrap gap-2 mb-4">
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  GPS: {gpsCoordinates}
+                  {t("GeoRankingMapSection.labels.gps")}: {gpsCoordinates}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  Grid: {formattedGridSize}
+                  {t("GeoRankingMapSection.labels.grid")}: {formattedGridSize}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  Distance: {distance}
+                  {t("GeoRankingMapSection.labels.distance")}: {distance}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  Engine: Google Maps
+                  {t("GeoRankingMapSection.labels.engine")}:{" "}
+                  {t("GeoRankingMapSection.labels.engineValue")}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  Frequency: {frequency}
+                  {t("GeoRankingMapSection.labels.frequency")}: {frequency}
                 </span>
               </div>
             </div>
@@ -163,14 +167,14 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
                   <Card className="bg-white shadow-lg">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg text-center">
-                        Loading Map Data
+                        {t("GeoRankingMapSection.loading.title")}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="pt-0">
                       <div className="flex flex-col items-center justify-center">
                         <Loader size="lg" />
                         <p className="text-sm text-gray-600 mt-3 text-center">
-                          Generating grid coordinates...
+                          {t("GeoRankingMapSection.loading.description")}
                         </p>
                       </div>
                     </CardContent>
@@ -199,7 +203,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
             <div className="flex flex-wrap gap-2">
               <div className="flex rounded-md border overflow-hidden shadow-sm">
                 <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
-                  ARP
+                  {t("GeoRankingMapSection.metrics.arp")}
                 </div>
                 <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
                   {rankStats?.atr || "8.50"}
@@ -208,7 +212,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
 
               <div className="flex rounded-md border overflow-hidden shadow-sm">
                 <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
-                  ATRP
+                  {t("GeoRankingMapSection.metrics.atrp")}
                 </div>
                 <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
                   {rankStats?.atrp || "6.20"}
@@ -217,7 +221,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
 
               <div className="flex rounded-md border overflow-hidden shadow-sm">
                 <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
-                  SoLV
+                  {t("GeoRankingMapSection.metrics.solv")}
                 </div>
                 <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
                   {rankStats?.solvability || "36.0"}
@@ -234,7 +238,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
         >
           <CardContent className="p-4">
             <h3 className="text-sm font-semibold text-gray-900 mb-3">
-              Position Summary
+              {t("GeoRankingMapSection.positionSummary.title")}
             </h3>
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">

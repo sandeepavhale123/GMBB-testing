@@ -1,0 +1,26 @@
+{
+  "geoRankingMap": {
+    "manualTitle": "Manual Point Selection",
+    "automaticTitle": "Automatic Grid Visualization",
+    "loading": {
+      "main": "Loading Map Data",
+      "automatic": "Generating grid coordinates...",
+      "manual": "Preparing map..."
+    },
+    "zoom": {
+      "in": "Zoom In",
+      "out": "Zoom Out"
+    },
+    "defaultMarker": {
+      "title": "Default Location",
+      "manualNote": "Switch to manual to place custom points",
+      "centerNote": "Business center point"
+    },
+    "manualMarker": {
+      "title": "Manual Point",
+      "dragNote": "Drag to reposition",
+      "removeButton": "Remove"
+    },
+    "gridMarker": "Grid Point: {{id}}"
+  }
+}

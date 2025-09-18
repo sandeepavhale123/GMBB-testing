@@ -28,8 +28,10 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { Sheet, SheetContent } from "../ui/sheet";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const GeoRankingReportPage: React.FC = () => {
+  const { t } = useI18nNamespace("GeoRanking/geoRankingReportPage");
   const navigate = useNavigate();
   const { listingId } = useParams();
   const numericListingId = listingId ? parseInt(listingId, 10) : 0;
@@ -126,9 +128,10 @@ export const GeoRankingReportPage: React.FC = () => {
     } catch (error) {
       console.error("Error fetching position details:", error);
       toast({
-        title: "Error",
+        title: t("geoRankingReportPage.modal.error.title"),
         description:
-          error?.response?.data?.message || "Failed to load position details",
+          error?.response?.data?.message ||
+          t("geoRankingReportPage.modal.error.description"),
         variant: "destructive",
       });
     } finally {
@@ -145,7 +148,7 @@ export const GeoRankingReportPage: React.FC = () => {
       <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <SheetContent side="left" className="p-0 w-64">
           <Sidebar
-            activeTab="geo-ranking"
+            activeTab={t("geoRankingReportPage.sidebar.activeTab")}
             onTabChange={() => {}}
             collapsed={false}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -156,7 +159,7 @@ export const GeoRankingReportPage: React.FC = () => {
       {/* Desktop Sidebar */}
       <div className="hidden md:flex">
         <Sidebar
-          activeTab="geo-ranking"
+          activeTab={t("geoRankingReportPage.sidebar.activeTab")}
           onTabChange={() => {}}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -205,10 +208,10 @@ export const GeoRankingReportPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
-                      Processing Keyword
+                      {t("geoRankingReportPage.processing.title")}
                     </h3>
                     <p className="text-sm text-gray-600">
-                      Keyword is being processed. This may take a few minutes...
+                      {t("geoRankingReportPage.processing.description")}
                     </p>
                   </div>
                 </div>
@@ -285,10 +288,12 @@ export const GeoRankingReportPage: React.FC = () => {
         >
           <AlertDialogContent className="custom-z-index">
             <AlertDialogHeader>
-              <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
+              <AlertDialogTitle>
+                {" "}
+                {t("geoRankingReportPage.multiKeywordAlert.title")}
+              </AlertDialogTitle>
               <AlertDialogDescription>
-                Your keywords are being processed. This will take time. You can
-                check the results on the GEO Ranking page.
+                {t("geoRankingReportPage.multiKeywordAlert.description")}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -308,7 +313,7 @@ export const GeoRankingReportPage: React.FC = () => {
                   );
                 }}
               >
-                Go to GEO Ranking Page
+                {t("geoRankingReportPage.multiKeywordAlert.action")}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

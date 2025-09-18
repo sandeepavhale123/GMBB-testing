@@ -1,0 +1,25 @@
+{
+  "geoRankingReportPage": {
+    "processing": {
+      "title": "Processing Keyword",
+      "description": "Keyword is being processed. This may take a few minutes..."
+    },
+    "modal": {
+      "error": {
+        "title": "Error",
+        "description": "Failed to load position details"
+      }
+    },
+    "multiKeywordAlert": {
+      "title": "Keywords Being Processed",
+      "description": "Your keywords are being processed. This will take time. You can check the results on the GEO Ranking page.",
+      "action": "Go to GEO Ranking Page"
+    },
+    "sidebar": {
+      "activeTab": "geo-ranking"
+    },
+    "underPerforming": {
+      "title": "Under-Performing Areas"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "GeoRankingSettingsModal": {
+    "title": "GEO Ranking Settings",
+    "keywords": "Keywords ({{count}})",
+    "gridSize": "Grid Size",
+    "distanceSettings": "Distance Settings",
+    "distanceUnit": "Unit",
+    "distanceValue": "Distance",
+    "language": "Language",
+    "cancel": "Cancel",
+    "checkRank": "Check Rank",
+    "processing": "Processing...",
+    "validation": {
+      "gridSizeRequired": "Grid size is required",
+      "distanceUnitRequired": "Distance unit is required",
+      "distanceValueRequired": "Distance value is required",
+      "languageRequired": "Language is required"
+    },
+    "units": {
+      "meters": "Meters",
+      "miles": "Miles"
+    },
+    "placeholders": {
+      "selectDistance": "Choose…"
+    }
+  }
+}

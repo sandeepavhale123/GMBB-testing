@@ -22,6 +22,7 @@ import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { keywordsSchema } from "@/schemas/authSchemas";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface GeoReportFormData {
   searchBusinessType: string;
@@ -63,6 +64,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   onClearManualCoordinates,
   hasResults = false,
 }) => {
+  const { t } = useI18nNamespace("GeoRanking/geoRankingReportForm");
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 
@@ -89,9 +91,10 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
       const apiKey = mapApiKeyData?.data?.apiKey;
       if (!apiKey || apiKey.trim() === "") {
         toast({
-          title: "Missing API Key",
-          description:
-            "Please add the API key first by going to Settings → Integration page.",
+          title: t("geoRankingReportForm.searchDataEngine.missingApiKeyTitle"),
+          description: t(
+            "geoRankingReportForm.searchDataEngine.missingApiKeyDesc"
+          ),
           variant: "destructive",
         });
         return; // Stop the current flow
@@ -121,9 +124,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
         .join(", ");
 
       toast({
-        title: "Keyword Limit Exceeded",
-        description:
-          "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
+        title: t("geoRankingReportForm.keywords.limitExceededToastTitle"),
+        description: t("geoRankingReportForm.keywords.limitExceededToastDesc"),
         variant: "destructive",
       });
 
@@ -140,9 +142,10 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
       "keywords" in validation.errors
     ) {
       toast({
-        title: "Invalid Keywords",
+        title: t("geoRankingReportForm.keywords.invalidToastTitle"),
         description:
-          validation.errors.keywords || "Please check your keywords.",
+          validation.errors.keywords ||
+          t("geoRankingReportForm.keywords.invalidToastDesc"),
         variant: "destructive",
       });
     }
@@ -155,7 +158,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     <Card className="shadow-lg">
       <CardHeader className="pb-3 lg:pb-4">
         <CardTitle className="text-lg lg:text-xl font-semibold text-gray-900">
-          Report Configuration
+          {t("geoRankingReportForm.title")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4 lg:space-y-5 overflow-y-auto flex-1 pb-4 sm:pb-6">
@@ -167,7 +170,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 htmlFor="keywords"
                 className="text-sm font-medium text-gray-700"
               >
-                Keywords ({keywordCount}/5)
+                {t("geoRankingReportForm.keywords.label")} ({keywordCount}/5)
               </Label>
               <TooltipProvider>
                 <Tooltip>
@@ -180,22 +183,21 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                     </span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Add up to 5 keywords separated by commas</p>
+                    <p>{t("geoRankingReportForm.keywords.tooltip")}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
             <Input
               id="keywords"
-              placeholder="keyword1, keyword2, keyword3"
+              placeholder={t("geoRankingReportForm.keywords.placeholder")}
               value={formData.keywords}
               onChange={(e) => handleKeywordsChange(e.target.value)}
               className="w-full"
             />
             {keywordCount === 5 && (
               <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-                ⚠️ You have reached the maximum limit of 5 keywords. You can
-                still edit existing keywords.
+                {t("geoRankingReportForm.keywords.maxReached")}
               </p>
             )}
           </div>
@@ -203,7 +205,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           {/* Search Data Engine */}
           <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">
-              Search Data Engine
+              {t("geoRankingReportForm.searchDataEngine.label")}
             </Label>
             <RadioGroup
               value={formData.searchDataEngine}
@@ -213,13 +215,13 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Map API" id="map-api" />
                 <Label htmlFor="map-api" className="text-sm">
-                  Map API
+                  {t("geoRankingReportForm.searchDataEngine.mapApi")}
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Briefcase API" id="briefcase-api" />
                 <Label htmlFor="briefcase-api" className="text-sm">
-                  Briefcase API
+                  {t("geoRankingReportForm.searchDataEngine.briefcaseApi")}
                 </Label>
               </div>
             </RadioGroup>
@@ -228,7 +230,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           {/* Map Point */}
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-700">
-              Map Point
+              {t("geoRankingReportForm.mapPoint.label")}
             </Label>
             <Select
               value={formData.mapPoint}
@@ -238,19 +240,25 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Automatic">Automatic</SelectItem>
-                <SelectItem value="Manually">Manually</SelectItem>
+                <SelectItem value="Automatic">
+                  {t("geoRankingReportForm.mapPoint.automatic")}
+                </SelectItem>
+                <SelectItem value="Manually">
+                  {t("geoRankingReportForm.mapPoint.manually")}
+                </SelectItem>
               </SelectContent>
             </Select>
             {formData.mapPoint === "Manually" && (
               <div className="space-y-2">
                 <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                  Click on the map to place points manually. You can drag them
-                  to reposition.
+                  {t("geoRankingReportForm.mapPoint.manualInfo")}
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">
-                    Points selected: {manualCoordinates.length}
+                    {t("geoRankingReportForm.mapPoint.pointsSelected", {
+                      count: manualCoordinates.length,
+                    })}
+                    {/* Points selected: {manualCoordinates.length} */}
                   </span>
                   {manualCoordinates.length > 0 && onClearManualCoordinates && (
                     <button
@@ -258,7 +266,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                       onClick={onClearManualCoordinates}
                       className="text-xs text-red-600 hover:text-red-800 underline"
                     >
-                      Clear All Points
+                      {t("geoRankingReportForm.mapPoint.clearAllPoints")}
                     </button>
                   )}
                 </div>
@@ -271,7 +279,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               {/* Distance Unit */}
               <div className="space-y-2 col-span-1">
                 <Label className="text-sm font-medium text-gray-700">
-                  Distance Unit
+                  {t("geoRankingReportForm.distanceUnit.label")}
                 </Label>
                 <RadioGroup
                   value={formData.distanceUnit}
@@ -281,13 +289,13 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Meters" id="meters" />
                     <Label htmlFor="meters" className="text-sm">
-                      Meters
+                      {t("geoRankingReportForm.distanceUnit.meters")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Miles" id="miles" />
                     <Label htmlFor="miles" className="text-sm">
-                      Miles
+                      {t("geoRankingReportForm.distanceUnit.miles")}
                     </Label>
                   </div>
                 </RadioGroup>
@@ -296,14 +304,18 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               {/* Distance Value */}
               <div className="space-y-2 col-span-1">
                 <Label className="text-sm font-medium text-gray-700">
-                  Distance
+                  {t("geoRankingReportForm.distanceValue.label")}
                 </Label>
                 <Select
                   value={formData.distanceValue}
                   onValueChange={(val) => onInputChange("distanceValue", val)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose…" />
+                    <SelectValue
+                      placeholder={t(
+                        "geoRankingReportForm.distanceValue.placeholder"
+                      )}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {getDistanceOptions().map((opt) => (
@@ -321,7 +333,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                Grid Size
+                {t("geoRankingReportForm.gridSize.label")}
               </Label>
               <Select
                 value={formData.gridSize}
@@ -344,7 +356,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
 
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                Schedule Check
+                {t("geoRankingReportForm.scheduleCheck.label")}
               </Label>
               <Select
                 value={formData.scheduleCheck}
@@ -354,9 +366,16 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="onetime">One-time</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="onetime">
+                    {" "}
+                    {t("geoRankingReportForm.scheduleCheck.options.onetime")}
+                  </SelectItem>
+                  <SelectItem value="weekly">
+                    {t("geoRankingReportForm.scheduleCheck.options.weekly")}
+                  </SelectItem>
+                  <SelectItem value="monthly">
+                    {t("geoRankingReportForm.scheduleCheck.options.monthly")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -365,7 +384,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           {/* Language Selector */}
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-700">
-              Language
+              {t("geoRankingReportForm.language.label")}
             </Label>
             <Select
               value={formData.language}
@@ -389,13 +408,15 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             <Button
               type="submit"
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-              disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
+              disabled={
+                submittingRank || pollingKeyword || !isKeywordCountValid
+              }
             >
               {pollingKeyword
-                ? "Processing keyword..."
+                ? t("geoRankingReportForm.buttons.processingKeyword")
                 : submittingRank
-                ? "Checking rank..."
-                : "Check rank"}
+                ? t("geoRankingReportForm.buttons.submittingRank")
+                : t("geoRankingReportForm.buttons.checkRank")}
             </Button>
 
             {shouldShowResetButton && (
@@ -407,7 +428,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 className="flex-none"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
-                Reset & New Search
+                {t("geoRankingReportForm.buttons.reset")}
               </Button>
             )}
           </div>
@@ -415,7 +436,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           {pollingKeyword && (
             <div className="text-center mt-2">
               <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                🔄 Keyword is being processed. This may take a few minutes...
+                {t("geoRankingReportForm.pollingInfo")}
               </p>
             </div>
           )}

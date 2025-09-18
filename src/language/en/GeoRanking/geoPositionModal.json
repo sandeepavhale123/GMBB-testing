@@ -1,0 +1,25 @@
+{
+  "geoPositionModal": {
+    "toast": {
+      "copySuccess": {
+        "title": "Coordinates copied!",
+        "description": "GPS coordinates copied to clipboard"
+      },
+      "copyError": {
+        "title": "Copy failed",
+        "description": "Failed to copy coordinates to clipboard"
+      }
+    },
+    "header": {
+      "copyButton": "Copy coordinates",
+      "closeButton": "Close modal"
+    },
+    "content": {
+      "topResult": "Top Result",
+      "loading": "Loading results...",
+      "noResults": "No results found",
+      "yourBusiness": "Your Business",
+      "reviews": "{{count}} reviews"
+    }
+  }
+}

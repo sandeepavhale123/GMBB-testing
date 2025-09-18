@@ -7,9 +7,12 @@ import "leaflet/dist/leaflet.css";
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 interface RankingMapProps {
@@ -26,7 +29,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
     // Memoized function to clear existing markers
     const clearMarkers = () => {
-      markersRef.current.forEach(marker => {
+      markersRef.current.forEach((marker) => {
         if (mapInstanceRef.current) {
           mapInstanceRef.current.removeLayer(marker);
         }
@@ -102,7 +105,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         if (coords.length === 2) {
           return {
             lat: parseFloat(coords[0]),
-            lng: parseFloat(coords[1])
+            lng: parseFloat(coords[1]),
           };
         }
       }
@@ -113,7 +116,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         if (coords.length === 2) {
           return {
             lat: parseFloat(coords[0]),
-            lng: parseFloat(coords[1])
+            lng: parseFloat(coords[1]),
           };
         }
       }
@@ -121,7 +124,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       // Fallback: Delhi coordinates
       return {
         lat: 28.6139,
-        lng: 77.209
+        lng: 77.209,
       };
     };
 
@@ -129,10 +132,10 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     useEffect(() => {
       if (!mapRef.current || mapInstanceRef.current) return;
 
-      console.log('🗺️ Initializing map...');
+      console.log("🗺️ Initializing map...");
       const center = getMapCenter();
-      console.log('🗺️ Map center:', center);
-      
+      console.log("🗺️ Map center:", center);
+
       const map = L.map(mapRef.current).setView([center.lat, center.lng], 13);
       mapInstanceRef.current = map;
 
@@ -141,7 +144,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      console.log('🗺️ Map initialized successfully');
+      console.log("🗺️ Map initialized successfully");
 
       return () => {
         if (mapInstanceRef.current) {
@@ -158,13 +161,16 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
       const center = getMapCenter();
       mapInstanceRef.current.setView([center.lat, center.lng], 13);
-    }, [centerCoordinates, rankDetails.length > 0 ? rankDetails[0].coordinate : null]);
+    }, [
+      centerCoordinates,
+      rankDetails.length > 0 ? rankDetails[0].coordinate : null,
+    ]);
 
     // Update markers when rankDetails change
     useEffect(() => {
       if (!mapInstanceRef.current) return;
 
-      console.log('🗺️ Updating markers with rankDetails:', rankDetails.length);
+      console.log("🗺️ Updating markers with rankDetails:", rankDetails.length);
       if (rankDetails.length > 0) {
         addMarkers(rankDetails);
 
@@ -219,7 +225,8 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
   (prevProps, nextProps) => {
     // Only re-render if rankDetails or centerCoordinates actually change
     return (
-      JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+      JSON.stringify(prevProps.rankDetails) ===
+        JSON.stringify(nextProps.rankDetails) &&
       prevProps.centerCoordinates === nextProps.centerCoordinates &&
       prevProps.onMarkerClick === nextProps.onMarkerClick
     );

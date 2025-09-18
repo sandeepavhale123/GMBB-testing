@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { MapPin, Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import L from "leaflet";
 import { RankDetail } from "../../api/geoRankingApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -45,6 +46,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   onUpdateManualCoordinate,
   onClearManualCoordinates,
 }) => {
+  const { t } = useI18nNamespace("GeoRanking/geoRankingReportMap");
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
@@ -109,8 +111,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
     marker.bindPopup(`
       <div style="text-align: center; padding: 5px;">
-        <strong>Your Business</strong><br>
-        <small>Primary location</small>
+        <strong>${t("geoRankingReportMap.popup.business.title")}</strong><br>
+        <small>${t("geoRankingReportMap.popup.business.subtitle")}</small>
       </div>
     `);
 
@@ -149,7 +151,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       }).addTo(mapInstanceRef.current!);
 
       marker.bindPopup(
-        `Grid Point ${index + 1}<br><small>Awaiting results...</small>`
+        `${t("geoRankingReportMap.popup.gridPoint.title", { index: index + 1 })}
+        <br><small>${t("geoRankingReportMap.popup.gridPoint.subtitle")}</small>`
       );
       markersRef.current.push(marker);
     });
@@ -196,8 +199,10 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Rank: ${detail.rank}</strong><br>
-          <small>Click for details</small>
+          <strong${t("geoRankingReportMap.popup.rankMarker.title", {
+            rank: detail.rank,
+          })}</strong><br>
+          <small>${t("geoRankingReportMap.popup.rankMarker.subtitle")}</small>
         </div>
       `);
 
@@ -245,9 +250,14 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Manual Coordinate ${index + 1}</strong><br>
-          <small>Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</small><br>
-          <small>Drag to reposition</small><br>
+          <strong>${t("geoRankingReportMap.popup.manual.title", {
+            index: index + 1,
+          })}</strong><br>
+          <small>${t("geoRankingReportMap.popup.manual.latlng", {
+            lat: lat.toFixed(6),
+            lng: lng.toFixed(6),
+          })}</small><br>
+          <small>${t("geoRankingReportMap.popup.manual.drag")}</small><br>
           <button onclick="window.removeManualMarker(${index})" style="
             background: #ef4444;
             color: white;
@@ -257,7 +267,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
             font-size: 11px;
             cursor: pointer;
             margin-top: 4px;
-          ">Remove</button>
+          ">${t("geoRankingReportMap.popup.manual.remove")}</button>
         </div>
       `);
 
@@ -441,12 +451,12 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   const getTitle = () => {
     if (rankDetails && rankDetails.length > 0) {
-      return "Keyword Ranking Results";
+      return t("geoRankingReportMap.title.results");
     }
     if (pollingKeyword) {
-      return "Processing Keyword...";
+      return t("geoRankingReportMap.title.processing");
     }
-    return "Geo Ranking Map";
+    return t("geoRankingReportMap.title.default");
   };
 
   return (
@@ -464,13 +474,13 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
               <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
               <p className="text-sm font-medium text-gray-900 mb-1">
                 {pollingKeyword
-                  ? "Processing Keyword Data"
-                  : "Loading Map Data"}
+                  ? t("geoRankingReportMap.loading.processingTitle")
+                  : t("geoRankingReportMap.loading.loadingTitle")}
               </p>
               <p className="text-xs text-gray-500">
                 {pollingKeyword
-                  ? "Analyzing search rankings..."
-                  : "Generating grid coordinates..."}
+                  ? t("geoRankingReportMap.loading.processingSubtitle")
+                  : t("geoRankingReportMap.loading.loadingSubtitle")}
               </p>
             </div>
           </div>
@@ -483,7 +493,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
             variant="secondary"
             onClick={handleZoomIn}
             className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
-            title="Zoom In"
+            title={t("geoRankingReportMap.zoom.in")}
           >
             <ZoomIn className="w-4 h-4" />
           </Button>
@@ -492,7 +502,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
             variant="secondary"
             onClick={handleZoomOut}
             className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
-            title="Zoom Out"
+            title={t("geoRankingReportMap.zoom.out")}
           >
             <ZoomOut className="w-4 h-4" />
           </Button>
@@ -502,24 +512,24 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         {rankDetails && rankDetails.length > 0 && (
           <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
             <div className="text-xs font-medium text-gray-700 mb-2">
-              Ranking Legend
+              {t("geoRankingReportMap.legend.title")}
             </div>
             <div className="flex flex-col gap-1 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span>1-3 (Top)</span>
+                <span>{t("geoRankingReportMap.legend.top")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <span>4-10 (Good)</span>
+                <span>{t("geoRankingReportMap.legend.good")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                <span>11-15 (Fair)</span>
+                <span>{t("geoRankingReportMap.legend.fair")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span>16+ (Poor)</span>
+                <span>{t("geoRankingReportMap.legend.poor")}</span>
               </div>
             </div>
           </div>

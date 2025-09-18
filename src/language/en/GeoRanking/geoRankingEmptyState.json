@@ -1,0 +1,17 @@
+{
+  "geoRankingEmptyState": {
+    "heading": "Start Tracking Your Rankings",
+    "description": "Track your Google Business Profile rankings across different locations to see how you perform in local search results.",
+    "benefits": {
+      "monitorLocalPerformance": "Monitor local performance",
+      "trackCompetitorRankings": "Track competitor rankings"
+    },
+    "creditsP1": "You have",
+    "creditsP2": "credits remaining",
+
+    "button": {
+      "checkRank": "Check Rank"
+    },
+    "additionalInfo": "Set up keyword tracking to monitor your business performance in local search results"
+  }
+}

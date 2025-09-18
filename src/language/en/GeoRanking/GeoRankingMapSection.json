@@ -1,0 +1,30 @@
+{
+  "GeoRankingMapSection": {
+    "title": "GEO Grid Ranking Map",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Grid",
+      "distance": "Distance",
+      "engine": "Engine",
+      "engineValue": "Google Maps",
+      "frequency": "Frequency"
+    },
+    "loading": {
+      "title": "Loading Map Data",
+      "description": "Generating grid coordinates..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Position Summary"
+    },
+    "frequencyOptions": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    }
+  }
+}

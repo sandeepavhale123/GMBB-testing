@@ -10,6 +10,7 @@ import { Card, CardContent } from "../ui/card";
 import { ListingLoader } from "../ui/listing-loader";
 import { useGeoRanking } from "../../hooks/useGeoRanking";
 import { useProjectGeoRanking } from "../../hooks/useProjectGeoRanking";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ModalData {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
   projectId,
   isProjectMode = false,
 }) => {
+  const { t } = useI18nNamespace("GeoRanking/geoRankingPage");
   const navigate = useNavigate();
   const { listingId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -247,7 +249,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     return <ListingLoader isLoading={true} children={null} />;
   }
 
-   if (isPolling && keywords.length === 0 ) {
+  if (isPolling && keywords.length === 0) {
     return (
       <div className="mx-auto  min-h-screen">
         {/* <Card className="bg-white shadow-sm">
@@ -256,12 +258,12 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
           </CardContent>
         </Card> */}
         <ProcessingKeywordsAlert
-            keywords={processingKeywords}
-            progress={pollingProgress}
-            isPolling={refreshPollingActive || isPolling}
-            submittedKeywords={submittedKeywordsList}
-            isNewSubmission={isProcessing}
-          />
+          keywords={processingKeywords}
+          progress={pollingProgress}
+          isPolling={refreshPollingActive || isPolling}
+          submittedKeywords={submittedKeywordsList}
+          isNewSubmission={isProcessing}
+        />
       </div>
     );
   }
@@ -274,9 +276,6 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
       </div>
     );
   }
-
- 
-
 
   const selectedKeywordData = keywords.find((k) => k.id === selectedKeyword);
   const projectDetails = keywordDetails?.projectDetails;

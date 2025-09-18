@@ -1,0 +1,21 @@
+{
+  "GeoRankingHeader": {
+    "export": {
+      "failed": {
+        "title": "Export Failed",
+        "description": "Could not find the report content to export."
+      },
+      "complete": {
+        "title": "Export Complete",
+        "description": "Your geo-ranking report has been downloaded as an image with padding."
+      },
+      "error": {
+        "title": "Export Failed",
+        "description": "Failed to export image. Please try again."
+      }
+    },
+    "progress": {
+      "refreshing": "Refreshing keyword data..."
+    }
+  }
+}

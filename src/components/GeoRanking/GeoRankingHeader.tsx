@@ -14,6 +14,7 @@ import { KeywordSelector } from "./KeywordSelector";
 import { MetricsCards } from "./MetricsCards";
 import { CopyUrlModal } from "../Dashboard/CopyUrlModal";
 import { useGeoProjects } from "@/modules/GEO-Ranking/hooks/useGeoProjects";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
@@ -58,22 +59,23 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   projectName,
   projectId,
 }) => {
+  const { t } = useI18nNamespace("GeoRanking/GeoRankingHeader");
   const { toast } = useToast();
   const navigate = useNavigate();
   const { listingId } = useParams();
   const [isExporting, setIsExporting] = React.useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
-  
+
   // Get project data to access encKey (fallback for project mode)
   const { projects } = useGeoProjects(!isShareableView);
-  const currentProject = projects.find(p => p.id === projectId?.toString());
-  
+  const currentProject = projects.find((p) => p.id === projectId?.toString());
+
   // Get encKey from keywords data (for listing mode) or project data (for project mode)
-  const encKey = keywords.length > 0 ? keywords[0].encKey : currentProject?.encKey;
+  const encKey =
+    keywords.length > 0 ? keywords[0].encKey : currentProject?.encKey;
 
   // Total keywords count
   const totalKeywords = keywords.length;
-
 
   const handleExportImage = async () => {
     const exportElement = document.querySelector(
@@ -81,8 +83,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     ) as HTMLElement;
     if (!exportElement) {
       toast({
-        title: "Export Failed",
-        description: "Could not find the report content to export.",
+        title: t("GeoRankingHeader.export.failed.title"),
+        description: t("GeoRankingHeader.export.failed.description"),
         variant: "destructive",
       });
       return;
@@ -127,17 +129,16 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       link.click();
 
       toast({
-        title: "Export Complete",
-        description:
-          "Your geo-ranking report has been downloaded as an image with padding.",
+        title: t("GeoRankingHeader.export.complete.title"),
+        description: t("GeoRankingHeader.export.complete.description"),
       });
     } catch (error) {
       console.error("Error exporting image:", error);
       toast({
-        title: "Export Failed",
+        title: t("GeoRankingHeader.export.error.title"),
         description:
           error?.response?.data?.message ||
-          "Failed to export image. Please try again.",
+          t("GeoRankingHeader.export.error.description"),
         variant: "destructive",
       });
     } finally {
@@ -149,7 +150,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     setIsShareModalOpen(true);
   };
 
-  const shareableUrl = encKey ? `${window.location.origin}/sharable-geo-ranking-report/${encKey}` : '';
+  const shareableUrl = encKey
+    ? `${window.location.origin}/sharable-geo-ranking-report/${encKey}`
+    : "";
 
   return (
     <div className="mb-4 sm:mb-4">
@@ -173,7 +176,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         reportUrl={shareableUrl}
       />
 
-
       {/* Progress Bar - shown when refreshing */}
       {isRefreshing && (
         <Card className="bg-white shadow-sm mb-4">
@@ -181,7 +183,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">
-                  Refreshing keyword data...
+                  {t("GeoRankingHeader.progress.refreshing")}
                 </span>
                 <span className="text-gray-900 font-medium">
                   {refreshProgress}%
