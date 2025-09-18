@@ -68,6 +68,19 @@ export interface UpdateLeadClassifierDetailsResponse {
   };
 }
 
+// Delete Lead API interfaces
+export interface DeleteLeadRequest {
+  leadId: number;
+}
+
+export interface DeleteLeadResponse {
+  code: number;
+  message: string;
+  data: {
+    leadId: number;
+  };
+}
+
 export interface GetLeadsRequest {
   page: number;
   limit: number;
@@ -1007,6 +1020,29 @@ export const useResetCTACustomizer = () => {
     },
     onError: () => {
       toast.error('Failed to reset CTA settings');
+    },
+  });
+};
+
+// Delete Lead API Function
+export const deleteLead = async (params: DeleteLeadRequest): Promise<DeleteLeadResponse> => {
+  const response = await apiClient.post<DeleteLeadResponse>('/lead/delete-lead', params);
+  return response.data;
+};
+
+// Delete Lead React Query Hook
+export const useDeleteLead = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: deleteLead,
+    onSuccess: () => {
+      toast.success('Lead deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
+      queryClient.invalidateQueries({ queryKey: ['leadSummary'] });
+    },
+    onError: () => {
+      toast.error('Failed to delete lead');
     },
   });
 };

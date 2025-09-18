@@ -12,7 +12,7 @@ import { GeoRankingModal } from "../components/GeoRankingModal";
 import { LeadClassifierModal } from "../components/LeadClassifierModal";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport } from "@/api/leadApi";
+import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport, useDeleteLead } from "@/api/leadApi";
 import { toast } from "sonner";
 const ITEMS_PER_PAGE = 10;
 
@@ -66,6 +66,7 @@ const Dashboard: React.FC = () => {
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
   const createGeoReport = useCreateGeoReport();
+  const deleteLeadMutation = useDeleteLead();
 
   // API integration
   const {
@@ -153,6 +154,15 @@ const Dashboard: React.FC = () => {
         });
       } else {
         toast.error('No report ID found for this lead');
+      }
+    }
+
+    if (action === 'delete') {
+      const lead = leads?.find(l => l.id === leadId);
+      if (lead && window.confirm(`Are you sure you want to delete the lead for ${lead.businessName}? This action cannot be undone.`)) {
+        deleteLeadMutation.mutate({
+          leadId: parseInt(leadId)
+        });
       }
     }
 
@@ -278,7 +288,7 @@ const Dashboard: React.FC = () => {
         <CardContent>
           <LeadTableFilters searchQuery={searchQuery} onSearchChange={setSearchQuery} emailFilter={emailFilter} onEmailFilterChange={setEmailFilter} categoryFilter={categoryFilter} onCategoryFilterChange={setCategoryFilter} onClearFilters={handleClearFilters} />
 
-          <LeadsTable leads={leads} selectedLeads={selectedLeads} onSelectLead={handleSelectLead} onSelectAll={handleSelectAll} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending} />
+          <LeadsTable leads={leads} selectedLeads={selectedLeads} onSelectLead={handleSelectLead} onSelectAll={handleSelectAll} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending || deleteLeadMutation.isPending} />
 
           {totalPages > 1 && <div className="mt-6 flex justify-between items-center">
               <div className="text-sm text-muted-foreground">
