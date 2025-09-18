@@ -79,7 +79,6 @@ export function BusinessGooglePlacesInput({
 
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
-        componentRestrictions: { country: 'in' },
         fields: ['name', 'geometry.location', 'formatted_address'],
       });
 

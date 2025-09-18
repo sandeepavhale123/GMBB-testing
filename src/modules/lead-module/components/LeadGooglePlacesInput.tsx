@@ -104,7 +104,6 @@ export function LeadGooglePlacesInput({
 
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
-        componentRestrictions: { country: 'in' },
         fields: ['name', 'geometry', 'formatted_address', 'place_id'],
       });
 
