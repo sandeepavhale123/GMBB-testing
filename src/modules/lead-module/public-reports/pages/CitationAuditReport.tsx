@@ -301,7 +301,13 @@ export const CitationAuditReport: React.FC = () => {
                             </div>
                           </TableCell>
                           <TableCell>{citation.businessName}</TableCell>
-                          <TableCell>{citation.phone}</TableCell>
+                          <TableCell>
+                            {citation.phone?.includes('Not Matching') ? (
+                              <span className="text-red-600 font-medium">Not Matching</span>
+                            ) : (
+                              citation.phone
+                            )}
+                          </TableCell>
                           <TableCell className="text-right">
                             <Button
                               variant="outline"
@@ -344,7 +350,13 @@ export const CitationAuditReport: React.FC = () => {
                             </div>
                           </TableCell>
                           <TableCell>{citation.businessName}</TableCell>
-                          <TableCell>{citation.phone}</TableCell>
+                          <TableCell>
+                            {citation.phone?.includes('Not Matching') ? (
+                              <span className="text-red-600 font-medium">Not Matching</span>
+                            ) : (
+                              citation.phone
+                            )}
+                          </TableCell>
                           <TableCell className="text-right">
                             <Button
                               size="sm"
