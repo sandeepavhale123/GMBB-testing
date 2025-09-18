@@ -14,6 +14,16 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport, useDeleteLead } from "@/api/leadApi";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 const ITEMS_PER_PAGE = 10;
 
 // Transform API lead to UI lead
@@ -62,6 +72,8 @@ const Dashboard: React.FC = () => {
   const [leadClassifierModalOpen, setLeadClassifierModalOpen] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string>("");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [leadToDelete, setLeadToDelete] = useState<Lead | null>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
@@ -159,10 +171,9 @@ const Dashboard: React.FC = () => {
 
     if (action === 'delete') {
       const lead = leads?.find(l => l.id === leadId);
-      if (lead && window.confirm(`Are you sure you want to delete the lead for ${lead.businessName}? This action cannot be undone.`)) {
-        deleteLeadMutation.mutate({
-          leadId: parseInt(leadId)
-        });
+      if (lead) {
+        setLeadToDelete(lead);
+        setDeleteDialogOpen(true);
       }
     }
 
@@ -186,6 +197,21 @@ const Dashboard: React.FC = () => {
     setSelectedLead(null);
     // Optionally refetch leads to update lead classification
     refetch();
+  };
+
+  const handleDeleteConfirm = () => {
+    if (leadToDelete) {
+      deleteLeadMutation.mutate({
+        leadId: parseInt(leadToDelete.id)
+      });
+      setDeleteDialogOpen(false);
+      setLeadToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setLeadToDelete(null);
   };
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -357,6 +383,32 @@ const Dashboard: React.FC = () => {
 
       {/* Lead Classifier Modal */}
       <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Lead</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the lead for{" "}
+              <span className="font-medium">{leadToDelete?.businessName}</span>?
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel} disabled={deleteLeadMutation.isPending}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={deleteLeadMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteLeadMutation.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>;
 };
 export default Dashboard;
