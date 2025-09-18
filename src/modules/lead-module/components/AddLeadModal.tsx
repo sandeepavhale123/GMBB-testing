@@ -331,11 +331,11 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
               <div className="space-y-2">
                 <Label htmlFor="location" className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4" />
-                  <span>Latitude,Longitude or City (Optional)</span>
+                  <span>Latitude, Longitude or City (Optional)</span>
                 </Label>
                 <Textarea
                   id="location"
-                  placeholder="Enter location lat and long or city"
+                  placeholder="Enter location lat , long or city"
                   value={formData.location}
                   onChange={(e) =>
                     setFormData(prev => ({ ...prev, location: e.target.value }))
@@ -343,9 +343,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
                 />
               </div>
 
-              <div>
-                 <p># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
-                 <p># The free text should be entered as follows: City, State, Country</p>
+              <div className="bg-gray-500 p-3 rounded-md ">
+                 <p className="text-sm"># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
+                 <p className="text-sm"># The free text should be entered as follows: City, State, Country</p>
               </div>
             </div>
           )}
