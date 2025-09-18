@@ -300,12 +300,12 @@ const Dashboard: React.FC = () => {
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <div>
+            {/* <div>
               <CardTitle>Leads</CardTitle>
               <CardDescription>
                 Manage your lead database and track interactions
               </CardDescription>
-            </div>
+            </div> */}
             {selectedLeads.length > 0 && <Badge variant="secondary">
                 {selectedLeads.length} selected
               </Badge>}
