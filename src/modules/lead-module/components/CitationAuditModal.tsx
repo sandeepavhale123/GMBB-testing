@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -39,12 +39,16 @@ interface CitationAuditModalProps {
   open: boolean;
   onClose: () => void;
   leadId: string;
+  businessName?: string;
+  phone?: string;
 }
 
 export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   open,
   onClose,
   leadId,
+  businessName,
+  phone,
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
   const createCitationReport = useCreateLeadCitationReport();
@@ -53,12 +57,22 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   const form = useForm<CitationAuditFormData>({
     resolver: zodResolver(citationAuditSchema),
     defaultValues: {
-      businessName: "",
-      phone: "",
+      businessName: businessName || "",
+      phone: phone || "",
       keyword: "",
       city: "",
     },
   });
+
+  // Auto-fill form when businessName or phone props change
+  useEffect(() => {
+    if (businessName) {
+      form.setValue("businessName", businessName);
+    }
+    if (phone) {
+      form.setValue("phone", phone);
+    }
+  }, [businessName, phone, form]);
 
   const handleCitySelect = (selectedCityData: CityData) => {
     setCityData(selectedCityData);
