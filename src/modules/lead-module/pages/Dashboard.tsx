@@ -382,7 +382,7 @@ const Dashboard: React.FC = () => {
                   )}
 
                   {/* Show pages around current page */}
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                     const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
                     const page = startPage + i;
                     if (page <= totalPages) {
