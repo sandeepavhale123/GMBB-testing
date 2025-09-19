@@ -236,7 +236,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
@@ -283,7 +283,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
+        {/* <div className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 space-y-1">
               <h3 className="text-sm font-medium text-gray-600">
@@ -297,7 +297,7 @@ const Dashboard: React.FC = () => {
               <Mail className="w-6 h-6 text-white" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* Leads Table Section */}
       <Card>
