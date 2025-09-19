@@ -40,7 +40,7 @@ export const LeadTableFilters: React.FC<LeadTableFiltersProps> = ({
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by business name..."
+            placeholder="Search by business name or email"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="pl-8"
@@ -48,13 +48,13 @@ export const LeadTableFilters: React.FC<LeadTableFiltersProps> = ({
         </div>
       </div>
       
-      <div className="w-full sm:w-48">
+      {/* <div className="w-full sm:w-48">
         <Input
           placeholder="Filter by email..."
           value={emailFilter}
           onChange={(e) => onEmailFilterChange(e.target.value)}
         />
-      </div>
+      </div> */}
       
       <div className="w-full sm:w-40">
         <Select value={categoryFilter} onValueChange={onCategoryFilterChange}>
