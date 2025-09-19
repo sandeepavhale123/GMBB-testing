@@ -21,7 +21,7 @@ const modules = [
   },
   {
     name: "Lead Management",
-    description: "Manage and track your leads effectively",
+    description: "Manage and track your leads effectively.",
     icon: Users,
     href: "/module/lead",
   },

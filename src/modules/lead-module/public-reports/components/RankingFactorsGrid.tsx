@@ -51,7 +51,7 @@ export const RankingFactorsGrid: React.FC<RankingFactorsGridProps> = ({ factors 
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground mb-6">
-          Following a detailed review of your Google Business Profile (GBP), we assessed its level of optimization. Below is a concise summary of your performance across several key local ranking factors
+          Following a detailed review of your Google Business Profile (GBP), we assessed its level of optimization. Below is a concise summary of your performance across several key local ranking factors.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {factors.map((factor) => {

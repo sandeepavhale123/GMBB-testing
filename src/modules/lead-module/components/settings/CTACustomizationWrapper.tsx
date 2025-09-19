@@ -78,7 +78,7 @@ export const CTACustomizationWrapper: React.FC = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Preview</h2>
             <span className="text-sm text-muted-foreground">
-              This is how your CTA will appear in lead reports
+              This is how your CTA will appear in lead reports.
             </span>
           </div>
           

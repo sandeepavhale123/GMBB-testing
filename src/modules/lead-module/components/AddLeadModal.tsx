@@ -46,7 +46,7 @@ const leadFormSchema = z.object({
 }).superRefine((data, ctx) => {
   if (data.inputMethod === 'name') {
     if (!data.businessName) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['businessName'], message: 'Please select a business' });
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['businessName'], message: 'Please select a business.' });
     }
     if (!data.cid || !/^\d+$/.test(data.cid)) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Could not resolve CID. Please select suggestion again or use Map URL/CID.' });
@@ -54,12 +54,12 @@ const leadFormSchema = z.object({
   }
   if (data.inputMethod === 'url') {
     if (!data.mapUrl) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['mapUrl'], message: 'Google Maps URL is required' });
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['mapUrl'], message: 'Google Maps URL is required.' });
     }
   }
   if (data.inputMethod === 'cid') {
     if (!data.cid || !/^\d+$/.test(data.cid)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Please enter a valid numeric CID' });
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Please enter a valid numeric CID.' });
     }
   }
 });

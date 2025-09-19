@@ -23,7 +23,7 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
         <p className="text-sm text-muted-foreground mb-6">
           Google My Business Q&A and posts allow businesses to provide information and engage with potential customers in real time. 
           They enable businesses to quickly answer frequently asked questions and respond to customer feedback, which can improve 
-          customer satisfaction and build trust. GBP Posts also enable businesses to share updates and promotions, which can help to 
+          customer satisfaction and build trust. GBP posts also enable businesses to share updates and promotions, which can help to 
           attract new customers and boost sales.
         </p>
         

@@ -119,7 +119,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <div className="space-y-0.5">
               <Label htmlFor="isVisible">Show CTA in Reports</Label>
               <p className="text-xs text-muted-foreground">
-                Toggle to show or hide this CTA section in generated reports
+                Toggle to show or hide this CTA section in generated reports.
               </p>
             </div>
             <Switch id="isVisible" checked={formData.isVisible ?? true} onCheckedChange={checked => handleInputChange("isVisible", checked)} />
@@ -152,7 +152,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
             <Input id="buttonLink" type="text" value={formData.buttonLink ?? ""} onChange={e => handleInputChange("buttonLink", e.target.value)} placeholder="https://example.com or #contact" className={hasFieldError("buttonLink") ? "border-destructive" : ""} />
             {hasFieldError("buttonLink") && <p className="text-sm text-destructive">{getFieldError("buttonLink")}</p>}
             <p className="text-xs text-muted-foreground">
-              Enter a full URL (https://...) or leave empty for no link
+              Enter a full URL (https://...) or leave empty for no link.
             </p>
           </div>
 

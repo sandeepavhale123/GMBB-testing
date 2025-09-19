@@ -95,7 +95,7 @@ const CreditHistory: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Credit History</h1>
-          <p className="text-muted-foreground">Track your credit usage and purchases</p>
+          <p className="text-muted-foreground">Track your credit usage and purchases.</p>
         </div>
         <Button className="gap-2 hidden ">
           <CreditCard className="w-4 h-4" />

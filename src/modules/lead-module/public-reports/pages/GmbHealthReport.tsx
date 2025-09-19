@@ -75,13 +75,13 @@ export const GmbHealthReport: React.FC = () => {
     id: "3",
     label: "Phone Number",
     status: reportData.businessInfo.phoneNumber ? "good" as const : "needs-work" as const,
-    description: "This represents your primary business phone number",
+    description: "This represents your primary business phone number.",
     icon: "phone"
   }, {
     id: "4",
     label: "Business Website",
     status: reportData.businessInfo.website ? "good" as const : "needs-work" as const,
-    description: "Having a website for your business enables potential customers to find more information about your services",
+    description: "Having a website for your business enables potential customers to find more information about your services.",
     icon: "globe"
   }, {
     id: "5",
@@ -93,7 +93,7 @@ export const GmbHealthReport: React.FC = () => {
     id: "6",
     label: "Business Description",
     status: "good" as const,
-    description: "Business description helps customers understand your services",
+    description: "Business description helps customers understand your services.",
     icon: "file-text"
   }, {
     id: "7",
@@ -105,7 +105,7 @@ export const GmbHealthReport: React.FC = () => {
     id: "9",
     label: "Photos",
     status: ((reportData.communication?.photos?.length || 0) > 5 ? "good" as const : "needs-work" as const),
-    description: "Photos help customers visualize your business and services",
+    description: "Photos help customers visualize your business and services.",
     icon: "camera"
   }];
   // Transform photos from API data
@@ -381,12 +381,12 @@ export const GmbHealthReport: React.FC = () => {
         {/* Category Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>The top 3 category used by competitors</CardTitle>
+            <CardTitle>The top 3 categories used by competitors</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 mb-6">
               We found the following twenty businesses on the map that complicate your business. By analyzing and using this data, 
-              you can increase the chances of your business appearing higher on Googles search results and attracting more 
+              you can increase the chances of your business appearing higher on Google's search results and attracting more 
               customers.
             </p>
             
@@ -427,7 +427,7 @@ export const GmbHealthReport: React.FC = () => {
         {(reportData as any).top15Keywords && Array.isArray((reportData as any).top15Keywords) && (reportData as any).top15Keywords.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>The top 15 Keywords used by competitors</CardTitle>
+              <CardTitle>The top 15 keywords used by competitors</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 mb-6">
