@@ -56,7 +56,7 @@ export const LeadTableFilters: React.FC<LeadTableFiltersProps> = ({
         />
       </div> */}
       
-      <div className="w-full sm:w-40">
+      {/* <div className="w-full sm:w-40">
         <Select value={categoryFilter} onValueChange={onCategoryFilterChange}>
           <SelectTrigger>
             <SelectValue placeholder="Category" />
@@ -70,16 +70,16 @@ export const LeadTableFilters: React.FC<LeadTableFiltersProps> = ({
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
       
-      <Button 
+      {/* <Button 
         variant="outline" 
         onClick={onClearFilters}
         className="w-full sm:w-auto"
       >
         <X className="mr-2 h-4 w-4" />
         Clear
-      </Button>
+      </Button> */}
     </div>
   );
 };
