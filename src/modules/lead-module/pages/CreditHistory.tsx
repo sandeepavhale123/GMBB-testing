@@ -222,7 +222,7 @@ const CreditHistory: React.FC = () => {
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-medium">Keyword</th>
+                      <th className="text-left py-3 px-4 font-medium">Business Name</th>
                       <th className="text-left py-3 px-4 font-medium">Report Type</th>
                       <th className="text-left py-3 px-4 font-medium">Credit</th>
                       <th className="text-right py-3 px-4 font-medium">Date</th>
