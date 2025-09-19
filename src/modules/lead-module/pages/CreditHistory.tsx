@@ -143,7 +143,7 @@ const CreditHistory: React.FC = () => {
       <Card>
         <CardHeader>
           <CardTitle>Credit Usage</CardTitle>
-          <CardDescription>Your current credit consumption</CardDescription>
+          <CardDescription>Your current credit consumption.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
