@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Heart, Star, MapPin, Phone, Globe, Users, Loader2, Check, X, CheckCircle, Lightbulb } from "lucide-react";
+import { Heart, Star, MapPin, Phone, Globe, Users, Loader2, Check, X, CheckCircle, Lightbulb , Building2  } from "lucide-react";
 import { ProgressCard } from "../components/ProgressCard";
 import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
 import { PostsOnGMB } from "../components/PostsOnGMB";
@@ -280,7 +280,7 @@ export const GmbHealthReport: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className={`${reportData.businessInfo.businessName ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4 flex items-center gap-3`}>
                 <div className={`w-10 h-10 ${reportData.businessInfo.businessName ? 'bg-green-100' : 'bg-red-100'} rounded-lg flex items-center justify-center`}>
-                  <MapPin className={`h-5 w-5 ${reportData.businessInfo.businessName ? 'text-green-600' : 'text-red-600'}`} />
+                  <Building2 className={`h-5 w-5 ${reportData.businessInfo.businessName ? 'text-green-600' : 'text-red-600'}`} />
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Business Name</div>
@@ -326,7 +326,7 @@ export const GmbHealthReport: React.FC = () => {
                         href={reportData.businessInfo.website.startsWith('http') ? reportData.businessInfo.website : `https://${reportData.businessInfo.website}`}
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-primary hover:underline"
+                        className="text-primary hover:underline break-all"
                       >
                         {reportData.businessInfo.website}
                       </a>
