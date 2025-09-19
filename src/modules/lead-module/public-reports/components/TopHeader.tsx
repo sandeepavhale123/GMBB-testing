@@ -33,7 +33,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   const handleSmoothScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 80; // Account for fixed header height
+      const headerOffset = 10; // Account for fixed header height
       const elementPosition = element.offsetTop;
       const offsetPosition = elementPosition - headerOffset;
 
