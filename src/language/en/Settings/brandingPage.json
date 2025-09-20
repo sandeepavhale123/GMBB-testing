@@ -1,0 +1,25 @@
+{
+  "brandingPage": {
+    "title": "Theme Customization",
+    "subtitle": "Customize your application's visual identity.",
+    "badge": "White Label",
+    "actions": {
+      "save": "Save Changes",
+      "reset": "Reset Theme"
+    },
+    "messages": {
+      "reset": {
+        "title": "Theme Reset",
+        "success": "Theme has been reset successfully.",
+        "errorTitle": "Reset Error",
+        "errorDescription": "Failed to reset theme. Please try again."
+      },
+      "save": {
+        "successTitle": "Theme updated successfully",
+        "successDescription": "Your theme has been updated.",
+        "errorTitle": "Error saving theme",
+        "errorDescription": "Failed to save theme. Please try again later."
+      }
+    }
+  }
+}

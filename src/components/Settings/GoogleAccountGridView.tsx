@@ -3,6 +3,7 @@ import { Trash2, RefreshCw, Eye, BookKey } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { GoogleAccountAvatar } from "./GoogleAccountAvatar";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ConnectedListing {
   id: string;
@@ -50,6 +51,7 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
   onRefreshAccount,
   isRefreshing,
 }) => {
+  const { t } = useI18nNamespace("Settings/googleAccountGridView");
   const handleCardClick = () => {
     onManageListings?.(account.id);
   };
@@ -146,20 +148,28 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
             <div className="text-xl font-bold text-gray-900">
               {account.listings}
             </div>
-            <div className="text-xs text-gray-500">Total Listings</div>
+            <div className="text-xs text-gray-500">
+              {t("googleAccountGridView.summary.totalListings")}
+            </div>
           </div>
           <div className="text-center p-3 bg-gray-50 rounded-lg">
             <div className="text-xl font-bold text-gray-900">
               {account.activeListings}
             </div>
-            <div className="text-xs text-gray-500">Connected</div>
+            <div className="text-xs text-gray-500">
+              {" "}
+              {t("googleAccountGridView.summary.connected")}
+            </div>
           </div>
         </div>
 
         {/* Row 4: Progress Bar */}
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs text-gray-500">Connection Progress</span>
+            <span className="text-xs text-gray-500">
+              {" "}
+              {t("googleAccountGridView.progress.label")}
+            </span>
             <span className="text-xs text-gray-700 font-medium">
               {account.listings > 0
                 ? Math.round((account.activeListings / account.listings) * 100)

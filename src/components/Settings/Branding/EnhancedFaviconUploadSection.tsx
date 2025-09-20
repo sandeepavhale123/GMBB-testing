@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '../../ui/button';
-import { Label } from '../../ui/label';
-import { Upload, Settings, X } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import React, { useState, useEffect } from "react";
+import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
+import { Upload, Settings, X } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface EnhancedFaviconUploadSectionProps {
   faviconFile: File | null;
@@ -10,11 +11,10 @@ interface EnhancedFaviconUploadSectionProps {
   onFaviconChange: (file: File | null) => void;
 }
 
-export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSectionProps> = ({
-  faviconFile,
-  faviconUrl,
-  onFaviconChange,
-}) => {
+export const EnhancedFaviconUploadSection: React.FC<
+  EnhancedFaviconUploadSectionProps
+> = ({ faviconFile, faviconUrl, onFaviconChange }) => {
+  const { t } = useI18nNamespace("Branding/enhancedFaviconUploadSection");
   const { toast } = useToast();
   const [dragOver, setDragOver] = useState(false);
 
@@ -28,17 +28,21 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
   const validateAndUpload = (file: File) => {
     if (file.size > 1024 * 1024) {
       toast({
-        title: "File too large",
-        description: "Favicon file must be less than 1MB",
+        title: t("enhancedFaviconUploadSection.toast.fileTooLarge.title"),
+        description: t(
+          "enhancedFaviconUploadSection.toast.fileTooLarge.description"
+        ),
         variant: "destructive",
       });
       return;
     }
 
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith("image/")) {
       toast({
-        title: "Invalid file type",
-        description: "Please upload an image file (PNG, JPG)",
+        title: t("enhancedFaviconUploadSection.toast.invalidFileType.title"),
+        description: t(
+          "enhancedFaviconUploadSection.toast.invalidFileType.description"
+        ),
         variant: "destructive",
       });
       return;
@@ -46,8 +50,12 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
 
     onFaviconChange(file);
     toast({
-      title: "Favicon uploaded",
-      description: `${file.name} ready for use`,
+      title: t("enhancedFaviconUploadSection.toast.uploaded.title"),
+      description: t(
+        "enhancedFaviconUploadSection.toast.uploaded.description",
+        { fileName: file.name }
+      ),
+      // `${file.name} ready for use`
     });
   };
 
@@ -72,8 +80,8 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
   const removeFavicon = () => {
     onFaviconChange(null);
     toast({
-      title: "Favicon removed",
-      description: "Favicon has been removed successfully",
+      title: t("enhancedFaviconUploadSection.toast.removed.title"),
+      description: t("enhancedFaviconUploadSection.toast.removed.description"),
     });
   };
 
@@ -81,20 +89,20 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
   useEffect(() => {
     if (faviconFile) {
       const faviconUrl = URL.createObjectURL(faviconFile);
-      
+
       // Remove existing favicon
       const existingFavicon = document.querySelector('link[rel="icon"]');
       if (existingFavicon) {
         existingFavicon.remove();
       }
-      
+
       // Add new favicon
-      const link = document.createElement('link');
-      link.rel = 'icon';
+      const link = document.createElement("link");
+      link.rel = "icon";
       link.href = faviconUrl;
       link.type = faviconFile.type;
       document.head.appendChild(link);
-      
+
       return () => {
         URL.revokeObjectURL(faviconUrl);
       };
@@ -105,44 +113,46 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
     <div>
       <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
         <Settings className="w-5 h-5" />
-        Favicon
+        {t("enhancedFaviconUploadSection.title")}
       </h3>
       <div className="space-y-4">
         <div className="flex items-start gap-4">
-          <div 
+          <div
             className={`w-16 h-16 border-2 border-dashed rounded-lg flex items-center justify-center transition-colors ${
-              dragOver ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'
+              dragOver
+                ? "border-blue-400 bg-blue-50"
+                : "border-gray-300 bg-gray-50"
             }`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
           >
             {faviconFile ? (
-              <img 
-                src={URL.createObjectURL(faviconFile)} 
-                alt="Favicon preview" 
+              <img
+                src={URL.createObjectURL(faviconFile)}
+                alt="Favicon preview"
                 className="w-full h-full object-contain rounded p-1"
               />
             ) : faviconUrl ? (
-              <img 
-                src={faviconUrl} 
-                alt="Current favicon" 
+              <img
+                src={faviconUrl}
+                alt="Current favicon"
                 className="w-full h-full object-contain rounded p-1"
               />
             ) : (
               <Settings className="w-6 h-6 text-gray-400" />
             )}
           </div>
-          
+
           <div className="flex-1">
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor="favicon-upload" className="text-sm font-medium">
-                Upload Favicon
+                {t("enhancedFaviconUploadSection.uploadLabel")}
               </Label>
               {faviconFile && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={removeFavicon}
                   className="h-6 w-6 p-0 text-gray-500 hover:text-red-500"
                 >
@@ -150,11 +160,11 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
                 </Button>
               )}
             </div>
-            
+
             <p className="text-xs text-gray-500 mb-3">
-              PNG, JPG up to 1MB. Recommended: 32x32px or 16x16px
+              {t("enhancedFaviconUploadSection.fileRequirements")}
             </p>
-            
+
             <input
               id="favicon-upload"
               type="file"
@@ -162,35 +172,44 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
               onChange={handleFaviconUpload}
               className="hidden"
             />
-            
+
             <Button
               variant="outline"
               size="sm"
               className="w-full"
-              onClick={() => document.getElementById('favicon-upload')?.click()}
+              onClick={() => document.getElementById("favicon-upload")?.click()}
             >
               <Upload className="w-4 h-4 mr-2" />
-              Choose Favicon
+              {t("enhancedFaviconUploadSection.uploadButton")}
             </Button>
-            
+
             {faviconFile ? (
               <div className="text-sm text-gray-600 mt-2">
                 <div className="flex items-center justify-between">
-                  <span className="truncate mr-2">Selected: {faviconFile.name}</span>
-                  <span className="text-xs text-green-600">✓ Applied</span>
+                  <span className="truncate mr-2">
+                    {t("enhancedFaviconUploadSection.selectedFile", {
+                      fileName: faviconFile.name,
+                    })}
+                    {/* Selected: {faviconFile.name} */}
+                  </span>
+                  <span className="text-xs text-green-600">
+                    {t("enhancedFaviconUploadSection.applied")}
+                  </span>
                 </div>
               </div>
             ) : faviconUrl ? (
               <div className="text-sm text-green-600 mt-2">
-                ✓ Current favicon loaded
+                {t("enhancedFaviconUploadSection.currentLoaded")}
               </div>
             ) : null}
           </div>
         </div>
-        
+
         {dragOver && (
           <div className="text-center p-2 bg-blue-50 border border-blue-200 rounded">
-            <p className="text-sm text-blue-600">Drop favicon here to upload</p>
+            <p className="text-sm text-blue-600">
+              {t("enhancedFaviconUploadSection.dropHere")}
+            </p>
           </div>
         )}
       </div>

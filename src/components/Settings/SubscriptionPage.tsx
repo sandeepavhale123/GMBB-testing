@@ -14,6 +14,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchUserProfile } from "@/store/slices/profileSlice";
 import { PaymentHistoryTable } from "./PaymentHistory/PaymentHistoryTable";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // ⚠️ Load Stripe publishable key from .env
 const stripePromise = loadStripe(
@@ -112,6 +113,7 @@ const plans = [
   },
 ];
 export const SubscriptionPage: React.FC = () => {
+  const { t } = useI18nNamespace("Settings/subscriptionPage");
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
@@ -278,11 +280,11 @@ export const SubscriptionPage: React.FC = () => {
     } catch (error) {
       console.error("Payment error:", error);
       toast({
-        title: "Payment Error",
+        title: t("subscriptionPage.toast.paymentError.title"),
         description:
           error instanceof Error
             ? error.message
-            : "Failed to process payment. Please try again.",
+            : t("subscriptionPage.toast.paymentError.description"),
         variant: "destructive",
       });
     } finally {
@@ -304,7 +306,7 @@ export const SubscriptionPage: React.FC = () => {
       // console.log("response message on upgrade", response);
 
       toast({
-        title: "Upgrade Successful",
+        title: t("subscriptionPage.toast.upgradeSuccess.title"),
         description: response.data?.message,
       });
 
@@ -324,11 +326,11 @@ export const SubscriptionPage: React.FC = () => {
     } catch (error) {
       console.error("Upgrade error:", error);
       toast({
-        title: "Upgrade Error",
+        title: t("subscriptionPage.toast.upgradeError.title"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "Failed to upgrade plan. Please try again.",
+            : t("subscriptionPage.toast.upgradeError.description"),
         variant: "destructive",
       });
     } finally {
@@ -351,9 +353,10 @@ export const SubscriptionPage: React.FC = () => {
         }
       );
       toast({
-        title: "Subscription Cancelled",
+        title: t("subscriptionPage.toast.subscriptionCancelled.title"),
         description:
-          response.data?.message || "Your subscription has been cancelled.",
+          response.data?.message ||
+          t("subscriptionPage.toast.subscriptionCancelled.description"),
       });
 
       // Optionally refresh state
@@ -366,9 +369,10 @@ export const SubscriptionPage: React.FC = () => {
     } catch (error: any) {
       console.error("Cancel subscription error:", error);
       toast({
-        title: "Error",
+        title: t("subscriptionPage.toast.cancelError.title"),
         description:
-          error?.response?.data?.message || "Failed to cancel subscription.",
+          error?.response?.data?.message ||
+          t("subscriptionPage.toast.cancelError.description"),
         variant: "destructive",
       });
     } finally {
@@ -392,7 +396,7 @@ export const SubscriptionPage: React.FC = () => {
         <div>
           <div className="flex gap-4  mb-2" style={{ alignItems: "center" }}>
             <h2 className="text-2xl l font-bold text-gray-900 mb-2">
-              Subscription Plans
+              {t("subscriptionPage.title")}
             </h2>
             {/* Show expiration status if user has a plan */}
             {activePlanId && planExpDate && (
@@ -409,15 +413,16 @@ export const SubscriptionPage: React.FC = () => {
                   }`}
                 >
                   {isExpired
-                    ? `Your plan expired. Please renew to continue accessing features.`
-                    : `Your plan is active until ${formatDate(planExpDate)}.`}
+                    ? t("subscriptionPage.expiredPlan")
+                    : t("subscriptionPage.activePlan", {
+                        date: formatDate(planExpDate),
+                      })}
                 </p>
               </div>
             )}
           </div>
           <p className="text-gray-600 text-sm sm:text-base">
-            Choose the perfect plan for your business needs. Upgrade or
-            downgrade at any time.
+            {t("subscriptionPage.description")}
           </p>
         </div>
         {hasActivePlan() && !isExpired && (
@@ -426,7 +431,7 @@ export const SubscriptionPage: React.FC = () => {
             onClick={handleUnsubscribeClick}
             className="mt-2 sm:mt-0"
           >
-            Unsubscribe
+            {t("subscriptionPage.unsubscribe")}
           </Button>
         )}
       </div>
@@ -434,10 +439,10 @@ export const SubscriptionPage: React.FC = () => {
       <Tabs defaultValue="pricing-plan" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
           <TabsTrigger value="pricing-plan" className="text-sm sm:text-base">
-            Pricing Plan
+            {t("subscriptionPage.tabs.pricingPlan")}
           </TabsTrigger>
           <TabsTrigger value="payment-history" className="text-sm sm:text-base">
-            Payment History
+            {t("subscriptionPage.tabs.paymentHistory")}
           </TabsTrigger>
         </TabsList>
 
@@ -448,7 +453,7 @@ export const SubscriptionPage: React.FC = () => {
               <Card key={plan.id} className="relative overflow-hidden">
                 {plan.popular && (
                   <Badge className="absolute top-4 right-4 bg-orange-500 text-white text-xs ">
-                    Most Popular
+                    {t("subscriptionPage.labels.mostPopular")}
                   </Badge>
                 )}
                 <CardHeader className={`${plan.color} text-white`}>
@@ -505,7 +510,7 @@ export const SubscriptionPage: React.FC = () => {
             {/* Header Row */}
             <div className="grid grid-cols-5 bg-gray-50 border-b border-gray-200">
               <div className="p-4 font-semibold text-gray-900 flex items-center">
-                Features
+                {t("subscriptionPage.labels.features")}
               </div>
               {plans.map((plan) => (
                 <div
@@ -526,7 +531,7 @@ export const SubscriptionPage: React.FC = () => {
                   </div>
                   {plan.popular && (
                     <Badge className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs">
-                      Most Popular
+                      {t("subscriptionPage.labels.mostPopular")}
                     </Badge>
                   )}
                 </div>
@@ -535,7 +540,9 @@ export const SubscriptionPage: React.FC = () => {
 
             {/* Price Row */}
             <div className="grid grid-cols-5 border-b border-gray-200 bg-white">
-              <div className="p-4 font-medium text-gray-700">Price/PM</div>
+              <div className="p-4 font-medium text-gray-700">
+                {t("subscriptionPage.labels.pricePerMonth")}
+              </div>
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center">
                   <div className="text-2xl font-bold text-gray-900">
@@ -592,11 +599,10 @@ export const SubscriptionPage: React.FC = () => {
           {/* Additional Information */}
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-primary mb-2">
-              Need Help Choosing?
+              {t("subscriptionPage.help.title")}
             </h3>
             <p className="text-primary/80 text-sm mb-4">
-              Contact our sales team to find the perfect plan for your business
-              needs.
+              {t("subscriptionPage.help.description")}
             </p>
             <Button
               variant="outline"
@@ -605,7 +611,7 @@ export const SubscriptionPage: React.FC = () => {
                 window.open("https://gmbbriefcase.com/contact/", "_blank")
               }
             >
-              Contact Sales
+              {t("subscriptionPage.buttons.contactSales")}
             </Button>
           </div>
         </TabsContent>

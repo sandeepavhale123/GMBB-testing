@@ -20,8 +20,10 @@ import { EditTeamMemberSettings } from "../components/Settings/EditTeamMemberSet
 import { useListingContext } from "@/context/ListingContext";
 import { useProfile } from "@/hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const SettingsPage = () => {
+  const { t } = useI18nNamespace("pages/settingsPage");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { accountId } = useParams();
@@ -105,10 +107,10 @@ const SettingsPage = () => {
       return (
         <div className="p-8 text-center">
           <h2 className="text-lg font-semibold text-red-600">
-            The application plan has expired.
+            {t("settingsPage.planExpired.title")}
           </h2>
           <p className="text-sm mt-2 text-gray-600">
-            Please contact your Admin for access.
+            {t("settingsPage.planExpired.description")}
           </p>
         </div>
       );

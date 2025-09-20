@@ -16,6 +16,7 @@ import { Switch } from "../ui/switch";
 import { Upload, Eye, EyeOff } from "lucide-react";
 import { addTeamMemberSchema } from "@/schemas/authSchemas"; // adjust path as needed
 import { useFormValidation } from "@/hooks/useFormValidation"; // adjust path as needed
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface EditTeamMemberModalProps {
   open: boolean;
@@ -65,6 +66,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
   onOpenChange,
   member,
 }) => {
+  const { t } = useI18nNamespace("Settings/editTeamMemberModal");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -165,17 +167,23 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Team Member</DialogTitle>
+          <DialogTitle>{t("editTeamMemberModal.title")}</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="profile">Edit Profile</TabsTrigger>
+            <TabsTrigger value="profile">
+              {t("editTeamMemberModal.tabs.profile")}
+            </TabsTrigger>
             {formData.role !== "Moderator" && (
-              <TabsTrigger value="listings">Listings</TabsTrigger>
+              <TabsTrigger value="listings">
+                {t("editTeamMemberModal.tabs.listings")}
+              </TabsTrigger>
             )}
 
-            <TabsTrigger value="permissions">Permissions</TabsTrigger>
+            <TabsTrigger value="permissions">
+              {t("editTeamMemberModal.tabs.permissions")}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="space-y-4">
@@ -201,7 +209,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                     className="hidden"
                   />
                   <Button type="button" variant="outline" size="sm">
-                    Change Photo
+                    {t("editTeamMemberModal.profile.changePhoto")}
                   </Button>
                 </Label>
               </div>
@@ -209,14 +217,18 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
               {/* Name Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">
+                    {t("editTeamMemberModal.profile.firstName")}
+                  </Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) =>
                       handleInputChange("firstName", e.target.value)
                     }
-                    placeholder="Enter first name"
+                    placeholder={t(
+                      "editTeamMemberModal.profile.placeholder.firstName"
+                    )}
                   />
                   {getFieldError("firstName") && (
                     <p className="text-sm text-red-500">
@@ -225,14 +237,18 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">
+                    {t("editTeamMemberModal.profile.lastName")}
+                  </Label>
                   <Input
                     id="lastName"
                     value={formData.lastName}
                     onChange={(e) =>
                       handleInputChange("lastName", e.target.value)
                     }
-                    placeholder="Enter last name"
+                    placeholder={t(
+                      "editTeamMemberModal.profile.placeholder.lastName"
+                    )}
                   />
                   {hasFieldError("lastName") && (
                     <p className="text-sm text-red-500">
@@ -244,7 +260,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
 
               {/* Password */}
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">
+                  {t("editTeamMemberModal.profile.password")}
+                </Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -253,7 +271,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                     onChange={(e) =>
                       handleInputChange("password", e.target.value)
                     }
-                    placeholder="Enter new password"
+                    placeholder={t(
+                      "editTeamMemberModal.profile.placeholder.password"
+                    )}
                   />
                   <Button
                     type="button"
@@ -278,18 +298,30 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
 
               {/* Role */}
               <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
+                <Label htmlFor="role">
+                  {t("editTeamMemberModal.profile.role")}
+                </Label>
                 <Select
                   value={formData.role}
                   onValueChange={(value) => handleInputChange("role", value)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select role" />
+                    <SelectValue
+                      placeholder={t("editTeamMemberModal.profile.selectRole")}
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Moderator">Moderator</SelectItem>
-                    <SelectItem value="Staff">Staff</SelectItem>
-                    <SelectItem value="Client">Client</SelectItem>
+                    <SelectItem value="Moderator">
+                      {t("editTeamMemberModal.profile.roles.moderator")}
+                    </SelectItem>
+                    <SelectItem value="Staff">
+                      {" "}
+                      {t("editTeamMemberModal.profile.roles.staff")}
+                    </SelectItem>
+                    <SelectItem value="Client">
+                      {" "}
+                      {t("editTeamMemberModal.profile.roles.client")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -302,10 +334,10 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                   onClick={() => onOpenChange(false)}
                   className="flex-1"
                 >
-                  Cancel
+                  {t("editTeamMemberModal.profile.buttons.cancel")}
                 </Button>
                 <Button type="submit" className="flex-1">
-                  Save Changes
+                  {t("editTeamMemberModal.profile.buttons.save")}
                 </Button>
               </div>
             </form>
@@ -316,9 +348,11 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
               {/* Allow Listing Access Toggle */}
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <h3 className="font-medium">Allow Listing Access</h3>
+                  <h3 className="font-medium">
+                    {t("editTeamMemberModal.listings.allowAccessTitle")}
+                  </h3>
                   <p className="text-sm text-gray-600">
-                    Enable or disable access to listings
+                    {t("editTeamMemberModal.listings.allowAccessDescription")}
                   </p>
                 </div>
                 <Switch
@@ -331,7 +365,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                 <>
                   {/* Account Filter */}
                   <div className="space-y-2">
-                    <Label>Filter by Account</Label>
+                    <Label>
+                      {t("editTeamMemberModal.listings.filterByAccount")}
+                    </Label>
                     <Select
                       value={selectedAccount}
                       onValueChange={setSelectedAccount}
@@ -340,16 +376,24 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Accounts</SelectItem>
-                        <SelectItem value="Account 1">Account 1</SelectItem>
-                        <SelectItem value="Account 2">Account 2</SelectItem>
+                        <SelectItem value="all">
+                          {t("editTeamMemberModal.listings.allAccounts")}
+                        </SelectItem>
+                        <SelectItem value="Account 1">
+                          {t("editTeamMemberModal.listings.accoun1")}{" "}
+                        </SelectItem>
+                        <SelectItem value="Account 2">
+                          {t("editTeamMemberModal.listings.accoun2")}{" "}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Listings List */}
                   <div className="space-y-3">
-                    <h3 className="font-medium">Listings</h3>
+                    <h3 className="font-medium">
+                      {t("editTeamMemberModal.listings.listingsTitle")}
+                    </h3>
                     {filteredListings.map((listing) => (
                       <div
                         key={listing.id}
@@ -377,9 +421,11 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
 
           <TabsContent value="permissions" className="space-y-4">
             <div className="space-y-3">
-              <h3 className="font-medium">Feature Permissions</h3>
+              <h3 className="font-medium">
+                {t("editTeamMemberModal.permissions.title")}
+              </h3>
               <p className="text-sm text-gray-600">
-                Control access levels for each feature: View, Edit, or Hide
+                {t("editTeamMemberModal.permissions.description")}
               </p>
 
               <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -399,9 +445,15 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="View">View</SelectItem>
-                        <SelectItem value="Edit">Edit</SelectItem>
-                        <SelectItem value="Hide">Hide</SelectItem>
+                        <SelectItem value="View">
+                          {t("editTeamMemberModal.permissions.levels.view")}
+                        </SelectItem>
+                        <SelectItem value="Edit">
+                          {t("editTeamMemberModal.permissions.levels.edit")}
+                        </SelectItem>
+                        <SelectItem value="Hide">
+                          {t("editTeamMemberModal.permissions.levels.hide")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

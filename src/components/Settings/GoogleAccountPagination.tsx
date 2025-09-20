@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -8,7 +7,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../ui/pagination';
+} from "../ui/pagination";
 
 interface GoogleAccountPaginationProps {
   currentPage: number;
@@ -18,13 +17,9 @@ interface GoogleAccountPaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const GoogleAccountPagination: React.FC<GoogleAccountPaginationProps> = ({
-  currentPage,
-  totalPages,
-  hasNext,
-  hasPrev,
-  onPageChange,
-}) => {
+export const GoogleAccountPagination: React.FC<
+  GoogleAccountPaginationProps
+> = ({ currentPage, totalPages, hasNext, hasPrev, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   const handlePrevious = () => {
@@ -60,16 +55,18 @@ export const GoogleAccountPagination: React.FC<GoogleAccountPaginationProps> = (
     <Pagination className="justify-center">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious 
+          <PaginationPrevious
             onClick={handlePrevious}
-            className={!hasPrev ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            className={
+              !hasPrev ? "pointer-events-none opacity-50" : "cursor-pointer"
+            }
           />
         </PaginationItem>
 
         {getPageNumbers()[0] > 1 && (
           <>
             <PaginationItem>
-              <PaginationLink 
+              <PaginationLink
                 onClick={() => onPageChange(1)}
                 className="cursor-pointer"
               >
@@ -104,7 +101,7 @@ export const GoogleAccountPagination: React.FC<GoogleAccountPaginationProps> = (
               </PaginationItem>
             )}
             <PaginationItem>
-              <PaginationLink 
+              <PaginationLink
                 onClick={() => onPageChange(totalPages)}
                 className="cursor-pointer"
               >
@@ -115,9 +112,11 @@ export const GoogleAccountPagination: React.FC<GoogleAccountPaginationProps> = (
         )}
 
         <PaginationItem>
-          <PaginationNext 
+          <PaginationNext
             onClick={handleNext}
-            className={!hasNext ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            className={
+              !hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"
+            }
           />
         </PaginationItem>
       </PaginationContent>

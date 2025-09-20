@@ -1,0 +1,28 @@
+{
+  "googleAuthHandler": {
+    "toast": {
+      "success": {
+        "title": "Success!",
+        "description": "Google account connected successfully."
+      },
+      "error": {
+        "title": "Connection Failed",
+        "description": "Failed to connect Google account. Please try again."
+      }
+    },
+    "errorState": {
+      "title": "Connection Failed",
+      "button": "Back to Account Settings"
+    },
+    "loadingState": {
+      "title": "Connecting Your Account",
+      "description": "Please wait while we connect your Google Business Profile and fetch your listings...",
+      "note": "This may take a few moments"
+    },
+    "errors": {
+      "noAccessToken": "No access token found. Please log in again.",
+      "noAccountId": "No account ID received from Google authentication",
+      "failedAuth": "Failed to authenticate with Google"
+    }
+  }
+}

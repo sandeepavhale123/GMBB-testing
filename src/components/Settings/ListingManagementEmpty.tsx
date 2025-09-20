@@ -1,6 +1,6 @@
-
-import React from 'react';
-import { Search } from 'lucide-react';
+import React from "react";
+import { Search } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ListingManagementEmptyProps {
   hasSearchTerm: boolean;
@@ -9,8 +9,9 @@ interface ListingManagementEmptyProps {
 
 export const ListingManagementEmpty: React.FC<ListingManagementEmptyProps> = ({
   hasSearchTerm,
-  searchTerm
+  searchTerm,
 }) => {
+  const { t } = useI18nNamespace("Settings/listingManagementEmpty");
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-12 text-center mb-6">
       <div className="flex flex-col items-center">
@@ -18,13 +19,13 @@ export const ListingManagementEmpty: React.FC<ListingManagementEmptyProps> = ({
           <Search className="w-6 h-6 text-gray-400" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          No listings found
+          {t("listingManagementEmpty.title")}
         </h3>
         <p className="text-gray-500 text-sm max-w-md">
-          {hasSearchTerm 
-            ? `No listings match "${searchTerm}". Try a different search term.`
-            : "No listings match your current filters. Try adjusting your filters."
-          }
+          {hasSearchTerm
+            ? t("listingManagementEmpty.searchMessage", { searchTerm })
+            : // `No listings match "${searchTerm}". Try a different search term.`
+              t("listingManagementEmpty.filterMessage")}
         </p>
       </div>
     </div>

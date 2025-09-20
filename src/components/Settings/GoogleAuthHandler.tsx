@@ -4,11 +4,12 @@ import { Loader2, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 // Global flag to prevent duplicate processing across component instances
 let isProcessingGlobally = false;
 
 const GoogleAuthHandler = () => {
+  const { t } = useI18nNamespace("Settings/googleAuthHandler");
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -43,7 +44,7 @@ const GoogleAuthHandler = () => {
 
         const localAccessToken = localStorage.getItem("access_token");
         if (!localAccessToken) {
-          throw new Error("No access token found. Please log in again.");
+          throw new Error(t("googleAuthHandler.errors.noAccessToken"));
         }
 
         // Call Google auth endpoint with the code
@@ -65,7 +66,7 @@ const GoogleAuthHandler = () => {
           const message =
             responseData.message ||
             responseData.error ||
-            "Failed to authenticate with Google";
+            t("googleAuthHandler.errors.failedAuth");
           throw new Error(message);
         }
 
@@ -77,8 +78,8 @@ const GoogleAuthHandler = () => {
           throw new Error("No account ID received from Google authentication");
         }
         toast({
-          title: "Success!",
-          description: "Google account connected successfully.",
+          title: t("googleAuthHandler.toast.success.title"),
+          description: t("googleAuthHandler.toast.success.description"),
         });
 
         // ✅ Decide where to go first
@@ -106,11 +107,11 @@ const GoogleAuthHandler = () => {
         const errorMessage =
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "Failed to connect Google account. Please try again.";
+            : t("googleAuthHandler.toast.error.description");
         setError(errorMessage);
 
         toast({
-          title: "Connection Failed",
+          title: t("googleAuthHandler.toast.error.title"),
           description: errorMessage,
           variant: "destructive",
         });
@@ -148,7 +149,7 @@ const GoogleAuthHandler = () => {
         <Card className="p-8 max-w-md mx-auto text-center shadow-lg">
           <AlertCircle className="h-12 w-12 text-red-600 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Connection Failed
+            {t("googleAuthHandler.errorState.title")}
           </h3>
           <p className="text-gray-600 text-sm mb-4">{error}</p>
           <Button
@@ -165,7 +166,7 @@ const GoogleAuthHandler = () => {
             }}
             className="w-full"
           >
-            Back to Account Settings
+            {t("googleAuthHandler.errorState.button")}
           </Button>
         </Card>
       </div>
@@ -178,14 +179,13 @@ const GoogleAuthHandler = () => {
       <Card className="p-8 max-w-md mx-auto text-center shadow-lg">
         <Loader2 className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-spin" />
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Connecting Your Account
+          {t("googleAuthHandler.loadingState.title")}
         </h3>
         <p className="text-gray-600 text-sm">
-          Please wait while we connect your Google Business Profile and fetch
-          your listings...
+          {t("googleAuthHandler.loadingState.description")}
         </p>
         <div className="mt-4 text-xs text-gray-500">
-          This may take a few moments
+          {t("googleAuthHandler.loadingState.note")}
         </div>
       </Card>
     </div>

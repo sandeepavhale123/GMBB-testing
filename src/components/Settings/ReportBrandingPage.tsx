@@ -28,9 +28,11 @@ import {
 } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const ReportBrandingPage: React.FC = () => {
   const { toast } = useToast();
-
+  const { t } = useI18nNamespace("Settings/reportBranding");
   // API hooks
   const { data: brandingData, isLoading: isFetchingBranding } =
     useGetReportBranding();
@@ -80,24 +82,31 @@ export const ReportBrandingPage: React.FC = () => {
   const validateAndUpload = (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
       toast({
-        title: "File too large",
-        description: "Logo file must be less than 2MB",
+        title: t("reportBranding.fields.companyLogo.fileTooLarge.title"),
+        description: t(
+          "reportBranding.fields.companyLogo.fileTooLarge.description"
+        ),
         variant: "destructive",
       });
       return;
     }
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Invalid file type",
-        description: "Please upload an image file (PNG, JPG, SVG)",
+        title: t("reportBranding.fields.companyLogo.invalidFile.title"),
+        description: t(
+          "reportBranding.fields.companyLogo.invalidFile.description"
+        ),
         variant: "destructive",
       });
       return;
     }
     setLogoFile(file);
     toast({
-      title: "Report logo uploaded",
-      description: `${file.name} ready for use`,
+      title: t("reportBranding.fields.companyLogo.uploaded.title"),
+      description: t("reportBranding.fields.companyLogo.uploaded.description", {
+        fileName: file.name,
+      }),
+      // `${file.name} ready for use`
     });
   };
   const handleDrop = (e: React.DragEvent) => {
@@ -118,16 +127,16 @@ export const ReportBrandingPage: React.FC = () => {
   const removeLogo = () => {
     setLogoFile(null);
     toast({
-      title: "Report logo removed",
-      description: "Logo has been removed successfully",
+      title: t("reportBranding.fields.companyLogo.removed.title"),
+      description: t("reportBranding.fields.companyLogo.removed.description"),
     });
   };
   const handleSaveChanges = async () => {
     const validationResult = validation.validate(formData);
     if (!validationResult.isValid) {
       toast({
-        title: "Error",
-        description: "Please fix the validation errors",
+        title: t("reportBranding.validation.errorTitle"),
+        description: t("reportBranding.validation.errorDescription"),
         variant: "destructive",
       });
       return;
@@ -183,10 +192,10 @@ export const ReportBrandingPage: React.FC = () => {
       <div className="flex items-center justify-between mb-6 flex-col gap-4 md:flex-row md:gap-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Report Branding
+            {t("reportBranding.title")}
           </h1>
           <p className="text-muted-foreground">
-            Customize your company branding for the generated reports.
+            {t("reportBranding.description")}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -199,11 +208,11 @@ export const ReportBrandingPage: React.FC = () => {
               disabled={deleteBrandingMutation.isPending}
             >
               <Trash2 className="w-4 h-4 mr-1" />
-              Delete Branding
+              {t("reportBranding.deleteBranding")}
             </Button>
           )}
           <Badge variant="outline" className="text-primary border-primary/20">
-            White Label
+            {t("reportBranding.whiteLabel")}
           </Badge>
         </div>
       </div>
@@ -216,7 +225,7 @@ export const ReportBrandingPage: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
                   <Building className="w-5 h-5" />
-                  Company Information
+                  {t("reportBranding.companyInformation")}
                 </h3>
 
                 <div className="space-y-4">
@@ -226,11 +235,13 @@ export const ReportBrandingPage: React.FC = () => {
                         htmlFor="company-name"
                         className="text-sm font-medium"
                       >
-                        Company Name
+                        {t("reportBranding.fields.companyName.label")}
                       </Label>
                       <Input
                         id="company-name"
-                        placeholder="Enter company name"
+                        placeholder={t(
+                          "reportBranding.fields.companyName.placeholder"
+                        )}
                         value={formData.companyName}
                         onChange={(e) => {
                           handleInputChange("companyName", e.target.value);
@@ -257,12 +268,14 @@ export const ReportBrandingPage: React.FC = () => {
                         htmlFor="company-email"
                         className="text-sm font-medium"
                       >
-                        Company Email
+                        {t("reportBranding.fields.companyEmail.label")}
                       </Label>
                       <Input
                         id="company-email"
                         type="email"
-                        placeholder="company@example.com"
+                        placeholder={t(
+                          "reportBranding.fields.companyEmail.placeholder"
+                        )}
                         value={formData.companyEmail}
                         onChange={(e) => {
                           handleInputChange("companyEmail", e.target.value);
@@ -289,11 +302,13 @@ export const ReportBrandingPage: React.FC = () => {
                         htmlFor="company-website"
                         className="text-sm font-medium"
                       >
-                        Company Website
+                        {t("reportBranding.fields.companyWebsite.label")}
                       </Label>
                       <Input
                         id="company-website"
-                        placeholder="https://www.company.com"
+                        placeholder={t(
+                          "reportBranding.fields.companyWebsite.placeholder"
+                        )}
                         value={formData.companyWebsite}
                         onChange={(e) => {
                           handleInputChange("companyWebsite", e.target.value);
@@ -320,11 +335,13 @@ export const ReportBrandingPage: React.FC = () => {
                         htmlFor="company-phone"
                         className="text-sm font-medium"
                       >
-                        Company Phone
+                        {t("reportBranding.fields.companyPhone.label")}
                       </Label>
                       <Input
                         id="company-phone"
-                        placeholder="+1 (555) 123-4567"
+                        placeholder={t(
+                          "reportBranding.fields.companyPhone.placeholder"
+                        )}
                         value={formData.companyPhone}
                         onChange={(e) => {
                           handleInputChange("companyPhone", e.target.value);
@@ -351,11 +368,13 @@ export const ReportBrandingPage: React.FC = () => {
                         htmlFor="company-address"
                         className="text-sm font-medium"
                       >
-                        Company Address
+                        {t("reportBranding.fields.companyAddress.label")}
                       </Label>
                       <Input
                         id="company-address"
-                        placeholder="123 Business St, City, State 12345"
+                        placeholder={t(
+                          "reportBranding.fields.companyAddress.placeholder"
+                        )}
                         value={formData.companyAddress}
                         onChange={(e) => {
                           handleInputChange("companyAddress", e.target.value);
@@ -381,7 +400,7 @@ export const ReportBrandingPage: React.FC = () => {
                     <div className="space-y-3 pt-4 border-t">
                       <div className="flex items-center justify-between">
                         <Label className="text-sm font-medium">
-                          Company Logo
+                          {t("reportBranding.fields.companyLogo.label")}
                         </Label>
                         {logoFile && (
                           <Button
@@ -426,7 +445,9 @@ export const ReportBrandingPage: React.FC = () => {
 
                         <div className="flex-1">
                           <p className="text-xs text-muted-foreground mb-3">
-                            PNG, JPG, SVG up to 2MB. Recommended: 200 x 200px
+                            {t(
+                              "reportBranding.fields.companyLogo.requirements"
+                            )}
                           </p>
 
                           <input
@@ -449,17 +470,23 @@ export const ReportBrandingPage: React.FC = () => {
                             disabled={updateBrandingMutation.isPending}
                           >
                             <Upload className="w-4 h-4 mr-2" />
-                            Choose Logo
+                            {t(
+                              "reportBranding.fields.companyLogo.chooseButton"
+                            )}
                           </Button>
 
                           {logoFile && (
                             <div className="text-sm text-muted-foreground mt-2">
                               <div className="flex items-center justify-between">
                                 <span className="truncate mr-2">
-                                  Selected: {logoFile.name}
+                                  {t(
+                                    "reportBranding.fields.companyLogo.selected",
+                                    { fileName: logoFile.name }
+                                  )}
+                                  {/* Selected: {logoFile.name} */}
                                 </span>
                                 <span className="text-xs text-green-600">
-                                  ✓ Ready
+                                  {t("reportBranding.fields.companyLogo.ready")}
                                 </span>
                               </div>
                             </div>
@@ -468,7 +495,7 @@ export const ReportBrandingPage: React.FC = () => {
                           {brandingData?.data?.company_logo && !logoFile && (
                             <div className="text-sm text-muted-foreground mt-2">
                               <span className="text-xs text-blue-600">
-                                ✓ Current logo uploaded
+                                {t("reportBranding.fields.companyLogo.current")}
                               </span>
                             </div>
                           )}
@@ -478,7 +505,7 @@ export const ReportBrandingPage: React.FC = () => {
                       {dragOver && (
                         <div className="text-center p-2 bg-primary/5 border border-primary/20 rounded">
                           <p className="text-sm text-primary">
-                            Drop logo here to upload
+                            {t("reportBranding.fields.companyLogo.dropHere")}
                           </p>
                         </div>
                       )}
@@ -498,10 +525,10 @@ export const ReportBrandingPage: React.FC = () => {
                   {updateBrandingMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving...
+                      {t("reportBranding.saveChanges.saving")}
                     </>
                   ) : (
-                    "Save Changes"
+                    t("reportBranding.saveChanges.button")
                   )}
                 </Button>
               </div>
@@ -509,7 +536,9 @@ export const ReportBrandingPage: React.FC = () => {
 
             {/* Right Column - Report Preview */}
             <div className="bg-muted/30 rounded-lg p-6 min-h-[600px] flex flex-col hidden">
-              <h3 className="text-lg font-semibold mb-6">Report Preview</h3>
+              <h3 className="text-lg font-semibold mb-6">
+                {t("reportBranding.reportPreview.title")}
+              </h3>
 
               <div className="flex-1 flex items-center justify-center">
                 <Card className="w-full max-w-md">
@@ -537,16 +566,24 @@ export const ReportBrandingPage: React.FC = () => {
                           )}
                           <div>
                             <h3 className="font-semibold text-lg">
-                              {formData.companyName || "Your Company Name"}
+                              {formData.companyName ||
+                                t(
+                                  "reportBranding.reportPreview.header.companyNamePlaceholder"
+                                )}
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                              {formData.companyWebsite || "www.yourcompany.com"}
+                              {formData.companyWebsite ||
+                                t(
+                                  "reportBranding.reportPreview.header.websitePlaceholder"
+                                )}
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-muted-foreground">
-                            Report Date
+                            {t(
+                              "reportBranding.reportPreview.header.reportDate"
+                            )}
                           </p>
                           <p className="font-medium">
                             {formatToDayMonthYear(new Date())}
@@ -561,7 +598,7 @@ export const ReportBrandingPage: React.FC = () => {
                         <Star className="w-6 h-6 text-green-600 mx-auto mb-2" />
                         <p className="text-2xl font-bold text-green-700">4.8</p>
                         <p className="text-sm text-muted-foreground">
-                          Avg Rating
+                          {t("reportBranding.reportPreview.metrics.avgRating")}
                         </p>
                       </div>
                       <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -570,7 +607,9 @@ export const ReportBrandingPage: React.FC = () => {
                           1,247
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          Total Reviews
+                          {t(
+                            "reportBranding.reportPreview.metrics.totalReviews"
+                          )}
                         </p>
                       </div>
                     </div>
@@ -579,7 +618,7 @@ export const ReportBrandingPage: React.FC = () => {
                     <div className="bg-muted/50 rounded-lg p-6 text-center">
                       <TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
                       <p className="text-muted-foreground mb-2">
-                        Performance Chart
+                        {t("reportBranding.reportPreview.chart.title")}
                       </p>
                       <div className="h-24 bg-gradient-to-r from-blue-100 to-green-100 rounded flex items-end justify-center space-x-1 p-2">
                         {[40, 60, 45, 80, 65, 85, 75].map((height, index) => (
@@ -600,18 +639,31 @@ export const ReportBrandingPage: React.FC = () => {
                       <div className="flex justify-between items-start flex-col gap-4 xxl:flex-row xxl:gap-0 xxl:items-center">
                         <div>
                           <p className="break-all">
-                            {formData.companyEmail || "contact@yourcompany.com"}
+                            {formData.companyEmail ||
+                              t(
+                                "reportBranding.reportPreview.footer.emailPlaceholder"
+                              )}
                           </p>
-                          <p>{formData.companyPhone || "+1 (555) 123-4567"}</p>
+                          <p>
+                            {formData.companyPhone ||
+                              t(
+                                "reportBranding.reportPreview.footer.phonePlaceholder"
+                              )}
+                          </p>
                         </div>
                         <div className="text-right">
                           <p>
                             {formData.companyAddress ||
-                              "123 Business St, City, State"}
+                              t(
+                                "reportBranding.reportPreview.footer.addressPlaceholder"
+                              )}
                           </p>
                           <p className="flex items-center gap-1 justify-end mt-1">
                             <Calendar className="w-3 h-3" />
-                            Generated on {formatToDayMonthYear(new Date())}
+                            {t(
+                              "reportBranding.reportPreview.footer.generatedOn"
+                            )}
+                            {formatToDayMonthYear(new Date())}
                           </p>
                         </div>
                       </div>
@@ -628,14 +680,12 @@ export const ReportBrandingPage: React.FC = () => {
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete Report Branding</DialogTitle>
+            <DialogTitle>{t("reportBranding.deleteDialog.title")}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Are you sure you want to delete all report branding settings? This
-              action cannot be undone and will remove your company logo and
-              information from all future reports.
+              {t("reportBranding.deleteDialog.description")}
             </p>
           </div>
 
@@ -645,7 +695,7 @@ export const ReportBrandingPage: React.FC = () => {
               onClick={() => setShowDeleteDialog(false)}
               disabled={deleteBrandingMutation.isPending}
             >
-              Cancel
+              {t("reportBranding.deleteDialog.cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -655,10 +705,10 @@ export const ReportBrandingPage: React.FC = () => {
               {deleteBrandingMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Deleting...
+                  {t("reportBranding.deleteDialog.deleting")}
                 </>
               ) : (
-                "Delete Branding"
+                t("reportBranding.deleteDialog.delete")
               )}
             </Button>
           </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../../ui/button";
 import { Check, Settings, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BrandingSaveActionsProps {
   isSaving: boolean;
@@ -16,22 +17,23 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
   onReset,
   canReset,
 }) => {
+  const { t } = useI18nNamespace("Branding/brandingSaveActions");
   const { toast } = useToast();
 
   const handleSave = async () => {
     try {
       await onSave();
       toast({
-        title: "Branding updated successfully",
-        description: "Your white-label branding changes have been saved",
+        title: t("brandingSaveActions.toast.success.title"),
+        description: t("brandingSaveActions.toast.success.description"),
       });
     } catch (error) {
       toast({
-        title: "Error saving changes",
+        title: t("brandingSaveActions.toast.errorSave.title"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Please try again later",
+          t("brandingSaveActions.toast.errorSave.defaultDescription"),
         variant: "destructive",
       });
     }
@@ -42,9 +44,11 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
     } catch (error) {
       // Error handling is done in the parent component
       toast({
-        title: "Error in reset",
+        title: t("brandingSaveActions.toast.errorReset.title"),
         description:
-          error instanceof Error ? error.message : "An error occurred",
+          error instanceof Error
+            ? error.message
+            : t("brandingSaveActions.toast.errorReset.defaultDescription"),
         variant: "destructive",
       });
     }
@@ -59,19 +63,19 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
         className="px-6"
       >
         <RotateCcw className="w-4 h-4 mr-2" />
-        Reset
+        {t("brandingSaveActions.buttons.reset")}
       </Button>
 
       <Button onClick={handleSave} disabled={isSaving} className="px-8">
         {isSaving ? (
           <>
             <Settings className="w-4 h-4 mr-2 animate-spin" />
-            Saving...
+            {t("brandingSaveActions.buttons.saving")}
           </>
         ) : (
           <>
             <Check className="w-4 h-4 mr-2" />
-            Save Changes
+            {t("brandingSaveActions.buttons.saveChanges")}
           </>
         )}
       </Button>

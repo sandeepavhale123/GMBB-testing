@@ -1,0 +1,31 @@
+{
+  "shareableLinkModal": {
+    "title": "Shareable Link",
+    "description1": "Share this link with",
+    "description2": " {{firstName}} {{lastName}}",
+    "description3": "to give them direct access to their account.",
+    "allowListingsLabel": "Enter Allow Listings",
+    "availableSpots": "Available spots on the Dashboard - {{spots}}",
+    "allowListingsPlaceholder": "Enter number of allowed listings",
+    "directAccessLinkLabel": "Direct Access Link",
+    "toast": {
+      "copiedTitle": "Link copied",
+      "copiedDescription": "Shareable link has been copied to clipboard",
+      "failedTitle": "Failed to copy",
+      "failedDescription": "Please copy the link manually"
+    },
+    "linkDetails": {
+      "title": "Link Details:",
+      "points": {
+        "valid": "Valid for direct login access",
+        "bypass": "Bypasses standard login process",
+        "role": "Role-based permissions apply",
+        "revoke": "Can be revoked by deleting the user"
+      }
+    },
+    "buttons": {
+      "close": "Close",
+      "testLink": "Test Link"
+    }
+  }
+}

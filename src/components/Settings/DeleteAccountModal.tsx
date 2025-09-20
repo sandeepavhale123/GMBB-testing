@@ -10,12 +10,13 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { AlertTriangle, Loader2 } from "lucide-react";
-import { 
-  forceBodyStylesReset, 
-  startBodyStyleObserver, 
+import {
+  forceBodyStylesReset,
+  startBodyStyleObserver,
   stopBodyStyleObserver,
-  comprehensiveCleanup 
+  comprehensiveCleanup,
 } from "../../utils/domUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface DeleteAccountModalProps {
   open: boolean;
@@ -34,6 +35,8 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
   onConfirmDelete,
   isDeleting = false,
 }) => {
+  const { t } = useI18nNamespace("Settings/deleteAccountModal");
+
   const handleDelete = () => {
     onConfirmDelete();
   };
@@ -66,23 +69,23 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
     } else {
       // Modal is closing - aggressive cleanup with multiple timing attempts
       stopBodyStyleObserver();
-      
+
       // Immediate cleanup
       comprehensiveCleanup();
-      
+
       // Multiple cleanup attempts with different timing
       requestAnimationFrame(() => {
         comprehensiveCleanup();
       });
-      
+
       setTimeout(() => {
         comprehensiveCleanup();
       }, 50);
-      
+
       setTimeout(() => {
         comprehensiveCleanup();
       }, 200);
-      
+
       setTimeout(() => {
         comprehensiveCleanup();
       }, 500);
@@ -122,23 +125,24 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
           <div className="flex items-center space-x-2">
             <AlertTriangle className="h-5 w-5 text-red-600" />
             <AlertDialogTitle className="text-red-900">
-              Delete Account
+              {t("deleteAccountModal.title")}
             </AlertDialogTitle>
           </div>
           <AlertDialogDescription className="text-gray-600">
-            Are you sure you want to delete the account{" "}
-            <span className="font-semibold text-gray-900">"{accountName}"</span>{" "}
-            with this email{" "}
+            {t("deleteAccountModal.description1")}
             <span className="font-semibold text-gray-900">
-              "{accountEmail}"
+              {t("deleteAccountModal.description2", { accountName })}
+            </span>{" "}
+            {t("deleteAccountModal.description3")}
+            <span className="font-semibold text-gray-900">
+              {t("deleteAccountModal.description4", { accountEmail })}
             </span>
-            ? This action cannot be undone and will remove all associated
-            listings and data.
+            {t("deleteAccountModal.description5")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex space-x-2">
           <AlertDialogCancel className="flex-1" disabled={isDeleting}>
-            Cancel
+            {t("deleteAccountModal.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
@@ -148,10 +152,10 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
             {isDeleting ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Deleting...
+                {t("deleteAccountModal.deleting")}
               </>
             ) : (
-              "Delete"
+              t("deleteAccountModal.delete")
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -19,6 +19,7 @@ import {
   AddTeamMemberFormData,
 } from "../../schemas/authSchemas"; // <-- adjust path
 import { useFormValidation } from "../../hooks/useFormValidation";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface AddTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -30,6 +31,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   onOpenChange,
   onSuccess,
 }) => {
+  const { t } = useI18nNamespace("Settings/addTeamMemberModal");
   const { addTeamMember, isAdding, addError, clearTeamAddError } = useTeam();
   const [formData, setFormData] = useState<AddTeamMemberFormData>({
     firstName: "",
@@ -118,8 +120,10 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     const result = validate(formData);
     if (!result.isValid) {
       toast({
-        title: "Validation Error",
-        description: "Please fix the highlighted fields.",
+        title: t("addTeamMemberModal.messages.validationError.title"),
+        description: t(
+          "addTeamMemberModal.messages.validationError.description"
+        ),
         variant: "error",
       });
       return;
@@ -139,8 +143,12 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       console.log("result of add team member", result);
       if (result.meta.requestStatus === "fulfilled") {
         toast({
-          title: "Team Member Added",
-          description: `${formData.firstName} ${formData.lastName} has been added successfully.`,
+          title: t("addTeamMemberModal.messages.success.title"),
+          description: t("addTeamMemberModal.messages.success.description", {
+            firestName: formData.firstName,
+            lastName: formData.lastName,
+          }),
+          //  `${formData.firstName} ${formData.lastName} has been added successfully.`
           variant: "success",
         });
 
@@ -151,11 +159,11 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     } catch (error) {
       console.error("Failed to add team member:", error);
       toast({
-        title: "Error",
+        title: t("addTeamMemberModal.messages.error.title"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to add team member. Please try again.",
+          t("addTeamMemberModal.messages.error.default"),
         variant: "destructive",
       });
     }
@@ -172,7 +180,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add New Team Member</DialogTitle>
+          <DialogTitle>{t("addTeamMemberModal.title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -194,7 +202,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               />
               <Label htmlFor="profile-upload" className="cursor-pointer">
                 <Button type="button" variant="outline" size="sm" asChild>
-                  <span>Upload Photo</span>
+                  <span>{t("addTeamMemberModal.profile.uploadPhoto")}</span>
                 </Button>
               </Label>
             </div>
@@ -203,12 +211,16 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
           {/* Name Fields */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="firstName">
+                {t("addTeamMemberModal.fields.firstName.label")}
+              </Label>
               <Input
                 id="firstName"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
-                placeholder="Enter first name"
+                placeholder={t(
+                  "addTeamMemberModal.fields.firstName.placeholder"
+                )}
               />
               {hasFieldError("firstName") && (
                 <p className="text-sm text-red-500">
@@ -217,12 +229,17 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="lastName">
+                {" "}
+                {t("addTeamMemberModal.fields.lastName.label")}
+              </Label>
               <Input
                 id="lastName"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
-                placeholder="Enter last name"
+                placeholder={t(
+                  "addTeamMemberModal.fields.lastName.placeholder"
+                )}
               />
               {hasFieldError("lastName") && (
                 <p className="text-sm text-red-500">
@@ -234,13 +251,15 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
 
           {/* Email */}
           <div className="space-y-2">
-            <Label htmlFor="email">Email ID</Label>
+            <Label htmlFor="email">
+              {t("addTeamMemberModal.fields.email.label")}
+            </Label>
             <Input
               id="email"
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              placeholder="Enter email address"
+              placeholder={t("addTeamMemberModal.fields.email.placeholder")}
             />
             {hasFieldError("email") && (
               <p className="text-sm text-red-500">{getFieldError("email")}</p>
@@ -249,14 +268,18 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
 
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">
+              {t("addTeamMemberModal.fields.password.label")}
+            </Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={(e) => handleInputChange("password", e.target.value)}
-                placeholder="Enter password"
+                placeholder={t(
+                  "addTeamMemberModal.fields.password.placeholder"
+                )}
               />
               <Button
                 type="button"
@@ -281,18 +304,29 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
 
           {/* Role */}
           <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">
+              {" "}
+              {t("addTeamMemberModal.fields.role.label")}
+            </Label>
             <Select
               value={formData.role}
               onValueChange={(value) => handleInputChange("role", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select role" />
+                <SelectValue
+                  placeholder={t("addTeamMemberModal.fields.role.placeholder")}
+                />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Moderator">Moderator</SelectItem>
-                <SelectItem value="Staff">Staff</SelectItem>
-                <SelectItem value="Client">Client</SelectItem>
+                <SelectItem value="Moderator">
+                  {t("addTeamMemberModal.fields.role.options.moderator")}
+                </SelectItem>
+                <SelectItem value="Staff">
+                  {t("addTeamMemberModal.fields.role.options.staff")}
+                </SelectItem>
+                <SelectItem value="Client">
+                  {t("addTeamMemberModal.fields.role.options.client")}
+                </SelectItem>
               </SelectContent>
             </Select>
             {hasFieldError("role") && (
@@ -312,16 +346,16 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               className="flex-1"
               disabled={isAdding}
             >
-              Cancel
+              {t("addTeamMemberModal.buttons.cancel")}
             </Button>
             <Button type="submit" className="flex-1" disabled={isAdding}>
               {isAdding ? (
                 <>
                   <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  Adding...
+                  {t("addTeamMemberModal.buttons.adding")}
                 </>
               ) : (
-                "Add Member"
+                t("addTeamMemberModal.buttons.add")
               )}
             </Button>
           </div>

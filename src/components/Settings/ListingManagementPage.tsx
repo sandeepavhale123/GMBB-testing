@@ -12,16 +12,18 @@ import { ListingManagementError } from "./ListingManagementError";
 import { ListingManagementSummary } from "./ListingManagementSummary";
 import { useListingManagement } from "../../hooks/useListingManagement";
 import { useListingContext } from "@/context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface ListingManagementPageProps {
   accountId: string;
 }
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   accountId,
 }) => {
+  const { t } = useI18nNamespace("Settings/listingManagementPage");
   const navigate = useNavigate();
   const location = useLocation();
   const { refetchListings } = useListingContext(); // ADD
-  
+
   // Check if we're on multi dashboard
   const isMultiDashboard = location.pathname.includes("/main-dashboard");
   const {
@@ -95,11 +97,11 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
               onClick={() => navigate("/main-dashboard/settings")}
               className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200"
             >
-              Back
+              {t("listingManagementPage.backButton")}
             </Button>
           )}
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Manage Listings
+            {t("listingManagementPage.pageTitle")}
           </h2>
         </div>
       </div>
@@ -131,7 +133,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       {/* Listings Table - show loading state for table data only */}
       {filteredDataLoading ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-          <p className="text-gray-600">Loading listings...</p>
+          <p className="text-gray-600">
+            {t("listingManagementPage.loadingListings")}
+          </p>
         </div>
       ) : (
         !showSearchError && (

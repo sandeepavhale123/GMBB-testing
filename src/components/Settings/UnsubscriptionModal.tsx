@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AlertTriangle } from 'lucide-react';
+import React, { useState } from "react";
+import { AlertTriangle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +7,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface UnsubscriptionModalProps {
   isOpen: boolean;
@@ -26,10 +27,11 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
   onConfirm,
   isLoading = false,
 }) => {
-  const [feedback, setFeedback] = useState('');
-  const [confirmationText, setConfirmationText] = useState('');
+  const { t } = useI18nNamespace("Settings/unsubscriptionModal");
+  const [feedback, setFeedback] = useState("");
+  const [confirmationText, setConfirmationText] = useState("");
 
-  const isConfirmationValid = confirmationText === 'DELETE';
+  const isConfirmationValid = confirmationText === "DELETE";
 
   const handleConfirm = async () => {
     if (isConfirmationValid) {
@@ -39,8 +41,8 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
   };
 
   const handleClose = () => {
-    setFeedback('');
-    setConfirmationText('');
+    setFeedback("");
+    setConfirmationText("");
     onClose();
   };
 
@@ -50,10 +52,10 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="h-5 w-5" />
-            Cancel Subscription
+            {t("unsubscriptionModal.title")}
           </DialogTitle>
           <DialogDescription>
-            We're sorry to see you go. Please help us improve by providing feedback.
+            {t("unsubscriptionModal.description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -61,18 +63,21 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
           {/* Feedback Section */}
           <div className="space-y-3">
             <Label htmlFor="feedback" className="text-sm font-medium">
-              Let us know what made you terminate your server. May be there is something that GMB Briefcase can fix.
+              {t("unsubscriptionModal.feedbackLabel")}
             </Label>
             <Textarea
               id="feedback"
-              placeholder="Your feedback helps us improve..."
+              placeholder={t("unsubscriptionModal.feedbackPlaceholder")}
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               className="min-h-[100px] resize-none"
               maxLength={500}
             />
             <p className="text-xs text-muted-foreground text-right">
-              {feedback.length}/500 characters
+              {t("unsubscriptionModal.feedbackCounter", {
+                count: feedback.length,
+              })}
+              {/* {feedback.length}/500 characters */}
             </p>
           </div>
 
@@ -82,17 +87,23 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
               <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
               <div className="space-y-2">
                 <p className="text-sm font-medium text-destructive">
-                  Please be sure before deleting your server as all your server data can be lost. The process is irreversible.
+                  {t("unsubscriptionModal.warningMessage")}
                 </p>
                 <div className="space-y-2">
                   <Label htmlFor="confirmation" className="text-sm">
-                    Type <span className="font-mono font-bold">DELETE</span> to confirm:
+                    {t("unsubscriptionModal.confirmationLabelp1")}{" "}
+                    <span className="font-mono font-bold">
+                      {t("unsubscriptionModal.confirmationLabelp2")}
+                    </span>
+                    {t("unsubscriptionModal.confirmationLabelp3")}
                   </Label>
                   <Input
                     id="confirmation"
                     value={confirmationText}
                     onChange={(e) => setConfirmationText(e.target.value)}
-                    placeholder="Type DELETE to confirm"
+                    placeholder={t(
+                      "unsubscriptionModal.confirmationPlaceholder"
+                    )}
                     className="font-mono"
                   />
                 </div>
@@ -102,19 +113,17 @@ export const UnsubscriptionModal: React.FC<UnsubscriptionModalProps> = ({
         </div>
 
         <DialogFooter className="gap-2">
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            disabled={isLoading}
-          >
-            Close
+          <Button variant="outline" onClick={handleClose} disabled={isLoading}>
+            {t("unsubscriptionModal.closeButton")}
           </Button>
           <Button
             variant="destructive"
             onClick={handleConfirm}
             disabled={!isConfirmationValid || isLoading}
           >
-            {isLoading ? 'Processing...' : 'Confirm Unsubscription'}
+            {isLoading
+              ? t("unsubscriptionModal.processing")
+              : t("unsubscriptionModal.confirmButton")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -9,6 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 import { GoogleAccountAvatar } from "./GoogleAccountAvatar";
 import { TableCell, TableRow } from "../ui/table";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ConnectedListing {
   id: string;
@@ -56,6 +57,7 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   onRefreshAccount,
   isRefreshing,
 }) => {
+  const { t } = useI18nNamespace("Settings/googleAccountListView");
   const handleCardClick = () => {
     onManageListings?.(account.id);
   };
@@ -92,7 +94,7 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
           </div>
           {account.isDisabled ? (
             <div className="bg-red-200 rounded-xl font-medium text-red-500 px-2 py-1 text-[9px] flex-shrink-0">
-              Re-Authorization
+              {t("googleAccountListView.status.reauthorization")}
             </div>
           ) : (
             ""
@@ -123,12 +125,12 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onManageListings?.(account.id)}>
                 <Edit className="h-4 w-4 mr-2" />
-                Manage Listings
+                {t("googleAccountListView.actions.manageListings")}
               </DropdownMenuItem>
               {account.isDisabled ? (
                 <DropdownMenuItem onClick={handleReauth}>
                   <BookKey className="h-4 w-4 mr-2" />
-                  Re-Authorization
+                  {t("googleAccountListView.actions.reauthorization")}
                 </DropdownMenuItem>
               ) : (
                 ""
@@ -140,11 +142,11 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
                     isRefreshing ? "animate-spin" : ""
                   }`}
                 />
-                Refresh
+                {t("googleAccountListView.actions.refresh")}
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-600" onClick={handleDelete}>
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete
+                {t("googleAccountListView.actions.delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

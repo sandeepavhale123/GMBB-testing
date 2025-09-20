@@ -1,0 +1,43 @@
+{
+  "sidebarCustomization": {
+    "title": "Select Sidebar Background Color",
+    "themes": {
+      "theme_01": "Dark Theme",
+      "blue": "Blue",
+      "red": "Red",
+      "green": "Green",
+      "brown": "Brown",
+      "gray": "Gray",
+      "purple": "Purple",
+      "custom": "Custom Colors"
+    },
+    "customModal": {
+      "title": "Custom Color Picker",
+      "preview": {
+        "logo": "YOUR LOGO",
+        "menuItems": {
+          "overview": "Overview",
+          "posts": "Posts",
+          "media": "Media",
+          "insights": "Insights",
+          "geoRanking": "GEO Ranking"
+        }
+      },
+      "labels": {
+        "background": "Background Color",
+        "text": "Text Color",
+        "activeBackground": "Active Menu Background",
+        "activeText": "Active Menu Text"
+      },
+      "buttons": {
+        "reset": "Reset",
+        "cancel": "Cancel",
+        "apply": "Apply Colors"
+      }
+    },
+    "customCard": {
+      "label": "Custom",
+      "description": "Custom Colors"
+    }
+  }
+}

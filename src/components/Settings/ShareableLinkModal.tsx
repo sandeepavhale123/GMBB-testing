@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Copy, Check, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ShareableLinkModalProps {
   open: boolean;
@@ -17,6 +18,7 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
   onOpenChange,
   member,
 }) => {
+  const { t } = useI18nNamespace("Settings/shareableLinkModal");
   const [copied, setCopied] = useState(false);
   const [allowListings, setAllowListings] = useState(0);
 
@@ -29,17 +31,17 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
       await navigator.clipboard.writeText(shareableLink);
       setCopied(true);
       toast({
-        title: "Link copied",
-        description: "Shareable link has been copied to clipboard",
+        title: t("shareableLinkModal.toast.copiedTitle"),
+        description: t("shareableLinkModal.toast.copiedDescription"),
       });
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       toast({
-        title: "Failed to copy",
+        title: t("shareableLinkModal.toast.failedTitle"),
         description:
           err.message ||
           err?.response?.data?.message ||
-          "Please copy the link manually",
+          t("shareableLinkModal.toast.failedDescription"),
         variant: "destructive",
       });
     }
@@ -53,34 +55,41 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Shareable Link</DialogTitle>
+          <DialogTitle>{t("shareableLinkModal.title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="text-sm text-gray-600">
-            Share this link with{" "}
+            {t("shareableLinkModal.description1")}
             <span className="font-medium text-gray-900">
-              {member.firstName} {member.lastName}
+              {t("shareableLinkModal.description2", {
+                firstName: member.firstName,
+                lastName: member.lastName,
+              })}
             </span>{" "}
-            to give them direct access to their account.
+            {t("shareableLinkModal.description3")}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="allow-listings">Enter Allow Listings</Label>
+            <Label htmlFor="allow-listings">
+              {t("shareableLinkModal.allowListingsLabel")}
+            </Label>
             <div className="text-sm text-gray-600 mb-2">
-              Available spots on the Dashboard - 397
+              {t("shareableLinkModal.availableSpots", { spots: 397 })}
             </div>
             <Input
               id="allow-listings"
               type="number"
               value={allowListings}
               onChange={(e) => setAllowListings(Number(e.target.value))}
-              placeholder="Enter number of allowed listings"
+              placeholder={t("shareableLinkModal.allowListingsPlaceholder")}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="shareable-link">Direct Access Link</Label>
+            <Label htmlFor="shareable-link">
+              {t("shareableLinkModal.directAccessLinkLabel")}
+            </Label>
             <div className="flex gap-2">
               <Input
                 id="shareable-link"
@@ -105,13 +114,13 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-medium text-blue-900 text-sm mb-2">
-              Link Details:
+              {t("shareableLinkModal.linkDetails.title")}
             </h4>
             <ul className="text-sm text-blue-700 space-y-1">
-              <li>• Valid for direct login access</li>
-              <li>• Bypasses standard login process</li>
-              <li>• Role-based permissions apply</li>
-              <li>• Can be revoked by deleting the user</li>
+              <li>• {t("shareableLinkModal.linkDetails.points.valid")}</li>
+              <li>• {t("shareableLinkModal.linkDetails.points.bypass")}</li>
+              <li>• {t("shareableLinkModal.linkDetails.points.role")}</li>
+              <li>• {t("shareableLinkModal.linkDetails.points.revoke")}</li>
             </ul>
           </div>
 
@@ -121,11 +130,11 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
               onClick={() => onOpenChange(false)}
               className="flex-1"
             >
-              Close
+              {t("shareableLinkModal.buttons.close")}
             </Button>
             <Button onClick={handleOpenLink} className="flex-1">
               <ExternalLink className="h-4 w-4 mr-2" />
-              Test Link
+              {t("shareableLinkModal.buttons.testLink")}
             </Button>
           </div>
         </div>

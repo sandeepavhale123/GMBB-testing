@@ -1,0 +1,8 @@
+{
+  "listingManagementLoading": {
+    "pageTitle": "Manage Listings",
+    "statisticsLoading": "Loading statistics...",
+    "searchLoading": "Loading search and filters...",
+    "tableLoading": "Loading table..."
+  }
+}

@@ -13,6 +13,7 @@ import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Switch } from "../ui/switch";
 import { Skeleton } from "../ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface Listing {
   id: string;
@@ -40,6 +41,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
   onToggleListing,
   loadingStates = {},
 }) => {
+  const { t } = useI18nNamespace("Settings/listingsTable");
   const getStatusColor = (status: string) => {
     switch (status) {
       case "verified":
@@ -81,9 +83,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
   if (listings.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-        <p className="text-gray-600">
-          No listings found matching your criteria.
-        </p>
+        <p className="text-gray-600">{t("listingsTable.noListings")}</p>
       </div>
     );
   }
@@ -94,23 +94,25 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
         <TableHeader>
           <TableRow className="bg-gray-50">
             <TableHead className="font-semibold text-gray-900">
-              Business
+              {t("listingsTable.headers.business")}
             </TableHead>
             <TableHead className="font-semibold text-gray-900">
-              Store Code
+              {t("listingsTable.headers.storeCode")}
             </TableHead>
             <TableHead className="font-semibold text-gray-900">
-              Category
+              {t("listingsTable.headers.category")}
             </TableHead>
             <TableHead className="font-semibold text-gray-900">
-              Location
+              {t("listingsTable.headers.location")}
             </TableHead>
             <TableHead className="font-semibold text-gray-900">
-              Status
+              {t("listingsTable.headers.status")}
             </TableHead>
-            <TableHead className="font-semibold text-gray-900">State</TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              {t("listingsTable.headers.state")}
+            </TableHead>
             <TableHead className="font-semibold text-gray-900 text-center">
-              Actions
+              {t("listingsTable.headers.actions")}
             </TableHead>
           </TableRow>
         </TableHeader>

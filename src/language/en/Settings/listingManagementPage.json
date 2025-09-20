@@ -1,0 +1,7 @@
+{
+  "listingManagementPage": {
+    "pageTitle": "Manage Listings",
+    "backButton": "Back",
+    "loadingListings": "Loading listings..."
+  }
+}

@@ -22,6 +22,7 @@ import {
 import { usePaymentHistory } from "@/hooks/usePaymentHistory";
 import { InvoiceModal } from "./InvoiceModal";
 import { PaymentHistoryItem } from "@/types/paymentTypes";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const PaymentHistoryTable: React.FC = () => {
   const {
@@ -34,6 +35,7 @@ export const PaymentHistoryTable: React.FC = () => {
     refreshHistory,
   } = usePaymentHistory();
   console.log("paymentHistory", paymentHistory);
+  const { t } = useI18nNamespace("PaymentHistory/paymentHistoryTable");
 
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     string | null
@@ -202,12 +204,12 @@ export const PaymentHistoryTable: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Payment History</CardTitle>
+          <CardTitle>{t("paymentHistoryTable.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
             <Loader2 className="w-6 h-6 animate-spin mr-2" />
-            <span>Loading payment history...</span>
+            <span>{t("paymentHistoryTable.loading")}</span>
           </div>
         </CardContent>
       </Card>
@@ -218,7 +220,7 @@ export const PaymentHistoryTable: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Payment History</CardTitle>
+          <CardTitle>{t("paymentHistoryTable.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
@@ -226,11 +228,10 @@ export const PaymentHistoryTable: React.FC = () => {
               <Eye className="h-8 w-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No Payment History
+              {t("paymentHistoryTable.empty.title")}
             </h3>
             <p className="text-gray-600 text-sm">
-              Your payment history will appear here once you make your first
-              payment.
+              {t("paymentHistoryTable.empty.description")}
             </p>
           </div>
         </CardContent>
@@ -242,9 +243,9 @@ export const PaymentHistoryTable: React.FC = () => {
     <>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Payment History</CardTitle>
+          <CardTitle>{t("paymentHistoryTable.title")}</CardTitle>
           <Button variant="outline" size="sm" onClick={refreshHistory}>
-            Refresh
+            {t("paymentHistoryTable.buttons.refresh")}
           </Button>
         </CardHeader>
         <CardContent>
@@ -252,13 +253,21 @@ export const PaymentHistoryTable: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Transaction ID</TableHead>
-                  <TableHead>Plan Name</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Date & Time</TableHead>
-                  <TableHead>email</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Invoice</TableHead>
+                  <TableHead>
+                    {t("paymentHistoryTable.table.transactionId")}
+                  </TableHead>
+                  <TableHead>
+                    {t("paymentHistoryTable.table.planName")}
+                  </TableHead>
+                  <TableHead>{t("paymentHistoryTable.table.amount")}</TableHead>
+                  <TableHead>
+                    {t("paymentHistoryTable.table.dateTime")}
+                  </TableHead>
+                  <TableHead>{t("paymentHistoryTable.table.email")}</TableHead>
+                  <TableHead>{t("paymentHistoryTable.table.status")}</TableHead>
+                  <TableHead className="text-right">
+                    {t("paymentHistoryTable.table.invoice")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -289,7 +298,7 @@ export const PaymentHistoryTable: React.FC = () => {
                         onClick={() => handleViewInvoice(payment)}
                       >
                         <Eye className="w-4 h-4 mr-1" />
-                        View
+                        {t("paymentHistoryTable.buttons.view")}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -302,9 +311,12 @@ export const PaymentHistoryTable: React.FC = () => {
             <div className="mt-6">
               <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                 <div>
-                  Showing {(currentPage - 1) * 10 + 1} to{" "}
-                  {Math.min(currentPage * 10, totalRecords)} of {totalRecords}{" "}
-                  results
+                  {t("paymentHistoryTable.pagination.showing")}{" "}
+                  {(currentPage - 1) * 10 + 1}{" "}
+                  {t("paymentHistoryTable.pagination.to")}{" "}
+                  {Math.min(currentPage * 10, totalRecords)}
+                  {t("paymentHistoryTable.pagination.of")} {totalRecords}{" "}
+                  {t("paymentHistoryTable.pagination.results")}
                 </div>
               </div>
               <Pagination>

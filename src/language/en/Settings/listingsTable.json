@@ -1,0 +1,14 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Business",
+      "storeCode": "Store Code",
+      "category": "Category",
+      "location": "Location",
+      "status": "Status",
+      "state": "State",
+      "actions": "Actions"
+    },
+    "noListings": "No listings found matching your criteria."
+  }
+}

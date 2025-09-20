@@ -20,6 +20,7 @@ import {
   addWindowFocusCleanup,
   removeWindowFocusCleanup,
 } from "../../utils/domUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface DeleteTeamMemberModalProps {
   open: boolean;
@@ -34,6 +35,8 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   member,
   onSuccess,
 }) => {
+  const { t } = useI18nNamespace("Settings/deleteTeamMemberModal");
+
   const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } =
     useTeam();
   const { toast } = useToast();
@@ -106,8 +109,8 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
           // Another frame for toast to ensure no interference
           requestAnimationFrame(() => {
             toast({
-              title: "Success",
-              description: "Team member deleted successfully",
+              title: t("deleteTeamMemberModal.toast.successTitle"),
+              description: t("deleteTeamMemberModal.toast.successDescription"),
             });
 
             // Final cleanup after toast
@@ -127,8 +130,9 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
       // Show error toast with cleanup
       requestAnimationFrame(() => {
         toast({
-          title: "Error",
-          description: deleteError || "Failed to delete team member",
+          title: t("deleteTeamMemberModal.toast.errorTitle"),
+          description:
+            deleteError || t("deleteTeamMemberModal.toast.errorDescription"),
           variant: "destructive",
         });
 
@@ -151,9 +155,9 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
               <AlertTriangle className="h-5 w-5 text-red-600" />
             </div>
             <div>
-              <DialogTitle>Delete Team Member</DialogTitle>
+              <DialogTitle>{t("deleteTeamMemberModal.title")}</DialogTitle>
               <DialogDescription>
-                This action cannot be undone
+                {t("deleteTeamMemberModal.description")}
               </DialogDescription>
             </div>
           </div>
@@ -161,22 +165,30 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
 
         <div className="py-4">
           <p className="text-sm text-gray-600">
-            Are you sure you want to delete{" "}
+            {t("deleteTeamMemberModal.confirmation1")}
             <span className="font-medium text-gray-900">
-              {member.firstName} {member.lastName}
+              {t("deleteTeamMemberModal.confirmation2", {
+                firstName: member.firstName,
+                lastName: member.lastName,
+              })}
+              {/* {member.firstName} {member.lastName} */}
             </span>
-            ? This will permanently remove their account and revoke all access
-            to the system.
+            {t("deleteTeamMemberModal.confirmation3")}
           </p>
 
           <div className="mt-4 p-3 bg-red-50 rounded-lg">
             <h4 className="font-medium text-red-900 text-sm mb-1">
-              This will also remove:
+              {t("deleteTeamMemberModal.alsoRemoveTitle")}
             </h4>
             <ul className="text-sm text-red-700 space-y-1">
-              <li>• Access to {member.listingsCount} listings</li>
-              <li>• All assigned permissions</li>
-              <li>• Account credentials and settings</li>
+              <li>
+                {t("deleteTeamMemberModal.alsoRemoveItems.listings", {
+                  listingsCount: member.listingsCount,
+                })}
+                {/* • Access to {member.listingsCount} listings */}
+              </li>
+              <li>{t("deleteTeamMemberModal.alsoRemoveItems.permissions")}</li>
+              <li>{t("deleteTeamMemberModal.alsoRemoveItems.credentials")}</li>
             </ul>
           </div>
         </div>
@@ -187,7 +199,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
             onClick={() => handleOpenChange(false)}
             className="flex-1"
           >
-            Cancel
+            {t("deleteTeamMemberModal.cancel")}
           </Button>
           <Button
             variant="destructive"
@@ -198,10 +210,10 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
             {isDeleting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Deleting...
+                {t("deleteTeamMemberModal.deleting")}
               </>
             ) : (
-              "Delete Member"
+              t("deleteTeamMemberModal.delete")
             )}
           </Button>
         </div>

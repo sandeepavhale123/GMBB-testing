@@ -9,6 +9,7 @@ import {
 import { Button } from "../ui/button";
 import { AlertCircle, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AddAccountModalProps {
   open: boolean;
@@ -19,6 +20,7 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
   open,
   onOpenChange,
 }) => {
+  const { t } = useI18nNamespace("Settings/addAccountModal");
   const [isConnecting, setIsConnecting] = useState(false);
   const localdomain = window.location.host;
   const handleConnect = async () => {
@@ -51,11 +53,11 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
     } catch (err) {
       // console.log("error", err);
       toast({
-        title: "Connection Error",
+        title: t("addAccountModal.errors.connectionError"),
         description:
           err instanceof Error
             ? err.message
-            : "Failed to initiate Google connection",
+            : t("addAccountModal.errors.failedToConnect"),
         variant: "destructive",
       });
     }
@@ -65,7 +67,7 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Google Business Account</DialogTitle>
+          <DialogTitle>{t("addAccountModal.title")}</DialogTitle>
         </DialogHeader>
 
         <div className="py-4 space-y-4">
@@ -73,11 +75,10 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
             <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
               <p className="text-blue-800 font-medium mb-1">
-                Google Business Profile Required
+                {t("addAccountModal.alert.title")}
               </p>
               <p className="text-blue-700">
-                You'll need to authenticate with Google and grant access to your
-                Business Profile listings.
+                {t("addAccountModal.alert.description")}
               </p>
             </div>
           </div>
@@ -94,14 +95,11 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
           </div> */}
 
           <div className="text-sm text-gray-600">
-            <p className="mb-2">
-              After clicking "Connect Account", you'll be redirected to Google
-              to:
-            </p>
+            <p className="mb-2">{t("addAccountModal.instructions.intro")}</p>
             <ul className="list-disc list-inside space-y-1 ml-2">
-              <li>Sign in to your Google account</li>
-              <li>Grant access to your Business Profile data</li>
-              <li>Authorize listing management permissions</li>
+              <li>{t("addAccountModal.instructions.steps.signIn")}</li>
+              <li>{t("addAccountModal.instructions.steps.grantAccess")}</li>
+              <li>{t("addAccountModal.instructions.steps.authorize")}</li>
             </ul>
           </div>
 
@@ -113,14 +111,14 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
-              Don't have a Google Business Profile? Create one here
+              {t("addAccountModal.noProfile.text")}
             </a>
           </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t("addAccountModal.buttons.cancel")}
           </Button>
           <Button
             onClick={handleConnect}
@@ -130,10 +128,10 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
             {isConnecting ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>Connecting...</span>
+                <span>{t("addAccountModal.buttons.connecting")}</span>
               </>
             ) : (
-              <span>Connect Account</span>
+              <span>{t("addAccountModal.buttons.connect")}</span>
             )}
           </Button>
         </DialogFooter>

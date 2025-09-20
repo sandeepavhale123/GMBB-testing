@@ -1,0 +1,13 @@
+{
+  "genieSubscriptionPage": {
+    "title": "Genie Subscription",
+    "subtitle": "Advanced AI-based GBP optimization is on the way!",
+    "comingSoon": "Coming Soon",
+    "features": {
+      "aiContent": "🤖 AI-powered content generation",
+      "analytics": "📊 Advanced analytics & insights",
+      "seo": "🎯 Automated SEO optimization",
+      "smartResponses": "⚡ Smart response suggestions"
+    }
+  }
+}

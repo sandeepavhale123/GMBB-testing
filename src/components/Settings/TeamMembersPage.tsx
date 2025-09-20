@@ -47,6 +47,7 @@ import { toast } from "../../hooks/use-toast";
 import { useTeam } from "../../hooks/useTeam";
 import { TeamMember } from "../../api/teamApi";
 import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Role color mapping
 const roleColors = {
@@ -58,6 +59,7 @@ const roleColors = {
   Moderator: "bg-teal-100 text-teal-800",
 };
 const TeamMembersPage: React.FC = () => {
+  const { t } = useI18nNamespace("Settings/teamMembersPage");
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -107,16 +109,16 @@ const TeamMembersPage: React.FC = () => {
     try {
       await navigator.clipboard.writeText(email);
       toast({
-        title: "Email copied",
-        description: "Email address has been copied to clipboard.",
+        title: t("teamMembersPage.copy.successTitle"),
+        description: t("teamMembersPage.copy.successDesc"),
       });
     } catch (err) {
       toast({
-        title: "Failed to copy",
+        title: t("teamMembersPage.copy.errorTitle"),
         description:
           err.message ||
           err?.response?.data?.message ||
-          "Could not copy email to clipboard.",
+          t("teamMembersPage.copy.errorDesc"),
         variant: "destructive",
       });
     }
@@ -145,10 +147,10 @@ const TeamMembersPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Team Members
+              {t("teamMembersPage.title")}
             </h2>
             <p className="text-gray-600 text-sm sm:text-base">
-              Manage your team members and their access permissions.
+              {t("teamMembersPage.description")}
             </p>
           </div>
           <Button
@@ -156,8 +158,11 @@ const TeamMembersPage: React.FC = () => {
             className="flex items-center gap-2 w-fit"
           >
             <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">Add Member</span>
-            <span className="sm:hidden">Add</span>
+            <span className="hidden sm:inline">
+              {" "}
+              {t("teamMembersPage.addMember")}
+            </span>
+            <span className="sm:hidden"> {t("teamMembersPage.add")}</span>
           </Button>
         </div>
 
@@ -169,7 +174,7 @@ const TeamMembersPage: React.FC = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
-                  placeholder="Search members by name or email"
+                  placeholder={t("teamMembersPage.searchPlaceholder")}
                   value={searchTerm}
                   onChange={(e) => updateSearchTerm(e.target.value)}
                   className="pl-10"
@@ -179,13 +184,21 @@ const TeamMembersPage: React.FC = () => {
               {/* Role Filter */}
               <Select value={roleFilter} onValueChange={updateRoleFilter}>
                 <SelectTrigger className="w-full sm:w-40">
-                  <SelectValue placeholder="All Roles" />
+                  <SelectValue placeholder={t("teamMembersPage.allRoles")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Roles</SelectItem>
-                  <SelectItem value="Staff">Staff</SelectItem>
-                  <SelectItem value="Client">Client</SelectItem>
-                  <SelectItem value="Moderator">Moderator</SelectItem>
+                  <SelectItem value="all">
+                    {t("teamMembersPage.allRoles")}
+                  </SelectItem>
+                  <SelectItem value="Staff">
+                    {t("teamMembersPage.staff")}
+                  </SelectItem>
+                  <SelectItem value="Client">
+                    {t("teamMembersPage.client")}
+                  </SelectItem>
+                  <SelectItem value="Moderator">
+                    {t("teamMembersPage.moderator")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -196,7 +209,10 @@ const TeamMembersPage: React.FC = () => {
                     variant="outline"
                     className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit"
                   >
-                    Total: {summary.totalMembers}
+                    {t("teamMembersPage.totalMembers", {
+                      count: summary.totalMembers,
+                    })}
+                    {/* Total: {summary.totalMembers} */}
                   </Badge>
                   {/* <Badge
                     variant="outline"
@@ -244,12 +260,12 @@ const TeamMembersPage: React.FC = () => {
           <Card className="p-8 text-center border-destructive">
             <div className="text-destructive mb-4">
               <h3 className="text-lg font-semibold mb-2">
-                Error Loading Team Members
+                {t("teamMembersPage.error.title")}
               </h3>
               <p className="text-sm">{error}</p>
             </div>
             <Button onClick={clearTeamError} variant="outline">
-              Try Again
+              {t("teamMembersPage.error.tryAgain")}
             </Button>
           </Card>
         )}
@@ -261,17 +277,17 @@ const TeamMembersPage: React.FC = () => {
               <Search className="w-12 h-12 mx-auto" />
             </div>
             <h3 className="text-lg font-semibold text-foreground mb-2">
-              No team members found
+              {t("teamMembersPage.empty.title")}
             </h3>
             <p className="text-muted-foreground mb-4">
               {searchTerm || roleFilter
-                ? "Try adjusting your search criteria or filters"
-                : "Get started by adding your first team member"}
+                ? t("teamMembersPage.empty.searchAdjust")
+                : t("teamMembersPage.empty.addFirst")}
             </p>
             {!searchTerm && !roleFilter && (
               <Button onClick={() => setShowAddModal(true)}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add Member
+                {t("teamMembersPage.addMember")}
               </Button>
             )}
           </Card>
@@ -286,22 +302,22 @@ const TeamMembersPage: React.FC = () => {
                     <TableHeader>
                       <TableRow className="bg-gray-50">
                         <TableHead className="font-semibold text-gray-900">
-                          Member
+                          {t("teamMembersPage.table.member")}
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Email
+                          {t("teamMembersPage.table.email")}
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Password
+                          {t("teamMembersPage.table.password")}
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Listings
+                          {t("teamMembersPage.table.listings")}
                         </TableHead>
                         {/* <TableHead className="font-semibold text-gray-900 text-center">
                           Status
                          </TableHead> */}
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Actions
+                          {t("teamMembersPage.table.actions")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -309,7 +325,10 @@ const TeamMembersPage: React.FC = () => {
                       {members.map((member) => (
                         <TableRow key={member.id} className="hover:bg-gray-50">
                           <TableCell className="p-4">
-                            <div className="flex items-center space-x-3" onClick={() => handleEditMember(member)}>
+                            <div
+                              className="flex items-center space-x-3"
+                              onClick={() => handleEditMember(member)}
+                            >
                               <Avatar className="h-10 w-10">
                                 <AvatarImage
                                   src={getProfilePictureUrl(
@@ -364,8 +383,8 @@ const TeamMembersPage: React.FC = () => {
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                                 title={
                                   passwordVisibility[member.id]
-                                    ? "Hide password"
-                                    : "Show password"
+                                    ? t("teamMembersPage.password.hide")
+                                    : t("teamMembersPage.password.show")
                                 }
                               >
                                 {passwordVisibility[member.id] ? (
@@ -405,14 +424,14 @@ const TeamMembersPage: React.FC = () => {
                                   onClick={() => handleEditMember(member)}
                                 >
                                   <Edit className="w-4 h-4 mr-2" />
-                                  Edit
+                                  {t("teamMembersPage.dropdown.edit")}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => handleDeleteMember(member)}
                                   className="text-destructive"
                                 >
                                   <Trash2 className="w-4 h-4 mr-2" />
-                                  Delete
+                                  {t("teamMembersPage.dropdown.delete")}
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -463,14 +482,14 @@ const TeamMembersPage: React.FC = () => {
                               onClick={() => handleEditMember(member)}
                             >
                               <Edit className="w-4 h-4 mr-2" />
-                              Edit
+                              {t("teamMembersPage.dropdown.edit")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleDeleteMember(member)}
                               className="text-destructive"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
-                              Delete
+                              {t("teamMembersPage.dropdown.delete")}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -479,7 +498,7 @@ const TeamMembersPage: React.FC = () => {
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-muted-foreground">
-                            Password:
+                            {t("teamMembersPage.grid.password")}
                           </span>
                           <div className="flex items-center gap-2">
                             {/* <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
@@ -498,8 +517,8 @@ const TeamMembersPage: React.FC = () => {
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                                 title={
                                   passwordVisibility[member.id]
-                                    ? "Hide password"
-                                    : "Show password"
+                                    ? t("teamMembersPage.password.hide")
+                                    : t("teamMembersPage.password.show")
                                 }
                               >
                                 {passwordVisibility[member.id] ? (
@@ -514,7 +533,7 @@ const TeamMembersPage: React.FC = () => {
 
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-muted-foreground">
-                            Role:
+                            {t("teamMembersPage.grid.role")}
                           </span>
                           <Badge className={getRoleBadgeClass(member.role)}>
                             {member.role}
@@ -523,7 +542,7 @@ const TeamMembersPage: React.FC = () => {
 
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-muted-foreground">
-                            Listings:
+                            {t("teamMembersPage.grid.listings")}
                           </span>
                           <span className="text-sm text-foreground">
                             {member.listingsCount}

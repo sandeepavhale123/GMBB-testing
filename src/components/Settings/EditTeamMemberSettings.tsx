@@ -35,6 +35,8 @@ import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
 import { updateEditMember } from "@/store/slices/teamSlice";
 import { useActiveAccounts } from "@/hooks/useActiveAccounts";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { error } from "console";
 interface EditFormData {
   firstName: string;
   lastName: string;
@@ -43,6 +45,7 @@ interface EditFormData {
   role: string;
 }
 export const EditTeamMemberSettings: React.FC = () => {
+  const { t } = useI18nNamespace("Settings/editTeamMemberSettings");
   const { memberId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -221,8 +224,10 @@ export const EditTeamMemberSettings: React.FC = () => {
         const result = await updateTeamMember(updateData);
         if (updateEditMember.fulfilled.match(result)) {
           toast({
-            title: "Success",
-            description: "Team member profile updated successfully",
+            title: t("editTeamMemberSettings.toasts.success.title"),
+            description: t(
+              "editTeamMemberSettings.toasts.success.profileUpdated"
+            ),
           });
           if (location.pathname.startsWith("/main-dashboard")) {
             navigate("/main-dashboard/settings/team-members");
@@ -234,19 +239,21 @@ export const EditTeamMemberSettings: React.FC = () => {
         // Save listing assignments
         await saveAssignments();
         toast({
-          title: "Success",
-          description: "Listing assignments updated successfully",
+          title: t("editTeamMemberSettings.toasts.success.title"),
+          description: t(
+            "editTeamMemberSettings.toasts.success.listingsUpdated"
+          ),
         });
       }
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t("editTeamMemberSettings.toasts.error.title"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          `Failed to update ${
-            activeTab === "profile" ? "profile" : "listing assignments"
-          }`,
+          activeTab === "profile"
+            ? t("editTeamMemberSettings.toasts.error.profileUpdate")
+            : t("editTeamMemberSettings.toasts.error.listingsUpdate"),
         variant: "destructive",
       });
     } finally {
@@ -272,13 +279,15 @@ export const EditTeamMemberSettings: React.FC = () => {
 
       await saveAssignments(toggleResult);
       toast({
-        title: "Success",
-        description: "Listing assignment updated successfully",
+        title: t("editTeamMemberSettings.toasts.success.title"),
+        description: t("editTeamMemberSettings.toasts.success.listingUpdated"),
       });
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error?.message || "Failed to update listing assignment",
+        title: t("editTeamMemberSettings.toasts.error.title"),
+        description:
+          error?.message ||
+          t("editTeamMemberSettings.toasts.error.listingsUpdate"),
         variant: "destructive",
       });
       // Revert the toggle if save failed
@@ -324,7 +333,9 @@ export const EditTeamMemberSettings: React.FC = () => {
       <div className="p-4 sm:p-6 max-w-6xl mx-auto">
         <div className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2">Loading team member...</span>
+          <span className="ml-2">
+            {t("editTeamMemberSettings.loading.text")}
+          </span>
         </div>
       </div>
     );
@@ -340,7 +351,7 @@ export const EditTeamMemberSettings: React.FC = () => {
               <p className="text-destructive mb-4">{editError}</p>
               <Button onClick={handleBack} variant="outline">
                 <ChevronLeft className="w-4 h-4 mr-2" />
-                Back to Team Members
+                {t("editTeamMemberSettings.buttons.backToTeamMembers")}
               </Button>
             </div>
           </CardContent>
@@ -355,11 +366,11 @@ export const EditTeamMemberSettings: React.FC = () => {
           <CardContent className="p-6">
             <div className="text-center">
               <p className="text-muted-foreground mb-4">
-                Team member not found
+                {t("editTeamMemberSettings.errors.notFound")}
               </p>
               <Button onClick={handleBack} variant="outline">
                 <ChevronLeft className="w-4 h-4 mr-2" />
-                Back to Team Members
+                {t("editTeamMemberSettings.buttons.backToTeamMembers")}
               </Button>
             </div>
           </CardContent>
@@ -373,8 +384,12 @@ export const EditTeamMemberSettings: React.FC = () => {
       <div className="bg-white border-b border-gray-200 mb-6">
         <div className="px-6 py-4">
           <div className="flex items-center gap-8">
-            <Button variant="ghost" onClick={handleBack} className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200">
-              Back
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200"
+            >
+              {t("editTeamMemberSettings.buttons.back")}
             </Button>
             <div className="flex space-x-8 -mb-[1px]">
               <button
@@ -385,7 +400,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
-                Profile
+                {t("editTeamMemberSettings.tabs.profile")}
               </button>
               {currentEditMember?.role?.toLowerCase() !== "moderator" && (
                 <button
@@ -396,7 +411,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                   }`}
                 >
-                  Assign listings{" "}
+                  {t("editTeamMemberSettings.tabs.assignListings")}
                 </button>
               )}
             </div>
@@ -408,7 +423,7 @@ export const EditTeamMemberSettings: React.FC = () => {
       {activeTab === "profile" && (
         <Card>
           <CardHeader>
-            <CardTitle>Edit Team Member</CardTitle>
+            <CardTitle>{t("editTeamMemberSettings.profile.title")}</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             {teamSaveError && (
@@ -421,7 +436,9 @@ export const EditTeamMemberSettings: React.FC = () => {
             <div className="grid grid-cols-2 gap-6">
               {/* First Row */}
               <div>
-                <Label htmlFor="firstName">First name</Label>
+                <Label htmlFor="firstName">
+                  {t("editTeamMemberSettings.profile.firstName")}
+                </Label>
                 <Input
                   id="firstName"
                   value={formData.firstName}
@@ -433,7 +450,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="lastName">Last name</Label>
+                <Label htmlFor="lastName">
+                  {t("editTeamMemberSettings.profile.lastName")}
+                </Label>
                 <Input
                   id="lastName"
                   value={formData.lastName}
@@ -447,7 +466,9 @@ export const EditTeamMemberSettings: React.FC = () => {
 
               {/* Second Row */}
               <div>
-                <Label htmlFor="email">Email Id</Label>
+                <Label htmlFor="email">
+                  {t("editTeamMemberSettings.profile.email")}
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -458,7 +479,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">
+                  {t("editTeamMemberSettings.profile.password")}
+                </Label>
                 <div className="relative mt-1">
                   <Input
                     id="password"
@@ -468,7 +491,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                       handleInputChange("password", e.target.value)
                     }
                     className="pr-10"
-                    placeholder="Leave empty to keep current password"
+                    placeholder={t(
+                      "editTeamMemberSettings.profile.passwordPlaceholder"
+                    )}
                     disabled={isSavingEdit}
                   />
                   <Button
@@ -490,7 +515,9 @@ export const EditTeamMemberSettings: React.FC = () => {
 
               {/* Third Row */}
               <div className="col-span-1">
-                <Label htmlFor="role">Select Role</Label>
+                <Label htmlFor="role">
+                  {t("editTeamMemberSettings.profile.role")}
+                </Label>
                 <Select
                   value={formData.role}
                   onValueChange={(value) => handleInputChange("role", value)}
@@ -500,9 +527,16 @@ export const EditTeamMemberSettings: React.FC = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Moderator">Moderator</SelectItem>
-                    <SelectItem value="Staff">Staff</SelectItem>
-                    <SelectItem value="Client">Client</SelectItem>
+                    <SelectItem value="Moderator">
+                      {" "}
+                      {t("editTeamMemberSettings.profile.roles.moderator")}
+                    </SelectItem>
+                    <SelectItem value="Staff">
+                      {t("editTeamMemberSettings.profile.roles.staff")}
+                    </SelectItem>
+                    <SelectItem value="Client">
+                      {t("editTeamMemberSettings.profile.roles.client")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -518,10 +552,10 @@ export const EditTeamMemberSettings: React.FC = () => {
                 {isSaving ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
+                    {t("editTeamMemberSettings.buttons.saving")}
                   </>
                 ) : (
-                  "Save Changes"
+                  t("editTeamMemberSettings.buttons.saveChanges")
                 )}
               </Button>
             </div>
@@ -533,7 +567,9 @@ export const EditTeamMemberSettings: React.FC = () => {
         currentEditMember?.role?.toLowerCase() !== "moderator" && (
           <Card>
             <CardHeader>
-              <CardTitle>Listing Management</CardTitle>
+              <CardTitle>
+                {t("editTeamMemberSettings.listings.title")}
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -542,7 +578,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                   {/* Account Dropdown (80% width) */}
                   <div className="flex-1 relative">
                     <Label className="text-sm font-medium">
-                      Google Account
+                      {t(
+                        "editTeamMemberSettings.listings.filter.googleAccount"
+                      )}
                     </Label>
                     <div className="relative mt-1">
                       <Button
@@ -562,7 +600,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                             <div className="relative">
                               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                               <Input
-                                placeholder="Search accounts..."
+                                placeholder={t(
+                                  "editTeamMemberSettings.listings.filter.searchPlaceholder"
+                                )}
                                 value={accountSearchQuery}
                                 onChange={(e) =>
                                   setAccountSearchQuery(e.target.value)
@@ -588,7 +628,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                             ))}
                             {filteredAccounts.length === 0 && (
                               <div className="px-3 py-2 text-sm text-muted-foreground">
-                                No accounts found
+                                {t(
+                                  "editTeamMemberSettings.listings.filter.noAccounts"
+                                )}
                               </div>
                             )}
                           </div>
@@ -600,11 +642,16 @@ export const EditTeamMemberSettings: React.FC = () => {
                   {/* Assigned Listing Badge (20% width) */}
                   <div className="flex-shrink-0">
                     <Label className="text-sm font-medium">
-                      Assigned Listings
+                      {t(
+                        "editTeamMemberSettings.listings.filter.assignedListings"
+                      )}
                     </Label>
                     <div className="mt-1">
                       <Badge variant="secondary" className="text-sm px-3 py-1">
-                        {assignedCount} Assigned
+                        {t("editTeamMemberSettings.listings.badge.assigned", {
+                          count: assignedCount,
+                        })}
+                        {/* {assignedCount} Assigned */}
                       </Badge>
                     </div>
                   </div>
@@ -615,10 +662,17 @@ export const EditTeamMemberSettings: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[40%]">Business Name</TableHead>
-                        <TableHead className="w-[40%]">Account</TableHead>
+                        <TableHead className="w-[40%]">
+                          {t(
+                            "editTeamMemberSettings.listings.table.businessName"
+                          )}
+                        </TableHead>
+                        <TableHead className="w-[40%]">
+                          {" "}
+                          {t("editTeamMemberSettings.listings.table.account")}
+                        </TableHead>
                         <TableHead className="w-[20%] text-center">
-                          Assign
+                          {t("editTeamMemberSettings.listings.table.assign")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -628,7 +682,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                           <TableCell colSpan={5} className="text-center py-8">
                             <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
                             <p className="text-muted-foreground">
-                              Loading listings...
+                              {t(
+                                "editTeamMemberSettings.listings.table.loading"
+                              )}
                             </p>
                           </TableCell>
                         </TableRow>
@@ -638,7 +694,10 @@ export const EditTeamMemberSettings: React.FC = () => {
                             colSpan={5}
                             className="text-center py-8 text-destructive"
                           >
-                            Error loading listings: {listingsError}
+                            {t("editTeamMemberSettings.errors.listingsError", {
+                              error: listingsError,
+                            })}
+                            {/* Error loading listings: {listingsError} */}
                           </TableCell>
                         </TableRow>
                       ) : displayListings.length === 0 ? (
@@ -647,7 +706,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                             colSpan={5}
                             className="text-center py-8 text-muted-foreground"
                           >
-                            No listings found for the selected account
+                            {t(
+                              "editTeamMemberSettings.listings.table.noListings"
+                            )}
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -682,8 +743,16 @@ export const EditTeamMemberSettings: React.FC = () => {
                   <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">
-                        Page {currentApiPage} of {totalApiPages} •{" "}
-                        {displayListings.length} listings
+                        {t(
+                          "editTeamMemberSettings.listings.pagination.pageInfo",
+                          {
+                            current: currentApiPage,
+                            total: totalApiPages,
+                            count: displayListings.length,
+                          }
+                        )}
+                        {/* Page {currentApiPage} of {totalApiPages} •{" "}
+                        {displayListings.length} listings */}
                       </span>
                     </div>
 
@@ -691,7 +760,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                       {/* Page Size Selector */}
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-muted-foreground">
-                          Show:
+                          {t("editTeamMemberSettings.listings.pagination.show")}
                         </span>
                         <Select
                           value={pageSize.toString()}
@@ -719,7 +788,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                           onClick={() => handlePageChange(currentApiPage - 1)}
                           disabled={!prevPageToken || currentApiPage === 1}
                         >
-                          Previous
+                          {t("editTeamMemberSettings.buttons.previous")}
                         </Button>
 
                         <div className="flex items-center gap-1">
@@ -729,7 +798,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                           {hasMore && (
                             <>
                               <span className="text-sm text-muted-foreground">
-                                of
+                                {t(
+                                  "editTeamMemberSettings.listings.pagination.of"
+                                )}
                               </span>
                               <span className="text-sm text-muted-foreground">
                                 {totalApiPages}+
@@ -744,7 +815,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                           onClick={() => handlePageChange(currentApiPage + 1)}
                           disabled={!hasMore || !nextPageToken}
                         >
-                          Next
+                          {t("editTeamMemberSettings.buttons.next")}
                         </Button>
                       </div>
                     </div>

@@ -1,13 +1,14 @@
-
-import React from 'react';
-import { Skeleton } from '../ui/skeleton';
+import React from "react";
+import { Skeleton } from "../ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ListingManagementLoading: React.FC = () => {
+  const { t } = useI18nNamespace("Settings/listingManagementLoading");
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-          Manage Listings
+          {t("listingManagementLoading.pageTitle")}
         </h2>
       </div>
 

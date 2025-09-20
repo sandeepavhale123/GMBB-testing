@@ -1,0 +1,10 @@
+{
+  "notificationsPage": {
+    "title": "Manage Report Notifications",
+    "description": "Configure automated report notifications and custom recipients for your GMB reports.",
+    "tabs": {
+      "reportNotifications": "Report Notifications",
+      "customNotifications": "Custom Notifications"
+    }
+  }
+}

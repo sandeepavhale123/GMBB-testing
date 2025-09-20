@@ -1,0 +1,35 @@
+{
+  "paymentHistoryTable": {
+    "title": "Payment History",
+    "loading": "Loading payment history...",
+    "empty": {
+      "title": "No Payment History",
+      "description": "Your payment history will appear here once you make your first payment."
+    },
+    "buttons": {
+      "refresh": "Refresh",
+      "view": "View"
+    },
+    "table": {
+      "transactionId": "Transaction ID",
+      "planName": "Plan Name",
+      "amount": "Amount",
+      "dateTime": "Date & Time",
+      "email": "Email",
+      "status": "Status",
+      "invoice": "Invoice"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "to": "to",
+      "of": "of",
+      "results": "results"
+    },
+    "status": {
+      "paid": "Paid",
+      "failed": "Failed",
+      "pending": "Pending",
+      "unknown": "Unknown"
+    }
+  }
+}

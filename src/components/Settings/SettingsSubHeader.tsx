@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface SettingsSubHeaderProps {
   activeTab: string;
@@ -10,38 +11,39 @@ interface SettingsSubHeaderProps {
 export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
   activeTab,
 }) => {
+  const { t } = useI18nNamespace("Settings/settingsSubHeader");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const location = useLocation();
 
   const tabs = [
     {
       id: "google-account",
-      label: "Manage Google Account",
+      label: t("settingsSubHeader.tabs.googleAccount"),
       path: "/settings/google-account",
     },
     {
       id: "team-members",
-      label: "Team Members",
+      label: t("settingsSubHeader.tabs.teamMembers"),
       path: "/settings/team-members",
     },
     {
       id: "subscription",
-      label: "Subscription",
+      label: t("settingsSubHeader.tabs.subscription"),
       path: "/settings/subscription",
     },
     {
       id: "theme-customization",
-      label: "Theme Customization",
+      label: t("settingsSubHeader.tabs.themeCustomization"),
       path: "/settings/theme-customization",
     },
     {
       id: "report-branding",
-      label: "Report Branding",
+      label: t("settingsSubHeader.tabs.reportBranding"),
       path: "/settings/report-branding",
     },
     {
       id: "integrations",
-      label: "Integrations",
+      label: t("settingsSubHeader.tabs.integrations"),
       path: "/settings/integrations",
     },
   ];

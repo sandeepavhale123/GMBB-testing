@@ -22,6 +22,7 @@ import GoogleAuthHandler from "./GoogleAuthHandler";
 import { toast } from "@/hooks/use-toast";
 import { RefreshAccountModal } from "./RefreshAccountModal";
 import { comprehensiveCleanup } from "../../utils/domUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Transform API data to match component expectations
 const transformGoogleAccount = (apiAccount: any) => ({
@@ -38,6 +39,7 @@ const transformGoogleAccount = (apiAccount: any) => ({
   ),
 });
 export const ManageGoogleAccountPage: React.FC = () => {
+  const { t } = useI18nNamespace("Settings/manageGoogleAccountPage");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
@@ -157,7 +159,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
         setShowRefreshListingModal(true);
       } else {
         toast({
-          title: "Account Refreshed",
+          title: t("manageGoogleAccountPage.modals.refreshAccount.title"),
           description: `${response.message}`,
         });
         refetch(); // Refresh the accounts list
@@ -165,11 +167,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
     } catch (error) {
       console.error("Error refreshing account:", error);
       toast({
-        title: "Refresh Failed",
+        title: t("manageGoogleAccountPage.modals.refreshAccount.refreshTitle"),
         description:
           error instanceof Error
             ? error.message
-            : "Failed to refresh the account. Please try again.",
+            : t("manageGoogleAccountPage.modals.refreshAccount.refreshFailed"),
         variant: "destructive",
       });
     }
@@ -182,7 +184,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
       const response = await updateAccount(currentAccountId, selectedGroups);
       // console.log("update response", response);
       toast({
-        title: "Listing Groups Updated",
+        title: t("manageGoogleAccountPage.modals.refreshAccount.updateSuccess"),
         description: `${response.message}`,
       });
       setShowRefreshListingModal(false);
@@ -192,7 +194,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
     } catch (error: any) {
       // console.log("Error updating listing groups:", error);
       toast({
-        title: "Update Failed",
+        title: t("manageGoogleAccountPage.modals.refreshAccount.updateTitle"),
         description:
           error &&
           typeof error === "object" &&
@@ -206,7 +208,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             ? error.response.data.message
             : error instanceof Error
             ? error.message
-            : "Failed to update listing groups. Please try again.",
+            : t("manageGoogleAccountPage.modals.refreshAccount.updateFailed"),
         variant: "destructive",
       });
     }
@@ -233,7 +235,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
         });
         setAccountToDelete(null);
         setShowDeleteModal(false);
-        
+
         // Force cleanup after successful delete to remove pointer-events: none
         setTimeout(() => {
           comprehensiveCleanup();
@@ -241,11 +243,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
       } catch (error) {
         console.error("Error deleting account:", error);
         toast({
-          title: "Delete Failed",
+          title: t("manageGoogleAccountPage.modals.refreshAccount.deleteTitle"),
           description:
             error instanceof Error
               ? error.message
-              : "Failed to delete the account. Please try again.",
+              : t("manageGoogleAccountPage.modals.refreshAccount.deleteFailed"),
           variant: "destructive",
         });
       }
@@ -279,11 +281,10 @@ export const ManageGoogleAccountPage: React.FC = () => {
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl  font-bold text-gray-900 mb-2">
-          Manage Google Account
+          {t("manageGoogleAccountPage.pageTitle")}
         </h2>
         <p className="text-gray-600 text-sm sm:text-base">
-          Connect and monitor your Google Business Profiles to maximize local
-          visibility and SEO performance.
+          {t("manageGoogleAccountPage.pageDescription")}
         </p>
       </div>
 
@@ -295,7 +296,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                placeholder="Search accounts by name or email"
+                placeholder={t("manageGoogleAccountPage.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -307,7 +308,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
               variant="outline"
               className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit"
             >
-              Active Listings: {totalActiveListings}/{allowedListing}
+              {t("manageGoogleAccountPage.activeListingsBadge", {
+                active: totalActiveListings,
+                allowed: allowedListing,
+              })}
+              {/* Active Listings: {totalActiveListings}/{allowedListing} */}
             </Badge>
           </div>
 
@@ -338,8 +343,12 @@ export const ManageGoogleAccountPage: React.FC = () => {
               className="flex items-center gap-2"
             >
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Add New Account</span>
-              <span className="sm:hidden">Add</span>
+              <span className="hidden sm:inline">
+                {t("manageGoogleAccountPage.addNewAccount.full")}
+              </span>
+              <span className="sm:hidden">
+                {t("manageGoogleAccountPage.addNewAccount.short")}
+              </span>
             </Button>
           </div>
         </div>
@@ -356,7 +365,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
               onClick={handleRefresh}
               className="text-red-600 border-red-300 hover:bg-red-50"
             >
-              Try Again
+              {t("manageGoogleAccountPage.errorState.tryAgain")}
             </Button>
           </div>
         </div>
@@ -365,19 +374,26 @@ export const ManageGoogleAccountPage: React.FC = () => {
       {/* Loading State */}
       {loading && accounts.length === 0 ? (
         <div className="space-y-4">
-          {viewMode === "list" ? ( 
+          {viewMode === "list" ? (
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gray-50">
-                    <TableHead>Account</TableHead>
-                    <TableHead className="text-center">
-                      Total Listings
+                    <TableHead>
+                      {t("manageGoogleAccountPage.tableHeaders.account")}
                     </TableHead>
                     <TableHead className="text-center">
-                      Connected Listings
+                      {t("manageGoogleAccountPage.tableHeaders.totalListings")}
                     </TableHead>
-                    <TableHead className="text-center">Actions</TableHead>
+                    <TableHead className="text-center">
+                      {t(
+                        "manageGoogleAccountPage.tableHeaders.connectedListings"
+                      )}
+                    </TableHead>
+                    <TableHead className="text-center">
+                      {" "}
+                      {t("manageGoogleAccountPage.tableHeaders.actions")}
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -444,16 +460,18 @@ export const ManageGoogleAccountPage: React.FC = () => {
                 <TableHeader>
                   <TableRow className="bg-gray-50">
                     <TableHead className="font-semibold text-gray-900">
-                      Account
+                      {t("manageGoogleAccountPage.tableHeaders.account")}
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
-                      Total Listings
+                      {t("manageGoogleAccountPage.tableHeaders.totalListings")}
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
-                      Connected Listings
+                      {t(
+                        "manageGoogleAccountPage.tableHeaders.connectedListings"
+                      )}
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
-                      Actions
+                      {t("manageGoogleAccountPage.tableHeaders.actions")}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -508,12 +526,17 @@ export const ManageGoogleAccountPage: React.FC = () => {
             <Zap className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {searchTerm ? "No accounts found" : "No accounts connected"}
+            {searchTerm
+              ? t("manageGoogleAccountPage.emptyState.noAccountsFound")
+              : t("manageGoogleAccountPage.emptyState.noAccountsConnected")}
           </h3>
           <p className="text-gray-600 mb-6 text-sm sm:text-base">
             {searchTerm
-              ? `No accounts match "${searchTerm}". Try a different search term.`
-              : "Click 'Add New Account' to sync your Google Business Profile."}
+              ? t("manageGoogleAccountPage.emptyState.searchNoMatch", {
+                  searchTerm,
+                })
+              : // `No accounts match "${searchTerm}". Try a different search term.`
+                t("manageGoogleAccountPage.emptyState.addAccountCTA")}
           </p>
           {!searchTerm && (
             <Button
@@ -521,7 +544,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
               className="flex items-center gap-2 mx-auto"
             >
               <Plus className="h-4 w-4" />
-              Add New Account
+              {t("manageGoogleAccountPage.addNewAccount.full")}
             </Button>
           )}
         </div>

@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
 import { X } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface RefreshListingGroup {
   accountId: string;
@@ -30,6 +31,7 @@ export const RefreshAccountModal: React.FC<
   accountId,
   isUpdating,
 }) => {
+  const { t } = useI18nNamespace("Settings/refreshAccountModal");
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 
   const handleGroupToggle = (groupAccountId: string) => {
@@ -88,10 +90,10 @@ export const RefreshAccountModal: React.FC<
         <DialogHeader className="flex flex-row items-center justify-between pb-6 border-b border-gray-100">
           <div className="flex flex-col space-y-1">
             <DialogTitle className="text-xl font-bold text-gray-900">
-              Select Listing Groups
+              {t("refreshAccountModal.title")}
             </DialogTitle>
             <p className="text-sm text-gray-500">
-              Choose the listing groups you want to refresh
+              {t("refreshAccountModal.description")}
             </p>
           </div>
         </DialogHeader>
@@ -111,11 +113,15 @@ export const RefreshAccountModal: React.FC<
                   htmlFor="select-all"
                   className="font-semibold text-gray-900 cursor-pointer"
                 >
-                  Select All Listing Groups
+                  {t("refreshAccountModal.selectAll.label")}
                 </label>
                 <div className="flex items-center space-x-2 ml-auto">
                   <span className="text-sm text-gray-600">
-                    {selectedGroups.length} of {listingGroups.length} selected
+                    {t("refreshAccountModal.selectAll.count", {
+                      selected: selectedGroups.length,
+                      total: listingGroups.length,
+                    })}
+                    {/* {selectedGroups.length} of {listingGroups.length} selected */}
                   </span>
                 </div>
               </div>
@@ -124,7 +130,7 @@ export const RefreshAccountModal: React.FC<
             {/* Groups List */}
             <div className="space-y-1">
               <h4 className="text-sm font-medium text-gray-700 mb-3">
-                Available Groups:
+                {t("refreshAccountModal.groups.available")}
               </h4>
               <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2">
                 {listingGroups.map((group, index) => (
@@ -159,7 +165,9 @@ export const RefreshAccountModal: React.FC<
 
                 {listingGroups.length === 0 && (
                   <div className="text-center py-8 text-gray-500">
-                    <p className="text-sm">No listing groups available</p>
+                    <p className="text-sm">
+                      {t("refreshAccountModal.groups.empty")}
+                    </p>
                   </div>
                 )}
               </div>
@@ -172,8 +180,15 @@ export const RefreshAccountModal: React.FC<
           <div className="text-sm text-gray-600">
             {selectedGroups.length > 0 && (
               <span>
-                {selectedGroups.length} group
-                {selectedGroups.length !== 1 ? "s" : ""} selected
+                {selectedGroups.length !== 1
+                  ? t("refreshAccountModal.footer.selectedPlural", {
+                      count: selectedGroups.length,
+                    })
+                  : t("refreshAccountModal.footer.selected", {
+                      count: selectedGroups.length,
+                    })}
+                {/* {selectedGroups.length} group
+                {selectedGroups.length !== 1 ? "s" : ""} selected */}
               </span>
             )}
           </div>
@@ -183,7 +198,7 @@ export const RefreshAccountModal: React.FC<
               onClick={handleCancel}
               className="px-6 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
             >
-              Cancel
+              {t("refreshAccountModal.buttons.cancel")}
             </Button>
             <Button
               onClick={handleSubmit}
@@ -193,10 +208,13 @@ export const RefreshAccountModal: React.FC<
               {isUpdating ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Submitting...</span>
+                  <span> {t("refreshAccountModal.buttons.submitting")}</span>
                 </div>
               ) : (
-                `Submit (${selectedGroups.length})`
+                t("refreshAccountModal.buttons.submitting", {
+                  count: selectedGroups.length,
+                })
+                // `Submit (${selectedGroups.length})`
               )}
             </Button>
           </div>
