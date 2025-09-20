@@ -33,6 +33,7 @@ import {
 } from "@/store/slices/onboarding/onboardingSlice";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { businessInfoSchema } from "@/schemas/authSchemas";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessInfoStepProps {
   formData: any;
@@ -45,6 +46,7 @@ const BusinessInfoStep = ({
   updateFormData,
   onNext,
 }: BusinessInfoStepProps) => {
+  const { t } = useI18nNamespace("Onboarding/businessInfoStep");
   const dispatch = useDispatch<AppDispatch>();
 
   // Initialize form validation
@@ -194,10 +196,10 @@ const BusinessInfoStep = ({
     <div className="max-w-3xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
       <div className="text-center mb-6 sm:mb-8 lg:mb-10 xl:mb-12">
         <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-          Tell us about your business
+          {t("businessInfoStep.title")}
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-gray-600">
-          We'll use this information to customize your experience.
+          {t("businessInfoStep.description")}
         </p>
       </div>
 
@@ -208,13 +210,13 @@ const BusinessInfoStep = ({
             htmlFor="businessName"
             className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
           >
-            Business/Agency Name *
+            {t("businessInfoStep.businessNameLabel")}
           </Label>
           <Input
             id="businessName"
             value={localData.businessName}
             onChange={(e) => handleChange("businessName", e.target.value)}
-            placeholder="Enter your business or agency name"
+            placeholder={t("businessInfoStep.businessNamePlaceholder")}
             className={cn(
               "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
               hasFieldError("businessName") &&
@@ -235,13 +237,13 @@ const BusinessInfoStep = ({
               htmlFor="website"
               className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
             >
-              Website
+              {t("businessInfoStep.websiteLabel")}
             </Label>
             <Input
               id="website"
               value={localData.website}
               onChange={(e) => handleChange("website", e.target.value)}
-              placeholder="https://yourbusiness.com"
+              placeholder={t("businessInfoStep.websitePlaceholder")}
               className={cn(
                 "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
                 hasFieldError("website") &&
@@ -260,14 +262,14 @@ const BusinessInfoStep = ({
               htmlFor="email"
               className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
             >
-              Company Email *
+              {t("businessInfoStep.emailLabel")}
             </Label>
             <Input
               id="email"
               type="email"
               value={localData.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              placeholder="business@example.com"
+              placeholder={t("businessInfoStep.emailPlaceholder")}
               className={cn(
                 "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
                 hasFieldError("email") &&
@@ -289,7 +291,7 @@ const BusinessInfoStep = ({
               htmlFor="timezone"
               className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
             >
-              Preferred Timezone *
+              {t("businessInfoStep.timezoneLabel")}
             </Label>
             <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
               <PopoverTrigger asChild>
@@ -303,18 +305,21 @@ const BusinessInfoStep = ({
                       "border-red-500 focus:border-red-500 focus:ring-red-500"
                   )}
                 >
-                  {localData.timezone || "Select your timezone"}
+                  {localData.timezone ||
+                    t("businessInfoStep.timezonePlaceholder")}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start">
                 <Command>
                   <CommandInput
-                    placeholder="Search timezone..."
+                    placeholder={t("businessInfoStep.timezoneSearch")}
                     className="h-9"
                   />
                   <CommandList>
-                    <CommandEmpty>No timezone found.</CommandEmpty>
+                    <CommandEmpty>
+                      {t("businessInfoStep.noTimezone")}
+                    </CommandEmpty>
                     <CommandGroup>
                       {timeZoneData && Array.isArray(timeZoneData)
                         ? timeZoneData.map((timezone) => (
@@ -376,7 +381,7 @@ const BusinessInfoStep = ({
               htmlFor="businessType"
               className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
             >
-              Dashboard Type *
+              {t("businessInfoStep.dashboardTypeLabel")}
             </Label>
             <Select
               value={localData.businessType}
@@ -389,7 +394,9 @@ const BusinessInfoStep = ({
                     "border-red-500 focus:border-red-500 focus:ring-red-500"
                 )}
               >
-                <SelectValue placeholder="Select business type" />
+                <SelectValue
+                  placeholder={t("businessInfoStep.dashboardTypePlaceholder")}
+                />
               </SelectTrigger>
               <SelectContent>
                 {businessTypes.map((type) => (
@@ -415,7 +422,7 @@ const BusinessInfoStep = ({
             htmlFor="locationCount"
             className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
           >
-            How many locations do you want to manage?
+            {t("businessInfoStep.locationCountLabel")}
           </Label>
 
           <Select
@@ -423,7 +430,9 @@ const BusinessInfoStep = ({
             onValueChange={(value) => handleChange("locationCount", value)}
           >
             <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-              <SelectValue placeholder="Select listing range" />
+              <SelectValue
+                placeholder={t("businessInfoStep.locationCountPlaceholder")}
+              />
             </SelectTrigger>
 
             <SelectContent>
@@ -446,7 +455,9 @@ const BusinessInfoStep = ({
             disabled={!isValid || saveInProgress}
             className="w-full h-10 text-sm sm:text-base font-semibold bg-blue-600 hover:bg-blue-700"
           >
-            {saveInProgress ? "Saving..." : "Continue"}
+            {saveInProgress
+              ? t("businessInfoStep.savingButton")
+              : t("businessInfoStep.continueButton")}
           </Button>
         </div>
       </div>

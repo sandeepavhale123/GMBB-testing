@@ -8,6 +8,7 @@ import ConnectGoogleStep from "@/components/Onboarding/ConnectGoogleStep";
 import SelectListingsStep from "@/components/Onboarding/SelectListingsStep";
 import CompletionStep from "@/components/Onboarding/CompletionStep";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 import { dispatch } from "@/hooks/toast/reducer";
 
@@ -20,7 +21,7 @@ const Onboarding = () => {
     updateData,
     complete,
   } = useOnboarding();
-
+  const { t } = useI18nNamespace("pages/onboarding");
   const navigate = useNavigate();
   const localOnboardingStep = localStorage.getItem("onboarding_current_step");
   console.log("local onboarding step", localOnboardingStep);
@@ -30,28 +31,28 @@ const Onboarding = () => {
   const steps = [
     {
       id: 1,
-      title: "Business Information",
-      description: "Enter your business details to get started",
+      title: t("onboarding.steps.1.title"),
+      description: t("onboarding.steps.1.description"),
     },
     {
       id: 2,
-      title: "Define your goal",
-      description: "Choose what you want to achieve with this setup",
+      title: t("onboarding.steps.2.title"),
+      description: t("onboarding.steps.2.description"),
     },
     {
       id: 3,
-      title: "Connect google account",
-      description: "Securely link your Google account for integration",
+      title: t("onboarding.steps.3.title"),
+      description: t("onboarding.steps.3.description"),
     },
     {
       id: 4,
-      title: "Select listings",
-      description: "Pick the Google listing you want to manage",
+      title: t("onboarding.steps.4.title"),
+      description: t("onboarding.steps.4.description"),
     },
     {
       id: 5,
-      title: "Complete",
-      description: "Setup complete!",
+      title: t("onboarding.steps.5.title"),
+      description: t("onboarding.steps.5.description"),
     },
   ];
 
@@ -130,10 +131,11 @@ const Onboarding = () => {
         <div className="flex-1 p-4 xl:p-6 relative z-10">
           <div className="mb-6 xl:mb-8">
             <h3 className="text-base xl:text-lg font-semibold text-white mb-2">
-              Setup Progress
+              {t("onboarding.setup")}
             </h3>
             <p className="text-sm text-white/80">
-              Step {currentStep} of {totalSteps}
+              {t("onboarding.progress", { currentStep, totalSteps })}
+              {/* Step {currentStep} of {totalSteps} */}
             </p>
           </div>
 
@@ -215,7 +217,8 @@ const Onboarding = () => {
             className="h-5 sm:h-6 object-contain brightness-0 invert"
           />
           <div className="text-white text-xs sm:text-sm">
-            Step {currentStep} of {totalSteps}
+            {t("onboarding.progress", { currentStep, totalSteps })}
+            {/* Step {currentStep} of {totalSteps} */}
           </div>
         </div>
 
@@ -259,7 +262,7 @@ const Onboarding = () => {
               className="flex items-center gap-2 hover:bg-gray-50"
             >
               <ArrowLeft size={14} />
-              <span className="hidden sm:inline">Back</span>
+              <span className="hidden sm:inline">{t("onboarding.back")}</span>
             </Button>
           </div>
         )}

@@ -6,8 +6,10 @@ import { useToast } from "@/hooks/use-toast";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 import { useLocation, useNavigate } from "react-router-dom";
 import GoogleAuthHandler from "./GoogleAuthHandler";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const ConnectGoogleStep = () => {
+  const { t } = useI18nNamespace("Onboarding/connectGoogleStep");
   const { toast } = useToast();
   const { oauthParams, setOauthParameters } = useOnboarding();
 
@@ -47,11 +49,10 @@ const ConnectGoogleStep = () => {
             <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-blue-600" />
           </div>
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
-            Secure Google Authentication
+            {t("connectGoogleStep.title")}
           </h3>
           <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
-            We use Google's secure OAuth system to connect your account. Your
-            credentials are never stored on our servers.
+            {t("connectGoogleStep.description")}
           </p>
         </div>
 
@@ -69,14 +70,14 @@ const ConnectGoogleStep = () => {
                   alt="Google"
                   className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3"
                 />
-                Connect with Google
+                {t("connectGoogleStep.button")}
               </>
             </Button>
           </a>
         </div>
 
         <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-          {[
+          {/* {[
             "View and manage your business information",
             "Read and respond to customer reviews",
             "Create and manage posts",
@@ -91,7 +92,20 @@ const ConnectGoogleStep = () => {
                 {text}
               </span>
             </div>
-          ))}
+          ))} */}
+          {t("connectGoogleStep.permissions", { returnObjects: true }).map(
+            (text: string, index: number) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-green-50 rounded-lg"
+              >
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0" />
+                <span className="text-sm sm:text-base text-green-800">
+                  {text}
+                </span>
+              </div>
+            )
+          )}
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 mb-6 sm:mb-8">
@@ -99,12 +113,10 @@ const ConnectGoogleStep = () => {
             <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mt-0.5 flex-shrink-0" />
             <div>
               <h4 className="font-medium text-sm sm:text-base text-blue-900 mb-1">
-                What happens next?
+                {t("connectGoogleStep.nextSteps.title")}
               </h4>
               <p className="text-xs sm:text-sm text-blue-800">
-                You'll be redirected to Google to sign in and authorize GMB
-                Briefcase. Once connected, we'll import your business listings
-                automatically.
+                {t("connectGoogleStep.nextSteps.description")}
               </p>
             </div>
           </div>
@@ -113,14 +125,14 @@ const ConnectGoogleStep = () => {
 
       <div className="text-center mt-4 sm:mt-6">
         <p className="text-xs sm:text-sm text-gray-500">
-          By connecting, you agree to our{" "}
+          {t("connectGoogleStep.legal.agreement")}
           <a
             href="https://gmbbriefcase.com/payment-refund/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
           >
-            Terms of Service
+            {t("connectGoogleStep.legal.termsOfService")}
           </a>{" "}
           and{" "}
           <a
@@ -129,7 +141,7 @@ const ConnectGoogleStep = () => {
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
           >
-            Privacy Policy
+            {t("connectGoogleStep.legal.privacyPolicy")}
           </a>
         </p>
       </div>

@@ -1,9 +1,9 @@
-
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowRight } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessLocationStepProps {
   formData: any;
@@ -11,18 +11,23 @@ interface BusinessLocationStepProps {
   onNext: () => void;
 }
 
-const BusinessLocationStep = ({ formData, updateFormData, onNext }: BusinessLocationStepProps) => {
+const BusinessLocationStep = ({
+  formData,
+  updateFormData,
+  onNext,
+}: BusinessLocationStepProps) => {
   const [localData, setLocalData] = useState({
-    address: formData.address || '',
-    city: formData.city || '',
-    state: formData.state || '',
-    zipCode: formData.zipCode || '',
-    phone: formData.phone || '',
-    website: formData.website || ''
+    address: formData.address || "",
+    city: formData.city || "",
+    state: formData.state || "",
+    zipCode: formData.zipCode || "",
+    phone: formData.phone || "",
+    website: formData.website || "",
   });
+  const { t } = useI18nNamespace("Onboarding/businessLocationStep");
 
   const handleChange = (field: string, value: string) => {
-    setLocalData(prev => ({ ...prev, [field]: value }));
+    setLocalData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleNext = () => {
@@ -30,29 +35,28 @@ const BusinessLocationStep = ({ formData, updateFormData, onNext }: BusinessLoca
     onNext();
   };
 
-  const isValid = localData.address && localData.city && localData.state && localData.zipCode;
+  const isValid =
+    localData.address && localData.city && localData.state && localData.zipCode;
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Where is your business located?
+          {t("businessLocationStep.title")}
         </h2>
-        <p className="text-gray-600">
-          Add your business address and contact information
-        </p>
+        <p className="text-gray-600">{t("businessLocationStep.description")}</p>
       </div>
 
       <div className="bg-white p-8 rounded-lg shadow-sm border space-y-6">
         <div>
           <Label htmlFor="address" className="text-base font-medium">
-            Street Address *
+            {t("businessLocationStep.addressLabel")}
           </Label>
           <Input
             id="address"
             value={localData.address}
-            onChange={(e) => handleChange('address', e.target.value)}
-            placeholder="123 Main Street"
+            onChange={(e) => handleChange("address", e.target.value)}
+            placeholder={t("businessLocationStep.addressPlaceholder")}
             className="mt-2 h-12"
           />
         </div>
@@ -60,25 +64,25 @@ const BusinessLocationStep = ({ formData, updateFormData, onNext }: BusinessLoca
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="city" className="text-base font-medium">
-              City *
+              {t("businessLocationStep.cityLabel")}
             </Label>
             <Input
               id="city"
               value={localData.city}
-              onChange={(e) => handleChange('city', e.target.value)}
-              placeholder="City"
+              onChange={(e) => handleChange("city", e.target.value)}
+              placeholder={t("businessLocationStep.cityPlaceholder")}
               className="mt-2 h-12"
             />
           </div>
           <div>
             <Label htmlFor="state" className="text-base font-medium">
-              State *
+              {t("businessLocationStep.stateLabel")}
             </Label>
             <Input
               id="state"
               value={localData.state}
-              onChange={(e) => handleChange('state', e.target.value)}
-              placeholder="State"
+              onChange={(e) => handleChange("state", e.target.value)}
+              placeholder={t("businessLocationStep.statePlaceholder")}
               className="mt-2 h-12"
             />
           </div>
@@ -86,49 +90,49 @@ const BusinessLocationStep = ({ formData, updateFormData, onNext }: BusinessLoca
 
         <div>
           <Label htmlFor="zipCode" className="text-base font-medium">
-            ZIP Code *
+            {t("businessLocationStep.zipCodeLabel")}
           </Label>
           <Input
             id="zipCode"
             value={localData.zipCode}
-            onChange={(e) => handleChange('zipCode', e.target.value)}
-            placeholder="12345"
+            onChange={(e) => handleChange("zipCode", e.target.value)}
+            placeholder={t("businessLocationStep.zipCodePlaceholder")}
             className="mt-2 h-12"
           />
         </div>
 
         <div>
           <Label htmlFor="phone" className="text-base font-medium">
-            Phone Number
+            {t("businessLocationStep.phoneLabel")}
           </Label>
           <Input
             id="phone"
             value={localData.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder="(555) 123-4567"
+            onChange={(e) => handleChange("phone", e.target.value)}
+            placeholder={t("businessLocationStep.phonePlaceholder")}
             className="mt-2 h-12"
           />
         </div>
 
         <div>
           <Label htmlFor="website" className="text-base font-medium">
-            Website
+            {t("businessLocationStep.websiteLabel")}
           </Label>
           <Input
             id="website"
             value={localData.website}
-            onChange={(e) => handleChange('website', e.target.value)}
-            placeholder="https://yourwebsite.com"
+            onChange={(e) => handleChange("website", e.target.value)}
+            placeholder={t("businessLocationStep.websitePlaceholder")}
             className="mt-2 h-12"
           />
         </div>
 
-        <Button 
+        <Button
           onClick={handleNext}
           disabled={!isValid}
           className="w-full h-12 text-base"
         >
-          Continue
+          {t("businessLocationStep.continueButton")}
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </div>

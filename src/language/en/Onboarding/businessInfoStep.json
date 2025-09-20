@@ -1,0 +1,22 @@
+{
+  "businessInfoStep": {
+    "title": "Tell us about your business",
+    "description": "We'll use this information to customize your experience.",
+    "businessNameLabel": "Business/Agency Name *",
+    "businessNamePlaceholder": "Enter your business or agency name",
+    "websiteLabel": "Website",
+    "websitePlaceholder": "https://yourbusiness.com",
+    "emailLabel": "Company Email *",
+    "emailPlaceholder": "business@example.com",
+    "timezoneLabel": "Preferred Timezone *",
+    "timezonePlaceholder": "Select your timezone",
+    "timezoneSearch":"Search timezone...",
+    "noTimezone":"No timezone found.",
+    "dashboardTypeLabel": "Dashboard Type *",
+    "dashboardTypePlaceholder": "Select business type",
+    "locationCountLabel": "How many locations do you want to manage?",
+    "locationCountPlaceholder": "Select listing range",
+    "continueButton": "Continue",
+    "savingButton": "Saving..."
+  }
+}

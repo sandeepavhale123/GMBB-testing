@@ -18,6 +18,7 @@ import {
 } from "@/store/slices/onboarding/onboardingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface SelectGoalStepProps {
   formData: any;
@@ -30,6 +31,7 @@ const SelectGoalStep = ({
   updateFormData,
   onNext,
 }: SelectGoalStepProps) => {
+  const { t } = useI18nNamespace("Onboarding/selectGoalStep");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [hasInitialized, setHasInitialized] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -79,7 +81,7 @@ const SelectGoalStep = ({
       console.error("Goals loading error:", goalsError);
       toast({
         variant: "destructive",
-        title: "Error loading goals",
+        title: t("selectGoalStep.errorLoading"),
         description: goalsError,
       });
     }
@@ -90,7 +92,7 @@ const SelectGoalStep = ({
       console.error("Goals save error:", goalsSaveError);
       toast({
         variant: "destructive",
-        title: "Error saving goals",
+        title: t("selectGoalStep.errorSaving"),
         description: goalsSaveError,
       });
     }
@@ -138,8 +140,11 @@ const SelectGoalStep = ({
 
       // Show success message
       toast({
-        title: "Goals saved successfully",
-        description: `${selectedGoals.length} goals have been saved.`,
+        title: t("selectGoalStep.saveSuccessTitle"),
+        description: t("selectGoalStep.saveSuccessDescription", {
+          count: selectedGoals.length,
+        }),
+        // `${selectedGoals.length} goals have been saved.`,
       });
 
       onNext();
@@ -154,10 +159,10 @@ const SelectGoalStep = ({
       <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="text-center mb-6 sm:mb-8">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-            What are your main goals?
+            {t("selectGoalStep.title")}
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            Loading your goals...
+            {t("selectGoalStep.loadingMessage")}
           </p>
         </div>
         <div className="flex justify-center items-center py-12">
@@ -173,11 +178,10 @@ const SelectGoalStep = ({
     <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
       <div className="text-center mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-          What are your main goals?
+          {t("selectGoalStep.title")}
         </h2>
         <p className="text-sm sm:text-base text-gray-600">
-          Select all that apply. We'll customize your experience based on your
-          goals.
+          {t("selectGoalStep.subtitle")}
         </p>
       </div>
 
@@ -228,14 +232,14 @@ const SelectGoalStep = ({
           {goalsSaveLoading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              Saving...
+              {t("selectGoalStep.saving")}
             </>
+          ) : selectedGoals.length > 0 ? (
+            t("selectGoalStep.continueWithCount", {
+              count: selectedGoals.length,
+            })
           ) : (
-            `Continue ${
-              selectedGoals.length > 0
-                ? `(${selectedGoals.length} selected)`
-                : ""
-            }`
+            ""
           )}
         </Button>
       </div>

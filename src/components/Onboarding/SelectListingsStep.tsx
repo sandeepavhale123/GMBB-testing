@@ -8,6 +8,7 @@ import { MapPin, Star, Clock, Loader2, Search } from "lucide-react";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 import { enableDisableListings } from "@/api/listingApi";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface SelectListingsStepProps {
   formData: any;
@@ -26,7 +27,7 @@ const SelectListingsStep = ({
     setAllListingsSelection,
     goToStep,
   } = useOnboarding();
-
+  const { t } = useI18nNamespace("Onboarding/selectListingsStep");
   // console.log("googlebusinessdata", googleBusinessData);
   const [isConnecting, setIsConnecting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,8 +67,11 @@ const SelectListingsStep = ({
   ) => {
     if (!isCurrentlySelected && selectedCount >= allowedListings) {
       toast({
-        title: "Limit Reached",
-        description: `According to your plan you have allowed ${allowedListings} listings.`,
+        title: t("selectListingsStep.limitReachedTitle"),
+        description: t("selectListingsStep.limitReachedDescription", {
+          count: allowedListings,
+        }),
+        //  `According to your plan you have allowed ${allowedListings} listings.`,
         variant: "destructive",
       });
       return;
@@ -79,8 +83,11 @@ const SelectListingsStep = ({
     const numUnselected = listings.filter((l) => !Number(l.isActive)).length;
     if (!allSelected && numUnselected > remainingAllowed) {
       toast({
-        title: "Limit Reached",
-        description: `You can only select ${remainingAllowed} more listing(s).`,
+        title: t("selectListingsStep.limitReachedTitle"),
+        description: t("selectListingsStep.limitReachedRemaining", {
+          count: remainingAllowed,
+        }),
+        // `You can only select ${remainingAllowed} more listing(s).`,
         variant: "destructive",
       });
       return;
@@ -118,10 +125,15 @@ const SelectListingsStep = ({
 
       if (response) {
         toast({
-          title: "Success",
-          description: `${selectedListingIds.length} listing${
-            selectedListingIds.length > 1 ? "s" : ""
-          } connected successfully`,
+          title: t("selectListingsStep.successTitle"),
+          description: t("selectListingsStep.successDescription", {
+            count: selectedListingIds.length,
+            plural: selectedListingIds.length > 1 ? "s" : "",
+          }),
+
+          // `${selectedListingIds.length} listing${
+          //   selectedListingIds.length > 1 ? "s" : ""
+          // } connected successfully`,
         });
 
         // Update formData with selected listing IDs for persistence
@@ -134,11 +146,11 @@ const SelectListingsStep = ({
       console.error("Error connecting listings:", error);
       toast({
         variant: "destructive",
-        title: "Connection Failed",
+        title: t("selectListingsStep.connectionFailedTitle"),
         description:
           error instanceof Error
             ? (error as any).response?.data?.message || error.message
-            : "Failed to connect listings. Please try again.",
+            : t("selectListingsStep.connectionFailedDescription"),
       });
     } finally {
       setIsConnecting(false);
@@ -149,22 +161,26 @@ const SelectListingsStep = ({
     <div className="max-w-3xl mx-auto px-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Select your business listings
+          {t("selectListingsStep.title")}
         </h2>
-        <p className="text-gray-600">
-          Choose which Google Business Profile listings you'd like to manage
-          with GMB Briefcase.
-        </p>
+        <p className="text-gray-600">{t("selectListingsStep.subtitle")}</p>
 
         {googleBusinessData && (
           <p className="text-sm text-blue-600 mt-2">
-            Connected to {googleBusinessData.profileEmail}
+            {t("selectListingsStep.connectedTo", {
+              email: googleBusinessData.profileEmail,
+            })}
+            {/* Connected to {googleBusinessData.profileEmail} */}
           </p>
         )}
 
         <p className="text-sm text-gray-500 mt-1">
-          Allowed to select: {remainingAllowed} listing
-          {allowedListings > 1 ? "s" : ""}
+          {t("selectListingsStep.allowedToSelect", {
+            count: remainingAllowed,
+            plural: allowedListings > 1 ? "s" : "",
+          })}
+          {/* Allowed to select: {remainingAllowed} listing
+          {allowedListings > 1 ? "s" : ""} */}
         </p>
       </div>
 
@@ -172,8 +188,12 @@ const SelectListingsStep = ({
         {/* Single row with Found listings, Search, and Select All */}
         <div className="flex items-center gap-4 mb-4">
           <h3 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
-            Found {listings.length} business listing
-            {listings.length !== 1 ? "s" : ""}
+            {t("selectListingsStep.foundListings", {
+              count: listings.length,
+              plural: listings.length !== 1 ? "s" : "",
+            })}
+            {/* Found {listings.length} business listing
+            {listings.length !== 1 ? "s" : ""} */}
           </h3>
 
           {/* Search Input */}
@@ -181,7 +201,7 @@ const SelectListingsStep = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               type="text"
-              placeholder="Search listings by name, address, or category..."
+              placeholder={t("selectListingsStep.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -193,7 +213,9 @@ const SelectListingsStep = ({
             onClick={handleSelectAll}
             className="text-sm whitespace-nowrap"
           >
-            {allSelected ? "Deselect All" : "Select All"}
+            {allSelected
+              ? t("selectListingsStep.deselectAll")
+              : t("selectListingsStep.selectAll")}
           </Button>
         </div>
       </div>
@@ -238,8 +260,8 @@ const SelectListingsStep = ({
                         }`}
                       >
                         {String(listing.isVerified) === "1"
-                          ? "Verified"
-                          : "Not-Verified"}
+                          ? t("selectListingsStep.verified")
+                          : t("selectListingsStep.notVerified")}
                       </div>
                     </div>
 
@@ -257,7 +279,8 @@ const SelectListingsStep = ({
 
           {filteredListings.length === 0 && searchTerm && (
             <div className="text-center py-8 text-gray-500">
-              No listings found matching "{searchTerm}"
+              {t("selectListingsStep.noListingsFound", { term: searchTerm })}
+              {/* No listings found matching "{searchTerm}" */}
             </div>
           )}
         </div>
@@ -273,28 +296,32 @@ const SelectListingsStep = ({
           {isConnecting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              Connecting...
+              {t("selectListingsStep.connecting")}
             </>
           ) : selectedCount === 0 ? (
-            "Select a listing to continue"
+            t("selectListingsStep.selectToContinue")
           ) : (
-            `Connect with ${selectedCount} listing${
-              selectedCount !== 1 ? "s" : ""
-            }`
+            t("selectListingsStep.connectButton", {
+              count: selectedCount,
+              plural: selectedCount !== 1 ? "s" : "",
+            })
+            // `Connect with ${selectedCount} listing${
+            //   selectedCount !== 1 ? "s" : ""
+            // }`
           )}
         </Button>
       </div>
 
       <div className="text-center mt-6">
         <p className="text-sm text-gray-500">
-          Don't see your business? You can{" "}
+          {t("selectListingsStep.supportText")}
           <a
             href="https://support.gmbbriefcase.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
           >
-            contact support
+            {t("selectListingsStep.contactSupport")}
           </a>
         </p>
       </div>

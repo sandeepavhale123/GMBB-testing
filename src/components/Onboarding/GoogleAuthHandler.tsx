@@ -6,10 +6,12 @@ import { setAccessToken } from "@/store/slices/auth/authSlice";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 import { Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const GoogleAuthHandler = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useI18nNamespace("Onboarding/connectGoogleStep");
   const {
     oauthParams,
     clearOauthParameters,
@@ -53,8 +55,10 @@ const GoogleAuthHandler = () => {
 
         if (!response.ok) {
           toast({
-            title: "Google Auth Failed",
-            description: data.message || "An unknown error occurred.",
+            title: t("googleAuthHandler.toast.error.title"),
+            description:
+              data.message ||
+              t("googleAuthHandler.toast.error.defaultDescription"),
             variant: "destructive",
           });
         }
@@ -63,7 +67,7 @@ const GoogleAuthHandler = () => {
           setGoogleBusinessListings(data.data);
         }
         toast({
-          title: "Google Auth Succeeded",
+          title: t("googleAuthHandler.toast.success.title"),
           description: data.message,
         });
 
@@ -93,7 +97,7 @@ const GoogleAuthHandler = () => {
   return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-2">
       <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-      <p className="text-lg">Authenticating with Google...</p>
+      <p className="text-lg">{t("googleAuthHandler.loadingMessage")}</p>
     </div>
   );
 };

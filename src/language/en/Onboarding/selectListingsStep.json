@@ -1,0 +1,27 @@
+{
+  "selectListingsStep": {
+    "title": "Select your business listings",
+    "subtitle": "Choose which Google Business Profile listings you'd like to manage with GMB Briefcase.",
+    "connectedTo": "Connected to {{email}}",
+    "allowedToSelect": "Allowed to select: {{count}} listing{{plural}}",
+    "foundListings": "Found {{count}} business listing{{plural}}",
+    "searchPlaceholder": "Search listings by name, address, or category...",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "verified": "Verified",
+    "notVerified": "Not-Verified",
+    "noListingsFound": "No listings found matching \"{{term}}\"",
+    "limitReachedTitle": "Limit Reached",
+    "limitReachedDescription": "According to your plan you have allowed {{count}} listings.",
+    "limitReachedRemaining": "You can only select {{count}} more listing(s).",
+    "successTitle": "Success",
+    "successDescription": "{{count}} listing{{plural}} connected successfully",
+    "connectionFailedTitle": "Connection Failed",
+    "connectionFailedDescription": "Failed to connect listings. Please try again.",
+    "connectButton": "Connect with {{count}} listing{{plural}}",
+    "selectToContinue": "Select a listing to continue",
+    "connecting": "Connecting...",
+    "supportText": "Don't see your business? You can",
+    "contactSupport": "contact support"
+  }
+}

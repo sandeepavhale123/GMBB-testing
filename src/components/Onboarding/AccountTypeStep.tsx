@@ -1,8 +1,8 @@
-
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Users, User } from 'lucide-react';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Users, User } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AccountTypeStepProps {
   formData: any;
@@ -10,7 +10,12 @@ interface AccountTypeStepProps {
   onNext: () => void;
 }
 
-const AccountTypeStep = ({ formData, updateFormData, onNext }: AccountTypeStepProps) => {
+const AccountTypeStep = ({
+  formData,
+  updateFormData,
+  onNext,
+}: AccountTypeStepProps) => {
+  const { t } = useI18nNamespace("Onboarding/accountTypeStep");
   const handleAccountTypeSelect = (accountType: string) => {
     updateFormData({ accountType });
     onNext();
@@ -20,28 +25,30 @@ const AccountTypeStep = ({ formData, updateFormData, onNext }: AccountTypeStepPr
     <div className="max-w-4xl mx-auto px-6">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          What kind of account do you need?
+          {t("accountTypeStep.title")}
         </h1>
         <p className="text-xl text-gray-600">
-          Choose the option that best describes how you'll be using GMB Briefcase
+          {t("accountTypeStep.description")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <Card 
+        <Card
           className="p-8 cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-blue-500"
-          onClick={() => handleAccountTypeSelect('agency')}
+          onClick={() => handleAccountTypeSelect("agency")}
         >
           <div className="text-center">
             <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Users className="h-10 w-10 text-blue-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Agency</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              {t("accountTypeStep.agency.title")}
+            </h3>
             <p className="text-gray-600 mb-6">
-              I manage multiple businesses for clients or run an agency that handles Google Business Profiles for others.
+              {t("accountTypeStep.agency.description")}
             </p>
             <ul className="text-left text-gray-600 space-y-2 mb-8">
-              <li className="flex items-center">
+              {/* <li className="flex items-center">
                 <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                 Manage multiple client accounts
               </li>
@@ -56,28 +63,38 @@ const AccountTypeStep = ({ formData, updateFormData, onNext }: AccountTypeStepPr
               <li className="flex items-center">
                 <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                 Advanced analytics dashboard
-              </li>
+              </li> */}
+              {t("accountTypeStep.agency.features", {
+                returnObjects: true,
+              }).map((feature: string, i: number) => (
+                <li key={i} className="flex items-center">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                  {feature}
+                </li>
+              ))}
             </ul>
             <Button className="w-full" size="lg">
-              Choose Agency Account
+              {t("accountTypeStep.agency.button")}
             </Button>
           </div>
         </Card>
 
-        <Card 
+        <Card
           className="p-8 cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-green-500"
-          onClick={() => handleAccountTypeSelect('personal')}
+          onClick={() => handleAccountTypeSelect("personal")}
         >
           <div className="text-center">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <User className="h-10 w-10 text-green-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Personal Account</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              {t("accountTypeStep.personal.title")}
+            </h3>
             <p className="text-gray-600 mb-6">
-              I'm a business owner managing my own Google Business Profile and want to improve my local presence.
+              {t("accountTypeStep.personal.description")}
             </p>
             <ul className="text-left text-gray-600 space-y-2 mb-8">
-              <li className="flex items-center">
+              {/* <li className="flex items-center">
                 <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
                 Manage your own business
               </li>
@@ -92,10 +109,21 @@ const AccountTypeStep = ({ formData, updateFormData, onNext }: AccountTypeStepPr
               <li className="flex items-center">
                 <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
                 Local SEO tools
-              </li>
+              </li> */}
+              {t("accountTypeStep.personal.features", {
+                returnObjects: true,
+              }).map((feature: string, i: number) => (
+                <li key={i} className="flex items-center">
+                  <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                  {feature}
+                </li>
+              ))}
             </ul>
-            <Button className="w-full bg-green-600 hover:bg-green-700" size="lg">
-              Choose Personal Account
+            <Button
+              className="w-full bg-green-600 hover:bg-green-700"
+              size="lg"
+            >
+              {t("accountTypeStep.personal.button")}
             </Button>
           </div>
         </Card>

@@ -1,0 +1,28 @@
+{
+  "accountTypeStep": {
+    "title": "What kind of account do you need?",
+    "description": "Choose the option that best describes how you'll be using GMB Briefcase",
+    "agency": {
+      "title": "Agency",
+      "description": "I manage multiple businesses for clients or run an agency that handles Google Business Profiles for others.",
+      "features": [
+        "Manage multiple client accounts",
+        "White-label reporting options",
+        "Team collaboration features",
+        "Advanced analytics dashboard"
+      ],
+      "button": "Choose Agency Account"
+    },
+    "personal": {
+      "title": "Personal Account",
+      "description": "I'm a business owner managing my own Google Business Profile and want to improve my local presence.",
+      "features": [
+        "Manage your own business",
+        "Easy-to-use interface",
+        "Performance insights",
+        "Local SEO tools"
+      ],
+      "button": "Choose Personal Account"
+    }
+  }
+}
