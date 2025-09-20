@@ -16,17 +16,20 @@ import { useSignup } from "@/store/slices/auth/useSignUp";
 import { signupSchema, SignupFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
-
-const PLAN_OPTIONS = [
-  { value: "0", label: "Select Plan" },
-  { value: "50", label: "7$ for 7-day trial" },
-  { value: "55", label: "Enterprise - $560 PM" },
-  { value: "54", label: "Agency - $299 PM" },
-  { value: "53", label: "Pro - $199 PM" },
-  { value: "52", label: "Business - $99 PM" },
-];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const SignupForm = () => {
+  const { t } = useI18nNamespace("Signup/signupForm");
+
+  const PLAN_OPTIONS = [
+    { value: "0", label: t("signupForm.fields.plan.options.label1") },
+    { value: "50", label: t("signupForm.fields.plan.options.label2") },
+    { value: "55", label: t("signupForm.fields.plan.options.label3") },
+    { value: "54", label: t("signupForm.fields.plan.options.label4") },
+    { value: "53", label: t("signupForm.fields.plan.options.label5") },
+    { value: "52", label: t("signupForm.fields.plan.options.label6") },
+  ];
+
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: "",
     lastName: "",
@@ -64,8 +67,8 @@ export const SignupForm = () => {
     });
     clearErrors();
     toast({
-      title: "Form Reset",
-      description: "All fields have been cleared.",
+      title: t("signupForm.toasts.formReset.title"),
+      description: t("signupForm.toasts.formReset.description"),
     });
   };
 
@@ -84,8 +87,8 @@ export const SignupForm = () => {
 
     if (!validation.isValid) {
       toast({
-        title: "Validation Error",
-        description: "Please fix the highlighted fields and try again.",
+        title: t("signupForm.toasts.validationError.title"),
+        description: t("signupForm.toasts.validationError.description"),
         variant: "destructive",
       });
 
@@ -117,16 +120,18 @@ export const SignupForm = () => {
 
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">
-          Create Your Account
+          {t("signupForm.title")}
         </h2>
-        <p className="mt-2 text-gray-600">Join GMB Briefcase today</p>
+        <p className="mt-2 text-gray-600">{t("signupForm.subtitle")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* First & Last Name */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="firstName">First Name *</Label>
+            <Label htmlFor="firstName">
+              {t("signupForm.fields.firstName")}
+            </Label>
             <Input
               id="firstName"
               type="text"
@@ -145,7 +150,7 @@ export const SignupForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="lastName">Last Name *</Label>
+            <Label htmlFor="lastName">{t("signupForm.fields.lastName")}</Label>
             <Input
               id="lastName"
               type="text"
@@ -166,7 +171,9 @@ export const SignupForm = () => {
 
         {/* Agency Name */}
         <div>
-          <Label htmlFor="agencyName">Agency Name *</Label>
+          <Label htmlFor="agencyName">
+            {t("signupForm.fields.agencyName")}
+          </Label>
           <Input
             id="agencyName"
             type="text"
@@ -186,7 +193,7 @@ export const SignupForm = () => {
 
         {/* Email */}
         <div>
-          <Label htmlFor="email">Email Address *</Label>
+          <Label htmlFor="email">{t("signupForm.fields.email")}</Label>
           <Input
             id="email"
             type="text"
@@ -204,7 +211,7 @@ export const SignupForm = () => {
 
         {/* Password */}
         <div>
-          <Label htmlFor="password">Password *</Label>
+          <Label htmlFor="password">{t("signupForm.fields.password")}</Label>
           <div className="relative mt-1">
             <Input
               id="password"
@@ -232,7 +239,7 @@ export const SignupForm = () => {
 
         {/* Plan Selection */}
         <div>
-          <Label htmlFor="plan">Select Plan *</Label>
+          <Label htmlFor="plan">{t("signupForm.fields.plan.label")}</Label>
           <Select
             value={formData.plan}
             onValueChange={(value) => handleChange("plan", value)}
@@ -273,7 +280,7 @@ export const SignupForm = () => {
             {isLoading ? (
               <span className="flex items-center gap-2">
                 <LoaderCircle className="animate-spin" size={16} />
-                Creating Account...
+                {t("signupForm.buttons.loading")}
               </span>
             ) : (
               getPayButtonLabel()
@@ -287,21 +294,21 @@ export const SignupForm = () => {
             className="h-12 font-medium rounded-lg col-span-4"
             disabled={isLoading}
           >
-            Reset
+            {t("signupForm.buttons.reset")}
           </Button>
         </div>
 
         {/* Login Link */}
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Already have an account?{" "}
+            {t("signupForm.links.loginPrompt")}
             <button
               type="button"
               onClick={() => navigate("/login")}
               className="text-blue-600 hover:text-blue-500 font-medium"
               disabled={isLoading}
             >
-              Sign in here
+              {t("signupForm.links.loginAction")}
             </button>
           </p>
         </div>

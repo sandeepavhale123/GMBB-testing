@@ -3,8 +3,10 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SuccessAnimation } from "./SuccessAnimation";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const SuccessContent = () => {
+  const { t } = useI18nNamespace("Signup/signupForm");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type") || "general";
@@ -13,30 +15,28 @@ export const SuccessContent = () => {
     switch (type) {
       case "password-reset":
         return {
-          title: "Password Updated Successfully!",
-          description:
-            "Your password has been updated. You can now log in with your new password.",
+          title: t("successContent.messages.password-reset.title"),
+          description: t("successContent.messages.password-reset.description"),
         };
       case "payment":
         return {
-          title: "Payment Successful!",
-          description:
-            "Thank you for your subscription! Your payment has been processed successfully.",
+          title: t("successContent.messages.payment.title"),
+          description: t("successContent.messages.payment.description"),
         };
       case "profile-update":
         return {
-          title: "Profile Updated!",
-          description: "Your profile has been successfully updated.",
+          title: t("successContent.messages.profile-update.title"),
+          description: t("successContent.messages.profile-update.description"),
         };
       case "verification":
         return {
-          title: "Verification Complete!",
-          description: "Your account has been successfully verified.",
+          title: t("successContent.messages.verification.title"),
+          description: t("successContent.messages.verification.description"),
         };
       default:
         return {
-          title: "Success!",
-          description: "Your action has been completed successfully.",
+          title: t("successContent.messages.general.title"),
+          description: t("successContent.messages.general.description"),
         };
     }
   };
@@ -86,14 +86,14 @@ export const SuccessContent = () => {
                 onClick={handleGoToLogin}
                 className="w-full bg-green-600 hover:bg-green-700"
               >
-                Go to Login
+                {t("successContent.buttons.goToLogin")}
               </Button>
             ) : (
               <Button
                 onClick={handleGoToDashboard}
                 className="w-full bg-green-600 hover:bg-green-700"
               >
-                Go to Dashboard
+                {t("successContent.buttons.goToDashboard")}
               </Button>
             )}
 
@@ -103,7 +103,7 @@ export const SuccessContent = () => {
                 onClick={handleGoBack}
                 className="w-full"
               >
-                Go Back
+                {t("successContent.buttons.goBack")}
               </Button>
             )}
           </div>

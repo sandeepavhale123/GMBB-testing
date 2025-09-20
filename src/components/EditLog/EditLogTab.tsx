@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchEditLogs, setCurrentPage, setCurrentSearch } from '../../store/slices/editLogSlice';
-import { transformEditLogs } from '../../utils/editLogTransform';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { Search, Calendar } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import {
+  fetchEditLogs,
+  setCurrentPage,
+  setCurrentSearch,
+} from "../../store/slices/editLogSlice";
+import { transformEditLogs } from "../../utils/editLogTransform";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Search, Calendar } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -12,28 +16,31 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../ui/pagination';
+} from "../ui/pagination";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface EditLogTabProps {
   listingId: number;
 }
 
 export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
+  const { t } = useI18nNamespace("EditLog/editLogTab");
   const dispatch = useAppDispatch();
-  const { data, isLoading, error, currentPage, currentSearch, limit } = useAppSelector(
-    (state) => state.editLog
-  );
-  
+  const { data, isLoading, error, currentPage, currentSearch, limit } =
+    useAppSelector((state) => state.editLog);
+
   const [searchInput, setSearchInput] = useState(currentSearch);
 
   // Fetch edit logs when component mounts or when dependencies change
   useEffect(() => {
-    dispatch(fetchEditLogs({
-      listingId,
-      page: currentPage,
-      limit,
-      search: currentSearch,
-    }));
+    dispatch(
+      fetchEditLogs({
+        listingId,
+        page: currentPage,
+        limit,
+        search: currentSearch,
+      })
+    );
   }, [dispatch, listingId, currentPage, currentSearch, limit]);
 
   // Handle search with debouncing
@@ -46,18 +53,20 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   const transformedLogs = data ? transformEditLogs(data.items) : [];
-  const totalPages = data ? Math.ceil(data.pagination.total / data.pagination.limit) : 0;
+  const totalPages = data
+    ? Math.ceil(data.pagination.total / data.pagination.limit)
+    : 0;
 
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-destructive mb-4">Failed to load edit logs</p>
+        <p className="text-destructive mb-4">{t("editLogTab.errorLoad")}</p>
         <p className="text-muted-foreground text-sm">{error}</p>
       </div>
     );
@@ -70,7 +79,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search edit logs..."
+            placeholder={t("editLogTab.searchPlaceholder")}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -78,14 +87,18 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
           />
         </div>
         <Button onClick={handleSearch} variant="outline">
-          Search
+          {t("editLogTab.searchButton")}
         </Button>
       </div>
 
       {/* Results Count */}
       {data && (
         <div className="text-sm text-muted-foreground">
-          Showing {data.items.length} of {data.pagination.total} edit logs
+          {t("editLogTab.resultsCount", {
+            count: data.items.length,
+            total: data.pagination.total,
+          })}
+          {/* Showing {data.items.length} of {data.pagination.total} edit logs */}
         </div>
       )}
 
@@ -111,23 +124,28 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
           {transformedLogs.map((log) => {
             const IconComponent = log.categoryIcon;
             return (
-              <div key={log.id} className="border border-border rounded-lg p-4 bg-card hover:bg-accent/50 transition-colors shadow-sm">
+              <div
+                key={log.id}
+                className="border border-border rounded-lg p-4 bg-card hover:bg-accent/50 transition-colors shadow-sm"
+              >
                 <div className="flex items-start gap-3">
                   {/* Category Icon */}
-                  <div 
+                  <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm flex-shrink-0 ${log.categoryBgColor} ${log.categoryBorderColor}`}
                   >
-                    <IconComponent 
+                    <IconComponent
                       className={`w-4 h-4 ${log.categoryIconColor}`}
                     />
                   </div>
-                  
+
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2">
-                        <span className={`text-sm font-medium ${log.categoryTextColor}`}>
-                          Changed : {log.categoryLabel}
+                        <span
+                          className={`text-sm font-medium ${log.categoryTextColor}`}
+                        >
+                          {t("editLogTab.changedLabel")} : {log.categoryLabel}
                         </span>
                       </div>
                       <span className="text-xs text-muted-foreground">
@@ -149,7 +167,9 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
             <Calendar className="w-6 h-6 text-muted-foreground" />
           </div>
           <p className="text-muted-foreground">
-            {currentSearch ? 'No edit logs found for your search' : 'No edit history available'}
+            {currentSearch
+              ? t("editLogTab.noSearchResults")
+              : t("editLogTab.noData")}
           </p>
         </div>
       )}
@@ -162,10 +182,14 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
               <PaginationItem>
                 <PaginationPrevious
                   onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={
+                    currentPage <= 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
-              
+
               {/* Page numbers */}
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum;
@@ -178,7 +202,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
                 } else {
                   pageNum = currentPage - 2 + i;
                 }
-                
+
                 return (
                   <PaginationItem key={pageNum}>
                     <PaginationLink
@@ -194,8 +218,14 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
 
               <PaginationItem>
                 <PaginationNext
-                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                  className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  onClick={() =>
+                    handlePageChange(Math.min(totalPages, currentPage + 1))
+                  }
+                  className={
+                    currentPage >= totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
             </PaginationContent>

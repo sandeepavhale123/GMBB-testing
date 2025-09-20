@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ThemePreloaderProps {
   children: React.ReactNode;
   loadFromAPI?: boolean;
 }
 
-export const ThemePreloader = ({ children, loadFromAPI = false }: ThemePreloaderProps) => {
+export const ThemePreloader = ({
+  children,
+  loadFromAPI = false,
+}: ThemePreloaderProps) => {
   const [themeLoaded, setThemeLoaded] = useState(false);
-
+  const { t } = useI18nNamespace("Components/themePreloader");
   useEffect(() => {
     const loadTheme = async () => {
       try {
         // Apply stored theme from localStorage
         applyStoredTheme();
-        
+
         // For public routes, we just use stored theme without API calls or Redux
         if (loadFromAPI) {
           console.log("Public route: using stored theme only");
@@ -36,7 +40,7 @@ export const ThemePreloader = ({ children, loadFromAPI = false }: ThemePreloader
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">{t("themePreloader.loading")}</p>
         </div>
       </div>
     );

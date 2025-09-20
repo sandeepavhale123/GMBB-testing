@@ -34,6 +34,7 @@ import { FaComments, FaQuestion } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { BiSupport } from "react-icons/bi";
 import { X } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -51,121 +52,7 @@ interface MenuItem {
   path: string | null;
   subItems?: MenuItem[];
 }
-const menuItems: MenuItem[] = [
-  {
-    id: "main-dashboard",
-    label: "Main Dashboard",
-    icon: ArrowLeft,
-    path: "/main-dashboard",
-  },
-  {
-    id: "overview",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    path: "/location-dashboard",
-  },
-  {
-    id: "posts",
-    label: "Posts",
-    icon: FileText,
-    path: "/posts",
-  },
-  {
-    id: "media",
-    label: "Media",
-    icon: Image,
-    path: "/media",
-  },
-  {
-    id: "reviews",
-    label: "Reviews",
-    icon: Star,
-    path: "/reviews",
-  },
-  {
-    id: "insights",
-    label: "Insights",
-    icon: BarChart3,
-    path: "/insights",
-  },
-  {
-    id: "qa",
-    label: "Q&A",
-    icon: MessageCircleQuestion,
-    path: "/qa",
-  },
-  {
-    id: "businesses",
-    label: "Management",
-    icon: Building,
-    path: "/business-info",
-  },
-  {
-    id: "tracking",
-    label: "Tracking",
-    icon: TrendingUp,
-    path: null,
-    subItems: [
-      {
-        id: "keywords",
-        label: "Keyword Research",
-        icon: Search,
-        path: "/keywords",
-      },
-      {
-        id: "geo-ranking",
-        label: "GEO Ranking",
-        icon: MapPin,
-        path: "/geo-ranking",
-      },
-    ],
-  },
-  {
-    id: "citation",
-    label: "Citation",
-    icon: BookOpen,
-    path: "/citation",
-  },
-  //  {
-  //   id: "ai-chatbot",
-  //   label: "AI Genie",
-  //   icon: Bot,
-  //   path: "/ai-chatbot"
-  // },
-  {
-    id: "reports",
-    label: "Reports",
-    icon: FileBarChart,
-    path: null,
-    subItems: [
-      {
-        id: "performance-report",
-        label: "Performance Report",
-        icon: FileBarChart,
-        path: "/reports",
-      },
-      {
-        id: "bulk-report",
-        label: "Bulk report",
-        icon: FileBarChart,
-        path: "/bulk-reports",
-      },
-    ],
-    // path: "/reports",
-  },
-  {
-    id: "gallery",
-    label: "Gallery",
-    icon: Images,
-    path: "/gallery",
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    icon: Settings,
-    path: "/settings",
-  },
-];
+
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   onToggleCollapse,
@@ -173,6 +60,124 @@ export const Sidebar: React.FC<SidebarProps> = ({
   sidebarOpen = false,
   isTablet = false,
 }) => {
+  const { t } = useI18nNamespace("Components/sidebar");
+
+  const menuItems: MenuItem[] = [
+    {
+      id: "main-dashboard",
+      label: t("sidebar.menu.main-dashboard"),
+      icon: ArrowLeft,
+      path: "/main-dashboard",
+    },
+    {
+      id: "overview",
+      label: t("sidebar.menu.overview"),
+      icon: LayoutDashboard,
+      path: "/location-dashboard",
+    },
+    {
+      id: "posts",
+      label: t("sidebar.menu.posts"),
+      icon: FileText,
+      path: "/posts",
+    },
+    {
+      id: "media",
+      label: t("sidebar.menu.media"),
+      icon: Image,
+      path: "/media",
+    },
+    {
+      id: "reviews",
+      label: t("sidebar.menu.reviews"),
+      icon: Star,
+      path: "/reviews",
+    },
+    {
+      id: "insights",
+      label: t("sidebar.menu.insights"),
+      icon: BarChart3,
+      path: "/insights",
+    },
+    {
+      id: "qa",
+      label: t("sidebar.menu.qa"),
+      icon: MessageCircleQuestion,
+      path: "/qa",
+    },
+    {
+      id: "businesses",
+      label: t("sidebar.menu.businesses"),
+      icon: Building,
+      path: "/business-info",
+    },
+    {
+      id: "tracking",
+      label: t("sidebar.menu.tracking"),
+      icon: TrendingUp,
+      path: null,
+      subItems: [
+        {
+          id: "keywords",
+          label: t("sidebar.menu.keywords"),
+          icon: Search,
+          path: "/keywords",
+        },
+        {
+          id: "geo-ranking",
+          label: t("sidebar.menu.geo-ranking"),
+          icon: MapPin,
+          path: "/geo-ranking",
+        },
+      ],
+    },
+    {
+      id: "citation",
+      label: t("sidebar.menu.citation"),
+      icon: BookOpen,
+      path: "/citation",
+    },
+    //  {
+    //   id: "ai-chatbot",
+    //   label: "AI Genie",
+    //   icon: Bot,
+    //   path: "/ai-chatbot"
+    // },
+    {
+      id: "reports",
+      label: t("sidebar.menu.reports"),
+      icon: FileBarChart,
+      path: null,
+      subItems: [
+        {
+          id: "performance-report",
+          label: t("sidebar.menu.performance-report"),
+          icon: FileBarChart,
+          path: "/reports",
+        },
+        {
+          id: "bulk-report",
+          label: t("sidebar.menu.bulk-report"),
+          icon: FileBarChart,
+          path: "/bulk-reports",
+        },
+      ],
+      // path: "/reports",
+    },
+    {
+      id: "gallery",
+      label: t("sidebar.menu.gallery"),
+      icon: Images,
+      path: "/gallery",
+    },
+    {
+      id: "settings",
+      label: t("sidebar.menu.settings"),
+      icon: Settings,
+      path: "/settings",
+    },
+  ];
+
   const navigate = useNavigate();
   const location = useLocation();
   const { listingId } = useParams();
@@ -198,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // Get user info from profile data
   const userName = profileData
     ? `${profileData.first_name} ${profileData.last_name}`
-    : "User";
+    : t("sidebar.profile.userFallback");
   const userEmail = profileData?.username || "user@example.com";
   const userInitials = profileData
     ? `${profileData.first_name?.charAt(0) || ""}${
@@ -612,13 +617,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="flex items-center space-x-2 mb-2">
                       <Crown className="h-5 w-5 text-yellow-400" />
                       <span className="text-sm font-semibold text-white">
-                        {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
+                        {isPlanExpired
+                          ? t("sidebar.upgradeCard.title.planExpired")
+                          : t("sidebar.upgradeCard.title.upgradePlan")}
                       </span>
                     </div>
                     <p className="text-xs text-blue-100 mb-3">
                       {isPlanExpired
-                        ? "Your plan has expired. Renew to continue accessing features"
-                        : "Unlock premium features and get unlimited access"}
+                        ? t("sidebar.upgradeCard.description.planExpired")
+                        : t("sidebar.upgradeCard.description.upgradePlan")}
                     </p>
                     <Button
                       size="sm"
@@ -626,7 +633,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => navigate("/settings/subscription")}
                     >
                       <Sparkles className="h-3 w-3 mr-1" />
-                      {isPlanExpired ? "Renew Now" : "Upgrade Now"}
+                      {isPlanExpired
+                        ? t("sidebar.upgradeCard.button.renewNow")
+                        : t("sidebar.upgradeCard.button.upgradeNow")}
                     </Button>
                   </CardContent>
                 </Card>

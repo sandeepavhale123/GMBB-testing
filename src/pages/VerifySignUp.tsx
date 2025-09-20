@@ -3,8 +3,10 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { LoaderCircle, CheckCircle, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const VerifySignupPage = () => {
+  const { t } = useI18nNamespace("pages/verifyPayment");
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
@@ -16,8 +18,8 @@ export const VerifySignupPage = () => {
     if (!sessionId) {
       setStatus("error");
       toast({
-        title: "Verification Failed",
-        description: "Missing session ID in URL.",
+        title: t("verifySignupPage.error.toast.title"),
+        description: t("verifySignupPage.error.toast.missingSessionId"),
         variant: "destructive",
       });
       return;
@@ -45,7 +47,7 @@ export const VerifySignupPage = () => {
         setStatus("success");
 
         toast({
-          title: "Signup Verified",
+          title: t("verifySignupPage.toast.title"),
           description: data.message,
         });
 
@@ -59,7 +61,7 @@ export const VerifySignupPage = () => {
         setStatus("error");
 
         toast({
-          title: "Verification Failed",
+          title: t("verifySignupPage.error.toast.title"),
           description: err.message || err?.response?.data?.message,
           variant: "destructive",
         });
@@ -78,7 +80,9 @@ export const VerifySignupPage = () => {
               className="animate-spin mx-auto text-blue-500"
               size={48}
             />
-            <p className="text-gray-700 text-lg">Verifying your account...</p>
+            <p className="text-gray-700 text-lg">
+              {t("verifySignupPage.loading.message")}
+            </p>
           </>
         )}
 
@@ -86,16 +90,16 @@ export const VerifySignupPage = () => {
           <>
             <CheckCircle className="text-green-500 mx-auto" size={48} />
             <p className="text-lg font-semibold text-green-700">
-              Signup Verified!
+              {t("verifySignupPage.success.title")}
             </p>
             <p className="text-gray-600">
-              You can now log in and start using your account.
+              {t("verifySignupPage.success.description")}
             </p>
             <button
               onClick={() => navigate("/login")}
               className="mt-4 bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700"
             >
-              Go to Login
+              {t("verifySignupPage.success.buttonGoToLogin")}
             </button>
           </>
         )}
@@ -104,16 +108,16 @@ export const VerifySignupPage = () => {
           <>
             <XCircle className="text-red-500 mx-auto" size={48} />
             <p className="text-lg font-semibold text-red-700">
-              Verification Failed
+              {t("verifySignupPage.error.title")}
             </p>
             <p className="text-gray-600">
-              Please check your email for a valid signup link or try again.
+              {t("verifySignupPage.error.description")}
             </p>
             <button
               onClick={() => navigate("/signup")}
               className="mt-4 bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700"
             >
-              Back to Signup
+              {t("verifySignupPage.error.buttonBackToSignup")}
             </button>
           </>
         )}

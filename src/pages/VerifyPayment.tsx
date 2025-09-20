@@ -5,8 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axiosInstance from "@/api/axiosInstance";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const VerifyPayment: React.FC = () => {
+  const { t } = useI18nNamespace("pages/verifyPayment");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -20,7 +22,7 @@ export const VerifyPayment: React.FC = () => {
     const verifyPayment = async () => {
       if (!sessionId || !u) {
         setStatus("error");
-        setErrorMessage("Invalid verification parameters");
+        setErrorMessage(t("verifyPayment.error.messages.invalidParams"));
         return;
       }
       // Clean up URL by removing query parameters
@@ -48,12 +50,12 @@ export const VerifyPayment: React.FC = () => {
           setStatus("success");
         } else {
           setStatus("error");
-          setErrorMessage("Payment verification failed. Please try again.");
+          setErrorMessage(t("verifyPayment.error.messages.verificationFailed"));
         }
       } catch (error) {
         console.error("Payment verification error:", error);
         setStatus("error");
-        setErrorMessage("Payment verification failed. Please try again.");
+        setErrorMessage(t("verifyPayment.error.messages.verificationFailed"));
       }
     };
 
@@ -78,12 +80,12 @@ export const VerifyPayment: React.FC = () => {
               <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">
-              Verifying Your Payment
+              {t("verifyPayment.loading.title")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-gray-600">
-              Please wait while we verify your payment...
+              {t("verifyPayment.loading.description")}
             </p>
           </CardContent>
         </Card>
@@ -100,16 +102,15 @@ export const VerifyPayment: React.FC = () => {
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
             <CardTitle className="text-2xl font-bold text-green-800">
-              Payment Verified Successfully!
+              {t("verifyPayment.success.title")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-6">
             <p className="text-gray-600">
-              Your subscription has been activated successfully. You can now
-              access all premium features.
+              {t("verifyPayment.success.description")}
             </p>
             <Button onClick={handleContinue} className="w-full">
-              Continue to Dashboard
+              {t("verifyPayment.success.button")}
             </Button>
           </CardContent>
         </Card>
@@ -125,21 +126,21 @@ export const VerifyPayment: React.FC = () => {
             <XCircle className="h-8 w-8 text-red-600" />
           </div>
           <CardTitle className="text-2xl font-bold text-red-800">
-            Payment Verification Failed
+            {t("verifyPayment.error.title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-6">
           <p className="text-gray-600">{errorMessage}</p>
           <div className="space-y-3">
             <Button onClick={handleTryAgain} className="w-full">
-              Try Again
+              {t("verifyPayment.error.buttonTryAgain")}
             </Button>
             <Button
               variant="outline"
               onClick={() => navigate("/")}
               className="w-full"
             >
-              Back to Home
+              {t("verifyPayment.error.buttonBackHome")}
             </Button>
           </div>
         </CardContent>

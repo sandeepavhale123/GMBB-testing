@@ -1,8 +1,8 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Card, CardContent } from './ui/card';
-import { Button } from './ui/button';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
+import { AlertTriangle, RefreshCw } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   children: ReactNode;
@@ -17,7 +17,7 @@ interface State {
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -26,14 +26,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ errorInfo });
-    
+
     // Log error for debugging
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
+
     // Show toast notification
     toast.error({
       title: "Something went wrong",
-      description: "An error occurred. Please try refreshing the page."
+      description: "An error occurred. Please try refreshing the page.",
     });
   }
 
@@ -56,11 +56,14 @@ export class ErrorBoundary extends Component<Props, State> {
                 Something went wrong
               </h3>
               <p className="text-sm text-muted-foreground">
-                There was an error in this component. Please try refreshing or contact support if the problem persists.
+                There was an error in this component. Please try refreshing or
+                contact support if the problem persists.
               </p>
-              {process.env.NODE_ENV === 'development' && this.state.error && (
+              {process.env.NODE_ENV === "development" && this.state.error && (
                 <details className="mt-4 text-left">
-                  <summary className="cursor-pointer text-sm font-medium">Error Details (Dev Mode)</summary>
+                  <summary className="cursor-pointer text-sm font-medium">
+                    Error Details (Dev Mode)
+                  </summary>
                   <pre className="mt-2 text-xs text-destructive whitespace-pre-wrap">
                     {this.state.error.toString()}
                     {this.state.errorInfo?.componentStack}
