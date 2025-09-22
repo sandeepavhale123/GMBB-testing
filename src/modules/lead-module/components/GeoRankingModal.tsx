@@ -56,12 +56,14 @@ interface GeoRankingModalProps {
   open: boolean;
   onClose: () => void;
   leadId: string;
+  onSuccess?: () => void;
 }
 
 export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
   open,
   onClose,
   leadId,
+  onSuccess,
 }) => {
   const createGeoReport = useCreateGeoReport();
   const navigate = useNavigate();
@@ -96,6 +98,9 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
         if (response.data.reportUrl) {
           window.open(response.data.reportUrl, '_blank');
         }
+        
+        // Call the onSuccess callback to refetch data
+        onSuccess?.();
         
         onClose();
         form.reset();

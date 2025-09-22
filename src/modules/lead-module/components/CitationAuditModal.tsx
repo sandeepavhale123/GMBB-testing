@@ -41,6 +41,7 @@ interface CitationAuditModalProps {
   leadId: string;
   businessName?: string;
   phone?: string;
+  onSuccess?: () => void;
 }
 
 export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
@@ -49,6 +50,7 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   leadId,
   businessName,
   phone,
+  onSuccess,
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
   const createCitationReport = useCreateLeadCitationReport();
@@ -103,6 +105,9 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
         
         // Navigate to the report page
         navigate(`/lead/citation/${response.data.reportId}`);
+        
+        // Call the onSuccess callback to refetch data
+        onSuccess?.();
         
         onClose();
         form.reset();

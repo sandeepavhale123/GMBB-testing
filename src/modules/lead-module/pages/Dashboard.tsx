@@ -128,6 +128,9 @@ const Dashboard: React.FC = () => {
         }, {
           onSuccess: data => {
             window.open(data.data.reportUrl, '_blank');
+            // Refetch leads and summary data to show updated report status
+            refetch();
+            refetchSummary();
           }
         });
       } else {
@@ -166,6 +169,9 @@ const Dashboard: React.FC = () => {
         }, {
         onSuccess: data => {
           window.open(data.data.reportUrl, '_blank');
+          // Refetch leads and summary data to show updated report status
+          refetch();
+          refetchSummary();
         }
         });
       } else {
@@ -189,12 +195,14 @@ const Dashboard: React.FC = () => {
     setSelectedLead(null);
     // Optionally refetch leads to update citation report status
     refetch();
+    refetchSummary();
   };
   const handleGeoModalClose = () => {
     setGeoModalOpen(false);
     setSelectedLeadId("");
     // Optionally refetch leads to update geo report status
     refetch();
+    refetchSummary();
   };
   const handleLeadClassifierModalClose = () => {
     setLeadClassifierModalOpen(false);
@@ -389,10 +397,22 @@ const Dashboard: React.FC = () => {
         leadId={selectedLeadId}
         businessName={selectedLead?.businessName}
         phone={selectedLead?.phone}
+        onSuccess={() => {
+          refetch();
+          refetchSummary();
+        }}
       />
 
       {/* GEO Ranking Modal */}
-      <GeoRankingModal open={geoModalOpen} onClose={handleGeoModalClose} leadId={selectedLeadId} />
+      <GeoRankingModal 
+        open={geoModalOpen} 
+        onClose={handleGeoModalClose} 
+        leadId={selectedLeadId}
+        onSuccess={() => {
+          refetch();
+          refetchSummary();
+        }}
+      />
 
       {/* Lead Classifier Modal */}
       <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
