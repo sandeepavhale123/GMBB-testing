@@ -381,7 +381,7 @@ export const GmbProspectReport: React.FC = () => {
                   <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
                   <div className="p-3 text-gray-800">{item.name}</div>
                   <div className="p-3 text-center text-gray-900">
-                    {item.rating > 0 ? `${item.rating}` : '-'}
+                    {item.rating > 0 ? `${item.rating}/5.0` : '-'}
                   </div>
                   <div className="p-3 text-center text-gray-900">
                     {item.reviews}
