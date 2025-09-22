@@ -31,6 +31,7 @@ export const LeadGeoRankingReport: React.FC = () => {
     keywords,
     businessInfo,
     rankingData,
+    projectDetails: apiProjectDetails,
     availableDates,
     selectedKeyword,
     isLoading,
@@ -147,18 +148,18 @@ export const LeadGeoRankingReport: React.FC = () => {
     youReview: '156'
   })) || [];
 
-  // Create project details from available data
+  // Create project details from available data, prioritizing API data
   const projectDetails = {
     id: reportId,
-    sab: 'sample',
-    keyword: keywords.find(k => k.id === selectedKeyword)?.keyword || '',
-    mappoint: rankingData?.rankDetails?.[0]?.coordinates || '40.7128,-74.0060',
+    sab: apiProjectDetails?.sab || 'Google Maps',
+    keyword: apiProjectDetails?.keyword || keywords.find(k => k.id === selectedKeyword)?.keyword || '',
+    mappoint: apiProjectDetails?.mappoint || rankingData?.rankDetails?.[0]?.coordinates || '40.7128,-74.0060',
     prev_id: '0',
-    distance: '10 Miles', // Mock value
-    grid: '3x3', // Mock value
-    last_checked: new Date().toISOString().split('T')[0],
-    schedule: 'daily',
-    date: availableDates?.[0]?.date || new Date().toISOString().split('T')[0]
+    distance: apiProjectDetails?.distance || '10 Miles',
+    grid: apiProjectDetails?.grid || '3x3',
+    last_checked: apiProjectDetails?.date || new Date().toISOString().split('T')[0],
+    schedule: apiProjectDetails?.schedule || 'daily',
+    date: apiProjectDetails?.date || availableDates?.[0]?.date || new Date().toISOString().split('T')[0]
   };
 
   // Prepare keyword details for components
@@ -229,11 +230,16 @@ export const LeadGeoRankingReport: React.FC = () => {
 
               <div className="space-y-4 sm:space-y-6">
                 <GeoRankingMapSection 
-                  gridSize={projectDetails.grid}
+                  gridSize={apiProjectDetails?.grid || projectDetails.grid}
                   onMarkerClick={handleMarkerClick}
                   rankDetails={keywordDetails.rankDetails}
                   rankStats={keywordDetails.rankStats}
-                  projectDetails={keywordDetails.projectDetails}
+                  projectDetails={{
+                    ...projectDetails,
+                    ...apiProjectDetails,
+                    prev_id: apiProjectDetails?.id ? '0' : projectDetails.prev_id,
+                    last_checked: apiProjectDetails?.date || projectDetails.last_checked
+                  }}
                   loading={isLoading}
                 />
               </div>

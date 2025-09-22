@@ -91,6 +91,24 @@ export const useLeadGeoRanking = (reportId: string) => {
     };
   }, [keywordDetailsData]);
 
+  // Transform project details for map section
+  const projectDetails = useMemo(() => {
+    if (!keywordDetailsData?.data?.projectDetails) return null;
+    
+    const details = keywordDetailsData.data.projectDetails;
+    return {
+      id: details.id,
+      keyword: details.keyword,
+      distance: details.distance,
+      grid: details.grid,
+      date: details.date,
+      sab: details.sab,
+      schedule: details.schedule,
+      mappoint: details.mappoint,
+      coordinate: details.coordinate
+    };
+  }, [keywordDetailsData]);
+
   // Available dates from keywords
   const availableDates = useMemo(() => {
     const uniqueDates = [...new Set(keywords.map(k => k.date))];
@@ -116,6 +134,7 @@ export const useLeadGeoRanking = (reportId: string) => {
     keywords,
     businessInfo,
     rankingData,
+    projectDetails,
     availableDates,
     selectedKeyword,
     isLoading,

@@ -784,6 +784,18 @@ export interface GetLeadKeywordDetailsResponse {
   code: number;
   message: string;
   data: {
+    status?: string;
+    projectDetails?: {
+      id: string;
+      keyword: string;
+      distance: string;
+      grid: string;
+      date: string;
+      sab: string;
+      schedule: string;
+      mappoint: string;
+      coordinate: string;
+    };
     rankDetails: Array<{
       positionId: string;
       rank: string;
