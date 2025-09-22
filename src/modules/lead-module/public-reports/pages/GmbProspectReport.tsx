@@ -534,7 +534,7 @@ export const GmbProspectReport: React.FC = () => {
             <CardTitle>Advanced Suggestion Beyond Current Checks</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-hidden border rounded-lg">
+            <div className="overflow-x-auto border rounded-lg">
               {/* Table Header */}
               <div className="grid grid-cols-12 bg-gray-50 border-b font-semibold text-gray-900">
                 <div className="col-span-1 p-4 text-center">#</div>
