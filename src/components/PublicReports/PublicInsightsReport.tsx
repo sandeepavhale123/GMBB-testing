@@ -35,11 +35,15 @@ import { usePerformanceInsightsReport } from "@/hooks/useReports";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicInsightsReport"];
 
 export const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const isMobile = useIsMobile(1281);
+  const { t, loaded } = usePublicI18n(namespaces);
 
   // Load theme for public report
   React.useEffect(() => {
@@ -57,13 +61,13 @@ export const PublicInsightsReport: React.FC = () => {
   // console.log("reportType is", reportType);
 
   // Handle loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-lg text-muted-foreground">
-            Loading insights report...
+            {t("publicInsightsReport.loading.message")}
           </p>
         </div>
       </div>
@@ -75,24 +79,45 @@ export const PublicInsightsReport: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="text-red-500 text-xl mb-4">Error Loading Report</div>
+          <div className="text-red-500 text-xl mb-4">
+            {t("publicInsightsReport.error.title")}
+          </div>
           <p className="text-muted-foreground mb-4">
-            Failed to load the performance insights report. Please try again
-            later.
+            {t("publicInsightsReport.error.description")}
           </p>
-          <Button onClick={() => window.location.reload()}>Try Again</Button>
+          <Button onClick={() => window.location.reload()}>
+            {t("publicInsightsReport.error.retry")}
+          </Button>
         </div>
       </div>
     );
   }
 
   const chartConfig = {
-    search: { label: "Search", color: "hsl(210 100% 55%)" },
-    map: { label: "Map", color: "hsl(160 85% 50%)" },
-    website: { label: "Website", color: "hsl(25 95% 55%)" },
-    direction: { label: "Direction", color: "hsl(340 100% 55%)" },
-    call: { label: "Call", color: "hsl(260 85% 55%)" },
-    message: { label: "Message", color: "hsl(195 90% 50%)" },
+    search: {
+      label: t("publicInsightsReport.chartLabels.search"),
+      color: "hsl(210 100% 55%)",
+    },
+    map: {
+      label: t("publicInsightsReport.chartLabels.map"),
+      color: "hsl(160 85% 50%)",
+    },
+    website: {
+      label: t("publicInsightsReport.chartLabels.website"),
+      color: "hsl(25 95% 55%)",
+    },
+    direction: {
+      label: t("publicInsightsReport.chartLabels.direction"),
+      color: "hsl(340 100% 55%)",
+    },
+    call: {
+      label: t("publicInsightsReport.chartLabels.call"),
+      color: "hsl(260 85% 55%)",
+    },
+    message: {
+      label: t("publicInsightsReport.chartLabels.message"),
+      color: "hsl(195 90% 50%)",
+    },
   };
 
   const renderSummaryCard = (
@@ -171,7 +196,7 @@ export const PublicInsightsReport: React.FC = () => {
         {/* Enhanced Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {renderSummaryCard(
-            "Website Visits",
+            t("publicInsightsReport.summaryCards.website"),
             insightData?.data?.periodOne?.summary?.website,
             insightData?.data?.periodTwo?.summary?.website,
             insightData?.data?.changeSummary?.website,
@@ -180,7 +205,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-blue-600"
           )}
           {renderSummaryCard(
-            "Direction Requests",
+            t("publicInsightsReport.summaryCards.direction"),
             insightData?.data?.periodOne?.summary?.direction,
             insightData?.data?.periodTwo?.summary?.direction,
             insightData?.data?.changeSummary?.direction,
@@ -189,7 +214,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-green-600"
           )}
           {renderSummaryCard(
-            "Phone Calls",
+            t("publicInsightsReport.summaryCards.calls"),
             insightData?.data?.periodOne?.summary?.calls,
             insightData?.data?.periodTwo?.summary?.calls,
             insightData?.data?.changeSummary?.calls,
@@ -198,7 +223,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-purple-600"
           )}
           {renderSummaryCard(
-            "Messages",
+            t("publicInsightsReport.summaryCards.messages"),
             insightData?.data?.periodOne?.summary?.messages,
             insightData?.data?.periodTwo?.summary?.messages,
             insightData?.data?.changeSummary?.messages,
@@ -207,7 +232,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-orange-600"
           )}
           {renderSummaryCard(
-            "Desktop Search",
+            t("publicInsightsReport.summaryCards.desktopSearch"),
             insightData?.data?.periodOne?.summary?.desk_search,
             insightData?.data?.periodTwo?.summary?.desk_search,
             insightData?.data?.changeSummary?.desk_search,
@@ -216,7 +241,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-indigo-600"
           )}
           {renderSummaryCard(
-            "Desktop Map",
+            t("publicInsightsReport.summaryCards.desktopMap"),
             insightData?.data?.periodOne?.summary?.desk_map,
             insightData?.data?.periodTwo?.summary?.desk_map,
             insightData?.data?.changeSummary?.desk_map,
@@ -225,7 +250,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-teal-600"
           )}
           {renderSummaryCard(
-            "Mobile Search",
+            t("publicInsightsReport.summaryCards.mobileSearch"),
             insightData?.data?.periodOne?.summary?.mob_search,
             insightData?.data?.periodTwo?.summary?.mob_search,
             insightData?.data?.changeSummary?.mob_search,
@@ -234,7 +259,7 @@ export const PublicInsightsReport: React.FC = () => {
             "text-pink-600"
           )}
           {renderSummaryCard(
-            "Mobile Map",
+            t("publicInsightsReport.summaryCards.mobileMap"),
             insightData?.data?.periodOne?.summary?.mob_map,
             insightData?.data?.periodTwo?.summary?.mob_map,
             insightData?.data?.changeSummary?.mob_map,
@@ -263,7 +288,7 @@ export const PublicInsightsReport: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
-                    How Customers Search For Your Business
+                    {t("publicInsightsReport.charts.customerSearch")}
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
                     {formatToDayMonthYear(
@@ -352,7 +377,7 @@ export const PublicInsightsReport: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
-                    How Customers Search For Your Business
+                    {t("publicInsightsReport.charts.customerSearch")}
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
                     {formatToDayMonthYear(
@@ -440,7 +465,9 @@ export const PublicInsightsReport: React.FC = () => {
           ) : (
             <Card>
               <CardHeader>
-                <CardTitle>How Customers Search For Your Business</CardTitle>
+                <CardTitle>
+                  {t("publicInsightsReport.charts.customerSearch")}
+                </CardTitle>
               </CardHeader>
               <CardContent className={isMobile ? "flex justify-center" : ""}>
                 <ChartContainer
@@ -526,7 +553,7 @@ export const PublicInsightsReport: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
-                    Listing Views & Clicks
+                    {t("publicInsightsReport.charts.listingViewsClicks")}
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
                     {formatToDayMonthYear(
@@ -601,7 +628,7 @@ export const PublicInsightsReport: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
-                    Listing Views & Clicks
+                    {t("publicInsightsReport.charts.listingViewsClicks")}
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
                     {formatToDayMonthYear(
@@ -675,7 +702,10 @@ export const PublicInsightsReport: React.FC = () => {
           ) : (
             <Card>
               <CardHeader>
-                <CardTitle>Listing Views & Clicks</CardTitle>
+                <CardTitle>
+                  {" "}
+                  {t("publicInsightsReport.charts.listingViewsClicks")}
+                </CardTitle>
               </CardHeader>
               <CardContent
                 className={

@@ -1,7 +1,10 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Download, Share2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Download, Share2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicReportDashboardLayout"];
 
 interface PublicReportLayoutProps {
   children: React.ReactNode;
@@ -15,11 +18,12 @@ interface PublicReportLayoutProps {
 export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
   children,
   title,
-  companyName = 'Company Name',
+  companyName = "Company Name",
   companyLogo,
   onExport,
-  onShare
+  onShare,
 }) => {
+  const { t } = usePublicI18n(namespaces);
   const navigate = useNavigate();
 
   return (
@@ -32,17 +36,17 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate('/public-reports')}
+                onClick={() => navigate("/public-reports")}
                 className="flex items-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to Reports
+                {t("publicReportLayout.header.backToReports")}
               </Button>
-              
+
               <div className="flex items-center gap-3">
                 {companyLogo ? (
-                  <img 
-                    src={companyLogo} 
+                  <img
+                    src={companyLogo}
                     alt={companyName}
                     className="h-8 w-auto object-contain"
                   />
@@ -64,13 +68,13 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
               {onShare && (
                 <Button variant="outline" size="sm" onClick={onShare}>
                   <Share2 className="h-4 w-4 mr-2" />
-                  Share
+                  {t("publicReportLayout.header.share")}
                 </Button>
               )}
               {onExport && (
                 <Button size="sm" onClick={onExport}>
                   <Download className="h-4 w-4 mr-2" />
-                  Export
+                  {t("publicReportLayout.header.export")}
                 </Button>
               )}
             </div>
@@ -79,17 +83,21 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
-        {children}
-      </main>
+      <main className="container mx-auto px-4 py-6">{children}</main>
 
       {/* Footer */}
       <footer className="border-t bg-muted/30 mt-auto">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p>© 2024 {companyName}. All rights reserved.</p>
+            <p>
+              © 2024 {companyName}.{" "}
+              {t("publicReportLayout.footer.rightsReserved")}
+            </p>
             <div className="flex items-center gap-4">
-              <span>Generated on {new Date().toLocaleDateString()}</span>
+              <span>
+                {t("publicReportLayout.footer.generatedOn")}{" "}
+                {new Date().toLocaleDateString()}
+              </span>
             </div>
           </div>
         </div>

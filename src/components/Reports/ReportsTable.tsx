@@ -120,7 +120,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
     };
 
     const basePath = sectionRouteMap[section] || "/gmb-health";
-    return `${basePath}/${reportId}`;
+    return `${basePath}/${reportId}?lang=en`;
   };
 
   const handleViewReport = (reportId: string, sections_visible: string[]) => {

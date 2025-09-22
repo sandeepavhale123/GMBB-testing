@@ -1,0 +1,42 @@
+{
+  "publicInsightsReport": {
+    "title": "Business Insights Report",
+    "loading": {
+      "message": "Loading insights report..."
+    },
+    "error": {
+      "title": "Error Loading Report",
+      "description": "Failed to load the performance insights report. Please try again later.",
+      "retry": "Try Again"
+    },
+    "summaryCards": {
+      "website": "Website Visits",
+      "direction": "Direction Requests",
+      "calls": "Phone Calls",
+      "messages": "Messages",
+      "desktopSearch": "Desktop Search",
+      "desktopMap": "Desktop Map",
+      "mobileSearch": "Mobile Search",
+      "mobileMap": "Mobile Map",
+      "compareText": "{{value}}% vs previous"
+    },
+    "charts": {
+      "customerSearch": "How Customers Search For Your Business",
+      "listingViewsClicks": "Listing Views & Clicks"
+    },
+    "chartLabels": {
+      "search": "Search",
+      "map": "Map",
+      "website": "Website",
+      "direction": "Direction",
+      "call": "Call",
+      "message": "Message"
+    },
+    "donutLabels": {
+      "desktopSearch": "Desktop Search",
+      "mobileSearch": "Mobile Search",
+      "desktopMap": "Desktop Map",
+      "mobileMap": "Mobile Map"
+    }
+  }
+}

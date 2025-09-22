@@ -29,11 +29,15 @@ import { usePerformancePostsReport } from "@/hooks/useReports";
 import { PostImage } from "./PostImage";
 import { applyStoredTheme } from "@/utils/themeUtils";
 import { formatToDDMMYY } from "@/utils/dateUtils";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicPostPerformanceReport"];
+
 export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-
+  const { t, loaded } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -53,19 +57,19 @@ export const PublicPostPerformanceReport: React.FC = () => {
     .map(([key]) => key);
 
   // Handle loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-lg text-muted-foreground">
-            Loading Post report...
+            {t("publicPostReport.loading")}
           </p>
         </div>
       </div>
     );
   }
-  if (error) return <div>Error loading review report</div>;
+  if (error) return <div>{t("publicPostReport.error")}</div>;
 
   // console.log("post Report:", postData);
 
@@ -87,17 +91,22 @@ export const PublicPostPerformanceReport: React.FC = () => {
       case "published":
         return (
           <Badge variant="default" className="bg-green-100 text-green-800">
-            Published
+            {t("publicPostReport.status.published")}
           </Badge>
         );
       case "scheduled":
         return (
           <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-            Scheduled
+            {t("publicPostReport.status.scheduled")}
           </Badge>
         );
       case "failed":
-        return <Badge variant="destructive">Failed</Badge>;
+        return (
+          <Badge variant="destructive">
+            {" "}
+            {t("publicPostReport.status.failed")}
+          </Badge>
+        );
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -226,7 +235,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
               ? post.posttext.length > 150
                 ? `${post.posttext.slice(0, 150)}...`
                 : post.posttext
-              : "No content"}
+              : t("publicPostReport.recentPosts.noContent")}
           </p>
 
           {post.search_url && (
@@ -236,7 +245,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
               rel="noopener noreferrer"
               className="text-primary text-sm mt-2 inline-block"
             >
-              View on Google
+              {t("publicPostReport.recentPosts.viewOnGoogle")}
             </a>
           )}
         </div>
@@ -245,7 +254,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
   );
   return (
     <PublicReportDashboardLayout
-      title="Post Performance Report"
+      title={t("publicPostReport.title")}
       listingName={postData?.data.locationName}
       address={postData?.data.address}
       date={postData?.data?.reportDate}
@@ -265,7 +274,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
               <div className="text-2xl font-bold">
                 {summary1?.total_posts ?? 0}
               </div>
-              <div className="text-sm text-muted-foreground">Total Posts</div>
+              <div className="text-sm text-muted-foreground">
+                {t("publicPostReport.stats.totalPosts")}
+              </div>
               {reportType === "compare" &&
                 summary2?.total_posts !== undefined &&
                 renderChangeIndicator(
@@ -284,7 +295,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                 {summary1?.total_scheduled ?? 0}
               </div>
               <div className="text-sm text-muted-foreground">
-                Total Scheduled
+                {t("publicPostReport.stats.totalScheduled")}
               </div>
               {reportType === "compare" &&
                 summary2?.total_scheduled !== undefined &&
@@ -304,7 +315,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                 {summary1?.published_posts ?? 0}
               </div>
               <div className="text-sm text-muted-foreground">
-                Published Posts
+                {t("publicPostReport.stats.publishedPosts")}
               </div>
               {reportType === "compare" &&
                 summary2?.published_posts !== undefined &&
@@ -323,7 +334,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
               <div className="text-2xl font-bold">
                 {summary1?.failed_posts ?? 0}
               </div>
-              <div className="text-sm text-muted-foreground">Failed Posts</div>
+              <div className="text-sm text-muted-foreground">
+                {t("publicPostReport.stats.failedPosts")}
+              </div>
               {reportType === "compare" &&
                 summary2?.failed_posts !== undefined &&
                 renderChangeIndicator(
@@ -338,13 +351,17 @@ export const PublicPostPerformanceReport: React.FC = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Post Activity Over Time</CardTitle>
+            <CardTitle className="text-lg">
+              {t("publicPostReport.chart.title")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {chartData.length === 0 ? (
               <div className="flex justify-center flex-col gap-4">
                 <img src="/nodata.svg" alt="No Data" className="h-64" />
-                <p className="text-center">No data available</p>
+                <p className="text-center">
+                  {t("publicPostReport.chart.noData")}
+                </p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={300}>
@@ -363,7 +380,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     dataKey="currentUploads"
                     stroke="#3b82f6"
                     strokeWidth={2}
-                    name="Current Period Posts"
+                    name={t("publicPostReport.chart.currentPeriod")}
                   />
                   {reportType === "compare" && (
                     <Line
@@ -371,7 +388,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                       dataKey="previousUploads"
                       stroke="#f97316"
                       strokeWidth={2}
-                      name="Previous Period Posts"
+                      name={t("publicPostReport.chart.previousPeriod")}
                     />
                   )}
                 </LineChart>
@@ -429,7 +446,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   ) : (
                     <div className="flex justify-center flex-col gap-4">
                       <img src="/nodata.svg" alt="No Data" className="h-64" />
-                      <p className="text-center">No data available</p>
+                      <p className="text-center">
+                        {t("publicPostReport.chart.noData")}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -441,7 +460,10 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   ) : (
                     <div className="flex justify-center flex-col gap-4">
                       <img src="/nodata.svg" alt="No Data" className="h-64" />
-                      <p className="text-center">No data available</p>
+                      <p className="text-center">
+                        {" "}
+                        {t("publicPostReport.chart.noData")}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -455,7 +477,10 @@ export const PublicPostPerformanceReport: React.FC = () => {
                 ) : (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">
+                      {" "}
+                      {t("publicPostReport.chart.noData")}
+                    </p>
                   </div>
                 )}
               </>

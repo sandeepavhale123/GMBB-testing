@@ -39,11 +39,14 @@ import {
 import { usePerformanceReviewReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicReviewsReport"];
 
 export const PublicReviewsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-
+  const { t, loaded } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -59,19 +62,17 @@ export const PublicReviewsReport: React.FC = () => {
   const reportType = reviewsData?.data?.reportType.toLowerCase();
 
   // Handle loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-lg text-muted-foreground">
-            Loading Review report...
-          </p>
+          <p className="text-lg text-muted-foreground">{t("loading")}</p>
         </div>
       </div>
     );
   }
-  if (error) return <div>Error loading review report</div>;
+  if (error) return <div>{t("error")}</div>;
 
   // console.log("Review Report:", reviewsData);
 
@@ -272,7 +273,7 @@ export const PublicReviewsReport: React.FC = () => {
                 </div>
               )}
               <div className="text-sm text-muted-foreground">
-                Average Rating
+                {t("overview.averageRating")}
               </div>
             </CardContent>
           </Card>
@@ -293,7 +294,10 @@ export const PublicReviewsReport: React.FC = () => {
                   )}
                 </div>
               )}
-              <div className="text-sm text-muted-foreground">Total Reviews</div>
+              <div className="text-sm text-muted-foreground">
+                {" "}
+                {t("overview.totalReviews")}
+              </div>
             </CardContent>
           </Card>
 
@@ -314,7 +318,7 @@ export const PublicReviewsReport: React.FC = () => {
                 </div>
               )}
               <div className="text-sm text-muted-foreground">
-                Manually Reply
+                {t("overview.manualReply")}
               </div>
             </CardContent>
           </Card>
@@ -335,7 +339,10 @@ export const PublicReviewsReport: React.FC = () => {
                   )}
                 </div>
               )}
-              <div className="text-sm text-muted-foreground">AI Reply</div>
+              <div className="text-sm text-muted-foreground">
+                {" "}
+                {t("overview.aiReply")}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -348,7 +355,7 @@ export const PublicReviewsReport: React.FC = () => {
               {/* Period 1 */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Rating Count Summary </CardTitle>
+                  <CardTitle> {t("sections.ratingSummary")} </CardTitle>
                   <p className="text-sm text-muted-foreground">
                     {formatToDayMonthYear(
                       reviewsData?.data.periodOne.date.from_date
@@ -375,12 +382,14 @@ export const PublicReviewsReport: React.FC = () => {
                               />
                             ))}
                           </div>
-                          <span className="font-medium">{item.stars} Star</span>
+                          <span className="font-medium">
+                            {item.stars} {t("labels.star")}
+                          </span>
                         </div>
                         <div className="text-right">
                           <div className="text-lg font-bold">{item.count}</div>
                           <div className="text-xs text-muted-foreground">
-                            reviews
+                            {t("labels.reviews")}
                           </div>
                         </div>
                       </div>
@@ -392,7 +401,7 @@ export const PublicReviewsReport: React.FC = () => {
               {/* Period 2 */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Rating Count Summary</CardTitle>
+                  <CardTitle>{t("sections.ratingSummary")}</CardTitle>
                   <p className="text-sm text-muted-foreground">
                     {formatToDayMonthYear(
                       reviewsData?.data.periodTwo.date.from_date
@@ -419,12 +428,14 @@ export const PublicReviewsReport: React.FC = () => {
                               />
                             ))}
                           </div>
-                          <span className="font-medium">{item.stars} Star</span>
+                          <span className="font-medium">
+                            {item.stars} {t("labels.star")}
+                          </span>
                         </div>
                         <div className="text-right">
                           <div className="text-lg font-bold">{item.count}</div>
                           <div className="text-xs text-muted-foreground">
-                            reviews
+                            {t("labels.reviews")}
                           </div>
                         </div>
                       </div>
@@ -440,7 +451,7 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">
-                    Sentiment Analysis -{" "}
+                    {t("sections.sentimentAnalysis")} -{" "}
                     {formatToDayMonthYear(
                       reviewsData?.data.periodOne.date.from_date
                     )}{" "}
@@ -462,7 +473,7 @@ export const PublicReviewsReport: React.FC = () => {
                             className="h-48"
                           />
                           <p className="text-center text-black">
-                            No data available
+                            {t("labels.noData")}
                           </p>
                         </div>
                       ) : (
@@ -515,7 +526,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Neutral{" "}
+                          {t("labels.neutral")}
                           {reviewsData?.data?.periodOne?.summary?.sentiment
                             ?.neutral || 0}
                           %
@@ -524,7 +535,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Negative{" "}
+                          {t("labels.negative")}
                           {reviewsData?.data?.periodOne?.summary?.sentiment
                             ?.negative || 0}
                           %
@@ -539,7 +550,7 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">
-                    Sentiment Analysis -{" "}
+                    {t("sections.sentimentAnalysis")} -{" "}
                     {formatToDayMonthYear(
                       reviewsData?.data.periodTwo.date.from_date
                     )}{" "}
@@ -561,7 +572,7 @@ export const PublicReviewsReport: React.FC = () => {
                             className="h-48"
                           />
                           <p className="text-center text-black">
-                            No data available
+                            {t("labels.noData")}
                           </p>
                         </div>
                       ) : (
@@ -613,7 +624,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Neutral{" "}
+                          {t("labels.neutral")}
                           {reviewsData?.data?.periodTwo?.summary?.sentiment
                             ?.neutral || 0}
                           %
@@ -622,7 +633,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Negative{" "}
+                          {t("labels.negative")}
                           {reviewsData?.data?.periodTwo?.summary?.sentiment
                             ?.negative || 0}
                           %
@@ -640,7 +651,7 @@ export const PublicReviewsReport: React.FC = () => {
             <div className="lg:col-span-7">
               <Card className="h-full">
                 <CardHeader>
-                  <CardTitle>Rating Count Summary</CardTitle>
+                  <CardTitle>{t("sections.ratingSummary")}</CardTitle>
                   <p className="text-sm text-muted-foreground">
                     {formatToDayMonthYear(
                       reviewsData?.data.periodOne.date.from_date
@@ -667,12 +678,14 @@ export const PublicReviewsReport: React.FC = () => {
                               />
                             ))}
                           </div>
-                          <span className="font-medium">{item.stars} Star</span>
+                          <span className="font-medium">
+                            {item.stars} {t("labels.star")}
+                          </span>
                         </div>
                         <div className="text-right">
                           <div className="text-lg font-bold">{item.count}</div>
                           <div className="text-xs text-muted-foreground">
-                            reviews
+                            {t("labels.reviews")}
                           </div>
                         </div>
                       </div>
@@ -687,7 +700,7 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">
-                    Sentiment Analysis
+                    {t("sections.sentimentAnalysis")}
                   </CardTitle>
                 </CardHeader>
 
@@ -702,7 +715,7 @@ export const PublicReviewsReport: React.FC = () => {
                             alt="No Data"
                             className="h-64"
                           />
-                          <p className="text-center">No data available</p>
+                          <p className="text-center"> {t("labels.noData")}</p>
                         </div>
                       ) : (
                         <PieChart>
@@ -755,7 +768,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Neutral{" "}
+                          {t("labels.neutral")}
                           {reviewsData?.data?.periodOne?.summary?.sentiment
                             ?.neutral || 0}
                           %
@@ -764,7 +777,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <span className="text-gray-700">
-                          Negative{" "}
+                          {t("labels.negative")}
                           {reviewsData?.data?.periodOne?.summary?.sentiment
                             ?.negative || 0}
                           %
@@ -805,7 +818,7 @@ export const PublicReviewsReport: React.FC = () => {
             {/* Period 1 Chart */}
             <Card>
               <CardHeader>
-                <CardTitle>Review Trends Over Time </CardTitle>
+                <CardTitle>{t("sections.reviewTrends")} </CardTitle>
                 <p className="text-sm text-muted-foreground">
                   {formatToDayMonthYear(
                     reviewsData?.data.periodOne.date.from_date
@@ -822,7 +835,7 @@ export const PublicReviewsReport: React.FC = () => {
                     {trend1.length === 0 ? (
                       <div className="flex justify-center flex-col gap-4">
                         <img src="/nodata.svg" alt="No Data" className="h-64" />
-                        <p className="text-center">No data available</p>
+                        <p className="text-center"> {t("labels.noData")}</p>
                       </div>
                     ) : (
                       <LineChart
@@ -886,7 +899,7 @@ export const PublicReviewsReport: React.FC = () => {
             {/* Period 2 Chart */}
             <Card>
               <CardHeader>
-                <CardTitle>Review Trends Over Time </CardTitle>
+                <CardTitle>{t("sections.reviewTrends")} </CardTitle>
                 <p className="text-sm text-muted-foreground">
                   {formatToDayMonthYear(
                     reviewsData?.data.periodTwo.date.from_date
@@ -903,7 +916,7 @@ export const PublicReviewsReport: React.FC = () => {
                     {trend2.length === 0 ? (
                       <div className="flex justify-center flex-col gap-4">
                         <img src="/nodata.svg" alt="No Data" className="h-64" />
-                        <p className="text-center">No data available</p>
+                        <p className="text-center"> {t("labels.noData")}</p>
                       </div>
                     ) : (
                       <LineChart
@@ -967,7 +980,7 @@ export const PublicReviewsReport: React.FC = () => {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>Review Trends Over Time</CardTitle>
+              <CardTitle>{t("sections.reviewTrends")}</CardTitle>
               <p className="text-sm text-muted-foreground">
                 {formatToDayMonthYear(
                   reviewsData?.data.periodOne.date.from_date
@@ -1043,7 +1056,7 @@ export const PublicReviewsReport: React.FC = () => {
             {/* period 1 table*/}
             <Card>
               <CardHeader>
-                <CardTitle>Review Data Summary</CardTitle>
+                <CardTitle>{t("sections.reviewDataSummary")}</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   {formatToDayMonthYear(
                     reviewsData?.data.periodOne.date.from_date
@@ -1058,19 +1071,19 @@ export const PublicReviewsReport: React.FC = () => {
                 {trend1.length === 0 ? (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center"> {t("labels.noData")}</p>
                   </div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Review Date</TableHead>
-                        <TableHead>Total Review</TableHead>
-                        <TableHead>5 Star Rating</TableHead>
-                        <TableHead>4 Star Rating</TableHead>
-                        <TableHead>3 Star Rating</TableHead>
-                        <TableHead>2 Star Rating</TableHead>
-                        <TableHead>1 Star Rating</TableHead>
+                        <TableHead> {t("labels.reviewDate")}</TableHead>
+                        <TableHead> {t("labels.totalReview")}</TableHead>
+                        <TableHead> {t("labels.fiveStar")}</TableHead>
+                        <TableHead>{t("labels.fourStar")}</TableHead>
+                        <TableHead>{t("labels.threeStar")}</TableHead>
+                        <TableHead>{t("labels.twoStar")}</TableHead>
+                        <TableHead>{t("labels.oneStar")}</TableHead>
                       </TableRow>
                     </TableHeader>
 
@@ -1099,7 +1112,7 @@ export const PublicReviewsReport: React.FC = () => {
             {/* period 2 table*/}
             <Card>
               <CardHeader>
-                <CardTitle>Review Data Summary</CardTitle>
+                <CardTitle>{t("sections.reviewDataSummary")}</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   {formatToDayMonthYear(
                     reviewsData?.data.periodTwo.date.from_date
@@ -1114,19 +1127,19 @@ export const PublicReviewsReport: React.FC = () => {
                 {trend2.length === 0 ? (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">{t("labels.noData")}</p>
                   </div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Review Date</TableHead>
-                        <TableHead>Total Review</TableHead>
-                        <TableHead>5 Star Rating</TableHead>
-                        <TableHead>4 Star Rating</TableHead>
-                        <TableHead>3 Star Rating</TableHead>
-                        <TableHead>2 Star Rating</TableHead>
-                        <TableHead>1 Star Rating</TableHead>
+                        <TableHead>{t("labels.reviewDate")}</TableHead>
+                        <TableHead>{t("labels.totalReview")}</TableHead>
+                        <TableHead>{t("labels.fiveStar")}</TableHead>
+                        <TableHead>{t("labels.fourStar")}</TableHead>
+                        <TableHead>{t("labels.threeStar")}</TableHead>
+                        <TableHead>{t("labels.twoStar")}</TableHead>
+                        <TableHead>{t("labels.oneStar")}</TableHead>
                       </TableRow>
                     </TableHeader>
 
@@ -1155,7 +1168,7 @@ export const PublicReviewsReport: React.FC = () => {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>Review Data Summary</CardTitle>
+              <CardTitle>{t("sections.reviewDataSummary")}</CardTitle>
               <p className="text-sm text-muted-foreground">
                 {formatToDayMonthYear(
                   reviewsData?.data.periodOne.date.from_date
@@ -1168,19 +1181,19 @@ export const PublicReviewsReport: React.FC = () => {
               {trend1.length === 0 ? (
                 <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
-                  <p className="text-center">No data available</p>
+                  <p className="text-center">{t("labels.noData")}</p>
                 </div>
               ) : (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Review Date</TableHead>
-                      <TableHead>Total Review</TableHead>
-                      <TableHead>5 Star Rating</TableHead>
-                      <TableHead>4 Star Rating</TableHead>
-                      <TableHead>3 Star Rating</TableHead>
-                      <TableHead>2 Star Rating</TableHead>
-                      <TableHead>1 Star Rating</TableHead>
+                      <TableHead>{t("labels.reviewDate")}</TableHead>
+                      <TableHead>{t("labels.totalReview")}</TableHead>
+                      <TableHead>{t("labels.fiveStar")}</TableHead>
+                      <TableHead>{t("labels.fourStar")}</TableHead>
+                      <TableHead>{t("labels.threeStar")}</TableHead>
+                      <TableHead>{t("labels.twoStar")}</TableHead>
+                      <TableHead>{t("labels.oneStar")}</TableHead>
                     </TableRow>
                   </TableHeader>
 
@@ -1211,13 +1224,13 @@ export const PublicReviewsReport: React.FC = () => {
             {/* Period 1 Review */}
             <Card>
               <CardHeader>
-                <CardTitle> Reviews</CardTitle>
+                <CardTitle> {t("sections.reviews")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {recentReviews1.length === 0 && recentReviews2.length === 0 && (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">{t("labels.noData")}</p>
                   </div>
                 )}
                 <div className="space-y-6">
@@ -1342,13 +1355,13 @@ export const PublicReviewsReport: React.FC = () => {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>Recent Reviews</CardTitle>
+              <CardTitle>{t("sections.recentReviews")}</CardTitle>
             </CardHeader>
             <CardContent>
               {recentReviews1.length === 0 ? (
                 <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
-                  <p className="text-center">No data available</p>
+                  <p className="text-center">{t("labels.noData")}</p>
                 </div>
               ) : (
                 <div className="space-y-6">

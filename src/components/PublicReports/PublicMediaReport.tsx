@@ -15,11 +15,14 @@ import {
 } from "recharts";
 import { usePerformanceMediaReport } from "@/hooks/useReports";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicMediaReport"];
 
 export const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-
+  const { t, loaded } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -31,19 +34,19 @@ export const PublicMediaReport: React.FC = () => {
     isError,
   } = usePerformanceMediaReport(reportId);
   // Handle loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-lg text-muted-foreground">
-            Loading Media report...
+            {t("publicMediaReport.loading.message")}
           </p>
         </div>
       </div>
     );
   }
-  if (isError) return <p>Error loading report</p>;
+  if (isError) return <p>{t("publicMediaReport.error.title")}</p>;
 
   // console.log("Media Report:", mediaReport);
 
@@ -123,7 +126,7 @@ export const PublicMediaReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="Media Performance Report"
+      title={t("publicMediaReport.title")}
       listingName={mediaReport?.data.locationName}
       logo={mediaReport?.data.companyLogo}
       address={mediaReport?.data.address}
@@ -141,7 +144,9 @@ export const PublicMediaReport: React.FC = () => {
                 <Image className="h-5 w-5 text-blue-600" />
               </div>
               <div className="text-2xl font-bold">{periodOne?.total || 0}</div>
-              <div className="text-sm text-muted-foreground">Total Media</div>
+              <div className="text-sm text-muted-foreground">
+                {t("publicMediaReport.overviewStats.totalMedia")}
+              </div>
               {reportType === "compare" &&
                 renderChangeIndicator(changeSummary?.total_media || 0)}
             </CardContent>
@@ -153,7 +158,9 @@ export const PublicMediaReport: React.FC = () => {
                 <Image className="h-5 w-5 text-green-600" />
               </div>
               <div className="text-2xl font-bold">{periodOne?.photos || 0}</div>
-              <div className="text-sm text-muted-foreground">Total Photos</div>
+              <div className="text-sm text-muted-foreground">
+                {t("publicMediaReport.overviewStats.totalPhotos")}
+              </div>
               {reportType === "compare" &&
                 renderChangeIndicator(changeSummary?.total_photos || 0)}
             </CardContent>
@@ -165,7 +172,9 @@ export const PublicMediaReport: React.FC = () => {
                 <Video className="h-5 w-5 text-purple-600" />
               </div>
               <div className="text-2xl font-bold">{periodOne?.videos || 0}</div>
-              <div className="text-sm text-muted-foreground">Total Videos</div>
+              <div className="text-sm text-muted-foreground">
+                {t("publicMediaReport.overviewStats.totalVideos")}
+              </div>
               {reportType === "compare" &&
                 renderChangeIndicator(changeSummary?.total_videos || 0)}
             </CardContent>
@@ -196,14 +205,18 @@ export const PublicMediaReport: React.FC = () => {
         {/* Media Performance Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Media Post Performance Over Time</CardTitle>
+            <CardTitle>
+              {t("publicMediaReport.charts.mediaPerformance")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-80">
               {chartData.length === 0 ? (
                 <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
-                  <p className="text-center">No data available</p>
+                  <p className="text-center">
+                    {t("publicMediaReport.recentMedia.noData")}
+                  </p>
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
@@ -218,7 +231,7 @@ export const PublicMediaReport: React.FC = () => {
                       dataKey="currentUploads"
                       stroke="#2563eb"
                       strokeWidth={2}
-                      name="Current Period Uploads"
+                      name={t("publicMediaReport.chartLabels.currentUploads")}
                     />
                     {reportType === "compare" && (
                       <Line
@@ -226,7 +239,9 @@ export const PublicMediaReport: React.FC = () => {
                         dataKey="previousUploads"
                         stroke="#f97316"
                         strokeWidth={2}
-                        name="Previous Period Uploads"
+                        name={t(
+                          "publicMediaReport.chartLabels.previousUploads"
+                        )}
                       />
                     )}
                   </LineChart>
@@ -239,13 +254,15 @@ export const PublicMediaReport: React.FC = () => {
         {/* Recent Media */}
         <Card>
           <CardHeader>
-            <CardTitle>Media</CardTitle>
+            <CardTitle>{t("publicMediaReport.recentMedia.title")}</CardTitle>
           </CardHeader>
           <CardContent>
             {combinedMedia.length === 0 ? (
               <div className="flex justify-center flex-col gap-4">
                 <img src="/nodata.svg" alt="No Data" className="h-64" />
-                <p className="text-center">No data available</p>
+                <p className="text-center">
+                  {t("publicMediaReport.recentMedia.noData")}
+                </p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -262,7 +279,9 @@ export const PublicMediaReport: React.FC = () => {
                           className="w-12 h-12 object-cover rounded-md"
                         />
                       ) : (
-                        <span className="text-sm text-gray-500">No Image</span>
+                        <span className="text-sm text-gray-500">
+                          {t("publicMediaReport.recentMedia.noImage")}
+                        </span>
                       )}
                     </div>
                     <div className="flex-1">
@@ -270,7 +289,10 @@ export const PublicMediaReport: React.FC = () => {
                         {media.media_type || "media"}
                       </h4>
                       <div className="text-sm text-muted-foreground mt-1">
-                        Published on {media.publishDate || "N/A"}
+                        {t("publicMediaReport.recentMedia.publishedOn", {
+                          date: media.publishDate || "N/A",
+                        })}
+                        {/* Published on {media.publishDate || "N/A"} */}
                       </div>
                     </div>
                     {media.googleUrl && (
@@ -280,7 +302,7 @@ export const PublicMediaReport: React.FC = () => {
                         onClick={() => window.open(media.googleUrl, "_blank")}
                       >
                         <Eye className="h-4 w-4 mr-2" />
-                        View
+                        {t("publicMediaReport.recentMedia.view")}
                       </Button>
                     )}
                   </div>

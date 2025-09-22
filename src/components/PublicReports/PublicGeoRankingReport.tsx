@@ -20,6 +20,9 @@ import {
 } from "@/hooks/useReports"; // Adjust path as needed
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicGeoRankingReport"];
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -33,6 +36,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export const PublicGeoRankingReport: React.FC = () => {
+  const { t, loaded } = usePublicI18n(namespaces);
   const [selectedKeywordId, setSelectedKeywordId] = useState<number | null>(
     null
   );
@@ -408,13 +412,13 @@ export const PublicGeoRankingReport: React.FC = () => {
     .map(([key]) => key);
 
   // Handle loading state
-  if (isGeoLoading) {
+  if (isGeoLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-lg text-muted-foreground">
-            Loading Georanking report...
+            {t("publicGeoRankingReport.loading")}
           </p>
         </div>
       </div>
@@ -423,7 +427,7 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="GEO Ranking Report"
+      title={t("publicGeoRankingReport.title")}
       listingName={geoRankingData?.data.locationName}
       logo={geoRankingData?.data.companyLogo}
       address={geoRankingData?.data.address}
@@ -440,7 +444,7 @@ export const PublicGeoRankingReport: React.FC = () => {
               {/* Column 1: Keyword Selection */}
               <div>
                 <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                  Select Keyword
+                  {t("publicGeoRankingReport.controls.selectKeyword")}
                 </label>
                 <Select
                   value={selectedKeywordId?.toString() || ""}
@@ -473,7 +477,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 <div className="flex items-center justify-between h-full">
                   <div className="flex-1">
                     <div className="text-xs text-blue-600 font-medium mb-1">
-                      Overall Visibility
+                      {t("publicGeoRankingReport.controls.overallVisibility")}
                     </div>
                     <div className="text-2xl font-bold text-blue-900">
                       {geoRankingData?.data?.periodOne?.summary?.visibility}%
@@ -495,7 +499,7 @@ export const PublicGeoRankingReport: React.FC = () => {
               {/* Column 3: Total Keywords */}
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
                 <div className="text-xs text-orange-600 font-medium mb-1">
-                  Total Keywords
+                  {t("publicGeoRankingReport.controls.totalKeywords")}
                 </div>
                 <div className="text-2xl font-bold text-orange-900">
                   {keywordData?.data?.count}
@@ -506,7 +510,7 @@ export const PublicGeoRankingReport: React.FC = () => {
               <div>
                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
                   <div className="text-xs text-purple-600 font-medium mb-1">
-                    Report Frequency
+                    {t("publicGeoRankingReport.controls.reportFrequency")}
                   </div>
                   <div className="text-lg font-bold text-purple-900">
                     {frequency}
@@ -571,7 +575,9 @@ export const PublicGeoRankingReport: React.FC = () => {
                 {geoData?.length === 0 ? (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">
+                      {t("publicGeoRankingReport.chart.noData")}
+                    </p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -583,7 +589,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                     {/* Legend */}
                     <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
                       <div className="text-xs font-medium text-gray-700 mb-2">
-                        Ranking Legend
+                        {t("publicGeoRankingReport.chart.rankingLegend")}
                       </div>
                       <div className="flex flex-col gap-1 text-xs">
                         {Object.entries(legend1).map(([range, count]) => (
@@ -636,7 +642,10 @@ export const PublicGeoRankingReport: React.FC = () => {
                 {geoData?.length === 0 ? (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">
+                      {" "}
+                      {t("publicGeoRankingReport.chart.noData")}
+                    </p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -648,7 +657,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                     {/* Legend */}
                     <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
                       <div className="text-xs font-medium text-gray-700 mb-1">
-                        Legend
+                        {t("publicGeoRankingReport.chart.legend")}
                       </div>
                       <div className="flex flex-col gap-1 text-xs">
                         {Object.entries(legend1).map(([range, count]) => (
@@ -691,14 +700,17 @@ export const PublicGeoRankingReport: React.FC = () => {
                       )})`}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Visibility:{" "}
+                    {t("publicGeoRankingReport.comparison.visibility")}
                     {geoRankingData?.data?.periodTwo?.summary?.visibility || 0}%
                   </p>
                 </div>
                 {comparisonData?.length === 0 ? (
                   <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                    <p className="text-center">No data available</p>
+                    <p className="text-center">
+                      {" "}
+                      {t("publicGeoRankingReport.chart.noData")}
+                    </p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -710,7 +722,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                     {/* Legend */}
                     <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
                       <div className="text-xs font-medium text-gray-700 mb-1">
-                        Legend
+                        {t("publicGeoRankingReport.chart.legend")}
                       </div>
                       <div className="flex flex-col gap-1 text-xs">
                         {Object.entries(legend2).map(([range, count]) => (

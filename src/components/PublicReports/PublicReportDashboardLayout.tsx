@@ -31,6 +31,9 @@ import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { object } from "zod";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicReportDashboardLayout"];
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -61,6 +64,7 @@ export const PublicReportDashboardLayout: React.FC<
   date,
   compareDate, // ✅ optional
 }) => {
+  const { t } = usePublicI18n(namespaces);
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -81,52 +85,52 @@ export const PublicReportDashboardLayout: React.FC<
   const allSidebarItems = [
     {
       id: "gmb-health",
-      label: "GMB Health",
+      label: t("publicReportDashboard.sidebar.gmbHealth"),
       name: "gmb-health",
       icon: Heart,
-      path: `/gmb-health/${token}`,
+      path: `/gmb-health/${token}?lang=en`,
     },
     {
       id: "insights",
-      label: "Business Insights",
+      label: t("publicReportDashboard.sidebar.businessInsights"),
       name: "gmb-insight",
       icon: BarChart3,
-      path: `/gmb-insight/${token}`,
+      path: `/gmb-insight/${token}?lang=en`,
     },
     {
       id: "reviews",
-      label: "Reviews",
+      label: t("publicReportDashboard.sidebar.reviews"),
       name: "gmb-review",
       icon: Star,
-      path: `/gmb-review/${token}`,
+      path: `/gmb-review/${token}?lang=en`,
     },
     {
       id: "posts",
-      label: "Post Performance",
+      label: t("publicReportDashboard.sidebar.postPerformance"),
       name: "gmb-post",
       icon: FileText,
-      path: `/gmb-post/${token}`,
+      path: `/gmb-post/${token}?lang=en`,
     },
     {
       id: "media",
-      label: "Media Performance",
+      label: t("publicReportDashboard.sidebar.mediaPerformance"),
       name: "gmb-media",
       icon: Image,
-      path: `/gmb-media/${token}`,
+      path: `/gmb-media/${token}?lang=en`,
     },
     {
       id: "geo-ranking",
-      label: "GEO Ranking",
+      label: t("publicReportDashboard.sidebar.geoRanking"),
       name: "gmb-ranking",
       icon: MapPin,
-      path: `/gmb-ranking/${token}`,
+      path: `/gmb-ranking/${token}?lang=en`,
     },
     {
       id: "citation",
-      label: "Citation Performance",
+      label: t("publicReportDashboard.sidebar.citationPerformance"),
       name: "gmb-citation",
       icon: BookOpen,
-      path: `/gmb-citation/${token}`,
+      path: `/gmb-citation/${token}?lang=en`,
     },
   ];
   // Filter sidebar items based on visible sections using the `name` field
@@ -166,13 +170,14 @@ export const PublicReportDashboardLayout: React.FC<
             {branding?.company_logo ? (
               <img
                 src={branding?.company_logo}
-                alt="Default Logo"
+                alt={t("publicReportDashboard.branding.defaultLogoAlt")}
                 className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
               />
             ) : (
               <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
                 <span className="text-lg font-bold text-white">
-                  {branding?.company_name?.charAt(0) || "C"}
+                  {branding?.company_name?.charAt(0) ||
+                    t("publicReportDashboard.branding.companyInitial")}
                 </span>
               </div>
             )}
@@ -268,7 +273,7 @@ export const PublicReportDashboardLayout: React.FC<
                 {logo ? (
                   <img
                     src={logo}
-                    alt="Business Logo"
+                    alt={t("publicReportDashboard.branding.businessLogoAlt")}
                     className={`rounded-lg object-cover ${
                       isMobile ? "w-12 h-12" : "w-16 h-16"
                     }`}
@@ -317,7 +322,9 @@ export const PublicReportDashboardLayout: React.FC<
                   isMobile ? "text-center" : "text-right"
                 }`}
               >
-                <p className="text-sm text-white">Report Date</p>
+                <p className="text-sm text-white">
+                  {t("publicReportDashboard.header.reportDate")}
+                </p>
                 <p
                   className={`text-white min-w-max ${
                     isMobile ? "text-base" : "text-lg"
@@ -365,13 +372,18 @@ export const PublicReportDashboardLayout: React.FC<
                         {branding?.company_logo ? (
                           <img
                             src={branding?.company_logo}
-                            alt="Company Logo"
+                            alt={t(
+                              "publicReportDashboard.branding.companyLogoAlt"
+                            )}
                             className="w-20 h-20 rounded-lg object-cover bg-white"
                           />
                         ) : (
                           <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
                             <span className="text-lg font-bold text-white">
-                              {branding?.company_name?.charAt(0) || "C"}
+                              {branding?.company_name?.charAt(0) ||
+                                t(
+                                  "publicReportDashboard.branding.companyInitial"
+                                )}
                             </span>
                           </div>
                         )}
@@ -394,16 +406,22 @@ export const PublicReportDashboardLayout: React.FC<
                         style={{ maxWidth: 600 }}
                       >
                         <div className="text-white/90">
-                          <span className="text-white/70">Email: </span>
+                          <span className="text-white/70">
+                            {t("publicReportDashboard.branding.email")}:{" "}
+                          </span>
                           {branding?.company_email}
                         </div>
                         <div className="text-white/90">
-                          <span className="text-white/70">Phone: </span>
+                          <span className="text-white/70">
+                            {t("publicReportDashboard.branding.phone")}:{" "}
+                          </span>
                           {branding?.company_phone}
                         </div>
 
                         <div className="text-white/90 break-all">
-                          <span className="text-white/70">Address: </span>
+                          <span className="text-white/70">
+                            {t("publicReportDashboard.branding.address")}:{" "}
+                          </span>
                           {branding?.company_address}
                         </div>
                       </div>

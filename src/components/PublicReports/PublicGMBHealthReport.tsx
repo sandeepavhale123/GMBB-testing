@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CircularProgress } from "@/components/ui/circular-progress";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 import {
   BarChart,
   Bar,
@@ -30,7 +31,10 @@ import {
 import { usePerformanceHealthReport } from "@/hooks/useReports";
 import { applyStoredTheme } from "@/utils/themeUtils";
 
+export const namespaces = ["PublicReports/publicGMBHealthReport"];
+
 export const PublicGMBHealthReport: React.FC = () => {
+  const { t, loaded } = usePublicI18n(namespaces);
   const { token } = useParams();
   const location = useLocation();
   const params = useParams();
@@ -61,14 +65,12 @@ export const PublicGMBHealthReport: React.FC = () => {
   // console.log("Health data from API call...", publichealthData);
 
   // Handle loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-lg text-muted-foreground">
-            Loading Health report...
-          </p>
+          <p className="text-lg text-muted-foreground">{t("loading.report")}</p>
         </div>
       </div>
     );
@@ -81,23 +83,24 @@ export const PublicGMBHealthReport: React.FC = () => {
           <div className="text-center py-12">
             <div className="text-destructive mb-4">
               <AlertCircle className="w-12 h-12 mx-auto mb-2" />
-              <h2 className="text-xl font-semibold">Error Loading Report</h2>
+              <h2 className="text-xl font-semibold">{t("error.title")}</h2>
             </div>
             <p className="text-muted-foreground mb-4">
-              Unable to load the GMB health report with ID: {token}
+              {t("error.message", { token })}
+              {/* Unable to load the GMB health report with ID: {token} */}
             </p>
             <div className="space-x-4">
               <button
                 onClick={() => refetch()}
                 className="bg-primary text-primary-foreground px-4 py-2 rounded"
               >
-                Retry
+                {t("error.retry")}
               </button>
               <button
                 onClick={() => window.history.back()}
                 className="bg-secondary text-secondary-foreground px-4 py-2 rounded"
               >
-                Go Back
+                {t("error.goBack")}
               </button>
             </div>
           </div>
@@ -112,18 +115,21 @@ export const PublicGMBHealthReport: React.FC = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
             <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h2 className="text-xl font-semibold mb-2">Report Not Found</h2>
+            <h2 className="text-xl font-semibold mb-2">
+              {t("notFound.title")}
+            </h2>
             <p className="text-muted-foreground mb-4">
-              The requested GMB health report could not be found.
+              {t("notFound.message")}
             </p>
             <p className="text-sm text-muted-foreground mb-4">
-              Report ID: {token}
+              {t("notFound.reportId", { token })}
+              {/* Report ID: {token} */}
             </p>
             <button
               onClick={() => window.history.back()}
               className="bg-secondary text-secondary-foreground px-4 py-2 rounded"
             >
-              Go Back
+              {t("notFound.goBack")}
             </button>
           </div>
         </div>
@@ -213,7 +219,9 @@ export const PublicGMBHealthReport: React.FC = () => {
                     {publichealthData?.data?.successScore}%
                   </span>
                 </CircularProgress>
-                <h3 className="font-semibold text-sm">GMB Health Score</h3>
+                <h3 className="font-semibold text-sm">
+                  {t("summaryCards.healthScore")}
+                </h3>
               </div>
             </CardContent>
           </Card>
@@ -232,7 +240,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="font-semibold text-sm text-muted-foreground">
-                  No. Of Reviews
+                  {t("summaryCards.reviews")}
                 </h3>
               </div>
             </CardContent>
@@ -249,7 +257,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   {truncateToTwoDecimals(publichealthData?.data?.avgRating)}
                 </div>
                 <h3 className="font-semibold text-sm text-muted-foreground">
-                  GMB Avg Rating
+                  {t("summaryCards.avgRating")}
                 </h3>
               </div>
             </CardContent>
@@ -266,7 +274,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   {publichealthData?.data?.gmbPhotos || 0}
                 </div>
                 <h3 className="font-semibold text-sm text-muted-foreground">
-                  No. Of GMB Photos
+                  {t("summaryCards.photos")}
                 </h3>
               </div>
             </CardContent>
@@ -283,7 +291,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   {publichealthData?.data?.totalPosts}
                 </div>
                 <h3 className="font-semibold text-sm text-muted-foreground">
-                  No. Of GMB Posts
+                  {t("summaryCards.posts")}
                 </h3>
               </div>
             </CardContent>
@@ -293,11 +301,10 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* Introduction Section */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4">Introduction</h2>
-            <p className="text-muted-foreground">
-              Hello, Thank you for assessing your Google My Business (GMB)
-              profile. Below are the results of our 10-point evaluation.
-            </p>
+            <h2 className="text-2xl font-bold mb-4">
+              {t("introduction.title")}
+            </h2>
+            <p className="text-muted-foreground">{t("introduction.message")}</p>
           </CardContent>
         </Card>
 
@@ -306,7 +313,7 @@ export const PublicGMBHealthReport: React.FC = () => {
           <CardContent className="p-8">
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Your GMB Report at a Glance
+                {t("glanceReport.title")}
               </h2>
             </div>
 
@@ -316,7 +323,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 {/* Failed Tests Card */}
                 <div className="bg-red-100 border border-red-200 rounded-lg p-6">
                   <div className="text-red-800 text-sm font-medium mb-1">
-                    Failed Tests
+                    {t("glanceReport.failedTests")}
                   </div>
                   <div className="text-2xl font-bold text-red-800">
                     {publichealthData?.data?.failedScore}%
@@ -326,7 +333,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 {/* Passed Tests Card */}
                 <div className="bg-green-100 border border-green-200 rounded-lg p-6">
                   <div className="text-green-800 text-sm font-medium mb-1">
-                    Passed Tests
+                    {t("glanceReport.passedTests")}
                   </div>
                   <div className="text-2xl font-bold text-green-800">
                     {publichealthData?.data?.successScore} %
@@ -342,12 +349,12 @@ export const PublicGMBHealthReport: React.FC = () => {
                       <Pie
                         data={[
                           {
-                            name: "Passed Tests",
+                            name: t("glanceReport.passedTests"),
                             value: publichealthData?.data?.successScore || 0,
                             fill: "#22c55e",
                           },
                           {
-                            name: "Failed Tests",
+                            name: t("glanceReport.failedTests"),
                             value: publichealthData?.data?.failedScore || 0,
                             fill: "#ef4444",
                           },
@@ -379,7 +386,9 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* Detailed Breakdown */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {t("detailedBreakdown.title")}
+            </h2>
 
             <div className="space-y-6">
               {Object.entries(publichealthData?.data?.detailedBreakdown).map(
@@ -389,71 +398,81 @@ export const PublicGMBHealthReport: React.FC = () => {
                     { title: string; why: string; recommendation: string }
                   > = {
                     description: {
-                      title:
-                        "Missing Description or Description Less Than 300 Characters",
-                      why: "A detailed description helps customers quickly understand what your business offers and builds trust. Short or missing descriptions can make your profile less appealing.",
-                      recommendation:
-                        "Write a comprehensive description of at least 300 characters that highlights your unique offerings, key services, and values.",
+                      title: t("detailedBreakdown.description.title"),
+                      why: t("detailedBreakdown.description.why"),
+                      recommendation: t(
+                        "detailedBreakdown.description.recommendation"
+                      ),
                     },
                     website: {
-                      title: "Missing Website",
-                      why: "A website link allows customers to explore your business in greater detail. Without it, potential customers might turn to competitors for more information.",
-                      recommendation:
-                        "Add a working website link to your GMB profile to boost credibility and drive traffic to your site.",
+                      title: t("detailedBreakdown.website.title"),
+                      why: t("detailedBreakdown.website.why"),
+                      recommendation: t(
+                        "detailedBreakdown.website.recommendation"
+                      ),
                     },
                     review: {
-                      title: "Review Count",
-                      why: "Reviews are social proof. Listings with fewer than 10 reviews appear less credible.",
-                      recommendation:
-                        "Encourage your satisfied customers to leave reviews. You can send them a direct link to your GMB profile.",
+                      title: t("detailedBreakdown.review.title"),
+                      why: t("detailedBreakdown.review.why"),
+                      recommendation: t(
+                        "detailedBreakdown.review.recommendation"
+                      ),
                     },
                     rating: {
-                      title: "Rating Below Average",
-                      why: "A higher rating indicates better customer satisfaction and improves visibility.",
-                      recommendation:
-                        "Respond to negative reviews politely and focus on customer service improvements.",
+                      title: t("detailedBreakdown.rating.title"),
+                      why: t("detailedBreakdown.rating.why"),
+                      recommendation: t(
+                        "detailedBreakdown.rating.recommendation"
+                      ),
                     },
                     addCategory: {
-                      title: "Additional Categories Not Present or Less Than 5",
-                      why: "Additional categories help Google understand your services and display your listing for relevant searches.",
-                      recommendation:
-                        "Add categories that reflect all your services, like 'Emergency Plumbing' or 'Installation'.",
+                      title: t("detailedBreakdown.addCategory.title"),
+                      why: t("detailedBreakdown.addCategory.why"),
+                      recommendation: t(
+                        "detailedBreakdown.addCategory.recommendation"
+                      ),
                     },
                     photo: {
-                      title: "Less Than 5 Photos",
-                      why: "High-quality photos enhance your profile and attract more customers.",
-                      recommendation:
-                        "Upload updated and clear photos regularly.",
+                      title: t("detailedBreakdown.photo.title"),
+                      why: t("detailedBreakdown.photo.why"),
+                      recommendation: t(
+                        "detailedBreakdown.photo.recommendation"
+                      ),
                     },
                     workingHrs: {
-                      title: "Missing Working Hours",
-                      why: "Customers need to know when you're open. Missing hours can result in lost opportunities.",
-                      recommendation:
-                        "Add complete business hours, including holidays or special days.",
+                      title: t("detailedBreakdown.workingHrs.title"),
+                      why: t("detailedBreakdown.workingHrs.why"),
+                      recommendation: t(
+                        "detailedBreakdown.workingHrs.recommendation"
+                      ),
                     },
                     attributes: {
-                      title: "Missing or Incomplete Attributes",
-                      why: "Attributes like 'Free Wi-Fi' or 'Wheelchair Accessible' can influence a customer's decision.",
-                      recommendation:
-                        "Update your attributes based on customer expectations and your offerings.",
+                      title: t("detailedBreakdown.attributes.title"),
+                      why: t("detailedBreakdown.attributes.why"),
+                      recommendation: t(
+                        "detailedBreakdown.attributes.recommendation"
+                      ),
                     },
                     profile: {
-                      title: "Logo Not Present or Unclear",
-                      why: "A professional logo builds brand trust and makes your profile look credible.",
-                      recommendation:
-                        "Add a high-resolution logo that's consistent across platforms.",
+                      title: t("detailedBreakdown.profile.title"),
+                      why: t("detailedBreakdown.profile.why"),
+                      recommendation: t(
+                        "detailedBreakdown.profile.recommendation"
+                      ),
                     },
                     competitor: {
-                      title: "Competitor Comparison",
-                      why: "You need to match or outperform your competitors to stay relevant.",
-                      recommendation:
-                        "Analyze what competitors are doing better and improve your listing.",
+                      title: t("detailedBreakdown.competitor.title"),
+                      why: t("detailedBreakdown.competitor.why"),
+                      recommendation: t(
+                        "detailedBreakdown.competitor.recommendation"
+                      ),
                     },
                     citation: {
-                      title: "Low Citation Count",
-                      why: "Citations boost local SEO and establish business legitimacy.",
-                      recommendation:
-                        "Submit your business to local directories like Yelp and Yellow Pages.",
+                      title: t("detailedBreakdown.citation.title"),
+                      why: t("detailedBreakdown.citation.why"),
+                      recommendation: t(
+                        "detailedBreakdown.citation.recommendation"
+                      ),
                     },
                   };
 
@@ -479,7 +498,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                               : "bg-red-100 text-red-800 hover:bg-red-100"
                           }
                         >
-                          High Impact
+                          {t("detailedBreakdown.highImpact")}
                         </Badge>
                         <Badge
                           className={
@@ -488,21 +507,27 @@ export const PublicGMBHealthReport: React.FC = () => {
                               : "bg-red-500 text-white hover:bg-red-500"
                           }
                         >
-                          {value ? " Passed" : "Failed"}
+                          {value
+                            ? t("detailedBreakdown.passed")
+                            : t("detailedBreakdown.failed")}
                         </Badge>
                       </div>
                       <h3 className="font-semibold text-lg mb-3">
                         {index + 1}. {item.title}
                       </h3>
                       <div className="mb-4">
-                        <h4 className="font-medium mb-2">• Why It Matters:</h4>
+                        <h4 className="font-medium mb-2">
+                          {t("detailedBreakdown.whyItMatters")}
+                        </h4>
                         <p className="text-sm text-muted-foreground ml-4">
                           {item.why}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2">• Recommendation:</h4>
+                        <h4 className="font-medium mb-2">
+                          {t("detailedBreakdown.recommendation")}
+                        </h4>
                         <p className="text-sm text-muted-foreground ml-4">
                           {item.recommendation}
                         </p>
@@ -518,31 +543,35 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* Competitor Analysis */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Competitor Analysis</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {t("competitorAnalysis.title")}
+            </h2>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
                 <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-                  Moderate Impact
+                  {t("competitorAnalysis.moderateImpact")}
                 </Badge>
               </div>
               <h3 className="font-semibold text-lg mb-3">
-                The listing outperforms or matches its competitors in key areas.
+                {t("competitorAnalysis.message")}
               </h3>
 
               <div className="mb-4">
-                <h4 className="font-medium mb-2">• Why It Matters:</h4>
+                <h4 className="font-medium mb-2">
+                  {t("detailedBreakdown.whyItMatters")}
+                </h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  Standing out among competitors increases the chance of
-                  attracting more customers
+                  {t("competitorAnalysis.message1")}
                 </p>
               </div>
 
               <div>
-                <h4 className="font-medium mb-2">• Recommendation:</h4>
+                <h4 className="font-medium mb-2">
+                  {t("detailedBreakdown.recommendation")}
+                </h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  Analyze competitor profile and focus on areas where they excel
-                  such as better rating or more details description
+                  {t("competitorAnalysis.analyze")}
                 </p>
               </div>
             </div>
@@ -551,11 +580,9 @@ export const PublicGMBHealthReport: React.FC = () => {
             <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  Competitor Analysis
+                  {t("competitorAnalysis.chartDescription")}
                 </h3>
-                <p className="text-gray-600">
-                  See how you compare against your local competitors
-                </p>
+                <p className="text-gray-600">{t("competitorAnalysis.title")}</p>
               </div>
 
               {/* Enhanced Legend */}
@@ -563,13 +590,13 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
                   <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"></div>
                   <span className="text-sm font-medium text-gray-700">
-                    Average Rating
+                    {t("competitorAnalysis.avgRating")}
                   </span>
                 </div>
                 <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
                   <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-sm"></div>
                   <span className="text-sm font-medium text-gray-700">
-                    Review Count
+                    {t("competitorAnalysis.reviewCount")}
                   </span>
                 </div>
               </div>
@@ -655,13 +682,13 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <tr className="bg-green-200">
                     <th className="px-4 py-3 text-left font-semibold">#</th>
                     <th className="px-4 py-3 text-left font-semibold">
-                      Business Name
+                      {t("competitorTable.business")}
                     </th>
                     <th className="px-4 py-3 text-center font-semibold">
-                      Avg. Rating
+                      {t("competitorTable.avg")}
                     </th>
                     <th className="px-4 py-3 text-center font-semibold">
-                      Review Count
+                      {t("competitorTable.review")}
                     </th>
                   </tr>
                 </thead>
@@ -704,32 +731,29 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* Citation Analysis */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Citation Analysis</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {t("citationAnalysis.title")}
+            </h2>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
                 <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
-                  High Impact
+                  {t("citationAnalysis.highImpact")}
                 </Badge>
               </div>
               <h3 className="font-semibold text-lg mb-3">
-                'The Listing Has Fewer Citations Than Competitors.'
+                {t("citationAnalysis.message")}
               </h3>
 
               <div className="mb-4">
                 <h4 className="font-medium mb-2">• Why It Matters:</h4>
-                <p className="text-sm text-muted-foreground ml-4">
-                  Citations improve local SEO ranking and signal credibility to
-                  search engines and customers.
-                </p>
+                <p className="text-sm text-muted-foreground ml-4"></p>
               </div>
-
+              {t("citationAnalysis.why")}
               <div>
                 <h4 className="font-medium mb-2">• Recommendation:</h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  Identify citation gaps by auditing competitor profiles Submit
-                  your business to directories like Yelp,Yellow pages and other
-                  niche-specific sites.
+                  {t("citationAnalysis.recommendation")}
                 </p>
               </div>
             </div>
@@ -738,10 +762,10 @@ export const PublicGMBHealthReport: React.FC = () => {
             <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  Citation Analysis
+                  {t("citationAnalysis.chartTitle")}
                 </h3>
                 <p className="text-gray-600">
-                  Compare local citation counts across competitors
+                  {t("citationAnalysis.chartDescription")}
                 </p>
               </div>
 
@@ -776,7 +800,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     <Tooltip
                       formatter={(value) => [
                         `${value} citations`,
-                        "Citation Count",
+                        t("citationAnalysis.citationCount"),
                       ]}
                       labelFormatter={(label) => {
                         const business = citationChartData.find(
@@ -823,10 +847,10 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <tr className="bg-green-200">
                     <th className="px-4 py-3 text-left font-semibold">#</th>
                     <th className="px-4 py-3 text-left font-semibold">
-                      Business Name
+                      {t("citationTable.business")}
                     </th>
                     <th className="px-4 py-3 text-center font-semibold">
-                      No. Local Citation
+                      {t("citationTable.local")}
                     </th>
                   </tr>
                 </thead>
@@ -874,7 +898,7 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card className="bg-white">
           <CardHeader className="pb-4">
             <CardTitle className="text-xl font-bold text-gray-900">
-              Summary of Recommendations
+              {t("summaryRecommendations.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -882,27 +906,27 @@ export const PublicGMBHealthReport: React.FC = () => {
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Add a working website link.</span>
+                  <span>{t("summaryRecommendations.item1")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Encourage satisfied customers to leave reviews.</span>
+                  <span>{t("summaryRecommendations.item2")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Average Rating is below 4 stars.</span>
+                  <span>{t("summaryRecommendations.item3")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>The logo is present and professional.</span>
+                  <span>{t("summaryRecommendations.item4")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Update your business hours.</span>
+                  <span>{t("summaryRecommendations.item5")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Less Than 5 Photos. Enhance Photo</span>
+                  <span>{t("summaryRecommendations.item6")}</span>
                 </li>
               </ul>
             </div>

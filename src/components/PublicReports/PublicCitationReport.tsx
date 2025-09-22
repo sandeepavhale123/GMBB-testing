@@ -21,10 +21,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { FileSearch } from "lucide-react";
 import { Button } from "../ui/button";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["PublicReports/publicCitationReport"];
 
 export const PublicCitationReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
+  const { t, loaded } = usePublicI18n(namespaces);
 
   const { data, isLoading, error } = usePerformanceCitationReport(reportId);
   const citationData = data?.data;
@@ -90,7 +94,9 @@ export const PublicCitationReport: React.FC = () => {
     return (
       <Card className="h-full">
         <CardHeader>
-          <CardTitle className="text-lg">Citation Tracker</CardTitle>
+          <CardTitle className="text-lg">
+            {t("publicCitationReport.tracker.cardTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="flex-1">
@@ -129,7 +135,7 @@ export const PublicCitationReport: React.FC = () => {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-xs sm:text-sm text-muted-foreground">
-                  Listed
+                  {t("publicCitationReport.tracker.listed")}
                 </span>
                 <span className="text-sm sm:text-lg font-semibold">
                   {listedPercent}%
@@ -139,11 +145,11 @@ export const PublicCitationReport: React.FC = () => {
           </div>
           <div className="flex flex-col gap-2 sm:ml-4">
             <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm">
-              <span>Listed</span>
+              <span> {t("publicCitationReport.tracker.listed")}</span>
               <span className="font-semibold">{listed}</span>
             </div>
             <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-muted text-muted-foreground rounded text-xs sm:text-sm">
-              <span>Not Listed</span>
+              <span> {t("publicCitationReport.tracker.notListed")}</span>
               <span className="font-semibold">{notListed}</span>
             </div>
           </div>
@@ -158,12 +164,10 @@ export const PublicCitationReport: React.FC = () => {
           <FileSearch className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
         </div>
         <CardTitle className="text-base sm:text-lg">
-          Local Pages & Directories
+          {t("publicCitationReport.localPages.title")}
         </CardTitle>
         <CardDescription className="text-xs sm:text-sm text-muted-foreground px-2">
-          Your local page and directory score is based on the number of places
-          in which your listing is present, divided by the number of local page
-          and directories we've checked.
+          {t("publicCitationReport.localPages.description")}
         </CardDescription>
       </CardHeader>
     </Card>
@@ -171,7 +175,7 @@ export const PublicCitationReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="Citation Performance Report"
+      title={t("publicCitationReport.title")}
       listingName={citationData?.locationName}
       logo={citationData?.companyLogo}
       address={citationData?.address}
@@ -191,7 +195,7 @@ export const PublicCitationReport: React.FC = () => {
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <CardTitle className="text-lg sm:text-xl">
-                Citation Audit
+                {t("publicCitationReport.audit.title")}
               </CardTitle>
             </div>
             <Button
@@ -204,7 +208,7 @@ export const PublicCitationReport: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Place Order
+                {t("publicCitationReport.audit.placeOrder")}
               </a>
             </Button>
           </CardHeader>
@@ -212,10 +216,12 @@ export const PublicCitationReport: React.FC = () => {
             <Tabs defaultValue="existing" className="w-full">
               <TabsList className="grid grid-cols-2 sm:inline-flex sm:h-10 sm:items-center sm:justify-center sm:rounded-md bg-muted p-1 text-muted-foreground">
                 <TabsTrigger value="existing" className="text-xs sm:text-sm">
-                  Existing Citation ({citationData?.existingCitation})
+                  {t("publicCitationReport.audit.tabs.existing")} (
+                  {citationData?.existingCitation})
                 </TabsTrigger>
                 <TabsTrigger value="possible" className="text-xs sm:text-sm">
-                  Possible Citation ({trackerData?.totalChecked})
+                  {t("publicCitationReport.audit.tabs.possible")} (
+                  {trackerData?.totalChecked})
                 </TabsTrigger>
               </TabsList>
 
@@ -225,16 +231,18 @@ export const PublicCitationReport: React.FC = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="text-xs sm:text-sm">
-                          Website
+                          {t("publicCitationReport.table.existing.website")}
                         </TableHead>
                         <TableHead className="text-xs sm:text-sm hidden sm:table-cell">
-                          Business Name
+                          {t(
+                            "publicCitationReport.table.existing.businessName"
+                          )}
                         </TableHead>
                         <TableHead className="text-xs sm:text-sm hidden md:table-cell">
-                          Phone
+                          {t("publicCitationReport.table.existing.phone")}
                         </TableHead>
                         <TableHead className="text-xs sm:text-sm">
-                          Action
+                          {t("publicCitationReport.table.existing.action")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -277,7 +285,7 @@ export const PublicCitationReport: React.FC = () => {
                               rel="noopener noreferrer"
                               className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors"
                             >
-                              View
+                              {t("publicCitationReport.table.existing.view")}
                             </a>
                           </TableCell>
                         </TableRow>
@@ -293,10 +301,10 @@ export const PublicCitationReport: React.FC = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="text-xs sm:text-sm">
-                          Site Name
+                          {t("publicCitationReport.possible.siteName")}
                         </TableHead>
                         <TableHead className="text-xs sm:text-sm text-right">
-                          Action
+                          {t("publicCitationReport.possible.action")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -338,7 +346,7 @@ export const PublicCitationReport: React.FC = () => {
                                 }
                               }}
                             >
-                              Fix Now
+                              {t("publicCitationReport.possible.fixNow")}
                             </Button>
                           </TableCell>
                         </TableRow>
