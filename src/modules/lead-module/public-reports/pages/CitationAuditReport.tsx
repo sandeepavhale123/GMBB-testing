@@ -81,14 +81,15 @@ export const CitationAuditReport: React.FC = () => {
   const brandingData = brandingResponse?.data || null;
 
   // Chart data for donut chart
+  const foundCitations = Math.max(0, reportData.citations.total - reportData.citations.missing);
   const chartData = [{
-    name: "Listed",
-    value: reportData.citations.listed,
-    fill: "#3b82f6" // blue
+    name: "Found Citations",
+    value: foundCitations,
+    fill: "#22c55e" // green
   }, {
-    name: "Non-Listed",
-    value: reportData.citations.nonListed,
-    fill: "#ec4899" // pink/magenta
+    name: "Missing Citations",
+    value: reportData.citations.missing,
+    fill: "#ef4444" // red
   }];
   const CustomLegend = ({
     payload
@@ -162,26 +163,26 @@ export const CitationAuditReport: React.FC = () => {
           <CardContent>
             <div className="flex flex-col lg:flex-row items-center gap-8">
               <div className="flex-1 space-y-4">
-                {/* Listed Card */}
+                {/* Found Citations Card */}
                 <div className="bg-green-100 border border-green-200 rounded-lg p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-semibold text-green-900">Listed</h3>
-                      <p className="text-sm text-green-700">Areas performing well</p>
+                      <h3 className="text-lg font-semibold text-green-900">Found Citations</h3>
+                      <p className="text-sm text-green-700">Citations currently present</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-bold text-green-900">{reportData.citations.listed}</div>
+                      <div className="text-3xl font-bold text-green-900">{Math.max(0, reportData.citations.total - reportData.citations.missing)}</div>
                       
                     </div>
                   </div>
                 </div>
 
-                {/* Non-Listed Card */}
+                {/* Missing Citations Card */}
                 <div className="bg-red-100 border border-red-200 rounded-lg p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-semibold text-red-900">Non-Listed</h3>
-                      <p className="text-sm text-red-700">Areas that need attention</p>
+                      <h3 className="text-lg font-semibold text-red-900">Missing Citations</h3>
+                      <p className="text-sm text-red-700">Citations that need to be added</p>
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-red-900">{reportData.citations.missing}</div>
