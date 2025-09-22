@@ -68,6 +68,18 @@ export const GmbProspectReport: React.FC = () => {
     reviews: comp.reviews
   }));
 
+  const citationCompetitorData = (reportData.citationCompData?.table || [])
+    .map(comp => ({
+      name: comp.bname,
+      localCitation: comp.localCitation
+    }));
+
+  const citationCompetitorTableData = (reportData.citationCompData?.table || []).map(comp => ({
+    rank: comp.position === "YOU" ? "YOU" : comp.position.toString(),
+    name: comp.bname,
+    localCitation: comp.localCitation
+  }));
+
   const advancedSuggestions = reportData.advancedSuggestions.map(suggestion => ({
     number: suggestion.id,
     suggestion: suggestion.suggestion,
@@ -392,6 +404,110 @@ export const GmbProspectReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Citation Competitor Analysis */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Citation Competitor Analysis</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {/* Top Section - Performance Summary */}
+            <div className={`mb-6 p-6 border-2 rounded-lg relative ${
+              reportData.citationCompData?.info?.impact === 'High Impact' 
+                ? 'border-red-200 bg-red-50/50' 
+                : 'border-green-200 bg-green-50/50'
+            }`}>
+              <div className="absolute top-4 right-4">
+                <span className={`px-4 py-1 rounded-full text-sm font-semibold ${
+                  reportData.citationCompData?.info?.impact === 'High Impact'
+                    ? 'bg-red-600 text-white'
+                    : 'bg-green-600 text-white'
+                }`}>
+                  {reportData.citationCompData?.info?.impact === 'High Impact' ? 'Failed' : 'Passed'}
+                </span>
+              </div>
+              
+              <h3 className="text-base font-semibold text-gray-900 mb-4 pr-20">
+                {reportData.citationCompData?.info?.title || "Citation analysis results"}
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-start">
+                  <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900">Why It Matters:</span>
+                    <div className="text-sm text-gray-700 mt-1">
+                      {reportData.citationCompData?.info?.whyItMatters || "Citations improve local SEO ranking and signal credibility"}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900">Recommendation:</span>
+                    <div className="text-sm text-gray-700 mt-1">
+                      {reportData.citationCompData?.info?.recommendations || "Identify citation gaps and submit your business to directories"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Chart Section */}
+            <div className="mb-6 p-4 border rounded-lg">
+              <h4 className="text-lg font-semibold text-center mb-4">Citation Comparison</h4>
+              
+              <div className="flex justify-center items-center gap-6 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-purple-500 rounded"></div>
+                  <span className="text-sm text-gray-700">Local Citations</span>
+                </div>
+              </div>
+
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={citationCompetitorData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <XAxis 
+                      dataKey="name" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={100}
+                      interval={0}
+                      fontSize={12}
+                    />
+                    <YAxis domain={[0, 'dataMax + 10']} />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        value,
+                        'Local Citations'
+                      ]}
+                    />
+                    <Bar dataKey="localCitation" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Citation Competitor Table */}
+            <div className="border rounded-lg overflow-hidden">
+              <div className="bg-purple-200 grid grid-cols-3 font-semibold text-gray-900">
+                <div className="p-3 text-center">#</div>
+                <div className="p-3">Business Name</div>
+                <div className="p-3 text-center">Local Citations</div>
+              </div>
+              
+              {citationCompetitorTableData.map((item, index) => (
+                <div key={index} className={`grid grid-cols-3 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
+                  <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
+                  <div className="p-3 text-gray-800">{item.name}</div>
+                  <div className="p-3 text-center text-gray-900">
+                    {item.localCitation}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Appointment CTA Section */}
         <SingleCTASection reportId={reportId || ''} ctaType="appointment" />
