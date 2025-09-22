@@ -9,32 +9,35 @@ import { BookOpen, CheckCircle, XCircle, AlertTriangle, TrendingUp, Copy, MapPin
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { useGetCitationAuditReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
-
 export const CitationAuditReport: React.FC = () => {
-  const { reportId } = useParams<{ reportId: string }>();
-  const { data: apiResponse, isLoading, error } = useGetCitationAuditReport(reportId || '');
-  const { data: brandingResponse } = useGetLeadReportBranding(reportId || '');
-
+  const {
+    reportId
+  } = useParams<{
+    reportId: string;
+  }>();
+  const {
+    data: apiResponse,
+    isLoading,
+    error
+  } = useGetCitationAuditReport(reportId || '');
+  const {
+    data: brandingResponse
+  } = useGetLeadReportBranding(reportId || '');
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
+    return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground">Loading Citation Audit Report...</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (error || !apiResponse?.data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
+    return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-destructive mb-4">Failed to load citation audit report</p>
           <Button onClick={() => window.location.reload()}>Retry</Button>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   // Transform API response to match expected format
@@ -47,7 +50,6 @@ export const CitationAuditReport: React.FC = () => {
   const totalCitations = summary?.totalCitations ?? 0;
   const listed = existingCitations.length;
   const nonListed = Math.max(0, totalCitations - listed);
-
   const reportData = {
     title: "Citation Audit Report",
     listingName: reportDetails?.bname || "Business Name",
@@ -60,65 +62,46 @@ export const CitationAuditReport: React.FC = () => {
       nonListed: nonListed,
       missing: summary?.missingCitations ?? 0,
       duplicates: summary?.duplicateListings ?? 0,
-      accuracy: summary?.accuracyScore ?? 0,
+      accuracy: summary?.accuracyScore ?? 0
     },
     existingCitations: existingCitations.map(citation => ({
       siteName: citation.host || citation.title,
       businessName: citation.found_bname || citation.title,
       phone: citation.found_phone || "",
-      url: citation.url,
+      url: citation.url
     })),
     possibleCitations: possibleCitations.map(citation => ({
       siteName: citation.host || citation.sitename,
       businessName: reportDetails?.bname || "",
       phone: reportDetails?.phone || "",
       url: citation.url,
-      status: citation.site_status,
-    })),
+      status: citation.site_status
+    }))
   };
-
-
   const brandingData = brandingResponse?.data || null;
 
   // Chart data for donut chart
-  const chartData = [
-    {
-      name: "Listed",
-      value: reportData.citations.listed,
-      fill: "#3b82f6", // blue
-    },
-    {
-      name: "Non-Listed", 
-      value: reportData.citations.nonListed,
-      fill: "#ec4899", // pink/magenta
-    },
-  ];
-
-  const CustomLegend = ({ payload }: any) => (
-    <div className="flex flex-col gap-2 ml-4">
-      {payload?.map((entry: any, index: number) => (
-        <div key={index} className="flex items-center gap-2">
-          <div 
-            className="w-3 h-3 rounded-full" 
-            style={{ backgroundColor: entry.color }}
-          />
+  const chartData = [{
+    name: "Listed",
+    value: reportData.citations.listed,
+    fill: "#3b82f6" // blue
+  }, {
+    name: "Non-Listed",
+    value: reportData.citations.nonListed,
+    fill: "#ec4899" // pink/magenta
+  }];
+  const CustomLegend = ({
+    payload
+  }: any) => <div className="flex flex-col gap-2 ml-4">
+      {payload?.map((entry: any, index: number) => <div key={index} className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full" style={{
+        backgroundColor: entry.color
+      }} />
           <span className="text-sm font-medium">{entry.value}</span>
           <span className="text-sm text-muted-foreground">({entry.payload.value})</span>
-        </div>
-      ))}
-    </div>
-  );
-
-  return (
-    <PublicReportLayout
-      title={reportData.title}
-      listingName={reportData.listingName}
-      address={reportData.address}
-      logo={reportData.logo}
-      date={reportData.date}
-      brandingData={brandingData}
-      reportType="citation"
-    >
+        </div>)}
+    </div>;
+  return <PublicReportLayout title={reportData.title} listingName={reportData.listingName} address={reportData.address} logo={reportData.logo} date={reportData.date} brandingData={brandingData} reportType="citation">
       <div className="space-y-6">
         {/* Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -188,9 +171,7 @@ export const CitationAuditReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-green-900">{reportData.citations.listed}</div>
-                      <div className="text-lg font-medium text-green-700">
-                        {reportData.citations.total > 0 ? Math.round((reportData.citations.listed / reportData.citations.total) * 100) : 0}%
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -204,9 +185,7 @@ export const CitationAuditReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-red-900">{reportData.citations.missing}</div>
-                      <div className="text-lg font-medium text-red-700">
-                        {reportData.citations.total > 0 ? Math.round((reportData.citations.nonListed / reportData.citations.total) * 100) : 0}%
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -217,23 +196,8 @@ export const CitationAuditReport: React.FC = () => {
                 <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
-                      <Pie
-                        data={chartData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={80}
-                        outerRadius={120}
-                        paddingAngle={2}
-                        dataKey="value"
-                        startAngle={90}
-                        endAngle={450}
-                      >
-                        {chartData.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={entry.name === 'Listed' ? '#22c55e' : '#ef4444'} 
-                          />
-                        ))}
+                      <Pie data={chartData} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" startAngle={90} endAngle={450}>
+                        {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.name === 'Listed' ? '#22c55e' : '#ef4444'} />)}
                       </Pie>
                     </PieChart>
                   </ResponsiveContainer>
@@ -287,44 +251,25 @@ export const CitationAuditReport: React.FC = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {reportData.existingCitations.map((citation, index) => (
-                        <TableRow key={index}>
+                      {reportData.existingCitations.map((citation, index) => <TableRow key={index}>
                           <TableCell className="font-medium">
                             <div className="flex items-center gap-2">
-                              <img
-                                src={`https://www.google.com/s2/favicons?sz=16&domain_url=${citation.siteName}`}
-                                alt="favicon"
-                                className="w-4 h-4"
-                                onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
-                              />
+                              <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${citation.siteName}`} alt="favicon" className="w-4 h-4" onError={e => e.currentTarget.src = "/placeholder.svg"} />
                               {citation.siteName}
                             </div>
                           </TableCell>
                           <TableCell>
-                            {citation.businessName?.includes('Not Matching') ? (
-                              <span className="text-red-600 font-medium">Not Matching</span>
-                            ) : (
-                              citation.businessName
-                            )}
+                            {citation.businessName?.includes('Not Matching') ? <span className="text-red-600 font-medium">Not Matching</span> : citation.businessName}
                           </TableCell>
                           <TableCell>
-                            {citation.phone?.includes('Not Matching') ? (
-                              <span className="text-red-600 font-medium">Not Matching</span>
-                            ) : (
-                              citation.phone
-                            )}
+                            {citation.phone?.includes('Not Matching') ? <span className="text-red-600 font-medium">Not Matching</span> : citation.phone}
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => window.open(`https://${citation.siteName}`, '_blank')}
-                            >
+                            <Button variant="outline" size="sm" onClick={() => window.open(`https://${citation.siteName}`, '_blank')}>
                               View
                             </Button>
                           </TableCell>
-                        </TableRow>
-                      ))}
+                        </TableRow>)}
                     </TableBody>
                   </Table>
                 </div>
@@ -342,43 +287,25 @@ export const CitationAuditReport: React.FC = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {reportData.possibleCitations.map((citation, index) => (
-                        <TableRow key={index}>
+                      {reportData.possibleCitations.map((citation, index) => <TableRow key={index}>
                           <TableCell className="font-medium">
                             <div className="flex items-center gap-2">
-                              <img
-                                src={`https://www.google.com/s2/favicons?sz=16&domain_url=${citation.siteName}`}
-                                alt="favicon"
-                                className="w-4 h-4"
-                                onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
-                              />
+                              <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${citation.siteName}`} alt="favicon" className="w-4 h-4" onError={e => e.currentTarget.src = "/placeholder.svg"} />
                               {citation.siteName}
                             </div>
                           </TableCell>
                           <TableCell>
-                            {citation.businessName?.includes('Not Matching') ? (
-                              <span className="text-red-600 font-medium">Not Matching</span>
-                            ) : (
-                              citation.businessName
-                            )}
+                            {citation.businessName?.includes('Not Matching') ? <span className="text-red-600 font-medium">Not Matching</span> : citation.businessName}
                           </TableCell>
                           <TableCell>
-                            {citation.phone?.includes('Not Matching') ? (
-                              <span className="text-red-600 font-medium">Not Matching</span>
-                            ) : (
-                              citation.phone
-                            )}
+                            {citation.phone?.includes('Not Matching') ? <span className="text-red-600 font-medium">Not Matching</span> : citation.phone}
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button
-                              size="sm"
-                              onClick={() => window.open(`https://${citation.siteName}`, '_blank')}
-                            >
+                            <Button size="sm" onClick={() => window.open(`https://${citation.siteName}`, '_blank')}>
                               Add Listing
                             </Button>
                           </TableCell>
-                        </TableRow>
-                      ))}
+                        </TableRow>)}
                     </TableBody>
                   </Table>
                 </div>
@@ -387,6 +314,5 @@ export const CitationAuditReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
-  );
+    </PublicReportLayout>;
 };
