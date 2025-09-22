@@ -197,7 +197,7 @@ export const CitationAuditReport: React.FC = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie data={chartData} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" startAngle={90} endAngle={450}>
-                        {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.name === 'Listed' ? '#22c55e' : '#ef4444'} />)}
+                        {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.name === 'Total Citations Found' ? '#22c55e' : '#ef4444'} />)}
                       </Pie>
                     </PieChart>
                   </ResponsiveContainer>
