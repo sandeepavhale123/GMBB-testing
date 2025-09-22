@@ -153,6 +153,7 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
   const [notes, setNotes] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("web-lead");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // Fetch lead classifier details
   const { 
@@ -175,30 +176,35 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
 
   // Initialize form data when classifier data is loaded
   useEffect(() => {
-    if (classifierData?.data) {
+    if (classifierData?.data && open) {
       const { leadCategoryValue, leadnote } = classifierData.data;
       if (leadCategoryValue) {
         setSelectedCategory(leadCategoryValue);
         setActiveTab(getCategoryTab(leadCategoryValue));
       }
       setNotes(leadnote || "");
+      setIsDataLoaded(true);
     }
-  }, [classifierData]);
+  }, [classifierData, open]);
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (open && lead) {
-      // Reset to defaults, will be overridden by useEffect above when data loads
-      setSelectedCategory("");
-      setNotes("");
-      setActiveTab("web-lead");
+      // Only reset if no data is being loaded
+      if (!classifierData?.data && !isLoadingClassifier) {
+        setSelectedCategory("");
+        setNotes("");
+        setActiveTab("web-lead");
+        setIsDataLoaded(false);
+      }
     } else if (!open) {
-      // Reset form when closing
+      // Always reset form when closing
       setSelectedCategory("");
       setNotes("");
       setActiveTab("web-lead");
+      setIsDataLoaded(false);
     }
-  }, [open, lead]);
+  }, [open, lead, classifierData, isLoadingClassifier]);
 
   const handleSubmit = async () => {
     if (!selectedCategory) {
@@ -235,6 +241,7 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
     setSelectedCategory("");
     setNotes("");
     setActiveTab("web-lead");
+    setIsDataLoaded(false);
     
     // Import and call comprehensive cleanup to fix pointer-events issue
     import("@/utils/domUtils").then(({ comprehensiveCleanup }) => {
