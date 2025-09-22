@@ -50,7 +50,7 @@ export const CTACard: React.FC<CTACardProps> = ({
         </div>
       )}
       {/* Action Buttons Dropdown */}
-      <div className="absolute top-2 right-2 z-20">
+      <div className="absolute top-1 right-1 z-20">
         <Popover>
           <PopoverTrigger asChild>
             <Button
