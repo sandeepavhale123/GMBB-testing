@@ -321,7 +321,7 @@ const Dashboard: React.FC = () => {
 
           <LeadsTable leads={leads} selectedLeads={selectedLeads} onSelectLead={handleSelectLead} onSelectAll={handleSelectAll} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending || deleteLeadMutation.isPending} />
 
-          {totalPages > 1 && <div className="mt-6 flex justify-between items-center">
+          {totalPages > 1 && <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <div className="text-sm text-muted-foreground">
                 Showing page {currentPage} of {totalPages} ({leads?.length || 0} leads)
               </div>
