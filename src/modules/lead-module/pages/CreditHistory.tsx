@@ -181,7 +181,7 @@ const CreditHistory: React.FC = () => {
           {/* Search Input */}
           <div className="relative w-full mt-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input placeholder="Search keywords..." value={searchTerm} onChange={e => handleSearchChange(e.target.value)} className="pl-10 w-full" />
+            <Input placeholder="Search by business name..." value={searchTerm} onChange={e => handleSearchChange(e.target.value)} className="pl-10 w-full" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
