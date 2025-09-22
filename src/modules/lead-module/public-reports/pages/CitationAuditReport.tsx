@@ -81,10 +81,9 @@ export const CitationAuditReport: React.FC = () => {
   const brandingData = brandingResponse?.data || null;
 
   // Chart data for donut chart
-  const foundCitations = Math.max(0, reportData.citations.total - reportData.citations.missing);
   const chartData = [{
-    name: "Found Citations",
-    value: foundCitations,
+    name: "Total Citations Found",
+    value: reportData.citations.total,
     fill: "#22c55e" // green
   }, {
     name: "Missing Citations",
