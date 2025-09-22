@@ -369,18 +369,22 @@ export const GmbProspectReport: React.FC = () => {
 
             {/* Competitor Table */}
             <div className="border rounded-lg overflow-hidden">
-              <div className="bg-green-200 grid grid-cols-3 font-semibold text-gray-900">
+              <div className="bg-green-200 grid grid-cols-4 font-semibold text-gray-900">
                 <div className="p-3 text-center">#</div>
                 <div className="p-3">Business Name</div>
-                <div className="p-3 text-center">Rating / Reviews</div>
+                <div className="p-3 text-center">Rating</div>
+                <div className="p-3 text-center">Reviews</div>
               </div>
               
               {competitorTableData.map((item, index) => (
-                <div key={index} className={`grid grid-cols-3 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
+                <div key={index} className={`grid grid-cols-4 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
                   <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
                   <div className="p-3 text-gray-800">{item.name}</div>
                   <div className="p-3 text-center text-gray-900">
-                    {item.rating > 0 ? `${item.rating}/5.0 (${item.reviews} reviews)` : 'No reviews'}
+                    {item.rating > 0 ? `${item.rating}/5.0` : '-'}
+                  </div>
+                  <div className="p-3 text-center text-gray-900">
+                    {item.reviews}
                   </div>
                 </div>
               ))}
