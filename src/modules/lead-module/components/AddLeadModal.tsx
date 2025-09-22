@@ -153,14 +153,14 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         // Handle specific API error messages
         if (errorMessage.includes("Invalid cid found")) {
           errorTitle = "Invalid Business ID";
-          errorDescription = `${errorMessage}. Try using Google Auto-suggestion or verify your Google Maps URL has the correct business listing.`;
-        } else if (errorMessage.includes("401") || errorMessage.includes("Unauthorized")) {
+          errorDescription = `Invalid cid found. Try using Google Auto-suggestion or verify your Google Maps URL has the correct business listing.`;
+        } else if (errorMessage.includes("Unauthorized")) {
           errorTitle = "Authentication Error";
           errorDescription = `${errorMessage}. Please check your account permissions.`;
-        } else if (errorMessage.includes("400") || errorMessage.includes("Bad Request")) {
+        } else if (errorMessage.includes("Bad Request")) {
           errorTitle = "Invalid Input";
           errorDescription = `${errorMessage}. Please check your input and try again.`;
-        } else if (errorMessage.includes("500") || errorMessage.includes("Internal Server")) {
+        } else if (errorMessage.includes("Internal Server")) {
           errorTitle = "Server Error";
           errorDescription = `${errorMessage}. Please try again in a few moments.`;
         } else if (errorMessage.includes("Network") || errorMessage.includes("fetch")) {
