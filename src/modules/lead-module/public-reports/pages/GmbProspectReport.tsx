@@ -304,10 +304,22 @@ export const GmbProspectReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             {/* Top Section - Performance Summary */}
-            <div className="mb-6 p-6 border-2 border-green-200 bg-green-50/50 rounded-lg relative">
+            <div className={`mb-6 p-6 border-2 rounded-lg relative ${
+              reportData.compData?.info?.impact === 'High Impact' 
+                ? 'border-red-200 bg-red-50/50' 
+                : reportData.compData?.info?.impact === 'Moderate Impact'
+                ? 'border-orange-200 bg-orange-50/50'
+                : 'border-green-200 bg-green-50/50'
+            }`}>
               <div className="absolute top-4 right-4">
-                <span className="px-4 py-1 rounded-full text-sm font-semibold bg-green-600 text-white">
-                  Passed
+                <span className={`px-4 py-1 rounded-full text-sm font-semibold ${
+                  reportData.compData?.info?.impact === 'High Impact'
+                    ? 'bg-red-600 text-white'
+                    : reportData.compData?.info?.impact === 'Moderate Impact'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-green-600 text-white'
+                }`}>
+                  {reportData.compData?.info?.impact || 'No Impact'}
                 </span>
               </div>
               
@@ -414,15 +426,19 @@ export const GmbProspectReport: React.FC = () => {
             <div className={`mb-6 p-6 border-2 rounded-lg relative ${
               reportData.citationCompData?.info?.impact === 'High Impact' 
                 ? 'border-red-200 bg-red-50/50' 
+                : reportData.citationCompData?.info?.impact === 'Moderate Impact'
+                ? 'border-orange-200 bg-orange-50/50'
                 : 'border-green-200 bg-green-50/50'
             }`}>
               <div className="absolute top-4 right-4">
                 <span className={`px-4 py-1 rounded-full text-sm font-semibold ${
                   reportData.citationCompData?.info?.impact === 'High Impact'
                     ? 'bg-red-600 text-white'
+                    : reportData.citationCompData?.info?.impact === 'Moderate Impact'
+                    ? 'bg-orange-600 text-white'
                     : 'bg-green-600 text-white'
                 }`}>
-                  {reportData.citationCompData?.info?.impact === 'High Impact' ? 'Failed' : 'Passed'}
+                  {reportData.citationCompData?.info?.impact || 'No Impact'}
                 </span>
               </div>
               
