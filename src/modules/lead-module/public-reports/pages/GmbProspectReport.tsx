@@ -61,10 +61,11 @@ export const GmbProspectReport: React.FC = () => {
       reviewCount: comp.reviews
     }));
 
-  const citationData = reportData.citationCompData.map(comp => ({
+  const competitorTableData = reportData.compData.map(comp => ({
     rank: comp.position === "YOU" ? "YOU" : comp.position.toString(),
     name: comp.bname,
-    citations: comp.localCitation
+    rating: comp.rating,
+    reviews: comp.reviews
   }));
 
   const advancedSuggestions = reportData.advancedSuggestions.map(suggestion => ({
@@ -366,19 +367,21 @@ export const GmbProspectReport: React.FC = () => {
               </div>
             </div>
 
-            {/* Citation Table */}
+            {/* Competitor Table */}
             <div className="border rounded-lg overflow-hidden">
               <div className="bg-green-200 grid grid-cols-3 font-semibold text-gray-900">
                 <div className="p-3 text-center">#</div>
                 <div className="p-3">Business Name</div>
-                <div className="p-3 text-center">No. Local Citation</div>
+                <div className="p-3 text-center">Rating / Reviews</div>
               </div>
               
-              {citationData.map((item, index) => (
+              {competitorTableData.map((item, index) => (
                 <div key={index} className={`grid grid-cols-3 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
                   <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
                   <div className="p-3 text-gray-800">{item.name}</div>
-                  <div className="p-3 text-center text-gray-900">{item.citations}</div>
+                  <div className="p-3 text-center text-gray-900">
+                    {item.rating > 0 ? `${item.rating}/5.0 (${item.reviews} reviews)` : 'No reviews'}
+                  </div>
                 </div>
               ))}
             </div>
