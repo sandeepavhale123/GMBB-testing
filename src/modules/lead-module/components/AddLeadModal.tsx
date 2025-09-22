@@ -142,10 +142,39 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       }
     } catch (error) {
       console.error('Error adding lead:', error);
+      
+      // Enhanced error handling based on API response
+      let errorTitle = "Error";
+      let errorDescription = "Failed to add lead. Please try again.";
+      
+      if (error instanceof Error) {
+        const errorMessage = error.message;
+        
+        // Handle specific API error messages
+        if (errorMessage.includes("Invalid cid found")) {
+          errorTitle = "Invalid Business ID";
+          errorDescription = `${errorMessage}. Try using Google Auto-suggestion or verify your Google Maps URL has the correct business listing.`;
+        } else if (errorMessage.includes("401") || errorMessage.includes("Unauthorized")) {
+          errorTitle = "Authentication Error";
+          errorDescription = `${errorMessage}. Please check your account permissions.`;
+        } else if (errorMessage.includes("400") || errorMessage.includes("Bad Request")) {
+          errorTitle = "Invalid Input";
+          errorDescription = `${errorMessage}. Please check your input and try again.`;
+        } else if (errorMessage.includes("500") || errorMessage.includes("Internal Server")) {
+          errorTitle = "Server Error";
+          errorDescription = `${errorMessage}. Please try again in a few moments.`;
+        } else if (errorMessage.includes("Network") || errorMessage.includes("fetch")) {
+          errorTitle = "Connection Error";
+          errorDescription = "Unable to connect to the server. Please check your internet connection and try again.";
+        } else {
+          errorDescription = errorMessage;
+        }
+      }
+      
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to add lead. Please try again.",
+        title: errorTitle,
+        description: errorDescription,
       });
     } finally {
       setIsSubmitting(false);
