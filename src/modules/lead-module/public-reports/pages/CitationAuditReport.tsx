@@ -203,7 +203,7 @@ export const CitationAuditReport: React.FC = () => {
                       <p className="text-sm text-red-700">Areas that need attention</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-bold text-red-900">{reportData.citations.nonListed}</div>
+                      <div className="text-3xl font-bold text-red-900">{reportData.citations.missing}</div>
                       <div className="text-lg font-medium text-red-700">
                         {reportData.citations.total > 0 ? Math.round((reportData.citations.nonListed / reportData.citations.total) * 100) : 0}%
                       </div>
