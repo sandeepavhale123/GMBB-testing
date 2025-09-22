@@ -906,10 +906,15 @@ export const useGetLeadClassifierDetails = (leadId: number | null) => {
 };
 
 export const useUpdateLeadClassifierDetails = () => {
+  const queryClient = useQueryClient();
+  
   return useMutation({
     mutationFn: updateLeadClassifierDetails,
     onSuccess: () => {
       toast.success('Lead classification updated successfully!');
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
+      queryClient.invalidateQueries({ queryKey: ['leadSummary'] });
+      queryClient.invalidateQueries({ queryKey: ['lead-classifier-details'] });
     },
     onError: () => {
       toast.error('Failed to update lead classification');
