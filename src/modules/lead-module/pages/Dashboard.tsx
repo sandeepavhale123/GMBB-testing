@@ -95,7 +95,8 @@ const Dashboard: React.FC = () => {
   // Lead summary API integration
   const {
     data: summaryResponse,
-    isLoading: isSummaryLoading
+    isLoading: isSummaryLoading,
+    refetch: refetchSummary
   } = useLeadSummary();
   const leads = leadsResponse?.data.leads.map(transformApiLead) || [];
   const totalPages = leadsResponse?.data.pagination ? Math.ceil(leadsResponse.data.pagination.total / ITEMS_PER_PAGE) : 0;
@@ -106,8 +107,9 @@ const Dashboard: React.FC = () => {
     toast.error("Failed to fetch leads. Please try again.");
   }
   const handleAddLead = () => {
-    // Refetch leads after adding a new lead
+    // Refetch leads and summary after adding a new lead
     refetch();
+    refetchSummary();
   };
   const handleSelectLead = (leadId: string, checked: boolean) => {
     setSelectedLeads(prev => checked ? [...prev, leadId] : prev.filter(id => id !== leadId));
