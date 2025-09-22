@@ -104,7 +104,7 @@ export const CitationAuditReport: React.FC = () => {
   return <PublicReportLayout title={reportData.title} listingName={reportData.listingName} address={reportData.address} logo={reportData.logo} date={reportData.date} brandingData={brandingData} reportType="citation">
       <div className="space-y-6">
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -141,7 +141,7 @@ export const CitationAuditReport: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -151,7 +151,7 @@ export const CitationAuditReport: React.FC = () => {
                 <Copy className="h-8 w-8 text-red-500" />
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Citation Status at a Glance */}
