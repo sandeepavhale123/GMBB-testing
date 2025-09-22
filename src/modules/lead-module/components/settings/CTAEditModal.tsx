@@ -148,7 +148,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
 
           {/* Button Link Input */}
           <div className="grid gap-2">
-            <Label htmlFor="buttonLink">Button Link (Optional)</Label>
+            <Label htmlFor="buttonLink">Button Link</Label>
             <Input id="buttonLink" type="text" value={formData.buttonLink ?? ""} onChange={e => handleInputChange("buttonLink", e.target.value)} placeholder="https://example.com or #contact" className={hasFieldError("buttonLink") ? "border-destructive" : ""} />
             {hasFieldError("buttonLink") && <p className="text-sm text-destructive">{getFieldError("buttonLink")}</p>}
             <p className="text-xs text-muted-foreground">
