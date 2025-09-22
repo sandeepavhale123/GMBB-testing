@@ -164,9 +164,9 @@ const Dashboard: React.FC = () => {
         createGmbProspectReport.mutate({
           reportId: lead.reportId
         }, {
-          onSuccess: data => {
-            navigate(`/lead/prospect/${data.data.reportId}`);
-          }
+        onSuccess: data => {
+          window.open(data.data.reportUrl, '_blank');
+        }
         });
       } else {
         toast.error('No report ID found for this lead');
