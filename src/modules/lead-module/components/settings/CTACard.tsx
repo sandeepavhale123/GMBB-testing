@@ -56,7 +56,7 @@ export const CTACard: React.FC<CTACardProps> = ({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+              className="h-8 w-8 bg-white hover:bg-gray-100 shadow-sm"
               style={{ color: 'black' }}
             >
               <MoreVertical className="w-4 h-4" />
