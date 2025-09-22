@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Edit, Phone, Calendar, RotateCcw } from "lucide-react";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Edit, Phone, Calendar, RotateCcw, MoreVertical } from "lucide-react";
 import { SingleCTASettings } from "@/hooks/useCTASettings";
 
 interface CTACardProps {
@@ -49,43 +49,39 @@ export const CTACard: React.FC<CTACardProps> = ({
           </div>
         </div>
       )}
-      {/* Action Buttons */}
-      <TooltipProvider>
-        <div className="absolute top-2 right-2 z-20 flex gap-1">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onReset}
-                className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                style={{ color: 'black' }}
-              >
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Reset to default</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
+      {/* Action Buttons Dropdown */}
+      <div className="absolute top-2 right-2 z-20">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
+              style={{ color: 'black' }}
+            >
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-48 p-0" align="end">
+            <div className="py-1">
+              <button
                 onClick={onEdit}
-                className="h-8 w-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                style={{ color: 'black' }}
+                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-accent hover:text-accent-foreground"
               >
                 <Edit className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Edit CTA</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      </TooltipProvider>
+                Edit CTA
+              </button>
+              <button
+                onClick={onReset}
+                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-accent hover:text-accent-foreground"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Reset to default
+              </button>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         {/* Icon */}
