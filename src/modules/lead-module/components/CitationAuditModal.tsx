@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -54,7 +53,6 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
   const createCitationReport = useCreateLeadCitationReport();
-  const navigate = useNavigate();
 
   const form = useForm<CitationAuditFormData>({
     resolver: zodResolver(citationAuditSchema),
@@ -103,8 +101,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       onSuccess: (response) => {
         toast.success("Citation audit report created successfully!");
         
-        // Navigate to the report page
-        navigate(`/lead/citation/${response.data.reportId}`);
+        // Open the report in a new tab
+        if (response.data.reportUrl) {
+          window.open(response.data.reportUrl, '_blank');
+        }
         
         // Call the onSuccess callback to refetch data
         onSuccess?.();
