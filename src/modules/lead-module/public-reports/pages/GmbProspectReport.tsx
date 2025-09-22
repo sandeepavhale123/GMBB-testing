@@ -552,12 +552,7 @@ export const GmbProspectReport: React.FC = () => {
                     {suggestion.suggestion}
                   </div>
                   <div className="col-span-3 p-4 text-center">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      suggestion.impact === 'High Impact'
-                        ? 'bg-red-200 text-red-800'
-                        : 'bg-yellow-200 text-yellow-800'
-                    }`}>
-                      {suggestion.impact}
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${suggestion.impact === 'High Impact' ? 'bg-red-200 text-red-800' : 'bg-yellow-200 text-yellow-800'}`}>{suggestion.impact}
                     </span>
                   </div>
                 </div>
