@@ -32,7 +32,7 @@ import { z } from "zod";
 import { Loader2 } from "lucide-react";
 import { useCreateGeoReport } from "@/api/leadApi";
 import { toast } from "sonner";
-import { getDistanceOptions } from "@/utils/geoRankingUtils";
+import { processDistanceValue, getDistanceOptions } from "@/utils/geoRankingUtils";
 
 const geoRankingSchema = z.object({
   keywords: z.string()
@@ -47,7 +47,7 @@ const geoRankingSchema = z.object({
     }, "At least 1 keyword is required."),
   gridSize: z.number().refine((val) => val === 3 || val === 5, "Grid size must be 3 or 5."),
   distanceUnit: z.enum(["Meters", "Miles"]),
-  distanceValue: z.number().min(1, "Distance value is required."),
+  distanceValue: z.string().min(1, "Distance value is required."),
 });
 
 type GeoRankingFormData = z.infer<typeof geoRankingSchema>;
@@ -74,7 +74,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       keywords: "",
       gridSize: 3,
       distanceUnit: "Meters",
-      distanceValue: 100,
+      distanceValue: "100",
     },
   });
 
@@ -86,7 +86,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       reportId: leadId,
       keywords: data.keywords,
       distanceUnit: data.distanceUnit,
-      distanceValue: data.distanceValue,
+      distanceValue: processDistanceValue(data.distanceValue, data.distanceUnit),
       gridSize: data.gridSize,
     };
 
@@ -206,8 +206,8 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
                 <FormItem>
                   <FormLabel>Distance Value *</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(parseFloat(value))}
-                    defaultValue={field.value.toString()}
+                    onValueChange={(value) => field.onChange(value)}
+                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>

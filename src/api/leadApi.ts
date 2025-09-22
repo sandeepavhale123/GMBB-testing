@@ -277,7 +277,7 @@ export const useCreateGmbHealthReport = () => {
 export interface CreateGeoReportRequest {
   reportId: string;
   keywords: string;
-  distanceValue: number;
+  distanceValue: string | number;
   gridSize: number;
 }
 
