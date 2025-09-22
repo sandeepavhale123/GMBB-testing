@@ -95,12 +95,9 @@ export const GmbProspectReport: React.FC = () => {
         {/* Introduction Section */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4">Google My Business Audit Report</h2>
+            <h2 className="text-2xl font-bold mb-4">Introduction</h2>
             <p className="text-muted-foreground leading-relaxed">
-              This comprehensive audit analyzes your Google My Business profile performance and identifies 
-              key opportunities for improvement. Our analysis covers all critical aspects of your GMB presence, 
-              from basic information accuracy to advanced optimization strategies that can significantly boost 
-              your local search visibility and customer engagement.
+              Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the results of our 10-point evaluation.
             </p>
           </CardContent>
         </Card>
@@ -129,10 +126,7 @@ export const GmbProspectReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-red-900">
-                        {reportData.scoreDetails.totalFail}
-                      </div>
-                      <div className="text-sm text-red-700">
-                        {reportData.scoreDetails.failPercent}%
+                       {reportData.scoreDetails.failPercent}%
                       </div>
                     </div>
                   </div>
@@ -153,10 +147,7 @@ export const GmbProspectReport: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-green-900">
-                        {reportData.scoreDetails.totalPass}
-                      </div>
-                      <div className="text-sm text-green-700">
-                        {reportData.scoreDetails.passPercent}%
+                         {reportData.scoreDetails.passPercent}%
                       </div>
                     </div>
                   </div>
@@ -433,6 +424,22 @@ export const GmbProspectReport: React.FC = () => {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Summary of Recommendations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul>
+               <li>Add a working website link.</li>
+              <li>Encourage satisfied customers to leave reviews.</li>
+               <li>Average Rating is below 4 star</li>
+               <li>The logo is present and professional.</li>
+               <li>Update your business hours.</li>
+               <li>Less Than 5 Photos. Enhance Photo</li>
+            </ul>
           </CardContent>
         </Card>
       </div>
