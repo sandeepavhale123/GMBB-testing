@@ -171,7 +171,7 @@ export const CitationAuditReport: React.FC = () => {
                       <p className="text-sm text-green-700">Citations currently present</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-bold text-green-900">{Math.max(0, reportData.citations.total - reportData.citations.missing)}</div>
+                      <div className="text-3xl font-bold text-green-900">{reportData.citations.total}</div>
                       
                     </div>
                   </div>
