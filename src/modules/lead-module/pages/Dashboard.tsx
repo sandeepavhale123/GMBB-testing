@@ -332,6 +332,7 @@ const Dashboard: React.FC = () => {
                   </PaginationItem>
 
                   {/* Show first page if not in first few pages */}
+                  <div className="hidden md:contents">
                   {currentPage > 3 && <>
                       <PaginationItem>
                         <PaginationLink onClick={() => handlePageChange(1)} className="cursor-pointer hover:bg-accent">
@@ -370,6 +371,7 @@ const Dashboard: React.FC = () => {
                         </PaginationLink>
                       </PaginationItem>
                     </>}
+                  </div>
 
                   <PaginationItem>
                     <PaginationNext onClick={() => handlePageChange(currentPage + 1)} className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer hover:bg-accent"} />
