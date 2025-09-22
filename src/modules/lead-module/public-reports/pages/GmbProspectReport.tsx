@@ -54,14 +54,14 @@ export const GmbProspectReport: React.FC = () => {
     recommendation: item.recommendations
   }));
 
-  const competitorData = reportData.compData
+  const competitorData = (reportData.compData || [])
     .map(comp => ({
       name: comp.bname,
       avgRating: comp.rating,
       reviewCount: comp.reviews
     }));
 
-  const competitorTableData = reportData.compData.map(comp => ({
+  const competitorTableData = (reportData.compData || []).map(comp => ({
     rank: comp.position === "YOU" ? "YOU" : comp.position.toString(),
     name: comp.bname,
     rating: comp.rating,
