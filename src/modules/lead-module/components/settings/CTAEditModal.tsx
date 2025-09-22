@@ -105,7 +105,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   return <Dialog open={isOpen} onOpenChange={open => {
     if (!open) onClose();
   }}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit {ctaType === 'call' ? 'Call' : 'Appointment'} CTA Settings</DialogTitle>
           <DialogDescription>
