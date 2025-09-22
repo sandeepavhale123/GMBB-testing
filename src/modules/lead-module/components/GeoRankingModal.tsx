@@ -36,18 +36,18 @@ import { getDistanceOptions } from "@/utils/geoRankingUtils";
 
 const geoRankingSchema = z.object({
   keywords: z.string()
-    .min(1, "Keywords are required")
+    .min(1, "Keywords are required.")
     .refine((val) => {
       const keywordsList = val.split(',').map(k => k.trim()).filter(k => k.length > 0);
       return keywordsList.length <= 3;
-    }, "Maximum 3 keywords allowed")
+    }, "Maximum 3 keywords allowed.")
     .refine((val) => {
       const keywordsList = val.split(',').map(k => k.trim()).filter(k => k.length > 0);
       return keywordsList.length > 0;
-    }, "At least 1 keyword is required"),
-  gridSize: z.number().refine((val) => val === 3 || val === 5, "Grid size must be 3 or 5"),
+    }, "At least 1 keyword is required."),
+  gridSize: z.number().refine((val) => val === 3 || val === 5, "Grid size must be 3 or 5."),
   distanceUnit: z.enum(["Meters", "Miles"]),
-  distanceValue: z.number().min(1, "Distance value is required"),
+  distanceValue: z.number().min(1, "Distance value is required."),
 });
 
 type GeoRankingFormData = z.infer<typeof geoRankingSchema>;
@@ -101,7 +101,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
         form.reset();
       },
       onError: (error: any) => {
-        toast.error(error?.response?.data?.message || "Failed to create GEO ranking report");
+        toast.error(error?.response?.data?.message || "Failed to create GEO ranking report.");
       },
     });
   };

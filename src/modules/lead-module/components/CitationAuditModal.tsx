@@ -27,10 +27,10 @@ import { useCreateLeadCitationReport } from "@/api/leadApi";
 import { toast } from "sonner";
 
 const citationAuditSchema = z.object({
-  businessName: z.string().min(1, "Business name is required"),
-  phone: z.string().min(1, "Phone number is required"),
-  keyword: z.string().min(1, "Keyword is required"),
-  city: z.string().min(1, "City is required"),
+  businessName: z.string().min(1, "Business name is required."),
+  phone: z.string().min(1, "Phone number is required."),
+  keyword: z.string().min(1, "Keyword is required."),
+  city: z.string().min(1, "City is required."),
 });
 
 type CitationAuditFormData = z.infer<typeof citationAuditSchema>;

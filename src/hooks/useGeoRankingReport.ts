@@ -552,7 +552,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
-        description: "Keywords are required",
+        description: "Keywords are required.",
         variant: "destructive",
       });
       return { success: false, shouldNavigate: false };
@@ -692,7 +692,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
-        description: "Keywords are required",
+        description: "Keywords are required.",
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };

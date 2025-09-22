@@ -4,10 +4,10 @@ import { useGetCTADetails, useSaveCTACustomizer, useResetCTACustomizer } from "@
 import { useToast } from "@/hooks/use-toast";
 
 export const singleCTASettingsSchema = z.object({
-  header: z.string().min(1, "Header is required").max(100, "Header must be less than 100 characters"),
-  description: z.string().min(1, "Description is required").max(500, "Description must be less than 500 characters"),
-  buttonLabel: z.string().min(1, "Button label is required").max(50, "Button label must be less than 50 characters"),
-  buttonLink: z.string().url("Please enter a valid URL").or(z.literal("")).or(z.string().regex(/^#/, "Hash links must start with #")),
+  header: z.string().min(1, "Header is required.").max(100, "Header must be less than 100 characters."),
+  description: z.string().min(1, "Description is required.").max(500, "Description must be less than 500 characters."),
+  buttonLabel: z.string().min(1, "Button label is required.").max(50, "Button label must be less than 50 characters."),
+  buttonLink: z.string().url("Please enter a valid URL.").or(z.literal("")).or(z.string().regex(/^#/, "Hash links must start with #")),
   isVisible: z.boolean().default(true),
 });
 
