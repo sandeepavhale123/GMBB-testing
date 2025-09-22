@@ -50,8 +50,8 @@ export const GmbProspectReport: React.FC = () => {
     id: item.id,
     item: item.title,
     status: item.status.toLowerCase() === 'failed' ? 'fail' : 'pass',
-    whyItMatters: `This ${item.impact.toLowerCase()} item affects your GMB performance.`,
-    recommendation: `Address this issue to improve your GMB score.`
+    whyItMatters: item.whyItMatters,
+    recommendation: item.recommendations
   }));
 
   const competitorData = reportData.compData

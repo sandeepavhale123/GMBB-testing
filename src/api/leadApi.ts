@@ -635,6 +635,8 @@ export interface GetGmbProspectReportResponse {
       title: string;
       impact: string;
       status: string;
+      whyItMatters: string;
+      recommendations: string;
     }>;
     compData: Array<{
       position: string | number;
