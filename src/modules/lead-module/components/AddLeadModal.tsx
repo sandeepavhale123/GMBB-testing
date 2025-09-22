@@ -143,39 +143,22 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     } catch (error) {
       console.error('Error adding lead:', error);
       
-      // Enhanced error handling based on API response
-      let errorTitle = "Error";
-      let errorDescription = "Failed to add lead. Please try again.";
+      // Extract backend message from API response
+      const backendMessage = (error as any)?.response?.data?.message;
       
-      if (error instanceof Error) {
-        const errorMessage = error.message;
-        
-        // Handle specific API error messages
-        if (errorMessage.includes("Invalid cid found")) {
-          errorTitle = "Invalid Business ID";
-          errorDescription = `Invalid cid found. Try using Google Auto-suggestion or verify your Google Maps URL has the correct business listing.`;
-        } else if (errorMessage.includes("Unauthorized")) {
-          errorTitle = "Authentication Error";
-          errorDescription = `${errorMessage}. Please check your account permissions.`;
-        } else if (errorMessage.includes("Bad Request")) {
-          errorTitle = "Invalid Input";
-          errorDescription = `${errorMessage}. Please check your input and try again.`;
-        } else if (errorMessage.includes("Internal Server")) {
-          errorTitle = "Server Error";
-          errorDescription = `${errorMessage}. Please try again in a few moments.`;
-        } else if (errorMessage.includes("Network") || errorMessage.includes("fetch")) {
-          errorTitle = "Connection Error";
-          errorDescription = "Unable to connect to the server. Please check your internet connection and try again.";
-        } else {
-          errorDescription = errorMessage;
-        }
+      if (backendMessage) {
+        toast({
+          variant: "destructive",
+          title: backendMessage,
+          description: "",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed to add lead",
+          description: "Please try again.",
+        });
       }
-      
-      toast({
-        variant: "destructive",
-        title: errorTitle,
-        description: errorDescription,
-      });
     } finally {
       setIsSubmitting(false);
     }
