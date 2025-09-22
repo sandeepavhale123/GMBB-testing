@@ -603,10 +603,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         language: formData.language,
         keywords: formData.keywords,
         mapPoint: formData.mapPoint,
-        distanceValue:
-          typeof processedDistance === "number"
-            ? processedDistance
-            : parseFloat(processedDistance.replace(/[^0-9.]/g, "")),
+        distanceValue: processedDistance,
         gridSize: parseInt(formData.gridSize.split("x")[0]),
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),
@@ -753,10 +750,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         language: formData.language,
         keywords: formData.keywords,
         mapPoint: formData.mapPoint,
-        distanceValue:
-          typeof processedDistance === "number"
-            ? processedDistance
-            : parseFloat(processedDistance.replace(/[^0-9.]/g, "")),
+        distanceValue: processedDistance,
         gridSize: parseInt(formData.gridSize.split("x")[0]),
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),

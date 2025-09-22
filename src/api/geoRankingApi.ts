@@ -282,7 +282,7 @@ export interface CheckRankRequest {
   language: string;
   keywords: string;
   mapPoint: string;
-  distanceValue: number;
+  distanceValue: number | string;
   gridSize: number;
   searchDataEngine: string;
   scheduleCheck: string;
@@ -617,7 +617,7 @@ export interface AddKeywordsToProjectRequest {
   language: string;
   keywords: string;
   mapPoint: string;
-  distanceValue: number;
+  distanceValue: number | string;
   gridSize: number;
   searchDataEngine: string;
   scheduleCheck: string;
