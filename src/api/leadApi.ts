@@ -614,6 +614,10 @@ export interface GetGmbProspectReportResponse {
   code: number;
   message: string;
   data: {
+    reportTitle: {
+      introduction: string;
+      description: string;
+    };
     reportDetails: {
       bname: string;
       website: string;
@@ -638,19 +642,35 @@ export interface GetGmbProspectReportResponse {
       whyItMatters: string;
       recommendations: string;
     }>;
-    compData: Array<{
-      position: string | number;
-      bname: string;
-      cid: string;
-      rating: number;
-      reviews: number;
-    }>;
-    citationCompData: Array<{
-      position: string | number;
-      bname: string;
-      cid: string;
-      localCitation: number;
-    }>;
+    compData: {
+      info: {
+        title: string;
+        whyItMatters: string;
+        recommendations: string;
+        impact: string;
+      };
+      table: Array<{
+        position: string | number;
+        bname: string;
+        cid: string;
+        rating: number;
+        reviews: number;
+      }>;
+    };
+    citationCompData: {
+      info: {
+        title: string;
+        whyItMatters: string;
+        recommendations: string;
+        impact: string;
+      };
+      table: Array<{
+        position: string | number;
+        bname: string;
+        cid: string;
+        localCitation: number;
+      }>;
+    };
     advancedSuggestions: Array<{
       id: number;
       suggestion: string;

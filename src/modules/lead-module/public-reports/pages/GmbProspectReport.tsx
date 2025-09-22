@@ -54,14 +54,14 @@ export const GmbProspectReport: React.FC = () => {
     recommendation: item.recommendations
   }));
 
-  const competitorData = (reportData.compData || [])
+  const competitorData = (reportData.compData?.table || [])
     .map(comp => ({
       name: comp.bname,
       avgRating: comp.rating,
       reviewCount: comp.reviews
     }));
 
-  const competitorTableData = (reportData.compData || []).map(comp => ({
+  const competitorTableData = (reportData.compData?.table || []).map(comp => ({
     rank: comp.position === "YOU" ? "YOU" : comp.position.toString(),
     name: comp.bname,
     rating: comp.rating,
@@ -96,9 +96,9 @@ export const GmbProspectReport: React.FC = () => {
         {/* Introduction Section */}
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4">Introduction</h2>
+            <h2 className="text-2xl font-bold mb-4">{reportData.reportTitle?.introduction || "Introduction"}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the results of our 10-point evaluation.
+              {reportData.reportTitle?.description || "Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the results of our 10-point evaluation."}
             </p>
           </CardContent>
         </Card>
@@ -300,7 +300,7 @@ export const GmbProspectReport: React.FC = () => {
               </div>
               
               <h3 className="text-base font-semibold text-gray-900 mb-4 pr-20">
-                The listing outperforms or matches its competitors in key areas
+                {reportData.compData?.info?.title || "The listing outperforms or matches its competitors in key areas"}
               </h3>
               
               <div className="space-y-3">
@@ -309,7 +309,7 @@ export const GmbProspectReport: React.FC = () => {
                   <div>
                     <span className="text-sm font-semibold text-gray-900">Why It Matters:</span>
                     <div className="text-sm text-gray-700 mt-1">
-                      standing out among competitors increase the chance of attraction more customer
+                      {reportData.compData?.info?.whyItMatters || "standing out among competitors increase the chance of attraction more customer"}
                     </div>
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export const GmbProspectReport: React.FC = () => {
                   <div>
                     <span className="text-sm font-semibold text-gray-900">Recommendation:</span>
                     <div className="text-sm text-gray-700 mt-1">
-                      standing out among competitors increase the chance of attraction more customer
+                      {reportData.compData?.info?.recommendations || "analyze competitor profile and focus on areas where they excel such as better rating or more details description."}
                     </div>
                   </div>
                 </div>
@@ -440,12 +440,18 @@ export const GmbProspectReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <ul>
-               <li>Add a working website link.</li>
-              <li>Encourage satisfied customers to leave reviews.</li>
-               <li>Average Rating is below 4 star</li>
-               <li>The logo is present and professional.</li>
-               <li>Update your business hours.</li>
-               <li>Less Than 5 Photos. Enhance Photo</li>
+              {reportData.recommendationsSummary?.map((recommendation, index) => (
+                <li key={index}>{recommendation}</li>
+              )) || (
+                <>
+                  <li>Add a working website link.</li>
+                  <li>Encourage satisfied customers to leave reviews.</li>
+                  <li>Average Rating is below 4 star</li>
+                  <li>The logo is present and professional.</li>
+                  <li>Update your business hours.</li>
+                  <li>Less Than 5 Photos. Enhance Photo</li>
+                </>
+              )}
             </ul>
           </CardContent>
         </Card>
