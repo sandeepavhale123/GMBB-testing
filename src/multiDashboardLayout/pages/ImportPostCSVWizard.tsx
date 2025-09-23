@@ -191,7 +191,7 @@ export const ImportPostCSVWizard: React.FC = () => {
   );
 
   const renderStep3 = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div>
         <h2 className="text-2xl font-semibold mb-2">QC</h2>
         <p className="text-muted-foreground">Review your uploaded file and make any necessary adjustments.</p>
