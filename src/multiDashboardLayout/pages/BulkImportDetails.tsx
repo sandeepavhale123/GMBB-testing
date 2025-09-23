@@ -114,7 +114,7 @@ const ListingSidebar = ({
           <Input placeholder="Search by listing name or zip code" value={searchQuery} onChange={e => handleSearchChange(e.target.value)} className="pl-10 text-sm" />
         </div>
         <div className="space-y-2">
-          {filteredListings.map(listing => <div key={listing.id} onClick={() => setSelectedListing(listing.id)} className={`p-3 rounded-lg border cursor-pointer transition-colors ${selectedListing === listing.id ? 'bg-success/10 border-success text-success-foreground' : 'border-border hover:bg-muted/50'}`}>
+          {filteredListings.map(listing => <div key={listing.id} onClick={() => setSelectedListing(listing.id)} className={`p-3 rounded-lg border cursor-pointer transition-colors ${selectedListing === listing.id ? 'bg-success/10 border-success text-success' : 'border-border hover:bg-muted/50'}`}>
               <div className="font-medium text-sm">{listing.name}</div>
               <div className="text-xs text-muted-foreground mt-1">
                 Zip code : {listing.zipCode}
@@ -152,7 +152,7 @@ export const BulkImportDetails: React.FC = () => {
     return matchesSearch && matchesFilter;
   });
   return <div className="min-h-screen bg-background space-y-6">
-         <h1 className="text-2xl font-bold text-foreground">Bulk import Details</h1>
+         <h1 class="text-2xl font-bold text-foreground">Bulk import Details</h1>
       {/* Main Content */}
       <div className="flex gap-6 \n"> 
         {/* Left Sidebar - Hidden on mobile */}
