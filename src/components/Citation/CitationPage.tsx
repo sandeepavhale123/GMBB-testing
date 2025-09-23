@@ -16,7 +16,6 @@ import { useCreateCitationReport, useGetCitationReport, useRefreshCitationReport
 import { useListingContext } from "@/context/ListingContext";
 import { FileSearch } from "lucide-react";
 import { Loader } from "../ui/loader";
-import { ReportGenerationModal } from "@/components/ReportGenerationModal";
 type TrackerData = {
   listed: number;
   notListed: number;
@@ -112,10 +111,6 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
-  const [reportModalOpen, setReportModalOpen] = useState(false);
-  const [reportModalState, setReportModalState] = useState<'loading' | 'success' | 'error'>('loading');
-  const [reportUrl, setReportUrl] = useState<string>('');
-  const [reportErrorMessage, setReportErrorMessage] = useState<string>('');
   const [searchData, setSearchData] = useState({
     businessName: "",
     phone: "",
@@ -224,26 +219,10 @@ export const CitationPage: React.FC = () => {
       address: cityValue
     };
     console.log("handleSearch - Final API payload:", payload);
-    // Show the report modal first
-    setReportModalState('loading');
-    setReportModalOpen(true);
-
     createCitationReport(payload, {
-      onSuccess: (response) => {
-        // Set the report URL and show success state
-        if (response?.data?.reportUrl) {
-          setReportUrl(response.data.reportUrl);
-          setReportModalState('success');
-        } else {
-          setReportModalState('success');
-        }
-        
+      onSuccess: () => {
         setHasSearched(true);
         refetch();
-      },
-      onError: (error: any) => {
-        setReportErrorMessage(error?.response?.data?.message || "Failed to create citation report");
-        setReportModalState('error');
       }
     });
   };
@@ -257,41 +236,6 @@ export const CitationPage: React.FC = () => {
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("handleCityInputChange - Manual typing detected:", e.target.value);
     handleInputChange("city", e.target.value);
-  };
-
-  const handleReportModalClose = () => {
-    setReportModalOpen(false);
-    setReportUrl('');
-    setReportErrorMessage('');
-  };
-
-  const handleRetryReport = () => {
-    // Retry the search
-    const cityValue = cityInputRef.current?.getValue() || searchData.city;
-    const payload = {
-      listingId: selectedListing?.id || 0,
-      businessName: searchData.businessName,
-      phone: searchData.phone,
-      address: cityValue
-    };
-    
-    setReportModalState('loading');
-    createCitationReport(payload, {
-      onSuccess: (response) => {
-        if (response?.data?.reportUrl) {
-          setReportUrl(response.data.reportUrl);
-          setReportModalState('success');
-        } else {
-          setReportModalState('success');
-        }
-        setHasSearched(true);
-        refetch();
-      },
-      onError: (error: any) => {
-        setReportErrorMessage(error?.response?.data?.message || "Failed to create citation report");
-        setReportModalState('error');
-      }
-    });
   };
   if (isPageLoading) {
     return <div className="min-h-screen flex w-full">
@@ -488,17 +432,5 @@ export const CitationPage: React.FC = () => {
       </div>
 
       <PlaceOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      
-      {/* Report Generation Modal */}
-      <ReportGenerationModal
-        open={reportModalOpen}
-        onClose={handleReportModalClose}
-        reportType="citation-audit"
-        state={reportModalState}
-        reportUrl={reportUrl}
-        errorMessage={reportErrorMessage}
-        onRetry={handleRetryReport}
-      />
-    </div>
-  );
+    </div>;
 };

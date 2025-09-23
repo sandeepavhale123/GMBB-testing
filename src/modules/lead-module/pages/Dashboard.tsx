@@ -14,7 +14,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport, useDeleteLead } from "@/api/leadApi";
 import { toast } from "sonner";
-import { ReportGenerationModal, ReportType } from "@/components/ReportGenerationModal";
+import { ListingLoader } from "@/components/ui/listing-loader";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -75,11 +75,6 @@ const Dashboard: React.FC = () => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [leadToDelete, setLeadToDelete] = useState<Lead | null>(null);
-  const [reportModalOpen, setReportModalOpen] = useState(false);
-  const [reportModalState, setReportModalState] = useState<'loading' | 'success' | 'error'>('loading');
-  const [reportType, setReportType] = useState<ReportType>('gmb-health');
-  const [reportUrl, setReportUrl] = useState<string>('');
-  const [reportErrorMessage, setReportErrorMessage] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
@@ -129,23 +124,14 @@ const Dashboard: React.FC = () => {
       // Find the lead to get its reportId
       const lead = leads.find(l => l.id === leadId);
       if (lead?.reportId) {
-        setReportType('gmb-health');
-        setReportModalState('loading');
-        setReportModalOpen(true);
-        
         createGmbHealthReport.mutate({
           reportId: lead.reportId
         }, {
           onSuccess: data => {
-            setReportUrl(data.data.reportUrl);
-            setReportModalState('success');
+            window.open(data.data.reportUrl, '_blank');
             // Refetch leads and summary data to show updated report status
             refetch();
             refetchSummary();
-          },
-          onError: (error: any) => {
-            setReportErrorMessage(error?.response?.data?.message || 'Failed to generate GMB Health Report');
-            setReportModalState('error');
           }
         });
       } else {
@@ -178,25 +164,16 @@ const Dashboard: React.FC = () => {
       // Find the lead to get its reportId
       const lead = leads?.find(l => l.id === leadId);
       if (lead?.reportId) {
-        setReportType('gmb-prospect');
-        setReportModalState('loading');
-        setReportModalOpen(true);
-        
         // Create prospect report for the lead
         createGmbProspectReport.mutate({
           reportId: lead.reportId
         }, {
-          onSuccess: data => {
-            setReportUrl(data.data.reportUrl);
-            setReportModalState('success');
-            // Refetch leads and summary data to show updated report status
-            refetch();
-            refetchSummary();
-          },
-          onError: (error: any) => {
-            setReportErrorMessage(error?.response?.data?.message || 'Failed to generate GMB Prospect Report');
-            setReportModalState('error');
-          }
+        onSuccess: data => {
+          window.open(data.data.reportUrl, '_blank');
+          // Refetch leads and summary data to show updated report status
+          refetch();
+          refetchSummary();
+        }
         });
       } else {
         toast.error('No report ID found for this lead');
@@ -259,21 +236,24 @@ const Dashboard: React.FC = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
-  const handleRetryReport = () => {
-    // This would retry the last failed report generation
-    setReportModalState('loading');
-    // The actual retry logic would depend on which report failed
-  };
-
-  const handleReportModalClose = () => {
-    setReportModalOpen(false);
-    setReportUrl('');
-    setReportErrorMessage('');
+  const isGeneratingReport = createGmbHealthReport.isPending || createGmbProspectReport.isPending;
+  
+  const getLoadingMessage = () => {
+    if (createGmbHealthReport.isPending && createGmbProspectReport.isPending) {
+      return "Generating reports...";
+    }
+    if (createGmbHealthReport.isPending) {
+      return "Generating GMB Health Report...";
+    }
+    if (createGmbProspectReport.isPending) {
+      return "Generating GMB Prospect Report...";
+    }
+    return "Loading...";
   };
 
   return (
-    <div className="space-y-6">
+    <ListingLoader isLoading={isGeneratingReport} loadingText={getLoadingMessage()}>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -455,17 +435,6 @@ const Dashboard: React.FC = () => {
       {/* Lead Classifier Modal */}
       <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
 
-      {/* Report Generation Modal */}
-      <ReportGenerationModal
-        open={reportModalOpen}
-        onClose={handleReportModalClose}
-        reportType={reportType}
-        state={reportModalState}
-        reportUrl={reportUrl}
-        errorMessage={reportErrorMessage}
-        onRetry={handleRetryReport}
-      />
-
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
@@ -492,8 +461,7 @@ const Dashboard: React.FC = () => {
         </AlertDialogContent>
       </AlertDialog>
       </div>
-    </div>
+    </ListingLoader>
   );
 };
-
 export default Dashboard;
