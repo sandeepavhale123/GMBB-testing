@@ -68,8 +68,7 @@ export const ImportPostCSV: React.FC = () => {
   };
 
   const handleView = (id: number) => {
-    // TODO: Navigate to CSV import details
-    console.log('View CSV import:', id);
+    navigate(`/main-dashboard/bulk-import-details/${id}`);
   };
 
   const handleDelete = (id: number) => {
