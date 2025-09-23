@@ -24,7 +24,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {photos.slice(0, 4).map((photo) => (
             <div key={photo.id} className="aspect-square relative overflow-hidden rounded-lg border">
               <img 
