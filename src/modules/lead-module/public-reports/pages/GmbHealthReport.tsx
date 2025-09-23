@@ -159,7 +159,7 @@ export const GmbHealthReport: React.FC = () => {
   const brandingData = brandingResponse?.data || null;
 
   // Transform posts from API data
-  const posts = (reportData.communication?.posts || []).slice(0, 3).map(post => ({
+  const posts = (reportData.communication?.posts || []).slice(0, 9).map(post => ({
     id: post.position.toString(),
     image: post.image,
     description: post.body,
