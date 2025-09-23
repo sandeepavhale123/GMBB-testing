@@ -16,6 +16,8 @@ import { useCreateCitationReport, useGetCitationReport, useRefreshCitationReport
 import { useListingContext } from "@/context/ListingContext";
 import { FileSearch } from "lucide-react";
 import { Loader } from "../ui/loader";
+import { ReportProgressModal } from "@/components/Dashboard/ReportProgressModal";
+import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 type TrackerData = {
   listed: number;
   notListed: number;
@@ -111,6 +113,10 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [reportProgressOpen, setReportProgressOpen] = useState(false);
+  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportUrl, setReportUrl] = useState<string>('');
+  const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
   const [searchData, setSearchData] = useState({
     businessName: "",
     phone: "",
@@ -219,10 +225,19 @@ export const CitationPage: React.FC = () => {
       address: cityValue
     };
     console.log("handleSearch - Final API payload:", payload);
+
+    setReportStatus('loading');
+    setReportProgressOpen(true);
+
     createCitationReport(payload, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setReportStatus('success');
+        setReportUrl(data.data.reportUrl || '');
         setHasSearched(true);
         refetch();
+      },
+      onError: () => {
+        setReportStatus('error');
       }
     });
   };
@@ -236,6 +251,11 @@ export const CitationPage: React.FC = () => {
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("handleCityInputChange - Manual typing detected:", e.target.value);
     handleInputChange("city", e.target.value);
+  };
+
+  const handleReportProgressSuccess = () => {
+    setReportProgressOpen(false);
+    setCopyUrlModalOpen(true);
   };
   if (isPageLoading) {
     return <div className="min-h-screen flex w-full">
@@ -432,5 +452,21 @@ export const CitationPage: React.FC = () => {
       </div>
 
       <PlaceOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* Report Progress Modal */}
+      <ReportProgressModal
+        open={reportProgressOpen}
+        onOpenChange={setReportProgressOpen}
+        reportType="citation-audit"
+        status={reportStatus}
+        onSuccess={handleReportProgressSuccess}
+      />
+
+      {/* Copy URL Modal */}
+      <CopyUrlModal
+        open={copyUrlModalOpen}
+        onOpenChange={setCopyUrlModalOpen}
+        reportUrl={reportUrl}
+      />
     </div>;
 };
