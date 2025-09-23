@@ -99,7 +99,10 @@ export const BulkPost: React.FC = () => {
           <p className="text-muted-foreground">Create and schedule posts across multiple listings.</p>
         </div>
         <div>
-          <Button className='self-start sm:self-auto mr-2'>
+          <Button 
+            className='self-start sm:self-auto mr-2'
+            onClick={() => navigate('/main-dashboard/import-post-csv')}
+          >
             <Import className="w-4 h-4 mr-1" />
             Import  CSV
           </Button>

@@ -27,6 +27,7 @@ import { ManageGroupsWrapper } from "@/multiDashboardLayout/components/settings/
 import { GroupDetailsWrapper } from "@/multiDashboardLayout/components/settings/GroupDetailsWrapper";
 import { RouteConfig } from "../routeConfig";
 import { Profile } from "@/multiDashboardLayout/pages/Profile";
+import { ImportPostCSV } from "@/multiDashboardLayout/pages/ImportPostCSV";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -50,6 +51,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-post",
         element: <BulkPost />,
+      },
+      {
+        path: "import-post-csv",
+        element: <ImportPostCSV />,
       },
       {
         path: "bulk-media",
