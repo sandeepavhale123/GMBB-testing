@@ -203,22 +203,38 @@ export const ImportPostCSVWizard: React.FC = () => {
 
       <Card className="border-orange-200 bg-orange-50">
         <CardContent className="p-4">
-          <div className="flex items-center gap-2 text-orange-700">
-            <AlertTriangle className="w-5 h-5" />
-            <span className="font-medium">Please fix the suggested issue and re-upload the file.</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-orange-700">
+              <AlertTriangle className="w-5 h-5" />
+              <span className="font-medium">Please fix the suggested issue and re-upload the file.</span>
+            </div>
+            <div>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setFormData(prev => ({ ...prev, uploadedFile: file }));
+                  }
+                  e.target.value = "";
+                }}
+                className="hidden"
+                id="reupload-input"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById('reupload-input')?.click()}
+                className="text-orange-700 border-orange-300 hover:bg-orange-100"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Re-upload
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
-
-      <div className="flex justify-center">
-        <CSVDropzone 
-          onFileUploaded={(file) => 
-            setFormData(prev => ({ ...prev, uploadedFile: file }))
-          }
-          uploadedFile={formData.uploadedFile}
-          isReupload={true}
-        />
-      </div>
 
       <div>
         <label className="block text-sm font-medium mb-2">Note</label>
