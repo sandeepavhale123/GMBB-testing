@@ -289,6 +289,9 @@ const Dashboard: React.FC = () => {
   const handleCitationReportProgress = (status: 'loading' | 'success' | 'error', url?: string) => {
     setCitationReportStatus(status);
     setCitationProgressOpen(true);
+    if (status === 'loading') {
+      setCitationModalOpen(false);
+    }
     if (url) setCitationReportUrl(url);
   };
 
@@ -311,6 +314,9 @@ const Dashboard: React.FC = () => {
   const handleGeoReportProgress = (status: 'loading' | 'success' | 'error', url?: string) => {
     setGeoReportStatus(status);
     setGeoProgressOpen(true);
+    if (status === 'loading') {
+      setGeoModalOpen(false);
+    }
     if (url) setGeoReportUrl(url);
   };
 
