@@ -85,7 +85,7 @@ export const ImportPostCSVWizard: React.FC = () => {
   };
 
   const renderStepIndicator = () => (
-    <div className="w-64 bg-muted/50 p-6">
+    <div className="w-64 bg-muted/50 p-6 min-h-[80vh]">
       <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
       <div className="space-y-4">
         {steps.map((step) => (
