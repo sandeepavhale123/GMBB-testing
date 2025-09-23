@@ -237,9 +237,22 @@ const Dashboard: React.FC = () => {
     setCurrentPage(page);
   };
   const isGeneratingReport = createGmbHealthReport.isPending || createGmbProspectReport.isPending;
+  
+  const getLoadingMessage = () => {
+    if (createGmbHealthReport.isPending && createGmbProspectReport.isPending) {
+      return "Generating reports...";
+    }
+    if (createGmbHealthReport.isPending) {
+      return "Generating GMB Health Report...";
+    }
+    if (createGmbProspectReport.isPending) {
+      return "Generating GMB Prospect Report...";
+    }
+    return "Loading...";
+  };
 
   return (
-    <ListingLoader isLoading={isGeneratingReport} >
+    <ListingLoader isLoading={isGeneratingReport} loadingText={getLoadingMessage()}>
       <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
