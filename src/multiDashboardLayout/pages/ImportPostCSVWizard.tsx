@@ -105,7 +105,7 @@ export const ImportPostCSVWizard: React.FC = () => {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   };
-  const renderStepIndicator = () => <div className="w-64 border border-gray-200 p-6 hidden lg:block min-h-[80vh]">
+  const renderStepIndicator = () => <div className="w-64 border-r border-gray-200 p-6 hidden lg:block min-h-[80vh]">
       <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
       <div className="space-y-4">
         {steps.map(step => <div key={step.number} className="flex items-center gap-3">
@@ -281,7 +281,7 @@ export const ImportPostCSVWizard: React.FC = () => {
         return renderStep1();
     }
   };
-  return <div className="min-h-screen bg-background border border-gray-200">
+  return <div className="min-h-[80vh] bg-background border border-gray-200">
       {renderMobileStepIndicator()}
       <div className="flex">
         {renderStepIndicator()}
