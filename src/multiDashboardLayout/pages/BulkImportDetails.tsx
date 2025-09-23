@@ -170,27 +170,6 @@ export const BulkImportDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="flex items-center justify-between p-6">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleBack}
-              className="h-8 w-8 p-0"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <h1 className="text-2xl font-bold text-foreground">
-              Bulk import Details
-            </h1>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Total post {mockPosts.length}
-          </div>
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="flex gap-6 p-6">
