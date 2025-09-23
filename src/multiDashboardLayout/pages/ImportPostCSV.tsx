@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Trash2 } from 'lucide-react';
@@ -60,9 +61,10 @@ const getStatusColor = (status: CSVImportRecord['status']) => {
 };
 
 export const ImportPostCSV: React.FC = () => {
+  const navigate = useNavigate();
+  
   const handleImport = () => {
-    // TODO: Implement CSV import functionality
-    console.log('Import CSV clicked');
+    navigate('/main-dashboard/import-post-csv-wizard');
   };
 
   const handleView = (id: number) => {
