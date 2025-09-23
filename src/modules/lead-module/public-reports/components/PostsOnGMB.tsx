@@ -28,7 +28,7 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.slice(0, 4).map((post) => (
+          {posts.map((post) => (
             <Card key={post.id} className="overflow-hidden">
               <div className="aspect-video">
                 <img 
@@ -51,25 +51,6 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
               </CardContent>
             </Card>
           ))}
-          {posts.length > 4 && (
-            <Card className="overflow-hidden">
-              <div className="aspect-video flex items-center justify-center bg-muted">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-muted-foreground mb-2">
-                    +{posts.length - 4}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    more posts
-                  </p>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <Button variant="outline" className="w-full">
-                  View All Posts
-                </Button>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </CardContent>
     </Card>
