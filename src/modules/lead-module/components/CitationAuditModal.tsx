@@ -24,6 +24,7 @@ import { z } from "zod";
 import { Loader2, X } from "lucide-react";
 import { useCreateLeadCitationReport } from "@/api/leadApi";
 import { toast } from "sonner";
+import { ReportGenerationModal } from "@/components/ReportGenerationModal";
 
 const citationAuditSchema = z.object({
   businessName: z.string().min(1, "Business name is required."),
@@ -52,6 +53,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   onSuccess,
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportModalState, setReportModalState] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportUrl, setReportUrl] = useState<string>('');
+  const [reportErrorMessage, setReportErrorMessage] = useState<string>('');
   const createCitationReport = useCreateLeadCitationReport();
 
   const form = useForm<CitationAuditFormData>({
@@ -97,23 +102,31 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       short_country: cityData.country,
     };
 
+    // Show the report modal first
+    setReportModalState('loading');
+    setReportModalOpen(true);
+
     createCitationReport.mutate(payload, {
       onSuccess: (response) => {
         toast.success("Citation audit report created successfully!");
         
-        // Open the report in a new tab
+        // Set the report URL and show success state
         if (response.data.reportUrl) {
-          window.open(response.data.reportUrl, '_blank');
+          setReportUrl(response.data.reportUrl);
+          setReportModalState('success');
         }
         
         // Call the onSuccess callback to refetch data
         onSuccess?.();
         
+        // Close the form modal
         onClose();
         form.reset();
         setCityData(null);
       },
       onError: (error: any) => {
+        setReportErrorMessage(error?.response?.data?.message || "Failed to create citation audit report");
+        setReportModalState('error');
         toast.error(error?.response?.data?.message || "Failed to create citation audit report");
       },
     });
@@ -123,6 +136,17 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
     onClose();
     form.reset();
     setCityData(null);
+  };
+
+  const handleReportModalClose = () => {
+    setReportModalOpen(false);
+    setReportUrl('');
+    setReportErrorMessage('');
+  };
+
+  const handleRetryReport = () => {
+    // Retry the form submission
+    form.handleSubmit(onSubmit)();
   };
 
   return (
@@ -242,6 +266,17 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
           </form>
         </Form>
       </DialogContent>
+      
+      {/* Report Generation Modal */}
+      <ReportGenerationModal
+        open={reportModalOpen}
+        onClose={handleReportModalClose}
+        reportType="citation-audit"
+        state={reportModalState}
+        reportUrl={reportUrl}
+        errorMessage={reportErrorMessage}
+        onRetry={handleRetryReport}
+      />
     </Dialog>
   );
 };

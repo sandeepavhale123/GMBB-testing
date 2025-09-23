@@ -33,6 +33,7 @@ import { Loader2 } from "lucide-react";
 import { useCreateGeoReport } from "@/api/leadApi";
 import { toast } from "sonner";
 import { processDistanceValue, getDistanceOptions } from "@/utils/geoRankingUtils";
+import { ReportGenerationModal } from "@/components/ReportGenerationModal";
 
 const geoRankingSchema = z.object({
   keywords: z.string()
@@ -67,6 +68,10 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
 }) => {
   const createGeoReport = useCreateGeoReport();
   const navigate = useNavigate();
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportModalState, setReportModalState] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportUrl, setReportUrl] = useState<string>('');
+  const [reportErrorMessage, setReportErrorMessage] = useState<string>('');
 
   const form = useForm<GeoRankingFormData>({
     resolver: zodResolver(geoRankingSchema),
@@ -90,22 +95,30 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       gridSize: data.gridSize,
     };
 
+    // Show the report modal first
+    setReportModalState('loading');
+    setReportModalOpen(true);
+
     createGeoReport.mutate(payload, {
       onSuccess: (response) => {
         toast.success("GEO Ranking Report created successfully!");
         
-        // Navigate to the report URL or show success
+        // Set the report URL and show success state
         if (response.data.reportUrl) {
-          window.open(response.data.reportUrl, '_blank');
+          setReportUrl(response.data.reportUrl);
+          setReportModalState('success');
         }
         
         // Call the onSuccess callback to refetch data
         onSuccess?.();
         
+        // Close the form modal
         onClose();
         form.reset();
       },
       onError: (error: any) => {
+        setReportErrorMessage(error?.response?.data?.message || "Failed to create GEO ranking report.");
+        setReportModalState('error');
         toast.error(error?.response?.data?.message || "Failed to create GEO ranking report.");
       },
     });
@@ -114,6 +127,17 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
   const handleClose = () => {
     onClose();
     form.reset();
+  };
+
+  const handleReportModalClose = () => {
+    setReportModalOpen(false);
+    setReportUrl('');
+    setReportErrorMessage('');
+  };
+
+  const handleRetryReport = () => {
+    // Retry the form submission
+    form.handleSubmit(onSubmit)();
   };
 
   return (
@@ -249,6 +273,17 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
           </form>
         </Form>
       </DialogContent>
+      
+      {/* Report Generation Modal */}
+      <ReportGenerationModal
+        open={reportModalOpen}
+        onClose={handleReportModalClose}
+        reportType="geo-ranking"
+        state={reportModalState}
+        reportUrl={reportUrl}
+        errorMessage={reportErrorMessage}
+        onRetry={handleRetryReport}
+      />
     </Dialog>
   );
 };
