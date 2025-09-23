@@ -17,7 +17,7 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Posts On GMB</CardTitle>
+        <CardTitle>Posts On GMB ({posts.length} posts)</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground mb-6">
