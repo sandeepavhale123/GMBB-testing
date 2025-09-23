@@ -78,7 +78,7 @@ const Dashboard: React.FC = () => {
   const [leadToDelete, setLeadToDelete] = useState<Lead | null>(null);
   const [reportProgressOpen, setReportProgressOpen] = useState(false);
   const [reportType, setReportType] = useState<ReportType>('gmb-health');
-  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
   const [reportUrl, setReportUrl] = useState<string>('');
   const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
@@ -131,8 +131,9 @@ const Dashboard: React.FC = () => {
       const lead = leads.find(l => l.id === leadId);
       if (lead?.reportId) {
         setReportType('gmb-health');
-        setReportStatus('loading');
+        setReportUrl('');
         setReportProgressOpen(true);
+        setReportStatus('loading');
         
         createGmbHealthReport.mutate({
           reportId: lead.reportId
@@ -179,8 +180,9 @@ const Dashboard: React.FC = () => {
       const lead = leads?.find(l => l.id === leadId);
       if (lead?.reportId) {
         setReportType('gmb-prospect');
-        setReportStatus('loading');
+        setReportUrl('');
         setReportProgressOpen(true);
+        setReportStatus('loading');
         
         // Create prospect report for the lead
         createGmbProspectReport.mutate({
@@ -261,7 +263,16 @@ const Dashboard: React.FC = () => {
 
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
+    setReportStatus(null);
     setCopyUrlModalOpen(true);
+  };
+
+  const handleReportProgressClose = (open: boolean) => {
+    setReportProgressOpen(open);
+    if (!open) {
+      setReportStatus(null);
+      setReportUrl('');
+    }
   };
 
   return (
@@ -448,13 +459,15 @@ const Dashboard: React.FC = () => {
       <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
 
       {/* Report Progress Modal */}
-      <ReportProgressModal
-        open={reportProgressOpen}
-        onOpenChange={setReportProgressOpen}
-        reportType={reportType}
-        status={reportStatus}
-        onSuccess={handleReportProgressSuccess}
-      />
+      {reportStatus && (
+        <ReportProgressModal
+          open={reportProgressOpen}
+          onOpenChange={handleReportProgressClose}
+          reportType={reportType}
+          status={reportStatus}
+          onSuccess={handleReportProgressSuccess}
+        />
+      )}
 
       {/* Copy URL Modal */}
       <CopyUrlModal
