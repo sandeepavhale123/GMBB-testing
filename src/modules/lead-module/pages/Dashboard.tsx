@@ -14,6 +14,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLeads, ApiLead, useCreateGmbHealthReport, useCreateGmbProspectReport, useLeadSummary, useCreateGeoReport, useDeleteLead } from "@/api/leadApi";
 import { toast } from "sonner";
+import { ListingLoader } from "@/components/ui/listing-loader";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -235,7 +236,11 @@ const Dashboard: React.FC = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-  return <div className="space-y-6">
+  const isGeneratingReport = createGmbHealthReport.isPending || createGmbProspectReport.isPending;
+
+  return (
+    <ListingLoader isLoading={isGeneratingReport} >
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -442,6 +447,8 @@ const Dashboard: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>;
+      </div>
+    </ListingLoader>
+  );
 };
 export default Dashboard;
