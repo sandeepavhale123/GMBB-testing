@@ -55,7 +55,7 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
   const [reportProgressOpen, setReportProgressOpen] = useState(false);
-  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
   const [reportUrl, setReportUrl] = useState<string>('');
   const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
   const createCitationReport = useCreateLeadCitationReport();
@@ -103,8 +103,9 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       short_country: cityData.country,
     };
 
-    setReportStatus('loading');
+    setReportUrl('');
     setReportProgressOpen(true);
+    setReportStatus('loading');
 
     createCitationReport.mutate(payload, {
       onSuccess: (response) => {
@@ -134,7 +135,16 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
 
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
+    setReportStatus(null);
     setCopyUrlModalOpen(true);
+  };
+
+  const handleReportProgressClose = (open: boolean) => {
+    setReportProgressOpen(open);
+    if (!open) {
+      setReportStatus(null);
+      setReportUrl('');
+    }
   };
 
   return (
@@ -256,13 +266,15 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       </DialogContent>
 
       {/* Report Progress Modal */}
-      <ReportProgressModal
-        open={reportProgressOpen}
-        onOpenChange={setReportProgressOpen}
-        reportType="citation-audit"
-        status={reportStatus}
-        onSuccess={handleReportProgressSuccess}
-      />
+      {reportStatus && (
+        <ReportProgressModal
+          open={reportProgressOpen}
+          onOpenChange={handleReportProgressClose}
+          reportType="citation-audit"
+          status={reportStatus}
+          onSuccess={handleReportProgressSuccess}
+        />
+      )}
 
       {/* Copy URL Modal */}
       <CopyUrlModal

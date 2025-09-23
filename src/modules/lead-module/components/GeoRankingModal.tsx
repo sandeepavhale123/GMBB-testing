@@ -70,7 +70,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
   const createGeoReport = useCreateGeoReport();
   const navigate = useNavigate();
   const [reportProgressOpen, setReportProgressOpen] = useState(false);
-  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
   const [reportUrl, setReportUrl] = useState<string>('');
   const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
 
@@ -96,8 +96,9 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       gridSize: data.gridSize,
     };
 
-    setReportStatus('loading');
+    setReportUrl('');
     setReportProgressOpen(true);
+    setReportStatus('loading');
 
     createGeoReport.mutate(payload, {
       onSuccess: (response) => {
@@ -125,7 +126,16 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
 
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
+    setReportStatus(null);
     setCopyUrlModalOpen(true);
+  };
+
+  const handleReportProgressClose = (open: boolean) => {
+    setReportProgressOpen(open);
+    if (!open) {
+      setReportStatus(null);
+      setReportUrl('');
+    }
   };
 
   return (
@@ -263,13 +273,15 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       </DialogContent>
 
       {/* Report Progress Modal */}
-      <ReportProgressModal
-        open={reportProgressOpen}
-        onOpenChange={setReportProgressOpen}
-        reportType="geo-ranking"
-        status={reportStatus}
-        onSuccess={handleReportProgressSuccess}
-      />
+      {reportStatus && (
+        <ReportProgressModal
+          open={reportProgressOpen}
+          onOpenChange={handleReportProgressClose}
+          reportType="geo-ranking"
+          status={reportStatus}
+          onSuccess={handleReportProgressSuccess}
+        />
+      )}
 
       {/* Copy URL Modal */}
       <CopyUrlModal

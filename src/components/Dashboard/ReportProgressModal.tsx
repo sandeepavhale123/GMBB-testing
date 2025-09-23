@@ -45,14 +45,14 @@ export const ReportProgressModal: React.FC<ReportProgressModalProps> = ({
   onSuccess,
 }) => {
   React.useEffect(() => {
-    if (status === 'success' && onSuccess) {
+    if (open && status === 'success' && onSuccess) {
       // Small delay to show success state briefly before transitioning
       const timer = setTimeout(() => {
         onSuccess();
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [status, onSuccess]);
+  }, [open, status, onSuccess]);
 
   const renderContent = () => {
     if (status === 'loading') {
