@@ -119,12 +119,14 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Eye className="w-5 h-5" />
-          File Preview
-        </CardTitle>
-        <div className="text-sm text-muted-foreground">
-          Showing first 10 rows • Total rows in file: {csvData.length}
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Eye className="w-5 h-5" />
+            File Preview
+          </CardTitle>
+          <div className="text-sm text-muted-foreground">
+            Showing first 10 rows • Total rows in file: {csvData.length}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
