@@ -24,8 +24,8 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {photos.map((photo) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {photos.slice(0, 4).map((photo) => (
             <div key={photo.id} className="aspect-square relative overflow-hidden rounded-lg border">
               <img 
                 src={photo.url} 
@@ -42,12 +42,12 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
               )}
             </div>
           ))}
-          {photos.length < totalCount && (
-            <div className="aspect-square flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
+          {totalCount > 4 && (
+            <div className="aspect-square flex items-center justify-center bg-muted rounded-lg border">
               <div className="text-center">
-                <Camera className="h-6 w-6 mx-auto text-gray-400 mb-1" />
-                <span className="text-xs text-gray-500">
-                  +{totalCount - photos.length} more
+                <Camera className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
+                <span className="text-sm font-medium text-muted-foreground">
+                  +{totalCount - 4} more images
                 </span>
               </div>
             </div>
