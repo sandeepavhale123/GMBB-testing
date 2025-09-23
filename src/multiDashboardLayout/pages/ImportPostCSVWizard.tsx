@@ -191,7 +191,7 @@ export const ImportPostCSVWizard: React.FC = () => {
   );
 
   const renderStep3 = () => (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-semibold mb-2">QC</h2>
         <p className="text-muted-foreground">Review your uploaded file and make any necessary adjustments.</p>
@@ -298,7 +298,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       <div className="flex">
         {renderStepIndicator()}
         <div className="flex-1 p-8">
-          <div className="max-w-2xl">
+          <div className="max-x-[100%]">
             {renderCurrentStep()}
           </div>
         </div>
