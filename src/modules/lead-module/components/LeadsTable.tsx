@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { ActionDropdown } from "./ActionDropdown";
 import { format, parse, isValid } from "date-fns";
@@ -52,23 +51,15 @@ export interface Lead {
 
 interface LeadsTableProps {
   leads: Lead[];
-  selectedLeads: string[];
-  onSelectLead: (leadId: string, checked: boolean) => void;
-  onSelectAll: (checked: boolean) => void;
   onAction: (action: string, leadId: string) => void;
   isLoading?: boolean;
 }
 
 export const LeadsTable: React.FC<LeadsTableProps> = ({
   leads,
-  selectedLeads,
-  onSelectLead,
-  onSelectAll,
   onAction,
   isLoading = false,
 }) => {
-  const isAllSelected = leads.length > 0 && selectedLeads.length === leads.length;
-  const isIndeterminate = selectedLeads.length > 0 && selectedLeads.length < leads.length;
 
   const formatDate = (dateString: string) => {
     try {
@@ -91,9 +82,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">
-                <Checkbox disabled />
-              </TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Business Name</TableHead>
               <TableHead>Phone</TableHead>
@@ -105,7 +93,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
           <TableBody>
             {Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
-                <TableCell><div className="h-4 w-4 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-32 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-24 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-20 bg-muted rounded animate-pulse" /></TableCell>
@@ -125,14 +112,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-12">
-              <Checkbox
-                checked={isAllSelected}
-                onCheckedChange={onSelectAll}
-                aria-label="Select all"
-                {...(isIndeterminate && { "data-state": "indeterminate" })}
-              />
-            </TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Phone</TableHead>
@@ -144,22 +123,13 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
         <TableBody>
           {leads.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                 No leads found. Add your first lead to get started.
               </TableCell>
             </TableRow>
           ) : (
             leads.map((lead) => (
               <TableRow key={lead.id}>
-                <TableCell>
-                  <Checkbox
-                    checked={selectedLeads.includes(lead.id)}
-                    onCheckedChange={(checked) => 
-                      onSelectLead(lead.id, checked as boolean)
-                    }
-                    aria-label={`Select ${lead.businessName}`}
-                  />
-                </TableCell>
                 <TableCell className="font-medium">{lead.email || 'N/A'}</TableCell>
                 <TableCell>{lead.businessName}</TableCell>
                 <TableCell>{lead.phone}</TableCell>

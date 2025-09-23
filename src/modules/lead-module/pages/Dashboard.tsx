@@ -64,7 +64,6 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
 });
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -127,12 +126,6 @@ const Dashboard: React.FC = () => {
     // Refetch leads and summary after adding a new lead
     refetch();
     refetchSummary();
-  };
-  const handleSelectLead = (leadId: string, checked: boolean) => {
-    setSelectedLeads(prev => checked ? [...prev, leadId] : prev.filter(id => id !== leadId));
-  };
-  const handleSelectAll = (checked: boolean) => {
-    setSelectedLeads(checked ? leads.map(lead => lead.id) : []);
   };
   const handleAction = (action: string, leadId: string) => {
     console.log(`Action: ${action} for lead: ${leadId}`);
@@ -420,15 +413,12 @@ const Dashboard: React.FC = () => {
                 Manage your lead database and track interactions
               </CardDescription>
             </div> */}
-            {selectedLeads.length > 0 && <Badge variant="secondary">
-                {selectedLeads.length} selected
-              </Badge>}
           </div>
         </CardHeader>
         <CardContent>
           <LeadTableFilters searchQuery={searchQuery} onSearchChange={setSearchQuery} emailFilter={emailFilter} onEmailFilterChange={setEmailFilter} categoryFilter={categoryFilter} onCategoryFilterChange={setCategoryFilter} onClearFilters={handleClearFilters} />
 
-          <LeadsTable leads={leads} selectedLeads={selectedLeads} onSelectLead={handleSelectLead} onSelectAll={handleSelectAll} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending || deleteLeadMutation.isPending} />
+          <LeadsTable leads={leads} onAction={handleAction} isLoading={isLoading || createGmbHealthReport.isPending || createGmbProspectReport.isPending || createGeoReport.isPending || deleteLeadMutation.isPending} />
 
           {totalPages > 1 && <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <div className="text-sm text-muted-foreground">
