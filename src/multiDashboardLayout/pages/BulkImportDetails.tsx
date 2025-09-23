@@ -151,10 +151,10 @@ export const BulkImportDetails: React.FC = () => {
     const matchesFilter = filterValue === 'all' || post.status.toLowerCase() === filterValue.toLowerCase();
     return matchesSearch && matchesFilter;
   });
-  return <div className="min-h-screen bg-background">
-
+  return <div className="min-h-screen bg-background space-y-6">
+         <h1 class="text-2xl font-bold text-foreground">Bulk import Details</h1>
       {/* Main Content */}
-      <div className="flex gap-6 \n">
+      <div className="flex gap-6 \n"> 
         {/* Left Sidebar - Hidden on mobile */}
         <div className="w-80 hidden lg:block">
           <ListingSidebar listings={mockListings} onSearch={handleListingSearch} />
