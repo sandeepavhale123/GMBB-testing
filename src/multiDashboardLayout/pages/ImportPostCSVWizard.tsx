@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Circle, Upload, Download, AlertTriangle , Check  } from "lucide-react";
+import { CheckCircle2, Circle, Upload, Download, AlertTriangle, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -140,7 +140,7 @@ export const ImportPostCSVWizard: React.FC = () => {
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Select Listings</label>
+          
           <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
           ...prev,
           selectedListings: listings
