@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ActionDropdown } from "./ActionDropdown";
 import { format, parse, isValid } from "date-fns";
-import { FileText, BarChart3, MapPin, Users, Search } from "lucide-react";
+import { FileText, BarChart3, MapPin, Users, Search , HeartPulse , FileChartLine  } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -84,10 +84,10 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
 
   const renderReportIcons = (reports: Lead['reports']) => {
     const reportConfig = [
-      { key: 'gmbReport' as const, icon: FileText, label: 'GMB Health Report' },
-      { key: 'citation' as const, icon: Search, label: 'Citation Audit' },
+      { key: 'gmbReport' as const, icon: HeartPulse, label: 'GMB Health Report' },
+      { key: 'citation' as const, icon: FileText, label: 'Citation Audit' },
       { key: 'geo' as const, icon: MapPin, label: 'GEO Ranking' },
-      { key: 'prospect' as const, icon: Users, label: 'GMB Prospect' },
+      { key: 'prospect' as const, icon: FileChartLine, label: 'GMB Prospect' },
       { key: 'onPage' as const, icon: BarChart3, label: 'On-Page Report' },
     ];
 
