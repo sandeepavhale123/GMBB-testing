@@ -110,7 +110,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       <div className="space-y-4">
         {steps.map(step => <div key={step.number} className="flex items-center gap-3">
             <div className="">
-              {step.completed ? <div className="flex items-center justify-center w-8 h-8 rounded-full text-success"><Check className="w-5 h-5 text-white" /></div> : currentStep === step.number ? <div className="w-8 h-8 rounded-full bg-gray-100"></div> : <div className="w-8 h-8 rounded-full bg-gray-100"></div>}
+              {step.completed ? <div className="flex items-center justify-center w-8 h-8 rounded-full bg-success"><Check className="w-5 h-5 text-white" /></div> : currentStep === step.number ? <div className="w-8 h-8 rounded-full bg-gray-500"></div> : <div className="w-8 h-8 rounded-full bg-gray-500"></div>}
             </div>
             <span className={`text-sm font-medium ${step.completed || currentStep === step.number ? 'text-foreground' : 'text-muted-foreground'}`}>
               {step.title}
