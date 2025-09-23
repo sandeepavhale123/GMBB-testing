@@ -33,8 +33,6 @@ import { Loader2 } from "lucide-react";
 import { useCreateGeoReport } from "@/api/leadApi";
 import { toast } from "sonner";
 import { processDistanceValue, getDistanceOptions } from "@/utils/geoRankingUtils";
-import { ReportProgressModal, ReportType } from "@/components/Dashboard/ReportProgressModal";
-import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 
 const geoRankingSchema = z.object({
   keywords: z.string()
@@ -59,6 +57,8 @@ interface GeoRankingModalProps {
   onClose: () => void;
   leadId: string;
   onSuccess?: () => void;
+  onReportProgress?: (status: 'loading' | 'success' | 'error', url?: string) => void;
+  onReportSuccess?: (url: string) => void;
 }
 
 export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
@@ -66,13 +66,11 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
   onClose,
   leadId,
   onSuccess,
+  onReportProgress,
+  onReportSuccess,
 }) => {
   const createGeoReport = useCreateGeoReport();
   const navigate = useNavigate();
-  const [reportProgressOpen, setReportProgressOpen] = useState(false);
-  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
-  const [reportUrl, setReportUrl] = useState<string>('');
-  const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
 
   const form = useForm<GeoRankingFormData>({
     resolver: zodResolver(geoRankingSchema),
@@ -96,14 +94,13 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
       gridSize: data.gridSize,
     };
 
-    setReportUrl('');
-    setReportProgressOpen(true);
-    setReportStatus('loading');
+    // Use parent handler for progress modal
+    onReportProgress?.('loading');
 
     createGeoReport.mutate(payload, {
       onSuccess: (response) => {
-        setReportStatus('success');
-        setReportUrl(response.data.reportUrl || '');
+        const reportUrl = response.data.reportUrl || '';
+        onReportSuccess?.(reportUrl);
         
         // Call the onSuccess callback to refetch data
         onSuccess?.();
@@ -113,7 +110,7 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
         form.reset();
       },
       onError: (error: any) => {
-        setReportStatus('error');
+        onReportProgress?.('error');
         toast.error(error?.response?.data?.message || "Failed to create GEO ranking report.");
       },
     });
@@ -124,19 +121,6 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
     form.reset();
   };
 
-  const handleReportProgressSuccess = () => {
-    setReportProgressOpen(false);
-    setReportStatus(null);
-    setCopyUrlModalOpen(true);
-  };
-
-  const handleReportProgressClose = (open: boolean) => {
-    setReportProgressOpen(open);
-    if (!open) {
-      setReportStatus(null);
-      setReportUrl('');
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); }}>
@@ -272,23 +256,6 @@ export const GeoRankingModal: React.FC<GeoRankingModalProps> = ({
         </Form>
       </DialogContent>
 
-      {/* Report Progress Modal */}
-      {reportStatus && (
-        <ReportProgressModal
-          open={reportProgressOpen}
-          onOpenChange={handleReportProgressClose}
-          reportType="geo-ranking"
-          status={reportStatus}
-          onSuccess={handleReportProgressSuccess}
-        />
-      )}
-
-      {/* Copy URL Modal */}
-      <CopyUrlModal
-        open={copyUrlModalOpen}
-        onOpenChange={setCopyUrlModalOpen}
-        reportUrl={reportUrl}
-      />
     </Dialog>
   );
 };

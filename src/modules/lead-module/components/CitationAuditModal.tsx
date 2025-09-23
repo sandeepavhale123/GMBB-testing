@@ -24,8 +24,6 @@ import { z } from "zod";
 import { Loader2, X } from "lucide-react";
 import { useCreateLeadCitationReport } from "@/api/leadApi";
 import { toast } from "sonner";
-import { ReportProgressModal, ReportType } from "@/components/Dashboard/ReportProgressModal";
-import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 
 const citationAuditSchema = z.object({
   businessName: z.string().min(1, "Business name is required."),
@@ -43,6 +41,8 @@ interface CitationAuditModalProps {
   businessName?: string;
   phone?: string;
   onSuccess?: () => void;
+  onReportProgress?: (status: 'loading' | 'success' | 'error', url?: string) => void;
+  onReportSuccess?: (url: string) => void;
 }
 
 export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
@@ -52,12 +52,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   businessName,
   phone,
   onSuccess,
+  onReportProgress,
+  onReportSuccess,
 }) => {
   const [cityData, setCityData] = useState<CityData | null>(null);
-  const [reportProgressOpen, setReportProgressOpen] = useState(false);
-  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
-  const [reportUrl, setReportUrl] = useState<string>('');
-  const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
   const createCitationReport = useCreateLeadCitationReport();
 
   const form = useForm<CitationAuditFormData>({
@@ -103,14 +101,13 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
       short_country: cityData.country,
     };
 
-    setReportUrl('');
-    setReportProgressOpen(true);
-    setReportStatus('loading');
+    // Use parent handler for progress modal
+    onReportProgress?.('loading');
 
     createCitationReport.mutate(payload, {
       onSuccess: (response) => {
-        setReportStatus('success');
-        setReportUrl(response.data.reportUrl || '');
+        const reportUrl = response.data.reportUrl || '';
+        onReportSuccess?.(reportUrl);
         
         // Call the onSuccess callback to refetch data
         onSuccess?.();
@@ -121,7 +118,7 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
         setCityData(null);
       },
       onError: (error: any) => {
-        setReportStatus('error');
+        onReportProgress?.('error');
         toast.error(error?.response?.data?.message || "Failed to create citation audit report");
       },
     });
@@ -133,19 +130,6 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
     setCityData(null);
   };
 
-  const handleReportProgressSuccess = () => {
-    setReportProgressOpen(false);
-    setReportStatus(null);
-    setCopyUrlModalOpen(true);
-  };
-
-  const handleReportProgressClose = (open: boolean) => {
-    setReportProgressOpen(open);
-    if (!open) {
-      setReportStatus(null);
-      setReportUrl('');
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={() => {}}>
@@ -265,23 +249,6 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
         </Form>
       </DialogContent>
 
-      {/* Report Progress Modal */}
-      {reportStatus && (
-        <ReportProgressModal
-          open={reportProgressOpen}
-          onOpenChange={handleReportProgressClose}
-          reportType="citation-audit"
-          status={reportStatus}
-          onSuccess={handleReportProgressSuccess}
-        />
-      )}
-
-      {/* Copy URL Modal */}
-      <CopyUrlModal
-        open={copyUrlModalOpen}
-        onOpenChange={setCopyUrlModalOpen}
-        reportUrl={reportUrl}
-      />
     </Dialog>
   );
 };

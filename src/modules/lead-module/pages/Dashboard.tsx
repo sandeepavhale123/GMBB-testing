@@ -81,6 +81,16 @@ const Dashboard: React.FC = () => {
   const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
   const [reportUrl, setReportUrl] = useState<string>('');
   const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
+  
+  // Citation report modal states
+  const [citationReportStatus, setCitationReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
+  const [citationReportUrl, setCitationReportUrl] = useState<string>('');
+  const [citationProgressOpen, setCitationProgressOpen] = useState(false);
+  
+  // Geo report modal states
+  const [geoReportStatus, setGeoReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
+  const [geoReportUrl, setGeoReportUrl] = useState<string>('');
+  const [geoProgressOpen, setGeoProgressOpen] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const createGmbHealthReport = useCreateGmbHealthReport();
   const createGmbProspectReport = useCreateGmbProspectReport();
@@ -275,6 +285,50 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Citation report handlers
+  const handleCitationReportProgress = (status: 'loading' | 'success' | 'error', url?: string) => {
+    setCitationReportStatus(status);
+    setCitationProgressOpen(true);
+    if (url) setCitationReportUrl(url);
+  };
+
+  const handleCitationReportSuccess = () => {
+    setCitationProgressOpen(false);
+    setCitationReportStatus(null);
+    setCopyUrlModalOpen(true);
+    setReportUrl(citationReportUrl);
+  };
+
+  const handleCitationProgressClose = (open: boolean) => {
+    setCitationProgressOpen(open);
+    if (!open) {
+      setCitationReportStatus(null);
+      setCitationReportUrl('');
+    }
+  };
+
+  // Geo report handlers
+  const handleGeoReportProgress = (status: 'loading' | 'success' | 'error', url?: string) => {
+    setGeoReportStatus(status);
+    setGeoProgressOpen(true);
+    if (url) setGeoReportUrl(url);
+  };
+
+  const handleGeoReportSuccess = () => {
+    setGeoProgressOpen(false);
+    setGeoReportStatus(null);
+    setCopyUrlModalOpen(true);
+    setReportUrl(geoReportUrl);
+  };
+
+  const handleGeoProgressClose = (open: boolean) => {
+    setGeoProgressOpen(open);
+    if (!open) {
+      setGeoReportStatus(null);
+      setGeoReportUrl('');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -442,6 +496,8 @@ const Dashboard: React.FC = () => {
           refetch();
           refetchSummary();
         }}
+        onReportProgress={handleCitationReportProgress}
+        onReportSuccess={(url) => handleCitationReportProgress('success', url)}
       />
 
       {/* GEO Ranking Modal */}
@@ -453,12 +509,14 @@ const Dashboard: React.FC = () => {
           refetch();
           refetchSummary();
         }}
+        onReportProgress={handleGeoReportProgress}
+        onReportSuccess={(url) => handleGeoReportProgress('success', url)}
       />
 
       {/* Lead Classifier Modal */}
       <LeadClassifierModal open={leadClassifierModalOpen} onClose={handleLeadClassifierModalClose} lead={selectedLead} />
 
-      {/* Report Progress Modal */}
+      {/* Report Progress Modal for GMB reports */}
       {reportStatus && (
         <ReportProgressModal
           open={reportProgressOpen}
@@ -466,6 +524,28 @@ const Dashboard: React.FC = () => {
           reportType={reportType}
           status={reportStatus}
           onSuccess={handleReportProgressSuccess}
+        />
+      )}
+
+      {/* Citation Report Progress Modal */}
+      {citationReportStatus && (
+        <ReportProgressModal
+          open={citationProgressOpen}
+          onOpenChange={handleCitationProgressClose}
+          reportType="citation-audit"
+          status={citationReportStatus}
+          onSuccess={handleCitationReportSuccess}
+        />
+      )}
+
+      {/* Geo Report Progress Modal */}
+      {geoReportStatus && (
+        <ReportProgressModal
+          open={geoProgressOpen}
+          onOpenChange={handleGeoProgressClose}
+          reportType="geo-ranking"
+          status={geoReportStatus}
+          onSuccess={handleGeoReportSuccess}
         />
       )}
 
