@@ -162,11 +162,11 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="1">1 Variant</SelectItem>
-                        <SelectItem value="2">2 Variants</SelectItem>
-                        <SelectItem value="3">3 Variants</SelectItem>
-                        <SelectItem value="4">4 Variants</SelectItem>
-                        <SelectItem value="5">5 Variants</SelectItem>
+                        <SelectItem value="1">{t("variant1")}</SelectItem>
+                        <SelectItem value="2">{t("variant2")}</SelectItem>
+                        <SelectItem value="3">{t("variant3")}</SelectItem>
+                        <SelectItem value="4">{t("variant4")}</SelectItem>
+                        <SelectItem value="5">{t("variant5")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

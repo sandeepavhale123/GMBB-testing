@@ -1,7 +1,7 @@
-
-import React from 'react';
-import { Button } from '../ui/button';
-import { PasswordInput } from './PasswordInput';
+import React from "react";
+import { Button } from "../ui/button";
+import { PasswordInput } from "./PasswordInput";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CurrentPasswordFormProps {
   currentPassword: string;
@@ -20,16 +20,17 @@ export const CurrentPasswordForm: React.FC<CurrentPasswordFormProps> = ({
   toggleCurrentPasswordVisibility,
   onSubmit,
   onCancel,
-  isVerifying
+  isVerifying,
 }) => {
+  const { t } = useI18nNamespace("Profile/currentPasswordForm");
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <PasswordInput
         id="currentPassword"
-        label="Current Password"
+        label={t("form.label")}
         value={currentPassword}
         onChange={setCurrentPassword}
-        placeholder="Enter your current password"
+        placeholder={t("form.placeholder")}
         showPassword={showCurrentPassword}
         onToggleVisibility={toggleCurrentPasswordVisibility}
         required
@@ -42,14 +43,14 @@ export const CurrentPasswordForm: React.FC<CurrentPasswordFormProps> = ({
           onClick={onCancel}
           className="flex-1"
         >
-          Cancel
+          {t("buttons.cancel")}
         </Button>
         <Button
           type="submit"
           disabled={isVerifying || !currentPassword}
           className="flex-1 bg-purple-600 hover:bg-purple-700"
         >
-          {isVerifying ? 'Verifying...' : 'Verify'}
+          {isVerifying ? t("buttons.verifying") : t("buttons.verify")}
         </Button>
       </div>
     </form>

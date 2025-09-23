@@ -8,6 +8,9 @@ export const namespaces = [
   "Profile/profileBasicInfoForm",
   "Profile/profilePreferencesForm",
   "Dashboard/dashboard",
+  "Media/mediaErrorBoundary",
+  "Components/errorBoundary",
+  "Post/postPreviewErrorBoundary",
 ];
 
 i18n.use(initReactI18next).init({

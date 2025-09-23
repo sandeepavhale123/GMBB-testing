@@ -196,7 +196,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                   <TableCell>
                     <span className="font-medium text-gray-600">
                       {report.type === "Compare" ? "Comparision" : report.type}{" "}
-                      Report
+                      {t("tableHeaders.report")}
                     </span>
                   </TableCell>
                   <TableCell className="min-w-[200px]">

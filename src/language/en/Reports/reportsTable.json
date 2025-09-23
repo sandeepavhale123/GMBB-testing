@@ -8,6 +8,7 @@
     },
     "tableHeaders": {
       "reportName": "Report Name",
+      "report": "Report",
       "reports": "Reports",
       "reportType": "Report Type",
       "reportDate": "Report Date",

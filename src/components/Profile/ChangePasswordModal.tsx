@@ -1,12 +1,12 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Lock } from 'lucide-react';
-import { useToast } from '../../hooks/use-toast';
-import { useProfile } from '../../hooks/useProfile';
-import { profileService } from '../../services/profileService';
-import { CurrentPasswordForm } from './CurrentPasswordForm';
-import { NewPasswordForm } from './NewPasswordForm';
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Lock } from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
+import { useProfile } from "../../hooks/useProfile";
+import { profileService } from "../../services/profileService";
+import { CurrentPasswordForm } from "./CurrentPasswordForm";
+import { NewPasswordForm } from "./NewPasswordForm";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -15,55 +15,60 @@ interface ChangePasswordModalProps {
 
 export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   isOpen,
-  onClose
+  onClose,
 }) => {
+  const { t } = useI18nNamespace("Profile/changePassword");
   const { toast } = useToast();
-  const { profileData, updateProfile, isUpdating, getStoredPassword } = useProfile();
-  const [step, setStep] = useState<'current' | 'new'>('current');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const { profileData, updateProfile, isUpdating, getStoredPassword } =
+    useProfile();
+  const [step, setStep] = useState<"current" | "new">("current");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   });
 
   const handleCurrentPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentPassword.trim()) {
       toast.error({
-        title: "Current password required",
-        description: "Please enter your current password.",
+        title: t("toast.currentRequired.title"),
+        description: t("toast.currentRequired.description"),
       });
       return;
     }
-    
+
     setIsVerifying(true);
-    
+
     try {
       const storedPassword = getStoredPassword();
-      const isValid = await profileService.verifyCurrentPassword({ currentPassword }, storedPassword);
-      
+      const isValid = await profileService.verifyCurrentPassword(
+        { currentPassword },
+        storedPassword
+      );
+
       if (isValid) {
-        setStep('new');
+        setStep("new");
         // Clear current password for security
-        setCurrentPassword('');
+        setCurrentPassword("");
         toast.success({
-          title: "Password Verified",
-          description: "Current password verified successfully.",
+          title: t("toast.verified.title"),
+          description: t("toast.verified.description"),
         });
       } else {
         toast.error({
-          title: "Invalid Password",
-          description: "The current password you entered is incorrect. Please try again.",
+          title: t("toast.invalid.title"),
+          description: t("toast.invalid.description"),
         });
       }
     } catch (error) {
       toast.error({
-        title: "Verification Failed",
-        description: "Failed to verify current password. Please try again.",
+        title: t("toast.verifyFailed.title"),
+        description: t("toast.verifyFailed.description"),
       });
     } finally {
       setIsVerifying(false);
@@ -72,27 +77,27 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
 
   const handleNewPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!newPassword.trim() || !confirmPassword.trim()) {
       toast.error({
-        title: "Missing Information",
-        description: "Please fill in all password fields.",
+        title: t("toast.missing.title"),
+        description: t("toast.missing.description"),
       });
       return;
     }
 
     if (newPassword !== confirmPassword) {
       toast.error({
-        title: "Passwords Don't Match",
-        description: "New passwords don't match. Please try again.",
+        title: t("toast.mismatch.title"),
+        description: t("toast.mismatch.description"),
       });
       return;
     }
 
     if (newPassword.length < 8) {
       toast.error({
-        title: "Password Too Short",
-        description: "Password must be at least 8 characters long.",
+        title: t("toast.tooShort.title"),
+        description: t("toast.tooShort.description"),
       });
       return;
     }
@@ -100,16 +105,16 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     const storedPassword = getStoredPassword();
     if (newPassword === storedPassword) {
       toast.error({
-        title: "Same Password",
-        description: "New password must be different from your current password.",
+        title: t("toast.same.title"),
+        description: t("toast.same.description"),
       });
       return;
     }
 
     if (!profileData) {
       toast.error({
-        title: "Profile Error",
-        description: "Profile data not available. Please try again.",
+        title: t("toast.profileError.title"),
+        description: t("toast.profileError.description"),
       });
       return;
     }
@@ -122,36 +127,36 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         username: profileData.username,
         dashboardType: 1,
         language: profileData.language,
-        profilePic: profileData.profilePic || '',
-        password: newPassword
+        profilePic: profileData.profilePic || "",
+        password: newPassword,
       });
-      
+
       toast.success({
-        title: "Password Changed Successfully",
-        description: "Your password has been updated successfully.",
+        title: t("toast.updated.title"),
+        description: t("toast.updated.description"),
       });
       handleClose();
     } catch (error) {
       toast.error({
-        title: "Password Update Failed",
-        description: "Failed to update password. Please try again.",
+        title: t("toast.updateFailed.title"),
+        description: t("toast.updateFailed.description"),
       });
     }
   };
 
   const handleClose = () => {
-    setStep('current');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    setStep("current");
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
     setShowPasswords({ current: false, new: false, confirm: false });
     onClose();
   };
 
-  const togglePasswordVisibility = (field: 'current' | 'new' | 'confirm') => {
-    setShowPasswords(prev => ({
+  const togglePasswordVisibility = (field: "current" | "new" | "confirm") => {
+    setShowPasswords((prev) => ({
       ...prev,
-      [field]: !prev[field]
+      [field]: !prev[field],
     }));
   };
 
@@ -161,16 +166,18 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Lock className="w-5 h-5 text-purple-600" />
-            Change Password
+            {t("dialog.title")}
           </DialogTitle>
         </DialogHeader>
 
-        {step === 'current' ? (
+        {step === "current" ? (
           <CurrentPasswordForm
             currentPassword={currentPassword}
             setCurrentPassword={setCurrentPassword}
             showCurrentPassword={showPasswords.current}
-            toggleCurrentPasswordVisibility={() => togglePasswordVisibility('current')}
+            toggleCurrentPasswordVisibility={() =>
+              togglePasswordVisibility("current")
+            }
             onSubmit={handleCurrentPasswordSubmit}
             onCancel={handleClose}
             isVerifying={isVerifying}
@@ -183,10 +190,12 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
             setConfirmPassword={setConfirmPassword}
             showNewPassword={showPasswords.new}
             showConfirmPassword={showPasswords.confirm}
-            toggleNewPasswordVisibility={() => togglePasswordVisibility('new')}
-            toggleConfirmPasswordVisibility={() => togglePasswordVisibility('confirm')}
+            toggleNewPasswordVisibility={() => togglePasswordVisibility("new")}
+            toggleConfirmPasswordVisibility={() =>
+              togglePasswordVisibility("confirm")
+            }
             onSubmit={handleNewPasswordSubmit}
-            onBack={() => setStep('current')}
+            onBack={() => setStep("current")}
             isUpdating={isUpdating}
           />
         )}

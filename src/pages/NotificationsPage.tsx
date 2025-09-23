@@ -6,10 +6,12 @@ import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const NotificationsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useI18nNamespace("pages/notificationPage");
 
   return (
     <Provider store={store}>
@@ -60,9 +62,11 @@ const NotificationsPage = () => {
               <div className="space-y-6">
                 <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
                   <h2 className="text-xl font-bold text-gray-900 mb-2">
-                    Notifications
+                    {t("NotificationsPage.title")}
                   </h2>
-                  <p className="text-gray-600">This section is coming soon.</p>
+                  <p className="text-gray-600">
+                    {t("NotificationsPage.comingSoon")}
+                  </p>
                 </div>
               </div>
             </main>

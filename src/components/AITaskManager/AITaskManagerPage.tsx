@@ -32,6 +32,7 @@ import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { isEqual } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const statusIcons = {
   pending: Clock,
@@ -61,6 +62,7 @@ const categoryIcons = {
 };
 
 export const AITaskManagerPage: React.FC = () => {
+  const { t } = useI18nNamespace("AITaskManager/AITaskManagerPage");
   const { selectedListing } = useListingContext();
   const { tasks, stats, isLoading, error, refetch } = useTransformedAiTasks({
     listingId: selectedListing?.id ? Number(selectedListing.id) : undefined,
@@ -96,13 +98,13 @@ export const AITaskManagerPage: React.FC = () => {
       );
       if (!response.ok) {
         toast({
-          title: "Error",
+          title: t("AITaskManagerPage.toasts.error.title"),
           description: response.message || response.data.message,
           variant: "default",
         });
       }
       toast({
-        title: "Success",
+        title: t("AITaskManagerPage.toasts.success.title"),
         description: response.message,
       });
     } catch (err) {
@@ -123,17 +125,18 @@ export const AITaskManagerPage: React.FC = () => {
       );
       if (!response.ok) {
         toast({
-          title: "Error",
+          title: t("AITaskManagerPage.toasts.error.title"),
           description:
             response.message ||
             response.data.message ||
-            "Failed to revert task.",
+            t("AITaskManagerPage.toasts.error.default"),
           variant: "destructive",
         });
       }
       toast({
-        title: "Reverted",
-        description: response.message || "Task reverted to pending.",
+        title: t("AITaskManagerPage.toasts.reverted.title"),
+        description:
+          response.message || t("AITaskManagerPage.toasts.reverted.message"),
       });
     } catch (error) {
       // console.log("Error occured", error);
@@ -195,7 +198,10 @@ export const AITaskManagerPage: React.FC = () => {
               />
               {task.frequency && (
                 <p className="text-xs text-gray-500 mt-1">
-                  Frequency: {task.frequency}
+                  {t("AITaskManagerPage.task.frequency", {
+                    value: task.frequency,
+                  })}
+                  {/* Frequency: {task.frequency} */}
                 </p>
               )}
             </div>
@@ -213,7 +219,7 @@ export const AITaskManagerPage: React.FC = () => {
               </Badge>
               {task.priority === "high" && (
                 <Badge variant="destructive" className="text-xs">
-                  High Priority
+                  {t("AITaskManagerPage.task.priority.high")}
                 </Badge>
               )}
             </div>
@@ -235,7 +241,7 @@ export const AITaskManagerPage: React.FC = () => {
                     onClick={() => handleMarkCompleted(task.id)}
                   >
                     <CheckCircle className="w-4 h-4 mr-1" />
-                    Mark Completed
+                    {t("AITaskManagerPage.task.actions.markCompleted")}
                   </Button>
                 </>
               ) : (
@@ -245,7 +251,7 @@ export const AITaskManagerPage: React.FC = () => {
                   className="bg-red-200 text-red-600 hover:bg-red-600 hover:text-white"
                 >
                   <RefreshCw className="w-4 h-4 mr-1" />
-                  Revert
+                  {t("AITaskManagerPage.task.actions.revert")}
                 </Button>
               )}
             </div>
@@ -263,9 +269,12 @@ export const AITaskManagerPage: React.FC = () => {
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Loading AI Tasks
+              {t("AITaskManagerPage.loading.title")}
             </h3>
-            <p className="text-gray-500">Fetching your latest tasks...</p>
+            <p className="text-gray-500">
+              {" "}
+              {t("AITaskManagerPage.loading.description")}
+            </p>
           </div>
         </div>
       </div>
@@ -279,7 +288,7 @@ export const AITaskManagerPage: React.FC = () => {
         <Alert className="border-yellow-200 bg-yellow-50">
           <AlertCircle className="h-4 w-4 text-yellow-600" />
           <AlertDescription className="text-yellow-800">
-            No listing selected. Please select a listing to view AI tasks.
+            {t("AITaskManagerPage.noListing.message")}
           </AlertDescription>
         </Alert>
       </div>
@@ -308,7 +317,7 @@ export const AITaskManagerPage: React.FC = () => {
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              Pending Tasks
+              {t("AITaskManagerPage.summaryCards.pending")}
             </CardTitle>
             <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-yellow-500 to-yellow-600">
               <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
@@ -323,7 +332,7 @@ export const AITaskManagerPage: React.FC = () => {
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              Completed Tasks
+              {t("AITaskManagerPage.summaryCards.completed")}
             </CardTitle>
             <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-green-500 to-green-600">
               <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
@@ -338,7 +347,7 @@ export const AITaskManagerPage: React.FC = () => {
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              One-time Tasks
+              {t("AITaskManagerPage.summaryCards.oneTime")}
             </CardTitle>
             <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-purple-500 to-purple-600">
               <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
@@ -353,7 +362,7 @@ export const AITaskManagerPage: React.FC = () => {
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              Recurring Tasks
+              {t("AITaskManagerPage.summaryCards.recurring")}
             </CardTitle>
             <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-blue-500 to-blue-600">
               <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
@@ -370,13 +379,21 @@ export const AITaskManagerPage: React.FC = () => {
       {/* Filter Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-max">
-          <TabsTrigger value="pending">Pending ({pendingCount})</TabsTrigger>
-          <TabsTrigger value="completed">
-            Completed ({completedCount})
+          <TabsTrigger value="pending">
+            {t("AITaskManagerPage.tabs.pending", { count: pendingCount })}
+            {/* Pending ({pendingCount}) */}
           </TabsTrigger>
-          <TabsTrigger value="all">All Tasks ({localTasks.length})</TabsTrigger>
+          <TabsTrigger value="completed">
+            {t("AITaskManagerPage.tabs.completed", { count: completedCount })}
+            {/* Completed ({completedCount}) */}
+          </TabsTrigger>
+          <TabsTrigger value="all">
+            {t("AITaskManagerPage.tabs.all", { count: localTasks.length })}
+            {/* All Tasks ({localTasks.length}) */}
+          </TabsTrigger>
           <TabsTrigger value="recurring">
-            Recurring ({recurringCount})
+            {t("AITaskManagerPage.tabs.recurring", { count: recurringCount })}
+            {/* Recurring ({recurringCount}) */}
           </TabsTrigger>
         </TabsList>
 
@@ -392,12 +409,12 @@ export const AITaskManagerPage: React.FC = () => {
               <CardContent>
                 <CheckCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No tasks found
+                  {t("AITaskManagerPage.emptyState.title")}
                 </h3>
                 <p className="text-gray-500">
                   {activeTab === "completed"
-                    ? "Great job! Complete some tasks to see them here."
-                    : "No tasks match the current filter."}
+                    ? t("AITaskManagerPage.emptyState.completedMessage")
+                    : t("AITaskManagerPage.emptyState.defaultMessage")}
                 </p>
               </CardContent>
             </Card>

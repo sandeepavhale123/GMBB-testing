@@ -76,17 +76,17 @@ export const SentimentBreakdownCard: React.FC = () => {
 
   const sentimentData = [
     {
-      name: "Positive",
+      name: t("positiveLabel"),
       value: sentimentAnalysis.positive.percentage,
       fill: "#10b981",
     },
     {
-      name: "Neutral",
+      name: t("neutralLabel"),
       value: sentimentAnalysis.neutral.percentage,
       fill: "#6b7280",
     },
     {
-      name: "Negative",
+      name: t("negativeLabel"),
       value: sentimentAnalysis.negative.percentage,
       fill: "#ef4444",
     },

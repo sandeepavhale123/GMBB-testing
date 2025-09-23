@@ -84,15 +84,15 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
                 >
                   {formData.timezone
                     ? timezones?.[formData.timezone] || formData.timezone
-                    : "Select timezone..."}
+                    : t("labels.selectTimezone")}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start">
                 <Command>
-                  <CommandInput placeholder="Search timezone..." />
+                  <CommandInput placeholder={t("labels.searchTimezone")} />
                   <CommandList>
-                    <CommandEmpty>No timezone found.</CommandEmpty>
+                    <CommandEmpty>{t("labels.noTimezoneFound")}</CommandEmpty>
                     <CommandGroup>
                       {timezones &&
                         Object.entries(timezones).map(([key, value]) => (

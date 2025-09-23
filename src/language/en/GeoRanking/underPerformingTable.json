@@ -1,25 +1,21 @@
 {
-  "underPerformingTable": {
+  "UnderPerformingTable": {
     "title": "Top Performance",
     "loading": "Loading under-performing areas...",
-    "noData": "No under-performing areas found",
     "headers": {
       "area": "Area",
       "coordinate": "Coordinate",
-      "compName": "Competitor Name",
-      "compRank": "Competitor Rank",
-      "youRank": "Your Rank",
-      "compRating": "Competitor Rating",
-      "compReview": "Competitor Review"
+      "competitorName": "Competitor Name",
+      "competitorRank": "Competitor Rank",
+      "yourRank": "Your Rank",
+      "competitorRating": "Competitor Rating",
+      "competitorReview": "Competitor Review"
     },
-    "labels": {
-      "notRanked": "Not Ranked"
-    },
+    "notRanked": "Not Ranked",
+    "noData": "No under-performing areas found",
     "toast": {
-      "copied": {
-        "title": "Copied!",
-        "description": "Coordinate copied to clipboard"
-      }
+      "copiedTitle": "Copied!",
+      "copiedDescription": "Coordinate copied to clipboard"
     }
   }
 }

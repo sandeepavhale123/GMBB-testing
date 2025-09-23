@@ -3,6 +3,12 @@
   "shortDescription": "Short Description",
   "shortDescriptionPlaceholder": "Brief description of what you want to promote...",
   "variants": "Number of Variants",
+  "variant1": "1 Variant",
+  "variant2": "2 Variants",
+  "variant3": "3 Variants",
+  "variant4": "4 Variants",
+  "variant5": "5 Variants",
+
   "tone": "Tone",
   "tones": {
     "professional": "Professional",

@@ -2,8 +2,9 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props {
+interface Props extends WithTranslation {
   children: ReactNode;
 }
 
@@ -30,6 +31,8 @@ export class MediaErrorBoundary extends Component<Props, State> {
   };
 
   public render() {
+    const { t } = this.props;
+
     if (this.state.hasError) {
       return (
         <Card className="mx-auto max-w-md">
@@ -37,16 +40,13 @@ export class MediaErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Something went wrong
+                {t("title")}
               </h3>
-              <p className="text-sm text-gray-600">
-                There was an error loading the media page. Please try refreshing
-                or contact support if the problem persists.
-              </p>
+              <p className="text-sm text-gray-600">{t("description")}</p>
             </div>
             <Button onClick={this.handleRetry} className="w-full">
               <RefreshCw className="w-4 h-4 mr-2" />
-              Try Again
+              {t("tryAgain")}
             </Button>
           </CardContent>
         </Card>
@@ -56,3 +56,5 @@ export class MediaErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+export default withTranslation("Media/mediaErrorBoundary")(MediaErrorBoundary);

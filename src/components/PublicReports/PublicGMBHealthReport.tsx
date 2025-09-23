@@ -746,12 +746,16 @@ export const PublicGMBHealthReport: React.FC = () => {
               </h3>
 
               <div className="mb-4">
-                <h4 className="font-medium mb-2">• Why It Matters:</h4>
+                <h4 className="font-medium mb-2">
+                  {t("detailedBreakdown.whyItMatters")}
+                </h4>
                 <p className="text-sm text-muted-foreground ml-4"></p>
               </div>
               {t("citationAnalysis.why")}
               <div>
-                <h4 className="font-medium mb-2">• Recommendation:</h4>
+                <h4 className="font-medium mb-2">
+                  {t("detailedBreakdown.recommendation")}
+                </h4>
                 <p className="text-sm text-muted-foreground ml-4">
                   {t("citationAnalysis.recommendation")}
                 </p>

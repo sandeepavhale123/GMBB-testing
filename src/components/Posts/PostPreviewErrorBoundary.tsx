@@ -2,8 +2,9 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props {
+interface Props extends WithTranslation {
   children: ReactNode;
   fallback?: ReactNode;
 }
@@ -33,6 +34,8 @@ export class PostPreviewErrorBoundary extends Component<Props, State> {
   };
 
   public render() {
+    const { t } = this.props;
+
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
@@ -44,11 +47,9 @@ export class PostPreviewErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="w-8 h-8 text-red-500 mx-auto" />
             <div>
               <h3 className="text-sm font-medium text-red-900 mb-1">
-                Preview Error
+                {t("title")}
               </h3>
-              <p className="text-xs text-red-700">
-                Unable to display post preview. Please try again.
-              </p>
+              <p className="text-xs text-red-700">{t("description")}</p>
             </div>
             <Button
               onClick={this.handleRetry}
@@ -57,7 +58,7 @@ export class PostPreviewErrorBoundary extends Component<Props, State> {
               className="border-red-300 text-red-700 hover:bg-red-100"
             >
               <RefreshCw className="w-3 h-3 mr-1" />
-              Retry
+              {t("retry")}
             </Button>
           </CardContent>
         </Card>
@@ -67,3 +68,7 @@ export class PostPreviewErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+export default withTranslation("Post/postPreviewErrorBoundary")(
+  PostPreviewErrorBoundary
+);

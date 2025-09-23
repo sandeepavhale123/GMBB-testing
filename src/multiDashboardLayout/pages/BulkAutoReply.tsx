@@ -16,6 +16,7 @@ import {
   clearError,
 } from "@/store/slices/autoReplySlice";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Memoized Filter Section
 const MemoizedFilters = React.memo<{
@@ -76,7 +77,7 @@ export const BulkAutoReply: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-
+  const { t } = useI18nNamespace("MultidashboardPages/bulkAutoReply");
   const {
     projects,
     loading,
@@ -138,14 +139,14 @@ export const BulkAutoReply: React.FC = () => {
       try {
         await dispatch(deleteAutoReplyProject(projectId)).unwrap();
         toast({
-          title: "Success",
-          description: "Auto reply project deleted successfully",
+          title: t("actions.successTitle"),
+          description: t("actions.deleteSuccess"),
           variant: "success",
         });
       } catch (error) {
         toast({
-          title: "Error",
-          description: "Failed to delete project",
+          title: t("actions.errorTitle"),
+          description: t("actions.deleteError"),
           variant: "destructive",
         });
       }
@@ -157,8 +158,8 @@ export const BulkAutoReply: React.FC = () => {
     setIsCreateModalOpen(false);
     loadProjects();
     toast({
-      title: "Success",
-      description: "Auto reply project created successfully",
+      title: t("actions.successTitle"),
+      description: t("actions.createSuccess"),
     });
   }, [loadProjects, toast]);
 
@@ -195,15 +196,13 @@ export const BulkAutoReply: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Bulk Auto Reply Management
+            {t("header.title")}
           </h1>
-          <p className="text-muted-foreground">
-            Manage automated reply settings for your locations.
-          </p>
+          <p className="text-muted-foreground">{t("header.subtitle")}</p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="gap-2">
           <Plus className="w-4 h-4" />
-          Create Project
+          {t("actions.createProject")}
         </Button>
       </div>
 

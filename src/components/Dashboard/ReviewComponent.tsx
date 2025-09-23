@@ -40,17 +40,17 @@ export const ReviewComponent: React.FC = () => {
   const { toast } = useToast();
   const sentimentData = [
     {
-      name: "Positive",
+      name: t("positive"),
       value: 86,
       fill: "#10b981",
     },
     {
-      name: "Neutral",
+      name: t("neutral"),
       value: 10,
       fill: "#6b7280",
     },
     {
-      name: "Negative",
+      name: t("negative"),
       value: 4,
       fill: "#ef4444",
     },
@@ -128,8 +128,8 @@ export const ReviewComponent: React.FC = () => {
     setShowAIResponse(reviewId);
     setExpandedReply(null);
     toast({
-      title: "AI Response Generated",
-      description: "AI has generated a response for this review.",
+      title: t("toasts.aiGeneratedTitle"),
+      description: t("toasts.aiGeneratedDesc"),
     });
   };
   const handleReplyManually = (reviewId: string) => {
@@ -139,8 +139,8 @@ export const ReviewComponent: React.FC = () => {
   const handleUseResponse = (reviewId: string) => {
     const responseText = aiResponseText[reviewId] || "";
     toast({
-      title: "Response Used",
-      description: "The AI suggested response has been used for this review.",
+      title: t("toasts.responseUsedTitle"),
+      description: t("toasts.responseUsedDesc"),
     });
     setShowAIResponse(null);
     setAiResponseText((prev) => {
@@ -153,8 +153,8 @@ export const ReviewComponent: React.FC = () => {
   };
   const handleSendManualReply = (reviewId: string) => {
     toast({
-      title: "Reply Sent",
-      description: "Your manual reply has been sent successfully.",
+      title: t("toasts.replySentTitle"),
+      description: t("toasts.replySentDesc"),
     });
     setExpandedReply(null);
     setManualReply("");

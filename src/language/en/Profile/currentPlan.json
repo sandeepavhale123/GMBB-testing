@@ -1,0 +1,10 @@
+{
+  "card": {
+    "title": "Current Plan",
+    "expired": "Expired",
+    "active": "Active",
+    "planLabel": "{{planName}} Plan",
+    "expiresOn": "Expires on {{date}}",
+    "manage": "Manage Subscription"
+  }
+}
