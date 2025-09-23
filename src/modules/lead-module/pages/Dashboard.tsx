@@ -33,7 +33,6 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
   id: apiLead.id,
   email: apiLead.email,
   businessName: apiLead.business_name,
-  phone: apiLead.phone,
   reportTypeLabel: apiLead.reportTypeLabel,
   date: apiLead.generated_date,
   leadCategoryLabel: apiLead.leadCategoryLabel,
@@ -487,7 +486,6 @@ const Dashboard: React.FC = () => {
         onClose={handleCitationModalClose} 
         leadId={selectedLeadId}
         businessName={selectedLead?.businessName}
-        phone={selectedLead?.phone}
         onSuccess={() => {
           refetch();
           refetchSummary();

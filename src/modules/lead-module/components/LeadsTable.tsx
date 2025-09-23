@@ -10,12 +10,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ActionDropdown } from "./ActionDropdown";
 import { format, parse, isValid } from "date-fns";
+import { FileText, BarChart3, MapPin, Users, Search } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface Lead {
   id: string;
   email: string;
   businessName: string;
-  phone: string;
   reportTypeLabel: string;
   date: string;
   leadCategoryLabel: string;
@@ -76,28 +82,72 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
     }
   };
 
+  const renderReportIcons = (reports: Lead['reports']) => {
+    const reportConfig = [
+      { key: 'gmbReport' as const, icon: FileText, label: 'GMB Health Report' },
+      { key: 'citation' as const, icon: Search, label: 'Citation Audit' },
+      { key: 'geo' as const, icon: MapPin, label: 'GEO Ranking' },
+      { key: 'prospect' as const, icon: Users, label: 'GMB Prospect' },
+      { key: 'onPage' as const, icon: BarChart3, label: 'On-Page Report' },
+    ];
+
+    const generatedReports = reportConfig.filter(config => {
+      const report = reports[config.key];
+      return report && report.status === 1 && report.viewUrl;
+    });
+
+    if (generatedReports.length === 0) {
+      return <span className="text-muted-foreground text-sm">No reports</span>;
+    }
+
+    return (
+      <TooltipProvider>
+        <div className="flex gap-2">
+          {generatedReports.map(({ key, icon: Icon, label }) => {
+            const report = reports[key];
+            return (
+              <Tooltip key={key}>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => report?.viewUrl && window.open(report.viewUrl, '_blank')}
+                    className="p-1 rounded hover:bg-muted transition-colors"
+                  >
+                    <Icon className="h-4 w-4 text-green-600" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{label}</p>
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </div>
+      </TooltipProvider>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
               <TableHead>Business Name</TableHead>
-              <TableHead>Phone</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Category</TableHead>
+              <TableHead>Reports</TableHead>
               <TableHead className="w-16">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
-                <TableCell><div className="h-4 w-32 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-24 bg-muted rounded animate-pulse" /></TableCell>
+                <TableCell><div className="h-4 w-32 bg-muted rounded animate-pulse" /></TableCell>
+                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
+                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-20 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-8 w-8 bg-muted rounded animate-pulse" /></TableCell>
               </TableRow>
             ))}
@@ -112,11 +162,11 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Email</TableHead>
             <TableHead>Business Name</TableHead>
-            <TableHead>Phone</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Category</TableHead>
+            <TableHead>Reports</TableHead>
             <TableHead className="w-16">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -130,14 +180,16 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
           ) : (
             leads.map((lead) => (
               <TableRow key={lead.id}>
-                <TableCell className="font-medium">{lead.email || 'N/A'}</TableCell>
-                <TableCell>{lead.businessName}</TableCell>
-                <TableCell>{lead.phone}</TableCell>
+                <TableCell className="font-medium">{lead.businessName}</TableCell>
+                <TableCell>{lead.email || 'N/A'}</TableCell>
                 <TableCell>
                   {lead.date}
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
+                </TableCell>
+                <TableCell>
+                  {renderReportIcons(lead.reports)}
                 </TableCell>
                 <TableCell>
                   <ActionDropdown 
