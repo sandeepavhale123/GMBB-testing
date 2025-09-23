@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Circle, Upload, Download, AlertTriangle } from "lucide-react";
+import { CheckCircle2, Circle, Upload, Download, AlertTriangle , Check  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -109,8 +109,8 @@ export const ImportPostCSVWizard: React.FC = () => {
       <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
       <div className="space-y-4">
         {steps.map(step => <div key={step.number} className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all">
-              {step.completed ? <CheckCircle2 className="w-5 h-5 text-success" /> : currentStep === step.number ? <div className="w-4 h-4 rounded-full bg-primary"></div> : <Circle className="w-5 h-5 text-muted-foreground" />}
+            <div className="">
+              {step.completed ? <div className="flex items-center justify-center w-8 h-8 rounded-full text-success"><Check className="w-5 h-5 text-white" /></div> : currentStep === step.number ? <div className="w-8 h-8 rounded-full bg-gray-100"></div> : <div className="w-8 h-8 rounded-full bg-gray-100"></div>}
             </div>
             <span className={`text-sm font-medium ${step.completed || currentStep === step.number ? 'text-foreground' : 'text-muted-foreground'}`}>
               {step.title}
