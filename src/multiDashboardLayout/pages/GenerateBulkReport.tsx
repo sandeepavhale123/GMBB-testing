@@ -56,112 +56,10 @@ import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyLi
 import { type ReportSectionId } from "@/types/reportTypes";
 import { useToast } from "@/hooks/use-toast";
 import { reportsApi } from "@/api/reportsApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Force refresh - Specific report sections for bulk report generation
-const BULK_REPORT_SECTIONS = [
-  { id: "posts", name: "GMB Post" },
-  { id: "media", name: "Media Post" },
-  { id: "reviews", name: "Review" },
-  { id: "qa", name: "Q and A" },
-  { id: "insights", name: "Insights" },
-] as const;
-const weeklyFrequencyOptions = [
-  {
-    value: "last-week",
-    label: "Last Week",
-  },
-  {
-    value: "last-2-weeks",
-    label: "Last 2 Weeks",
-  },
-  {
-    value: "last-3-weeks",
-    label: "Last 3 Weeks",
-  },
-  {
-    value: "last-4-weeks",
-    label: "Last 4 Weeks",
-  },
-  {
-    value: "last-5-weeks",
-    label: "Last 5 Weeks",
-  },
-];
-const monthlyFrequencyOptions = [
-  {
-    value: "last-month",
-    label: "Last Month",
-  },
-  {
-    value: "last-2-months",
-    label: "Last 2 Months",
-  },
-  {
-    value: "last-3-months",
-    label: "Last 3 Months",
-  },
-  {
-    value: "last-6-months",
-    label: "Last 6 Months",
-  },
-  {
-    value: "last-12-months",
-    label: "Last 12 Months",
-  },
-];
-const weekDays = [
-  {
-    value: "monday",
-    label: "Monday",
-  },
-  {
-    value: "tuesday",
-    label: "Tuesday",
-  },
-  {
-    value: "wednesday",
-    label: "Wednesday",
-  },
-  {
-    value: "thursday",
-    label: "Thursday",
-  },
-  {
-    value: "friday",
-    label: "Friday",
-  },
-  {
-    value: "saturday",
-    label: "Saturday",
-  },
-  {
-    value: "sunday",
-    label: "Sunday",
-  },
-];
 
-const weekOptions = [
-  {
-    value: "first",
-    label: "First Week",
-  },
-  {
-    value: "second",
-    label: "Second Week",
-  },
-  {
-    value: "third",
-    label: "Third Week",
-  },
-  {
-    value: "fourth",
-    label: "Fourth Week",
-  },
-  {
-    value: "last",
-    label: "Last Week",
-  },
-];
 const generateBulkReportSchema = z
   .object({
     projectName: z.string().min(1, "Project name is required."),
@@ -276,6 +174,122 @@ type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
   isSingleListingDashboard = false,
 }) => {
+  const { t } = useI18nNamespace("MultidashboardPages/generateBulkReport");
+
+  const BULK_REPORT_SECTIONS = [
+    { id: "posts", name: t("GenerateBulkReport.reportTypes.sections.posts") },
+    { id: "media", name: t("GenerateBulkReport.reportTypes.sections.media") },
+    {
+      id: "reviews",
+      name: t("GenerateBulkReport.reportTypes.sections.reviews"),
+    },
+    { id: "qa", name: t("GenerateBulkReport.reportTypes.sections.qa") },
+    {
+      id: "insights",
+      name: t("GenerateBulkReport.reportTypes.sections.insights"),
+    },
+  ] as const;
+
+  const weeklyFrequencyOptions = [
+    {
+      value: "last-week",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.lastWeek"),
+    },
+    {
+      value: "last-2-weeks",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last2Weeks"),
+    },
+    {
+      value: "last-3-weeks",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last3Weeks"),
+    },
+    {
+      value: "last-4-weeks",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last4Weeks"),
+    },
+    {
+      value: "last-5-weeks",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last5Weeks"),
+    },
+  ];
+
+  const monthlyFrequencyOptions = [
+    {
+      value: "last-month",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.lastMonth"),
+    },
+    {
+      value: "last-2-months",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last2Months"),
+    },
+    {
+      value: "last-3-months",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last3Months"),
+    },
+    {
+      value: "last-6-months",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last6Months"),
+    },
+    {
+      value: "last-12-months",
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last2Weeks"),
+    },
+  ];
+
+  const weekDays = [
+    {
+      value: "monday",
+      label: t("GenerateBulkReport.scheduleConfig.days.monday"),
+    },
+    {
+      value: "tuesday",
+      label: t("GenerateBulkReport.scheduleConfig.days.tuesday"),
+    },
+    {
+      value: "wednesday",
+      label: t("GenerateBulkReport.scheduleConfig.days.wednesday"),
+    },
+    {
+      value: "thursday",
+      label: t("GenerateBulkReport.scheduleConfig.days.thursday"),
+    },
+    {
+      value: "friday",
+      label: t("GenerateBulkReport.scheduleConfig.days.friday"),
+    },
+    {
+      value: "saturday",
+      label: t("GenerateBulkReport.scheduleConfig.days.saturday"),
+    },
+    {
+      value: "sunday",
+      label: t("GenerateBulkReport.scheduleConfig.days.sunday"),
+    },
+  ];
+
+  const weekOptions = [
+    {
+      value: "first",
+      label: t("GenerateBulkReport.scheduleConfig.weekOptions.first"),
+    },
+    {
+      value: "second",
+      label: t("GenerateBulkReport.scheduleConfig.weekOptions.second"),
+    },
+    {
+      value: "third",
+      label: t("GenerateBulkReport.scheduleConfig.weekOptions.third"),
+    },
+    {
+      value: "fourth",
+      label: t("GenerateBulkReport.scheduleConfig.weekOptions.first"),
+    },
+    {
+      value: "last",
+      label: t("GenerateBulkReport.scheduleConfig.weekOptions.last"),
+    },
+  ];
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -581,8 +595,12 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
       const response = await reportsApi.createBulkReport(apiPayload);
 
       toast({
-        title: "Report Project Created",
-        description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`,
+        title: t("GenerateBulkReport.toasts.reportCreatedTitle"),
+        description: t("GenerateBulkReport.toasts.reportCreatedDescription", {
+          projectName: data.projectName,
+          projectId: response.data.projectId,
+        }),
+        //  `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`,
       });
 
       // Invalidate bulk reports query to refresh the reports table
@@ -595,11 +613,11 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
       navigate(redirectPath);
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t("GenerateBulkReport.toasts.errorTitle"),
         description:
           error.response.data.message ||
           error.message ||
-          "Failed to create report project. Please try again.",
+          t("GenerateBulkReport.toasts.errorMessage"),
         variant: "destructive",
       });
     } finally {
@@ -629,10 +647,10 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
       <div className="flex items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Generate Bulk Report{" "}
+            {t("GenerateBulkReport.pageTitle")}
           </h1>
           <p className="text-muted-foreground">
-            Create and schedule automated reports for multiple locations.
+            {t("GenerateBulkReport.pageDescription")}
           </p>
         </div>
       </div>
@@ -644,10 +662,10 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Report Details
+                {t("GenerateBulkReport.reportDetails.title")}
               </CardTitle>
               <CardDescription>
-                Give your report project a name and select locations.
+                {t("GenerateBulkReport.reportDetails.description")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -656,9 +674,16 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                 name="projectName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Report title</FormLabel>
+                    <FormLabel>
+                      {t("GenerateBulkReport.reportDetails.reportTitleLabel")}
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter report title..." {...field} />
+                      <Input
+                        placeholder={t(
+                          "GenerateBulkReport.reportDetails.reportTitlePlaceholder"
+                        )}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -682,7 +707,11 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
 
                         <div className="flex items-center justify-end">
                           <Badge variant="outline" className="text-xs">
-                            {watchSelectedListings.length} locations selected
+                            {t(
+                              "GenerateBulkReport.reportDetails.locationsSelected",
+                              { count: watchSelectedListings.length }
+                            )}
+                            {/* {watchSelectedListings.length} locations selected */}
                           </Badge>
                         </div>
                       </div>
@@ -699,17 +728,17 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <File className="w-5 h-5" />
-                Report Types
+                {t("GenerateBulkReport.reportTypes.title")}
               </CardTitle>
               <CardDescription>
-                Select which reports to include in your project.
+                {t("GenerateBulkReport.reportTypes.description")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <Label className="text-sm font-medium">
-                    Available Reports
+                    {t("GenerateBulkReport.reportTypes.availableReports")}
                   </Label>
                   <div className="flex gap-2">
                     <Button
@@ -718,7 +747,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       size="sm"
                       onClick={handleSelectAllReports}
                     >
-                      Select All
+                      {t("GenerateBulkReport.reportTypes.selectAll")}
                     </Button>
                     <Button
                       type="button"
@@ -726,7 +755,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       size="sm"
                       onClick={handleDeselectAllReports}
                     >
-                      Deselect All
+                      {t("GenerateBulkReport.reportTypes.deselectAll")}
                     </Button>
                   </div>
                 </div>
@@ -784,10 +813,10 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CalendarLucide className="w-5 h-5" />
-                Schedule Configuration
+                {t("GenerateBulkReport.scheduleConfig.title")}
               </CardTitle>
               <CardDescription>
-                Configure when and how often reports should be generated.
+                {t("GenerateBulkReport.scheduleConfig.description")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -796,7 +825,9 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                 name="scheduleType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Schedule Type</FormLabel>
+                    <FormLabel>
+                      {t("GenerateBulkReport.scheduleConfig.scheduleTypeLabel")}
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -805,15 +836,27 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="one-time" id="one-time" />
-                          <Label htmlFor="one-time">One Time</Label>
+                          <Label htmlFor="one-time">
+                            {t(
+                              "GenerateBulkReport.scheduleConfig.scheduleTypes.oneTime"
+                            )}
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="weekly" id="weekly" />
-                          <Label htmlFor="weekly">Weekly</Label>
+                          <Label htmlFor="weekly">
+                            {t(
+                              "GenerateBulkReport.scheduleConfig.scheduleTypes.weekly"
+                            )}
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="monthly" id="monthly" />
-                          <Label htmlFor="monthly">Monthly</Label>
+                          <Label htmlFor="monthly">
+                            {t(
+                              "GenerateBulkReport.scheduleConfig.scheduleTypes.monthly"
+                            )}
+                          </Label>
                         </div>
                       </RadioGroup>
                     </FormControl>
@@ -829,7 +872,9 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                     name="fromDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>From Date</FormLabel>
+                        <FormLabel>
+                          {t("GenerateBulkReport.scheduleConfig.fromDateLabel")}
+                        </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -843,7 +888,11 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                                 {field.value ? (
                                   format(field.value, "PPP")
                                 ) : (
-                                  <span>Pick start date</span>
+                                  <span>
+                                    {t(
+                                      "GenerateBulkReport.scheduleConfig.fromDatePlaceholder"
+                                    )}
+                                  </span>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -869,7 +918,9 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                     name="toDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>To Date</FormLabel>
+                        <FormLabel>
+                          {t("GenerateBulkReport.scheduleConfig.toDateLabel")}
+                        </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -883,7 +934,11 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                                 {field.value ? (
                                   format(field.value, "PPP")
                                 ) : (
-                                  <span>Pick end date</span>
+                                  <span>
+                                    {t(
+                                      "GenerateBulkReport.scheduleConfig.toDatePlaceholder"
+                                    )}
+                                  </span>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -915,14 +970,22 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                     name="frequency"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Select Frequency</FormLabel>
+                        <FormLabel>
+                          {t(
+                            "GenerateBulkReport.scheduleConfig.selectFrequency"
+                          )}
+                        </FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select frequency..." />
+                              <SelectValue
+                                placeholder={t(
+                                  "GenerateBulkReport.scheduleConfig.selectFrequencyPlaceholder"
+                                )}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -947,14 +1010,20 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       name="emailWeek"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Send Email On This Week</FormLabel>
+                          <FormLabel>
+                            {t("GenerateBulkReport.scheduleConfig.selectWeek")}
+                          </FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select week..." />
+                                <SelectValue
+                                  placeholder={t(
+                                    "GenerateBulkReport.scheduleConfig.selectWeekPlaceholder"
+                                  )}
+                                />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -976,14 +1045,20 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                     name="emailDay"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Send Email On</FormLabel>
+                        <FormLabel>
+                          {t("GenerateBulkReport.scheduleConfig.selectDay")}
+                        </FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select day..." />
+                              <SelectValue
+                                placeholder={t(
+                                  "GenerateBulkReport.scheduleConfig.selectDayPlaceholder"
+                                )}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -1008,12 +1083,12 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Delivery Format
+                {t("GenerateBulkReport.deliveryFormat.title")}
               </CardTitle>
               <CardDescription>
                 {watchSelectedListings.length === 1
-                  ? "Choose how you want to receive your report. You can select multiple formats."
-                  : "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance."}
+                  ? t("GenerateBulkReport.deliveryFormat.descriptionSingle")
+                  : t("GenerateBulkReport.deliveryFormat.descriptionMultiple")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -1025,11 +1100,19 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                     <FormControl>
                       <div className="flex flex-col md:flex-row gap-4">
                         {[
-                          { value: "csv", label: "CSV Format", icon: File },
-                          { value: "pdf", label: "PDF Format", icon: FileText },
+                          {
+                            value: "csv",
+                            label: t("GenerateBulkReport.deliveryFormat.csv"),
+                            icon: File,
+                          },
+                          {
+                            value: "pdf",
+                            label: t("GenerateBulkReport.deliveryFormat.pdf"),
+                            icon: FileText,
+                          },
                           {
                             value: "html",
-                            label: "HTML Public Report",
+                            label: t("GenerateBulkReport.deliveryFormat.html"),
                             icon: Globe,
                           },
                         ].map((format) => {
@@ -1112,20 +1195,21 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                         </svg>
                         <div className="text-sm text-muted-foreground">
                           <strong className="text-foreground">
-                            Selection Guide:
+                            {t(
+                              "GenerateBulkReport.deliveryFormat.selectionGuide"
+                            )}
                           </strong>
                           {watchSelectedListings.length === 1 ? (
                             <span>
-                              {" "}
-                              You can select multiple delivery formats for your
-                              single listing report.
+                              {t(
+                                "GenerateBulkReport.deliveryFormat.selectionNoteSingle"
+                              )}
                             </span>
                           ) : (
                             <span>
-                              {" "}
-                              When generating reports for multiple listings, you
-                              can only select one delivery format to optimize
-                              performance.
+                              {t(
+                                "GenerateBulkReport.deliveryFormat.selectionNoteMultiple"
+                              )}
                             </span>
                           )}
                         </div>
@@ -1143,10 +1227,10 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="w-5 h-5" />
-                Email Composer
+                {t("GenerateBulkReport.emailComposer.title")}
               </CardTitle>
               <CardDescription>
-                Configure how reports will be sent via email.
+                {t("GenerateBulkReport.emailComposer.description")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -1156,10 +1240,14 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                   name="emailTo"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>To *</FormLabel>
+                      <FormLabel>
+                        {t("GenerateBulkReport.emailComposer.to")}
+                      </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="recipient1@example.com, recipient2@example.com"
+                          placeholder={t(
+                            "GenerateBulkReport.emailComposer.toPlaceholder"
+                          )}
                           {...field}
                         />
                       </FormControl>
@@ -1173,10 +1261,14 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                   name="emailCc"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>CC</FormLabel>
+                      <FormLabel>
+                        {t("GenerateBulkReport.emailComposer.cc")}
+                      </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="cc1@example.com, cc2@example.com"
+                          placeholder={t(
+                            "GenerateBulkReport.emailComposer.ccPlaceholder"
+                          )}
                           {...field}
                         />
                       </FormControl>
@@ -1190,10 +1282,14 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                   name="emailBcc"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>BCC</FormLabel>
+                      <FormLabel>
+                        {t("GenerateBulkReport.emailComposer.bcc")}
+                      </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="bcc@example.com, bcc2@example.com"
+                          placeholder={t(
+                            "GenerateBulkReport.emailComposer.bccPlaceholder"
+                          )}
                           {...field}
                         />
                       </FormControl>
@@ -1208,12 +1304,18 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                 name="emailSubject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subject *</FormLabel>
+                    <FormLabel>
+                      {t("GenerateBulkReport.emailComposer.subject")}
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={`Your Generated Reports - ${
-                          watchProjectName || "Report Title"
-                        }`}
+                        placeholder={t(
+                          "GenerateBulkReport.emailComposer.subjectPlaceholder",
+                          { projectName: watchProjectName || "Report Title" }
+                        )}
+                        // {`Your Generated Reports - ${
+                        //   watchProjectName || "Report Title"
+                        // }`}
                         {...field}
                       />
                     </FormControl>
@@ -1227,10 +1329,14 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                 name="emailMessage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message *</FormLabel>
+                    <FormLabel>
+                      {t("GenerateBulkReport.emailComposer.message")}
+                    </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Enter your email message..."
+                        placeholder={t(
+                          "GenerateBulkReport.emailComposer.messagePlaceholder"
+                        )}
                         className="min-h-[100px]"
                         {...field}
                       />
@@ -1249,18 +1355,18 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
               variant="outline"
               onClick={() => navigate("/main-dashboard/reports")}
             >
-              Cancel
+              {t("GenerateBulkReport.actions.cancel")}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <Send className="w-4 h-4 mr-2" />
-                  Creating...
+                  {t("GenerateBulkReport.actions.creating")}
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4 mr-2" />
-                  Create report
+                  {t("GenerateBulkReport.actions.create")}
                 </>
               )}
             </Button>
