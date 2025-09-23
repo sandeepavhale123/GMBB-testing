@@ -281,11 +281,11 @@ export const ImportPostCSVWizard: React.FC = () => {
         return renderStep1();
     }
   };
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background border border-gray-200">
       {renderMobileStepIndicator()}
       <div className="flex">
         {renderStepIndicator()}
-        <div className="flex-1 p-4 lg:p-8">
+        <div className="flex-1 p-4 lg:p-8 ">
           <div className="w-full max-w-4xl">
             {renderCurrentStep()}
           </div>
