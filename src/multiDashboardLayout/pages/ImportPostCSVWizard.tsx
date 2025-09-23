@@ -85,14 +85,14 @@ export const ImportPostCSVWizard: React.FC = () => {
   };
 
   const renderStepIndicator = () => (
-    <div className="w-64 bg-muted/50 p-6">
+    <div className="w-64 border-r border-gray-200 p-6 hidden lg:block">
       <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
       <div className="space-y-4">
         {steps.map((step) => (
           <div key={step.number} className="flex items-center gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all">
               {step.completed ? (
-                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <CheckCircle2 className="w-5 h-5 text-success" />
               ) : currentStep === step.number ? (
                 <div className="w-4 h-4 rounded-full bg-primary"></div>
               ) : (
@@ -104,6 +104,31 @@ export const ImportPostCSVWizard: React.FC = () => {
             }`}>
               {step.title}
             </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderMobileStepIndicator = () => (
+    <div className="lg:hidden border-b border-gray-200 p-4 bg-background">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Import Post CSV</h3>
+        <span className="text-sm text-muted-foreground">Step {currentStep} of 4</span>
+      </div>
+      <div className="flex items-center gap-2 mt-3">
+        {steps.map((step) => (
+          <div key={step.number} className="flex items-center">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full border transition-all">
+              {step.completed ? (
+                <CheckCircle2 className="w-4 h-4 text-success" />
+              ) : currentStep === step.number ? (
+                <div className="w-3 h-3 rounded-full bg-primary"></div>
+              ) : (
+                <Circle className="w-4 h-4 text-muted-foreground" />
+              )}
+            </div>
+            {step.number < 4 && <div className="w-4 h-0.5 bg-gray-200 mx-1"></div>}
           </div>
         ))}
       </div>
@@ -295,9 +320,10 @@ export const ImportPostCSVWizard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {renderMobileStepIndicator()}
       <div className="flex">
         {renderStepIndicator()}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 lg:p-8">
           <div className="w-full max-w-4xl">
             {renderCurrentStep()}
           </div>
