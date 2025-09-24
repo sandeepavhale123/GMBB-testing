@@ -59,16 +59,29 @@ export const ShareableGeoRankingPage: React.FC = () => {
     }
   }, [keywords, selectedKeyword]);
 
-  // Fetch keyword details when date is selected (send date_id as keywordId)
+  // Fetch keyword details - use keyword_id for initial load, date_id for date changes
   const { 
     data: keywordDetailsData, 
     isLoading: keywordDetailsLoading, 
     error: keywordDetailsError 
   } = useShareableKeywordDetails({
     reportId: reportId || '',
+    keywordId: parseInt(selectedKeyword) || 0,
+    dateId: selectedDate,
+    isDateBasedCall: false, // This will be handled separately for date changes
+    enabled: Boolean(selectedKeyword) && Boolean(reportId)
+  });
+
+  // Separate API call for date changes (send date_id as keywordId)
+  const { 
+    data: dateBasedDetailsData, 
+    isLoading: dateDetailsLoading 
+  } = useShareableKeywordDetails({
+    reportId: reportId || '',
     keywordId: parseInt(selectedDate) || 0,
     dateId: selectedDate,
-    enabled: Boolean(selectedDate) && Boolean(reportId)
+    isDateBasedCall: true,
+    enabled: Boolean(selectedDate) && Boolean(reportId) && selectedDate !== keywordDetailsData?.data?.dates?.[0]?.id
   });
 
   // Auto-select first date when keyword details are loaded
@@ -89,13 +102,13 @@ export const ShareableGeoRankingPage: React.FC = () => {
     keywordId: parseInt(selectedKeyword) || 0
   });
 
-  // Handle keyword change
+  // Handle keyword selection change
   const handleKeywordChange = (keywordId: string) => {
     setSelectedKeyword(keywordId);
-    setSelectedDate(''); // Reset selected date when keyword changes
+    setSelectedDate(''); // Reset date when keyword changes
   };
 
-  // Handle date change
+  // Handle date selection change - this will trigger the date-based API call
   const handleDateChange = (dateId: string) => {
     setSelectedDate(dateId);
   };
@@ -107,8 +120,8 @@ export const ShareableGeoRankingPage: React.FC = () => {
     date: date.date
   })) || [];
 
-  // Get current keyword details or use mock data
-  const keywordDetails = keywordDetailsData?.data || {
+  // Get current keyword details - use date-based data if available, otherwise use keyword-based data
+  const keywordDetails = (dateBasedDetailsData?.data || keywordDetailsData?.data) || {
     rankDetails: [],
     dates: [],
     rankStats: {
@@ -222,7 +235,7 @@ export const ShareableGeoRankingPage: React.FC = () => {
               refreshProgress={0} 
               loading={keywordDetailsLoading} 
               keywordChanging={keywordDetailsLoading} 
-              dateChanging={false} 
+              dateChanging={dateDetailsLoading}
               error={keywordDetailsError?.message || null}
               isShareableView={true}
               projectName={shareableData?.data?.projectName}
