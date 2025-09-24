@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from "./axiosInstance";
 
 export interface GenerateCSVRequest {
   fileType: string;
@@ -16,7 +16,7 @@ export interface GenerateCSVResponse {
 
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
-    const response = await axios.post('/generate-multicsv-file', request);
+    const response = await axiosInstance.post('/generate-multicsv-file', request);
     return response.data;
   }
 };

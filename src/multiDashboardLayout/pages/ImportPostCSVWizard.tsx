@@ -10,37 +10,18 @@ import { FilePreview } from "@/components/ImportCSV/FilePreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { csvApi } from "@/api/csvApi";
 import { useToast } from "@/hooks/use-toast";
-const postTypeOptions = [{
-  label: "Select file type",
-  value: "0"
-}, {
-  label: "Regular post file",
-  value: "1"
-}, {
-  label: "Regular post file with silo",
-  value: "1"
-}, {
-  label: "Regular post file silo with spin text",
-  value: "1"
-}, {
-  label: "Event post file",
-  value: "2"
-}, {
-  label: "Event post file with silo",
-  value: "2"
-}, {
-  label: "Event post file silo with spin text",
-  value: "2"
-}, {
-  label: "Offer post file",
-  value: "3"
-}, {
-  label: "Offer post file with silo",
-  value: "3"
-}, {
-  label: "Offer post file silo with spin text",
-  value: "3"
-}];
+const postTypeOptions =  [
+  { label: "Select file type", value: "0" },
+  { label: "Regular post file", value: "1" },
+  { label: "Regular post file with silo", value: "2" },
+  { label: "Regular post file silo with spin text", value: "3" },
+  { label: "Event post file", value: "4" },
+  { label: "Event post file with silo", value: "5" },
+  { label: "Event post file silo with spin text", value: "6" },
+  { label: "Offer post file", value: "7" },
+  { label: "Offer post file with silo", value: "8" },
+  { label: "Offer post file silo with spin text", value: "9" }
+];;
 interface WizardFormData {
   selectedListings: string[];
   postType: string;
