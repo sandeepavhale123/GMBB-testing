@@ -73,11 +73,46 @@ export const ImportPostCSVWizard: React.FC = () => {
 
   const generateCSVFile = async () => {
     setIsGeneratingCSV(true);
+    
+    // Validation and debugging
+    console.log('🚀 Starting CSV generation with data:', {
+      postType: formData.postType,
+      selectedListings: formData.selectedListings,
+      listingCount: formData.selectedListings.length
+    });
+
+    // Validate required data
+    if (!formData.selectedListings.length) {
+      toast({
+        title: "Error",
+        description: "Please select at least one listing.",
+        variant: "destructive"
+      });
+      setIsGeneratingCSV(false);
+      return;
+    }
+
+    if (!formData.postType || formData.postType === "0") {
+      toast({
+        title: "Error", 
+        description: "Please select a valid post type.",
+        variant: "destructive"
+      });
+      setIsGeneratingCSV(false);
+      return;
+    }
+
     try {
-      const response = await csvApi.generateMultiCSVFile({
+      const requestData = {
         fileType: formData.postType,
         listingIds: formData.selectedListings
-      });
+      };
+      
+      console.log('📤 Sending API request:', requestData);
+      
+      const response = await csvApi.generateMultiCSVFile(requestData);
+      
+      console.log('📥 Received API response:', response);
 
       if (response.code === 200) {
         setFormData(prev => ({
@@ -90,14 +125,38 @@ export const ImportPostCSVWizard: React.FC = () => {
           title: "Success",
           description: "CSV file generated successfully"
         });
+        console.log('✅ CSV generation successful');
       } else {
-        throw new Error(response.message);
+        console.error('❌ API returned error code:', response.code, response.message);
+        throw new Error(response.message || 'Unknown API error');
       }
-    } catch (error) {
-      console.error('Error generating CSV:', error);
+    } catch (error: any) {
+      console.error('❌ Error generating CSV:', {
+        error,
+        message: error?.message,
+        response: error?.response?.data,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText
+      });
+
+      // More specific error messages based on error type
+      let errorMessage = "Failed to generate CSV file. Please try again.";
+      
+      if (error?.response?.status === 401) {
+        errorMessage = "Authentication failed. Please log in again.";
+      } else if (error?.response?.status === 403) {
+        errorMessage = "You don't have permission to generate CSV files.";
+      } else if (error?.response?.status === 500) {
+        errorMessage = "Server error occurred. Please try again later.";
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+
       toast({
         title: "Error",
-        description: "Failed to generate CSV file. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
