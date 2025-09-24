@@ -622,26 +622,11 @@ export const ImportPostCSVWizard: React.FC = () => {
         </p>
       </div>
 
-      {formData.saveResponse && (
-        <Card className="border-green-200 bg-green-50 max-w-md mx-auto">
-          <CardContent className="p-4">
-            <div className="space-y-2 text-left">
-              <h3 className="font-semibold text-green-700">Import Results</h3>
-              <div className="text-sm text-green-600">
-                <p>✓ Posts imported: {formData.saveResponse.data.insertedCount}</p>
-                <p>✓ History ID: {formData.saveResponse.data.historyId}</p>
-                <p>✓ Inserted IDs: {formData.saveResponse.data.insertedIds.slice(0, 3).join(', ')}{formData.saveResponse.data.insertedIds.length > 3 ? '...' : ''}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       <div className="flex justify-center gap-4">
         <Button onClick={() => navigate('/main-dashboard')}>
           Go to Main Dashboard
         </Button>
-        <Button variant="outline" onClick={() => navigate('/main-dashboard/bulk-post')}>
+        <Button variant="outline" onClick={() => navigate(`/main-dashboard/bulk-import-details/${formData.saveResponse?.data.historyId}`)}>
           View Post Details
         </Button>
       </div>
