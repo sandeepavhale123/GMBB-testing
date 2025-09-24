@@ -8,20 +8,15 @@ import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyLi
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { FilePreview } from "@/components/ImportCSV/FilePreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { csvApi } from "@/api/csvApi";
+import { csvApi, ValidationRow, UploadBulkSheetResponse } from "@/api/csvApi";
 import { useToast } from "@/hooks/use-toast";
-const postTypeOptions =  [
+const postTypeOptions = [
   { label: "Select file type", value: "0" },
   { label: "Regular post file", value: "1" },
-  { label: "Regular post file with silo", value: "2" },
-  { label: "Regular post file silo with spin text", value: "3" },
-  { label: "Event post file", value: "4" },
-  { label: "Event post file with silo", value: "5" },
-  { label: "Event post file silo with spin text", value: "6" },
-  { label: "Offer post file", value: "7" },
-  { label: "Offer post file with silo", value: "8" },
-  { label: "Offer post file silo with spin text", value: "9" }
-];;
+  { label: "Event post file", value: "2" },
+  { label: "Offer post file", value: "3" }
+];
+
 interface WizardFormData {
   selectedListings: string[];
   postType: string;
@@ -29,19 +24,32 @@ interface WizardFormData {
   note: string;
   generatedFileUrl: string | null;
   generatedFileName: string | null;
+  uploadResponse: UploadBulkSheetResponse | null;
+  totalRows: number;
+  errorCount: number;
+  validatedRows: ValidationRow[];
+  uploadedFileUrl: string | null;
+  uploadedFileName: string | null;
 }
 export const ImportPostCSVWizard: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [formData, setFormData] = useState<WizardFormData>({
     selectedListings: [],
     postType: "",
     uploadedFile: null,
     note: "",
     generatedFileUrl: null,
-    generatedFileName: null
+    generatedFileName: null,
+    uploadResponse: null,
+    totalRows: 0,
+    errorCount: 0,
+    validatedRows: [],
+    uploadedFileUrl: null,
+    uploadedFileName: null
   });
   const steps = [{
     number: 1,
@@ -66,6 +74,9 @@ export const ImportPostCSVWizard: React.FC = () => {
     if (currentStep === 1) {
       // Generate CSV file when moving from step 1 to step 2
       await generateCSVFile();
+    } else if (currentStep === 2) {
+      // Upload and validate CSV file when moving from step 2 to step 3
+      await uploadBulkSheet();
     } else if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
@@ -161,6 +172,96 @@ export const ImportPostCSVWizard: React.FC = () => {
       });
     } finally {
       setIsGeneratingCSV(false);
+    }
+  };
+
+  const uploadBulkSheet = async () => {
+    if (!formData.uploadedFile) {
+      toast({
+        title: "Error",
+        description: "Please select a file to upload.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.postType || formData.postType === "0") {
+      toast({
+        title: "Error",
+        description: "Please select a valid post type.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsUploadingFile(true);
+
+    try {
+      console.log('🚀 Starting file upload with:', {
+        postType: formData.postType,
+        fileName: formData.uploadedFile.name
+      });
+
+      const response = await csvApi.uploadBulkSheet(formData.postType, formData.uploadedFile);
+
+      console.log('📥 Received upload response:', response);
+
+      if (response.code === 200) {
+        setFormData(prev => ({
+          ...prev,
+          uploadResponse: response,
+          totalRows: response.data.totalRows,
+          errorCount: response.data.errorCount,
+          validatedRows: response.data.rows,
+          uploadedFileUrl: response.data.fileUrl,
+          uploadedFileName: response.data.fileName
+        }));
+
+        setCurrentStep(currentStep + 1);
+
+        toast({
+          title: response.data.errorCount === 0 ? "Success" : "Upload Complete",
+          description: response.data.errorCount === 0 
+            ? "File uploaded and validated successfully"
+            : `File uploaded with ${response.data.errorCount} validation errors. Please review.`,
+          variant: response.data.errorCount === 0 ? "default" : "destructive"
+        });
+
+        console.log('✅ File upload successful');
+      } else {
+        console.error('❌ Upload API returned error code:', response.code, response.message);
+        throw new Error(response.message || 'Unknown upload error');
+      }
+    } catch (error: any) {
+      console.error('❌ Error uploading file:', {
+        error,
+        message: error?.message,
+        response: error?.response?.data,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText
+      });
+
+      let errorMessage = "Failed to upload file. Please try again.";
+      
+      if (error?.response?.status === 401) {
+        errorMessage = "Authentication failed. Please log in again.";
+      } else if (error?.response?.status === 403) {
+        errorMessage = "You don't have permission to upload files.";
+      } else if (error?.response?.status === 500) {
+        errorMessage = "Server error occurred. Please try again later.";
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploadingFile(false);
     }
   };
   const handlePrevious = () => {
@@ -285,60 +386,142 @@ export const ImportPostCSVWizard: React.FC = () => {
         <Button variant="outline" onClick={handlePrevious}>
           Previous
         </Button>
-        <Button onClick={handleNext} disabled={!canProceedFromStep2}>
-          Next
+        <Button onClick={handleNext} disabled={!canProceedFromStep2 || isUploadingFile}>
+          {isUploadingFile ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Uploading...
+            </>
+          ) : (
+            'Next'
+          )}
         </Button>
       </div>
     </div>;
   const renderStep3 = () => <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold mb-2">QC</h2>
-        <p className="text-muted-foreground">Review your uploaded file and make any necessary adjustments.</p>
+        <h2 className="text-2xl font-semibold mb-2">Quality Control</h2>
+        <p className="text-muted-foreground">Review your uploaded file validation results.</p>
       </div>
 
-      {formData.uploadedFile && <FilePreview file={formData.uploadedFile} />}
+      {formData.uploadResponse && (
+        <div className="space-y-4">
+          <Card className={formData.errorCount === 0 ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-lg">Upload Summary</h3>
+                  <p className="text-sm text-muted-foreground">
+                    File: {formData.uploadedFileName} | Total Rows: {formData.totalRows} | Errors: {formData.errorCount}
+                  </p>
+                </div>
+                {formData.errorCount === 0 ? (
+                  <CheckCircle2 className="w-8 h-8 text-green-600" />
+                ) : (
+                  <AlertTriangle className="w-8 h-8 text-red-600" />
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
-      <Card className="border-orange-200 bg-orange-50">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-orange-700">
-              <AlertTriangle className="w-5 h-5" />
-              <span className="font-medium">Please fix the suggested issue and re-upload the file.</span>
-            </div>
-            <div>
-              <input type="file" accept=".csv" onChange={e => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setFormData(prev => ({
-                  ...prev,
-                  uploadedFile: file
-                }));
-              }
-              e.target.value = "";
-            }} className="hidden" id="reupload-input" />
-              <Button variant="outline" size="sm" onClick={() => document.getElementById('reupload-input')?.click()} className="text-orange-700 border-orange-300 hover:bg-orange-100">
-                <Upload className="w-4 h-4 mr-2" />
-                Re-upload
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {formData.errorCount > 0 && (
+            <Card className="border-orange-200 bg-orange-50">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2 text-orange-700">
+                    <AlertTriangle className="w-5 h-5" />
+                    <span className="font-medium">Validation Errors Found - Please fix and re-upload</span>
+                  </div>
+                  <div>
+                    <input 
+                      type="file" 
+                      accept=".csv" 
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setFormData(prev => ({ ...prev, uploadedFile: file }));
+                          setCurrentStep(2); // Go back to upload step
+                        }
+                        e.target.value = "";
+                      }} 
+                      className="hidden" 
+                      id="reupload-input" 
+                    />
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => document.getElementById('reupload-input')?.click()} 
+                      className="text-orange-700 border-orange-300 hover:bg-orange-100"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Re-upload File
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="max-h-96 overflow-y-auto">
+                  <div className="space-y-2">
+                    {formData.validatedRows.filter(row => row.errors.length > 0).map((row, index) => (
+                      <div key={index} className="p-3 bg-white rounded border border-red-200">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="font-medium text-red-700">Row {row.row} - {row.data.business_name}</span>
+                          <span className="text-xs text-red-600">{row.errors.length} error(s)</span>
+                        </div>
+                        <div className="space-y-1">
+                          {row.errors.map((error, errorIndex) => (
+                            <div key={errorIndex} className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                              {error}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {formData.errorCount === 0 && (
+            <Card className="border-green-200 bg-green-50">
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-green-700">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span className="font-medium">All rows validated successfully!</span>
+                  </div>
+                  <div className="text-sm text-green-600">
+                    <p>✓ {formData.totalRows} rows processed</p>
+                    <p>✓ No validation errors found</p>
+                    <p>✓ Ready for submission</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
 
       <div>
-        <label className="block text-sm font-medium mb-2">Note</label>
-        <Textarea placeholder="Add any notes about this import..." value={formData.note} onChange={e => setFormData(prev => ({
-        ...prev,
-        note: e.target.value
-      }))} rows={3} />
+        <label className="block text-sm font-medium mb-2">Notes (Optional)</label>
+        <Textarea 
+          placeholder="Add any notes about this import..." 
+          value={formData.note} 
+          onChange={(e) => setFormData(prev => ({ ...prev, note: e.target.value }))} 
+          rows={3} 
+        />
       </div>
 
       <div className="flex justify-between">
         <Button variant="outline" onClick={handlePrevious}>
           Previous
         </Button>
-        <Button onClick={handleSubmit}>
-          Submit
+        <Button 
+          onClick={handleSubmit} 
+          disabled={formData.errorCount > 0}
+          className={formData.errorCount > 0 ? "opacity-50 cursor-not-allowed" : ""}
+        >
+          {formData.errorCount > 0 ? "Fix Errors to Continue" : "Submit Import"}
         </Button>
       </div>
     </div>;
