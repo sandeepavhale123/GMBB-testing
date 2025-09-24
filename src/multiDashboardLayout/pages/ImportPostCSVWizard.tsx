@@ -424,6 +424,10 @@ export const ImportPostCSVWizard: React.FC = () => {
             </CardContent>
           </Card>
 
+          {formData.uploadedFile && (
+            <FilePreview file={formData.uploadedFile} />
+          )}
+
           {formData.errorCount > 0 && (
             <Card className="border-orange-200 bg-orange-50">
               <CardContent className="p-4">
