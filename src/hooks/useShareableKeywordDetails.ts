@@ -4,6 +4,7 @@ import { getShareableKeywordDetails, ShareableKeywordDetailsResponse } from '@/a
 interface UseShareableKeywordDetailsOptions {
   reportId: string;
   keywordId: number;
+  dateId?: string;
   status?: number;
   enabled?: boolean;
 }
@@ -11,11 +12,12 @@ interface UseShareableKeywordDetailsOptions {
 export const useShareableKeywordDetails = ({ 
   reportId, 
   keywordId, 
+  dateId,
   status = 1, 
   enabled = true 
 }: UseShareableKeywordDetailsOptions) => {
   return useQuery<ShareableKeywordDetailsResponse>({
-    queryKey: ['shareable-keyword-details', reportId, keywordId, status],
+    queryKey: ['shareable-keyword-details', reportId, keywordId, dateId, status],
     queryFn: () => getShareableKeywordDetails({ reportId, keywordId, status }),
     enabled: enabled && Boolean(reportId) && Boolean(keywordId),
     staleTime: 5 * 60 * 1000, // 5 minutes

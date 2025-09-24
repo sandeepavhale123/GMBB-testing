@@ -59,15 +59,16 @@ export const ShareableGeoRankingPage: React.FC = () => {
     }
   }, [keywords, selectedKeyword]);
 
-  // Fetch keyword details when keyword is selected
+  // Fetch keyword details when date is selected (send date_id as keywordId)
   const { 
     data: keywordDetailsData, 
     isLoading: keywordDetailsLoading, 
     error: keywordDetailsError 
   } = useShareableKeywordDetails({
     reportId: reportId || '',
-    keywordId: parseInt(selectedKeyword) || 0,
-    enabled: Boolean(selectedKeyword) && Boolean(reportId)
+    keywordId: parseInt(selectedDate) || 0,
+    dateId: selectedDate,
+    enabled: Boolean(selectedDate) && Boolean(reportId)
   });
 
   // Auto-select first date when keyword details are loaded
