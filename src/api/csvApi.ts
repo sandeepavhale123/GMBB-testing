@@ -48,6 +48,68 @@ export interface SaveBulkSheetResponse {
   };
 }
 
+// Bulk Import Details APIs
+export interface GetBulkCSVListingRequest {
+  historyId: number;
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface BulkListing {
+  id: string;
+  listing_name: string;
+  zipcode: string;
+}
+
+export interface GetBulkCSVListingResponse {
+  code: number;
+  message: string;
+  data: {
+    listings: BulkListing[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+    };
+  };
+}
+
+export interface GetListingPostDetailsRequest {
+  historyId: number;
+  listingId: string;
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface BulkImportPost {
+  id: string;
+  search_url: string | null;
+  text: string;
+  image: string;
+  action_type: string;
+  url: string;
+  state: string;
+  event_title: string | null;
+  posttype: string;
+  tags: string;
+  publishDate: string;
+}
+
+export interface GetListingPostDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    posts: BulkImportPost[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+    };
+  };
+}
+
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
     console.log('🌐 Making API request to /generate-multicsv-file with:', request);
@@ -108,6 +170,46 @@ export const csvApi = {
     } catch (error: any) {
       console.error('❌ Save API request failed:', {
         url: '/save-bulk-sheet',
+        request,
+        error: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        responseData: error?.response?.data
+      });
+      throw error;
+    }
+  },
+
+  getBulkCSVListing: async (request: GetBulkCSVListingRequest): Promise<GetBulkCSVListingResponse> => {
+    console.log('🌐 Making API request to /get-bulkcsv-listing with:', request);
+    
+    try {
+      const response = await axiosInstance.post('/get-bulkcsv-listing', request);
+      console.log('✅ Bulk CSV Listing API response received:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Bulk CSV Listing API request failed:', {
+        url: '/get-bulkcsv-listing',
+        request,
+        error: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        responseData: error?.response?.data
+      });
+      throw error;
+    }
+  },
+
+  getListingPostDetails: async (request: GetListingPostDetailsRequest): Promise<GetListingPostDetailsResponse> => {
+    console.log('🌐 Making API request to /get-listingpost-details with:', request);
+    
+    try {
+      const response = await axiosInstance.post('/get-listingpost-details', request);
+      console.log('✅ Listing Post Details API response received:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Listing Post Details API request failed:', {
+        url: '/get-listingpost-details',
         request,
         error: error?.message,
         status: error?.response?.status,
