@@ -152,7 +152,7 @@ export const BulkImportDetails: React.FC = () => {
     return matchesSearch && matchesFilter;
   });
   return <div className="min-h-screen bg-background space-y-6">
-         <h1 class="text-2xl font-bold text-foreground">Bulk import Details</h1>
+         <h1 className="text-2xl font-bold text-foreground">Bulk import Details</h1>
       {/* Main Content */}
       <div className="flex gap-6 \n"> 
         {/* Left Sidebar - Hidden on mobile */}
