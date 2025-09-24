@@ -32,6 +32,22 @@ export interface UploadBulkSheetResponse {
   };
 }
 
+export interface SaveBulkSheetRequest {
+  fileType: string;
+  fileName: string;
+  note: string;
+}
+
+export interface SaveBulkSheetResponse {
+  code: number;
+  message: string;
+  data: {
+    insertedCount: number;
+    insertedIds: number[];
+    historyId: number;
+  };
+}
+
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
     console.log('🌐 Making API request to /generate-multicsv-file with:', request);
@@ -73,6 +89,26 @@ export const csvApi = {
         url: '/upload-bulk-sheet',
         fileType,
         fileName: userFile.name,
+        error: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        responseData: error?.response?.data
+      });
+      throw error;
+    }
+  },
+
+  saveBulkSheet: async (request: SaveBulkSheetRequest): Promise<SaveBulkSheetResponse> => {
+    console.log('🌐 Making API request to /save-bulk-sheet with:', request);
+    
+    try {
+      const response = await axiosInstance.post('/save-bulk-sheet', request);
+      console.log('✅ Save API response received:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Save API request failed:', {
+        url: '/save-bulk-sheet',
+        request,
         error: error?.message,
         status: error?.response?.status,
         statusText: error?.response?.statusText,

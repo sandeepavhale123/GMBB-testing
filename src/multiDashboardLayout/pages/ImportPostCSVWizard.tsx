@@ -8,7 +8,7 @@ import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyLi
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { FilePreview } from "@/components/ImportCSV/FilePreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { csvApi, ValidationRow, UploadBulkSheetResponse } from "@/api/csvApi";
+import { csvApi, ValidationRow, UploadBulkSheetResponse, SaveBulkSheetResponse } from "@/api/csvApi";
 import { useToast } from "@/hooks/use-toast";
 const postTypeOptions = [
   { label: "Select file type", value: "0" },
@@ -30,6 +30,7 @@ interface WizardFormData {
   validatedRows: ValidationRow[];
   uploadedFileUrl: string | null;
   uploadedFileName: string | null;
+  saveResponse: SaveBulkSheetResponse | null;
 }
 export const ImportPostCSVWizard: React.FC = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const ImportPostCSVWizard: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const [isSavingBulkSheet, setIsSavingBulkSheet] = useState(false);
   const [formData, setFormData] = useState<WizardFormData>({
     selectedListings: [],
     postType: "",
@@ -49,7 +51,8 @@ export const ImportPostCSVWizard: React.FC = () => {
     errorCount: 0,
     validatedRows: [],
     uploadedFileUrl: null,
-    uploadedFileName: null
+    uploadedFileName: null,
+    saveResponse: null
   });
   const steps = [{
     number: 1,
@@ -269,10 +272,82 @@ export const ImportPostCSVWizard: React.FC = () => {
       setCurrentStep(currentStep - 1);
     }
   };
-  const handleSubmit = () => {
-    // Process the form submission
-    console.log("Submitting CSV import:", formData);
-    setCurrentStep(4);
+  const handleSubmit = async () => {
+    if (!formData.uploadedFileName) {
+      toast({
+        title: "Error",
+        description: "No uploaded file found. Please upload a file first.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSavingBulkSheet(true);
+
+    try {
+      console.log('🚀 Starting bulk sheet save with:', {
+        fileType: formData.postType,
+        fileName: formData.uploadedFileName,
+        note: formData.note
+      });
+
+      const response = await csvApi.saveBulkSheet({
+        fileType: formData.postType,
+        fileName: formData.uploadedFileName,
+        note: formData.note
+      });
+
+      console.log('📥 Received save response:', response);
+
+      if (response.code === 200) {
+        setFormData(prev => ({
+          ...prev,
+          saveResponse: response
+        }));
+
+        setCurrentStep(4);
+
+        toast({
+          title: "Success",
+          description: `Successfully imported ${response.data.insertedCount} posts`,
+        });
+
+        console.log('✅ Bulk sheet save successful');
+      } else {
+        console.error('❌ Save API returned error code:', response.code, response.message);
+        throw new Error(response.message || 'Unknown save error');
+      }
+    } catch (error: any) {
+      console.error('❌ Error saving bulk sheet:', {
+        error,
+        message: error?.message,
+        response: error?.response?.data,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText
+      });
+
+      let errorMessage = "Failed to save bulk sheet. Please try again.";
+      
+      if (error?.response?.status === 401) {
+        errorMessage = "Authentication failed. Please log in again.";
+      } else if (error?.response?.status === 403) {
+        errorMessage = "You don't have permission to save bulk sheets.";
+      } else if (error?.response?.status === 500) {
+        errorMessage = "Server error occurred. Please try again later.";
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSavingBulkSheet(false);
+    }
   };
   const handleDownloadSample = () => {
     if (formData.generatedFileUrl) {
@@ -522,10 +597,19 @@ export const ImportPostCSVWizard: React.FC = () => {
         </Button>
         <Button 
           onClick={handleSubmit} 
-          disabled={formData.errorCount > 0}
+          disabled={formData.errorCount > 0 || isSavingBulkSheet}
           className={formData.errorCount > 0 ? "opacity-50 cursor-not-allowed" : ""}
         >
-          {formData.errorCount > 0 ? "Fix Errors to Continue" : "Submit Import"}
+          {isSavingBulkSheet ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Saving...
+            </>
+          ) : formData.errorCount > 0 ? (
+            "Fix Errors to Continue"
+          ) : (
+            "Submit Import"
+          )}
         </Button>
       </div>
     </div>;
@@ -537,6 +621,21 @@ export const ImportPostCSVWizard: React.FC = () => {
           All your posts have been successfully imported in bulk.
         </p>
       </div>
+
+      {formData.saveResponse && (
+        <Card className="border-green-200 bg-green-50 max-w-md mx-auto">
+          <CardContent className="p-4">
+            <div className="space-y-2 text-left">
+              <h3 className="font-semibold text-green-700">Import Results</h3>
+              <div className="text-sm text-green-600">
+                <p>✓ Posts imported: {formData.saveResponse.data.insertedCount}</p>
+                <p>✓ History ID: {formData.saveResponse.data.historyId}</p>
+                <p>✓ Inserted IDs: {formData.saveResponse.data.insertedIds.slice(0, 3).join(', ')}{formData.saveResponse.data.insertedIds.length > 3 ? '...' : ''}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="flex justify-center gap-4">
         <Button onClick={() => navigate('/main-dashboard')}>
