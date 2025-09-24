@@ -664,8 +664,8 @@ export const ImportPostCSVWizard: React.FC = () => {
       {renderMobileStepIndicator()}
       <div className="flex">
         {renderStepIndicator()}
-        <div className="flex-1 p-4 lg:p-8 ">
-          <div className="w-full max-w-4xl">
+        <div className="flex-1 p-4 lg:p-8 min-w-0">
+          <div className="w-full max-w-3xl">
             {renderCurrentStep()}
           </div>
         </div>
