@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Circle, Upload, Download, AlertTriangle, Check } from "lucide-react";
+import { CheckCircle2, Circle, Upload, Download, AlertTriangle, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,8 @@ import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyLi
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { FilePreview } from "@/components/ImportCSV/FilePreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { csvApi } from "@/api/csvApi";
+import { useToast } from "@/hooks/use-toast";
 const postTypeOptions = [{
   label: "Select file type",
   value: "0"
@@ -16,43 +18,49 @@ const postTypeOptions = [{
   value: "1"
 }, {
   label: "Regular post file with silo",
-  value: "2"
+  value: "1"
 }, {
   label: "Regular post file silo with spin text",
-  value: "3"
+  value: "1"
 }, {
   label: "Event post file",
-  value: "4"
+  value: "2"
 }, {
   label: "Event post file with silo",
-  value: "5"
+  value: "2"
 }, {
   label: "Event post file silo with spin text",
-  value: "6"
+  value: "2"
 }, {
   label: "Offer post file",
-  value: "7"
+  value: "3"
 }, {
   label: "Offer post file with silo",
-  value: "8"
+  value: "3"
 }, {
   label: "Offer post file silo with spin text",
-  value: "9"
+  value: "3"
 }];
 interface WizardFormData {
   selectedListings: string[];
   postType: string;
   uploadedFile: File | null;
   note: string;
+  generatedFileUrl: string | null;
+  generatedFileName: string | null;
 }
 export const ImportPostCSVWizard: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
   const [formData, setFormData] = useState<WizardFormData>({
     selectedListings: [],
     postType: "",
     uploadedFile: null,
-    note: ""
+    note: "",
+    generatedFileUrl: null,
+    generatedFileName: null
   });
   const steps = [{
     number: 1,
@@ -73,9 +81,46 @@ export const ImportPostCSVWizard: React.FC = () => {
   }];
   const canProceedFromStep1 = formData.selectedListings.length > 0 && formData.postType && formData.postType !== "0";
   const canProceedFromStep2 = formData.uploadedFile !== null;
-  const handleNext = () => {
-    if (currentStep < 4) {
+  const handleNext = async () => {
+    if (currentStep === 1) {
+      // Generate CSV file when moving from step 1 to step 2
+      await generateCSVFile();
+    } else if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const generateCSVFile = async () => {
+    setIsGeneratingCSV(true);
+    try {
+      const response = await csvApi.generateMultiCSVFile({
+        fileType: formData.postType,
+        listingIds: formData.selectedListings
+      });
+
+      if (response.code === 200) {
+        setFormData(prev => ({
+          ...prev,
+          generatedFileUrl: response.data.fileUrl,
+          generatedFileName: response.data.fileName
+        }));
+        setCurrentStep(currentStep + 1);
+        toast({
+          title: "Success",
+          description: "CSV file generated successfully"
+        });
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error generating CSV:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate CSV file. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingCSV(false);
     }
   };
   const handlePrevious = () => {
@@ -89,21 +134,22 @@ export const ImportPostCSVWizard: React.FC = () => {
     setCurrentStep(4);
   };
   const handleDownloadSample = () => {
-    // Create a sample CSV content
-    const csvContent = `title,description,post_type,publish_date
-"Sample Post Title","This is a sample post description","regular","2024-01-15"
-"Another Sample","Another sample description","event","2024-01-16"`;
-    const blob = new Blob([csvContent], {
-      type: 'text/csv'
-    });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'sample_posts.csv';
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+    if (formData.generatedFileUrl) {
+      // Use the generated CSV file URL
+      const a = document.createElement('a');
+      a.href = formData.generatedFileUrl;
+      a.download = formData.generatedFileName || 'sample_posts.csv';
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      toast({
+        title: "Error",
+        description: "Sample CSV file is not available. Please go back to step 1.",
+        variant: "destructive"
+      });
+    }
   };
   const renderStepIndicator = () => <div className="w-64 border-r border-gray-200 p-6 hidden lg:block min-h-[80vh]">
       <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
@@ -166,8 +212,15 @@ export const ImportPostCSVWizard: React.FC = () => {
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={handleNext} disabled={!canProceedFromStep1}>
-          Next
+        <Button onClick={handleNext} disabled={!canProceedFromStep1 || isGeneratingCSV}>
+          {isGeneratingCSV ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Generating CSV...
+            </>
+          ) : (
+            'Next'
+          )}
         </Button>
       </div>
     </div>;
