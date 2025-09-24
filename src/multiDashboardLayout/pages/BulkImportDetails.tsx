@@ -63,18 +63,6 @@ const ListingSidebar = ({
     onSearch(value);
   };
   
-  if (loading) {
-    return (
-      <Card className="h-fit">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-base font-medium flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Loading listings...
-          </CardTitle>
-        </CardHeader>
-      </Card>
-    );
-  }
   
   if (error) {
     return (
