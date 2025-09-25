@@ -1,0 +1,45 @@
+{
+  "page": {
+    "title": "Bulk Post Management",
+    "subtitle": "Create and schedule posts across multiple listings."
+  },
+  "buttons": {
+    "createNew": "Create New Post",
+    "createBulkPost": "Create Bulk Post",
+    "tryAgain": "Try Again",
+    "viewDetails": "View Details",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete"
+  },
+  "messages": {
+    "errorLoading": "Error loading bulk posts: {{error}}",
+    "noPostsTitle": "No bulk posts yet",
+    "noPostsDescription": "Create your first bulk post to get started",
+    "postedOn": "Posted on {{count}} listings",
+    "failedOn": "Failed on {{count}} listings",
+    "scheduledOn": "Scheduled on {{count}} listings",
+    "noActivePosts": "No active posts",
+    "untitledPost": "Untitled Post",
+    "noDescription": "No description available",
+    "noImage": "No image"
+  },
+  "pagination": {
+    "showing": "Showing {{start}} to {{end}} of {{total}} posts"
+  },
+  "dialog": {
+    "title": "Are you sure?",
+    "description": "This action cannot be undone. This will permanently delete the bulk post and all associated data."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Success",
+      "description": "Bulk post deleted successfully"
+    },
+    "deleteError": {
+      "title": "Error",
+      "description": "Failed to delete bulk post"
+    }
+  }
+}

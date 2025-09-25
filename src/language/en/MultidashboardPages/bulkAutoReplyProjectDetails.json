@@ -1,0 +1,22 @@
+{
+  "header": {
+    "fallbackTitle": "Project Details",
+    "subtitle": "Manage auto-reply templates and locations for this project."
+  },
+  "loading": {
+    "spinnerAlt": "Loading project details..."
+  },
+  "error": {
+    "message": "Failed to load project details",
+    "retry": "Retry"
+  },
+  "toast": {
+    "saveChanges": {
+      "title": "Save Changes",
+      "description": "Changes saved successfully!"
+    }
+  },
+  "projectType": {
+    "unsupported": "Unsupported project type: {{type}}"
+  }
+}

@@ -42,7 +42,10 @@ import { useBulkReportDetails } from "@/hooks/useBulkReportDetails";
 import { format } from "date-fns";
 import { ReportDetail } from "@/types/bulkReportTypes";
 import { ReportsEmptyState } from "@/components/Reports/ReportsEmptyState";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const BulkReportDetails: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardPages/bulkReportDetails");
   const params = useParams<{ projectId?: string; reportId?: string }>();
   const reportOrProjectId = params.projectId || params.reportId || "";
 
@@ -119,13 +122,14 @@ export const BulkReportDetails: React.FC = () => {
       const result = await resendEmail(reportId);
       if (result.success) {
         toast({
-          title: "Email Sent",
-          description: "Report email has been resent successfully.",
+          title: t("bulkReportDetails.toast.emailSent.title"),
+          description: t("bulkReportDetails.toast.emailSent.description"),
         });
       } else {
         toast({
-          title: "Error",
-          description: result.error || "Failed to resend email",
+          title: t("bulkReportDetails.toast.error.title"),
+          description:
+            result.error || t("bulkReportDetails.toast.error.resendEmail"),
           variant: "destructive",
         });
       }
@@ -137,14 +141,22 @@ export const BulkReportDetails: React.FC = () => {
       const result = await downloadReport(reportId, format);
       if (result.success) {
         toast({
-          title: "Download Started",
-          description: `${format.toUpperCase()} download has started.`,
+          title: t("bulkReportDetails.toast.downloadStarted.title"),
+          description: t(
+            "bulkReportDetails.toast.downloadStarted.description",
+            { format: format.toUpperCase() }
+          ),
+          // `${format.toUpperCase()} download has started.`,
         });
       } else {
         toast({
-          title: "Error",
+          title: t("bulkReportDetails.toast.error.title"),
           description:
-            result.error || `Failed to download ${format.toUpperCase()}`,
+            result.error ||
+            t("bulkReportDetails.toast.error.download", {
+              format: format.toUpperCase(),
+            }),
+          // `Failed to download ${format.toUpperCase()}`,
           variant: "destructive",
         });
       }
@@ -156,13 +168,14 @@ export const BulkReportDetails: React.FC = () => {
     const result = await downloadAllInOnePdf();
     if (result.success) {
       toast({
-        title: "Download Started",
-        description: "All-in-one PDF download has started.",
+        title: t("bulkReportDetails.toast.allPdfStarted.title"),
+        description: t("bulkReportDetails.toast.allPdfStarted.description"),
       });
     } else {
       toast({
-        title: "Error",
-        description: result.error || "Failed to download all-in-one PDF",
+        title: t("bulkReportDetails.toast.error.title"),
+        description:
+          result.error || t("bulkReportDetails.toast.error.downloadAll"),
         variant: "destructive",
       });
     }
@@ -172,14 +185,19 @@ export const BulkReportDetails: React.FC = () => {
     const result = await bulkResendEmails(Array.from(selectedReports));
     if (result.success) {
       toast({
-        title: "Emails Sent",
-        description: `${selectedReports.size} emails have been resent successfully.`,
+        title: t("bulkReportDetails.toast.emailsSent.title"),
+        description: t("bulkReportDetails.toast.emailsSent.description", {
+          count: selectedReports.size,
+        }),
+
+        // `${selectedReports.size} emails have been resent successfully.`,
       });
       setSelectedReports(new Set());
     } else {
       toast({
-        title: "Error",
-        description: result.error || "Failed to resend emails",
+        title: t("bulkReportDetails.toast.error.title"),
+        description:
+          result.error || t("bulkReportDetails.toast.error.bulkResend"),
         variant: "destructive",
       });
     }
@@ -194,7 +212,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-green-500/10 text-green-700 border-green-200"
           >
             <CheckCircle2 className="w-3 h-3 mr-1" />
-            Completed
+            {t("bulkReportDetails.status.completed")}
           </Badge>
         );
       case "processing":
@@ -204,7 +222,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-blue-500/10 text-blue-700 border-blue-200"
           >
             <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
-            Processing
+            {t("bulkReportDetails.status.processing")}
           </Badge>
         );
       case "failed":
@@ -214,7 +232,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-red-500/10 text-red-700 border-red-200"
           >
             <XCircle className="w-3 h-3 mr-1" />
-            Failed
+            {t("bulkReportDetails.status.failed")}
           </Badge>
         );
       case "pending":
@@ -224,7 +242,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-yellow-500/10 text-yellow-700 border-yellow-200"
           >
             <Clock className="w-3 h-3 mr-1" />
-            Pending
+            {t("bulkReportDetails.status.pending")}
           </Badge>
         );
       default:
@@ -240,7 +258,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-blue-500/10 text-blue-700 border-blue-200"
           >
             <Mail className="w-3 h-3 mr-1" />
-            Sent
+            {t("bulkReportDetails.delivery.sent")}
           </Badge>
         );
       case "failed":
@@ -250,7 +268,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-red-500/10 text-red-700 border-red-200"
           >
             <AlertCircle className="w-3 h-3 mr-1" />
-            Failed
+            {t("bulkReportDetails.delivery.failed")}
           </Badge>
         );
       case "pending":
@@ -260,7 +278,7 @@ export const BulkReportDetails: React.FC = () => {
             className="bg-yellow-500/10 text-yellow-700 border-yellow-200"
           >
             <Clock className="w-3 h-3 mr-1" />
-            Pending
+            {t("bulkReportDetails.delivery.pending")}
           </Badge>
         );
       default:
@@ -282,11 +300,11 @@ export const BulkReportDetails: React.FC = () => {
     return (
       <div className="text-center py-12">
         <p className="text-muted-foreground mb-4">
-          {error || "Failed to load bulk report details"}
+          {error || t("bulkReportDetails.errorState.failedToLoad")}
         </p>
         <Button onClick={refresh}>
           <RefreshCw className="w-4 h-4 mr-2" />
-          Try Again
+          {t("bulkReportDetails.errorState.tryAgain")}
         </Button>
       </div>
     );
@@ -299,11 +317,17 @@ export const BulkReportDetails: React.FC = () => {
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold text-foreground">{project.name}</h1>
           <p className="text-muted-foreground">
-            Bulk report details • {project.totalLocations} locations
+            {t("bulkReportDetails.header.details", {
+              count: project.totalLocations,
+            })}
+            {/* Bulk report details • {project.totalLocations} locations */}
           </p>
           {project.emailRecipients.length > 0 && (
             <p className="text-sm text-muted-foreground mt-1">
-              Recipients: {project.emailRecipients.join(", ")}
+              {t("bulkReportDetails.header.recipients", {
+                recipients: project.emailRecipients.join(", "),
+              })}
+              {/* Recipients: {project.emailRecipients.join(", ")} */}
             </p>
           )}
         </div>
@@ -313,8 +337,12 @@ export const BulkReportDetails: React.FC = () => {
             className="flex items-center gap-2 self-start sm:self-auto"
           >
             <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Download All-in-One PDF</span>
-            <span className="sm:hidden">Download PDF</span>
+            <span className="hidden sm:inline">
+              {t("bulkReportDetails.download.allPdf")}
+            </span>
+            <span className="sm:hidden">
+              {t("bulkReportDetails.download.pdf")}
+            </span>
           </Button>
         )}
       </div>
@@ -324,16 +352,22 @@ export const BulkReportDetails: React.FC = () => {
         {reports.length > 0 ? (
           <>
             <CardHeader>
-              <CardTitle>Report Details</CardTitle>
+              <CardTitle>{t("bulkReportDetails.table.title")}</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Report Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>
+                      {t("bulkReportDetails.table.location")}
+                    </TableHead>
+                    <TableHead>
+                      {t("bulkReportDetails.table.reportDate")}
+                    </TableHead>
+                    <TableHead>{t("bulkReportDetails.table.status")}</TableHead>
+                    <TableHead className="text-right">
+                      {t("bulkReportDetails.table.actions")}
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -380,7 +414,7 @@ export const BulkReportDetails: React.FC = () => {
                                     handleDownload(report.id, "csv")
                                   }
                                 >
-                                  CSV
+                                  {t("bulkReportDetails.table.csv")}
                                 </Button>
                               )}
                               {report.pdfUrl && (
@@ -391,7 +425,7 @@ export const BulkReportDetails: React.FC = () => {
                                     handleDownload(report.id, "pdf")
                                   }
                                 >
-                                  PDF
+                                  {t("bulkReportDetails.table.pdf")}
                                 </Button>
                               )}
                               {report.htmlUrl && (
@@ -427,9 +461,14 @@ export const BulkReportDetails: React.FC = () => {
       {pagination.pages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            Showing {(currentPage - 1) * pagination.limit + 1} to{" "}
+            {t("bulkReportDetails.pagination.showing", {
+              from: (currentPage - 1) * pagination.limit + 1,
+              to: Math.min(currentPage * pagination.limit, pagination.total),
+              total: pagination.total,
+            })}
+            {/* Showing {(currentPage - 1) * pagination.limit + 1} to{" "}
             {Math.min(currentPage * pagination.limit, pagination.total)} of{" "}
-            {pagination.total} entries
+            {pagination.total} entries */}
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -439,10 +478,14 @@ export const BulkReportDetails: React.FC = () => {
               disabled={currentPage === 1}
             >
               <ChevronLeft className="w-4 h-4" />
-              Previous
+              {t("bulkReportDetails.pagination.previous")}
             </Button>
             <span className="text-sm text-muted-foreground">
-              Page {currentPage} of {pagination.pages}
+              {t("bulkReportDetails.pagination.page", {
+                current: currentPage,
+                pages: pagination.pages,
+              })}
+              {/* Page {currentPage} of {pagination.pages} */}
             </span>
             <Button
               variant="outline"
@@ -452,7 +495,7 @@ export const BulkReportDetails: React.FC = () => {
               }
               disabled={currentPage === pagination.pages}
             >
-              Next
+              {t("bulkReportDetails.pagination.next")}
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>

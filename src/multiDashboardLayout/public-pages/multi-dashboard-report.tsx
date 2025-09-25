@@ -50,8 +50,12 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const PublicMultiDashboardReport: React.FC = () => {
+  const { t } = useI18nNamespace(
+    "MultidashboardPages/publicMultiDashboardReport"
+  );
   const { token } = useParams<{ token: string }>();
   const [dashboardType, setDashboardType] = useState<string>("default");
   const [userHasChangedDashboard, setUserHasChangedDashboard] = useState(false);
@@ -161,9 +165,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">
-              {configLoading
-                ? "Loading report configuration..."
-                : "Loading dashboard data..."}
+              {configLoading ? t("loading.config") : t("loading.dashboard")}
             </p>
           </div>
         </div>
@@ -177,12 +179,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <p className="text-destructive mb-4">
-              {configError
-                ? "Failed to load report configuration"
-                : "Failed to load dashboard data"}
+              {configError ? t("error.config") : t("error.dashboard")}
             </p>
             <Button variant="outline" onClick={() => refetch()}>
-              Try Again
+              {t("error.retry")}
             </Button>
           </div>
         </div>
@@ -240,53 +240,53 @@ export const PublicMultiDashboardReport: React.FC = () => {
   const metricsCards = reportConfig?.data?.stats
     ? [
         {
-          title: "Total Listings",
+          title: t("metrics.totalListings.title"),
           value: reportConfig.data.stats.totalListings.toLocaleString(),
-          subtitle: "Active locations",
+          subtitle: t("metrics.totalListings.subtitle"),
           icon: Building2,
         },
         {
-          title: "Avg. Rating",
+          title: t("metrics.avgRating.title"),
           value: reportConfig.data.stats.avgRating,
-          subtitle: "Across all listings",
+          subtitle: t("metrics.avgRating.subtitle"),
           icon: Star,
         },
         {
-          title: "Total Posts",
+          title: t("metrics.totalPosts.title"),
           value: reportConfig.data.stats.totalPosts.toLocaleString(),
-          subtitle: "Published content",
+          subtitle: t("metrics.totalPosts.subtitle"),
           icon: FileText,
         },
         {
-          title: "Total Reviews",
+          title: t("metrics.totalReviews.title"),
           value: reportConfig.data.stats.totalReviews.toLocaleString(),
-          subtitle: "Customer feedback",
+          subtitle: t("metrics.totalReviews.title"),
           icon: MessageSquare,
         },
       ]
     : [
         {
-          title: "Total Listings",
+          title: t("metrics.totalListings.title"),
           value: "0",
-          subtitle: "Active locations",
+          subtitle: t("metrics.totalListings.subtitle"),
           icon: Building2,
         },
         {
-          title: "Avg. Rating",
+          title: t("metrics.avgRating.title"),
           value: "0",
-          subtitle: "Across all listings",
+          subtitle: t("metrics.avgRating.subtitle"),
           icon: Star,
         },
         {
-          title: "Total Posts",
+          title: t("metrics.totalPosts.title"),
           value: "0",
-          subtitle: "Published content",
+          subtitle: t("metrics.totalPosts.subtitle"),
           icon: FileText,
         },
         {
-          title: "Total Reviews",
+          title: t("metrics.totalReviews.title"),
           value: "0",
-          subtitle: "Customer feedback",
+          subtitle: t("metrics.totalReviews.subtitle"),
           icon: MessageSquare,
         },
       ];
@@ -347,14 +347,22 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   onValueChange={handleDashboardTypeChange}
                 >
                   <SelectTrigger className="sm:w-[250px] bg-background">
-                    <SelectValue placeholder="Select Dashboard Type" />
+                    <SelectValue placeholder={t("filters.dashboardSelector")} />
                   </SelectTrigger>
                   <SelectContent className="z-50 bg-background border border-border shadow-lg">
-                    <SelectItem value="default">Default Dashboard</SelectItem>
-                    <SelectItem value="insight">Insight Dashboard</SelectItem>
-                    <SelectItem value="review">Review Dashboard</SelectItem>
-                    <SelectItem value="location">Location Dashboard</SelectItem>
-                    <SelectItem value="post">Post Dashboard</SelectItem>
+                    <SelectItem value="default">
+                      {t("filters.default")}
+                    </SelectItem>
+                    <SelectItem value="insight">
+                      {t("filters.insight")}
+                    </SelectItem>
+                    <SelectItem value="review">
+                      {t("filters.review")}
+                    </SelectItem>
+                    <SelectItem value="location">
+                      {t("filters.location")}
+                    </SelectItem>
+                    <SelectItem value="post">{t("filters.post")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <ToggleGroup
@@ -379,7 +387,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Search by listing name or Zip code."
+                  placeholder={t("filters.searchPlaceholder")}
                   className="pl-10"
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}
@@ -397,7 +405,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                     <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="all">
+                      {t("filters.categories")}
+                    </SelectItem>
                     {availableCategories.map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
@@ -416,7 +426,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                     <SelectValue placeholder="All Locations" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Locations</SelectItem>
+                    <SelectItem value="all">
+                      {t("filters.locations")}
+                    </SelectItem>
                     {availableStates.map((state) => (
                       <SelectItem key={state} value={state}>
                         {state}
@@ -434,13 +446,27 @@ export const PublicMultiDashboardReport: React.FC = () => {
                       <SelectValue placeholder="Review Filter" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="0">All Reviews</SelectItem>
-                      <SelectItem value="1">Un - Responded Review</SelectItem>
-                      <SelectItem value="2">Un - Responded ARE</SelectItem>
-                      <SelectItem value="3">Un - Responded DNR</SelectItem>
-                      <SelectItem value="4">Exclude ARE Review</SelectItem>
-                      <SelectItem value="5">Exclude DNR Review</SelectItem>
-                      <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
+                      <SelectItem value="0">
+                        {t("filters.reviews.all")}
+                      </SelectItem>
+                      <SelectItem value="1">
+                        {t("filters.reviews.unresponded")}
+                      </SelectItem>
+                      <SelectItem value="2">
+                        {t("filters.reviews.unrespondedARE")}
+                      </SelectItem>
+                      <SelectItem value="3">
+                        {t("filters.reviews.unrespondedDNR")}
+                      </SelectItem>
+                      <SelectItem value="4">
+                        {t("filters.reviews.excludeARE")}
+                      </SelectItem>
+                      <SelectItem value="5">
+                        {t("filters.reviews.excludeDNR")}
+                      </SelectItem>
+                      <SelectItem value="6">
+                        {t("filters.reviews.excludeBoth")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -454,13 +480,21 @@ export const PublicMultiDashboardReport: React.FC = () => {
                       }
                     >
                       <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder="Post Status" />
+                        <SelectValue placeholder={t("filters.posts.status")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="LIVE">Live</SelectItem>
-                        <SelectItem value="SCHEDULED">Scheduled</SelectItem>
-                        <SelectItem value="FAILED">Failed</SelectItem>
+                        <SelectItem value="all">
+                          {t("filters.posts.all")}
+                        </SelectItem>
+                        <SelectItem value="LIVE">
+                          {t("filters.posts.live")}
+                        </SelectItem>
+                        <SelectItem value="SCHEDULED">
+                          {t("filters.posts.scheduled")}
+                        </SelectItem>
+                        <SelectItem value="FAILED">
+                          {t("filters.posts.failed")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -477,15 +511,20 @@ export const PublicMultiDashboardReport: React.FC = () => {
               {dashboardType === "post" ? "Posts" : "Listings"}
             </h3> */}
             <p className="text-sm text-muted-foreground">
-              Showing {paginatedData.length} of {totalItems}{" "}
-              {activeDashboardType === "post" ? "posts" : "listings"}
+              {t("content.showing", {
+                count: paginatedData.length,
+                total: totalItems,
+                type: activeDashboardType === "post" ? "posts" : "listings",
+              })}
+              {/* Showing {paginatedData.length} of {totalItems}{" "}
+              {activeDashboardType === "post" ? "posts" : "listings"} */}
             </p>
           </div>
 
           <div className="space-y-4">
             {paginatedData.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-muted-foreground">No data available</p>
+                <p className="text-muted-foreground">{t("content.noData")}</p>
               </div>
             ) : (
               <>
@@ -509,7 +548,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                               ) : (
                                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                                   <span className="text-gray-500 text-sm font-medium">
-                                    Image not available
+                                    {t("content.imageNotAvailable")}
                                   </span>
                                 </div>
                               )}
@@ -521,7 +560,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     window.open(post.searchUrl, "_blank")
                                   }
                                   className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
-                                  title="View on Google My Business"
+                                  title={t("content.viewOnGoogle")}
                                 >
                                   <ExternalLink className="w-4 h-4 text-primary" />
                                 </button>
@@ -594,7 +633,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     />
                                   ) : (
                                     <span className="text-white text-xs font-medium">
-                                      IMG
+                                      {t("content.img")}
                                     </span>
                                   )}
                                 </div>
@@ -603,7 +642,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 <div className="flex-1 min-w-0 sm:pr-20">
                                   <div className="flex items-center gap-2 mb-1">
                                     <h3 className="font-medium text-foreground truncate">
-                                      {post.title || "Untitled Post"}
+                                      {post.title || t("content.untitledPost")}
                                     </h3>
                                     <Badge
                                       variant={
@@ -644,7 +683,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       className="flex items-center gap-1"
                                     >
                                       <ExternalLink className="w-3 h-3" />
-                                      Open on Google
+                                      {t("content.openOnGoogle")}
                                     </a>
                                   </Button>
                                 )}
@@ -691,16 +730,23 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   {listing.locationName || listing.listingName}
                                 </h4>
                                 <p className="text-xs text-muted-foreground">
-                                  ID: {listing.listingId || listing.id}
+                                  {t("labels.id", {
+                                    id: listing.listingId || listing.id,
+                                  })}
+                                  {/* ID: {listing.listingId || listing.id} */}
                                 </p>
                                 {listing.zipCode && (
                                   <p className="text-xs text-muted-foreground">
-                                    Zip: {listing.zipCode}
+                                    {t("labels.zip", {
+                                      zipcode: listing.zipCode,
+                                    })}
+                                    {/* Zip: {listing.zipCode} */}
                                   </p>
                                 )}
                                 {listing.city && (
                                   <p className="text-xs text-muted-foreground">
-                                    State: {listing.city}
+                                    {t("labels.state", { city: listing.city })}
+                                    {/* State: {listing.city} */}
                                   </p>
                                 )}
                                 {listing.category && (
@@ -725,7 +771,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 {/* Visibility Stats */}
                                 <div className="mb-4">
                                   <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                                    Visibility
+                                    {t("labels.visibility")}
                                   </h5>
                                   <div className="grid grid-cols-3 gap-2 text-xs">
                                     <div className="text-center p-2 bg-blue-50 rounded">
@@ -733,20 +779,24 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.visibility?.search_views || 0}
                                       </div>
                                       <div className="text-gray-500">
-                                        Search
+                                        {t("labels.search")}
                                       </div>
                                     </div>
                                     <div className="text-center p-2 bg-green-50 rounded">
                                       <div className="font-semibold text-green-600">
                                         {listing.visibility?.maps_views || 0}
                                       </div>
-                                      <div className="text-gray-500">Maps</div>
+                                      <div className="text-gray-500">
+                                        {t("labels.maps")}
+                                      </div>
                                     </div>
                                     <div className="text-center p-2 bg-purple-50 rounded">
                                       <div className="font-semibold text-purple-600">
                                         {listing.visibility?.total_views || 0}
                                       </div>
-                                      <div className="text-gray-500">Total</div>
+                                      <div className="text-gray-500">
+                                        {t("labels.total")}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -754,7 +804,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 {/* Customer Actions */}
                                 <div className="mb-5">
                                   <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                                    Customer Actions
+                                    {t("labels.customerActions")}
                                   </h5>
                                   <div className="grid grid-cols-2 gap-2 text-xs">
                                     <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
@@ -762,7 +812,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       <span>
                                         {listing.customer_actions
                                           ?.website_clicks || 0}{" "}
-                                        Clicks
+                                        {t("labels.clicks")}
                                       </span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
@@ -770,7 +820,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       <span>
                                         {listing.customer_actions
                                           ?.direction_requests || 0}{" "}
-                                        Directions
+                                        {t("labels.directions")}
                                       </span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
@@ -778,7 +828,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       <span>
                                         {listing.customer_actions
                                           ?.phone_calls || 0}{" "}
-                                        Calls
+                                        {t("labels.calls")}
                                       </span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
@@ -786,7 +836,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       <span>
                                         {listing.customer_actions?.messages ||
                                           0}{" "}
-                                        Messages
+                                        {t("labels.messages")}
                                       </span>
                                     </div>
                                   </div>
@@ -798,7 +848,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 {/* Rating Section */}
                                 <div className="mb-4">
                                   <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                                    Review Stats
+                                    {t("labels.reviewStats")}
                                   </h5>
                                   <div className="flex items-center gap-2 mb-3">
                                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -813,7 +863,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   <div className="grid grid-cols-2 text-sm">
                                     <div className="text-center border-r border-gray-300">
                                       <span className="text-muted-foreground font-medium">
-                                        Reviews / Replies
+                                        {t("labels.reviewsReplies")}
                                       </span>
                                       <p className="font-semibold text-foreground">
                                         {listing.reviewCount || 0} /{" "}
@@ -822,7 +872,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     </div>
                                     <div className="text-center">
                                       <span className="text-muted-foreground font-medium">
-                                        Auto reply:
+                                        {t("labels.autoReply")}:
                                       </span>
                                       <p className="font-semibold text-foreground">
                                         {listing.autoReplyStatus || "-"}
@@ -834,7 +884,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 {/* Review Sentiment */}
                                 <div className="mb-4">
                                   <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                                    Review Sentiment
+                                    {t("labels.reviewSentiment")}
                                   </h5>
                                   <div className="grid grid-cols-3 gap-2 text-xs">
                                     <div className="text-center p-2 bg-green-50 rounded">
@@ -842,7 +892,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.positive || 0}
                                       </div>
                                       <div className="text-gray-500">
-                                        Positive
+                                        {t("labels.positive")}
                                       </div>
                                     </div>
                                     <div className="text-center p-2 bg-gray-50 rounded">
@@ -850,7 +900,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.neutral || 0}
                                       </div>
                                       <div className="text-gray-500">
-                                        Neutral
+                                        {t("labels.neutral")}
                                       </div>
                                     </div>
                                     <div className="text-center p-2 bg-red-50 rounded">
@@ -858,7 +908,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.negative || 0}
                                       </div>
                                       <div className="text-gray-500">
-                                        Negative
+                                        {t("labels.negative")}
                                       </div>
                                     </div>
                                   </div>
@@ -899,7 +949,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {listing.photoCount || 0}
                                     </div>
                                     <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                                      Photos
+                                      {t("labels.photos")}
                                     </div>
                                   </div>
                                   <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 rounded-lg p-3 text-center">
@@ -907,7 +957,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {listing.rating}
                                     </div>
                                     <div className="text-xs text-green-600 dark:text-green-400 font-medium">
-                                      Rating
+                                      {t("labels.rating")}
                                     </div>
                                   </div>
                                 </div>
@@ -927,7 +977,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium"
                                     >
                                       <ExternalLink className="w-3 h-3" />
-                                      Website
+                                      {t("labels.website")}
                                     </button>
                                   )}
                                   {listing.map && (
@@ -943,7 +993,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium"
                                     >
                                       <MapPin className="w-3 h-3" />
-                                      Maps
+                                      {t("labels.maps")}
                                     </button>
                                   )}
                                 </div>
@@ -954,7 +1004,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 {/* Rating Section */}
                                 <div className="mb-4">
                                   <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                                    Avg. Rating
+                                    {t("metrics.avgRating.title")}
                                   </h5>
                                   <div className="flex items-center gap-2 mb-3">
                                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -969,7 +1019,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   <div className="text-sm">
                                     <div className="text-center">
                                       <span className="text-muted-foreground font-medium">
-                                        Reviews / Replies
+                                        {t("labels.reviewsReplies")}
                                       </span>
                                       <p className="font-semibold text-foreground">
                                         {listing.reviewReply}
@@ -982,7 +1032,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                 <div className="mb-5 space-y-2">
                                   <div className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground font-medium">
-                                      Last Post:
+                                      {t("labels.lastPost")}:
                                     </span>
                                     <span className="text-foreground font-medium">
                                       {listing.lastPost}
@@ -990,7 +1040,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   </div>
                                   <div className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground font-medium">
-                                      Upcoming:
+                                      {t("labels.autoReply")}:
                                     </span>
                                     <span className="text-foreground font-medium">
                                       {listing.upcomingPost}
@@ -1036,10 +1086,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   </h4>
                                   <div className="flex gap-2 items-center text-xs text-muted-foreground">
                                     <p className="text-xs text-muted-foreground">
-                                      Zip:{" "}
+                                      {t("labels.zipLabel")}
                                       {listing.zipCode ||
                                         listing.zip_code ||
-                                        "N/A"}
+                                        t("labels.na")}
                                     </p>
                                     {listing.zipCode && listing.category && (
                                       <span>•</span>
@@ -1072,7 +1122,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.visibility?.search_views || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Search
+                                        {t("labels.search")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1080,7 +1130,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.visibility?.maps_views || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Maps
+                                        {t("labels.maps")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1089,7 +1139,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           ?.phone_calls || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Calls
+                                        {t("labels.calls")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1098,7 +1148,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           ?.website_clicks || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Clicks
+                                        {t("labels.clicks")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1108,7 +1158,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Total Views
+                                        {t("labels.totalView")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1118,7 +1168,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Directions
+                                        {t("labels.directions")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1128,7 +1178,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Messages
+                                        {t("labels.messages")}
                                       </div>
                                     </div>
                                   </>
@@ -1139,7 +1189,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.avgRating || listing.rating}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Rating
+                                        {t("labels.rating")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1148,7 +1198,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.replyCount || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Reviews / Replies
+                                        {t("labels.reviewsReplies")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1156,7 +1206,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.autoReplyStatus || "-"}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Auto Reply
+                                        {t("labels.autoReply")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1164,7 +1214,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.positive || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Positive
+                                        {t("labels.positive")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1172,7 +1222,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.neutral || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Neutral
+                                        {t("labels.neutral")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1180,7 +1230,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.sentiment?.negative || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Negative
+                                        {t("labels.negative")}
                                       </div>
                                     </div>
                                   </>
@@ -1191,7 +1241,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.photoCount || 0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Photos
+                                        {t("labels.photos")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1199,7 +1249,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.rating}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Rating
+                                        {t("labels.rating")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1207,7 +1257,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.address || "-"}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Address
+                                        {t("labels.address")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1217,7 +1267,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           "-"}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Phone
+                                        {t("labels.phone")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1225,7 +1275,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.state || "-"}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        State
+                                        {t("labels.stateLabel")}
                                       </div>
                                     </div>
                                     <div className="flex   items-center flex-col gap-1">
@@ -1271,7 +1321,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         )}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Website
+                                        {t("labels.website")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1292,7 +1342,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         </button>
                                       )}
                                       <div className="text-muted-foreground">
-                                        Map
+                                        {t("labels.map")}
                                       </div>
                                     </div>
                                   </>
@@ -1303,7 +1353,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.rating}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Rating
+                                        {t("labels.rating")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1311,17 +1361,17 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                         {listing.reviewReply}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Reviews
+                                        {t("labels.reviewLabel")}
                                       </div>
                                     </div>
                                     <div className="text-center">
                                       <div className="font-semibold text-green-600">
                                         {listing.zipCode ||
                                           listing.zip_code ||
-                                          "N/A"}
+                                          t("labels.na")}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Zip Code
+                                        {t("labels.zipcodeLabel")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1331,7 +1381,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Last Posts
+                                        {t("labels.lastPosts")}
                                       </div>
                                     </div>
                                     <div className="text-center">
@@ -1341,7 +1391,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                           0}
                                       </div>
                                       <div className="text-muted-foreground">
-                                        Upcoming
+                                        {t("labels.upcoming")}
                                       </div>
                                     </div>
                                   </>
@@ -1360,7 +1410,11 @@ export const PublicMultiDashboardReport: React.FC = () => {
                 {totalPages > 1 && (
                   <div className="flex items-center justify-between pt-4">
                     <div className="text-sm text-muted-foreground">
-                      Page {currentPage} of {totalPages}
+                      {t("pagination.pageOf", {
+                        current: currentPage,
+                        total: totalPages,
+                      })}
+                      {/* Page {currentPage} of {totalPages} */}
                     </div>
                     <div className="flex items-center gap-2">
                       <Button
@@ -1372,7 +1426,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                         disabled={currentPage === 1}
                       >
                         <ChevronLeft className="w-4 h-4" />
-                        Previous
+                        {t("pagination.previous")}
                       </Button>
                       <Button
                         variant="outline"
@@ -1384,7 +1438,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                         }
                         disabled={currentPage === totalPages}
                       >
-                        Next
+                        {t("pagination.next")}
                         <ChevronRight className="w-4 h-4" />
                       </Button>
                     </div>

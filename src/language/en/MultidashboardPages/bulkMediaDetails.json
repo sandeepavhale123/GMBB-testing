@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "View Details",
+    "subtitle": "View details of the selected bulk media"
+  },
+  "filter": {
+    "searchPlaceholder": "Search by listing name.",
+    "statusPlaceholder": "Filter by status",
+    "statusAll": "Post Status",
+    "statusLive": "Live",
+    "statusScheduled": "Scheduled",
+    "statusFailed": "Failed"
+  },
+  "loading": {
+    "preview": "Loading media details..."
+  },
+  "error": {
+    "preview": "Error loading media details: {{error}}",
+    "retry": "Try Again"
+  }
+}

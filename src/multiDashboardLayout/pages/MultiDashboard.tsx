@@ -63,6 +63,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { formatDateForBackend } from "@/utils/dateUtils";
 import { ShareReportModal } from "@/components/Dashboard/ShareReportModal";
 import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Dashboard type mapping for API
 const DASHBOARD_TYPE_MAPPING = {
@@ -82,6 +83,7 @@ const DASHBOARD_ID_TO_TYPE_MAPPING = {
   "9": "post",
 } as const;
 export const MultiDashboard: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardPages/multiDashboard");
   const navigate = useNavigate();
   const { toast } = useToast();
   const { profileData, isLoading: profileLoading } = useProfile();
@@ -438,40 +440,40 @@ export const MultiDashboard: React.FC = () => {
   const metricsCards = trendsData?.data?.stats
     ? [
         {
-          title: "Total Listings",
+          title: t("metrics.totalListings.title"),
           value: trendsData.data.stats.totalListings.toLocaleString(),
-          subtitle: "Active locations",
-          trend: "+2 this month",
+          subtitle: t("metrics.totalListings.subtitle"),
+          trend: t("metrics.totalListings.trend"),
           icon: Building2,
           bgColor: "bg-blue-100",
           iconBgColor: "bg-blue-500",
           textColor: "text-gray-900",
         },
         {
-          title: "Avg. Rating",
+          title: t("metrics.avgRating.title"),
           value: trendsData.data.stats.avgRating,
-          subtitle: "Across all listings",
-          trend: "↑ 0.3 points",
+          subtitle: t("metrics.avgRating.subtitle"),
+          trend: t("metrics.avgRating.trend"),
           icon: Star,
           bgColor: "bg-yellow-100",
           iconBgColor: "bg-yellow-500",
           textColor: "text-gray-900",
         },
         {
-          title: "Total Review",
+          title: t("metrics.totalReviews.title"),
           value: trendsData.data.stats.totalReviews.toLocaleString(),
-          subtitle: "Customer feedback",
-          trend: "Improving",
+          subtitle: t("metrics.totalReviews.subtitle"),
+          trend: t("metrics.totalReviews.trend"),
           icon: MessageSquare,
           bgColor: "bg-green-100",
           iconBgColor: "bg-green-500",
           textColor: "text-gray-900",
         },
         {
-          title: "Total Posts",
+          title: t("metrics.totalPosts.title"),
           value: trendsData.data.stats.totalPosts.toLocaleString(),
-          subtitle: "Published this month",
-          trend: "+12 this week",
+          subtitle: t("metrics.totalPosts.subtitle"),
+          trend: t("metrics.totalPosts.trend"),
           icon: FileText,
           bgColor: "bg-purple-100",
           iconBgColor: "bg-purple-500",
@@ -574,9 +576,7 @@ export const MultiDashboard: React.FC = () => {
             ))
           ) : trendsError ? (
             <div className="col-span-4 text-center py-8">
-              <p className="text-gray-500">
-                Failed to load metrics. Please try again.
-              </p>
+              <p className="text-gray-500">{t("errors.metricsLoad")}</p>
             </div>
           ) : (
             metricsCards.map((metric, index) => {
@@ -611,7 +611,19 @@ export const MultiDashboard: React.FC = () => {
         <div className="bg-card rounded-lg border border-border p-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h3 className="text-lg font-semibold mb-2">
-              GMB Listing –{" "}
+              {t("dashboard.title", {
+                type:
+                  dashboardType === "review"
+                    ? "Review"
+                    : dashboardType === "insight"
+                    ? "Insight"
+                    : dashboardType === "location"
+                    ? "Location"
+                    : dashboardType === "post"
+                    ? "Post"
+                    : "Default",
+              })}
+              {/* GMB Listing –{" "}
               {dashboardType === "review"
                 ? "Review"
                 : dashboardType === "insight"
@@ -621,7 +633,7 @@ export const MultiDashboard: React.FC = () => {
                 : dashboardType === "post"
                 ? "Post"
                 : "Default"}{" "}
-              dashboard
+              dashboard */}
             </h3>
             <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -635,11 +647,21 @@ export const MultiDashboard: React.FC = () => {
                     <SelectValue placeholder="Dashboard Type" />
                   </SelectTrigger>
                   <SelectContent className="bg-background border">
-                    <SelectItem value="default">Default Dashboard</SelectItem>
-                    <SelectItem value="insight">Insight Dashboard</SelectItem>
-                    <SelectItem value="review">Review Dashboard</SelectItem>
-                    <SelectItem value="location">Location Dashboard</SelectItem>
-                    <SelectItem value="post">Post Dashboard</SelectItem>
+                    <SelectItem value="default">
+                      {t("dashboard.types.default")}
+                    </SelectItem>
+                    <SelectItem value="insight">
+                      {t("dashboard.types.insight")}
+                    </SelectItem>
+                    <SelectItem value="review">
+                      {t("dashboard.types.review")}
+                    </SelectItem>
+                    <SelectItem value="location">
+                      {t("dashboard.types.location")}
+                    </SelectItem>
+                    <SelectItem value="post">
+                      {t("dashboard.types.post")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 {isUpdatingDashboard && (
@@ -656,7 +678,9 @@ export const MultiDashboard: React.FC = () => {
                   onClick={() => setShowShareModal(true)}
                 >
                   <Share2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">Share Report</span>
+                  <span className="hidden sm:inline">
+                    {t("dashboard.shareReport")}
+                  </span>
                 </Button>
 
                 <ToggleGroup
@@ -679,7 +703,7 @@ export const MultiDashboard: React.FC = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <input
-                  placeholder="Search by listing name or ZIP code"
+                  placeholder={t("dashboard.searchPlaceholder")}
                   className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}
@@ -701,7 +725,9 @@ export const MultiDashboard: React.FC = () => {
                     />
                   </SelectTrigger>
                   <SelectContent className="z-50 bg-background">
-                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="all">
+                      {t("dashboard.filters.allCategories")}
+                    </SelectItem>
                     {!categoryStateLoading &&
                       !categoryStateError &&
                       categoryAndStateData?.data?.categories?.map(
@@ -726,7 +752,9 @@ export const MultiDashboard: React.FC = () => {
                     />
                   </SelectTrigger>
                   <SelectContent className="z-50 bg-background">
-                    <SelectItem value="all">All States</SelectItem>
+                    <SelectItem value="all">
+                      {t("dashboard.filters.allStates")}
+                    </SelectItem>
                     {!categoryStateLoading &&
                       !categoryStateError &&
                       categoryAndStateData?.data?.states?.map((state) => (
@@ -743,16 +771,32 @@ export const MultiDashboard: React.FC = () => {
                     onValueChange={handleReviewFilterChange}
                   >
                     <SelectTrigger className="w-full sm:w-52">
-                      <SelectValue placeholder="Review Filter" />
+                      <SelectValue
+                        placeholder={t("dashboard.filters.reviewFilter")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="0">All Reviews</SelectItem>
-                      <SelectItem value="1">Un - Responded Review</SelectItem>
-                      <SelectItem value="2">Un - Responded ARE</SelectItem>
-                      <SelectItem value="3">Un - Responded DNR</SelectItem>
-                      <SelectItem value="4">Exclude ARE Review</SelectItem>
-                      <SelectItem value="5">Exclude DNR Review</SelectItem>
-                      <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
+                      <SelectItem value="0">
+                        {t("dashboard.filters.allReviews")}
+                      </SelectItem>
+                      <SelectItem value="1">
+                        {t("dashboard.filters.unrespondedReview")}
+                      </SelectItem>
+                      <SelectItem value="2">
+                        {t("dashboard.filters.unrespondedARE")}
+                      </SelectItem>
+                      <SelectItem value="3">
+                        {t("dashboard.filters.unrespondedDNR")}
+                      </SelectItem>
+                      <SelectItem value="4">
+                        {t("dashboard.filters.excludeARE")}
+                      </SelectItem>
+                      <SelectItem value="5">
+                        {t("dashboard.filters.excludeDNR")}
+                      </SelectItem>
+                      <SelectItem value="6">
+                        {t("dashboard.filters.excludeARE_DNR")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -765,15 +809,23 @@ export const MultiDashboard: React.FC = () => {
                       onValueChange={handlePostStatusChange}
                     >
                       <SelectTrigger className="w-full sm:w-48">
-                        <SelectValue placeholder="Post status" />
+                        <SelectValue
+                          placeholder={t("dashboard.filters.postStatus")}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Posts</SelectItem>
-                        <SelectItem value="scheduled">
-                          Scheduled Post
+                        <SelectItem value="all">
+                          {t("dashboard.filters.allPosts")}
                         </SelectItem>
-                        <SelectItem value="live">Live Post</SelectItem>
-                        <SelectItem value="failed">Failed Post</SelectItem>
+                        <SelectItem value="scheduled">
+                          {t("dashboard.filters.scheduledPost")}
+                        </SelectItem>
+                        <SelectItem value="live">
+                          {t("dashboard.filters.livePost")}
+                        </SelectItem>
+                        <SelectItem value="failed">
+                          {t("dashboard.filters.failedPost")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <DateRangePicker
@@ -792,17 +844,27 @@ export const MultiDashboard: React.FC = () => {
             {/* Display counts */}
             <div className="mb-4">
               <p className="text-sm text-muted-foreground">
-                {isDashboardLoading
-                  ? "Loading..."
-                  : isDashboardError
-                  ? "Error loading data"
-                  : dashboardType === "post"
-                  ? `Showing ${posts.length} of ${
-                      (pagination as any)?.totalPosts || 0
-                    } posts`
-                  : `Showing ${listings.length} of ${
-                      (pagination as any)?.totalResults || 0
-                    } listings`}
+                {
+                  isDashboardLoading
+                    ? t("status.loading")
+                    : isDashboardError
+                    ? t("status.error")
+                    : dashboardType === "post"
+                    ? t("status.showingPosts", {
+                        count: posts.length,
+                        total: (pagination as any)?.totalPosts || 0,
+                      })
+                    : // `Showing ${posts.length} of ${
+                      //     (pagination as any)?.totalPosts || 0
+                      //   } posts`
+                      t("status.showingListings", {
+                        count: listings.length,
+                        total: (pagination as any)?.totalResults || 0,
+                      })
+                  // `Showing ${listings.length} of ${
+                  //     (pagination as any)?.totalResults || 0
+                  //   } listings`
+                }
               </p>
             </div>
 
@@ -839,9 +901,12 @@ export const MultiDashboard: React.FC = () => {
             ) : isDashboardError ? (
               <div className="text-center py-8">
                 <p className="text-gray-500">
-                  Failed to load{" "}
+                  {dashboardType === "post"
+                    ? t("errors.postsLoad")
+                    : t("errors.listingsLoad")}
+                  {/* Failed to load{" "}
                   {dashboardType === "post" ? "posts" : "listings"}. Please try
-                  again.
+                  again. */}
                 </p>
               </div>
             ) : dashboardType === "post" ? (
@@ -904,20 +969,29 @@ export const MultiDashboard: React.FC = () => {
                           </TooltipContent>
                         </Tooltip>
                         <p className="text-xs text-muted-foreground">
-                          ID: {listing.listingId || listing.id}
+                          {t("listing.listingid", {
+                            id: listing.listingId || listing.id,
+                          })}
+                          {/* ID: {listing.listingId || listing.id} */}
                         </p>
                         {(dashboardType === "insight" ||
                           dashboardType === "review") &&
                           listing.zipCode && (
                             <p className="text-xs text-muted-foreground">
-                              Zip: {listing.zipCode}
+                              {t("listing.zipcode", {
+                                zipcode: listing.zipCode,
+                              })}
+                              {/* Zip: {listing.zipCode} */}
                             </p>
                           )}
                         {(dashboardType === "insight" ||
                           dashboardType === "review") &&
                           listing.city && (
                             <p className="text-xs text-muted-foreground">
-                              State: {listing.city}
+                              {t("listing.state", {
+                                city: isting.city,
+                              })}
+                              {/* State: {listing.city} */}
                             </p>
                           )}
                         {dashboardType === "insight" && listing.category && (
@@ -943,7 +1017,7 @@ export const MultiDashboard: React.FC = () => {
                           alt=""
                           className="animate-spin-slow mb-3"
                         />
-                        <h4 className="mb-4">Fetching listing data...</h4>
+                        <h4 className="mb-4"> {t("listing.fetchingData")}</h4>
                         {/* <Loader2 className="w-4 h-4 animate-spin text-primary" /> */}
                       </div>
                     ) : dashboardType === "insight" ? (
@@ -952,26 +1026,35 @@ export const MultiDashboard: React.FC = () => {
                         {/* Visibility Stats */}
                         <div className="mb-4">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Visibility
+                            {t("listing.visibility")}
                           </h5>
                           <div className="grid grid-cols-3 gap-2 text-xs">
                             <div className="text-center p-2 bg-blue-50 rounded">
                               <div className="font-semibold text-blue-600">
                                 {listing.visibility?.search_views || 0}
                               </div>
-                              <div className="text-gray-500">Search</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.Search")}
+                              </div>
                             </div>
                             <div className="text-center p-2 bg-green-50 rounded">
                               <div className="font-semibold text-green-600">
                                 {listing.visibility?.maps_views || 0}
                               </div>
-                              <div className="text-gray-500">Maps</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.Maps")}
+                              </div>
                             </div>
                             <div className="text-center p-2 bg-purple-50 rounded">
                               <div className="font-semibold text-purple-600">
                                 {listing.visibility?.total_views || 0}
                               </div>
-                              <div className="text-gray-500">Total</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.Total")}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -979,14 +1062,14 @@ export const MultiDashboard: React.FC = () => {
                         {/* Customer Actions */}
                         <div className="mb-5">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Customer Actions
+                            {t("listing.customerActions")}
                           </h5>
                           <div className="grid grid-cols-2 gap-2 text-xs">
                             <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                               <ExternalLink className="w-3 h-3 text-blue-500" />
                               <span>
                                 {listing.customer_actions?.website_clicks || 0}{" "}
-                                Clicks
+                                {t("listing.clicks")}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
@@ -994,21 +1077,21 @@ export const MultiDashboard: React.FC = () => {
                               <span>
                                 {listing.customer_actions?.direction_requests ||
                                   0}{" "}
-                                Directions
+                                {t("listing.directions")}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                               <Phone className="w-3 h-3 text-orange-500" />
                               <span>
                                 {listing.customer_actions?.phone_calls || 0}{" "}
-                                Calls
+                                {t("listing.calls")}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                               <MessageSquare className="w-3 h-3 text-purple-500" />
                               <span>
                                 {listing.customer_actions?.messages || 0}{" "}
-                                Messages
+                                {t("listing.messages")}
                               </span>
                             </div>
                           </div>
@@ -1020,7 +1103,7 @@ export const MultiDashboard: React.FC = () => {
                         {/* Rating Section */}
                         <div className="mb-4">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Review Stats
+                            {t("listing.reviewStats")}
                           </h5>
                           <div className="flex items-center gap-2 mb-3">
                             <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -1039,7 +1122,7 @@ export const MultiDashboard: React.FC = () => {
                           <div className="grid grid-cols-2 text-sm">
                             <div className="text-center border-r border-gray-300">
                               <span className="text-muted-foreground font-medium">
-                                Reviews / Replies
+                                {t("listing.reviewsReplies")}
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.reviewCount || 0} /{" "}
@@ -1048,7 +1131,7 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-center">
                               <span className="text-muted-foreground font-medium">
-                                Auto reply:
+                                {t("listing.autoReply")}:
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.autoReplyStatus || "-"}
@@ -1060,26 +1143,35 @@ export const MultiDashboard: React.FC = () => {
                         {/* Review Sentiment */}
                         <div className="mb-4">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Review Sentiment
+                            {t("listing.reviewSentiment")}
                           </h5>
                           <div className="grid grid-cols-3 gap-2 text-xs">
                             <div className="text-center p-2 bg-green-50 rounded">
                               <div className="font-semibold text-green-600">
                                 {listing.sentiment?.positive || 0}
                               </div>
-                              <div className="text-gray-500">Positive</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.positive")}
+                              </div>
                             </div>
                             <div className="text-center p-2 bg-gray-50 rounded">
                               <div className="font-semibold text-gray-600">
                                 {listing.sentiment?.neutral || 0}
                               </div>
-                              <div className="text-gray-500">Neutral</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.neutral")}
+                              </div>
                             </div>
                             <div className="text-center p-2 bg-red-50 rounded">
                               <div className="font-semibold text-red-600">
                                 {listing.sentiment?.negative || 0}
                               </div>
-                              <div className="text-gray-500">Negative</div>
+                              <div className="text-gray-500">
+                                {" "}
+                                {t("listing.negative")}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1090,7 +1182,7 @@ export const MultiDashboard: React.FC = () => {
                         {/* Status Section */}
                         <div className="mb-4">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Listing Status
+                            {t("listing.listingStatus")}
                           </h5>
                           <div className="flex items-center gap-2 mb-3">
                             <div
@@ -1111,7 +1203,7 @@ export const MultiDashboard: React.FC = () => {
                           <div className="grid grid-cols-2 gap-3 text-sm">
                             <div>
                               <span className="text-muted-foreground font-medium">
-                                Visibility:
+                                {t("listing.visibilityLabel")}
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.visibility || "Public"}
@@ -1119,7 +1211,7 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div>
                               <span className="text-muted-foreground font-medium">
-                                Complete:
+                                {t("listing.completeLabel")}
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.completeness || 100}%
@@ -1132,7 +1224,7 @@ export const MultiDashboard: React.FC = () => {
                         <div className="mb-5 space-y-2">
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground font-medium">
-                              Last Updated:
+                              {t("listing.lastUpdated")}
                             </span>
                             <span className="text-foreground font-medium">
                               {listing.lastUpdated || "Recently"}
@@ -1179,7 +1271,7 @@ export const MultiDashboard: React.FC = () => {
                               {listing.photoCount || 0}
                             </div>
                             <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                              Photos
+                              {t("listing.photos")}
                             </div>
                           </div>
                           <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 rounded-lg p-3 text-center">
@@ -1187,7 +1279,7 @@ export const MultiDashboard: React.FC = () => {
                               {listing.rating}
                             </div>
                             <div className="text-xs text-green-600 dark:text-green-400 font-medium">
-                              Rating
+                              {t("listing.rating")}
                             </div>
                           </div>
                         </div>
@@ -1205,7 +1297,7 @@ export const MultiDashboard: React.FC = () => {
                               className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium"
                             >
                               <ExternalLink className="w-3 h-3" />
-                              Website
+                              {t("listing.website")}
                             </button>
                           )}
 
@@ -1220,7 +1312,7 @@ export const MultiDashboard: React.FC = () => {
                               className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium"
                             >
                               <MapPin className="w-3 h-3" />
-                              Maps
+                              {t("listing.maps")}
                             </button>
                           )}
                         </div>
@@ -1231,7 +1323,7 @@ export const MultiDashboard: React.FC = () => {
                         {/* Rating Section */}
                         <div className="mb-4">
                           <h5 className="text-sm font-medium text-muted-foreground mb-2">
-                            Avg. Rating
+                            {t("listing.avgRating")}
                           </h5>
                           <div className="flex items-center gap-2 mb-3">
                             <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -1250,7 +1342,7 @@ export const MultiDashboard: React.FC = () => {
                           <div className="text-sm">
                             <div className="text-center">
                               <span className="text-muted-foreground font-medium">
-                                Reviews / Replies
+                                {t("listing.reviewsReplies")}
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.reviewReply}
@@ -1263,7 +1355,7 @@ export const MultiDashboard: React.FC = () => {
                         <div className="mb-5 space-y-2">
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground font-medium">
-                              Last Post:
+                              {t("listing.lastPost")}:
                             </span>
                             <span className="text-foreground font-medium">
                               {listing.lastPost}
@@ -1271,7 +1363,7 @@ export const MultiDashboard: React.FC = () => {
                           </div>
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground font-medium">
-                              Upcoming:
+                              {t("listing.upcoming")}:
                             </span>
                             <span className="text-foreground font-medium">
                               {listing.upcomingPost}
@@ -1295,7 +1387,7 @@ export const MultiDashboard: React.FC = () => {
                         }
                         className="w-full gap-2"
                       >
-                        View Details
+                        {t("listing.viewDetails")}
                         <ExternalLink className="w-4 h-4" />
                       </Button>
                     </div>
@@ -1345,7 +1437,12 @@ export const MultiDashboard: React.FC = () => {
                           </div>
                           <div className="flex gap-2 items-center text-xs text-muted-foreground">
                             {listing.zipCode && (
-                              <span>Zip: {listing.zipCode}</span>
+                              <span>
+                                {t("listing.zipcode", {
+                                  zipcode: listing.zipCode,
+                                })}
+                                {/* Zip: {listing.zipCode} */}
+                              </span>
                             )}
                             {listing.zipCode && listing.category && (
                               <span>•</span>
@@ -1381,7 +1478,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.visibility?.total_views || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Total Views
+                                {t("listing.totalViews")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
@@ -1389,14 +1486,17 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.visibility?.search_views || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Search
+                                {t("listing.Search")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-green-600">
                                 {listing.visibility?.maps_views || 0}
                               </div>
-                              <div className="text-muted-foreground">Maps</div>
+                              <div className="text-muted-foreground">
+                                {" "}
+                                {t("listing.Maps")}
+                              </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-cyan-600">
@@ -1404,21 +1504,24 @@ export const MultiDashboard: React.FC = () => {
                                   0}
                               </div>
                               <div className="text-muted-foreground">
-                                Directions
+                                {t("listing.directions")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-orange-600">
                                 {listing.customer_actions?.phone_calls || 0}
                               </div>
-                              <div className="text-muted-foreground">Calls</div>
+                              <div className="text-muted-foreground">
+                                {" "}
+                                {t("listing.calls")}
+                              </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-pink-600">
                                 {listing.customer_actions?.messages || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Messages
+                                {t("listing.messages")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
@@ -1426,7 +1529,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.customer_actions?.website_clicks || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Clicks
+                                {t("listing.clicks")}
                               </div>
                             </div>
                           </>
@@ -1448,7 +1551,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.replyCount || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Reviews vs Replies
+                                {t("listing.reviewsVsReplies")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
@@ -1456,7 +1559,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.sentiment?.positive || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Positive
+                                {t("listing.positive")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
@@ -1464,7 +1567,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.sentiment?.neutral || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Neutral
+                                {t("listing.neutral")}
                               </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
@@ -1472,7 +1575,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.sentiment?.negative || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Negative
+                                {t("listing.negative")}
                               </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
@@ -1488,7 +1591,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.autoReplyStatus || "N/A"}
                               </div>
                               <div className="text-muted-foreground">
-                                Auto Reply
+                                {t("listing.autoReply")}
                               </div>
                             </div>
                           </>
@@ -1499,7 +1602,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.photoCount || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Photos
+                                {t("listing.photos")}
                               </div>
                             </div>
                             <div className="flex items-center gap-2 min-w-16 flex-shrink-0">
@@ -1516,13 +1619,17 @@ export const MultiDashboard: React.FC = () => {
                               <div className="font-semibold text-foreground truncate">
                                 {listing.phone || "N/A"}
                               </div>
-                              <div className="text-muted-foreground">Phone</div>
+                              <div className="text-muted-foreground">
+                                {t("listing.phone")}
+                              </div>
                             </div>
                             <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
-                                {listing.state || "N/A"}
+                                {listing.state || t("listing.na")}
                               </div>
-                              <div className="text-muted-foreground">State</div>
+                              <div className="text-muted-foreground">
+                                {t("listing.stateLabel")}
+                              </div>
                             </div>
                             {listing.map && (
                               <div className="text-center min-w-16 flex-shrink-0">
@@ -1538,7 +1645,7 @@ export const MultiDashboard: React.FC = () => {
                                 >
                                   <MapPin className="h-4 w-4 text-primary" />
                                   <div className="text-muted-foreground text-xs">
-                                    Maps
+                                    {t("listing.maps")}
                                   </div>
                                 </button>
                               </div>
@@ -1558,7 +1665,7 @@ export const MultiDashboard: React.FC = () => {
                                 >
                                   <ExternalLink className="h-4 w-4 text-primary" />
                                   <div className="text-muted-foreground text-xs">
-                                    Website
+                                    {t("listing.website")}
                                   </div>
                                 </button>
                               </div>
@@ -1578,7 +1685,7 @@ export const MultiDashboard: React.FC = () => {
                                 </span>
                               </div>
                               <div className="text-muted-foreground">
-                                Star Rating
+                                {t("listing.starRating")}
                               </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
@@ -1586,7 +1693,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.reviewReply}
                               </div>
                               <div className="text-muted-foreground">
-                                Reviews vs Replies
+                                {t("listing.reviewsVsReplies")}
                               </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
@@ -1594,7 +1701,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.lastPost}
                               </div>
                               <div className="text-muted-foreground">
-                                Last Post
+                                {t("listing.lastPost")}
                               </div>
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
@@ -1602,7 +1709,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.upcomingPost}
                               </div>
                               <div className="text-muted-foreground">
-                                Upcoming
+                                {t("listing.upcoming")}
                               </div>
                             </div>
                           </>
@@ -1635,22 +1742,44 @@ export const MultiDashboard: React.FC = () => {
             {pagination && pagination.totalPages > 1 && (
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
                 <div className="text-sm text-muted-foreground text-center sm:text-left">
-                  {dashboardType === "post"
-                    ? `Showing ${
-                        (pagination.currentPage - 1) * itemsPerPage + 1
-                      } to ${Math.min(
-                        pagination.currentPage * itemsPerPage,
-                        (pagination as any).totalPosts
-                      )} of ${(pagination as any).totalPosts} posts`
-                    : `Showing ${
-                        (pagination.currentPage - 1) *
-                          (pagination as any).resultsPerPage +
-                        1
-                      } to ${Math.min(
-                        pagination.currentPage *
-                          (pagination as any).resultsPerPage,
-                        (pagination as any).totalResults
-                      )} of ${(pagination as any).totalResults} listings`}
+                  {
+                    dashboardType === "post"
+                      ? t("pagination.showing.posts", {
+                          from: (pagination.currentPage - 1) * itemsPerPage + 1,
+                          to: Math.min(
+                            pagination.currentPage * itemsPerPage,
+                            (pagination as any).totalPosts
+                          ),
+                          total: (pagination as any).totalPosts,
+                        })
+                      : // `Showing ${
+                        //     (pagination.currentPage - 1) * itemsPerPage + 1
+                        //   } to ${Math.min(
+                        //     pagination.currentPage * itemsPerPage,
+                        //     (pagination as any).totalPosts
+                        //   )} of ${(pagination as any).totalPosts} posts`
+                        t("pagination.showing.listings", {
+                          from:
+                            (pagination.currentPage - 1) *
+                              (pagination as any).resultsPerPage +
+                            1,
+                          to: Math.min(
+                            pagination.currentPage *
+                              (pagination as any).resultsPerPage,
+                            (pagination as any).totalResults
+                          ),
+                          total: (pagination as any).totalResults,
+                        })
+                    // `Showing ${
+                    //   (pagination.currentPage - 1) *
+                    //     (pagination as any).resultsPerPage +
+                    //   1
+                    // } to ${Math.min(
+                    //   pagination.currentPage *
+                    //     (pagination as any).resultsPerPage,
+                    //   (pagination as any).totalResults
+                    // )} of ${(pagination as any).totalResults} listings`
+                  }
                 </div>
                 <div className="flex items-center justify-center sm:justify-end gap-2">
                   <Button
@@ -1662,7 +1791,9 @@ export const MultiDashboard: React.FC = () => {
                     disabled={currentPage === 1 || isDashboardLoading}
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    <span className="hidden sm:inline">Previous</span>
+                    <span className="hidden sm:inline">
+                      {t("pagination.previous")}
+                    </span>
                   </Button>
 
                   <div className="flex items-center gap-1">
@@ -1735,7 +1866,9 @@ export const MultiDashboard: React.FC = () => {
                       isDashboardLoading
                     }
                   >
-                    <span className="hidden sm:inline">Next</span>
+                    <span className="hidden sm:inline">
+                      {t("pagination.next")}
+                    </span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>

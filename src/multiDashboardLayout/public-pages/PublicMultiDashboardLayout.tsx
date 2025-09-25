@@ -1,44 +1,54 @@
-import React from 'react';
-import { useAppSelector } from '@/hooks/useRedux';
-import { useThemeLogo } from '@/hooks/useThemeLogo';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useAppSelector } from "@/hooks/useRedux";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface PublicMultiDashboardLayoutProps {
   children: React.ReactNode;
 }
-export const PublicMultiDashboardLayout: React.FC<PublicMultiDashboardLayoutProps> = ({
-  children
-}) => {
-  const theme = useAppSelector(state => state.theme);
+export const PublicMultiDashboardLayout: React.FC<
+  PublicMultiDashboardLayoutProps
+> = ({ children }) => {
+  const { t } = useI18nNamespace(
+    "MultidashboardPages/publicMultiDashboardLayout"
+  );
+  const theme = useAppSelector((state) => state.theme);
   const logoData = useThemeLogo();
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate("/login");
   };
-  return <div className="min-h-screen flex flex-col" >
+  return (
+    <div className="min-h-screen flex flex-col">
       {/* Simplified Header - Only Logo */}
-      <header className="w-full px-4 py-3 border-b border-border" style={{
-    backgroundColor: theme.bg_color || 'hsl(var(--background))'
-  }}>
+      <header
+        className="w-full px-4 py-3 border-b border-border"
+        style={{
+          backgroundColor: theme.bg_color || "hsl(var(--background))",
+        }}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <img src={logoData.darkLogo} alt="Logo" className="h-10 w-auto" />
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <img
+            src={logoData.darkLogo}
+            alt={t("alt.logo")}
+            className="h-10 w-auto"
+          />
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleLoginClick}
             className="ml-4"
           >
-            Login
+            {t("header.login")}
           </Button>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-1 p-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          {children}
-        </div>
+        <div className="max-w-7xl mx-auto">{children}</div>
       </main>
 
       {/* Optional Footer */}
@@ -47,5 +57,6 @@ export const PublicMultiDashboardLayout: React.FC<PublicMultiDashboardLayoutProp
           {/* Public Multi-Dashboard Report */}
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 };

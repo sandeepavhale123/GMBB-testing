@@ -25,7 +25,10 @@ import {
 } from "@/store/slices/reviews/reviewsSlice";
 import { useToast } from "@/hooks/use-toast";
 import { formatDateForBackend } from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const BulkReview: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardPages/bulkReview");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -118,12 +121,12 @@ export const BulkReview: React.FC = () => {
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setLocalDateRange(range);
     if (range?.from && range?.to) {
-        dispatch(
-          setDateRange({
-            startDate: formatDateForBackend(range.from),
-            endDate: formatDateForBackend(range.to),
-          })
-        );
+      dispatch(
+        setDateRange({
+          startDate: formatDateForBackend(range.from),
+          endDate: formatDateForBackend(range.to),
+        })
+      );
     }
   };
   const handleGenerateReply = (reviewId: string) => {
@@ -148,13 +151,13 @@ export const BulkReview: React.FC = () => {
       setEditingReply(null);
       setShowingAIGenerator(null);
       toast({
-        title: "Success",
-        description: "Reply sent successfully",
+        title: t("toast.successTitle"),
+        description: t("toast.replySuccess"),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to send reply",
+        title: t("error.title"),
+        description: t("toast.replyError"),
         variant: "destructive",
       });
     }
@@ -168,13 +171,13 @@ export const BulkReview: React.FC = () => {
         })
       ).unwrap();
       toast({
-        title: "Success",
-        description: "Reply deleted successfully",
+        title: t("toast.successTitle"),
+        description: t("toast.deleteSuccess"),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete reply",
+        title: t("error.title"),
+        description: t("toast.deleteError"),
         variant: "destructive",
       });
     }
@@ -190,19 +193,15 @@ export const BulkReview: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            Bulk Review Management
-          </h1>
-          <p className="text-muted-foreground">
-            Manage reviews across all your listings.
-          </p>
+          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button
           onClick={() => navigate("/main-dashboard/bulk-auto-reply")}
           className="self-start sm:self-auto"
         >
           <MessageCircle className="w-4 h-4 mr-2" />
-          Configure Auto Reply
+          {t("configureAutoReply")}
         </Button>
       </div>
 
@@ -213,10 +212,10 @@ export const BulkReview: React.FC = () => {
         {/* Customer Reviews */}
         <div className="bg-card border border-border rounded-lg p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold">Customer Reviews</h3>
+            <h3 className="text-lg font-semibold">{t("summary.reviews")}</h3>
             <Button className="hidden ">
               <MessageCircle className="w-4 h-4 mr-2" />
-              Configure Auto Reply
+              {t("configureAutoReply")}
             </Button>
           </div>
 
@@ -243,21 +242,25 @@ export const BulkReview: React.FC = () => {
           {/* Loading State */}
           {reviewsLoading && (
             <div className="flex items-center justify-center py-8">
-              <div className="text-muted-foreground">Loading reviews...</div>
+              <div className="text-muted-foreground">
+                {t("summary.loading")}
+              </div>
             </div>
           )}
 
           {/* Error State */}
           {reviewsError && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-700">Error: {reviewsError}</p>
+              <p className="text-red-700">
+                {t("error.title")}: {reviewsError}
+              </p>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={loadBulkReviews}
                 className="mt-2"
               >
-                Retry
+                {t("error.retry")}
               </Button>
             </div>
           )}
@@ -267,7 +270,7 @@ export const BulkReview: React.FC = () => {
             <div className="space-y-4">
               {reviews.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  No reviews found matching your criteria.
+                  {t("summary.noReviews")}
                 </div>
               ) : (
                 reviews.map((review) => (
@@ -293,9 +296,17 @@ export const BulkReview: React.FC = () => {
           {pagination && pagination.total_pages > 1 && (
             <div className="flex items-center justify-between mt-6 flex-col gap-4 sm:flex-row sm:gap-0">
               <p className="text-sm text-muted-foreground">
-                Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
+                {t("pagination.showing", {
+                  from: (pagination.page - 1) * pagination.limit + 1,
+                  to: Math.min(
+                    pagination.page * pagination.limit,
+                    pagination.total
+                  ),
+                  total: pagination.total,
+                })}
+                {/* Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
                 {Math.min(pagination.page * pagination.limit, pagination.total)}{" "}
-                of {pagination.total} reviews
+                of {pagination.total} reviews */}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -304,10 +315,14 @@ export const BulkReview: React.FC = () => {
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={!pagination.has_prev}
                 >
-                  Previous
+                  {t("pagination.previous")}
                 </Button>
                 <span className="px-3 py-1 text-sm bg-muted rounded">
-                  Page {pagination.page} of {pagination.total_pages}
+                  {t("pagination.page", {
+                    current: pagination.page,
+                    pages: pagination.total_pages,
+                  })}
+                  {/* Page {pagination.page} of {pagination.total_pages} */}
                 </span>
                 <Button
                   variant="outline"
@@ -315,7 +330,7 @@ export const BulkReview: React.FC = () => {
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={!pagination.has_next}
                 >
-                  Next
+                  {t("pagination.next")}
                 </Button>
               </div>
             </div>
