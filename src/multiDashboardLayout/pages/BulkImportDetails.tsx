@@ -334,14 +334,16 @@ export const BulkImportDetails: React.FC = () => {
                               </TableCell>
                               <TableCell>
                                 <div className="flex items-center gap-1">
-                                  <Button 
-                                    variant="ghost" 
-                                    size="sm" 
-                                    onClick={() => handleViewPost(post.id)} 
-                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                                  >
-                                    <Eye className="h-4 w-4" />
-                                  </Button>
+                                  {post.search_url && (
+                                    <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      onClick={() => handleViewPost(post.id)} 
+                                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                    >
+                                      <Eye className="h-4 w-4" />
+                                    </Button>
+                                  )}
                                   <Button 
                                     variant="ghost" 
                                     size="sm" 
