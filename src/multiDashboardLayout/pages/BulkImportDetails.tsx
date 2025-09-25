@@ -82,20 +82,6 @@ const ListingSidebar = ({
     );
   }
 
-  if (noListingsFound) {
-    return (
-      <Card className="h-fit">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-base font-medium">
-            Listings
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">No listings found for this history ID.</p>
-        </CardContent>
-      </Card>
-    );
-  }
   
   return (
     <Card className="h-fit">
@@ -115,32 +101,40 @@ const ListingSidebar = ({
           />
         </div>
         <div className="space-y-2 max-h-96 overflow-y-auto">
-          {listings.map(listing => (
-            <div 
-              key={listing.id} 
-              onClick={() => onListingSelect(listing.id)} 
-              className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                selectedListingId === listing.id 
-                  ? 'bg-success/10 border-success text-success' 
-                  : 'border-border hover:bg-muted/50'
-              }`}
-            >
-              <div className="font-medium text-sm break-words">{listing.listing_name}</div>
-              <div className="text-xs text-muted-foreground mt-1">
-                Zip code: {listing.zipcode}
-              </div>
-            </div>
-          ))}
-          {listings.length === 0 && !loading && (
+          {noListingsFound ? (
             <div className="text-center py-4 text-muted-foreground text-sm">
-              No listings found
+              No listings found for this history ID.
             </div>
-          )}
-          {loading && (
-            <div className="text-center py-4 text-muted-foreground text-sm flex items-center justify-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Loading...
-            </div>
+          ) : (
+            <>
+              {listings.map(listing => (
+                <div 
+                  key={listing.id} 
+                  onClick={() => onListingSelect(listing.id)} 
+                  className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                    selectedListingId === listing.id 
+                      ? 'bg-success/10 border-success text-success' 
+                      : 'border-border hover:bg-muted/50'
+                  }`}
+                >
+                  <div className="font-medium text-sm break-words">{listing.listing_name}</div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    Zip code: {listing.zipcode}
+                  </div>
+                </div>
+              ))}
+              {listings.length === 0 && !loading && (
+                <div className="text-center py-4 text-muted-foreground text-sm">
+                  No listings found
+                </div>
+              )}
+              {loading && (
+                <div className="text-center py-4 text-muted-foreground text-sm flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Loading...
+                </div>
+              )}
+            </>
           )}
         </div>
       </CardContent>
