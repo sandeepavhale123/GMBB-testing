@@ -232,9 +232,9 @@ export const BulkImportDetails: React.FC = () => {
       <h1 className="text-2xl font-bold text-foreground">Bulk import Details</h1>
       
       {/* Main Content */}
-      <div className="flex gap-6"> 
+      <div className="grid grid-cols-12 gap-6"> 
         {/* Left Sidebar - Hidden on mobile */}
-        <div className="w-80 hidden lg:block">
+        <div className="col-span-4 hidden lg:block">
           <ListingSidebar 
             listings={listings}
             loading={listingsLoading}
@@ -247,7 +247,7 @@ export const BulkImportDetails: React.FC = () => {
         </div>
 
         {/* Mobile Sidebar Summary - Visible only on mobile */}
-        <div className="lg:hidden w-full mb-4">
+        <div className="lg:hidden col-span-12 mb-4">
           <ListingSidebar 
             listings={listings}
             loading={listingsLoading}
@@ -260,7 +260,7 @@ export const BulkImportDetails: React.FC = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 space-y-6">
+        <div className="col-span-12 lg:col-span-8 space-y-6">
           {!selectedListingId ? (
             <Card>
               <CardContent className="p-8 text-center">
