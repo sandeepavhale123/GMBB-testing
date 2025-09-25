@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { csvApi, GetBulkCSVHistoryRequest, BulkCSVHistoryRecord } from '@/api/csvApi';
+import { csvApi, GetBulkCSVHistoryRequest, BulkCSVHistoryRecord, DeleteBulkCSVHistoryRequest } from '@/api/csvApi';
 import { useDebounce } from '@/hooks/useDebounce';
 
 interface UseBulkCSVHistoryResult {
@@ -16,6 +16,7 @@ interface UseBulkCSVHistoryResult {
   setSearchTerm: (term: string) => void;
   setPage: (page: number) => void;
   refetch: () => Promise<void>;
+  deleteRecord: (id: string) => Promise<void>;
 }
 
 export const useBulkCSVHistory = (limit: number = 10): UseBulkCSVHistoryResult => {
@@ -90,6 +91,40 @@ export const useBulkCSVHistory = (limit: number = 10): UseBulkCSVHistoryResult =
     return fetchHistory(page, debouncedSearchTerm, false);
   }, [fetchHistory, page, debouncedSearchTerm]);
 
+  const deleteRecord = useCallback(async (id: string) => {
+    try {
+      const request: DeleteBulkCSVHistoryRequest = {
+        historyId: parseInt(id),
+        isDelete: "confirm"
+      };
+
+      const response = await csvApi.deleteBulkCSVHistory(request);
+      
+      if (response.code === 200) {
+        // Remove the record from local state
+        setData(prevData => prevData.filter(record => record.id !== id));
+        
+        // Update pagination total
+        setPagination(prev => ({
+          ...prev,
+          total: prev.total - 1
+        }));
+        
+        // If we're on the last page and it becomes empty, go to previous page
+        const newTotal = pagination.total - 1;
+        const totalPages = Math.ceil(newTotal / pagination.limit);
+        if (page > totalPages && totalPages > 0) {
+          setPage(totalPages);
+        }
+      } else {
+        throw new Error(response.message || 'Failed to delete record');
+      }
+    } catch (err: any) {
+      console.error('Error deleting CSV record:', err);
+      throw new Error(err.response?.data?.message || 'An error occurred while deleting the record');
+    }
+  }, [page, pagination.total, pagination.limit, setPage]);
+
   return {
     data,
     loading,
@@ -99,6 +134,7 @@ export const useBulkCSVHistory = (limit: number = 10): UseBulkCSVHistoryResult =
     searchTerm,
     setSearchTerm,
     setPage: handlePageChange,
-    refetch
+    refetch,
+    deleteRecord
   };
 };

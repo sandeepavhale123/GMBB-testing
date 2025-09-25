@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,9 +20,20 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
 import { useBulkCSVHistory } from '@/hooks/useBulkCSVHistory';
 import { BulkCSVHistoryRecord } from '@/api/csvApi';
+import { useToast } from "@/hooks/use-toast";
 
 const getStatusVariant = (status: string) => {
   const normalizedStatus = status.toLowerCase();
@@ -54,6 +65,7 @@ const getStatusColor = (status: string) => {
 
 export const ImportPostCSV: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { 
     data: csvHistory, 
     loading, 
@@ -62,8 +74,13 @@ export const ImportPostCSV: React.FC = () => {
     pagination, 
     searchTerm, 
     setSearchTerm, 
-    setPage 
+    setPage,
+    deleteRecord
   } = useBulkCSVHistory(10);
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [recordToDelete, setRecordToDelete] = useState<BulkCSVHistoryRecord | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   
   const handleImport = () => {
     navigate('/main-dashboard/import-post-csv-wizard');
@@ -74,8 +91,37 @@ export const ImportPostCSV: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    // TODO: Implement delete functionality
-    console.log('Delete CSV import:', id);
+    const record = csvHistory.find(r => r.id === id);
+    if (record) {
+      setRecordToDelete(record);
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!recordToDelete) return;
+
+    try {
+      setDeleteLoading(true);
+      await deleteRecord(recordToDelete.id);
+      
+      toast({
+        title: "Success",
+        description: "Record deleted successfully",
+        variant: "default"
+      });
+      
+      setDeleteDialogOpen(false);
+      setRecordToDelete(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete record",
+        variant: "destructive"
+      });
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   const renderPaginationNumbers = () => {
@@ -206,6 +252,7 @@ export const ImportPostCSV: React.FC = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(record.id)}
+                          disabled={deleteLoading && recordToDelete?.id === record.id}
                           className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -248,6 +295,31 @@ export const ImportPostCSV: React.FC = () => {
           </Pagination>
         </div>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete CSV Import</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the import record for "{recordToDelete?.filename}"? 
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteLoading}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              disabled={deleteLoading}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteLoading ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
