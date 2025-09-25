@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { LeadGooglePlacesInput } from "./LeadGooglePlacesInput";
-import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2, X } from "lucide-react";
+import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2, X, Search } from "lucide-react";
 import { addLead, AddLeadRequest } from "@/api/leadApi";
 import { useToast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
@@ -31,6 +31,7 @@ interface LeadFormData {
   email?: string;
   phone?: string;
   location?: string;
+  keyword?: string;
   inputMethod: 'name' | 'url' | 'cid';
 }
 
@@ -42,6 +43,7 @@ const leadFormSchema = z.object({
   email: z.string().email("Please enter a valid email").or(z.literal("")),
   phone: z.string().optional(),
   location: z.string().optional(),
+  keyword: z.string().optional(),
   inputMethod: z.enum(['name', 'url', 'cid']),
 }).superRefine((data, ctx) => {
   if (data.inputMethod === 'name') {
@@ -79,6 +81,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     email: "",
     phone: "",
     location: "",
+    keyword: "",
     inputMethod: 'name',
   });
 
@@ -110,6 +113,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         email: formData.email || undefined,
         phone: formData.phone || undefined,
         location: formData.location || undefined,
+        keyword: formData.keyword || undefined,
       };
 
       const response = await addLead(apiRequest);
@@ -129,6 +133,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
           email: "",
           phone: "",
           location: "",
+          keyword: "",
           inputMethod: 'name',
         });
         setShowOptionalDetails(false);
@@ -317,55 +322,79 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
           {/* Optional Fields */}
           {showOptionalDetails && (
             <div className="space-y-4 border-t pt-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center space-x-2">
-                  <Mail className="h-4 w-4" />
-                  <span>Email</span>
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter email address"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData(prev => ({ ...prev, email: e.target.value }))
-                  }
-                />
-                {hasFieldError("email") && (
-                  <p className="text-sm text-destructive">{getFieldError("email")}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="flex items-center space-x-2">
-                  <Phone className="h-4 w-4" />
-                  <span>Phone Number</span>
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="Enter phone number"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData(prev => ({ ...prev, phone: e.target.value }))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="location" className="flex items-center space-x-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Latitude, Longitude or City (Optional)</span>
-                </Label>
-                <Input
-                  id="location"
-                  placeholder="Enter location lat , long or city"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData(prev => ({ ...prev, location: e.target.value }))
-                  }
-                />
+              {/* Two-column layout for optional fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="flex items-center space-x-2">
+                    <Mail className="h-4 w-4" />
+                    <span>Email</span>
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter email address"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData(prev => ({ ...prev, email: e.target.value }))
+                    }
+                  />
+                  {hasFieldError("email") && (
+                    <p className="text-sm text-destructive">{getFieldError("email")}</p>
+                  )}
+                </div>
+
+                {/* Phone Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="flex items-center space-x-2">
+                    <Phone className="h-4 w-4" />
+                    <span>Phone Number</span>
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="Enter phone number"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData(prev => ({ ...prev, phone: e.target.value }))
+                    }
+                  />
+                </div>
+
+                {/* Location Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="location" className="flex items-center space-x-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>Latitude, Longitude or City</span>
+                  </Label>
+                  <Input
+                    id="location"
+                    placeholder="Enter location lat, long or city"
+                    value={formData.location}
+                    onChange={(e) =>
+                      setFormData(prev => ({ ...prev, location: e.target.value }))
+                    }
+                  />
+                </div>
+
+                {/* Keyword Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="keyword" className="flex items-center space-x-2">
+                    <Search className="h-4 w-4" />
+                    <span>Custom Keyword</span>
+                  </Label>
+                  <Input
+                    id="keyword"
+                    placeholder="Enter custom keyword"
+                    value={formData.keyword}
+                    onChange={(e) =>
+                      setFormData(prev => ({ ...prev, keyword: e.target.value }))
+                    }
+                  />
+                </div>
               </div>
 
-              <div className="bg-gray-100 p-4 rounded-md ">
+              <div className="bg-muted p-4 rounded-md">
                  <p className="text-sm mb-2"># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
                  <p className="text-sm"># The free text should be entered as follows: City, State, Country</p>
               </div>

@@ -224,6 +224,7 @@ export interface AddLeadRequest {
   email?: string;
   phone?: string;
   location?: string;
+  keyword?: string;
 }
 
 export interface AddLeadResponse {
