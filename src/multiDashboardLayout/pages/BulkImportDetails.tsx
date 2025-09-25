@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useBulkImportDetails } from '@/hooks/useBulkImportDetails';
 import type { BulkListing } from '@/api/csvApi';
+import { PostPreviewModal } from '@/components/Posts/PostPreviewModal';
 
 // Helper function to get status variant
 const getStatusVariant = (status: string) => {
@@ -133,6 +134,8 @@ export const BulkImportDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [filterValue, setFilterValue] = useState('all');
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [selectedPostForPreview, setSelectedPostForPreview] = useState<any>(null);
   
   const historyId = parseInt(id || '0', 10);
   
@@ -155,7 +158,25 @@ export const BulkImportDetails: React.FC = () => {
   };
 
   const handleViewPost = (postId: string) => {
-    console.log('View post:', postId);
+    const post = filteredPosts.find(p => p.id === postId);
+    if (post) {
+      // Transform post data to match PostPreviewModal format
+      const transformedData = {
+        title: post.event_title || post.text?.split(' ').slice(0, 8).join(' ') || 'Post Preview',
+        description: post.text || '',
+        ctaButton: post.action_type || 'Learn More',
+        ctaUrl: post.url || '#',
+        image: post.image || null,
+        platforms: post.posttype ? [post.posttype] : []
+      };
+      setSelectedPostForPreview(transformedData);
+      setIsPreviewModalOpen(true);
+    }
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewModalOpen(false);
+    setSelectedPostForPreview(null);
   };
 
   const handleDeletePost = (postId: string) => {
@@ -338,6 +359,15 @@ export const BulkImportDetails: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Post Preview Modal */}
+      {selectedPostForPreview && (
+        <PostPreviewModal
+          isOpen={isPreviewModalOpen}
+          onClose={handleClosePreview}
+          data={selectedPostForPreview}
+        />
+      )}
     </div>
   );
 };
