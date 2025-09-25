@@ -268,10 +268,10 @@ export const BulkImportDetails: React.FC = () => {
                             </TableCell>
                           </TableRow>
                         ) : (
-                          filteredPosts.map(post => (
+                          filteredPosts.map((post, index) => (
                             <TableRow key={post.id} className="border-border">
                               <TableCell className="text-muted-foreground">
-                                {post.id}
+                                {index + 1}
                               </TableCell>
                               <TableCell>
                                 {post.image ? (
