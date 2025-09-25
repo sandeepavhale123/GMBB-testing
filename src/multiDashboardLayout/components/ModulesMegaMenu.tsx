@@ -14,7 +14,7 @@ const modules = [
     href: "/main-dashboard",
   },
   {
-    name: "GRO Ranking",
+    name: "GEO Ranking",
     description: "Track and optimize your local search rankings",
     icon: TrendingUp,
     href: "/module/geo-ranking",
