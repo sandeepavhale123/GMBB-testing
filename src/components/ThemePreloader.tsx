@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import { getThemeUnauthenticated } from "@/hooks/useThemeLoader";
+import { loadThemeFromAPI } from "@/store/slices/themeSlice";
+import { AppDispatch } from "@/store/store";
 
 interface ThemePreloaderProps {
   children: React.ReactNode;
@@ -8,19 +12,29 @@ interface ThemePreloaderProps {
 
 export const ThemePreloader = ({ children, loadFromAPI = false }: ThemePreloaderProps) => {
   const [themeLoaded, setThemeLoaded] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const loadTheme = async () => {
       try {
-        // Apply stored theme from localStorage
+        // Apply stored theme from localStorage first
         applyStoredTheme();
         
-        // For public routes, we just use stored theme without API calls or Redux
+        // If loadFromAPI is true, call the get-theme API
         if (loadFromAPI) {
-          console.log("Public route: using stored theme only");
+          console.log("🎨 Loading theme from API for login page...");
+          const themeResponse = await getThemeUnauthenticated();
+          
+          if (themeResponse.code === 200) {
+            dispatch(loadThemeFromAPI(themeResponse.data));
+            console.log("🎨 Theme loaded successfully from API on login page");
+          } else {
+            console.warn("Theme API returned non-200 status, using stored theme");
+          }
         }
       } catch (error) {
         console.warn("Failed to load theme:", error);
+        // Fallback to stored theme
         applyStoredTheme();
       } finally {
         setThemeLoaded(true);
@@ -28,7 +42,7 @@ export const ThemePreloader = ({ children, loadFromAPI = false }: ThemePreloader
     };
 
     loadTheme();
-  }, [loadFromAPI]);
+  }, [loadFromAPI, dispatch]);
 
   // Show loading state while theme is being applied
   if (!themeLoaded) {
