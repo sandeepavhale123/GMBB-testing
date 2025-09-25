@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Eye, Trash2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -218,7 +217,7 @@ export const BulkImportDetails: React.FC = () => {
     setPostToDelete(null);
   };
 
-  // Filter posts based on search only
+  // Filter posts based on search only (no status filter)
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.text.toLowerCase().includes(postSearch.toLowerCase()) || 
                          (post.tags && post.tags.toLowerCase().includes(postSearch.toLowerCase()));
