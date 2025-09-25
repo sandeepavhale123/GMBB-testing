@@ -110,6 +110,36 @@ export interface GetListingPostDetailsResponse {
   };
 }
 
+// Bulk CSV History APIs
+export interface GetBulkCSVHistoryRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface BulkCSVHistoryRecord {
+  id: string;
+  filename: string;
+  note: string;
+  date: string;
+  total_posts: string;
+  listing_count: string;
+  status: string;
+}
+
+export interface GetBulkCSVHistoryResponse {
+  code: number;
+  message: string;
+  data: {
+    history: BulkCSVHistoryRecord[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+    };
+  };
+}
+
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
     console.log('🌐 Making API request to /generate-multicsv-file with:', request);
@@ -210,6 +240,26 @@ export const csvApi = {
     } catch (error: any) {
       console.error('❌ Listing Post Details API request failed:', {
         url: '/get-listingpost-details',
+        request,
+        error: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        responseData: error?.response?.data
+      });
+      throw error;
+    }
+  },
+
+  getBulkCSVHistory: async (request: GetBulkCSVHistoryRequest): Promise<GetBulkCSVHistoryResponse> => {
+    console.log('🌐 Making API request to /get-bulkcsv-history with:', request);
+    
+    try {
+      const response = await axiosInstance.post('/get-bulkcsv-history', request);
+      console.log('✅ Bulk CSV History API response received:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Bulk CSV History API request failed:', {
+        url: '/get-bulkcsv-history',
         request,
         error: error?.message,
         status: error?.response?.status,
