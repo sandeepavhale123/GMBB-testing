@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { csvApi, type BulkListing, type BulkImportPost } from '@/api/csvApi';
+import { useToast } from '@/hooks/use-toast';
 
 interface UseBulkImportDetailsResult {
   // Listings data
@@ -36,9 +37,12 @@ interface UseBulkImportDetailsResult {
   setPostsPage: (page: number) => void;
   refreshListings: () => void;
   refreshPosts: () => void;
+  deletePost: (postId: string) => Promise<void>;
+  isDeletingPost: boolean;
 }
 
 export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsResult => {
+  const { toast } = useToast();
   // Listings state
   const [listings, setListings] = useState<BulkListing[]>([]);
   const [listingsLoading, setListingsLoading] = useState(true);
@@ -62,6 +66,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
   });
   const [postSearch, setPostSearch] = useState('');
   const [selectedListingId, setSelectedListingId] = useState<string | null>(null);
+  const [isDeletingPost, setIsDeletingPost] = useState(false);
 
   // Fetch listings
   const fetchListings = useCallback(async () => {
@@ -170,6 +175,36 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     setPostsPagination(prev => ({ ...prev, page }));
   }, []);
 
+  // Delete post function
+  const deletePost = useCallback(async (postId: string) => {
+    setIsDeletingPost(true);
+    
+    try {
+      await csvApi.deleteBulkListingPosts({
+        historyId,
+        postIds: [parseInt(postId)],
+        isDelete: 'confirm'
+      });
+
+      // Remove post from local state without re-fetching
+      setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+      
+      toast({
+        title: "Success",
+        description: "Post deleted successfully",
+      });
+    } catch (error: any) {
+      console.error('Failed to delete post:', error);
+      toast({
+        title: "Error",
+        description: error?.response?.data?.message || 'Failed to delete post',
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeletingPost(false);
+    }
+  }, [historyId, toast]);
+
   return {
     // Listings data
     listings,
@@ -196,6 +231,8 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     setListingsPage: handleSetListingsPage,
     setPostsPage: handleSetPostsPage,
     refreshListings: fetchListings,
-    refreshPosts: fetchPosts
+    refreshPosts: fetchPosts,
+    deletePost,
+    isDeletingPost
   };
 };

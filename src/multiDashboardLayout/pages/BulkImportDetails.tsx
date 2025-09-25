@@ -162,7 +162,9 @@ export const BulkImportDetails: React.FC = () => {
     postSearch,
     setListingSearch,
     setPostSearch,
-    setSelectedListingId
+    setSelectedListingId,
+    deletePost,
+    isDeletingPost
   } = useBulkImportDetails(historyId);
 
   const handleBack = () => {
@@ -196,8 +198,10 @@ export const BulkImportDetails: React.FC = () => {
     setSelectedPostForPreview(null);
   };
 
-  const handleDeletePost = (postId: string) => {
-    console.log('Delete post:', postId);
+  const handleDeletePost = async (postId: string) => {
+    if (window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+      await deletePost(postId);
+    }
   };
 
   // Filter posts based on search and status
@@ -358,14 +362,19 @@ export const BulkImportDetails: React.FC = () => {
                                       <Eye className="h-4 w-4" />
                                     </Button>
                                   )}
-                                  <Button 
-                                    variant="ghost" 
-                                    size="sm" 
-                                    onClick={() => handleDeletePost(post.id)} 
-                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
+                                   <Button 
+                                     variant="ghost" 
+                                     size="sm" 
+                                     onClick={() => handleDeletePost(post.id)} 
+                                     className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                     disabled={isDeletingPost}
+                                   >
+                                     {isDeletingPost ? (
+                                       <Loader2 className="h-4 w-4 animate-spin" />
+                                     ) : (
+                                       <Trash2 className="h-4 w-4" />
+                                     )}
+                                   </Button>
                                 </div>
                               </TableCell>
                             </TableRow>

@@ -155,6 +155,22 @@ export interface DeleteBulkCSVHistoryResponse {
   };
 }
 
+// Delete Bulk Listing Posts APIs
+export interface DeleteBulkListingPostsRequest {
+  historyId: number;
+  postIds: number[];
+  isDelete: string;
+}
+
+export interface DeleteBulkListingPostsResponse {
+  code: number;
+  message: string;
+  data: {
+    historyId: number;
+    deletedPostIds: number[];
+  };
+}
+
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
     console.log('🌐 Making API request to /generate-multicsv-file with:', request);
@@ -295,6 +311,26 @@ export const csvApi = {
     } catch (error: any) {
       console.error('❌ Delete Bulk CSV History API request failed:', {
         url: '/delete-bulkcsv-history',
+        request,
+        error: error?.message,
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        responseData: error?.response?.data
+      });
+      throw error;
+    }
+  },
+
+  deleteBulkListingPosts: async (request: DeleteBulkListingPostsRequest): Promise<DeleteBulkListingPostsResponse> => {
+    console.log('🌐 Making API request to /delete-bulklisting-posts with:', request);
+    
+    try {
+      const response = await axiosInstance.post('/delete-bulklisting-posts', request);
+      console.log('✅ Delete Bulk Listing Posts API response received:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Delete Bulk Listing Posts API request failed:', {
+        url: '/delete-bulklisting-posts',
         request,
         error: error?.message,
         status: error?.response?.status,
