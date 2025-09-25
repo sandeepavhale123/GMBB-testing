@@ -218,6 +218,11 @@ axiosInstance.interceptors.response.use(
         // For other 401 errors, show specific toast messages based on the error
         // console.log("⚠️ 401 error with message:", errorMessage);
         
+        // Skip toast for specific "no listings found" error as it's handled in components
+        if (errorMessage === "No listings found for this history ID.") {
+          return Promise.reject(error);
+        }
+        
         let title = "Access Denied";
         let description = "You don't have permission to perform this action";
         
