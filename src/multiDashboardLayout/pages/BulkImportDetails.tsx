@@ -145,7 +145,6 @@ const ListingSidebar = ({
 export const BulkImportDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [filterValue, setFilterValue] = useState('all');
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPostForPreview, setSelectedPostForPreview] = useState<any>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -219,12 +218,11 @@ export const BulkImportDetails: React.FC = () => {
     setPostToDelete(null);
   };
 
-  // Filter posts based on search and status
+  // Filter posts based on search only
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.text.toLowerCase().includes(postSearch.toLowerCase()) || 
                          (post.tags && post.tags.toLowerCase().includes(postSearch.toLowerCase()));
-    const matchesFilter = filterValue === 'all' || post.state.toLowerCase() === filterValue.toLowerCase();
-    return matchesSearch && matchesFilter;
+    return matchesSearch;
   });
 
   return (
@@ -271,27 +269,14 @@ export const BulkImportDetails: React.FC = () => {
             </Card>
           ) : (
             <>
-              {/* Search and Filter */}
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Input 
-                    placeholder="Search by post content or tags" 
-                    value={postSearch} 
-                    onChange={e => setPostSearch(e.target.value)} 
-                    className="w-full" 
-                  />
-                </div>
-                <Select value={filterValue} onValueChange={setFilterValue}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Filter" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="live">Live</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="scheduled">Scheduled</SelectItem>
-                  </SelectContent>
-                </Select>
+              {/* Search */}
+              <div>
+                <Input 
+                  placeholder="Search by post content or tags" 
+                  value={postSearch} 
+                  onChange={e => setPostSearch(e.target.value)} 
+                  className="w-full" 
+                />
               </div>
 
               {/* Posts Table */}
