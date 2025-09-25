@@ -381,11 +381,11 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
                 <div className="space-y-2">
                   <Label htmlFor="keyword" className="flex items-center space-x-2">
                     <Search className="h-4 w-4" />
-                    <span>Keywords</span>
+                    <span>Custom Keyword</span>
                   </Label>
                   <Input
                     id="keyword"
-                    placeholder="Enter keywords (e.g., Digital Marketing)"
+                    placeholder="Enter custom keyword"
                     value={formData.keyword}
                     onChange={(e) =>
                       setFormData(prev => ({ ...prev, keyword: e.target.value }))
