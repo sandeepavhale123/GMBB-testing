@@ -6,6 +6,7 @@ interface UseBulkImportDetailsResult {
   listings: BulkListing[];
   listingsLoading: boolean;
   listingsError: string | null;
+  noListingsFound: boolean;
   listingsPagination: {
     page: number;
     limit: number;
@@ -42,6 +43,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
   const [listings, setListings] = useState<BulkListing[]>([]);
   const [listingsLoading, setListingsLoading] = useState(true);
   const [listingsError, setListingsError] = useState<string | null>(null);
+  const [noListingsFound, setNoListingsFound] = useState(false);
   const [listingsPagination, setListingsPagination] = useState({
     page: 1,
     limit: 10,
@@ -67,6 +69,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     
     setListingsLoading(true);
     setListingsError(null);
+    setNoListingsFound(false);
     
     try {
       const response = await csvApi.getBulkCSVListing({
@@ -88,7 +91,15 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
       }
     } catch (error: any) {
       console.error('Failed to fetch listings:', error);
-      setListingsError(error?.response?.data?.message || 'Failed to fetch listings');
+      const errorMessage = error?.response?.data?.message || 'Failed to fetch listings';
+      
+      // Check if this is the specific "No listings found" error
+      if (error?.response?.status === 401 && errorMessage === 'No listings found for this history ID.') {
+        setNoListingsFound(true);
+        setListings([]);
+      } else {
+        setListingsError(errorMessage);
+      }
     } finally {
       setListingsLoading(false);
     }
@@ -164,6 +175,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     listings,
     listingsLoading,
     listingsError,
+    noListingsFound,
     listingsPagination,
     
     // Posts data

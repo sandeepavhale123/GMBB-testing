@@ -46,6 +46,7 @@ const ListingSidebar = ({
   listings,
   loading,
   error,
+  noListingsFound,
   selectedListingId,
   onSearch,
   onListingSelect
@@ -53,6 +54,7 @@ const ListingSidebar = ({
   listings: BulkListing[];
   loading: boolean;
   error: string | null;
+  noListingsFound: boolean;
   selectedListingId: string | null;
   onSearch: (query: string) => void;
   onListingSelect: (id: string) => void;
@@ -75,6 +77,21 @@ const ListingSidebar = ({
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">{error}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (noListingsFound) {
+    return (
+      <Card className="h-fit">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-base font-medium">
+            Listings
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">No listings found for this history ID.</p>
         </CardContent>
       </Card>
     );
@@ -143,6 +160,7 @@ export const BulkImportDetails: React.FC = () => {
     listings,
     listingsLoading,
     listingsError,
+    noListingsFound,
     posts,
     postsLoading,
     postsError,
@@ -207,7 +225,8 @@ export const BulkImportDetails: React.FC = () => {
           <ListingSidebar 
             listings={listings}
             loading={listingsLoading}
-            error={listingsError} 
+            error={listingsError}
+            noListingsFound={noListingsFound}
             selectedListingId={selectedListingId}
             onSearch={setListingSearch}
             onListingSelect={setSelectedListingId}
@@ -219,7 +238,8 @@ export const BulkImportDetails: React.FC = () => {
           <ListingSidebar 
             listings={listings}
             loading={listingsLoading}
-            error={listingsError} 
+            error={listingsError}
+            noListingsFound={noListingsFound}
             selectedListingId={selectedListingId}
             onSearch={setListingSearch}
             onListingSelect={setSelectedListingId}
