@@ -160,17 +160,22 @@ export const BulkImportDetails: React.FC = () => {
   const handleViewPost = (postId: string) => {
     const post = filteredPosts.find(p => p.id === postId);
     if (post) {
-      // Transform post data to match PostPreviewModal format
-      const transformedData = {
-        title: post.event_title || post.text?.split(' ').slice(0, 8).join(' ') || 'Post Preview',
-        description: post.text || '',
-        ctaButton: post.action_type || 'Learn More',
-        ctaUrl: post.url || '#',
-        image: post.image || null,
-        platforms: post.posttype ? [post.posttype] : []
-      };
-      setSelectedPostForPreview(transformedData);
-      setIsPreviewModalOpen(true);
+      // If search_url exists, open in new tab
+      if (post.search_url) {
+        window.open(post.search_url, '_blank');
+      } else {
+        // Otherwise show modal preview
+        const transformedData = {
+          title: post.event_title || post.text?.split(' ').slice(0, 8).join(' ') || 'Post Preview',
+          description: post.text || '',
+          ctaButton: post.action_type || 'Learn More',
+          ctaUrl: post.url || '#',
+          image: post.image || null,
+          platforms: post.posttype ? [post.posttype] : []
+        };
+        setSelectedPostForPreview(transformedData);
+        setIsPreviewModalOpen(true);
+      }
     }
   };
 
