@@ -180,7 +180,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     setIsDeletingPost(true);
     
     try {
-      await csvApi.deleteBulkListingPosts({
+      const response = await csvApi.deleteBulkListingPosts({
         historyId,
         postIds: [parseInt(postId)],
         isDelete: 'confirm'
@@ -191,7 +191,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
       
       toast({
         title: "Success",
-        description: "Post deleted successfully",
+        description: response.message,
       });
     } catch (error: any) {
       console.error('Failed to delete post:', error);

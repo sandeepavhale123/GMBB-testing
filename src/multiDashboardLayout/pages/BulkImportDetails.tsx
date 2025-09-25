@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { useBulkImportDetails } from '@/hooks/useBulkImportDetails';
 import type { BulkListing } from '@/api/csvApi';
 import { PostPreviewModal } from '@/components/Posts/PostPreviewModal';
@@ -147,6 +148,8 @@ export const BulkImportDetails: React.FC = () => {
   const [filterValue, setFilterValue] = useState('all');
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPostForPreview, setSelectedPostForPreview] = useState<any>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
   
   const historyId = parseInt(id || '0', 10);
   
@@ -198,10 +201,22 @@ export const BulkImportDetails: React.FC = () => {
     setSelectedPostForPreview(null);
   };
 
-  const handleDeletePost = async (postId: string) => {
-    if (window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
-      await deletePost(postId);
+  const handleDeletePost = (postId: string) => {
+    setPostToDelete(postId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeletePost = async () => {
+    if (postToDelete) {
+      await deletePost(postToDelete);
+      setIsDeleteModalOpen(false);
+      setPostToDelete(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setPostToDelete(null);
   };
 
   // Filter posts based on search and status
@@ -398,6 +413,37 @@ export const BulkImportDetails: React.FC = () => {
           data={selectedPostForPreview}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Post</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this post? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelDelete} disabled={isDeletingPost}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeletePost} 
+              disabled={isDeletingPost}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              {isDeletingPost ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
