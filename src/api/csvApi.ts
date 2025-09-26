@@ -204,6 +204,8 @@ export const csvApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        // @ts-ignore - Custom property for skipping global error toast
+        skipGlobalErrorToast: true
       });
       console.log('✅ Upload API response received:', response.data);
       return response.data;

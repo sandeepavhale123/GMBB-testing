@@ -223,6 +223,9 @@ axiosInstance.interceptors.response.use(
           return Promise.reject(error);
         }
         
+        // Check if this request should skip global error toasts
+        const skipGlobalToast = originalRequest.skipGlobalErrorToast;
+        
         let title = "Access Denied";
         let description = "You don't have permission to perform this action";
         
@@ -234,6 +237,11 @@ axiosInstance.interceptors.response.use(
               errorMessage?.toLowerCase().includes("file parameters")) {
             title = "Invalid File";
             description = errorMessage || "Please upload a valid CSV file.";
+            
+            // If skipGlobalToast is true, don't show toast here - let component handle it
+            if (skipGlobalToast) {
+              return Promise.reject(error);
+            }
           }
         }
         // Customize message based on specific error types

@@ -245,9 +245,19 @@ export const ImportPostCSVWizard: React.FC = () => {
       });
 
       let errorMessage = "Failed to upload file. Please try again.";
+      let errorTitle = "Error";
       
       if (error?.response?.status === 401) {
-        errorMessage = "Authentication failed. Please log in again.";
+        const backendMessage = error?.response?.data?.message || error.message;
+        // Check if it's a file validation error
+        if (backendMessage?.toLowerCase().includes("invalid file") || 
+            backendMessage?.toLowerCase().includes("upload a valid csv") ||
+            backendMessage?.toLowerCase().includes("file parameters")) {
+          errorTitle = "Invalid File";
+          errorMessage = backendMessage || "Please upload a valid CSV file.";
+        } else {
+          errorMessage = "Authentication failed. Please log in again.";
+        }
       } else if (error?.response?.status === 403) {
         errorMessage = "You don't have permission to upload files.";
       } else if (error?.response?.status === 500) {
@@ -259,7 +269,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       }
 
       toast({
-        title: "Error",
+        title: errorTitle,
         description: errorMessage,
         variant: "destructive"
       });
