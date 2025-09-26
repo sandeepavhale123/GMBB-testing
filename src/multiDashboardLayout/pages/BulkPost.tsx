@@ -100,6 +100,7 @@ export const BulkPost: React.FC = () => {
         </div>
         <div>
           <Button 
+            variant="outline"
             className='self-start sm:self-auto mr-2'
             onClick={() => navigate('/main-dashboard/import-post-csv')}
           >
