@@ -226,8 +226,18 @@ axiosInstance.interceptors.response.use(
         let title = "Access Denied";
         let description = "You don't have permission to perform this action";
         
+        // Special handling for file upload validation errors
+        if (originalRequest.url?.includes("/upload-bulk-sheet")) {
+          // Check if it's a file validation error (not an auth error)
+          if (errorMessage?.toLowerCase().includes("invalid file") || 
+              errorMessage?.toLowerCase().includes("upload a valid csv") ||
+              errorMessage?.toLowerCase().includes("file parameters")) {
+            title = "Invalid File";
+            description = errorMessage || "Please upload a valid CSV file.";
+          }
+        }
         // Customize message based on specific error types
-        if (errorMessage?.toLowerCase().includes("expired")) {
+        else if (errorMessage?.toLowerCase().includes("expired")) {
           title = "Session Expired";
           description = "Your session has expired. Please log in again.";
         } else if (errorMessage?.toLowerCase().includes("insufficient")) {
