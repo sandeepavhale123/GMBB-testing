@@ -140,17 +140,6 @@ export const SingleListingExportReviewsModal: React.FC<SingleListingExportReview
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Current Listing Display */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Selected Listing</Label>
-            <div className="p-3 bg-muted rounded-md">
-              <p className="font-medium">{selectedListing?.name || 'No listing selected'}</p>
-              {selectedListing?.address && (
-                <p className="text-sm text-muted-foreground">{selectedListing.address}</p>
-              )}
-            </div>
-          </div>
-
           {/* Star Ratings Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
