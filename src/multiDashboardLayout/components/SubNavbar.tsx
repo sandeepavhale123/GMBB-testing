@@ -282,7 +282,6 @@ export const SubNavbar: React.FC = () => {
                 ) : (
                   <Menu className="h-5 w-5" />
                 )}
-                <span>Menu</span>
               </button>
             </div>
             
