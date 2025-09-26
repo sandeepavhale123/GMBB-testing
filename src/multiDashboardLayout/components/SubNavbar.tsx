@@ -12,7 +12,8 @@ import {
   Settings,
   ArrowLeft,
   Menu,
-  X
+  X,
+  FolderOpen
 } from 'lucide-react';
 export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
@@ -241,7 +242,7 @@ export const SubNavbar: React.FC = () => {
   }, {
     label: 'Bulk Media',
     path: '/main-dashboard/bulk-media',
-    icon: Images
+    icon: FolderOpen
   }, {
     label: 'Bulk Review',
     path: '/main-dashboard/bulk-review',
