@@ -124,16 +124,12 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Eye className="w-5 h-5" />
-            File Preview
-          </CardTitle>
-          <div className="text-sm text-muted-foreground">
-            Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
-          </div>
-        </div>
-        <div className="mt-2 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
+        <CardTitle className="flex items-center gap-2">
+          <Eye className="w-5 h-5" />
+          File Preview
+        </CardTitle>
+        
+        <div className="mt-3 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
           <div>
             <span className="font-medium">File:</span> {file.name}
           </div>
@@ -143,6 +139,10 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
           <div>
             <span className="font-medium">Type:</span> CSV
           </div>
+        </div>
+        
+        <div className="mt-2 text-sm text-muted-foreground">
+          Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
         </div>
       </CardHeader>
       <CardContent>
