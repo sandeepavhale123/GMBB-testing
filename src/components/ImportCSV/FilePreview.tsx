@@ -133,15 +133,20 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
             Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
           </div>
         </div>
-        <div className="mt-2 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
-          <div>
-            <span className="font-medium">File:</span> {file.name}
-          </div>
-          <div>
-            <span className="font-medium">Size:</span> {(file.size / 1024).toFixed(1)} KB
-          </div>
-          <div>
-            <span className="font-medium">Type:</span> CSV
+        <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <FileText className="w-8 h-8 text-primary" />
+              <div>
+                <h4 className="font-medium text-foreground">{file.name}</h4>
+                <p className="text-sm text-muted-foreground">
+                  {(file.size / 1024).toFixed(1)} KB • CSV • {totalRows} rows • {headers.length} columns
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-muted-foreground">Upload Summary</div>
+            </div>
           </div>
         </div>
       </CardHeader>
