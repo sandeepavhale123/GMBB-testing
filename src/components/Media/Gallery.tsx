@@ -1342,6 +1342,30 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   Use for Media
                                 </DropdownMenuItem>
 
+                                <DropdownMenuItem
+                                  onClick={async () => {
+                                    try {
+                                      await navigator.clipboard.writeText(item.url);
+                                      toast({
+                                        title: "URL Copied!",
+                                        description: "Image URL has been copied to clipboard.",
+                                        variant: "default",
+                                      });
+                                    } catch (error) {
+                                      console.error("Failed to copy URL:", error);
+                                      toast({
+                                        title: "Copy Failed",
+                                        description: "Unable to copy URL to clipboard.",
+                                        variant: "destructive",
+                                      });
+                                    }
+                                  }}
+                                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                  <Copy className="h-4 w-4" />
+                                  Copy Image URL
+                                </DropdownMenuItem>
+
                                 {showDeleteButton && (
                                   <>
                                     <DropdownMenuSeparator />
