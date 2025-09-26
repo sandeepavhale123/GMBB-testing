@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Eye, Trash2, Search } from 'lucide-react';
+import { Eye, Trash2, Search, Import } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -156,9 +156,9 @@ export const ImportPostCSV: React.FC = () => {
         </div>
         <Button 
           onClick={handleImport}
-          className="bg-teal-600 hover:bg-teal-700 text-white"
         >
-          Import
+          <Import className="w-4 h-4 mr-2" />
+          Import CSV file
         </Button>
       </div>
 
