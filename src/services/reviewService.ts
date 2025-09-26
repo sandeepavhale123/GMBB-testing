@@ -273,6 +273,26 @@ export interface UpdateOldAutoReplySettingResponse {
   data?: any;
 }
 
+// Export Reviews CSV interfaces
+export interface ExportReviewsRequest {
+  listingId: number[];
+  reviewOpt: number;
+  reviewByStar: string[];
+  customDate: {
+    fromDate: string;
+    toDate: string;
+  };
+}
+
+export interface ExportReviewsResponse {
+  code: number;
+  message: string;
+  data: {
+    fileUrl: string;
+    fileName: string;
+  };
+}
+
 export const reviewService = {
   getReviewSummary: async (
     listingId: string
@@ -401,6 +421,13 @@ export const reviewService = {
     };
   }): Promise<GetReviewsResponse> => {
     const response = await axiosInstance.post("/get-bulk-reviews", params);
+    return response.data;
+  },
+
+  exportReviews: async (
+    params: ExportReviewsRequest
+  ): Promise<ExportReviewsResponse> => {
+    const response = await axiosInstance.post("/download-listing-reviews", params);
     return response.data;
   },
 };
