@@ -12,6 +12,7 @@ interface MultiListingSelectorProps {
   onListingsChange: (listings: string[]) => void;
   error?: string;
   label?: string;
+  placeholder?: string;
 }
 interface ListingOption {
   id: string;
@@ -24,7 +25,8 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   selectedListings,
   onListingsChange,
   error,
-  label = "Select Listings & Groups"
+  label = "Select Listings & Groups",
+  placeholder = "Select listings and groups..."
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<ListingOption[]>([]);
@@ -174,7 +176,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             disabled={isLoading}
             onClick={() => setOpen(!open)}
           >
-            {selectedListings.length === 0 ? isLoading ? "Loading..." : "Select listings and groups..." : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
+            {selectedListings.length === 0 ? isLoading ? "Loading..." : placeholder : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
             <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
           </Button>
         </CollapsibleTrigger>

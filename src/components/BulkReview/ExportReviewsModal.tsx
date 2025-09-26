@@ -150,6 +150,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
             onListingsChange={setSelectedListings}
             error={selectedListings.length === 0 ? "Please select at least one listing" : undefined}
             label="Select Listings"
+            placeholder="Select listings..."
           />
 
           {/* Star Ratings Selection */}
