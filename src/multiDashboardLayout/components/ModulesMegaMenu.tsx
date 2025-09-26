@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { profileService } from "@/services/profileService";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const modules = [
   {
@@ -125,9 +125,9 @@ export const ModulesMegaMenu: React.FC = () => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
                 return (
-                  <a
+                  <Link
                     key={module.name}
-                    href={module.href}
+                    to={module.href}
                     className={cn(
                       "flex items-start gap-3 p-3 rounded-md transition-colors group",
                       isActive 
@@ -170,7 +170,7 @@ export const ModulesMegaMenu: React.FC = () => {
                         {module.description}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
