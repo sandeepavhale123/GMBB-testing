@@ -15,6 +15,7 @@ interface CSVRow {
 export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
+  const [totalRows, setTotalRows] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [parseError, setParseError] = useState<string | null>(null);
 
@@ -41,6 +42,10 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
       const headerLine = lines[0];
       const parsedHeaders = parseCSVLine(headerLine);
       setHeaders(parsedHeaders);
+
+      // Set total rows count (excluding header)
+      const totalDataRows = lines.length - 1;
+      setTotalRows(totalDataRows);
 
       // Parse data rows (limit to first 10 for preview)
       const dataLines = lines.slice(1, 11);
@@ -125,7 +130,18 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
             File Preview
           </CardTitle>
           <div className="text-sm text-muted-foreground">
-            Showing first 10 rows • Total rows in file: {csvData.length}
+            Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
+          </div>
+        </div>
+        <div className="mt-2 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
+          <div>
+            <span className="font-medium">File:</span> {file.name}
+          </div>
+          <div>
+            <span className="font-medium">Size:</span> {(file.size / 1024).toFixed(1)} KB
+          </div>
+          <div>
+            <span className="font-medium">Type:</span> CSV
           </div>
         </div>
       </CardHeader>
