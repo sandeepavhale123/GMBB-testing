@@ -248,6 +248,10 @@ export const SubNavbar: React.FC = () => {
     path: '/main-dashboard/reports',
     icon: BarChart3
   }, {
+    label: 'Gallery',
+    path: '/main-dashboard/gallery',
+    icon: Images
+  }, {
     label: 'Settings',
     path: '/main-dashboard/settings',
     icon: Settings

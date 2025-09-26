@@ -30,6 +30,7 @@ import { Profile } from "@/multiDashboardLayout/pages/Profile";
 import { ImportPostCSV } from "@/multiDashboardLayout/pages/ImportPostCSV";
 import { ImportPostCSVWizard } from "@/multiDashboardLayout/pages/ImportPostCSVWizard";
 import { BulkImportDetails } from "@/multiDashboardLayout/pages/BulkImportDetails";
+import { GalleryPage } from "@/multiDashboardLayout/pages/Gallery";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -77,6 +78,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
         {
           path: "reports",
           element: <Reports />,
+        },
+        {
+          path: "gallery",
+          element: <GalleryPage />,
         },
         {
           path: "generate-bulk-report",
