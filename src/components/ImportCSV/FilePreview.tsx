@@ -133,49 +133,48 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
             Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
           </div>
         </div>
-        <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-primary" />
-              <div>
-                <h4 className="font-medium text-foreground">{file.name}</h4>
-                <p className="text-sm text-muted-foreground">
-                  {(file.size / 1024).toFixed(1)} KB • CSV • {totalRows} rows • {headers.length} columns
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm text-muted-foreground">Upload Summary</div>
-            </div>
+        <div className="mt-2 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
+          <div>
+            <span className="font-medium">File:</span> {file.name}
+          </div>
+          <div>
+            <span className="font-medium">Size:</span> {(file.size / 1024).toFixed(1)} KB
+          </div>
+          <div>
+            <span className="font-medium">Type:</span> CSV
           </div>
         </div>
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-64 w-full">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {headers.map((header, index) => (
-                  <TableHead key={index} className="whitespace-nowrap">
-                    {header}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {csvData.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                  {headers.map((header, cellIndex) => (
-                    <TableCell key={cellIndex} className="whitespace-nowrap">
-                      <div className="max-w-32 truncate" title={row[header]}>
-                        {row[header] || '-'}
-                      </div>
-                    </TableCell>
+          <div className="min-w-max">
+            <Table className="table-fixed min-w-full">
+              <TableHeader>
+                <TableRow>
+                  {headers.map((header, index) => (
+                    <TableHead key={index} className="min-w-[120px] whitespace-nowrap px-2">
+                      {header}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {csvData.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {headers.map((header, cellIndex) => (
+                      <TableCell 
+                        key={cellIndex} 
+                        className="min-w-[120px] max-w-[200px] truncate whitespace-nowrap px-2" 
+                        title={row[header]}
+                      >
+                        {row[header] || '-'}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </ScrollArea>
         
         {csvData.length === 0 && (
