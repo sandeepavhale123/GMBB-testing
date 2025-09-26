@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Download, X } from "lucide-react";
+import React, { useState } from "react";
+import { Download } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,20 +13,15 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { reviewService } from "@/services/reviewService";
-import { listingsGroupsApi } from "@/api/listingsGroupsApi";
 import { downloadFileFromUrl } from "@/utils/downloadUtils";
 import { formatDateForBackend } from "@/utils/dateUtils";
+import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 
 interface ExportReviewsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-interface Listing {
-  id: number;
-  name: string;
-  zipCode?: string;
-}
 
 const STAR_RATINGS = [
   { id: "ONE", label: "1 Star", value: "ONE" },
@@ -41,53 +36,12 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
   onOpenChange,
 }) => {
   const { toast } = useToast();
-  const [getAllListings] = listingsGroupsApi.useGetAllListingsMutation();
   
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [selectedListings, setSelectedListings] = useState<number[]>([]);
+  const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [selectedStars, setSelectedStars] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isExporting, setIsExporting] = useState(false);
-  const [isLoadingListings, setIsLoadingListings] = useState(false);
 
-  // Load listings when modal opens
-  useEffect(() => {
-    if (open) {
-      loadListings();
-    }
-  }, [open]);
-
-  const loadListings = async () => {
-    setIsLoadingListings(true);
-    try {
-      const response = await getAllListings().unwrap();
-      if (response.code === 200 && response.data?.locationLists) {
-        // Map LocationsList to Listing interface
-        const mappedListings: Listing[] = response.data.locationLists.map((location) => ({
-          id: parseInt(location.id),
-          name: location.locationName,
-          zipCode: location.zipCode,
-        }));
-        setListings(mappedListings);
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load listings",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoadingListings(false);
-    }
-  };
-
-  const handleListingToggle = (listingId: number) => {
-    setSelectedListings(prev => 
-      prev.includes(listingId)
-        ? prev.filter(id => id !== listingId)
-        : [...prev, listingId]
-    );
-  };
 
   const handleStarToggle = (starValue: string) => {
     setSelectedStars(prev =>
@@ -97,13 +51,6 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
     );
   };
 
-  const handleSelectAllListings = () => {
-    if (selectedListings.length === listings.length) {
-      setSelectedListings([]);
-    } else {
-      setSelectedListings(listings.map(listing => listing.id));
-    }
-  };
 
   const handleSelectAllStars = () => {
     if (selectedStars.length === STAR_RATINGS.length) {
@@ -145,7 +92,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
     setIsExporting(true);
     try {
       const params = {
-        listingId: selectedListings,
+        listingId: selectedListings.map(id => parseInt(id)),
         reviewOpt: 1,
         reviewByStar: selectedStars,
         customDate: {
@@ -198,53 +145,11 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
 
         <div className="space-y-6">
           {/* Listings Selection */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label className="text-base font-medium">Select Listings</Label>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSelectAllListings}
-                disabled={isLoadingListings}
-              >
-                {selectedListings.length === listings.length ? "Deselect All" : "Select All"}
-              </Button>
-            </div>
-            
-            {isLoadingListings ? (
-              <div className="text-center py-4 text-muted-foreground">
-                Loading listings...
-              </div>
-            ) : (
-              <div className="max-h-48 overflow-y-auto border rounded-lg p-3 space-y-2">
-                {listings.map((listing) => (
-                  <div key={listing.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`listing-${listing.id}`}
-                      checked={selectedListings.includes(listing.id)}
-                      onCheckedChange={() => handleListingToggle(listing.id)}
-                    />
-                    <Label
-                      htmlFor={`listing-${listing.id}`}
-                      className="flex-1 cursor-pointer"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span>{listing.name}</span>
-                        {listing.zipCode && (
-                          <span className="text-xs text-muted-foreground">
-                            {listing.zipCode}
-                          </span>
-                        )}
-                      </div>
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className="text-sm text-muted-foreground">
-              {selectedListings.length} of {listings.length} listings selected
-            </p>
-          </div>
+          <MultiListingSelector
+            selectedListings={selectedListings}
+            onListingsChange={setSelectedListings}
+            error={selectedListings.length === 0 ? "Please select at least one listing" : undefined}
+          />
 
           {/* Star Ratings Selection */}
           <div className="space-y-3">
