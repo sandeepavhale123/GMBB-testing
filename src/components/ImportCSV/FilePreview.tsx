@@ -147,34 +147,30 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-64 w-full">
-          <div className="min-w-max">
-            <Table className="table-fixed min-w-full">
-              <TableHeader>
-                <TableRow>
-                  {headers.map((header, index) => (
-                    <TableHead key={index} className="min-w-[120px] whitespace-nowrap px-2">
-                      {header}
-                    </TableHead>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {headers.map((header, index) => (
+                  <TableHead key={index} className="whitespace-nowrap">
+                    {header}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {csvData.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {headers.map((header, cellIndex) => (
+                    <TableCell key={cellIndex} className="whitespace-nowrap">
+                      <div className="max-w-32 truncate" title={row[header]}>
+                        {row[header] || '-'}
+                      </div>
+                    </TableCell>
                   ))}
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {csvData.map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {headers.map((header, cellIndex) => (
-                      <TableCell 
-                        key={cellIndex} 
-                        className="min-w-[120px] max-w-[200px] truncate whitespace-nowrap px-2" 
-                        title={row[header]}
-                      >
-                        {row[header] || '-'}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
         </ScrollArea>
         
         {csvData.length === 0 && (
