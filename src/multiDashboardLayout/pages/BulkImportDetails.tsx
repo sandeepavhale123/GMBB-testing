@@ -342,7 +342,7 @@ export const BulkImportDetails: React.FC = () => {
                                 </div>
                               </TableCell>
                               <TableCell className="text-sm text-foreground">
-                                {formatDate(post.publishDate)}
+                                {post.publishDate}
                               </TableCell>
                               <TableCell>
                                 <Badge variant={getStatusVariant(post.state)}>
