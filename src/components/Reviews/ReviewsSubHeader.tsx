@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { Badge } from "../ui/badge";
 import { useAppSelector } from "../../hooks/useRedux";
 import { useListingContext } from "../../context/ListingContext";
+import { SingleListingExportReviewsModal } from "./SingleListingExportReviewsModal";
 interface ReviewsSubHeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -14,6 +15,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   onTabChange,
 }) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
   const { selectedListing } = useListingContext();
   const { summaryCards } = useAppSelector((state) => state.reviews);
   const tabs = [
@@ -68,7 +70,28 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
           </Tabs>
         </div>
 
-        <div className="flex items-center justify-end sm:justify-end ml-auto">
+        <div className="flex items-center justify-end sm:justify-end ml-auto gap-2">
+          {/* Export Reviews Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setExportModalOpen(true)}
+            className="hidden sm:flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Export Reviews
+          </Button>
+          
+          {/* Mobile Export Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setExportModalOpen(true)}
+            className="sm:hidden"
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          
           {/* Reply Setting Badge */}
           {getReplySettingBadge()}
           
@@ -76,7 +99,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            className="sm:hidden ml-2"
+            className="sm:hidden"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
           >
             {showMobileMenu ? (
@@ -124,6 +147,12 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
           </div>
         </div>
       )}
+      
+      {/* Export Reviews Modal */}
+      <SingleListingExportReviewsModal
+        open={exportModalOpen}
+        onOpenChange={setExportModalOpen}
+      />
     </div>
   );
 };
