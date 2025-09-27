@@ -28,37 +28,12 @@ const getStatusVariant = (status: string) => {
 
 // Helper function to format date
 const formatDate = (dateString: string) => {
-  // Debug logging to see actual date values
-  console.log('formatDate received:', dateString, typeof dateString);
-  
   if (!dateString || dateString === '01/01/1970 12:00 AM') {
     return 'Not scheduled';
   }
   
-  try {
-    const date = new Date(dateString);
-    
-    // Validate that the Date object is actually valid
-    if (isNaN(date.getTime())) {
-      console.log('Invalid date created from:', dateString);
-      return 'Invalid date';
-    }
-    
-    const formattedDate = date.toLocaleString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-    
-    console.log('Successfully formatted date:', formattedDate);
-    return formattedDate;
-  } catch (error) {
-    console.log('Date parsing error:', error, 'for dateString:', dateString);
-    return 'Date not available';
-  }
+  // Return the date string as-is without formatting
+  return dateString;
 };
 const ListingSidebar = ({
   listings,
