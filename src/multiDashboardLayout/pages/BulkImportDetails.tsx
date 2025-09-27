@@ -33,10 +33,13 @@ const formatDate = (dateString: string) => {
   }
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleString('en-US', {
       month: '2-digit',
       day: '2-digit',
-      year: 'numeric'
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
     });
   } catch {
     return dateString;
@@ -298,8 +301,8 @@ export const BulkImportDetails: React.FC = () => {
                           <TableHead className="w-12 text-muted-foreground">#</TableHead>
                           <TableHead className="w-16 text-muted-foreground">Image</TableHead>
                           <TableHead className="text-muted-foreground">Post Content</TableHead>
-                          <TableHead className="w-32 text-muted-foreground">Date</TableHead>
                           <TableHead className="w-20 text-muted-foreground">Status</TableHead>
+                          <TableHead className="w-40 text-muted-foreground">Date</TableHead>
                           <TableHead className="w-24 text-muted-foreground">Action</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -341,13 +344,13 @@ export const BulkImportDetails: React.FC = () => {
                                   )}
                                 </div>
                               </TableCell>
-                              <TableCell className="text-sm text-foreground">
-                                {formatDate(post.publishDate)}
-                              </TableCell>
                               <TableCell>
                                 <Badge variant={getStatusVariant(post.state)}>
                                   {post.state.charAt(0).toUpperCase() + post.state.slice(1)}
                                 </Badge>
+                              </TableCell>
+                              <TableCell className="text-sm text-foreground">
+                                {formatDate(post.publishDate)}
                               </TableCell>
                               <TableCell>
                                 <div className="flex items-center gap-1">
