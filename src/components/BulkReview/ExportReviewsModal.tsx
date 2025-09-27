@@ -44,7 +44,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
   const { toast } = useToast();
   
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  const [selectedStars, setSelectedStars] = useState<string[]>([]);
+  const [selectedStars, setSelectedStars] = useState<string[]>(STAR_RATINGS.map(star => star.value));
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [exportType, setExportType] = useState<number>(1);
   const [isExporting, setIsExporting] = useState(false);
