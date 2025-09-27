@@ -29,23 +29,20 @@ const getStatusVariant = (status: string) => {
 // Helper function to format date
 const formatDate = (dateString: string) => {
   if (!dateString || dateString === '01/01/1970 12:00 AM') {
-    return { date: 'Not scheduled', time: '' };
+    return 'Not scheduled';
   }
   try {
     const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('en-US', {
+    return date.toLocaleString('en-US', {
       month: '2-digit',
       day: '2-digit',
-      year: 'numeric'
-    });
-    const formattedTime = date.toLocaleTimeString('en-US', {
+      year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
     });
-    return { date: formattedDate, time: formattedTime };
   } catch {
-    return { date: dateString, time: '' };
+    return dateString;
   }
 };
 const ListingSidebar = ({
@@ -353,14 +350,7 @@ export const BulkImportDetails: React.FC = () => {
                                 </Badge>
                               </TableCell>
                               <TableCell className="text-sm text-foreground">
-                                <div className="space-y-1">
-                                  <div>{formatDate(post.publishDate).date}</div>
-                                  {formatDate(post.publishDate).time && (
-                                    <div className="text-xs text-muted-foreground">
-                                      {formatDate(post.publishDate).time}
-                                    </div>
-                                  )}
-                                </div>
+                                {formatDate(post.publishDate)}
                               </TableCell>
                               <TableCell>
                                 <div className="flex items-center gap-1">
