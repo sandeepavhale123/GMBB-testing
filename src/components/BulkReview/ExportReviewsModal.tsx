@@ -24,8 +24,8 @@ interface ExportReviewsModalProps {
 }
 
 const EXPORT_TYPE_OPTIONS = [
-  { id: 1, label: "Summary report - Count Only ( No Date Range)", value: 1 },
-  { id: 2, label: "Custom Summary report - Review By Review ( With Date Range )", value: 2 },
+  { id: 1, label: "Summary Report - Count Only ( No Date Range)", value: 1 },
+  { id: 2, label: "Custom Summary Report - Review By Review ( With Date Range )", value: 2 },
   { id: 3, label: "Custom Summary Report -  Count Only ( With Date Range )", value: 3 },
 ];
 
