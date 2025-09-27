@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
@@ -22,6 +23,11 @@ interface ExportReviewsModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const EXPORT_TYPE_OPTIONS = [
+  { id: 1, label: "All Reviews (No Date Range)", value: 1 },
+  { id: 2, label: "All Reviews (With Date Range)", value: 2 },
+  { id: 3, label: "Summary Report (Counts Only)", value: 3 },
+];
 
 const STAR_RATINGS = [
   { id: "ONE", label: "1 Star", value: "ONE" },
@@ -40,6 +46,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [selectedStars, setSelectedStars] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [exportType, setExportType] = useState<number>(1);
   const [isExporting, setIsExporting] = useState(false);
 
 
@@ -80,7 +87,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
       return;
     }
 
-    if (!dateRange?.from || !dateRange?.to) {
+    if ((exportType === 2 || exportType === 3) && (!dateRange?.from || !dateRange?.to)) {
       toast({
         title: "Validation Error",
         description: "Please select a date range",
@@ -91,15 +98,19 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
 
     setIsExporting(true);
     try {
-      const params = {
-        listingId: selectedListings.map(id => parseInt(id)),
-        reviewOpt: 1,
-        reviewByStar: selectedStars,
-        customDate: {
-          fromDate: formatDateForBackend(dateRange.from),
-          toDate: formatDateForBackend(dateRange.to),
-        },
+    const params: any = {
+      listingId: selectedListings.map(id => parseInt(id)),
+      reviewOpt: exportType,
+      reviewByStar: selectedStars,
+    };
+
+    // Only add customDate if export type requires it (2 or 3)
+    if (exportType === 2 || exportType === 3) {
+      params.customDate = {
+        fromDate: formatDateForBackend(dateRange!.from),
+        toDate: formatDateForBackend(dateRange!.to),
       };
+    }
 
       const response = await reviewService.exportReviews(params);
       
@@ -119,6 +130,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
         setSelectedListings([]);
         setSelectedStars([]);
         setDateRange(undefined);
+        setExportType(1);
       } else {
         throw new Error(response.message || "Failed to generate CSV");
       }
@@ -153,6 +165,23 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
             placeholder="Select listings..."
           />
 
+          {/* Export Type Selection */}
+          <div className="space-y-3">
+            <Label className="text-base font-medium">Choose Export Type</Label>
+            <Select value={exportType.toString()} onValueChange={(value) => setExportType(parseInt(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select export type" />
+              </SelectTrigger>
+              <SelectContent>
+                {EXPORT_TYPE_OPTIONS.map((option) => (
+                  <SelectItem key={option.id} value={option.value.toString()}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Star Ratings Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -185,15 +214,17 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
             </p>
           </div>
 
-          {/* Date Range Selection */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Select Date Range</Label>
-            <DateRangePicker
-              date={dateRange}
-              onDateChange={setDateRange}
-              placeholder="Select date range for reviews"
-            />
-          </div>
+          {/* Date Range Selection - Only show for export types 2 and 3 */}
+          {(exportType === 2 || exportType === 3) && (
+            <div className="space-y-3">
+              <Label className="text-base font-medium">Select Date Range</Label>
+              <DateRangePicker
+                date={dateRange}
+                onDateChange={setDateRange}
+                placeholder="Select date range for reviews"
+              />
+            </div>
+          )}
         </div>
 
         {/* Actions */}
@@ -207,7 +238,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
           </Button>
           <Button
             onClick={handleExport}
-            disabled={isExporting || selectedListings.length === 0 || selectedStars.length === 0}
+            disabled={isExporting || selectedListings.length === 0 || selectedStars.length === 0 || ((exportType === 2 || exportType === 3) && (!dateRange?.from || !dateRange?.to))}
             className="min-w-[120px]"
           >
             {isExporting ? (
