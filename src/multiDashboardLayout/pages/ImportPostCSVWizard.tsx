@@ -448,7 +448,7 @@ export const ImportPostCSVWizard: React.FC = () => {
         </div>
         <Button variant="outline" onClick={handleDownloadSample}>
           <Download className="w-4 h-4 mr-2" />
-          Download Sample CSV
+          Download Generated CSV File
         </Button>
       </div>
 
