@@ -345,12 +345,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     const fetchData = async () => {
       try {
         const response = await getNotifications({ page: 1, limit: 10 });
-        // console.log("📡 API raw response (initial):", response);
-        // console.log("👉 response.data:", response?.data);
-        // console.log(
-        //   "👉 response.data.notification:",
-        //   response?.data?.notification
-        // );
+        console.log("📡 API raw response (initial):", response);
+        console.log("👉 response.data:", response?.data);
+        console.log(
+          "👉 response.data.notification:",
+          response?.data?.notification
+        );
 
         if (!Array.isArray(response?.data?.notification)) {
           console.warn(
@@ -379,10 +379,19 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
               };
             })
           : [];
-        // console.log("✅ Final mapped notifications:", mapped);
+        console.log("✅ Final mapped notifications:", mapped);
         setNotifications(mapped);
       } catch (err) {
         console.error("❌ Failed to load notifications:", err);
+        // Check if it's an auth error
+        if (err && typeof err === 'object' && 'response' in err) {
+          const axiosError = err as any;
+          if (axiosError.response?.status === 401) {
+            console.log("🔒 Authentication required for notifications");
+            // Don't set empty array for auth errors, just skip loading
+            return;
+          }
+        }
         setNotifications([]);
       }
     };
@@ -395,12 +404,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     setIsLoading(true); // ← show skeleton immediately
     try {
       const response = await getNotifications({ page: pageToLoad, limit });
-      // console.log(`📡 API raw response (page ${pageToLoad}):`, response);
-      // console.log("👉 response.data:", response?.data);
-      // console.log(
-      //   "👉 response.data.notification:",
-      //   response?.data?.notification
-      // );
+      console.log(`📡 API raw response (page ${pageToLoad}):`, response);
+      console.log("👉 response.data:", response?.data);
+      console.log(
+        "👉 response.data.notification:",
+        response?.data?.notification
+      );
 
       if (!Array.isArray(response?.data?.notification)) {
         console.warn(
@@ -427,7 +436,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
           };
         }
       );
-      // console.log("✅ Final newNotifications:", newNotifications);
+      console.log("✅ Final newNotifications:", newNotifications);
 
       setNotifications((prev) =>
         pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
@@ -437,6 +446,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       return newNotifications; // important for drawer animation
     } catch (err) {
       console.error("❌ fetchNotifications failed:", err);
+      // Check if it's an auth error
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as any;
+        if (axiosError.response?.status === 401) {
+          console.log("🔒 Authentication required for notifications");
+          // Don't show error state for auth issues, just return empty
+          return [];
+        }
+      }
       return [];
     } finally {
       setIsLoading(false); // hides skeleton after load
