@@ -51,7 +51,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       const isInSingleListingContext = selectedListing && location.pathname.includes('/')
       
       const gmbModule = {
-        name: isInSingleListingContext ? "Location Dashboard" : "Main Dashboard",
+        name: isInSingleListingContext ? "Manage GMB Listing" : "Main Dashboard",
         description: isInSingleListingContext 
           ? "Manage this location's Google My Business listing"
           : "Manage your Google My Business listings",
