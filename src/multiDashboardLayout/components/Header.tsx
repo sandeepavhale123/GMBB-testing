@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
+import { isAllowedDomain } from "@/lib/utils";
 
 export const Header: React.FC = () => {
   const logoData = useThemeLogo();
@@ -69,7 +70,9 @@ export const Header: React.FC = () => {
 
           {/* Right Section - Action Buttons */}
           <div className="flex items-center gap-2">
-            <Button
+            {
+              isAllowedDomain() && (
+                <Button
               variant="secondary"
               size="sm"
               className="bg-white text-foreground hover:bg-gray-50"
@@ -78,6 +81,8 @@ export const Header: React.FC = () => {
               <span className="hidden md:block ml-1">Back to old version </span>
               <ExternalLink className="w-4 h-4" />
             </Button>
+              )
+            }
 
             <ModulesMegaMenu />
 
