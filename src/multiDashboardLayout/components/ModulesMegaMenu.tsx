@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { profileService } from "@/services/profileService";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const modules = [
   {
@@ -41,6 +42,7 @@ export const ModulesMegaMenu: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   const isModuleActive = (moduleHref: string) => {
     return location.pathname.startsWith(moduleHref);
@@ -113,9 +115,14 @@ export const ModulesMegaMenu: React.FC = () => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute right-0 top-full mt-2 w-80 bg-background border border-border rounded-lg shadow-lg z-50"
+          className={cn(
+            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
+            isMobile 
+              ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" 
+              : "right-0 w-80"
+          )}
         >
-          <div className="p-4">
+          <div className={cn("p-4", isMobile && "p-3")}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground">Modules</h3>
              
@@ -125,9 +132,9 @@ export const ModulesMegaMenu: React.FC = () => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
                 return (
-                  <a
+                  <Link
                     key={module.name}
-                    href={module.href}
+                    to={module.href}
                     className={cn(
                       "flex items-start gap-3 p-3 rounded-md transition-colors group",
                       isActive 
@@ -170,7 +177,7 @@ export const ModulesMegaMenu: React.FC = () => {
                         {module.description}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>

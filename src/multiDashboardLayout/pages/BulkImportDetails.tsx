@@ -31,16 +31,9 @@ const formatDate = (dateString: string) => {
   if (!dateString || dateString === '01/01/1970 12:00 AM') {
     return 'Not scheduled';
   }
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
-    });
-  } catch {
-    return dateString;
-  }
+  
+  // Return the date string as-is without formatting
+  return dateString;
 };
 const ListingSidebar = ({
   listings,
@@ -298,8 +291,8 @@ export const BulkImportDetails: React.FC = () => {
                           <TableHead className="w-12 text-muted-foreground">#</TableHead>
                           <TableHead className="w-16 text-muted-foreground">Image</TableHead>
                           <TableHead className="text-muted-foreground">Post Content</TableHead>
-                          <TableHead className="w-32 text-muted-foreground">Date</TableHead>
                           <TableHead className="w-20 text-muted-foreground">Status</TableHead>
+                          <TableHead className="w-40 text-muted-foreground">Date</TableHead>
                           <TableHead className="w-24 text-muted-foreground">Action</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -341,13 +334,13 @@ export const BulkImportDetails: React.FC = () => {
                                   )}
                                 </div>
                               </TableCell>
-                              <TableCell className="text-sm text-foreground">
-                                {post.publishDate}
-                              </TableCell>
                               <TableCell>
                                 <Badge variant={getStatusVariant(post.state)}>
                                   {post.state.charAt(0).toUpperCase() + post.state.slice(1)}
                                 </Badge>
+                              </TableCell>
+                              <TableCell className="text-sm text-foreground">
+                                {formatDate(post.publishDate)}
                               </TableCell>
                               <TableCell>
                                 <div className="flex items-center gap-1">
