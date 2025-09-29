@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { applyStoredTheme } from "@/utils/themeUtils";
-import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { getThemeUnauthenticated } from "@/hooks/useThemeLoader";
 import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 import { AppDispatch } from "@/store/store";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ThemePreloaderProps {
   children: React.ReactNode;
@@ -16,9 +16,9 @@ export const ThemePreloader = ({
   loadFromAPI = false,
 }: ThemePreloaderProps) => {
   const [themeLoaded, setThemeLoaded] = useState(false);
-  const { t } = useI18nNamespace("Components/themePreloader");
   const dispatch = useDispatch<AppDispatch>();
 
+  const { t } = useI18nNamespace("Components/themePreloader");
   useEffect(() => {
     const loadTheme = async () => {
       try {
