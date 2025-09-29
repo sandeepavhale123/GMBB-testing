@@ -288,7 +288,7 @@ export const MediaPage: React.FC = () => {
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={() => setShowUploadModal(true)}
           >
-            <Upload className="w-4 h-4 mr-2" />
+            <Upload className="w-4 h-4 mr-1" />
             {t("mediaPage.uploadButton")}
           </Button>
         </div>

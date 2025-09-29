@@ -72,7 +72,7 @@ export class ErrorBoundary extends Component<Props, State> {
               )}
             </div>
             <Button onClick={this.handleRetry} className="w-full">
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <RefreshCw className="w-4 h-4 mr-1" />
               {t("tryAgain")}
             </Button>
           </CardContent>

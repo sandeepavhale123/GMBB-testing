@@ -456,7 +456,7 @@ export const MultiDashboard: React.FC = () => {
           trend: t("metrics.avgRating.trend"),
           icon: Star,
           bgColor: "bg-yellow-100",
-          iconBgColor: "bg-yellow-500",
+          iconBgColor: "bg-green-500",
           textColor: "text-gray-900",
         },
         {
@@ -466,7 +466,7 @@ export const MultiDashboard: React.FC = () => {
           trend: t("metrics.totalReviews.trend"),
           icon: MessageSquare,
           bgColor: "bg-green-100",
-          iconBgColor: "bg-green-500",
+          iconBgColor: "bg-orange-500",
           textColor: "text-gray-900",
         },
         {

@@ -187,7 +187,7 @@ export const EnhancedLogoUploadSection: React.FC<
               }
               className="w-full"
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="w-4 h-4 mr-1" />
               {t("enhancedLogoUploadSection.lightLogo.uploadButton")}
             </Button>
             {lightLogoFile ? (
@@ -209,9 +209,7 @@ export const EnhancedLogoUploadSection: React.FC<
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Moon className="w-4 h-4 text-blue-500" />
-              <Label className="text-sm font-medium">
-                {t("enhancedLogoUploadSection.darkLogo.label")}
-              </Label>
+              <Label className="text-sm font-medium">Dark Mode Logo</Label>
             </div>
             {darkLogoFile && (
               <Button
@@ -258,7 +256,7 @@ export const EnhancedLogoUploadSection: React.FC<
                 <div className="text-center">
                   <Image className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-400">
-                    {t("enhancedLogoUploadSection.darkLogo.dropText")}
+                    Drop logo here or click to upload
                   </p>
                 </div>
               )}
@@ -267,7 +265,7 @@ export const EnhancedLogoUploadSection: React.FC<
 
           <div>
             <p className="text-xs text-gray-500 mb-2">
-              {t("enhancedLogoUploadSection.darkLogo.instructions")}
+              PNG, JPG, SVG up to 2MB. Recommended: 200x60px
             </p>
             <input
               id="dark-logo-upload"
@@ -285,17 +283,15 @@ export const EnhancedLogoUploadSection: React.FC<
               className="w-full"
             >
               <Upload className="w-4 h-4 mr-2" />
-              {t("enhancedLogoUploadSection.darkLogo.uploadButton")}
+              Choose Dark Logo
             </Button>
             {darkLogoFile ? (
               <div className="text-sm text-gray-600 mt-2 truncate">
-                {t("enhancedLogoUploadSection.darkLogo.fileInfo", {
-                  fileName: darkLogoFile.name,
-                })}
+                Selected: {darkLogoFile.name}
               </div>
             ) : darkLogoUrl ? (
               <div className="text-sm text-green-600 mt-2">
-                {t("enhancedLogoUploadSection.darkLogo.currentLoaded")}
+                ✓ Current logo loaded
               </div>
             ) : null}
           </div>

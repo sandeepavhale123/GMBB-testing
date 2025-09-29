@@ -49,7 +49,7 @@ export const ReviewSummaryCard: React.FC = () => {
             variant="outline"
             size="sm"
           >
-            <RefreshCw className="w-4 h-4 mr-2" />
+            <RefreshCw className="w-4 h-4 mr-1" />
             {t("tryAgainButton")}
           </Button>
         </CardContent>

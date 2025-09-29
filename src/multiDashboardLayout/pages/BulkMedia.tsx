@@ -149,7 +149,7 @@ export const BulkMedia: React.FC = () => {
           onClick={() => setShowUploadModal(true)}
           className="self-start sm:self-auto"
         >
-          <Upload className="w-4 h-4 mr-2 " />
+          <Upload className="w-4 h-4 mr-1 " />
           {t("buttons.upload")}
         </Button>
       </div>
@@ -208,7 +208,7 @@ export const BulkMedia: React.FC = () => {
                   {t("messages.noMediaDescription")}
                 </p>
                 <Button onClick={() => setShowUploadModal(true)}>
-                  <Upload className="w-4 h-4 mr-2" />
+                  <Upload className="w-4 h-4 mr-1" />
                   {t("buttons.upload")}
                 </Button>
               </div>

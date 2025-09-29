@@ -56,7 +56,7 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
         className="flex-1 h-12"
         disabled={isGenerating || isDownloading}
       >
-        <RefreshCw className="w-4 h-4 mr-2" />
+        <RefreshCw className="w-4 h-4 mr-1" />
         {t("aiActionButtons.regenerate")}
       </Button>
       <Button
@@ -66,12 +66,12 @@ export const AIActionButtons: React.FC<AIActionButtonsProps> = ({
       >
         {isDownloading ? (
           <>
-            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
             {t("aiActionButtons.processing")}
           </>
         ) : (
           <>
-            <Check className="w-4 h-4 mr-2" />
+            <Check className="w-4 h-4 mr-1" />
             {t("aiActionButtons.useThis")}
           </>
         )}

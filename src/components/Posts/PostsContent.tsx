@@ -188,9 +188,9 @@ export const PostsContent: React.FC<PostsContentProps> = ({
                       disabled={deleteLoading}
                     >
                       {deleteLoading ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                       ) : (
-                        <Trash2 className="w-4 h-4 mr-2" />
+                        <Trash2 className="w-4 h-4 mr-1" />
                       )}
                       {deleteLoading
                         ? t("deleting")

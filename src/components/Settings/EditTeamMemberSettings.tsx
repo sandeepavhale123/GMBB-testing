@@ -350,7 +350,7 @@ export const EditTeamMemberSettings: React.FC = () => {
             <div className="text-center">
               <p className="text-destructive mb-4">{editError}</p>
               <Button onClick={handleBack} variant="outline">
-                <ChevronLeft className="w-4 h-4 mr-2" />
+                <ChevronLeft className="w-4 h-4 mr-1" />
                 {t("editTeamMemberSettings.buttons.backToTeamMembers")}
               </Button>
             </div>
@@ -369,7 +369,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                 {t("editTeamMemberSettings.errors.notFound")}
               </p>
               <Button onClick={handleBack} variant="outline">
-                <ChevronLeft className="w-4 h-4 mr-2" />
+                <ChevronLeft className="w-4 h-4 mr-1" />
                 {t("editTeamMemberSettings.buttons.backToTeamMembers")}
               </Button>
             </div>
@@ -551,7 +551,7 @@ export const EditTeamMemberSettings: React.FC = () => {
               >
                 {isSaving ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                     {t("editTeamMemberSettings.buttons.saving")}
                   </>
                 ) : (
@@ -832,7 +832,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                 >
                   {isSaving || saveLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                       Saving...
                     </>
                   ) : (

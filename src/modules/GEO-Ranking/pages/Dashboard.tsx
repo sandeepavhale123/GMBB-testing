@@ -186,18 +186,21 @@ export const Dashboard: React.FC = () => {
       value: summary?.totalProjects || 0,
       icon: Users,
       color: "text-blue-500",
+      iconBgColor: "bg-blue-500"
     },
     {
       title: "No Of Keywords",
       value: summary?.totalKeywords || 0,
       icon: Target,
       color: "text-green-500",
+      iconBgColor: "bg-green-500"
     },
     {
       title: "No Of Scheduled Scan",
       value: summary?.scheduledScans || 0,
       icon: Calendar,
       color: "text-orange-500",
+      iconBgColor: "bg-orange-500"
     },
     {
       title: "Available Credits",
@@ -206,6 +209,7 @@ export const Dashboard: React.FC = () => {
         : "0 remaining of 0 total",
       icon: CreditCard,
       color: "text-purple-500",
+      iconBgColor: "bg-purple-500"
     },
   ];
   if (isLoading) {
@@ -329,42 +333,44 @@ export const Dashboard: React.FC = () => {
             const progressPercentage =
               totalCredits > 0 ? (remainingCredits / totalCredits) * 100 : 0;
             return (
-              <Card key={card.title}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="">
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Available Credit
-                      </p>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        {remainingCredits.toLocaleString()}{" "}
-                      </h3>
-                    </div>
 
-                    <Icon className={`w-8 h-8 ${card.color}`} />
+              <div key={card.title} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 space-y-1">
+                    <h3 className="text-sm font-medium text-gray-600">
+                      Available Credit
+                    </h3>
+                    <div className="text-3xl font-bold text-gray-900">
+                      {remainingCredits.toLocaleString()}{" "}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`} >
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+              </div>
             );
           }
 
           // Default layout for other cards
           return (
-            <Card key={card.title}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {card.title}
-                    </p>
-                    <p className="text-2xl font-bold text-foreground">
-                      {card.value}
-                    </p>
+            <div key={card.title} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+              <div className="flex items-center justify-between">
+                <div className="flex-1 space-y-1">
+                  <h3 className="text-sm font-medium text-gray-600">
+                    {card.title}
+                  </h3>
+                  <div className="text-3xl font-bold text-gray-900">
+                    {card.value}
                   </div>
-                  <Icon className={`w-8 h-8 ${card.color}`} />
                 </div>
-              </CardContent>
-            </Card>
+                <div className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`} >
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </div>
+
+
           );
         })}
       </div>
@@ -454,13 +460,13 @@ export const Dashboard: React.FC = () => {
                                 )
                               }
                             >
-                              <Eye className="w-4 h-4 mr-2" />
+                              <Eye className="w-4 h-4 mr-1" />
                               View
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleEditProject(project)}
                             >
-                              <Edit className="w-4 h-4 mr-2" />
+                              <Edit className="w-4 h-4 mr-1" />
                               Edit
                             </DropdownMenuItem>
                             {project.numberOfChecks > 0 && (
@@ -472,7 +478,7 @@ export const Dashboard: React.FC = () => {
                                   )
                                 }
                               >
-                                <Share className="w-4 h-4 mr-2" />
+                                <Share className="w-4 h-4 mr-1" />
                                 Shareable Link
                               </DropdownMenuItem>
                             )}
@@ -481,7 +487,7 @@ export const Dashboard: React.FC = () => {
                               className="text-destructive"
                               onClick={() => handleDeleteClick(project)}
                             >
-                              <Trash2 className="w-4 h-4 mr-2" />
+                              <Trash2 className="w-4 h-4 mr-1" />
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

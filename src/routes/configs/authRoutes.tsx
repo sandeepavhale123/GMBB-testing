@@ -25,7 +25,9 @@ export const authRoutes: RouteConfig[] = [
     path: "/signup",
     element: (
       <PublicRoute>
-        <Signup />
+        <ThemePreloader loadFromAPI={true}>
+          <Signup />
+        </ThemePreloader>
       </PublicRoute>
     ),
   },

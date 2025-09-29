@@ -132,7 +132,7 @@ export const BulkPost: React.FC = () => {
             onClick={() => setIsCreateModalOpen(true)}
             className="self-start sm:self-auto"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-4 h-4 mr-1" />
             {t("buttons.createNew")}
           </Button>
         </div>
@@ -194,7 +194,7 @@ export const BulkPost: React.FC = () => {
                       {t("messages.noPostsDescription")}
                     </p>
                     <Button onClick={() => setIsCreateModalOpen(true)}>
-                      <Plus className="w-4 h-4 mr-2" />
+                      <Plus className="w-4 h-4 mr-1" />
                       {t("buttons.createBulkPost")}
                     </Button>
                   </div>

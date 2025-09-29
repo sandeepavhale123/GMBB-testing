@@ -81,7 +81,7 @@ export const ProfilePictureUpload: React.FC = () => {
             onClick={() => document.getElementById("profile-upload")?.click()}
             className="border-blue-200 text-blue-600 hover:bg-blue-50"
           >
-            <Upload className="w-4 h-4 mr-2" />
+            <Upload className="w-4 h-4 mr-1" />
             {t("upload.chooseFile")}
           </Button>
         </div>

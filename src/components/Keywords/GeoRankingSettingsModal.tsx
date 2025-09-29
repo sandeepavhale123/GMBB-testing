@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
+import { X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -109,7 +110,17 @@ export const GeoRankingSettingsModal: React.FC<
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{t("GeoRankingSettingsModal.title")}</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>{t("GeoRankingSettingsModal.title")}</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => onOpenChange(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <div className="space-y-6 py-4">

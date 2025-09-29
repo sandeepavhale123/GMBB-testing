@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
-import { getApiKeyForSearch } from '@/api/businessSearchApi';
+import { useApiKey } from '@/hooks/useApiKey';
 
 import { BusinessLocationLite } from '@/types/business';
 
@@ -29,24 +29,23 @@ export function BusinessGooglePlacesInput({
   const autocompleteRef = useRef<any>(null);
   const [inputValue, setInputValue] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
+  const { apiKey, isLoading: apiKeyLoading, error: apiKeyError } = useApiKey();
 
   useEffect(() => {
     const initializeAutocomplete = async () => {
-      try {
-        setLoading(true);
-        
-        // Get API key
-        const apiKeyResponse = await getApiKeyForSearch();
-        const apiKey = apiKeyResponse.data.apikey;
-
-        if (!apiKey) {
+      if (!apiKey) {
+        if (apiKeyError) {
           toast({
-            title: "API Key Missing",
-            description: "Google Places API key is not configured.",
+            title: "API Key Error",
+            description: "Failed to load Google Places API key.",
             variant: "destructive",
           });
-          return;
         }
+        return;
+      }
+
+      try {
+        setLoading(true);
 
         // Load Google Maps script if not already loaded
         if (!window.google) {
@@ -80,7 +79,6 @@ export function BusinessGooglePlacesInput({
 
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
-        componentRestrictions: { country: 'in' },
         fields: ['name', 'geometry.location', 'formatted_address'],
       });
 
@@ -102,7 +100,7 @@ export function BusinessGooglePlacesInput({
       });
     };
 
-    if (!disabled) {
+    if (!disabled && !apiKeyLoading) {
       initializeAutocomplete();
     }
 
@@ -111,7 +109,7 @@ export function BusinessGooglePlacesInput({
         window.google?.maps?.event?.clearInstanceListeners(autocompleteRef.current);
       }
     };
-  }, [disabled, onPlaceSelect]);
+  }, [disabled, onPlaceSelect, apiKey, apiKeyLoading, apiKeyError]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -122,8 +120,14 @@ export function BusinessGooglePlacesInput({
       ref={inputRef}
       value={inputValue}
       onChange={handleInputChange}
-      placeholder={loading ? "Loading Google Places..." : "Search for a business..."}
-      disabled={disabled || loading}
+      placeholder={
+        apiKeyLoading 
+          ? "Loading API key..." 
+          : loading 
+            ? "Loading Google Places..." 
+            : placeholder
+      }
+      disabled={disabled || loading || apiKeyLoading || !apiKey}
       className="w-full"
     />
   );

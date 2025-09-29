@@ -103,7 +103,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
             onClick={handleViewProfile}
             className="cursor-pointer"
           >
-            <User className="w-4 h-4 mr-2" />
+            <User className="w-4 h-4 mr-1" />
             {t("userProfileDropdown.viewProfile")}
           </DropdownMenuItem>
           {!shouldHideAccountSettings() && (
@@ -111,7 +111,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
               onClick={handleAccountSettings}
               className="cursor-pointer"
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className="w-4 h-4 mr-1" />
               {t("userProfileDropdown.accountSettings")}
             </DropdownMenuItem>
           )}
@@ -120,7 +120,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
             className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
             onClick={logout}
           >
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut className="w-4 h-4 mr-1" />
             {t("userProfileDropdown.logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>

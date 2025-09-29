@@ -27,7 +27,7 @@ export const CreatePostCard: React.FC<CreatePostCardProps> = ({
           />
         </div>
         <Button className="w-full" onClick={onCreatePost}>
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-4 h-4 mr-1" />
           {t("createPostCard.button")}
         </Button>
       </CardContent>

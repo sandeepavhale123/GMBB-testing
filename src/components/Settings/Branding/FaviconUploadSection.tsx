@@ -83,7 +83,7 @@ export const FaviconUploadSection: React.FC<FaviconUploadSectionProps> = ({
               className="mt-2"
               onClick={() => document.getElementById("favicon-upload")?.click()}
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="w-4 h-4 mr-1" />
               {t("faviconUpload.chooseFile")}
             </Button>
           </div>

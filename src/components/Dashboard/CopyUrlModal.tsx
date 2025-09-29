@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Copy, ExternalLink, Check } from "lucide-react";
+import { Copy, ExternalLink, Check, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -48,7 +48,17 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{t("title")}</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>{t("title")}</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4 py-4">

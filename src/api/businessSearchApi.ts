@@ -18,7 +18,7 @@ export interface BusinessDetailsFromCIDResponse {
   code: number;
   message: string;
   data: {
-    business_name: string;
+    bname: string;
     lat: string;
     long: string;
   };

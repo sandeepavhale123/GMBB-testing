@@ -303,7 +303,7 @@ export const BulkReportDetails: React.FC = () => {
           {error || t("bulkReportDetails.errorState.failedToLoad")}
         </p>
         <Button onClick={refresh}>
-          <RefreshCw className="w-4 h-4 mr-2" />
+          <RefreshCw className="w-4 h-4 mr-1" />
           {t("bulkReportDetails.errorState.tryAgain")}
         </Button>
       </div>

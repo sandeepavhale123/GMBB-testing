@@ -286,7 +286,7 @@ const TeamMembersPage: React.FC = () => {
             </p>
             {!searchTerm && !roleFilter && (
               <Button onClick={() => setShowAddModal(true)}>
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4 mr-1" />
                 {t("teamMembersPage.addMember")}
               </Button>
             )}
@@ -423,14 +423,14 @@ const TeamMembersPage: React.FC = () => {
                                 <DropdownMenuItem
                                   onClick={() => handleEditMember(member)}
                                 >
-                                  <Edit className="w-4 h-4 mr-2" />
+                                  <Edit className="w-4 h-4 mr-1" />
                                   {t("teamMembersPage.dropdown.edit")}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => handleDeleteMember(member)}
                                   className="text-destructive"
                                 >
-                                  <Trash2 className="w-4 h-4 mr-2" />
+                                  <Trash2 className="w-4 h-4 mr-1" />
                                   {t("teamMembersPage.dropdown.delete")}
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
@@ -481,14 +481,14 @@ const TeamMembersPage: React.FC = () => {
                             <DropdownMenuItem
                               onClick={() => handleEditMember(member)}
                             >
-                              <Edit className="w-4 h-4 mr-2" />
+                              <Edit className="w-4 h-4 mr-1" />
                               {t("teamMembersPage.dropdown.edit")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleDeleteMember(member)}
                               className="text-destructive"
                             >
-                              <Trash2 className="w-4 h-4 mr-2" />
+                              <Trash2 className="w-4 h-4 mr-1" />
                               {t("teamMembersPage.dropdown.delete")}
                             </DropdownMenuItem>
                           </DropdownMenuContent>

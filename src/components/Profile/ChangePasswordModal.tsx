@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Lock } from "lucide-react";
+import { Button } from "../ui/button";
+import { Lock, X } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 import { useProfile } from "../../hooks/useProfile";
 import { profileService } from "../../services/profileService";
@@ -164,10 +165,20 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl">
-            <Lock className="w-5 h-5 text-purple-600" />
-            {t("dialog.title")}
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="flex items-center gap-2 text-xl">
+              <Lock className="w-5 h-5 text-purple-600" />
+              {t("dialog.title")}
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         {step === "current" ? (

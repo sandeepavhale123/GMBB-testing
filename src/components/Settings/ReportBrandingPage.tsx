@@ -469,7 +469,7 @@ export const ReportBrandingPage: React.FC = () => {
                             className="w-full"
                             disabled={updateBrandingMutation.isPending}
                           >
-                            <Upload className="w-4 h-4 mr-2" />
+                            <Upload className="w-4 h-4 mr-1" />
                             {t(
                               "reportBranding.fields.companyLogo.chooseButton"
                             )}

@@ -36,6 +36,8 @@ import {
 import { useListingContext } from "@/context/ListingContext";
 import { FileSearch } from "lucide-react";
 import { Loader } from "../ui/loader";
+import { ReportProgressModal } from "@/components/Dashboard/ReportProgressModal";
+import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 type TrackerData = {
@@ -175,6 +177,10 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [reportProgressOpen, setReportProgressOpen] = useState(false);
+  const [reportStatus, setReportStatus] = useState<'loading' | 'success' | 'error' | null>(null);
+  const [reportUrl, setReportUrl] = useState<string>('');
+  const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
   const [searchData, setSearchData] = useState({
     businessName: "",
     phone: "",
@@ -279,11 +285,21 @@ export const CitationPage: React.FC = () => {
       address: cityValue,
     };
     console.log("handleSearch - Final API payload:", payload);
+
+    setReportUrl('');
+    setReportProgressOpen(true);
+    setReportStatus('loading');
+
     createCitationReport(payload, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setReportStatus('success');
+        setReportUrl(data.data.reportUrl || '');
         setHasSearched(true);
         refetch();
       },
+      onError: () => {
+        setReportStatus('error');
+      }
     });
   };
   const handleInputChange = (field: string, value: string) => {
@@ -299,6 +315,20 @@ export const CitationPage: React.FC = () => {
       e.target.value
     );
     handleInputChange("city", e.target.value);
+  };
+
+  const handleReportProgressSuccess = () => {
+    setReportProgressOpen(false);
+    setReportStatus(null);
+    setCopyUrlModalOpen(true);
+  };
+
+  const handleReportProgressClose = (open: boolean) => {
+    setReportProgressOpen(open);
+    if (!open) {
+      setReportStatus(null);
+      setReportUrl('');
+    }
   };
   if (isPageLoading) {
     return (
@@ -690,10 +720,24 @@ export const CitationPage: React.FC = () => {
         </div>
       </div>
 
-      <PlaceOrderModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+      <PlaceOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* Report Progress Modal */}
+      {reportStatus && (
+        <ReportProgressModal
+          open={reportProgressOpen}
+          onOpenChange={handleReportProgressClose}
+          reportType="citation-audit"
+          status={reportStatus}
+          onSuccess={handleReportProgressSuccess}
+        />
+      )}
+
+      {/* Copy URL Modal */}
+      <CopyUrlModal
+        open={copyUrlModalOpen}
+        onOpenChange={setCopyUrlModalOpen}
+        reportUrl={reportUrl}
       />
-    </div>
-  );
+    </div>;
 };

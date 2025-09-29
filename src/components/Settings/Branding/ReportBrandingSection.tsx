@@ -226,7 +226,7 @@ export const ReportBrandingSection: React.FC = () => {
                 }
                 className="w-full"
               >
-                <Upload className="w-4 h-4 mr-2" />
+                <Upload className="w-4 h-4 mr-1" />
                 {t("reportBranding.logo.chooseButton")}
               </Button>
 

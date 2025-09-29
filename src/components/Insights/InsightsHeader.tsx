@@ -163,7 +163,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             disabled={isLoading || isRefreshing}
           >
             <RefreshCw
-              className={`w-4 h-4 mr-2 ${
+              className={`w-4 h-4 mr-1 ${
                 isLoading || isRefreshing ? "animate-spin" : ""
               }`}
             />
@@ -180,7 +180,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             onClick={onExportImage}
             className="w-full sm:w-auto hidden"
           >
-            <Image className="w-4 h-4 mr-2" />
+            <Image className="w-4 h-4 mr-1" />
             {isExporting
               ? t("insightsHeader.exporting")
               : t("insightsHeader.exportImage")}

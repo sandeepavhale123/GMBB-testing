@@ -62,19 +62,19 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
         disabled={isSaving || !canReset}
         className="px-6"
       >
-        <RotateCcw className="w-4 h-4 mr-2" />
+        <RotateCcw className="w-4 h-4 mr-1" />
         {t("brandingSaveActions.buttons.reset")}
       </Button>
 
       <Button onClick={handleSave} disabled={isSaving} className="px-8">
         {isSaving ? (
           <>
-            <Settings className="w-4 h-4 mr-2 animate-spin" />
+            <Settings className="w-4 h-4 mr-1 animate-spin" />
             {t("brandingSaveActions.buttons.saving")}
           </>
         ) : (
           <>
-            <Check className="w-4 h-4 mr-2" />
+            <Check className="w-4 h-4 mr-1" />
             {t("brandingSaveActions.buttons.saveChanges")}
           </>
         )}

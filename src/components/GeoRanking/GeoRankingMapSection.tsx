@@ -18,7 +18,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
   ({
     gridSize,
     onMarkerClick,
-    rankDetails,
+    rankDetails = [],
     rankStats,
     projectDetails,
     loading,
@@ -92,6 +92,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
       const getFrequency = (schedule?: string) => {
         if (!schedule) return "Daily";
         switch (schedule.toLowerCase()) {
+          case "onetime":
+            return "One Time";
           case "daily":
             return t("GeoRankingMapSection.frequencyOptions.daily");
           case "weekly":
@@ -152,8 +154,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
                   {t("GeoRankingMapSection.labels.distance")}: {distance}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  {t("GeoRankingMapSection.labels.engine")}:{" "}
-                  {t("GeoRankingMapSection.labels.engineValue")}
+                  Engine: {projectDetails?.sab || "Google Maps"}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                   {t("GeoRankingMapSection.labels.frequency")}: {frequency}

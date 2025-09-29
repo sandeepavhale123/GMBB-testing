@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -78,7 +78,17 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{t("title")}</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>{t("title")}</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -103,7 +113,7 @@ export const ShareReportModal: React.FC<ShareReportModalProps> = ({
               disabled={isGenerating || selectedListings.length === 0}
             >
               {isGenerating && (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
               )}
               {t("buttons.generate")}
             </Button>

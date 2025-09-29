@@ -1360,12 +1360,12 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Send className="w-4 h-4 mr-2" />
+                  <Send className="w-4 h-4 mr-1" />
                   {t("GenerateBulkReport.actions.creating")}
                 </>
               ) : (
                 <>
-                  <Send className="w-4 h-4 mr-2" />
+                  <Send className="w-4 h-4 mr-1" />
                   {t("GenerateBulkReport.actions.create")}
                 </>
               )}

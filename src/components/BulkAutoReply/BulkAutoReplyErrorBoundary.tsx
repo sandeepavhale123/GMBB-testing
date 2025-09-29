@@ -28,7 +28,7 @@ const BulkAutoReplyFallback = () => {
               onClick={() => navigate("/main-dashboard")}
               className="flex-1"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-1" />
               {t("backToDashboard")}
             </Button>
             <Button onClick={() => window.location.reload()} className="flex-1">

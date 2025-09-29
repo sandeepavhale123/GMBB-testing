@@ -552,7 +552,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
-        description: "Keywords are required",
+        description: "Keywords are required.",
         variant: "destructive",
       });
       return { success: false, shouldNavigate: false };
@@ -603,10 +603,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         language: formData.language,
         keywords: formData.keywords,
         mapPoint: formData.mapPoint,
-        distanceValue:
-          typeof processedDistance === "number"
-            ? processedDistance
-            : parseFloat(processedDistance.replace(/[^0-9.]/g, "")),
+        distanceValue: processedDistance,
         gridSize: parseInt(formData.gridSize.split("x")[0]),
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),
@@ -692,7 +689,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
-        description: "Keywords are required",
+        description: "Keywords are required.",
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };
@@ -753,10 +750,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         language: formData.language,
         keywords: formData.keywords,
         mapPoint: formData.mapPoint,
-        distanceValue:
-          typeof processedDistance === "number"
-            ? processedDistance
-            : parseFloat(processedDistance.replace(/[^0-9.]/g, "")),
+        distanceValue: processedDistance,
         gridSize: parseInt(formData.gridSize.split("x")[0]),
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),

@@ -9,6 +9,11 @@
  */
 export const forceBodyStylesReset = () => {
   try {
+    // Dev warning for debugging
+    if (document.body.style.pointerEvents === 'none') {
+      console.warn('[DOM Utils] Auto-recovering from pointer-events: none on body');
+    }
+    
     // Force reset all potentially problematic styles
     document.body.style.pointerEvents = '';
     document.body.style.overflow = '';

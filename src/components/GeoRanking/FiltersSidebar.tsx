@@ -89,7 +89,7 @@ export const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
         </div>
 
         <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white text-sm">
-          <RefreshCw className="w-4 h-4 mr-2" />
+          <RefreshCw className="w-4 h-4 mr-1" />
           {t("filtersSidebar.button")}
         </Button>
       </CardContent>

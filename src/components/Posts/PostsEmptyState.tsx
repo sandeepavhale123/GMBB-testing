@@ -27,7 +27,7 @@ export const PostsEmptyState: React.FC<PostsEmptyStateProps> = ({
           : t("postsEmptyState.description.withoutFilters")}
       </p>
       <Button onClick={onCreatePost}>
-        <Plus className="w-4 h-4 mr-2" />
+        <Plus className="w-4 h-4 mr-1" />
         {t("postsEmptyState.createButton")}
       </Button>
     </div>

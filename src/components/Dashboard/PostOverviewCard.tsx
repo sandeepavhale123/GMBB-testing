@@ -92,7 +92,7 @@ export const PostOverviewCard: React.FC = () => {
         {/* Action Buttons */}
         <div className="space-y-2 pt-2">
           <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-4 h-4 mr-1" />
             {t("postOverview.actions.create")}
           </Button>
           <Button

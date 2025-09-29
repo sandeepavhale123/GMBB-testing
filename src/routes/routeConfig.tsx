@@ -8,6 +8,7 @@ import { publicReportRoutes } from "./configs/publicReportRoutes";
 import { multiDashboardRoutes } from "./configs/multiDashboardRoutes";
 import { geoRankingDashboardRoutes } from "./configs/geoRankingDashboardRoutes";
 import { geoRankingModuleRoutes } from "./configs/geoRankingModuleRoutes";
+import { leadModuleRoutes } from "./configs/leadModuleRoutes";
 
 export interface RouteConfig {
   path: string;
@@ -24,5 +25,6 @@ export const routeConfigs: RouteConfig[] = [
   ...publicReportRoutes,
   ...multiDashboardRoutes,
   ...geoRankingDashboardRoutes,
-  ...geoRankingModuleRoutes
+  ...geoRankingModuleRoutes,
+  ...leadModuleRoutes
 ];

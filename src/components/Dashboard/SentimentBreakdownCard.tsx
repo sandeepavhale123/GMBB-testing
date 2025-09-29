@@ -36,7 +36,7 @@ export const SentimentBreakdownCard: React.FC = () => {
             variant="outline"
             size="sm"
           >
-            <RefreshCw className="w-4 h-4 mr-2" />
+            <RefreshCw className="w-4 h-4 mr-1" />
             {t("tryAgain")}
           </Button>
         </CardContent>

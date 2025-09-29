@@ -113,7 +113,7 @@ export const QACard: React.FC = () => {
             className="w-full bg-gray-900 hover:bg-gray-800"
             onClick={handleAnswerQuestions}
           >
-            <MessageSquare className="w-4 h-4 mr-2" />
+            <MessageSquare className="w-4 h-4 mr-1" />
             {t("answerPendingBtn")}
           </Button>
           <Button variant="outline" className="w-full" onClick={handleViewQA}>

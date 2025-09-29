@@ -48,7 +48,7 @@ export const Health: React.FC = () => {
           onClick={refreshHealthReport}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          <RefreshCcw className="w-4 h-4 mr-2" />
+          <RefreshCcw className="w-4 h-4 mr-1" />
           Refresh Health Report
         </Button>
       </div>

@@ -202,12 +202,12 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
             >
               {isGenerating ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                   {t("buttons.generating")}
                 </>
               ) : (
                 <>
-                  <Wand2 className="w-4 h-4 mr-2" />
+                  <Wand2 className="w-4 h-4 mr-1" />
                   {t("buttons.generate")}
                 </>
               )}
@@ -227,7 +227,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                   onClick={handleGenerate}
                   className="w-full sm:w-auto"
                 >
-                  <RotateCcw className="w-4 h-4 mr-2" />
+                  <RotateCcw className="w-4 h-4 mr-1" />
                   {t("buttons.regenerate")}
                 </Button>
               </div>

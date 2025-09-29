@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import {
   forgotPasswordSchema,
@@ -106,12 +106,24 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center space-y-3">
-          <DialogTitle className="text-2xl font-bold text-gray-900">
-            {t("forgotPasswordTitle")}
-          </DialogTitle>
-          <p className="text-gray-600 text-sm">
-            {t("forgotPasswordDescription")}
-          </p>
+          <div className="flex items-center justify-between">
+            <div className="flex-1 text-center">
+              <DialogTitle className="text-2xl font-bold text-gray-900">
+                {t("forgotPasswordTitle")}
+              </DialogTitle>
+              <p className="text-gray-600 text-sm">
+                {t("forgotPasswordDescription")}
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-6">

@@ -777,7 +777,7 @@ export function GeoRankingReportForm({
                 disabled={submittingRank || pollingKeyword}
                 className="flex-none"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className="w-4 h-4 mr-1" />
                 Reset & New Search
               </Button>
             )}

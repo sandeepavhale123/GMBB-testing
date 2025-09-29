@@ -427,7 +427,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 disabled={submittingRank || pollingKeyword}
                 className="flex-none"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className="w-4 h-4 mr-1" />
                 {t("geoRankingReportForm.buttons.reset")}
               </Button>
             )}

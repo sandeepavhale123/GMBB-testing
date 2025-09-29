@@ -138,7 +138,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={handleMenuItemClick(onView)}>
-                  <Eye className="w-4 h-4 mr-2" />
+                  <Eye className="w-4 h-4 mr-1" />
                   {t("mediaCard.actions.view")}
                 </DropdownMenuItem>
 
@@ -146,7 +146,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
                   onClick={handleMenuItemClick(onDelete)}
                   className="text-red-600"
                 >
-                  <Trash2 className="w-4 h-4 mr-2" />
+                  <Trash2 className="w-4 h-4 mr-1" />
                   {t("mediaCard.actions.delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>

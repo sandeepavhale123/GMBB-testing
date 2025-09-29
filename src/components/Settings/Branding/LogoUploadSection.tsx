@@ -103,7 +103,7 @@ export const LogoUploadSection: React.FC<LogoUploadSectionProps> = ({
                   }
                   className="w-full"
                 >
-                  <Upload className="w-4 h-4 mr-2" />
+                  <Upload className="w-4 h-4 mr-1" />
                   {t("logoUpload.lightLogo.chooseButton")}
                 </Button>
                 {lightLogoFile && (
@@ -156,7 +156,7 @@ export const LogoUploadSection: React.FC<LogoUploadSectionProps> = ({
                   }
                   className="w-full"
                 >
-                  <Upload className="w-4 h-4 mr-2" />
+                  <Upload className="w-4 h-4 mr-1" />
                   {t("logoUpload.darkLogo.chooseButton")}
                 </Button>
                 {darkLogoFile && (

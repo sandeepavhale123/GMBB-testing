@@ -480,7 +480,7 @@ Thank you`);
                           disabled={isGenerating}
                           className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
                         >
-                          <Sparkles className="w-4 h-4 mr-2" />
+                          <Sparkles className="w-4 h-4 mr-1" />
                           {isGenerating
                             ? t("aiAutoResponse.buttons.generating")
                             : aiResponse
@@ -503,12 +503,12 @@ Thank you`);
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                   {t("aiAutoResponse.buttons.saving")}
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 mr-2" />
+                  <Sparkles className="w-4 h-4 mr-1" />
                   {t("aiAutoResponse.buttons.save")}
                 </>
               )}

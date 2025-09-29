@@ -68,11 +68,11 @@ export const PostManagementWidget: React.FC = () => {
           {/* Action Buttons */}
           <div className="flex gap-2">
             <Button className="flex-1">
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4 mr-1" />
               {t("postManagement.actions.create")}
             </Button>
             <Button variant="outline" className="flex-1">
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className="w-4 h-4 mr-1" />
               {t("postManagement.actions.manage")}
             </Button>
           </div>

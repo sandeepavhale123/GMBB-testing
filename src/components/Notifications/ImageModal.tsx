@@ -52,7 +52,7 @@ export const ImageModal: React.FC<ImageModalProps> = ({
   return createPortal(
     <div
       className={`fixed inset-0 bg-black/50 flex items-center justify-center ${
-        pathname.startsWith("/module/geo-ranking") ? "z-[500]" : "z-50"
+        pathname.startsWith("/module/geo-ranking") ? "z-[500]" : "z-[55]"
       }`}
     >
       <div

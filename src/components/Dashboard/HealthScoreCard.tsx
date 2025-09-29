@@ -61,7 +61,7 @@ export const HealthScoreCard: React.FC = () => {
 
         {/* AI Auto-Optimize Button */}
         <Button className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white">
-          <Zap className="w-4 h-4 mr-2" />
+          <Zap className="w-4 h-4 mr-1" />
           {t("healthScoreCard.aiAutoOptimize")}
         </Button>
 

@@ -18,6 +18,7 @@ import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { z } from "zod";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { X } from "lucide-react";
 
 const createGroupSchema = z.object({
   groupName: z
@@ -131,9 +132,19 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>
-            {editingGroup ? t("dialog.editTitle") : t("dialog.createTitle")}
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>
+              {editingGroup ? t("dialog.editTitle") : t("dialog.createTitle")}
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={handleClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">

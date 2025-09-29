@@ -21,7 +21,7 @@ export const InsightsErrorState: React.FC<InsightsErrorStateProps> = ({
           <div className="text-center">
             <p className="text-red-600 mb-4">{error}</p>
             <Button onClick={onRetry} variant="outline">
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <RefreshCw className="w-4 h-4 mr-1" />
               {t("insightsError.tryAgain")}
             </Button>
           </div>
