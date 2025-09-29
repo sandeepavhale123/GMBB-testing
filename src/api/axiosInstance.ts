@@ -226,6 +226,12 @@ axiosInstance.interceptors.response.use(
         // Check if this request should skip global error toasts
         const skipGlobalToast = originalRequest.skipGlobalErrorToast;
         
+        // Skip authentication toasts for notification endpoints as they handle 401s gracefully
+        const isNotificationEndpoint = originalRequest.url?.includes("/get-beamer-notification");
+        if (isNotificationEndpoint) {
+          return Promise.reject(error);
+        }
+        
         let title = "Access Denied";
         let description = "You don't have permission to perform this action";
         
