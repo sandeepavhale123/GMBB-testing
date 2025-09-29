@@ -11,6 +11,7 @@ import { PageTitle } from './PageTitle';
 import { PageBreadcrumb } from './PageBreadcrumb';
 import { HeaderProps } from './types';
 import { isAllowedDomain } from '@/lib/utils';
+import { HeaderModulesMegaMenu } from './HeaderModulesMegaMenu';
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
   showFilters,
@@ -48,6 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
               </Button>
             )
           }
+          <HeaderModulesMegaMenu />
           <MobileBusinessSelector />
           <BusinessListingSelector />
           <HeaderActions />
