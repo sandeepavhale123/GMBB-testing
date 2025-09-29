@@ -4,14 +4,13 @@ import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { toggleTheme } from '../../store/slices/themeSlice';
 import { BusinessListingSelector } from './BusinessListingSelector';
-import { MobileBusinessSelector } from './MobileBusinessSelector';
-import { HeaderActions } from './HeaderActions';
 import { UserProfileDropdown } from './UserProfileDropdown';
 import { PageTitle } from './PageTitle';
 import { PageBreadcrumb } from './PageBreadcrumb';
 import { HeaderProps } from './types';
 import { isAllowedDomain } from '@/lib/utils';
 import { HeaderModulesMegaMenu } from './HeaderModulesMegaMenu';
+import { HeaderNotificationsMegaMenu } from './HeaderNotificationsMegaMenu';
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
   showFilters,
@@ -49,10 +48,9 @@ export const Header: React.FC<HeaderProps> = ({
               </Button>
             )
           }
-          <HeaderModulesMegaMenu />
-          <MobileBusinessSelector />
           <BusinessListingSelector />
-          <HeaderActions />
+          <HeaderModulesMegaMenu />
+          <HeaderNotificationsMegaMenu />
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
         </div>
       </div>
