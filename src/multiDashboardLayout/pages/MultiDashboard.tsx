@@ -989,7 +989,7 @@ export const MultiDashboard: React.FC = () => {
                           listing.city && (
                             <p className="text-xs text-muted-foreground">
                               {t("listing.state", {
-                                city: isting.city,
+                                city: listing.city,
                               })}
                               {/* State: {listing.city} */}
                             </p>

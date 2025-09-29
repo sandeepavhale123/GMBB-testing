@@ -1,0 +1,14 @@
+{
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "content": {
+    "noContent": "No content",
+    "noTemplate": "No template created"
+  },
+  "actions": {
+    "manage": "Manage",
+    "create": "Create"
+  }
+}

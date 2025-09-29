@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -6,9 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +18,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 import {
   Pagination,
   PaginationContent,
@@ -26,11 +26,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
-import { Eye, Trash2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { GroupsList, useDeleteGroupsMutation } from '@/api/listingsGroupsApi';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/pagination";
+import { Eye, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { GroupsList, useDeleteGroupsMutation } from "@/api/listingsGroupsApi";
+import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PaginationProps {
   total: number;
@@ -56,26 +57,25 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
   onBulkDelete,
   pagination,
   currentPage = 1,
-  onPageChange
+  onPageChange,
 }) => {
+  const { t } = useI18nNamespace("Groups/groupsTable");
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState<GroupsList | null>(null);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [isBulkDelete, setIsBulkDelete] = useState(false);
-  
+
   const [deleteGroups, { isLoading: isDeleting }] = useDeleteGroupsMutation();
 
   const handleSelectGroup = (groupId: string, checked: boolean) => {
-    setSelectedGroups(prev => 
-      checked 
-        ? [...prev, groupId]
-        : prev.filter(id => id !== groupId)
+    setSelectedGroups((prev) =>
+      checked ? [...prev, groupId] : prev.filter((id) => id !== groupId)
     );
   };
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectedGroups(checked ? groups.map(group => group.id) : []);
+    setSelectedGroups(checked ? groups.map((group) => group.id) : []);
   };
 
   const handleDeleteClick = (group: GroupsList) => {
@@ -94,11 +94,21 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
   const handleConfirmDelete = async () => {
     try {
       if (isBulkDelete && selectedGroups.length > 0) {
-        const groupIds = selectedGroups.map(id => parseInt(id));
+        const groupIds = selectedGroups.map((id) => parseInt(id));
         const response = await deleteGroups({ groupIds }).unwrap();
         toast({
-          title: "Success",
-          description: `${response.data.deletedCount} group${response.data.deletedCount > 1 ? 's' : ''} deleted successfully`
+          title: t("toast.successTitle"),
+          description:
+            response.data.deletedCount > 1
+              ? t("toast.deleteSuccess_plural", {
+                  count: response.data.deletedCount,
+                })
+              : t("toast.deleteSuccess_singal", {
+                  count: response.data.deletedCount,
+                }),
+          //  `${response.data.deletedCount} group${
+          //   response.data.deletedCount > 1 ? "s" : ""
+          // } deleted successfully`,
         });
         onBulkDelete?.(selectedGroups);
         setSelectedGroups([]);
@@ -107,8 +117,8 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
         const groupIds = [parseInt(groupToDelete.id)];
         const response = await deleteGroups({ groupIds }).unwrap();
         toast({
-          title: "Success",
-          description: "Group deleted successfully"
+          title: t("toast.successTitle"),
+          description: t("toast.deleteSuccess"),
         });
         onDelete(groupToDelete.id);
         setGroupToDelete(null);
@@ -117,9 +127,9 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
       setIsBulkDelete(false);
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error?.data?.message || "Failed to delete group(s)",
-        variant: "destructive"
+        title: t("toast.errorTitle"),
+        description: error?.data?.message || t("toast.deleteFailed"),
+        variant: "destructive",
       });
     }
   };
@@ -135,7 +145,9 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
       <div className="border rounded-lg">
         <div className="p-8 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-sm text-muted-foreground">Loading groups...</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t("loadingGroups")}
+          </p>
         </div>
       </div>
     );
@@ -147,12 +159,19 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
         <div className="p-8 text-center">
           <div className="mx-auto h-12 w-12 text-muted-foreground mb-4">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-foreground mb-2">No groups found</h3>
+          <h3 className="text-lg font-medium text-foreground mb-2">
+            {t("noGroupsTitle")}
+          </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Get started by creating your first group to organize your listings.
+            {t("noGroupsDescription")}
           </p>
         </div>
       </div>
@@ -165,7 +184,15 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
       {selectedGroups.length > 0 && (
         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg mb-4">
           <span className="text-sm text-muted-foreground">
-            {selectedGroups.length} group{selectedGroups.length > 1 ? 's' : ''} selected
+            {selectedGroups.length > 1
+              ? t("toast.deleteSuccess_plural", {
+                  count: selectedGroups.length,
+                })
+              : t("toast.deleteSuccess_singal", {
+                  count: selectedGroups.length,
+                })}
+            {/* {selectedGroups.length} group{selectedGroups.length > 1 ? "s" : ""}{" "}
+            selected */}
           </span>
           <div className="flex items-center gap-2">
             <Button
@@ -173,7 +200,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
               size="sm"
               onClick={() => setSelectedGroups([])}
             >
-              Clear Selection
+              {t("clearSelection")}
             </Button>
             <Button
               variant="destructive"
@@ -181,7 +208,8 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
               onClick={handleBulkDeleteClick}
             >
               <Trash2 className="h-4 w-4 mr-2" />
-              Delete Selected ({selectedGroups.length})
+              {t("deleteSelected", { count: selectedGroups.length })}
+              {/* Delete Selected ({selectedGroups.length}) */}
             </Button>
           </div>
         </div>
@@ -193,14 +221,22 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
             <TableRow className="bg-gray-50">
               <TableHead className="w-[50px]">
                 <Checkbox
-                  checked={selectedGroups.length === groups.length && groups.length > 0}
+                  checked={
+                    selectedGroups.length === groups.length && groups.length > 0
+                  }
                   onCheckedChange={handleSelectAll}
                   aria-label="Select all groups"
                 />
               </TableHead>
-              <TableHead className="font-semibold">Groups</TableHead>
-              <TableHead className="font-semibold">No. of Locations</TableHead>
-              <TableHead className="font-semibold w-[100px]">Actions</TableHead>
+              <TableHead className="font-semibold">
+                {t("table.groups")}
+              </TableHead>
+              <TableHead className="font-semibold">
+                {t("table.locations")}
+              </TableHead>
+              <TableHead className="font-semibold w-[100px]">
+                {t("table.actions")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -209,13 +245,13 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                 <TableCell>
                   <Checkbox
                     checked={selectedGroups.includes(group.id)}
-                    onCheckedChange={(checked) => handleSelectGroup(group.id, checked as boolean)}
+                    onCheckedChange={(checked) =>
+                      handleSelectGroup(group.id, checked as boolean)
+                    }
                     aria-label={`Select ${group.groupName}`}
                   />
                 </TableCell>
-                <TableCell className="font-medium">
-                  {group.groupName}
-                </TableCell>
+                <TableCell className="font-medium">{group.groupName}</TableCell>
                 <TableCell>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
                     {group.locCount}
@@ -226,7 +262,11 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => navigate(`/main-dashboard/settings/manage-groups/${group.id}`)}
+                      onClick={() =>
+                        navigate(
+                          `/main-dashboard/settings/manage-groups/${group.id}`
+                        )
+                      }
                       className="h-8 w-8 hover:bg-accent"
                     >
                       <Eye className="h-4 w-4" />
@@ -253,28 +293,40 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious 
+                <PaginationPrevious
                   onClick={() => onPageChange?.(Math.max(1, currentPage - 1))}
-                  className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  className={
+                    currentPage <= 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
-              
-              {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    onClick={() => onPageChange?.(page)}
-                    isActive={page === currentPage}
-                    className="cursor-pointer"
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              
+
+              {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => onPageChange?.(page)}
+                      isActive={page === currentPage}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+
               <PaginationItem>
-                <PaginationNext 
-                  onClick={() => onPageChange?.(Math.min(pagination.pages, currentPage + 1))}
-                  className={currentPage >= pagination.pages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                <PaginationNext
+                  onClick={() =>
+                    onPageChange?.(Math.min(pagination.pages, currentPage + 1))
+                  }
+                  className={
+                    currentPage >= pagination.pages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
             </PaginationContent>
@@ -287,30 +339,51 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {isBulkDelete ? 'Delete Groups' : 'Delete Group'}
+              {isBulkDelete
+                ? t("dialog.deleteGroupsTitle")
+                : t("dialog.deleteGroupTitle")}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {isBulkDelete 
-                ? `Are you sure you want to delete ${selectedGroups.length} selected group${selectedGroups.length > 1 ? 's' : ''}? This action cannot be undone and will remove the group${selectedGroups.length > 1 ? 's' : ''} from all associated listings.`
-                : `Are you sure you want to delete the group "${groupToDelete?.groupName}"? This action cannot be undone and will remove the group from all associated listings.`
+              {
+                isBulkDelete
+                  ? selectedGroups.length > 1
+                    ? t("dialog.deleteGroupsDescription_plural", {
+                        count: selectedGroups.length,
+                      })
+                    : t("dialog.deleteGroupsDescription", {
+                        count: selectedGroups.length,
+                      })
+                  : // `Are you sure you want to delete ${
+                    //     selectedGroups.length
+                    //   } selected group${
+                    //     selectedGroups.length > 1 ? "s" : ""
+                    //   }? This action cannot be undone and will remove the group${
+                    //     selectedGroups.length > 1 ? "s" : ""
+                    //   } from all associated listings.`
+                    t("dialog.deleteGroupDescription", {
+                      name: groupToDelete?.groupName,
+                    })
+                //  `Are you sure you want to delete the group "${groupToDelete?.groupName}"? This action cannot be undone and will remove the group from all associated listings.`
               }
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancelDelete}>
-              Cancel
+              {t("dialog.cancel")}
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleConfirmDelete}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting 
-                ? 'Deleting...' 
-                : isBulkDelete 
-                  ? `Delete ${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''}` 
-                  : 'Delete Group'
-              }
+              {isDeleting
+                ? t("dialog.deleting")
+                : isBulkDelete
+                ? t("dialog.delete_plural", { count: selectedGroups.length })
+                : // `Delete ${selectedGroups.length} Group${
+                  //     selectedGroups.length > 1 ? "s" : ""
+                  //   }`
+                  t("dialog.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

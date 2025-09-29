@@ -8,7 +8,7 @@
       "description": "Give your report project a name and select locations.",
       "reportTitleLabel": "Report title",
       "reportTitlePlaceholder": "Enter report title...",
-      "locationsSelected": "{count} locations selected"
+      "locationsSelected": "{{count}} locations selected"
     },
 
     "reportTypes": {

@@ -1,0 +1,33 @@
+{
+  "title": {
+    "create": "Create",
+    "manage": "Manage",
+    "ratingOnly": "Rating Only",
+    "review": "Review"
+  },
+  "availableVariables": "Available Variables",
+  "variables": {
+    "fullName": "{full_name}",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "businessName": "{business_name}",
+    "reviewContent": "{review_content}"
+  },
+  "multipleResponses": {
+    "title": "Multiple Responses",
+    "description": "Use a pipe symbol to separate multiple response variations.",
+    "example": "Response 1 | Response 2 | Response 3"
+  },
+  "templateContent": "Template Content",
+  "placeholder": {
+    "ratingOnly": "Enter response for rating-only reviews...",
+    "review": "Enter response template for reviews with comments..."
+  },
+  "usageInfo": "This template will be used for {{stars}}-star {{type}} responses.",
+  "buttons": {
+    "cancel": "Cancel",
+    "createTemplate": "Create Template",
+    "saveChanges": "Save Changes",
+    "saving": "Saving..."
+  }
+}

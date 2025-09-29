@@ -1,14 +1,14 @@
-import React from 'react';
-import { Trash2, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
+import React from "react";
+import { Trash2, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Pagination,
   PaginationContent,
@@ -16,7 +16,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from "@/components/ui/pagination";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,8 +27,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { AutoReplyProject } from '@/store/slices/autoReplySlice';
+} from "@/components/ui/alert-dialog";
+import { AutoReplyProject } from "@/store/slices/autoReplySlice";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export interface BulkAutoReplyTableProps {
   projects: AutoReplyProject[];
@@ -53,15 +54,16 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
   pageSize,
   onPageChange,
   onDeleteProject,
-  onViewProject
+  onViewProject,
 }) => {
+  const { t } = useI18nNamespace("BulkAutoReply/bulkAutoReplyTable");
   const startItem = (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-muted-foreground">Loading projects...</div>
+        <div className="text-muted-foreground">{t("loading")}</div>
       </div>
     );
   }
@@ -69,7 +71,9 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
   if (error) {
     return (
       <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-        <p className="text-destructive">Error: {error}</p>
+        <p className="text-destructive">
+          {t("error")}: {error}
+        </p>
       </div>
     );
   }
@@ -80,19 +84,24 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Project Name</TableHead>
-            <TableHead>No. of Locations</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Response Type</TableHead>
-            <TableHead>Created Date</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>{t("tableHeaders.projectName")}</TableHead>
+            <TableHead>{t("tableHeaders.locations")}</TableHead>
+            <TableHead>{t("tableHeaders.status")}</TableHead>
+            <TableHead>{t("tableHeaders.responseType")}</TableHead>
+            <TableHead>{t("tableHeaders.createdDate")}</TableHead>
+            <TableHead className="text-right">
+              {t("tableHeaders.actions")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {!Array.isArray(projects) || projects.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                No auto reply projects found.
+              <TableCell
+                colSpan={6}
+                className="text-center py-8 text-muted-foreground"
+              >
+                {t("noProjects")}
               </TableCell>
             </TableRow>
           ) : (
@@ -102,14 +111,17 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                   {project.project_name}
                 </TableCell>
                 <TableCell>
-                  {project.listing_count} {project.listing_count === 1 ? 'location' : 'locations'}
+                  {project.listing_count}{" "}
+                  {project.listing_count === 1 ? t("location") : t("locations")}
                 </TableCell>
                 <TableCell>
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    project.status === 'Active' 
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                  }`}>
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      project.status === "Active"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                    }`}
+                  >
                     {project.status}
                   </span>
                 </TableCell>
@@ -118,14 +130,12 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                     {project.setting_type}
                   </span>
                 </TableCell>
-                <TableCell>
-                  {project.created_at}
-                </TableCell>
+                <TableCell>{project.created_at}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onViewProject(project.id)}
                       className="text-primary hover:text-primary"
                     >
@@ -133,24 +143,35 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-destructive hover:text-destructive"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Auto Reply Project</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            {t("deleteTitle")}
+                          </AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete "{project.project_name}"? This action cannot be undone.
+                            {t("deleteDescription", {
+                              projectName: project.project_name,
+                            })}
+                            {/* Are you sure you want to delete "
+                            {project.project_name}"? This action cannot be
+                            undone. */}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => onDeleteProject(project.id)}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                           >
-                            Delete
+                            {t("delete")}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -167,33 +188,52 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
       {totalPages > 1 && (
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm text-muted-foreground">
-            Showing {startItem} to {endItem} of {totalItems} projects
+            {t("paginationInfo", {
+              start: startItem,
+              end: endItem,
+              total: totalItems,
+            })}
+            {/* Showing {startItem} to {endItem} of {totalItems} projects */}
           </p>
           <Pagination className="d-flex justify-end">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious 
-                  onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                <PaginationPrevious
+                  onClick={() =>
+                    currentPage > 1 && onPageChange(currentPage - 1)
+                  }
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
-              
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    onClick={() => onPageChange(page)}
-                    isActive={page === currentPage}
-                    className="cursor-pointer"
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => onPageChange(page)}
+                      isActive={page === currentPage}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+
               <PaginationItem>
-                <PaginationNext 
-                  onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                <PaginationNext
+                  onClick={() =>
+                    currentPage < totalPages && onPageChange(currentPage + 1)
+                  }
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
             </PaginationContent>

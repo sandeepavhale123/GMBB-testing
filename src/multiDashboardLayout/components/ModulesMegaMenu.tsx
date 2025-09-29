@@ -5,38 +5,40 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { profileService } from "@/services/profileService";
 import { useLocation } from "react-router-dom";
-
-const modules = [
-  {
-    name: "Manage GMB listing",
-    description: "Manage your Google My Business listings",
-    icon: Grid3X3,
-    href: "/main-dashboard",
-  },
-  {
-    name: "GRO Ranking",
-    description: "Track and optimize your local search rankings",
-    icon: TrendingUp,
-    href: "/module/geo-ranking",
-  },
-  {
-    name: "Lead Management",
-    description: "Manage and track your leads effectively",
-    icon: Users,
-    href: "#",
-    comingSoon: true,
-  },
-  {
-    name: "Reputation",
-    description: "Monitor and manage your online reputation",
-    icon: Star,
-    href: "#",
-    comingSoon: true,
-  },
-  
-];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ModulesMegaMenu: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardComponent/modulesMegaMenu");
+
+  const modules = [
+    {
+      name: t("modules.manageGmb.name"),
+      description: t("modules.manageGmb.description"),
+      icon: Grid3X3,
+      href: "/main-dashboard",
+    },
+    {
+      name: t("modules.geoRanking.name"),
+      description: t("modules.geoRanking.description"),
+      icon: TrendingUp,
+      href: "/module/geo-ranking",
+    },
+    {
+      name: t("modules.leadManagement.name"),
+      description: t("modules.leadManagement.description"),
+      icon: Users,
+      href: "#",
+      comingSoon: true,
+    },
+    {
+      name: t("modules.reputation.name"),
+      description: t("modules.reputation.description"),
+      icon: Star,
+      href: "#",
+      comingSoon: true,
+    },
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
   const [dashboardType, setDashboardType] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -68,13 +70,11 @@ export const ModulesMegaMenu: React.FC = () => {
     // Only show GMB listing if dashboardType is 0 or 1
     if (dashboardType === 0 || dashboardType === 1) {
       const gmbModule = {
-        name: "Manage GMB listing",
-        description: "Manage your Google My Business listings",
+        name: t("modules.manageGmb.name"),
+        description: t("modules.manageGmb.description"),
         icon: Grid3X3,
         href:
-          dashboardType === 0
-            ? "/location-dashboard/id"
-            : "/main-dashboard",
+          dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
         comingSoon: false,
       };
       return [gmbModule, ...baseModules];
@@ -118,8 +118,10 @@ export const ModulesMegaMenu: React.FC = () => {
         >
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-foreground">Modules</h3>
-             
+              <h3 className="text-sm font-medium text-foreground">
+                {" "}
+                {t("title")}
+              </h3>
             </div>
             <div className="space-y-2">
               {getFilteredModules().map((module) => {
@@ -131,24 +133,28 @@ export const ModulesMegaMenu: React.FC = () => {
                     href={module.href}
                     className={cn(
                       "flex items-start gap-3 p-3 rounded-md transition-colors group",
-                      isActive 
-                        ? "bg-primary text-primary-foreground" 
+                      isActive
+                        ? "bg-primary text-primary-foreground"
                         : "hover:bg-primary hover:text-primary-foreground"
                     )}
                     onClick={() => setIsOpen(false)}
                   >
-                    <div className={cn(
-                      "flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center",
-                      isActive 
-                        ? "bg-primary-foreground/20" 
-                        : "bg-primary/10 group-hover:bg-primary-foreground/20"
-                    )}>
-                      <IconComponent className={cn(
-                        "w-4 h-4",
-                        isActive 
-                          ? "text-primary-foreground" 
-                          : "text-primary group-hover:text-primary-foreground"
-                      )} />
+                    <div
+                      className={cn(
+                        "flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center",
+                        isActive
+                          ? "bg-primary-foreground/20"
+                          : "bg-primary/10 group-hover:bg-primary-foreground/20"
+                      )}
+                    >
+                      <IconComponent
+                        className={cn(
+                          "w-4 h-4",
+                          isActive
+                            ? "text-primary-foreground"
+                            : "text-primary group-hover:text-primary-foreground"
+                        )}
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
@@ -158,16 +164,18 @@ export const ModulesMegaMenu: React.FC = () => {
                             variant="secondary"
                             className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
                           >
-                            Coming Soon
+                            {t("comingSoon")}
                           </Badge>
                         )}
                       </div>
-                      <div className={cn(
-                        "text-xs mt-1",
-                        isActive 
-                          ? "text-primary-foreground/80" 
-                          : "text-muted-foreground group-hover:text-primary-foreground/80"
-                      )}>
+                      <div
+                        className={cn(
+                          "text-xs mt-1",
+                          isActive
+                            ? "text-primary-foreground/80"
+                            : "text-muted-foreground group-hover:text-primary-foreground/80"
+                        )}
+                      >
                         {module.description}
                       </div>
                     </div>

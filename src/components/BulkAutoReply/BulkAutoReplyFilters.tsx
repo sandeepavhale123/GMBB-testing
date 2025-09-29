@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Search, Filter, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { useState } from "react";
+import { Search, Filter, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export interface BulkAutoReplyFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
@@ -18,18 +19,19 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
   searchQuery,
   onSearchChange,
   selectedFilter,
-  onFilterChange
+  onFilterChange,
 }) => {
+  const { t } = useI18nNamespace("BulkAutoReply/bulkAutoReplyFilters");
   const filterOptions = [
-    { value: 'all', label: 'All Responses' },
-    { value: 'ai', label: 'AI' },
-    { value: 'template', label: 'Custom Template' },
-    { value: 'dnr', label: 'DNR (Do not response)' }
+    { value: "all", label: t("filters.all") },
+    { value: "ai", label: t("filters.ai") },
+    { value: "template", label: t("filters.template") },
+    { value: "dnr", label: t("filters.dnr") },
   ];
 
   const getSelectedLabel = () => {
-    const option = filterOptions.find(opt => opt.value === selectedFilter);
-    return option ? option.label : 'Filter';
+    const option = filterOptions.find((opt) => opt.value === selectedFilter);
+    return option ? option.label : "Filter";
   };
 
   return (
@@ -37,11 +39,11 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
       {/* Search Bar */}
       <div className="relative flex-1 min-w-[300px]">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input 
-          placeholder="Search projects..." 
-          value={searchQuery} 
-          onChange={(e) => onSearchChange(e.target.value)} 
-          className="pl-10 flex-1" 
+        <Input
+          placeholder={t("searchPlaceholder")}
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="pl-10 flex-1"
         />
       </div>
 
@@ -54,8 +56,8 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
             <ChevronDown className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent 
-          align="end" 
+        <DropdownMenuContent
+          align="end"
           className="w-56 bg-white border shadow-lg z-50"
         >
           {filterOptions.map((option) => (

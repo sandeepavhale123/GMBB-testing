@@ -15,8 +15,10 @@ import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { fetchBulkReviewStats } from "../../store/slices/reviews/thunks";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const BulkReviewSummary: React.FC = () => {
+  const { t } = useI18nNamespace("BulkReview/bulkReviewSummary");
   const dispatch = useAppDispatch();
   const {
     summaryCards,
@@ -37,14 +39,14 @@ export const BulkReviewSummary: React.FC = () => {
         <CardContent className="p-6">
           <div className="flex items-center justify-center space-x-2 text-destructive">
             <AlertCircle className="h-5 w-5" />
-            <span>Error loading summary data</span>
+            <span>{t("error.message")}</span>
           </div>
           <div className="mt-4 text-center">
             <Button
               variant="outline"
               onClick={() => dispatch(fetchBulkReviewStats())}
             >
-              Retry
+              {t("error.retry")}
             </Button>
           </div>
         </CardContent>
@@ -105,7 +107,7 @@ export const BulkReviewSummary: React.FC = () => {
   // Activity data for doughnut chart
   const activityData = [
     {
-      name: "AI Replies",
+      name: t("stats.aiReplies"),
       value: summaryCards.ai_replies,
       color: "#10B981",
       percentage: Math.round(
@@ -117,7 +119,7 @@ export const BulkReviewSummary: React.FC = () => {
       ),
     },
     {
-      name: "Manual Replies",
+      name: t("stats.manualReplies"),
       value: summaryCards.manual_replies,
       color: "#8B5CF6",
       percentage: Math.round(
@@ -129,7 +131,7 @@ export const BulkReviewSummary: React.FC = () => {
       ),
     },
     {
-      name: "Pending",
+      name: t("activitySummary.pending"),
       value: summaryCards.pending_replies,
       color: "#F59E0B",
       percentage: Math.round(
@@ -173,28 +175,28 @@ export const BulkReviewSummary: React.FC = () => {
   // Stats data for the summary cards
   const stats = [
     {
-      title: "Total Reviews",
+      title: t("stats.totalReviews"),
       value: summaryCards.total_reviews.toString(),
       icon: MessageSquare,
       color: "text-blue-600",
       bgColor: "bg-blue-100",
     },
     {
-      title: "Pending Replies",
+      title: t("stats.pendingReplies"),
       value: summaryCards.pending_replies.toString(),
       icon: Clock,
       color: "text-orange-600",
       bgColor: "bg-orange-100",
     },
     {
-      title: "AI Replies",
+      title: t("stats.aiReplies"),
       value: summaryCards.ai_replies.toString(),
       icon: Bot,
       color: "text-green-600",
       bgColor: "bg-green-100",
     },
     {
-      title: "Manual Replies",
+      title: t("stats.manualReplies"),
       value: summaryCards.manual_replies.toString(),
       icon: User,
       color: "text-purple-600",
@@ -234,7 +236,7 @@ export const BulkReviewSummary: React.FC = () => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-muted-foreground">
-              Overall Rating
+              {t("overallRating.title")}
             </p>
             <div className="p-2 rounded-lg bg-yellow-100 flex-shrink-0">
               <Star className="w-5 h-5 text-yellow-600" />
@@ -250,7 +252,10 @@ export const BulkReviewSummary: React.FC = () => {
               {renderStars(summaryCards.overall_rating)}
             </div>
             <p className="text-sm text-muted-foreground">
-              {summaryCards.total_reviews} reviews across all listings
+              {t("overallRating.reviewsAcross", {
+                count: summaryCards.total_reviews,
+              })}
+              {/* {summaryCards.total_reviews} reviews across all listings */}
             </p>
           </div>
 
@@ -281,7 +286,7 @@ export const BulkReviewSummary: React.FC = () => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-muted-foreground">
-              Activity Summary
+              {t("activitySummary.title")}
             </p>
             <div className="p-2 rounded-lg bg-green-100 flex-shrink-0">
               <TrendingUp className="w-5 h-5 text-green-600" />
@@ -322,7 +327,7 @@ export const BulkReviewSummary: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500" />
                   <span className="text-sm text-muted-foreground">
-                    AI Responses
+                    {t("activitySummary.aiResponses")}
                   </span>
                 </div>
                 <span className="text-sm font-medium">
@@ -334,7 +339,7 @@ export const BulkReviewSummary: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-purple-500" />
                   <span className="text-sm text-muted-foreground">
-                    Manual Responses
+                    {t("activitySummary.manualResponses")}
                   </span>
                 </div>
                 <span className="text-sm font-medium">
@@ -345,7 +350,9 @@ export const BulkReviewSummary: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-orange-500" />
-                  <span className="text-sm text-muted-foreground">Pending</span>
+                  <span className="text-sm text-muted-foreground">
+                    {t("activitySummary.pending")}
+                  </span>
                 </div>
                 <span className="text-sm font-medium">
                   {summaryCards.pending_replies} ({activityData[2].percentage}%)

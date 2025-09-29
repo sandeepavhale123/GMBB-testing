@@ -1,0 +1,32 @@
+{
+  "searchPlaceholder": "Search locations...",
+  "addLocationButton": "Add Location",
+  "table": {
+    "locationName": "Location Name",
+    "zipCode": "Zip Code",
+    "action": "Action",
+    "noLocations": "No locations found"
+  },
+  "removeLocation": {
+    "title": "Remove Location",
+    "description": "Are you sure you want to remove \"{{locationName}}\" from this project? This action cannot be undone.",
+    "cancel": "Cancel",
+    "remove": "Remove"
+  },
+  "toast": {
+    "successTitle":"Success",
+    "errorTitle":"Error",
+    "errorProjectId": "Project ID is required to delete listing",
+    "successDelete": "Listing removed from project successfully",
+    "errorDelete": "Failed to remove listing from project",
+    "errorAdd": "Please select at least one listing to add",
+    "successAdd": "{{count}} listing(s) added to project successfully",
+    "errorAddFailed": "Failed to add listings to project"
+  },
+  "addListingsModal": {
+    "title": "Add Listings to Project",
+    "cancel": "Cancel",
+    "addSelected": "Add Selected ({{count}})",
+    "adding": "Adding..."
+  }
+}

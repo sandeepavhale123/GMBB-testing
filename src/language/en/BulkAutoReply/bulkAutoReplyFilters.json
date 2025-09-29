@@ -1,0 +1,10 @@
+{
+  "searchPlaceholder": "Search projects...",
+  "filter": "Filter",
+  "filters": {
+    "all": "All Responses",
+    "ai": "AI",
+    "template": "Custom Template",
+    "dnr": "DNR (Do not response)"
+  }
+}

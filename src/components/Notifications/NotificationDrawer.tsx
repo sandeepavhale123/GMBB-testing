@@ -7,6 +7,7 @@ import { useNotifications } from "@/context/NotificationContext";
 import { NotificationCard } from "./NotificationCard";
 import { cn } from "@/lib/utils";
 import path from "path";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const NotificationDrawer: React.FC = () => {
   const {
@@ -21,6 +22,7 @@ export const NotificationDrawer: React.FC = () => {
     fetchNotifications, // make sure context exports this
   } = useNotifications();
 
+  const { t } = useI18nNamespace("Notifications/notificationDrawer");
   const [showSearch, setShowSearch] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [newIds, setNewIds] = useState<string[]>([]);
@@ -116,7 +118,7 @@ export const NotificationDrawer: React.FC = () => {
       <SheetHeader className="border-b border-border p-4 space-y-4">
         <div className="flex items-center justify-between">
           <SheetTitle className="text-lg font-semibold">
-            Notifications
+            {t("title")}
           </SheetTitle>
           <div className="flex items-center gap-2 relative top-[-7px] right-5">
             <Button
@@ -139,7 +141,7 @@ export const NotificationDrawer: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search notifications..."
+              placeholder={t("searchPlaceholder")}
               className="h-9 text-sm"
               autoFocus
             />
@@ -159,9 +161,7 @@ export const NotificationDrawer: React.FC = () => {
         {filteredNotifications.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center h-32 text-center">
             <p className="text-muted-foreground">
-              {searchQuery
-                ? "No notifications match your search"
-                : "No notifications"}
+              {searchQuery ? t("noSearchResults") : t("noNotifications")}
             </p>
           </div>
         ) : (

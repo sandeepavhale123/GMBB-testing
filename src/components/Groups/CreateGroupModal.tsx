@@ -1,17 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { GroupListingSelector } from './GroupListingSelector';
-import { GroupsList, useCreateGroupMutation, useUpdateGroupMutation } from '@/api/listingsGroupsApi';
-import { toast } from '@/hooks/use-toast';
-import { useFormValidation } from '@/hooks/useFormValidation';
-import { z } from 'zod';
+import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { GroupListingSelector } from "./GroupListingSelector";
+import {
+  GroupsList,
+  useCreateGroupMutation,
+  useUpdateGroupMutation,
+} from "@/api/listingsGroupsApi";
+import { toast } from "@/hooks/use-toast";
+import { useFormValidation } from "@/hooks/useFormValidation";
+import { z } from "zod";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const createGroupSchema = z.object({
-  groupName: z.string().min(2, 'Group name must be at least 2 characters').max(50, 'Group name must be less than 50 characters'),
-  selectedListings: z.array(z.string()).min(1, 'Please select at least one listing')
+  groupName: z
+    .string()
+    .min(2, "Group name must be at least 2 characters")
+    .max(50, "Group name must be less than 50 characters"),
+  selectedListings: z
+    .array(z.string())
+    .min(1, "Please select at least one listing"),
 });
 
 interface CreateGroupModalProps {
@@ -25,15 +40,17 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   isOpen,
   onClose,
   onSuccess,
-  editingGroup
+  editingGroup,
 }) => {
-  const [groupName, setGroupName] = useState('');
+  const { t } = useI18nNamespace("Groups/createGroupModal");
+  const [groupName, setGroupName] = useState("");
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  
+
   const [createGroup, { isLoading: isCreating }] = useCreateGroupMutation();
   const [updateGroup, { isLoading: isUpdating }] = useUpdateGroupMutation();
 
-  const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(createGroupSchema);
+  const { validate, getFieldError, hasFieldError, clearErrors } =
+    useFormValidation(createGroupSchema);
 
   useEffect(() => {
     if (editingGroup) {
@@ -41,7 +58,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       // TODO: Load existing group's listings
       setSelectedListings([]);
     } else {
-      setGroupName('');
+      setGroupName("");
       setSelectedListings([]);
     }
     clearErrors();
@@ -49,10 +66,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const formData = {
       groupName,
-      selectedListings
+      selectedListings,
     };
 
     const validation = validate(formData);
@@ -66,35 +83,39 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         await updateGroup({
           groupId: editingGroup.id,
           groupName,
-          google_locid: selectedListings.map(id => parseInt(id, 10))
+          google_locid: selectedListings.map((id) => parseInt(id, 10)),
         }).unwrap();
         toast({
-          title: "Success",
-          description: "Group updated successfully"
+          title: t("toast.success"),
+          description: t("toast.groupUpdated"),
         });
       } else {
         // Create new group
         await createGroup({
           groupName,
-          google_locid: selectedListings.map(id => parseInt(id, 10))
+          google_locid: selectedListings.map((id) => parseInt(id, 10)),
         }).unwrap();
         toast({
-          title: "Success", 
-          description: "Group created successfully"
+          title: t("toast.success"),
+          description: t("toast.groupCreated"),
         });
       }
       onSuccess();
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error?.data?.message || `Failed to ${editingGroup ? 'update' : 'create'} group`,
-        variant: "destructive"
+        title: t("toast.error"),
+        description:
+          error?.data?.message ||
+          `Failed to ${
+            editingGroup ? t("toast.failedUpdate") : t("toast.failedCreate")
+          } group`,
+        variant: "destructive",
       });
     }
   };
 
   const handleClose = () => {
-    setGroupName('');
+    setGroupName("");
     setSelectedListings([]);
     clearErrors();
     onClose();
@@ -111,7 +132,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
-            {editingGroup ? 'Edit Group' : 'Create New Group'}
+            {editingGroup ? t("dialog.editTitle") : t("dialog.createTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -119,23 +140,23 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
           {/* Group Name Field */}
           <div className="space-y-2">
             <Label htmlFor="groupName" className="text-sm font-medium">
-              Group Name *
+              {t("form.groupNameLabel")}
             </Label>
             <Input
               id="groupName"
               type="text"
               value={groupName}
               onChange={(e) => {
-                console.log('Group name input changed:', e.target.value);
+                console.log("Group name input changed:", e.target.value);
                 setGroupName(e.target.value);
               }}
-              placeholder="Enter group name"
-              className={hasFieldError('groupName') ? 'border-destructive' : ''}
+              placeholder={t("form.groupNamePlaceholder")}
+              className={hasFieldError("groupName") ? "border-destructive" : ""}
               autoComplete="off"
             />
-            {hasFieldError('groupName') && (
+            {hasFieldError("groupName") && (
               <p className="text-xs text-destructive font-medium">
-                {getFieldError('groupName')}
+                {getFieldError("groupName")}
               </p>
             )}
           </div>
@@ -145,7 +166,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             <GroupListingSelector
               selectedListings={selectedListings}
               onListingsChange={setSelectedListings}
-              error={getFieldError('selectedListings')}
+              error={getFieldError("selectedListings")}
             />
           </div>
 
@@ -157,16 +178,16 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               onClick={handleClose}
               disabled={isCreating || isUpdating}
             >
-              Cancel
+              {t("actions.cancel")}
             </Button>
-            <Button
-              type="submit"
-              disabled={isCreating || isUpdating}
-            >
-              {(isCreating || isUpdating)
-                ? (editingGroup ? 'Updating...' : 'Creating...') 
-                : (editingGroup ? 'Update Group' : 'Create Group')
-              }
+            <Button type="submit" disabled={isCreating || isUpdating}>
+              {isCreating || isUpdating
+                ? editingGroup
+                  ? t("actions.updating")
+                  : t("actions.creating")
+                : editingGroup
+                ? t("actions.update")
+                : t("actions.create")}
             </Button>
           </div>
         </form>

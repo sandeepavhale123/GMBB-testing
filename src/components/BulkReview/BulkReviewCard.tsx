@@ -21,6 +21,7 @@ import {
 import { AIReplyGenerator } from "@/components/Reviews/AIReplyGenerator";
 import { ReviewReplyForm } from "@/components/Reviews/ReviewReplyForm";
 import { Review } from "@/services/reviewService";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface BulkReviewCardProps {
   review: Review;
   editingReply: string | null;
@@ -67,11 +68,7 @@ const getCustomerInitials = (name: string): string => {
     .toUpperCase()
     .slice(0, 2);
 };
-const getSentimentFromRating = (rating: number): string => {
-  if (rating >= 4) return "positive";
-  if (rating >= 3) return "neutral";
-  return "negative";
-};
+
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
@@ -92,6 +89,14 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
   onDeleteReply,
   onCancelAIGenerator,
 }) => {
+  const { t } = useI18nNamespace("BulkReview/bulkReviewCard");
+
+  const getSentimentFromRating = (rating: number): string => {
+    if (rating >= 4) return t("sentiment.positive");
+    if (rating >= 3) return t("sentiment.neutral");
+    return t("sentiment.negative");
+  };
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const sentiment = getSentimentFromRating(review.rating);
   const isEditing = editingReply === review.id;
@@ -166,7 +171,8 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
           </p>
           {review.reply_date && (
             <p className="text-xs text-muted-foreground mt-2">
-              Replied on {formatDate(review.reply_date)}
+              {t("review.repliedOn", { date: formatDate(review.reply_date) })}
+              {/* Replied on {formatDate(review.reply_date)} */}
             </p>
           )}
         </div>
@@ -214,16 +220,13 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                       disabled={isDNR || replyLoading}
                     >
                       <Bot className="w-4 h-4 mr-2" />
-                      Generate using Genie
+                      {t("actions.generateAI")}
                     </Button>
                   </span>
                 </TooltipTrigger>
                 {isDNR && (
                   <TooltipContent>
-                    <p>
-                      Response disabled — DNR (Do Not Respond) setting is active
-                      for this review.
-                    </p>
+                    <p>{t("tooltips.dnr")}</p>
                   </TooltipContent>
                 )}
               </Tooltip>
@@ -240,16 +243,13 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                       disabled={isDNR || replyLoading}
                     >
                       <MessageSquare className="w-4 h-4 mr-2" />
-                      Reply Manually
+                      {t("actions.replyManually")}
                     </Button>
                   </span>
                 </TooltipTrigger>
                 {isDNR && (
                   <TooltipContent>
-                    <p>
-                      Response disabled — DNR (Do Not Respond) setting is active
-                      for this review.
-                    </p>
+                    <p>{t("tooltips.dnr")}</p>
                   </TooltipContent>
                 )}
               </Tooltip>
@@ -266,7 +266,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
               disabled={replyLoading}
             >
               <Edit className="w-4 h-4 mr-2" />
-              Edit Reply
+              {t("actions.editReply")}
             </Button>
 
             <AlertDialog
@@ -282,24 +282,27 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                   disabled={deleteLoading}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
-                  Delete Reply
+                  {t("actions.deleteReply")}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Reply</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    {t("dialogs.deleteReply.title")}
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this reply? This action
-                    cannot be undone.
+                    {t("dialogs.deleteReply.description")}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>
+                    {t("dialogs.deleteReply.cancel")}
+                  </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleDeleteConfirm}
                     className="bg-red-600 hover:bg-red-700"
                   >
-                    Delete
+                    {t("dialogs.deleteReply.confirm")}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

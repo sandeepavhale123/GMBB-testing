@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { AvailableGroupListingSelector } from './AvailableGroupListingSelector';
-import { useUpdateGroupListingsMutation } from '@/api/listingsGroupsApi';
-import { toast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { AvailableGroupListingSelector } from "./AvailableGroupListingSelector";
+import { useUpdateGroupListingsMutation } from "@/api/listingsGroupsApi";
+import { toast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AddListingToGroupModalProps {
   isOpen: boolean;
@@ -19,18 +25,19 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
   onClose,
   groupId,
   groupName,
-  onSuccess
+  onSuccess,
 }) => {
+  const { t } = useI18nNamespace("Groups/addListingToGroup");
   const [selectedListings, setSelectedListings] = useState<number[]>([]);
   const [updateGroupListings, { isLoading }] = useUpdateGroupListingsMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (selectedListings.length === 0) {
       toast.error({
-        title: 'No listings selected',
-        description: 'Please select at least one listing to add to the group.',
+        title: t("noListingsTitle"),
+        description: t("noListingsDescription"),
       });
       return;
     }
@@ -38,25 +45,35 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
     try {
       const response = await updateGroupListings({
         groupId,
-        google_locid: selectedListings
+        google_locid: selectedListings,
       }).unwrap();
 
       if (response.code === 200) {
         toast.success({
-          title: 'Success',
-          description: `Successfully added ${selectedListings.length} listing${selectedListings.length !== 1 ? 's' : ''} to ${groupName}. Total listings: ${response.data.totalListings}`,
+          title: t("successTitle"),
+          description: t("successDescription", {
+            count: selectedListings.length,
+            plural: selectedListings.length !== 1 ? "s" : "",
+            groupName,
+            total: response.data.totalListings,
+          }),
+
+          //   `Successfully added ${selectedListings.length} listing${
+          //     selectedListings.length !== 1 ? "s" : ""
+          //   } to ${groupName}. Total listings: ${response.data.totalListings}`,
         });
         onSuccess();
         onClose();
         setSelectedListings([]);
       } else {
-        throw new Error(response.message || 'Failed to update group listings');
+        throw new Error(response.message || t("errorDescription"));
       }
     } catch (error: any) {
-      console.error('Error adding listings to group:', error);
+      console.error("Error adding listings to group:", error);
       toast.error({
-        title: 'Error',
-        description: error.data?.message || error.message || 'Failed to add listings to group. Please try again.',
+        title: t("errorTitle"),
+        description:
+          error.data?.message || error.message || t("errorDescription"),
       });
     }
   };
@@ -72,7 +89,7 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[700px] bg-background border shadow-xl z-50">
         <DialogHeader>
-          <DialogTitle>Add Listings to {groupName}</DialogTitle>
+          <DialogTitle> {t("title", { groupName })}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <AvailableGroupListingSelector
@@ -88,7 +105,7 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
@@ -98,10 +115,16 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Adding...
+                  {t("adding")}
                 </>
               ) : (
-                `Add ${selectedListings.length} Listing${selectedListings.length !== 1 ? 's' : ''}`
+                t("addListings", {
+                  count: selectedListings.length,
+                  plural: selectedListings.length !== 1 ? "s" : "",
+                })
+                // `Add ${selectedListings.length} Listing${
+                //   selectedListings.length !== 1 ? "s" : ""
+                // }`
               )}
             </Button>
           </div>

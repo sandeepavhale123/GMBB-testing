@@ -10,8 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const Header: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardComponent/header");
   const logoData = useThemeLogo();
   const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
@@ -64,7 +66,11 @@ export const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Left Section - Logo */}
           <div className="flex items-center gap-3">
-            <img src={logoData.darkLogo} alt="Logo" className="h-10 w-auto" />
+            <img
+              src={logoData.darkLogo}
+              alt={t("alt.logo")}
+              className="h-10 w-auto"
+            />
           </div>
 
           {/* Right Section - Action Buttons */}
@@ -75,7 +81,9 @@ export const Header: React.FC = () => {
               className="bg-white text-foreground hover:bg-gray-50"
               onClick={() => (window.location.href = getBackToOldVersionUrl())}
             >
-              <span className="hidden md:block ml-1">Back to old version </span>
+              <span className="hidden md:block ml-1">
+                {t("buttons.backToOldVersion")}{" "}
+              </span>
               <ExternalLink className="w-4 h-4" />
             </Button>
 

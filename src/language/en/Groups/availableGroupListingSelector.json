@@ -1,0 +1,20 @@
+{
+  "label": "Available Listings",
+  "dropdown": {
+    "noneSelected": "Select listings",
+    "selectedCount": "{{count}} listing{{plural}} selected"
+  },
+  "searchPlaceholder": "Search listings...",
+  "loading": "Loading...",
+  "noResults": {
+    "default": "No available listings to add.",
+    "search": "No listings found.",
+    "error": "{{errorMessage}}"
+  },
+  "selectAll": "Select All ({{count}})",
+  "deselectAll": "Deselect All ({{count}})",
+  "listingsCount": "{{count}} listing{{plural}}",
+  "zip": "Zip: {{zipCode}}",
+  "footerNote": "Select at least one listing to add to the group",
+  "unknownUser": "Unknown"
+}

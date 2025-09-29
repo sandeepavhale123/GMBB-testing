@@ -1,0 +1,12 @@
+{
+  "title": "Add Listings to {{groupName}}",
+  "noListingsTitle": "No listings selected",
+  "noListingsDescription": "Please select at least one listing to add to the group.",
+  "successTitle": "Success",
+  "successDescription": "Successfully added {{count}} listing{{plural}} to {{groupName}}. Total listings: {{total}}",
+  "errorTitle": "Error",
+  "errorDescription": "Failed to add listings to group. Please try again.",
+  "cancel": "Cancel",
+  "adding": "Adding...",
+  "addListings": "Add {{count}} Listing{{plural}}"
+}
