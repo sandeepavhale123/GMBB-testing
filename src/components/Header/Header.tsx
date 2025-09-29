@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { toggleTheme } from '../../store/slices/themeSlice';
 import { BusinessListingSelector } from './BusinessListingSelector';
+import { MobileBusinessSelector } from './MobileBusinessSelector';
 import { UserProfileDropdown } from './UserProfileDropdown';
 import { PageTitle } from './PageTitle';
 import { PageBreadcrumb } from './PageBreadcrumb';
@@ -49,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
             )
           }
           <BusinessListingSelector />
+          <MobileBusinessSelector />
           <HeaderModulesMegaMenu />
           <HeaderNotificationsMegaMenu />
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
