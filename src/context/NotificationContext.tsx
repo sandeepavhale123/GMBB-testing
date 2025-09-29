@@ -319,9 +319,26 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error(
-      "useNotifications must be used within a NotificationProvider"
+    console.warn(
+      "useNotifications called outside of NotificationProvider; using no-op fallback."
     );
+    const fallback: NotificationContextType = {
+      notifications: [],
+      isDrawerOpen: false,
+      openDrawer: () => {},
+      closeDrawer: () => {},
+      toggleDrawer: () => {},
+      markAsRead: () => {},
+      unreadCount: 0,
+      searchQuery: "",
+      setSearchQuery: () => {},
+      loadNextPage: () => {},
+      resetNotifications: () => {},
+      isLoading: false,
+      hasMore: false,
+      fetchNotifications: async () => [],
+    };
+    return fallback;
   }
   return context;
 };
