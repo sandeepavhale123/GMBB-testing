@@ -710,7 +710,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               <SelectValue placeholder="-- Select Template --" />
             </SelectTrigger>
             <SelectContent className="z-[10000] bg-popover">
-              <SelectItem value="">-- Select Template --</SelectItem>
               {templates.map(template => (
                 <SelectItem 
                   key={template.id} 
