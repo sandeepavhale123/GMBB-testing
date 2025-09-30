@@ -340,10 +340,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {isBulkUpload ? "Upload Media to Multiple Listings" : "Upload Media"}
                     </DialogTitle>
                     <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" onClick={() => setIsExifSheetOpen(v => !v)} className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105">
+                      {/* <Button variant="outline" size="sm" onClick={() => setIsExifSheetOpen(v => !v)} className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105">
                         <Settings2 className="h-3 w-3" />
                         {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
-                      </Button>
+                      </Button> */}
                       <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 w-8 p-0">
                         <X className="h-4 w-4" />
                       </Button>
