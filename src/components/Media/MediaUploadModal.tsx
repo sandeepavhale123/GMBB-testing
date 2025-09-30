@@ -343,7 +343,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {/* <Button variant="outline" size="sm" onClick={() => setIsExifSheetOpen(v => !v)} className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105">
                         <Settings2 className="h-3 w-3" />
                         {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
-                      </Button> */}
+                       </Button> */}
                       <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 w-8 p-0">
                         <X className="h-4 w-4" />
                       </Button>
@@ -436,18 +436,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </div>
 
                   <div className="p-4 md:p-6 pb-0 overflow-y-auto flex-1">
-                    <ExifEditorContent 
-                      exifData={exifData} 
-                      imageUrl={file?.url}
-                      onSave={data => {
-                        setExifData(data);
-                        toast({
-                          title: "EXIF Data Updated",
-                          description: "Metadata has been updated successfully."
-                        });
-                      }} 
-                      onClose={() => setIsExifSheetOpen(false)} 
-                    />
+                    <ExifEditorContent exifData={exifData} imageUrl={file?.url} onSave={data => {
+                  setExifData(data);
+                  toast({
+                    title: "EXIF Data Updated",
+                    description: "Metadata has been updated successfully."
+                  });
+                }} onClose={() => setIsExifSheetOpen(false)} />
                   </div>
                 </div>}
             </div>
@@ -489,25 +484,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   return <div className="space-y-6">
       {/* Row 1: Image Preview + Template Selector */}
       <div className="flex items-start gap-4">
-        {imageUrl && (
-          <div className="flex-shrink-0">
-            <img 
-              src={imageUrl} 
-              alt="Preview" 
-              className="w-[100px] h-[100px] object-cover rounded-lg border border-border"
-            />
-          </div>
-        )}
+        {imageUrl && <div className="flex-shrink-0">
+            <img src={imageUrl} alt="Preview" className="w-[100px] h-[100px] object-cover rounded-lg border border-border" />
+          </div>}
         <div className="flex-1 space-y-2">
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
-          <select
-            id="template"
-            value={localData.template || "default"}
-            onChange={e => handleChange("template", e.target.value)}
-            className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
+          <select id="template" value={localData.template || "default"} onChange={e => handleChange("template", e.target.value)} className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
             <option value="default">Default Template</option>
             <option value="professional">Professional</option>
             <option value="creative">Creative</option>
