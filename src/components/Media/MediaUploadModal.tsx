@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { X } from "lucide-react";
+import { X, Settings2 } from "lucide-react";
 import { MediaDropzone } from "./MediaDropzone";
 import { MediaPreview } from "./MediaPreview";
 import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
+import { ExifEditorSheet } from "./ExifEditorSheet";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
 import { uploadMedia, createBulkMedia } from "../../api/mediaApi";
@@ -47,12 +48,29 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
+  const [isExifSheetOpen, setIsExifSheetOpen] = useState(false);
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     category: "",
     publishOption: "now",
     scheduleDate: "",
+  });
+  const [exifData, setExifData] = useState({
+    camera: "",
+    lens: "",
+    focalLength: "",
+    iso: "",
+    aperture: "",
+    shutterSpeed: "",
+    exposureCompensation: "",
+    captureDate: "",
+    captureTime: "",
+    gpsLatitude: "",
+    gpsLongitude: "",
+    fileSize: "",
+    dimensions: "",
+    colorSpace: "",
   });
   const { selectedListing } = useListingContext();
   const { selectedMedia, clearSelection } = useMediaContext();
@@ -403,15 +421,28 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       <h3 className="text-lg font-semibold text-gray-900">
                         Media Preview
                       </h3>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Type:</span>
-                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
-                          {file.selectedImage === "ai"
-                            ? "AI IMAGE"
-                            : file.selectedImage === "gallery"
-                            ? "GALLERY IMAGE"
-                            : file.type.toUpperCase()}
-                        </span>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-gray-500">Type:</span>
+                          <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
+                            {file.selectedImage === "ai"
+                              ? "AI IMAGE"
+                              : file.selectedImage === "gallery"
+                              ? "GALLERY IMAGE"
+                              : file.type.toUpperCase()}
+                          </span>
+                        </div>
+                        {file.type === "image" && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setIsExifSheetOpen(true)}
+                            className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                          >
+                            <Settings2 className="h-3 w-3" />
+                            Edit EXIF
+                          </Button>
+                        )}
                       </div>
                     </div>
                     <div className="max-w-xs mx-auto">
@@ -458,6 +489,34 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         isOpen={showAIModal}
         onClose={() => setShowAIModal(false)}
         onGenerated={handleAIGenerated}
+      />
+
+      <ExifEditorSheet
+        isOpen={isExifSheetOpen}
+        onClose={() => setIsExifSheetOpen(false)}
+        exifData={exifData}
+        onSave={(data) => {
+          setExifData({
+            camera: data.camera || "",
+            lens: data.lens || "",
+            focalLength: data.focalLength || "",
+            iso: data.iso || "",
+            aperture: data.aperture || "",
+            shutterSpeed: data.shutterSpeed || "",
+            exposureCompensation: data.exposureCompensation || "",
+            captureDate: data.captureDate || "",
+            captureTime: data.captureTime || "",
+            gpsLatitude: data.gpsLatitude || "",
+            gpsLongitude: data.gpsLongitude || "",
+            fileSize: data.fileSize || "",
+            dimensions: data.dimensions || "",
+            colorSpace: data.colorSpace || "",
+          });
+          toast({
+            title: "EXIF Data Updated",
+            description: "Metadata has been updated successfully.",
+          });
+        }}
       />
     </>
   );
