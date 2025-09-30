@@ -333,7 +333,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           <div className="flex h-full overflow-hidden">
             {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
             <div className={`${isExifSheetOpen ? 'hidden lg:flex lg:w-1/2 lg:border-r lg:border-border' : 'w-full'} flex flex-col transition-all duration-300`}>
-              <div className="sticky top-0 bg-background z-10 border-b border-border">
+              <div className="sticky top-0 bg-background z-10 border-b border-border rounded-t-lg">
                 <DialogHeader className="p-6 pb-4">
                   <div className="flex items-center justify-between">
                     <DialogTitle className="text-2xl font-bold text-foreground">
