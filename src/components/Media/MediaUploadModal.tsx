@@ -685,12 +685,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   };
 
   const handleSave = () => {
-    if (selectedTemplate) {
-      // Template is selected, save with saveAs: 0
-      performSave(0, "");
+    if (newTemplateName.trim()) {
+      // Template name provided, save as new template
+      performSave(1, newTemplateName.trim());
     } else {
-      // No template selected, show confirmation dialog
-      setShowSaveDialog(true);
+      // No template name, just update EXIF
+      performSave(0, "");
     }
   };
   return <>
@@ -838,6 +838,27 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         )}
       </div>
 
+      <Separator />
+
+      {/* Save as Template Section */}
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="templateName" className="text-sm font-medium text-foreground">
+            Save as Template (Optional)
+          </Label>
+          <Input
+            id="templateName"
+            value={newTemplateName}
+            onChange={(e) => setNewTemplateName(e.target.value)}
+            placeholder="Enter template name to save for future use"
+            className="w-full"
+          />
+          <p className="text-xs text-muted-foreground">
+            Leave blank to only update EXIF data without saving as a template.
+          </p>
+        </div>
+      </div>
+
       {/* Action Buttons */}
       <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
         <Button variant="outline" onClick={onClose} disabled={isSaving}>
@@ -852,63 +873,11 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           ) : (
             <>
               <Save className="h-4 w-4" />
-              Save
+              {newTemplateName.trim() ? "Save & Create Template" : "Save"}
             </>
           )}
         </Button>
       </div>
     </div>
-
-    {/* Save Template Confirmation Dialog */}
-    <AlertDialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-      <AlertDialogContent className="z-[100]" data-allow-outside-interact>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 text-primary" />
-            Save as Template
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            Do you want to save this EXIF data as a template for future use?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <div className="py-4">
-          <Label htmlFor="templateName" className="text-sm font-medium">
-            Template Name
-          </Label>
-          <Input
-            id="templateName"
-            value={newTemplateName}
-            onChange={(e) => setNewTemplateName(e.target.value)}
-            placeholder="Enter template name"
-            className="mt-2"
-          />
-        </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => {
-            setShowSaveDialog(false);
-            setNewTemplateName("");
-            performSave(0, "");
-          }}>
-            Skip
-          </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              if (newTemplateName.trim()) {
-                performSave(1, newTemplateName.trim());
-              } else {
-                toast({
-                  title: "Error",
-                  description: "Please enter a template name",
-                  variant: "destructive"
-                });
-              }
-            }}
-            disabled={!newTemplateName.trim()}
-          >
-            Save Template
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
   </>;
 };
