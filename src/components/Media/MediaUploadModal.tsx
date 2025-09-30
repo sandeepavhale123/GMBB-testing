@@ -487,7 +487,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         {imageUrl && <div className="flex-shrink-0">
             <img src={imageUrl} alt="Preview" className="w-[100px] h-[100px] object-cover rounded-lg border border-border" />
           </div>}
-        <div className="flex-1 space-y-2 px-3 pb-3 bg-blue-100 rounded-lg ">
+        <div className="flex-1 space-y-2 px-3 pb-3 bg-blue-100 rounded-lg pt-1">
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
