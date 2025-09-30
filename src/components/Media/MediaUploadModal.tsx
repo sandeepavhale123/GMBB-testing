@@ -324,8 +324,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       <Dialog open={isOpen} onOpenChange={(open) => { /* Prevent automatic closing - only explicit close buttons work */ }}>
         <DialogContent 
           className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`}
-          onInteractOutside={(e) => e.preventDefault()}
-          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => {
+            const target = e.target as HTMLElement | null;
+            if (target && target.closest('[data-allow-outside-interact]')) return;
+            e.preventDefault();
+          }}
+          onPointerDownOutside={(e) => {
+            const target = e.target as HTMLElement | null;
+            if (target && target.closest('[data-allow-outside-interact]')) return;
+            e.preventDefault();
+          }}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
@@ -853,7 +861,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
     {/* Save Template Confirmation Dialog */}
     <AlertDialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-      <AlertDialogContent className="z-[100]">
+      <AlertDialogContent className="z-[100]" data-allow-outside-interact>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-primary" />
