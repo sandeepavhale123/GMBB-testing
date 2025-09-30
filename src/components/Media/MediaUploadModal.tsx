@@ -853,7 +853,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
     {/* Save Template Confirmation Dialog */}
     <AlertDialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-      <AlertDialogContent className="z-[60]">
+      <AlertDialogContent className="z-[100]">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-primary" />
