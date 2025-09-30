@@ -328,11 +328,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
   return <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] overflow-hidden p-0 transition-all duration-300`}>
+        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col`}>
           <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
-          <div className="flex h-full">
-            {/* Main Content Section */}
-            <div className={`${isExifSheetOpen ? 'w-1/2 border-r border-border' : 'w-full'} flex flex-col transition-all duration-300`}>
+          <div className="flex h-full overflow-hidden">
+            {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
+            <div className={`${isExifSheetOpen ? 'hidden lg:flex lg:w-1/2 lg:border-r lg:border-border' : 'w-full'} flex flex-col transition-all duration-300`}>
               <div className="sticky top-0 bg-background z-10 border-b border-border">
                 <DialogHeader className="p-6 pb-4">
                   <div className="flex items-center justify-between">
@@ -420,25 +420,25 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
               </div>
             </div>
 
-            {/* EXIF Editor Section - Slides in from right */}
-            <div className={`${isExifSheetOpen ? 'w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
-              {isExifSheetOpen && <div className="h-full bg-background animate-slide-in-right">
-                  <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4">
+            {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop */}
+            <div className={`${isExifSheetOpen ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
+              {isExifSheetOpen && <div className="h-full bg-background flex flex-col animate-slide-in-right">
+                  <div className="sticky top-0 bg-background z-10 border-b border-border p-4 md:p-6 pb-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Settings2 className="h-5 w-5 text-primary" />
-                        <h3 className="text-xl font-bold text-foreground">Edit EXIF Metadata</h3>
+                        <Settings2 className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                        <h3 className="text-lg md:text-xl font-bold text-foreground">Edit EXIF Metadata</h3>
                       </div>
                       <Button variant="ghost" size="sm" onClick={() => setIsExifSheetOpen(false)} className="h-8 w-8 p-0">
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-xs md:text-sm text-muted-foreground mt-2">
                       View and edit the metadata information for this image
                     </p>
                   </div>
 
-                  <div className="p-6 pb-0 overflow-y-auto h-[calc(90vh-110px)]">
+                  <div className="p-4 md:p-6 pb-0 overflow-y-auto flex-1">
                     <ExifEditorContent 
                       exifData={exifData} 
                       imageUrl={file?.url}
