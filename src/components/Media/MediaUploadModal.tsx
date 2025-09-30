@@ -58,20 +58,20 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     scheduleDate: ""
   });
   const [exifData, setExifData] = useState({
-    camera: "",
-    lens: "",
-    focalLength: "",
-    iso: "",
-    aperture: "",
-    shutterSpeed: "",
-    exposureCompensation: "",
-    captureDate: "",
-    captureTime: "",
+    name: "",
+    subject: "",
+    copyright: "",
+    title: "",
+    keyword: "",
+    author: "",
+    comment: "",
+    description: "",
     gpsLatitude: "",
     gpsLongitude: "",
-    fileSize: "",
-    dimensions: "",
-    colorSpace: ""
+    maker: "",
+    software: "",
+    model: "",
+    template: "default"
   });
   const {
     selectedListing
@@ -439,28 +439,18 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </div>
 
                   <div className="p-6 pb-0 overflow-y-auto h-[calc(90vh-110px)]">
-                    <ExifEditorContent exifData={exifData} onSave={data => {
-                  setExifData({
-                    camera: data.camera || "",
-                    lens: data.lens || "",
-                    focalLength: data.focalLength || "",
-                    iso: data.iso || "",
-                    aperture: data.aperture || "",
-                    shutterSpeed: data.shutterSpeed || "",
-                    exposureCompensation: data.exposureCompensation || "",
-                    captureDate: data.captureDate || "",
-                    captureTime: data.captureTime || "",
-                    gpsLatitude: data.gpsLatitude || "",
-                    gpsLongitude: data.gpsLongitude || "",
-                    fileSize: data.fileSize || "",
-                    dimensions: data.dimensions || "",
-                    colorSpace: data.colorSpace || ""
-                  });
-                  toast({
-                    title: "EXIF Data Updated",
-                    description: "Metadata has been updated successfully."
-                  });
-                }} onClose={() => setIsExifSheetOpen(false)} />
+                    <ExifEditorContent 
+                      exifData={exifData} 
+                      imageUrl={file?.url}
+                      onSave={data => {
+                        setExifData(data);
+                        toast({
+                          title: "EXIF Data Updated",
+                          description: "Metadata has been updated successfully."
+                        });
+                      }} 
+                      onClose={() => setIsExifSheetOpen(false)} 
+                    />
                   </div>
                 </div>}
             </div>
@@ -475,11 +465,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 // Extracted EXIF Editor Content Component
 interface ExifEditorContentProps {
   exifData: any;
+  imageUrl?: string;
   onSave: (data: any) => void;
   onClose: () => void;
 }
 const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   exifData,
+  imageUrl,
   onSave,
   onClose
 }) => {
@@ -498,163 +490,128 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     onClose();
   };
   return <div className="space-y-6">
-      {/* Camera Information */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Camera className="h-4 w-4 text-primary" />
-          Camera Information
-        </div>
-        <Separator />
-        
-        <div className="space-y-2">
-          <Label htmlFor="camera" className="text-xs text-muted-foreground">
-            Camera Model
+      {/* Row 1: Image Preview + Template Selector */}
+      <div className="flex items-start gap-4">
+        {imageUrl && (
+          <div className="flex-shrink-0">
+            <img 
+              src={imageUrl} 
+              alt="Preview" 
+              className="w-[100px] h-[100px] object-cover rounded-lg border border-border"
+            />
+          </div>
+        )}
+        <div className="flex-1 space-y-2">
+          <Label htmlFor="template" className="text-sm font-medium text-foreground">
+            Select Template
           </Label>
-          <Input id="camera" value={localData.camera || ""} onChange={e => handleChange("camera", e.target.value)} placeholder="e.g., Canon EOS R5" className="transition-all duration-200" />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="lens" className="text-xs text-muted-foreground">
-            Lens
-          </Label>
-          <Input id="lens" value={localData.lens || ""} onChange={e => handleChange("lens", e.target.value)} placeholder="e.g., RF 24-70mm f/2.8" className="transition-all duration-200" />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="focalLength" className="text-xs text-muted-foreground">
-            Focal Length
-          </Label>
-          <Input id="focalLength" value={localData.focalLength || ""} onChange={e => handleChange("focalLength", e.target.value)} placeholder="e.g., 50mm" className="transition-all duration-200" />
+          <select
+            id="template"
+            value={localData.template || "default"}
+            onChange={e => handleChange("template", e.target.value)}
+            className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <option value="default">Default Template</option>
+            <option value="professional">Professional</option>
+            <option value="creative">Creative</option>
+            <option value="minimal">Minimal</option>
+          </select>
         </div>
       </div>
 
-      {/* Exposure Settings */}
+      <Separator />
+
+      {/* Image Metadata Section */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Settings2 className="h-4 w-4 text-primary" />
-          Exposure Settings
-        </div>
-        <Separator />
-
-        <div className="grid grid-cols-2 gap-3">
+        <h3 className="text-sm font-semibold text-foreground">Image Metadata</h3>
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="iso" className="text-xs text-muted-foreground">
-              ISO
-            </Label>
-            <Input id="iso" value={localData.iso || ""} onChange={e => handleChange("iso", e.target.value)} placeholder="e.g., 100" className="transition-all duration-200" />
+            <Label htmlFor="name" className="text-xs text-muted-foreground">Name</Label>
+            <Input id="name" value={localData.name || ""} onChange={e => handleChange("name", e.target.value)} placeholder="Enter name" />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="aperture" className="text-xs text-muted-foreground">
-              Aperture
-            </Label>
-            <Input id="aperture" value={localData.aperture || ""} onChange={e => handleChange("aperture", e.target.value)} placeholder="e.g., f/2.8" className="transition-all duration-200" />
+            <Label htmlFor="subject" className="text-xs text-muted-foreground">Subject</Label>
+            <Input id="subject" value={localData.subject || ""} onChange={e => handleChange("subject", e.target.value)} placeholder="Enter subject" />
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="shutterSpeed" className="text-xs text-muted-foreground">
-            Shutter Speed
-          </Label>
-          <Input id="shutterSpeed" value={localData.shutterSpeed || ""} onChange={e => handleChange("shutterSpeed", e.target.value)} placeholder="e.g., 1/200s" className="transition-all duration-200" />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="exposureCompensation" className="text-xs text-muted-foreground">
-            Exposure Compensation
-          </Label>
-          <Input id="exposureCompensation" value={localData.exposureCompensation || ""} onChange={e => handleChange("exposureCompensation", e.target.value)} placeholder="e.g., +0.3 EV" className="transition-all duration-200" />
-        </div>
-      </div>
-
-      {/* Date & Time */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Clock className="h-4 w-4 text-primary" />
-          Date & Time
-        </div>
-        <Separator />
-
-        <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label htmlFor="captureDate" className="text-xs text-muted-foreground">
-              Capture Date
-            </Label>
-            <Input id="captureDate" type="date" value={localData.captureDate || ""} onChange={e => handleChange("captureDate", e.target.value)} className="transition-all duration-200" />
+            <Label htmlFor="copyright" className="text-xs text-muted-foreground">Copyright</Label>
+            <Input id="copyright" value={localData.copyright || ""} onChange={e => handleChange("copyright", e.target.value)} placeholder="Enter copyright" />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="captureTime" className="text-xs text-muted-foreground">
-              Capture Time
-            </Label>
-            <Input id="captureTime" type="time" value={localData.captureTime || ""} onChange={e => handleChange("captureTime", e.target.value)} className="transition-all duration-200" />
+            <Label htmlFor="title" className="text-xs text-muted-foreground">Title</Label>
+            <Input id="title" value={localData.title || ""} onChange={e => handleChange("title", e.target.value)} placeholder="Enter title" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="keyword" className="text-xs text-muted-foreground">Keyword</Label>
+            <Input id="keyword" value={localData.keyword || ""} onChange={e => handleChange("keyword", e.target.value)} placeholder="Enter keywords" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="author" className="text-xs text-muted-foreground">Author</Label>
+            <Input id="author" value={localData.author || ""} onChange={e => handleChange("author", e.target.value)} placeholder="Enter author" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="comment" className="text-xs text-muted-foreground">Comment</Label>
+            <Input id="comment" value={localData.comment || ""} onChange={e => handleChange("comment", e.target.value)} placeholder="Enter comment" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-xs text-muted-foreground">Description</Label>
+            <Input id="description" value={localData.description || ""} onChange={e => handleChange("description", e.target.value)} placeholder="Enter description" />
           </div>
         </div>
       </div>
 
-      {/* Location */}
+      <Separator />
+
+      {/* GPS Info Section */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-primary" />
-          Location
+          <h3 className="text-sm font-semibold text-foreground">GPS Info</h3>
         </div>
-        <Separator />
-
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="gpsLatitude" className="text-xs text-muted-foreground">
-              Latitude
-            </Label>
-            <Input id="gpsLatitude" value={localData.gpsLatitude || ""} onChange={e => handleChange("gpsLatitude", e.target.value)} placeholder="e.g., 40.7128" className="transition-all duration-200" />
+            <Label htmlFor="gpsLatitude" className="text-xs text-muted-foreground">Latitude</Label>
+            <Input id="gpsLatitude" value={localData.gpsLatitude || ""} onChange={e => handleChange("gpsLatitude", e.target.value)} placeholder="e.g., 40.7128" />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="gpsLongitude" className="text-xs text-muted-foreground">
-              Longitude
-            </Label>
-            <Input id="gpsLongitude" value={localData.gpsLongitude || ""} onChange={e => handleChange("gpsLongitude", e.target.value)} placeholder="e.g., -74.0060" className="transition-all duration-200" />
+            <Label htmlFor="gpsLongitude" className="text-xs text-muted-foreground">Longitude</Label>
+            <Input id="gpsLongitude" value={localData.gpsLongitude || ""} onChange={e => handleChange("gpsLongitude", e.target.value)} placeholder="e.g., -74.0060" />
           </div>
         </div>
       </div>
 
-      {/* Additional Metadata */}
+      <Separator />
+
+      {/* Advanced Section */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        <div className="flex items-center gap-2">
           <Settings2 className="h-4 w-4 text-primary" />
-          Additional Information
+          <h3 className="text-sm font-semibold text-foreground">Advanced</h3>
         </div>
-        <Separator />
-
-        <div className="space-y-2">
-          <Label htmlFor="dimensions" className="text-xs text-muted-foreground">
-            Dimensions
-          </Label>
-          <Input id="dimensions" value={localData.dimensions || ""} onChange={e => handleChange("dimensions", e.target.value)} placeholder="e.g., 4000 x 3000" disabled className="bg-muted cursor-not-allowed" />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="fileSize" className="text-xs text-muted-foreground">
-            File Size
-          </Label>
-          <Input id="fileSize" value={localData.fileSize || ""} onChange={e => handleChange("fileSize", e.target.value)} placeholder="e.g., 2.5 MB" disabled className="bg-muted cursor-not-allowed" />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="colorSpace" className="text-xs text-muted-foreground">
-            Color Space
-          </Label>
-          <Input id="colorSpace" value={localData.colorSpace || ""} onChange={e => handleChange("colorSpace", e.target.value)} placeholder="e.g., sRGB" className="transition-all duration-200" />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="maker" className="text-xs text-muted-foreground">Maker</Label>
+            <Input id="maker" value={localData.maker || ""} onChange={e => handleChange("maker", e.target.value)} placeholder="e.g., Canon" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="software" className="text-xs text-muted-foreground">Software</Label>
+            <Input id="software" value={localData.software || ""} onChange={e => handleChange("software", e.target.value)} placeholder="e.g., Adobe Photoshop" />
+          </div>
+          <div className="space-y-2 col-span-2">
+            <Label htmlFor="model" className="text-xs text-muted-foreground">Model</Label>
+            <Input id="model" value={localData.model || ""} onChange={e => handleChange("model", e.target.value)} placeholder="e.g., EOS R5" />
+          </div>
         </div>
       </div>
 
       {/* Action Buttons */}
       <div className="sticky bottom-0 bg-background border-t border-border pt-4 pb-2 flex gap-3">
-        <Button variant="outline" onClick={onClose} className="flex-1 transition-all duration-200 hover:bg-accent">
-          Cancel
+        <Button variant="outline" onClick={onClose} className="flex-1">
+          Close
         </Button>
-        <Button onClick={handleSave} className="flex-1 gap-2 transition-all duration-200">
+        <Button onClick={handleSave} className="flex-1 gap-2">
           <Save className="h-4 w-4" />
-          Save Changes
+          Save
         </Button>
       </div>
     </div>;
