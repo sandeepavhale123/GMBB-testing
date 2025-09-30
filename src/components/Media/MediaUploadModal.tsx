@@ -423,19 +423,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop */}
             <div className={`${isExifSheetOpen ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
               {isExifSheetOpen && <div className="h-full bg-background flex flex-col animate-slide-in-right">
-                  <div className="sticky top-0 bg-background z-10 border-b border-border p-4 md:p-6 pb-4 flex-shrink-0">
+                  <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0 rounded-t-lg">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Settings2 className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                        <h3 className="text-lg md:text-xl font-bold text-foreground">Edit EXIF Metadata</h3>
+                        <Settings2 className="h-5 w-5 text-primary" />
+                        <h3 className="text-2xl font-bold text-foreground">Edit EXIF Metadata</h3>
                       </div>
                       <Button variant="ghost" size="sm" onClick={() => setIsExifSheetOpen(false)} className="h-8 w-8 p-0">
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                    <p className="text-xs md:text-sm text-muted-foreground mt-2">
-                      View and edit the metadata information for this image
-                    </p>
                   </div>
 
                   <div className="p-4 md:p-6 pb-0 overflow-y-auto flex-1">
