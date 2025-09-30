@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { X, Settings2, Camera, MapPin, Clock, Save } from "lucide-react";
+import { X, Settings2, Camera, MapPin, Clock, Save, AlertCircle, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
@@ -12,7 +13,7 @@ import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
-import { uploadMedia, createBulkMedia } from "../../api/mediaApi";
+import { uploadMedia, createBulkMedia, getExifTemplateList, getExifTemplateDetails, updateImgexifDetails } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
 interface MediaFile {
@@ -468,22 +469,183 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   onSave,
   onClose
 }) => {
+  const { toast } = useToast();
   const [localData, setLocalData] = React.useState(exifData);
   const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const [templates, setTemplates] = React.useState<Array<{ id: string; template_name: string }>>([]);
+  const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
+  const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
+  const [isLoadingTemplateDetails, setIsLoadingTemplateDetails] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [showSaveDialog, setShowSaveDialog] = React.useState(false);
+  const [newTemplateName, setNewTemplateName] = React.useState("");
+
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
+
+  // Load templates on mount
+  React.useEffect(() => {
+    const loadTemplates = async () => {
+      setIsLoadingTemplates(true);
+      try {
+        const response = await getExifTemplateList({
+          search: "",
+          page: 1,
+          limit: 100
+        });
+        if (response.code === 200) {
+          setTemplates(response.data.templates);
+        }
+      } catch (error) {
+        console.error("Error loading templates:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load templates",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoadingTemplates(false);
+      }
+    };
+    loadTemplates();
+  }, []);
+
+  const handleTemplateSelect = async (templateId: string) => {
+    if (!templateId) {
+      setSelectedTemplate("");
+      return;
+    }
+
+    setSelectedTemplate(templateId);
+    setIsLoadingTemplateDetails(true);
+
+    try {
+      const response = await getExifTemplateDetails({
+        templateId: parseInt(templateId)
+      });
+
+      if (response.code === 200) {
+        const template = response.data.template;
+        // Map API response to local state
+        setLocalData({
+          name: template.imgname || "",
+          title: template.imgtitle || "",
+          subject: template.imgsub || "",
+          keyword: template.imgkey || "",
+          copyright: template.imgcopy || "",
+          author: template.imgauthor || "",
+          comment: template.imgcomment || "",
+          description: template.imgdesc || "",
+          gpsLatitude: template.imglat || "",
+          gpsLongitude: template.imglong || "",
+          maker: template.imgmaker || "",
+          software: template.imgsoftware || "",
+          model: template.imgmodel || "",
+          template: templateId
+        });
+        toast({
+          title: "Template Loaded",
+          description: `Template "${template.tempname}" has been applied`,
+          variant: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Error loading template details:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load template details",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoadingTemplateDetails(false);
+    }
+  };
+
   const handleChange = (field: string, value: string) => {
     setLocalData((prev: any) => ({
       ...prev,
       [field]: value
     }));
   };
-  const handleSave = () => {
-    onSave(localData);
-    onClose();
+
+  const performSave = async (saveAsNew: number, templateName: string) => {
+    if (!imageUrl) {
+      toast({
+        title: "Error",
+        description: "Image URL is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const response = await updateImgexifDetails({
+        ImageUrl: imageUrl,
+        imgname: localData.name || "",
+        imgtitle: localData.title || "",
+        imgsub: localData.subject || "",
+        imgkey: localData.keyword || "",
+        imgcopy: localData.copyright || "",
+        imgauthor: localData.author || "",
+        imgcomment: localData.comment || "",
+        imgdesc: localData.description || "",
+        imglat: localData.gpsLatitude || "",
+        imglong: localData.gpsLongitude || "",
+        imgmaker: localData.maker || "",
+        imgsoftware: localData.software || "",
+        imgmodel: localData.model || "",
+        saveAs: saveAsNew,
+        tempname: templateName
+      });
+
+      if (response.code === 200) {
+        onSave(localData);
+        toast({
+          title: "Success",
+          description: saveAsNew === 1 ? `Template "${templateName}" saved successfully` : "EXIF data updated successfully",
+          variant: "success"
+        });
+
+        // Reload templates if a new one was saved
+        if (saveAsNew === 1) {
+          const templatesResponse = await getExifTemplateList({
+            search: "",
+            page: 1,
+            limit: 100
+          });
+          if (templatesResponse.code === 200) {
+            setTemplates(templatesResponse.data.templates);
+          }
+        }
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error saving EXIF data:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save EXIF data",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSaving(false);
+      setShowSaveDialog(false);
+      setNewTemplateName("");
+    }
   };
-  return <div className="space-y-6">
+
+  const handleSave = () => {
+    if (selectedTemplate) {
+      // Template is selected, save with saveAs: 0
+      performSave(0, "");
+    } else {
+      // No template selected, show confirmation dialog
+      setShowSaveDialog(true);
+    }
+  };
+  return <>
+    <div className="space-y-6">
       {/* Row 1: Image Preview + Template Selector */}
       <div className="flex items-start gap-4">
         {imageUrl && <div className="flex-shrink-0">
@@ -493,12 +655,26 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
-          <select id="template" value={localData.template || "default"} onChange={e => handleChange("template", e.target.value)} className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-            <option value="default">Default Template</option>
-            <option value="professional">Professional</option>
-            <option value="creative">Creative</option>
-            <option value="minimal">Minimal</option>
+          <select 
+            id="template" 
+            value={selectedTemplate} 
+            onChange={e => handleTemplateSelect(e.target.value)} 
+            disabled={isLoadingTemplates || isLoadingTemplateDetails}
+            className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <option value="">-- Select Template --</option>
+            {templates.map(template => (
+              <option key={template.id} value={template.id}>
+                {template.template_name}
+              </option>
+            ))}
           </select>
+          {isLoadingTemplateDetails && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              Loading template...
+            </div>
+          )}
         </div>
       </div>
 
@@ -599,13 +775,75 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
       {/* Action Buttons */}
       <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
-        <Button variant="outline" onClick={onClose} className="1">
+        <Button variant="outline" onClick={onClose} disabled={isSaving}>
           Close
         </Button>
-        <Button onClick={handleSave} className=" gap-2">
-          <Save className="h-4 w-4" />
-          Save
+        <Button onClick={handleSave} disabled={isSaving} className="gap-2">
+          {isSaving ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            <>
+              <Save className="h-4 w-4" />
+              Save
+            </>
+          )}
         </Button>
       </div>
-    </div>;
+    </div>
+
+    {/* Save Template Confirmation Dialog */}
+    <AlertDialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-primary" />
+            Save as Template
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Do you want to save this EXIF data as a template for future use?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <div className="py-4">
+          <Label htmlFor="templateName" className="text-sm font-medium">
+            Template Name
+          </Label>
+          <Input
+            id="templateName"
+            value={newTemplateName}
+            onChange={(e) => setNewTemplateName(e.target.value)}
+            placeholder="Enter template name"
+            className="mt-2"
+          />
+        </div>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => {
+            setShowSaveDialog(false);
+            setNewTemplateName("");
+            performSave(0, "");
+          }}>
+            Skip
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              if (newTemplateName.trim()) {
+                performSave(1, newTemplateName.trim());
+              } else {
+                toast({
+                  title: "Error",
+                  description: "Please enter a template name",
+                  variant: "destructive"
+                });
+              }
+            }}
+            disabled={!newTemplateName.trim()}
+          >
+            Save Template
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </>;
 };

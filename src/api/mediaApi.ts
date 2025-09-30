@@ -579,3 +579,107 @@ export const getBulkMediaSummary = async (params: GetBulkMediaSummaryRequest): P
   const response = await axiosInstance.post('/get-bulk-media-summary', params);
   return response.data;
 };
+
+// EXIF Template API interfaces
+export interface ExifTemplateListRequest {
+  search: string;
+  page: number;
+  limit: number;
+}
+
+export interface ExifTemplate {
+  id: string;
+  template_name: string;
+}
+
+export interface ExifTemplateListResponse {
+  code: number;
+  message: string;
+  data: {
+    templates: ExifTemplate[];
+    pagination: {
+      total_template: number;
+      page: number;
+      limit: number;
+      total_pages: number;
+    };
+  };
+}
+
+export interface ExifTemplateDetailsRequest {
+  templateId: number;
+}
+
+export interface ExifTemplateDetails {
+  id: string;
+  user_id: string;
+  imgname: string;
+  imgtitle: string;
+  imgsub: string;
+  imgkey: string;
+  imgcopy: string;
+  imgauthor: string;
+  imgcomment: string;
+  imgdesc: string;
+  imglat: string;
+  imglong: string;
+  imgmaker: string | null;
+  imgsoftware: string | null;
+  imgmodel: string | null;
+  status: string;
+  tempname: string;
+}
+
+export interface ExifTemplateDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    template: ExifTemplateDetails;
+  };
+}
+
+export interface UpdateImgexifRequest {
+  ImageUrl: string;
+  imgname: string;
+  imgtitle: string;
+  imgsub: string;
+  imgkey: string;
+  imgcopy: string;
+  imgauthor: string;
+  imgcomment: string;
+  imgdesc: string;
+  imglat: string;
+  imglong: string;
+  imgmaker: string;
+  imgsoftware: string;
+  imgmodel: string;
+  saveAs: number;
+  tempname: string;
+}
+
+export interface UpdateImgexifResponse {
+  code: number;
+  message: string;
+  data: {
+    updatedImageUrl: string;
+    templateSaved: number;
+  };
+}
+
+// Get EXIF template list
+export const getExifTemplateList = async (params: ExifTemplateListRequest): Promise<ExifTemplateListResponse> => {
+  const response = await axiosInstance.post('/get-exif-template', params);
+  return response.data;
+};
+
+// Get EXIF template details
+export const getExifTemplateDetails = async (params: ExifTemplateDetailsRequest): Promise<ExifTemplateDetailsResponse> => {
+  const response = await axiosInstance.post('/get-exif-template-details', params);
+  return response.data;
+};
+
+// Update image EXIF details
+export const updateImgexifDetails = async (data: UpdateImgexifRequest): Promise<UpdateImgexifResponse> => {
+  const response = await axiosInstance.post('/update-imgexif-details', data);
+  return response.data;
+};
