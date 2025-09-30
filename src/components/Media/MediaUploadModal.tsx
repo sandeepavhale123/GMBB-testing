@@ -321,8 +321,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     }));
   };
   return <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`}>
+      <Dialog open={isOpen} onOpenChange={(open) => { /* Prevent automatic closing - only explicit close buttons work */ }}>
+        <DialogContent 
+          className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`}
+          onInteractOutside={(e) => e.preventDefault()}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
           <div className="flex h-full overflow-hidden">
             {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
