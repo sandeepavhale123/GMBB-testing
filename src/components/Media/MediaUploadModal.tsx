@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { X, Settings2, Camera, MapPin, Clock, Save } from "lucide-react";
 import { Input } from "../ui/input";
@@ -345,144 +345,217 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
-          <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
-            <DialogHeader className="p-6 pb-4">
-              <div className="flex items-center justify-between">
-                <DialogTitle className="text-2xl font-bold text-gray-900">
-                  {isBulkUpload ? "Upload Media to Multiple Listings" : "Upload Media"}
-                </DialogTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleClose}
-                  className="h-8 w-8 p-0"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] overflow-hidden p-0 transition-all duration-300`}>
+          <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
+          <div className="flex h-full">
+            {/* Main Content Section */}
+            <div className={`${isExifSheetOpen ? 'w-1/2 border-r border-border' : 'w-full'} flex flex-col transition-all duration-300`}>
+              <div className="sticky top-0 bg-background z-10 border-b border-border">
+                <DialogHeader className="p-6 pb-4">
+                  <div className="flex items-center justify-between">
+                    <DialogTitle className="text-2xl font-bold text-foreground">
+                      {isBulkUpload ? "Upload Media to Multiple Listings" : "Upload Media"}
+                    </DialogTitle>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setIsExifSheetOpen((v) => !v)}
+                        className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                      >
+                        <Settings2 className="h-3 w-3" />
+                        {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleClose}
+                        className="h-8 w-8 p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </DialogHeader>
               </div>
-            </DialogHeader>
-          </div>
 
-          <div className="p-6 space-y-6">
-            {/* Upload Complete State */}
-            {uploadComplete && file && (
-              <div className="text-center space-y-4 py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                  <svg
-                    className="w-8 h-8 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Upload Complete!
-                </h3>
-                <p className="text-gray-600">
-                  Your{" "}
-                  <span className="font-medium text-primary">{file.type}</span>{" "}
-                  has been uploaded successfully.
-                </p>
-              </div>
-            )}
-
-            {/* Upload Interface */}
-            {!uploadComplete && (
-              <>
-                {/* Multi-Listing Selector for Bulk Upload */}
-                {isBulkUpload && (
-                  <div className="pb-6 border-b border-gray-200">
-                    <MultiListingSelector
-                      selectedListings={selectedListings}
-                      onListingsChange={setSelectedListings}
-                      error={selectedListings.length === 0 ? "Please select at least one listing or group." : undefined}
-                    />
+              <div className="p-6 space-y-6 overflow-y-auto flex-1">
+                {/* Upload Complete State */}
+                {uploadComplete && file && (
+                  <div className="text-center space-y-4 py-8">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                      <svg
+                        className="w-8 h-8 text-green-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      Upload Complete!
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Your{" "}
+                      <span className="font-medium text-primary">{file.type}</span>{" "}
+                      has been uploaded successfully.
+                    </p>
                   </div>
                 )}
 
-                {/* Dropzone Area - Only show if no file selected */}
-                {!file && (
-                  <MediaDropzone
-                    onFilesAdded={handleFilesAdded}
-                    onAIGenerate={() => setShowAIModal(true)}
-                  />
-                )}
-
-                {/* File Preview */}
-                {file && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        Media Preview
-                      </h3>
-                      <div className="flex flex-col items-end gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-500">Type:</span>
-                          <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
-                            {file.selectedImage === "ai"
-                              ? "AI IMAGE"
-                              : file.selectedImage === "gallery"
-                              ? "GALLERY IMAGE"
-                              : file.type.toUpperCase()}
-                          </span>
-                        </div>
-                        {file.type === "image" && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setIsExifSheetOpen(true)}
-                            className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
-                          >
-                            <Settings2 className="h-3 w-3" />
-                            Edit EXIF
-                          </Button>
-                        )}
+                {/* Upload Interface */}
+                {!uploadComplete && (
+                  <>
+                    {/* Multi-Listing Selector for Bulk Upload */}
+                    {isBulkUpload && (
+                      <div className="pb-6 border-b border-border">
+                        <MultiListingSelector
+                          selectedListings={selectedListings}
+                          onListingsChange={setSelectedListings}
+                          error={selectedListings.length === 0 ? "Please select at least one listing or group." : undefined}
+                        />
                       </div>
+                    )}
+
+                    {/* Dropzone Area - Only show if no file selected */}
+                    {!file && (
+                      <MediaDropzone
+                        onFilesAdded={handleFilesAdded}
+                        onAIGenerate={() => setShowAIModal(true)}
+                      />
+                    )}
+
+                    {/* File Preview */}
+                    {file && (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-foreground">
+                            Media Preview
+                          </h3>
+                          <div className="flex flex-col items-end gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-muted-foreground">Type:</span>
+                              <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
+                                {file.selectedImage === "ai"
+                                  ? "AI IMAGE"
+                                  : file.selectedImage === "gallery"
+                                  ? "GALLERY IMAGE"
+                                  : file.type.toUpperCase()}
+                              </span>
+                            </div>
+                            {file.type === "image" && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setIsExifSheetOpen(!isExifSheetOpen)}
+                                className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                              >
+                                <Settings2 className="h-3 w-3" />
+                                {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="max-w-xs mx-auto">
+                          <MediaPreview file={file} onRemove={handleFileRemove} />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Form Fields */}
+                    <MediaForm
+                      formData={formData}
+                      onChange={handleFormDataChange}
+                      hasFiles={!!file}
+                      fileType={file?.type}
+                    />
+
+                    {/* Action Buttons */}
+                    <div className="flex justify-end gap-3 pt-4 border-t border-border">
+                      <Button
+                        variant="outline"
+                        onClick={handleClose}
+                        disabled={isUploading}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleUpload}
+                        disabled={!file || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)}
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
+                      >
+                        {isUploading 
+                          ? (isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading...") 
+                          : (isBulkUpload ? "Upload to Selected Listings" : "Upload Media")
+                        }
+                      </Button>
                     </div>
-                    <div className="max-w-xs mx-auto">
-                      <MediaPreview file={file} onRemove={handleFileRemove} />
-                    </div>
-                  </div>
+                  </>
                 )}
+              </div>
+            </div>
 
-                {/* Form Fields */}
-                <MediaForm
-                  formData={formData}
-                  onChange={handleFormDataChange}
-                  hasFiles={!!file}
-                  fileType={file?.type}
-                />
+            {/* EXIF Editor Section - Slides in from right */}
+            <div className={`${isExifSheetOpen ? 'w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
+              {isExifSheetOpen && (
+                <div className="h-full bg-background animate-slide-in-right">
+                  <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Settings2 className="h-5 w-5 text-primary" />
+                        <h3 className="text-xl font-bold text-foreground">Edit EXIF Metadata</h3>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIsExifSheetOpen(false)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      View and edit the metadata information for this image
+                    </p>
+                  </div>
 
-                {/* Action Buttons */}
-                <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    onClick={handleClose}
-                    disabled={isUploading}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleUpload}
-                    disabled={!file || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
-                  >
-                    {isUploading 
-                      ? (isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading...") 
-                      : (isBulkUpload ? "Upload to Selected Listings" : "Upload Media")
-                    }
-                  </Button>
+                  <div className="p-6 overflow-y-auto h-[calc(90vh-110px)]">
+                    <ExifEditorContent 
+                      exifData={exifData}
+                      onSave={(data) => {
+                        setExifData({
+                          camera: data.camera || "",
+                          lens: data.lens || "",
+                          focalLength: data.focalLength || "",
+                          iso: data.iso || "",
+                          aperture: data.aperture || "",
+                          shutterSpeed: data.shutterSpeed || "",
+                          exposureCompensation: data.exposureCompensation || "",
+                          captureDate: data.captureDate || "",
+                          captureTime: data.captureTime || "",
+                          gpsLatitude: data.gpsLatitude || "",
+                          gpsLongitude: data.gpsLongitude || "",
+                          fileSize: data.fileSize || "",
+                          dimensions: data.dimensions || "",
+                          colorSpace: data.colorSpace || "",
+                        });
+                        toast({
+                          title: "EXIF Data Updated",
+                          description: "Metadata has been updated successfully.",
+                        });
+                      }}
+                      onClose={() => setIsExifSheetOpen(false)}
+                    />
+                  </div>
                 </div>
-              </>
-            )}
+              )}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
