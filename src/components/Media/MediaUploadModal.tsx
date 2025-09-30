@@ -12,9 +12,12 @@ import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
-import { uploadMedia, createBulkMedia } from "../../api/mediaApi";
+import { uploadMedia, createBulkMedia, getExifTemplateList, getExifTemplateDetails, updateImgexifDetails, ExifTemplate } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog";
+import { AlertCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 interface MediaFile {
   id: string;
   file?: File;
@@ -468,20 +471,173 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   onSave,
   onClose
 }) => {
+  const { toast } = useToast();
   const [localData, setLocalData] = React.useState(exifData);
   const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const [templates, setTemplates] = React.useState<ExifTemplate[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = React.useState("");
+  const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
+  const [isLoadingTemplateDetails, setIsLoadingTemplateDetails] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [showSaveDialog, setShowSaveDialog] = React.useState(false);
+  const [newTemplateName, setNewTemplateName] = React.useState("");
+  
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
+
+  // Load template list on mount
+  React.useEffect(() => {
+    loadTemplates();
+  }, []);
+
+  const loadTemplates = async () => {
+    setIsLoadingTemplates(true);
+    try {
+      const response = await getExifTemplateList({
+        search: "",
+        page: 1,
+        limit: 100,
+      });
+      if (response.code === 200) {
+        setTemplates(response.data.templates);
+      }
+    } catch (error) {
+      console.error("Error loading templates:", error);
+      toast.error({
+        title: "Failed to load templates",
+        description: "Could not fetch EXIF templates. Please try again.",
+      });
+    } finally {
+      setIsLoadingTemplates(false);
+    }
+  };
+
+  const handleTemplateSelect = async (templateId: string) => {
+    setSelectedTemplate(templateId);
+    if (!templateId || templateId === "none") {
+      return;
+    }
+
+    setIsLoadingTemplateDetails(true);
+    try {
+      const response = await getExifTemplateDetails({ templateId });
+      if (response.code === 200) {
+        const template = response.data.template;
+        setLocalData({
+          name: template.imgname || "",
+          title: template.imgtitle || "",
+          subject: template.imgsub || "",
+          keyword: template.imgkey || "",
+          copyright: template.imgcopy || "",
+          author: template.imgauthor || "",
+          comment: template.imgcomment || "",
+          description: template.imgdesc || "",
+          gpsLatitude: template.imglat || "",
+          gpsLongitude: template.imglong || "",
+          maker: template.imgmaker || "",
+          software: template.imgsoftware || "",
+          model: template.imgmodel || "",
+        });
+        toast.success({
+          title: "Template loaded",
+          description: `"${template.tempname}" has been applied to all fields.`,
+        });
+      }
+    } catch (error) {
+      console.error("Error loading template details:", error);
+      toast.error({
+        title: "Failed to load template",
+        description: "Could not fetch template details. Please try again.",
+      });
+    } finally {
+      setIsLoadingTemplateDetails(false);
+    }
+  };
   const handleChange = (field: string, value: string) => {
     setLocalData((prev: any) => ({
       ...prev,
       [field]: value
     }));
   };
-  const handleSave = () => {
-    onSave(localData);
-    onClose();
+
+  const handleSave = async () => {
+    // If no template selected, show confirmation dialog
+    if (!selectedTemplate || selectedTemplate === "none") {
+      setShowSaveDialog(true);
+      return;
+    }
+
+    // Template selected, save with saveAs: 0
+    await performSave(0, "");
+  };
+
+  const performSave = async (saveAs: 0 | 1, tempname: string) => {
+    if (!imageUrl) {
+      toast.error({
+        title: "Error",
+        description: "Image URL is required to update EXIF data.",
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const response = await updateImgexifDetails({
+        ImageUrl: imageUrl,
+        imgname: localData.name || "",
+        imgtitle: localData.title || "",
+        imgsub: localData.subject || "",
+        imgkey: localData.keyword || "",
+        imgcopy: localData.copyright || "",
+        imgauthor: localData.author || "",
+        imgcomment: localData.comment || "",
+        imgdesc: localData.description || "",
+        imglat: localData.gpsLatitude || "",
+        imglong: localData.gpsLongitude || "",
+        imgmaker: localData.maker || "",
+        imgsoftware: localData.software || "",
+        imgmodel: localData.model || "",
+        saveAs,
+        tempname,
+      });
+
+      if (response.code === 200) {
+        toast.success({
+          title: "EXIF data updated",
+          description: saveAs === 1 ? `Template "${tempname}" saved successfully.` : "Metadata updated successfully.",
+        });
+        onSave(localData);
+        
+        // Reload templates if a new one was saved
+        if (saveAs === 1) {
+          await loadTemplates();
+        }
+        
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error updating EXIF data:", error);
+      toast.error({
+        title: "Failed to update EXIF data",
+        description: "Could not save metadata. Please try again.",
+      });
+    } finally {
+      setIsSaving(false);
+      setShowSaveDialog(false);
+      setNewTemplateName("");
+    }
+  };
+
+  const handleSaveAsNewTemplate = async () => {
+    if (!newTemplateName.trim()) {
+      toast.warning({
+        title: "Template name required",
+        description: "Please enter a name for the template.",
+      });
+      return;
+    }
+    await performSave(1, newTemplateName.trim());
   };
   return <div className="space-y-6">
       {/* Row 1: Image Preview + Template Selector */}
@@ -493,12 +649,23 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
-          <select id="template" value={localData.template || "default"} onChange={e => handleChange("template", e.target.value)} className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-            <option value="default">Default Template</option>
-            <option value="professional">Professional</option>
-            <option value="creative">Creative</option>
-            <option value="minimal">Minimal</option>
-          </select>
+          <Select 
+            value={selectedTemplate} 
+            onValueChange={handleTemplateSelect}
+            disabled={isLoadingTemplates || isLoadingTemplateDetails}
+          >
+            <SelectTrigger id="template">
+              <SelectValue placeholder={isLoadingTemplates ? "Loading templates..." : "Select a template"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">None</SelectItem>
+              {templates.map((template) => (
+                <SelectItem key={template.id} value={template.id}>
+                  {template.template_name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -599,13 +766,54 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
       {/* Action Buttons */}
       <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
-        <Button variant="outline" onClick={onClose} className="1">
+        <Button variant="outline" onClick={onClose} disabled={isSaving} className="1">
           Close
         </Button>
-        <Button onClick={handleSave} className=" gap-2">
+        <Button onClick={handleSave} disabled={isSaving || isLoadingTemplateDetails} className=" gap-2">
           <Save className="h-4 w-4" />
-          Save
+          {isSaving ? "Saving..." : "Save"}
         </Button>
       </div>
+
+      {/* Save Template Confirmation Dialog */}
+      <AlertDialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-warning" />
+              Save as Template?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Do you want to save this EXIF data as a template for future use?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="py-4">
+            <Label htmlFor="templateName" className="text-sm font-medium">
+              Template Name
+            </Label>
+            <Input
+              id="templateName"
+              value={newTemplateName}
+              onChange={(e) => setNewTemplateName(e.target.value)}
+              placeholder="Enter template name"
+              className="mt-2"
+            />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              onClick={() => performSave(0, "")}
+              disabled={isSaving}
+            >
+              No, Just Save
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleSaveAsNewTemplate}
+              disabled={isSaving}
+            >
+              {isSaving ? "Saving..." : "Yes, Save Template"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>;
 };
