@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { getNotifications } from "@/api/notificationApi";
+import { useAppSelector } from "@/hooks/useRedux";
 
 export interface Notification {
   id: string;
@@ -319,9 +320,26 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error(
-      "useNotifications must be used within a NotificationProvider"
+    console.warn(
+      "useNotifications called outside of NotificationProvider; using no-op fallback."
     );
+    const fallback: NotificationContextType = {
+      notifications: [],
+      isDrawerOpen: false,
+      openDrawer: () => {},
+      closeDrawer: () => {},
+      toggleDrawer: () => {},
+      markAsRead: () => {},
+      unreadCount: 0,
+      searchQuery: "",
+      setSearchQuery: () => {},
+      loadNextPage: () => {},
+      resetNotifications: () => {},
+      isLoading: false,
+      hasMore: false,
+      fetchNotifications: async () => [],
+    };
+    return fallback;
   }
   return context;
 };
@@ -341,105 +359,153 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const [hasMore, setHasMore] = useState(true);
   const limit = 10;
 
+  // Authentication state
+  const { accessToken, user } = useAppSelector((state) => state.auth);
+  const isAuthenticated = !!accessToken && !!user;
+
   useEffect(() => {
     const fetchData = async () => {
+      // Only fetch if user is authenticated
+      if (!isAuthenticated) {
+        console.log("🔒 User not authenticated, skipping notification fetch");
+        setNotifications([]);
+        return;
+      }
+
       try {
         const response = await getNotifications({ page: 1, limit: 10 });
-        // console.log("📡 API raw response (initial):", response);
-        // console.log("👉 response.data:", response?.data);
-        // console.log(
-        //   "👉 response.data.notification:",
-        //   response?.data?.notification
-        // );
-
-        if (!Array.isArray(response?.data?.notification)) {
-          console.warn(
-            "⚠️ response.data.notification is not an array!",
-            response?.data?.notification
-          );
+        console.log("📡 API raw response (initial):", response);
+        console.log("👉 Full response object:", JSON.stringify(response, null, 2));
+        
+        // Handle different possible response structures
+        let notificationData = null;
+        if (response?.data?.notification) {
+          notificationData = response.data.notification;
+        } else if (response?.data?.notifications) {
+          notificationData = response.data.notifications;
+        } else if (response?.data && Array.isArray(response.data)) {
+          notificationData = response.data;
+        } else if (response?.notification) {
+          notificationData = response.notification;
+        } else if (response?.notifications) {
+          notificationData = response.notifications;
+        } else if (Array.isArray(response)) {
+          notificationData = response;
         }
-        const mapped: Notification[] = Array.isArray(
-          response?.data?.notification
-        )
-          ? response.data.notification.map((n: any) => {
-              const { textContent, images, videos } = parseNotificationHTML(
-                n.description
-              );
 
-              return {
-                id: n.id ?? n.title,
-                title: n.title,
-                category: n.category,
-                date: n.created_at,
-                read: n.read ?? false,
-                textContent,
-                images,
-                videos,
-                notificationUrl: n.notificationUrl,
-              };
-            })
-          : [];
-        // console.log("✅ Final mapped notifications:", mapped);
+        console.log("👉 Extracted notification data:", notificationData);
+
+        if (!Array.isArray(notificationData)) {
+          console.warn("⚠️ Notification data is not an array!", notificationData);
+          setNotifications([]);
+          return;
+        }
+
+        const mapped: Notification[] = notificationData.map((n: any) => {
+          const { textContent, images, videos } = parseNotificationHTML(
+            n.description || n.content || ""
+          );
+
+          return {
+            id: n.id ?? n.title ?? Math.random().toString(),
+            title: n.title || "Untitled",
+            category: n.category,
+            date: n.created_at || n.date || new Date().toISOString(),
+            read: n.read ?? false,
+            textContent,
+            images,
+            videos,
+            notificationUrl: n.notificationUrl || n.url,
+          };
+        });
+        
+        console.log("✅ Final mapped notifications:", mapped);
         setNotifications(mapped);
       } catch (err) {
         console.error("❌ Failed to load notifications:", err);
+        if (err && typeof err === 'object' && 'response' in err) {
+          const axiosError = err as any;
+          if (axiosError.response?.status === 401) {
+            console.log("🔒 Authentication required for notifications");
+            return;
+          }
+        }
         setNotifications([]);
       }
     };
 
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
   const fetchNotifications = async (pageToLoad: number) => {
-    if (isLoading) return [];
-    setIsLoading(true); // ← show skeleton immediately
+    if (isLoading || !isAuthenticated) return [];
+    
+    setIsLoading(true);
     try {
       const response = await getNotifications({ page: pageToLoad, limit });
-      // console.log(`📡 API raw response (page ${pageToLoad}):`, response);
-      // console.log("👉 response.data:", response?.data);
-      // console.log(
-      //   "👉 response.data.notification:",
-      //   response?.data?.notification
-      // );
-
-      if (!Array.isArray(response?.data?.notification)) {
-        console.warn(
-          "⚠️ response.data.notification is not an array!",
-          response?.data?.notification
-        );
+      console.log(`📡 API raw response (page ${pageToLoad}):`, response);
+      console.log("👉 Full response object:", JSON.stringify(response, null, 2));
+      
+      // Handle different possible response structures
+      let notificationData = null;
+      if (response?.data?.notification) {
+        notificationData = response.data.notification;
+      } else if (response?.data?.notifications) {
+        notificationData = response.data.notifications;
+      } else if (response?.data && Array.isArray(response.data)) {
+        notificationData = response.data;
+      } else if (response?.notification) {
+        notificationData = response.notification;
+      } else if (response?.notifications) {
+        notificationData = response.notifications;
+      } else if (Array.isArray(response)) {
+        notificationData = response;
       }
 
-      const newNotifications = (response?.data?.notification ?? []).map(
-        (n: any) => {
-          const { textContent, images, videos } = parseNotificationHTML(
-            n.description
-          );
-          return {
-            id: n.id ?? n.title,
-            title: n.title,
-            category: n.category,
-            date: n.created_at,
-            read: n.read ?? false,
-            textContent,
-            images,
-            videos,
-            notificationUrl: n.notificationUrl,
-          };
-        }
-      );
-      // console.log("✅ Final newNotifications:", newNotifications);
+      console.log("👉 Extracted notification data:", notificationData);
+
+      if (!Array.isArray(notificationData)) {
+        console.warn("⚠️ Notification data is not an array!", notificationData);
+        return [];
+      }
+
+      const newNotifications = notificationData.map((n: any) => {
+        const { textContent, images, videos } = parseNotificationHTML(
+          n.description || n.content || ""
+        );
+        return {
+          id: n.id ?? n.title ?? Math.random().toString(),
+          title: n.title || "Untitled",
+          category: n.category,
+          date: n.created_at || n.date || new Date().toISOString(),
+          read: n.read ?? false,
+          textContent,
+          images,
+          videos,
+          notificationUrl: n.notificationUrl || n.url,
+        };
+      });
+      
+      console.log("✅ Final newNotifications:", newNotifications);
 
       setNotifications((prev) =>
         pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
       );
       if (newNotifications.length < limit) setHasMore(false);
 
-      return newNotifications; // important for drawer animation
+      return newNotifications;
     } catch (err) {
       console.error("❌ fetchNotifications failed:", err);
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as any;
+        if (axiosError.response?.status === 401) {
+          console.log("🔒 Authentication required for notifications");
+          return [];
+        }
+      }
       return [];
     } finally {
-      setIsLoading(false); // hides skeleton after load
+      setIsLoading(false);
     }
   };
 

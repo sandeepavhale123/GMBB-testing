@@ -5,13 +5,14 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { BusinessListingSelector } from "./BusinessListingSelector";
 import { MobileBusinessSelector } from "./MobileBusinessSelector";
-import { HeaderActions } from "./HeaderActions";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 import { PageTitle } from "./PageTitle";
 import { PageBreadcrumb } from "./PageBreadcrumb";
 import { HeaderProps } from "./types";
+import { isAllowedDomain } from "@/lib/utils";
+import { HeaderModulesMegaMenu } from "./HeaderModulesMegaMenu";
+import { HeaderNotificationsMegaMenu } from "./HeaderNotificationsMegaMenu";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
   showFilters,
@@ -46,23 +47,25 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right section */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() =>
-                (window.location.href = "https://old.gmbbriefcase.com/login")
-              }
-              className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
-            >
-              <span className="hidden md:block ml-1">
-                {" "}
-                {t("header.backToOldVersion")}
-              </span>
-              <ExternalLink className="w-4 h-4" />
-            </Button>
-            <MobileBusinessSelector />
+            {isAllowedDomain() && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() =>
+                  (window.location.href = "https://old.gmbbriefcase.com/login")
+                }
+                className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
+              >
+                <span className="hidden md:block ml-1">
+                  {t("header.backToOldVersion")}{" "}
+                </span>
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            )}
             <BusinessListingSelector />
-            <HeaderActions />
+            <MobileBusinessSelector />
+            <HeaderModulesMegaMenu />
+            <HeaderNotificationsMegaMenu />
             <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
           </div>
         </div>

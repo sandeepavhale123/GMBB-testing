@@ -420,16 +420,6 @@ export const BulkReplyListingSelector: React.FC<
                                       </span>
                                     )}
                                   </div>
-                                  {!hideStatusBadges && option.setting_type && (
-                                    <Badge
-                                      variant={getSettingTypeBadgeVariant(
-                                        option.setting_type
-                                      )}
-                                      className="text-xs"
-                                    >
-                                      {option.setting_type}
-                                    </Badge>
-                                  )}
                                 </div>
                               </div>
                             ))}

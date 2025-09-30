@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
+import { Search, X, LogIn } from "lucide-react";
 import { useNotifications } from "@/context/NotificationContext";
 import { NotificationCard } from "./NotificationCard";
 import { cn } from "@/lib/utils";
-import path from "path";
+import { useAppSelector } from "@/hooks/useRedux";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const NotificationDrawer: React.FC = () => {
@@ -19,7 +19,7 @@ export const NotificationDrawer: React.FC = () => {
     hasMore,
     loadNextPage,
     resetNotifications,
-    fetchNotifications, // make sure context exports this
+    fetchNotifications,
   } = useNotifications();
 
   const { t } = useI18nNamespace("Notifications/notificationDrawer");
@@ -28,6 +28,10 @@ export const NotificationDrawer: React.FC = () => {
   const [newIds, setNewIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = location.pathname;
+
+  // Authentication state
+  const { accessToken, user } = useAppSelector((state) => state.auth);
+  const isAuthenticated = !!accessToken && !!user;
   useEffect(() => {
     if (isDrawerOpen) {
       resetNotifications(); // clear only on new open
@@ -119,22 +123,24 @@ export const NotificationDrawer: React.FC = () => {
           <SheetTitle className="text-lg font-semibold">
             {t("title")}
           </SheetTitle>
-          <div className="flex items-center gap-2 relative top-[-7px] right-5">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleSearch}
-              className={cn(
-                "h-8 w-8 p-0",
-                showSearch && "bg-accent text-accent-foreground"
-              )}
-            >
-              <Search className="h-4 w-4" />
-            </Button>
-          </div>
+          {isAuthenticated && (
+            <div className="flex items-center gap-2 relative top-[-7px] right-5">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleSearch}
+                className={cn(
+                  "h-8 w-8 p-0",
+                  showSearch && "bg-accent text-accent-foreground"
+                )}
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
 
-        {showSearch && (
+        {showSearch && isAuthenticated && (
           <div className="animate-fade-in">
             <Input
               type="text"
@@ -157,7 +163,19 @@ export const NotificationDrawer: React.FC = () => {
         onScroll={handleScroll}
         style={{ overflow: isModalOpen ? "hidden" : "auto" }}
       >
-        {filteredNotifications.length === 0 && !isLoading ? (
+        {!isAuthenticated ? (
+          <div className="flex flex-col items-center justify-center h-32 text-center space-y-3">
+            <LogIn className="h-8 w-8 text-muted-foreground" />
+            <div>
+              <p className="text-muted-foreground font-medium">
+                Login Required
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Please log in to view your notifications
+              </p>
+            </div>
+          </div>
+        ) : filteredNotifications.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center h-32 text-center">
             <p className="text-muted-foreground">
               {searchQuery ? t("noSearchResults") : t("noNotifications")}

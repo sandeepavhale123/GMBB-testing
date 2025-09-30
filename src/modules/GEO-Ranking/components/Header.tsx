@@ -10,6 +10,7 @@ import { NotificationsMegaMenu } from "@/multiDashboardLayout/components/Notific
 import { UserProfileDropdown } from "@/components/Header/UserProfileDropdown";
 import { NotificationDrawer } from "@/components/Notifications/NotificationDrawer";
 import { useNotifications } from "@/context/NotificationContext";
+import { isAllowedDomain } from "@/lib/utils";
 export const Header: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
   const { profileData } = useProfile();
@@ -23,9 +24,8 @@ export const Header: React.FC = () => {
       style={{
         backgroundColor: theme.bg_color || "hsl(var(--background))",
       }}
-      className={`fixed top-0 left-0 right-0 ${
-        pathname.startsWith("/module/geo-ranking") ? "z-[420]" : "z-[50]"
-      } w-full px-4 py-3 border-b border-border`}
+      className={`fixed top-0 left-0 right-0 ${pathname.startsWith("/module/geo-ranking") ? "z-[420]" : "z-[50]"
+        } w-full px-4 py-3 border-b border-border`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
@@ -49,17 +49,22 @@ export const Header: React.FC = () => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-3">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() =>
-              (window.location.href = "https://old.gmbbriefcase.com/login")
-            }
-            className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
-          >
-            <span className="hidden md:block mr-2">Back to old version</span>
-            <ExternalLink className="w-4 h-4" />
-          </Button>
+          {
+            isAllowedDomain() &&
+            (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() =>
+                  (window.location.href = "https://old.gmbbriefcase.com/login")
+                }
+                className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
+              >
+                <span className="hidden md:block mr-2">Back to old version</span>
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            )
+          }
 
           <ModulesMegaMenu />
           <NotificationsMegaMenu />

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
+import { isAllowedDomain } from "@/lib/utils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const Header: React.FC = () => {
@@ -75,17 +76,21 @@ export const Header: React.FC = () => {
 
           {/* Right Section - Action Buttons */}
           <div className="flex items-center gap-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              className="bg-white text-foreground hover:bg-gray-50"
-              onClick={() => (window.location.href = getBackToOldVersionUrl())}
-            >
-              <span className="hidden md:block ml-1">
-                {t("buttons.backToOldVersion")}{" "}
-              </span>
-              <ExternalLink className="w-4 h-4" />
-            </Button>
+            {isAllowedDomain() && (
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-white text-foreground hover:bg-gray-50"
+                onClick={() =>
+                  (window.location.href = getBackToOldVersionUrl())
+                }
+              >
+                <span className="hidden md:block ml-1">
+                  {t("buttons.backToOldVersion")}{" "}
+                </span>
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            )}
 
             <ModulesMegaMenu />
 

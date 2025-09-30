@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Plus, Calendar, Send, FileText, ImageOff, Trash2 } from "lucide-react";
+import {
+  Plus,
+  Calendar,
+  Send,
+  FileText,
+  ImageOff,
+  Trash2,
+  Import,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CreatePostModal } from "@/components/Posts/CreatePostModal";
@@ -128,13 +136,23 @@ export const BulkPost: React.FC = () => {
             </h1>
             <p className="text-muted-foreground">{t("page.subtitle")}</p>
           </div>
-          <Button
-            onClick={() => setIsCreateModalOpen(true)}
-            className="self-start sm:self-auto"
-          >
-            <Plus className="w-4 h-4 mr-1" />
-            {t("buttons.createNew")}
-          </Button>
+          <div>
+            <Button
+              variant="outline"
+              className="self-start sm:self-auto mr-2"
+              onClick={() => navigate("/main-dashboard/import-post-csv")}
+            >
+              <Import className="w-4 h-4 mr-1" />
+              Import CSV
+            </Button>
+            <Button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="self-start sm:self-auto"
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              {t("buttons.createNew")}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

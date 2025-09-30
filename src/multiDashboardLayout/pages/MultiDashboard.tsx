@@ -21,6 +21,7 @@ import {
   Loader,
   Share2,
   ArrowRight,
+  Download,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -63,6 +64,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { formatDateForBackend } from "@/utils/dateUtils";
 import { ShareReportModal } from "@/components/Dashboard/ShareReportModal";
 import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
+import { ExportReviewsModal } from "@/components/BulkReview/ExportReviewsModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Dashboard type mapping for API
@@ -101,6 +103,7 @@ export const MultiDashboard: React.FC = () => {
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCopyUrlModal, setShowCopyUrlModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
   const [generatedReportUrl, setGeneratedReportUrl] = useState("");
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 3000);
@@ -682,6 +685,19 @@ export const MultiDashboard: React.FC = () => {
                     {t("dashboard.shareReport")}
                   </span>
                 </Button>
+
+                {/* Export CSV Button - Only show for Review Dashboard */}
+                {dashboardType === "review" && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                    onClick={() => setShowExportModal(true)}
+                  >
+                    <Download className="h-4 w-4" />
+                    <span className="hidden sm:inline">Export CSV</span>
+                  </Button>
+                )}
 
                 <ToggleGroup
                   type="single"
@@ -1899,6 +1915,12 @@ export const MultiDashboard: React.FC = () => {
         open={showCopyUrlModal}
         onOpenChange={setShowCopyUrlModal}
         reportUrl={generatedReportUrl}
+      />
+
+      {/* Export Reviews Modal */}
+      <ExportReviewsModal
+        open={showExportModal}
+        onOpenChange={setShowExportModal}
       />
     </TooltipProvider>
   );

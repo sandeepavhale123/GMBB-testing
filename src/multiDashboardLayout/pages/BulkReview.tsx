@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BulkReviewSummary } from "@/components/BulkReview/BulkReviewSummary";
 import { BulkReviewFilters } from "@/components/BulkReview/BulkReviewFilters";
 import { BulkReviewCard } from "@/components/BulkReview/BulkReviewCard";
+import { ExportReviewsModal } from "@/components/BulkReview/ExportReviewsModal";
 import { DateRange } from "react-day-picker";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import {
@@ -54,6 +55,7 @@ export const BulkReview: React.FC = () => {
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(
     null
   );
+  const [exportModalOpen, setExportModalOpen] = useState(false);
   const hasDateRange = localDateRange?.from || localDateRange?.to;
 
   // Debounced search effect
@@ -196,13 +198,23 @@ export const BulkReview: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <Button
-          onClick={() => navigate("/main-dashboard/bulk-auto-reply")}
-          className="self-start sm:self-auto"
-        >
-          <MessageCircle className="w-4 h-4 mr-1" />
-          {t("configureAutoReply")}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setExportModalOpen(true)}
+            className="self-start sm:self-auto"
+          >
+            <Download className="w-4 h-4 mr-1" />
+            Export CSV
+          </Button>
+          <Button
+            onClick={() => navigate("/main-dashboard/bulk-auto-reply")}
+            className="self-start sm:self-auto"
+          >
+            <MessageCircle className="w-4 h-4 mr-1" />
+            {t("configureAutoReply")}
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-6">
@@ -337,6 +349,12 @@ export const BulkReview: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Export Reviews Modal */}
+      <ExportReviewsModal
+        open={exportModalOpen}
+        onOpenChange={setExportModalOpen}
+      />
     </div>
   );
 };
