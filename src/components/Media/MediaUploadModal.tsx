@@ -468,6 +468,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   onClose
 }) => {
   const [localData, setLocalData] = React.useState(exifData);
+  const [showAdvanced, setShowAdvanced] = React.useState(false);
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
@@ -543,46 +544,60 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
       <Separator />
 
-      {/* GPS Info Section */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">GPS Info</h3>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="gpsLatitude" className="text-xs text-muted-foreground">Latitude</Label>
-            <Input id="gpsLatitude" value={localData.gpsLatitude || ""} onChange={e => handleChange("gpsLatitude", e.target.value)} placeholder="e.g., 40.7128" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="gpsLongitude" className="text-xs text-muted-foreground">Longitude</Label>
-            <Input id="gpsLongitude" value={localData.gpsLongitude || ""} onChange={e => handleChange("gpsLongitude", e.target.value)} placeholder="e.g., -74.0060" />
-          </div>
-        </div>
-      </div>
-
-      <Separator />
-
       {/* Advanced Section */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Settings2 className="h-4 w-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">Advanced</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Settings2 className="h-4 w-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">Advanced</h3>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="h-6 px-2 text-xs"
+          >
+            {showAdvanced ? "Hide" : "Show"}
+          </Button>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="maker" className="text-xs text-muted-foreground">Maker</Label>
-            <Input id="maker" value={localData.maker || ""} onChange={e => handleChange("maker", e.target.value)} placeholder="e.g., Canon" />
+        
+        {showAdvanced && (
+          <div className="space-y-4 animate-fade-in">
+            {/* GPS Info */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                <Label className="text-xs font-medium text-muted-foreground">GPS Info</Label>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="gpsLatitude" className="text-xs text-muted-foreground">Latitude</Label>
+                  <Input id="gpsLatitude" value={localData.gpsLatitude || ""} onChange={e => handleChange("gpsLatitude", e.target.value)} placeholder="e.g., 40.7128" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="gpsLongitude" className="text-xs text-muted-foreground">Longitude</Label>
+                  <Input id="gpsLongitude" value={localData.gpsLongitude || ""} onChange={e => handleChange("gpsLongitude", e.target.value)} placeholder="e.g., -74.0060" />
+                </div>
+              </div>
+            </div>
+
+            {/* Camera & Software Info */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="maker" className="text-xs text-muted-foreground">Maker</Label>
+                <Input id="maker" value={localData.maker || ""} onChange={e => handleChange("maker", e.target.value)} placeholder="e.g., Canon" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="software" className="text-xs text-muted-foreground">Software</Label>
+                <Input id="software" value={localData.software || ""} onChange={e => handleChange("software", e.target.value)} placeholder="e.g., Adobe Photoshop" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="model" className="text-xs text-muted-foreground">Model</Label>
+                <Input id="model" value={localData.model || ""} onChange={e => handleChange("model", e.target.value)} placeholder="e.g., EOS R5" />
+              </div>
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="software" className="text-xs text-muted-foreground">Software</Label>
-            <Input id="software" value={localData.software || ""} onChange={e => handleChange("software", e.target.value)} placeholder="e.g., Adobe Photoshop" />
-          </div>
-          <div className="space-y-2 col-span-2">
-            <Label htmlFor="model" className="text-xs text-muted-foreground">Model</Label>
-            <Input id="model" value={localData.model || ""} onChange={e => handleChange("model", e.target.value)} placeholder="e.g., EOS R5" />
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Action Buttons */}
