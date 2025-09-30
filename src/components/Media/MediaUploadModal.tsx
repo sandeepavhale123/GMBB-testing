@@ -328,12 +328,12 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
   return <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col`}>
+        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`}>
           <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
           <div className="flex h-full overflow-hidden">
             {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
             <div className={`${isExifSheetOpen ? 'hidden lg:flex lg:w-1/2 lg:border-r lg:border-border' : 'w-full'} flex flex-col transition-all duration-300`}>
-              <div className="sticky top-0 bg-background z-10 border-b border-border rounded-t-lg">
+              <div className="sticky top-0 bg-background z-10 border-b border-border">
                 <DialogHeader className="p-6 pb-4">
                   <div className="flex items-center justify-between">
                     <DialogTitle className="text-2xl font-bold text-foreground">
@@ -423,7 +423,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop */}
             <div className={`${isExifSheetOpen ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
               {isExifSheetOpen && <div className="h-full bg-background flex flex-col animate-slide-in-right">
-                  <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0 rounded-t-lg">
+                  <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Settings2 className="h-5 w-5 text-primary" />
