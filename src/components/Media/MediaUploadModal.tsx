@@ -216,11 +216,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           description: `Media has been posted to ${selectedListings.length} listing${selectedListings.length > 1 ? 's' : ''}.`,
           variant: "default"
         });
-
-        // Close modal after showing success briefly
-        setTimeout(() => {
-          handleClose();
-        }, 2000);
       } else {
         // Handle single listing upload
         const uploadData = {
@@ -265,11 +260,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             title: "Upload Successful",
             description: response.message
           });
-
-          // Close modal after showing success briefly
-          setTimeout(() => {
-            handleClose();
-          }, 1500);
         } else {
           throw new Error(response.message || "Upload failed");
         }
