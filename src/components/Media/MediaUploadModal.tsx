@@ -435,7 +435,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     </div>
                   </div>
 
-                  <div className="p-4 md:p-6 pb-0 overflow-y-auto flex-1">
+                  <div className="p-4 md:p-6 overflow-y-auto flex-1">
                     <ExifEditorContent exifData={exifData} imageUrl={file?.url} onSave={data => {
                   setExifData(data);
                   toast({
@@ -586,11 +586,11 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="sticky bottom-0 bg-background border-t border-border pt-4 pb-2 flex gap-3">
-        <Button variant="outline" onClick={onClose} className="flex-1">
+      <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
+        <Button variant="outline" onClick={onClose} className="1">
           Close
         </Button>
-        <Button onClick={handleSave} className="flex-1 gap-2">
+        <Button onClick={handleSave} className=" gap-2">
           <Save className="h-4 w-4" />
           Save
         </Button>
