@@ -482,7 +482,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
   const [isLoadingTemplateDetails, setIsLoadingTemplateDetails] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
-  const [showSaveDialog, setShowSaveDialog] = React.useState(false);
+  const [showTemplateField, setShowTemplateField] = React.useState(false);
   const [newTemplateName, setNewTemplateName] = React.useState("");
 
   React.useEffect(() => {
@@ -679,19 +679,35 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       });
     } finally {
       setIsSaving(false);
-      setShowSaveDialog(false);
+      setShowTemplateField(false);
       setNewTemplateName("");
     }
   };
 
   const handleSave = () => {
+    if (selectedTemplate) {
+      // Template is selected, save directly with saveAs: 0
+      performSave(0, "");
+    } else {
+      // No template selected, show the template field
+      setShowTemplateField(true);
+    }
+  };
+
+  const handleSubmitTemplate = () => {
     if (newTemplateName.trim()) {
-      // Template name provided, save as new template
       performSave(1, newTemplateName.trim());
     } else {
-      // No template name, just update EXIF
-      performSave(0, "");
+      toast({
+        title: "Error",
+        description: "Please enter a template name",
+        variant: "destructive"
+      });
     }
+  };
+
+  const handleSkipTemplate = () => {
+    performSave(0, "");
   };
   return <>
     <div className="space-y-6">
@@ -840,43 +856,69 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
       <Separator />
 
-      {/* Save as Template Section */}
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="templateName" className="text-sm font-medium text-foreground">
-            Save as Template (Optional)
-          </Label>
-          <Input
-            id="templateName"
-            value={newTemplateName}
-            onChange={(e) => setNewTemplateName(e.target.value)}
-            placeholder="Enter template name to save for future use"
-            className="w-full"
-          />
-          <p className="text-xs text-muted-foreground">
-            Leave blank to only update EXIF data without saving as a template.
-          </p>
+      {/* Save as Template Section - Only shown when Save is clicked */}
+      {showTemplateField && (
+        <div className="space-y-4 animate-fade-in">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-primary" />
+              <Label htmlFor="templateName" className="text-sm font-medium text-foreground">
+                Save as Template
+              </Label>
+            </div>
+            <Input
+              id="templateName"
+              value={newTemplateName}
+              onChange={(e) => setNewTemplateName(e.target.value)}
+              placeholder="Enter template name"
+              className="w-full"
+              autoFocus
+            />
+            <p className="text-xs text-muted-foreground">
+              Do you want to save this EXIF data as a template for future use?
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Action Buttons */}
       <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
-        <Button variant="outline" onClick={onClose} disabled={isSaving}>
-          Close
-        </Button>
-        <Button onClick={handleSave} disabled={isSaving} className="gap-2">
-          {isSaving ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" />
-              {newTemplateName.trim() ? "Save & Create Template" : "Save"}
-            </>
-          )}
-        </Button>
+        {!showTemplateField ? (
+          <>
+            <Button variant="outline" onClick={onClose} disabled={isSaving}>
+              Close
+            </Button>
+            <Button onClick={handleSave} disabled={isSaving} className="gap-2">
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  Save
+                </>
+              )}
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="outline" onClick={handleSkipTemplate} disabled={isSaving}>
+              Skip
+            </Button>
+            <Button onClick={handleSubmitTemplate} disabled={isSaving || !newTemplateName.trim()} className="gap-2">
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Save Template"
+              )}
+            </Button>
+          </>
+        )}
       </div>
     </div>
   </>;
