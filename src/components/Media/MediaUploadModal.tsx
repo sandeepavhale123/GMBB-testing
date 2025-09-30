@@ -5,6 +5,7 @@ import { X, Settings2, Camera, MapPin, Clock, Save } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { Switch } from "../ui/switch";
 import { MediaDropzone } from "./MediaDropzone";
 import { MediaPreview } from "./MediaPreview";
 import { MediaForm } from "./MediaForm";
@@ -551,14 +552,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <Settings2 className="h-4 w-4 text-primary" />
             <h3 className="text-sm font-semibold text-foreground">Advanced</h3>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowAdvanced(!showAdvanced)}
-            className="h-6 px-2 text-xs"
-          >
-            {showAdvanced ? "Hide" : "Show"}
-          </Button>
+          <Switch
+            checked={showAdvanced}
+            onCheckedChange={setShowAdvanced}
+          />
         </div>
         
         {showAdvanced && (
