@@ -1,0 +1,31 @@
+{
+  "aiChatbotContent": {
+    "sidebar": {
+      "title": "Historique des conversations",
+      "newChat": "Nouvelle conversation",
+      "showHistory": "Afficher l’historique",
+      "hideHistory": "Masquer l’historique",
+      "loadingHistory": "Chargement de l’historique des conversations...",
+      "noHistory": "Aucun historique pour l’instant"
+    },
+    "mainChat": {
+      "title": "Assistance AI Genie",
+      "welcomeTitle": "Bienvenue dans l’Assistance AI Genie",
+      "welcomeDescription": "Posez-moi des questions sur la performance de votre entreprise, l’optimisation SEO, les analyses de classement géographique et plus encore. Essayez les questions suggérées pour commencer !",
+      "loadingMessages": "Chargement des messages...",
+      "aiThinking": "L’IA réfléchit..."
+    },
+    "actions": {
+      "copy": "Copier",
+      "good": "Bien",
+      "bad": "Mauvais"
+    },
+    "deleteDialog": {
+      "title": "Supprimer la session de conversation",
+      "description": "Êtes-vous sûr de vouloir supprimer cette session de conversation ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  }
+}

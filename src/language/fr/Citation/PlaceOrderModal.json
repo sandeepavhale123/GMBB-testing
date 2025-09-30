@@ -1,0 +1,11 @@
+{
+  "PlaceOrderModal": {
+    "title": "Passer la commande",
+    "buttonTextLabel": "Texte du bouton",
+    "buttonTextPlaceholder": "Entrez le texte du bouton",
+    "buttonUrlLabel": "URL du bouton",
+    "buttonUrlPlaceholder": "https://exemple.com",
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  }
+}

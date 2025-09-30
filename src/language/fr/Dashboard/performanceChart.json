@@ -1,0 +1,11 @@
+{
+  "performanceChart": {
+    "title": "Aperçu des performances",
+    "description": "Suivez vos métriques commerciales dans le temps",
+    "metrics": {
+      "views": "Vues",
+      "clicks": "Clics",
+      "calls": "Appels"
+    }
+  }
+}

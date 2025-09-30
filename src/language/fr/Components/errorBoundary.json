@@ -1,0 +1,8 @@
+{
+  "toastTitle": "Une erreur s'est produite",
+  "toastDescription": "Une erreur est survenue. Veuillez essayer d'actualiser la page.",
+  "title": "Une erreur s'est produite",
+  "description": "Une erreur est survenue dans ce composant. Veuillez essayer d'actualiser ou contacter le support si le problème persiste.",
+  "devSummary": "Détails de l'erreur (Mode développeur)",
+  "tryAgain": "Réessayer"
+}

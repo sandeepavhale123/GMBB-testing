@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesWithAPI": {
+    "title": "Principales requêtes de recherche",
+    "description": "Termes de recherche les plus populaires qui ont conduit les clients vers votre entreprise.",
+    "selectMonthPlaceholder": "Sélectionner un mois",
+    "loadingErrorTitle": "Échec du chargement des requêtes de recherche",
+    "noDataMessage": "Aucun mot-clé de recherche disponible.",
+    "impressionBelowThreshold": "< 15"
+  }
+}

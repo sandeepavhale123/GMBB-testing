@@ -1,0 +1,16 @@
+{
+  "geoRankingEmptyState": {
+    "heading": "Commencez à suivre vos classements",
+    "description": "Suivez les classements de votre fiche Google Business dans différents emplacements pour voir vos performances dans les résultats de recherche locale.",
+    "benefits": {
+      "monitorLocalPerformance": "Surveillez les performances locales",
+      "trackCompetitorRankings": "Suivez les classements des concurrents"
+    },
+    "creditsP1": "Il vous reste",
+    "creditsP2": "crédits",
+    "button": {
+      "checkRank": "Vérifier le classement"
+    },
+    "additionalInfo": "Configurez le suivi des mots-clés pour surveiller les performances de votre entreprise dans les résultats de recherche locale"
+  }
+}

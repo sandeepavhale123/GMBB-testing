@@ -1,0 +1,77 @@
+{
+  "KeywordFilterModal": {
+    "title": "Filtrer les mots-clés",
+    "labels": {
+      "country": "Pays",
+      "language": "Langue"
+    },
+    "placeholders": {
+      "selectCountry": "Sélectionner un pays",
+      "selectLanguage": "Sélectionner une langue"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "apply": "Appliquer"
+    },
+    "countries": {
+      "2840": "États-Unis",
+      "2826": "Royaume-Uni",
+      "2124": "Canada",
+      "2036": "Australie",
+      "2276": "Allemagne",
+      "2250": "France",
+      "2724": "Espagne",
+      "2380": "Italie",
+      "2528": "Pays-Bas",
+      "2056": "Belgique",
+      "2752": "Suède",
+      "2578": "Norvège",
+      "2208": "Danemark",
+      "2246": "Finlande",
+      "2616": "Pologne",
+      "2203": "Tchéquie",
+      "2040": "Autriche",
+      "2756": "Suisse",
+      "2392": "Japon",
+      "2410": "Corée du Sud",
+      "156": "Chine",
+      "2356": "Inde",
+      "2076": "Brésil",
+      "2484": "Mexique",
+      "2032": "Argentine"
+    },
+    "languages": {
+      "ar": "Arabe",
+      "bg": "Bulgare",
+      "ca": "Catalan",
+      "hr": "Croate",
+      "cs": "Tchèque",
+      "da": "Danois",
+      "nl": "Néerlandais",
+      "en": "Anglais",
+      "et": "Estonien",
+      "fi": "Finnois",
+      "fr": "Français",
+      "de": "Allemand",
+      "el": "Grec",
+      "he": "Hébreu",
+      "hu": "Hongrois",
+      "id": "Indonésien",
+      "it": "Italien",
+      "ja": "Japonais",
+      "ko": "Coréen",
+      "lv": "Letton",
+      "lt": "Lituanien",
+      "no": "Norvégien",
+      "pl": "Polonais",
+      "pt": "Portugais",
+      "ro": "Roumain",
+      "ru": "Russe",
+      "es": "Espagnol",
+      "sv": "Suédois",
+      "tr": "Turc",
+      "uk": "Ukrainien",
+      "zh": "Chinois"
+    }
+  }
+}

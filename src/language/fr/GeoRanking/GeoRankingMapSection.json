@@ -1,0 +1,30 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Carte de classement GEO en grille",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Grille",
+      "distance": "Distance",
+      "engine": "Moteur",
+      "engineValue": "Google Maps",
+      "frequency": "Fréquence"
+    },
+    "loading": {
+      "title": "Chargement des données de la carte",
+      "description": "Génération des coordonnées de la grille..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Résumé des positions"
+    },
+    "frequencyOptions": {
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel"
+    }
+  }
+}

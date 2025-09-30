@@ -1,0 +1,33 @@
+{
+  "loadingGroups": "Chargement des groupes...",
+  "noGroupsTitle": "Aucun groupe trouvé",
+  "noGroupsDescription": "Commencez par créer votre premier groupe pour organiser vos fiches.",
+  "bulkSelected": "{{count}} groupe sélectionné",
+  "bulkSelected_plural": "{{count}} groupes sélectionnés",
+  "clearSelection": "Effacer la sélection",
+  "deleteSelected": "Supprimer la sélection ({{count}})",
+  "table": {
+    "groups": "Groupes",
+    "locations": "Nombre d’emplacements",
+    "actions": "Actions"
+  },
+  "dialog": {
+    "deleteGroupTitle": "Supprimer le groupe",
+    "deleteGroupsTitle": "Supprimer les groupes",
+    "deleteGroupDescription": "Êtes-vous sûr de vouloir supprimer le groupe « {{name}} » ? Cette action est irréversible et supprimera le groupe de toutes les fiches associées.",
+    "deleteGroupsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} groupe sélectionné ? Cette action est irréversible et supprimera le groupe de toutes les fiches associées.",
+    "deleteGroupsDescription_plural": "Êtes-vous sûr de vouloir supprimer {{count}} groupes sélectionnés ? Cette action est irréversible et supprimera les groupes de toutes les fiches associées.",
+    "cancel": "Annuler",
+    "delete": "Supprimer le groupe",
+    "delete_plural": "Supprimer {{count}} groupes",
+    "deleting": "Suppression..."
+  },
+  "toast": {
+    "successTitle": "Succès",
+    "errorTitle": "Erreur",
+    "deleteSuccess": "Groupe supprimé avec succès",
+    "deleteSuccess_plural": "{{count}} groupes supprimés avec succès",
+    "deleteSuccess_singal": "{{count}} groupe supprimé avec succès",
+    "deleteFailed": "Échec de la suppression du ou des groupes"
+  }
+}

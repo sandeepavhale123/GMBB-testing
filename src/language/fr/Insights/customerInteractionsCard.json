@@ -1,0 +1,12 @@
+{
+  "customerInteractionsTitle": "Interactions des Clients",
+
+  "callsLabel": "Appels",
+  "websiteLabel": "Site Web",
+  "directionLabel": "Itinéraire",
+  "messagesLabel": "Messages",
+  "desktopSearchLabel": "Recherche sur Ordinateur",
+  "desktopMapLabel": "Carte sur Ordinateur",
+  "mobileSearchLabel": "Recherche sur Mobile",
+  "mobileMapLabel": "Carte sur Mobile"
+}

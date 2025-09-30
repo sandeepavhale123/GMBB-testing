@@ -1,0 +1,58 @@
+{
+  "recentReviews": {
+    "title": "Avis récents",
+    "viewAll": "Voir tous les avis",
+    "searchPlaceholder": "Rechercher des avis...",
+    "sort": {
+      "placeholder": "Trier par",
+      "newest": "Les plus récents",
+      "oldest": "Les plus anciens",
+      "highest": "Les mieux notés",
+      "lowest": "Les moins bien notés"
+    },
+    "filter": {
+      "placeholder": "Évaluation",
+      "all": "Toutes les évaluations",
+      "5": "5 étoiles",
+      "4": "4 étoiles",
+      "3": "3 étoiles",
+      "2": "2 étoiles",
+      "1": "1 étoile"
+    },
+    "badges": {
+      "new": "Nouveau",
+      "noReply": "Pas de réponse",
+      "aiResponded": "Réponse AI",
+      "manualReply": "Réponse manuelle"
+    },
+    "actions": {
+      "generateAI": "Générer une réponse AI",
+      "manualReply": "Répondre manuellement",
+      "useResponse": "Utiliser la réponse",
+      "cancel": "Annuler",
+      "sendReply": "Envoyer la réponse"
+    },
+    "aiSection": {
+      "title": "Réponse suggérée par l'AI",
+      "placeholder": "La réponse suggérée par l'AI apparaîtra ici..."
+    },
+    "manualSection": {
+      "title": "Écrivez votre réponse",
+      "placeholder": "Tapez votre réponse..."
+    },
+    "toasts": {
+      "aiGenerated": {
+        "title": "Réponse AI générée",
+        "description": "L'AI a généré une réponse pour cet avis."
+      },
+      "responseUsed": {
+        "title": "Réponse utilisée",
+        "description": "La réponse suggérée par l'AI a été utilisée pour cet avis."
+      },
+      "replySent": {
+        "title": "Réponse envoyée",
+        "description": "Votre réponse manuelle a été envoyée avec succès."
+      }
+    }
+  }
+}

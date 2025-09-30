@@ -1,0 +1,23 @@
+{
+  "brandingSaveActions": {
+    "toast": {
+      "success": {
+        "title": "Image de marque mise à jour avec succès",
+        "description": "Vos modifications de l’image de marque en marque blanche ont été enregistrées"
+      },
+      "errorSave": {
+        "title": "Erreur lors de l’enregistrement des modifications",
+        "defaultDescription": "Veuillez réessayer plus tard"
+      },
+      "errorReset": {
+        "title": "Erreur lors de la réinitialisation",
+        "defaultDescription": "Une erreur s’est produite"
+      }
+    },
+    "buttons": {
+      "reset": "Réinitialiser",
+      "saving": "Enregistrement...",
+      "saveChanges": "Enregistrer les modifications"
+    }
+  }
+}

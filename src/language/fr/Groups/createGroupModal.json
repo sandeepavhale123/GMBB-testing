@@ -1,0 +1,30 @@
+{
+  "dialog": {
+    "createTitle": "Créer un nouveau groupe",
+    "editTitle": "Modifier le groupe"
+  },
+  "form": {
+    "groupNameLabel": "Nom du groupe *",
+    "groupNamePlaceholder": "Entrez le nom du groupe",
+    "validation": {
+      "groupNameMin": "Le nom du groupe doit comporter au moins 2 caractères",
+      "groupNameMax": "Le nom du groupe doit comporter moins de 50 caractères",
+      "selectListing": "Veuillez sélectionner au moins une fiche"
+    }
+  },
+  "toast": {
+    "success": "Succès",
+    "groupCreated": "Groupe créé avec succès",
+    "groupUpdated": "Groupe mis à jour avec succès",
+    "error": "Erreur",
+    "failedCreate": "Échec de la création du groupe",
+    "failedUpdate": "Échec de la mise à jour du groupe"
+  },
+  "actions": {
+    "cancel": "Annuler",
+    "create": "Créer le groupe",
+    "update": "Mettre à jour le groupe",
+    "creating": "Création en cours...",
+    "updating": "Mise à jour en cours..."
+  }
+}

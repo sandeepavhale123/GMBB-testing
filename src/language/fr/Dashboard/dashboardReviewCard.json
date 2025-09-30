@@ -1,0 +1,29 @@
+{
+  "sentiment": {
+    "positive": "Positif",
+    "negative": "Négatif",
+    "neutral": "Neutre"
+  },
+  "rating": {
+    "outOf": "{{rating}}/5"
+  },
+  "reply": {
+    "label": "Répondre",
+    "aiReply": "Réponse AI",
+    "editReply": "Modifier la réponse",
+    "deleteReply": "Supprimer la réponse",
+    "cancel": "Annuler",
+    "deleteConfirmTitle": "Supprimer la réponse",
+    "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer cette réponse ? Cette action est irréversible et la réponse sera définitivement supprimée de l'avis.",
+    "repliedOn": "Répondu le {{date}}",
+    "deleting": "Suppression en cours..."
+  },
+  "buttons": {
+    "ai": "AI",
+    "reply": "Répondre",
+    "delete": "Supprimer"
+  },
+  "placeholders": {
+    "noComment": "Aucun commentaire fourni"
+  }
+}

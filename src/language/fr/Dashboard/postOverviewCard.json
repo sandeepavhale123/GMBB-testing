@@ -1,0 +1,24 @@
+{
+  "postOverview": {
+    "title": "Aperçu des articles",
+    "total": "{{count}} au total",
+    "status": {
+      "live": {
+        "label": "Articles en ligne",
+        "message": "Tout va bien"
+      },
+      "scheduled": {
+        "label": "Planifiés",
+        "message": "Tout va bien"
+      },
+      "failed": {
+        "label": "Échoués",
+        "message": "Nécessite une attention"
+      }
+    },
+    "actions": {
+      "create": "Créer un nouvel article",
+      "manage": "Gérer les articles"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "geoRankingReportForm": {
+    "title": "Configuration du rapport",
+    "keywords": {
+      "label": "Mots-clés",
+      "placeholder": "motclé1, motclé2, motclé3",
+      "tooltip": "Ajoutez jusqu'à 5 mots-clés séparés par des virgules",
+      "maxReached": "⚠️ Vous avez atteint la limite maximale de 5 mots-clés. Vous pouvez toujours modifier les mots-clés existants.",
+      "limitExceededToastTitle": "Limite de mots-clés dépassée",
+      "limitExceededToastDesc": "Seuls les 5 premiers mots-clés ont été ajoutés. La limite maximale est de 5 mots-clés.",
+      "invalidToastTitle": "Mots-clés invalides",
+      "invalidToastDesc": "Veuillez vérifier vos mots-clés."
+    },
+    "searchDataEngine": {
+      "label": "Moteur de données de recherche",
+      "mapApi": "API Carte",
+      "briefcaseApi": "API Briefcase",
+      "missingApiKeyTitle": "Clé API manquante",
+      "missingApiKeyDesc": "Veuillez d'abord ajouter la clé API en allant dans Paramètres → Page d'intégration."
+    },
+    "mapPoint": {
+      "label": "Point sur la carte",
+      "automatic": "Automatique",
+      "manually": "Manuellement",
+      "manualInfo": "Cliquez sur la carte pour placer les points manuellement. Vous pouvez les déplacer pour les repositionner.",
+      "pointsSelected": "Points sélectionnés : {{count}}",
+      "clearAllPoints": "Effacer tous les points"
+    },
+    "distanceUnit": {
+      "label": "Unité de distance",
+      "meters": "Mètres",
+      "miles": "Miles"
+    },
+    "distanceValue": {
+      "label": "Distance",
+      "placeholder": "Choisir…"
+    },
+    "gridSize": {
+      "label": "Taille de la grille"
+    },
+    "scheduleCheck": {
+      "label": "Planifier la vérification",
+      "options": {
+        "onetime": "Une seule fois",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel"
+      }
+    },
+    "language": {
+      "label": "Langue"
+    },
+    "buttons": {
+      "checkRank": "Vérifier le classement",
+      "processingKeyword": "Traitement du mot-clé...",
+      "submittingRank": "Vérification du classement...",
+      "reset": "Réinitialiser & Nouvelle recherche"
+    },
+    "pollingInfo": "🔄 Le mot-clé est en cours de traitement. Cela peut prendre quelques minutes..."
+  }
+}

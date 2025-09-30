@@ -1,0 +1,16 @@
+{
+  "visibilitySummaryTitle": "Résumé de visibilité",
+  "visibilitySummarySubtitle": "Nombre total de vues provenant de la recherche Google et de Google Maps.",
+  
+  "googleSearchViews": "Vues de la recherche Google",
+  "googleMapsViews": "Vues de Google Maps",
+  
+  "percentageChange": "{{value}}% par rapport à la période précédente",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Recherche",
+  "mapsBarName": "Cartes",
+  
+  "searchViewsLegend": "Vues de la recherche",
+  "mapsViewsLegend": "Vues de Maps"
+}

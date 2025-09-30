@@ -1,0 +1,24 @@
+{
+  "label": "Sélectionner des sites",
+  "placeholders": {
+    "search": "Rechercher des sites..."
+  },
+  "sections": {
+    "groups": "Groupes",
+    "locations": "Sites"
+  },
+  "actions": {
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner"
+  },
+  "status": {
+    "locations": "Sites"
+  },
+  "messages": {
+    "loading": "Chargement...",
+    "noResults": "Aucun site trouvé.",
+    "selectAtLeastOne": "Sélectionnez au moins un site pour continuer.",
+    "error": "Échec de récupération des détails de la réponse en masse",
+    "errorTitle": "Erreur"
+  }
+}

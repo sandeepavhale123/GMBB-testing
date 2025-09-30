@@ -1,0 +1,9 @@
+{
+  "competitorAnalysis": {
+    "title": "Analyse des concurrents",
+    "labels": {
+      "averageRank": "Classement moyen",
+      "visibility": "Visibilité"
+    }
+  }
+}

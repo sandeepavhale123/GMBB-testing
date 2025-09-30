@@ -1,0 +1,47 @@
+{
+  "dialog": {
+    "title": "Créer un projet de réponse automatique",
+    "description": "Configurez des réponses automatisées pour vos fiches en configurant des modèles et des paramètres.",
+    "close": "Fermer",
+    "createProject": "Créer le projet",
+    "creating": "Création en cours..."
+  },
+  "labels": {
+    "projectName": "Nom du projet",
+    "replyType": "Type de réponse",
+    "projectPlaceholder": "Saisir le nom du projet"
+  },
+  "replyTypes": {
+    "ai": {
+      "title": "Réponses générées par AI",
+      "description": "Réponses intelligentes propulsées par l'IA"
+    },
+    "template": {
+      "title": "Modèle personnalisé",
+      "description": "Utilisez votre propre modèle de réponse"
+    },
+    "dnr": {
+      "title": "DNR (Ne pas répondre)",
+      "description": "Ignorer les réponses automatiques pour ces fiches"
+    }
+  },
+  "toast": {
+    "success": {
+      "title": "Succès",
+      "created": "Projet de réponse automatique créé avec succès"
+    },
+    "error": {
+      "title": "Erreur",
+      "projectName": "Veuillez saisir un nom de projet",
+      "selectListing": "Veuillez sélectionner au moins une fiche.",
+      "createProject": "Échec de la création du projet de réponse automatique"
+    }
+  },
+  "conflictDialog": {
+    "title": "Conflit dans les paramètres de réponse automatique",
+    "description": "Les emplacements suivants ont déjà des paramètres de réponse automatique configurés. Vous pouvez supprimer des fiches individuellement ou continuer pour tout remplacer :",
+    "overrideInfo": "La création de ce projet remplacera les paramètres de réponse automatique existants pour les autres emplacements.",
+    "cancel": "Annuler",
+    "overrideContinue": "Remplacer et continuer"
+  }
+}

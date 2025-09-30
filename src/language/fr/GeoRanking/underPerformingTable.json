@@ -1,0 +1,21 @@
+{
+  "UnderPerformingTable": {
+    "title": "Meilleure performance",
+    "loading": "Chargement des zones sous-performantes...",
+    "headers": {
+      "area": "Zone",
+      "coordinate": "Coordonnée",
+      "competitorName": "Nom du concurrent",
+      "competitorRank": "Classement du concurrent",
+      "yourRank": "Votre classement",
+      "competitorRating": "Évaluation du concurrent",
+      "competitorReview": "Avis du concurrent"
+    },
+    "notRanked": "Non classé",
+    "noData": "Aucune zone sous-performante trouvée",
+    "toast": {
+      "copiedTitle": "Copié !",
+      "copiedDescription": "Coordonnée copiée dans le presse-papiers"
+    }
+  }
+}

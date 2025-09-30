@@ -1,0 +1,13 @@
+{
+  "progressDonutChart": {
+    "title": "Avis et réponses",
+    "centerLabel": {
+      "responded": "Répondu"
+    },
+    "data": {
+      "manual": "Manuel",
+      "genie": "Genie",
+      "other": "Autre"
+    }
+  }
+}

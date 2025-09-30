@@ -1,0 +1,32 @@
+{
+  "searchPlaceholder": "Rechercher des sites...",
+  "addLocationButton": "Ajouter un site",
+  "table": {
+    "locationName": "Nom du site",
+    "zipCode": "Code postal",
+    "action": "Action",
+    "noLocations": "Aucun site trouvé"
+  },
+  "removeLocation": {
+    "title": "Supprimer le site",
+    "description": "Êtes-vous sûr de vouloir supprimer « {{locationName}} » de ce projet ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "remove": "Supprimer"
+  },
+  "toast": {
+    "successTitle": "Succès",
+    "errorTitle": "Erreur",
+    "errorProjectId": "L'ID du projet est requis pour supprimer le site",
+    "successDelete": "Le site a été supprimé du projet avec succès",
+    "errorDelete": "Échec de la suppression du site du projet",
+    "errorAdd": "Veuillez sélectionner au moins un site à ajouter",
+    "successAdd": "{{count}} site(s) ajouté(s) au projet avec succès",
+    "errorAddFailed": "Échec de l'ajout des sites au projet"
+  },
+  "addListingsModal": {
+    "title": "Ajouter des sites au projet",
+    "cancel": "Annuler",
+    "addSelected": "Ajouter la sélection ({{count}})",
+    "adding": "Ajout en cours..."
+  }
+}

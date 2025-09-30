@@ -1,0 +1,13 @@
+{
+  "faviconUpload": {
+    "title": "Favicon",
+    "uploadLabel": "Téléverser un favicon",
+    "uploadDescription": "PNG, ICO jusqu’à 1 Mo. Recommandé : 32x32px",
+    "chooseFile": "Choisir un fichier",
+    "fileTooLargeTitle": "Fichier trop volumineux",
+    "fileTooLargeDescription": "Le fichier favicon doit faire moins de 1 Mo",
+    "fileSelectedTitle": "Favicon sélectionné",
+    "fileSelectedDescription": "{{fileName}} prêt pour le téléversement",
+    "selectedFile": "Sélectionné : {{fileName}}"
+  }
+}

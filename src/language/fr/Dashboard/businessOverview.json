@@ -1,0 +1,10 @@
+{
+  "title": "Aperçu de l'entreprise",
+  "subtitle": "Principales métriques pour {{listingName}}",
+  "metrics": {
+    "totalBusinesses": "Nombre total d'entreprises",
+    "publishedPosts": "Articles publiés",
+    "totalReviews": "Nombre total d'avis",
+    "averageRating": "Note moyenne"
+  }
+}

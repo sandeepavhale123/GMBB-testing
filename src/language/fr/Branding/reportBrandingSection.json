@@ -1,0 +1,45 @@
+{
+  "reportBranding": {
+    "title": "Image de marque du rapport",
+    "form": {
+      "companyName": {
+        "label": "Nom de l’entreprise",
+        "placeholder": "Saisir le nom de l’entreprise"
+      },
+      "companyEmail": {
+        "label": "Email de l’entreprise",
+        "placeholder": "entreprise@exemple.com"
+      },
+      "companyWebsite": {
+        "label": "Site web de l’entreprise",
+        "placeholder": "https://www.entreprise.com"
+      },
+      "companyPhone": {
+        "label": "Téléphone de l’entreprise",
+        "placeholder": "+33 1 23 45 67 89"
+      },
+      "companyAddress": {
+        "label": "Adresse de l’entreprise",
+        "placeholder": "123 Rue du Business, Ville, État 12345"
+      }
+    },
+    "logo": {
+      "label": "Téléverser le logo",
+      "description": "PNG, JPG, SVG jusqu’à 2 Mo. Recommandé : 200x80px",
+      "chooseButton": "Choisir le logo",
+      "selectedFile": "Sélectionné : {{fileName}}",
+      "ready": "✓ Prêt",
+      "dropHere": "Déposez le logo ici pour le téléverser"
+    },
+    "toast": {
+      "fileTooLargeTitle": "Fichier trop volumineux",
+      "fileTooLargeDescription": "Le fichier du logo doit faire moins de 2 Mo",
+      "invalidFileTitle": "Type de fichier invalide",
+      "invalidFileDescription": "Veuillez téléverser une image (PNG, JPG, SVG)",
+      "uploadedTitle": "Logo du rapport téléversé",
+      "uploadedDescription": "{{fileName}} prêt à être utilisé",
+      "removedTitle": "Logo du rapport supprimé",
+      "removedDescription": "Le logo a été supprimé avec succès"
+    }
+  }
+}

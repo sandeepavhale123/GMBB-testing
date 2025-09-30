@@ -1,0 +1,26 @@
+{
+  "insightsCard": {
+    "title": "Analyses de performance",
+    "viewButton": "Voir",
+    "dateRange": {
+      "placeholder": "Sélectionner la période",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
+      "last90Days": "90 derniers jours"
+    },
+    "visibility": {
+      "searchViews": "Vues dans la recherche",
+      "mapsViews": "Vues dans Maps"
+    },
+    "customerActions": {
+      "title": "Actions des clients",
+      "calls": "Appels",
+      "website": "Site web",
+      "directions": "Itinéraire",
+      "messages": "Messages"
+    },
+    "topSearchQueries": {
+      "title": "Principales requêtes de recherche"
+    }
+  }
+}

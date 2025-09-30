@@ -1,0 +1,14 @@
+{
+  "title": "Résumé quotidien des activités",
+  "subtitle": "30 derniers jours",
+  "buttons": {
+    "line": "Ligne",
+    "area": "Zone"
+  },
+  "labels": {
+    "posts": "Articles",
+    "mediaResponded": "Médias répondus",
+    "reviews": "Avis",
+    "qa": "Questions & Réponses"
+  }
+}
