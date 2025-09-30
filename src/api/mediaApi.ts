@@ -683,3 +683,18 @@ export const updateImgexifDetails = async (data: UpdateImgexifRequest): Promise<
   const response = await axiosInstance.post('/update-imgexif-details', data);
   return response.data;
 };
+
+// Delete EXIF Template
+export interface DeleteExifTemplateRequest {
+  templateId: number;
+}
+
+export interface DeleteExifTemplateResponse {
+  code: number;
+  message: string;
+}
+
+export const deleteExifTemplate = async (data: DeleteExifTemplateRequest): Promise<DeleteExifTemplateResponse> => {
+  const response = await axiosInstance.post('/delete-exif-template', data);
+  return response.data;
+};

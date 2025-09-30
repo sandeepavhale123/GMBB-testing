@@ -13,9 +13,11 @@ import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
-import { uploadMedia, createBulkMedia, getExifTemplateList, getExifTemplateDetails, updateImgexifDetails } from "../../api/mediaApi";
+import { uploadMedia, createBulkMedia, getExifTemplateList, getExifTemplateDetails, updateImgexifDetails, deleteExifTemplate } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Trash2 } from "lucide-react";
 interface MediaFile {
   id: string;
   file?: File;
@@ -562,6 +564,50 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
 
+  const handleDeleteTemplate = async (templateId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!window.confirm("Are you sure you want to delete this template?")) {
+      return;
+    }
+
+    try {
+      const response = await deleteExifTemplate({
+        templateId: parseInt(templateId)
+      });
+
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Template deleted successfully",
+          variant: "default"
+        });
+
+        // Reload templates
+        const templatesResponse = await getExifTemplateList({
+          search: "",
+          page: 1,
+          limit: 100
+        });
+        if (templatesResponse.code === 200) {
+          setTemplates(templatesResponse.data.templates);
+        }
+
+        // Clear selection if deleted template was selected
+        if (selectedTemplate === templateId) {
+          setSelectedTemplate("");
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting template:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete template",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleChange = (field: string, value: string) => {
     setLocalData((prev: any) => ({
       ...prev,
@@ -655,20 +701,37 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
-          <select 
-            id="template" 
+          <Select 
             value={selectedTemplate} 
-            onChange={e => handleTemplateSelect(e.target.value)} 
+            onValueChange={handleTemplateSelect}
             disabled={isLoadingTemplates || isLoadingTemplateDetails}
-            className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <option value="">-- Select Template --</option>
-            {templates.map(template => (
-              <option key={template.id} value={template.id}>
-                {template.template_name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="-- Select Template --" />
+            </SelectTrigger>
+            <SelectContent className="z-[10000] bg-popover">
+              <SelectItem value="">-- Select Template --</SelectItem>
+              {templates.map(template => (
+                <SelectItem 
+                  key={template.id} 
+                  value={template.id}
+                  className="group"
+                >
+                  <div className="flex items-center justify-between w-full pr-2">
+                    <span>{template.template_name}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => handleDeleteTemplate(template.id, e)}
+                    >
+                      <Trash2 className="h-3 w-3 text-destructive" />
+                    </Button>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {isLoadingTemplateDetails && (
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Loader2 className="h-3 w-3 animate-spin" />
