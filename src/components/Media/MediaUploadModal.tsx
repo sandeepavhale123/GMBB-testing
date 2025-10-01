@@ -580,6 +580,9 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [showTemplateField, setShowTemplateField] = React.useState(false);
   const [newTemplateName, setNewTemplateName] = React.useState("");
   const [hasChangesAfterTemplate, setHasChangesAfterTemplate] = React.useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
+  const [templateToDelete, setTemplateToDelete] = React.useState<{ id: string; name: string } | null>(null);
+  const [isDeletingTemplate, setIsDeletingTemplate] = React.useState(false);
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
@@ -654,15 +657,24 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setIsLoadingTemplateDetails(false);
     }
   };
-  const handleDeleteTemplate = async (templateId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this template?")) {
-      return;
-    }
+  // Handle delete template - open confirmation dialog
+  const handleDeleteTemplate = (templateId: string, templateName: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent dropdown from selecting the item
+    setTemplateToDelete({ id: templateId, name: templateName });
+    setShowDeleteDialog(true);
+  };
+
+  // Confirm delete template
+  const confirmDeleteTemplate = async () => {
+    if (!templateToDelete) return;
+    
+    setIsDeletingTemplate(true);
     try {
-      const response = await deleteExifTemplate({
-        templateId: parseInt(templateId)
+      const response = await deleteExifTemplate({ 
+        templateId: parseInt(templateToDelete.id),
+        confirm: 'delete'
       });
+      
       if (response.code === 200) {
         toast({
           title: "Success",
@@ -681,10 +693,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         }
 
         // Clear selection if deleted template was selected
-        if (selectedTemplate === templateId) {
+        if (selectedTemplate === templateToDelete.id) {
           setSelectedTemplate("");
         }
       }
+      
+      setShowDeleteDialog(false);
+      setTemplateToDelete(null);
     } catch (error) {
       console.error("Error deleting template:", error);
       toast({
@@ -692,6 +707,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         description: "Failed to delete template",
         variant: "destructive"
       });
+    } finally {
+      setIsDeletingTemplate(false);
     }
   };
   const handleChange = (field: string, value: string) => {
@@ -836,7 +853,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               {templates.map(template => <SelectItem key={template.id} value={template.id} className="group w-full hover:bg-gray-100" style={{position:'relative'}}>
                   <div className="flex items-center justify-between w-full gap-3 flex-1">
                     <span className="flex-1">{template.template_name}</span>
-                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" style={{position:'absolute',right:0,top:1}}onClick={e => handleDeleteTemplate(template.id, e)}>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" style={{position:'absolute',right:0,top:1}} onClick={e => handleDeleteTemplate(template.id, template.template_name, e)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
@@ -986,5 +1003,27 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           </>}
       </div>
     </div>
+
+    {/* Delete Confirmation Dialog */}
+    <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Template</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete the template "{templateToDelete?.name}"? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isDeletingTemplate}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={confirmDeleteTemplate}
+            disabled={isDeletingTemplate}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            {isDeletingTemplate ? 'Deleting...' : 'Delete'}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   </>;
 };

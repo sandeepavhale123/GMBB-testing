@@ -687,11 +687,15 @@ export const updateImgexifDetails = async (data: UpdateImgexifRequest): Promise<
 // Delete EXIF Template
 export interface DeleteExifTemplateRequest {
   templateId: number;
+  confirm: string;
 }
 
 export interface DeleteExifTemplateResponse {
   code: number;
   message: string;
+  data: {
+    deletedId: number;
+  };
 }
 
 export const deleteExifTemplate = async (data: DeleteExifTemplateRequest): Promise<DeleteExifTemplateResponse> => {
