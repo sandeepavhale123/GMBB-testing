@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { store } from "@/store/store";
 import { MediaProvider } from "@/context/MediaContext";
+import { ListingProvider } from "@/context/ListingContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { ToastProvider } from "@radix-ui/react-toast";
 
@@ -41,7 +42,9 @@ export const AppProviders = ({ children }: AppProvidersProps) => {
           <ToastProvider>
             <BrowserRouter>
               <NotificationProvider>
-                <MediaProvider>{children}</MediaProvider>
+                <ListingProvider>
+                  <MediaProvider>{children}</MediaProvider>
+                </ListingProvider>
               </NotificationProvider>
             </BrowserRouter>
           </ToastProvider>
