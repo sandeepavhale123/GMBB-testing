@@ -1132,18 +1132,21 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <Input id="copyright" value={localData.copyright || ""} onChange={e => handleChange("copyright", e.target.value)} placeholder="Enter copyright" />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="keyword" className="text-xs text-muted-foreground">Keyword</Label>
-            <Input id="keyword" value={localData.keyword || ""} onChange={e => handleChange("keyword", e.target.value)} placeholder="Enter keywords" />
-          </div>
-          <div className="space-y-2">
+           <div className="space-y-2">
             <Label htmlFor="author" className="text-xs text-muted-foreground">Author</Label>
             <Input id="author" value={localData.author || ""} onChange={e => handleChange("author", e.target.value)} placeholder="Enter author" />
           </div>
+          
+         
+         
         </div>
         
         {/* Comment and Description - Full Width Textareas */}
         <div className="space-y-4">
+           <div className="space-y-2">
+            <Label htmlFor="keyword" className="text-xs text-muted-foreground">Keyword</Label>
+            <Input id="keyword" value={localData.keyword || ""} onChange={e => handleChange("keyword", e.target.value)} placeholder="Enter keywords" />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="comment" className="text-xs text-muted-foreground">Comment</Label>
             <Textarea id="comment" value={localData.comment || ""} onChange={e => handleChange("comment", e.target.value)} placeholder="Enter comment" className="min-h-[80px]" />
