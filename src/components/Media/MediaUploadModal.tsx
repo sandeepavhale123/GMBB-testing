@@ -553,11 +553,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           model: template.imgmodel || "",
           template: templateId
         });
-        toast({
-          title: "Template Loaded",
-          description: `Template "${template.tempname}" has been applied`,
-          variant: "success"
-        });
       }
     } catch (error) {
       console.error("Error loading template details:", error);
