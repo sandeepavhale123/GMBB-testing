@@ -207,7 +207,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[88vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Performance Report</DialogTitle>
+          <DialogTitle>Performance Report.</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
