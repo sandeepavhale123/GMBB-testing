@@ -1095,9 +1095,9 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       tabIndex={-1}
                       className="h-7 w-7 p-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity ml-auto" 
                       style={{position:'absolute',right:0,top:1}} 
-                      onPointerDown={(e) => handleDeleteTemplate(template.id, template.template_name, e)}
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onMouseUp={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onClick={(e) => handleDeleteTemplate(template.id, template.template_name, e)}
+                      {/* onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onMouseUp={(e) => { e.preventDefault(); e.stopPropagation(); }} */}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
