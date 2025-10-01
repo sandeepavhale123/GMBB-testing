@@ -436,6 +436,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                           <h3 className="text-lg font-semibold text-foreground">
                             Media Preview ({files.length} items)
                           </h3>
+                          {files.some(f => f.type === "image") && (
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} 
+                              className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                            >
+                              <Settings2 className="h-3 w-3" />
+                              {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                            </Button>
+                          )}
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                           {files.map(currentFile => <div key={currentFile.id} className="relative group">
@@ -492,14 +503,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
               </div>
             </div>
 
-            {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop - Only for single image uploads */}
-            <div className={`${isExifSheetOpen && file && files.length === 0 && file.type === "image" ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
-              {isExifSheetOpen && file && files.length === 0 && file.type === "image" && <div className="h-full bg-background flex flex-col animate-slide-in-right">
+            {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop - Works for both single and multiple image uploads */}
+            <div className={`${isExifSheetOpen && ((file && file.type === "image") || (files.length > 0 && files.some(f => f.type === "image"))) ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
+              {isExifSheetOpen && ((file && files.length === 0 && file.type === "image") || (files.length > 0 && files.some(f => f.type === "image"))) && <div className="h-full bg-background flex flex-col animate-slide-in-right">
                   <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Settings2 className="h-5 w-5 text-primary" />
-                        <h3 className="text-2xl font-bold text-foreground">Edit EXIF Metadata</h3>
+                        <h3 className="text-2xl font-bold text-foreground">
+                          Edit EXIF Metadata
+                          {files.length > 0 && ` (${files.filter(f => f.type === "image").length} images)`}
+                        </h3>
                       </div>
                       <Button variant="ghost" size="sm" onClick={() => setIsExifSheetOpen(false)} className="h-8 w-8 p-0">
                         <X className="h-4 w-4" />
@@ -508,13 +522,20 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </div>
 
                   <div className="p-4 md:p-6 overflow-y-auto flex-1">
-                    <ExifEditorContent exifData={exifData} imageUrl={file?.url} onSave={data => {
-                  setExifData(data);
-                  toast({
-                    title: "EXIF Data Updated",
-                    description: "Metadata has been updated successfully."
-                  });
-                }} onClose={() => setIsExifSheetOpen(false)} />
+                    <ExifEditorContent 
+                      exifData={exifData} 
+                      imageUrl={files.length === 0 ? file?.url : undefined}
+                      onSave={data => {
+                        setExifData(data);
+                        toast({
+                          title: "EXIF Data Updated",
+                          description: files.length > 0 
+                            ? `Metadata will be applied to ${files.filter(f => f.type === "image").length} image(s)` 
+                            : "Metadata has been updated successfully."
+                        });
+                      }} 
+                      onClose={() => setIsExifSheetOpen(false)} 
+                    />
                   </div>
                 </div>}
             </div>
@@ -681,14 +702,40 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
   const performSave = async (saveAsNew: number, templateName: string) => {
+    // For multiple images, we don't save EXIF to a specific URL
+    // The EXIF data is just stored in state and will be applied during upload
     if (!imageUrl) {
+      // No image URL means we're working with multiple images
+      // Just save the data locally and notify
+      onSave(localData);
       toast({
-        title: "Error",
-        description: "Image URL is required",
-        variant: "destructive"
+        title: "Success",
+        description: saveAsNew === 1 ? `Template "${templateName}" saved successfully` : "EXIF data prepared for all images",
+        variant: "success"
       });
+      
+      // Reload templates if a new one was saved
+      if (saveAsNew === 1) {
+        try {
+          const templatesResponse = await getExifTemplateList({
+            search: "",
+            page: 1,
+            limit: 100
+          });
+          if (templatesResponse.code === 200) {
+            setTemplates(templatesResponse.data.templates);
+          }
+        } catch (error) {
+          console.error("Error reloading templates:", error);
+        }
+      }
+      
+      setShowTemplateField(false);
+      setNewTemplateName("");
       return;
     }
+    
+    // Original logic for single image
     setIsSaving(true);
     try {
       const response = await updateImgexifDetails({
@@ -768,7 +815,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   };
   return <>
     <div className="space-y-6">
-      {/* Row 1: Image Preview + Template Selector */}
+      {/* Row 1: Template Selector (Image preview removed for multiple images) */}
       <div className="flex items-start gap-4">
         {imageUrl && <div className="flex-shrink-0">
             <img src={imageUrl} alt="Preview" className="w-[100px] h-[100px] object-cover rounded-lg border border-border" />
