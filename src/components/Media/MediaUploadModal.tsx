@@ -436,6 +436,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                           <h3 className="text-lg font-semibold text-foreground">
                             Media Preview ({files.length} items)
                           </h3>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} 
+                            className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                            disabled={files.length > 0}
+                          >
+                            <Settings2 className="h-3 w-3" />
+                            {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                          </Button>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                           {files.map(currentFile => <div key={currentFile.id} className="relative group">
