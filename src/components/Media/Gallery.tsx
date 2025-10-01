@@ -384,7 +384,11 @@ interface GalleryProps {
   showSelectButton?: boolean;
   enableMultiSelect?: boolean;
   maxSelectionLimit?: number;
+  selectedImages?: MediaItem[];
   onSelectImage?: (imageUrl: string) => void;
+  onToggleSelection?: (item: MediaItem) => void;
+  onClearSelection?: () => void;
+  onUseSelected?: () => void;
   onCloseModal?: () => void;
   className?: string;
 }
@@ -397,7 +401,11 @@ export const Gallery: React.FC<GalleryProps> = ({
   showSelectButton = false,
   enableMultiSelect = false,
   maxSelectionLimit = 5,
+  selectedImages: externalSelectedImages,
   onSelectImage,
+  onToggleSelection,
+  onClearSelection,
+  onUseSelected,
   onCloseModal,
   className = "",
 }) => {
@@ -410,8 +418,10 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [mediaType, setMediaType] = useState<"IMAGE" | "VIDEO">("IMAGE");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
-  const [selectedImages, setSelectedImages] = useState<MediaItem[]>([]);
+  const [internalSelectedImages, setInternalSelectedImages] = useState<MediaItem[]>([]);
+  
+  // Use external selection state if provided, otherwise use internal
+  const selectedImages = externalSelectedImages || internalSelectedImages;
 
   // Map tab to API type
   const getApiType = (tab: string): "IMAGE" | "VIDEO" | "AI" => {
@@ -629,50 +639,62 @@ export const Gallery: React.FC<GalleryProps> = ({
       e.stopPropagation();
     }
     
-    setSelectedImages((prev) => {
-      const isSelected = prev.some((img) => img.id === item.id);
-      
-      if (isSelected) {
-        return prev.filter((img) => img.id !== item.id);
-      } else {
-        if (prev.length >= maxSelectionLimit) {
-          toast({
-            title: "Selection Limit Reached",
-            description: `You can only select up to ${maxSelectionLimit} images.`,
-            variant: "destructive",
-          });
-          return prev;
+    if (onToggleSelection) {
+      onToggleSelection(item);
+    } else {
+      setInternalSelectedImages((prev) => {
+        const isSelected = prev.some((img) => img.id === item.id);
+        
+        if (isSelected) {
+          return prev.filter((img) => img.id !== item.id);
+        } else {
+          if (prev.length >= maxSelectionLimit) {
+            toast({
+              title: "Selection Limit Reached",
+              description: `You can only select up to ${maxSelectionLimit} images.`,
+              variant: "destructive",
+            });
+            return prev;
+          }
+          return [...prev, item];
         }
-        return [...prev, item];
-      }
-    });
+      });
+    }
   };
 
   const handleClearSelection = () => {
-    setSelectedImages([]);
+    if (onClearSelection) {
+      onClearSelection();
+    } else {
+      setInternalSelectedImages([]);
+    }
   };
 
   const handleUseSelected = () => {
-    if (selectedImages.length === 0) {
-      toast({
-        title: "No Images Selected",
-        description: "Please select at least one image.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (onUseSelected) {
+      onUseSelected();
+    } else {
+      if (selectedImages.length === 0) {
+        toast({
+          title: "No Images Selected",
+          description: "Please select at least one image.",
+          variant: "destructive",
+        });
+        return;
+      }
 
-    const mediaItems = selectedImages.map((img) => ({
-      url: img.url,
-      title: img.title,
-      source: "gallery" as const,
-      type: img.type,
-      id: img.id,
-    }));
+      const mediaItems = selectedImages.map((img) => ({
+        url: img.url,
+        title: img.title,
+        source: "gallery" as const,
+        type: img.type,
+        id: img.id,
+      }));
 
-    triggerMultiMediaUpload(mediaItems);
-    if (onCloseModal) {
-      onCloseModal();
+      triggerMultiMediaUpload(mediaItems);
+      if (onCloseModal) {
+        onCloseModal();
+      }
     }
   };
 
@@ -864,44 +886,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                 >
                   Videos
                 </Button>
-                {enableMultiSelect && showSelectButton && (
-                  <Button
-                    variant={isMultiSelectMode ? "default" : "outline"}
-                    size="sm"
-                    className="h-8"
-                    onClick={() => {
-                      setIsMultiSelectMode(!isMultiSelectMode);
-                      setSelectedImages([]);
-                    }}
-                  >
-                    {isMultiSelectMode ? "Cancel Multi-Select" : "Multi-Select"}
-                  </Button>
-                )}
               </div>
               <div className="flex items-center gap-3">
-                {isMultiSelectMode && selectedImages.length > 0 && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-primary">
-                      {selectedImages.length}/{maxSelectionLimit} selected
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8"
-                      onClick={handleClearSelection}
-                    >
-                      Clear All
-                    </Button>
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="h-8"
-                      onClick={handleUseSelected}
-                    >
-                      Use Selected
-                    </Button>
-                  </div>
-                )}
                 <div className="text-sm text-muted-foreground">{total} items</div>
               </div>
             </div>
@@ -932,15 +918,15 @@ export const Gallery: React.FC<GalleryProps> = ({
                             isSelected ? 'border-primary border-2 ring-2 ring-primary/20' : 'border-border'
                           }`}
                           onClick={
-                            isMultiSelectMode && showSelectButton
+                            enableMultiSelect && showSelectButton
                               ? (e) => handleToggleSelection(item, e)
-                              : showSelectButton && !isMultiSelectMode
+                              : showSelectButton && !enableMultiSelect
                               ? () => handleSelectMedia(item)
                               : undefined
                           }
                         >
                           {/* Multi-select checkbox overlay */}
-                          {isMultiSelectMode && showSelectButton && (
+                          {enableMultiSelect && showSelectButton && (
                             <div className="absolute top-2 left-2 z-10">
                               <div
                                 className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${

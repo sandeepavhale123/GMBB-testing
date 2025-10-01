@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { Upload, FileImage, FileVideo, AlertCircle, Sparkles, FolderOpen } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
-import { Gallery } from "./Gallery";
+import { Gallery, MediaItem } from "./Gallery";
 import { useMediaContext } from "@/context/MediaContext";
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
@@ -15,8 +15,10 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<MediaItem[]>([]);
   const {
-    shouldOpenMediaUpload
+    shouldOpenMediaUpload,
+    triggerMultiMediaUpload
   } = useMediaContext();
 
   // Close gallery modal when media upload is triggered
@@ -68,6 +70,40 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     e.preventDefault();
     setIsDragging(false);
   }, []);
+
+  const handleToggleSelection = (item: MediaItem) => {
+    setSelectedImages((prev) => {
+      const isSelected = prev.some((img) => img.id === item.id);
+      if (isSelected) {
+        return prev.filter((img) => img.id !== item.id);
+      } else {
+        if (prev.length >= 5) {
+          return prev;
+        }
+        return [...prev, item];
+      }
+    });
+  };
+
+  const handleClearSelection = () => {
+    setSelectedImages([]);
+  };
+
+  const handleUseSelected = () => {
+    if (selectedImages.length === 0) return;
+
+    const mediaItems = selectedImages.map((img) => ({
+      url: img.url,
+      title: img.title,
+      source: "gallery" as const,
+      type: img.type,
+      id: img.id,
+    }));
+
+    triggerMultiMediaUpload(mediaItems);
+    setIsGalleryModalOpen(false);
+    setSelectedImages([]);
+  };
   return <div className="space-y-2">
       <div onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onClick={() => setIsGalleryModalOpen(true)} className={`
           relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer
@@ -143,12 +179,42 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               showSelectButton={true}
               enableMultiSelect={true}
               maxSelectionLimit={5}
+              selectedImages={selectedImages}
+              onToggleSelection={handleToggleSelection}
+              onClearSelection={handleClearSelection}
+              onUseSelected={handleUseSelected}
               onCloseModal={() => setIsGalleryModalOpen(false)} 
               className="h-full" 
             />
           </div>
-          <DialogFooter className="p-6 pt-4">
-            <Button variant="outline" onClick={() => setIsGalleryModalOpen(false)}>
+          <DialogFooter className="p-6 pt-4 border-t flex-row justify-between items-center">
+            <div className="flex items-center gap-3">
+              {selectedImages.length > 0 && (
+                <>
+                  <span className="text-sm font-medium text-primary">
+                    {selectedImages.length}/5 selected
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleClearSelection}
+                  >
+                    Clear All
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleUseSelected}
+                  >
+                    Use Selected
+                  </Button>
+                </>
+              )}
+            </div>
+            <Button variant="outline" onClick={() => {
+              setIsGalleryModalOpen(false);
+              setSelectedImages([]);
+            }}>
               Close
             </Button>
           </DialogFooter>
