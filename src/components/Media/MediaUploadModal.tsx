@@ -658,7 +658,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
   // Handle delete template - open confirmation dialog
-  const handleDeleteTemplate = (templateId: string, templateName: string, e: React.MouseEvent) => {
+  const handleDeleteTemplate = (templateId: string, templateName: string, e: React.SyntheticEvent) => {
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent event from bubbling to SelectItem
     setTemplateToDelete({ id: templateId, name: templateName });
@@ -858,9 +858,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       variant="ghost" 
                       size="sm" 
                       type="button"
-                      className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity ml-auto" 
+                      tabIndex={-1}
+                      className="h-7 w-7 p-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity ml-auto" 
                       style={{position:'absolute',right:0,top:1}} 
-                      onMouseDown={e => handleDeleteTemplate(template.id, template.template_name, e)}
+                      onPointerDown={(e) => handleDeleteTemplate(template.id, template.template_name, e)}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onMouseUp={(e) => { e.preventDefault(); e.stopPropagation(); }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
