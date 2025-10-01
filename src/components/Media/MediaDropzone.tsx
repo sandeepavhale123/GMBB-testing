@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
 import { Gallery, MediaItem } from "./Gallery";
 import { useMediaContext } from "@/context/MediaContext";
+import { toast } from "@/hooks/use-toast";
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
   onAIGenerate: () => void;
@@ -78,6 +79,11 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
         return prev.filter((img) => img.id !== item.id);
       } else {
         if (prev.length >= 5) {
+          toast({
+            title: "Selection Limit Reached",
+            description: "You can only select up to 5 images.",
+            variant: "destructive",
+          });
           return prev;
         }
         return [...prev, item];
