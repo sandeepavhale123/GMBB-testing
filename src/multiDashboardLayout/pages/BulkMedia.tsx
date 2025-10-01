@@ -280,7 +280,14 @@ export const BulkMedia: React.FC = () => {
       </div>
 
       {/* Upload Modal */}
-      <MediaUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleUploadSuccess} isBulkUpload={true} />
+      <MediaUploadModal 
+        isOpen={showUploadModal} 
+        onClose={() => setShowUploadModal(false)} 
+        onUpload={handleUploadSuccess} 
+        isBulkUpload={true}
+        enableMultiSelect={false}
+        maxSelectionLimit={1}
+      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>

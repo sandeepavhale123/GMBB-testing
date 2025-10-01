@@ -8,10 +8,14 @@ import { toast } from "@/hooks/use-toast";
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
   onAIGenerate: () => void;
+  enableMultiSelect?: boolean;
+  maxSelectionLimit?: number;
 }
 export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
   onFilesAdded,
-  onAIGenerate
+  onAIGenerate,
+  enableMultiSelect = true,
+  maxSelectionLimit = 5
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,10 +82,10 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
       if (isSelected) {
         return prev.filter((img) => img.id !== item.id);
       } else {
-        if (prev.length >= 5) {
+        if (prev.length >= maxSelectionLimit) {
           toast({
             title: "Selection Limit Reached",
-            description: "You can only select up to 5 images.",
+            description: `You can only select up to ${maxSelectionLimit} image${maxSelectionLimit > 1 ? 's' : ''}.`,
             variant: "destructive",
           });
           return prev;
@@ -183,8 +187,8 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               showUpload={true} 
               showDeleteButton={false} 
               showSelectButton={true}
-              enableMultiSelect={true}
-              maxSelectionLimit={5}
+              enableMultiSelect={enableMultiSelect}
+              maxSelectionLimit={maxSelectionLimit}
               selectedImages={selectedImages}
               onToggleSelection={handleToggleSelection}
               onClearSelection={handleClearSelection}
@@ -198,7 +202,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               {selectedImages.length > 0 && (
                 <>
                   <span className="text-sm font-medium text-primary">
-                    {selectedImages.length}/5 selected
+                    {selectedImages.length}/{maxSelectionLimit} selected
                   </span>
                   <Button
                     variant="ghost"

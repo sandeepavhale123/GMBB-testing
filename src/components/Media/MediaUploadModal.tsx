@@ -43,12 +43,16 @@ interface MediaUploadModalProps {
   onClose: () => void;
   onUpload: (mediaItems: MediaItem[]) => void;
   isBulkUpload?: boolean;
+  enableMultiSelect?: boolean;
+  maxSelectionLimit?: number;
 }
 export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   isOpen,
   onClose,
   onUpload,
-  isBulkUpload = false
+  isBulkUpload = false,
+  enableMultiSelect = true,
+  maxSelectionLimit = 5
 }) => {
   const [file, setFile] = useState<MediaFile | null>(null);
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -428,7 +432,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       </div>}
 
                     {/* Dropzone Area - Only show if no file selected */}
-                    {!file && files.length === 0 && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} />}
+                    {!file && files.length === 0 && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} enableMultiSelect={enableMultiSelect} maxSelectionLimit={maxSelectionLimit} />}
 
                     {/* Multiple Files Preview */}
                     {files.length > 0 && <div className="space-y-4">
