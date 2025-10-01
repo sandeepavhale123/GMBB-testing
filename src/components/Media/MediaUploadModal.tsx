@@ -853,7 +853,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               {templates.map(template => <SelectItem key={template.id} value={template.id} className="group w-full hover:bg-gray-100" style={{position:'relative'}}>
                   <div className="flex items-center justify-between w-full gap-3 flex-1">
                     <span className="flex-1">{template.template_name}</span>
-                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" style={{position:'absolute',right:0,top:1}} onClick={e => handleDeleteTemplate(template.id, template.template_name, e)}>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity ml-auto" style={{position:'absolute',right:0,top:1}} onClick={e => handleDeleteTemplate(template.id, template.template_name, e)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
