@@ -40,7 +40,7 @@ const GalleryPage: React.FC = () => {
 
   return (
     <>
-      <Gallery enableMultiSelect={true} maxSelectionLimit={5} />
+      <Gallery />
       <CreatePostModal 
         isOpen={isCreatePostOpen}
         onClose={handleCloseCreatePost}

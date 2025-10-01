@@ -51,7 +51,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   isBulkUpload = false
 }) => {
   const [file, setFile] = useState<MediaFile | null>(null);
-  const [files, setFiles] = useState<MediaFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
@@ -84,14 +83,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   } = useListingContext();
   const {
     selectedMedia,
-    selectedMediaItems,
     clearSelection
   } = useMediaContext();
   const {
     toast
   } = useToast();
-  
-  const isMultiUpload = files.length > 1;
 
   // Helper function to detect media type from URL
   const getMediaTypeFromUrl = (url: string): 'image' | 'video' => {
@@ -102,45 +98,23 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
   // Effect to auto-populate with selected media from context
   React.useEffect(() => {
-    if (isOpen) {
-      // Handle multiple images from gallery
-      if (selectedMediaItems && selectedMediaItems.length > 0) {
-        const mediaFiles: MediaFile[] = selectedMediaItems.map((media, index) => ({
-          id: Date.now().toString() + index + Math.random().toString(36).substr(2, 9),
-          url: media.url,
-          type: media.type,
-          title: media.title,
-          selectedImage: media.source,
-          aiImageUrl: media.source === 'ai' ? media.url : undefined,
-          galleryImageUrl: media.source === 'gallery' ? media.url : undefined
-        }));
-        setFiles(mediaFiles);
-        setFile(null);
-        setFormData(prev => ({
-          ...prev,
-          title: `${selectedMediaItems.length} images selected`
-        }));
-      }
-      // Handle single image
-      else if (selectedMedia) {
-        const mediaFile: MediaFile = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          url: selectedMedia.url,
-          type: selectedMedia.type,
-          title: selectedMedia.title,
-          selectedImage: selectedMedia.source,
-          aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
-          galleryImageUrl: selectedMedia.source === 'gallery' ? selectedMedia.url : undefined
-        };
-        setFile(mediaFile);
-        setFiles([]);
-        setFormData(prev => ({
-          ...prev,
-          title: selectedMedia.title
-        }));
-      }
+    if (selectedMedia && isOpen) {
+      const mediaFile: MediaFile = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        url: selectedMedia.url,
+        type: selectedMedia.type,
+        title: selectedMedia.title,
+        selectedImage: selectedMedia.source,
+        aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
+        galleryImageUrl: selectedMedia.source === 'gallery' ? selectedMedia.url : undefined
+      };
+      setFile(mediaFile);
+      setFormData(prev => ({
+        ...prev,
+        title: selectedMedia.title
+      }));
     }
-  }, [selectedMedia, selectedMediaItems, isOpen]);
+  }, [selectedMedia, isOpen]);
   const handleFilesAdded = (newFiles: File[]) => {
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
@@ -157,16 +131,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       setUploadComplete(false);
     }
   };
-  const handleFileRemove = (fileId?: string) => {
-    if (files.length > 0) {
-      if (fileId) {
-        setFiles(files.filter(f => f.id !== fileId));
-      } else {
-        setFiles([]);
-      }
-    } else {
-      setFile(null);
-    }
+  const handleFileRemove = () => {
+    setFile(null);
     setUploadComplete(false);
   };
   const handleFormDataChange = (data: Partial<typeof formData>) => {
@@ -176,9 +142,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     }));
   };
   const handleUpload = async () => {
-    const activeFiles = files.length > 0 ? files : (file ? [file] : []);
-    
-    if (activeFiles.length === 0) {
+    if (!file) {
       toast({
         title: "Upload Error",
         description: "Please select a file.",
@@ -202,90 +166,105 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       });
       return;
     }
-
+    // console.log("Starting upload process...");
+    // console.log("File details:", {
+    //   selectedImage: file.selectedImage,
+    //   url: file.url,
+    //   aiImageUrl: file.aiImageUrl,
+    //   file: file.file
+    //     ? {
+    //         name: file.file.name,
+    //         size: file.file.size,
+    //         type: file.file.type,
+    //       }
+    //     : null,
+    // });
     setIsUploading(true);
-    
     try {
-      const uploadedItems: MediaItem[] = [];
-      
-      // Upload each file
-      for (let i = 0; i < activeFiles.length; i++) {
-        const currentFile = activeFiles[i];
-        
-        if (isBulkUpload) {
-          // Handle bulk upload using new bulk API
-          const formattedListingId = selectedListings.join(',');
-          const bulkUploadData = {
-            file: currentFile.file,
-            title: (activeFiles.length > 1 ? `Image ${i + 1}` : formData.title) || currentFile.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
-            category: formData.category || "additional",
-            publishOption: formData.publishOption,
-            scheduleDate: formData.scheduleDate,
-            listingId: formattedListingId,
-            selectedImage: currentFile.selectedImage,
-            aiImageUrl: currentFile.aiImageUrl,
-            galleryImageUrl: currentFile.galleryImageUrl,
-            galleryMediaType: (currentFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
-          };
-          const response = await createBulkMedia(bulkUploadData);
+      if (isBulkUpload) {
+        // Handle bulk upload using new bulk API
+        const formattedListingId = selectedListings.join(',');
+        const bulkUploadData = {
+          file: file.file,
+          title: formData.title || file.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
+          category: formData.category || "additional",
+          publishOption: formData.publishOption,
+          scheduleDate: formData.scheduleDate,
+          listingId: formattedListingId,
+          selectedImage: file.selectedImage,
+          aiImageUrl: file.aiImageUrl,
+          galleryImageUrl: file.galleryImageUrl,
+          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+        };
+        const response = await createBulkMedia(bulkUploadData);
 
+        // Create media item for local state update
+        const mediaItem: MediaItem = {
+          id: file.id,
+          name: formData.title || file.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
+          views: "0 views",
+          type: file.type,
+          url: file.url,
+          uploadDate: new Date().toISOString().split("T")[0]
+        };
+        onUpload([mediaItem]);
+        setUploadComplete(true);
+
+        // Clear MediaContext to prevent modal reopening on page navigation
+        clearSelection();
+        toast({
+          title: "Bulk Media Posted Successfully",
+          description: `Media has been posted to ${selectedListings.length} listing${selectedListings.length > 1 ? 's' : ''}.`,
+          variant: "default"
+        });
+      } else {
+        // Handle single listing upload
+        const uploadData = {
+          file: file.file,
+          title: formData.title || file.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
+          category: formData.category || "additional",
+          publishOption: formData.publishOption,
+          scheduleDate: formData.scheduleDate,
+          listingId: selectedListing.id,
+          selectedImage: file.selectedImage,
+          aiImageUrl: file.aiImageUrl,
+          galleryImageUrl: file.galleryImageUrl,
+          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+        };
+        // console.log("Upload data prepared:", {
+        //   fileName: uploadData.file?.name,
+        //   title: uploadData.title,
+        //   category: uploadData.category,
+        //   publishOption: uploadData.publishOption,
+        //   listingId: uploadData.listingId,
+        //   selectedImage: uploadData.selectedImage,
+        //   aiImageUrl: uploadData.aiImageUrl,
+        // });
+        const response = await uploadMedia(uploadData);
+        // console.log("Upload response:", response);
+        if (response.code === 200) {
           // Create media item for local state update
           const mediaItem: MediaItem = {
-            id: currentFile.id,
-            name: bulkUploadData.title,
+            id: file.id,
+            name: uploadData.title,
             views: "0 views",
-            type: currentFile.type,
-            url: currentFile.url,
+            type: file.type,
+            url: file.url,
             uploadDate: new Date().toISOString().split("T")[0]
           };
-          uploadedItems.push(mediaItem);
-        } else {
-          // Handle single listing upload
-          const uploadData = {
-            file: currentFile.file,
-            title: (activeFiles.length > 1 ? `Image ${i + 1}` : formData.title) || currentFile.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
-            category: formData.category || "additional",
-            publishOption: formData.publishOption,
-            scheduleDate: formData.scheduleDate,
-            listingId: selectedListing.id,
-            selectedImage: currentFile.selectedImage,
-            aiImageUrl: currentFile.aiImageUrl,
-            galleryImageUrl: currentFile.galleryImageUrl,
-            galleryMediaType: (currentFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
-          };
+          onUpload([mediaItem]);
+          setUploadComplete(true);
 
-          const response = await uploadMedia(uploadData);
-          
-          if (response.code === 200) {
-            // Create media item for local state update
-            const mediaItem: MediaItem = {
-              id: currentFile.id,
-              name: uploadData.title,
-              views: "0 views",
-              type: currentFile.type,
-              url: currentFile.url,
-              uploadDate: new Date().toISOString().split("T")[0]
-            };
-            uploadedItems.push(mediaItem);
-          } else {
-            throw new Error(response.message || "Upload failed");
-          }
+          // Clear MediaContext to prevent modal reopening on page navigation
+          clearSelection();
+          toast({
+            title: "Upload Successful",
+            description: response.message
+          });
+        } else {
+          throw new Error(response.message || "Upload failed");
         }
       }
-      
-      onUpload(uploadedItems);
-      setUploadComplete(true);
-
-      // Clear MediaContext to prevent modal reopening on page navigation
-      clearSelection();
-      
-      toast({
-        title: "Upload Successful",
-        description: activeFiles.length > 1 
-          ? `${activeFiles.length} media files uploaded successfully` 
-          : "Media uploaded successfully",
-        variant: "default"
-      });
     } catch (error) {
       console.error("Upload error:", error);
       toast({
@@ -299,7 +278,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
   const handleClose = () => {
     setFile(null);
-    setFiles([]);
     setUploadComplete(false);
     setSelectedListings([]);
     setFormData({
@@ -384,7 +362,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
               <div className="p-6 space-y-6 overflow-y-auto flex-1">
                 {/* Upload Complete State */}
-                {uploadComplete && (file || files.length > 0) && <div className="text-center space-y-4 py-8">
+                {uploadComplete && file && <div className="text-center space-y-4 py-8">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                       <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -394,10 +372,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       Upload Complete!
                     </h3>
                     <p className="text-muted-foreground">
-                      {isMultiUpload 
-                        ? `${files.length} files have been uploaded successfully.`
-                        : `Your ${file?.type} has been uploaded successfully.`
-                      }
+                      Your{" "}
+                      <span className="font-medium text-primary">{file.type}</span>{" "}
+                      has been uploaded successfully.
                     </p>
                   </div>}
 
@@ -409,55 +386,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       </div>}
 
                     {/* Dropzone Area - Only show if no file selected */}
-                    {!file && files.length === 0 && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} />}
+                    {!file && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} />}
 
-                    {/* Multiple Files Preview */}
-                    {files.length > 0 && <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-semibold text-foreground">
-                            Media Preview ({files.length} files)
-                          </h3>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => setFiles([])}
-                          >
-                            Clear All
-                          </Button>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-                          {files.map((fileItem) => (
-                            <div key={fileItem.id} className="relative group">
-                              <div className="aspect-square overflow-hidden rounded-lg border border-border">
-                                {fileItem.type === "video" ? (
-                                  <video
-                                    src={fileItem.url}
-                                    className="h-full w-full object-cover"
-                                    muted
-                                  />
-                                ) : (
-                                  <img
-                                    src={fileItem.url}
-                                    alt={fileItem.title || "Preview"}
-                                    className="h-full w-full object-cover"
-                                  />
-                                )}
-                              </div>
-                              <Button
-                                variant="destructive"
-                                size="sm"
-                                className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                onClick={() => handleFileRemove(fileItem.id)}
-                              >
-                                <X className="h-3 w-3" />
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>}
-
-                    {/* Single File Preview */}
-                    {file && files.length === 0 && <div className="space-y-4">
+                    {/* File Preview */}
+                    {file && <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <h3 className="text-lg font-semibold text-foreground">
                             Media Preview
@@ -481,25 +413,15 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       </div>}
 
                     {/* Form Fields */}
-                    <MediaForm formData={formData} onChange={handleFormDataChange} hasFiles={!!(file || files.length > 0)} fileType={file?.type} />
+                    <MediaForm formData={formData} onChange={handleFormDataChange} hasFiles={!!file} fileType={file?.type} />
 
                     {/* Action Buttons */}
                     <div className="flex justify-end gap-3 pt-4 border-t border-border">
                       <Button variant="outline" onClick={handleClose} disabled={isUploading}>
                         Cancel
                       </Button>
-                      <Button 
-                        onClick={handleUpload} 
-                        disabled={(!file && files.length === 0) || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)} 
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
-                      >
-                        {isUploading 
-                          ? (isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading...") 
-                          : (isBulkUpload 
-                              ? "Upload to Selected Listings" 
-                              : (isMultiUpload ? `Upload ${files.length} Files` : "Upload Media")
-                            )
-                        }
+                      <Button onClick={handleUpload} disabled={!file || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                        {isUploading ? isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading..." : isBulkUpload ? "Upload to Selected Listings" : "Upload Media"}
                       </Button>
                     </div>
                   </>}
@@ -507,8 +429,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             </div>
 
             {/* EXIF Editor Section - Full width on mobile/tablet, half width on desktop */}
-            <div className={`${isExifSheetOpen && file && files.length === 0 ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
-              {isExifSheetOpen && file && files.length === 0 && <div className="h-full bg-background flex flex-col animate-slide-in-right">
+            <div className={`${isExifSheetOpen ? 'w-full lg:w-1/2' : 'w-0'} overflow-hidden transition-all duration-300 ease-in-out`}>
+              {isExifSheetOpen && <div className="h-full bg-background flex flex-col animate-slide-in-right">
                   <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
