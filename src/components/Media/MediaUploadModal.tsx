@@ -637,7 +637,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                     </span>
                                   </TooltipTrigger>
                                   {!isJpegImage(file) && (
-                                    <TooltipContent>
+                                    <TooltipContent side="right" className="z-[9999]">
                                       <p>This feature works only with JPG or JPEG images</p>
                                     </TooltipContent>
                                   )}
