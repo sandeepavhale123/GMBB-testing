@@ -993,7 +993,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         <div className="flex-1">
           <p className="text-sm text-blue-900 font-medium">EXIF Template Information</p>
           <p className="text-xs text-blue-700 mt-1">
-            This feature works best with .JPG and .JPEG image formats. Other formats may have limited EXIF support.
+            This feature only works with .JPG and .JPEG image formats.
           </p>
         </div>
       </div>
