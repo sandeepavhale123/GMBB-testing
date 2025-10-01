@@ -57,7 +57,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const [showAIModal, setShowAIModal] = useState(false);
   const [isExifSheetOpen, setIsExifSheetOpen] = useState(false);
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  const [imageCardSize, setImageCardSize] = useState<"small" | "medium" | "large">("medium");
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -434,37 +433,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     {/* Multiple Files Preview */}
                     {files.length > 0 && <div className="space-y-4">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-semibold text-foreground">
-                              Media Preview ({files.length}/5 items)
-                            </h3>
-                            <div className="flex items-center gap-1 border border-border rounded-md p-1">
-                              <Button
-                                variant={imageCardSize === "small" ? "secondary" : "ghost"}
-                                size="sm"
-                                className="h-7 px-2 text-xs"
-                                onClick={() => setImageCardSize("small")}
-                              >
-                                Small
-                              </Button>
-                              <Button
-                                variant={imageCardSize === "medium" ? "secondary" : "ghost"}
-                                size="sm"
-                                className="h-7 px-2 text-xs"
-                                onClick={() => setImageCardSize("medium")}
-                              >
-                                Medium
-                              </Button>
-                              <Button
-                                variant={imageCardSize === "large" ? "secondary" : "ghost"}
-                                size="sm"
-                                className="h-7 px-2 text-xs"
-                                onClick={() => setImageCardSize("large")}
-                              >
-                                Large
-                              </Button>
-                            </div>
-                          </div>
+                          <h3 className="text-lg font-semibold text-foreground">
+                            Media Preview ({files.length} items)
+                          </h3>
                           {files.some(f => f.type === "image") && (
                             <Button 
                               variant="outline" 
@@ -477,27 +448,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                             </Button>
                           )}
                         </div>
-                        <div className={`grid gap-4 ${
-                          imageCardSize === "small" ? "grid-cols-3 sm:grid-cols-6 md:grid-cols-8" :
-                          imageCardSize === "medium" ? "grid-cols-2 sm:grid-cols-5" :
-                          "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"
-                        }`}>
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                           {files.map(currentFile => <div key={currentFile.id} className="relative group">
-                              <div className={`overflow-hidden rounded-lg border border-border ${
-                                imageCardSize === "small" ? "w-[80px] h-[80px]" :
-                                imageCardSize === "medium" ? "w-[100px] h-[100px]" :
-                                "aspect-square"
-                              }`}>
+                              <div className="aspect-square overflow-hidden rounded-lg border border-border">
                                 {currentFile.type === "video" ? <video src={currentFile.url} className="h-full w-full object-cover" preload="metadata" muted /> : <img src={currentFile.url} alt={currentFile.title || "Preview"} className="h-full w-full object-cover" />}
                               </div>
                               <Button variant="destructive" size="sm" className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => handleFileRemove(currentFile.id)}>
                                 <X className="h-3 w-3" />
                               </Button>
-                              {imageCardSize !== "small" && (
-                                <p className="text-xs text-muted-foreground mt-1 truncate">
-                                  {currentFile.title || 'Gallery Image'}
-                                </p>
-                              )}
+                              <p className="text-xs text-muted-foreground mt-1 truncate">
+                                {currentFile.title || 'Gallery Image'}
+                              </p>
                             </div>)}
                         </div>
                       </div>}
