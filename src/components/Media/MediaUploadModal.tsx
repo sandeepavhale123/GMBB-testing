@@ -616,6 +616,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     <ExifEditorContent 
                       exifData={exifData} 
                       imageUrl={files.length === 0 ? file?.url : undefined}
+                      imageUrls={files.length > 0 ? files.filter(f => f.type === "image").map(f => {
+                        if (f.selectedImage === "ai") return f.aiImageUrl || f.url;
+                        if (f.selectedImage === "gallery") return f.galleryImageUrl || f.url;
+                        return f.url;
+                      }) : undefined}
                       onSave={data => {
                         setExifData(data);
                         toast({
@@ -642,12 +647,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 interface ExifEditorContentProps {
   exifData: any;
   imageUrl?: string;
+  imageUrls?: string[];
   onSave: (data: any) => void;
   onClose: () => void;
 }
 const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   exifData,
   imageUrl,
+  imageUrls,
   onSave,
   onClose
 }) => {
@@ -811,36 +818,92 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
   const performSave = async (saveAsNew: number, templateName: string) => {
-    // For multiple images, we don't save EXIF to a specific URL
-    // The EXIF data is just stored in state and will be applied during upload
+    // For multiple images, call API with array of URLs when provided
     if (!imageUrl) {
-      // No image URL means we're working with multiple images
-      // Just save the data locally and notify
-      onSave(localData);
-      toast({
-        title: "Success",
-        description: saveAsNew === 1 ? `Template "${templateName}" saved successfully` : "EXIF data prepared for all images",
-        variant: "success"
-      });
-      
-      // Reload templates if a new one was saved
-      if (saveAsNew === 1) {
-        try {
-          const templatesResponse = await getExifTemplateList({
-            search: "",
-            page: 1,
-            limit: 100
-          });
-          if (templatesResponse.code === 200) {
-            setTemplates(templatesResponse.data.templates);
+      const urls = (imageUrls?.filter(u => !!u) as string[]) || [];
+      if (urls.length === 0) {
+        // No image URLs available - save locally as fallback
+        onSave(localData);
+        toast({
+          title: "Success",
+          description: saveAsNew === 1 ? `Template "${templateName}" saved successfully` : "EXIF data prepared for all images",
+          variant: "success"
+        });
+        
+        // Reload templates if a new one was saved
+        if (saveAsNew === 1) {
+          try {
+            const templatesResponse = await getExifTemplateList({
+              search: "",
+              page: 1,
+              limit: 100
+            });
+            if (templatesResponse.code === 200) {
+              setTemplates(templatesResponse.data.templates);
+            }
+          } catch (error) {
+            console.error("Error reloading templates:", error);
           }
-        } catch (error) {
-          console.error("Error reloading templates:", error);
         }
+        
+        setShowTemplateField(false);
+        setNewTemplateName("");
+        return;
       }
-      
-      setShowTemplateField(false);
-      setNewTemplateName("");
+
+      setIsSaving(true);
+      try {
+        const response = await updateImgexifDetails({
+          ImageUrl: urls,
+          imgname: localData.name || "",
+          imgtitle: localData.title || "",
+          imgsub: localData.subject || "",
+          imgkey: localData.keyword || "",
+          imgcopy: localData.copyright || "",
+          imgauthor: localData.author || "",
+          imgcomment: localData.comment || "",
+          imgdesc: localData.description || "",
+          imglat: localData.gpsLatitude || "",
+          imglong: localData.gpsLongitude || "",
+          imgmaker: localData.maker || "",
+          imgsoftware: localData.software || "",
+          imgmodel: localData.model || "",
+          saveAs: saveAsNew,
+          tempname: templateName
+        });
+        if (response.code === 200) {
+          onSave(localData);
+          toast({
+            title: "Success",
+            description: saveAsNew === 1 ? `Template "${templateName}" saved successfully` : "EXIF data updated successfully",
+            variant: "success"
+          });
+
+          // Reload templates if a new one was saved
+          if (saveAsNew === 1) {
+            const templatesResponse = await getExifTemplateList({
+              search: "",
+              page: 1,
+              limit: 100
+            });
+            if (templatesResponse.code === 200) {
+              setTemplates(templatesResponse.data.templates);
+            }
+          }
+          onClose();
+        }
+      } catch (error) {
+        console.error("Error saving EXIF data:", error);
+        toast({
+          title: "Error",
+          description: "Failed to save EXIF data",
+          variant: "destructive"
+        });
+      } finally {
+        setIsSaving(false);
+        setShowTemplateField(false);
+        setNewTemplateName("");
+      }
       return;
     }
     
