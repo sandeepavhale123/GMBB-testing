@@ -848,7 +848,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     setIsSaving(true);
     try {
       const response = await updateImgexifDetails({
-        ImageUrl: imageUrl,
+        ImageUrl: [imageUrl],
         imgname: localData.name || "",
         imgtitle: localData.title || "",
         imgsub: localData.subject || "",

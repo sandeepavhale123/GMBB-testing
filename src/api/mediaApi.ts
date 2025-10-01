@@ -639,7 +639,7 @@ export interface ExifTemplateDetailsResponse {
 }
 
 export interface UpdateImgexifRequest {
-  ImageUrl: string;
+  ImageUrl: string[];
   imgname: string;
   imgtitle: string;
   imgsub: string;
