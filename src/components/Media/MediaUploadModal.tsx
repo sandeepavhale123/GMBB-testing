@@ -165,7 +165,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const handleUpload = async () => {
     // Check if we have either a single file or multiple files
     const hasFiles = file || files.length > 0;
-    
     if (!hasFiles) {
       toast({
         title: "Upload Error",
@@ -174,7 +173,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       });
       return;
     }
-
     if (isBulkUpload && selectedListings.length === 0) {
       toast({
         title: "Upload Error",
@@ -191,7 +189,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       });
       return;
     }
-
     setIsUploading(true);
     try {
       const uploadedItems: MediaItem[] = [];
@@ -229,7 +226,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             };
             await uploadMedia(uploadData);
           }
-
           const mediaItem: MediaItem = {
             id: currentFile.id,
             name: formData.title || currentFile.title || "Gallery Image",
@@ -240,7 +236,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           };
           uploadedItems.push(mediaItem);
         }
-
         toast({
           title: "Success",
           description: `${files.length} media item(s) uploaded successfully`,
@@ -264,7 +259,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             galleryMediaType: (file.type === 'video' ? 'video' : 'photo') as "photo" | "video"
           };
           const response = await createBulkMedia(bulkUploadData);
-
           const mediaItem: MediaItem = {
             id: file.id,
             name: formData.title || file.file?.name.replace(/\.[^/.]+$/, "") || "Generated Image",
@@ -274,7 +268,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             uploadDate: new Date().toISOString().split("T")[0]
           };
           uploadedItems.push(mediaItem);
-
           toast({
             title: "Bulk Media Posted Successfully",
             description: `Media has been posted to ${selectedListings.length} listing${selectedListings.length > 1 ? 's' : ''}.`,
@@ -294,7 +287,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             galleryMediaType: (file.type === 'video' ? 'video' : 'photo') as "photo" | "video"
           };
           const response = await uploadMedia(uploadData);
-          
           if (response.code === 200) {
             const mediaItem: MediaItem = {
               id: file.id,
@@ -305,7 +297,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
               uploadDate: new Date().toISOString().split("T")[0]
             };
             uploadedItems.push(mediaItem);
-
             toast({
               title: "Upload Successful",
               description: response.message
@@ -315,7 +306,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           }
         }
       }
-
       onUpload(uploadedItems);
       setUploadComplete(true);
       clearSelection();
@@ -377,21 +367,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     }));
   };
   return <>
-      <Dialog open={isOpen} onOpenChange={(open) => { /* Prevent automatic closing - only explicit close buttons work */ }}>
-        <DialogContent 
-          className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`}
-          onInteractOutside={(e) => {
-            const target = e.target as HTMLElement | null;
-            if (target && target.closest('[data-allow-outside-interact]')) return;
-            e.preventDefault();
-          }}
-          onPointerDownOutside={(e) => {
-            const target = e.target as HTMLElement | null;
-            if (target && target.closest('[data-allow-outside-interact]')) return;
-            e.preventDefault();
-          }}
-          onEscapeKeyDown={(e) => e.preventDefault()}
-        >
+      <Dialog open={isOpen} onOpenChange={open => {/* Prevent automatic closing - only explicit close buttons work */}}>
+        <DialogContent className={`${isExifSheetOpen ? 'max-w-7xl' : 'max-w-4xl'} max-h-[90vh] p-0 transition-all duration-300 flex flex-col rounded-lg overflow-hidden`} onInteractOutside={e => {
+        const target = e.target as HTMLElement | null;
+        if (target && target.closest('[data-allow-outside-interact]')) return;
+        e.preventDefault();
+      }} onPointerDownOutside={e => {
+        const target = e.target as HTMLElement | null;
+        if (target && target.closest('[data-allow-outside-interact]')) return;
+        e.preventDefault();
+      }} onEscapeKeyDown={e => e.preventDefault()}>
           <DialogDescription className="sr-only">Upload media and optionally edit EXIF metadata.</DialogDescription>
           <div className="flex h-full overflow-hidden">
             {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
@@ -452,38 +437,18 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                             Media Preview ({files.length} items)
                           </h3>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                          {files.map((currentFile) => (
-                            <div key={currentFile.id} className="relative group w-[100px] h-[100px]">
-                              <div className="w-[100px] h-[100px] overflow-hidden rounded-lg border border-border">
-                                {currentFile.type === "video" ? (
-                                  <video
-                                    src={currentFile.url}
-                                    className="h-full w-full object-cover"
-                                    preload="metadata"
-                                    muted
-                                  />
-                                ) : (
-                                  <img
-                                    src={currentFile.url}
-                                    alt={currentFile.title || "Preview"}
-                                    className="h-full w-full object-cover"
-                                  />
-                                )}
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                          {files.map(currentFile => <div key={currentFile.id} className="relative group">
+                              <div className="aspect-square overflow-hidden rounded-lg border border-border">
+                                {currentFile.type === "video" ? <video src={currentFile.url} className="h-full w-full object-cover" preload="metadata" muted /> : <img src={currentFile.url} alt={currentFile.title || "Preview"} className="h-full w-full object-cover" />}
                               </div>
-                              <Button
-                                variant="destructive"
-                                size="sm"
-                                className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                onClick={() => handleFileRemove(currentFile.id)}
-                              >
+                              <Button variant="destructive" size="sm" className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => handleFileRemove(currentFile.id)}>
                                 <X className="h-3 w-3" />
                               </Button>
                               <p className="text-xs text-muted-foreground mt-1 truncate">
                                 {currentFile.title || 'Gallery Image'}
                               </p>
-                            </div>
-                          ))}
+                            </div>)}
                         </div>
                       </div>}
 
@@ -519,21 +484,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       <Button variant="outline" onClick={handleClose} disabled={isUploading}>
                         Cancel
                       </Button>
-                      <Button 
-                        onClick={handleUpload} 
-                        disabled={(!file && files.length === 0) || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)} 
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
-                      >
-                        {isUploading 
-                          ? isBulkUpload 
-                            ? "Uploading to Multiple Listings..." 
-                            : "Uploading..." 
-                          : isBulkUpload 
-                            ? "Upload to Selected Listings" 
-                            : files.length > 0 
-                              ? `Upload ${files.length} Items` 
-                              : "Upload Media"
-                        }
+                      <Button onClick={handleUpload} disabled={!file && files.length === 0 || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                        {isUploading ? isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading..." : isBulkUpload ? "Upload to Selected Listings" : files.length > 0 ? `Upload ${files.length} Items` : "Upload Media"}
                       </Button>
                     </div>
                   </>}
@@ -587,10 +539,15 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   onSave,
   onClose
 }) => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [localData, setLocalData] = React.useState(exifData);
   const [showAdvanced, setShowAdvanced] = React.useState(false);
-  const [templates, setTemplates] = React.useState<Array<{ id: string; template_name: string }>>([]);
+  const [templates, setTemplates] = React.useState<Array<{
+    id: string;
+    template_name: string;
+  }>>([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
   const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
   const [isLoadingTemplateDetails, setIsLoadingTemplateDetails] = React.useState(false);
@@ -598,7 +555,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [showTemplateField, setShowTemplateField] = React.useState(false);
   const [newTemplateName, setNewTemplateName] = React.useState("");
   const [hasChangesAfterTemplate, setHasChangesAfterTemplate] = React.useState(false);
-
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
@@ -629,23 +585,19 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     };
     loadTemplates();
   }, []);
-
   const handleTemplateSelect = async (templateId: string) => {
     if (!templateId) {
       setSelectedTemplate("");
       setHasChangesAfterTemplate(false);
       return;
     }
-
     setSelectedTemplate(templateId);
     setHasChangesAfterTemplate(false);
     setIsLoadingTemplateDetails(true);
-
     try {
       const response = await getExifTemplateDetails({
         templateId: parseInt(templateId)
       });
-
       if (response.code === 200) {
         const template = response.data.template;
         // Map API response to local state
@@ -677,19 +629,15 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setIsLoadingTemplateDetails(false);
     }
   };
-
   const handleDeleteTemplate = async (templateId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    
     if (!window.confirm("Are you sure you want to delete this template?")) {
       return;
     }
-
     try {
       const response = await deleteExifTemplate({
         templateId: parseInt(templateId)
       });
-
       if (response.code === 200) {
         toast({
           title: "Success",
@@ -721,19 +669,17 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       });
     }
   };
-
   const handleChange = (field: string, value: string) => {
     setLocalData((prev: any) => ({
       ...prev,
       [field]: value
     }));
-    
+
     // Track changes after template selection
     if (selectedTemplate) {
       setHasChangesAfterTemplate(true);
     }
   };
-
   const performSave = async (saveAsNew: number, templateName: string) => {
     if (!imageUrl) {
       toast({
@@ -743,7 +689,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       });
       return;
     }
-
     setIsSaving(true);
     try {
       const response = await updateImgexifDetails({
@@ -764,7 +709,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         saveAs: saveAsNew,
         tempname: templateName
       });
-
       if (response.code === 200) {
         onSave(localData);
         toast({
@@ -799,7 +743,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setNewTemplateName("");
     }
   };
-
   const handleSave = () => {
     if (selectedTemplate && !hasChangesAfterTemplate) {
       // Template is selected and no changes made, save directly with saveAs: 0
@@ -809,7 +752,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setShowTemplateField(true);
     }
   };
-
   const handleSubmitTemplate = () => {
     if (newTemplateName.trim()) {
       performSave(1, newTemplateName.trim());
@@ -821,7 +763,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       });
     }
   };
-
   const handleSkipTemplate = () => {
     performSave(0, "");
   };
@@ -836,42 +777,25 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <Label htmlFor="template" className="text-sm font-medium text-foreground">
             Select Template
           </Label>
-          <Select 
-            value={selectedTemplate} 
-            onValueChange={handleTemplateSelect}
-            disabled={isLoadingTemplates || isLoadingTemplateDetails}
-          >
+          <Select value={selectedTemplate} onValueChange={handleTemplateSelect} disabled={isLoadingTemplates || isLoadingTemplateDetails}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="-- Select Template --" />
             </SelectTrigger>
             <SelectContent className="z-[10000] bg-popover">
-              {templates.map(template => (
-                <SelectItem 
-                  key={template.id} 
-                  value={template.id}
-                  className="group"
-                >
+              {templates.map(template => <SelectItem key={template.id} value={template.id} className="group">
                   <div className="flex items-center justify-between w-full pr-2">
                     <span>{template.template_name}</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={(e) => handleDeleteTemplate(template.id, e)}
-                    >
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => handleDeleteTemplate(template.id, e)}>
                       <Trash2 className="h-3 w-3 text-destructive" />
                     </Button>
                   </div>
-                </SelectItem>
-              ))}
+                </SelectItem>)}
             </SelectContent>
           </Select>
-          {isLoadingTemplateDetails && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          {isLoadingTemplateDetails && <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Loader2 className="h-3 w-3 animate-spin" />
               Loading template...
-            </div>
-          )}
+            </div>}
         </div>
       </div>
 
@@ -925,14 +849,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <Settings2 className="h-4 w-4 text-primary" />
             <h3 className="text-sm font-semibold text-foreground">Advanced</h3>
           </div>
-          <Switch
-            checked={showAdvanced}
-            onCheckedChange={setShowAdvanced}
-          />
+          <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
         </div>
         
-        {showAdvanced && (
-          <div className="space-y-4 animate-fade-in">
+        {showAdvanced && <div className="space-y-4 animate-fade-in">
             {/* GPS Info */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -966,15 +886,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 <Input id="model" value={localData.model || ""} onChange={e => handleChange("model", e.target.value)} placeholder="e.g., EOS R5" />
               </div>
             </div>
-          </div>
-        )}
+          </div>}
       </div>
 
       <Separator />
 
       {/* Save as Template Section - Only shown when Save is clicked */}
-      {showTemplateField && (
-        <div className="space-y-4 animate-fade-in">
+      {showTemplateField && <div className="space-y-4 animate-fade-in">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-primary" />
@@ -982,59 +900,39 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 Save as Template
               </Label>
             </div>
-            <Input
-              id="templateName"
-              value={newTemplateName}
-              onChange={(e) => setNewTemplateName(e.target.value)}
-              placeholder="Enter template name"
-              className="w-full"
-              autoFocus
-            />
+            <Input id="templateName" value={newTemplateName} onChange={e => setNewTemplateName(e.target.value)} placeholder="Enter template name" className="w-full" autoFocus />
             <p className="text-xs text-muted-foreground">
               Do you want to save this EXIF data as a template for future use?
             </p>
           </div>
-        </div>
-      )}
+        </div>}
 
       {/* Action Buttons */}
       <div className=" bg-background border-t border-border pt-4  flex gap-3 justify-end">
-        {!showTemplateField ? (
-          <>
+        {!showTemplateField ? <>
             <Button variant="outline" onClick={onClose} disabled={isSaving}>
               Close
             </Button>
             <Button onClick={handleSave} disabled={isSaving} className="gap-2">
-              {isSaving ? (
-                <>
+              {isSaving ? <>
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Saving...
-                </>
-              ) : (
-                <>
+                </> : <>
                   <Save className="h-4 w-4" />
                   Save
-                </>
-              )}
+                </>}
             </Button>
-          </>
-        ) : (
-          <>
+          </> : <>
             <Button variant="outline" onClick={handleSkipTemplate} disabled={isSaving}>
               Skip
             </Button>
             <Button onClick={handleSubmitTemplate} disabled={isSaving || !newTemplateName.trim()} className="gap-2">
-              {isSaving ? (
-                <>
+              {isSaving ? <>
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Saving...
-                </>
-              ) : (
-                "Continue"
-              )}
+                </> : "Continue"}
             </Button>
-          </>
-        )}
+          </>}
       </div>
     </div>
   </>;
