@@ -929,10 +929,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                           {enableMultiSelect && showSelectButton && (
                             <div className="absolute top-2 left-2 z-10">
                               <div
-                                className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all shadow-lg ${
+                                className={`w-6 h-6 rounded flex items-center justify-center transition-all shadow-lg border-2 border-primary ${
                                   isSelected
-                                    ? 'bg-primary border-primary shadow-primary/50'
-                                    : 'bg-white/90 border-white/90 shadow-black/20'
+                                    ? 'bg-primary shadow-primary/50'
+                                    : 'bg-white/90 shadow-black/20'
                                 }`}
                                 onClick={(e) => handleToggleSelection(item, e)}
                               >
