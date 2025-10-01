@@ -443,6 +443,23 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       publishOption: "now",
       scheduleDate: ""
     });
+    setExifData({
+      name: "",
+      subject: "",
+      copyright: "",
+      title: "",
+      keyword: "",
+      author: "",
+      comment: "",
+      description: "",
+      gpsLatitude: "",
+      gpsLongitude: "",
+      maker: "",
+      software: "",
+      model: "",
+      template: "default"
+    });
+    clearSelection();
     onClose();
   };
   const handleAIGenerated = (generatedMedia: {
