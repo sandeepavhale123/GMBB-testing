@@ -1,0 +1,32 @@
+{
+  "customNotifications": {
+    "searchPlaceholder": "Rechercher par nom de lieu ou email...",
+    "addCustomRecipient": "Ajouter un destinataire personnalisé",
+    "addCustomNotification": "Ajouter une notification personnalisée",
+    "editEmailSettings": "Modifier les paramètres email",
+    "deleteEmailNotification": "Supprimer la notification email",
+    "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer la notification email pour \"{{locationName}}\" ? Cette action est irréversible.",
+    "validationError": "Erreur de validation",
+    "validationSelectListing": "Veuillez sélectionner au moins un établissement et fournir les destinataires email.",
+    "validationProvideRecipients": "Veuillez fournir les destinataires email.",
+    "success": "Succès",
+    "error": "Erreur",
+    "successAdd": "Notification personnalisée ajoutée avec succès !",
+    "successUpdate": "Paramètres email mis à jour avec succès !",
+    "successDelete": "Notifications email supprimées avec succès.",
+    "failedLoad": "Échec du chargement des notifications personnalisées.",
+    "tryAgain": "Réessayer",
+    "loadingNotifications": "Chargement des notifications...",
+    "noNotificationsFound": "Aucune notification personnalisée trouvée",
+    "locationName": "Nom du lieu",
+    "emailRecipients": "Destinataires email",
+    "enterEmails": "Saisissez les adresses email séparées par des virgules",
+    "cancel": "Annuler",
+    "addNotification": "Ajouter une notification",
+    "update": "Mettre à jour",
+    "delete": "Supprimer",
+    "actions": "Actions",
+    "showingResults": "Affichage de {{from}} à {{to}} sur {{total}} résultats",
+    "paginationDots": "..."
+  }
+}

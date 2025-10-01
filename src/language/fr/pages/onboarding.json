@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "steps": {
+      "1": {
+        "title": "Informations sur l'entreprise",
+        "description": "Saisissez les détails de votre entreprise pour commencer"
+      },
+      "2": {
+        "title": "Définir votre objectif",
+        "description": "Choisissez ce que vous souhaitez accomplir avec cette configuration"
+      },
+      "3": {
+        "title": "Connecter le compte Google",
+        "description": "Liez votre compte Google en toute sécurité pour l'intégration"
+      },
+      "4": {
+        "title": "Sélectionner les fiches",
+        "description": "Choisissez la fiche Google que vous souhaitez gérer"
+      },
+      "5": {
+        "title": "Terminé",
+        "description": "Configuration terminée !"
+      }
+    },
+    "setup":"Progression de la configuration",
+    "progress": "Étape {{currentStep}} sur {{totalSteps}}",
+    "back": "Retour"
+  }
+}

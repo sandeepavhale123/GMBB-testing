@@ -1,0 +1,17 @@
+{
+  "personalizationGuide": {
+    "title": "Personnalisez vos modèles de réponse",
+    "description": "Vous pouvez utiliser les variables suivantes lors de la création de vos modèles pour rendre vos réponses plus dynamiques et personnalisées :",
+    "variables": {
+      "fullName": "Nom complet du critique",
+      "firstName": "Prénom du critique",
+      "lastName": "Nom de famille du critique",
+      "ownerName": "Votre nom (propriétaire de l'entreprise)"
+    },
+    "example": {
+      "title": "Exemple d'utilisation :",
+      "message": "Bonjour {first_name}, merci pour votre avis de {rating} étoiles ! Nous sommes ravis que votre expérience avec nous ait été agréable.",
+      "signature": "Cordialement,\n{owner_name}"
+    }
+  }
+}

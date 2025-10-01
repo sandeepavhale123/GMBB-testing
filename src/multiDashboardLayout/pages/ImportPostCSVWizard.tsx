@@ -1,20 +1,41 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Circle, Upload, Download, AlertTriangle, Check, Loader2 } from "lucide-react";
+import {
+  CheckCircle2,
+  Circle,
+  Upload,
+  Download,
+  AlertTriangle,
+  Check,
+  Loader2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { FilePreview } from "@/components/ImportCSV/FilePreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { csvApi, ValidationRow, UploadBulkSheetResponse, SaveBulkSheetResponse } from "@/api/csvApi";
+import {
+  csvApi,
+  ValidationRow,
+  UploadBulkSheetResponse,
+  SaveBulkSheetResponse,
+} from "@/api/csvApi";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { count } from "console";
 const postTypeOptions = [
   { label: "Select file type", value: "0" },
   { label: "Regular post file", value: "1" },
   { label: "Event post file", value: "2" },
-  { label: "Offer post file", value: "3" }
+  { label: "Offer post file", value: "3" },
 ];
 
 interface WizardFormData {
@@ -33,6 +54,7 @@ interface WizardFormData {
   saveResponse: SaveBulkSheetResponse | null;
 }
 export const ImportPostCSVWizard: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardPages/importPostCSVWizard");
   const navigate = useNavigate();
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
@@ -52,26 +74,34 @@ export const ImportPostCSVWizard: React.FC = () => {
     validatedRows: [],
     uploadedFileUrl: null,
     uploadedFileName: null,
-    saveResponse: null
+    saveResponse: null,
   });
-  const steps = [{
-    number: 1,
-    title: "Select Listings",
-    completed: currentStep > 1
-  }, {
-    number: 2,
-    title: "Upload File",
-    completed: currentStep > 2
-  }, {
-    number: 3,
-    title: "QC",
-    completed: currentStep > 3
-  }, {
-    number: 4,
-    title: "Submit",
-    completed: currentStep > 4
-  }];
-  const canProceedFromStep1 = formData.selectedListings.length > 0 && formData.postType && formData.postType !== "0";
+  const steps = [
+    {
+      number: 1,
+      title: t("importPostCSVWizard.steps.1"),
+      completed: currentStep > 1,
+    },
+    {
+      number: 2,
+      title: t("importPostCSVWizard.steps.2"),
+      completed: currentStep > 2,
+    },
+    {
+      number: 3,
+      title: t("importPostCSVWizard.steps.3"),
+      completed: currentStep > 3,
+    },
+    {
+      number: 4,
+      title: t("importPostCSVWizard.steps.4"),
+      completed: currentStep > 4,
+    },
+  ];
+  const canProceedFromStep1 =
+    formData.selectedListings.length > 0 &&
+    formData.postType &&
+    formData.postType !== "0";
   const canProceedFromStep2 = formData.uploadedFile !== null;
   const handleNext = async () => {
     if (currentStep === 1) {
@@ -87,20 +117,20 @@ export const ImportPostCSVWizard: React.FC = () => {
 
   const generateCSVFile = async () => {
     setIsGeneratingCSV(true);
-    
+
     // Validation and debugging
-    console.log('🚀 Starting CSV generation with data:', {
+    console.log("🚀 Starting CSV generation with data:", {
       postType: formData.postType,
       selectedListings: formData.selectedListings,
-      listingCount: formData.selectedListings.length
+      listingCount: formData.selectedListings.length,
     });
 
     // Validate required data
     if (!formData.selectedListings.length) {
       toast({
-        title: "Error",
-        description: "Please select at least one listing.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.selectListing"),
+        variant: "destructive",
       });
       setIsGeneratingCSV(false);
       return;
@@ -108,9 +138,9 @@ export const ImportPostCSVWizard: React.FC = () => {
 
     if (!formData.postType || formData.postType === "0") {
       toast({
-        title: "Error", 
-        description: "Please select a valid post type.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.selectPostType"),
+        variant: "destructive",
       });
       setIsGeneratingCSV(false);
       return;
@@ -119,49 +149,53 @@ export const ImportPostCSVWizard: React.FC = () => {
     try {
       const requestData = {
         fileType: formData.postType,
-        listingIds: formData.selectedListings
+        listingIds: formData.selectedListings,
       };
-      
-      console.log('📤 Sending API request:', requestData);
-      
+
+      console.log("📤 Sending API request:", requestData);
+
       const response = await csvApi.generateMultiCSVFile(requestData);
-      
-      console.log('📥 Received API response:', response);
+
+      console.log("📥 Received API response:", response);
 
       if (response.code === 200) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           generatedFileUrl: response.data.fileUrl,
-          generatedFileName: response.data.fileName
+          generatedFileName: response.data.fileName,
         }));
         setCurrentStep(currentStep + 1);
         toast({
-          title: "Success",
-          description: "CSV file generated successfully"
+          title: t("importPostCSVWizard.success.title"),
+          description: t("importPostCSVWizard.success.csvGenerated"),
         });
-        console.log('✅ CSV generation successful');
+        console.log("✅ CSV generation successful");
       } else {
-        console.error('❌ API returned error code:', response.code, response.message);
-        throw new Error(response.message || 'Unknown API error');
+        console.error(
+          "❌ API returned error code:",
+          response.code,
+          response.message
+        );
+        throw new Error(response.message || "Unknown API error");
       }
     } catch (error: any) {
-      console.error('❌ Error generating CSV:', {
+      console.error("❌ Error generating CSV:", {
         error,
         message: error?.message,
         response: error?.response?.data,
         status: error?.response?.status,
-        statusText: error?.response?.statusText
+        statusText: error?.response?.statusText,
       });
 
       // More specific error messages based on error type
-      let errorMessage = "Failed to generate CSV file. Please try again.";
-      
+      let errorMessage = t("importPostCSVWizard.errors.csvGenerateFailed");
+
       if (error?.response?.status === 401) {
-        errorMessage = "Authentication failed. Please log in again.";
+        errorMessage = t("importPostCSVWizard.errors.authFailed");
       } else if (error?.response?.status === 403) {
-        errorMessage = "You don't have permission to generate CSV files.";
+        errorMessage = t("importPostCSVWizard.errors.permissionDenied");
       } else if (error?.response?.status === 500) {
-        errorMessage = "Server error occurred. Please try again later.";
+        errorMessage = t("importPostCSVWizard.errors.serverError");
       } else if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error?.message) {
@@ -169,9 +203,9 @@ export const ImportPostCSVWizard: React.FC = () => {
       }
 
       toast({
-        title: "Error",
+        title: t("importPostCSVWizard.errors.title"),
         description: errorMessage,
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsGeneratingCSV(false);
@@ -181,18 +215,18 @@ export const ImportPostCSVWizard: React.FC = () => {
   const uploadBulkSheet = async () => {
     if (!formData.uploadedFile) {
       toast({
-        title: "Error",
-        description: "Please select a file to upload.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.selectFile"),
+        variant: "destructive",
       });
       return;
     }
 
     if (!formData.postType || formData.postType === "0") {
       toast({
-        title: "Error",
-        description: "Please select a valid post type.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.selectPostType"),
+        variant: "destructive",
       });
       return;
     }
@@ -200,68 +234,84 @@ export const ImportPostCSVWizard: React.FC = () => {
     setIsUploadingFile(true);
 
     try {
-      console.log('🚀 Starting file upload with:', {
+      console.log("🚀 Starting file upload with:", {
         postType: formData.postType,
-        fileName: formData.uploadedFile.name
+        fileName: formData.uploadedFile.name,
       });
 
-      const response = await csvApi.uploadBulkSheet(formData.postType, formData.uploadedFile);
+      const response = await csvApi.uploadBulkSheet(
+        formData.postType,
+        formData.uploadedFile
+      );
 
-      console.log('📥 Received upload response:', response);
+      console.log("📥 Received upload response:", response);
 
       if (response.code === 200) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           uploadResponse: response,
           totalRows: response.data.totalRows,
           errorCount: response.data.errorCount,
           validatedRows: response.data.rows,
           uploadedFileUrl: response.data.fileUrl,
-          uploadedFileName: response.data.fileName
+          uploadedFileName: response.data.fileName,
         }));
 
         setCurrentStep(currentStep + 1);
 
         toast({
-          title: response.data.errorCount === 0 ? "Success" : "Upload Complete",
-          description: response.data.errorCount === 0 
-            ? "File uploaded and validated successfully"
-            : `File uploaded with ${response.data.errorCount} validation errors. Please review.`,
-          variant: response.data.errorCount === 0 ? "default" : "destructive"
+          title:
+            response.data.errorCount === 0
+              ? t("importPostCSVWizard.success.title")
+              : t("importPostCSVWizard.success.titleUpload"),
+          description:
+            response.data.errorCount === 0
+              ? t("importPostCSVWizard.success.uploadSuccess")
+              : t("importPostCSVWizard.success.uploadWithErrors", {
+                  count: response.data.errorCount,
+                }),
+          // `File uploaded with ${response.data.errorCount} validation errors. Please review.`,
+          variant: response.data.errorCount === 0 ? "default" : "destructive",
         });
 
-        console.log('✅ File upload successful');
+        console.log("✅ File upload successful");
       } else {
-        console.error('❌ Upload API returned error code:', response.code, response.message);
-        throw new Error(response.message || 'Unknown upload error');
+        console.error(
+          "❌ Upload API returned error code:",
+          response.code,
+          response.message
+        );
+        throw new Error(response.message || "Unknown upload error");
       }
     } catch (error: any) {
-      console.error('❌ Error uploading file:', {
+      console.error("❌ Error uploading file:", {
         error,
         message: error?.message,
         response: error?.response?.data,
         status: error?.response?.status,
-        statusText: error?.response?.statusText
+        statusText: error?.response?.statusText,
       });
 
-      let errorMessage = "Failed to upload file. Please try again.";
-      let errorTitle = "Error";
-      
+      let errorMessage = t("importPostCSVWizard.errors.uploadFailed");
+      let errorTitle = t("importPostCSVWizard.errors.title");
+
       if (error?.response?.status === 401) {
         const backendMessage = error?.response?.data?.message || error.message;
         // Check if it's a file validation error
-        if (backendMessage?.toLowerCase().includes("invalid file") || 
-            backendMessage?.toLowerCase().includes("upload a valid csv") ||
-            backendMessage?.toLowerCase().includes("file parameters")) {
+        if (
+          backendMessage?.toLowerCase().includes("invalid file") ||
+          backendMessage?.toLowerCase().includes("upload a valid csv") ||
+          backendMessage?.toLowerCase().includes("file parameters")
+        ) {
           errorTitle = "Invalid File";
           errorMessage = backendMessage || "Please upload a valid CSV file.";
         } else {
-          errorMessage = "Authentication failed. Please log in again.";
+          errorMessage = t("importPostCSVWizard.errors.authFailed");
         }
       } else if (error?.response?.status === 403) {
-        errorMessage = "You don't have permission to upload files.";
+        errorMessage = t("importPostCSVWizard.errors.permissionDenied");
       } else if (error?.response?.status === 500) {
-        errorMessage = "Server error occurred. Please try again later.";
+        errorMessage = t("importPostCSVWizard.errors.serverError");
       } else if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error?.message) {
@@ -271,7 +321,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       toast({
         title: errorTitle,
         description: errorMessage,
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsUploadingFile(false);
@@ -285,9 +335,9 @@ export const ImportPostCSVWizard: React.FC = () => {
   const handleSubmit = async () => {
     if (!formData.uploadedFileName) {
       toast({
-        title: "Error",
-        description: "No uploaded file found. Please upload a file first.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.noUploadedFile"),
+        variant: "destructive",
       });
       return;
     }
@@ -295,55 +345,62 @@ export const ImportPostCSVWizard: React.FC = () => {
     setIsSavingBulkSheet(true);
 
     try {
-      console.log('🚀 Starting bulk sheet save with:', {
+      console.log("🚀 Starting bulk sheet save with:", {
         fileType: formData.postType,
         fileName: formData.uploadedFileName,
-        note: formData.note
+        note: formData.note,
       });
 
       const response = await csvApi.saveBulkSheet({
         fileType: formData.postType,
         fileName: formData.uploadedFileName,
-        note: formData.note
+        note: formData.note,
       });
 
-      console.log('📥 Received save response:', response);
+      console.log("📥 Received save response:", response);
 
       if (response.code === 200) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          saveResponse: response
+          saveResponse: response,
         }));
 
         setCurrentStep(4);
 
         toast({
-          title: "Success",
-          description: `Successfully imported ${response.data.insertedCount} posts`,
+          title: t("importPostCSVWizard.success.title"),
+          description: t("importPostCSVWizard.success.bulkSaveSuccess", {
+            count: response.data.insertedCount,
+          }),
+          // `Successfully imported ${response.data.insertedCount} posts`,
         });
 
-        console.log('✅ Bulk sheet save successful');
+        console.log("✅ Bulk sheet save successful");
       } else {
-        console.error('❌ Save API returned error code:', response.code, response.message);
-        throw new Error(response.message || 'Unknown save error');
+        console.error(
+          "❌ Save API returned error code:",
+          response.code,
+          response.message
+        );
+        throw new Error(response.message || "Unknown save error");
       }
     } catch (error: any) {
-      console.error('❌ Error saving bulk sheet:', {
+      console.error("❌ Error saving bulk sheet:", {
         error,
         message: error?.message,
         response: error?.response?.data,
         status: error?.response?.status,
-        statusText: error?.response?.statusText
+        statusText: error?.response?.statusText,
       });
 
-      let errorMessage = "Failed to save bulk sheet. Please try again.";
-      
+      let errorMessage = t("importPostCSVWizard.errors.saveFailed");
+
       if (error?.response?.status === 401) {
-        errorMessage = "Authentication failed. Please log in again.";
+        errorMessage = t("importPostCSVWizard.errors.authFailed");
       } else if (error?.response?.status === 403) {
-        errorMessage = "You don't have permission to save bulk sheets.";
+        errorMessage = t("importPostCSVWizard.errors.permissionDenied");
       } else if (error?.response?.status === 500) {
-        errorMessage = "Server error occurred. Please try again later.";
+        errorMessage = t("importPostCSVWizard.errors.serverError");
       } else if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error?.message) {
@@ -351,9 +408,9 @@ export const ImportPostCSVWizard: React.FC = () => {
       }
 
       toast({
-        title: "Error",
+        title: t("importPostCSVWizard.errors.title"),
         description: errorMessage,
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsSavingBulkSheet(false);
@@ -362,142 +419,242 @@ export const ImportPostCSVWizard: React.FC = () => {
   const handleDownloadSample = () => {
     if (formData.generatedFileUrl) {
       // Use the generated CSV file URL
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = formData.generatedFileUrl;
-      a.download = formData.generatedFileName || 'sample_posts.csv';
-      a.target = '_blank';
+      a.download = formData.generatedFileName || "sample_posts.csv";
+      a.target = "_blank";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     } else {
       toast({
-        title: "Error",
-        description: "Sample CSV file is not available. Please go back to step 1.",
-        variant: "destructive"
+        title: t("importPostCSVWizard.errors.title"),
+        description: t("importPostCSVWizard.errors.sampleNotAvailable"),
+        variant: "destructive",
       });
     }
   };
-  const renderStepIndicator = () => <div className="w-64 border-r border-gray-200 p-6 hidden lg:block min-h-[80vh]">
-      <h3 className="text-lg font-semibold mb-6">Import Post CSV</h3>
+  const renderStepIndicator = () => (
+    <div className="w-64 border-r border-gray-200 p-6 hidden lg:block min-h-[80vh]">
+      <h3 className="text-lg font-semibold mb-6">
+        {t("importPostCSVWizard.title")}
+      </h3>
       <div className="space-y-4">
-        {steps.map(step => <div key={step.number} className="flex items-center gap-3 bg-gray-50 p-3">
+        {steps.map((step) => (
+          <div
+            key={step.number}
+            className="flex items-center gap-3 bg-gray-50 p-3"
+          >
             <div className="">
-              {step.completed ? <div className="flex items-center justify-center w-6 h-6 rounded-full bg-success"><Check className="w-4 h-4 text-white" /></div> : currentStep === step.number ? <div className="w-6 h-6 rounded-full bg-blue-400"></div> : <div className="w-6 h-6 rounded-full bg-gray-300"></div>}
+              {step.completed ? (
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-success">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              ) : currentStep === step.number ? (
+                <div className="w-6 h-6 rounded-full bg-blue-400"></div>
+              ) : (
+                <div className="w-6 h-6 rounded-full bg-gray-300"></div>
+              )}
             </div>
-            <span className={`text-sm font-medium ${step.completed || currentStep === step.number ? 'text-foreground' : 'text-muted-foreground'}`}>
+            <span
+              className={`text-sm font-medium ${
+                step.completed || currentStep === step.number
+                  ? "text-foreground"
+                  : "text-muted-foreground"
+              }`}
+            >
               {step.title}
             </span>
-          </div>)}
+          </div>
+        ))}
       </div>
-    </div>;
-  const renderMobileStepIndicator = () => <div className="lg:hidden border-b border-gray-200 p-4 bg-background">
+    </div>
+  );
+  const renderMobileStepIndicator = () => (
+    <div className="lg:hidden border-b border-gray-200 p-4 bg-background">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Import Post CSV</h3>
-        <span className="text-sm text-muted-foreground">Step {currentStep} of 4</span>
+        <h3 className="text-lg font-semibold">
+          {t("importPostCSVWizard.title")}
+        </h3>
+        <span className="text-sm text-muted-foreground">
+          {t("importPostCSVWizard.stepCount", { currentStep })}
+          {/* Step {currentStep} of 4 */}
+        </span>
       </div>
       <div className="flex items-center gap-2 mt-3">
-        {steps.map(step => <div key={step.number} className="flex items-center">
+        {steps.map((step) => (
+          <div key={step.number} className="flex items-center">
             <div className="flex items-center justify-center w-6 h-6 rounded-full border transition-all">
-              {step.completed ? <CheckCircle2 className="w-4 h-4 text-success" /> : currentStep === step.number ? <div className="w-3 h-3 rounded-full bg-primary"></div> : <Circle className="w-4 h-4 text-muted-foreground" />}
+              {step.completed ? (
+                <CheckCircle2 className="w-4 h-4 text-success" />
+              ) : currentStep === step.number ? (
+                <div className="w-3 h-3 rounded-full bg-primary"></div>
+              ) : (
+                <Circle className="w-4 h-4 text-muted-foreground" />
+              )}
             </div>
-            {step.number < 4 && <div className="w-4 h-0.5 bg-gray-200 mx-1"></div>}
-          </div>)}
+            {step.number < 4 && (
+              <div className="w-4 h-0.5 bg-gray-200 mx-1"></div>
+            )}
+          </div>
+        ))}
       </div>
-    </div>;
-  const renderStep1 = () => <div className="space-y-6">
+    </div>
+  );
+  const renderStep1 = () => (
+    <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold mb-2">Select Listings</h2>
-        <p className="text-muted-foreground">Choose the listings and post type for your bulk import.</p>
+        <h2 className="text-2xl font-semibold mb-2">
+          {t("importPostCSVWizard.selectListings.heading")}
+        </h2>
+        <p className="text-muted-foreground">
+          {t("importPostCSVWizard.selectListings.description")}
+        </p>
       </div>
 
       <div className="space-y-4">
         <div>
-          
-          <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
-          ...prev,
-          selectedListings: listings
-        }))} />
+          <BulkReplyListingSelector
+            selectedListings={formData.selectedListings}
+            onListingsChange={(listings) =>
+              setFormData((prev) => ({
+                ...prev,
+                selectedListings: listings,
+              }))
+            }
+          />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Post Type</label>
-          <Select value={formData.postType} onValueChange={value => setFormData(prev => ({
-          ...prev,
-          postType: value
-        }))}>
+          <label className="block text-sm font-medium mb-2">
+            {" "}
+            {t("importPostCSVWizard.selectListings.postTypeLabel")}
+          </label>
+          <Select
+            value={formData.postType}
+            onValueChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                postType: value,
+              }))
+            }
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Select file type" />
+              <SelectValue
+                placeholder={t(
+                  "importPostCSVWizard.selectListings.postTypePlaceholder"
+                )}
+              />
             </SelectTrigger>
             <SelectContent>
-              {postTypeOptions.map(option => <SelectItem key={option.value} value={option.value} disabled={option.value === "0"}>
+              {postTypeOptions.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  disabled={option.value === "0"}
+                >
                   {option.label}
-                </SelectItem>)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={handleNext} disabled={!canProceedFromStep1 || isGeneratingCSV}>
+        <Button
+          onClick={handleNext}
+          disabled={!canProceedFromStep1 || isGeneratingCSV}
+        >
           {isGeneratingCSV ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Generating CSV...
+              {t("importPostCSVWizard.generatingCSV")}
             </>
           ) : (
-            'Next'
+            "Next"
           )}
         </Button>
       </div>
-    </div>;
-  const renderStep2 = () => <div className="space-y-6">
+    </div>
+  );
+  const renderStep2 = () => (
+    <div className="space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-2xl font-semibold mb-2">Upload File</h2>
-          <p className="text-muted-foreground">Upload your CSV file for bulk post import.</p>
+          <h2 className="text-2xl font-semibold mb-2">
+            {" "}
+            {t("importPostCSVWizard.uploadFile.heading")}
+          </h2>
+          <p className="text-muted-foreground">
+            {t("importPostCSVWizard.uploadFile.description")}
+          </p>
         </div>
         <Button variant="outline" onClick={handleDownloadSample}>
           <Download className="w-4 h-4 mr-2" />
-          Download Generated CSV File
+          {t("importPostCSVWizard.uploadFile.downloadSample")}
         </Button>
       </div>
 
-      <CSVDropzone onFileUploaded={file => setFormData(prev => ({
-      ...prev,
-      uploadedFile: file
-    }))} uploadedFile={formData.uploadedFile} />
+      <CSVDropzone
+        onFileUploaded={(file) =>
+          setFormData((prev) => ({
+            ...prev,
+            uploadedFile: file,
+          }))
+        }
+        uploadedFile={formData.uploadedFile}
+      />
 
       <div className="flex justify-between">
         <Button variant="outline" onClick={handlePrevious}>
-          Previous
+          {t("importPostCSVWizard.uploadFile.previous")}
         </Button>
-        <Button onClick={handleNext} disabled={!canProceedFromStep2 || isUploadingFile}>
+        <Button
+          onClick={handleNext}
+          disabled={!canProceedFromStep2 || isUploadingFile}
+        >
           {isUploadingFile ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Uploading...
+              {t("importPostCSVWizard.uploadFile.uploading")}
             </>
           ) : (
-            'Next'
+            t("importPostCSVWizard.uploadFile.next")
           )}
         </Button>
       </div>
-    </div>;
-  const renderStep3 = () => <div className="space-y-6">
+    </div>
+  );
+  const renderStep3 = () => (
+    <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold mb-2">Quality Control</h2>
-        <p className="text-muted-foreground">Review your uploaded file validation results.</p>
+        <h2 className="text-2xl font-semibold mb-2">
+          {t("importPostCSVWizard.qualityControl.heading")}
+        </h2>
+        <p className="text-muted-foreground">
+          {t("importPostCSVWizard.qualityControl.description")}
+        </p>
       </div>
 
       {formData.uploadResponse && (
         <div className="space-y-4">
-          <Card className={formData.errorCount === 0 ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}>
+          <Card
+            className={
+              formData.errorCount === 0
+                ? "border-green-200 bg-green-50"
+                : "border-red-200 bg-red-50"
+            }
+          >
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold text-lg">Upload Summary</h3>
+                  <h3 className="font-semibold text-lg">
+                    {t("importPostCSVWizard.qualityControl.uploadSummary")}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    File: {formData.uploadedFileName} | Total Rows: {formData.totalRows} | Errors: {formData.errorCount}
+                    File: {formData.uploadedFileName} | Total Rows:{" "}
+                    {formData.totalRows} | Errors: {formData.errorCount}
                   </p>
                 </div>
                 {formData.errorCount === 0 ? (
@@ -519,52 +676,73 @@ export const ImportPostCSVWizard: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2 text-orange-700">
                     <AlertTriangle className="w-5 h-5" />
-                    <span className="font-medium">Validation Errors Found - Please fix and re-upload</span>
+                    <span className="font-medium">
+                      {t(
+                        "importPostCSVWizard.qualityControl.validationErrorsTitle"
+                      )}
+                    </span>
                   </div>
                   <div>
-                    <input 
-                      type="file" 
-                      accept=".csv" 
+                    <input
+                      type="file"
+                      accept=".csv"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          setFormData(prev => ({ ...prev, uploadedFile: file }));
+                          setFormData((prev) => ({
+                            ...prev,
+                            uploadedFile: file,
+                          }));
                           setCurrentStep(2); // Go back to upload step
                         }
                         e.target.value = "";
-                      }} 
-                      className="hidden" 
-                      id="reupload-input" 
+                      }}
+                      className="hidden"
+                      id="reupload-input"
                     />
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => document.getElementById('reupload-input')?.click()} 
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        document.getElementById("reupload-input")?.click()
+                      }
                       className="text-orange-700 border-orange-300 hover:bg-orange-100"
                     >
                       <Upload className="w-4 h-4 mr-2" />
-                      Re-upload File
+                      {t("importPostCSVWizard.qualityControl.reuploadFile")}
                     </Button>
                   </div>
                 </div>
 
                 <div className="max-h-96 overflow-y-auto">
                   <div className="space-y-2">
-                    {formData.validatedRows.filter(row => row.errors.length > 0).map((row, index) => (
-                      <div key={index} className="p-3 bg-white rounded border border-red-200">
-                        <div className="flex justify-between items-start mb-2">
-                          <span className="font-medium text-red-700">Row {row.row} - {row.data.business_name}</span>
-                          <span className="text-xs text-red-600">{row.errors.length} error(s)</span>
+                    {formData.validatedRows
+                      .filter((row) => row.errors.length > 0)
+                      .map((row, index) => (
+                        <div
+                          key={index}
+                          className="p-3 bg-white rounded border border-red-200"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="font-medium text-red-700">
+                              Row {row.row} - {row.data.business_name}
+                            </span>
+                            <span className="text-xs text-red-600">
+                              {row.errors.length} error(s)
+                            </span>
+                          </div>
+                          <div className="space-y-1">
+                            {row.errors.map((error, errorIndex) => (
+                              <div
+                                key={errorIndex}
+                                className="text-sm text-red-600 bg-red-50 p-2 rounded"
+                              >
+                                {error}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                        <div className="space-y-1">
-                          {row.errors.map((error, errorIndex) => (
-                            <div key={errorIndex} className="text-sm text-red-600 bg-red-50 p-2 rounded">
-                              {error}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               </CardContent>
@@ -577,12 +755,23 @@ export const ImportPostCSVWizard: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-green-700">
                     <CheckCircle2 className="w-5 h-5" />
-                    <span className="font-medium">All rows validated successfully!</span>
+                    <span className="font-medium">
+                      {t("importPostCSVWizard.qualityControl.allRowsValid")}
+                    </span>
                   </div>
                   <div className="text-sm text-green-600">
-                    <p>✓ {formData.totalRows} rows processed</p>
-                    <p>✓ No validation errors found</p>
-                    <p>✓ Ready for submission</p>
+                    <p>
+                      {t("importPostCSVWizard.qualityControl.processedRows", {
+                        count: formData.totalRows,
+                      })}
+                      ✓ {/* {formData.totalRows} rows processed */}
+                    </p>
+                    <p>{t("importPostCSVWizard.qualityControl.noErrors")}</p>
+                    <p>
+                      {t(
+                        "importPostCSVWizard.qualityControl.readyForSubmission"
+                      )}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -592,55 +781,73 @@ export const ImportPostCSVWizard: React.FC = () => {
       )}
 
       <div>
-        <label className="block text-sm font-medium mb-2">Notes (Optional)</label>
-        <Textarea 
-          placeholder="Add any notes about this import..." 
-          value={formData.note} 
-          onChange={(e) => setFormData(prev => ({ ...prev, note: e.target.value }))} 
-          rows={3} 
+        <label className="block text-sm font-medium mb-2">
+          {t("importPostCSVWizard.qualityControl.notesLabel")}
+        </label>
+        <Textarea
+          placeholder={t("importPostCSVWizard.qualityControl.notesPlaceholder")}
+          value={formData.note}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, note: e.target.value }))
+          }
+          rows={3}
         />
       </div>
 
       <div className="flex justify-between">
         <Button variant="outline" onClick={handlePrevious}>
-          Previous
+          {t("importPostCSVWizard.uploadFile.previous")}
         </Button>
-        <Button 
-          onClick={handleSubmit} 
+        <Button
+          onClick={handleSubmit}
           disabled={formData.errorCount > 0 || isSavingBulkSheet}
-          className={formData.errorCount > 0 ? "opacity-50 cursor-not-allowed" : ""}
+          className={
+            formData.errorCount > 0 ? "opacity-50 cursor-not-allowed" : ""
+          }
         >
           {isSavingBulkSheet ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Saving...
+              {t("importPostCSVWizard.qualityControl.saving")}
             </>
           ) : formData.errorCount > 0 ? (
-            "Fix Errors to Continue"
+            t("importPostCSVWizard.qualityControl.fixErrors")
           ) : (
-            "Submit Import"
+            t("importPostCSVWizard.qualityControl.submit")
           )}
         </Button>
       </div>
-    </div>;
-  const renderStep4 = () => <div className="space-y-6 text-center py-8">
+    </div>
+  );
+  const renderStep4 = () => (
+    <div className="space-y-6 text-center py-8">
       <div className="text-6xl">🎉</div>
       <div>
-        <h2 className="text-2xl font-semibold mb-2">Congratulations!</h2>
+        <h2 className="text-2xl font-semibold mb-2">
+          {t("importPostCSVWizard.submit.heading")}
+        </h2>
         <p className="text-muted-foreground">
-          All your posts have been successfully imported in bulk.
+          {t("importPostCSVWizard.submit.description")}
         </p>
       </div>
 
       <div className="flex justify-center gap-4">
-        <Button onClick={() => navigate('/main-dashboard')}>
-          Go to Main Dashboard
+        <Button onClick={() => navigate("/main-dashboard")}>
+          {t("importPostCSVWizard.submit.goToDashboard")}
         </Button>
-        <Button variant="outline" onClick={() => navigate(`/main-dashboard/bulk-import-details/${formData.saveResponse?.data.historyId}`)}>
-          View Post Details
+        <Button
+          variant="outline"
+          onClick={() =>
+            navigate(
+              `/main-dashboard/bulk-import-details/${formData.saveResponse?.data.historyId}`
+            )
+          }
+        >
+          {t("importPostCSVWizard.submit.viewPostDetails")}
         </Button>
       </div>
-    </div>;
+    </div>
+  );
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
@@ -655,15 +862,15 @@ export const ImportPostCSVWizard: React.FC = () => {
         return renderStep1();
     }
   };
-  return <div className="min-h-[80vh] bg-background border border-gray-200">
+  return (
+    <div className="min-h-[80vh] bg-background border border-gray-200">
       {renderMobileStepIndicator()}
       <div className="flex">
         {renderStepIndicator()}
         <div className="flex-1 p-4 lg:p-8 min-w-0">
-          <div className="w-full max-w-3xl">
-            {renderCurrentStep()}
-          </div>
+          <div className="w-full max-w-3xl">{renderCurrentStep()}</div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

@@ -1,0 +1,41 @@
+{
+  "exportReviewsModal": {
+    "title": "Exporter les données d'avis",
+    "selectListingsLabel": "Sélectionner les établissements",
+    "selectListingsPlaceholder": "Sélectionnez des établissements...",
+    "exportTypeLabel": "Choisir le type d'export",
+    "exportPlaceholder": "Sélectionnez le type d'export",
+    "exportTypeOptions": {
+      "1": "Rapport récapitulatif - Nombre seulement (Sans plage de dates)",
+      "2": "Rapport récapitulatif personnalisé - Avis par avis (Avec plage de dates)",
+      "3": "Rapport récapitulatif personnalisé - Nombre seulement (Avec plage de dates)"
+    },
+    "starRatingsLabel": "Sélectionner les notes par étoiles",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "starsSelected": "{{selected}} sur {{total}} notes sélectionnées",
+    "dateRangeLabel": "Sélectionner la plage de dates",
+    "dateRangePlaceholder": "Sélectionnez la plage de dates pour les avis",
+    "buttons": {
+      "cancel": "Annuler",
+      "export": "Exporter CSV",
+      "exporting": "Exportation..."
+    },
+    "toast": {
+      "validation": {
+        "title": "Erreur de validation",
+        "noListing": "Veuillez sélectionner au moins un établissement",
+        "noStar": "Veuillez sélectionner au moins une note",
+        "noDateRange": "Veuillez sélectionner une plage de dates"
+      },
+      "success": {
+        "title": "Succès",
+        "description": "Le fichier CSV a été généré et le téléchargement a commencé"
+      },
+      "error": {
+        "title": "Échec de l'exportation",
+        "description": "Une erreur s'est produite lors de l'exportation"
+      }
+    }
+  }
+}

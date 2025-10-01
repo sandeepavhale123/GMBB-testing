@@ -1,0 +1,11 @@
+{
+  "postTypeSelector": {
+    "label": "Type de publication",
+    "placeholder": "Choisissez le type de publication",
+    "types": {
+      "regular": "Publication normale",
+      "event": "Publication d'événement",
+      "offer": "Publication d'offre"
+    }
+  }
+}

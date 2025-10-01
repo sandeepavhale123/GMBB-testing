@@ -1,0 +1,17 @@
+{
+  "googleAccountListView": {
+    "status": {
+      "reauthorization": "Ré-autorisation"
+    },
+    "actions": {
+      "manageListings": "Gérer les fiches",
+      "reauthorization": "Ré-autorisation",
+      "refresh": "Actualiser",
+      "delete": "Supprimer"
+    },
+    "table": {
+      "listings": "Fiches",
+      "connected": "Connecté"
+    }
+  }
+}

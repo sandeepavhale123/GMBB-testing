@@ -1,0 +1,43 @@
+{
+  "status": {
+    "published": "En ligne",
+    "scheduled": "Programmé",
+    "draft": "Brouillon",
+    "failed": "Échec"
+  },
+  "labels": {
+    "noDate": "Pas de date",
+    "untitledPost": "Publication sans titre",
+    "imageNotAvailable": "Image non disponible",
+    "scheduledAt": "Programmé : {{date}}"
+  },
+  "toast": {
+    "error": {
+      "title": "Erreur",
+      "noListing": "Aucune fiche d'entreprise sélectionnée. Veuillez sélectionner une fiche d'abord."
+    },
+    "deleting": "Suppression de la publication...",
+    "preparing": "Préparation de la suppression...",
+    "finalizing": "Finalisation...",
+    "success": {
+      "title": "Publication supprimée avec succès",
+      "desc": "Suppression terminée"
+    },
+    "failed": {
+      "title": "Échec de la suppression de la publication",
+      "desc": "Une erreur inattendue est survenue. Veuillez réessayer."
+    }
+  },
+  "modal": {
+    "delete": {
+      "title": "Supprimer la publication",
+      "description": "Êtes-vous sûr de vouloir supprimer cette publication ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  },
+  "buttons": {
+    "openOnGoogle": "Ouvrir la publication sur Google"
+  }
+}

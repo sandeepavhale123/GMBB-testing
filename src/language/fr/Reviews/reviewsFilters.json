@@ -1,0 +1,36 @@
+{
+  "reviewsFilters": {
+    "search": {
+      "placeholder": "Rechercher des avis..."
+    },
+    "filter": {
+      "placeholder": "Tous les avis",
+      "all": "Tous les avis",
+      "pending": "Réponse en attente",
+      "replied": "Répondu"
+    },
+    "sentiment": {
+      "placeholder": "Tous les sentiments",
+      "all": "Tous les sentiments",
+      "positive": "Positif",
+      "neutral": "Neutre",
+      "negative": "Négatif"
+    },
+    "sort": {
+      "placeholder": "Les plus récents d'abord",
+      "newest": "Les plus récents d'abord",
+      "oldest": "Les plus anciens d'abord",
+      "ratingLow": "Meilleure note",
+      "ratingHigh": "Note la plus basse"
+    },
+    "dateRange": {
+      "placeholder": "Sélectionner une plage de dates",
+      "clearAria": "Effacer la plage de dates"
+    },
+    "refresh": {
+      "button": "Actualiser",
+      "aria": "Actualiser les avis",
+      "tooltip": "Ce bouton actualisera votre page d'avis pour obtenir les derniers avis de Google"
+    }
+  }
+}

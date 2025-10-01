@@ -1,0 +1,28 @@
+{
+  "totalPosts": "Total des posts : {{count}}",
+  "totalPostsFiltered": "Total des posts : {{count}} (filtrés)",
+  "selectPosts": "Sélectionner des posts",
+  "cancelSelection": "Annuler la sélection",
+  "selectAll": "Tout sélectionner",
+  "deselectAll": "Tout désélectionner",
+  "deleteSelected": "Supprimer la sélection ({{count}})",
+  "deleting": "Suppression...",
+  "deletePostsTitle": "Supprimer les posts",
+  "deletePostsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} post{{plural}} sélectionné(s) ? Cette action est irréversible.",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "previous": "Précédent",
+  "next": "Suivant",
+  "pageInfo": "Page {{current}} sur {{total}}",
+  "toast": {
+    "error": "Erreur",
+    "noListingTitle": "Erreur",
+    "noListingDesc": "Aucune fiche d’entreprise sélectionnée. Veuillez d’abord en sélectionner une.",
+    "noPostsTitle": "Aucun post sélectionné",
+    "noPostsDesc": "Veuillez sélectionner des posts à supprimer.",
+    "postsDeletedTitle": "Posts supprimés",
+    "postsDeletedDesc": "{{count}} post{{plural}} ont été supprimé(s) avec succès.",
+    "deleteFailedTitle": "Échec de la suppression des posts",
+    "deleteFailedDesc": "Une erreur inattendue s’est produite. Veuillez réessayer."
+  }
+}

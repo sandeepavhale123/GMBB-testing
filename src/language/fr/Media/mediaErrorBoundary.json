@@ -1,0 +1,7 @@
+{
+  "mediaErrorBoundary": {
+    "title": "Une erreur s'est produite",
+    "description": "Une erreur est survenue lors du chargement de la page des médias. Veuillez essayer d'actualiser ou contacter le support si le problème persiste.",
+    "retry": "Réessayer"
+  }
+}

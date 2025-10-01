@@ -1,0 +1,8 @@
+{
+  "settingsPage": {
+    "planExpired": {
+      "title": "Le plan de l'application a expiré.",
+      "description": "Veuillez contacter votre administrateur pour obtenir l'accès."
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "templateCard": {
+    "noTemplate": "Aucun modèle créé pour le moment",
+    "enable": "Activer",
+    "enabling": "Activation...",
+    "disable": "Désactiver",
+    "disabling": "Désactivation...",
+    "manage": "Gérer",
+    "create": "Créer",
+    "availableVariables": "Variables disponibles",
+    "multipleResponses": {
+      "title": "Réponses multiples",
+      "note": "Remarque : si vous souhaitez utiliser plusieurs réponses, utilisez un symbole de pipe après chaque réponse."
+    },
+    "templateContent": "Contenu du modèle",
+    "systemTemplateNotice": "Ceci est un modèle système chargé depuis vos paramètres. Les modifications doivent être effectuées via le panneau principal des paramètres.",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "save": "Enregistrer le modèle",
+    "saving": "Enregistrement...",
+    "manageDialog": {
+      "title": {
+        "rating": "Gérer le modèle {{starRating}} étoiles",
+        "ratingOnly": "Gérer le modèle uniquement pour la note"
+      }
+    },
+    "disableDialog": {
+      "title": "Êtes-vous sûr de vouloir supprimer cette note ?",
+      "confirm": "Oui, supprimer"
+    },
+    "toast": {
+      "error": {
+        "title": "Erreur",
+        "enable": "Impossible d'activer le paramètre de réponse automatique.",
+        "disable": "Impossible de désactiver le paramètre de réponse automatique."
+      }
+    }
+  }
+}

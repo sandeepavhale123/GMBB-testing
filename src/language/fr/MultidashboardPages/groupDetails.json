@@ -1,0 +1,38 @@
+{
+  "title": "Détails du groupe",
+  "back": "Retour",
+  "addListing": "Ajouter un emplacement",
+  "searchPlaceholder": "Rechercher des emplacements...",
+  "noLocations": "Aucun emplacement dans ce groupe.",
+  "noSearchResults": "Aucun emplacement ne correspond à votre recherche.",
+  "table": {
+    "locationName": "Nom de l'emplacement",
+    "zipCode": "Code postal",
+    "email": "Email",
+    "actions": "Actions",
+    "notAvailable": "N/A"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} emplacements",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{pages}}"
+  },
+  "deleteDialog": {
+    "title": "Supprimer l'emplacement",
+    "description": "Êtes-vous sûr de vouloir retirer \"{{locationName}}\" de ce groupe ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer"
+  },
+  "toast": {
+    "successTitle": "Succès",
+    "removeSuccess": "{{locationName}} a été retiré du groupe.",
+    "errorTitle": "Erreur",
+    "removeError": "Échec de la suppression de l'emplacement du groupe"
+  },
+  "errors": {
+    "loadFailed": "Échec du chargement des détails du groupe"
+  },
+  "retry": "Réessayer",
+  "loading": "Chargement..."
+}

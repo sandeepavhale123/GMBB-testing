@@ -1,0 +1,36 @@
+{
+  "publicCitationReport": {
+    "title": "Rapport de performance des citations",
+    "tracker": {
+      "cardTitle": "Suivi des citations",
+      "listed": "Répertorié",
+      "notListed": "Non répertorié"
+    },
+    "localPages": {
+      "title": "Pages et annuaires locaux",
+      "description": "Votre score de page et d'annuaire local est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages et annuaires locaux que nous avons vérifiés."
+    },
+    "audit": {
+      "title": "Audit des citations",
+      "placeOrder": "Passer commande",
+      "tabs": {
+        "existing": "Citation existante",
+        "possible": "Citation possible"
+      }
+    },
+    "table": {
+      "existing": {
+        "website": "Site web",
+        "businessName": "Nom de l'entreprise",
+        "phone": "Téléphone",
+        "action": "Action",
+        "view": "Voir"
+      },
+      "possible": {
+        "siteName": "Nom du site",
+        "action": "Action",
+        "fixNow": "Corriger maintenant"
+      }
+    }
+  }
+}

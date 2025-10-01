@@ -1,0 +1,29 @@
+{
+  "reviewCard": {
+    "sentiments": {
+      "positive": "positif",
+      "negative": "négatif",
+      "neutral": "neutre"
+    },
+    "rating": "({rating}/5)",
+    "reply": {
+      "repliedOn": "Répondu le ",
+      "editReply": "Modifier la réponse",
+      "deleteReply": "Supprimer la réponse",
+      "delete": "Supprimer",
+      "deleteDialog": {
+        "title": "Supprimer la réponse",
+        "description": "Êtes-vous sûr de vouloir supprimer cette réponse ? Cette action est irréversible et la réponse sera définitivement supprimée de l'avis.",
+        "cancel": "Annuler",
+        "deleting": "Suppression...",
+        "confirm": "Supprimer la réponse"
+      }
+    },
+    "actions": {
+      "generateUsingGenie": "Générer avec Genie",
+      "aiReply": "Réponse IA",
+      "replyManually": "Répondre manuellement",
+      "reply": "Répondre"
+    }
+  }
+}

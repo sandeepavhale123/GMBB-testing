@@ -1,0 +1,13 @@
+{
+  "publicReportLayout": {
+    "header": {
+      "backToReports": "Retour aux rapports",
+      "share": "Partager",
+      "export": "Exporter"
+    },
+    "footer": {
+      "rightsReserved": "Tous droits réservés.",
+      "generatedOn": "Généré le"
+    }
+  }
+}

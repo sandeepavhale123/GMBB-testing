@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Eye, Trash2, Search, Import } from 'lucide-react';
+import { Eye, Trash2, Search, Import } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -31,59 +31,63 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
-import { useBulkCSVHistory } from '@/hooks/useBulkCSVHistory';
-import { BulkCSVHistoryRecord } from '@/api/csvApi';
+import { useBulkCSVHistory } from "@/hooks/useBulkCSVHistory";
+import { BulkCSVHistoryRecord } from "@/api/csvApi";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { start } from "repl";
 
 const getStatusVariant = (status: string) => {
   const normalizedStatus = status.toLowerCase();
   switch (normalizedStatus) {
-    case 'completed':
-      return 'default';
-    case 'processing':
-      return 'secondary';
-    case 'failed':
-      return 'destructive';
+    case "completed":
+      return "default";
+    case "processing":
+      return "secondary";
+    case "failed":
+      return "destructive";
     default:
-      return 'secondary';
+      return "secondary";
   }
 };
 
 const getStatusColor = (status: string) => {
   const normalizedStatus = status.toLowerCase();
   switch (normalizedStatus) {
-    case 'completed':
-      return 'bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-300';
-    case 'processing':
-      return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-300';
-    case 'failed':
-      return 'bg-red-100 text-red-800 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300';
+    case "completed":
+      return "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-300";
+    case "processing":
+      return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-300";
+    case "failed":
+      return "bg-red-100 text-red-800 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300";
     default:
-      return 'bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-900/20 dark:text-gray-300';
+      return "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-900/20 dark:text-gray-300";
   }
 };
 
 export const ImportPostCSV: React.FC = () => {
+  const { t } = useI18nNamespace("MultidashboardPages/importPostCSV");
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { 
-    data: csvHistory, 
-    loading, 
-    searchLoading, 
-    error, 
-    pagination, 
-    searchTerm, 
-    setSearchTerm, 
+  const {
+    data: csvHistory,
+    loading,
+    searchLoading,
+    error,
+    pagination,
+    searchTerm,
+    setSearchTerm,
     setPage,
-    deleteRecord
+    deleteRecord,
   } = useBulkCSVHistory(10);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [recordToDelete, setRecordToDelete] = useState<BulkCSVHistoryRecord | null>(null);
+  const [recordToDelete, setRecordToDelete] =
+    useState<BulkCSVHistoryRecord | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  
+
   const handleImport = () => {
-    navigate('/main-dashboard/import-post-csv-wizard');
+    navigate("/main-dashboard/import-post-csv-wizard");
   };
 
   const handleView = (id: string) => {
@@ -91,7 +95,7 @@ export const ImportPostCSV: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    const record = csvHistory.find(r => r.id === id);
+    const record = csvHistory.find((r) => r.id === id);
     if (record) {
       setRecordToDelete(record);
       setDeleteDialogOpen(true);
@@ -104,20 +108,20 @@ export const ImportPostCSV: React.FC = () => {
     try {
       setDeleteLoading(true);
       await deleteRecord(recordToDelete.id);
-      
+
       toast({
-        title: "Success",
-        description: "Record deleted successfully",
-        variant: "default"
+        title: t("importPostCSV.toast.successTitle"),
+        description: t("importPostCSV.toast.successMessage"),
+        variant: "default",
       });
-      
+
       setDeleteDialogOpen(false);
       setRecordToDelete(null);
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to delete record",
-        variant: "destructive"
+        title: t("importPostCSV.toast.errorTitle"),
+        description: error.message || t("importPostCSV.toast.errorMessage"),
+        variant: "destructive",
       });
     } finally {
       setDeleteLoading(false);
@@ -132,7 +136,7 @@ export const ImportPostCSV: React.FC = () => {
     for (let i = 1; i <= Math.min(totalPages, 5); i++) {
       pages.push(
         <PaginationItem key={i}>
-          <PaginationLink 
+          <PaginationLink
             onClick={() => setPage(i)}
             isActive={currentPage === i}
             className="cursor-pointer"
@@ -151,14 +155,12 @@ export const ImportPostCSV: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Bulk Post Management
+            {t("importPostCSV.title")}
           </h1>
         </div>
-        <Button 
-          onClick={handleImport}
-        >
+        <Button onClick={handleImport}>
           <Import className="w-4 h-4 mr-2" />
-          Import CSV file
+          {t("importPostCSV.importButton")}
         </Button>
       </div>
 
@@ -167,7 +169,7 @@ export const ImportPostCSV: React.FC = () => {
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Search by filename or note..."
+          placeholder={t("importPostCSV.searchPlaceholder")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10"
@@ -186,36 +188,55 @@ export const ImportPostCSV: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow className="border-border">
-              <TableHead className="text-muted-foreground font-medium">File name</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Note</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Date</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Total Posts</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Listings Applied</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Status</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Action</TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.filename")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.note")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.date")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.totalPosts")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.listingsApplied")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.status")}
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                {t("importPostCSV.tableHeaders.action")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {(loading || searchLoading) ? (
+            {loading || searchLoading ? (
               Array.from({ length: 5 }).map((_, index) => (
                 <TableRowSkeleton key={index} columns={7} />
               ))
             ) : csvHistory.length === 0 ? (
               <TableRow>
-                <TableCell 
-                  colSpan={7} 
+                <TableCell
+                  colSpan={7}
                   className="h-24 text-center text-muted-foreground"
                 >
-                  {searchTerm ? 'No records found for your search.' : 'No CSV imports found. Click "Import" to get started.'}
+                  {searchTerm
+                    ? t("importPostCSV.noRecordsFound")
+                    : t("importPostCSV.noCSVFound")}
                 </TableCell>
               </TableRow>
             ) : (
               csvHistory.map((record, index) => {
-                const rowNumber = (pagination.page - 1) * pagination.limit + index + 1;
+                const rowNumber =
+                  (pagination.page - 1) * pagination.limit + index + 1;
                 return (
                   <TableRow key={record.id} className="border-border">
                     <TableCell className="font-medium text-foreground">
-                      <span className="text-muted-foreground mr-2">{rowNumber}</span>
+                      <span className="text-muted-foreground mr-2">
+                        {rowNumber}
+                      </span>
                       {record.filename}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -231,11 +252,12 @@ export const ImportPostCSV: React.FC = () => {
                       {record.listing_count} Listings
                     </TableCell>
                     <TableCell>
-                      <Badge 
+                      <Badge
                         variant={getStatusVariant(record.status)}
                         className={getStatusColor(record.status)}
                       >
-                        {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                        {record.status.charAt(0).toUpperCase() +
+                          record.status.slice(1)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -252,7 +274,9 @@ export const ImportPostCSV: React.FC = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(record.id)}
-                          disabled={deleteLoading && recordToDelete?.id === record.id}
+                          disabled={
+                            deleteLoading && recordToDelete?.id === record.id
+                          }
                           className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -271,24 +295,50 @@ export const ImportPostCSV: React.FC = () => {
       {!loading && csvHistory.length > 0 && (
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            Showing {(pagination.page - 1) * pagination.limit + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} entries
+            {t("importPostCSV.paginationInfo", {
+              start: (pagination.page - 1) * pagination.limit + 1,
+              end: Math.min(
+                pagination.page * pagination.limit,
+                pagination.total
+              ),
+              total: pagination.total,
+            })}
+            {/* Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
+            {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
+            {pagination.total} entries */}
           </div>
-          
+
           <Pagination className="justify-center sm:justify-end">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious 
+                <PaginationPrevious
                   onClick={() => setPage(Math.max(1, pagination.page - 1))}
-                  className={pagination.page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={
+                    pagination.page === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
-              
+
               {renderPaginationNumbers()}
-              
+
               <PaginationItem>
-                <PaginationNext 
-                  onClick={() => setPage(Math.min(Math.ceil(pagination.total / pagination.limit), pagination.page + 1))}
-                  className={pagination.page >= Math.ceil(pagination.total / pagination.limit) ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                <PaginationNext
+                  onClick={() =>
+                    setPage(
+                      Math.min(
+                        Math.ceil(pagination.total / pagination.limit),
+                        pagination.page + 1
+                      )
+                    )
+                  }
+                  className={
+                    pagination.page >=
+                    Math.ceil(pagination.total / pagination.limit)
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
                 />
               </PaginationItem>
             </PaginationContent>
@@ -300,22 +350,29 @@ export const ImportPostCSV: React.FC = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete CSV Import</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("importPostCSV.deleteDialog.title")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the import record for "{recordToDelete?.filename}"? 
-              This action cannot be undone.
+              {t("importPostCSV.deleteDialog.description", {
+                filename: recordToDelete?.filename,
+              })}
+              {/* Are you sure you want to delete the import record for "
+              {recordToDelete?.filename}"? This action cannot be undone. */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleteLoading}>
-              Cancel
+              {t("importPostCSV.deleteDialog.cancel")}
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading
+                ? t("importPostCSV.deleteDialog.deleting")
+                : t("importPostCSV.deleteDialog.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

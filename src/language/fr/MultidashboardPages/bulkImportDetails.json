@@ -1,0 +1,34 @@
+{
+  "bulkImportDetails": {
+    "title": "Détails de l'importation en masse",
+    "loadingListings": "Chargement des annonces...",
+    "selectListingPrompt": "Sélectionnez une annonce pour voir les publications",
+    "listingSidebar": {
+      "selectedCount": "{{count}} annonces sélectionnées",
+      "searchPlaceholder": "Rechercher par nom d'annonce ou code postal",
+      "noListingsFound": "Aucune annonce trouvée pour cet ID historique.",
+      "errorLoading": "Erreur lors du chargement des annonces",
+      "noListings": "Aucune annonce trouvée",
+      "zipCode": "Code postal : {{zip}}",
+      "loading": "Chargement..."
+    },
+    "posts": {
+      "searchPlaceholder": "Rechercher par contenu de publication ou tags",
+      "loading": "Chargement des publications...",
+      "errorLoading": "Erreur lors du chargement des publications",
+      "noPostsFound": "Aucune publication ne correspond à vos critères de recherche.",
+      "image": "Image",
+      "postContent": "Contenu de la publication",
+      "noContent": "Aucun contenu",
+      "noImage": "Aucune image",
+      "status": "Statut",
+      "date": "Date",
+      "action": "Action",
+      "deletePost": "Supprimer la publication",
+      "deleteConfirmation": "Êtes-vous sûr(e) de vouloir supprimer cette publication ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  }
+}

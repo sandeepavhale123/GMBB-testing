@@ -1,0 +1,42 @@
+{
+  "publicInsightsReport": {
+    "title": "Rapport d'analyse commerciale",
+    "loading": {
+      "message": "Chargement du rapport d'analyse..."
+    },
+    "error": {
+      "title": "Erreur lors du chargement du rapport",
+      "description": "Échec du chargement du rapport d'analyse de performance. Veuillez réessayer plus tard.",
+      "retry": "Réessayer"
+    },
+    "summaryCards": {
+      "website": "Visites du site web",
+      "direction": "Demandes d'itinéraire",
+      "calls": "Appels téléphoniques",
+      "messages": "Messages",
+      "desktopSearch": "Recherche sur ordinateur",
+      "desktopMap": "Carte sur ordinateur",
+      "mobileSearch": "Recherche sur mobile",
+      "mobileMap": "Carte sur mobile",
+      "compareText": "{{value}}% vs précédent"
+    },
+    "charts": {
+      "customerSearch": "Comment les clients recherchent votre entreprise",
+      "listingViewsClicks": "Vues et clics de la fiche"
+    },
+    "chartLabels": {
+      "search": "Recherche",
+      "map": "Carte",
+      "website": "Site web",
+      "direction": "Itinéraire",
+      "call": "Appel",
+      "message": "Message"
+    },
+    "donutLabels": {
+      "desktopSearch": "Recherche sur ordinateur",
+      "mobileSearch": "Recherche sur mobile",
+      "desktopMap": "Carte sur ordinateur",
+      "mobileMap": "Carte sur mobile"
+    }
+  }
+}

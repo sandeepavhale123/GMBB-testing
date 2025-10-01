@@ -1,0 +1,94 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Surveillez les performances de votre entreprise sur toutes les plateformes"
+  },
+  "aiTasks": {
+    "title": "Tâches IA",
+    "subtitle": "Gérez et suivez les tâches d’optimisation propulsées par l’IA"
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Gérez les informations et préférences de votre compte"
+  },
+  "posts": {
+    "title": "Publications",
+    "subtitle": "Créez et gérez le contenu pour tous vos sites d’entreprise"
+  },
+  "mediaLibrary": {
+    "title": "Médiathèque",
+    "subtitle": "Organisez et gérez vos images et vidéos d’entreprise sur toutes les plateformes"
+  },
+  "reviews": {
+    "title": "Avis",
+    "subtitle": "Surveillez et répondez aux retours clients sur tous les sites"
+  },
+  "qa": {
+    "title": "Questions/Réponses",
+    "subtitle": "Gérez les questions des clients et fournissez des réponses utiles"
+  },
+  "businessInfo": {
+    "title": "Gestion",
+    "subtitle": "Gérez vos fiches d’entreprise et les informations des emplacements"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurez les préférences de votre compte et les intégrations"
+  },
+  "manageListings": {
+    "title": "Gérer les fiches",
+    "subtitle": "Surveillez et gérez vos fiches Google Business Profile"
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "Consultez les performances pour améliorer votre visibilité locale"
+  },
+  "keywords": {
+    "title": "Mots-clés",
+    "subtitle": "Suivez le classement des mots-clés par localisation géographique"
+  },
+  "searchKeyword": {
+    "title": "Recherche de mot-clé",
+    "subtitle": "Mots-clés"
+  },
+  "geoRanking": {
+    "title": "Classement GEO",
+    "subtitle": "Suivez le classement des mots-clés par localisation géographique"
+  },
+  "geoRankingReport": {
+    "title": "Rapport de classement GEO",
+    "subtitle": "Analyse détaillée de vos performances de recherche locales"
+  },
+  "citationManagement": {
+    "title": "Gestion des citations",
+    "subtitle": "Surveillez et gérez les citations de votre entreprise sur les annuaires"
+  },
+  "analytics": {
+    "title": "Analytique",
+    "subtitle": "Métriques complètes et données de performance pour votre entreprise"
+  },
+  "team": {
+    "title": "Équipe",
+    "subtitle": "Gérez les membres de l’équipe et leurs droits d’accès"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Restez informé des alertes et mises à jour importantes"
+  },
+  "reports": {
+    "title": "Rapports",
+    "subtitle": "Consultez et générez des rapports de performance"
+  },
+  "aiChatbot": {
+    "title": "Assistance AI Genie",
+    "subtitle": "Obtenez une assistance propulsée par l’IA pour l’optimisation de votre classement GEO"
+  },
+  "editTeamMember": {
+    "title": "Modifier un membre de l’équipe",
+    "subtitle": "Gérez le profil, l’accès aux fiches et les permissions des fonctionnalités"
+  },
+  "welcomeDashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Bienvenue à nouveau sur votre tableau de bord entreprise"
+  }
+}

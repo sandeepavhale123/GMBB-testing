@@ -1,0 +1,25 @@
+{
+  "publicReportDashboard": {
+    "sidebar": {
+      "gmbHealth": "Santé GMB",
+      "businessInsights": "Analyse commerciale",
+      "reviews": "Avis",
+      "postPerformance": "Performance des publications",
+      "mediaPerformance": "Performance des médias",
+      "geoRanking": "Classement GEO",
+      "citationPerformance": "Performance des citations"
+    },
+    "header": {
+      "reportDate": "Date du rapport"
+    },
+    "branding": {
+      "defaultLogoAlt": "Logo par défaut",
+      "businessLogoAlt": "Logo de l'entreprise",
+      "companyLogoAlt": "Logo de la société",
+      "companyInitial": "C",
+      "email": "Email",
+      "phone": "Téléphone",
+      "address": "Adresse"
+    }
+  }
+}

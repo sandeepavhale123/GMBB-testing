@@ -1,0 +1,41 @@
+{
+  "title": "Générateur de Description GMB Genie",
+  "shortDescription": "Description courte",
+  "shortDescriptionPlaceholder": "Brève description de ce que vous souhaitez promouvoir...",
+  "variants": "Nombre de variantes",
+  "variant1": "1 variante",
+  "variant2": "2 variantes",
+  "variant3": "3 variantes",
+  "variant4": "4 variantes",
+  "variant5": "5 variantes",
+
+  "tone": "Ton",
+  "tones": {
+    "professional": "Professionnel",
+    "friendly": "Amical",
+    "casual": "Décontracté",
+    "formal": "Formel",
+    "enthusiastic": "Enthousiaste",
+    "persuasive": "Persuasif"
+  },
+  "buttons": {
+    "generate": "Générer",
+    "generating": "Génération en cours...",
+    "reset": "Réinitialiser",
+    "close": "Fermer",
+    "useSelected": "Utiliser la sélection",
+    "select": "Sélectionner",
+    "selected": "Sélectionné"
+  },
+  "generatedVariants": "Variantes générées",
+  "editSelected": "Modifier la variante sélectionnée",
+  "editPlaceholder": "Sélectionnez une variante à gauche pour l'éditer ici...",
+  "toast": {
+    "errorTitle": "Erreur",
+    "errorDescription": "Veuillez saisir une description pour générer du contenu.",
+    "successTitle": "Succès",
+    "successDescription": "Contenu généré avec succès !",
+    "failedTitle": "Échec de la génération",
+    "failedDescription": "Échec de la génération de contenu. Veuillez réessayer."
+  }
+}

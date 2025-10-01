@@ -1,0 +1,15 @@
+{
+  "qaManagementPage": {
+    "noListingSelected": {
+      "title": "Aucune fiche sélectionnée",
+      "description": "Veuillez sélectionner une fiche d'entreprise pour voir les questions/réponses."
+    },
+    "loading": {
+      "message": "Chargement des données Q&R..."
+    },
+    "error": {
+      "title": "Erreur",
+      "description": "Échec du chargement des données Q&R"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "deleteTeamMemberModal": {
+    "title": "Supprimer un membre de l'équipe",
+    "description": "Cette action est irréversible",
+    "confirmation1": "Êtes-vous sûr de vouloir supprimer ",
+    "confirmation2": "{{firstName}} {{lastName}}",
+    "confirmation3": " ? Cela supprimera définitivement son compte et révoquera tout accès au système.",
+    "alsoRemoveTitle": "Cela supprimera également :",
+    "alsoRemoveItems": {
+      "listings": "• Accès à {{listingsCount}} fiches",
+      "permissions": "• Tous les droits assignés",
+      "credentials": "• Identifiants et paramètres du compte"
+    },
+    "cancel": "Annuler",
+    "delete": "Supprimer le membre",
+    "deleting": "Suppression en cours...",
+    "toast": {
+      "successTitle": "Succès",
+      "successDescription": "Le membre de l'équipe a été supprimé avec succès",
+      "errorTitle": "Erreur",
+      "errorDescription": "Échec de la suppression du membre de l'équipe"
+    }
+  }
+}

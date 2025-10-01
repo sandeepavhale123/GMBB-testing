@@ -1,0 +1,51 @@
+{
+  "teamMembersPage": {
+    "title": "Membres de l'équipe",
+    "description": "Gérez vos membres d'équipe et leurs permissions d'accès.",
+    "addMember": "Ajouter un membre",
+    "add": "Ajouter",
+    "searchPlaceholder": "Rechercher des membres par nom ou email",
+    "allRoles": "Tous les rôles",
+    "staff": "Personnel",
+    "client": "Client",
+    "moderator": "Modérateur",
+    "totalMembers": "Total : {{count}}",
+    "error": {
+      "title": "Erreur lors du chargement des membres",
+      "tryAgain": "Réessayer"
+    },
+    "empty": {
+      "title": "Aucun membre trouvé",
+      "searchAdjust": "Essayez d'ajuster vos critères de recherche ou filtres",
+      "addFirst": "Commencez par ajouter votre premier membre"
+    },
+    "table": {
+      "member": "Membre",
+      "email": "Email",
+      "password": "Mot de passe",
+      "listings": "Annonces",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "copy": {
+      "successTitle": "Email copié",
+      "successDesc": "L'adresse email a été copiée dans le presse-papiers.",
+      "errorTitle": "Échec de la copie",
+      "errorDesc": "Impossible de copier l'email dans le presse-papiers."
+    },
+    "password": {
+      "show": "Afficher le mot de passe",
+      "hide": "Masquer le mot de passe"
+    },
+    "dropdown": {
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "grid": {
+      "password": "Mot de passe :",
+      "role": "Rôle :",
+      "listings": "Annonces :",
+      "status": "Statut :"
+    }
+  }
+}

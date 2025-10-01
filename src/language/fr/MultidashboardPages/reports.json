@@ -1,0 +1,32 @@
+{
+  "reportsManagement": "Gestion des rapports",
+  "reportsManagementDescription": "Générez et gérez des rapports pour plusieurs établissements.",
+  "generateReport": "Générer un rapport",
+  "totalReports": "Total des rapports",
+  "totalReport": "Total du rapport",
+  "oneTime": "Ponctuel",
+  "monthly": "Mensuel",
+  "weekly": "Hebdomadaire",
+  "searchPlaceholder": "Rechercher des rapports...",
+  "filterByType": "Filtrer par type",
+  "allReports": "Tous les rapports",
+  "projectName": "Nom du projet",
+  "scheduledStatus": "Statut programmé",
+  "lastUpdate": "Dernière mise à jour",
+  "nextUpdate": "Prochaine mise à jour",
+  "location":"{{count}} emplacements",
+  "actions": "Actions",
+  "viewProject": "Voir le projet",
+  "editProject": "Modifier le projet",
+  "deleteProject": "Supprimer le projet",
+  "loadingReports": "Chargement des rapports...",
+  "errorLoadingReports": "Échec du chargement des rapports. Veuillez réessayer.",
+  "deleteReport": "Supprimer le rapport",
+  "deleteReportConfirmation": "Êtes-vous sûr de vouloir supprimer \"{{reportTitle}}\" ? Cette action est irréversible.",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "toast":{
+    "title":"Erreur",
+    "description":"Échec de la suppression du rapport"
+  }
+}

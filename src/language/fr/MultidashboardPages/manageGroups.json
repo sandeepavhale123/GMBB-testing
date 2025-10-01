@@ -1,0 +1,11 @@
+{
+  "title": "Gérer les groupes",
+  "createGroup": "Créer un groupe",
+  "searchPlaceholder": "Rechercher des groupes...",
+  "toast": {
+    "error": "Erreur",
+    "fetchError": "Échec de la récupération des groupes",
+    "deleteError": "Échec de la suppression du groupe",
+    "bulkDeleteError": "Échec de la suppression des groupes"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "reportsEmptyState": {
+    "title": "Rapports non générés pour le moment",
+    "description": "Vos rapports sont en cours de génération. Cela peut prendre quelques minutes. Veuillez réessayer plus tard.",
+    "tryAgainButton": "Réessayer"
+  }
+}

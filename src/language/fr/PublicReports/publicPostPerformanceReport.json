@@ -1,0 +1,32 @@
+{
+  "publicPostReport": {
+    "title": "Rapport de performance des publications",
+    "loading": "Chargement du rapport des publications...",
+    "error": "Erreur lors du chargement du rapport des avis",
+    "stats": {
+      "totalPosts": "Total des publications",
+      "totalScheduled": "Total planifié",
+      "publishedPosts": "Publications publiées",
+      "failedPosts": "Publications échouées"
+    },
+    "status": {
+      "published": "Publié",
+      "scheduled": "Planifié",
+      "failed": "Échoué"
+    },
+    "chart": {
+      "title": "Activité des publications dans le temps",
+      "currentPeriod": "Publications de la période en cours",
+      "previousPeriod": "Publications de la période précédente",
+      "noData": "Aucune donnée disponible"
+    },
+    "recentPosts": {
+      "title": "Publications",
+      "noContent": "Aucun contenu",
+      "viewOnGoogle": "Voir sur Google"
+    },
+    "comparison": {
+      "vsPrevious": "{{value}}% vs précédent"
+    }
+  }
+}

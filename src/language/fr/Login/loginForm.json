@@ -1,0 +1,17 @@
+{
+  "signInAccount": "Connectez-vous à votre compte",
+  "emailLabel": "Email",
+  "passwordLabel": "Mot de passe",
+  "rememberMe": "Se souvenir de moi",
+  "forgotPassword": "Mot de passe oublié ?",
+  "logInButton": "Se connecter",
+  "loggingIn": "Connexion en cours...",
+  "validationErrorTitle": "Erreur de validation",
+  "validationErrorDescription": "Veuillez corriger les champs mis en évidence et réessayer.",
+  "subscriptionExpiredTitle": "Abonnement expiré",
+  "subscriptionExpiredDescription": "Votre plan a expiré. Veuillez le renouveler pour continuer.",
+  "loginSuccessTitle": "Succès",
+  "loginSuccessDescription": "Connecté avec succès !",
+  "loginErrorTitle": "Erreur",
+  "loginErrorDescription": "Échec de la connexion. Veuillez vérifier vos identifiants."
+}

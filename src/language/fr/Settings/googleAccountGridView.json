@@ -1,0 +1,11 @@
+{
+  "googleAccountGridView": {
+    "summary": {
+      "totalListings": "Total des fiches",
+      "connected": "Connecté"
+    },
+    "progress": {
+      "label": "Progression de la connexion"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "reviewsEmptyState": {
+    "title": {
+      "filtered": "Aucun avis ne correspond à vos filtres",
+      "default": "Pas encore d'avis"
+    },
+    "description": {
+      "filtered": "Essayez d'ajuster vos critères de recherche ou vos filtres pour voir plus de résultats.",
+      "default": "Les avis apparaîtront ici dès que les clients laisseront un retour sur vos fiches d'entreprise."
+    }
+  }
+}

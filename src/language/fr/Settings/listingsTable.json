@@ -1,0 +1,14 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Entreprise",
+      "storeCode": "Code du magasin",
+      "category": "Catégorie",
+      "location": "Emplacement",
+      "status": "Statut",
+      "state": "État",
+      "actions": "Actions"
+    },
+    "noListings": "Aucune fiche ne correspond à vos critères."
+  }
+}

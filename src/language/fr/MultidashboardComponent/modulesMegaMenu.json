@@ -1,0 +1,22 @@
+{
+  "title": "Modules",
+  "comingSoon": "Bientôt disponible",
+  "modules": {
+    "manageGmb": {
+      "name": "Gérer les fiches GMB",
+      "description": "Gérez vos fiches Google My Business"
+    },
+    "geoRanking": {
+      "name": "Classement GRO",
+      "description": "Suivez et optimisez vos classements locaux dans les recherches"
+    },
+    "leadManagement": {
+      "name": "Gestion des prospects",
+      "description": "Gérez et suivez efficacement vos prospects"
+    },
+    "reputation": {
+      "name": "Réputation",
+      "description": "Surveillez et gérez votre réputation en ligne"
+    }
+  }
+}

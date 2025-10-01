@@ -1,0 +1,29 @@
+{
+  "reviewSummary": {
+    "errors": {
+      "failedTitle": "Échec du chargement du résumé des avis",
+      "failedDescription": "Une erreur est survenue lors du chargement du résumé des avis.",
+      "retry": "Réessayer"
+    },
+    "stats": {
+      "totalReviews": "Nombre total d'avis",
+      "pendingReplies": "Réponses en attente",
+      "aiReplies": "Réponses IA",
+      "manualReplies": "Réponses manuelles"
+    },
+    "overallRating": {
+      "title": "Note globale",
+      "reviewsLabel": "{{count}} avis"
+    },
+    "sentiment": {
+      "title": "Analyse des sentiments",
+      "positive": "Positif",
+      "neutral": "Neutre",
+      "negative": "Négatif"
+    },
+    "loading": {
+      "skeletonTitle": "Chargement...",
+      "skeletonSubtitle": "Veuillez patienter pendant que nous récupérons vos données"
+    }
+  }
+}

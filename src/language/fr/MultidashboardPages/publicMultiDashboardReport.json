@@ -1,0 +1,107 @@
+{
+  "loading": {
+    "config": "Chargement de la configuration du rapport...",
+    "dashboard": "Chargement des données du tableau de bord..."
+  },
+  "error": {
+    "config": "Échec du chargement de la configuration du rapport",
+    "dashboard": "Échec du chargement des données du tableau de bord",
+    "retry": "Réessayer"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Total des établissements",
+      "subtitle": "Emplacements actifs"
+    },
+    "avgRating": {
+      "title": "Note moyenne",
+      "subtitle": "Sur tous les établissements"
+    },
+    "totalPosts": {
+      "title": "Total des publications",
+      "subtitle": "Contenu publié"
+    },
+    "totalReviews": {
+      "title": "Total des avis",
+      "subtitle": "Commentaires des clients"
+    }
+  },
+  "filters": {
+    "dashboardSelector": "Sélectionner le type de tableau de bord",
+    "default": "Tableau de bord par défaut",
+    "insight": "Tableau de bord Insights",
+    "review": "Tableau de bord des avis",
+    "location": "Tableau de bord des emplacements",
+    "post": "Tableau de bord des publications",
+    "searchPlaceholder": "Rechercher par nom d'établissement ou code postal.",
+    "categories": "Toutes les catégories",
+    "locations": "Tous les emplacements",
+    "reviews": {
+      "all": "Tous les avis",
+      "unresponded": "Avis non répondu",
+      "unrespondedARE": "Avis ARE non répondu",
+      "unrespondedDNR": "Avis DNR non répondu",
+      "excludeARE": "Exclure les avis ARE",
+      "excludeDNR": "Exclure les avis DNR",
+      "excludeBoth": "Exclure les avis ARE/DNR"
+    },
+    "posts": {
+      "status": "Statut de la publication",
+      "all": "Tous les statuts",
+      "live": "En ligne",
+      "scheduled": "Programmé",
+      "failed": "Échoué"
+    }
+  },
+  "content": {
+    "showing": "Affichage de {{count}} sur {{total}} {{type}}",
+    "noData": "Aucune donnée disponible",
+    "imageNotAvailable": "Image non disponible",
+    "untitledPost": "Publication sans titre",
+    "openOnGoogle": "Ouvrir sur Google",
+    "viewOnGoogle":"Voir sur Google My Business",
+    "img":"IMG"
+  },
+  "labels": {
+    "id":"ID : {{id}}",
+    "zip":"Code postal : {{zipcode}}",
+    "state":"État : {{city}}",
+    "visibility": "Visibilité",
+    "search": "Rechercher",
+    "maps": "Cartes",
+    "total": "Total",
+    "customerActions": "Actions des clients",
+    "clicks": "Clics",
+    "directions": "Itinéraires",
+    "calls": "Appels",
+    "messages": "Messages",
+    "reviewStats": "Statistiques des avis",
+    "reviewsReplies": "Avis / Réponses",
+    "autoReply": "Réponse automatique",
+    "reviewSentiment": "Sentiment des avis",
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "photos": "Photos",
+    "rating": "Note",
+    "website": "Site Web",
+    "map": "Carte",
+    "lastPosts": "Dernières publications",
+    "upcoming": "À venir",
+    "lastPost": "Dernière publication",
+    "upcomingPost": "À venir",
+    "zipLabel":"Code postal :",
+    "na":"N/A",
+    "totalView":"Total des vues",
+    "stateLabel":"État",
+    "reviewLabel":"Avis",
+    "zipcodeLabel":"Code postal"
+  },
+  "pagination": {
+    "pageOf": "Page {{current}} sur {{total}}",
+    "previous": "Précédent",
+    "next": "Suivant"
+  }
+}

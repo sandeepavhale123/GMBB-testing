@@ -1,0 +1,10 @@
+{
+  "notificationsPage": {
+    "title": "Gérer les notifications de rapport",
+    "description": "Configurez les notifications automatiques de rapports et les destinataires personnalisés pour vos rapports GMB.",
+    "tabs": {
+      "reportNotifications": "Notifications de rapport",
+      "customNotifications": "Notifications personnalisées"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Voir les détails",
+    "subtitle": "Voir les détails du média en masse sélectionné"
+  },
+  "filter": {
+    "searchPlaceholder": "Rechercher par nom d'annonce.",
+    "statusPlaceholder": "Filtrer par statut",
+    "statusAll": "Statut de la publication",
+    "statusLive": "En ligne",
+    "statusScheduled": "Planifiée",
+    "statusFailed": "Échouée"
+  },
+  "loading": {
+    "preview": "Chargement des détails du média..."
+  },
+  "error": {
+    "preview": "Erreur lors du chargement des détails du média : {{error}}",
+    "retry": "Réessayer"
+  }
+}

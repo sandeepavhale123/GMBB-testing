@@ -1,0 +1,7 @@
+{
+  "title": "Notifications",
+  "searchPlaceholder": "Rechercher des notifications...",
+  "noNotifications": "Aucune notification",
+  "noSearchResults": "Aucune notification ne correspond à votre recherche",
+  "loading": "Chargement des notifications..."
+}

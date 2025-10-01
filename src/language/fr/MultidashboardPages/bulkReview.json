@@ -1,0 +1,27 @@
+{
+  "title": "Gestion des avis en masse",
+  "subtitle": "Gérez les avis sur toutes vos annonces.",
+  "configureAutoReply": "Configurer la réponse automatique",
+  "summary": {
+    "reviews": "Avis clients",
+    "loading": "Chargement des avis...",
+    "noReviews": "Aucun avis ne correspond à vos critères."
+  },
+  "toast": {
+    "successTitle": "Succès",
+    "replySuccess": "Réponse envoyée avec succès",
+    "replyError": "Échec de l'envoi de la réponse",
+    "deleteSuccess": "Réponse supprimée avec succès",
+    "deleteError": "Échec de la suppression de la réponse"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} avis",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{pages}}"
+  },
+  "error": {
+    "title": "Erreur",
+    "retry": "Réessayer"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "successContent": {
+    "messages": {
+      "password-reset": {
+        "title": "Mot de passe mis à jour avec succès !",
+        "description": "Votre mot de passe a été mis à jour. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe."
+      },
+      "payment": {
+        "title": "Paiement réussi !",
+        "description": "Merci pour votre abonnement ! Votre paiement a été traité avec succès."
+      },
+      "profile-update": {
+        "title": "Profil mis à jour !",
+        "description": "Votre profil a été mis à jour avec succès."
+      },
+      "verification": {
+        "title": "Vérification terminée !",
+        "description": "Votre compte a été vérifié avec succès."
+      },
+      "general": {
+        "title": "Succès !",
+        "description": "Votre action a été réalisée avec succès."
+      }
+    },
+    "buttons": {
+      "goToDashboard": "Aller au tableau de bord",
+      "goToLogin": "Aller à la connexion",
+      "goBack": "Retour"
+    }
+  }
+}

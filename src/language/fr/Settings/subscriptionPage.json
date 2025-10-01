@@ -1,0 +1,50 @@
+{
+  "subscriptionPage": {
+    "title": "Plans d'abonnement",
+    "activePlan": "Votre plan est actif jusqu'au {{date}}.",
+    "expiredPlan": "Votre plan a expiré. Veuillez le renouveler pour continuer à accéder aux fonctionnalités.",
+    "description": "Choisissez le plan idéal pour les besoins de votre entreprise. Passez à un niveau supérieur ou inférieur à tout moment.",
+    "unsubscribe": "Se désabonner",
+    "tabs": {
+      "pricingPlan": "Plan tarifaire",
+      "paymentHistory": "Historique des paiements"
+    },
+    "labels": {
+      "features": "Fonctionnalités",
+      "pricePerMonth": "Prix/Mois",
+      "mostPopular": "Le plus populaire"
+    },
+    "buttons": {
+      "active": "Actif",
+      "processing": "Traitement...",
+      "payNow": "Payer maintenant",
+      "upgradeNow": "Mettre à niveau",
+      "contactSales": "Contacter les ventes"
+    },
+    "help": {
+      "title": "Besoin d'aide pour choisir ?",
+      "description": "Contactez notre équipe commerciale pour trouver le plan idéal pour votre entreprise."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Erreur de paiement",
+        "description": "Échec du traitement du paiement. Veuillez réessayer."
+      },
+      "upgradeSuccess": {
+        "title": "Mise à niveau réussie"
+      },
+      "upgradeError": {
+        "title": "Erreur de mise à niveau",
+        "description": "Échec de la mise à niveau du plan. Veuillez réessayer."
+      },
+      "subscriptionCancelled": {
+        "title": "Abonnement annulé",
+        "description": "Votre abonnement a été annulé."
+      },
+      "cancelError": {
+        "title": "Erreur",
+        "description": "Échec de l'annulation de l'abonnement."
+      }
+    }
+  }
+}

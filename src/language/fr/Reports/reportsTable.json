@@ -1,0 +1,27 @@
+{
+  "reportsTable": {
+    "loading": "Chargement des rapports...",
+    "error": "Échec du chargement des rapports. Veuillez réessayer plus tard.",
+    "noReports": {
+      "title": "Aucun rapport trouvé",
+      "description": "Créez votre premier rapport pour commencer"
+    },
+    "tableHeaders": {
+      "reportName": "Nom du rapport",
+      "report": "Rapport",
+      "reports": "Rapports",
+      "reportType": "Type de rapport",
+      "reportDate": "Date du rapport",
+      "action": "Action"
+    },
+    "reportTypes": {
+      "compare": "Comparatif",
+      "individual": "Individuel"
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {{current}} sur {{total}}"
+    }
+  }
+}

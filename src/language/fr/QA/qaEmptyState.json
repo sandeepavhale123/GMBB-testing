@@ -1,0 +1,12 @@
+{
+  "qaEmptyState": {
+    "title": {
+      "noQuestions": "Aucune question client pour le moment",
+      "noMatches": "Aucune question ne correspond à vos filtres"
+    },
+    "description": {
+      "noQuestions": "Encouragez l'engagement sur vos fiches pour augmenter la confiance et la visibilité.",
+      "noMatches": "Essayez d'ajuster vos critères de recherche ou vos filtres pour voir plus de résultats."
+    }
+  }
+}

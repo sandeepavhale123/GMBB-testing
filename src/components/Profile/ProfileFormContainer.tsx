@@ -75,14 +75,14 @@ export const ProfileFormContainer: React.FC = () => {
   useEffect(() => {
     if (updateError) {
       toast({
-        title: "Update Failed",
+        title: t("updateFailedToastTitle"),
         description: updateError,
         variant: "destructive",
       });
       clearProfileErrors();
     }
   }, [updateError, toast, clearProfileErrors]);
-  const { t } = useI18nNamespace("Profile/profile");
+  const { t } = useI18nNamespace("Profile/profileFormContainer");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,8 +91,8 @@ export const ProfileFormContainer: React.FC = () => {
 
     if (!validationResult.isValid) {
       toast({
-        title: "Validation Error",
-        description: "Please fix the errors in the form",
+        title: t("validationError"),
+        description: t("validationErrorText"),
         variant: "destructive",
       });
       return;
@@ -201,7 +201,7 @@ export const ProfileFormContainer: React.FC = () => {
           disabled={isUpdating}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
         >
-          {isUpdating ? "Saving..." : "Save Changes"}
+          {isUpdating ? t("saving") : t("saveChanges")}
         </Button>
       </div>
     </form>

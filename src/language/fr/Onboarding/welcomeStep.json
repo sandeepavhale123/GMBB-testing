@@ -1,0 +1,28 @@
+{
+  "welcomeStep": {
+    "title": "Bienvenue sur GMB Briefcase !",
+    "subtitle": "Configurez votre fiche d'établissement en quelques étapes simples",
+
+    "cards": {
+      "businessInfo": {
+        "title": "Informations sur l'entreprise",
+        "description": "Parlez-nous de votre entreprise et de vos activités"
+      },
+      "locationDetails": {
+        "title": "Détails de l'emplacement",
+        "description": "Ajoutez l'adresse et les coordonnées de votre entreprise"
+      },
+      "businessHours": {
+        "title": "Horaires d'ouverture",
+        "description": "Définissez vos heures d'ouverture pour vos clients"
+      },
+      "readyToGo": {
+        "title": "Prêt à démarrer !",
+        "description": "Commencez à gérer votre fiche Google Business"
+      }
+    },
+
+    "timeEstimate": "Cette configuration prendra environ 5 minutes",
+    "buttonText": "Commencer"
+  }
+}

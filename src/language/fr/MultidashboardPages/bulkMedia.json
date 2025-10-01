@@ -1,0 +1,46 @@
+{
+  "header": {
+    "title": "Gestion des médias en masse",
+    "subtitle": "Téléversez et organisez les médias sur plusieurs annonces."
+  },
+  "buttons": {
+    "upload": "Téléverser des médias",
+    "tryAgain": "Réessayer",
+    "viewDetails": "Voir les détails",
+    "delete": "Supprimer",
+    "deleting": "Suppression..."
+  },
+  "messages": {
+    "errorLoading": "Erreur lors du chargement des médias en masse : {{error}}",
+    "noMediaTitle": "Aucun média en masse pour le moment",
+    "noMediaDescription": "Téléversez votre premier média en masse pour commencer",
+    "noImage": "Aucune image",
+    "noActivePosts": "Aucune publication active",
+    "postedOn": "Publié sur {{count}} annonces",
+    "failedOn": "Échec sur {{count}} annonces",
+    "scheduledOn": "Planifié sur {{count}} annonces"
+  },
+  "mediaTypes": {
+    "video": "Vidéo",
+    "photo": "Photo"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} médias"
+  },
+  "deleteDialog": {
+    "title": "Supprimer le média",
+    "description": "Êtes-vous sûr(e) de vouloir supprimer \"{{title}}\" ? Cette action est irréversible et supprimera le média de toutes les annonces associées.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer"
+  },
+  "toast": {
+    "success": {
+      "title": "Succès",
+      "description": "Média supprimé avec succès"
+    },
+    "error": {
+      "title": "Erreur",
+      "description": "Échec de la suppression du média. Veuillez réessayer."
+    }
+  }
+}

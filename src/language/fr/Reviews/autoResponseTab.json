@@ -1,0 +1,54 @@
+{
+  "autoResponseTab": {
+    "replyTemplates": {
+      "title": "Modèles de réponse",
+      "description": "Créez des modèles personnalisés pour différentes notes étoiles.",
+      "tabs": {
+        "review": "Réponse à un avis",
+        "ratingOnly": "Réponse pour note uniquement"
+      }
+    },
+    "aiAutoResponse": {
+      "title": "Réponse automatique IA",
+      "badge": "Propulsé par l'IA",
+      "description": "Laissez l'IA générer des réponses personnalisées et contextuelles basées sur le contenu et le sentiment des avis.",
+      "advancedOptions": {
+        "title": "Options avancées",
+        "variables": {
+          "title": "Note :",
+          "description": "Vous pouvez utiliser les variables suivantes dans votre texte de réponse pour afficher le nom du critique :",
+          "descBold": "{full_name}, {first_name}, {last_name}.",
+          "descEnd": "Pour insérer le contenu de la réponse, utilisez",
+          "descEndVb": "{responcetext}",
+          "descTextEnd": ". N'oubliez pas de l'inclure dans votre modèle."
+        },
+        "replyText": "Texte de réponse",
+        "applyForStars": "Appliquer pour les notes étoiles"
+      },
+      "latestReview": {
+        "title": "Générer un exemple de réponse IA",
+        "preview": "Aperçu du dernier avis"
+      },
+      "buttons": {
+        "generate": "Générer la réponse IA",
+        "regenerate": "Régénérer",
+        "generating": "Génération de la réponse IA...",
+        "save": "Enregistrer les paramètres IA",
+        "saving": "Enregistrement..."
+      }
+    },
+    "noResponseMode": {
+      "title": "Ne pas répondre à l'avis de manière manuelle ou automatique",
+      "tooltip": "Parfois, vos clients n'autorisent pas les agences marketing à répondre aux avis. Dans ce cas, cette étiquette vous aide à identifier ces listings.",
+      "modal": {
+        "title": "Activer le mode Sans Réponse ?",
+        "description": "Si vous activez ce mode, les données de réponse automatique et de réponse IA seront supprimées. Êtes-vous sûr de vouloir supprimer ces données et continuer ?",
+        "buttons": {
+          "cancel": "Annuler",
+          "confirm": "Oui, supprimer et activer",
+          "processing": "Traitement..."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "paymentHistoryTable": {
+    "title": "Historique des paiements",
+    "loading": "Chargement de l'historique des paiements...",
+    "empty": {
+      "title": "Aucun historique de paiement",
+      "description": "Votre historique de paiement apparaîtra ici après votre premier paiement."
+    },
+    "buttons": {
+      "refresh": "Actualiser",
+      "view": "Voir"
+    },
+    "table": {
+      "transactionId": "ID de transaction",
+      "planName": "Nom du plan",
+      "amount": "Montant",
+      "dateTime": "Date & Heure",
+      "email": "Email",
+      "status": "Statut",
+      "invoice": "Facture"
+    },
+    "pagination": {
+      "showing": "Affichage de",
+      "to": "à",
+      "of": "sur",
+      "results": "résultats"
+    },
+    "status": {
+      "paid": "Payé",
+      "failed": "Échoué",
+      "pending": "En attente",
+      "unknown": "Inconnu"
+    }
+  }
+}

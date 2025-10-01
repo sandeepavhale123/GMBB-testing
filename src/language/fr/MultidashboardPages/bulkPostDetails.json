@@ -1,0 +1,66 @@
+{
+  "bulkPostDetails": {
+    "header": {
+      "title": "Voir les détails",
+      "subtitle": "Voir les détails de la publication en masse sélectionnée"
+    },
+    "postPreview": {
+      "postedOn": "Publié le :",
+      "viewPost": "Voir la publication",
+      "deletePost": "Supprimer la publication"
+    },
+    "table": {
+      "listingName": "Nom de l'annonce",
+      "zipCode": "Code postal",
+      "status": "Statut",
+      "action": "Action",
+      "noListings": "Aucune annonce trouvée.",
+      "unknown": "Inconnu",
+      "post": "publication",
+      "na": "N/A"
+    },
+    "filter": {
+      "searchPlaceholder": "Rechercher par nom d'annonce.",
+      "statusPlaceholder": "Filtrer par statut",
+      "postStatus": "Statut de la publication",
+      "live": "En ligne",
+      "scheduled": "Planifiée",
+      "failed": "Échouée"
+    },
+    "bulkActions": {
+      "selected": "{{count}} publication sélectionnée",
+      "selected_plural": "{{count}} publications sélectionnées",
+      "deleteSelected": "Supprimer la sélection"
+    },
+    "pagination": {
+      "showing": "Affichage de {{from}} à {{to}} sur {{total}} entrées",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {{current}} sur {{totalPages}}"
+    },
+    "dialogs": {
+      "bulkDelete": {
+        "title": "Supprimer plusieurs publications",
+        "description": "Êtes-vous sûr(e) de vouloir supprimer {{count}} publication(s) sélectionnée(s) ? Cette action est irréversible.",
+        "cancel": "Annuler",
+        "confirm": "Tout supprimer"
+      },
+      "deleteSingle": {
+        "title": "Êtes-vous sûr(e) ?",
+        "description": "Cette action est irréversible. Cela supprimera définitivement la publication.",
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
+      }
+    },
+    "messages": {
+      "successTitle": "Succès",
+      "successDelete": "Publication supprimée avec succès",
+      "successBulkDelete": "{{count}} publications supprimées avec succès",
+      "errorTitle": "Erreur",
+      "errorDelete": "Échec de la suppression de la publication",
+      "errorBulkDelete": "Échec de la suppression de certaines publications",
+      "errorDetails": "Erreur lors du chargement des détails de la publication : {{error}}",
+      "tryAgain": "Réessayer"
+    }
+  }
+}
