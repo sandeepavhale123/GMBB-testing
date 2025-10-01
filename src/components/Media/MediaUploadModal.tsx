@@ -118,6 +118,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     return extension === 'jpg' || extension === 'jpeg';
   };
 
+  // Helper function to check if at least one image is JPG/JPEG for multi-image selection
+  const hasJpegImages = (mediaFiles: MediaFile[]): boolean => {
+    return mediaFiles.filter(f => f.type === "image").some(file => isJpegImage(file));
+  };
+
   // Effect to auto-populate with selected media from context
   React.useEffect(() => {
     if (selectedMedia && isOpen) {
@@ -544,15 +549,29 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                             Media Preview ({files.length} items)
                           </h3>
                           {files.some(f => f.type === "image") && (
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} 
-                              className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
-                            >
-                              <Settings2 className="h-3 w-3" />
-                              {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
-                            </Button>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <span>
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} 
+                                      className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                                      disabled={!hasJpegImages(files)}
+                                    >
+                                      <Settings2 className="h-3 w-3" />
+                                      {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                                    </Button>
+                                  </span>
+                                </TooltipTrigger>
+                                {!hasJpegImages(files) && (
+                                  <TooltipContent side="bottom" align="center" className="z-50">
+                                    <p>EXIF editing is supported only for JPG/JPEG images.</p>
+                                  </TooltipContent>
+                                )}
+                              </Tooltip>
+                            </TooltipProvider>
                           )}
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
