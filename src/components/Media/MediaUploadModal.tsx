@@ -199,47 +199,134 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
       // Handle multiple files
       if (files.length > 0) {
-        for (const currentFile of files) {
+        // Group files by source type
+        const galleryFiles = files.filter(f => f.selectedImage === 'gallery');
+        const aiFiles = files.filter(f => f.selectedImage === 'ai');
+        const localFiles = files.filter(f => f.selectedImage === 'local');
+
+        // Handle gallery files (combine into single upload with comma-separated URLs)
+        if (galleryFiles.length > 0) {
+          const galleryImageUrls = galleryFiles.map(f => f.galleryImageUrl).filter(Boolean).join(',');
+          const firstGalleryFile = galleryFiles[0];
+          
           if (isBulkUpload) {
             const formattedListingId = selectedListings.join(',');
             const bulkUploadData = {
-              file: currentFile.file,
-              title: formData.title || currentFile.title || "Gallery Image",
+              title: formData.title || "Gallery Images",
               category: formData.category || "additional",
               publishOption: formData.publishOption,
               scheduleDate: formData.scheduleDate,
               listingId: formattedListingId,
-              selectedImage: currentFile.selectedImage,
-              aiImageUrl: currentFile.aiImageUrl,
-              galleryImageUrl: currentFile.galleryImageUrl,
-              galleryMediaType: (currentFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+              selectedImage: 'gallery' as const,
+              galleryImageUrl: galleryImageUrls,
+              galleryMediaType: (firstGalleryFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
             };
             await createBulkMedia(bulkUploadData);
           } else {
             const uploadData = {
-              file: currentFile.file,
-              title: formData.title || currentFile.title || "Gallery Image",
+              title: formData.title || "Gallery Images",
               category: formData.category || "additional",
               publishOption: formData.publishOption,
               scheduleDate: formData.scheduleDate,
               listingId: selectedListing.id,
-              selectedImage: currentFile.selectedImage,
-              aiImageUrl: currentFile.aiImageUrl,
-              galleryImageUrl: currentFile.galleryImageUrl,
-              galleryMediaType: (currentFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+              selectedImage: 'gallery' as const,
+              galleryImageUrl: galleryImageUrls,
+              galleryMediaType: (firstGalleryFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
             };
             await uploadMedia(uploadData);
           }
-          const mediaItem: MediaItem = {
-            id: currentFile.id,
-            name: formData.title || currentFile.title || "Gallery Image",
-            views: "0 views",
-            type: currentFile.type,
-            url: currentFile.url,
-            uploadDate: new Date().toISOString().split("T")[0]
-          };
-          uploadedItems.push(mediaItem);
+
+          // Add all gallery files to uploaded items
+          galleryFiles.forEach(gFile => {
+            uploadedItems.push({
+              id: gFile.id,
+              name: formData.title || gFile.title || "Gallery Image",
+              views: "0 views",
+              type: gFile.type,
+              url: gFile.url,
+              uploadDate: new Date().toISOString().split("T")[0]
+            });
+          });
         }
+
+        // Handle AI files individually
+        for (const aiFile of aiFiles) {
+          if (isBulkUpload) {
+            const formattedListingId = selectedListings.join(',');
+            const bulkUploadData = {
+              title: formData.title || aiFile.title || "AI Image",
+              category: formData.category || "additional",
+              publishOption: formData.publishOption,
+              scheduleDate: formData.scheduleDate,
+              listingId: formattedListingId,
+              selectedImage: 'ai' as const,
+              aiImageUrl: aiFile.aiImageUrl,
+              galleryMediaType: 'photo' as const
+            };
+            await createBulkMedia(bulkUploadData);
+          } else {
+            const uploadData = {
+              title: formData.title || aiFile.title || "AI Image",
+              category: formData.category || "additional",
+              publishOption: formData.publishOption,
+              scheduleDate: formData.scheduleDate,
+              listingId: selectedListing.id,
+              selectedImage: 'ai' as const,
+              aiImageUrl: aiFile.aiImageUrl,
+              galleryMediaType: 'photo' as const
+            };
+            await uploadMedia(uploadData);
+          }
+
+          uploadedItems.push({
+            id: aiFile.id,
+            name: formData.title || aiFile.title || "AI Image",
+            views: "0 views",
+            type: aiFile.type,
+            url: aiFile.url,
+            uploadDate: new Date().toISOString().split("T")[0]
+          });
+        }
+
+        // Handle local files individually
+        for (const localFile of localFiles) {
+          if (isBulkUpload) {
+            const formattedListingId = selectedListings.join(',');
+            const bulkUploadData = {
+              file: localFile.file,
+              title: formData.title || localFile.title || "Local Media",
+              category: formData.category || "additional",
+              publishOption: formData.publishOption,
+              scheduleDate: formData.scheduleDate,
+              listingId: formattedListingId,
+              selectedImage: 'local' as const,
+              galleryMediaType: (localFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+            };
+            await createBulkMedia(bulkUploadData);
+          } else {
+            const uploadData = {
+              file: localFile.file,
+              title: formData.title || localFile.title || "Local Media",
+              category: formData.category || "additional",
+              publishOption: formData.publishOption,
+              scheduleDate: formData.scheduleDate,
+              listingId: selectedListing.id,
+              selectedImage: 'local' as const,
+              galleryMediaType: (localFile.type === 'video' ? 'video' : 'photo') as "photo" | "video"
+            };
+            await uploadMedia(uploadData);
+          }
+
+          uploadedItems.push({
+            id: localFile.id,
+            name: formData.title || localFile.title || "Local Media",
+            views: "0 views",
+            type: localFile.type,
+            url: localFile.url,
+            uploadDate: new Date().toISOString().split("T")[0]
+          });
+        }
+
         toast({
           title: "Success",
           description: `${files.length} media item(s) uploaded successfully`,
