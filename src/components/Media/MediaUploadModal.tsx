@@ -4,6 +4,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "../ui/button";
 import { X, Settings2, Camera, MapPin, Clock, Save, AlertCircle, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
@@ -484,6 +485,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [isSaving, setIsSaving] = React.useState(false);
   const [showTemplateField, setShowTemplateField] = React.useState(false);
   const [newTemplateName, setNewTemplateName] = React.useState("");
+  const [hasChangesAfterTemplate, setHasChangesAfterTemplate] = React.useState(false);
 
   React.useEffect(() => {
     setLocalData(exifData);
@@ -519,10 +521,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const handleTemplateSelect = async (templateId: string) => {
     if (!templateId) {
       setSelectedTemplate("");
+      setHasChangesAfterTemplate(false);
       return;
     }
 
     setSelectedTemplate(templateId);
+    setHasChangesAfterTemplate(false);
     setIsLoadingTemplateDetails(true);
 
     try {
@@ -616,6 +620,11 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       ...prev,
       [field]: value
     }));
+    
+    // Track changes after template selection
+    if (selectedTemplate) {
+      setHasChangesAfterTemplate(true);
+    }
   };
 
   const performSave = async (saveAsNew: number, templateName: string) => {
@@ -685,11 +694,11 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   };
 
   const handleSave = () => {
-    if (selectedTemplate) {
-      // Template is selected, save directly with saveAs: 0
+    if (selectedTemplate && !hasChangesAfterTemplate) {
+      // Template is selected and no changes made, save directly with saveAs: 0
       performSave(0, "");
     } else {
-      // No template selected, show the template field
+      // No template selected or changes were made after template selection, show the template field
       setShowTemplateField(true);
     }
   };
@@ -766,10 +775,6 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         <h3 className="text-sm font-semibold text-foreground">Image Metadata</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-xs text-muted-foreground">Name</Label>
-            <Input id="name" value={localData.name || ""} onChange={e => handleChange("name", e.target.value)} placeholder="Enter name" />
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="subject" className="text-xs text-muted-foreground">Subject</Label>
             <Input id="subject" value={localData.subject || ""} onChange={e => handleChange("subject", e.target.value)} placeholder="Enter subject" />
           </div>
@@ -789,13 +794,17 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <Label htmlFor="author" className="text-xs text-muted-foreground">Author</Label>
             <Input id="author" value={localData.author || ""} onChange={e => handleChange("author", e.target.value)} placeholder="Enter author" />
           </div>
+        </div>
+        
+        {/* Comment and Description - Full Width Textareas */}
+        <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="comment" className="text-xs text-muted-foreground">Comment</Label>
-            <Input id="comment" value={localData.comment || ""} onChange={e => handleChange("comment", e.target.value)} placeholder="Enter comment" />
+            <Textarea id="comment" value={localData.comment || ""} onChange={e => handleChange("comment", e.target.value)} placeholder="Enter comment" className="min-h-[80px]" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="description" className="text-xs text-muted-foreground">Description</Label>
-            <Input id="description" value={localData.description || ""} onChange={e => handleChange("description", e.target.value)} placeholder="Enter description" />
+            <Textarea id="description" value={localData.description || ""} onChange={e => handleChange("description", e.target.value)} placeholder="Enter description" className="min-h-[80px]" />
           </div>
         </div>
       </div>
@@ -914,7 +923,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                   Saving...
                 </>
               ) : (
-                "Save Template"
+                "Continue"
               )}
             </Button>
           </>
