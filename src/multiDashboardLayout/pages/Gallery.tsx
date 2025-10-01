@@ -59,6 +59,7 @@ const GalleryPage: React.FC = () => {
         isOpen={isMediaUploadOpen}
         onClose={handleCloseMediaUpload}
         onUpload={handleMediaUpload}
+        isBulkUpload={true}
         enableMultiSelect={enableMultiSelect}
         maxSelectionLimit={maxSelectionLimit}
       />
