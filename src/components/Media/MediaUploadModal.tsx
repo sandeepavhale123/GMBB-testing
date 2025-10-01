@@ -987,6 +987,17 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   };
   return <>
     <div className="space-y-6">
+      {/* Alert Message */}
+      <div className="flex items-start gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+        <div className="flex-1">
+          <p className="text-sm text-blue-900 font-medium">EXIF Template Information</p>
+          <p className="text-xs text-blue-700 mt-1">
+            This feature works best with .JPG and .JPEG image formats. Other formats may have limited EXIF support.
+          </p>
+        </div>
+      </div>
+
       {/* Row 1: Template Selector (Image preview removed for multiple images) */}
       <div className="flex items-start gap-4">
         {imageUrl && <div className="flex-shrink-0">
