@@ -1093,8 +1093,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       size="sm" 
                       type="button"
                       tabIndex={-1}
-                      className="h-7 w-7 p-0 absolute right-1 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent" 
-                      onClick={(e) => handleDeleteTemplate(template.id, template.template_name, e)}
+                      className="h-7 w-7 p-0 absolute right-1 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent pointer-events-auto" 
+                      aria-label={`Delete template ${template.template_name}`}
+                      onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeleteTemplate(template.id, template.template_name, e); }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
