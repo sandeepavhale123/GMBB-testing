@@ -48,6 +48,7 @@ import {
   deleteGalleryMedia,
 } from "@/api/mediaApi";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useMediaContext } from "../../context/MediaContext";
 import { useNavigate } from "react-router-dom";
 import { useGalleryImagesQuery } from "@/hooks/useGalleryImagesQuery";
@@ -380,6 +381,8 @@ interface GalleryProps {
   showAIGeneration?: boolean;
   showDeleteButton?: boolean;
   showSelectButton?: boolean;
+  enableMultiSelect?: boolean;
+  maxSelectionLimit?: number;
   onSelectImage?: (imageUrl: string) => void;
   onCloseModal?: () => void;
   className?: string;
@@ -391,11 +394,13 @@ export const Gallery: React.FC<GalleryProps> = ({
   showAIGeneration = true,
   showDeleteButton = true,
   showSelectButton = false,
+  enableMultiSelect = false,
+  maxSelectionLimit = 5,
   onSelectImage,
   onCloseModal,
   className = "",
 }) => {
-  const { triggerCreatePost, triggerMediaUpload } = useMediaContext();
+  const { triggerCreatePost, triggerMediaUpload, triggerMultiMediaUpload } = useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTab, setSelectedTab] = useState<"local" | "ai-generated">(
@@ -404,6 +409,10 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [mediaType, setMediaType] = useState<"IMAGE" | "VIDEO">("IMAGE");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  
+  // Multi-select state
+  const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<MediaItem[]>([]);
 
   // Map tab to API type
   const getApiType = (tab: string): "IMAGE" | "VIDEO" | "AI" => {
@@ -615,6 +624,44 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
   };
 
+  // Multi-select handlers
+  const handleToggleSelection = (item: MediaItem) => {
+    const isSelected = selectedImages.some(img => img.id === item.id);
+    
+    if (isSelected) {
+      setSelectedImages(selectedImages.filter(img => img.id !== item.id));
+    } else {
+      if (selectedImages.length >= maxSelectionLimit) {
+        toast({
+          title: "Selection Limit Reached",
+          description: `You can only select up to ${maxSelectionLimit} images.`,
+          variant: "destructive",
+        });
+        return;
+      }
+      setSelectedImages([...selectedImages, item]);
+    }
+  };
+
+  const handleClearAllSelections = () => {
+    setSelectedImages([]);
+  };
+
+  const handleUseSelected = () => {
+    if (selectedImages.length === 0) return;
+    
+    const mediaItems = selectedImages.map(item => ({
+      url: item.url,
+      title: item.title,
+      source: "gallery" as const,
+      type: item.type,
+    }));
+    
+    triggerMultiMediaUpload(mediaItems);
+    setSelectedImages([]);
+    setIsMultiSelectMode(false);
+  };
+
   // AI Generation handlers
   const handleGenerate = async () => {
     if (!aiPrompt.trim()) return;
@@ -799,9 +846,47 @@ export const Gallery: React.FC<GalleryProps> = ({
                 >
                   Videos
                 </Button>
+                {enableMultiSelect && !showSelectButton && (
+                  <Button
+                    variant={isMultiSelectMode ? "default" : "outline"}
+                    size="sm"
+                    className="h-8 ml-2"
+                    onClick={() => {
+                      setIsMultiSelectMode(!isMultiSelectMode);
+                      setSelectedImages([]);
+                    }}
+                  >
+                    {isMultiSelectMode ? "Exit Multi-Select" : "Select Multiple"}
+                  </Button>
+                )}
               </div>
               <div className="text-sm text-muted-foreground">{total} items</div>
             </div>
+
+            {/* Multi-Select Actions Bar */}
+            {isMultiSelectMode && selectedImages.length > 0 && (
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex items-center justify-between">
+                <span className="text-sm font-medium text-foreground">
+                  {selectedImages.length}/{maxSelectionLimit} images selected
+                </span>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={handleClearAllSelections}
+                  >
+                    Clear All
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={handleUseSelected}
+                    className="bg-primary hover:bg-primary/90"
+                  >
+                    Use Selected ({selectedImages.length})
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Media Grid */}
             <div className="flex gap-4">
@@ -820,40 +905,68 @@ export const Gallery: React.FC<GalleryProps> = ({
                         </div>
                       </div>
                     ))
-                  : displayMedia.map((item) => (
-                      <div
-                        key={item.id}
-                        className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
-                      >
-                        <div className="aspect-square overflow-hidden">
-                          {item.type === "video" ? (
-                            <video
-                              src={item.url}
-                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                              onClick={
-                                showSelectButton
-                                  ? () => handleSelectMedia(item)
-                                  : undefined
-                              }
-                              preload="metadata"
-                              muted
-                            />
-                          ) : (
-                            <img
-                              src={item.url}
-                              alt={item.title}
-                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                              onClick={
-                                showSelectButton
-                                  ? () => handleSelectMedia(item)
-                                  : undefined
-                              }
-                            />
+                  : displayMedia.map((item) => {
+                      const isSelected = selectedImages.some(img => img.id === item.id);
+                      return (
+                        <div
+                          key={item.id}
+                          className={`group relative overflow-hidden rounded-lg border ${
+                            isSelected 
+                              ? 'border-primary border-2 ring-2 ring-primary/20' 
+                              : 'border-border'
+                          } bg-card hover:shadow-lg transition-all duration-200 cursor-pointer`}
+                        >
+                          {/* Multi-Select Checkbox */}
+                          {isMultiSelectMode && (
+                            <div 
+                              className="absolute top-2 left-2 z-10"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleSelection(item);
+                              }}
+                            >
+                              <Checkbox 
+                                checked={isSelected}
+                                onCheckedChange={() => handleToggleSelection(item)}
+                                disabled={selectedImages.length >= maxSelectionLimit && !isSelected}
+                                className="h-5 w-5 bg-white/90 border-2"
+                              />
+                            </div>
                           )}
-                        </div>
 
-                        {/* Action Buttons Overlay - Hidden in Modal View */}
-                        {!showSelectButton && (
+                          <div className="aspect-square overflow-hidden">
+                            {item.type === "video" ? (
+                              <video
+                                src={item.url}
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                onClick={
+                                  showSelectButton
+                                    ? () => handleSelectMedia(item)
+                                    : isMultiSelectMode
+                                    ? () => handleToggleSelection(item)
+                                    : undefined
+                                }
+                                preload="metadata"
+                                muted
+                              />
+                            ) : (
+                              <img
+                                src={item.url}
+                                alt={item.title}
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                onClick={
+                                  showSelectButton
+                                    ? () => handleSelectMedia(item)
+                                    : isMultiSelectMode
+                                    ? () => handleToggleSelection(item)
+                                    : undefined
+                                }
+                              />
+                            )}
+                          </div>
+
+                          {/* Action Buttons Overlay - Hidden in Modal View and Multi-Select Mode */}
+                          {!showSelectButton && !isMultiSelectMode && (
                           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                             <div className="flex items-center gap-2">
                               {/* Quick View */}
@@ -1063,14 +1176,15 @@ export const Gallery: React.FC<GalleryProps> = ({
                           </div>
                         )}
 
-                        {/* Media Info */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <p className="font-medium text-xs text-white truncate">
-                            {item.title}
-                          </p>
+                          {/* Media Info */}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <p className="font-medium text-xs text-white truncate">
+                              {item.title}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
               </div>
             </div>
             {/* Load More Button - Right Side */}
