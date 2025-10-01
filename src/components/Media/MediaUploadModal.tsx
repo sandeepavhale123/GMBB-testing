@@ -885,6 +885,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         <h3 className="text-sm font-semibold text-foreground">Image Metadata</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
+            <Label htmlFor="title" className="text-xs text-muted-foreground">Title</Label>
+            <Input id="title" value={localData.title || ""} onChange={e => handleChange("title", e.target.value)} placeholder="Enter title" />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="subject" className="text-xs text-muted-foreground">Subject</Label>
             <Input id="subject" value={localData.subject || ""} onChange={e => handleChange("subject", e.target.value)} placeholder="Enter subject" />
           </div>
@@ -892,10 +896,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <Label htmlFor="copyright" className="text-xs text-muted-foreground">Copyright</Label>
             <Input id="copyright" value={localData.copyright || ""} onChange={e => handleChange("copyright", e.target.value)} placeholder="Enter copyright" />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="title" className="text-xs text-muted-foreground">Title</Label>
-            <Input id="title" value={localData.title || ""} onChange={e => handleChange("title", e.target.value)} placeholder="Enter title" />
-          </div>
+
           <div className="space-y-2">
             <Label htmlFor="keyword" className="text-xs text-muted-foreground">Keyword</Label>
             <Input id="keyword" value={localData.keyword || ""} onChange={e => handleChange("keyword", e.target.value)} placeholder="Enter keywords" />
