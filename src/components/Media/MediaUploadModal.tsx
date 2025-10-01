@@ -566,7 +566,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                   </span>
                                 </TooltipTrigger>
                                 {!hasJpegImages(files) && (
-                                  <TooltipContent side="bottom" align="center" className="z-50">
+                                  <TooltipContent side="left" align="center" className="z-50">
                                     <p>EXIF editing is supported only for JPG/JPEG images.</p>
                                   </TooltipContent>
                                 )}
