@@ -454,7 +454,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {files.map((currentFile) => (
-                            <div key={currentFile.id} className="relative group">
+                            <div key={currentFile.id} className="relative group w-[100px] h-[100px]">
                               <div className="w-[100px] h-[100px] overflow-hidden rounded-lg border border-border">
                                 {currentFile.type === "video" ? (
                                   <video
