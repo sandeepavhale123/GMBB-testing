@@ -834,10 +834,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             </SelectTrigger>
             <SelectContent className="z-[10000] bg-popover">
               {templates.map(template => <SelectItem key={template.id} value={template.id} className="group">
-                  <div className="flex items-center justify-between w-full pr-2">
-                    <span>{template.template_name}</span>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => handleDeleteTemplate(template.id, e)}>
-                      <Trash2 className="h-3 w-3 text-destructive" />
+                  <div className="flex items-center justify-between w-full gap-3">
+                    <span className="flex-1">{template.template_name}</span>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" onClick={e => handleDeleteTemplate(template.id, e)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
                 </SelectItem>)}
