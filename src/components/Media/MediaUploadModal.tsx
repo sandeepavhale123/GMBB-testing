@@ -8,6 +8,7 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { MediaDropzone } from "./MediaDropzone";
 import { MediaPreview } from "./MediaPreview";
 import { MediaForm } from "./MediaForm";
@@ -100,6 +101,21 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     const extension = url.split('.').pop()?.toLowerCase() || '';
     const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
     return videoExtensions.includes(extension) ? 'video' : 'image';
+  };
+
+  // Helper function to check if image is JPG/JPEG
+  const isJpegImage = (mediaFile: MediaFile | null): boolean => {
+    if (!mediaFile) return false;
+    
+    // Check from file name if available
+    if (mediaFile.file?.name) {
+      const extension = mediaFile.file.name.split('.').pop()?.toLowerCase() || '';
+      return extension === 'jpg' || extension === 'jpeg';
+    }
+    
+    // Check from URL
+    const extension = mediaFile.url.split('.').pop()?.toLowerCase().split('?')[0] || '';
+    return extension === 'jpg' || extension === 'jpeg';
   };
 
   // Effect to auto-populate with selected media from context
@@ -567,10 +583,31 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                 {file.selectedImage === "ai" ? "AI IMAGE" : file.selectedImage === "gallery" ? "GALLERY IMAGE" : file.type.toUpperCase()}
                               </span>
                             </div>
-                            {file.type === "image" && files.length === 0 && <Button variant="outline" size="sm" onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105">
-                                <Settings2 className="h-3 w-3" />
-                                {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
-                              </Button>}
+                            {file.type === "image" && files.length === 0 && (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <span>
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        onClick={() => setIsExifSheetOpen(!isExifSheetOpen)} 
+                                        className="gap-2 text-xs transition-all duration-200 hover:bg-primary/5 hover:border-primary hover:scale-105"
+                                        disabled={!isJpegImage(file)}
+                                      >
+                                        <Settings2 className="h-3 w-3" />
+                                        {isExifSheetOpen ? "Close EXIF" : "Edit EXIF"}
+                                      </Button>
+                                    </span>
+                                  </TooltipTrigger>
+                                  {!isJpegImage(file) && (
+                                    <TooltipContent>
+                                      <p>This feature works only with JPG or JPEG images</p>
+                                    </TooltipContent>
+                                  )}
+                                </Tooltip>
+                              </TooltipProvider>
+                            )}
                           </div>
                         </div>
                         <div className="max-w-xs mx-auto">
