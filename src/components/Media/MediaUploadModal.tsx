@@ -1085,18 +1085,16 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               <SelectValue placeholder="-- Select Template --" />
             </SelectTrigger>
             <SelectContent className="z-[10000] bg-popover">
-              {templates.map(template => <SelectItem key={template.id} value={template.id} className="group w-full hover:bg-gray-100" style={{position:'relative'}}>
-                  <div className="flex items-center justify-between w-full gap-3 flex-1">
+              {templates.map(template => <SelectItem key={template.id} value={template.id} className="group relative w-full hover:bg-accent">
+                  <div className="flex items-center justify-between w-full gap-3 pr-8">
                     <span className="flex-1">{template.template_name}</span>
                     <Button 
                       variant="ghost" 
                       size="sm" 
                       type="button"
                       tabIndex={-1}
-                      className="h-7 w-7 p-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity ml-auto" 
-                      style={{position:'absolute',right:0,top:1}} 
+                      className="h-7 w-7 p-0 absolute right-1 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent" 
                       onClick={(e) => handleDeleteTemplate(template.id, template.template_name, e)}
-                    
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
