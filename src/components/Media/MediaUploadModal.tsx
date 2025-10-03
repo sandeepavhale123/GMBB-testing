@@ -863,6 +863,23 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         // Clear selection if deleted template was selected
         if (selectedTemplate === templateToDelete.id) {
           setSelectedTemplate("");
+          // Reset EXIF form data to default values
+          setLocalData({
+            name: "",
+            subject: "",
+            copyright: "",
+            title: "",
+            keyword: "",
+            author: "",
+            comment: "",
+            description: "",
+            gpsLatitude: "",
+            gpsLongitude: "",
+            maker: "",
+            software: "",
+            model: "",
+            template: "default"
+          });
         }
       }
       
