@@ -758,6 +758,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [templateToDelete, setTemplateToDelete] = React.useState<{ id: string; name: string } | null>(null);
   const [isDeletingTemplate, setIsDeletingTemplate] = React.useState(false);
   const [validationErrors, setValidationErrors] = React.useState<Record<string, boolean>>({});
+  const [isDuplicateTemplate, setIsDuplicateTemplate] = React.useState(false);
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
@@ -1112,6 +1113,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setShowTemplateField(true);
     }
   };
+  // Check if template name already exists
+  const isDuplicateTemplateName = (name: string): boolean => {
+    const trimmedName = name.trim().toLowerCase();
+    return templates.some(template => 
+      template.template_name.toLowerCase() === trimmedName
+    );
+  };
+
   const handleSubmitTemplate = () => {
     // Validate required fields first
     const missingFields = validateRequiredFields();
@@ -1124,15 +1133,29 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       return;
     }
 
-    if (newTemplateName.trim()) {
-      performSave(1, newTemplateName.trim());
-    } else {
+    const trimmedName = newTemplateName.trim();
+
+    if (!trimmedName) {
       toast({
         title: "Error",
         description: "Please enter a template name",
         variant: "destructive"
       });
+      return;
     }
+
+    // Check for duplicate template name
+    if (isDuplicateTemplateName(trimmedName)) {
+      setIsDuplicateTemplate(true);
+      toast({
+        title: "Duplicate Template Name",
+        description: "A template with this name already exists. Please use a different name.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    performSave(1, trimmedName);
   };
   const handleSkipTemplate = () => {
     performSave(0, "");
@@ -1344,7 +1367,22 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 Save as Template
               </Label>
             </div>
-            <Input id="templateName" value={newTemplateName} onChange={e => setNewTemplateName(e.target.value)} placeholder="Enter template name" className="w-full" autoFocus />
+            <Input 
+              id="templateName" 
+              value={newTemplateName} 
+              onChange={e => {
+                setNewTemplateName(e.target.value);
+                setIsDuplicateTemplate(false);
+              }} 
+              placeholder="Enter template name" 
+              className={`w-full ${isDuplicateTemplate ? "border-destructive" : ""}`}
+              autoFocus 
+            />
+            {isDuplicateTemplate && (
+              <p className="text-xs text-destructive mt-1">
+                This template name already exists. Please choose a different name.
+              </p>
+            )}
             <p className="text-xs text-muted-foreground">
               Do you want to save this EXIF data as a template for future use?
             </p>
