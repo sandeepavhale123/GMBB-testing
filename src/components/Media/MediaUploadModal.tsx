@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogPortal, AlertDialogOverlay } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 import { X, Settings2, Camera, MapPin, Clock, Save, AlertCircle, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
@@ -1263,10 +1263,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
     {/* Delete Confirmation Dialog */}
     <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-      <AlertDialogContent className="z-[200]">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete Template</AlertDialogTitle>
-          <AlertDialogDescription>
+      <AlertDialogPortal>
+        <AlertDialogOverlay className="z-[190]" />
+        <AlertDialogContent className="z-[200]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Template</AlertDialogTitle>
+            <AlertDialogDescription>
             Are you sure you want to delete the template "{templateToDelete?.name}"? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -1280,7 +1282,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             {isDeletingTemplate ? 'Deleting...' : 'Delete'}
           </AlertDialogAction>
         </AlertDialogFooter>
-      </AlertDialogContent>
+        </AlertDialogContent>
+      </AlertDialogPortal>
     </AlertDialog>
   </>;
 };
