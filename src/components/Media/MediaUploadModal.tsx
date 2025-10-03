@@ -1263,7 +1263,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
     {/* Delete Confirmation Dialog */}
     <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-      <AlertDialogContent>
+      <AlertDialogContent className="z-[200]">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Template</AlertDialogTitle>
           <AlertDialogDescription>
