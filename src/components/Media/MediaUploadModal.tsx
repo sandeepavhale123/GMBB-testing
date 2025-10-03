@@ -1088,20 +1088,27 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               {templates.map(template => <SelectItem key={template.id} value={template.id} className="group relative w-full hover:bg-accent">
                   <div className="flex items-center justify-between w-full gap-3 pr-8">
                     <span className="flex-1">{template.template_name}</span>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      type="button"
-                      tabIndex={-1}
-                      className="h-7 w-7 p-0 absolute right-1 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent pointer-events-auto" 
-                      aria-label={`Delete template ${template.template_name}`}
-                      onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeleteTemplate(template.id, template.template_name, e); }}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+<Button 
+  variant="ghost" 
+  size="sm" 
+  type="button"
+  tabIndex={-1}
+  className="h-7 w-7 p-0 absolute right-1 top-1/2 -translate-y-1/2 z-[1000] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent pointer-events-auto" 
+  aria-label={`Delete template ${template.template_name}`}
+  onPointerDown={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleDeleteTemplate(template.id, template.template_name, e);
+  }}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }}
+>
+  <Trash2 className="h-4 w-4 text-destructive" />
+</Button>
                   </div>
                 </SelectItem>)}
             </SelectContent>
