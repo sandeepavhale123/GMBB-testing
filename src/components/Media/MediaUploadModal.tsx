@@ -757,6 +757,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const [templateToDelete, setTemplateToDelete] = React.useState<{ id: string; name: string } | null>(null);
   const [isDeletingTemplate, setIsDeletingTemplate] = React.useState(false);
+  const [validationErrors, setValidationErrors] = React.useState<Record<string, boolean>>({});
   React.useEffect(() => {
     setLocalData(exifData);
   }, [exifData]);
@@ -903,11 +904,43 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setIsDeletingTemplate(false);
     }
   };
+  const validateRequiredFields = () => {
+    const requiredFields = {
+      title: localData.title?.trim(),
+      subject: localData.subject?.trim(),
+      copyright: localData.copyright?.trim(),
+      author: localData.author?.trim(),
+      keyword: localData.keyword?.trim()
+    };
+    
+    const errors: Record<string, boolean> = {};
+    const missingFields: string[] = [];
+    
+    Object.entries(requiredFields).forEach(([key, value]) => {
+      if (!value) {
+        errors[key] = true;
+        missingFields.push(key.charAt(0).toUpperCase() + key.slice(1));
+      }
+    });
+    
+    setValidationErrors(errors);
+    return missingFields;
+  };
+
   const handleChange = (field: string, value: string) => {
     setLocalData((prev: any) => ({
       ...prev,
       [field]: value
     }));
+
+    // Clear validation error for this field
+    if (validationErrors[field]) {
+      setValidationErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+    }
 
     // Track changes after template selection
     if (selectedTemplate) {
@@ -1060,6 +1093,17 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
   const handleSave = () => {
+    // Validate required fields
+    const missingFields = validateRequiredFields();
+    if (missingFields.length > 0) {
+      toast({
+        title: "Required Fields Missing",
+        description: `Please fill in: ${missingFields.join(", ")}`,
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (selectedTemplate && !hasChangesAfterTemplate) {
       // Template is selected and no changes made, save directly with saveAs: 0
       performSave(0, "");
@@ -1069,6 +1113,17 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     }
   };
   const handleSubmitTemplate = () => {
+    // Validate required fields first
+    const missingFields = validateRequiredFields();
+    if (missingFields.length > 0) {
+      toast({
+        title: "Required Fields Missing",
+        description: `Please fill in: ${missingFields.join(", ")}`,
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (newTemplateName.trim()) {
       performSave(1, newTemplateName.trim());
     } else {
@@ -1151,21 +1206,53 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         <h3 className="text-sm font-semibold text-foreground">Image Metadata</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-xs text-muted-foreground">Title</Label>
-            <Input id="title" value={localData.title || ""} onChange={e => handleChange("title", e.target.value)} placeholder="Enter title" />
+            <Label htmlFor="title" className="text-xs text-muted-foreground">
+              Title <span className="text-destructive">*</span>
+            </Label>
+            <Input 
+              id="title" 
+              value={localData.title || ""} 
+              onChange={e => handleChange("title", e.target.value)} 
+              placeholder="Enter title"
+              className={validationErrors.title ? "border-destructive" : ""}
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="subject" className="text-xs text-muted-foreground">Subject</Label>
-            <Input id="subject" value={localData.subject || ""} onChange={e => handleChange("subject", e.target.value)} placeholder="Enter subject" />
+            <Label htmlFor="subject" className="text-xs text-muted-foreground">
+              Subject <span className="text-destructive">*</span>
+            </Label>
+            <Input 
+              id="subject" 
+              value={localData.subject || ""} 
+              onChange={e => handleChange("subject", e.target.value)} 
+              placeholder="Enter subject"
+              className={validationErrors.subject ? "border-destructive" : ""}
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="copyright" className="text-xs text-muted-foreground">Copyright</Label>
-            <Input id="copyright" value={localData.copyright || ""} onChange={e => handleChange("copyright", e.target.value)} placeholder="Enter copyright" />
+            <Label htmlFor="copyright" className="text-xs text-muted-foreground">
+              Copyright <span className="text-destructive">*</span>
+            </Label>
+            <Input 
+              id="copyright" 
+              value={localData.copyright || ""} 
+              onChange={e => handleChange("copyright", e.target.value)} 
+              placeholder="Enter copyright"
+              className={validationErrors.copyright ? "border-destructive" : ""}
+            />
           </div>
 
            <div className="space-y-2">
-            <Label htmlFor="author" className="text-xs text-muted-foreground">Author</Label>
-            <Input id="author" value={localData.author || ""} onChange={e => handleChange("author", e.target.value)} placeholder="Enter author" />
+            <Label htmlFor="author" className="text-xs text-muted-foreground">
+              Author <span className="text-destructive">*</span>
+            </Label>
+            <Input 
+              id="author" 
+              value={localData.author || ""} 
+              onChange={e => handleChange("author", e.target.value)} 
+              placeholder="Enter author"
+              className={validationErrors.author ? "border-destructive" : ""}
+            />
           </div>
           
          
@@ -1175,8 +1262,16 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         {/* Comment and Description - Full Width Textareas */}
         <div className="space-y-4">
            <div className="space-y-2">
-            <Label htmlFor="keyword" className="text-xs text-muted-foreground">Keyword</Label>
-            <Input id="keyword" value={localData.keyword || ""} onChange={e => handleChange("keyword", e.target.value)} placeholder="Enter keywords" />
+            <Label htmlFor="keyword" className="text-xs text-muted-foreground">
+              Keyword <span className="text-destructive">*</span>
+            </Label>
+            <Input 
+              id="keyword" 
+              value={localData.keyword || ""} 
+              onChange={e => handleChange("keyword", e.target.value)} 
+              placeholder="Enter keywords"
+              className={validationErrors.keyword ? "border-destructive" : ""}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="comment" className="text-xs text-muted-foreground">Comment</Label>
