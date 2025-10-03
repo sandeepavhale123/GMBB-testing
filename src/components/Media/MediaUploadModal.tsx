@@ -174,10 +174,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
   const handleFileRemove = (fileId?: string) => {
     if (fileId && files.length > 0) {
-      setFiles(prev => prev.filter(f => f.id !== fileId));
+      const updatedFiles = files.filter(f => f.id !== fileId);
+      setFiles(updatedFiles);
+      // Close EXIF editor if no images remain
+      if (updatedFiles.length === 0) {
+        setIsExifSheetOpen(false);
+      }
     } else {
       setFile(null);
       setFiles([]);
+      // Close EXIF editor when single file is removed
+      setIsExifSheetOpen(false);
       setUploadComplete(false);
     }
   };
