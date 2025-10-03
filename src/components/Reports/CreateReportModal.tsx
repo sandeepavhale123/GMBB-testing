@@ -209,7 +209,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[88vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t("createReportModal.title")}</DialogTitle>
+          <DialogTitle>{t("createReportModal.title")}.</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -280,7 +280,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 z-[100]" align="start">
                     <Calendar
                       initialFocus
                       mode="range"
@@ -327,7 +327,10 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0 z-[100]"
+                      align="start"
+                    >
                       <Calendar
                         initialFocus
                         mode="range"
@@ -372,7 +375,10 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0 z-[100]"
+                      align="start"
+                    >
                       <Calendar
                         initialFocus
                         mode="range"
