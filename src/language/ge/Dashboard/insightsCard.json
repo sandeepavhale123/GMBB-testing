@@ -1,0 +1,26 @@
+{
+  "insightsCard": {
+    "title": "Leistungsübersicht",
+    "viewButton": "Ansehen",
+    "dateRange": {
+      "placeholder": "Zeitraum auswählen",
+      "last7Days": "Letzte 7 Tage",
+      "last30Days": "Letzte 30 Tage",
+      "last90Days": "Letzte 90 Tage"
+    },
+    "visibility": {
+      "searchViews": "Suchansichten",
+      "mapsViews": "Kartenansichten"
+    },
+    "customerActions": {
+      "title": "Kundenaktionen",
+      "calls": "Anrufe",
+      "website": "Webseite",
+      "directions": "Wegbeschreibung",
+      "messages": "Nachrichten"
+    },
+    "topSearchQueries": {
+      "title": "Top-Suchanfragen"
+    }
+  }
+}

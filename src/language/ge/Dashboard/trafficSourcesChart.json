@@ -1,0 +1,7 @@
+{
+  "title": "Aktivitätsübersicht",
+  "livePosts": "Aktive Beiträge",
+  "failedPosts": "Fehlgeschlagene Beiträge",
+  "successPosts": "{{count}} Erfolgreiche Beiträge",
+  "failedCountPosts": "{{count}} Fehlgeschlagene Beiträge"
+}

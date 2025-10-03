@@ -1,0 +1,24 @@
+{
+  "label": "Standorte auswählen",
+  "placeholders": {
+    "search": "Standorte suchen..."
+  },
+  "sections": {
+    "groups": "Gruppen",
+    "locations": "Standorte"
+  },
+  "actions": {
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen"
+  },
+  "status": {
+    "locations": "Standorte"
+  },
+  "messages": {
+    "loading": "Wird geladen...",
+    "noResults": "Kein Standort gefunden.",
+    "selectAtLeastOne": "Wählen Sie mindestens einen Standort aus, um fortzufahren.",
+    "error": "Fehler beim Abrufen der Massenantwortdetails",
+    "errorTitle": "Fehler"
+  }
+}

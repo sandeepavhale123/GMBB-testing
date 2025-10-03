@@ -1,0 +1,41 @@
+{
+  "exportReviewsModal": {
+    "title": "Bewertungsdaten exportieren",
+    "selectListingsLabel": "Einträge auswählen",
+    "selectListingsPlaceholder": "Einträge auswählen...",
+    "exportTypeLabel": "Exporttyp auswählen",
+    "exportPlaceholder": "Exporttyp auswählen",
+    "exportTypeOptions": {
+      "1": "Zusammenfassungsbericht - Nur Anzahl (kein Zeitraum)",
+      "2": "Benutzerdefinierter Zusammenfassungsbericht - Bewertung für Bewertung (mit Zeitraum)",
+      "3": "Benutzerdefinierter Zusammenfassungsbericht - Nur Anzahl (mit Zeitraum)"
+    },
+    "starRatingsLabel": "Sternebewertungen auswählen",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "starsSelected": "{{selected}} von {{total}} Sternebewertungen ausgewählt",
+    "dateRangeLabel": "Zeitraum auswählen",
+    "dateRangePlaceholder": "Zeitraum für Bewertungen auswählen",
+    "buttons": {
+      "cancel": "Abbrechen",
+      "export": "CSV exportieren",
+      "exporting": "Exportiere..."
+    },
+    "toast": {
+      "validation": {
+        "title": "Validierungsfehler",
+        "noListing": "Bitte wählen Sie mindestens einen Eintrag aus",
+        "noStar": "Bitte wählen Sie mindestens eine Sternebewertung aus",
+        "noDateRange": "Bitte wählen Sie einen Zeitraum aus"
+      },
+      "success": {
+        "title": "Erfolg",
+        "description": "CSV-Datei erstellt und Download gestartet"
+      },
+      "error": {
+        "title": "Export fehlgeschlagen",
+        "description": "Beim Export ist ein Fehler aufgetreten"
+      }
+    }
+  }
+}

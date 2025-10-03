@@ -1,0 +1,31 @@
+{
+  "insightsComparisonChart": {
+    "title": {
+      "fallback": "Leistungstrends",
+      "comparison": "6-Monats-Leistungsvergleich"
+    },
+    "description": {
+      "fallback": "Historische Trends für wichtige Kennzahlen basierend auf verfügbaren Daten",
+      "comparison": "Historische Trends für wichtige Kennzahlen der letzten 6 Monate"
+    },
+    "error": {
+      "title": "Leistungsvergleich",
+      "failed": "Fehler beim Laden der Vergleichsdaten"
+    },
+    "loading": {
+      "title": "Vergleichsdaten werden geladen..."
+    },
+    "metrics": {
+      "searchViews": "Google-Suchansichten",
+      "mapsViews": "Google-Maps-Ansichten",
+      "websiteClicks": "Website-Klicks",
+      "phoneCalls": "Telefonanrufe"
+    },
+    "mobileLegend": {
+      "searchViews": "Suchansichten",
+      "mapsViews": "Maps-Ansichten",
+      "websiteClicks": "Website-Klicks",
+      "phoneCalls": "Telefonanrufe"
+    }
+  }
+}

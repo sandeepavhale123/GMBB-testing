@@ -1,0 +1,30 @@
+{
+  "GeoRankingMapSection": {
+    "title": "GEO Raster-Ranking-Karte",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Raster",
+      "distance": "Entfernung",
+      "engine": "Suchmaschine",
+      "engineValue": "Google Maps",
+      "frequency": "Frequenz"
+    },
+    "loading": {
+      "title": "Kartendaten werden geladen",
+      "description": "Rasterkoordinaten werden generiert..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Positionsübersicht"
+    },
+    "frequencyOptions": {
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "monthly": "Monatlich"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "error": {
+    "message": "Fehler beim Laden der Zusammenfassungsdaten",
+    "retry": "Erneut versuchen"
+  },
+  "stats": {
+    "totalReviews": "Gesamtbewertungen",
+    "pendingReplies": "Ausstehende Antworten",
+    "aiReplies": "KI-Antworten",
+    "manualReplies": "Manuelle Antworten"
+  },
+  "overallRating": {
+    "title": "Gesamtbewertung",
+    "reviewsAcross": "{{count}} Bewertungen über alle Einträge"
+  },
+  "activitySummary": {
+    "title": "Aktivitätsübersicht",
+    "aiResponses": "KI-Antworten",
+    "manualResponses": "Manuelle Antworten",
+    "pending": "Ausstehend"
+  }
+}

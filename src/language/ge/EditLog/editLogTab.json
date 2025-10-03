@@ -1,0 +1,12 @@
+{
+  "editLogTab": {
+    "searchPlaceholder": "Bearbeitungsverlauf durchsuchen...",
+    "searchButton": "Suchen",
+    "resultsCount": "{{count}} von {{total}} Bearbeitungsverläufen werden angezeigt",
+    "errorLoad": "Fehler beim Laden des Bearbeitungsverlaufs",
+    "noData": "Kein Bearbeitungsverlauf verfügbar",
+    "noSearchResults": "Keine Bearbeitungsverläufe für Ihre Suche gefunden",
+    "changedLabel": "Geändert",
+    "loading": "Wird geladen..."
+  }
+}

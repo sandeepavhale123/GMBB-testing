@@ -1,0 +1,12 @@
+{
+  "title": "Einträge zu {{groupName}} hinzufügen",
+  "noListingsTitle": "Keine Einträge ausgewählt",
+  "noListingsDescription": "Bitte wählen Sie mindestens einen Eintrag aus, um ihn der Gruppe hinzuzufügen.",
+  "successTitle": "Erfolg",
+  "successDescription": "{{count}} Eintrag{{plural}} erfolgreich zu {{groupName}} hinzugefügt. Gesamteinträge: {{total}}",
+  "errorTitle": "Fehler",
+  "errorDescription": "Das Hinzufügen von Einträgen zur Gruppe ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+  "cancel": "Abbrechen",
+  "adding": "Wird hinzugefügt...",
+  "addListings": "{{count}} Eintrag{{plural}} hinzufügen"
+}

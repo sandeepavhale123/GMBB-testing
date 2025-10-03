@@ -1,0 +1,33 @@
+{
+  "title": {
+    "create": "Erstellen",
+    "manage": "Verwalten",
+    "ratingOnly": "Nur Bewertung",
+    "review": "Rezension"
+  },
+  "availableVariables": "Verfügbare Variablen",
+  "variables": {
+    "fullName": "{full_name}",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "businessName": "{business_name}",
+    "reviewContent": "{review_content}"
+  },
+  "multipleResponses": {
+    "title": "Mehrere Antworten",
+    "description": "Verwenden Sie ein senkrechtes Trennzeichen (|), um mehrere Antwortvarianten zu trennen.",
+    "example": "Antwort 1 | Antwort 2 | Antwort 3"
+  },
+  "templateContent": "Vorlageninhalt",
+  "placeholder": {
+    "ratingOnly": "Antwort für Bewertungen ohne Text eingeben...",
+    "review": "Antwortvorlage für Rezensionen mit Kommentaren eingeben..."
+  },
+  "usageInfo": "Diese Vorlage wird für {{stars}}-Sterne-{{type}}-Antworten verwendet.",
+  "buttons": {
+    "cancel": "Abbrechen",
+    "createTemplate": "Vorlage erstellen",
+    "saveChanges": "Änderungen speichern",
+    "saving": "Wird gespeichert..."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "postManagement": {
+    "title": "Beitragsübersicht",
+    "description": "Verwalten Sie Ihre Beiträge im Google-Unternehmensprofil",
+    "status": {
+      "live": "Aktive Beiträge",
+      "scheduled": "Geplant",
+      "failed": "Fehlgeschlagen"
+    },
+    "actions": {
+      "create": "Neuen Beitrag erstellen",
+      "manage": "Beiträge verwalten"
+    },
+    "alerts": {
+      "failedPosts": "{{count}} Beiträge erfordern Aufmerksamkeit",
+      "actionRequired": "Handlung erforderlich"
+    }
+  }
+}

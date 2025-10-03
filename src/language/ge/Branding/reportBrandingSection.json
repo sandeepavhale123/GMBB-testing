@@ -1,0 +1,45 @@
+{
+  "reportBranding": {
+    "title": "Berichts-Branding",
+    "form": {
+      "companyName": {
+        "label": "Firmenname",
+        "placeholder": "Firmennamen eingeben"
+      },
+      "companyEmail": {
+        "label": "Firmen-E-Mail",
+        "placeholder": "firma@beispiel.com"
+      },
+      "companyWebsite": {
+        "label": "Firmen-Website",
+        "placeholder": "https://www.firma.com"
+      },
+      "companyPhone": {
+        "label": "Firmentelefon",
+        "placeholder": "+49 (555) 123-4567"
+      },
+      "companyAddress": {
+        "label": "Firmenadresse",
+        "placeholder": "123 Geschäftsstraße, Stadt, Bundesland 12345"
+      }
+    },
+    "logo": {
+      "label": "Logo hochladen",
+      "description": "PNG, JPG, SVG bis zu 2MB. Empfohlen: 200x80px",
+      "chooseButton": "Logo auswählen",
+      "selectedFile": "Ausgewählt: {{fileName}}",
+      "ready": "✓ Bereit",
+      "dropHere": "Logo hier ablegen, um es hochzuladen"
+    },
+    "toast": {
+      "fileTooLargeTitle": "Datei zu groß",
+      "fileTooLargeDescription": "Die Logo-Datei muss kleiner als 2MB sein",
+      "invalidFileTitle": "Ungültiger Dateityp",
+      "invalidFileDescription": "Bitte laden Sie eine Bilddatei hoch (PNG, JPG, SVG)",
+      "uploadedTitle": "Berichtslogo hochgeladen",
+      "uploadedDescription": "{{fileName}} bereit zur Verwendung",
+      "removedTitle": "Berichtslogo entfernt",
+      "removedDescription": "Logo wurde erfolgreich entfernt"
+    }
+  }
+}

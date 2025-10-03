@@ -1,0 +1,23 @@
+{
+  "brandingSaveActions": {
+    "toast": {
+      "success": {
+        "title": "Branding erfolgreich aktualisiert",
+        "description": "Ihre White-Label-Branding-Änderungen wurden gespeichert"
+      },
+      "errorSave": {
+        "title": "Fehler beim Speichern der Änderungen",
+        "defaultDescription": "Bitte versuchen Sie es später erneut"
+      },
+      "errorReset": {
+        "title": "Fehler beim Zurücksetzen",
+        "defaultDescription": "Es ist ein Fehler aufgetreten"
+      }
+    },
+    "buttons": {
+      "reset": "Zurücksetzen",
+      "saving": "Speichere...",
+      "saveChanges": "Änderungen speichern"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "citationPage": {
+    "loading": "Lade Zitationsseite...",
+    "searchForm": {
+      "title": "Zitations-Auditbericht",
+      "description": "Geben Sie Ihre Unternehmensdaten ein, um das Zitations-Audit zu starten",
+      "businessNameLabel": "Unternehmensname",
+      "businessNamePlaceholder": "Unternehmensnamen eingeben",
+      "phoneLabel": "Telefon",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "cityLabel": "Stadt",
+      "cityPlaceholder": "Stadtname eingeben",
+      "searchButton": "Suchen",
+      "searchingButton": "Suche läuft..."
+    },
+    "management": {
+      "title": "Zitationsverwaltung",
+      "description": "Überwachen und verwalten Sie Ihre Unternehmenszitationen in Verzeichnissen",
+      "refresh": "Zitation aktualisieren",
+      "refreshing": "Wird aktualisiert...",
+      "newSearch": "Neue Suche"
+    },
+    "trackerCard": {
+      "title": "Zitations-Tracker",
+      "listed": "Gelistet",
+      "notListed": "Nicht gelistet",
+      "listedPercent": "Gelistet"
+    },
+    "localPagesCard": {
+      "title": "Lokale Seiten & Verzeichnisse",
+      "description": "Ihr Score für lokale Seiten und Verzeichnisse basiert auf der Anzahl der Orte, an denen Ihr Eintrag vorhanden ist, geteilt durch die Anzahl der geprüften lokalen Seiten und Verzeichnisse."
+    },
+    "auditCard": {
+      "title": "Zitations-Audit",
+      "orderButton": "Bestellung aufgeben",
+      "existingTab": "Bestehende Zitation",
+      "possibleTab": "Mögliche Zitation",
+      "table": {
+        "website": "Webseite",
+        "businessName": "Unternehmensname",
+        "phone": "Telefon",
+        "action": "Aktion",
+        "siteName": "Seitenname",
+        "view": "Ansehen",
+        "fixNow": "Jetzt korrigieren"
+      }
+    }
+  }
+}

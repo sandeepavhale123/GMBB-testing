@@ -1,0 +1,23 @@
+{
+  "titles": {
+    "replyTemplates": "Antwortvorlagen"
+  },
+  "tabs": {
+    "review": "Antwort für Bewertung",
+    "rating": "Nur für Bewertung antworten"
+  },
+  "toast": {
+    "success": {
+      "title": "Erfolg",
+      "enabled": "Vorlage erfolgreich aktiviert",
+      "disabled": "Vorlage erfolgreich deaktiviert",
+      "saved": "Vorlage erfolgreich gespeichert"
+    },
+    "error": {
+      "title": "Fehler",
+      "projectId": "Projekt-ID nicht gefunden",
+      "updateTemplate": "Fehler beim Aktualisieren des Vorlagenstatus",
+      "saveTemplate": "Fehler beim Speichern der Vorlage"
+    }
+  }
+}

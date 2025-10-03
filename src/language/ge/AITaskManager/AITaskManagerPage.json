@@ -1,0 +1,69 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Ausstehende Aufgaben",
+      "completed": "Abgeschlossene Aufgaben",
+      "oneTime": "Einmalige Aufgaben",
+      "recurring": "Wiederkehrende Aufgaben"
+    },
+
+    "tabs": {
+      "pending": "Ausstehend ({{count}})",
+      "completed": "Abgeschlossen ({{count}})",
+      "all": "Alle Aufgaben ({{count}})",
+      "recurring": "Wiederkehrend ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Häufigkeit: {{value}}",
+      "status": {
+        "pending": "ausstehend",
+        "inProgress": "in Bearbeitung",
+        "completed": "abgeschlossen",
+        "due": "fällig"
+      },
+      "type": {
+        "oneTime": "einmalig",
+        "recurring": "wiederkehrend"
+      },
+      "priority": {
+        "high": "Hohe Priorität"
+      },
+      "actions": {
+        "fix": "Beheben",
+        "inProgress": "In Bearbeitung",
+        "markCompleted": "Als abgeschlossen markieren",
+        "revert": "Zurücksetzen"
+      }
+    },
+
+    "loading": {
+      "title": "Lade KI-Aufgaben",
+      "description": "Hole die neuesten Aufgaben..."
+    },
+
+    "noListing": {
+      "message": "Keine Auflistung ausgewählt. Bitte wählen Sie eine Auflistung, um KI-Aufgaben anzuzeigen."
+    },
+
+    "emptyState": {
+      "title": "Keine Aufgaben gefunden",
+      "completedMessage": "Großartige Arbeit! Schließen Sie einige Aufgaben ab, um sie hier zu sehen.",
+      "defaultMessage": "Keine Aufgaben entsprechen dem aktuellen Filter."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Fehler",
+        "default": "Aufgabe konnte nicht zurückgesetzt werden."
+      },
+      "success": {
+        "title": "Erfolg"
+      },
+      "reverted": {
+        "title": "Zurückgesetzt",
+        "message": "Aufgabe wurde auf ausstehend zurückgesetzt."
+      }
+    }
+  }
+}

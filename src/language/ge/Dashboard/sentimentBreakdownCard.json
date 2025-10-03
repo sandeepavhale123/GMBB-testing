@@ -1,0 +1,8 @@
+{
+  "sentimentBreakdownTitle": "Stimmungsanalyse",
+  "positiveLabel": "Positiv",
+  "neutralLabel": "Neutral",
+  "negativeLabel": "Negativ",
+  "tryAgain": "Erneut versuchen",
+  "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+}

@@ -1,0 +1,29 @@
+{
+  "sentiment": {
+    "positive": "Positiv",
+    "negative": "Negativ",
+    "neutral": "Neutral"
+  },
+  "rating": {
+    "outOf": "{{rating}}/5"
+  },
+  "reply": {
+    "label": "Antworten",
+    "aiReply": "KI-Antwort",
+    "editReply": "Antwort bearbeiten",
+    "deleteReply": "Antwort löschen",
+    "cancel": "Abbrechen",
+    "deleteConfirmTitle": "Antwort löschen",
+    "deleteConfirmDescription": "Möchten Sie diese Antwort wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden und die Antwort wird dauerhaft aus der Bewertung entfernt.",
+    "repliedOn": "Geantwortet am {{date}}",
+    "deleting": "Wird gelöscht..."
+  },
+  "buttons": {
+    "ai": "KI",
+    "reply": "Antworten",
+    "delete": "Löschen"
+  },
+  "placeholders": {
+    "noComment": "Kein Kommentar vorhanden"
+  }
+}

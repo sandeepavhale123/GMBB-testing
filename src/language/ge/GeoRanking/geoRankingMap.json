@@ -1,0 +1,26 @@
+{
+  "geoRankingMap": {
+    "manualTitle": "Manuelle Punktauswahl",
+    "automaticTitle": "Automatische Rastervisualisierung",
+    "loading": {
+      "main": "Kartendaten werden geladen",
+      "automatic": "Rasterkoordinaten werden generiert...",
+      "manual": "Karte wird vorbereitet..."
+    },
+    "zoom": {
+      "in": "Hereinzoomen",
+      "out": "Herauszoomen"
+    },
+    "defaultMarker": {
+      "title": "Standardstandort",
+      "manualNote": "Auf manuell wechseln, um eigene Punkte zu platzieren",
+      "centerNote": "Geschäftszentrum"
+    },
+    "manualMarker": {
+      "title": "Manueller Punkt",
+      "dragNote": "Zum Verschieben ziehen",
+      "removeButton": "Entfernen"
+    },
+    "gridMarker": "Rasterpunkt: {{id}}"
+  }
+}

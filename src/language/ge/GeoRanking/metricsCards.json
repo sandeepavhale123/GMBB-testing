@@ -1,0 +1,14 @@
+{
+  "metricsCards": {
+    "overallVisibility": {
+      "label": "Gesamtsichtbarkeit"
+    },
+    "totalKeywords": {
+      "label": "Gesamtanzahl Schlüsselwörter"
+    },
+    "aiGenie": {
+      "label": "AI-Genie-Empfehlung",
+      "button": "Lass uns chatten"
+    }
+  }
+}

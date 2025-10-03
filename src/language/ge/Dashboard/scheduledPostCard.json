@@ -1,0 +1,20 @@
+{
+  "title": "Geplante Beiträge",
+  "viewAll": "Alle anzeigen",
+  "loading": {
+    "retry": "Erneut versuchen"
+  },
+  "error": {
+    "failed": "Fehler beim Laden der geplanten Beiträge"
+  },
+  "empty": {
+    "title": "Keine geplanten Beiträge",
+    "subtitle": "Erstellen Sie einen neuen Beitrag, um zu starten"
+  }, 
+  "table": {
+    "postImage": "Beitragsbild",
+    "postDescription": "Beitragsbeschreibung",
+    "scheduledDate": "Geplantes Datum",
+    "action": "Aktion"
+  }
+}

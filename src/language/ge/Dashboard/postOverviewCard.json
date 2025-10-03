@@ -1,0 +1,24 @@
+{
+  "postOverview": {
+    "title": "Beitragsübersicht",
+    "total": "{{count}} insgesamt",
+    "status": {
+      "live": {
+        "label": "Aktive Beiträge",
+        "message": "Alles in Ordnung"
+      },
+      "scheduled": {
+        "label": "Geplant",
+        "message": "Alles in Ordnung"
+      },
+      "failed": {
+        "label": "Fehlgeschlagen",
+        "message": "Benötigt Aufmerksamkeit"
+      }
+    },
+    "actions": {
+      "create": "Neuen Beitrag erstellen",
+      "manage": "Beiträge verwalten"
+    }
+  }
+}
