@@ -1,0 +1,11 @@
+{
+  "qaFilters": {
+    "searchPlaceholder": "Fragen oder Einträge suchen",
+    "status": {
+      "placeholder": "Alle Status",
+      "all": "Alle",
+      "answered": "Beantwortet",
+      "unanswered": "Unbeantwortet"
+    }
+  }
+}

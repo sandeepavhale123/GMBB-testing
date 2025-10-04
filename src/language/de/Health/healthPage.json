@@ -1,0 +1,138 @@
+{
+  "healthPage": {
+    "header": {
+      "title": "GMB-Statusbericht",
+      "reportDate": "Berichtsdatum",
+      "refresh": "Bericht aktualisieren"
+    },
+    "summaryCards": {
+      "gmbHealthScore": "GMB-Health-Score",
+      "noOfReviews": "Anzahl Bewertungen",
+      "gmbAvgRating": "Durchschnittliche GMB-Bewertung",
+      "noOfGmbPhotos": "Anzahl GMB-Medien",
+      "noOfGmbPosts": "Anzahl GMB-Beiträge"
+    },
+    "introduction": {
+      "title": "Einleitung",
+      "content": "Hallo, danke, dass Sie Ihr Google My Business (GMB)-Profil bewertet haben. Unten finden Sie die Ergebnisse unserer 10-Punkte-Bewertung."
+    },
+    "gmbReportAtGlance": {
+      "title": "Ihr GMB-Bericht auf einen Blick",
+      "failedTests": "Nicht bestandene Tests",
+      "passedTests": "Bestandene Tests"
+    },
+    "detailedBreakdown": {
+      "title": "Detaillierte Analyse",
+      "highImpact": "Hoher Einfluss",
+      "passed": "Bestanden",
+      "failed": "Nicht bestanden",
+      "matter": "• Warum es wichtig ist:",
+      "recommendation": "• Empfehlung:",
+      "sections": {
+        "description": {
+          "title": "Beschreibung fehlt oder weniger als 300 Zeichen",
+          "why": "Eine ausführliche Beschreibung hilft Kunden, schnell zu verstehen, was Ihr Unternehmen anbietet, und schafft Vertrauen. Kurze oder fehlende Beschreibungen wirken weniger ansprechend.",
+          "recommendation": "Verfassen Sie eine umfassende Beschreibung von mindestens 300 Zeichen, die Ihre einzigartigen Angebote, wichtigsten Dienstleistungen und Werte hervorhebt."
+        },
+        "website": {
+          "title": "Website fehlt",
+          "why": "Ein Website-Link ermöglicht es Kunden, Ihr Unternehmen ausführlicher zu erkunden. Ohne Link könnten potenzielle Kunden zu Wettbewerbern wechseln.",
+          "recommendation": "Fügen Sie einen funktionierenden Website-Link zu Ihrem GMB-Profil hinzu, um Glaubwürdigkeit zu steigern und Besucher auf Ihre Website zu lenken."
+        },
+        "review": {
+          "title": "Anzahl Bewertungen",
+          "why": "Bewertungen dienen als sozialer Beweis. Einträge mit weniger als 10 Bewertungen wirken weniger glaubwürdig.",
+          "recommendation": "Ermutigen Sie zufriedene Kunden, Bewertungen abzugeben. Sie können ihnen einen direkten Link zu Ihrem GMB-Profil senden."
+        },
+        "rating": {
+          "title": "Bewertung unterdurchschnittlich",
+          "why": "Eine höhere Bewertung zeigt bessere Kundenzufriedenheit und erhöht die Sichtbarkeit.",
+          "recommendation": "Antworten Sie höflich auf negative Bewertungen und konzentrieren Sie sich auf Verbesserungen im Kundenservice."
+        },
+        "addCategory": {
+          "title": "Zusätzliche Kategorien fehlen oder weniger als 5",
+          "why": "Zusätzliche Kategorien helfen Google, Ihre Dienstleistungen zu verstehen und Ihr Profil bei relevanten Suchanfragen anzuzeigen.",
+          "recommendation": "Fügen Sie Kategorien hinzu, die alle Ihre Dienstleistungen widerspiegeln, z. B. 'Notfall-Installationen' oder 'Montage'."
+        },
+        "photo": {
+          "title": "Weniger als 5 Fotos",
+          "why": "Hochwertige Fotos verbessern Ihr Profil und ziehen mehr Kunden an.",
+          "recommendation": "Laden Sie regelmäßig aktualisierte und klare Fotos hoch."
+        },
+        "workingHrs": {
+          "title": "Öffnungszeiten fehlen",
+          "why": "Kunden müssen wissen, wann Sie geöffnet haben. Fehlende Zeiten können zu entgangenen Chancen führen.",
+          "recommendation": "Fügen Sie vollständige Geschäftszeiten hinzu, einschließlich Feiertagen oder Sondertagen."
+        },
+        "attributes": {
+          "title": "Attribute fehlen oder unvollständig",
+          "why": "Attribute wie 'Kostenloses WLAN' oder 'Rollstuhlgerecht' können die Entscheidung eines Kunden beeinflussen.",
+          "recommendation": "Aktualisieren Sie Ihre Attribute entsprechend den Kundenanforderungen und Ihrem Angebot."
+        },
+        "profile": {
+          "title": "Logo fehlt oder unscharf",
+          "why": "Ein professionelles Logo stärkt das Markenvertrauen und macht Ihr Profil glaubwürdig.",
+          "recommendation": "Fügen Sie ein hochauflösendes Logo hinzu, das auf allen Plattformen konsistent ist."
+        },
+        "competitor": {
+          "title": "Wettbewerbsvergleich",
+          "why": "Sie müssen mit Ihren Wettbewerbern mithalten oder sie übertreffen, um relevant zu bleiben.",
+          "recommendation": "Analysieren Sie, was Wettbewerber besser machen, und verbessern Sie Ihr Profil entsprechend."
+        },
+        "citation": {
+          "title": "Geringe Anzahl an Citations",
+          "why": "Citations verbessern das lokale SEO und stärken die Legitimität Ihres Unternehmens.",
+          "recommendation": "Melden Sie Ihr Unternehmen in lokalen Verzeichnissen wie Yelp oder Gelbe Seiten an."
+        }
+      }
+    },
+    "competitorAnalysis": {
+      "title": "Wettbewerbsanalyse",
+      "moderateImpact": "Mittlerer Einfluss",
+      "description": "Der Eintrag übertrifft oder entspricht seinen Wettbewerbern in wichtigen Bereichen.",
+      "whyItMatters": "Hervorstechen gegenüber Wettbewerbern erhöht die Chance, mehr Kunden zu gewinnen.",
+      "recommendation": "Analysieren Sie die Profile der Wettbewerber und konzentrieren Sie sich auf Bereiche, in denen sie besser abschneiden, z. B. bessere Bewertung oder detailliertere Beschreibung.",
+      "chart": {
+        "averageRating": "Durchschnittliche Bewertung",
+        "reviewCount": "Anzahl Bewertungen",
+        "tooltipRating": "Bewertung",
+        "tooltipReviews": "Bewertungen"
+      },
+      "table": {
+        "businessName": "Unternehmensname",
+        "avgRating": "Durchschnittsbewertung",
+        "reviewCount": "Anzahl Bewertungen"
+      }
+    },
+    "citationAnalysis": {
+      "title": "Citation-Analyse",
+      "highImpact": "Hoher Einfluss",
+      "description": "Der Eintrag hat weniger Citations als die Wettbewerber.",
+      "whyItMatters": "Citations verbessern das lokale SEO-Ranking und signalisieren Suchmaschinen und Kunden Glaubwürdigkeit.",
+      "recommendation": "Ermitteln Sie Citation-Lücken durch Analyse von Wettbewerberprofilen. Melden Sie Ihr Unternehmen bei Verzeichnissen wie Yelp, Gelbe Seiten und weiteren branchenspezifischen Seiten an.",
+      "compare": "Vergleichen Sie die Anzahl lokaler Citations bei Wettbewerbern",
+      "chart": {
+        "citationCount": "Anzahl Citations",
+        "tooltip": "Anzahl Citations"
+      },
+      "table": {
+        "businessName": "Unternehmensname",
+        "localCitation": "Anzahl lokaler Citations"
+      }
+    },
+    "summaryOfRecommendations": {
+      "title": "Zusammenfassung der Empfehlungen",
+      "recommendations": [
+        "Fügen Sie einen funktionierenden Website-Link hinzu.",
+        "Ermutigen Sie zufriedene Kunden, Bewertungen abzugeben.",
+        "Die durchschnittliche Bewertung liegt unter 4 Sternen.",
+        "Das Logo ist vorhanden und professionell.",
+        "Aktualisieren Sie Ihre Geschäftszeiten.",
+        "Weniger als 5 Fotos. Fotos verbessern."
+      ]
+    },
+    "loading": "Gesundheitsdaten werden geladen...",
+    "error": "Fehler",
+    "noData": "Keine Daten gefunden"
+  }
+}

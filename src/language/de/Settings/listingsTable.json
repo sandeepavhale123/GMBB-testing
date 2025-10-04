@@ -1,0 +1,14 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Unternehmen",
+      "storeCode": "Filialcode",
+      "category": "Kategorie",
+      "location": "Standort",
+      "status": "Status",
+      "state": "Bundesland",
+      "actions": "Aktionen"
+    },
+    "noListings": "Keine Einträge gefunden, die Ihren Kriterien entsprechen."
+  }
+}

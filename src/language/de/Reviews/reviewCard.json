@@ -1,0 +1,29 @@
+{
+  "reviewCard": {
+    "sentiments": {
+      "positive": "positiv",
+      "negative": "negativ",
+      "neutral": "neutral"
+    },
+    "rating": "({rating}/5)",
+    "reply": {
+      "repliedOn": "Antwort am ",
+      "editReply": "Antwort bearbeiten",
+      "deleteReply": "Antwort löschen",
+      "delete": "Löschen",
+      "deleteDialog": {
+        "title": "Antwort löschen",
+        "description": "Sind Sie sicher, dass Sie diese Antwort löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und die Antwort wird dauerhaft aus der Bewertung entfernt.",
+        "cancel": "Abbrechen",
+        "deleting": "Lösche...",
+        "confirm": "Antwort löschen"
+      }
+    },
+    "actions": {
+      "generateUsingGenie": "Mit Genie generieren",
+      "aiReply": "KI-Antwort",
+      "replyManually": "Manuell antworten",
+      "reply": "Antworten"
+    }
+  }
+}

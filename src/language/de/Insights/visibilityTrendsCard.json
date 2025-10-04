@@ -1,0 +1,11 @@
+{
+  "visibilityTrendsCard": {
+    "title": "Übersicht Sichtbarkeitstrends",
+    "totalSearchViews": "Gesamtaufrufe Suche",
+    "searchTrendLabel": "Trend: {{trend}}",
+    "totalMapsViews": "Gesamtaufrufe Maps",
+    "mapsTrendLabel": "Trend: {{trend}}",
+    "totalViews": "Gesamtaufrufe",
+    "totalViewsDescription": "Kombinierte Sichtbarkeit in Suche und Maps"
+  }
+}

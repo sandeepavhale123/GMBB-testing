@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "steps": {
+      "1": {
+        "title": "Unternehmensinformationen",
+        "description": "Geben Sie Ihre Unternehmensdaten ein, um zu starten"
+      },
+      "2": {
+        "title": "Definieren Sie Ihr Ziel",
+        "description": "Wählen Sie aus, was Sie mit dieser Einrichtung erreichen möchten"
+      },
+      "3": {
+        "title": "Google-Konto verbinden",
+        "description": "Verbinden Sie Ihr Google-Konto sicher für die Integration"
+      },
+      "4": {
+        "title": "Listen auswählen",
+        "description": "Wählen Sie die Google-Liste, die Sie verwalten möchten"
+      },
+      "5": {
+        "title": "Abgeschlossen",
+        "description": "Einrichtung abgeschlossen!"
+      }
+    },
+    "setup": "Einrichtungsfortschritt",
+    "progress": "Schritt {{currentStep}} von {{totalSteps}}",
+    "back": "Zurück"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "reportsManagement": "Berichtsverwaltung",
+  "reportsManagementDescription": "Berichte für mehrere Einträge erstellen und verwalten.",
+  "generateReport": "Bericht erstellen",
+  "totalReports": "Gesamtberichte",
+  "totalReport": "Gesamtbericht",
+  "oneTime": "Einmalig",
+  "monthly": "Monatlich",
+  "weekly": "Wöchentlich",
+  "searchPlaceholder": "Berichte suchen...",
+  "filterByType": "Nach Typ filtern",
+  "allReports": "Alle Berichte",
+  "projectName": "Projektname",
+  "scheduledStatus": "Geplanter Status",
+  "lastUpdate": "Letztes Update",
+  "nextUpdate": "Nächstes Update",
+  "location": "{{count}} Standorte",
+  "actions": "Aktionen",
+  "viewProject": "Projekt ansehen",
+  "editProject": "Projekt bearbeiten",
+  "deleteProject": "Projekt löschen",
+  "loadingReports": "Berichte werden geladen...",
+  "errorLoadingReports": "Fehler beim Laden der Berichte. Bitte versuchen Sie es erneut.",
+  "deleteReport": "Bericht löschen",
+  "deleteReportConfirmation": "Möchten Sie \"{{reportTitle}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "toast": {
+    "title": "Fehler",
+    "description": "Bericht konnte nicht gelöscht werden"
+  }
+}

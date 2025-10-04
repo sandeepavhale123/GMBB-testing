@@ -1,0 +1,15 @@
+{
+  "qaManagementPage": {
+    "noListingSelected": {
+      "title": "Kein Eintrag ausgewählt",
+      "description": "Bitte wählen Sie einen Unternehmenseintrag aus, um die Fragen & Antworten anzuzeigen."
+    },
+    "loading": {
+      "message": "Lade Fragen & Antworten Daten..."
+    },
+    "error": {
+      "title": "Fehler",
+      "description": "Fehler beim Laden der Fragen & Antworten Daten"
+    }
+  }
+}

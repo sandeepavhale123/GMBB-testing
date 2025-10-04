@@ -1,0 +1,15 @@
+{
+  "label": "Einträge auswählen *",
+  "loading": "Wird geladen...",
+  "selectListings": "Einträge auswählen...",
+  "selectedCount": "{{count}} Eintrag ausgewählt",
+  "selectedCount_plural": "{{count}} Einträge ausgewählt",
+  "searchPlaceholder": "Einträge suchen...",
+  "noListingsFound": "Keine Einträge gefunden.",
+  "locations": "Standorte",
+  "selectAll": "Alle auswählen",
+  "deselectAll": "Alle abwählen",
+  "errorFetchListingsTitle": "Fehler",
+  "errorFetchListingsDescription": "Fehler beim Abrufen der Einträge",
+  "selectAtLeastOne": "Bitte wählen Sie mindestens einen Eintrag aus, um fortzufahren."
+}

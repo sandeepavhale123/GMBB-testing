@@ -1,0 +1,19 @@
+{
+  "businessLocationStep": {
+    "title": "Wo befindet sich Ihr Unternehmen?",
+    "description": "Fügen Sie Ihre Geschäftsadresse und Kontaktdaten hinzu",
+    "addressLabel": "Straße und Hausnummer *",
+    "addressPlaceholder": "Hauptstraße 123",
+    "cityLabel": "Stadt *",
+    "cityPlaceholder": "Stadt",
+    "stateLabel": "Bundesland *",
+    "statePlaceholder": "Bundesland",
+    "zipCodeLabel": "Postleitzahl *",
+    "zipCodePlaceholder": "12345",
+    "phoneLabel": "Telefonnummer",
+    "phonePlaceholder": "(0123) 456-7890",
+    "websiteLabel": "Website",
+    "websitePlaceholder": "https://ihrewebsite.com",
+    "continueButton": "Weiter"
+  }
+}

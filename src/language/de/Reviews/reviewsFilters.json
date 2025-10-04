@@ -1,0 +1,36 @@
+{
+  "reviewsFilters": {
+    "search": {
+      "placeholder": "Bewertungen suchen..."
+    },
+    "filter": {
+      "placeholder": "Alle Bewertungen",
+      "all": "Alle Bewertungen",
+      "pending": "Antwort ausstehend",
+      "replied": "Beantwortet"
+    },
+    "sentiment": {
+      "placeholder": "Alle Stimmungen",
+      "all": "Alle Stimmungen",
+      "positive": "Positiv",
+      "neutral": "Neutral",
+      "negative": "Negativ"
+    },
+    "sort": {
+      "placeholder": "Neueste zuerst",
+      "newest": "Neueste zuerst",
+      "oldest": "Älteste zuerst",
+      "ratingLow": "Höchste Bewertung",
+      "ratingHigh": "Niedrigste Bewertung"
+    },
+    "dateRange": {
+      "placeholder": "Zeitraum auswählen",
+      "clearAria": "Zeitraum löschen"
+    },
+    "refresh": {
+      "button": "Aktualisieren",
+      "aria": "Bewertungen aktualisieren",
+      "tooltip": "Diese Schaltfläche aktualisiert Ihre Bewertungsseite, um die neuesten Bewertungen von Google abzurufen"
+    }
+  }
+}

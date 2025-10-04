@@ -1,0 +1,34 @@
+{
+  "bulkImportDetails": {
+    "title": "Details zum Massenimport",
+    "loadingListings": "Lade Einträge...",
+    "selectListingPrompt": "Wählen Sie einen Eintrag, um Beiträge anzuzeigen",
+    "listingSidebar": {
+      "selectedCount": "{{count}} ausgewählte Einträge",
+      "searchPlaceholder": "Suche nach Eintragsname oder Postleitzahl",
+      "noListingsFound": "Für diese History-ID wurden keine Einträge gefunden.",
+      "errorLoading": "Fehler beim Laden der Einträge",
+      "noListings": "Keine Einträge gefunden",
+      "zipCode": "Postleitzahl: {{zip}}",
+      "loading": "Lade..."
+    },
+    "posts": {
+      "searchPlaceholder": "Suche nach Beitragsinhalt oder Tags",
+      "loading": "Lade Beiträge...",
+      "errorLoading": "Fehler beim Laden der Beiträge",
+      "noPostsFound": "Keine Beiträge gefunden, die Ihren Suchkriterien entsprechen.",
+      "image": "Bild",
+      "postContent": "Beitragsinhalt",
+      "noContent": "Kein Inhalt",
+      "noImage": "Kein Bild",
+      "status": "Status",
+      "date": "Datum",
+      "action": "Aktion",
+      "deletePost": "Beitrag löschen",
+      "deleteConfirmation": "Möchten Sie diesen Beitrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "deleting": "Lösche..."
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "brandingPage": {
+    "title": "Designanpassung",
+    "subtitle": "Passen Sie die visuelle Identität Ihrer Anwendung an.",
+    "badge": "White Label",
+    "actions": {
+      "save": "Änderungen speichern",
+      "reset": "Design zurücksetzen"
+    },
+    "messages": {
+      "reset": {
+        "title": "Design zurückgesetzt",
+        "success": "Das Design wurde erfolgreich zurückgesetzt.",
+        "errorTitle": "Fehler beim Zurücksetzen",
+        "errorDescription": "Das Zurücksetzen des Designs ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      },
+      "save": {
+        "successTitle": "Design erfolgreich aktualisiert",
+        "successDescription": "Ihr Design wurde aktualisiert.",
+        "errorTitle": "Fehler beim Speichern des Designs",
+        "errorDescription": "Das Speichern des Designs ist fehlgeschlagen. Bitte versuchen Sie es später erneut."
+      }
+    }
+  }
+}

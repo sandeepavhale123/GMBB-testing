@@ -1,0 +1,32 @@
+{
+  "publicPostReport": {
+    "title": "Beitragsleistungsbericht",
+    "loading": "Lade Beitragsbericht...",
+    "error": "Fehler beim Laden des Bewertungsberichts",
+    "stats": {
+      "totalPosts": "Gesamtbeiträge",
+      "totalScheduled": "Gesamtgeplante Beiträge",
+      "publishedPosts": "Veröffentlichte Beiträge",
+      "failedPosts": "Fehlgeschlagene Beiträge"
+    },
+    "status": {
+      "published": "Veröffentlicht",
+      "scheduled": "Geplant",
+      "failed": "Fehlgeschlagen"
+    },
+    "chart": {
+      "title": "Beitragsaktivität über Zeit",
+      "currentPeriod": "Beiträge im aktuellen Zeitraum",
+      "previousPeriod": "Beiträge im vorherigen Zeitraum",
+      "noData": "Keine Daten verfügbar"
+    },
+    "recentPosts": {
+      "title": "Beiträge",
+      "noContent": "Kein Inhalt",
+      "viewOnGoogle": "Auf Google anzeigen"
+    },
+    "comparison": {
+      "vsPrevious": "{{value}}% im Vergleich zum Vorherigen"
+    }
+  }
+}

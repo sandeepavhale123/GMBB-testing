@@ -1,0 +1,7 @@
+{
+  "mediaErrorBoundary": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Beim Laden der Medienseite ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support, wenn das Problem weiterhin besteht.",
+    "retry": "Erneut versuchen"
+  }
+}

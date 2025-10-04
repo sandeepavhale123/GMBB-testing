@@ -1,0 +1,31 @@
+{
+  "successContent": {
+    "messages": {
+      "password-reset": {
+        "title": "Passwort erfolgreich aktualisiert!",
+        "description": "Ihr Passwort wurde aktualisiert. Sie können sich nun mit Ihrem neuen Passwort anmelden."
+      },
+      "payment": {
+        "title": "Zahlung erfolgreich!",
+        "description": "Vielen Dank für Ihr Abonnement! Ihre Zahlung wurde erfolgreich verarbeitet."
+      },
+      "profile-update": {
+        "title": "Profil aktualisiert!",
+        "description": "Ihr Profil wurde erfolgreich aktualisiert."
+      },
+      "verification": {
+        "title": "Verifizierung abgeschlossen!",
+        "description": "Ihr Konto wurde erfolgreich verifiziert."
+      },
+      "general": {
+        "title": "Erfolg!",
+        "description": "Ihre Aktion wurde erfolgreich abgeschlossen."
+      }
+    },
+    "buttons": {
+      "goToDashboard": "Zum Dashboard",
+      "goToLogin": "Zum Login",
+      "goBack": "Zurück"
+    }
+  }
+}

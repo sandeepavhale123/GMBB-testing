@@ -1,0 +1,43 @@
+{
+  "signupForm": {
+    "title": "Erstellen Sie Ihr Konto",
+    "subtitle": "Treten Sie noch heute GMB Briefcase bei",
+    "fields": {
+      "firstName": "Vorname *",
+      "lastName": "Nachname *",
+      "agencyName": "Agenturname *",
+      "email": "E-Mail-Adresse *",
+      "password": "Passwort *",
+      "plan": {
+        "label": "Plan auswählen *",
+        "options": {
+          "label1": "Plan auswählen",
+          "label2": "7 $ für 7 Tage Testzeitraum",
+          "label3": "Enterprise – 560 $/Monat",
+          "label4": "Agentur – 299 $/Monat",
+          "label5": "Pro – 199 $/Monat",
+          "label6": "Business – 99 $/Monat"
+        }
+      }
+    },
+    "buttons": {
+      "submitDefault": "Bezahlen – Plan auswählen",
+      "reset": "Zurücksetzen",
+      "loading": "Konto wird erstellt..."
+    },
+    "links": {
+      "loginPrompt": "Haben Sie bereits ein Konto?",
+      "loginAction": "Hier anmelden"
+    },
+    "toasts": {
+      "formReset": {
+        "title": "Formular zurückgesetzt",
+        "description": "Alle Felder wurden geleert."
+      },
+      "validationError": {
+        "title": "Validierungsfehler",
+        "description": "Bitte beheben Sie die markierten Felder und versuchen Sie es erneut."
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "listingSearchFilters": {
+    "searchPlaceholder": "Einträge suchen...",
+    "filterStatusPlaceholder": "Nach Status filtern",
+    "filterStatus": {
+      "all": "Alle Status",
+      "verified": "Verifiziert",
+      "unverified": "Nicht verifiziert",
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+    "filterActivePlaceholder": "Nach Aktivität filtern",
+    "filterActive": {
+      "all": "Alle Einträge",
+      "active": "Nur aktive",
+      "inactive": "Nur inaktive"
+    }
+  }
+}

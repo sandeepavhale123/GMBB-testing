@@ -1,0 +1,28 @@
+{
+  "accountTypeStep": {
+    "title": "Welche Art von Konto benötigen Sie?",
+    "description": "Wählen Sie die Option, die am besten beschreibt, wie Sie GMB Briefcase nutzen werden",
+    "agency": {
+      "title": "Agentur",
+      "description": "Ich verwalte mehrere Unternehmen für Kunden oder betreibe eine Agentur, die Google Business Profile für andere verwaltet.",
+      "features": [
+        "Mehrere Kundenkonten verwalten",
+        "White-Label-Berichtsoptionen",
+        "Funktionen für Teamzusammenarbeit",
+        "Erweitertes Analyse-Dashboard"
+      ],
+      "button": "Agenturkonto wählen"
+    },
+    "personal": {
+      "title": "Persönliches Konto",
+      "description": "Ich bin Geschäftsinhaber, verwalte mein eigenes Google Business Profile und möchte meine lokale Präsenz verbessern.",
+      "features": [
+        "Eigenes Unternehmen verwalten",
+        "Benutzerfreundliche Oberfläche",
+        "Leistungsanalysen",
+        "Lokale SEO-Tools"
+      ],
+      "button": "Persönliches Konto wählen"
+    }
+  }
+}

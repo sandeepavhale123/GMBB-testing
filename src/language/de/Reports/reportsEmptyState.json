@@ -1,0 +1,7 @@
+{
+  "reportsEmptyState": {
+    "title": "Berichte noch nicht erstellt",
+    "description": "Ihre Berichte werden gerade erstellt. Dies kann einige Minuten dauern. Bitte versuchen Sie es später erneut.",
+    "tryAgainButton": "Erneut versuchen"
+  }
+}

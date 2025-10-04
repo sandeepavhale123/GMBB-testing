@@ -1,0 +1,26 @@
+{
+  "mediaUploadModal": {
+    "titleSingle": "Medien hochladen",
+    "titleBulk": "Medien zu mehreren Einträgen hochladen",
+    "uploadError": "Upload-Fehler",
+    "selectFileError": "Bitte wählen Sie eine Datei aus.",
+    "selectListingError": "Bitte wählen Sie mindestens einen Eintrag oder eine Gruppe aus.",
+    "noListingError": "Bitte stellen Sie sicher, dass ein Unternehmenseintrag ausgewählt ist.",
+    "uploadCompleteTitle": "Upload abgeschlossen!",
+    "uploadCompleteMessage": "Ihre {{fileType}} wurde erfolgreich hochgeladen.",
+    "mediaPreview": "Medienvorschau",
+    "typeLabel": "Typ:",
+    "aiImage": "KI-BILD",
+    "galleryImage": "GALERIEBILD",
+    "cancel": "Abbrechen",
+    "uploadingSingle": "Hochladen...",
+    "uploadingBulk": "Hochladen zu mehreren Einträgen...",
+    "uploadButtonSingle": "Medien hochladen",
+    "uploadButtonBulk": "Zu ausgewählten Einträgen hochladen",
+    "uploadSuccess": "Upload erfolgreich",
+    "uploadFailed": "Upload fehlgeschlagen",
+    "bulkSuccess": "Medien erfolgreich gepostet",
+    "bulkSuccessMessage": "Medien wurden zu {{count}} Eintrag(en) gepostet.",
+    "generatedImage": "Generiertes Bild"
+  }
+}

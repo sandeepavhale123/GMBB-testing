@@ -1,0 +1,15 @@
+{
+  "customerActionsChart": {
+    "title": "Kundenaktionen",
+    "description": "Aktionen, die Kunden auf Ihrem Profil durchgeführt haben.",
+    "metrics": {
+      "website": "Website",
+      "messages": "Nachrichten",
+      "directions": "Routen",
+      "calls": "Anrufe"
+    },
+    "chart": {
+      "barLabel": "Aktionen"
+    }
+  }
+}

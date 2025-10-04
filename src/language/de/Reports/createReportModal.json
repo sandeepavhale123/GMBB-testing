@@ -1,0 +1,39 @@
+{
+  "createReportModal": {
+    "title": "Leistungsbericht",
+    "fields": {
+      "reportName": {
+        "label": "Berichtsname",
+        "placeholder": "Berichtsname eingeben"
+      },
+      "reportType": {
+        "label": "Berichtstyp",
+        "compareLabel": "Vergleichsbericht"
+      },
+      "dateRange": {
+        "label": "Zeitraum",
+        "select": "Zeitraum auswählen",
+        "period1": {
+          "label": "Zeitraum 1 (Aktuell)",
+          "select": "Ersten Zeitraum auswählen"
+        },
+        "period2": {
+          "label": "Zeitraum 2 (Vorherig)",
+          "select": "Zweiten Zeitraum auswählen"
+        }
+      },
+      "sectionsToggle": {
+        "label": "Abschnitte des Berichts ein- oder ausblenden"
+      },
+      "sections": {
+        "label": "Berichtsabschnitte",
+        "generateReport": "Bericht erstellen"
+      }
+    },
+    "buttons": {
+      "close": "Schließen",
+      "generate": "Erstellen",
+      "generating": "Erstelle..."
+    }
+  }
+}

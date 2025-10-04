@@ -1,0 +1,7 @@
+{
+  "listingManagementError": {
+    "pageTitle": "Einträge verwalten",
+    "tryAgainButton": "Erneut versuchen",
+    "errorMessage": "{{error}}"
+  }
+}

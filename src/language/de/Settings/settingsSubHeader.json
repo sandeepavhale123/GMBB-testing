@@ -1,0 +1,12 @@
+{
+  "settingsSubHeader": {
+    "tabs": {
+      "googleAccount": "Google-Konto verwalten",
+      "teamMembers": "Teammitglieder",
+      "subscription": "Abonnement",
+      "themeCustomization": "Designanpassung",
+      "reportBranding": "Berichtsbranding",
+      "integrations": "Integrationen"
+    }
+  }
+}

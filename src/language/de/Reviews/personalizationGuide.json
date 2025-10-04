@@ -1,0 +1,17 @@
+{
+  "personalizationGuide": {
+    "title": "Personalisieren Sie Ihre Antwortvorlagen",
+    "description": "Sie können beim Erstellen Ihrer Vorlagen die folgenden Variablen verwenden, um Ihre Antworten dynamischer und persönlicher zu gestalten:",
+    "variables": {
+      "fullName": "Vollständiger Name des Bewerters",
+      "firstName": "Vorname des Bewerters",
+      "lastName": "Nachname des Bewerters",
+      "ownerName": "Ihr (des Geschäftsinhabers) Name"
+    },
+    "example": {
+      "title": "Beispielhafte Verwendung:",
+      "message": "Hallo {first_name}, vielen Dank für Ihre {rating}-Sterne-Bewertung! Wir freuen uns, dass Sie Ihre Erfahrung mit uns genossen haben.",
+      "signature": "Mit freundlichen Grüßen,\n{owner_name}"
+    }
+  }
+}

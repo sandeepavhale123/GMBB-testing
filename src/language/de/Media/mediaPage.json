@@ -1,0 +1,30 @@
+{
+  "mediaPage": {
+    "title": "Ihre Medien",
+    "uploadButton": "Medien hochladen",
+    "toast": {
+      "errorTitle": "Fehler",
+      "errorFetch": "Medienliste konnte nicht abgerufen werden",
+      "errorFetchRetry": "Medienliste konnte nicht abgerufen werden. Bitte versuchen Sie es erneut.",
+      "errorDelete": "Medien konnten nicht gelöscht werden",
+      "errorDeleteRetry": "Medien konnten nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+      "successfully": "Erfolg",
+      "successDelete": "Medien erfolgreich gelöscht.",
+      "downloadStarted": "Download gestartet",
+      "downloading": "Lade {{name}} herunter...",
+      "coverImageSetTitle": "Titelbild festgelegt",
+      "coverImageSetDesc": "Medien wurden als Titelbild festgelegt.",
+      "mediaUploadedTitle": "Medien hochgeladen",
+      "mediaUploadedDesc": "{{count}} Mediendatei(en) erfolgreich hochgeladen.",
+      "editMediaTitle": "Medien bearbeiten",
+      "editMediaDesc": "Die Bearbeitungsfunktion wird implementiert."
+    },
+    "deleteDialog": {
+      "title": "Sind Sie sicher?",
+      "description": "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird die Mediendatei dauerhaft löschen.",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "deleting": "Lösche..."
+    }
+  }
+}

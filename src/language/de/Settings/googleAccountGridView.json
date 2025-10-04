@@ -1,0 +1,11 @@
+{
+  "googleAccountGridView": {
+    "summary": {
+      "totalListings": "Gesamtanzahl der Einträge",
+      "connected": "Verbunden"
+    },
+    "progress": {
+      "label": "Verbindungsfortschritt"
+    }
+  }
+}

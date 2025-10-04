@@ -1,0 +1,20 @@
+{
+  "insightsHeader": {
+    "title": "GMB-Insights",
+    "subtitle": "Leistungsanalyse für Ihr Google Business-Profil.",
+    "selectDateRange": "Zeitraum auswählen",
+    "last7Days": "Letzte 7 Tage",
+    "last30Days": "Letzte 30 Tage",
+    "last90Days": "Letzte 90 Tage",
+    "last6Months": "Letzte 6 Monate",
+    "last9Months": "Letzte 9 Monate",
+    "last12Months": "Letzte 12 Monate",
+    "customPeriod": "Benutzerdefinierter Zeitraum",
+    "fromTo": "Von: {{from}} - Bis: {{to}}",
+    "refresh": "Aktualisieren",
+    "refreshing": "Aktualisiere...",
+    "loading": "Lädt...",
+    "exportImage": "Bild exportieren",
+    "exporting": "Exportiere..."
+  }
+}

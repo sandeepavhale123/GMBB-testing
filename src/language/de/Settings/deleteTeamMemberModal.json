@@ -1,0 +1,24 @@
+{
+  "deleteTeamMemberModal": {
+    "title": "Teammitglied löschen",
+    "description": "Diese Aktion kann nicht rückgängig gemacht werden",
+    "confirmation1": "Sind Sie sicher, dass Sie ",
+    "confirmation2": "{{firstName}} {{lastName}}",
+    "confirmation3": " löschen möchten? Dies wird das Konto dauerhaft entfernen und alle Systemzugriffe widerrufen.",
+    "alsoRemoveTitle": "Dies entfernt außerdem:",
+    "alsoRemoveItems": {
+      "listings": "• Zugriff auf {{listingsCount}} Einträge",
+      "permissions": "• Alle zugewiesenen Berechtigungen",
+      "credentials": "• Kontodaten und Einstellungen"
+    },
+    "cancel": "Abbrechen",
+    "delete": "Mitglied löschen",
+    "deleting": "Wird gelöscht...",
+    "toast": {
+      "successTitle": "Erfolg",
+      "successDescription": "Teammitglied erfolgreich gelöscht",
+      "errorTitle": "Fehler",
+      "errorDescription": "Teammitglied konnte nicht gelöscht werden"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Gruppen verwalten",
+  "createGroup": "Gruppe erstellen",
+  "searchPlaceholder": "Gruppen suchen...",
+  "toast": {
+    "error": "Fehler",
+    "fetchError": "Gruppen konnten nicht abgerufen werden",
+    "deleteError": "Gruppe konnte nicht gelöscht werden",
+    "bulkDeleteError": "Gruppen konnten nicht gelöscht werden"
+  }
+}

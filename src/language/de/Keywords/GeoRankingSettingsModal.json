@@ -1,0 +1,27 @@
+{
+  "GeoRankingSettingsModal": {
+    "title": "GEO-Ranking-Einstellungen",
+    "keywords": "Keywords ({{count}})",
+    "gridSize": "Rastergröße",
+    "distanceSettings": "Entfernungseinstellungen",
+    "distanceUnit": "Einheit",
+    "distanceValue": "Entfernung",
+    "language": "Sprache",
+    "cancel": "Abbrechen",
+    "checkRank": "Ranking prüfen",
+    "processing": "Verarbeitung...",
+    "validation": {
+      "gridSizeRequired": "Rastergröße ist erforderlich",
+      "distanceUnitRequired": "Entfernungseinheit ist erforderlich",
+      "distanceValueRequired": "Entfernungswert ist erforderlich",
+      "languageRequired": "Sprache ist erforderlich"
+    },
+    "units": {
+      "meters": "Meter",
+      "miles": "Meilen"
+    },
+    "placeholders": {
+      "selectDistance": "Auswählen…"
+    }
+  }
+}

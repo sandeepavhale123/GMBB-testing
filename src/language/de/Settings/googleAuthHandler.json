@@ -1,0 +1,28 @@
+{
+  "googleAuthHandler": {
+    "toast": {
+      "success": {
+        "title": "Erfolg!",
+        "description": "Google-Konto erfolgreich verbunden."
+      },
+      "error": {
+        "title": "Verbindung fehlgeschlagen",
+        "description": "Verbindung zum Google-Konto fehlgeschlagen. Bitte versuchen Sie es erneut."
+      }
+    },
+    "errorState": {
+      "title": "Verbindung fehlgeschlagen",
+      "button": "Zurück zu den Kontoeinstellungen"
+    },
+    "loadingState": {
+      "title": "Verbindung zu Ihrem Konto wird hergestellt",
+      "description": "Bitte warten Sie, während wir Ihr Google Business Profil verbinden und Ihre Einträge abrufen...",
+      "note": "Dies kann einige Momente dauern"
+    },
+    "errors": {
+      "noAccessToken": "Kein Zugriffstoken gefunden. Bitte melden Sie sich erneut an.",
+      "noAccountId": "Keine Konto-ID von der Google-Authentifizierung erhalten",
+      "failedAuth": "Authentifizierung mit Google fehlgeschlagen"
+    }
+  }
+}

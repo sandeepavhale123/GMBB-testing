@@ -1,0 +1,41 @@
+{
+  "title": "GMB Genie Beschreibungsgenerator",
+  "shortDescription": "Kurze Beschreibung",
+  "shortDescriptionPlaceholder": "Kurze Beschreibung dessen, was Sie bewerben möchten...",
+  "variants": "Anzahl der Varianten",
+  "variant1": "1 Variante",
+  "variant2": "2 Varianten",
+  "variant3": "3 Varianten",
+  "variant4": "4 Varianten",
+  "variant5": "5 Varianten",
+
+  "tone": "Tonfall",
+  "tones": {
+    "professional": "Professionell",
+    "friendly": "Freundlich",
+    "casual": "Locker",
+    "formal": "Formell",
+    "enthusiastic": "Begeistert",
+    "persuasive": "Überzeugend"
+  },
+  "buttons": {
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "reset": "Zurücksetzen",
+    "close": "Schließen",
+    "useSelected": "Ausgewählte verwenden",
+    "select": "Auswählen",
+    "selected": "Ausgewählt"
+  },
+  "generatedVariants": "Generierte Varianten",
+  "editSelected": "Ausgewählte Variante bearbeiten",
+  "editPlaceholder": "Wählen Sie links eine Variante aus, um sie hier zu bearbeiten...",
+  "toast": {
+    "errorTitle": "Fehler",
+    "errorDescription": "Bitte geben Sie eine Beschreibung ein, um Inhalte zu generieren.",
+    "successTitle": "Erfolg",
+    "successDescription": "Inhalt erfolgreich generiert!",
+    "failedTitle": "Generierung fehlgeschlagen",
+    "failedDescription": "Inhalt konnte nicht generiert werden. Bitte versuchen Sie es erneut."
+  }
+}

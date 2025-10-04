@@ -1,0 +1,38 @@
+{
+  "title": "Gruppendetails",
+  "back": "Zurück",
+  "addListing": "Standort hinzufügen",
+  "searchPlaceholder": "Standorte suchen...",
+  "noLocations": "Keine Standorte in dieser Gruppe.",
+  "noSearchResults": "Keine Standorte gefunden, die Ihrer Suche entsprechen.",
+  "table": {
+    "locationName": "Standortname",
+    "zipCode": "Postleitzahl",
+    "email": "E-Mail",
+    "actions": "Aktionen",
+    "notAvailable": "N/A"
+  },
+  "pagination": {
+    "showing": "Zeige {{from}} bis {{to}} von {{total}} Standorten",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite {{current}} von {{pages}}"
+  },
+  "deleteDialog": {
+    "title": "Standort löschen",
+    "description": "Sind Sie sicher, dass Sie \"{{locationName}}\" aus dieser Gruppe entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "confirm": "Löschen"
+  },
+  "toast": {
+    "successTitle": "Erfolg",
+    "removeSuccess": "\"{{locationName}}\" wurde aus der Gruppe entfernt.",
+    "errorTitle": "Fehler",
+    "removeError": "Standort konnte nicht aus der Gruppe entfernt werden"
+  },
+  "errors": {
+    "loadFailed": "Gruppendetails konnten nicht geladen werden"
+  },
+  "retry": "Erneut versuchen",
+  "loading": "Lädt..."
+}

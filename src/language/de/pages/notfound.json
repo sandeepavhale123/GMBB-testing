@@ -1,0 +1,8 @@
+{
+  "notFound": {
+    "title": "404",
+    "oops": "Hoppla!",
+    "description": "Wir können die von Ihnen gesuchte Seite nicht finden.",
+    "backToHome": "Zur Startseite"
+  }
+}

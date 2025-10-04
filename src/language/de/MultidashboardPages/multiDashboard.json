@@ -1,0 +1,115 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Gesamtanzahl der Standorte",
+      "subtitle": "Aktive Standorte",
+      "trend": "+2 in diesem Monat"
+    },
+    "avgRating": {
+      "title": "Durchschnittliche Bewertung",
+      "subtitle": "Über alle Standorte",
+      "trend": "↑ 0,3 Punkte"
+    },
+    "totalReviews": {
+      "title": "Gesamtbewertungen",
+      "subtitle": "Kundenfeedback",
+      "trend": "Verbessert"
+    },
+    "totalPosts": {
+      "title": "Gesamtbeiträge",
+      "subtitle": "Diesen Monat veröffentlicht",
+      "trend": "+12 diese Woche"
+    }
+  },
+  "errors": {
+    "metricsLoad": "Metriken konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "listingsLoad": "Standorte konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "postsLoad": "Beiträge konnten nicht geladen werden. Bitte versuchen Sie es erneut."
+  },
+  "dashboard": {
+    "title": "GMB-Listing – {{type}} Dashboard",
+    "types": {
+      "default": "Standard-Dashboard",
+      "insight": "Insight-Dashboard",
+      "review": "Review-Dashboard",
+      "location": "Standort-Dashboard",
+      "post": "Post-Dashboard"
+    },
+    "shareReport": "Bericht teilen",
+    "searchPlaceholder": "Suche nach Standortname oder PLZ",
+    "filters": {
+      "allCategories": "Alle Kategorien",
+      "allStates": "Alle Bundesländer",
+      "reviewFilter": "Bewertungsfilter",
+      "allReviews": "Alle Bewertungen",
+      "unrespondedReview": "Nicht beantwortete Bewertung",
+      "unrespondedARE": "Nicht beantwortete ARE",
+      "unrespondedDNR": "Nicht beantwortete DNR",
+      "excludeARE": "ARE-Bewertung ausschließen",
+      "excludeDNR": "DNR-Bewertung ausschließen",
+      "excludeARE_DNR": "ARE/DNR-Bewertung ausschließen",
+      "postStatus": "Beitragsstatus",
+      "allPosts": "Alle Beiträge",
+      "scheduledPost": "Geplanter Beitrag",
+      "livePost": "Live-Beitrag",
+      "failedPost": "Fehlgeschlagener Beitrag"
+    }
+  },
+  "status": {
+    "loading": "Lädt...",
+    "error": "Fehler beim Laden der Daten",
+    "showingPosts": "Zeige {{count}} von {{total}} Beiträgen",
+    "showingListings": "Zeige {{count}} von {{total}} Standorten",
+    "previous": "Zurück",
+    "next": "Weiter"
+  },
+  "listing": {
+    "listingid": "ID: {{id}}",
+    "zipcode": "PLZ: {{zipcode}}",
+    "state": "Bundesland: {{city}}",
+    "fetchingData": "Lade Standortdaten...",
+    "visibility": "Sichtbarkeit",
+    "Search": "Suche",
+    "Maps": "Karten",
+    "Total": "Gesamt",
+    "customerActions": "Kundenaktionen",
+    "clicks": "Klicks",
+    "directions": "Wegbeschreibung",
+    "calls": "Anrufe",
+    "messages": "Nachrichten",
+    "reviewStats": "Bewertungsstatistik",
+    "reviewsReplies": "Bewertungen / Antworten",
+    "autoReply": "Automatische Antwort",
+    "reviewSentiment": "Bewertungsstimmung",
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ",
+    "listingStatus": "Status des Standorts",
+    "visibilityLabel": "Sichtbarkeit:",
+    "completeLabel": "Vollständig:",
+    "lastUpdated": "Zuletzt aktualisiert:",
+    "photos": "Fotos",
+    "rating": "Bewertung",
+    "website": "Webseite",
+    "maps": "Karten",
+    "avgRating": "Durchschnittsbewertung",
+    "starRating": "Sternebewertung",
+    "reviewsVsReplies": "Bewertungen vs. Antworten",
+    "lastPost": "Letzter Beitrag",
+    "upcoming": "Kommend",
+    "viewDetails": "Details ansehen",
+    "totalViews": "Gesamtansichten",
+    "phone": "Telefon",
+    "na": "N/V",
+    "stateLabel": "Bundesland"
+  },
+  "pagination": {
+    "showing": {
+      "posts": "Zeige {{from}} bis {{to}} von {{total}} Beiträgen",
+      "listings": "Zeige {{from}} bis {{to}} von {{total}} Standorten"
+    },
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite {{current}} von {{pages}}"
+  }
+}

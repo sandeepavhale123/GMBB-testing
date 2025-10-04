@@ -1,0 +1,14 @@
+{
+  "selectGoalStep": {
+    "title": "Was sind Ihre Hauptziele?",
+    "subtitle": "Wählen Sie alle zutreffenden Optionen aus. Wir passen Ihre Erfahrung basierend auf Ihren Zielen an.",
+    "loadingMessage": "Ihre Ziele werden geladen...",
+    "errorLoading": "Fehler beim Laden der Ziele",
+    "errorSaving": "Fehler beim Speichern der Ziele",
+    "saving": "Speichert...",
+    "saveSuccessTitle": "Ziele erfolgreich gespeichert",
+    "saveSuccessDescription": "{{count}} Ziele wurden gespeichert.",
+    "continue": "Weiter",
+    "continueWithCount": "Weiter ({{count}} ausgewählt)"
+  }
+}

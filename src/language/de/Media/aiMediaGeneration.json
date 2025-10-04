@@ -1,0 +1,16 @@
+{
+  "aiMediaGeneration": {
+    "title": "Bild mit Genie erstellen",
+    "missingPromptTitle": "Fehlende Eingabe",
+    "missingPromptDescription": "Bitte beschreiben Sie das Bild, das Sie erstellen möchten.",
+    "generationSuccessTitle": "Bilder erstellt",
+    "generationSuccessDescription": "{{count}} Bild{{plural}} erfolgreich erstellt.",
+    "generationFailedTitle": "Erstellung fehlgeschlagen",
+    "generationFailedDescription": "Bilder konnten nicht erstellt werden. Bitte versuchen Sie es erneut.",
+    "imageReadyTitle": "Bild bereit",
+    "imageReadyDescription": "Das KI-generierte Bild wurde für den Upload vorbereitet.",
+    "perPage": "Pro Seite:",
+    "next": "Weiter",
+    "previous": "Zurück"
+  }
+}

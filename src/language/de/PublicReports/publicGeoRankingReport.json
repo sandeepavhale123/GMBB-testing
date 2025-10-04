@@ -1,0 +1,22 @@
+{
+  "publicGeoRankingReport": {
+    "title": "GEO-Ranking-Bericht",
+    "loading": "Lade Georanking-Bericht...",
+    "controls": {
+      "selectKeyword": "Schlüsselwort auswählen",
+      "overallVisibility": "Gesamtsichtbarkeit",
+      "totalKeywords": "Gesamtanzahl der Schlüsselwörter",
+      "reportFrequency": "Berichtsfrequenz",
+      "individual": "Einzeln",
+      "comparison": "Vergleich"
+    },
+    "chart": {
+      "rankingLegend": "Ranking-Legende",
+      "legend": "Legende",
+      "noData": "Keine Daten verfügbar"
+    },
+    "comparison": {
+      "visibility": "Sichtbarkeit"
+    }
+  }
+}

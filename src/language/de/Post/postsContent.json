@@ -1,0 +1,28 @@
+{
+  "totalPosts": "Gesamtbeiträge: {{count}}",
+  "totalPostsFiltered": "Gesamtbeiträge: {{count}} (gefiltert)",
+  "selectPosts": "Beiträge auswählen",
+  "cancelSelection": "Auswahl abbrechen",
+  "selectAll": "Alle auswählen",
+  "deselectAll": "Alle abwählen",
+  "deleteSelected": "Ausgewählte löschen ({{count}})",
+  "deleting": "Löschen...",
+  "deletePostsTitle": "Beiträge löschen",
+  "deletePostsDescription": "Sind Sie sicher, dass Sie {{count}} ausgewählte Beitrag{{plural}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "previous": "Zurück",
+  "next": "Weiter",
+  "pageInfo": "Seite {{current}} von {{total}}",
+  "toast": {
+    "error": "Fehler",
+    "noListingTitle": "Fehler",
+    "noListingDesc": "Keine Unternehmensliste ausgewählt. Bitte wählen Sie zuerst eine Liste aus.",
+    "noPostsTitle": "Keine Beiträge ausgewählt",
+    "noPostsDesc": "Bitte wählen Sie Beiträge zum Löschen aus.",
+    "postsDeletedTitle": "Beiträge gelöscht",
+    "postsDeletedDesc": "{{count}} Beitrag{{plural}} wurde erfolgreich gelöscht.",
+    "deleteFailedTitle": "Beiträge konnten nicht gelöscht werden",
+    "deleteFailedDesc": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  }
+}

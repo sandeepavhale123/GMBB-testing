@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesWithAPI": {
+    "title": "Top-Suchanfragen",
+    "description": "Die beliebtesten Suchbegriffe, die Kunden zu Ihrem Unternehmen geführt haben.",
+    "selectMonthPlaceholder": "Monat auswählen",
+    "loadingErrorTitle": "Fehler beim Laden der Suchanfragen",
+    "noDataMessage": "Keine Suchbegriffe verfügbar.",
+    "impressionBelowThreshold": "< 15"
+  }
+}

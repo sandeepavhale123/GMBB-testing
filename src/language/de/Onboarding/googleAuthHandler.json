@@ -1,0 +1,15 @@
+{
+  "googleAuthHandler": {
+    "loadingMessage": "Authentifizierung mit Google...",
+    "toast": {
+      "success": {
+        "title": "Google-Authentifizierung erfolgreich",
+        "description": "Ihr Google-Konto wurde erfolgreich verbunden."
+      },
+      "error": {
+        "title": "Google-Authentifizierung fehlgeschlagen",
+        "defaultDescription": "Ein unbekannter Fehler ist aufgetreten."
+      }
+    }
+  }
+}

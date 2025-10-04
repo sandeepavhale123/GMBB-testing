@@ -1,0 +1,10 @@
+{
+  "notificationsPage": {
+    "title": "Berichtsbenachrichtigungen verwalten",
+    "description": "Konfigurieren Sie automatisierte Berichtsbenachrichtigungen und benutzerdefinierte Empfänger für Ihre GMB-Berichte.",
+    "tabs": {
+      "reportNotifications": "Berichtsbenachrichtigungen",
+      "customNotifications": "Benutzerdefinierte Benachrichtigungen"
+    }
+  }
+}

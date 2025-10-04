@@ -1,0 +1,105 @@
+{
+  "integrations": {
+    "title": "Integrationen",
+    "subtitle": "Verwalten Sie Ihre Drittanbieter-Integrationen und API-Verbindungen.",
+
+    "mapApi": {
+      "name": "Google Map API-Schlüssel",
+      "description": "Konfigurieren Sie Kartendienste für standortbasierte Funktionen.",
+      "configureTitle": "Google Map API-Schlüssel konfigurieren",
+      "label": "Google Places API-Schlüssel",
+      "placeholder": "Geben Sie Ihren Google Places API-Schlüssel ein",
+      "helper": "Dieser API-Schlüssel wird für alle standortbasierten Funktionen einschließlich Geo-Ranking und Kartendiensten verwendet.",
+      "howToTitle": "So erstellen Sie einen Google Places API-Schlüssel",
+      "steps": {
+        "1": "Hinweis - Sie müssen die Abrechnung für Ihr Google-Projekt aktivieren.",
+        "2-p1": "Besuchen Sie die Google ",
+        "2-p2": "Cloud Platform Console.",
+        "3": "Klicken Sie auf das Projekt-Dropdown und wählen oder erstellen Sie das Projekt, für das Sie einen API-Schlüssel hinzufügen möchten.",
+        "4": "Gehen Sie im Dashboard zu APIs Übersicht → Klicken Sie auf Bibliothek → Aktivieren Sie die Maps JavaScript API & die Places API.",
+        "5": "Klicken Sie danach auf das Menü und wählen Sie APIs & Dienste → Anmeldedaten.",
+        "6": "Erstellen Sie auf der Anmeldedaten-Seite über das Dropdown-Menü Anmeldedaten - wählen Sie die Option API-Schlüssel.",
+        "7": "Es erscheint ein Dialog mit Ihrem neu erstellten API-Schlüssel — kopieren Sie den Schlüssel.",
+        "8": "Verwenden oder fügen Sie den generierten Schlüssel unter Geo Ranking → Schlüssel verwalten ein. (Einmalige Aktion - nur für die erste Nutzung des GEO Ranking Checks).",
+        "9": "Sobald Sie einen Schlüssel hinzugefügt haben, wird dieser für alle Ihre Einträge verwendet und Sie müssen keinen separaten Schlüssel für jeden GMB-Eintrag mehr generieren."
+      }
+    },
+
+    "smtp": {
+      "name": "SMTP Details",
+      "description": "Konfigurieren Sie die E-Mail-Server-Einstellungen für Benachrichtigungen.",
+      "configureTitle": "SMTP-Einstellungen konfigurieren",
+      "labels": {
+        "fromName": "Absendername",
+        "fromEmail": "Absender-E-Mail",
+        "smtpHost": "SMTP-Host",
+        "smtpPort": "SMTP-Port",
+        "smtpUser": "SMTP-Benutzer",
+        "smtpPassword": "SMTP-Passwort"
+      },
+      "placeholders": {
+        "fromName": "Ihr Name oder Unternehmen",
+        "fromEmail": "ihre-email@beispiel.de",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "Benutzername",
+        "smtpPassword": "Passwort"
+      }
+    },
+
+    "subdomain": {
+      "name": "Subdomain-Konfiguration",
+      "description": "Konfigurieren Sie eine White-Label-Subdomain für Ihre Berichte.",
+      "label": "Subdomain eingeben",
+      "configureTitle": "Subdomain konfigurieren",
+      "placeholder": "beispiel",
+      "text": "Geben Sie Ihre gewünschte Subdomain ein (ohne .com oder andere Erweiterungen)",
+      "follow": "Folgen Sie den untenstehenden Schritten:",
+      "stepcount": "Schritt {{count}}:",
+      "step1": "Fügen Sie hier die White-Label-Subdomain hinzu & speichern Sie sie.",
+      "step2": "Fügen Sie die IP als A-Eintrag im DNS-Manager hinzu:",
+      "step3p1": "Bitte prüfen Sie die DNS-Propagation unter:",
+      "step3p2": "dnschecker.org",
+      "step4": "Sobald Sie fertig sind, informieren Sie uns bitte, wir werden Ihre Anfrage innerhalb von 24 Stunden bearbeiten."
+    },
+
+    "buttons": {
+      "configure": "Konfigurieren",
+      "edit": "Bearbeiten",
+      "disconnect": "Trennen",
+      "cancel": "Abbrechen",
+      "saveConfiguration": "Konfiguration speichern",
+      "saving": "Speichern...",
+      "loading": "Laden...",
+      "disconnecting": "Trennen...",
+      "reset": "Zurücksetzen",
+      "testing": "Testen...",
+      "testSetting": "SMTP-Einstellungen testen",
+      "save": "Speichern"
+    },
+
+    "status": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+
+    "disconnectDialog": {
+      "title": "Verbindung bestätigen",
+      "message": "Sind Sie sicher, dass Sie diese Integration trennen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "label": "Geben Sie zur Bestätigung \"delete\" ein:",
+      "placeholder": "Geben Sie 'delete' zur Bestätigung ein"
+    },
+
+    "errors": {
+      "title": "Fehler",
+      "apiKeyRequired": "Bitte geben Sie einen gültigen API-Schlüssel ein",
+      "disconnectConfirmation": "Bitte geben Sie 'delete' ein, um die Trennung zu bestätigen",
+      "noApiKey": "Kein API-Schlüssel zum Trennen gefunden",
+      "noSmtp": "Keine SMTP-Konfiguration zum Trennen gefunden",
+      "noSubdomain": "Keine Subdomain zum Trennen gefunden",
+      "smtpRequired": "Bitte füllen Sie alle erforderlichen Felder vor dem Testen aus",
+      "smtpValidation": "Bitte beheben Sie die Validierungsfehler",
+      "subdomainRequired": "Bitte geben Sie eine Subdomain ein"
+    }
+  }
+}

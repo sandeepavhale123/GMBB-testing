@@ -1,0 +1,10 @@
+{
+  "preferencesTitle": "Einstellungen & Präferenzen",
+  "timezone": "Zeitzone",
+  "labels": {
+    "selectTimezone": "Zeitzone auswählen...",
+    "searchTimezone": "Zeitzone suchen...",
+    "noTimezoneFound": "Keine Zeitzone gefunden.",
+    "dashboardType": "Dashboard-Typ"
+  }
+}

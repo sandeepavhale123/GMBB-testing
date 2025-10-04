@@ -1,0 +1,22 @@
+{
+  "businessInfoStep": {
+    "title": "Erzählen Sie uns von Ihrem Unternehmen",
+    "description": "Wir verwenden diese Informationen, um Ihre Erfahrung anzupassen.",
+    "businessNameLabel": "Unternehmens-/Agenturname *",
+    "businessNamePlaceholder": "Geben Sie den Namen Ihres Unternehmens oder Ihrer Agentur ein",
+    "websiteLabel": "Website",
+    "websitePlaceholder": "https://ihrunternehmen.com",
+    "emailLabel": "Firmen-E-Mail *",
+    "emailPlaceholder": "unternehmen@beispiel.com",
+    "timezoneLabel": "Bevorzugte Zeitzone *",
+    "timezonePlaceholder": "Wählen Sie Ihre Zeitzone",
+    "timezoneSearch": "Zeitzone suchen...",
+    "noTimezone": "Keine Zeitzone gefunden.",
+    "dashboardTypeLabel": "Dashboard-Typ *",
+    "dashboardTypePlaceholder": "Wählen Sie den Geschäftstyp",
+    "locationCountLabel": "Wie viele Standorte möchten Sie verwalten?",
+    "locationCountPlaceholder": "Listenbereich auswählen",
+    "continueButton": "Weiter",
+    "savingButton": "Speichert..."
+  }
+}

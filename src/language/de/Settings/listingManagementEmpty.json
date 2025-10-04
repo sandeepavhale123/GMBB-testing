@@ -1,0 +1,7 @@
+{
+  "listingManagementEmpty": {
+    "title": "Keine Einträge gefunden",
+    "searchMessage": "Keine Einträge entsprechen „{{searchTerm}}“. Versuchen Sie einen anderen Suchbegriff.",
+    "filterMessage": "Keine Einträge entsprechen Ihren aktuellen Filtern. Versuchen Sie, Ihre Filter anzupassen."
+  }
+}

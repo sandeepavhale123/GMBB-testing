@@ -1,0 +1,42 @@
+{
+  "publicInsightsReport": {
+    "title": "Business-Insights-Bericht",
+    "loading": {
+      "message": "Lade Insights-Bericht..."
+    },
+    "error": {
+      "title": "Fehler beim Laden des Berichts",
+      "description": "Der Performance-Insights-Bericht konnte nicht geladen werden. Bitte versuchen Sie es später erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "summaryCards": {
+      "website": "Website-Besuche",
+      "direction": "Wegbeschreibungsanfragen",
+      "calls": "Telefonanrufe",
+      "messages": "Nachrichten",
+      "desktopSearch": "Desktop-Suche",
+      "desktopMap": "Desktop-Karte",
+      "mobileSearch": "Mobile Suche",
+      "mobileMap": "Mobile Karte",
+      "compareText": "{{value}}% im Vergleich zum vorherigen Zeitraum"
+    },
+    "charts": {
+      "customerSearch": "Wie Kunden nach Ihrem Unternehmen suchen",
+      "listingViewsClicks": "Ansichten & Klicks auf den Eintrag"
+    },
+    "chartLabels": {
+      "search": "Suche",
+      "map": "Karte",
+      "website": "Website",
+      "direction": "Wegbeschreibung",
+      "call": "Anruf",
+      "message": "Nachricht"
+    },
+    "donutLabels": {
+      "desktopSearch": "Desktop-Suche",
+      "mobileSearch": "Mobile Suche",
+      "desktopMap": "Desktop-Karte",
+      "mobileMap": "Mobile Karte"
+    }
+  }
+}

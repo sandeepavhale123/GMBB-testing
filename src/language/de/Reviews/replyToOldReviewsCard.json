@@ -1,0 +1,16 @@
+{
+  "replyToOldReviewsCard": {
+    "label": "Auf bestehende Bewertungen antworten (alte Bewertung)",
+    "toast": {
+      "success": {
+        "title": "Erfolg",
+        "enabled": "Antworten auf bestehende Bewertungen erfolgreich aktiviert.",
+        "disabled": "Antworten auf bestehende Bewertungen erfolgreich deaktiviert."
+      },
+      "error": {
+        "title": "Fehler",
+        "default": "Beim Aktualisieren der Einstellung ist ein Fehler aufgetreten."
+      }
+    }
+  }
+}

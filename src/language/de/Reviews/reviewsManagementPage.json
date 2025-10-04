@@ -1,0 +1,22 @@
+{
+  "reviewsManagementPage": {
+    "tabs": {
+      "summary": "Zusammenfassung",
+      "autoResponse": "Automatische Antwort"
+    },
+    "errors": {
+      "summaryError": {
+        "title": "Fehler beim Laden der Bewertungszusammenfassung",
+        "description": "Beim Laden der Bewertungszusammenfassung ist ein Fehler aufgetreten."
+      },
+      "reviewsError": {
+        "title": "Fehler beim Laden der Bewertungen",
+        "description": "Beim Abrufen der Bewertungen ist ein Fehler aufgetreten."
+      },
+      "replyError": {
+        "title": "Fehler beim Senden der Antwort",
+        "description": "Beim Senden Ihrer Antwort ist ein Fehler aufgetreten."
+      }
+    }
+  }
+}

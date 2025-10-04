@@ -1,0 +1,6 @@
+{
+  "autoReplyToggle": {
+    "title": "Automatische Antwortvorlagen",
+    "description": "Erstellen Sie benutzerdefinierte Antwortvorlagen für verschiedene Sternebewertungen. Die Vorlagen werden automatisch versendet, sobald Bewertungen eingehen."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "visibilitySummaryTitle": "Übersicht der Sichtbarkeit",
+  "visibilitySummarySubtitle": "Gesamtaufrufe über Google Suche und Maps.",
+  
+  "googleSearchViews": "Google-Suche Aufrufe",
+  "googleMapsViews": "Google-Maps Aufrufe",
+  
+  "percentageChange": "{{value}}% gegenüber dem vorherigen Zeitraum",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Suche",
+  "mapsBarName": "Maps",
+  
+  "searchViewsLegend": "Suche-Aufrufe",
+  "mapsViewsLegend": "Maps-Aufrufe"
+}

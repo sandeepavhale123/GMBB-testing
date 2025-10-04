@@ -1,0 +1,27 @@
+{
+  "selectListingsStep": {
+    "title": "Wählen Sie Ihre Unternehmenslisten aus",
+    "subtitle": "Wählen Sie aus, welche Google Business Profile-Listen Sie mit GMB Briefcase verwalten möchten.",
+    "connectedTo": "Verbunden mit {{email}}",
+    "allowedToSelect": "Erlaubt auszuwählen: {{count}} Liste{{plural}}",
+    "foundListings": "{{count}} Unternehmensliste{{plural}} gefunden",
+    "searchPlaceholder": "Listen nach Name, Adresse oder Kategorie suchen...",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "verified": "Verifiziert",
+    "notVerified": "Nicht verifiziert",
+    "noListingsFound": "Keine Listen gefunden, die \"{{term}}\" entsprechen",
+    "limitReachedTitle": "Limit erreicht",
+    "limitReachedDescription": "Laut Ihrem Plan sind {{count}} Listen erlaubt.",
+    "limitReachedRemaining": "Sie können nur noch {{count}} Liste{{plural}} auswählen.",
+    "successTitle": "Erfolg",
+    "successDescription": "{{count}} Liste{{plural}} erfolgreich verbunden",
+    "connectionFailedTitle": "Verbindung fehlgeschlagen",
+    "connectionFailedDescription": "Die Verbindung der Listen ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "connectButton": "Mit {{count}} Liste{{plural}} verbinden",
+    "selectToContinue": "Wählen Sie eine Liste, um fortzufahren",
+    "connecting": "Verbindung wird hergestellt...",
+    "supportText": "Sie sehen Ihr Unternehmen nicht? Sie können",
+    "contactSupport": "den Support kontaktieren"
+  }
+}

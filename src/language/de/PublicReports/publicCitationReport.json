@@ -1,0 +1,36 @@
+{
+  "publicCitationReport": {
+    "title": "Zitationsleistungsbericht",
+    "tracker": {
+      "cardTitle": "Zitations-Tracker",
+      "listed": "Gelistet",
+      "notListed": "Nicht Gelistet"
+    },
+    "localPages": {
+      "title": "Lokale Seiten & Verzeichnisse",
+      "description": "Ihr Score für lokale Seiten und Verzeichnisse basiert auf der Anzahl der Orte, an denen Ihr Eintrag vorhanden ist, geteilt durch die Anzahl der überprüften lokalen Seiten und Verzeichnisse."
+    },
+    "audit": {
+      "title": "Zitationsprüfung",
+      "placeOrder": "Bestellung aufgeben",
+      "tabs": {
+        "existing": "Bestehende Zitation",
+        "possible": "Mögliche Zitation"
+      }
+    },
+    "table": {
+      "existing": {
+        "website": "Website",
+        "businessName": "Unternehmensname",
+        "phone": "Telefon",
+        "action": "Aktion",
+        "view": "Ansehen"
+      },
+      "possible": {
+        "siteName": "Seitenname",
+        "action": "Aktion",
+        "fixNow": "Jetzt beheben"
+      }
+    }
+  }
+}
