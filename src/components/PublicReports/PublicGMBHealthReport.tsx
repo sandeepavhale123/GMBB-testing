@@ -642,6 +642,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     </defs>
 
                     <Tooltip
+                      shared={false}
                       formatter={(value, name) => [
                         name === "avgRating"
                           ? `${value} ⭐`
