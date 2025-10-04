@@ -275,13 +275,13 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
       </CardContent>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Post Preview</DialogTitle>
           </DialogHeader>
 
           {selectedPost && (
-            <div className="space-y-4">
+            <div className="space-y-4 pb-4">
               {/* Post Image */}
               {selectedPost.image_url && (
                 <div className="w-full aspect-video bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg overflow-hidden">
