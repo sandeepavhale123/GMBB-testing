@@ -249,13 +249,13 @@ export const ImportPostCSVWizard: React.FC = () => {
       
       if (error?.response?.status === 401) {
         const backendMessage = error?.response?.data?.message || error.message;
-        // Check if it's a file validation error
-        if (backendMessage?.toLowerCase().includes("invalid file") || 
-            backendMessage?.toLowerCase().includes("upload a valid csv") ||
-            backendMessage?.toLowerCase().includes("file parameters")) {
-          errorTitle = "Invalid File";
-          errorMessage = backendMessage || "Please upload a valid CSV file.";
+        
+        // If there's a backend message, always show it for CSV-related errors
+        if (backendMessage) {
+          errorTitle = "Upload Error";
+          errorMessage = backendMessage;
         } else {
+          // Only default to auth error if no message provided
           errorMessage = "Authentication failed. Please log in again.";
         }
       } else if (error?.response?.status === 403) {
