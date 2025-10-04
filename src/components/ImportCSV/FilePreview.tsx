@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FileText, Eye, AlertCircle } from "lucide-react";
+import { FileText, Eye, AlertCircle, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { ScrollArea } from "../ui/scroll-area";
@@ -277,7 +277,17 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Post Preview</DialogTitle>
+            <div className="flex justify-between items-center">
+              <DialogTitle>Post Preview</DialogTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsModalOpen(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </DialogHeader>
 
           {selectedPost && (
