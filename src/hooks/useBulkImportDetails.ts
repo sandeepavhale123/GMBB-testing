@@ -186,8 +186,8 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
         isDelete: 'confirm'
       });
 
-      // Remove post from local state without re-fetching
-      setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+      // Re-fetch posts from server to get updated list
+      await fetchPosts();
       
       toast({
         title: "Success",
@@ -203,7 +203,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     } finally {
       setIsDeletingPost(false);
     }
-  }, [historyId, toast]);
+  }, [historyId, toast, fetchPosts]);
 
   return {
     // Listings data
