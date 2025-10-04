@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { PieChart as PieChartIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 type TrafficSourcesChartProps = {
   live: number;
   failed: number;
@@ -12,6 +13,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
+  const navigate = useNavigate();
   // console.log("donut values", live, failed);
   const donutChartData = [
     { name: "Live Posts", value: live, fill: "green" },
@@ -57,7 +59,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
               <span>{failed} Failed posts</span>
             </div>
           </div>
-          <Button variant="outline" className="w-full mt-4">
+          <Button variant="outline" className="w-full mt-4" onClick={() => navigate("/posts")}>
             View All
           </Button>
         </div>
