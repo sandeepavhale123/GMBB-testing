@@ -50,6 +50,8 @@ export const PublicGMBHealthReport: React.FC = () => {
     refetch,
   } = usePerformanceHealthReport(reportId || "");
 
+  const [breakdownSort, setBreakdownSort] = useState<'default' | 'failed-first' | 'passed-first'>('default');
+
   const truncateToTwoDecimals = (num: number) => {
     return Math.trunc(num * 100) / 100;
   };
@@ -186,8 +188,6 @@ export const PublicGMBHealthReport: React.FC = () => {
         return "text-gray-600";
     }
   };
-
-  const [breakdownSort, setBreakdownSort] = useState<'default' | 'failed-first' | 'passed-first'>('default');
 
   return (
     <PublicReportDashboardLayout
