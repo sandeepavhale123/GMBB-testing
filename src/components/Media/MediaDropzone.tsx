@@ -9,22 +9,28 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
-import { Gallery } from "./Gallery";
+import { Gallery, MediaItem } from "./Gallery";
 import { useMediaContext } from "@/context/MediaContext";
+import { toast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
   onAIGenerate: () => void;
+  enableMultiSelect?: boolean;
+  maxSelectionLimit?: number;
 }
 export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
   onFilesAdded,
   onAIGenerate,
+  enableMultiSelect = true,
+  maxSelectionLimit = 5,
 }) => {
   const { t } = useI18nNamespace("Media/mediaDropzone");
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
-  const { shouldOpenMediaUpload } = useMediaContext();
+  const [selectedImages, setSelectedImages] = useState<MediaItem[]>([]);
+  const { shouldOpenMediaUpload, triggerMultiMediaUpload } = useMediaContext();
 
   // Close gallery modal when media upload is triggered
   useEffect(() => {
@@ -84,6 +90,47 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     e.preventDefault();
     setIsDragging(false);
   }, []);
+
+  const handleToggleSelection = (item: MediaItem) => {
+    setSelectedImages((prev) => {
+      const isSelected = prev.some((img) => img.id === item.id);
+      if (isSelected) {
+        return prev.filter((img) => img.id !== item.id);
+      } else {
+        if (prev.length >= maxSelectionLimit) {
+          toast({
+            title: "Selection Limit Reached",
+            description: `You can only select up to ${maxSelectionLimit} image${
+              maxSelectionLimit > 1 ? "s" : ""
+            }.`,
+            variant: "destructive",
+          });
+          return prev;
+        }
+        return [...prev, item];
+      }
+    });
+  };
+
+  const handleClearSelection = () => {
+    setSelectedImages([]);
+  };
+
+  const handleUseSelected = () => {
+    if (selectedImages.length === 0) return;
+
+    const mediaItems = selectedImages.map((img) => ({
+      url: img.url,
+      title: img.title,
+      source: "gallery" as const,
+      type: img.type,
+      id: img.id,
+    }));
+
+    triggerMultiMediaUpload(mediaItems);
+    setIsGalleryModalOpen(false);
+    setSelectedImages([]);
+  };
   return (
     <div className="space-y-2">
       <div
@@ -187,14 +234,46 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               showUpload={true}
               showDeleteButton={false}
               showSelectButton={true}
+              enableMultiSelect={enableMultiSelect}
+              maxSelectionLimit={maxSelectionLimit}
+              selectedImages={selectedImages}
+              onToggleSelection={handleToggleSelection}
+              onClearSelection={handleClearSelection}
+              onUseSelected={handleUseSelected}
               onCloseModal={() => setIsGalleryModalOpen(false)}
               className="h-full"
             />
           </div>
-          <DialogFooter className="p-6 pt-4">
+          <DialogFooter className="p-6 pt-4 border-t flex-row justify-between items-center">
+            <div className="flex items-center gap-3">
+              {selectedImages.length > 0 && (
+                <>
+                  <span className="text-sm font-medium text-primary">
+                    {selectedImages.length}/{maxSelectionLimit} selected
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleClearSelection}
+                  >
+                    Clear All
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleUseSelected}
+                  >
+                    Use Selected
+                  </Button>
+                </>
+              )}
+            </div>
             <Button
               variant="outline"
-              onClick={() => setIsGalleryModalOpen(false)}
+              onClick={() => {
+                setIsGalleryModalOpen(false);
+                setSelectedImages([]);
+              }}
             >
               {t("mediaDropzone.close")}
             </Button>

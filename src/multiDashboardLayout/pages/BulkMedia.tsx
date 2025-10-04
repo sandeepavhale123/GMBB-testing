@@ -461,6 +461,8 @@ export const BulkMedia: React.FC = () => {
         onClose={() => setShowUploadModal(false)}
         onUpload={handleUploadSuccess}
         isBulkUpload={true}
+        enableMultiSelect={false}
+        maxSelectionLimit={1}
       />
 
       {/* Delete Confirmation Dialog */}

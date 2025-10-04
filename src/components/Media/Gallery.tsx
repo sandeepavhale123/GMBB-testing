@@ -20,6 +20,8 @@ import {
   Film,
   MoreVertical,
   Copy,
+  CheckSquare,
+  Square,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -382,7 +384,13 @@ interface GalleryProps {
   showAIGeneration?: boolean;
   showDeleteButton?: boolean;
   showSelectButton?: boolean;
+  enableMultiSelect?: boolean;
+  maxSelectionLimit?: number;
+  selectedImages?: MediaItem[];
   onSelectImage?: (imageUrl: string) => void;
+  onToggleSelection?: (item: MediaItem) => void;
+  onClearSelection?: () => void;
+  onUseSelected?: () => void;
   onCloseModal?: () => void;
   className?: string;
 }
@@ -393,12 +401,19 @@ export const Gallery: React.FC<GalleryProps> = ({
   showAIGeneration = true,
   showDeleteButton = true,
   showSelectButton = false,
+  enableMultiSelect = false,
+  maxSelectionLimit = 5,
+  selectedImages: externalSelectedImages,
   onSelectImage,
+  onToggleSelection,
+  onClearSelection,
+  onUseSelected,
   onCloseModal,
   className = "",
 }) => {
   const { t } = useI18nNamespace("Media/gallery");
-  const { triggerCreatePost, triggerMediaUpload } = useMediaContext();
+  const { triggerCreatePost, triggerMediaUpload, triggerMultiMediaUpload } =
+    useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTab, setSelectedTab] = useState<"local" | "ai-generated">(
@@ -407,6 +422,12 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [mediaType, setMediaType] = useState<"IMAGE" | "VIDEO">("IMAGE");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [internalSelectedImages, setInternalSelectedImages] = useState<
+    MediaItem[]
+  >([]);
+
+  // Use external selection state if provided, otherwise use internal
+  const selectedImages = externalSelectedImages || internalSelectedImages;
 
   // Map tab to API type
   const getApiType = (tab: string): "IMAGE" | "VIDEO" | "AI" => {
@@ -621,6 +642,75 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
   };
 
+  // Multi-select handlers
+  const handleToggleSelection = (item: MediaItem, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    if (onToggleSelection) {
+      onToggleSelection(item);
+    } else {
+      setInternalSelectedImages((prev) => {
+        const isSelected = prev.some((img) => img.id === item.id);
+
+        if (isSelected) {
+          return prev.filter((img) => img.id !== item.id);
+        } else {
+          if (prev.length >= maxSelectionLimit) {
+            toast({
+              title: "Selection Limit Reached",
+              description: `You can only select up to ${maxSelectionLimit} images.`,
+              variant: "destructive",
+            });
+            return prev;
+          }
+          return [...prev, item];
+        }
+      });
+    }
+  };
+
+  const handleClearSelection = () => {
+    if (onClearSelection) {
+      onClearSelection();
+    } else {
+      setInternalSelectedImages([]);
+    }
+  };
+
+  const handleUseSelected = () => {
+    if (onUseSelected) {
+      onUseSelected();
+    } else {
+      if (selectedImages.length === 0) {
+        toast({
+          title: "No Images Selected",
+          description: "Please select at least one image.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const mediaItems = selectedImages.map((img) => ({
+        url: img.url,
+        title: img.title,
+        source: "gallery" as const,
+        type: img.type,
+        id: img.id,
+      }));
+
+      triggerMultiMediaUpload(mediaItems);
+      if (onCloseModal) {
+        onCloseModal();
+      }
+    }
+  };
+
+  const isImageSelected = (itemId: string) => {
+    return selectedImages.some((img) => img.id === itemId);
+  };
+
   // AI Generation handlers
   const handleGenerate = async () => {
     if (!aiPrompt.trim()) return;
@@ -817,9 +907,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                   {t("gallery.videos")}
                 </Button>
               </div>
-              <div className="text-sm text-muted-foreground">
-                {t("gallery.items", { count: total })}
-                {/* {total} items */}
+              <div className="flex items-center gap-3">
+                <div className="text-sm text-muted-foreground">
+                  {t("gallery.items", { count: total })}
+                  {/* {total} items */}
+                </div>
               </div>
             </div>
 
@@ -840,147 +932,188 @@ export const Gallery: React.FC<GalleryProps> = ({
                         </div>
                       </div>
                     ))
-                  : displayMedia.map((item) => (
-                      <div
-                        key={item.id}
-                        className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
-                      >
-                        <div className="aspect-square overflow-hidden">
-                          {item.type === "video" ? (
-                            <video
-                              src={item.url}
-                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                              onClick={
-                                showSelectButton
-                                  ? () => handleSelectMedia(item)
-                                  : undefined
-                              }
-                              preload="metadata"
-                              muted
-                            />
-                          ) : (
-                            <img
-                              src={item.url}
-                              alt={item.title}
-                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                              onClick={
-                                showSelectButton
-                                  ? () => handleSelectMedia(item)
-                                  : undefined
-                              }
-                            />
+                  : displayMedia.map((item) => {
+                      const isSelected = isImageSelected(item.id);
+                      return (
+                        <div
+                          key={item.id}
+                          className={`group relative overflow-hidden rounded-lg border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer ${
+                            isSelected
+                              ? "border-primary border-2 ring-2 ring-primary/20"
+                              : "border-border"
+                          }`}
+                          onClick={
+                            enableMultiSelect && showSelectButton
+                              ? (e) => handleToggleSelection(item, e)
+                              : showSelectButton && !enableMultiSelect
+                              ? () => handleSelectMedia(item)
+                              : undefined
+                          }
+                        >
+                          {/* Multi-select checkbox overlay */}
+                          {enableMultiSelect && showSelectButton && (
+                            <div className="absolute top-2 left-2 z-10">
+                              <div
+                                className={`w-6 h-6 rounded flex items-center justify-center transition-all shadow-lg border-2 border-primary ${
+                                  isSelected
+                                    ? "bg-primary shadow-primary/50"
+                                    : "bg-white/90 shadow-black/20"
+                                }`}
+                                onClick={(e) => handleToggleSelection(item, e)}
+                              >
+                                {isSelected && (
+                                  <CheckSquare className="h-4 w-4 text-white" />
+                                )}
+                              </div>
+                            </div>
                           )}
-                        </div>
 
-                        {/* Action Buttons Overlay - Hidden in Modal View */}
-                        {!showSelectButton && (
-                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                            <div className="flex items-center gap-2">
-                              {/* Quick View */}
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    size="sm"
-                                    variant="secondary"
-                                    onClick={() => handleViewMedia(item)}
-                                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                    title="Quick View"
-                                  >
-                                    <Eye className="h-4 w-4 text-gray-700" />
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent
-                                  className="max-w-4xl"
-                                  aria-describedby="media-preview-description"
-                                >
-                                  <div className="flex flex-col items-center space-y-4">
-                                    {selectedMedia?.type === "video" ? (
-                                      <video
-                                        src={selectedMedia?.url}
-                                        className="max-w-full max-h-[70vh] object-contain rounded-lg"
-                                        controls
-                                        preload="metadata"
-                                      />
-                                    ) : (
-                                      <img
-                                        src={selectedMedia?.url}
-                                        alt={selectedMedia?.title}
-                                        className="max-w-full max-h-[70vh] object-contain rounded-lg"
-                                      />
-                                    )}
-                                    <div
-                                      className="text-center"
-                                      id="media-preview-description"
+                          <div className="aspect-square overflow-hidden">
+                            {item.type === "video" ? (
+                              <video
+                                src={item.url}
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                preload="metadata"
+                                muted
+                              />
+                            ) : (
+                              <img
+                                src={item.url}
+                                alt={item.title}
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                              />
+                            )}
+                          </div>
+
+                          {/* Action Buttons Overlay - Hidden in Modal View */}
+                          {!showSelectButton && (
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                              <div className="flex items-center gap-2">
+                                {/* Quick View */}
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button
+                                      size="sm"
+                                      variant="secondary"
+                                      onClick={() => handleViewMedia(item)}
+                                      className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                                      title="Quick View"
                                     >
-                                      <h3 className="text-lg font-semibold">
-                                        {selectedMedia?.title}
-                                      </h3>
-                                      <p className="text-sm text-muted-foreground">
-                                        {selectedMedia?.date}
-                                      </p>
+                                      <Eye className="h-4 w-4 text-gray-700" />
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent
+                                    className="max-w-4xl"
+                                    aria-describedby="media-preview-description"
+                                  >
+                                    <div className="flex flex-col items-center space-y-4">
+                                      {selectedMedia?.type === "video" ? (
+                                        <video
+                                          src={selectedMedia?.url}
+                                          className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                                          controls
+                                          preload="metadata"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={selectedMedia?.url}
+                                          alt={selectedMedia?.title}
+                                          className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                                        />
+                                      )}
+                                      <div
+                                        className="text-center"
+                                        id="media-preview-description"
+                                      >
+                                        <h3 className="text-lg font-semibold">
+                                          {selectedMedia?.title}
+                                        </h3>
+                                        <p className="text-sm text-muted-foreground">
+                                          {selectedMedia?.date}
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
+                                  </DialogContent>
+                                </Dialog>
 
-                              {/* Actions Dropdown */}
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button
-                                    size="sm"
-                                    variant="secondary"
-                                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                    title="More Actions"
+                                {/* Actions Dropdown */}
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button
+                                      size="sm"
+                                      variant="secondary"
+                                      className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                                      title="More Actions"
+                                    >
+                                      <MoreVertical className="h-4 w-4 text-gray-700" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent
+                                    className="w-48 bg-white border border-gray-200 shadow-lg z-50"
+                                    align="end"
                                   >
-                                    <MoreVertical className="h-4 w-4 text-gray-700" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                  className="w-48 bg-white border border-gray-200 shadow-lg z-50"
-                                  align="end"
-                                >
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      try {
-                                        const link =
-                                          document.createElement("a");
-                                        link.href = item.url;
-                                        link.download = `${
-                                          item.title || "media"
-                                        }.${
-                                          item.type === "video" ? "mp4" : "jpg"
-                                        }`;
-                                        link.target = "_blank";
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-                                      } catch (error) {
-                                        console.error(
-                                          "Download failed:",
-                                          error
-                                        );
-                                        toast({
-                                          title: t(
-                                            "gallery.errTitle.downloadTitle"
-                                          ),
-                                          description: t(
-                                            "gallery.messages.downloadFailed"
-                                          ),
-                                          variant: "destructive",
-                                        });
-                                      }
-                                    }}
-                                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                                  >
-                                    <Download className="h-4 w-4" />
-                                    {t("gallery.download")}
-                                    {item.type === "video" ? "Video" : "Image"}
-                                  </DropdownMenuItem>
-
-                                  {item.type === "image" && (
                                     <DropdownMenuItem
                                       onClick={() => {
-                                        triggerCreatePost({
+                                        try {
+                                          const link =
+                                            document.createElement("a");
+                                          link.href = item.url;
+                                          link.download = `${
+                                            item.title || "media"
+                                          }.${
+                                            item.type === "video"
+                                              ? "mp4"
+                                              : "jpg"
+                                          }`;
+                                          link.target = "_blank";
+                                          document.body.appendChild(link);
+                                          link.click();
+                                          document.body.removeChild(link);
+                                        } catch (error) {
+                                          console.error(
+                                            "Download failed:",
+                                            error
+                                          );
+                                          toast({
+                                            title: t(
+                                              "gallery.errTitle.downloadTitle"
+                                            ),
+                                            description: t(
+                                              "gallery.messages.downloadFailed"
+                                            ),
+                                            variant: "destructive",
+                                          });
+                                        }
+                                      }}
+                                      className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                      <Download className="h-4 w-4" />
+                                      {t("gallery.download")}
+                                      {item.type === "video"
+                                        ? "Video"
+                                        : "Image"}
+                                    </DropdownMenuItem>
+
+                                    {item.type === "image" && (
+                                      <DropdownMenuItem
+                                        onClick={() => {
+                                          triggerCreatePost({
+                                            url: item.url,
+                                            title: item.title,
+                                            source: "gallery",
+                                            type: item.type,
+                                          });
+                                        }}
+                                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                      >
+                                        <FileImage className="h-4 w-4" />
+                                        {t("gallery.useForPost")}
+                                      </DropdownMenuItem>
+                                    )}
+
+                                    <DropdownMenuItem
+                                      onClick={() => {
+                                        triggerMediaUpload({
                                           url: item.url,
                                           title: item.title,
                                           source: "gallery",
@@ -989,115 +1122,106 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       }}
                                       className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     >
-                                      <FileImage className="h-4 w-4" />
-                                      {t("gallery.useForPost")}
+                                      <Film className="h-4 w-4" />
+                                      {t("gallery.useForMedia")}
                                     </DropdownMenuItem>
-                                  )}
 
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      triggerMediaUpload({
-                                        url: item.url,
-                                        title: item.title,
-                                        source: "gallery",
-                                        type: item.type,
-                                      });
-                                    }}
-                                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                                  >
-                                    <Film className="h-4 w-4" />
-                                    {t("gallery.useForMedia")}
-                                  </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={async () => {
+                                        try {
+                                          await navigator.clipboard.writeText(
+                                            item.url
+                                          );
+                                          toast.success({
+                                            title: "URL copied",
+                                            description:
+                                              "Image URL copied to clipboard",
+                                          });
+                                        } catch (error) {
+                                          toast.error({
+                                            title: "Copy failed",
+                                            description:
+                                              "Failed to copy URL to clipboard",
+                                          });
+                                        }
+                                      }}
+                                      className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                      <Copy className="h-4 w-4" />
+                                      Copy Image URL
+                                    </DropdownMenuItem>
 
-                                  <DropdownMenuItem
-                                    onClick={async () => {
-                                      try {
-                                        await navigator.clipboard.writeText(item.url);
-                                        toast.success({
-                                          title: "URL copied",
-                                          description: "Image URL copied to clipboard"
-                                        });
-                                      } catch (error) {
-                                        toast.error({
-                                          title: "Copy failed",
-                                          description: "Failed to copy URL to clipboard"
-                                        });
-                                      }
-                                    }}
-                                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                                  >
-                                    <Copy className="h-4 w-4" />
-                                    Copy Image URL
-                                  </DropdownMenuItem>
-
-                                  {showDeleteButton && (
-                                    <>
-                                      <DropdownMenuSeparator />
-                                      <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                          <DropdownMenuItem
-                                            onSelect={(e) => e.preventDefault()}
-                                            className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                            {t("gallery.delete")}
-                                          </DropdownMenuItem>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                          <AlertDialogHeader>
-                                            <AlertDialogTitle>
-                                              {t("gallery.deleteMediaTitle")}
-                                            </AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                              {t(
-                                                "gallery.deleteMediaDescription",
-                                                { title: item.title }
-                                              )}
-                                              {/* Are you sure you want to delete "
+                                    {showDeleteButton && (
+                                      <>
+                                        <DropdownMenuSeparator />
+                                        <AlertDialog>
+                                          <AlertDialogTrigger asChild>
+                                            <DropdownMenuItem
+                                              onSelect={(e) =>
+                                                e.preventDefault()
+                                              }
+                                              className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                              {t("gallery.delete")}
+                                            </DropdownMenuItem>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle>
+                                                {t("gallery.deleteMediaTitle")}
+                                              </AlertDialogTitle>
+                                              <AlertDialogDescription>
+                                                {t(
+                                                  "gallery.deleteMediaDescription",
+                                                  { title: item.title }
+                                                )}
+                                                {/* Are you sure you want to delete "
                                               {item.title}"? This action cannot
                                               be undone. */}
-                                            </AlertDialogDescription>
-                                          </AlertDialogHeader>
-                                          <AlertDialogFooter>
-                                            <AlertDialogCancel>
-                                              {t("gallery.cancel")}
-                                            </AlertDialogCancel>
-                                            <AlertDialogAction
-                                              onClick={() =>
-                                                handleDeleteMedia(
-                                                  item.key || item.id
-                                                )
-                                              }
-                                              className="bg-red-600 hover:bg-red-700"
-                                              disabled={
-                                                deletingItemKey ===
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                              <AlertDialogCancel>
+                                                {t("gallery.cancel")}
+                                              </AlertDialogCancel>
+                                              <AlertDialogAction
+                                                onClick={() =>
+                                                  handleDeleteMedia(
+                                                    item.key || item.id
+                                                  )
+                                                }
+                                                className="bg-red-600 hover:bg-red-700"
+                                                disabled={
+                                                  deletingItemKey ===
+                                                  (item.key || item.id)
+                                                }
+                                              >
+                                                {deletingItemKey ===
                                                 (item.key || item.id)
-                                              }
-                                            >
-                                              {deletingItemKey ===
-                                              (item.key || item.id)
-                                                ? t("gallery.deleting")
-                                                : t("gallery.confirmDelete")}
-                                            </AlertDialogAction>
-                                          </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                      </AlertDialog>
-                                    </>
-                                  )}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
+                                                  ? t("gallery.deleting")
+                                                  : t("gallery.confirmDelete")}
+                                              </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
+                                      </>
+                                    )}
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
 
-                        {/* Media Info */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <p className="font-medium text-xs text-white truncate">
-                            {item.title}
-                          </p>
+                          {/* Media Info */}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <p className="font-medium text-xs text-white truncate">
+                              {item.title}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
               </div>
             </div>
             {/* Load More Button - Right Side */}
@@ -1399,17 +1523,24 @@ export const Gallery: React.FC<GalleryProps> = ({
                                 <DropdownMenuItem
                                   onClick={async () => {
                                     try {
-                                      await navigator.clipboard.writeText(item.url);
+                                      await navigator.clipboard.writeText(
+                                        item.url
+                                      );
                                       toast({
                                         title: "URL Copied!",
-                                        description: "Image URL has been copied to clipboard.",
+                                        description:
+                                          "Image URL has been copied to clipboard.",
                                         variant: "default",
                                       });
                                     } catch (error) {
-                                      console.error("Failed to copy URL:", error);
+                                      console.error(
+                                        "Failed to copy URL:",
+                                        error
+                                      );
                                       toast({
                                         title: "Copy Failed",
-                                        description: "Unable to copy URL to clipboard.",
+                                        description:
+                                          "Unable to copy URL to clipboard.",
                                         variant: "destructive",
                                       });
                                     }

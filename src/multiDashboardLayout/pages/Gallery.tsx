@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Gallery } from '@/components/Media/Gallery';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 import { MediaUploadModal } from '@/components/Media/MediaUploadModal';
 import { useMediaContext } from '@/context/MediaContext';
+import { isMultiDashboardRoute } from '@/utils/routeUtils';
 
 const GalleryPage: React.FC = () => {
+  const location = useLocation();
   const { shouldOpenCreatePost, shouldOpenMediaUpload, clearSelection } = useMediaContext();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [isMediaUploadOpen, setIsMediaUploadOpen] = useState(false);
+  
+  // Multi-dashboard: only allow single image selection
+  const isMultiDashboard = isMultiDashboardRoute(location.pathname);
+  const enableMultiSelect = !isMultiDashboard;
+  const maxSelectionLimit = isMultiDashboard ? 1 : 5;
 
   useEffect(() => {
     if (shouldOpenCreatePost) {
@@ -39,7 +47,10 @@ const GalleryPage: React.FC = () => {
 
   return (
     <>
-      <Gallery />
+      <Gallery 
+        enableMultiSelect={enableMultiSelect}
+        maxSelectionLimit={maxSelectionLimit}
+      />
       <CreatePostModal 
         isOpen={isCreatePostOpen}
         onClose={handleCloseCreatePost}
@@ -48,6 +59,9 @@ const GalleryPage: React.FC = () => {
         isOpen={isMediaUploadOpen}
         onClose={handleCloseMediaUpload}
         onUpload={handleMediaUpload}
+        isBulkUpload={true}
+        enableMultiSelect={enableMultiSelect}
+        maxSelectionLimit={maxSelectionLimit}
       />
     </>
   );

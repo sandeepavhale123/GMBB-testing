@@ -469,14 +469,43 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     showCTAButton,
   ]);
 
+  // Handle modal close with full reset
+  const handleClose = () => {
+    setFormData({
+      listings: [],
+      title: "",
+      postType: "",
+      description: "",
+      image: null,
+      imageSource: null,
+      ctaButton: "",
+      ctaUrl: "",
+      publishOption: "now",
+      scheduleDate: "",
+      platforms: [],
+      startDate: "",
+      endDate: "",
+      couponCode: "",
+      redeemOnlineUrl: "",
+      termsConditions: "",
+      postTags: "",
+      siloPost: false,
+    });
+    setShowCTAButton(false);
+    setShowAdvancedOptions(false);
+    setIsPreviewOpen(false);
+    setValidationErrors({});
+    clearSelection();
+    onClose();
+  };
+
   return (
     <>
       <Dialog
         open={isOpen}
         onOpenChange={(open) => {
           if (!open) {
-            clearSelection();
-            onClose();
+            handleClose();
           }
         }}
       >
@@ -490,10 +519,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0"
-                onClick={() => {
-                  clearSelection();
-                  onClose();
-                }}
+                onClick={handleClose}
               >
                 <X className="h-4 w-4" />
               </Button>

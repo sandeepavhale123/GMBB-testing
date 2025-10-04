@@ -37,3 +37,26 @@ export const shouldSkipProfileAPI = (pathname?: string): boolean => {
   const currentPath = pathname || window.location.pathname;
   return isPublicReportRoute(currentPath);
 };
+
+/**
+ * Check if the current route is a multi-dashboard section
+ * @param pathname - Current pathname
+ * @returns boolean - True if it's a multi-dashboard route
+ */
+export const isMultiDashboardRoute = (pathname: string): boolean => {
+  return pathname.startsWith('/main-dashboard');
+};
+
+/**
+ * Check if the current route is a single listing page
+ * @param pathname - Current pathname
+ * @returns boolean - True if it's a single listing route
+ */
+export const isSingleListingRoute = (pathname: string): boolean => {
+  return pathname.startsWith('/gallery/') || pathname.startsWith('/posts/') || 
+         pathname.startsWith('/media/') || pathname.startsWith('/insights/') ||
+         pathname.startsWith('/keywords/') || pathname.startsWith('/geo-ranking/') ||
+         pathname.startsWith('/citation/') || pathname.startsWith('/reviews/') ||
+         pathname.startsWith('/health/') || pathname.startsWith('/business-info/') ||
+         pathname.startsWith('/qa/') || pathname.startsWith('/reports/');
+};

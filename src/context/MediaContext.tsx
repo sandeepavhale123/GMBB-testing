@@ -1,17 +1,23 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+export interface MediaItemType {
+  url: string;
+  title: string;
+  source: 'local' | 'ai' | 'gallery';
+  type: 'image' | 'video';
+  id?: string;
+}
+
 interface MediaContextType {
-  selectedMedia: {
-    url: string;
-    title: string;
-    source: 'local' | 'ai' | 'gallery';
-    type: 'image' | 'video';
-  } | null;
+  selectedMedia: MediaItemType | null;
+  selectedMediaItems: MediaItemType[];
   shouldOpenCreatePost: boolean;
   shouldOpenMediaUpload: boolean;
-  setSelectedMedia: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' } | null) => void;
-  triggerCreatePost: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => void;
-  triggerMediaUpload: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => void;
+  setSelectedMedia: (media: MediaItemType | null) => void;
+  setSelectedMediaItems: (media: MediaItemType[]) => void;
+  triggerCreatePost: (media: MediaItemType) => void;
+  triggerMediaUpload: (media: MediaItemType) => void;
+  triggerMultiMediaUpload: (mediaItems: MediaItemType[]) => void;
   clearSelection: () => void;
 }
 
@@ -19,21 +25,30 @@ const MediaContext = createContext<MediaContextType | undefined>(undefined);
 
 export const MediaProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedMedia, setSelectedMedia] = useState<MediaContextType['selectedMedia']>(null);
+  const [selectedMediaItems, setSelectedMediaItems] = useState<MediaItemType[]>([]);
   const [shouldOpenCreatePost, setShouldOpenCreatePost] = useState(false);
   const [shouldOpenMediaUpload, setShouldOpenMediaUpload] = useState(false);
 
-  const triggerCreatePost = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => {
+  const triggerCreatePost = (media: MediaItemType) => {
     setSelectedMedia(media);
     setShouldOpenCreatePost(true);
   };
 
-  const triggerMediaUpload = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => {
+  const triggerMediaUpload = (media: MediaItemType) => {
     setSelectedMedia(media);
+    setSelectedMediaItems([]);
+    setShouldOpenMediaUpload(true);
+  };
+
+  const triggerMultiMediaUpload = (mediaItems: MediaItemType[]) => {
+    setSelectedMedia(null);
+    setSelectedMediaItems(mediaItems);
     setShouldOpenMediaUpload(true);
   };
 
   const clearSelection = () => {
     setSelectedMedia(null);
+    setSelectedMediaItems([]);
     setShouldOpenCreatePost(false);
     setShouldOpenMediaUpload(false);
   };
@@ -42,11 +57,14 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     <MediaContext.Provider
       value={{
         selectedMedia,
+        selectedMediaItems,
         shouldOpenCreatePost,
         shouldOpenMediaUpload,
         setSelectedMedia,
+        setSelectedMediaItems,
         triggerCreatePost,
         triggerMediaUpload,
+        triggerMultiMediaUpload,
         clearSelection,
       }}
     >
