@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CircularProgress } from "@/components/ui/circular-progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   BarChart,
   Bar,
@@ -185,6 +186,8 @@ export const PublicGMBHealthReport: React.FC = () => {
         return "text-gray-600";
     }
   };
+
+  const [breakdownSort, setBreakdownSort] = useState<'default' | 'failed-first' | 'passed-first'>('default');
 
   return (
     <PublicReportDashboardLayout
@@ -378,12 +381,35 @@ export const PublicGMBHealthReport: React.FC = () => {
 
         {/* Detailed Breakdown */}
         <Card>
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
-
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+            <CardTitle className="text-2xl font-bold">Detailed Breakdown</CardTitle>
+            <Select value={breakdownSort} onValueChange={(value) => setBreakdownSort(value as 'default' | 'failed-first' | 'passed-first')}>
+              <SelectTrigger className="w-[160px] bg-card z-50">
+                <SelectValue placeholder="Sort by..." />
+              </SelectTrigger>
+              <SelectContent className="bg-popover z-50">
+                <SelectItem value="default">Default Order</SelectItem>
+                <SelectItem value="failed-first">Failed First</SelectItem>
+                <SelectItem value="passed-first">Passed First</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent className="p-6 pt-0">
             <div className="space-y-6">
-              {Object.entries(publichealthData?.data?.detailedBreakdown).map(
-                ([key, value], index) => {
+              {Object.entries(publichealthData?.data?.detailedBreakdown)
+                .sort(([, valueA], [, valueB]) => {
+                  if (breakdownSort === 'default') return 0;
+                  if (breakdownSort === 'failed-first') {
+                    // Failed (false) comes first, Passed (true) comes last
+                    return valueA === valueB ? 0 : valueA ? 1 : -1;
+                  }
+                  if (breakdownSort === 'passed-first') {
+                    // Passed (true) comes first, Failed (false) comes last
+                    return valueA === valueB ? 0 : valueA ? -1 : 1;
+                  }
+                  return 0;
+                })
+                .map(([key, value], index) => {
                   const breakdownInfo: Record<
                     string,
                     { title: string; why: string; recommendation: string }
