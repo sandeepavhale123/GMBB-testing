@@ -30,31 +30,89 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
     setParseError(null);
     
     try {
-      const text = await file.text();
-      const lines = text.split('\n').filter(line => line.trim());
+      let text = await file.text();
       
-      if (lines.length === 0) {
+      // Remove BOM if present
+      if (text.charCodeAt(0) === 0xFEFF) {
+        text = text.slice(1);
+      }
+      
+      if (!text.trim()) {
         setParseError("File appears to be empty");
         return;
       }
 
-      // Parse headers
-      const headerLine = lines[0];
-      const parsedHeaders = parseCSVLine(headerLine);
+      // Parse entire CSV with proper quote handling
+      const rows: string[][] = [];
+      let currentRow: string[] = [];
+      let currentField = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && nextChar === '"') {
+            // Escaped quote
+            currentField += '"';
+            i++; // Skip next quote
+          } else {
+            // Toggle quote state
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          // Field separator
+          currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
+          currentField = '';
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          // Row separator
+          if (char === '\r' && nextChar === '\n') {
+            i++; // Skip \n in \r\n
+          }
+          
+          // Push current field and row
+          currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
+          
+          // Only add non-empty rows
+          if (currentRow.some(field => field.length > 0)) {
+            rows.push(currentRow);
+          }
+          
+          currentRow = [];
+          currentField = '';
+        } else {
+          currentField += char;
+        }
+      }
+
+      // Push last field and row
+      if (currentField || currentRow.length > 0) {
+        currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
+        if (currentRow.some(field => field.length > 0)) {
+          rows.push(currentRow);
+        }
+      }
+
+      if (rows.length === 0) {
+        setParseError("File appears to be empty");
+        return;
+      }
+
+      // Extract headers
+      const parsedHeaders = rows[0];
       setHeaders(parsedHeaders);
 
-      // Set total rows count (excluding header)
-      const totalDataRows = lines.length - 1;
-      setTotalRows(totalDataRows);
+      // Extract data rows
+      const dataRows = rows.slice(1);
+      setTotalRows(dataRows.length);
 
       // Parse data rows (limit to first 10 for preview)
-      const dataLines = lines.slice(1, 11);
-      const parsedData: CSVRow[] = dataLines.map((line, index) => {
-        const values = parseCSVLine(line);
+      const parsedData: CSVRow[] = dataRows.slice(0, 10).map((rowValues) => {
         const row: CSVRow = {};
         
         parsedHeaders.forEach((header, i) => {
-          row[header] = values[i] || '';
+          row[header] = rowValues[i] || '';
         });
         
         return row;
