@@ -261,7 +261,7 @@ export const Dashboard: React.FC = () => {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="inline-flex bg-white border-b border-border w-full p-0 h-auto rounded-none">
+            <TabsList className="inline-flex bg-white border-b border-border p-0 h-auto rounded-none">
               <TabsTrigger value="posts">
                 <FileText className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
                 <span>Posts</span>
