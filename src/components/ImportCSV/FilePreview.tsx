@@ -84,14 +84,14 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
           inQuotes = !inQuotes;
         }
       } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
+        result.push(current.trim().replace(/[\r\n]+/g, ' '));
         current = '';
       } else {
         current += char;
       }
     }
     
-    result.push(current.trim());
+    result.push(current.trim().replace(/[\r\n]+/g, ' '));
     return result;
   };
 
