@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { PieChart as PieChartIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { useListingContext } from "@/context/ListingContext";
 type TrafficSourcesChartProps = {
   live: number;
   failed: number;
@@ -13,6 +14,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
+  const { selectedListing } = useListingContext();
   // console.log("donut values", live, failed);
   const donutChartData = [
     { name: "Live Posts", value: live, fill: "green" },
@@ -59,7 +61,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
             </div>
           </div>
           <Button variant="outline" className="w-full mt-4" asChild>
-            <Link to="/posts">View All</Link>
+            <Link to={`/posts/${selectedListing?.id || 'default'}`}>View All</Link>
           </Button>
         </div>
       </CardContent>
