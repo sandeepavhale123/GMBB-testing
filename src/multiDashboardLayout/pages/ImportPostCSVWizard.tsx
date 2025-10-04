@@ -510,7 +510,10 @@ export const ImportPostCSVWizard: React.FC = () => {
           </Card>
 
           {formData.uploadedFile && (
-            <FilePreview file={formData.uploadedFile} />
+            <FilePreview 
+              file={formData.uploadedFile} 
+              validatedRows={formData.validatedRows}
+            />
           )}
 
           {formData.errorCount > 0 && (

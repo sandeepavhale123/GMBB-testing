@@ -3,21 +3,33 @@ import { FileText, Eye, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+
+interface ValidationRow {
+  row: number;
+  errors: string[];
+  data: Record<string, any>;
+}
 
 interface FilePreviewProps {
   file: File;
+  validatedRows?: ValidationRow[];
 }
 
 interface CSVRow {
   [key: string]: string;
 }
 
-export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
+export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = [] }) => {
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [parseError, setParseError] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<CSVRow | null>(null);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (file) {
@@ -153,6 +165,17 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
     return result;
   };
 
+  const hasErrors = (rowIndex: number) => {
+    const validationRow = validatedRows.find(v => v.row === rowIndex + 2); // +2 because row 1 is header
+    return validationRow && validationRow.errors.length > 0;
+  };
+
+  const handleViewPost = (row: CSVRow, rowIndex: number) => {
+    setSelectedPost(row);
+    setSelectedRowIndex(rowIndex);
+    setIsModalOpen(true);
+  };
+
   if (isLoading) {
     return (
       <Card>
@@ -213,6 +236,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
                     {header}
                   </TableHead>
                 ))}
+                <TableHead className="whitespace-nowrap">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -225,6 +249,18 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
                       </div>
                     </TableCell>
                   ))}
+                  <TableCell className="whitespace-nowrap">
+                    {!hasErrors(rowIndex) && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleViewPost(row, rowIndex)}
+                      >
+                        <Eye className="w-4 h-4 mr-1" />
+                        View Post
+                      </Button>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -237,6 +273,66 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file }) => {
           </div>
         )}
       </CardContent>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Post Preview</DialogTitle>
+          </DialogHeader>
+
+          {selectedPost && (
+            <div className="space-y-4">
+              {/* Post Image */}
+              {selectedPost.image_url && (
+                <div className="w-full aspect-video bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg overflow-hidden">
+                  <img
+                    src={selectedPost.image_url}
+                    alt="Post"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = '';
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Post Content */}
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
+                <p className="text-gray-600 text-sm leading-relaxed max-h-40 overflow-y-auto">
+                  {selectedPost.text || 'No description'}
+                </p>
+              </div>
+
+              {/* CTA Button */}
+              {selectedPost.action_type && selectedPost.cta_url && (
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">Call to Action</h3>
+                  <Button
+                    className="w-full"
+                    onClick={() => window.open(selectedPost.cta_url, '_blank')}
+                  >
+                    {selectedPost.action_type}
+                  </Button>
+                </div>
+              )}
+
+              {/* Schedule Date */}
+              {selectedPost.schedule_date && (
+                <div className="text-sm text-gray-600">
+                  <span className="font-medium">Scheduled for:</span> {selectedPost.schedule_date}
+                </div>
+              )}
+
+              {/* Row ID */}
+              <div className="text-xs text-gray-500 border-t pt-3">
+                Row ID: {selectedRowIndex + 2}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
