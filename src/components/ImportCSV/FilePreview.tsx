@@ -210,7 +210,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
           File Preview
         </CardTitle>
         
-        <div className="mt-3 grid grid-cols-3 gap-4 text-sm text-muted-foreground">
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
           <div>
             <span className="font-medium">File:</span> {file.name}
           </div>
