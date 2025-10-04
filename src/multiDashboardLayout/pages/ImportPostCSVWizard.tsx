@@ -451,7 +451,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       </div>
     </div>;
   const renderStep2 = () => <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-start">
         <div>
           <h2 className="text-2xl font-semibold mb-2">Upload File</h2>
           <p className="text-muted-foreground">Upload your CSV file for bulk post import.</p>
