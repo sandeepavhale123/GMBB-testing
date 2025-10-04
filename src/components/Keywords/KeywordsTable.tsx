@@ -324,7 +324,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               <TableCell className="font-medium">
                 <button 
                   onClick={() => handleViewRank(keyword)}
-                  className="text-primary hover:underline cursor-pointer"
+                  className="text-foreground hover:text-primary cursor-pointer transition-colors"
                 >
                   {keyword.keyword}
                 </button>
