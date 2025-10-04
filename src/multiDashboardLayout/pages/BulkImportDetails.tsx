@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Eye, Trash2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Search, Eye, Trash2, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -152,11 +152,13 @@ export const BulkImportDetails: React.FC = () => {
     posts,
     postsLoading,
     postsError,
+    postsPagination,
     selectedListingId,
     postSearch,
     setListingSearch,
     setPostSearch,
     setSelectedListingId,
+    setPostsPage,
     deletePost,
     isDeletingPost
   } = useBulkImportDetails(historyId);
@@ -285,91 +287,127 @@ export const BulkImportDetails: React.FC = () => {
                       <div className="text-muted-foreground text-sm">{postsError}</div>
                     </div>
                   ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow className="border-border">
-                          <TableHead className="w-12 text-muted-foreground">#</TableHead>
-                          <TableHead className="w-16 text-muted-foreground">Image</TableHead>
-                          <TableHead className="text-muted-foreground">Post Content</TableHead>
-                          <TableHead className="w-20 text-muted-foreground">Status</TableHead>
-                          <TableHead className="w-40 text-muted-foreground">Date</TableHead>
-                          <TableHead className="w-24 text-muted-foreground">Action</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredPosts.length === 0 ? (
-                          <TableRow>
-                            <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                              No posts found matching your search criteria.
-                            </TableCell>
+                    <>
+                      <Table>
+                        <TableHeader>
+                          <TableRow className="border-border">
+                            <TableHead className="w-12 text-muted-foreground">#</TableHead>
+                            <TableHead className="w-16 text-muted-foreground">Image</TableHead>
+                            <TableHead className="text-muted-foreground">Post Content</TableHead>
+                            <TableHead className="w-20 text-muted-foreground">Status</TableHead>
+                            <TableHead className="w-40 text-muted-foreground">Date</TableHead>
+                            <TableHead className="w-24 text-muted-foreground">Action</TableHead>
                           </TableRow>
-                        ) : (
-                          filteredPosts.map((post, index) => (
-                            <TableRow key={post.id} className="border-border">
-                              <TableCell className="text-muted-foreground">
-                                {index + 1}
-                              </TableCell>
-                              <TableCell>
-                                {post.image ? (
-                                  <img 
-                                    src={post.image} 
-                                    alt="Post" 
-                                    className="w-12 h-12 rounded-lg object-cover border border-border" 
-                                  />
-                                ) : (
-                                  <div className="w-12 h-12 rounded-lg bg-muted border border-border flex items-center justify-center">
-                                    <span className="text-muted-foreground text-xs">No image</span>
-                                  </div>
-                                )}
-                              </TableCell>
-                              <TableCell>
-                                <div className="space-y-1">
-                                  <div className="font-medium text-foreground text-sm line-clamp-2">
-                                    {post.text || 'No content'}
-                                  </div>
-                                  {post.tags && (
-                                    <div className="text-xs text-muted-foreground">
-                                      Tags: {post.tags}
-                                    </div>
-                                  )}
-                                </div>
-                              </TableCell>
-                              <TableCell>
-                                <Badge variant={getStatusVariant(post.state)}>
-                                  {post.state.charAt(0).toUpperCase() + post.state.slice(1)}
-                                </Badge>
-                              </TableCell>
-                              <TableCell className="text-sm text-foreground">
-                                {formatDate(post.publishDate)}
-                              </TableCell>
-                              <TableCell>
-                                <div className="flex items-center gap-1">
-                                  {post.search_url && (
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm" 
-                                      onClick={() => handleViewPost(post.id)} 
-                                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                                    >
-                                      <Eye className="h-4 w-4" />
-                                    </Button>
-                                  )}
-                                   <Button 
-                                     variant="ghost" 
-                                     size="sm" 
-                                     onClick={() => handleDeletePost(post.id)} 
-                                     className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                                     disabled={isDeletingPost}
-                                   >
-                                     <Trash2 className="h-4 w-4" />
-                                   </Button>
-                                </div>
+                        </TableHeader>
+                        <TableBody>
+                          {filteredPosts.length === 0 ? (
+                            <TableRow>
+                              <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
+                                No posts found matching your search criteria.
                               </TableCell>
                             </TableRow>
-                          ))
-                        )}
-                      </TableBody>
-                    </Table>
+                          ) : (
+                            filteredPosts.map((post, index) => (
+                              <TableRow key={post.id} className="border-border">
+                                <TableCell className="text-muted-foreground">
+                                  {index + 1}
+                                </TableCell>
+                                <TableCell>
+                                  {post.image ? (
+                                    <img 
+                                      src={post.image} 
+                                      alt="Post" 
+                                      className="w-12 h-12 rounded-lg object-cover border border-border" 
+                                    />
+                                  ) : (
+                                    <div className="w-12 h-12 rounded-lg bg-muted border border-border flex items-center justify-center">
+                                      <span className="text-muted-foreground text-xs">No image</span>
+                                    </div>
+                                  )}
+                                </TableCell>
+                                <TableCell>
+                                  <div className="space-y-1">
+                                    <div className="font-medium text-foreground text-sm line-clamp-2">
+                                      {post.text || 'No content'}
+                                    </div>
+                                    {post.tags && (
+                                      <div className="text-xs text-muted-foreground">
+                                        Tags: {post.tags}
+                                      </div>
+                                    )}
+                                  </div>
+                                </TableCell>
+                                <TableCell>
+                                  <Badge variant={getStatusVariant(post.state)}>
+                                    {post.state.charAt(0).toUpperCase() + post.state.slice(1)}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell className="text-sm text-foreground">
+                                  {formatDate(post.publishDate)}
+                                </TableCell>
+                                <TableCell>
+                                  <div className="flex items-center gap-1">
+                                    {post.search_url && (
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        onClick={() => handleViewPost(post.id)} 
+                                        className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                      >
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                    )}
+                                     <Button 
+                                       variant="ghost" 
+                                       size="sm" 
+                                       onClick={() => handleDeletePost(post.id)} 
+                                       className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                       disabled={isDeletingPost}
+                                     >
+                                       <Trash2 className="h-4 w-4" />
+                                     </Button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          )}
+                        </TableBody>
+                      </Table>
+                      
+                      {/* Pagination */}
+                      {postsPagination.totalPages > 1 && (
+                        <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-t border-border gap-4">
+                          <p className="text-sm text-muted-foreground order-2 sm:order-1">
+                            Showing {((postsPagination.page - 1) * postsPagination.limit) + 1} to {Math.min(postsPagination.page * postsPagination.limit, postsPagination.total)} of {postsPagination.total} posts
+                          </p>
+                          <div className="flex items-center gap-2 order-1 sm:order-2">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setPostsPage(postsPagination.page - 1)}
+                              disabled={!postsPagination.hasPrev}
+                              className="flex items-center gap-1"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                              <span className="hidden sm:inline">Previous</span>
+                            </Button>
+                            <span className="text-sm text-muted-foreground px-2">
+                              Page {postsPagination.page} of {postsPagination.totalPages}
+                            </span>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setPostsPage(postsPagination.page + 1)}
+                              disabled={!postsPagination.hasNext}
+                              className="flex items-center gap-1"
+                            >
+                              <span className="hidden sm:inline">Next</span>
+                              <ChevronRight className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </CardContent>
               </Card>

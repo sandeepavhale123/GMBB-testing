@@ -22,6 +22,9 @@ interface UseBulkImportDetailsResult {
     page: number;
     limit: number;
     total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
   
   // Search and filters
@@ -205,6 +208,9 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     }
   }, [historyId, toast, fetchPosts]);
 
+  const postsTotal = postsPagination.total;
+  const postsTotalPages = Math.ceil(postsTotal / postsPagination.limit);
+
   return {
     // Listings data
     listings,
@@ -217,7 +223,12 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     posts,
     postsLoading,
     postsError,
-    postsPagination,
+    postsPagination: {
+      ...postsPagination,
+      totalPages: postsTotalPages,
+      hasNext: postsPagination.page < postsTotalPages,
+      hasPrev: postsPagination.page > 1
+    },
     
     // Search and filters
     listingSearch,
