@@ -325,6 +325,8 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
                 rankStats={keywordDetails?.rankStats}
                 projectDetails={keywordDetails?.projectDetails}
                 loading={loading || keywordChanging || dateChanging}
+                showKeywordsLink={!isProjectMode}
+                listingId={listingId}
               />
 
               <UnderPerformingTable
