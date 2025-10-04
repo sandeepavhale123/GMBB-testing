@@ -1,0 +1,28 @@
+{
+  "searchPlaceholder": "Buscar por nombre del listado o código postal",
+  "statusFilter": {
+    "placeholder": "Todas las Reseñas",
+    "all": "Todas las Reseñas",
+    "pending": "Respuesta Pendiente",
+    "replied": "Respondidas"
+  },
+  "sentimentFilter": {
+    "placeholder": "Todos los Sentimientos",
+    "all": "Todos los Sentimientos",
+    "positive": "Positivo",
+    "neutral": "Neutral",
+    "negative": "Negativo"
+  },
+  "sortFilter": {
+    "placeholder": "Más Recientes Primero",
+    "newest": "Más Recientes Primero",
+    "oldest": "Más Antiguas Primero",
+    "highest": "Mayor Calificación",
+    "lowest": "Menor Calificación"
+  },
+  "dateRangePlaceholder": "Selecciona rango de fechas",
+  "refresh": {
+    "button": "Actualizar",
+    "tooltip": "Actualizar reseñas"
+  }
+}

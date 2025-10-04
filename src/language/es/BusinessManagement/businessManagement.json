@@ -1,0 +1,44 @@
+{
+  "businessManagement": {
+    "tabs": {
+      "businessInfo": "Información del Negocio",
+      "openingHours": "Horario de Atención",
+      "editLog": "Registro de Ediciones"
+    },
+    "toast": {
+      "refreshSuccessTitle": "Éxito",
+      "refreshSuccessDesc": "Información del perfil de GMB actualizada correctamente",
+      "refreshErrorTitle": "Error",
+      "refreshErrorDesc": "No se pudo actualizar la información del negocio"
+    },
+    "errorState": {
+      "title": "Error al Cargar Información del Negocio",
+      "description": "Ocurrió un error al obtener la información del negocio."
+    },
+    "emptyState": {
+      "businessInfo": "No hay información del negocio disponible"
+    },
+    "fields": {
+      "name": "Nombre",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "website": "Sitio Web",
+      "storeCode": "Código de Tienda",
+      "category": "Categoría",
+      "additionalCategory": "Categoría Adicional",
+      "labels": "Etiquetas",
+      "appointmentUrl": "URL de Citas",
+      "mapUrl": "URL del Mapa",
+      "description": "Descripción"
+    },
+    "warnings": {
+      "fakeInfo": "Para evitar la suspensión, no agregues información falsa para obtener más reseñas u otro contenido que viole las políticas."
+    },
+    "loading": {
+      "skeleton": "Cargando información del negocio..."
+    },
+    "noListingSelected": {
+      "pageType": "Gestión del Negocio"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "geoRankingMap": {
+    "manualTitle": "Selección Manual de Puntos",
+    "automaticTitle": "Visualización Automática de la Cuadrícula",
+    "loading": {
+      "main": "Cargando datos del mapa",
+      "automatic": "Generando coordenadas de la cuadrícula...",
+      "manual": "Preparando el mapa..."
+    },
+    "zoom": {
+      "in": "Acercar",
+      "out": "Alejar"
+    },
+    "defaultMarker": {
+      "title": "Ubicación Predeterminada",
+      "manualNote": "Cambia a manual para colocar puntos personalizados",
+      "centerNote": "Punto central del negocio"
+    },
+    "manualMarker": {
+      "title": "Punto Manual",
+      "dragNote": "Arrastra para reposicionar",
+      "removeButton": "Eliminar"
+    },
+    "gridMarker": "Punto de Cuadrícula: {{id}}"
+  }
+}

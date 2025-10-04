@@ -1,0 +1,30 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Mapa de Clasificación GEO por Cuadrícula",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Cuadrícula",
+      "distance": "Distancia",
+      "engine": "Motor",
+      "engineValue": "Google Maps",
+      "frequency": "Frecuencia"
+    },
+    "loading": {
+      "title": "Cargando datos del mapa",
+      "description": "Generando coordenadas de la cuadrícula..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Resumen de Posiciones"
+    },
+    "frequencyOptions": {
+      "daily": "Diaria",
+      "weekly": "Semanal",
+      "monthly": "Mensual"
+    }
+  }
+}

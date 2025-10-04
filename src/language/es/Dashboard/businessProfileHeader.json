@@ -1,0 +1,10 @@
+{
+  "businessOverview": "Resumen del Negocio",
+  "verified": "Verificado",
+  "pending": "Pendiente",
+  "viewOnGoogle": "Ver en Google",
+  "view": "Ver",
+  "viewReports": "Ver Informes",
+  "reports": "Informes",
+  "summaryFor": "Aquí está el resumen para: \"{{listingName}}\""
+}

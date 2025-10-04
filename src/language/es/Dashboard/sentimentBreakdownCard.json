@@ -1,0 +1,8 @@
+{
+  "sentimentBreakdownTitle": "Desglose de Sentimientos",
+  "positiveLabel": "Positivo",
+  "neutralLabel": "Neutral",
+  "negativeLabel": "Negativo",
+  "tryAgain": "Intentar de Nuevo",
+  "errorMessage": "Algo salió mal. Por favor, inténtalo de nuevo."
+}

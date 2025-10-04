@@ -1,0 +1,24 @@
+{
+  "postOverview": {
+    "title": "Resumen de Publicaciones",
+    "total": "{{count}} en total",
+    "status": {
+      "live": {
+        "label": "Publicaciones Activas",
+        "message": "Todo bien"
+      },
+      "scheduled": {
+        "label": "Programadas",
+        "message": "Todo bien"
+      },
+      "failed": {
+        "label": "Fallidas",
+        "message": "Necesita atención"
+      }
+    },
+    "actions": {
+      "create": "Crear Nueva Publicación",
+      "manage": "Gestionar Publicaciones"
+    }
+  }
+}

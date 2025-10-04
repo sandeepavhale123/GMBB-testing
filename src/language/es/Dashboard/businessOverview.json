@@ -1,0 +1,10 @@
+{
+  "title": "Resumen del Negocio",
+  "subtitle": "Métricas clave para {{listingName}}",
+  "metrics": {
+    "totalBusinesses": "Total de Negocios",
+    "publishedPosts": "Publicaciones Publicadas",
+    "totalReviews": "Total de Reseñas",
+    "averageRating": "Calificación Promedio"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "geoRankingReportForm": {
+    "title": "Configuración del Informe",
+    "keywords": {
+      "label": "Palabras clave",
+      "placeholder": "palabra1, palabra2, palabra3",
+      "tooltip": "Agrega hasta 5 palabras clave separadas por comas",
+      "maxReached": "⚠️ Has alcanzado el límite máximo de 5 palabras clave. Aún puedes editar las palabras clave existentes.",
+      "limitExceededToastTitle": "Límite de Palabras Clave Excedido",
+      "limitExceededToastDesc": "Solo se agregaron las primeras 5 palabras clave. El límite máximo es de 5 palabras clave.",
+      "invalidToastTitle": "Palabras Clave Inválidas",
+      "invalidToastDesc": "Por favor verifica tus palabras clave."
+    },
+    "searchDataEngine": {
+      "label": "Motor de Datos de Búsqueda",
+      "mapApi": "API de Mapas",
+      "briefcaseApi": "API de Briefcase",
+      "missingApiKeyTitle": "Clave API Faltante",
+      "missingApiKeyDesc": "Por favor agrega primero la clave API yendo a Configuración → página de Integración."
+    },
+    "mapPoint": {
+      "label": "Punto del Mapa",
+      "automatic": "Automático",
+      "manually": "Manual",
+      "manualInfo": "Haz clic en el mapa para colocar puntos manualmente. Puedes arrastrarlos para reposicionarlos.",
+      "pointsSelected": "Puntos seleccionados: {{count}}",
+      "clearAllPoints": "Borrar Todos los Puntos"
+    },
+    "distanceUnit": {
+      "label": "Unidad de Distancia",
+      "meters": "Metros",
+      "miles": "Millas"
+    },
+    "distanceValue": {
+      "label": "Distancia",
+      "placeholder": "Elige…"
+    },
+    "gridSize": {
+      "label": "Tamaño de la Cuadrícula"
+    },
+    "scheduleCheck": {
+      "label": "Programar Comprobación",
+      "options": {
+        "onetime": "Una sola vez",
+        "weekly": "Semanal",
+        "monthly": "Mensual"
+      }
+    },
+    "language": {
+      "label": "Idioma"
+    },
+    "buttons": {
+      "checkRank": "Comprobar posición",
+      "processingKeyword": "Procesando palabra clave...",
+      "submittingRank": "Verificando posición...",
+      "reset": "Restablecer y Nueva Búsqueda"
+    },
+    "pollingInfo": "🔄 La palabra clave se está procesando. Esto puede tardar unos minutos..."
+  }
+}

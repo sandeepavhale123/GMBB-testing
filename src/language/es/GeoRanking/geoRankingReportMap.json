@@ -1,0 +1,46 @@
+{
+  "geoRankingReportMap": {
+    "title": {
+      "default": "Mapa de Ranking GEO",
+      "processing": "Procesando palabra clave...",
+      "results": "Resultados del Ranking de Palabra Clave"
+    },
+    "loading": {
+      "processingTitle": "Procesando Datos de Palabra Clave",
+      "processingSubtitle": "Analizando rankings de búsqueda...",
+      "loadingTitle": "Cargando Datos del Mapa",
+      "loadingSubtitle": "Generando coordenadas de la cuadrícula..."
+    },
+    "popup": {
+      "business": {
+        "title": "Tu Negocio",
+        "subtitle": "Ubicación principal"
+      },
+      "gridPoint": {
+        "title": "Punto de Cuadrícula {{index}}",
+        "subtitle": "Esperando resultados..."
+      },
+      "rankMarker": {
+        "title": "Posición: {{rank}}",
+        "subtitle": "Haz clic para más detalles"
+      },
+      "manual": {
+        "title": "Coordenada Manual {{index}}",
+        "latlng": "Lat: {{lat}}, Lng: {{lng}}",
+        "drag": "Arrastra para reposicionar",
+        "remove": "Eliminar"
+      }
+    },
+    "zoom": {
+      "in": "Acercar",
+      "out": "Alejar"
+    },
+    "legend": {
+      "title": "Leyenda de Ranking",
+      "top": "1-3 (Top)",
+      "good": "4-10 (Bueno)",
+      "fair": "11-15 (Regular)",
+      "poor": "16+ (Bajo)"
+    }
+  }
+}

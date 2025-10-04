@@ -1,0 +1,14 @@
+{
+  "title": "Resumen de Actividad Diaria",
+  "subtitle": "Últimos 30 días",
+  "buttons": {
+    "line": "Línea",
+    "area": "Área"
+  },
+  "labels": {
+    "posts": "Publicaciones",
+    "mediaResponded": "Medios Respondidos",
+    "reviews": "Reseñas",
+    "qa": "Preguntas y Respuestas"
+  }
+}

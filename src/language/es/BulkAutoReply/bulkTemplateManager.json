@@ -1,0 +1,23 @@
+{
+  "titles": {
+    "replyTemplates": "Plantillas de Respuesta"
+  },
+  "tabs": {
+    "review": "Respuesta para Reseña",
+    "rating": "Respuesta para Solo Calificación"
+  },
+  "toast": {
+    "success": {
+      "title": "Éxito",
+      "enabled": "Plantilla habilitada con éxito",
+      "disabled": "Plantilla deshabilitada con éxito",
+      "saved": "Plantilla guardada con éxito"
+    },
+    "error": {
+      "title": "Error",
+      "projectId": "ID del proyecto no encontrado",
+      "updateTemplate": "No se pudo actualizar el estado de la plantilla",
+      "saveTemplate": "No se pudo guardar la plantilla"
+    }
+  }
+}

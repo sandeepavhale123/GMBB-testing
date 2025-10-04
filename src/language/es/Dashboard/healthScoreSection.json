@@ -1,0 +1,10 @@
+{
+  "title": "Puntuación de Salud y Acciones",
+  "overallHealthScore": "Puntuación de Salud General",
+  "aiActions": "Acciones de IA",
+  "manualActions": "Acciones Manuales",
+  "aiAutoOptimize": "Optimización Automática con IA",
+  "quickWinsTitle": "Logros Rápidos",
+  "quickWinsDescription": "Acciones recomendadas para mejorar tu perfil",
+  "complete": "Completo"
+}

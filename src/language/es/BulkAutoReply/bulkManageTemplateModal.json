@@ -1,0 +1,33 @@
+{
+  "title": {
+    "create": "Crear",
+    "manage": "Gestionar",
+    "ratingOnly": "Solo Calificación",
+    "review": "Reseña"
+  },
+  "availableVariables": "Variables Disponibles",
+  "variables": {
+    "fullName": "{full_name}",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "businessName": "{business_name}",
+    "reviewContent": "{review_content}"
+  },
+  "multipleResponses": {
+    "title": "Respuestas Múltiples",
+    "description": "Usa el símbolo de barra vertical para separar múltiples variaciones de respuesta.",
+    "example": "Respuesta 1 | Respuesta 2 | Respuesta 3"
+  },
+  "templateContent": "Contenido de la Plantilla",
+  "placeholder": {
+    "ratingOnly": "Ingresa la respuesta para reseñas solo con calificación...",
+    "review": "Ingresa la plantilla de respuesta para reseñas con comentarios..."
+  },
+  "usageInfo": "Esta plantilla se usará para respuestas de {{stars}} estrellas de tipo {{type}}.",
+  "buttons": {
+    "cancel": "Cancelar",
+    "createTemplate": "Crear Plantilla",
+    "saveChanges": "Guardar Cambios",
+    "saving": "Guardando..."
+  }
+}

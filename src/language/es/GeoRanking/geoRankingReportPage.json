@@ -1,0 +1,25 @@
+{
+  "geoRankingReportPage": {
+    "processing": {
+      "title": "Procesando Palabra Clave",
+      "description": "La palabra clave se está procesando. Esto puede tardar unos minutos..."
+    },
+    "modal": {
+      "error": {
+        "title": "Error",
+        "description": "No se pudieron cargar los detalles de la posición"
+      }
+    },
+    "multiKeywordAlert": {
+      "title": "Palabras Clave en Proceso",
+      "description": "Tus palabras clave se están procesando. Esto tomará tiempo. Puedes consultar los resultados en la página de Ranking GEO.",
+      "action": "Ir a la Página de Ranking GEO"
+    },
+    "sidebar": {
+      "activeTab": "geo-ranking"
+    },
+    "underPerforming": {
+      "title": "Áreas con Bajo Rendimiento"
+    }
+  }
+}

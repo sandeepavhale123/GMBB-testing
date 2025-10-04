@@ -1,0 +1,24 @@
+{
+  "logoUpload": {
+    "title": "Logotipos de la Aplicación",
+    "lightLogo": {
+      "label": "Logotipo para Modo Claro",
+      "description": "PNG, JPG de hasta 2MB. Recomendado: 200x60px",
+      "chooseButton": "Elegir Logotipo Claro",
+      "selectedFile": "Seleccionado: {{fileName}}"
+    },
+    "darkLogo": {
+      "label": "Logotipo para Modo Oscuro",
+      "description": "PNG, JPG de hasta 2MB. Recomendado: 200x60px",
+      "chooseButton": "Elegir Logotipo Oscuro",
+      "selectedFile": "Seleccionado: {{fileName}}"
+    },
+    "toast": {
+      "fileTooLargeTitle": "Archivo demasiado grande",
+      "fileTooLargeDescription": "El archivo del logotipo debe ser menor de 2MB",
+      "lightLogoSelectedTitle": "Logotipo claro seleccionado",
+      "darkLogoSelectedTitle": "Logotipo oscuro seleccionado",
+      "fileSelectedDescription": "{{fileName}} listo para subir"
+    }
+  }
+}

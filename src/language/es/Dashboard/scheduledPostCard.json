@@ -1,0 +1,20 @@
+{
+  "title": "Publicaciones Programadas",
+  "viewAll": "Ver Todo",
+  "loading": {
+    "retry": "Reintentar"
+  },
+  "error": {
+    "failed": "No se pudieron cargar las publicaciones programadas"
+  },
+  "empty": {
+    "title": "No hay publicaciones programadas",
+    "subtitle": "Crea una nueva publicación para comenzar"
+  },
+  "table": {
+    "postImage": "Imagen de la Publicación",
+    "postDescription": "Descripción de la Publicación",
+    "scheduledDate": "Fecha Programada",
+    "action": "Acción"
+  }
+}

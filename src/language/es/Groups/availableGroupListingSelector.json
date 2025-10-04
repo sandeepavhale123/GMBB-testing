@@ -1,0 +1,20 @@
+{
+  "label": "Listados Disponibles",
+  "dropdown": {
+    "noneSelected": "Seleccione listados",
+    "selectedCount": "{{count}} listado{{plural}} seleccionado{{plural}}"
+  },
+  "searchPlaceholder": "Buscar listados...",
+  "loading": "Cargando...",
+  "noResults": {
+    "default": "No hay listados disponibles para agregar.",
+    "search": "No se encontraron listados.",
+    "error": "{{errorMessage}}"
+  },
+  "selectAll": "Seleccionar Todos ({{count}})",
+  "deselectAll": "Deseleccionar Todos ({{count}})",
+  "listingsCount": "{{count}} listado{{plural}}",
+  "zip": "Código postal: {{zipCode}}",
+  "footerNote": "Seleccione al menos un listado para agregar al grupo",
+  "unknownUser": "Desconocido"
+}

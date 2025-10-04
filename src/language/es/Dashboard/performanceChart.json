@@ -1,0 +1,11 @@
+{
+  "performanceChart": {
+    "title": "Resumen de Rendimiento",
+    "description": "Realiza un seguimiento de las métricas de tu negocio a lo largo del tiempo",
+    "metrics": {
+      "views": "Vistas",
+      "clicks": "Clics",
+      "calls": "Llamadas"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "exportReviewsModal": {
+    "title": "Exportar Datos de Reseñas",
+    "selectListingsLabel": "Seleccionar Listados",
+    "selectListingsPlaceholder": "Selecciona listados...",
+    "exportTypeLabel": "Elegir Tipo de Exportación",
+    "exportPlaceholder": "Selecciona tipo de exportación",
+    "exportTypeOptions": {
+      "1": "Informe Resumido - Solo Conteo (Sin Rango de Fechas)",
+      "2": "Informe Resumido Personalizado - Reseña por Reseña (Con Rango de Fechas)",
+      "3": "Informe Resumido Personalizado - Solo Conteo (Con Rango de Fechas)"
+    },
+    "starRatingsLabel": "Seleccionar Calificaciones por Estrellas",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo",
+    "starsSelected": "{{selected}} de {{total}} calificaciones seleccionadas",
+    "dateRangeLabel": "Seleccionar Rango de Fechas",
+    "dateRangePlaceholder": "Selecciona rango de fechas para reseñas",
+    "buttons": {
+      "cancel": "Cancelar",
+      "export": "Exportar CSV",
+      "exporting": "Exportando..."
+    },
+    "toast": {
+      "validation": {
+        "title": "Error de Validación",
+        "noListing": "Por favor selecciona al menos un listado",
+        "noStar": "Por favor selecciona al menos una calificación por estrellas",
+        "noDateRange": "Por favor selecciona un rango de fechas"
+      },
+      "success": {
+        "title": "Éxito",
+        "description": "Archivo CSV generado y descarga iniciada"
+      },
+      "error": {
+        "title": "Error en la Exportación",
+        "description": "Ocurrió un error durante la exportación"
+      }
+    }
+  }
+}

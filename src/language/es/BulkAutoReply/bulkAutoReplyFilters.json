@@ -1,0 +1,10 @@
+{
+  "searchPlaceholder": "Buscar proyectos...",
+  "filter": "Filtrar",
+  "filters": {
+    "all": "Todas las Respuestas",
+    "ai": "IA",
+    "template": "Plantilla Personalizada",
+    "dnr": "DNR (No responder)"
+  }
+}

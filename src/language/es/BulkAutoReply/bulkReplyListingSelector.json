@@ -1,0 +1,24 @@
+{
+  "label": "Seleccionar Ubicaciones",
+  "placeholders": {
+    "search": "Buscar ubicaciones..."
+  },
+  "sections": {
+    "groups": "Grupos",
+    "locations": "Ubicaciones"
+  },
+  "actions": {
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
+  },
+  "status": {
+    "locations": "Ubicaciones"
+  },
+  "messages": {
+    "loading": "Cargando...",
+    "noResults": "No se encontró ninguna ubicación.",
+    "selectAtLeastOne": "Selecciona al menos una ubicación para continuar.",
+    "error": "No se pudieron obtener los detalles de la respuesta masiva",
+    "errorTitle": "Error"
+  }
+}

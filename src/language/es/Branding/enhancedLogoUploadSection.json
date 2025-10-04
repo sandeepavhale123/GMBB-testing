@@ -1,0 +1,53 @@
+{
+  "enhancedLogoUploadSection": {
+    "heading": "Logotipos de la Aplicación",
+    "lightLogo": {
+      "label": "Logotipo para Modo Claro",
+      "uploadButton": "Elegir Logotipo Claro",
+      "dropText": "Suelta el logotipo aquí o haz clic para subirlo",
+      "fileInfo": "Seleccionado: {{fileName}}",
+      "currentLoaded": "✓ Logotipo actual cargado",
+      "fileTooLarge": {
+        "title": "Archivo demasiado grande",
+        "description": "El archivo del logotipo debe ser menor de 2MB"
+      },
+      "invalidFileType": {
+        "title": "Tipo de archivo no válido",
+        "description": "Por favor, sube un archivo de imagen (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logotipo claro subido",
+        "description": "{{fileName}} listo para usar"
+      },
+      "removed": {
+        "title": "Logotipo claro eliminado",
+        "description": "El logotipo se ha eliminado correctamente"
+      },
+      "instructions": "PNG, JPG, SVG de hasta 2MB. Recomendado: 200x60px"
+    },
+    "darkLogo": {
+      "label": "Logotipo para Modo Oscuro",
+      "uploadButton": "Elegir Logotipo Oscuro",
+      "dropText": "Suelta el logotipo aquí o haz clic para subirlo",
+      "fileInfo": "Seleccionado: {{fileName}}",
+      "currentLoaded": "✓ Logotipo actual cargado",
+      "fileTooLarge": {
+        "title": "Archivo demasiado grande",
+        "description": "El archivo del logotipo debe ser menor de 2MB"
+      },
+      "invalidFileType": {
+        "title": "Tipo de archivo no válido",
+        "description": "Por favor, sube un archivo de imagen (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logotipo oscuro subido",
+        "description": "{{fileName}} listo para usar"
+      },
+      "removed": {
+        "title": "Logotipo oscuro eliminado",
+        "description": "El logotipo se ha eliminado correctamente"
+      },
+      "instructions": "PNG, JPG, SVG de hasta 2MB. Recomendado: 200x60px"
+    }
+  }
+}

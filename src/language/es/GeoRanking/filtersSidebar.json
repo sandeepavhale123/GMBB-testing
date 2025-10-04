@@ -1,0 +1,22 @@
+{
+  "filtersSidebar": {
+    "title": "Filtros",
+    "labels": {
+      "selectKeyword": "Seleccionar palabra clave",
+      "selectDate": "Seleccionar fecha",
+      "gridSize": "Tamaño de la cuadrícula"
+    },
+    "keywords": {
+      "webDesign": "Diseño Web",
+      "digitalMarketing": "Marketing Digital",
+      "seoServices": "Servicios SEO",
+      "localBusiness": "Negocio Local"
+    },
+    "gridOptions": {
+      "4x4": "Cuadrícula 4×4",
+      "5x5": "Cuadrícula 5×5",
+      "6x6": "Cuadrícula 6×6"
+    },
+    "button": "Reescanear"
+  }
+}
