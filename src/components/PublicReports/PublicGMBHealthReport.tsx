@@ -340,7 +340,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
               {/* Right side - Pie Chart */}
               <div className="flex justify-center">
-                <div className="w-48 h-48">
+                <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
