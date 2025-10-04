@@ -59,7 +59,7 @@ const AddKeywordsPage = () => {
       console.error("Error adding keywords:", error);
       toast({
         title: "Error",
-        description: "Failed to add keywords. Please try again.",
+        description: error.response.data.message,
         variant: "destructive",
       });
     } finally {
