@@ -24,34 +24,25 @@ export function useI18nNamespace(ns: string | string[]) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const current = i18n.language || "en";
+    const current = i18n.language || "en";
 
-      // Always load English first (fallback base)
-      await Promise.all(
-        nsArray.map((n) =>
-          i18n.hasResourceBundle("en", n) ? null : loadNamespace("en", n)
-        )
-      );
-
-      // Then load current language if different
-      if (current !== "en") {
-        await Promise.all(
-          nsArray.map((n) =>
-            i18n.hasResourceBundle(current, n)
-              ? null
-              : loadNamespace(current, n)
-          )
-        );
+    // Load English first (fallback base) - now synchronous
+    nsArray.forEach((n) => {
+      if (!i18n.hasResourceBundle("en", n)) {
+        loadNamespace("en", n);
       }
+    });
 
-      if (mounted) setLoaded(true);
-    })();
+    // Then load current language if different
+    if (current !== "en") {
+      nsArray.forEach((n) => {
+        if (!i18n.hasResourceBundle(current, n)) {
+          loadNamespace(current, n);
+        }
+      });
+    }
 
-    return () => {
-      mounted = false;
-    };
+    setLoaded(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language, JSON.stringify(nsArray)]);
 
