@@ -31,10 +31,10 @@
       "deleting": "Lösche..."
     },
     "pagination": {
-      "showingPosts": "Zeige {start} bis {end} von {total} Beiträgen",
+      "showingPosts": "Zeige {{start}} bis {{end}} von {{total}} Beiträgen",
       "previous": "Zurück",
       "next": "Weiter",
-      "pageOf": "Seite {current} von {totalPages}"
+      "pageOf": "Seite {{current}} von {{totalPages}}"
     }
   }
 }

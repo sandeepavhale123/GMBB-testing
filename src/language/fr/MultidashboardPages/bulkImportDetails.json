@@ -31,10 +31,10 @@
       "deleting": "Suppression..."
     },
     "pagination": {
-      "showingPosts": "Affichage de {start} à {end} sur {total} publications",
+      "showingPosts": "Affichage de {{start}} à {{end}} sur {{total}} publications",
       "previous": "Précédent",
       "next": "Suivant",
-      "pageOf": "Page {current} sur {totalPages}"
+      "pageOf": "Page {{current}} sur {{totalPages}}"
     }
   }
 }
