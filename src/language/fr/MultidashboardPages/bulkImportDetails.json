@@ -6,14 +6,14 @@
     "listingSidebar": {
       "selectedCount": "{{count}} annonces sélectionnées",
       "searchPlaceholder": "Rechercher par nom d'annonce ou code postal",
-      "noListingsFound": "Aucune annonce trouvée pour cet ID historique.",
+      "noListingsFound": "Aucune annonce trouvée pour cet ID d'historique.",
       "errorLoading": "Erreur lors du chargement des annonces",
       "noListings": "Aucune annonce trouvée",
       "zipCode": "Code postal : {{zip}}",
       "loading": "Chargement..."
     },
     "posts": {
-      "searchPlaceholder": "Rechercher par contenu de publication ou tags",
+      "searchPlaceholder": "Rechercher par contenu ou tags de publication",
       "loading": "Chargement des publications...",
       "errorLoading": "Erreur lors du chargement des publications",
       "noPostsFound": "Aucune publication ne correspond à vos critères de recherche.",
@@ -25,10 +25,16 @@
       "date": "Date",
       "action": "Action",
       "deletePost": "Supprimer la publication",
-      "deleteConfirmation": "Êtes-vous sûr(e) de vouloir supprimer cette publication ? Cette action est irréversible.",
+      "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer cette publication ? Cette action est irréversible.",
       "cancel": "Annuler",
       "delete": "Supprimer",
       "deleting": "Suppression..."
+    },
+    "pagination": {
+      "showingPosts": "Affichage de {start} à {end} sur {total} publications",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {current} sur {totalPages}"
     }
   }
 }

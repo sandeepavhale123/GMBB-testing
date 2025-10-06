@@ -29,6 +29,12 @@
       "cancel": "Cancel",
       "delete": "Delete",
       "deleting": "Deleting..."
-    }
+    },
+    "pagination": {
+    "showingPosts": "Showing {start} to {end} of {total} posts",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {current} of {totalPages}"
+  }
   }
 }

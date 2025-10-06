@@ -1,20 +1,20 @@
 {
   "bulkImportDetails": {
-    "title": "Details zum Massenimport",
+    "title": "Details des Massenimports",
     "loadingListings": "Lade Einträge...",
-    "selectListingPrompt": "Wählen Sie einen Eintrag, um Beiträge anzuzeigen",
+    "selectListingPrompt": "Wählen Sie einen Eintrag aus, um Beiträge anzuzeigen",
     "listingSidebar": {
       "selectedCount": "{{count}} ausgewählte Einträge",
-      "searchPlaceholder": "Suche nach Eintragsname oder Postleitzahl",
-      "noListingsFound": "Für diese History-ID wurden keine Einträge gefunden.",
+      "searchPlaceholder": "Nach Eintragsname oder Postleitzahl suchen",
+      "noListingsFound": "Keine Einträge für diese History-ID gefunden.",
       "errorLoading": "Fehler beim Laden der Einträge",
       "noListings": "Keine Einträge gefunden",
       "zipCode": "Postleitzahl: {{zip}}",
-      "loading": "Lade..."
+      "loading": "Lädt..."
     },
     "posts": {
-      "searchPlaceholder": "Suche nach Beitragsinhalt oder Tags",
-      "loading": "Lade Beiträge...",
+      "searchPlaceholder": "Nach Beitragstext oder Tags suchen",
+      "loading": "Beiträge werden geladen...",
       "errorLoading": "Fehler beim Laden der Beiträge",
       "noPostsFound": "Keine Beiträge gefunden, die Ihren Suchkriterien entsprechen.",
       "image": "Bild",
@@ -25,10 +25,16 @@
       "date": "Datum",
       "action": "Aktion",
       "deletePost": "Beitrag löschen",
-      "deleteConfirmation": "Möchten Sie diesen Beitrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteConfirmation": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "cancel": "Abbrechen",
       "delete": "Löschen",
       "deleting": "Lösche..."
+    },
+    "pagination": {
+      "showingPosts": "Zeige {start} bis {end} von {total} Beiträgen",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "pageOf": "Seite {current} von {totalPages}"
     }
   }
 }
