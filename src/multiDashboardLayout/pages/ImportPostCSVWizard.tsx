@@ -249,13 +249,13 @@ export const ImportPostCSVWizard: React.FC = () => {
       
       if (error?.response?.status === 401) {
         const backendMessage = error?.response?.data?.message || error.message;
-        // Check if it's a file validation error
-        if (backendMessage?.toLowerCase().includes("invalid file") || 
-            backendMessage?.toLowerCase().includes("upload a valid csv") ||
-            backendMessage?.toLowerCase().includes("file parameters")) {
-          errorTitle = "Invalid File";
-          errorMessage = backendMessage || "Please upload a valid CSV file.";
+        
+        // If there's a backend message, always show it for CSV-related errors
+        if (backendMessage) {
+          errorTitle = "Upload Error";
+          errorMessage = backendMessage;
         } else {
+          // Only default to auth error if no message provided
           errorMessage = "Authentication failed. Please log in again.";
         }
       } else if (error?.response?.status === 403) {
@@ -451,7 +451,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       </div>
     </div>;
   const renderStep2 = () => <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-start">
         <div>
           <h2 className="text-2xl font-semibold mb-2">Upload File</h2>
           <p className="text-muted-foreground">Upload your CSV file for bulk post import.</p>
@@ -510,7 +510,10 @@ export const ImportPostCSVWizard: React.FC = () => {
           </Card>
 
           {formData.uploadedFile && (
-            <FilePreview file={formData.uploadedFile} />
+            <FilePreview 
+              file={formData.uploadedFile} 
+              validatedRows={formData.validatedRows}
+            />
           )}
 
           {formData.errorCount > 0 && (
@@ -660,7 +663,7 @@ export const ImportPostCSVWizard: React.FC = () => {
       <div className="flex">
         {renderStepIndicator()}
         <div className="flex-1 p-4 lg:p-8 min-w-0">
-          <div className="w-full max-w-3xl">
+          <div className="w-full ">
             {renderCurrentStep()}
           </div>
         </div>
