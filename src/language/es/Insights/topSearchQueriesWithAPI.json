@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesWithAPI": {
+    "title": "Consultas de búsqueda principales",
+    "description": "Términos de búsqueda más populares que llevaron a los clientes a tu negocio.",
+    "selectMonthPlaceholder": "Seleccionar mes",
+    "loadingErrorTitle": "Error al cargar las consultas de búsqueda",
+    "noDataMessage": "No hay palabras clave de búsqueda disponibles.",
+    "impressionBelowThreshold": "< 15"
+  }
+}

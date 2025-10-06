@@ -1,0 +1,30 @@
+{
+  "status": {
+    "published": "Publicado",
+    "scheduled": "Programado",
+    "draft": "Borrador",
+    "failed": "Fallido"
+  },
+  "toast": {
+    "errorTitle": "Error",
+    "noListingSelected": "No se ha seleccionado ningún negocio. Por favor, seleccione uno primero.",
+    "deletingPost": "Eliminando publicación...",
+    "preparingDeletion": "Preparando eliminación...",
+    "finalizing": "Finalizando...",
+    "successTitle": "Publicación eliminada con éxito",
+    "successDescription": "Eliminación completada",
+    "failedTitle": "Error al eliminar la publicación",
+    "unexpectedError": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo."
+  },
+  "dialog": {
+    "deleteTitle": "Eliminar publicación",
+    "deleteDescription": "¿Está seguro de que desea eliminar esta publicación? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "deleting": "Eliminando..."
+  },
+  "ui": {
+    "untitled": "Publicación sin título",
+    "openOnGoogle": "Abrir en Google"
+  }
+}

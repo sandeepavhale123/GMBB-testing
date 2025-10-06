@@ -1,0 +1,6 @@
+{
+  "autoReplyToggle": {
+    "title": "Plantillas de Respuesta Automática",
+    "description": "Crea plantillas de respuesta personalizadas para diferentes calificaciones por estrellas. Las plantillas se enviarán automáticamente cuando se reciban reseñas."
+  }
+}

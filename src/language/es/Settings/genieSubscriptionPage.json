@@ -1,0 +1,13 @@
+{
+  "genieSubscriptionPage": {
+    "title": "Suscripción Genie",
+    "subtitle": "¡Optimización avanzada de GBP basada en IA en camino!",
+    "comingSoon": "Próximamente",
+    "features": {
+      "aiContent": "🤖 Generación de contenido impulsada por IA",
+      "analytics": "📊 Analíticas e insights avanzados",
+      "seo": "🎯 Optimización SEO automatizada",
+      "smartResponses": "⚡ Sugerencias de respuestas inteligentes"
+    }
+  }
+}

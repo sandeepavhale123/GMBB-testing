@@ -1,0 +1,29 @@
+{
+  "reviewCard": {
+    "sentiments": {
+      "positive": "positivo",
+      "negative": "negativo",
+      "neutral": "neutral"
+    },
+    "rating": "({rating}/5)",
+    "reply": {
+      "repliedOn": "Respondido el ",
+      "editReply": "Editar respuesta",
+      "deleteReply": "Eliminar respuesta",
+      "delete": "Eliminar",
+      "deleteDialog": {
+        "title": "Eliminar respuesta",
+        "description": "¿Está seguro de que desea eliminar esta respuesta? Esta acción no se puede deshacer y la respuesta se eliminará permanentemente de la reseña.",
+        "cancel": "Cancelar",
+        "deleting": "Eliminando...",
+        "confirm": "Eliminar respuesta"
+      }
+    },
+    "actions": {
+      "generateUsingGenie": "Generar con Genie",
+      "aiReply": "Respuesta AI",
+      "replyManually": "Responder manualmente",
+      "reply": "Responder"
+    }
+  }
+}

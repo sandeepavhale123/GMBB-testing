@@ -1,0 +1,20 @@
+{
+  "insightsHeader": {
+    "title": "Estadísticas de GMB",
+    "subtitle": "Análisis de rendimiento de tu Perfil de Negocio en Google.",
+    "selectDateRange": "Seleccionar rango de fechas",
+    "last7Days": "Últimos 7 días",
+    "last30Days": "Últimos 30 días",
+    "last90Days": "Últimos 90 días",
+    "last6Months": "Últimos 6 meses",
+    "last9Months": "Últimos 9 meses",
+    "last12Months": "Últimos 12 meses",
+    "customPeriod": "Periodo personalizado",
+    "fromTo": "Desde: {{from}} - Hasta: {{to}}",
+    "refresh": "Actualizar",
+    "refreshing": "Actualizando...",
+    "loading": "Cargando...",
+    "exportImage": "Exportar imagen",
+    "exporting": "Exportando..."
+  }
+}

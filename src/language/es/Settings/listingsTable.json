@@ -1,0 +1,14 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Negocio",
+      "storeCode": "Código de Tienda",
+      "category": "Categoría",
+      "location": "Ubicación",
+      "status": "Estado",
+      "state": "Estado/Provincia",
+      "actions": "Acciones"
+    },
+    "noListings": "No se encontraron listados que coincidan con tus criterios."
+  }
+}

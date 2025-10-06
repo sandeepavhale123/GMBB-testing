@@ -1,0 +1,22 @@
+{
+  "title": "Módulos",
+  "comingSoon": "Próximamente",
+  "modules": {
+    "manageGmb": {
+      "name": "Gestionar listado de GMB",
+      "description": "Gestiona tus listados de Google My Business"
+    },
+    "geoRanking": {
+      "name": "Ranking GEO",
+      "description": "Realiza un seguimiento y optimiza tus rankings de búsqueda local"
+    },
+    "leadManagement": {
+      "name": "Gestión de Leads",
+      "description": "Gestiona y realiza un seguimiento de tus leads de manera efectiva"
+    },
+    "reputation": {
+      "name": "Reputación",
+      "description": "Monitorea y gestiona tu reputación en línea"
+    }
+  }
+}

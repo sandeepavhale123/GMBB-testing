@@ -1,0 +1,44 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Cargando configuración de notificaciones..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Tipo de Reporte",
+        "frequency": "Frecuencia"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "Reporte de Reseñas Nuevas / Actualizadas",
+        "description": "Análisis detallado de reseñas y calificaciones de clientes nuevas o actualizadas, con notificaciones del reporte enviadas diariamente o cada vez que se produzcan actualizaciones."
+      },
+      "postReport": {
+        "name": "Reporte de Publicaciones de GMB",
+        "description": "Análisis del rendimiento de tus publicaciones de GMB, con notificaciones del reporte enviadas diariamente o cada vez que haya nuevas actualizaciones disponibles."
+      },
+      "geoRanking": {
+        "name": "Reporte de GEO Ranking",
+        "description": "Análisis del rendimiento en búsquedas locales, con notificaciones del reporte enviadas diariamente o cada vez que se produzcan actualizaciones."
+      }
+    },
+    "frequency": {
+      "daily": "Diariamente",
+      "whenUpdated": "Cuando se Actualice",
+      "off": "Desactivado",
+      "tooltip": "Enviar solo cuando haya datos nuevos o modificados en el reporte"
+    },
+    "toast": {
+      "success": {
+        "title": "Éxito",
+        "description": "Configuración de notificaciones actualizada con éxito"
+      },
+      "error": {
+        "title": "Error",
+        "load": "Error al cargar la configuración de notificaciones",
+        "update": "Error al actualizar la configuración de notificaciones"
+      }
+    }
+  }
+}

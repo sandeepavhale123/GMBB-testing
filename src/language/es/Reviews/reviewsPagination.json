@@ -1,0 +1,8 @@
+{
+  "reviewsPagination": {
+    "showing": "Mostrando {{start}} a {{end}} de {{total}} reseñas",
+    "pageInfo": "Página {{page}} de {{totalPages}}",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  }
+}

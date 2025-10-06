@@ -1,0 +1,34 @@
+{
+  "bulkImportDetails": {
+    "title": "Detalles de Importación Masiva",
+    "loadingListings": "Cargando listados...",
+    "selectListingPrompt": "Seleccione un listado para ver publicaciones",
+    "listingSidebar": {
+      "selectedCount": "{{count}} listados seleccionados",
+      "searchPlaceholder": "Buscar por nombre del listado o código postal",
+      "noListingsFound": "No se encontraron listados para este ID de historial.",
+      "errorLoading": "Error al cargar los listados",
+      "noListings": "No se encontraron listados",
+      "zipCode": "Código postal: {{zip}}",
+      "loading": "Cargando..."
+    },
+    "posts": {
+      "searchPlaceholder": "Buscar por contenido de la publicación o etiquetas",
+      "loading": "Cargando publicaciones...",
+      "errorLoading": "Error al cargar publicaciones",
+      "noPostsFound": "No se encontraron publicaciones que coincidan con su criterio de búsqueda.",
+      "image": "Imagen",
+      "postContent": "Contenido de la publicación",
+      "noContent": "Sin contenido",
+      "noImage": "Sin imagen",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción",
+      "deletePost": "Eliminar publicación",
+      "deleteConfirmation": "¿Está seguro de que desea eliminar esta publicación? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando..."
+    }
+  }
+}

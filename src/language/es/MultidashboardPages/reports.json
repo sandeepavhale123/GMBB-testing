@@ -1,0 +1,32 @@
+{
+  "reportsManagement": "Gestión de Informes",
+  "reportsManagementDescription": "Genera y administra informes en múltiples listados.",
+  "generateReport": "Generar Informe",
+  "totalReports": "Total de Informes",
+  "totalReport": "Informe Total",
+  "oneTime": "Una Vez",
+  "monthly": "Mensual",
+  "weekly": "Semanal",
+  "searchPlaceholder": "Buscar informes...",
+  "filterByType": "Filtrar por tipo",
+  "allReports": "Todos los Informes",
+  "projectName": "Nombre del Proyecto",
+  "scheduledStatus": "Estado Programado",
+  "lastUpdate": "Última Actualización",
+  "nextUpdate": "Próxima Actualización",
+  "location": "{{count}} ubicaciones",
+  "actions": "Acciones",
+  "viewProject": "Ver Proyecto",
+  "editProject": "Editar Proyecto",
+  "deleteProject": "Eliminar Proyecto",
+  "loadingReports": "Cargando informes...",
+  "errorLoadingReports": "Error al cargar los informes. Por favor, intenta de nuevo.",
+  "deleteReport": "Eliminar Informe",
+  "deleteReportConfirmation": "¿Estás seguro de que deseas eliminar \"{{reportTitle}}\"? Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "toast": {
+    "title": "Error",
+    "description": "No se pudo eliminar el informe"
+  }
+}

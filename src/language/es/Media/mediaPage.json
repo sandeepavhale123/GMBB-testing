@@ -1,0 +1,30 @@
+{
+  "mediaPage": {
+    "title": "Tus Medios",
+    "uploadButton": "Subir Medios",
+    "toast": {
+      "errorTitle": "Error",
+      "errorFetch": "Error al obtener la lista de medios",
+      "errorFetchRetry": "Error al obtener la lista de medios. Por favor, inténtalo de nuevo.",
+      "errorDelete": "Error al eliminar el medio",
+      "errorDeleteRetry": "Error al eliminar el medio. Por favor, inténtalo de nuevo.",
+      "successfully": "Éxito",
+      "successDelete": "Medio eliminado con éxito.",
+      "downloadStarted": "Descarga iniciada",
+      "downloading": "Descargando {{name}}...",
+      "coverImageSetTitle": "Imagen de portada establecida",
+      "coverImageSetDesc": "El medio ha sido establecido como imagen de portada.",
+      "mediaUploadedTitle": "Medios Subidos",
+      "mediaUploadedDesc": "{{count}} archivo(s) de medios subido(s) con éxito.",
+      "editMediaTitle": "Editar Medio",
+      "editMediaDesc": "La funcionalidad de edición será implementada."
+    },
+    "deleteDialog": {
+      "title": "¿Estás seguro?",
+      "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente el archivo de medios.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando..."
+    }
+  }
+}

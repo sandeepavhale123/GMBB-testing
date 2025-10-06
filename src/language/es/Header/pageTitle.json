@@ -1,0 +1,94 @@
+{
+  "dashboard": {
+    "title": "Tablero",
+    "subtitle": "Monitorea el rendimiento de tu negocio en todas las plataformas"
+  },
+  "aiTasks": {
+    "title": "Tareas de IA",
+    "subtitle": "Gestiona y realiza un seguimiento de las tareas de optimización impulsadas por IA"
+  },
+  "profile": {
+    "title": "Perfil",
+    "subtitle": "Gestiona la información y preferencias de tu cuenta"
+  },
+  "posts": {
+    "title": "Publicaciones",
+    "subtitle": "Crea y administra contenido para todas tus ubicaciones comerciales"
+  },
+  "mediaLibrary": {
+    "title": "Biblioteca de Medios",
+    "subtitle": "Organiza y gestiona las imágenes y videos de tu negocio para todas las plataformas"
+  },
+  "reviews": {
+    "title": "Reseñas",
+    "subtitle": "Monitorea y responde a la opinión de los clientes en todas las ubicaciones"
+  },
+  "qa": {
+    "title": "Preguntas y Respuestas",
+    "subtitle": "Gestiona las preguntas de los clientes y proporciona respuestas útiles"
+  },
+  "businessInfo": {
+    "title": "Gestión",
+    "subtitle": "Administra tus listados comerciales e información de ubicación"
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Configura las preferencias de tu cuenta e integraciones"
+  },
+  "manageListings": {
+    "title": "Gestionar Listados",
+    "subtitle": "Monitorea y gestiona tus listados de Google Business Profile"
+  },
+  "insights": {
+    "title": "Información",
+    "subtitle": "Revisa las métricas de rendimiento para mejorar tu visibilidad local"
+  },
+  "keywords": {
+    "title": "Palabras Clave",
+    "subtitle": "Rastrea la clasificación de palabras clave por ubicación geográfica"
+  },
+  "searchKeyword": {
+    "title": "Buscar Palabra Clave",
+    "subtitle": "Palabras clave"
+  },
+  "geoRanking": {
+    "title": "Clasificación GEO",
+    "subtitle": "Rastrea la clasificación de palabras clave por ubicación geográfica"
+  },
+  "geoRankingReport": {
+    "title": "Informe de Clasificación GEO",
+    "subtitle": "Análisis detallado de tu rendimiento en búsquedas locales"
+  },
+  "citationManagement": {
+    "title": "Gestión de Citaciones",
+    "subtitle": "Monitorea y administra tus citaciones comerciales en directorios"
+  },
+  "analytics": {
+    "title": "Analíticas",
+    "subtitle": "Métricas y datos de rendimiento completos para tu negocio"
+  },
+  "team": {
+    "title": "Equipo",
+    "subtitle": "Gestiona los miembros del equipo y sus permisos de acceso"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "subtitle": "Mantente actualizado con alertas y novedades importantes"
+  },
+  "reports": {
+    "title": "Informes",
+    "subtitle": "Ver y generar informes de rendimiento"
+  },
+  "aiChatbot": {
+    "title": "Asistencia del Genio IA",
+    "subtitle": "Obtén asistencia impulsada por IA para la optimización de tu clasificación GEO"
+  },
+  "editTeamMember": {
+    "title": "Editar Miembro del Equipo",
+    "subtitle": "Gestiona el perfil del miembro del equipo, acceso a listados y permisos de funciones"
+  },
+  "welcomeDashboard": {
+    "title": "Tablero",
+    "subtitle": "Bienvenido de nuevo a tu tablero de negocios"
+  }
+}

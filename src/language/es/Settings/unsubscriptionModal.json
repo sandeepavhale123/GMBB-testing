@@ -1,0 +1,17 @@
+{
+  "unsubscriptionModal": {
+    "title": "Cancelar Suscripción",
+    "description": "Lamentamos verte ir. Por favor, ayúdanos a mejorar proporcionando tus comentarios.",
+    "feedbackLabel": "Cuéntanos qué te hizo cancelar tu servicio. Tal vez haya algo que GMB Briefcase pueda mejorar.",
+    "feedbackPlaceholder": "Tus comentarios nos ayudan a mejorar...",
+    "feedbackCounter": "{{count}}/500 caracteres",
+    "warningMessage": "Por favor, asegúrate antes de eliminar tu servicio, ya que todos los datos pueden perderse. El proceso es irreversible.",
+    "confirmationLabelp1": "Escribe",
+    "confirmationLabelp2": " ELIMINAR",
+    "confirmationLabelp3": "para confirmar:",
+    "confirmationPlaceholder": "Escribe ELIMINAR para confirmar",
+    "closeButton": "Cerrar",
+    "confirmButton": "Confirmar Cancelación",
+    "processing": "Procesando..."
+  }
+}

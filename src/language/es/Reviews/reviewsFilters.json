@@ -1,0 +1,36 @@
+{
+  "reviewsFilters": {
+    "search": {
+      "placeholder": "Buscar reseñas..."
+    },
+    "filter": {
+      "placeholder": "Todas las reseñas",
+      "all": "Todas las reseñas",
+      "pending": "Respuesta pendiente",
+      "replied": "Respondidas"
+    },
+    "sentiment": {
+      "placeholder": "Todos los sentimientos",
+      "all": "Todos los sentimientos",
+      "positive": "Positivo",
+      "neutral": "Neutral",
+      "negative": "Negativo"
+    },
+    "sort": {
+      "placeholder": "Más recientes primero",
+      "newest": "Más recientes primero",
+      "oldest": "Más antiguas primero",
+      "ratingLow": "Mayor calificación",
+      "ratingHigh": "Menor calificación"
+    },
+    "dateRange": {
+      "placeholder": "Seleccionar rango de fechas",
+      "clearAria": "Borrar rango de fechas"
+    },
+    "refresh": {
+      "button": "Actualizar",
+      "aria": "Actualizar reseñas",
+      "tooltip": "Este botón actualizará tu página de reseñas para obtener las últimas reseñas de Google"
+    }
+  }
+}

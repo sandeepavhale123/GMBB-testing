@@ -1,0 +1,26 @@
+{
+  "mediaUploadModal": {
+    "titleSingle": "Subir Medio",
+    "titleBulk": "Subir Medios a Múltiples Listados",
+    "uploadError": "Error de Subida",
+    "selectFileError": "Por favor, seleccione un archivo.",
+    "selectListingError": "Por favor, seleccione al menos un listado o grupo.",
+    "noListingError": "Asegúrese de que se haya seleccionado un listado de negocio.",
+    "uploadCompleteTitle": "¡Subida Completa!",
+    "uploadCompleteMessage": "Su {{fileType}} se ha subido correctamente.",
+    "mediaPreview": "Vista Previa del Medio",
+    "typeLabel": "Tipo:",
+    "aiImage": "IMAGEN IA",
+    "galleryImage": "IMAGEN DE GALERÍA",
+    "cancel": "Cancelar",
+    "uploadingSingle": "Subiendo...",
+    "uploadingBulk": "Subiendo a Múltiples Listados...",
+    "uploadButtonSingle": "Subir Medio",
+    "uploadButtonBulk": "Subir a Listados Seleccionados",
+    "uploadSuccess": "Subida Exitosa",
+    "uploadFailed": "Error en la Subida",
+    "bulkSuccess": "Medios Publicados Exitosamente",
+    "bulkSuccessMessage": "Los medios se han publicado en {{count}} listado(s).",
+    "generatedImage": "Imagen Generada"
+  }
+}

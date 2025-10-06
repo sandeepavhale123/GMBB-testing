@@ -1,0 +1,22 @@
+{
+  "reviewsManagementPage": {
+    "tabs": {
+      "summary": "Resumen",
+      "autoResponse": "Respuesta Automática"
+    },
+    "errors": {
+      "summaryError": {
+        "title": "Error al cargar el resumen de reseñas",
+        "description": "Ocurrió un error al cargar el resumen de reseñas."
+      },
+      "reviewsError": {
+        "title": "Error al cargar las reseñas",
+        "description": "Ocurrió un error al obtener las reseñas."
+      },
+      "replyError": {
+        "title": "Error al enviar la respuesta",
+        "description": "Ocurrió un error al enviar tu respuesta."
+      }
+    }
+  }
+}

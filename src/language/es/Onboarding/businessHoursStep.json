@@ -1,0 +1,18 @@
+{
+  "businessHoursStep": {
+    "title": "¿Cuándo estás abierto?",
+    "description": "Establece el horario de tu negocio para que los clientes sepan cuándo visitarte",
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "closedLabel": "Cerrado",
+    "toLabel": "a",
+    "continueButton": "Continuar"
+  }
+}

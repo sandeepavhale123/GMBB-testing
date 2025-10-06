@@ -1,0 +1,22 @@
+{
+  "templateForm": {
+    "labels": {
+      "starRating": "Seleccionar Calificación de Estrellas",
+      "templateContent": "Plantilla de Respuesta"
+    },
+    "placeholders": {
+      "selectRating": "Elige la calificación en estrellas para esta plantilla",
+      "templateTextarea": "Escribe tu plantilla de respuesta aquí. Usa variables como {first_name} para personalizar las respuestas..."
+    },
+    "tips": {
+      "personalization": "Consejo: Usa las variables del panel izquierdo para hacer tu plantilla más personal"
+    },
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar Plantilla",
+      "saving": "Guardando..."
+    },
+    "stars": "{{count}} Estrella",
+    "stars_plural": "{{count}} Estrellas"
+  }
+}

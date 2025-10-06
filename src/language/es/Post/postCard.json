@@ -1,0 +1,43 @@
+{
+  "status": {
+    "published": "Publicado",
+    "scheduled": "Programado",
+    "draft": "Borrador",
+    "failed": "Fallido"
+  },
+  "labels": {
+    "noDate": "Sin fecha",
+    "untitledPost": "Publicación sin título",
+    "imageNotAvailable": "Imagen no disponible",
+    "scheduledAt": "Programado: {{date}}"
+  },
+  "toast": {
+    "error": {
+      "title": "Error",
+      "noListing": "No se ha seleccionado ningún listado de negocio. Por favor, selecciona un listado primero."
+    },
+    "deleting": "Eliminando publicación...",
+    "preparing": "Preparando eliminación...",
+    "finalizing": "Finalizando...",
+    "success": {
+      "title": "Publicación eliminada con éxito",
+      "desc": "Eliminación completada"
+    },
+    "failed": {
+      "title": "Error al eliminar la publicación",
+      "desc": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
+    }
+  },
+  "modal": {
+    "delete": {
+      "title": "Eliminar Publicación",
+      "description": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando..."
+    }
+  },
+  "buttons": {
+    "openOnGoogle": "Abrir publicación en Google"
+  }
+}

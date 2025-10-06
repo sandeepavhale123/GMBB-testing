@@ -1,0 +1,43 @@
+{
+  "signupForm": {
+    "title": "Crea Tu Cuenta",
+    "subtitle": "Únete a GMB Briefcase hoy",
+    "fields": {
+      "firstName": "Nombre *",
+      "lastName": "Apellido *",
+      "agencyName": "Nombre de la Agencia *",        
+      "email": "Correo Electrónico *",       
+      "password": "Contraseña *",
+      "plan": {
+        "label": "Selecciona Plan *",
+        "options": {
+          "label1": "Selecciona Plan",
+          "label2": "$7 por prueba de 7 días",
+          "label3": "Enterprise - $560/mes",
+          "label4": "Agency - $299/mes",
+          "label5": "Pro - $199/mes",
+          "label6": "Business - $99/mes"
+        }
+      }
+    },
+    "buttons": {
+      "submitDefault": "Pagar - Seleccionar Plan",
+      "reset": "Restablecer",
+      "loading": "Creando Cuenta..."
+    },
+    "links": {
+      "loginPrompt": "¿Ya tienes una cuenta?",
+      "loginAction": "Inicia sesión aquí"
+    },
+    "toasts": {
+      "formReset": {
+        "title": "Formulario Restablecido",
+        "description": "Todos los campos han sido borrados."
+      },
+      "validationError": {
+        "title": "Error de Validación",
+        "description": "Por favor corrige los campos resaltados e inténtalo de nuevo."
+      }
+    }
+  }
+}

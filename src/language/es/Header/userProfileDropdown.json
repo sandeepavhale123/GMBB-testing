@@ -1,0 +1,9 @@
+{
+  "userProfileDropdown": {
+    "defaultUserName": "Usuario",
+    "defaultUserEmail": "usuario@ejemplo.com",
+    "viewProfile": "Ver Perfil",
+    "accountSettings": "Configuración de la Cuenta",
+    "logout": "Cerrar Sesión"
+  }
+}

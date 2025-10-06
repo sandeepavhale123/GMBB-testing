@@ -1,0 +1,10 @@
+{
+  "card": {
+    "title": "Plan Actual",
+    "expired": "Expirado",
+    "active": "Activo",
+    "planLabel": "Plan {{planName}}",
+    "expiresOn": "Expira el {{date}}",
+    "manage": "Gestionar Suscripción"
+  }
+}

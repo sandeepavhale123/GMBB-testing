@@ -1,0 +1,17 @@
+{
+  "signInAccount": "Inicia sesión en tu cuenta",
+  "emailLabel": "Correo electrónico",
+  "passwordLabel": "Contraseña",
+  "rememberMe": "Recordarme",
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "logInButton": "Iniciar sesión",
+  "loggingIn": "Iniciando sesión...",
+  "validationErrorTitle": "Error de validación",
+  "validationErrorDescription": "Por favor corrige los campos resaltados e inténtalo de nuevo.",
+  "subscriptionExpiredTitle": "Suscripción expirada",
+  "subscriptionExpiredDescription": "Tu plan ha expirado. Por favor renueva para continuar.",
+  "loginSuccessTitle": "Éxito",
+  "loginSuccessDescription": "¡Inicio de sesión exitoso!",
+  "loginErrorTitle": "Error",
+  "loginErrorDescription": "Error al iniciar sesión. Por favor verifica tus credenciales."
+}

@@ -1,0 +1,16 @@
+{
+  "replyToOldReviewsCard": {
+    "label": "Responder a reseñas existentes (reseñas antiguas)",
+    "toast": {
+      "success": {
+        "title": "Éxito",
+        "enabled": "Responder a reseñas existentes habilitado con éxito.",
+        "disabled": "Responder a reseñas existentes deshabilitado con éxito."
+      },
+      "error": {
+        "title": "Error",
+        "default": "Ocurrió un error al actualizar la configuración."
+      }
+    }
+  }
+}

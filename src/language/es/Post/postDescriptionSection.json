@@ -1,0 +1,7 @@
+{
+  "postDescription": {
+    "label": "Descripción de la Publicación",
+    "placeholder": "Escribe la descripción de tu publicación...",
+    "aiButtonTooltip": "Usar GMB Genie para escribir"
+  }
+}

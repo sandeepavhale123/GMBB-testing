@@ -1,0 +1,17 @@
+{
+  "mediaCard": {
+    "status": {
+      "Live": "En vivo",
+      "Schedule": "Programado",
+      "Failed": "Fallido"
+    },
+    "actions": {
+      "view": "Ver",
+      "delete": "Eliminar"
+    },
+    "labels": {
+      "uploaded": "Subido: ",
+      "scheduled": "Programado para:"
+    }
+  }
+}

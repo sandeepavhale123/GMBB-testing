@@ -1,0 +1,7 @@
+{
+  "listingManagementPage": {
+    "pageTitle": "Administrar Listados",
+    "backButton": "Volver",
+    "loadingListings": "Cargando listados..."
+  }
+}

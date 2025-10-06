@@ -1,0 +1,19 @@
+{
+  "listingSearchFilters": {
+    "searchPlaceholder": "Buscar listados...",
+    "filterStatusPlaceholder": "Filtrar por estado",
+    "filterStatus": {
+      "all": "Todos los estados",
+      "verified": "Verificado",
+      "unverified": "No verificado",
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "filterActivePlaceholder": "Filtrar por actividad",
+    "filterActive": {
+      "all": "Todos los listados",
+      "active": "Solo activos",
+      "inactive": "Solo inactivos"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "brandingPage": {
+    "title": "Personalización del Tema",
+    "subtitle": "Personaliza la identidad visual de tu aplicación.",
+    "badge": "Etiqueta Blanca",
+    "actions": {
+      "save": "Guardar Cambios",
+      "reset": "Restablecer Tema"
+    },
+    "messages": {
+      "reset": {
+        "title": "Tema Restablecido",
+        "success": "El tema se ha restablecido correctamente.",
+        "errorTitle": "Error al Restablecer",
+        "errorDescription": "No se pudo restablecer el tema. Por favor, inténtalo de nuevo."
+      },
+      "save": {
+        "successTitle": "Tema actualizado con éxito",
+        "successDescription": "Tu tema ha sido actualizado.",
+        "errorTitle": "Error al guardar el tema",
+        "errorDescription": "No se pudo guardar el tema. Por favor, inténtalo más tarde."
+      }
+    }
+  }
+}

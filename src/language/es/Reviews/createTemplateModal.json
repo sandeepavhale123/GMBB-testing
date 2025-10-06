@@ -1,0 +1,34 @@
+{
+  "createTemplateModal": {
+    "title": "Editar Plantilla",
+    "leftPanel": {
+      "title": "Personalizar",
+      "subtitle": "Tus Plantillas de Respuesta",
+      "description": "Puedes usar las siguientes variables al crear tus plantillas para que tus respuestas sean más dinámicas y personalizadas:",
+      "variables": {
+        "fullName": " – Muestra el nombre completo del reseñador.",
+        "firstName": " – Muestra el primer nombre del reseñador.",
+        "lastName": " – Muestra el apellido del reseñador.",
+        "ownerName": " – Muestra tu nombre (del propietario del negocio)."
+      }
+    },
+    "form": {
+      "selectRatingLabel": "Seleccionar calificación",
+      "ratingOption": "{{count}} Estrella",
+      "ratingOption_plural": "{{count}} Estrellas",
+      "textareaPlaceholder": "Ingresa el mensaje de tu plantilla..."
+    },
+    "footer": {
+      "close": "Cerrar",
+      "save": "Guardar cambios",
+      "saving": "Guardando..."
+    },
+    "defaultTemplates": {
+      "5": "¡Muchas gracias, {first_name}, por tu increíble reseña de 5 estrellas! 🌟 Es realmente maravilloso saber que tuviste una excelente experiencia con nosotros. Tus amables palabras significan mucho para mí y para el equipo.\n\n~ {owner_name}",
+      "4": "Hola {first_name}, ¡gracias por la reseña de 4 estrellas! Nos alegra que hayas tenido una experiencia positiva con nosotros. ¡Nos encantaría saber cómo podemos convertirla en una experiencia de 5 estrellas la próxima vez!\n\n~ {owner_name}",
+      "3": "Hola {first_name}, gracias por tomarte el tiempo de dejar una reseña de 3 estrellas. Apreciamos tus comentarios y nos encantaría entender cómo podemos mejorar tu experiencia.\n\n~ {owner_name}",
+      "2": "Hola {first_name}, gracias por tu reseña de 2 estrellas. Lamentamos que tu experiencia no haya estado a la altura de nuestros estándares. Agradeceríamos la oportunidad de corregir esto.\n\n~ {owner_name}",
+      "1": "Hola {first_name}, lamentamos mucho ver tu reseña de 1 estrella. Claramente, esta no es la experiencia que queremos para nuestros clientes. Por favor, contáctanos directamente para poder resolver esto de inmediato.\n\n~ {owner_name}"
+    }
+  }
+}

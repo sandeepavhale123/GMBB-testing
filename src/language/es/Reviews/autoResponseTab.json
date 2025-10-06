@@ -1,0 +1,54 @@
+{
+  "autoResponseTab": {
+    "replyTemplates": {
+      "title": "Plantillas de Respuesta",
+      "description": "Crea plantillas personalizadas para diferentes calificaciones por estrellas.",
+      "tabs": {
+        "review": "Responder a Reseña",
+        "ratingOnly": "Responder Solo a la Calificación"
+      }
+    },
+    "aiAutoResponse": {
+      "title": "Respuesta Automática con IA",
+      "badge": "Impulsado por IA",
+      "description": "Deja que la IA genere respuestas personalizadas y contextuales basadas en el contenido y sentimiento de la reseña.",
+      "advancedOptions": {
+        "title": "Opciones Avanzadas",
+        "variables": {
+          "title": "Nota:",
+          "description": "Puedes usar las siguientes variables en tu texto de respuesta para mostrar el nombre del reseñador:",
+          "descBold": "{full_name}, {first_name}, {last_name}.",
+          "descEnd": "Para insertar el contenido de la respuesta, usa",
+          "descEndVb": "{responcetext}",
+          "descTextEnd": ". No olvides incluirlo en tu plantilla."
+        },
+        "replyText": "Texto de Respuesta",
+        "applyForStars": "Aplicar para Calificaciones por Estrellas"
+      },
+      "latestReview": {
+        "title": "Generar una respuesta de IA de ejemplo",
+        "preview": "Vista previa de la última reseña"
+      },
+      "buttons": {
+        "generate": "Generar Respuesta con IA",
+        "regenerate": "Regenerar",
+        "generating": "Generando Respuesta con IA...",
+        "save": "Guardar Configuración de IA",
+        "saving": "Guardando..."
+      }
+    },
+    "noResponseMode": {
+      "title": "No responder a reseñas de forma manual o automática",
+      "tooltip": "A veces tus clientes no permiten que las agencias de marketing respondan a las reseñas. En ese caso, esta etiqueta te ayuda a identificar dichos listados.",
+      "modal": {
+        "title": "¿Habilitar el Modo Sin Respuesta?",
+        "description": "Si habilitas este modo, tanto los datos de respuesta automática como de respuesta automática con IA se eliminarán. ¿Estás seguro de que deseas eliminar estos datos y continuar?",
+        "buttons": {
+          "cancel": "Cancelar",
+          "confirm": "Sí, Eliminar y Habilitar",
+          "processing": "Procesando..."
+        }
+      }
+    }
+  }
+}

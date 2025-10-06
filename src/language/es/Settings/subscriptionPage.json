@@ -1,0 +1,50 @@
+{
+  "subscriptionPage": {
+    "title": "Planes de Suscripción",
+    "activePlan": "Tu plan está activo hasta {{date}}.",
+    "expiredPlan": "Tu plan ha expirado. Por favor, renueva para continuar accediendo a las funciones.",
+    "description": "Elige el plan perfecto para las necesidades de tu negocio. Puedes mejorar o degradar tu plan en cualquier momento.",
+    "unsubscribe": "Cancelar Suscripción",
+    "tabs": {
+      "pricingPlan": "Plan de Precios",
+      "paymentHistory": "Historial de Pagos"
+    },
+    "labels": {
+      "features": "Funciones",
+      "pricePerMonth": "Precio/mes",
+      "mostPopular": "Más Popular"
+    },
+    "buttons": {
+      "active": "Activo",
+      "processing": "Procesando...",
+      "payNow": "Pagar Ahora",
+      "upgradeNow": "Mejorar Ahora",
+      "contactSales": "Contactar Ventas"
+    },
+    "help": {
+      "title": "¿Necesitas ayuda para elegir?",
+      "description": "Contacta a nuestro equipo de ventas para encontrar el plan perfecto para tu negocio."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Error de Pago",
+        "description": "No se pudo procesar el pago. Por favor, inténtalo de nuevo."
+      },
+      "upgradeSuccess": {
+        "title": "Mejora Exitosa"
+      },
+      "upgradeError": {
+        "title": "Error al Mejorar",
+        "description": "No se pudo mejorar el plan. Por favor, inténtalo de nuevo."
+      },
+      "subscriptionCancelled": {
+        "title": "Suscripción Cancelada",
+        "description": "Tu suscripción ha sido cancelada."
+      },
+      "cancelError": {
+        "title": "Error",
+        "description": "No se pudo cancelar la suscripción."
+      }
+    }
+  }
+}

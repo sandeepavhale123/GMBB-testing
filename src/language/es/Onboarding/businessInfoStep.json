@@ -1,0 +1,22 @@
+{
+  "businessInfoStep": {
+    "title": "Cuéntanos sobre tu negocio",
+    "description": "Usaremos esta información para personalizar tu experiencia.",
+    "businessNameLabel": "Nombre del Negocio/Agencia *",
+    "businessNamePlaceholder": "Ingresa el nombre de tu negocio o agencia",
+    "websiteLabel": "Sitio Web",
+    "websitePlaceholder": "https://tunegocio.com",
+    "emailLabel": "Correo Electrónico de la Empresa *",
+    "emailPlaceholder": "negocio@ejemplo.com",
+    "timezoneLabel": "Zona Horaria Preferida *",
+    "timezonePlaceholder": "Selecciona tu zona horaria",
+    "timezoneSearch": "Buscar zona horaria...",
+    "noTimezone": "No se encontró ninguna zona horaria.",
+    "dashboardTypeLabel": "Tipo de Panel *",
+    "dashboardTypePlaceholder": "Selecciona tipo de negocio",
+    "locationCountLabel": "¿Cuántas ubicaciones quieres gestionar?",
+    "locationCountPlaceholder": "Selecciona el rango de listados",
+    "continueButton": "Continuar",
+    "savingButton": "Guardando..."
+  }
+}

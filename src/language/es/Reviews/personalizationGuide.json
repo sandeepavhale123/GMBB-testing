@@ -1,0 +1,17 @@
+{
+  "personalizationGuide": {
+    "title": "Personaliza Tus Plantillas de Respuesta",
+    "description": "Puedes usar las siguientes variables al crear tus plantillas para que tus respuestas sean más dinámicas y personalizadas:",
+    "variables": {
+      "fullName": "Nombre completo del reseñador",
+      "firstName": "Primer nombre del reseñador",
+      "lastName": "Apellido del reseñador",
+      "ownerName": "Tu nombre (del propietario del negocio)"
+    },
+    "example": {
+      "title": "Ejemplo de Uso:",
+      "message": "Hola {first_name}, ¡gracias por tu reseña de {rating} estrellas! Nos alegra que hayas disfrutado tu experiencia con nosotros.",
+      "signature": "Saludos cordiales,\n{owner_name}"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Administrar Cuenta de Google",
+    "pageDescription": "Conecta y supervisa tus Perfiles de Negocio de Google para maximizar la visibilidad local y el rendimiento SEO.",
+    "searchPlaceholder": "Buscar cuentas por nombre o correo electrónico",
+    "activeListingsBadge": "Listados Activos: {active}/{allowed}",
+    "addNewAccount": {
+      "full": "Agregar Nueva Cuenta",
+      "short": "Agregar"
+    },
+    "errorState": {
+      "tryAgain": "Intentar de Nuevo"
+    },
+    "loading": "Cargando...",
+    "emptyState": {
+      "noAccountsConnected": "No hay cuentas conectadas",
+      "noAccountsFound": "No se encontraron cuentas",
+      "searchNoMatch": "Ninguna cuenta coincide con \"{searchTerm}\". Prueba con otro término de búsqueda.",
+      "addAccountCTA": "Haz clic en 'Agregar Nueva Cuenta' para sincronizar tu Perfil de Negocio de Google."
+    },
+    "modals": {
+      "addAccount": "Agregar Cuenta",
+      "deleteAccount": {
+        "title": "Eliminar Cuenta",
+        "confirm": "Confirmar Eliminación",
+        "accountDeleted": "La cuenta de Google \"{accountName}\" ha sido eliminada con éxito.",
+        "deleteTitle": "Eliminación Fallida",
+        "deleteFailed": "No se pudo eliminar la cuenta. Por favor, inténtalo de nuevo.",
+        "noEmail": "Correo electrónico no disponible"
+      },
+      "refreshAccount": {
+        "title": "Cuenta Actualizada",
+        "updateTitle": "Actualización Fallida",
+        "updateSuccess": "Grupos de Listados Actualizados",
+        "updateFailed": "No se pudieron actualizar los grupos de listados. Por favor, inténtalo de nuevo.",
+        "refreshTitle": "Actualización Fallida",
+        "refreshFailed": "No se pudo actualizar la cuenta. Por favor, inténtalo de nuevo."
+      }
+    },
+    "tableHeaders": {
+      "account": "Cuenta",
+      "totalListings": "Total de Listados",
+      "connectedListings": "Listados Conectados",
+      "actions": "Acciones"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "businessListingSelector": {
+    "noListings": "No hay listados disponibles",
+    "loading": "Cargando...",
+    "searchPlaceholder": "Buscar listados...",
+    "searching": "Buscando...",
+    "noResults": "No se encontró ningún listado."
+  }
+}

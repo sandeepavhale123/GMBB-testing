@@ -1,0 +1,78 @@
+{
+  "importPostCSVWizard": {
+    "title": "Importar CSV de Publicaciones",
+    "steps": {
+      "1": "Seleccionar Listados",
+      "2": "Subir Archivo",
+      "3": "Control de Calidad",
+      "4": "Enviar"
+    },
+    "stepCount": "Paso {{currentStep}} de 4",
+    "selectListings": {
+      "heading": "Seleccionar Listados",
+      "description": "Elige los listados y el tipo de publicación para tu importación masiva.",
+      "postTypeLabel": "Tipo de Publicación",
+      "postTypePlaceholder": "Selecciona el tipo de archivo",
+      "postTypeOptions": {
+        "0": "Selecciona el tipo de archivo",
+        "1": "Archivo de publicación regular",
+        "2": "Archivo de publicación de evento",
+        "3": "Archivo de publicación de oferta"
+      },
+      "next": "Siguiente",
+      "generatingCSV": "Generando CSV..."
+    },
+    "uploadFile": {
+      "heading": "Subir Archivo",
+      "description": "Sube tu archivo CSV para la importación masiva de publicaciones.",
+      "downloadSample": "Descargar Archivo CSV Generado",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "uploading": "Subiendo..."
+    },
+    "qualityControl": {
+      "heading": "Control de Calidad",
+      "description": "Revisa los resultados de validación de tu archivo subido.",
+      "uploadSummary": "Resumen de Subida",
+      "validationErrorsTitle": "Se Encontraron Errores de Validación - Por favor corrige y vuelve a subir",
+      "reuploadFile": "Volver a Subir Archivo",
+      "allRowsValid": "¡Todas las filas validadas correctamente!",
+      "processedRows": "✓ {{count}} filas procesadas",
+      "noErrors": "✓ No se encontraron errores de validación",
+      "readyForSubmission": "✓ Listo para enviar",
+      "notesLabel": "Notas (Opcional)",
+      "notesPlaceholder": "Agrega cualquier nota sobre esta importación...",
+      "submit": "Enviar Importación",
+      "saving": "Guardando...",
+      "fixErrors": "Corrige los Errores para Continuar"
+    },
+    "submit": {
+      "heading": "¡Felicidades!",
+      "description": "Todas tus publicaciones han sido importadas masivamente con éxito.",
+      "goToDashboard": "Ir al Panel Principal",
+      "viewPostDetails": "Ver Detalles de la Publicación"
+    },
+    "errors": {
+      "title": "Error",
+      "selectListing": "Por favor selecciona al menos un listado.",
+      "selectPostType": "Por favor selecciona un tipo de publicación válido.",
+      "selectFile": "Por favor selecciona un archivo para subir.",
+      "noUploadedFile": "No se encontró archivo subido. Por favor sube un archivo primero.",
+      "sampleNotAvailable": "El archivo CSV de ejemplo no está disponible. Por favor regresa al paso 1.",
+      "csvGenerateFailed": "No se pudo generar el archivo CSV. Por favor intenta de nuevo.",
+      "uploadFailed": "No se pudo subir el archivo. Por favor intenta de nuevo.",
+      "saveFailed": "No se pudo guardar la hoja masiva. Por favor intenta de nuevo.",
+      "authFailed": "Autenticación fallida. Por favor inicia sesión nuevamente.",
+      "permissionDenied": "No tienes permiso para realizar esta acción.",
+      "serverError": "Ocurrió un error en el servidor. Por favor intenta más tarde."
+    },
+    "success": {
+      "title": "Éxito",
+      "titleUpload": "Subida Completa",
+      "csvGenerated": "Archivo CSV generado correctamente",
+      "uploadSuccess": "Archivo subido y validado correctamente",
+      "uploadWithErrors": "Archivo subido con {{count}} errores de validación. Por favor revisa.",
+      "bulkSaveSuccess": "{{count}} publicaciones importadas correctamente"
+    }
+  }
+}

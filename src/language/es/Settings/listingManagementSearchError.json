@@ -1,0 +1,7 @@
+{
+  "listingManagementSearchError": {
+    "noListingsWithSearchTerm": "Ningún listado coincide con \"{{searchTerm}}\". Prueba con otro término de búsqueda.",
+    "noListingsWithFilters": "Ningún listado coincide con tus filtros actuales. Intenta ajustar tus filtros.",
+    "noListingsFound": "No se encontraron listados."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "googleAccountListView": {
+    "status": {
+      "reauthorization": "Reautorización"
+    },
+    "actions": {
+      "manageListings": "Gestionar Listados",
+      "reauthorization": "Reautorización",
+      "refresh": "Actualizar",
+      "delete": "Eliminar"
+    },
+    "table": {
+      "listings": "Listados",
+      "connected": "Conectado"
+    }
+  }
+}

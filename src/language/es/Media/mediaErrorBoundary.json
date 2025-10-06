@@ -1,0 +1,7 @@
+{
+  "mediaErrorBoundary": {
+    "title": "Algo salió mal",
+    "description": "Hubo un error al cargar la página de medios. Por favor intenta refrescar o contacta al soporte si el problema persiste.",
+    "retry": "Intentar de nuevo"
+  }
+}

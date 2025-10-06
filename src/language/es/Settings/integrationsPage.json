@@ -1,0 +1,105 @@
+{
+  "integrations": {
+    "title": "Integraciones",
+    "subtitle": "Administra tus integraciones de terceros y conexiones API.",
+
+    "mapApi": {
+      "name": "Clave API de Google Maps",
+      "description": "Configura los servicios de mapas para funciones basadas en ubicación.",
+      "configureTitle": "Configurar Clave API de Google Maps",
+      "label": "Clave API de Google Places",
+      "placeholder": "Ingrese su clave API de Google Places",
+      "helper": "Esta clave API se utilizará para todas las funciones basadas en ubicación, incluyendo Geo Ranking y servicios de mapas.",
+      "howToTitle": "Cómo generar la clave API de Google Places",
+      "steps": {
+        "1": "Nota: Debes habilitar la facturación para el proyecto de Google.",
+        "2-p1": "Visita la ",
+        "2-p2": "Consola de Google Cloud Platform.",
+        "3": "Haz clic en el menú desplegable del proyecto y selecciona o crea el proyecto para el cual deseas agregar una clave API.",
+        "4": "Desde el Tablero → Ir a vista general de APIs → Haz clic en Biblioteca → Habilitar Maps JavaScript API y Habilitar Places API.",
+        "5": "Después, haz clic en el botón de menú y selecciona APIs y Servicios → Credenciales.",
+        "6": "En la página de Credenciales, en Crear credenciales desplegable, selecciona la opción Clave API.",
+        "7": "Aparecerá un diálogo mostrando tu clave API recién creada — copia la clave.",
+        "8": "Usa o pega la clave generada en Geo Ranking → pestaña Administrar Clave. (Actividad única – Solo para el primer uso de Geo Ranking).",
+        "9": "Una vez que hayas agregado una clave, se usará para todos tus listados y no será necesario generar una clave separada para cada listado de GMB."
+      }
+    },
+
+    "smtp": {
+      "name": "Detalles SMTP",
+      "description": "Configura los ajustes del servidor de correo para notificaciones.",
+      "configureTitle": "Configurar Ajustes SMTP",
+      "labels": {
+        "fromName": "Nombre Remitente",
+        "fromEmail": "Correo Remitente",
+        "smtpHost": "Servidor SMTP",
+        "smtpPort": "Puerto SMTP",
+        "smtpUser": "Usuario SMTP",
+        "smtpPassword": "Contraseña SMTP"
+      },
+      "placeholders": {
+        "fromName": "Tu nombre o empresa",
+        "fromEmail": "tu-correo@ejemplo.com",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "usuario",
+        "smtpPassword": "contraseña"
+      }
+    },
+
+    "subdomain": {
+      "name": "Configuración de Subdominio",
+      "description": "Configura un subdominio white label para tus reportes.",
+      "label": "Ingrese subdominio",
+      "configureTitle": "Configurar Subdominio",
+      "placeholder": "ejemplo",
+      "text": "Ingrese el subdominio deseado (sin .com u otras extensiones)",
+      "follow": "Sigue los siguientes pasos:",
+      "stepcount": "Paso {{count}}:",
+      "step1": "Agrega el subdominio white label aquí y guárdalo.",
+      "step2": "Agrega la IP en el administrador DNS como registro A:",
+      "step3p1": "Por favor, verifica la propagación DNS en:",
+      "step3p2": "dnschecker.org",
+      "step4": "Una vez que hayas terminado, avísanos, actualizaremos tu solicitud en las próximas 24 horas."
+    },
+
+    "buttons": {
+      "configure": "Configurar",
+      "edit": "Editar",
+      "disconnect": "Desconectar",
+      "cancel": "Cancelar",
+      "saveConfiguration": "Guardar Configuración",
+      "saving": "Guardando...",
+      "loading": "Cargando...",
+      "disconnecting": "Desconectando...",
+      "reset": "Restablecer",
+      "testing": "Probando...",
+      "testSetting": "Probar Ajustes SMTP",
+      "save": "Guardar"
+    },
+
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+
+    "disconnectDialog": {
+      "title": "Confirmar Desconexión",
+      "message": "¿Estás seguro de que deseas desconectar esta integración? Esta acción no se puede deshacer.",
+      "label": "Escribe \"delete\" para confirmar:",
+      "placeholder": "Escribe 'delete' para confirmar"
+    },
+
+    "errors": {
+      "title": "Error",
+      "apiKeyRequired": "Por favor, ingresa una clave API válida",
+      "disconnectConfirmation": "Por favor escribe 'delete' para confirmar la desconexión",
+      "noApiKey": "No se encontró clave API para desconectar",
+      "noSmtp": "No se encontró configuración SMTP para desconectar",
+      "noSubdomain": "No se encontró subdominio para desconectar",
+      "smtpRequired": "Por favor completa todos los campos obligatorios antes de probar",
+      "smtpValidation": "Por favor corrige los errores de validación",
+      "subdomainRequired": "Por favor ingresa un subdominio"
+    }
+  }
+}

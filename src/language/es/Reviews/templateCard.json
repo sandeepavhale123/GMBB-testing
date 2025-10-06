@@ -1,0 +1,39 @@
+{
+  "templateCard": {
+    "noTemplate": "Aún no se ha creado una plantilla",
+    "enable": "Habilitar",
+    "enabling": "Habilitando...",
+    "disable": "Deshabilitar",
+    "disabling": "Deshabilitando...",
+    "manage": "Gestionar",
+    "create": "Crear",
+    "availableVariables": "Variables Disponibles",
+    "multipleResponses": {
+      "title": "Respuestas Múltiples",
+      "note": "Nota: Si deseas usar múltiples respuestas, utiliza el símbolo de barra vertical (|) después de cada respuesta."
+    },
+    "templateContent": "Contenido de la Plantilla",
+    "systemTemplateNotice": "Esta es una plantilla del sistema cargada desde tu configuración. Los cambios deben realizarse desde el panel de configuración principal.",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "save": "Guardar Plantilla",
+    "saving": "Guardando...",
+    "manageDialog": {
+      "title": {
+        "rating": "Gestionar Plantilla de {{starRating}} Estrellas",
+        "ratingOnly": "Gestionar Plantilla Solo de Calificación"
+      }
+    },
+    "disableDialog": {
+      "title": "¿Estás seguro de que deseas eliminar esta calificación?",
+      "confirm": "Sí, Eliminar"
+    },
+    "toast": {
+      "error": {
+        "title": "Error",
+        "enable": "No se pudo habilitar la configuración de respuesta automática.",
+        "disable": "No se pudo deshabilitar la configuración de respuesta automática."
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Ver Detalles",
+    "subtitle": "Ver detalles de los medios masivos seleccionados"
+  },
+  "filter": {
+    "searchPlaceholder": "Buscar por nombre de listado.",
+    "statusPlaceholder": "Filtrar por estado",
+    "statusAll": "Estado de la publicación",
+    "statusLive": "Activo",
+    "statusScheduled": "Programado",
+    "statusFailed": "Fallido"
+  },
+  "loading": {
+    "preview": "Cargando detalles de los medios..."
+  },
+  "error": {
+    "preview": "Error al cargar los detalles de los medios: {{error}}",
+    "retry": "Intentar de nuevo"
+  }
+}

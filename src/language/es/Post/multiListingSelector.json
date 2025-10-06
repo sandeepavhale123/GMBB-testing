@@ -1,0 +1,23 @@
+{
+  "multiListingSelector": {
+    "label": "Seleccionar Listados y Grupos",
+    "placeholder": "Selecciona listados y grupos...",
+    "loading": "Cargando...",
+    "noResults": "No se encontraron listados.",
+    "searchPlaceholder": "Buscar listados y grupos...",
+    "selectedCount": "{{count}} elemento seleccionado",
+    "selectedCount_plural": "{{count}} elementos seleccionados",
+    "groups": "Grupos",
+    "locations": "Ubicaciones",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo",
+    "listings": "Listados",
+    "unnamedGroup": "Grupo Sin Nombre",
+    "unnamedLocation": "Ubicación Sin Nombre",
+    "groupTag": "[Grupo]",
+    "locationTag": "[Ubicación]",
+    "selectHint": "Selecciona al menos un listado o grupo para continuar.",
+    "errorTitle": "Error",
+    "errorMessage": "Error al obtener los listados y grupos"
+  }
+}

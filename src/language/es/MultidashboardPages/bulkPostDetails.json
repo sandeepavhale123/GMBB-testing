@@ -1,0 +1,66 @@
+{
+  "bulkPostDetails": {
+    "header": {
+      "title": "Ver Detalles",
+      "subtitle": "Ver detalles de la publicación masiva seleccionada"
+    },
+    "postPreview": {
+      "postedOn": "Publicado en:",
+      "viewPost": "Ver Publicación",
+      "deletePost": "Eliminar Publicación"
+    },
+    "table": {
+      "listingName": "Nombre del Listado",
+      "zipCode": "Código Postal",
+      "status": "Estado",
+      "action": "Acción",
+      "noListings": "No se encontraron listados.",
+      "unknown": "Desconocido",
+      "post": "publicación",
+      "na": "N/D"
+    },
+    "filter": {
+      "searchPlaceholder": "Buscar por nombre de listado.",
+      "statusPlaceholder": "Filtrar por estado",
+      "postStatus": "Estado de la Publicación",
+      "live": "Activo",
+      "scheduled": "Programado",
+      "failed": "Fallido"
+    },
+    "bulkActions": {
+      "selected": "{{count}} publicación seleccionada",
+      "selected_plural": "{{count}} publicaciones seleccionadas",
+      "deleteSelected": "Eliminar Seleccionadas"
+    },
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {{current}} de {{totalPages}}"
+    },
+    "dialogs": {
+      "bulkDelete": {
+        "title": "Eliminar Múltiples Publicaciones",
+        "description": "¿Estás seguro de que deseas eliminar {{count}} publicación(es) seleccionada(s)? Esta acción no se puede deshacer.",
+        "cancel": "Cancelar",
+        "confirm": "Eliminar Todo"
+      },
+      "deleteSingle": {
+        "title": "¿Estás seguro?",
+        "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente la publicación.",
+        "cancel": "Cancelar",
+        "confirm": "Eliminar"
+      }
+    },
+    "messages": {
+      "successTitle": "Éxito",
+      "successDelete": "Publicación eliminada correctamente",
+      "successBulkDelete": "{{count}} publicaciones eliminadas correctamente",
+      "errorTitle": "Error",
+      "errorDelete": "No se pudo eliminar la publicación",
+      "errorBulkDelete": "No se pudieron eliminar algunas publicaciones",
+      "errorDetails": "Error al cargar los detalles de la publicación: {{error}}",
+      "tryAgain": "Intentar de Nuevo"
+    }
+  }
+}

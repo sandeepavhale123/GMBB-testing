@@ -1,0 +1,7 @@
+{
+  "reportsEmptyState": {
+    "title": "Informes Aún No Generados",
+    "description": "Tus informes se están generando. Esto puede tardar unos minutos. Por favor, inténtalo de nuevo más tarde.",
+    "tryAgainButton": "Intentar de Nuevo"
+  }
+}

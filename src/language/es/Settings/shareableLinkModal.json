@@ -1,0 +1,31 @@
+{
+  "shareableLinkModal": {
+    "title": "Enlace Compartible",
+    "description1": "Comparte este enlace con",
+    "description2": " {{firstName}} {{lastName}}",
+    "description3": "para darles acceso directo a su cuenta.",
+    "allowListingsLabel": "Ingresar Listados Permitidos",
+    "availableSpots": "Cupos disponibles en el Panel - {{spots}}",
+    "allowListingsPlaceholder": "Ingresa el número de listados permitidos",
+    "directAccessLinkLabel": "Enlace de Acceso Directo",
+    "toast": {
+      "copiedTitle": "Enlace copiado",
+      "copiedDescription": "El enlace compartible se ha copiado al portapapeles",
+      "failedTitle": "Error al copiar",
+      "failedDescription": "Por favor copia el enlace manualmente"
+    },
+    "linkDetails": {
+      "title": "Detalles del Enlace:",
+      "points": {
+        "valid": "Válido para acceso directo",
+        "bypass": "Omite el proceso estándar de inicio de sesión",
+        "role": "Se aplican permisos basados en rol",
+        "revoke": "Puede ser revocado eliminando el usuario"
+      }
+    },
+    "buttons": {
+      "close": "Cerrar",
+      "testLink": "Probar Enlace"
+    }
+  }
+}

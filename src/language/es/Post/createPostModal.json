@@ -1,0 +1,77 @@
+{
+  "title": {
+    "create": "Crear Publicación",
+    "clone": "Clonar Publicación"
+  },
+  "validation": {
+    "titleRequired": "El título es obligatorio para publicaciones de eventos y ofertas.",
+    "urlRequired": "La URL es obligatoria cuando el botón CTA está habilitado.",
+    "listingsRequired": "Por favor, selecciona al menos un listado o grupo.",
+    "genericError": "Por favor, corrige los errores de validación antes de enviar."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Listado Requerido",
+      "description": "Por favor, selecciona al menos un listado."
+    },
+    "titleRequired": {
+      "title": "Título Requerido",
+      "description": "El título es obligatorio para publicaciones de eventos y ofertas."
+    },
+    "urlRequired": {
+      "title": "URL Requerida",
+      "description": "La URL es obligatoria cuando el botón CTA está habilitado."
+    },
+    "validationError": {
+      "title": "Error de Validación",
+      "description": "Por favor, corrige los errores de validación antes de enviar."
+    },
+    "error": {
+      "title": "Error",
+      "noListing": "No se ha seleccionado ningún listado. Por favor, selecciona un listado primero."
+    },
+    "success": {
+      "bulk": {
+        "created": {
+          "title": "Publicación Masiva Creada Exitosamente.",
+          "description": "Publicación masiva creada para {{count}} listados."
+        },
+        "cloned": {
+          "title": "Publicación Masiva Clonada Exitosamente",
+          "description": "Publicación masiva clonada para {{count}} listados."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Publicación Creada Exitosamente.",
+          "description": "Publicación creada con ID: {{id}}"
+        },
+        "cloned": {
+          "title": "Publicación Clonada Exitosamente",
+          "description": "Publicación clonada con ID: {{id}}"
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "No se pudo crear la publicación masiva.",
+        "cloned": "No se pudo clonar la publicación masiva."
+      },
+      "single": {
+        "created": "No se pudo crear la publicación.",
+        "cloned": "No se pudo clonar la publicación."
+      }
+    }
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "preview": "Vista Previa",
+    "create": "Crear Publicación",
+    "clone": "Clonar Publicación",
+    "creating": "Creando...",
+    "cloning": "Clonando..."
+  },
+  "preview": {
+    "title": "Vista Previa en Vivo"
+  }
+}

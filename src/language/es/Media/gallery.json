@@ -1,0 +1,68 @@
+{
+  "gallery": {
+    "title": "Galería",
+    "uploaded": "Subido",
+    "aiGenerated": "Generado por IA",
+    "uploadedImages": "Imágenes Subidas",
+    "searchPlaceholder": "Buscar medios",
+    "sortBy": "Ordenar por",
+    "newestFirst": "Más recientes primero",
+    "oldestFirst": "Más antiguos primero",
+    "uploadMedia": "Subir Medios",
+    "uploading": "Subiendo...",
+    "images": "Imágenes",
+    "videos": "Videos",
+    "items": "{{count}} elementos",
+    "loadMore": "Cargar más",
+    "quickView": "Vista rápida",
+    "download": "Descargar",
+    "downloadVideo": "Descargar Video",
+    "useForPost": "Usar para Publicación",
+    "useForMedia": "Usar para Medios",
+    "delete": "Eliminar",
+    "deleteMediaTitle": "Eliminar Medios",
+    "deleteMediaDescription": "¿Estás seguro de que deseas eliminar \"{{title}}\"? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirmDelete": "Eliminar",
+    "deleting": "Eliminando...",
+    "aiSection": {
+      "title": "Generar Imágenes con IA",
+      "promptPlaceholder": "Describe la imagen que deseas generar...",
+      "selectStyle": "Seleccionar Estilo",
+      "realistic": "Realista",
+      "artistic": "Artístico",
+      "cartoon": "Dibujo animado",
+      "abstract": "Abstracto",
+      "minimalist": "Minimalista",
+      "vintage": "Vintage",
+      "modern": "Moderno",
+      "numVariants": "No. de Variantes",
+      "variant": "{{count}} variante",
+      "variants": "{{count}} variantes",
+      "generate": "Generar",
+      "generating": "Generando..."
+    },
+    "emptyState": {
+      "title": "No se encontraron medios",
+      "description": "Intenta ajustar tus criterios de búsqueda o genera nuevas imágenes con IA."
+    },
+    "errTitle": {
+      "invalideTitle": "Tipo de archivo inválido",
+      "fileTitle": "Archivo demasiado grande",
+      "uploadeTitle": "Carga exitosa",
+      "uploadFailedTitle": "Error al subir",
+      "generateTitle": "Imágenes Generadas",
+      "generateFailedTitle": "Error en la generación",
+      "downloadTitle": "Error al descargar"
+    },
+    "messages": {
+      "uploadSuccess": "{{count}} archivo(s) subido(s) con éxito.",
+      "uploadFailed": "Ocurrió un error al subir tus archivos. Por favor, inténtalo de nuevo.",
+      "invalidFileType": "Solo se permiten archivos JPG, PNG, WebP, GIF, MP4, MOV y AVI.",
+      "fileTooLarge": "El tamaño del archivo debe ser menor a 10MB. Tu archivo es {{size}}MB.",
+      "geneateSuccess": "{{count}} imagen(es) generada(s) con éxito.",
+      "generationFailed": "No se pudieron generar las imágenes. Por favor, inténtalo de nuevo.",
+      "downloadFailed": "No se pudo descargar el medio. Por favor, inténtalo de nuevo."
+    }
+  }
+}

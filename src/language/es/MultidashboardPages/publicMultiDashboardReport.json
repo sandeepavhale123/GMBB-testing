@@ -1,0 +1,107 @@
+{
+  "loading": {
+    "config": "Cargando configuración del informe...",
+    "dashboard": "Cargando datos del panel..."
+  },
+  "error": {
+    "config": "No se pudo cargar la configuración del informe",
+    "dashboard": "No se pudieron cargar los datos del panel",
+    "retry": "Intentar de Nuevo"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Total de Listados",
+      "subtitle": "Ubicaciones activas"
+    },
+    "avgRating": {
+      "title": "Prom. de Calificación",
+      "subtitle": "En todos los listados"
+    },
+    "totalPosts": {
+      "title": "Total de Publicaciones",
+      "subtitle": "Contenido publicado"
+    },
+    "totalReviews": {
+      "title": "Total de Reseñas",
+      "subtitle": "Opiniones de clientes"
+    }
+  },
+  "filters": {
+    "dashboardSelector": "Seleccionar Tipo de Panel",
+    "default": "Panel Predeterminado",
+    "insight": "Panel de Insights",
+    "review": "Panel de Reseñas",
+    "location": "Panel de Ubicación",
+    "post": "Panel de Publicaciones",
+    "searchPlaceholder": "Buscar por nombre de listado o código postal.",
+    "categories": "Todas las Categorías",
+    "locations": "Todas las Ubicaciones",
+    "reviews": {
+      "all": "Todas las Reseñas",
+      "unresponded": "Reseñas sin Responder",
+      "unrespondedARE": "ARE sin Responder",
+      "unrespondedDNR": "DNR sin Responder",
+      "excludeARE": "Excluir Reseñas ARE",
+      "excludeDNR": "Excluir Reseñas DNR",
+      "excludeBoth": "Excluir Reseñas ARE/DNR"
+    },
+    "posts": {
+      "status": "Estado de Publicación",
+      "all": "Todos los Estados",
+      "live": "Activa",
+      "scheduled": "Programada",
+      "failed": "Fallida"
+    }
+  },
+  "content": {
+    "showing": "Mostrando {{count}} de {{total}} {{type}}",
+    "noData": "No hay datos disponibles",
+    "imageNotAvailable": "Imagen no disponible",
+    "untitledPost": "Publicación sin Título",
+    "openOnGoogle": "Abrir en Google",
+    "viewOnGoogle": "Ver en Google My Business",
+    "img": "IMG"
+  },
+  "labels": {
+    "id": "ID: {{id}}",
+    "zip": "Código Postal: {{zipcode}}",
+    "state": "Estado: {{city}}",
+    "visibility": "Visibilidad",
+    "search": "Buscar",
+    "maps": "Mapas",
+    "total": "Total",
+    "customerActions": "Acciones de Clientes",
+    "clicks": "Clics",
+    "directions": "Direcciones",
+    "calls": "Llamadas",
+    "messages": "Mensajes",
+    "reviewStats": "Estadísticas de Reseñas",
+    "reviewsReplies": "Reseñas / Respuestas",
+    "autoReply": "Respuesta Automática",
+    "reviewSentiment": "Sentimiento de Reseñas",
+    "positive": "Positivo",
+    "neutral": "Neutral",
+    "negative": "Negativo",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "photos": "Fotos",
+    "rating": "Calificación",
+    "website": "Sitio Web",
+    "map": "Mapa",
+    "lastPosts": "Últimas Publicaciones",
+    "upcoming": "Próximas",
+    "lastPost": "Última Publicación",
+    "upcomingPost": "Próxima",
+    "zipLabel": "Código Postal:",
+    "na": "N/D",
+    "totalView": "Vistas Totales",
+    "stateLabel": "Estado",
+    "reviewLabel": "Reseñas",
+    "zipcodeLabel": "Código Postal"
+  },
+  "pagination": {
+    "pageOf": "Página {{current}} de {{total}}",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "qaCard": {
+    "answered": "Respondida",
+    "unanswered": "Sin responder",
+    "askedBy": "Preguntado por",
+    "anonymousUser": "Usuario anónimo",
+    "reply": "Responder",
+    "replyTitle": "Usa palabras clave relevantes en tu respuesta",
+    "answerPlaceholder": "Escribe tu respuesta usando palabras clave relevantes como nombres de ciudades, servicios o productos para mejorar el SEO local...",
+    "postAnswer": "Publicar Respuesta",
+    "cancel": "Cancelar",
+    "answeredLabel": "Respondida hace {{timeAgo}}",
+    "listingFallback": {
+      "name": "Ficha de negocio",
+      "address": "Ubicación"
+    }
+  }
+}
