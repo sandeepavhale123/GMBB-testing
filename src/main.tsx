@@ -10,11 +10,11 @@ const queryClient = new QueryClient();
 // Apply stored theme on app startup
 applyStoredTheme();
 
-// Preload all i18n namespaces before rendering the app
-preloadNamespaces().then(() => {
-  createRoot(document.getElementById("root")!).render(
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  );
-});
+// Preload all i18n namespaces (now synchronous with eager imports)
+preloadNamespaces();
+
+createRoot(document.getElementById("root")!).render(
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+);

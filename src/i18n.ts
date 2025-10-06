@@ -2,16 +2,20 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-export const namespaces = [
-  "Profile/profile",
-  "Profile/profileHeader",
-  "Profile/profileBasicInfoForm",
-  "Profile/profilePreferencesForm",
-  "Dashboard/dashboard",
-  "Media/mediaErrorBoundary",
-  "Components/errorBoundary",
-  "Post/postPreviewErrorBoundary",
-];
+// Static import all translation files at build time (fixes production issue)
+const translationModules = import.meta.glob('./language/**/*.json', { eager: true });
+
+// Extract all available namespaces from the translation files
+const extractedNamespaces = new Set<string>();
+Object.keys(translationModules).forEach((path) => {
+  // Extract namespace from path: ./language/en/Profile/profile.json -> Profile/profile
+  const match = path.match(/\.\/language\/[^/]+\/(.+)\.json$/);
+  if (match) {
+    extractedNamespaces.add(match[1]);
+  }
+});
+
+export const namespaces = Array.from(extractedNamespaces);
 
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
@@ -19,40 +23,47 @@ i18n.use(initReactI18next).init({
   lng: "en", // default language; can be overridden at runtime
   defaultNS: "Profile/profile",
   interpolation: { escapeValue: false },
-  resources: {}, // we’ll dynamically load JSON
+  resources: {}, // we'll load from pre-bundled modules
   parseMissingKeyHandler: (key) => {
     // Friendly fallback instead of showing raw `Profile/profileHeader.firstName`
     return key.split(".").slice(-1)[0];
   },
 });
 
-// Load a single namespace JSON for a given language
-export async function loadNamespace(lng: string, ns: string) {
+// Load a single namespace JSON for a given language using pre-loaded modules
+export function loadNamespace(lng: string, ns: string): boolean {
   try {
-    const data = await import(
-      /* @vite-ignore */ `./language/${lng}/${ns}.json`
-    );
-    const translations = (data && (data as any).default) || data;
-    if (!i18n.hasResourceBundle(lng, ns)) {
+    const path = `./language/${lng}/${ns}.json`;
+    const module = translationModules[path];
+    
+    if (module && !i18n.hasResourceBundle(lng, ns)) {
+      const translations = (module as any).default || module;
       i18n.addResourceBundle(lng, ns, translations, true, true);
+      return true;
     }
+    
+    if (!module) {
+      console.warn(`⚠️ Missing translations: ${lng}/${ns}.json`);
+      return false;
+    }
+    
     return true;
   } catch (err) {
-    console.warn(`⚠️ Missing translations: ${lng}/${ns}.json`, err);
+    console.warn(`⚠️ Error loading translations: ${lng}/${ns}.json`, err);
     return false;
   }
 }
 
 // Load all known namespaces for a given language (helper)
-export async function loadAllNamespaces(lng?: string) {
+export function loadAllNamespaces(lng?: string): void {
   const language = lng || i18n.language;
-  return Promise.all(namespaces.map((ns) => loadNamespace(language, ns)));
+  namespaces.forEach((ns) => loadNamespace(language, ns));
 }
 
 // Preload all namespaces before app renders
-export async function preloadNamespaces(lng?: string) {
+export function preloadNamespaces(lng?: string): typeof i18n {
   const language = lng || i18n.language;
-  await loadAllNamespaces(language);
+  loadAllNamespaces(language);
   return i18n;
 }
 
