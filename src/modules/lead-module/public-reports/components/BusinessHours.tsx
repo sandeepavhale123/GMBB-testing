@@ -25,7 +25,7 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({ hours }) => {
         {hours.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <AlertCircle className="h-12 w-12 text-muted-foreground mb-3" />
-            <p className="text-muted-foreground">No business hours found</p>
+            <p className="text-muted-foreground">No business hours found.</p>
           </div>
         ) : (
           <div className="space-y-3">
