@@ -81,7 +81,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
           </div>
         ) : error ? (
           <div className="text-center py-8">
-            <p className="text-sm text-red-600 mb-2">{t()}</p>
+            <p className="text-sm text-red-600 mb-2">{t("error.failed")}</p>
             <Button
               variant="outline"
               size="sm"

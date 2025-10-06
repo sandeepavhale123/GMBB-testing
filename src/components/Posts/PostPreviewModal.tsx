@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { PostPreview } from "./PostPreview";
-import { PostPreviewErrorBoundary } from "./PostPreviewErrorBoundary";
+import PostPreviewErrorBoundary from "./PostPreviewErrorBoundary";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface PostPreviewModalProps {

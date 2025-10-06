@@ -21,7 +21,7 @@ import {
 import { CircularProgress } from "../ui/circular-progress";
 import { CreatePostModal } from "../Posts/CreatePostModal";
 import { PostPreview } from "../Posts/PostPreview";
-import { PostPreviewErrorBoundary } from "../Posts/PostPreviewErrorBoundary";
+import PostPreviewErrorBoundary from "../Posts/PostPreviewErrorBoundary";
 import { ListingLoader } from "../ui/listing-loader";
 import { NoListingSelected } from "../ui/no-listing-selected";
 import {

@@ -5,7 +5,7 @@ import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
 import { MediaPage as Media } from "../components/Media/MediaPage";
-import { MediaErrorBoundary } from "../components/Media/MediaErrorBoundary";
+import MediaErrorBoundary from "../components/Media/MediaErrorBoundary";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { NoListingSelected } from "../components/ui/no-listing-selected";

@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorBoundary } from "../ErrorBoundary";
+import ErrorBoundary from "../ErrorBoundary";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
