@@ -53,7 +53,7 @@ const AddKeywordsPage = () => {
         // Navigate to keywords page
         navigate(`/keywords/${selectedListing.id}`);
       } else {
-        throw new Error(response.message || "Failed to add keywords");
+        throw new Error(response.message || "Failed to add keywords.");
       }
     } catch (error) {
       console.error("Error adding keywords:", error);
