@@ -22,6 +22,9 @@ interface UseBulkImportDetailsResult {
     page: number;
     limit: number;
     total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
   
   // Search and filters
@@ -186,8 +189,8 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
         isDelete: 'confirm'
       });
 
-      // Remove post from local state without re-fetching
-      setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+      // Re-fetch posts from server to get updated list
+      await fetchPosts();
       
       toast({
         title: "Success",
@@ -203,7 +206,10 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     } finally {
       setIsDeletingPost(false);
     }
-  }, [historyId, toast]);
+  }, [historyId, toast, fetchPosts]);
+
+  const postsTotal = postsPagination.total;
+  const postsTotalPages = Math.ceil(postsTotal / postsPagination.limit);
 
   return {
     // Listings data
@@ -217,7 +223,12 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     posts,
     postsLoading,
     postsError,
-    postsPagination,
+    postsPagination: {
+      ...postsPagination,
+      totalPages: postsTotalPages,
+      hasNext: postsPagination.page < postsTotalPages,
+      hasPrev: postsPagination.page > 1
+    },
     
     // Search and filters
     listingSearch,

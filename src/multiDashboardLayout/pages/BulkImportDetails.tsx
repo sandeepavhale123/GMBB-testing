@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Search, Eye, Trash2, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Search,
+  Eye,
+  Trash2,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -181,11 +189,13 @@ export const BulkImportDetails: React.FC = () => {
     posts,
     postsLoading,
     postsError,
+    postsPagination,
     selectedListingId,
     postSearch,
     setListingSearch,
     setPostSearch,
     setSelectedListingId,
+    setPostsPage,
     deletePost,
     isDeletingPost,
   } = useBulkImportDetails(historyId);
