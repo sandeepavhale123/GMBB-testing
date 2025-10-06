@@ -4,7 +4,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const WelcomeSection = () => {
   const { lightLogo } = useThemeLogo();
-  const { t } = useI18nNamespace("Login/loginLayout");
+  const { t } = useI18nNamespace("Login/welcomeSection");
   return (
     <div
       className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
