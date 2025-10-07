@@ -64,7 +64,8 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
       .split(" ")
       .map((n) => n[0])
       .join("")
-      .toUpperCase();
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   const truncateAddress = (address: string, maxLength = 30) => {
