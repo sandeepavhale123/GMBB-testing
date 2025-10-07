@@ -13,8 +13,7 @@ import { Search } from "lucide-react";
 import { useCreditHistory } from "../hooks/useCreditHistory";
 
 export const CreditHistory: React.FC = () => {
-  const { creditHistory, isLoading, searchTerm, handleSearchChange } =
-    useCreditHistory();
+  const { creditHistory, isLoading, searchTerm, handleSearchChange } = useCreditHistory();
 
   // frontend pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,10 +21,7 @@ export const CreditHistory: React.FC = () => {
 
   const totalPages = Math.ceil(creditHistory.length / itemsPerPage);
 
-  const currentData = creditHistory.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const currentData = creditHistory.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -92,12 +88,8 @@ export const CreditHistory: React.FC = () => {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            Credits History
-          </h1>
-          <p className="text-muted-foreground">
-            Track your credit usage across all ranking checks.
-          </p>
+          <h1 className="text-2xl font-bold text-foreground">Credits History</h1>
+          <p className="text-muted-foreground">Track your credit usage across all ranking checks.</p>
         </div>
       </div>
 
@@ -122,35 +114,24 @@ export const CreditHistory: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium">Keyword</th>
-                  <th className="text-left py-3 px-4 font-medium">
-                    Credit Type
-                  </th>
+                  <th className="text-left py-3 px-4 font-medium">Credit Type</th>
                   <th className="text-left py-3 px-4 font-medium">Credit</th>
                   <th className="text-right py-3 px-4 font-medium">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {currentData.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="border-b border-border/50 hover:bg-muted/50"
-                  >
+                  <tr key={item.id} className="border-b border-border/50 hover:bg-muted/50">
                     <td className="py-3 px-4">
-                      <span className="font-medium text-muted-foreground">
-                        {item.keyword}
-                      </span>
+                      <span className="font-medium text-muted-foreground">{item.keyword}</span>
                     </td>
                     <td className="py-3 px-4">
                       <span className="text-muted-foreground">{item.type}</span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="font-semibold text-muted-foreground">
-                        {item.credit}
-                      </span>
+                      <span className="font-semibold text-muted-foreground">{item.credit}</span>
                     </td>
-                    <td className="py-3 px-4 text-muted-foreground text-right">
-                      {item.date}
-                    </td>
+                    <td className="py-3 px-4 text-muted-foreground text-right">{item.date}</td>
                   </tr>
                 ))}
               </tbody>
@@ -159,9 +140,7 @@ export const CreditHistory: React.FC = () => {
             {creditHistory.length === 0 && !isLoading && (
               <div className="text-center py-8">
                 <p className="text-muted-foreground">No credit history found</p>
-                <p className="text-sm text-muted-foreground">
-                  Try adjusting your search
-                </p>
+                <p className="text-sm text-muted-foreground">Try adjusting your search</p>
               </div>
             )}
           </div>
@@ -169,46 +148,33 @@ export const CreditHistory: React.FC = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="p-4 flex justify-end">
-              <Pagination>
+              <Pagination className="me-auto">
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => handlePageChange(currentPage - 1)}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
                   </PaginationItem>
 
                   {getPageNumbers().map((page, i) =>
                     typeof page === "number" ? (
                       <PaginationItem key={i}>
-                        <PaginationLink
-                          isActive={currentPage === page}
-                          onClick={() => handlePageChange(page)}
-                        >
+                        <PaginationLink isActive={currentPage === page} onClick={() => handlePageChange(page)}>
                           {page}
                         </PaginationLink>
                       </PaginationItem>
                     ) : (
                       <PaginationItem key={i}>
-                        <span className="px-3 py-2 text-muted-foreground">
-                          ...
-                        </span>
+                        <span className="px-3 py-2 text-muted-foreground">...</span>
                       </PaginationItem>
-                    )
+                    ),
                   )}
 
                   <PaginationItem>
                     <PaginationNext
                       onClick={() => handlePageChange(currentPage + 1)}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />
                   </PaginationItem>
                 </PaginationContent>
