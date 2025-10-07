@@ -52,17 +52,8 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
             <div style={{ height: '306px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={customerActionsChartData}>
-                  <XAxis 
-                    dataKey="name" 
-                    tick={{ fontSize: 12 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis 
-                    tick={{ fontSize: 12 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
+                  <XAxis dataKey="name" />
+                  <YAxis />
                   <Tooltip />
                   {visibleBars.website && (
                     <Bar 
