@@ -938,32 +938,14 @@ export const PublicGMBHealthReport: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Add a working website link.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Encourage satisfied customers to leave reviews.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Average Rating is below 4 stars.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>The logo is present and professional.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Update your business hours.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Less Than 5 Photos. Enhance Photo</span>
-                </li>
+            <div className="border rounded-lg p-6 bg-card">
+              <ul className="space-y-3 list-disc list-inside text-foreground">
+                <li className="pl-2">Add a working website link.</li>
+                <li className="pl-2">Encourage satisfied customers to leave reviews.</li>
+                <li className="pl-2">Average Rating is below 4 stars.</li>
+                <li className="pl-2">The logo is present and professional.</li>
+                <li className="pl-2">Update your business hours.</li>
+                <li className="pl-2">Less Than 5 Photos. Enhance Photo</li>
               </ul>
             </div>
           </CardContent>
