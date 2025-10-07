@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { Search, MapPin, TrendingUp, TrendingDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { Link, useLocation } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
 
@@ -116,6 +116,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                   <BarChart data={visibilityTrends?.chart_data || []}>
                     <XAxis dataKey="name" />
                     <YAxis />
+                    <Tooltip />
                     {visibleBars.search && <Bar dataKey="search" fill="hsl(var(--primary))" name="Search" />}
                     {visibleBars.maps && <Bar dataKey="maps" fill="#ef4444" name="Maps" />}
                   </BarChart>
