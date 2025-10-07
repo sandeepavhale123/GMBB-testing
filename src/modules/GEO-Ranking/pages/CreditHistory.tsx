@@ -148,7 +148,7 @@ export const CreditHistory: React.FC = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="p-4 flex justify-end">
-              <Pagination className="me-auto">
+              <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
