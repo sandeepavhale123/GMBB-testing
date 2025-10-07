@@ -50,6 +50,7 @@ import {
   deleteGalleryMedia,
 } from "@/api/mediaApi";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Loader } from "@/components/ui/loader";
 import { useMediaContext } from "../../context/MediaContext";
 import { useNavigate } from "react-router-dom";
 import { useGalleryImagesQuery } from "@/hooks/useGalleryImagesQuery";
@@ -444,6 +445,17 @@ export const Gallery: React.FC<GalleryProps> = ({
       limit: 16,
     });
 
+  // Set all images as loading when data changes
+  React.useEffect(() => {
+    if (images && images.length > 0) {
+      const loadingState: Record<string, boolean> = {};
+      images.forEach(img => {
+        loadingState[img.key] = true;
+      });
+      setLoadingImages(loadingState);
+    }
+  }, [images]);
+
   // Transform API images to MediaItem format
   const transformApiImageToMediaItem = (
     apiImage: GalleryImageItem
@@ -500,6 +512,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     number | undefined
   >();
   const [deletingItemKey, setDeletingItemKey] = useState<string | null>(null);
+  const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({});
 
   // File upload handler
   // Use mutations
@@ -941,19 +954,27 @@ export const Gallery: React.FC<GalleryProps> = ({
                             </div>
                           )}
 
-                          <div className="aspect-square overflow-hidden">
+                          <div className="aspect-square overflow-hidden relative">
+                            {loadingImages[item.id] && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-muted">
+                                <Loader size="md" />
+                              </div>
+                            )}
                             {item.type === "video" ? (
                               <video
                                 src={item.url}
                                 className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
                                 preload="metadata"
                                 muted
+                                onLoadedData={() => setLoadingImages(prev => ({ ...prev, [item.id]: false }))}
                               />
                             ) : (
                               <img
                                 src={item.url}
                                 alt={item.title}
                                 className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                onLoad={() => setLoadingImages(prev => ({ ...prev, [item.id]: false }))}
+                                onError={() => setLoadingImages(prev => ({ ...prev, [item.id]: false }))}
                               />
                             )}
                           </div>
