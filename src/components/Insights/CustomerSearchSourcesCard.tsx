@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface CustomerSearchSourcesCardProps {
   summary: any;
@@ -22,7 +22,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
     {
       name: 'Desktop search',
       value: summary?.customer_actions?.desktop_search?.value || 0,
-      color: '#2563eb',
+      color: '#22c55e',
     },
     {
       name: 'Desktop map',
@@ -32,12 +32,12 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
     {
       name: 'Mobile search',
       value: summary?.customer_actions?.mobile_search?.value || 0,
-      color: '#60a5fa',
+      color: '#a855f7',
     },
     {
       name: 'Mobile map',
       value: summary?.customer_actions?.mobile_map?.value || 0,
-      color: '#93c5fd',
+      color: '#f97316',
     },
   ];
 
@@ -105,6 +105,19 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
+                    <Tooltip 
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-background border border-border rounded-lg px-3 py-2 shadow-lg">
+                              <p className="text-sm font-medium text-foreground">{payload[0].name}</p>
+                              <p className="text-sm text-muted-foreground">{payload[0].value} searches</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
                 {/* Center Total */}
@@ -117,10 +130,6 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
               {/* Legend Section */}
               <div className="flex-1 grid grid-cols-2 md:grid-cols-1 gap-3 w-full">
                 {chartData.map((item, index) => {
-                  const percentage = totalSearches > 0 
-                    ? ((item.value / totalSearches) * 100).toFixed(1) 
-                    : '0.0';
-                  
                   return (
                     <div key={index} className="flex items-center gap-2">
                       <div
@@ -128,7 +137,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                         style={{ backgroundColor: item.color }}
                       />
                       <span className="text-sm font-medium text-foreground flex-1">{item.name}</span>
-                      <span className="text-sm text-muted-foreground">{percentage}%</span>
+                      <span className="text-sm text-muted-foreground">{item.value}</span>
                     </div>
                   );
                 })}
