@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 interface CustomerSearchSourcesCardProps {
   summary: any;
@@ -12,6 +12,8 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
   summary,
   isLoadingSummary,
 }) => {
+  const [hoveredSegment, setHoveredSegment] = useState<{ name: string; value: number } | null>(null);
+  
   const totalSearches =
     (summary?.customer_actions?.desktop_search?.value || 0) +
     (summary?.customer_actions?.desktop_map?.value || 0) +
@@ -100,30 +102,23 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                       outerRadius={80}
                       paddingAngle={2}
                       dataKey="value"
+                      onMouseEnter={(data) => setHoveredSegment({ name: data.name, value: data.value })}
+                      onMouseLeave={() => setHoveredSegment(null)}
                     >
                       {chartData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip 
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="bg-background border border-border rounded-lg px-3 py-2 shadow-lg">
-                              <p className="text-sm font-medium text-foreground">{payload[0].name}</p>
-                              <p className="text-sm text-muted-foreground">{payload[0].value} searches</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
                   </PieChart>
                 </ResponsiveContainer>
-                {/* Center Total */}
+                {/* Center Display */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-2xl md:text-3xl font-bold text-foreground">{totalSearches}</span>
-                  <span className="text-xs text-muted-foreground">Total Searches</span>
+                  <span className="text-2xl md:text-3xl font-bold text-foreground">
+                    {hoveredSegment ? hoveredSegment.value : totalSearches}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {hoveredSegment ? hoveredSegment.name : 'Total Searches'}
+                  </span>
                 </div>
               </div>
 
