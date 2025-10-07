@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { MousePointer, Navigation, Phone, MessageSquare } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 interface CustomerActionsChartProps {
   isLoadingSummary: boolean;
@@ -18,24 +18,13 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
   visibilityTrends,
   summary,
 }) => {
-  const customerActionsChartData = [
-    {
-      name: 'Website',
-      value: visibilityTrends?.summary?.total_website_views || 0
-    },
-    {
-      name: 'Direction',
-      value: visibilityTrends?.summary?.total_direction_views || 0
-    },
-    {
-      name: 'Messages',
-      value: visibilityTrends?.summary?.total_message_views || 0
-    },
-    {
-      name: 'Calls',
-      value: visibilityTrends?.summary?.total_calls_views || 0
-    }
-  ];
+  const customerActionsChartData = visibilityTrends?.data?.chart_data?.map((item: any) => ({
+    name: item.name,
+    website: item.website || 0,
+    direction: item.direction || 0,
+    messages: item.messages || 0,
+    calls: item.calls || 0
+  })) || [];
   return (
     <Card>
       <CardHeader>
@@ -61,11 +50,31 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     axisLine={false}
                     tickLine={false}
                   />
+                  <Tooltip />
+                  <Legend />
                   <Bar 
-                    dataKey="value" 
-                    fill="hsl(var(--primary))" 
+                    dataKey="website" 
+                    fill="#10b981" 
                     radius={[4, 4, 0, 0]}
-                    name="Actions"
+                    name="Website"
+                  />
+                  <Bar 
+                    dataKey="direction" 
+                    fill="#f97316" 
+                    radius={[4, 4, 0, 0]}
+                    name="Direction"
+                  />
+                  <Bar 
+                    dataKey="messages" 
+                    fill="#22c55e" 
+                    radius={[4, 4, 0, 0]}
+                    name="Messages"
+                  />
+                  <Bar 
+                    dataKey="calls" 
+                    fill="#a855f7" 
+                    radius={[4, 4, 0, 0]}
+                    name="Calls"
                   />
                 </BarChart>
               </ResponsiveContainer>
