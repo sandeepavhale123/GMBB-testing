@@ -18,7 +18,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
   visibilityTrends,
   summary,
 }) => {
-  const customerActionsChartData = visibilityTrends?.data?.chart_data?.map((item: any) => ({
+  const customerActionsChartData = visibilityTrends?.chart_data?.map((item: any) => ({
     name: item.name,
     website: item.website || 0,
     direction: item.direction || 0,
