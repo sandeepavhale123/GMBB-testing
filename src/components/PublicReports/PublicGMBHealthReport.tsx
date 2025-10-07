@@ -546,6 +546,20 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card>
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-6">Competitor Analysis</h2>
+            
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No Competitor Data Found</h3>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any competitor information for this location at this time. 
+                  Please check back later or contact support if you believe this is an error.
+                </p>
+              </div>
+            ) : (
+              <>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
@@ -726,6 +740,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            </>
+            )}
           </CardContent>
         </Card>
 
@@ -733,6 +749,20 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card>
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-6">Citation Analysis</h2>
+            
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No Citation Data Found</h3>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any citation information for this location at this time. 
+                  Citations will be analyzed once competitor data becomes available.
+                </p>
+              </div>
+            ) : (
+              <>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
@@ -895,6 +925,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            </>
+            )}
           </CardContent>
         </Card>
 
