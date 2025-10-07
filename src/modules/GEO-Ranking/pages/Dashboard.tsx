@@ -443,7 +443,11 @@ export const Dashboard: React.FC = () => {
                         {project.createdDate}
                       </td>
                       <td className="py-3 px-4 text-muted-foreground">
-                        {project.notificationEmail}
+                        <div className="flex flex-col gap-1">
+                          {project.notificationEmail?.split(',').map((email, idx) => (
+                            <span key={idx}>{email.trim()}</span>
+                          ))}
+                        </div>
                       </td>
                       <td className="py-3 px-4">
                         <DropdownMenu>
