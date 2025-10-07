@@ -529,18 +529,18 @@ export const Dashboard: React.FC = () => {
                   {/* Page numbers */}
                   {Array.from(
                     {
-                      length: Math.min(5, pagination.totalPages),
+                      length: Math.min(3, pagination.totalPages),
                     },
                     (_, i) => {
                       let pageNum: number;
-                      if (pagination.totalPages <= 5) {
+                      if (pagination.totalPages <= 3) {
                         pageNum = i + 1;
-                      } else if (currentPage <= 3) {
+                      } else if (currentPage <= 2) {
                         pageNum = i + 1;
-                      } else if (currentPage >= pagination.totalPages - 2) {
-                        pageNum = pagination.totalPages - 4 + i;
+                      } else if (currentPage >= pagination.totalPages - 1) {
+                        pageNum = pagination.totalPages - 2 + i;
                       } else {
-                        pageNum = currentPage - 2 + i;
+                        pageNum = currentPage - 1 + i;
                       }
                       return (
                         <PaginationItem key={pageNum}>
@@ -556,8 +556,8 @@ export const Dashboard: React.FC = () => {
                     }
                   )}
 
-                  {pagination.totalPages > 5 &&
-                    currentPage < pagination.totalPages - 2 && (
+                  {pagination.totalPages > 3 &&
+                    currentPage < pagination.totalPages - 1 && (
                       <>
                         <PaginationItem>
                           <PaginationEllipsis />
