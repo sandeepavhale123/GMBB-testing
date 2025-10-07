@@ -73,9 +73,9 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
             No data available
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Column 1: Title and Description */}
-            <div className="flex flex-col justify-center space-y-3">
+            <div className="flex flex-col justify-center space-y-3 lg:w-[65%]">
               <h3 className="text-lg font-semibold text-foreground">
                 How Customers Search For Your Business
               </h3>
@@ -87,7 +87,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
             </div>
 
             {/* Column 2: Donut Chart and Legend */}
-            <div className="flex flex-col md:flex-row items-center gap-6 max-h-[200px]">
+            <div className="flex flex-col md:flex-row items-center gap-6 max-h-[200px] lg:w-[35%]">
               {/* Chart Section */}
               <div className="relative w-full md:w-[200px] h-[160px] md:h-[180px] flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
