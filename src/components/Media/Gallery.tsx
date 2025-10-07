@@ -445,17 +445,6 @@ export const Gallery: React.FC<GalleryProps> = ({
       limit: 16,
     });
 
-  // Set all images as loading when data changes
-  React.useEffect(() => {
-    if (images && images.length > 0) {
-      const loadingState: Record<string, boolean> = {};
-      images.forEach(img => {
-        loadingState[img.key] = true;
-      });
-      setLoadingImages(loadingState);
-    }
-  }, [images]);
-
   // Transform API images to MediaItem format
   const transformApiImageToMediaItem = (
     apiImage: GalleryImageItem
@@ -513,6 +502,17 @@ export const Gallery: React.FC<GalleryProps> = ({
   >();
   const [deletingItemKey, setDeletingItemKey] = useState<string | null>(null);
   const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({});
+
+  // Set all images as loading when data changes
+  React.useEffect(() => {
+    if (images && images.length > 0) {
+      const loadingState: Record<string, boolean> = {};
+      images.forEach(img => {
+        loadingState[img.key] = true;
+      });
+      setLoadingImages(loadingState);
+    }
+  }, [images]);
 
   // File upload handler
   // Use mutations
