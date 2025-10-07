@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts';
@@ -17,6 +17,15 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
   visibilityTrends,
   summary,
 }) => {
+  const [hiddenBars, setHiddenBars] = useState<Record<string, boolean>>({});
+
+  const handleLegendClick = (dataKey: string) => {
+    setHiddenBars(prev => ({
+      ...prev,
+      [dataKey]: !prev[dataKey]
+    }));
+  };
+
   const customerActionsChartData = visibilityTrends?.chart_data?.map((item: any) => ({
     name: item.name,
     website: item.website || 0,
@@ -35,7 +44,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
           <Skeleton className="h-64" />
         ) : (
           <>
-            <div className="h-64">
+            <div style={{ height: '306px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={customerActionsChartData}>
                   <XAxis 
@@ -50,31 +59,42 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     tickLine={false}
                   />
                   <Tooltip />
-                  <Legend />
-                  <Bar 
-                    dataKey="website" 
-                    fill="#10b981" 
-                    radius={[4, 4, 0, 0]}
-                    name="Website"
+                  <Legend 
+                    onClick={(e) => handleLegendClick(String(e.dataKey))}
+                    wrapperStyle={{ cursor: 'pointer' }}
                   />
-                  <Bar 
-                    dataKey="direction" 
-                    fill="#f97316" 
-                    radius={[4, 4, 0, 0]}
-                    name="Direction"
-                  />
-                  <Bar 
-                    dataKey="messages" 
-                    fill="#22c55e" 
-                    radius={[4, 4, 0, 0]}
-                    name="Messages"
-                  />
-                  <Bar 
-                    dataKey="calls" 
-                    fill="#a855f7" 
-                    radius={[4, 4, 0, 0]}
-                    name="Calls"
-                  />
+                  {!hiddenBars['website'] && (
+                    <Bar 
+                      dataKey="website" 
+                      fill="#10b981" 
+                      radius={[4, 4, 0, 0]}
+                      name="Website"
+                    />
+                  )}
+                  {!hiddenBars['direction'] && (
+                    <Bar 
+                      dataKey="direction" 
+                      fill="#f97316" 
+                      radius={[4, 4, 0, 0]}
+                      name="Direction"
+                    />
+                  )}
+                  {!hiddenBars['messages'] && (
+                    <Bar 
+                      dataKey="messages" 
+                      fill="#3b82f6" 
+                      radius={[4, 4, 0, 0]}
+                      name="Messages"
+                    />
+                  )}
+                  {!hiddenBars['calls'] && (
+                    <Bar 
+                      dataKey="calls" 
+                      fill="#a855f7" 
+                      radius={[4, 4, 0, 0]}
+                      name="Calls"
+                    />
+                  )}
                 </BarChart>
               </ResponsiveContainer>
             </div>
