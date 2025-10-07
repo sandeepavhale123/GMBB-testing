@@ -124,7 +124,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                       <Info className="h-4 w-4 text-gray-500 cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>You can activate and deactivate listings using the button below</p>
+                      <p>Toggle the switch to activate or deactivate your listings</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
