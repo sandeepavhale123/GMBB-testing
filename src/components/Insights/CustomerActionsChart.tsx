@@ -63,38 +63,34 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     onClick={(e) => handleLegendClick(String(e.dataKey))}
                     wrapperStyle={{ cursor: 'pointer' }}
                   />
-                  {!hiddenBars['website'] && (
-                    <Bar 
-                      dataKey="website" 
-                      fill="#10b981" 
-                      radius={[4, 4, 0, 0]}
-                      name="Website"
-                    />
-                  )}
-                  {!hiddenBars['direction'] && (
-                    <Bar 
-                      dataKey="direction" 
-                      fill="#f97316" 
-                      radius={[4, 4, 0, 0]}
-                      name="Direction"
-                    />
-                  )}
-                  {!hiddenBars['messages'] && (
-                    <Bar 
-                      dataKey="messages" 
-                      fill="#3b82f6" 
-                      radius={[4, 4, 0, 0]}
-                      name="Messages"
-                    />
-                  )}
-                  {!hiddenBars['calls'] && (
-                    <Bar 
-                      dataKey="calls" 
-                      fill="#a855f7" 
-                      radius={[4, 4, 0, 0]}
-                      name="Calls"
-                    />
-                  )}
+                  <Bar 
+                    dataKey="website" 
+                    fill="#10b981" 
+                    radius={[4, 4, 0, 0]}
+                    name="Website"
+                    hide={hiddenBars['website']}
+                  />
+                  <Bar 
+                    dataKey="direction" 
+                    fill="#f97316" 
+                    radius={[4, 4, 0, 0]}
+                    name="Direction"
+                    hide={hiddenBars['direction']}
+                  />
+                  <Bar 
+                    dataKey="messages" 
+                    fill="#3b82f6" 
+                    radius={[4, 4, 0, 0]}
+                    name="Messages"
+                    hide={hiddenBars['messages']}
+                  />
+                  <Bar 
+                    dataKey="calls" 
+                    fill="#a855f7" 
+                    radius={[4, 4, 0, 0]}
+                    name="Calls"
+                    hide={hiddenBars['calls']}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
