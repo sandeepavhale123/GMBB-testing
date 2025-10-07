@@ -111,13 +111,25 @@ export interface VisibilityTrendsResponse {
       name: string;
       search: number;
       maps: number;
+      website: number;
+      direction: number;
+      messages: number;
+      calls: number;
       date_range: string;
     }>;
     summary: {
       total_search_views: number;
       total_maps_views: number;
+      total_website_views: number;
+      total_direction_views: number;
+      total_message_views: number;
+      total_calls_views: number;
       search_trend: string;
       maps_trend: string;
+      website_trend: string;
+      direction_trend: string;
+      message_trend: string;
+      calls_trend: string;
     };
   };
 }
