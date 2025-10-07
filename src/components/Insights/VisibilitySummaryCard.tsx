@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { Search, MapPin, TrendingUp, TrendingDown } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
 
 interface VisibilitySummaryCardProps {
@@ -21,6 +21,8 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
   visibilityTrends,
 }) => {
   const { selectedListing } = useListingContext();
+  const location = useLocation();
+  const isInsightsPage = location.pathname.startsWith('/insights/');
   
   const [visibleBars, setVisibleBars] = useState({
     search: true,
@@ -42,12 +44,14 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
             <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
             <p className="text-sm text-gray-600">Total views from Google Search and Maps.</p>
           </div>
-          <Link 
-            to={`/insights/${selectedListing?.id || 'default'}`}
-            className="text-sm text-primary hover:underline"
-          >
-            View All
-          </Link>
+          {!isInsightsPage && (
+            <Link 
+              to={`/insights/${selectedListing?.id || 'default'}`}
+              className="text-sm text-primary hover:underline"
+            >
+              View All
+            </Link>
+          )}
         </div>
       </CardHeader>
       <CardContent>
