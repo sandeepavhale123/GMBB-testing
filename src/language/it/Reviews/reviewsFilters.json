@@ -1,0 +1,36 @@
+{
+  "reviewsFilters": {
+    "search": {
+      "placeholder": "Cerca recensioni..."
+    },
+    "filter": {
+      "placeholder": "Tutte le Recensioni",
+      "all": "Tutte le Recensioni",
+      "pending": "Risposta Pendenti",
+      "replied": "Risposto"
+    },
+    "sentiment": {
+      "placeholder": "Tutti i Sentimenti",
+      "all": "Tutti i Sentimenti",
+      "positive": "Positivo",
+      "neutral": "Neutrale",
+      "negative": "Negativo"
+    },
+    "sort": {
+      "placeholder": "Più Recenti",
+      "newest": "Più Recenti",
+      "oldest": "Più Vecchie",
+      "ratingLow": "Valutazione Più Alta",
+      "ratingHigh": "Valutazione Più Bassa"
+    },
+    "dateRange": {
+      "placeholder": "Seleziona intervallo di date",
+      "clearAria": "Cancella intervallo di date"
+    },
+    "refresh": {
+      "button": "Ricarica",
+      "aria": "Ricarica recensioni",
+      "tooltip": "Questo pulsante ricaricherà la tua pagina delle recensioni per ottenere le recensioni più recenti da Google"
+    }
+  }
+}

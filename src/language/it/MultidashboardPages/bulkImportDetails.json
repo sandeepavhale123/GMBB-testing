@@ -1,0 +1,40 @@
+{
+  "bulkImportDetails": {
+    "title": "Dettagli Importazione Massiva",
+    "loadingListings": "Caricamento inserzioni...",
+    "selectListingPrompt": "Seleziona un'inserzione per visualizzare i post",
+    "listingSidebar": {
+      "selectedCount": "{{count}} Inserzioni selezionate",
+      "searchPlaceholder": "Cerca per nome inserzione o CAP",
+      "noListingsFound": "Nessuna inserzione trovata per questo ID storico.",
+      "errorLoading": "Errore nel caricamento delle inserzioni",
+      "noListings": "Nessuna inserzione trovata",
+      "zipCode": "CAP: {{zip}}",
+      "loading": "Caricamento..."
+    },
+    "posts": {
+      "searchPlaceholder": "Cerca per contenuto del post o tag",
+      "loading": "Caricamento dei post...",
+      "errorLoading": "Errore nel caricamento dei post",
+      "noPostsFound": "Nessun post trovato che corrisponde ai criteri di ricerca.",
+      "image": "Immagine",
+      "postContent": "Contenuto del Post",
+      "noContent": "Nessun contenuto",
+      "noImage": "Nessuna immagine",
+      "status": "Stato",
+      "date": "Data",
+      "action": "Azione",
+      "deletePost": "Elimina Post",
+      "deleteConfirmation": "Sei sicuro di voler eliminare questo post? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "delete": "Elimina",
+      "deleting": "Eliminando..."
+    },
+    "pagination": {
+      "showingPosts": "Mostrando da {{start}} a {{end}} di {{total}} post",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "pageOf": "Pagina {{current}} di {{totalPages}}"
+    }
+  }
+}

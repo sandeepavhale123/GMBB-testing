@@ -1,0 +1,17 @@
+{
+  "signInAccount": "Accedi al tuo account",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "rememberMe": "Ricordami",
+  "forgotPassword": "Hai dimenticato la password?",
+  "logInButton": "Accedi",
+  "loggingIn": "Accesso in corso...",
+  "validationErrorTitle": "Errore di convalida",
+  "validationErrorDescription": "Per favore, correggi i campi evidenziati e riprova.",
+  "subscriptionExpiredTitle": "Abbonamento scaduto",
+  "subscriptionExpiredDescription": "Il tuo piano è scaduto. Rinnova per continuare.",
+  "loginSuccessTitle": "Successo",
+  "loginSuccessDescription": "Accesso effettuato con successo!",
+  "loginErrorTitle": "Errore",
+  "loginErrorDescription": "Accesso fallito. Verifica le tue credenziali."
+}

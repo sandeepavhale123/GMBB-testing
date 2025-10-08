@@ -1,0 +1,32 @@
+{
+  "importPostCSV": {
+    "title": "Gestione Post in Massa",
+    "importButton": "Importa file CSV",
+    "searchPlaceholder": "Cerca per nome file o nota...",
+    "noRecordsFound": "Nessun record trovato per la tua ricerca.",
+    "noCSVFound": "Nessun import CSV trovato. Clicca su \"Importa\" per iniziare.",
+    "tableHeaders": {
+      "filename": "Nome file",
+      "note": "Nota",
+      "date": "Data",
+      "totalPosts": "Post totali",
+      "listingsApplied": "Annunci applicati",
+      "status": "Stato",
+      "action": "Azione"
+    },
+    "deleteDialog": {
+      "title": "Elimina Importazione CSV",
+      "description": "Sei sicuro di voler eliminare il record di importazione per \"{{filename}}\"? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "delete": "Elimina",
+      "deleting": "Eliminazione in corso..."
+    },
+    "toast": {
+      "successTitle": "Successo",
+      "successMessage": "Record eliminato con successo",
+      "errorTitle": "Errore",
+      "errorMessage": "Impossibile eliminare il record"
+    },
+    "paginationInfo": "Mostrando da {{start}} a {{end}} di {{total}} voci"
+  }
+}

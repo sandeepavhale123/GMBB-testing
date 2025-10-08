@@ -1,0 +1,9 @@
+{
+  "businessListingSelector": {
+    "noListings": "Nessuna inserzione disponibile",
+    "loading": "Caricamento...",
+    "searchPlaceholder": "Cerca inserzioni...",
+    "searching": "Ricerca in corso...",
+    "noResults": "Nessuna inserzione trovata."
+  }
+}

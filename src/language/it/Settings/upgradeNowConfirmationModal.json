@@ -1,0 +1,9 @@
+{
+  "upgradeNowConfirmationModal": {
+    "title": "Aggiorna Piano",
+    "description": "Sei sicuro di voler passare al piano {{planName}}?",
+    "cancelButton": "Annulla",
+    "confirmButton": "Sì, aggiorna",
+    "processing": "Elaborazione in corso..."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "googleAccountGridView": {
+    "summary": {
+      "totalListings": "Annunci Totali",
+      "connected": "Connessi"
+    },
+    "progress": {
+      "label": "Avanzamento Connessione"
+    }
+  }
+}

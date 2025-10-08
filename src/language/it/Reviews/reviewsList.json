@@ -1,0 +1,34 @@
+{
+  "reviewsList": {
+    "title": "Recensioni dei Clienti",
+    "errors": {
+      "reviewsError": "Qualcosa è andato storto durante il recupero delle recensioni.",
+      "replyError": "Errore nell'invio della risposta",
+      "deleteReplyError": "Errore nell'eliminazione della risposta",
+      "refreshError": "Errore nel ricaricamento dei dati",
+      "emptyReply": "Per favore, inserisci un messaggio di risposta"
+    },
+    "success": {
+      "replySent": "Risposta inviata con successo",
+      "replyDeleted": "La risposta è stata eliminata con successo",
+      "refresh": "Dati delle recensioni aggiornati con successo"
+    },
+    "buttons": {
+      "tryAgain": "Riprova",
+      "saveReply": "Salva Risposta",
+      "cancel": "Annulla",
+      "deleteReply": "Elimina Risposta"
+    },
+    "loading": {
+      "reviews": "Caricamento recensioni...",
+      "reply": "Invio risposta...",
+      "deleting": "Eliminazione risposta..."
+    },
+    "emptyState": {
+      "noReviews": "Nessuna recensione ancora",
+      "noFilteredReviews": "Nessuna recensione corrisponde ai tuoi filtri",
+      "noReviewsMessage": "Le recensioni appariranno qui una volta che i clienti lasceranno un feedback sulle tue inserzioni aziendali.",
+      "noFilteredReviewsMessage": "Prova ad aggiustare i tuoi criteri di ricerca o i filtri per vedere più risultati."
+    }
+  }
+}

@@ -25,7 +25,10 @@ import {
   Trash2,
 } from "lucide-react";
 import { useGoogleApiKey } from "../hooks/useGoogleApiKey";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const ManageGoogleAPIKey: React.FC = () => {
+  const { t } = useI18nNamespace("Geo-Ranking-module-pages/ManageGoogleAPIKey");
   const {
     apiKeyData,
     isLoading,
@@ -53,10 +56,10 @@ export const ManageGoogleAPIKey: React.FC = () => {
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground">
-          Google Places API Key
+          {t("manageApiKey.pageTitle")}
         </h1>
         <p className="text-muted-foreground mt-2">
-          Manage your Google Places API key for location-based ranking checks.
+          {t("manageApiKey.pageDescription")}
         </p>
       </div>
 
@@ -64,16 +67,15 @@ export const ManageGoogleAPIKey: React.FC = () => {
       <Alert>
         <Info className="h-4 w-4" />
         <AlertDescription>
-          You need a valid Google Places API key to perform location-based
-          ranking checks. Make sure your API key has the Places API and
-          Geocoding API enabled.
+          {t("manageApiKey.infoAlert.description")}
           <a
             href="https://developers.google.com/places/web-service/get-api-key"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center ml-2 text-primary hover:underline"
           >
-            Get API Key <ExternalLink className="w-3 h-3 ml-1" />
+            {t("manageApiKey.infoAlert.getKey")}{" "}
+            <ExternalLink className="w-3 h-3 ml-1" />
           </a>
         </AlertDescription>
       </Alert>
@@ -87,7 +89,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
       ) : apiKeyData ? (
         <Card>
           <CardHeader>
-            <CardTitle>Current Status</CardTitle>
+            <CardTitle>{t("manageApiKey.status.title")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -95,9 +97,11 @@ export const ManageGoogleAPIKey: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
                   <div>
-                    <p className="font-medium">API Key Configured</p>
+                    <p className="font-medium">
+                      {t("manageApiKey.status.configured")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      Key:{" "}
+                      {t("manageApiKey.status.keyLabel")}:{" "}
                       <code className="bg-background px-2 py-1 rounded text-xs">
                         {maskApiKey(apiKeyData.apiKey)}
                       </code>
@@ -106,7 +110,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <Badge variant="default" className="bg-green-500">
-                    Active
+                    {t("manageApiKey.status.active")}
                   </Badge>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -116,25 +120,29 @@ export const ManageGoogleAPIKey: React.FC = () => {
                         disabled={isDeleting}
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
-                        {isDeleting ? "Deleting..." : "Delete"}
+                        {isDeleting
+                          ? t("manageApiKey.status.deleting")
+                          : t("manageApiKey.status.delete")}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete API Key</AlertDialogTitle>
+                        <AlertDialogTitle>
+                          {t("manageApiKey.status.deleteTitle")}
+                        </AlertDialogTitle>
                         <AlertDialogDescription>
-                          Are you sure you want to delete your Google Places API
-                          key? This action cannot be undone and will disable all
-                          location-based ranking checks.
+                          {t("manageApiKey.status.deleteDescription")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>
+                          {t("manageApiKey.status.cancel")}
+                        </AlertDialogCancel>
                         <AlertDialogAction
                           onClick={handleDeleteApiKey}
                           className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                          Delete API Key
+                          {t("manageApiKey.status.confirmDelete")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -153,77 +161,57 @@ export const ManageGoogleAPIKey: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center">
             <Key className="w-5 h-5 mr-2" />
-            API Key Configuration
+            {t("manageApiKey.config.title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="api-key">Google Places API Key</Label>
+            <Label htmlFor="api-key">{t("manageApiKey.config.label")}</Label>
             <div className="flex gap-2 mt-1">
               <Input
                 id="api-key"
                 type="password"
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
-                placeholder="Enter your Google Places API Key"
+                placeholder={t("manageApiKey.config.placeholder")}
                 className="flex-1"
               />
               <Button
                 onClick={handleSaveApiKey}
                 disabled={!apiKeyInput.trim() || isSaving}
               >
-                {isSaving ? "Saving..." : apiKeyData ? "Update" : "Add"}
+                {isSaving
+                  ? t("manageApiKey.config.saving")
+                  : apiKeyData
+                  ? t("manageApiKey.config.update")
+                  : t("manageApiKey.config.add")}
               </Button>
             </div>
           </div>
 
           <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
             <p className="font-medium mb-2">
-              How to generate Google Place API key:
+              {t("manageApiKey.instructions.title")}
             </p>
             <ol className="space-y-1">
-              <li>1. Note - You must enable Billing for Google Project.</li>
+              <li>{t("manageApiKey.instructions.step1")}</li>
               <li>
-                2. Visit the Google{" "}
+                {t("manageApiKey.instructions.step2_p1")}
                 <a
                   href="https://console.cloud.google.com/projectselector2/google/maps-apis/overview?pli=1&supportedpurview=project"
                   target="_blank"
                   className="text-primary"
                 >
-                  Cloud Platform Console.
+                  {t("manageApiKey.instructions.step2_p2")}
                 </a>
               </li>
-              <li>
-                3. Click the project drop-down and select or create the project
-                for which you want to add an API key.
-              </li>
-              <li>
-                4. From Dashboard &gt; Go to APIs overview &gt; Click on Library
-                &gt; Enable Maps JavaScript API & Enable Places API by clicking
-                on both respectively.
-              </li>
-              <li>
-                5. After that Click the menu button and select APIs &amp;
-                Services &gt; Credentials.
-              </li>
-              <li>
-                6. On the Credentials page, Create credentials Dropdown - Select
-                API Key Option.
-              </li>
-              <li>
-                7. This creates a dialog that displays, “your newly created API
-                key” - Copy the key.
-              </li>
-              <li>
-                8. Use or paste the generated key under Geo Ranking &gt; Manage
-                Key tab. (One-time activity -Only First use of GEO Ranking
-                Check).
-              </li>
-              <li>
-                9. Once you have added a key, it will be used for all of your
-                listings, and no more need to generate a separate key for every
-                GMB listing.
-              </li>
+              <li>{t("manageApiKey.instructions.step3")}</li>
+              <li>{t("manageApiKey.instructions.step4")}</li>
+              <li>{t("manageApiKey.instructions.step5")}</li>
+              <li>{t("manageApiKey.instructions.step6")}</li>
+              <li>{t("manageApiKey.instructions.step7")}</li>
+              <li>{t("manageApiKey.instructions.step8")}</li>
+              <li>{t("manageApiKey.instructions.step9")}</li>
             </ol>
           </div>
         </CardContent>

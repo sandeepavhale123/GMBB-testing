@@ -1,0 +1,12 @@
+{
+  "mediaLibraryCard": {
+    "title": "Libreria Multimediale",
+    "tabs": {
+      "all": "Tutti",
+      "image": "Immagini",
+      "video": "Video"
+    },
+    "loading": "Caricamento dei media...",
+    "empty": "Nessun file multimediale trovato."
+  }
+}

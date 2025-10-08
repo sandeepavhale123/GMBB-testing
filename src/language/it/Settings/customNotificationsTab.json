@@ -1,0 +1,32 @@
+{
+  "customNotifications": {
+    "searchPlaceholder": "Cerca per nome della sede o email...",
+    "addCustomRecipient": "Aggiungi Destinatario Personalizzato",
+    "addCustomNotification": "Aggiungi Notifica Personalizzata",
+    "editEmailSettings": "Modifica Impostazioni Email",
+    "deleteEmailNotification": "Elimina Notifica Email",
+    "deleteConfirmation": "Sei sicuro di voler eliminare la notifica email per \"{{locationName}}\"? Questa azione non può essere annullata.",
+    "validationError": "Errore di Validazione",
+    "validationSelectListing": "Seleziona almeno un annuncio e fornisci i destinatari email.",
+    "validationProvideRecipients": "Fornisci i destinatari email.",
+    "success": "Successo",
+    "error": "Errore",
+    "successAdd": "Notifica personalizzata aggiunta con successo!",
+    "successUpdate": "Impostazioni email aggiornate con successo!",
+    "successDelete": "Notifiche email rimosse con successo.",
+    "failedLoad": "Impossibile caricare le notifiche personalizzate.",
+    "tryAgain": "Riprova",
+    "loadingNotifications": "Caricamento notifiche...",
+    "noNotificationsFound": "Nessuna notifica personalizzata trovata",
+    "locationName": "Nome della Sede",
+    "emailRecipients": "Destinatari Email",
+    "enterEmails": "Inserisci gli indirizzi email separati da virgole",
+    "cancel": "Annulla",
+    "addNotification": "Aggiungi Notifica",
+    "update": "Aggiorna",
+    "delete": "Elimina",
+    "actions": "Azioni",
+    "showingResults": "Visualizzazione da {{from}} a {{to}} di {{total}} risultati",
+    "paginationDots": "..."
+  }
+}

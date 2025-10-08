@@ -1,0 +1,32 @@
+{
+  "reportsManagement": "Gestione dei Rapporti",
+  "reportsManagementDescription": "Genera e gestisci rapporti per più annunci.",
+  "generateReport": "Genera Rapporto",
+  "totalReports": "Totale Rapporti",
+  "totalReport": "Rapporto Totale",
+  "oneTime": "Una Tantum",
+  "monthly": "Mensile",
+  "weekly": "Settimanale",
+  "searchPlaceholder": "Cerca rapporti...",
+  "filterByType": "Filtra per tipo",
+  "allReports": "Tutti i Rapporti",
+  "projectName": "Nome del Progetto",
+  "scheduledStatus": "Stato Pianificato",
+  "lastUpdate": "Ultimo Aggiornamento",
+  "nextUpdate": "Prossimo Aggiornamento",
+  "location": "{{count}} località",
+  "actions": "Azioni",
+  "viewProject": "Visualizza progetto",
+  "editProject": "Modifica progetto",
+  "deleteProject": "Elimina progetto",
+  "loadingReports": "Caricamento rapporti...",
+  "errorLoadingReports": "Errore nel caricamento dei rapporti. Per favore riprova.",
+  "deleteReport": "Elimina Rapporto",
+  "deleteReportConfirmation": "Sei sicuro di voler eliminare \"{{reportTitle}}\"? Questa azione non può essere annullata.",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "toast": {
+    "title": "Errore",
+    "description": "Impossibile eliminare il rapporto"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "subscriptionPage": {
+    "title": "Piani di Abbonamento",
+    "activePlan": "Il tuo piano è attivo fino al {{date}}.",
+    "expiredPlan": "Il tuo piano è scaduto. Per favore rinnova per continuare ad accedere alle funzionalità.",
+    "description": "Scegli il piano perfetto per le esigenze della tua azienda. Puoi effettuare l'upgrade o il downgrade in qualsiasi momento.",
+    "unsubscribe": "Annulla abbonamento",
+    "tabs": {
+      "pricingPlan": "Piano Tariffario",
+      "paymentHistory": "Storico Pagamenti"
+    },
+    "labels": {
+      "features": "Caratteristiche",
+      "pricePerMonth": "Prezzo/Mese",
+      "mostPopular": "Più Popolare"
+    },
+    "buttons": {
+      "active": "Attivo",
+      "processing": "In elaborazione...",
+      "payNow": "Paga Ora",
+      "upgradeNow": "Aggiorna Ora",
+      "contactSales": "Contatta il Commerciale"
+    },
+    "help": {
+      "title": "Hai bisogno di aiuto nella scelta?",
+      "description": "Contatta il nostro team commerciale per trovare il piano perfetto per le esigenze della tua azienda."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Errore di Pagamento",
+        "description": "Impossibile processare il pagamento. Per favore riprova."
+      },
+      "upgradeSuccess": {
+        "title": "Aggiornamento Riuscito"
+      },
+      "upgradeError": {
+        "title": "Errore di Aggiornamento",
+        "description": "Impossibile aggiornare il piano. Per favore riprova."
+      },
+      "subscriptionCancelled": {
+        "title": "Abbonamento Annullato",
+        "description": "Il tuo abbonamento è stato annullato."
+      },
+      "cancelError": {
+        "title": "Errore",
+        "description": "Impossibile annullare l'abbonamento."
+      }
+    }
+  }
+}

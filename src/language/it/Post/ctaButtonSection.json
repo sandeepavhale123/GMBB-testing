@@ -1,0 +1,17 @@
+{
+  "cta": {
+    "includeButton": "Includi pulsante CTA",
+    "buttonType": "Tipo di pulsante",
+    "chooseTypePlaceholder": "Scegli il tipo di pulsante CTA",
+    "buttonUrl": "URL del pulsante",
+    "urlPlaceholder": "https://esempio.com",
+    "options": {
+      "LEARN_MORE": "Scopri di più",
+      "BOOK": "Prenota ora",
+      "CALL": "Chiama ora",
+      "ORDER": "Ordina online",
+      "SHOP": "Acquista ora",
+      "SIGN_UP": "Iscriviti"
+    }
+  }
+}

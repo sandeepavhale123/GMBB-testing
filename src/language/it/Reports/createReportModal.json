@@ -1,0 +1,39 @@
+{
+  "createReportModal": {
+    "title": "Rapporto di Performance",
+    "fields": {
+      "reportName": {
+        "label": "Nome del Rapporto",
+        "placeholder": "Inserisci il nome del rapporto"
+      },
+      "reportType": {
+        "label": "Tipo di Rapporto",
+        "compareLabel": "Rapporto di Confronto"
+      },
+      "dateRange": {
+        "label": "Intervallo di Date",
+        "select": "Seleziona l'intervallo di date",
+        "period1": {
+          "label": "Periodo 1 (Attuale)",
+          "select": "Seleziona il primo periodo"
+        },
+        "period2": {
+          "label": "Periodo 2 (Precedente)",
+          "select": "Seleziona il secondo periodo"
+        }
+      },
+      "sectionsToggle": {
+        "label": "Attiva per mostrare o nascondere le sezioni del rapporto"
+      },
+      "sections": {
+        "label": "Sezioni del Rapporto",
+        "generateReport": "Genera Rapporto"
+      }
+    },
+    "buttons": {
+      "close": "Chiudi",
+      "generate": "Genera",
+      "generating": "Generando..."
+    }
+  }
+}

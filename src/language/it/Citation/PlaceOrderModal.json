@@ -1,0 +1,11 @@
+{
+  "PlaceOrderModal": {
+    "title": "Effettua Ordine",
+    "buttonTextLabel": "Testo del Pulsante",
+    "buttonTextPlaceholder": "Inserisci il testo del pulsante",
+    "buttonUrlLabel": "URL del Pulsante",
+    "buttonUrlPlaceholder": "https://esempio.com",
+    "cancel": "Annulla",
+    "save": "Salva"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "reportNotFound": {
+    "title": "Report Not Found",
+    "description": "This report may have expired or been removed.",
+    "business":"Business Location"
+  }
+}

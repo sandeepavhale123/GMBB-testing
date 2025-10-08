@@ -1,0 +1,35 @@
+{
+  "title": "Rapporto Recensioni",
+  "loading": "Caricamento del rapporto recensioni...",
+  "error": "Errore nel caricamento del rapporto recensioni",
+  "overview": {
+    "averageRating": "Valutazione Media",
+    "totalReviews": "Totale Recensioni",
+    "manualReply": "Risposta Manuale",
+    "aiReply": "Risposta AI"
+  },
+  "sections": {
+    "ratingSummary": "Sommario delle Valutazioni",
+    "sentimentAnalysis": "Analisi del Sentimento",
+    "reviewTrends": "Andamento delle Recensioni nel Tempo",
+    "reviewDataSummary": "Sommario Dati Recensioni",
+    "recentReviews": "Recensioni Recenti",
+    "reviews": "Recensioni"
+  },
+  "labels": {
+    "star": "Stella",
+    "reviews": "recensioni",
+    "reviewDate": "Data della Recensione",
+    "totalReview": "Recensione Totale",
+    "fiveStar": "Valutazione 5 Stelle",
+    "fourStar": "Valutazione 4 Stelle",
+    "threeStar": "Valutazione 3 Stelle",
+    "twoStar": "Valutazione 2 Stelle",
+    "oneStar": "Valutazione 1 Stella",
+    "positive": "Positiva",
+    "neutral": "Neutrale",
+    "negative": "Negativa",
+    "noData": "Nessun dato disponibile",
+    "vsPrevious": "vs precedente"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "visibilitySummaryTitle": "Riepilogo Visibilità",
+  "visibilitySummarySubtitle": "Visualizzazioni totali da Ricerca Google e Maps.",
+  
+  "googleSearchViews": "Visualizzazioni da Ricerca Google",
+  "googleMapsViews": "Visualizzazioni da Google Maps",
+  
+  "percentageChange": "{{value}}% rispetto al periodo precedente",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Ricerca",
+  "mapsBarName": "Maps",
+  
+  "searchViewsLegend": "Visualizzazioni da Ricerca",
+  "mapsViewsLegend": "Visualizzazioni da Maps"
+}

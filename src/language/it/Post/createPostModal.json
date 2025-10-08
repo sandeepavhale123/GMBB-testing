@@ -1,0 +1,77 @@
+{
+  "title": {
+    "create": "Crea Post",
+    "clone": "Clona Post"
+  },
+  "validation": {
+    "titleRequired": "Il titolo è richiesto per i post di eventi e offerte.",
+    "urlRequired": "L'URL è richiesto quando il pulsante CTA è abilitato.",
+    "listingsRequired": "Seleziona almeno un'inserzione o gruppo.",
+    "genericError": "Per favore, correggi gli errori di validazione prima di inviare."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Inserzione Richiesta",
+      "description": "Seleziona almeno un'inserzione."
+    },
+    "titleRequired": {
+      "title": "Titolo Richiesto",
+      "description": "Il titolo è richiesto per i post di eventi e offerte."
+    },
+    "urlRequired": {
+      "title": "URL Richiesto",
+      "description": "L'URL è richiesto quando il pulsante CTA è abilitato."
+    },
+    "validationError": {
+      "title": "Errore di Validazione",
+      "description": "Correggi gli errori di validazione prima di inviare."
+    },
+    "error": {
+      "title": "Errore",
+      "noListing": "Nessuna inserzione aziendale selezionata. Seleziona prima un'inserzione."
+    },
+    "success": {
+      "bulk": {
+        "created": {
+          "title": "Post in massa creato con successo.",
+          "description": "Post in massa creato per {{count}} inserzioni."
+        },
+        "cloned": {
+          "title": "Post in massa clonato con successo",
+          "description": "Post in massa clonato per {{count}} inserzioni."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Post creato con successo.",
+          "description": "Post creato con ID: {{id}}"
+        },
+        "cloned": {
+          "title": "Post clonato con successo",
+          "description": "Post clonato con ID: {{id}}"
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "Impossibile creare il post in massa.",
+        "cloned": "Impossibile clonare il post in massa"
+      },
+      "single": {
+        "created": "Impossibile creare il post.",
+        "cloned": "Impossibile clonare il post"
+      }
+    }
+  },
+  "buttons": {
+    "cancel": "Annulla",
+    "preview": "Anteprima",
+    "create": "Crea Post",
+    "clone": "Clona Post",
+    "creating": "Creando...",
+    "cloning": "Clonando..."
+  },
+  "preview": {
+    "title": "Anteprima dal vivo"
+  }
+}

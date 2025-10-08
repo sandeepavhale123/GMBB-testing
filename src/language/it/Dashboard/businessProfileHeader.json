@@ -1,0 +1,10 @@
+{
+  "businessOverview": "Panoramica Aziendale",
+  "verified": "Verificato",
+  "pending": "In Attesa",
+  "viewOnGoogle": "Visualizza su Google",
+  "view": "Visualizza",
+  "viewReports": "Visualizza Rapporti",
+  "reports": "Rapporti",
+  "summaryFor": "Ecco il riepilogo per: \"{{listingName}}\""
+}

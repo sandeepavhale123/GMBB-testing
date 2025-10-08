@@ -1,0 +1,10 @@
+{
+  "topSearchQueriesWithAPI": {
+    "title": "Query di Ricerca Principali",
+    "description": "Termini di ricerca più popolari che hanno portato i clienti alla tua attività.",
+    "selectMonthPlaceholder": "Seleziona mese",
+    "loadingErrorTitle": "Impossibile caricare le query di ricerca",
+    "noDataMessage": "Nessuna parola chiave di ricerca disponibile.",
+    "impressionBelowThreshold": "< 15"
+  }
+}

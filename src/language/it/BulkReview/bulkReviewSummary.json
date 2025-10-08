@@ -1,0 +1,22 @@
+{
+  "error": {
+    "message": "Errore durante il caricamento dei dati riepilogativi",
+    "retry": "Riprova"
+  },
+  "stats": {
+    "totalReviews": "Recensioni Totali",
+    "pendingReplies": "Risposte in Attesa",
+    "aiReplies": "Risposte AI",
+    "manualReplies": "Risposte Manuali"
+  },
+  "overallRating": {
+    "title": "Valutazione Generale",
+    "reviewsAcross": "{{count}} recensioni su tutte le inserzioni"
+  },
+  "activitySummary": {
+    "title": "Riepilogo Attività",
+    "aiResponses": "Risposte AI",
+    "manualResponses": "Risposte Manuali",
+    "pending": "In Attesa"
+  }
+}

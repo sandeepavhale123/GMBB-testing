@@ -1,0 +1,22 @@
+{
+  "templateForm": {
+    "labels": {
+      "starRating": "Seleziona la Valutazione in Stelle",
+      "templateContent": "Template di Risposta"
+    },
+    "placeholders": {
+      "selectRating": "Scegli la valutazione in stelle per questo template",
+      "templateTextarea": "Scrivi il tuo template di risposta qui. Usa variabili come {first_name} per personalizzare le risposte..."
+    },
+    "tips": {
+      "personalization": "Suggerimento: Usa le variabili dal pannello a sinistra per rendere il tuo template più personale"
+    },
+    "buttons": {
+      "close": "Chiudi",
+      "save": "Salva Template",
+      "saving": "Salvataggio in corso..."
+    },
+    "stars": "{{count}} Stella",
+    "stars_plural": "{{count}} Stelle"
+  }
+}

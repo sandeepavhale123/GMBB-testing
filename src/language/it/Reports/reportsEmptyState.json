@@ -1,0 +1,7 @@
+{
+  "reportsEmptyState": {
+    "title": "Rapporti Non Generati Ancora",
+    "description": "I tuoi rapporti sono in fase di generazione. Questo potrebbe richiedere alcuni minuti. Per favore, riprova più tardi.",
+    "tryAgainButton": "Riprova"
+  }
+}

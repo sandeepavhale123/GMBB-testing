@@ -1,0 +1,115 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Elenco Totale",
+      "subtitle": "Località attive",
+      "trend": "+2 questo mese"
+    },
+    "avgRating": {
+      "title": "Valutazione Media",
+      "subtitle": "Su tutti gli elenchi",
+      "trend": "↑ 0,3 punti"
+    },
+    "totalReviews": {
+      "title": "Recensioni Totali",
+      "subtitle": "Feedback dei clienti",
+      "trend": "In miglioramento"
+    },
+    "totalPosts": {
+      "title": "Post Totali",
+      "subtitle": "Pubblicati questo mese",
+      "trend": "+12 questa settimana"
+    }
+  },
+  "errors": {
+    "metricsLoad": "Impossibile caricare le metriche. Riprova.",
+    "listingsLoad": "Impossibile caricare gli elenchi. Riprova.",
+    "postsLoad": "Impossibile caricare i post. Riprova."
+  },
+  "dashboard": {
+    "title": "GMB Listing – Dashboard {{type}}",
+    "types": {
+      "default": "Dashboard Predefinita",
+      "insight": "Dashboard Insight",
+      "review": "Dashboard Recensioni",
+      "location": "Dashboard Località",
+      "post": "Dashboard Post"
+    },
+    "shareReport": "Condividi Report",
+    "searchPlaceholder": "Cerca per nome elenco o CAP",
+    "filters": {
+      "allCategories": "Tutte le categorie",
+      "allStates": "Tutti gli stati",
+      "reviewFilter": "Filtro recensioni",
+      "allReviews": "Tutte le recensioni",
+      "unrespondedReview": "Recensione non risposta",
+      "unrespondedARE": "ARE non risposta",
+      "unrespondedDNR": "DNR non risposta",
+      "excludeARE": "Escludi recensione ARE",
+      "excludeDNR": "Escludi recensione DNR",
+      "excludeARE_DNR": "Escludi recensione ARE/DNR",
+      "postStatus": "Stato del post",
+      "allPosts": "Tutti i post",
+      "scheduledPost": "Post programmato",
+      "livePost": "Post live",
+      "failedPost": "Post fallito"
+    }
+  },
+  "status": {
+    "loading": "Caricamento...",
+    "error": "Errore nel caricamento dei dati",
+    "showingPosts": "Mostrando {{count}} di {{total}} post",
+    "showingListings": "Mostrando {{count}} di {{total}} elenchi",
+    "previous": "Precedente",
+    "next": "Successivo"
+  },
+  "listing": {
+    "listingid": "ID: {{id}}",
+    "zipcode": "CAP: {{zipcode}}",
+    "state": "Stato: {{city}}",
+    "fetchingData": "Recuperando i dati dell'elenco...",
+    "visibility": "Visibilità",
+    "Search": "Cerca",
+    "Maps": "Mappe",
+    "Total": "Totale",
+    "customerActions": "Azioni del cliente",
+    "clicks": "Clic",
+    "directions": "Indicazioni",
+    "calls": "Chiamate",
+    "messages": "Messaggi",
+    "reviewStats": "Statistiche recensioni",
+    "reviewsReplies": "Recensioni / Risposte",
+    "autoReply": "Risposta automatica",
+    "reviewSentiment": "Sentimento recensioni",
+    "positive": "Positivo",
+    "neutral": "Neutrale",
+    "negative": "Negativo",
+    "listingStatus": "Stato dell'elenco",
+    "visibilityLabel": "Visibilità:",
+    "completeLabel": "Completo:",
+    "lastUpdated": "Ultimo aggiornamento:",
+    "photos": "Foto",
+    "rating": "Valutazione",
+    "website": "Sito web",
+    "maps": "Mappe",
+    "avgRating": "Valutazione media",
+    "starRating": "Valutazione stellare",
+    "reviewsVsReplies": "Recensioni vs Risposte",
+    "lastPost": "Ultimo post",
+    "upcoming": "Prossimo",
+    "viewDetails": "Vedi dettagli",
+    "totalViews": "Visualizzazioni totali",
+    "phone": "Telefono",
+    "na": "N/D",
+    "stateLabel": "Stato"
+  },
+  "pagination": {
+    "showing": {
+      "posts": "Mostrando {{from}} a {{to}} di {{total}} post",
+      "listings": "Mostrando {{from}} a {{to}} di {{total}} elenchi"
+    },
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{pages}}"
+  }
+}

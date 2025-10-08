@@ -1,0 +1,25 @@
+{
+  "publicReportDashboard": {
+    "sidebar": {
+      "gmbHealth": "Salute GMB",
+      "businessInsights": "Panoramiche Aziendali",
+      "reviews": "Recensioni",
+      "postPerformance": "Prestazioni dei Post",
+      "mediaPerformance": "Prestazioni dei Media",
+      "geoRanking": "Classifica GEO",
+      "citationPerformance": "Prestazioni delle Citazioni"
+    },
+    "header": {
+      "reportDate": "Data del Rapporto"
+    },
+    "branding": {
+      "defaultLogoAlt": "Logo Predefinito",
+      "businessLogoAlt": "Logo Aziendale",
+      "companyLogoAlt": "Logo dell'Azienda",
+      "companyInitial": "C",
+      "email": "Email",
+      "phone": "Telefono",
+      "address": "Indirizzo"
+    }
+  }
+}

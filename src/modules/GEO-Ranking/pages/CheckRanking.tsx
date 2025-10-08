@@ -7,7 +7,10 @@ import { GeoRankingReportMap } from "../components/GeoRankingReportMap";
 import { useGeoRankingReport } from "@/hooks/useGeoRankingReport";
 import { BusinessLocationLite, ProjectLite } from "@/types/business";
 import { getDistanceOptions, languageOptions } from "@/utils/geoRankingUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export function CheckRanking() {
+  const { t } = useI18nNamespace("Geo-Ranking-module-pages/CheckRanking");
   const navigate = useNavigate();
   const [selectedBusiness, setSelectedBusiness] =
     useState<BusinessLocationLite | null>(null);
@@ -81,7 +84,7 @@ export function CheckRanking() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedBusiness) {
-      alert("Please select a business first");
+      alert(t("checkRanking.alerts.selectBusiness"));
       return;
     }
     submitCheckRank();
@@ -90,11 +93,11 @@ export function CheckRanking() {
   const handleAddKeywordsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedBusiness) {
-      alert("Please select a business first");
+      alert(t("checkRanking.alerts.selectBusiness"));
       return;
     }
     if (!selectedProject) {
-      alert("Please select a project first");
+      alert(t("checkRanking.alerts.selectProject"));
       return;
     }
 
@@ -140,10 +143,10 @@ export function CheckRanking() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Check Rank</h1>
-        <p className="text-muted-foreground">
-          Monitor your local search rankings across different locations.
-        </p>
+        <h1 className="text-2xl font-bold text-foreground">
+          {t("checkRanking.title")}
+        </h1>
+        <p className="text-muted-foreground">{t("checkRanking.description")}</p>
       </div>
 
       {/* Main Content Grid */}

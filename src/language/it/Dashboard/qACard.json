@@ -1,0 +1,14 @@
+{
+  "qaCardTitle": "Domande e Risposte",
+  "qaCardFor": "Per {{listingName}}",
+  "qaCardResponseRate": "{{rate}}% tasso di risposta",
+
+  "answeredTitle": "Risposte Inviate",
+  "answeredSubtitle": "Domande a cui è stata data una risposta",
+
+  "pendingTitle": "In Attesa",
+  "pendingSubtitle": "In attesa di risposta",
+
+  "answerPendingBtn": "Rispondi alle Domande in Attesa",
+  "viewAllBtn": "Visualizza Tutte le D&R"
+}

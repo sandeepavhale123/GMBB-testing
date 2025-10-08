@@ -1,0 +1,16 @@
+{
+  "replyToOldReviewsCard": {
+    "label": "Rispondi alle recensioni esistenti (recensione vecchia)",
+    "toast": {
+      "success": {
+        "title": "Successo",
+        "enabled": "Risposta alle recensioni esistenti abilitata con successo.",
+        "disabled": "Risposta alle recensioni esistenti disabilitata con successo."
+      },
+      "error": {
+        "title": "Errore",
+        "default": "Qualcosa è andato storto durante l'aggiornamento delle impostazioni."
+      }
+    }
+  }
+}

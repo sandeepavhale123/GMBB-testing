@@ -1,0 +1,7 @@
+{
+  "listingManagementPage": {
+    "pageTitle": "Gestisci gli Annunci",
+    "backButton": "Indietro",
+    "loadingListings": "Caricamento annunci..."
+  }
+}

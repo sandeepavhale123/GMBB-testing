@@ -1,0 +1,44 @@
+{
+  "businessManagement": {
+    "tabs": {
+      "businessInfo": "Informazioni Azienda",
+      "openingHours": "Orari di Apertura",
+      "editLog": "Registro Modifiche"
+    },
+    "toast": {
+      "refreshSuccessTitle": "Successo",
+      "refreshSuccessDesc": "Informazioni del profilo GMB aggiornate con successo",
+      "refreshErrorTitle": "Errore",
+      "refreshErrorDesc": "Impossibile aggiornare le informazioni aziendali"
+    },
+    "errorState": {
+      "title": "Errore nel Caricamento delle Informazioni Aziendali",
+      "description": "Si è verificato un errore durante il recupero delle informazioni aziendali."
+    },
+    "emptyState": {
+      "businessInfo": "Nessuna informazione aziendale disponibile"
+    },
+    "fields": {
+      "name": "Nome",
+      "address": "Indirizzo",
+      "phone": "Telefono",
+      "website": "Sito Web",
+      "storeCode": "Codice Negozio",
+      "category": "Categoria",
+      "additionalCategory": "Categoria Aggiuntiva",
+      "labels": "Etichette",
+      "appointmentUrl": "URL Appuntamento",
+      "mapUrl": "URL Mappa",
+      "description": "Descrizione"
+    },
+    "warnings": {
+      "fakeInfo": "Per evitare la sospensione, non inserire informazioni false per ottenere più recensioni o contenuti in violazione delle policy."
+    },
+    "loading": {
+      "skeleton": "Caricamento delle informazioni aziendali in corso..."
+    },
+    "noListingSelected": {
+      "pageType": "Gestione Azienda"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "businessInfoStep": {
+    "title": "Parlaci della tua attività",
+    "description": "Useremo queste informazioni per personalizzare la tua esperienza.",
+    "businessNameLabel": "Nome dell'attività/agenzia *",
+    "businessNamePlaceholder": "Inserisci il nome della tua attività o agenzia",
+    "websiteLabel": "Sito Web",
+    "websitePlaceholder": "https://tuaattivita.com",
+    "emailLabel": "Email dell'azienda *",
+    "emailPlaceholder": "attivita@example.com",
+    "timezoneLabel": "Fuso orario preferito *",
+    "timezonePlaceholder": "Seleziona il tuo fuso orario",
+    "timezoneSearch": "Cerca fuso orario...",
+    "noTimezone": "Nessun fuso orario trovato.",
+    "dashboardTypeLabel": "Tipo di Dashboard *",
+    "dashboardTypePlaceholder": "Seleziona il tipo di attività",
+    "locationCountLabel": "Quante sedi vuoi gestire?",
+    "locationCountPlaceholder": "Seleziona il range di sedi",
+    "continueButton": "Continua",
+    "savingButton": "Salvataggio..."
+  }
+}

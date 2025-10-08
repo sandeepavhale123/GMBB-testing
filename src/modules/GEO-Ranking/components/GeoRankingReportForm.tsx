@@ -29,6 +29,7 @@ import {
   getProjectLists,
 } from "@/api/businessSearchApi";
 import { BusinessLocationLite, ProjectLite } from "@/types/business";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface GeoRankingFormData {
   searchBusinessType: string;
   searchBusiness: string;
@@ -81,6 +82,9 @@ export function GeoRankingReportForm({
   disabled = false,
   onAddKeywordsSubmit,
 }: GeoRankingReportFormProps) {
+  const { t } = useI18nNamespace(
+    "Geo-Ranking-module-component/GeoRankingReportForm"
+  );
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 
@@ -123,9 +127,8 @@ export function GeoRankingReportForm({
       const apiKey = mapApiKeyData?.data?.apiKey;
       if (!apiKey || apiKey.trim() === "") {
         toast({
-          title: "Missing API Key",
-          description:
-            "Please add the API key first by going to Settings → Integration page.",
+          title: t("toast.missingApi"),
+          description: t("toast.missingDesc"),
           variant: "destructive",
         });
         return; // Stop the current flow
@@ -152,9 +155,8 @@ export function GeoRankingReportForm({
         .slice(0, 5) // Take only first 5 keywords
         .join(", ");
       toast({
-        title: "Keyword Limit Exceeded",
-        description:
-          "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
+        title: t("toast.keywordTitle"),
+        description: t("toast.keywordDesc"),
         variant: "destructive",
       });
 
@@ -173,9 +175,8 @@ export function GeoRankingReportForm({
       "keywords" in validation.errors
     ) {
       toast({
-        title: "Invalid Keywords",
-        description:
-          validation.errors.keywords || "Please check your keywords.",
+        title: t("toast.invalidTitle"),
+        description: validation.errors.keywords || t("toast.invalidDesc"),
         variant: "destructive",
       });
     }
@@ -220,17 +221,16 @@ export function GeoRankingReportForm({
         onBusinessSelect?.(business);
       } else {
         toast({
-          title: "Business Not Found",
-          description: "No business found for the provided map URL.",
+          title: t("toast.businessTitle"),
+          description: t("toast.businessDesc"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Map URL search error:", error);
       toast({
-        title: "Search Failed",
-        description:
-          "Failed to search business from map URL. Please try again.",
+        title: t("toast.searchTitle"),
+        description: t("toast.searchDesc"),
         variant: "destructive",
       });
     } finally {
@@ -258,16 +258,16 @@ export function GeoRankingReportForm({
         onBusinessSelect?.(business);
       } else {
         toast({
-          title: "Business Not Found",
-          description: "No business found for the provided CID.",
+          title: t("toast.businessTitle"),
+          description: t("toast.cidDesc"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("CID search error:", error);
       toast({
-        title: "Search Failed",
-        description: "Failed to search business by CID. Please try again.",
+        title: t("toast.searchTitle"),
+        description: t("toast.failedDesc"),
         variant: "destructive",
       });
     } finally {
@@ -299,16 +299,16 @@ export function GeoRankingReportForm({
           setProjects(response.data.projectLists);
         } else {
           toast({
-            title: "Failed to Load Projects",
-            description: "Could not fetch project list. Please try again.",
+            title: t("toast.projectTitle"),
+            description: t("toast.projectDesc"),
             variant: "destructive",
           });
         }
       } catch (error) {
         console.error("Failed to fetch projects:", error);
         toast({
-          title: "Error Loading Projects",
-          description: "Failed to load project list. Please try again.",
+          title: t("toast.errorTitle"),
+          description: t("toast.errorDesc"),
           variant: "destructive",
         });
       } finally {
@@ -340,13 +340,13 @@ export function GeoRankingReportForm({
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg lg:text-xl font-semibold text-gray-900">
             <MapPin className="h-5 w-5" />
-            Report Configuration
+            {t("title")}
           </CardTitle>
 
           {/* Search Data Engine */}
           <div className="flex flex-col items-end gap-2">
             <Label className="text-sm font-medium text-gray-700">
-              Search Data Engine:
+              {t("searchDataEngine")}
             </Label>
             <RadioGroup
               value={formData.searchDataEngine}
@@ -356,13 +356,13 @@ export function GeoRankingReportForm({
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Map API" id="map-api" />
                 <Label htmlFor="map-api" className="text-sm">
-                  Map API
+                  {t("mapApi")}
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Briefcase API" id="briefcase-api" />
                 <Label htmlFor="briefcase-api" className="text-sm">
-                  Briefcase API
+                  {t("briefcaseApi")}
                 </Label>
               </div>
             </RadioGroup>
@@ -377,7 +377,7 @@ export function GeoRankingReportForm({
             <div className="">
               {/* Search Method Selection */}
               <div className="space-y-3 mb-4">
-                <Label className="text-sm font-medium">Search By:</Label>
+                <Label className="text-sm font-medium">{t("searchBy")}</Label>
                 <RadioGroup
                   value={searchMethod}
                   onValueChange={(value) =>
@@ -389,19 +389,19 @@ export function GeoRankingReportForm({
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="google" id="google-search" />
                     <Label htmlFor="google-search" className="text-sm">
-                      Business Name
+                      {t("businessName")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="cid" id="cid-search" />
                     <Label htmlFor="cid-search" className="text-sm">
-                      CID
+                      {t("cid")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="map_url" id="map-url-search" />
                     <Label htmlFor="map-url-search" className="text-sm">
-                      Map URL
+                      {t("mapUrl")}
                     </Label>
                   </div>
                 </RadioGroup>
@@ -418,7 +418,7 @@ export function GeoRankingReportForm({
                   <BusinessGooglePlacesInput
                     onPlaceSelect={handlePlaceSelect}
                     disabled={disabled}
-                    placeholder="Start typing to search for a business..."
+                    placeholder={t("searchPlaceholder")}
                   />
                 </div>
               ) : searchMethod === "cid" ? (
@@ -430,14 +430,14 @@ export function GeoRankingReportForm({
                     id="cid-input"
                     value={cidInput}
                     onChange={(e) => setCidInput(e.target.value)}
-                    placeholder="Enter CID number (e.g., 2898559807244638920)"
+                    placeholder={t("cidPlaceholder")}
                     disabled={disabled}
                     className="w-full"
                   />
                   {loading && searchMethod === "cid" && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <RefreshCw className="h-3 w-3 animate-spin" />
-                      Searching...
+                      {t("searching")}
                     </div>
                   )}
                 </div>
@@ -450,14 +450,14 @@ export function GeoRankingReportForm({
                     id="map-url-input"
                     value={mapUrlInput}
                     onChange={(e) => setMapUrlInput(e.target.value)}
-                    placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)"
+                    placeholder={t("urlPlaceholder")}
                     disabled={disabled}
                     className="w-full"
                   />
                   {loading && searchMethod === "map_url" && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <RefreshCw className="h-3 w-3 animate-spin" />
-                      Searching...
+                      {t("searching")}
                     </div>
                   )}
                 </div>
@@ -468,7 +468,9 @@ export function GeoRankingReportForm({
             {selectedBusiness && (
               <div className="bg-muted/50 rounded-lg p-4 space-y-2 hidden">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-sm">Selected Business</h4>
+                  <h4 className="font-medium text-sm">
+                    {t("selectedBusiness")}
+                  </h4>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -481,19 +483,19 @@ export function GeoRankingReportForm({
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                   <div>
-                    <span className="font-medium">Name:</span>
+                    <span className="font-medium">{t("name")}</span>
                     <p className="text-muted-foreground truncate">
                       {selectedBusiness.name}
                     </p>
                   </div>
                   <div>
-                    <span className="font-medium">Latitude:</span>
+                    <span className="font-medium">{t("latitude")}</span>
                     <p className="text-muted-foreground">
                       {selectedBusiness.latitude}
                     </p>
                   </div>
                   <div>
-                    <span className="font-medium">Longitude:</span>
+                    <span className="font-medium">{t("longitude")}</span>
                     <p className="text-muted-foreground">
                       {selectedBusiness.longitude}
                     </p>
@@ -505,20 +507,11 @@ export function GeoRankingReportForm({
             {/* Helper Text */}
             <div className="text-xs text-muted-foreground">
               {searchMethod === "google" ? (
-                <p>
-                  Use Google Places autocomplete to find and select your
-                  business location.
-                </p>
+                <p>{t("searchHelpGoogle")}</p>
               ) : searchMethod === "cid" ? (
-                <p>
-                  Enter a Google CID (Customer ID) - search happens
-                  automatically as you type.
-                </p>
+                <p>{t("searchHelpCID")}</p>
               ) : (
-                <p>
-                  Paste a Google Maps URL - search happens automatically as you
-                  type.
-                </p>
+                <p>{t("searchHelpMapUrl")}</p>
               )}
             </div>
           </div>
@@ -529,7 +522,7 @@ export function GeoRankingReportForm({
                 htmlFor="keywords"
                 className="text-sm font-medium text-gray-700"
               >
-                Keywords ({keywordCount}/5)
+                {t("keywords")} ({keywordCount}/5)
               </Label>
               <TooltipProvider>
                 <Tooltip>
@@ -542,22 +535,21 @@ export function GeoRankingReportForm({
                     </span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Add up to 5 keywords separated by commas</p>
+                    <p>{t("keywordTooltip")}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
             <Input
               id="keywords"
-              placeholder="keyword1, keyword2, keyword3"
+              placeholder={t("keywordPlaceholder")}
               value={formData.keywords}
               onChange={(e) => handleKeywordsChange(e.target.value)}
               className="w-full"
             />
             {keywordCount === 5 && (
               <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-                ⚠️ You have reached the maximum limit of 5 keywords. You can
-                still edit existing keywords.
+                {t("keywordLimitMessage")}
               </p>
             )}
           </div>
@@ -565,7 +557,7 @@ export function GeoRankingReportForm({
           {/* Map Point */}
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-700">
-              Map Point
+              {t("mapPoint")}
             </Label>
             <Select
               value={formData.mapPoint}
@@ -575,19 +567,18 @@ export function GeoRankingReportForm({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Automatic">Automatic</SelectItem>
-                <SelectItem value="Manually">Manually</SelectItem>
+                <SelectItem value="Automatic">{t("automatic")}</SelectItem>
+                <SelectItem value="Manually">{t("manually")}</SelectItem>
               </SelectContent>
             </Select>
             {formData.mapPoint === "Manually" && (
               <div className="space-y-2">
                 <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                  Click on the map to place points manually. You can drag them
-                  to reposition.
+                  {t("manualPointsHint")}
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">
-                    Points selected: {manualCoordinates.length}
+                    {t("pointsSelected")}: {manualCoordinates.length}
                   </span>
                   {manualCoordinates.length > 0 && onClearManualCoordinates && (
                     <button
@@ -595,7 +586,7 @@ export function GeoRankingReportForm({
                       onClick={onClearManualCoordinates}
                       className="text-xs text-red-600 hover:text-red-800 underline"
                     >
-                      Clear All Points
+                      {t("clearAllPoints")}
                     </button>
                   )}
                 </div>
@@ -608,7 +599,7 @@ export function GeoRankingReportForm({
               {/* Distance Unit */}
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700">
-                  Distance Unit
+                  {t("distanceUnit")}
                 </Label>
                 <RadioGroup
                   value={formData.distanceUnit}
@@ -618,13 +609,13 @@ export function GeoRankingReportForm({
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Meters" id="meters" />
                     <Label htmlFor="meters" className="text-sm">
-                      Meters
+                      {t("meters")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Miles" id="miles" />
                     <Label htmlFor="miles" className="text-sm">
-                      Miles
+                      {t("miles")}
                     </Label>
                   </div>
                 </RadioGroup>
@@ -633,14 +624,14 @@ export function GeoRankingReportForm({
               {/* Distance Value */}
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700">
-                  Distance
+                  {t("distance")}
                 </Label>
                 <Select
                   value={formData.distanceValue}
                   onValueChange={(val) => onInputChange("distanceValue", val)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose…" />
+                    <SelectValue placeholder={t("choose")} />
                   </SelectTrigger>
                   <SelectContent>
                     {getDistanceOptions().map((opt) => (
@@ -658,7 +649,7 @@ export function GeoRankingReportForm({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                Grid Size
+                {t("gridSize")}
               </Label>
               <Select
                 value={formData.gridSize}
@@ -681,7 +672,7 @@ export function GeoRankingReportForm({
 
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                Schedule Check
+                {t("scheduleCheck")}
               </Label>
               <Select
                 value={formData.scheduleCheck}
@@ -691,9 +682,9 @@ export function GeoRankingReportForm({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="onetime">One-time</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="onetime">{t("onetime")}</SelectItem>
+                  <SelectItem value="weekly">{t("weekly")}</SelectItem>
+                  <SelectItem value="monthly">{t("monthly")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -703,7 +694,7 @@ export function GeoRankingReportForm({
             {/* Language Selector */}
             <div className="space-y-2 col-span-12 md:col-span-6">
               <Label className="text-sm font-medium text-gray-700">
-                Language
+                {t("language")}
               </Label>
               <Select
                 value={formData.language}
@@ -724,7 +715,9 @@ export function GeoRankingReportForm({
 
             {/* Project Selection */}
             <div className="space-y-2 col-span-12 md:col-span-6">
-              <Label className="text-sm font-medium">Select Project</Label>
+              <Label className="text-sm font-medium">
+                {t("selectProject")}
+              </Label>
               <Select
                 value={selectedProject?.id || ""}
                 onValueChange={handleProjectSelect}
@@ -733,9 +726,7 @@ export function GeoRankingReportForm({
                 <SelectTrigger className="w-full">
                   <SelectValue
                     placeholder={
-                      projectsLoading
-                        ? "Loading projects..."
-                        : "Select a project"
+                      projectsLoading ? t("loadingProjects") : t("selectP")
                     }
                   />
                 </SelectTrigger>
@@ -761,12 +752,12 @@ export function GeoRankingReportForm({
               onClick={onAddKeywordsSubmit ? onAddKeywordsSubmit : undefined}
             >
               {pollingKeyword
-                ? "Processing keyword..."
+                ? t("processingKeyword")
                 : submittingRank
-                ? "Checking rank..."
+                ? t("checkingRank")
                 : onAddKeywordsSubmit
-                ? "Add Keywords"
-                : "Check rank"}
+                ? t("addKeywords")
+                : t("checkRank")}
             </Button>
 
             {shouldShowResetButton && (
@@ -778,7 +769,7 @@ export function GeoRankingReportForm({
                 className="flex-none"
               >
                 <RotateCcw className="w-4 h-4 mr-1" />
-                Reset & New Search
+                {t("reset")}
               </Button>
             )}
           </div>
@@ -786,7 +777,7 @@ export function GeoRankingReportForm({
           {pollingKeyword && (
             <div className="text-center mt-2">
               <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                🔄 Keyword is being processed. This may take a few minutes...
+                {t("keywordProcessingNote")}
               </p>
             </div>
           )}

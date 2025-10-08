@@ -1,0 +1,33 @@
+{
+  "title": {
+    "create": "Crea",
+    "manage": "Gestisci",
+    "ratingOnly": "Solo valutazione",
+    "review": "Recensione"
+  },
+  "availableVariables": "Variabili disponibili",
+  "variables": {
+    "fullName": "{full_name}",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "businessName": "{business_name}",
+    "reviewContent": "{review_content}"
+  },
+  "multipleResponses": {
+    "title": "Risposte multiple",
+    "description": "Usa il simbolo pipe per separare più variazioni di risposta.",
+    "example": "Risposta 1 | Risposta 2 | Risposta 3"
+  },
+  "templateContent": "Contenuto del modello",
+  "placeholder": {
+    "ratingOnly": "Inserisci la risposta per recensioni solo con valutazione...",
+    "review": "Inserisci il modello di risposta per le recensioni con commenti..."
+  },
+  "usageInfo": "Questo modello sarà utilizzato per risposte {{stars}} stelle {{type}}.",
+  "buttons": {
+    "cancel": "Annulla",
+    "createTemplate": "Crea modello",
+    "saveChanges": "Salva modifiche",
+    "saving": "Salvataggio in corso..."
+  }
+}

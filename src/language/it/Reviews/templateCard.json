@@ -1,0 +1,39 @@
+{
+  "templateCard": {
+    "noTemplate": "Nessun template creato ancora",
+    "enable": "Abilita",
+    "enabling": "Abilitazione in corso...",
+    "disable": "Disabilita",
+    "disabling": "Disabilitazione in corso...",
+    "manage": "Gestisci",
+    "create": "Crea",
+    "availableVariables": "Variabili Disponibili",
+    "multipleResponses": {
+      "title": "Risposte Multiple",
+      "note": "Nota: Se desideri utilizzare risposte multiple, usa il simbolo della barra verticale (|) dopo ogni risposta."
+    },
+    "templateContent": "Contenuto del Template",
+    "systemTemplateNotice": "Questo è un template di sistema caricato dalle tue impostazioni. Le modifiche devono essere apportate tramite il pannello principale delle impostazioni.",
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "save": "Salva Template",
+    "saving": "Salvataggio in corso...",
+    "manageDialog": {
+      "title": {
+        "rating": "Gestisci il Template da {{starRating}} Stelle",
+        "ratingOnly": "Gestisci Template Solo per Valutazione"
+      }
+    },
+    "disableDialog": {
+      "title": "Sei sicuro di voler rimuovere questa valutazione?",
+      "confirm": "Sì, Rimuovi"
+    },
+    "toast": {
+      "error": {
+        "title": "Errore",
+        "enable": "Impossibile abilitare l'impostazione di risposta automatica.",
+        "disable": "Impossibile disabilitare l'impostazione di risposta automatica."
+      }
+    }
+  }
+}

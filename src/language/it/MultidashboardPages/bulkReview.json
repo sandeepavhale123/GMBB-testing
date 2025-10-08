@@ -1,0 +1,27 @@
+{
+  "title": "Gestione Recensioni Massive",
+  "subtitle": "Gestisci le recensioni su tutte le tue inserzioni.",
+  "configureAutoReply": "Configura Risposta Automatica",
+  "summary": {
+    "reviews": "Recensioni Clienti",
+    "loading": "Caricamento recensioni...",
+    "noReviews": "Nessuna recensione trovata che corrisponda ai tuoi criteri."
+  },
+  "toast": {
+    "successTitle": "Successo",
+    "replySuccess": "Risposta inviata con successo",
+    "replyError": "Impossibile inviare la risposta",
+    "deleteSuccess": "Risposta eliminata con successo",
+    "deleteError": "Impossibile eliminare la risposta"
+  },
+  "pagination": {
+    "showing": "Mostrando da {{from}} a {{to}} di {{total}} recensioni",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{pages}}"
+  },
+  "error": {
+    "title": "Errore",
+    "retry": "Riprova"
+  }
+}

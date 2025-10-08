@@ -1,0 +1,8 @@
+{
+  "sentimentBreakdownTitle": "Analisi del Sentimento",
+  "positiveLabel": "Positivo",
+  "neutralLabel": "Neutro",
+  "negativeLabel": "Negativo",
+  "tryAgain": "Riprova",
+  "errorMessage": "Qualcosa è andato storto. Per favore, riprova."
+}

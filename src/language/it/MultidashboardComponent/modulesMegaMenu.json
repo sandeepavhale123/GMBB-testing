@@ -1,0 +1,22 @@
+{
+  "title": "Moduli",
+  "comingSoon": "In Arrivo",
+  "modules": {
+    "manageGmb": {
+      "name": "Gestisci Inserzione GMB",
+      "description": "Gestisci le tue inserzioni di Google My Business"
+    },
+    "geoRanking": {
+      "name": "Classifica GRO",
+      "description": "Monitora e ottimizza il tuo posizionamento nelle ricerche locali"
+    },
+    "leadManagement": {
+      "name": "Gestione Lead",
+      "description": "Gestisci e monitora i tuoi lead in modo efficace"
+    },
+    "reputation": {
+      "name": "Reputazione",
+      "description": "Monitora e gestisci la tua reputazione online"
+    }
+  }
+}

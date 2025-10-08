@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import L from "leaflet";
 import { RankDetail } from "@/api/geoRankingApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -45,6 +46,7 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
   onUpdateManualCoordinate,
   onClearManualCoordinates,
 }) => {
+  const { t } = useI18nNamespace("Geo-Ranking-module-component/GeoRankingMap");
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
@@ -109,8 +111,8 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
 
     marker.bindPopup(`
       <div style="text-align: center; padding: 5px;">
-        <strong>Your Business</strong><br>
-        <small>Primary location</small>
+        <strong>${t("mapPopup.yourBusiness")}</strong><br>
+        <small>${t("mapPopup.primaryLocation")}</small>
       </div>
     `);
 
@@ -149,7 +151,8 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
       }).addTo(mapInstanceRef.current!);
 
       marker.bindPopup(
-        `Grid Point ${index + 1}<br><small>Awaiting results...</small>`
+        `${t("mapPopup.gridPoint", { index: index + 1 })}
+        <br><small>${t("mapPopup.awaitingResults")}</small>`
       );
       markersRef.current.push(marker);
     });
@@ -196,8 +199,8 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Rank: ${detail.rank}</strong><br>
-          <small>Click for details</small>
+          <strong>${t("mapPopup.rank", { rank: detail.rank })}</strong><br>
+          <small>${t("mapPopup.clickForDetails")}</small>
         </div>
       `);
 
@@ -245,9 +248,13 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Manual Coordinate ${index + 1}</strong><br>
-          <small>Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</small><br>
-          <small>Drag to reposition</small><br>
+          <strong>${t("mapPopup.manualCoordinate", { index: index + 1 })}
+      }</strong><br>
+          <small>${t("mapPopup.lat", {
+            lat: lat.toFixed(6),
+            lng: lng.toFixed(6),
+          })}</small><br>
+          <small>${t("mapPopup.drag")}</small><br>
           <button onclick="window.removeManualMarker(${index})" style="
             background: #ef4444;
             color: white;
@@ -257,7 +264,7 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
             font-size: 11px;
             cursor: pointer;
             margin-top: 4px;
-          ">Remove</button>
+          ">${t("mapPopup.remove")}</button>
         </div>
       `);
 
@@ -345,7 +352,7 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
   const updateMarkers = () => {
     // Ensure map and defaultCoordinates are available before updating markers
     if (!mapInstanceRef.current || !defaultCoordinates) return;
-    
+
     clearMarkers();
     clearManualMarkers();
 
@@ -444,12 +451,12 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
 
   const getTitle = () => {
     if (rankDetails && rankDetails.length > 0) {
-      return "Keyword Ranking Results";
+      return t("title.results");
     }
     if (pollingKeyword) {
-      return "Processing Keyword...";
+      return t("title.processing");
     }
-    return "Geo Ranking Map";
+    return t("title.default");
   };
 
   return (
@@ -467,13 +474,13 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
               <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
               <p className="text-sm font-medium text-gray-900 mb-1">
                 {pollingKeyword
-                  ? "Processing Keyword Data"
-                  : "Loading Map Data"}
+                  ? t("loading.keywordTitle")
+                  : t("loading.gridTitle")}
               </p>
               <p className="text-xs text-gray-500">
                 {pollingKeyword
-                  ? "Analyzing search rankings..."
-                  : "Generating grid coordinates..."}
+                  ? t("loading.keywordSubtitle")
+                  : t("loading.gridSubtitle")}
               </p>
             </div>
           </div>
@@ -486,7 +493,7 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
             variant="secondary"
             onClick={handleZoomIn}
             className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
-            title="Zoom In"
+            title={t("zoom.in")}
           >
             <ZoomIn className="w-4 h-4" />
           </Button>
@@ -495,7 +502,7 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
             variant="secondary"
             onClick={handleZoomOut}
             className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
-            title="Zoom Out"
+            title={t("zoom.out")}
           >
             <ZoomOut className="w-4 h-4" />
           </Button>
@@ -505,24 +512,24 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
         {rankDetails && rankDetails.length > 0 && (
           <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
             <div className="text-xs font-medium text-gray-700 mb-2">
-              Ranking Legend
+              {t("legend.title")}
             </div>
             <div className="flex flex-col gap-1 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span>1-3 (Top)</span>
+                <span>{t("legend.top")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <span>4-10 (Good)</span>
+                <span>{t("legend.good")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                <span>11-15 (Fair)</span>
+                <span>{t("legend.fair")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span>16+ (Poor)</span>
+                <span>{t("legend.poor")}</span>
               </div>
             </div>
           </div>
@@ -538,14 +545,19 @@ const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
 };
 
 // Memoized export with custom comparison function to prevent unnecessary re-renders
-export const GeoRankingReportMap = memo(GeoRankingReportMapComponent, 
+export const GeoRankingReportMap = memo(
+  GeoRankingReportMapComponent,
   (prevProps, nextProps) => {
     // Compare map-relevant props only, ignore callback function references
     return (
-      JSON.stringify(prevProps.defaultCoordinates) === JSON.stringify(nextProps.defaultCoordinates) &&
-      JSON.stringify(prevProps.gridCoordinates) === JSON.stringify(nextProps.gridCoordinates) &&
-      JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
-      JSON.stringify(prevProps.manualCoordinates) === JSON.stringify(nextProps.manualCoordinates) &&
+      JSON.stringify(prevProps.defaultCoordinates) ===
+        JSON.stringify(nextProps.defaultCoordinates) &&
+      JSON.stringify(prevProps.gridCoordinates) ===
+        JSON.stringify(nextProps.gridCoordinates) &&
+      JSON.stringify(prevProps.rankDetails) ===
+        JSON.stringify(nextProps.rankDetails) &&
+      JSON.stringify(prevProps.manualCoordinates) ===
+        JSON.stringify(nextProps.manualCoordinates) &&
       prevProps.pollingKeyword === nextProps.pollingKeyword &&
       prevProps.loadingGrid === nextProps.loadingGrid &&
       prevProps.mapPoint === nextProps.mapPoint

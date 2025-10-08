@@ -1,0 +1,94 @@
+{
+  "dashboard": {
+    "title": "Cruscotto",
+    "subtitle": "Monitora le prestazioni della tua attività su tutte le piattaforme"
+  },
+  "aiTasks": {
+    "title": "Attività AI",
+    "subtitle": "Gestisci e traccia le attività di ottimizzazione con intelligenza artificiale"
+  },
+  "profile": {
+    "title": "Profilo",
+    "subtitle": "Gestisci le informazioni e le preferenze del tuo account"
+  },
+  "posts": {
+    "title": "Post",
+    "subtitle": "Crea e gestisci contenuti per tutte le sedi della tua attività"
+  },
+  "mediaLibrary": {
+    "title": "Libreria Media",
+    "subtitle": "Organizza e gestisci immagini e video della tua attività per tutte le piattaforme"
+  },
+  "reviews": {
+    "title": "Recensioni",
+    "subtitle": "Monitora e rispondi ai feedback dei clienti in tutte le sedi"
+  },
+  "qa": {
+    "title": "Domande e Risposte",
+    "subtitle": "Gestisci le domande dei clienti e fornisci risposte utili"
+  },
+  "businessInfo": {
+    "title": "Gestione",
+    "subtitle": "Gestisci le schede della tua attività e le informazioni sulle sedi"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "subtitle": "Configura le preferenze del tuo account e le integrazioni"
+  },
+  "manageListings": {
+    "title": "Gestisci Schede",
+    "subtitle": "Monitora e gestisci le schede del tuo Google Business Profile"
+  },
+  "insights": {
+    "title": "Insight",
+    "subtitle": "Analizza i dati per migliorare la tua visibilità locale"
+  },
+  "keywords": {
+    "title": "Parole Chiave",
+    "subtitle": "Monitora il posizionamento delle parole chiave per località geografica"
+  },
+  "searchKeyword": {
+    "title": "Cerca Parola Chiave",
+    "subtitle": "Parole Chiave"
+  },
+  "geoRanking": {
+    "title": "Classifica GEO",
+    "subtitle": "Monitora il posizionamento delle parole chiave per località geografica"
+  },
+  "geoRankingReport": {
+    "title": "Report Classifica GEO",
+    "subtitle": "Analisi dettagliata delle prestazioni nella ricerca locale"
+  },
+  "citationManagement": {
+    "title": "Gestione Citazioni",
+    "subtitle": "Monitora e gestisci le citazioni della tua attività nelle directory"
+  },
+  "analytics": {
+    "title": "Analisi",
+    "subtitle": "Metriche complete e dati di performance per la tua attività"
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "Gestisci i membri del team e i loro permessi di accesso"
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "subtitle": "Rimani aggiornato con avvisi e notifiche importanti"
+  },
+  "reports": {
+    "title": "Report",
+    "subtitle": "Visualizza e genera report di performance"
+  },
+  "aiChatbot": {
+    "title": "Assistenza AI Genie",
+    "subtitle": "Ricevi assistenza con intelligenza artificiale per l’ottimizzazione del ranking GEO"
+  },
+  "editTeamMember": {
+    "title": "Modifica Membro del Team",
+    "subtitle": "Gestisci il profilo, l’accesso alle schede e i permessi delle funzionalità"
+  },
+  "welcomeDashboard": {
+    "title": "Cruscotto",
+    "subtitle": "Bentornato nel cruscotto della tua attività"
+  }
+}

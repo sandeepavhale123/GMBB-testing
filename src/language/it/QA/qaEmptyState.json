@@ -1,0 +1,12 @@
+{
+  "qaEmptyState": {
+    "title": {
+      "noQuestions": "Nessuna domanda da parte dei clienti",
+      "noMatches": "Nessuna domanda corrisponde ai tuoi filtri"
+    },
+    "description": {
+      "noQuestions": "Incoraggia l'interazione sulle tue inserzioni per aumentare la fiducia e la visibilità.",
+      "noMatches": "Prova a modificare i tuoi criteri di ricerca o filtri per vedere più risultati."
+    }
+  }
+}

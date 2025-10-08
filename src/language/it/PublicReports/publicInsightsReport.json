@@ -1,0 +1,42 @@
+{
+  "publicInsightsReport": {
+    "title": "Rapporto sulle Prestazioni Aziendali",
+    "loading": {
+      "message": "Caricamento del rapporto sulle prestazioni..."
+    },
+    "error": {
+      "title": "Errore nel Caricare il Rapporto",
+      "description": "Impossibile caricare il rapporto sulle prestazioni. Riprova più tardi.",
+      "retry": "Riprova"
+    },
+    "summaryCards": {
+      "website": "Visite al Sito Web",
+      "direction": "Richieste di Indicazioni",
+      "calls": "Chiamate Telefoniche",
+      "messages": "Messaggi",
+      "desktopSearch": "Ricerca Desktop",
+      "desktopMap": "Mappa Desktop",
+      "mobileSearch": "Ricerca Mobile",
+      "mobileMap": "Mappa Mobile",
+      "compareText": "{{value}}% vs precedente"
+    },
+    "charts": {
+      "customerSearch": "Come i Clienti Cercano la Tua Attività",
+      "listingViewsClicks": "Visualizzazioni e Clic sui Profili"
+    },
+    "chartLabels": {
+      "search": "Ricerca",
+      "map": "Mappa",
+      "website": "Sito Web",
+      "direction": "Indicazioni",
+      "call": "Chiamata",
+      "message": "Messaggio"
+    },
+    "donutLabels": {
+      "desktopSearch": "Ricerca Desktop",
+      "mobileSearch": "Ricerca Mobile",
+      "desktopMap": "Mappa Desktop",
+      "mobileMap": "Mappa Mobile"
+    }
+  }
+}

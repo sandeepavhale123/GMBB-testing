@@ -1,0 +1,7 @@
+{
+  "mediaErrorBoundary": {
+    "title": "Qualcosa è andato storto",
+    "description": "Si è verificato un errore durante il caricamento della pagina dei media. Prova a ricaricare o contatta il supporto se il problema persiste.",
+    "retry": "Riprova"
+  }
+}

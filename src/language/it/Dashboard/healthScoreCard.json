@@ -1,0 +1,15 @@
+{
+  "healthScoreCard": {
+    "title": "Punteggio Salute",
+    "statusGood": "Buono",
+    "listingOptimizationScore": "Il punteggio di ottimizzazione del tuo listing",
+    "aiAutoOptimize": "Ottimizzazione Automatica AI",
+    "viewDetailedReport": "Visualizza Report Dettagliato",
+    "quickWinsTitle": "Vantaggi Rapidi",
+    "quickWinItems": {
+      "addPhotos": "Aggiungi 5+ foto recenti",
+      "updateHours": "Aggiorna orari di apertura"
+    },
+    "moreSuggestions": "+1 altro suggerimento"
+  }
+}

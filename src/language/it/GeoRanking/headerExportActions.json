@@ -1,0 +1,21 @@
+{
+  "headerExportActions": {
+    "credits": {
+      "label": "Crediti disponibili",
+      "icon": "🪙"
+    },
+    "buttons": {
+      "refresh": {
+        "idle": "Ricarica",
+        "loading": "Ricaricando..."
+      },
+      "clone": "Clona",
+      "share": "Condividi",
+      "checkRank": "Controlla il Ranking",
+      "export": {
+        "idle": "Esporta Report",
+        "loading": "Esportando..."
+      }
+    }
+  }
+}

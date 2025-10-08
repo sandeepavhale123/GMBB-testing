@@ -1,0 +1,10 @@
+{
+  "title": "Panoramica Aziendale",
+  "subtitle": "Metriche chiave per {{listingName}}",
+  "metrics": {
+    "totalBusinesses": "Totale Aziende",
+    "publishedPosts": "Post Pubblicati",
+    "totalReviews": "Recensioni Totali",
+    "averageRating": "Valutazione Media"
+  }
+}

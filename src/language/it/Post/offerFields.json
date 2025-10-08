@@ -1,0 +1,12 @@
+{
+  "offer": {
+    "startDateTime": "Data e Ora di Inizio",
+    "endDateTime": "Data e Ora di Fine",
+    "couponCode": "Codice Coupon",
+    "couponCodePlaceholder": "Inserisci il codice coupon",
+    "redeemOnlineUrl": "URL per riscattare online",
+    "redeemOnlineUrlPlaceholder": "https://example.com/redeem",
+    "termsAndConditions": "Termini e Condizioni",
+    "termsAndConditionsPlaceholder": "Inserisci i termini e le condizioni per questa offerta..."
+  }
+}

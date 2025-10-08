@@ -61,7 +61,10 @@ import {
   startBodyStyleObserver,
   stopBodyStyleObserver,
 } from "@/utils/domUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export const Dashboard: React.FC = () => {
+  const { t } = useI18nNamespace("Geo-Ranking-module-pages/Dashboard");
   const navigate = useNavigate();
   const {
     projects,
@@ -182,34 +185,38 @@ export const Dashboard: React.FC = () => {
   }, []);
   const summaryCards = [
     {
-      title: "No Of Project",
+      title: t("dashboard.summary.noOfProject"),
       value: summary?.totalProjects || 0,
       icon: Users,
       color: "text-blue-500",
-      iconBgColor: "bg-blue-500"
+      iconBgColor: "bg-blue-500",
     },
     {
-      title: "No Of Keywords",
+      title: t("dashboard.summary.noOfKeywords"),
       value: summary?.totalKeywords || 0,
       icon: Target,
       color: "text-green-500",
-      iconBgColor: "bg-green-500"
+      iconBgColor: "bg-green-500",
     },
     {
-      title: "No Of Scheduled Scan",
+      title: t("dashboard.summary.noOfScheduledScan"),
       value: summary?.scheduledScans || 0,
       icon: Calendar,
       color: "text-orange-500",
-      iconBgColor: "bg-orange-500"
+      iconBgColor: "bg-orange-500",
     },
     {
-      title: "Available Credits",
+      title: t("dashboard.summary.availableCredits"),
       value: summary
-        ? `${summary.availableCredits.toLocaleString()} remaining of ${summary.allowedCredits.toLocaleString()} total`
-        : "0 remaining of 0 total",
+        ? t("dashboard.summary.creditsRemaining", {
+            remaining: summary.availableCredits.toLocaleString(),
+            total: summary.allowedCredits.toLocaleString(),
+          })
+        : // `${summary.availableCredits.toLocaleString()} remaining of ${summary.allowedCredits.toLocaleString()} total`
+          "0 remaining of 0 total",
       icon: CreditCard,
       color: "text-purple-500",
-      iconBgColor: "bg-purple-500"
+      iconBgColor: "bg-purple-500",
     },
   ];
   if (isLoading) {
@@ -234,10 +241,10 @@ export const Dashboard: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Project Management
+            {t("dashboard.header.title")}
           </h1>
           <p className="text-muted-foreground">
-            Manage your GEO ranking projects.
+            {t("dashboard.header.description")}
           </p>
         </div>
         <Dialog
@@ -253,23 +260,27 @@ export const Dashboard: React.FC = () => {
           <DialogTrigger asChild>
             <Button onClick={() => setShowCreateModal(true)}>
               <Plus className="w-4 h-4 mr-1" />
-              Create Project
+              {t("dashboard.buttons.createProject")}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {isEditMode ? "Edit Project" : "Create New Project"}
+                {isEditMode
+                  ? t("dashboard.dialog.edit")
+                  : t("dashboard.dialog.createNew")}
               </DialogTitle>
               <DialogDescription>
                 {isEditMode
-                  ? "Update the details for your GEO ranking project."
-                  : "Enter the details for your new GEO ranking project."}
+                  ? t("dashboard.dialog.descEdit")
+                  : t("dashboard.dialog.descCreate")}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="project-name">Project Name</Label>
+                <Label htmlFor="project-name">
+                  {t("dashboard.dialog.projectName")}
+                </Label>
                 <Input
                   id="project-name"
                   value={newProject.name}
@@ -279,11 +290,16 @@ export const Dashboard: React.FC = () => {
                       name: e.target.value,
                     })
                   }
-                  placeholder="Enter project name"
+                  placeholder={t(
+                    "dashboard.dialog.placeholder.enterProjectName"
+                  )}
                 />
               </div>
               <div>
-                <Label htmlFor="notification-email">Notification Email</Label>
+                <Label htmlFor="notification-email">
+                  {" "}
+                  {t("dashboard.dialog.notificationEmail")}
+                </Label>
                 <Input
                   id="notification-email"
                   type="email"
@@ -294,12 +310,12 @@ export const Dashboard: React.FC = () => {
                       notificationEmail: e.target.value,
                     })
                   }
-                  placeholder="Enter emails separated by commas"
+                  placeholder={t("dashboard.dialog.placeholder.enterEmails")}
                 />
               </div>
               <DialogFooter className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={handleCloseModal}>
-                  Cancel
+                  {t("dashboard.buttons.cancel")}
                 </Button>
                 <Button
                   onClick={handleCreateProject}
@@ -313,7 +329,9 @@ export const Dashboard: React.FC = () => {
                   {(isCreating || isUpdating) && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  {isEditMode ? "Update Project" : "Create Project"}
+                  {isEditMode
+                    ? t("dashboard.buttons.updateProject")
+                    : t("dashboard.buttons.createProject")}
                 </Button>
               </DialogFooter>
             </div>
@@ -333,18 +351,22 @@ export const Dashboard: React.FC = () => {
             const progressPercentage =
               totalCredits > 0 ? (remainingCredits / totalCredits) * 100 : 0;
             return (
-
-              <div key={card.title} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+              <div
+                key={card.title}
+                className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 space-y-1">
                     <h3 className="text-sm font-medium text-gray-600">
-                      Available Credit
+                      {t("dashboard.summary.availableCredits")}
                     </h3>
                     <div className="text-3xl font-bold text-gray-900">
                       {remainingCredits.toLocaleString()}{" "}
                     </div>
                   </div>
-                  <div className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`} >
+                  <div
+                    className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}
+                  >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -354,7 +376,10 @@ export const Dashboard: React.FC = () => {
 
           // Default layout for other cards
           return (
-            <div key={card.title} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`} >
+            <div
+              key={card.title}
+              className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex-1 space-y-1">
                   <h3 className="text-sm font-medium text-gray-600">
@@ -364,13 +389,13 @@ export const Dashboard: React.FC = () => {
                     {card.value}
                   </div>
                 </div>
-                <div className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`} >
+                <div
+                  className={`${card.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}
+                >
                   <Icon className="w-6 h-6 text-white" />
                 </div>
               </div>
             </div>
-
-
           );
         })}
       </div>
@@ -382,7 +407,7 @@ export const Dashboard: React.FC = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search projects..."
+                placeholder={t("dashboard.table.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 className="pl-10 w-full"
@@ -396,16 +421,20 @@ export const Dashboard: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr className="border-b border-border bg-gray-50 ">
                   <th className="text-left py-3 px-4 font-medium ">
-                    Project Name
+                    {t("dashboard.table.projectName")}
                   </th>
                   <th className="text-left py-3 px-4 font-medium ">
-                    No of Keywords
+                    {t("dashboard.table.noOfKeywords")}
                   </th>
-                  <th className="text-left py-3 px-4 font-medium ">Date</th>
                   <th className="text-left py-3 px-4 font-medium ">
-                    Notification Email
+                    {t("dashboard.table.date")}
                   </th>
-                  <th className="text-left py-3 px-4 font-medium ">Action</th>
+                  <th className="text-left py-3 px-4 font-medium ">
+                    {t("dashboard.table.notificationEmail")}
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium ">
+                    {t("dashboard.table.action")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -414,8 +443,8 @@ export const Dashboard: React.FC = () => {
                     <td colSpan={5} className="py-8 text-center">
                       <div className="text-muted-foreground">
                         {isLoading
-                          ? "Loading projects..."
-                          : "No projects found"}
+                          ? t("dashboard.table.loadingProjects")
+                          : t("dashboard.table.noProjectsFound")}
                       </div>
                     </td>
                   </tr>
@@ -461,13 +490,13 @@ export const Dashboard: React.FC = () => {
                               }
                             >
                               <Eye className="w-4 h-4 mr-1" />
-                              View
+                              {t("dashboard.buttons.view")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleEditProject(project)}
                             >
                               <Edit className="w-4 h-4 mr-1" />
-                              Edit
+                              {t("dashboard.buttons.edit")}
                             </DropdownMenuItem>
                             {project.numberOfChecks > 0 && (
                               <DropdownMenuItem
@@ -479,7 +508,7 @@ export const Dashboard: React.FC = () => {
                                 }
                               >
                                 <Share className="w-4 h-4 mr-1" />
-                                Shareable Link
+                                {t("dashboard.table.shareablelink")}
                               </DropdownMenuItem>
                             )}
 
@@ -488,7 +517,7 @@ export const Dashboard: React.FC = () => {
                               onClick={() => handleDeleteClick(project)}
                             >
                               <Trash2 className="w-4 h-4 mr-1" />
-                              Delete
+                              {t("dashboard.alerts.delete")}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -504,9 +533,17 @@ export const Dashboard: React.FC = () => {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-4 border-t border-border p-4 ">
               <div className="text-sm text-muted-foreground flex-1 max-w[200px]">
-                Showing {(currentPage - 1) * pagination.limit + 1} to{" "}
+                {t("dashboard.pagination.showing", {
+                  from: (currentPage - 1) * pagination.limit + 1,
+                  to: Math.min(
+                    currentPage * pagination.limit,
+                    pagination.total
+                  ),
+                  total: pagination.total,
+                })}
+                {/* Showing {(currentPage - 1) * pagination.limit + 1} to{" "}
                 {Math.min(currentPage * pagination.limit, pagination.total)} of{" "}
-                {pagination.total} projects
+                {pagination.total} projects */}
               </div>
 
               <Pagination className="flex justify-end max-w-[300px]">
@@ -603,28 +640,35 @@ export const Dashboard: React.FC = () => {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Project</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("dashboard.table.deleteConfirmationTitle")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
+              {t("dashboard.table.deleteConfirmationDescription", {
+                name: projectToDelete?.name,
+              })}
+              {/* This action cannot be undone. This will permanently delete the
               project "{projectToDelete?.name}" and all its related data
-              including keywords and map points.
+              including keywords and map points. */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="delete-confirm">Type "delete" to confirm</Label>
+              <Label htmlFor="delete-confirm">
+                {t("dashboard.table.typeDeleteToConfirm")}
+              </Label>
               <Input
                 id="delete-confirm"
                 value={deleteConfirmText}
                 onChange={(e) => setDeleteConfirmText(e.target.value)}
-                placeholder="delete"
+                placeholder={t("dashboard.table.placeholderDelete")}
                 className="mt-2"
               />
             </div>
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCloseDeleteDialog}>
-              Cancel
+              {t("dashboard.buttons.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmDelete}
@@ -632,7 +676,7 @@ export const Dashboard: React.FC = () => {
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Delete Project
+              {t("dashboard.buttons.deleteProject")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

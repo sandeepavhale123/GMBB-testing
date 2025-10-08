@@ -1,0 +1,15 @@
+{
+  "keywords": {
+    "title": "Parole Chiave",
+    "subtitle": "Gestisci e monitora il posizionamento delle parole chiave per la tua attività.",
+    "loadingSubtitle": "Gestisci e monitora il posizionamento delle parole chiave per la tua attività",
+    "addKeyword": "Aggiungi Parola Chiave",
+    "searchKeyword": "Cerca Parola Chiave",
+    "errorTitle": "Errore",
+    "errorFetch": "Impossibile recuperare le parole chiave",
+    "errorNoListing": "Nessun elenco selezionato.",
+    "errorDelete": "Impossibile eliminare le parole chiave. Riprova.",
+    "deletedTitle": "Parole Chiave Eliminata",
+    "deletedMessage": "{{count}} parola{{plural}} chiave eliminate con successo."
+  }
+}

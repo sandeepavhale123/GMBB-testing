@@ -1,0 +1,21 @@
+{
+  "GeoRankingHeader": {
+    "export": {
+      "failed": {
+        "title": "Esportazione Fallita",
+        "description": "Impossibile trovare il contenuto del report da esportare."
+      },
+      "complete": {
+        "title": "Esportazione Completata",
+        "description": "Il tuo report sul posizionamento geografico è stato scaricato come immagine con margini."
+      },
+      "error": {
+        "title": "Esportazione Fallita",
+        "description": "Impossibile esportare l'immagine. Per favore, riprova."
+      }
+    },
+    "progress": {
+      "refreshing": "Aggiornamento dei dati delle parole chiave in corso..."
+    }
+  }
+}

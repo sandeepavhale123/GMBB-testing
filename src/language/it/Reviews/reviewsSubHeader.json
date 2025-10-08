@@ -1,0 +1,14 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Sommario delle Recensioni",
+      "autoResponse": "Risposta Automatica"
+    },
+    "replySettingBadge": {
+      "prefix": "Impostazione di risposta automatica attivata: ",
+      "AI": "Risposta AI",
+      "CUSTOM": "Template Personalizzato",
+      "DNR": "Non Rispondere"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "page": {
+    "title": "Gestione Post Massivi",
+    "subtitle": "Crea e programma post su più inserzioni."
+  },
+  "buttons": {
+    "createNew": "Crea Nuovo Post",
+    "createBulkPost": "Crea Post Massivo",
+    "tryAgain": "Riprova",
+    "viewDetails": "Visualizza Dettagli",
+    "delete": "Elimina",
+    "deleting": "Eliminando...",
+    "cancel": "Annulla",
+    "confirmDelete": "Elimina"
+  },
+  "messages": {
+    "errorLoading": "Errore nel caricamento dei post massivi: {{error}}",
+    "noPostsTitle": "Nessun post massivo ancora",
+    "noPostsDescription": "Crea il tuo primo post massivo per iniziare",
+    "postedOn": "Pubblicato su {{count}} inserzioni",
+    "failedOn": "Fallito su {{count}} inserzioni",
+    "scheduledOn": "Programmata su {{count}} inserzioni",
+    "noActivePosts": "Nessun post attivo",
+    "untitledPost": "Post Senza Titolo",
+    "noDescription": "Nessuna descrizione disponibile",
+    "noImage": "Nessuna immagine"
+  },
+  "pagination": {
+    "showing": "Mostrando da {{start}} a {{end}} di {{total}} post"
+  },
+  "dialog": {
+    "title": "Sei sicuro?",
+    "description": "Questa azione non può essere annullata. Il post massivo e tutti i dati associati saranno eliminati permanentemente."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Successo",
+      "description": "Post massivo eliminato con successo"
+    },
+    "deleteError": {
+      "title": "Errore",
+      "description": "Impossibile eliminare il post massivo"
+    }
+  }
+}

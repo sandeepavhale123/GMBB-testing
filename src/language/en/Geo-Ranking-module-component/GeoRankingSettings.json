@@ -1,0 +1,8 @@
+{
+  "title": "Settings",
+  "description": "Customize your GEO ranking theme and preferences.",
+  "nav": {
+    "theme": "Theme Customization",
+    "apiKey": "Google Places API Key"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "successContent": {
+    "messages": {
+      "password-reset": {
+        "title": "Password Aggiornata con Successo!",
+        "description": "La tua password è stata aggiornata. Ora puoi accedere con la nuova password."
+      },
+      "payment": {
+        "title": "Pagamento Riuscito!",
+        "description": "Grazie per la tua sottoscrizione! Il pagamento è stato processato con successo."
+      },
+      "profile-update": {
+        "title": "Profilo Aggiornato!",
+        "description": "Il tuo profilo è stato aggiornato con successo."
+      },
+      "verification": {
+        "title": "Verifica Completata!",
+        "description": "Il tuo account è stato verificato con successo."
+      },
+      "general": {
+        "title": "Successo!",
+        "description": "L'azione è stata completata con successo."
+      }
+    },
+    "buttons": {
+      "goToDashboard": "Vai alla Dashboard",
+      "goToLogin": "Vai al Login",
+      "goBack": "Torna Indietro"
+    }
+  }
+}

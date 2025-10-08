@@ -1,0 +1,15 @@
+{
+  "rankingDistribution": {
+    "title": "Distribuzione del Ranking",
+    "circularProgress": {
+      "total": "Totale",
+      "keywordsTracked": "Parole Chiave Tracciate"
+    },
+    "positions": {
+      "pos1_3": "Posizione 01-03",
+      "pos4_10": "Posizione 04-10",
+      "pos11_15": "Posizione 11-15",
+      "pos16_20": "Posizione 16-20+"
+    }
+  }
+}

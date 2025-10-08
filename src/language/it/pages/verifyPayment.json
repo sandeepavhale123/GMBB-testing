@@ -1,0 +1,22 @@
+{
+  "verifyPayment": {
+    "loading": {
+      "title": "Verifica del pagamento",
+      "description": "Attendere mentre verifichiamo il tuo pagamento..."
+    },
+    "success": {
+      "title": "Pagamento verificato con successo!",
+      "description": "La tua iscrizione è stata attivata con successo. Ora puoi accedere a tutte le funzionalità premium.",
+      "button": "Continua al Dashboard"
+    },
+    "error": {
+      "title": "Verifica del pagamento fallita",
+      "buttonTryAgain": "Riprova",
+      "buttonBackHome": "Torna alla Home",
+      "messages": {
+        "invalidParams": "Parametri di verifica non validi",
+        "verificationFailed": "Verifica del pagamento fallita. Per favore riprova."
+      }
+    }
+  }
+}

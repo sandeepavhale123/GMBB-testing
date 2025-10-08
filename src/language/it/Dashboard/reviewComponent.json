@@ -1,0 +1,54 @@
+{
+  "reviewSummary": "Riepilogo Recensioni",
+  "sentimentBreakdown": "Analisi del Sentimento",
+  "reviewsCount": "{{count}} recensioni",
+  "positive": "Positivo",
+  "neutral": "Neutro",
+  "negative": "Negativo",
+  "recentReviews": "Recensioni Recenti",
+  "searchPlaceholder": "Cerca nelle recensioni...",
+  "filters": {
+    "sortBy": "Ordina per",
+    "newest": "Più Recenti",
+    "oldest": "Meno Recenti",
+    "highest": "Valutazione più Alta",
+    "lowest": "Valutazione più Bassa",
+    "rating": "Valutazione",
+    "allRatings": "Tutte le Valutazioni",
+    "stars": "{{count}} Stelle",
+    "star": "1 Stella",
+    "sentiment": "Sentimento",
+    "all": "Tutti",
+    "replyStatus": "Stato della Risposta",
+    "allStatus": "Tutti gli Stati",
+    "responded": "Risposto",
+    "notResponded": "Non Risposto"
+  },
+  "badges": {
+    "new": "Nuova",
+    "noReply": "Senza Risposta",
+    "aiResponded": "Risposta AI",
+    "manualReply": "Risposta Manuale"
+  },
+  "buttons": {
+    "generateAIResponse": "Genera Risposta AI",
+    "replyManually": "Rispondi Manualmente",
+    "useResponse": "Usa Risposta",
+    "cancel": "Annulla",
+    "sendReply": "Invia Risposta"
+  },
+  "aiSuggestedResponse": "Risposta Suggerita dall'AI",
+  "writeYourReply": "Scrivi la tua risposta",
+  "placeholders": {
+    "aiResponse": "La risposta suggerita dall'AI apparirà qui...",
+    "manualResponse": "Digita la tua risposta..."
+  },
+  "toasts": {
+    "aiGeneratedTitle": "Risposta AI Generata",
+    "aiGeneratedDesc": "L'AI ha generato una risposta per questa recensione.",
+    "responseUsedTitle": "Risposta Utilizzata",
+    "responseUsedDesc": "La risposta suggerita dall'AI è stata utilizzata per questa recensione.",
+    "replySentTitle": "Risposta Inviata",
+    "replySentDesc": "La tua risposta manuale è stata inviata con successo."
+  }
+}

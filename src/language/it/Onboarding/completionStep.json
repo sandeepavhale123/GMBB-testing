@@ -1,0 +1,15 @@
+{
+  "completionStep": {
+    "welcomeTitle": "🎉 Benvenuto su GMB Briefcase!",
+    "welcomeDescription": "Il tuo account è configurato e pronto per partire. Ecco cosa puoi fare adesso:",
+    "helpSection": {
+      "title": "Hai bisogno di aiuto per iniziare?",
+      "description": "Il nostro team è qui per aiutarti a avere successo. Accedi alla nostra base di conoscenza, ai tutorial video o pianifica una chiamata di onboarding gratuita.",
+      "buttons": {
+        "helpCenter": "Visualizza il Centro Assistenza",
+        "onboardingCall": "Pianifica la Chiamata di Onboarding"
+      }
+    },
+    "goToDashboardButton": "Vai alla Dashboard"
+  }
+}

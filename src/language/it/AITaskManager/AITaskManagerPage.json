@@ -1,0 +1,69 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Attività in sospeso",
+      "completed": "Attività completate",
+      "oneTime": "Attività una tantum",
+      "recurring": "Attività ricorrenti"
+    },
+
+    "tabs": {
+      "pending": "In sospeso ({{count}})",
+      "completed": "Completate ({{count}})",
+      "all": "Tutte le attività ({{count}})",
+      "recurring": "Ricorrenti ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Frequenza: {{value}}",
+      "status": {
+        "pending": "in sospeso",
+        "inProgress": "in corso",
+        "completed": "completata",
+        "due": "scaduta"
+      },
+      "type": {
+        "oneTime": "una tantum",
+        "recurring": "ricorrente"
+      },
+      "priority": {
+        "high": "Alta priorità"
+      },
+      "actions": {
+        "fix": "Correggi",
+        "inProgress": "In corso",
+        "markCompleted": "Segna come completata",
+        "revert": "Ripristina"
+      }
+    },
+
+    "loading": {
+      "title": "Caricamento attività AI",
+      "description": "Recupero delle attività più recenti..."
+    },
+
+    "noListing": {
+      "message": "Nessuna scheda selezionata. Seleziona una scheda per visualizzare le attività AI."
+    },
+
+    "emptyState": {
+      "title": "Nessuna attività trovata",
+      "completedMessage": "Ottimo lavoro! Completa alcune attività per vederle qui.",
+      "defaultMessage": "Nessuna attività corrisponde al filtro attuale."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Errore",
+        "default": "Impossibile ripristinare l’attività."
+      },
+      "success": {
+        "title": "Successo"
+      },
+      "reverted": {
+        "title": "Ripristinata",
+        "message": "Attività riportata allo stato in sospeso."
+      }
+    }
+  }
+}

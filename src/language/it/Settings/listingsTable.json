@@ -1,0 +1,14 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Attività",
+      "storeCode": "Codice Negozio",
+      "category": "Categoria",
+      "location": "Località",
+      "status": "Stato",
+      "state": "Regione",
+      "actions": "Azioni"
+    },
+    "noListings": "Nessun annuncio trovato che corrisponda ai tuoi criteri."
+  }
+}

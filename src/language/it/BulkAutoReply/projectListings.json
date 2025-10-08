@@ -1,0 +1,32 @@
+{
+  "searchPlaceholder": "Cerca posizioni...",
+  "addLocationButton": "Aggiungi Posizione",
+  "table": {
+    "locationName": "Nome Posizione",
+    "zipCode": "CAP",
+    "action": "Azione",
+    "noLocations": "Nessuna posizione trovata"
+  },
+  "removeLocation": {
+    "title": "Rimuovi Posizione",
+    "description": "Sei sicuro di voler rimuovere \"{{locationName}}\" da questo progetto? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "remove": "Rimuovi"
+  },
+  "toast": {
+    "successTitle": "Successo",
+    "errorTitle": "Errore",
+    "errorProjectId": "ID progetto necessario per eliminare la posizione",
+    "successDelete": "Posizione rimossa dal progetto con successo",
+    "errorDelete": "Impossibile rimuovere la posizione dal progetto",
+    "errorAdd": "Seleziona almeno una posizione da aggiungere",
+    "successAdd": "{{count}} posizione(i) aggiunta(e) al progetto con successo",
+    "errorAddFailed": "Impossibile aggiungere le posizioni al progetto"
+  },
+  "addListingsModal": {
+    "title": "Aggiungi Posizioni al Progetto",
+    "cancel": "Annulla",
+    "addSelected": "Aggiungi Selezionate ({{count}})",
+    "adding": "Aggiunta in corso..."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "mediaUploadModal": {
+    "titleSingle": "Carica Media",
+    "titleBulk": "Carica Media su più Inserzioni",
+    "uploadError": "Errore di Caricamento",
+    "selectFileError": "Seleziona un file.",
+    "selectListingError": "Seleziona almeno un'inserzione o gruppo.",
+    "noListingError": "Assicurati che sia selezionata un'inserzione aziendale.",
+    "uploadCompleteTitle": "Caricamento Completo!",
+    "uploadCompleteMessage": "Il tuo {{fileType}} è stato caricato con successo.",
+    "mediaPreview": "Anteprima Media",
+    "typeLabel": "Tipo:",
+    "aiImage": "IMMAGINE GENERATA DA IA",
+    "galleryImage": "IMMAGINE GALLERIA",
+    "cancel": "Annulla",
+    "uploadingSingle": "Caricamento in corso...",
+    "uploadingBulk": "Caricamento su più Inserzioni...",
+    "uploadButtonSingle": "Carica Media",
+    "uploadButtonBulk": "Carica sulle Inserzioni Selezionate",
+    "uploadSuccess": "Caricamento Riuscito",
+    "uploadFailed": "Caricamento Fallito",
+    "bulkSuccess": "Caricamento Massivo Completato con Successo",
+    "bulkSuccessMessage": "Il media è stato caricato su {{count}} inserzione(i).",
+    "generatedImage": "Immagine Generata"
+  }
+}

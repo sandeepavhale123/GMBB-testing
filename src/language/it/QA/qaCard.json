@@ -1,0 +1,18 @@
+{
+  "qaCard": {
+    "answered": "Risposto",
+    "unanswered": "Non Risposto",
+    "askedBy": "Chiesto da",
+    "anonymousUser": "Utente Anonimo",
+    "reply": "Rispondi",
+    "replyTitle": "Usa parole chiave pertinenti nella tua risposta",
+    "answerPlaceholder": "Scrivi la tua risposta utilizzando parole chiave pertinenti come nomi di città, servizi o prodotti per migliorare la SEO locale...",
+    "postAnswer": "Invia Risposta",
+    "cancel": "Annulla",
+    "answeredLabel": "Risposto {{timeAgo}}",
+    "listingFallback": {
+      "name": "Inserzione Azienda",
+      "address": "Indirizzo"
+    }
+  }
+}

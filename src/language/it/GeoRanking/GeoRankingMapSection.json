@@ -1,0 +1,30 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Mappa di Posizionamento GEO a Griglia",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Griglia",
+      "distance": "Distanza",
+      "engine": "Motore",
+      "engineValue": "Google Maps",
+      "frequency": "Frequenza"
+    },
+    "loading": {
+      "title": "Caricamento Dati Mappa",
+      "description": "Generazione coordinate della griglia..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Riepilogo Posizione"
+    },
+    "frequencyOptions": {
+      "daily": "Quotidiano",
+      "weekly": "Settimanale",
+      "monthly": "Mensile"
+    }
+  }
+}

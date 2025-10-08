@@ -1,0 +1,41 @@
+{
+  "exportReviewsModal": {
+    "title": "Esporta Dati Recensioni",
+    "selectListingsLabel": "Seleziona Inserzioni",
+    "selectListingsPlaceholder": "Seleziona inserzioni...",
+    "exportTypeLabel": "Scegli Tipo di Esportazione",
+    "exportPlaceholder": "Seleziona tipo di esportazione",
+    "exportTypeOptions": {
+      "1": "Rapporto Riepilogativo - Solo Conteggio (Senza Intervallo di Date)",
+      "2": "Rapporto Riepilogativo Personalizzato - Recensione per Recensione (Con Intervallo di Date)",
+      "3": "Rapporto Riepilogativo Personalizzato - Solo Conteggio (Con Intervallo di Date)"
+    },
+    "starRatingsLabel": "Seleziona Valutazioni a Stelle",
+    "selectAll": "Seleziona Tutte",
+    "deselectAll": "Deseleziona Tutte",
+    "starsSelected": "{{selected}} di {{total}} valutazioni a stelle selezionate",
+    "dateRangeLabel": "Seleziona Intervallo di Date",
+    "dateRangePlaceholder": "Seleziona intervallo di date per le recensioni",
+    "buttons": {
+      "cancel": "Annulla",
+      "export": "Esporta CSV",
+      "exporting": "Esportazione in corso..."
+    },
+    "toast": {
+      "validation": {
+        "title": "Errore di Validazione",
+        "noListing": "Seleziona almeno una inserzione",
+        "noStar": "Seleziona almeno una valutazione a stelle",
+        "noDateRange": "Seleziona un intervallo di date"
+      },
+      "success": {
+        "title": "Successo",
+        "description": "File CSV generato e download avviato"
+      },
+      "error": {
+        "title": "Esportazione Fallita",
+        "description": "Si è verificato un errore durante l'esportazione"
+      }
+    }
+  }
+}

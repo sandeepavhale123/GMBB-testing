@@ -1,0 +1,68 @@
+{
+  "gallery": {
+    "title": "Galleria",
+    "uploaded": "Caricato",
+    "aiGenerated": "Generato da AI",
+    "uploadedImages": "Immagini Caricate",
+    "searchPlaceholder": "Cerca media",
+    "sortBy": "Ordina per",
+    "newestFirst": "Più recenti prima",
+    "oldestFirst": "Più vecchi prima",
+    "uploadMedia": "Carica Media",
+    "uploading": "Caricamento in corso...",
+    "images": "Immagini",
+    "videos": "Video",
+    "items": "{{count}} articoli",
+    "loadMore": "Carica di più",
+    "quickView": "Vista rapida",
+    "download": "Scarica",
+    "downloadVideo": "Scarica Video",
+    "useForPost": "Usa per il Post",
+    "useForMedia": "Usa per Media",
+    "delete": "Elimina",
+    "deleteMediaTitle": "Elimina Media",
+    "deleteMediaDescription": "Sei sicuro di voler eliminare \"{{title}}\"? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "confirmDelete": "Elimina",
+    "deleting": "Eliminazione in corso...",
+    "aiSection": {
+      "title": "Genera Immagini AI",
+      "promptPlaceholder": "Descrivi l'immagine che vuoi generare...",
+      "selectStyle": "Seleziona Stile",
+      "realistic": "Realistico",
+      "artistic": "Artistico",
+      "cartoon": "Cartone animato",
+      "abstract": "Astratto",
+      "minimalist": "Minimalista",
+      "vintage": "Vintage",
+      "modern": "Moderno",
+      "numVariants": "Numero di Varianti",
+      "variant": "{{count}} variante",
+      "variants": "{{count}} varianti",
+      "generate": "Genera",
+      "generating": "Generando..."
+    },
+    "emptyState": {
+      "title": "Nessun media trovato",
+      "description": "Prova a modificare i criteri di ricerca o a generare nuove immagini AI."
+    },
+    "errTitle": {
+      "invalideTitle": "Tipo di file non valido",
+      "fileTitle": "File troppo grande",
+      "uploadeTitle": "Caricamento riuscito",
+      "uploadFailedTitle": "Caricamento fallito",
+      "generateTitle": "Immagini generate",
+      "generateFailedTitle": "Generazione fallita",
+      "downloadTitle": "Download fallito"
+    },
+    "messages": {
+      "uploadSuccess": "Caricati con successo {{count}} file.",
+      "uploadFailed": "Si è verificato un errore durante il caricamento dei tuoi file. Per favore, riprova.",
+      "invalidFileType": "Sono consentiti solo file JPG, PNG, WebP, GIF, MP4, MOV e AVI.",
+      "fileTooLarge": "La dimensione del file deve essere inferiore a 10MB. Il tuo file è {{size}}MB.",
+      "geneateSuccess": "Generate con successo {{count}} immagine(i).",
+      "generationFailed": "Impossibile generare le immagini. Per favore, riprova.",
+      "downloadFailed": "Impossibile scaricare il media. Per favore, riprova."
+    }
+  }
+}

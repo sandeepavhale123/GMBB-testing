@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/pagination";
 import { Search } from "lucide-react";
 import { useCreditHistory } from "../hooks/useCreditHistory";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const CreditHistory: React.FC = () => {
+  const { t } = useI18nNamespace("Geo-Ranking-module-pages/CreditHistory");
   const { creditHistory, isLoading, searchTerm, handleSearchChange } =
     useCreditHistory();
 
@@ -93,10 +95,10 @@ export const CreditHistory: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            Credits History
+            {t("creditHistory.title")}
           </h1>
           <p className="text-muted-foreground">
-            Track your credit usage across all ranking checks.
+            {t("creditHistory.description")}
           </p>
         </div>
       </div>
@@ -108,7 +110,7 @@ export const CreditHistory: React.FC = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search keywords..."
+                placeholder={t("creditHistory.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 className="pl-10 w-full"
@@ -121,12 +123,20 @@ export const CreditHistory: React.FC = () => {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 font-medium">Keyword</th>
                   <th className="text-left py-3 px-4 font-medium">
-                    Credit Type
+                    {" "}
+                    {t("creditHistory.table.keyword")}
                   </th>
-                  <th className="text-left py-3 px-4 font-medium">Credit</th>
-                  <th className="text-right py-3 px-4 font-medium">Date</th>
+                  <th className="text-left py-3 px-4 font-medium">
+                    {t("creditHistory.table.type")}
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium">
+                    {" "}
+                    {t("creditHistory.table.credit")}
+                  </th>
+                  <th className="text-right py-3 px-4 font-medium">
+                    {t("creditHistory.table.date")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -158,9 +168,12 @@ export const CreditHistory: React.FC = () => {
 
             {creditHistory.length === 0 && !isLoading && (
               <div className="text-center py-8">
-                <p className="text-muted-foreground">No credit history found</p>
+                <p className="text-muted-foreground">
+                  {" "}
+                  {t("creditHistory.empty.title")}
+                </p>
                 <p className="text-sm text-muted-foreground">
-                  Try adjusting your search
+                  {t("creditHistory.empty.subtitle")}
                 </p>
               </div>
             )}

@@ -1,0 +1,17 @@
+{
+  "personalizationGuide": {
+    "title": "Personalizza i tuoi Template di Risposta",
+    "description": "Puoi usare le seguenti variabili durante la creazione dei tuoi template per rendere le tue risposte più dinamiche e personalizzate:",
+    "variables": {
+      "fullName": "Nome completo del recensore",
+      "firstName": "Nome del recensore",
+      "lastName": "Cognome del recensore",
+      "ownerName": "Il tuo nome (nome del proprietario dell'attività)"
+    },
+    "example": {
+      "title": "Esempio di Utilizzo:",
+      "message": "Ciao {first_name}, grazie per la tua recensione da {rating} stelle! Siamo felici che tu abbia apprezzato la tua esperienza con noi.",
+      "signature": "Cordiali saluti,\n{owner_name}"
+    }
+  }
+}

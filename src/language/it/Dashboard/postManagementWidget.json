@@ -1,0 +1,19 @@
+{
+  "postManagement": {
+    "title": "Panoramica dei Post",
+    "description": "Gestisci i post del tuo profilo Google Business",
+    "status": {
+      "live": "Post Pubblicati",
+      "scheduled": "Programmati",
+      "failed": "Falliti"
+    },
+    "actions": {
+      "create": "Crea Nuovo Post",
+      "manage": "Gestisci Post"
+    },
+    "alerts": {
+      "failedPosts": "{{count}} post necessitano attenzione",
+      "actionRequired": "Azione Richiesta"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "paymentHistoryTable": {
+    "title": "Storico Pagamenti",
+    "loading": "Caricamento storico pagamenti...",
+    "empty": {
+      "title": "Nessuno Storico Pagamenti",
+      "description": "Il tuo storico pagamenti apparirà qui una volta effettuato il primo pagamento."
+    },
+    "buttons": {
+      "refresh": "Ricarica",
+      "view": "Visualizza"
+    },
+    "table": {
+      "transactionId": "ID Transazione",
+      "planName": "Nome Piano",
+      "amount": "Importo",
+      "dateTime": "Data e Ora",
+      "email": "Email",
+      "status": "Stato",
+      "invoice": "Fattura"
+    },
+    "pagination": {
+      "showing": "Visualizzando",
+      "to": "a",
+      "of": "di",
+      "results": "risultati"
+    },
+    "status": {
+      "paid": "Pagato",
+      "failed": "Fallito",
+      "pending": "In sospeso",
+      "unknown": "Sconosciuto"
+    }
+  }
+}

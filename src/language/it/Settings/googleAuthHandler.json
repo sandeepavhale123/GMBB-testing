@@ -1,0 +1,28 @@
+{
+  "googleAuthHandler": {
+    "toast": {
+      "success": {
+        "title": "Successo!",
+        "description": "Account Google collegato con successo."
+      },
+      "error": {
+        "title": "Connessione Fallita",
+        "description": "Impossibile collegare l'account Google. Riprova."
+      }
+    },
+    "errorState": {
+      "title": "Connessione Fallita",
+      "button": "Torna alle Impostazioni Account"
+    },
+    "loadingState": {
+      "title": "Connessione del tuo Account",
+      "description": "Attendere mentre colleghiamo il tuo Profilo Google Business e recuperiamo i tuoi annunci...",
+      "note": "Potrebbe richiedere qualche istante"
+    },
+    "errors": {
+      "noAccessToken": "Nessun token di accesso trovato. Effettua nuovamente il login.",
+      "noAccountId": "Nessun ID account ricevuto dall'autenticazione Google",
+      "failedAuth": "Autenticazione con Google fallita"
+    }
+  }
+}

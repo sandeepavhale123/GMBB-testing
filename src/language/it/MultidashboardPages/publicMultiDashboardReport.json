@@ -1,0 +1,107 @@
+{
+  "loading": {
+    "config": "Caricamento configurazione del rapporto...",
+    "dashboard": "Caricamento dati del dashboard..."
+  },
+  "error": {
+    "config": "Impossibile caricare la configurazione del rapporto",
+    "dashboard": "Impossibile caricare i dati del dashboard",
+    "retry": "Riprova"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Totale Annunci",
+      "subtitle": "Posizioni attive"
+    },
+    "avgRating": {
+      "title": "Valutazione Media",
+      "subtitle": "Su tutti gli annunci"
+    },
+    "totalPosts": {
+      "title": "Totale Post",
+      "subtitle": "Contenuti pubblicati"
+    },
+    "totalReviews": {
+      "title": "Totale Recensioni",
+      "subtitle": "Feedback dei clienti"
+    }
+  },
+  "filters": {
+    "dashboardSelector": "Seleziona Tipo di Dashboard",
+    "default": "Dashboard Predefinita",
+    "insight": "Dashboard di Analisi",
+    "review": "Dashboard Recensioni",
+    "location": "Dashboard Posizioni",
+    "post": "Dashboard Post",
+    "searchPlaceholder": "Cerca per nome dell'annuncio o codice postale.",
+    "categories": "Tutte le Categorie",
+    "locations": "Tutte le Posizioni",
+    "reviews": {
+      "all": "Tutte le Recensioni",
+      "unresponded": "Recensione Non Risposta",
+      "unrespondedARE": "Recensione ARE Non Risposta",
+      "unrespondedDNR": "Recensione DNR Non Risposta",
+      "excludeARE": "Escludi Recensione ARE",
+      "excludeDNR": "Escludi Recensione DNR",
+      "excludeBoth": "Escludi Recensione ARE/DNR"
+    },
+    "posts": {
+      "status": "Stato del Post",
+      "all": "Tutti gli Stati",
+      "live": "In Diretta",
+      "scheduled": "Pianificato",
+      "failed": "Fallito"
+    }
+  },
+  "content": {
+    "showing": "Mostrando {{count}} di {{total}} {{type}}",
+    "noData": "Nessun dato disponibile",
+    "imageNotAvailable": "Immagine non disponibile",
+    "untitledPost": "Post Senza Titolo",
+    "openOnGoogle": "Apri su Google",
+    "viewOnGoogle": "Visualizza su Google My Business",
+    "img": "IMG"
+  },
+  "labels": {
+    "id": "ID: {{id}}",
+    "zip": "CAP: {{zipcode}}",
+    "state": "Stato: {{city}}",
+    "visibility": "Visibilità",
+    "search": "Cerca",
+    "maps": "Mappe",
+    "total": "Totale",
+    "customerActions": "Azioni Cliente",
+    "clicks": "Click",
+    "directions": "Indicazioni",
+    "calls": "Chiamate",
+    "messages": "Messaggi",
+    "reviewStats": "Statistiche Recensioni",
+    "reviewsReplies": "Recensioni / Risposte",
+    "autoReply": "Risposta Automatica",
+    "reviewSentiment": "Sentimento Recensioni",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "address": "Indirizzo",
+    "phone": "Telefono",
+    "photos": "Foto",
+    "rating": "Valutazione",
+    "website": "Sito Web",
+    "map": "Mappa",
+    "lastPosts": "Ultimi Post",
+    "upcoming": "Prossimi",
+    "lastPost": "Ultimo Post",
+    "upcomingPost": "Prossimo",
+    "zipLabel": "CAP:",
+    "na": "N/D",
+    "totalView": "Visualizzazioni Totali",
+    "stateLabel": "Stato",
+    "reviewLabel": "Recensioni",
+    "zipcodeLabel": "Codice Postale"
+  },
+  "pagination": {
+    "pageOf": "Pagina {{current}} di {{total}}",
+    "previous": "Precedente",
+    "next": "Successivo"
+  }
+}

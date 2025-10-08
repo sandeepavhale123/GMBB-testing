@@ -1,0 +1,22 @@
+{
+  "postViewModal": {
+    "title": "Anteprima del Post",
+    "imageAlt": "Post",
+    "imagePlaceholder": "Immagine del Post",
+    "untitled": "Post Senza Titolo",
+    "status": {
+      "published": "Pubblicato",
+      "scheduled": "Programmato",
+      "draft": "Bozza",
+      "failed": "Fallito"
+    },
+    "tagsLabel": "Tag",
+    "meta": {
+      "publishDate": "Data di Pubblicazione"
+    },
+    "buttons": {
+      "viewPost": "Visualizza Post",
+      "close": "Chiudi"
+    }
+  }
+}

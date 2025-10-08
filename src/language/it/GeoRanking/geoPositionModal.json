@@ -1,0 +1,25 @@
+{
+  "geoPositionModal": {
+    "toast": {
+      "copySuccess": {
+        "title": "Coordinate copiate!",
+        "description": "Coordinate GPS copiate negli appunti"
+      },
+      "copyError": {
+        "title": "Copia fallita",
+        "description": "Impossibile copiare le coordinate negli appunti"
+      }
+    },
+    "header": {
+      "copyButton": "Copia coordinate",
+      "closeButton": "Chiudi finestra"
+    },
+    "content": {
+      "topResult": "Risultato principale",
+      "loading": "Caricamento risultati...",
+      "noResults": "Nessun risultato trovato",
+      "yourBusiness": "La tua attività",
+      "reviews": "{{count}} recensioni"
+    }
+  }
+}

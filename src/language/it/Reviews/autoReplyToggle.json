@@ -1,0 +1,6 @@
+{
+  "autoReplyToggle": {
+    "title": "Template di Risposta Automatica",
+    "description": "Crea template di risposta personalizzati per diverse valutazioni stellari. I template verranno inviati automaticamente quando vengono ricevute le recensioni."
+  }
+}

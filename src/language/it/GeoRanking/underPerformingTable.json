@@ -1,0 +1,21 @@
+{
+  "UnderPerformingTable": {
+    "title": "Prestazioni Principali",
+    "loading": "Caricamento delle aree con prestazioni inferiori...",
+    "headers": {
+      "area": "Area",
+      "coordinate": "Coordinate",
+      "competitorName": "Nome Competitore",
+      "competitorRank": "Posizione Competitore",
+      "yourRank": "La Tua Posizione",
+      "competitorRating": "Valutazione Competitore",
+      "competitorReview": "Recensione Competitore"
+    },
+    "notRanked": "Non classificato",
+    "noData": "Nessuna area con prestazioni inferiori trovata",
+    "toast": {
+      "copiedTitle": "Copiato!",
+      "copiedDescription": "Coordinate copiate negli appunti"
+    }
+  }
+}

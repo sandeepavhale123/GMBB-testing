@@ -1,0 +1,29 @@
+{
+  "reviewSummary": {
+    "errors": {
+      "failedTitle": "Impossibile caricare il Sommario delle Recensioni",
+      "failedDescription": "Qualcosa è andato storto durante il caricamento del sommario delle recensioni.",
+      "retry": "Riprova"
+    },
+    "stats": {
+      "totalReviews": "Recensioni Totali",
+      "pendingReplies": "Risposte in Sospeso",
+      "aiReplies": "Risposte AI",
+      "manualReplies": "Risposte Manuali"
+    },
+    "overallRating": {
+      "title": "Valutazione Complessiva",
+      "reviewsLabel": "{{count}} recensioni"
+    },
+    "sentiment": {
+      "title": "Analisi del Sentimento",
+      "positive": "Positivo",
+      "neutral": "Neutrale",
+      "negative": "Negativo"
+    },
+    "loading": {
+      "skeletonTitle": "Caricamento...",
+      "skeletonSubtitle": "Attendere mentre recuperiamo i tuoi dati"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Dettagli del Gruppo",
+  "back": "Indietro",
+  "addListing": "Aggiungi Inserzione",
+  "searchPlaceholder": "Cerca sedi...",
+  "noLocations": "Nessuna sede in questo gruppo.",
+  "noSearchResults": "Nessuna sede trovata che corrisponda alla tua ricerca.",
+  "table": {
+    "locationName": "Nome della Sede",
+    "zipCode": "CAP",
+    "email": "Email",
+    "actions": "Azioni",
+    "notAvailable": "N/A"
+  },
+  "pagination": {
+    "showing": "Visualizzando da {{from}} a {{to}} di {{total}} sedi",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{pages}}"
+  },
+  "deleteDialog": {
+    "title": "Elimina Sede",
+    "description": "Sei sicuro di voler rimuovere \"{{locationName}}\" da questo gruppo? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "confirm": "Elimina"
+  },
+  "toast": {
+    "successTitle": "Successo",
+    "removeSuccess": "{{locationName}} è stato rimosso dal gruppo.",
+    "errorTitle": "Errore",
+    "removeError": "Impossibile rimuovere la sede dal gruppo"
+  },
+  "errors": {
+    "loadFailed": "Impossibile caricare i dettagli del gruppo"
+  },
+  "retry": "Riprova",
+  "loading": "Caricamento..."
+}

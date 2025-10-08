@@ -1,0 +1,24 @@
+{
+  "label": "Seleziona sedi",
+  "placeholders": {
+    "search": "Cerca sedi..."
+  },
+  "sections": {
+    "groups": "Gruppi",
+    "locations": "Sedi"
+  },
+  "actions": {
+    "selectAll": "Seleziona tutto",
+    "deselectAll": "Deseleziona tutto"
+  },
+  "status": {
+    "locations": "Sedi"
+  },
+  "messages": {
+    "loading": "Caricamento in corso...",
+    "noResults": "Nessuna sede trovata.",
+    "selectAtLeastOne": "Seleziona almeno una sede per continuare.",
+    "error": "Impossibile recuperare i dettagli della risposta in blocco",
+    "errorTitle": "Errore"
+  }
+}

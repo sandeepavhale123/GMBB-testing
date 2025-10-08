@@ -1,0 +1,12 @@
+{
+  "settingsSubHeader": {
+    "tabs": {
+      "googleAccount": "Gestisci Account Google",
+      "teamMembers": "Membri del Team",
+      "subscription": "Abbonamento",
+      "themeCustomization": "Personalizzazione Tema",
+      "reportBranding": "Branding del Rapporto",
+      "integrations": "Integrazioni"
+    }
+  }
+}

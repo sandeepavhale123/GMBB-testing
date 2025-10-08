@@ -1,0 +1,47 @@
+{
+  "dialog": {
+    "title": "Crea Progetto di Risposta Automatica",
+    "description": "Configura risposte automatiche per le tue inserzioni impostando modelli e opzioni.",
+    "close": "Chiudi",
+    "createProject": "Crea Progetto",
+    "creating": "Creazione in corso..."
+  },
+  "labels": {
+    "projectName": "Nome del Progetto",
+    "replyType": "Tipo di Risposta",
+    "projectPlaceholder": "Inserisci il nome del progetto"
+  },
+  "replyTypes": {
+    "ai": {
+      "title": "Risposte Generate da AI",
+      "description": "Risposte intelligenti alimentate dall'IA"
+    },
+    "template": {
+      "title": "Modello Personalizzato",
+      "description": "Usa il tuo modello di risposta"
+    },
+    "dnr": {
+      "title": "DNR (Non Rispondere)",
+      "description": "Salta le risposte automatiche per queste inserzioni"
+    }
+  },
+  "toast": {
+    "success": {
+      "title": "Successo",
+      "created": "Progetto di risposta automatica creato con successo"
+    },
+    "error": {
+      "title": "Errore",
+      "projectName": "Per favore inserisci un nome per il progetto",
+      "selectListing": "Seleziona almeno una inserzione.",
+      "createProject": "Impossibile creare il progetto di risposta automatica"
+    }
+  },
+  "conflictDialog": {
+    "title": "Conflitto nelle Impostazioni di Risposta Automatica",
+    "description": "Le seguenti posizioni hanno già impostazioni di risposta automatica configurate. Puoi rimuovere singole inserzioni o continuare a sovrascrivere tutte:",
+    "overrideInfo": "Creando questo progetto verranno sovrascritte le impostazioni di risposta automatica esistenti per le restanti posizioni.",
+    "cancel": "Annulla",
+    "overrideContinue": "Sovrascrivi e Continua"
+  }
+}

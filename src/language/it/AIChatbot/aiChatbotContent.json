@@ -1,0 +1,31 @@
+{
+  "aiChatbotContent": {
+    "sidebar": {
+      "title": "Cronologia Chat",
+      "newChat": "Nuova Chat",
+      "showHistory": "Mostra Cronologia",
+      "hideHistory": "Nascondi Cronologia",
+      "loadingHistory": "Caricamento della cronologia chat...",
+      "noHistory": "Nessuna cronologia chat disponibile"
+    },
+    "mainChat": {
+      "title": "Assistenza AI Genie",
+      "welcomeTitle": "Benvenuto in Assistenza AI Genie",
+      "welcomeDescription": "Fai domande sulle prestazioni della tua attività, sull’ottimizzazione SEO, sui dati di posizionamento geografico e altro ancora. Prova le domande suggerite per iniziare!",
+      "loadingMessages": "Caricamento dei messaggi della chat...",
+      "aiThinking": "L’AI sta pensando..."
+    },
+    "actions": {
+      "copy": "Copia",
+      "good": "Buono",
+      "bad": "Scarso"
+    },
+    "deleteDialog": {
+      "title": "Elimina Sessione Chat",
+      "description": "Sei sicuro di voler eliminare questa sessione chat? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "delete": "Elimina",
+      "deleting": "Eliminazione in corso..."
+    }
+  }
+}

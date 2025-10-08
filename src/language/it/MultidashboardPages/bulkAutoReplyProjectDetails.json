@@ -1,0 +1,22 @@
+{
+  "header": {
+    "fallbackTitle": "Dettagli del Progetto",
+    "subtitle": "Gestisci i modelli di risposta automatica e le sedi per questo progetto."
+  },
+  "loading": {
+    "spinnerAlt": "Caricamento dettagli del progetto..."
+  },
+  "error": {
+    "message": "Impossibile caricare i dettagli del progetto",
+    "retry": "Riprova"
+  },
+  "toast": {
+    "saveChanges": {
+      "title": "Salva Modifiche",
+      "description": "Modifiche salvate con successo!"
+    }
+  },
+  "projectType": {
+    "unsupported": "Tipo di progetto non supportato: {{type}}"
+  }
+}

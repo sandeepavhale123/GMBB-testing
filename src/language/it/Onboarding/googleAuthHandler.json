@@ -1,0 +1,15 @@
+{
+  "googleAuthHandler": {
+    "loadingMessage": "Autenticazione con Google in corso...",
+    "toast": {
+      "success": {
+        "title": "Autenticazione Google Riuscita",
+        "description": "Il tuo account Google è stato connesso con successo."
+      },
+      "error": {
+        "title": "Autenticazione Google Fallita",
+        "defaultDescription": "Si è verificato un errore sconosciuto."
+      }
+    }
+  }
+}

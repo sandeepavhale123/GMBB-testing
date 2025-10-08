@@ -1,0 +1,14 @@
+{
+  "aiReplyGenerator": {
+    "title": "Generatore di Risposte AI",
+    "loading": "Generando risposta AI...",
+    "generationFailed": "Generazione AI Fallita",
+    "generationFailedMessage": "Impossibile generare la risposta AI. Per favore, riprova.",
+    "errorTitle": "Errore",
+    "unexpectedError": "Si è verificato un errore imprevisto durante la generazione della risposta.",
+    "placeholder": "Risposta generata dall'AI...",
+    "saveReply": "Salva Risposta",
+    "regenerate": "Rigenera",
+    "cancel": "Annulla"
+  }
+}

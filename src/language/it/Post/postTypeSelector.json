@@ -1,0 +1,11 @@
+{
+  "postTypeSelector": {
+    "label": "Tipo di Post",
+    "placeholder": "Scegli il tipo di post",
+    "types": {
+      "regular": "Post Normale",
+      "event": "Post Evento",
+      "offer": "Post Offerta"
+    }
+  }
+}

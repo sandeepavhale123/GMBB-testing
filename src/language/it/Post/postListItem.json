@@ -1,0 +1,30 @@
+{
+  "status": {
+    "published": "Pubblicato",
+    "scheduled": "Pianificato",
+    "draft": "Bozza",
+    "failed": "Fallito"
+  },
+  "toast": {
+    "errorTitle": "Errore",
+    "noListingSelected": "Nessuna attività selezionata. Seleziona prima un'attività.",
+    "deletingPost": "Eliminando il post...",
+    "preparingDeletion": "Preparando l'eliminazione...",
+    "finalizing": "Finalizzando...",
+    "successTitle": "Post eliminato con successo",
+    "successDescription": "Eliminazione completata",
+    "failedTitle": "Impossibile eliminare il post",
+    "unexpectedError": "Si è verificato un errore imprevisto. Riprova."
+  },
+  "dialog": {
+    "deleteTitle": "Eliminare il post",
+    "deleteDescription": "Sei sicuro di voler eliminare questo post? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "deleting": "Eliminando..."
+  },
+  "ui": {
+    "untitled": "Post senza titolo",
+    "openOnGoogle": "Apri su Google"
+  }
+}

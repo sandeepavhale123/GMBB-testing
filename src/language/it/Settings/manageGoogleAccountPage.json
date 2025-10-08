@@ -1,0 +1,47 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Gestisci Account Google",
+    "pageDescription": "Collega e monitora i tuoi Profili Google Business per massimizzare la visibilità locale e le prestazioni SEO.",
+    "searchPlaceholder": "Cerca account per nome o email",
+    "activeListingsBadge": "Annunci Attivi: {active}/{allowed}",
+    "addNewAccount": {
+      "full": "Aggiungi Nuovo Account",
+      "short": "Aggiungi"
+    },
+    "errorState": {
+      "tryAgain": "Riprova"
+    },
+    "loading": "Caricamento...",
+    "emptyState": {
+      "noAccountsConnected": "Nessun account collegato",
+      "noAccountsFound": "Nessun account trovato",
+      "searchNoMatch": "Nessun account corrisponde a \"{searchTerm}\". Prova un termine di ricerca diverso.",
+      "addAccountCTA": "Clicca su 'Aggiungi Nuovo Account' per sincronizzare il tuo Profilo Google Business."
+    },
+    "modals": {
+      "addAccount": "Aggiungi Account",
+      "deleteAccount": {
+        "title": "Elimina Account",
+        "confirm": "Conferma Eliminazione",
+        "accountDeleted": "L’account Google \"{accountName}\" è stato eliminato con successo.",
+        "deleteTitle":"Eliminazione Fallita",
+        "deleteFailed": "Impossibile eliminare l’account. Riprova.",
+        "noEmail": "Nessuna email disponibile"
+      },
+      "refreshAccount": {
+        "title": "Account Aggiornato",
+        "updateTitle":"Aggiornamento Fallito",
+        "updateSuccess": "Gruppi di Annunci Aggiornati",
+        "updateFailed": "Impossibile aggiornare i gruppi di annunci. Riprova.",
+        "refreshTitle":"Aggiornamento Fallito",
+        "refreshFailed": "Impossibile aggiornare l’account. Riprova."
+      }
+    },
+    "tableHeaders": {
+      "account": "Account",
+      "totalListings": "Annunci Totali",
+      "connectedListings": "Annunci Collegati",
+      "actions": "Azioni"
+    }
+  }
+}

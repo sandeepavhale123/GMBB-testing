@@ -1,0 +1,28 @@
+{
+  "searchPlaceholder": "Cerca per nome inserzione o CAP",
+  "statusFilter": {
+    "placeholder": "Tutte le Recensioni",
+    "all": "Tutte le Recensioni",
+    "pending": "In attesa di Risposta",
+    "replied": "Risposto"
+  },
+  "sentimentFilter": {
+    "placeholder": "Tutti i Sentimenti",
+    "all": "Tutti i Sentimenti",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo"
+  },
+  "sortFilter": {
+    "placeholder": "Più Recenti",
+    "newest": "Più Recenti",
+    "oldest": "Più Vecchi",
+    "highest": "Valutazione Massima",
+    "lowest": "Valutazione Minima"
+  },
+  "dateRangePlaceholder": "Seleziona intervallo di date",
+  "refresh": {
+    "button": "Aggiorna",
+    "tooltip": "Aggiorna recensioni"
+  }
+}

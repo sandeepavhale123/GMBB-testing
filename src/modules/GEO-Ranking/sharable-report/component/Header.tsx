@@ -1,32 +1,38 @@
-import React from 'react';
-import { useAppSelector } from '@/hooks/useRedux';
-import { useThemeLogo } from '@/hooks/useThemeLogo';
+import React from "react";
+import { useAppSelector } from "@/hooks/useRedux";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface HeaderProps {
   projectName?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({ projectName }) => {
-  const theme = useAppSelector(state => state.theme);
+  const { t } = useI18nNamespace("Geo-Ranking-sharable-report/Header");
+  const theme = useAppSelector((state) => state.theme);
   const logoData = useThemeLogo();
 
-  return ( 
-    <header 
+  return (
+    <header
       className="fixed top-0 left-0 right-0 z-[405] w-full px-4 py-3 border-b border-border"
-      style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
+      style={{ backgroundColor: theme.bg_color || "hsl(var(--background))" }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
-            <img 
-              src={logoData.darkLogo} 
-              alt="Company Logo" 
+            <img
+              src={logoData.darkLogo}
+              alt="Company Logo"
               className="h-8 w-auto object-contain"
             />
             <div className="border-l border-border/30 pl-3 hidden md:block ">
-              <h1 className="text-md font-semibold text-white mb-0 p-0">GEO Ranking Report</h1>
-              <p className="text-sm text-white mt-0 p-0">Shared ranking report</p>
+              <h1 className="text-md font-semibold text-white mb-0 p-0">
+                {t("header.title")}
+              </h1>
+              <p className="text-sm text-white mt-0 p-0">
+                {t("header.subtitle")}
+              </p>
             </div>
           </div>
         </div>
@@ -34,9 +40,13 @@ export const Header: React.FC<HeaderProps> = ({ projectName }) => {
         {/* Right section - Project Name */}
         <div className="flex items-center space-x-3">
           {projectName ? (
-            <span className="text-sm text-white font-medium">Project Name : {projectName}</span>
+            <span className="text-sm text-white font-medium">
+              {t("header.projectNameLabel")} : {projectName}
+            </span>
           ) : (
-            <span className="text-sm text-white/80">Public Report</span>
+            <span className="text-sm text-white/80">
+              {t("header.publicReport")}
+            </span>
           )}
         </div>
       </div>
