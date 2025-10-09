@@ -3,6 +3,7 @@ import { VisibilitySummaryCard } from "./VisibilitySummaryCard";
 import { TopSearchQueriesWithAPI } from "./TopSearchQueriesWithAPI";
 import { CustomerInteractionsCard } from "./CustomerInteractionsCard";
 import { CustomerActionsChart } from "./CustomerActionsChart";
+import { CustomerSearchSourcesCard } from "./CustomerSearchSourcesCard";
 
 interface InsightsContentProps {
   isLoadingSummary: boolean;
@@ -21,22 +22,6 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
   visibilityTrends,
   customerActions,
 }) => {
-  const customerActionsChartData =
-    customerActions?.chart_data ||
-    (summary
-      ? [
-          {
-            name: "Website",
-            value: summary.customer_actions.website_clicks.value,
-          },
-          {
-            name: "Direction",
-            value: summary.customer_actions.direction_requests.value,
-          },
-          { name: "Calls", value: summary.customer_actions.phone_calls.value },
-          { name: "Messages", value: summary.customer_actions.messages.value },
-        ]
-      : []);
 
   return (
     <div className="space-y-6 bg-white">
@@ -50,6 +35,12 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
         <TopSearchQueriesWithAPI />
       </div>
 
+      {/* Row 2: Customer Search Sources - Full Width */}
+      <CustomerSearchSourcesCard
+        isLoadingSummary={isLoadingSummary}
+        summary={summary}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <VisibilitySummaryCard
           isLoadingSummary={isLoadingSummary}
@@ -60,9 +51,8 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
 
         <CustomerActionsChart
           isLoadingSummary={isLoadingSummary}
-          isLoadingCustomerActions={isLoadingCustomerActions}
-          customerActionsChartData={customerActionsChartData}
-          customerActions={customerActions}
+          isLoadingVisibility={isLoadingVisibility}
+          visibilityTrends={visibilityTrends}
           summary={summary}
         />
       </div>

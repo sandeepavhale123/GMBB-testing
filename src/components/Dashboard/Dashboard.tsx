@@ -261,23 +261,23 @@ export const Dashboard: React.FC = () => {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50  rounded-none p-0 h-auto">
+            <TabsList className="inline-flex bg-white border-b border-border w-full p-0 h-auto rounded-none" style={{justifyContent:"start"}}>
               <TabsTrigger value="posts">
                 <FileText className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Posts</span>
+                <span className="text-md">Posts</span>
               </TabsTrigger>
               <TabsTrigger value="reviews">
                 <MessageSquare className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Reviews</span>
+                <span className="text-md">Reviews</span>
               </TabsTrigger>
               <TabsTrigger value="geo-ranking">
                 <MapPin className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">GEO Ranking</span>
-                <span className="sm:hidden">GEO</span>
+                <span className="hidden sm:inline text-md">GEO Ranking</span>
+                <span className="sm:hidden text-md">GEO</span>
               </TabsTrigger>
               <TabsTrigger value="insights">
                 <TrendingUp className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>Insights</span>
+                <span className="text-md">Insights</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-4 sm:mt-6">

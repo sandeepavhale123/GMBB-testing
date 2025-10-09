@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ export const ImageModal: React.FC<ImageModalProps> = ({
   //   if (!isOpen) return null;
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
   const pathname = location.pathname;
   //   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
   //     // Only close if the backdrop itself is clicked

@@ -587,6 +587,7 @@ export const Health: React.FC = () => {
                         </defs>
 
                         <Tooltip
+                          shared={false}
                           formatter={(value, name) => [
                             name === "avgRating"
                               ? `${value} ⭐`

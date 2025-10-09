@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
 import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
@@ -76,7 +77,15 @@ export const SentimentBreakdownCard: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Sentiment breakdown</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold">Sentiment breakdown</CardTitle>
+          <Link 
+            to={`/reviews/${selectedListing?.id || 'default'}`}
+            className="text-sm text-primary hover:underline"
+          >
+            View All
+          </Link>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-center mb-4">
