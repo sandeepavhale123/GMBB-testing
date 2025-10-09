@@ -5,6 +5,7 @@ import { Loader } from '../ui/loader';
 import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
 import { AllKeywordsModal } from './AllKeywordsModal';
 import { Button } from '../ui/button';
+import { isSingleListingRoute } from '../../utils/routeUtils';
 
 interface KeywordSelectorProps {
   keywords: KeywordData[];
@@ -64,11 +65,13 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
     setSearchTerm('');
   };
 
+  const showAllButton = !isShareableView && isSingleListingRoute(window.location.pathname);
+
   return (
     <div className={isShareableView ? 'lg:col-span-4 space-y-3' : 'lg:col-span-3 space-y-3'}>
       <div className="flex items-center justify-between mb-1">
         <div className="text-sm text-gray-500 font-medium">Keyword</div>
-        {!isShareableView && (
+        {showAllButton && (
           <Button
             variant="link"
             size="sm"
