@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, ChevronDown } from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, ChevronDown , Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,12 @@ const modules = [
     description: "Manage and track your leads effectively.",
     icon: Users,
     href: "/module/lead",
+  },
+  {
+    name: "SEO Fixer",
+    description: "Automatically detect and fix SEO issues on websites",
+    icon: Search,
+    href: "/module/live-seo-fixer",
   },
   {
     name: "Reputation",
