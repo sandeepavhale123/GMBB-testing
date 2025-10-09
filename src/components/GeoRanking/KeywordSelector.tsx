@@ -1,5 +1,5 @@
-
 import React, { useState, memo, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Search } from 'lucide-react';
 import { Loader } from '../ui/loader';
@@ -60,7 +60,17 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
 
   return (
     <div className={isShareableView ? 'lg:col-span-4 space-y-3' : 'lg:col-span-3 space-y-3'}>
-      <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
+      <div className="flex items-center justify-between mb-1">
+        <div className="text-sm text-gray-500 font-medium">Keyword</div>
+        {!isShareableView && (
+          <Link 
+            to="/module/geo-ranking"
+            className="text-sm text-primary hover:underline font-medium"
+          >
+            All
+          </Link>
+        )}
+      </div>
       <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={isRefreshing ? false : (loading || keywordChanging)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"}>
