@@ -143,7 +143,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent 
-          className="max-w-4xl max-h-[80vh] flex flex-col"
+          className="max-w-4xl max-h-[80vh] flex flex-col overflow-y-auto"
           onOpenAutoFocus={(e) => {
             e.preventDefault();
           }}
