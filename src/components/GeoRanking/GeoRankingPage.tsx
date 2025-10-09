@@ -97,6 +97,15 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
       ? geoRankingData.onDateChange
       : geoRankingData.handleDateChange;
 
+  // Memoize keyword and date change callbacks to prevent KeywordSelector re-renders
+  const memoizedOnKeywordChange = useCallback((keywordId: string) => {
+    onKeywordChange(keywordId);
+  }, [onKeywordChange]);
+
+  const memoizedOnDateChange = useCallback((dateId: string) => {
+    onDateChange(dateId);
+  }, [onDateChange]);
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: "",
@@ -303,8 +312,8 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
               selectedDate={selectedDate}
               keywordDetails={keywordDetails}
               credits={credits}
-              onKeywordChange={onKeywordChange}
-              onDateChange={onDateChange}
+              onKeywordChange={memoizedOnKeywordChange}
+              onDateChange={memoizedOnDateChange}
               onClone={handleClone}
               onRefresh={handleRefreshKeyword}
               onCheckRank={handleCheckRank}

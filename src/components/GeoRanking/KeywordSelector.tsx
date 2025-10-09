@@ -111,3 +111,5 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
     </div>
   );
 });
+
+KeywordSelector.displayName = 'KeywordSelector';
