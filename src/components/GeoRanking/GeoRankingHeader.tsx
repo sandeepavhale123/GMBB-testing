@@ -35,6 +35,7 @@ interface GeoRankingHeaderProps {
   isShareableView?: boolean;
   projectName?: string;
   projectId?: number;
+  onDeleteSuccess?: () => void;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -57,6 +58,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   isShareableView = false,
   projectName,
   projectId,
+  onDeleteSuccess,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -209,6 +211,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               dateChanging={dateChanging}
               isRefreshing={isRefreshing}
               isShareableView={isShareableView}
+              listingId={listingId ? parseInt(listingId, 10) : undefined}
+              onDeleteSuccess={onDeleteSuccess}
             />
 
             <MetricsCards
