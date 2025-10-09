@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, TrendingUp, TrendingDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
 
 interface CustomerInteractionsCardProps {
@@ -16,6 +16,8 @@ export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> =
   summary,
 }) => {
   const { selectedListing } = useListingContext();
+  const location = useLocation();
+  const isInsightsPage = location.pathname.startsWith('/insights/');
 
   // Create customer actions data from summary
   const customerActionsData = summary ? [
@@ -34,12 +36,14 @@ export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> =
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
-          <Link 
-            to={`/insights/${selectedListing?.id || 'default'}`}
-            className="text-sm text-primary hover:underline"
-          >
-            View All
-          </Link>
+          {!isInsightsPage && (
+            <Link 
+              to={`/insights/${selectedListing?.id || 'default'}`}
+              className="text-sm text-primary hover:underline"
+            >
+              View All
+            </Link>
+          )}
         </div>
       </CardHeader>
       <CardContent>

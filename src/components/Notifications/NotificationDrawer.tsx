@@ -3,6 +3,7 @@ import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X, LogIn } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useNotifications } from "@/context/NotificationContext";
 import { NotificationCard } from "./NotificationCard";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,7 @@ export const NotificationDrawer: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [newIds, setNewIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
   const pathname = location.pathname;
 
   // Authentication state

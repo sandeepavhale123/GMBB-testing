@@ -307,15 +307,16 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* GMB Report at a Glance */}
         <Card className="bg-white border border-gray-200">
           <CardContent className="p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Your GMB Report at a Glance
-              </h2>
-            </div>
+           
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               {/* Left side - Test Results Cards */}
               <div className="space-y-4">
+                 <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    Your GMB Report at a Glance
+                  </h2>
+                </div>
                 {/* Failed Tests Card */}
                 <div className="bg-red-100 border border-red-200 rounded-lg p-6">
                   <div className="text-red-800 text-sm font-medium mb-1">
@@ -339,7 +340,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
               {/* Right side - Pie Chart */}
               <div className="flex justify-center">
-                <div className="w-48 h-48">
+                <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -357,7 +358,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                         ]}
                         cx="50%"
                         cy="50%"
-                        outerRadius={80}
+                        outerRadius={110}
                         dataKey="value"
                         startAngle={90}
                         endAngle={450}
@@ -545,6 +546,20 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card>
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-6">Competitor Analysis</h2>
+            
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No Competitor Data Found</h3>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any competitor information for this location at this time. 
+                  Please check back later or contact support if you believe this is an error.
+                </p>
+              </div>
+            ) : (
+              <>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
@@ -641,6 +656,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     </defs>
 
                     <Tooltip
+                      shared={false}
                       formatter={(value, name) => [
                         name === "avgRating"
                           ? `${value} ⭐`
@@ -724,6 +740,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            </>
+            )}
           </CardContent>
         </Card>
 
@@ -731,6 +749,20 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card>
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-6">Citation Analysis</h2>
+            
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No Citation Data Found</h3>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any citation information for this location at this time. 
+                  Citations will be analyzed once competitor data becomes available.
+                </p>
+              </div>
+            ) : (
+              <>
 
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
               <div className="flex items-center justify-start mb-3">
@@ -893,6 +925,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            </>
+            )}
           </CardContent>
         </Card>
 
@@ -904,32 +938,14 @@ export const PublicGMBHealthReport: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Add a working website link.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Encourage satisfied customers to leave reviews.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Average Rating is below 4 stars.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>The logo is present and professional.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Update your business hours.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>Less Than 5 Photos. Enhance Photo</span>
-                </li>
+            <div className="border rounded-lg p-6 bg-card">
+              <ul className="space-y-3 list-disc list-inside text-foreground">
+                <li className="pl-2">Add a working website link.</li>
+                <li className="pl-2">Encourage satisfied customers to leave reviews.</li>
+                <li className="pl-2">Average Rating is below 4 stars.</li>
+                <li className="pl-2">The logo is present and professional.</li>
+                <li className="pl-2">Update your business hours.</li>
+                <li className="pl-2">Less Than 5 Photos. Enhance Photo</li>
               </ul>
             </div>
           </CardContent>

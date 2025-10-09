@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { getNotifications } from "@/api/notificationApi";
 import { useAppSelector } from "@/hooks/useRedux";
+import { shouldSkipProfileAPI } from "@/utils/routeUtils";
 
 export interface Notification {
   id: string;
@@ -365,9 +366,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      // Only fetch if user is authenticated
-      if (!isAuthenticated) {
-        console.log("🔒 User not authenticated, skipping notification fetch");
+      // Check if we're on a public route
+      const isPublicRoute = shouldSkipProfileAPI();
+      
+      // Only fetch if user is authenticated AND not on a public route
+      if (!isAuthenticated || isPublicRoute) {
+        console.log("🔒 Skipping notification fetch:", { isAuthenticated, isPublicRoute });
         setNotifications([]);
         return;
       }
@@ -438,7 +442,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   }, [isAuthenticated]);
 
   const fetchNotifications = async (pageToLoad: number) => {
-    if (isLoading || !isAuthenticated) return [];
+    // Check if we're on a public route
+    const isPublicRoute = shouldSkipProfileAPI();
+    
+    if (isLoading || !isAuthenticated || isPublicRoute) return [];
     
     setIsLoading(true);
     try {

@@ -1,10 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { Search, MapPin, TrendingUp, TrendingDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Link } from 'react-router-dom';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { Link, useLocation } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
 
 interface VisibilitySummaryCardProps {
@@ -21,6 +21,20 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
   visibilityTrends,
 }) => {
   const { selectedListing } = useListingContext();
+  const location = useLocation();
+  const isInsightsPage = location.pathname.startsWith('/insights/');
+  
+  const [visibleBars, setVisibleBars] = useState({
+    search: true,
+    maps: true
+  });
+
+  const toggleBar = (barName: 'search' | 'maps') => {
+    setVisibleBars(prev => ({
+      ...prev,
+      [barName]: !prev[barName]
+    }));
+  };
 
   return (
     <Card className="h-full">
@@ -30,12 +44,14 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
             <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
             <p className="text-sm text-gray-600">Total views from Google Search and Maps.</p>
           </div>
-          <Link 
-            to={`/insights/${selectedListing?.id || 'default'}`}
-            className="text-sm text-primary hover:underline"
-          >
-            View All
-          </Link>
+          {!isInsightsPage && (
+            <Link 
+              to={`/insights/${selectedListing?.id || 'default'}`}
+              className="text-sm text-primary hover:underline"
+            >
+              View All
+            </Link>
+          )}
         </div>
       </CardHeader>
       <CardContent>
@@ -100,8 +116,9 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                   <BarChart data={visibilityTrends?.chart_data || []}>
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Bar dataKey="search" fill="hsl(var(--primary))" name="Search" />
-                    <Bar dataKey="maps" fill="#ef4444" name="Maps" />
+                    <Tooltip />
+                    {visibleBars.search && <Bar dataKey="search" fill="hsl(var(--primary))" name="Search" />}
+                    {visibleBars.maps && <Bar dataKey="maps" fill="#ef4444" name="Maps" />}
                   </BarChart>
                 </ResponsiveContainer>
               )}
@@ -109,14 +126,32 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
 
             <div className="flex justify-center mt-4">
               <div className="flex gap-4 text-sm">
-                <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleBar('search')}
+                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                    !visibleBars.search ? 'opacity-50' : ''
+                  }`}
+                  aria-pressed={visibleBars.search}
+                  title={`${visibleBars.search ? 'Hide' : 'Show'} Search Views`}
+                >
                   <div className="w-3 h-3 bg-primary rounded"></div>
-                  <span>Search Views</span>
-                </div>
-                <div className="flex items-center gap-2">
+                  <span className={!visibleBars.search ? 'line-through' : ''}>
+                    Search Views
+                  </span>
+                </button>
+                <button
+                  onClick={() => toggleBar('maps')}
+                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                    !visibleBars.maps ? 'opacity-50' : ''
+                  }`}
+                  aria-pressed={visibleBars.maps}
+                  title={`${visibleBars.maps ? 'Hide' : 'Show'} Maps Views`}
+                >
                   <div className="w-3 h-3 bg-red-600 rounded"></div>
-                  <span>Maps Views</span>
-                </div>
+                  <span className={!visibleBars.maps ? 'line-through' : ''}>
+                    Maps Views
+                  </span>
+                </button>
               </div>
             </div>
           </>
