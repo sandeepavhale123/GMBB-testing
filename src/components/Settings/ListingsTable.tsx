@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye } from "lucide-react";
+import { Eye, Info } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -13,6 +13,12 @@ import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Switch } from "../ui/switch";
 import { Skeleton } from "../ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface Listing {
   id: string;
@@ -58,7 +64,8 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
       .split(" ")
       .map((n) => n[0])
       .join("")
-      .toUpperCase();
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   const truncateAddress = (address: string, maxLength = 30) => {
@@ -110,7 +117,21 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
             </TableHead>
             <TableHead className="font-semibold text-gray-900">State</TableHead>
             <TableHead className="font-semibold text-gray-900 text-center">
-              Actions
+              <div className="flex items-center justify-center gap-1.5">
+                Actions
+                <TooltipProvider delayDuration={0}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button type="button" className="inline-flex items-center">
+                        <Info className="h-4 w-4 text-gray-500 cursor-help" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" align="center" className="max-w-[200px] text-center">
+                      <p>Toggle the switch to activate or deactivate your listings</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </TableHead>
           </TableRow>
         </TableHeader>

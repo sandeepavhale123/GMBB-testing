@@ -379,6 +379,7 @@ export const GmbProspectReport: React.FC = () => {
                     <YAxis yAxisId="rating" domain={[0, 5]} />
                     <YAxis yAxisId="reviews" orientation="right" domain={[0, 100]} />
                     <Tooltip 
+                      shared={false}
                       formatter={(value, name) => [
                         name === 'avgRating' ? `${value}/5.0` : value,
                         name === 'avgRating' ? 'Avg. Rating' : 'Review Count'

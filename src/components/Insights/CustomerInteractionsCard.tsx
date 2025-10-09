@@ -3,6 +3,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, TrendingUp, TrendingDown } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { useListingContext } from '../../context/ListingContext';
 
 interface CustomerInteractionsCardProps {
   isLoadingSummary: boolean;
@@ -13,6 +15,10 @@ export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> =
   isLoadingSummary,
   summary,
 }) => {
+  const { selectedListing } = useListingContext();
+  const location = useLocation();
+  const isInsightsPage = location.pathname.startsWith('/insights/');
+
   // Create customer actions data from summary
   const customerActionsData = summary ? [
     { icon: Phone, label: 'Calls', value: summary.customer_actions.phone_calls.value, change: `${summary.customer_actions.phone_calls.change_percentage > 0 ? '+' : ''}${summary.customer_actions.phone_calls.change_percentage}%`, trend: summary.customer_actions.phone_calls.trend },
@@ -28,7 +34,17 @@ export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> =
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
+          {!isInsightsPage && (
+            <Link 
+              to={`/insights/${selectedListing?.id || 'default'}`}
+              className="text-sm text-primary hover:underline"
+            >
+              View All
+            </Link>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         {isLoadingSummary ? (

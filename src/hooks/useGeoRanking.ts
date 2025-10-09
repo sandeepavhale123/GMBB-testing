@@ -181,6 +181,7 @@ export const useGeoRanking = (listingId: number) => {
     pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress,
     isPollingActive: isPolling || refreshPollingActive,
     fetchPositionDetails,
+    fetchKeywords,
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
