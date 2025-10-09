@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,8 +7,6 @@ import { store } from "@/store/store";
 import { MediaProvider } from "@/context/MediaContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { ToastProvider } from "@radix-ui/react-toast";
-
-import { useEffect } from "react";
 
 // Initialize global cleanup observers for modal pointer-events issues
 const initializeGlobalCleanup = () => {
