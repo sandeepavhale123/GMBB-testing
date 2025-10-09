@@ -142,7 +142,12 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-4xl max-h-[80vh] flex flex-col">
+        <DialogContent 
+          className="max-w-4xl max-h-[80vh] flex flex-col"
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+          }}
+        >
           <DialogHeader>
             <DialogTitle>All Keywords</DialogTitle>
           </DialogHeader>
@@ -157,7 +162,15 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   placeholder="Search keywords..."
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
+                  onKeyDownCapture={(e) => {
+                    if (e.key !== 'Escape' && e.key !== 'Tab') {
+                      e.stopPropagation();
+                    }
+                  }}
+                  onMouseDownCapture={(e) => e.stopPropagation()}
+                  onPointerDownCapture={(e) => e.stopPropagation()}
                   className="pl-10"
+                  autoFocus={false}
                 />
               </div>
             </div>
@@ -181,7 +194,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             )}
 
             {/* Table */}
-            <div className="flex-1 overflow-auto border rounded-md">
+            <div className="flex-1 overflow-auto border rounded-md min-h-[400px]">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -254,7 +267,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="z-[100]">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
