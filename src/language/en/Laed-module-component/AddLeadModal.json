@@ -1,0 +1,53 @@
+{
+  "addLead": {
+    "title": "Add New Lead",
+    "button": "Add Lead",
+    "cancel": "Cancel",
+    "adding": "Adding Lead...",
+    "inputMethod": {
+      "label": "How would you like to add business details?",
+      "name": "Google Auto suggestion",
+      "url": "Google Maps URL",
+      "cid": "Listing CID"
+    },
+    "fields": {
+      "businessName": "Search by business name",
+      "businessPlaceholder":"Search for business name...",
+      "mapUrl": "Google Maps URL",
+      "mapUrlPlaceholder": "Enter Google Maps URL",
+      "cid": "Listing CID",
+      "cidPlaceholder": "Enter CID",
+      "email": "Email",
+      "emailPlaceholder": "Enter email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "location": "Latitude, Longitude or City",
+      "locationPlaceholder": "Enter location lat, long or city",
+      "keyword": "Custom Keyword",
+      "keywordPlaceholder": "Enter custom keyword",
+      "optionalDetails": "Add optional details"
+    },
+    "validation": {
+      "emailInvalid": "Please enter a valid email",
+      "businessNameRequired": "Please select a business.",
+      "cidInvalid": "Could not resolve CID. Please select suggestion again or use Map URL/CID.",
+      "mapUrlRequired": "Google Maps URL is required.",
+      "cidNumeric": "Please enter a valid numeric CID."
+    },
+    "success": {
+      "title": "Success",
+      "description": "Lead added successfully"
+    },
+    "error": {
+      "validationTitle": "Validation Error",
+      "validationDesc": "Please fix the errors and try again.",
+      "addFailedTitle": "Failed to add lead",
+      "addFailedDesc": "Please try again."
+    },
+    "notes": {
+      "latitudeLongitude": "Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "The free text should be entered as follows: City, State, Country"
+    }
+   
+  }
+}

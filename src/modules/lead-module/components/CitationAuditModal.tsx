@@ -24,15 +24,7 @@ import { z } from "zod";
 import { Loader2, X } from "lucide-react";
 import { useCreateLeadCitationReport } from "@/api/leadApi";
 import { toast } from "sonner";
-
-const citationAuditSchema = z.object({
-  businessName: z.string().min(1, "Business name is required."),
-  phone: z.string().min(1, "Phone number is required."),
-  keyword: z.string().min(1, "Keyword is required."),
-  city: z.string().min(1, "City is required."),
-});
-
-type CitationAuditFormData = z.infer<typeof citationAuditSchema>;
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CitationAuditModalProps {
   open: boolean;
@@ -41,7 +33,10 @@ interface CitationAuditModalProps {
   businessName?: string;
   phone?: string;
   onSuccess?: () => void;
-  onReportProgress?: (status: 'loading' | 'success' | 'error', url?: string) => void;
+  onReportProgress?: (
+    status: "loading" | "success" | "error",
+    url?: string
+  ) => void;
   onReportSuccess?: (url: string) => void;
 }
 
@@ -55,6 +50,17 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
   onReportProgress,
   onReportSuccess,
 }) => {
+  const { t } = useI18nNamespace("Laed-module-component/CitationAuditModal");
+
+  const citationAuditSchema = z.object({
+    businessName: z.string().min(1, t("citationAudit.validation.business")),
+    phone: z.string().min(1, t("citationAudit.validation.phone")),
+    keyword: z.string().min(1, t("citationAudit.validation.keyword")),
+    city: z.string().min(1, t("citationAudit.validation.city")),
+  });
+
+  type CitationAuditFormData = z.infer<typeof citationAuditSchema>;
+
   const [cityData, setCityData] = useState<CityData | null>(null);
   const createCitationReport = useCreateLeadCitationReport();
 
@@ -102,24 +108,27 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
     };
 
     // Use parent handler for progress modal
-    onReportProgress?.('loading');
+    onReportProgress?.("loading");
 
     createCitationReport.mutate(payload, {
       onSuccess: (response) => {
-        const reportUrl = response.data.reportUrl || '';
+        const reportUrl = response.data.reportUrl || "";
         onReportSuccess?.(reportUrl);
-        
+
         // Call the onSuccess callback to refetch data
         onSuccess?.();
-        
+
         // Close the main modal
         onClose();
         form.reset();
         setCityData(null);
       },
       onError: (error: any) => {
-        onReportProgress?.('error');
-        toast.error(error?.response?.data?.message || "Failed to create citation audit report");
+        onReportProgress?.("error");
+        toast.error(
+          error?.response?.data?.message ||
+            t("citationAudit.errors.generateFailed")
+        );
       },
     });
   };
@@ -130,18 +139,15 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
     setCityData(null);
   };
 
-
   return (
     <Dialog open={open} onOpenChange={() => {}}>
-      <DialogContent
-        className="sm:max-w-md"
-      >
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div>
-              <DialogTitle>Generate Citation Audit Report</DialogTitle>
+              <DialogTitle>{t("citationAudit.title")}</DialogTitle>
               <DialogDescription>
-                Fill in the business details to generate a comprehensive citation audit report.
+                {t("citationAudit.description")}
               </DialogDescription>
             </div>
             <Button
@@ -162,10 +168,12 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
               name="businessName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Business Name *</FormLabel>
+                  <FormLabel>{t("citationAudit.form.businessName")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter business name"
+                      placeholder={t(
+                        "citationAudit.form.businessNamePlaceholder"
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -179,10 +187,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number *</FormLabel>
+                  <FormLabel>{t("citationAudit.form.phone")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter phone number"
+                      placeholder={t("citationAudit.form.phonePlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -196,10 +204,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
               name="keyword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Keyword *</FormLabel>
+                  <FormLabel>{t("citationAudit.form.keyword")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter target keyword"
+                      placeholder={t("citationAudit.form.keywordPlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -213,10 +221,10 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>City *</FormLabel>
+                  <FormLabel>{t("citationAudit.form.city")}</FormLabel>
                   <FormControl>
                     <CityPlacesInput
-                      placeholder="Search for city"
+                      placeholder={t("citationAudit.form.cityPlaceholder")}
                       onPlaceSelect={handleCitySelect}
                       {...field}
                     />
@@ -233,22 +241,18 @@ export const CitationAuditModal: React.FC<CitationAuditModalProps> = ({
                 onClick={handleClose}
                 disabled={createCitationReport.isPending}
               >
-                Cancel
+                {t("citationAudit.buttons.cancel")}
               </Button>
-              <Button
-                type="submit"
-                disabled={createCitationReport.isPending}
-              >
+              <Button type="submit" disabled={createCitationReport.isPending}>
                 {createCitationReport.isPending && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Generate Report
+                {t("citationAudit.buttons.generate")}
               </Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
-
     </Dialog>
   );
 };

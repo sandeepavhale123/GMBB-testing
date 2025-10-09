@@ -1,0 +1,16 @@
+{
+  "leadSettingsLayout": {
+    "navItems": {
+      "themeCustomization": "Theme Customization",
+      "reportBranding": "Report Branding",
+      "integrations": "Integrations",
+      "ctaCustomization": "CTA Customization"
+    },
+    "titles": {
+      "settings": "Settings"
+    },
+    "descriptions": {
+      "manageSettings": "Manage your lead module settings."
+    }
+  }
+}

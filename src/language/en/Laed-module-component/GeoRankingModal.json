@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "Generate GEO Ranking Report",
+    "description": "Enter keywords and configure settings to generate a comprehensive GEO ranking report.",
+    "form": {
+      "keywords": "Keywords *",
+      "keywordsPlaceholder": "Enter keywords separated by commas (max 3)",
+      "gridSize": "Grid Size *",
+      "gridSizePlaceholder": "Select grid size",
+      "distanceUnit": "Distance Unit *",
+      "meters": "Meters",
+      "miles": "Miles",
+      "distanceValue": "Distance Value *",
+      "distanceValuePlaceholder": "Select distance"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "generate": "Generate Report",
+      "generating": "Generating..."
+    },
+    "errors": {
+      "failed": "Failed to create GEO ranking report."
+    },
+    "validation":{
+        "keywordsMin":"Keywords are required.",
+        "maxKeyword":"Maximum 3 keywords allowed.",
+        "keywords": "At least 1 keyword is required.",
+        "grid":"Grid size must be 3 or 5.",
+        "distance": "Distance value is required."
+    }
+  }
+}

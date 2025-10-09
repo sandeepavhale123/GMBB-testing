@@ -10,13 +10,22 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ActionDropdown } from "./ActionDropdown";
 import { format, parse, isValid } from "date-fns";
-import { FileText, BarChart3, MapPin, Users, Search , HeartPulse , FileChartLine  } from "lucide-react";
+import {
+  FileText,
+  BarChart3,
+  MapPin,
+  Users,
+  Search,
+  HeartPulse,
+  FileChartLine,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export interface Lead {
   id: string;
@@ -66,7 +75,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
   onAction,
   isLoading = false,
 }) => {
-
+  const { t } = useI18nNamespace("Laed-module-component/LeadsTable");
   const formatDate = (dateString: string) => {
     try {
       // Parse MM/dd/yyyy format from API
@@ -82,22 +91,46 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
     }
   };
 
-  const renderReportIcons = (reports: Lead['reports']) => {
+  const renderReportIcons = (reports: Lead["reports"]) => {
     const reportConfig = [
-      { key: 'gmbReport' as const, icon: HeartPulse, label: 'GMB Health Report' },
-      { key: 'citation' as const, icon: FileText, label: 'Citation Audit' },
-      { key: 'geo' as const, icon: MapPin, label: 'GEO Ranking' },
-      { key: 'prospect' as const, icon: FileChartLine, label: 'GMB Prospect' },
-      { key: 'onPage' as const, icon: BarChart3, label: 'On-Page Report' },
+      {
+        key: "gmbReport" as const,
+        icon: HeartPulse,
+        label: t("leadsTable.reportLabels.gmbHealthReport"),
+      },
+      {
+        key: "citation" as const,
+        icon: FileText,
+        label: t("leadsTable.reportLabels.citationAudit"),
+      },
+      {
+        key: "geo" as const,
+        icon: MapPin,
+        label: t("leadsTable.reportLabels.geoRanking"),
+      },
+      {
+        key: "prospect" as const,
+        icon: FileChartLine,
+        label: t("leadsTable.reportLabels.gmbProspect"),
+      },
+      {
+        key: "onPage" as const,
+        icon: BarChart3,
+        label: t("leadsTable.reportLabels.onPageReport"),
+      },
     ];
 
-    const generatedReports = reportConfig.filter(config => {
+    const generatedReports = reportConfig.filter((config) => {
       const report = reports[config.key];
       return report && report.status === 1 && report.viewUrl;
     });
 
     if (generatedReports.length === 0) {
-      return <span className="text-muted-foreground text-sm">No reports</span>;
+      return (
+        <span className="text-muted-foreground text-sm">
+          {t("leadsTable.reportLabels.noReports")}
+        </span>
+      );
     }
 
     return (
@@ -109,7 +142,9 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               <Tooltip key={key}>
                 <TooltipTrigger asChild>
                   <button
-                    onClick={() => report?.viewUrl && window.open(report.viewUrl, '_blank')}
+                    onClick={() =>
+                      report?.viewUrl && window.open(report.viewUrl, "_blank")
+                    }
                     className="p-1 rounded hover:bg-muted transition-colors"
                   >
                     <Icon className="h-4 w-4 text-green-600" />
@@ -132,23 +167,37 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Business Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Reports</TableHead>
-              <TableHead className="w-16">Actions</TableHead>
+              <TableHead>{t("leadsTable.headers.businessName")}</TableHead>
+              <TableHead>{t("leadsTable.headers.email")}</TableHead>
+              <TableHead>{t("leadsTable.headers.date")}</TableHead>
+              <TableHead>{t("leadsTable.headers.category")}</TableHead>
+              <TableHead>{t("leadsTable.headers.reports")}</TableHead>
+              <TableHead className="w-16">
+                {t("leadsTable.headers.actions")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
-                <TableCell><div className="h-4 w-24 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-32 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-4 w-20 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-8 w-8 bg-muted rounded animate-pulse" /></TableCell>
+                <TableCell>
+                  <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+                </TableCell>
+                <TableCell>
+                  <div className="h-4 w-32 bg-muted rounded animate-pulse" />
+                </TableCell>
+                <TableCell>
+                  <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+                </TableCell>
+                <TableCell>
+                  <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+                </TableCell>
+                <TableCell>
+                  <div className="h-4 w-20 bg-muted rounded animate-pulse" />
+                </TableCell>
+                <TableCell>
+                  <div className="h-8 w-8 bg-muted rounded animate-pulse" />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -162,40 +211,45 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Business Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Reports</TableHead>
-            <TableHead className="w-16">Actions</TableHead>
+            <TableHead>{t("leadsTable.headers.businessName")}</TableHead>
+            <TableHead>{t("leadsTable.headers.email")}</TableHead>
+            <TableHead>{t("leadsTable.headers.date")}</TableHead>
+            <TableHead>{t("leadsTable.headers.category")}</TableHead>
+            <TableHead>{t("leadsTable.headers.reports")}</TableHead>
+            <TableHead className="w-16">
+              {t("leadsTable.headers.actions")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {leads.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                No leads found. Add your first lead to get started.
+              <TableCell
+                colSpan={6}
+                className="text-center py-8 text-muted-foreground"
+              >
+                {t("leadsTable.empty.noLeads")}
               </TableCell>
             </TableRow>
           ) : (
             leads.map((lead) => (
               <TableRow key={lead.id}>
-                <TableCell className="font-medium">{lead.businessName}</TableCell>
-                <TableCell>{lead.email || 'N/A'}</TableCell>
-                <TableCell>
-                  {lead.date}
+                <TableCell className="font-medium">
+                  {lead.businessName}
                 </TableCell>
+                <TableCell>
+                  {lead.email || t("leadsTable.fallbacks.na")}
+                </TableCell>
+                <TableCell>{lead.date}</TableCell>
                 <TableCell>
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
                 </TableCell>
+                <TableCell>{renderReportIcons(lead.reports)}</TableCell>
                 <TableCell>
-                  {renderReportIcons(lead.reports)}
-                </TableCell>
-                <TableCell>
-                  <ActionDropdown 
-                    onAction={onAction} 
-                    leadId={lead.id} 
-                    reports={lead.reports} 
+                  <ActionDropdown
+                    onAction={onAction}
+                    leadId={lead.id}
+                    reports={lead.reports}
                     reportId={lead.reportId}
                     citationReportId={lead.citationReportId || lead.reportId}
                   />

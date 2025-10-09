@@ -1,5 +1,8 @@
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["Lead-module-public-report/footer"];
 
 interface BrandingData {
   company_logo?: string;
@@ -15,6 +18,7 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
+  const { t } = usePublicI18n(namespaces);
   const isMobile = useIsMobile();
 
   // Check if all fields are empty except logo
@@ -56,7 +60,8 @@ export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
                 ) : (
                   <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
                     <span className="text-lg font-bold text-white">
-                      {brandingData?.company_name?.charAt(0) || "C"}
+                      {brandingData?.company_name?.charAt(0) ||
+                        t("defaultLogoFallback")}
                     </span>
                   </div>
                 )}
@@ -66,9 +71,13 @@ export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
                   </h3>
                   <div className="text-white/90">
                     {brandingData?.company_website && (
-                      <a 
-                        href={brandingData.company_website.startsWith('http') ? brandingData.company_website : `https://${brandingData.company_website}`}
-                        target="_blank" 
+                      <a
+                        href={
+                          brandingData.company_website.startsWith("http")
+                            ? brandingData.company_website
+                            : `https://${brandingData.company_website}`
+                        }
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-white hover:underline transition-colors"
                       >
@@ -84,15 +93,15 @@ export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
                 style={{ maxWidth: 600 }}
               >
                 <div className="text-white/90">
-                  <span className="text-white/70">Email: </span>
+                  <span className="text-white/70">{t("emailLabel")}: </span>
                   {brandingData?.company_email}
                 </div>
                 <div className="text-white/90">
-                  <span className="text-white/70">Phone: </span>
+                  <span className="text-white/70">{t("phoneLabel")}: </span>
                   {brandingData?.company_phone}
                 </div>
                 <div className="text-white/90 break-all">
-                  <span className="text-white/70">Address: </span>
+                  <span className="text-white/70">{t("addressLabel")}: </span>
                   {brandingData?.company_address}
                 </div>
               </div>

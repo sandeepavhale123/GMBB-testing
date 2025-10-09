@@ -1,0 +1,35 @@
+{
+  "title": "Report Branding",
+  "subtitle": "Customize the appearance of your lead reports",
+  "logo": {
+    "title": "Company Logo",
+    "description": "Upload your company logo for reports",
+    "dropText": "Drop your logo here or click to browse",
+    "buttonText": "Choose File",
+    "note": "Recommended: PNG or JPG format, max 2MB, 300x100px"
+  },
+  "colors": {
+    "title": "Color Scheme",
+    "description": "Customize your brand colors",
+    "primary": "Primary Color",
+    "secondary": "Secondary Color"
+  },
+  "companyInfo": {
+    "title": "Company Information",
+    "description": "Details that appear on your reports",
+    "nameLabel": "Company Name",
+    "namePlaceholder": "Enter company name",
+    "websiteLabel": "Website",
+    "websitePlaceholder": "https://yourcompany.com",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "+1 (555) 123-4567"
+  },
+  "preview": {
+    "title": "Preview",
+    "description": "How your branding will appear",
+    "lead":"Lead Report"
+  },
+  "buttons": {
+    "save": "Save Branding Settings"
+  }
+}

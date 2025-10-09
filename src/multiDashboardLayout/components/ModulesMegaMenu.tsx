@@ -12,12 +12,12 @@ export const ModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/modulesMegaMenu");
 
   const modules = [
-    {
-      name: t("modules.manageGmb.name"),
-      description: t("modules.manageGmb.description"),
-      icon: Grid3X3,
-      href: "/main-dashboard",
-    },
+    // {
+    //   name: t("modules.manageGmb.name"),
+    //   description: t("modules.manageGmb.description"),
+    //   icon: Grid3X3,
+    //   href: "/main-dashboard",
+    // },
     {
       name: t("modules.geoRanking.name"),
       description: t("modules.geoRanking.description"),

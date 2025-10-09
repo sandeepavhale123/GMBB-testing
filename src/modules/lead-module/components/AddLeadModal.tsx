@@ -13,11 +13,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { LeadGooglePlacesInput } from "./LeadGooglePlacesInput";
-import { Plus, Building2, ExternalLink, Hash, Mail, Phone, MapPin, Loader2, X, Search } from "lucide-react";
+import {
+  Plus,
+  Building2,
+  ExternalLink,
+  Hash,
+  Mail,
+  Phone,
+  MapPin,
+  Loader2,
+  X,
+  Search,
+} from "lucide-react";
 import { addLead, AddLeadRequest } from "@/api/leadApi";
 import { useToast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { z } from "zod";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AddLeadModalProps {
   onSuccess?: () => void;
@@ -32,47 +44,69 @@ interface LeadFormData {
   phone?: string;
   location?: string;
   keyword?: string;
-  inputMethod: 'name' | 'url' | 'cid';
+  inputMethod: "name" | "url" | "cid";
 }
 
 // Form validation schema
-const leadFormSchema = z.object({
-  businessName: z.string().optional(),
-  mapUrl: z.string().optional(), 
-  cid: z.string().optional(),
-  email: z.string().email("Please enter a valid email").or(z.literal("")),
-  phone: z.string().optional(),
-  location: z.string().optional(),
-  keyword: z.string().optional(),
-  inputMethod: z.enum(['name', 'url', 'cid']),
-}).superRefine((data, ctx) => {
-  if (data.inputMethod === 'name') {
-    if (!data.businessName) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['businessName'], message: 'Please select a business.' });
-    }
-    if (!data.cid || !/^\d+$/.test(data.cid)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Could not resolve CID. Please select suggestion again or use Map URL/CID.' });
-    }
-  }
-  if (data.inputMethod === 'url') {
-    if (!data.mapUrl) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['mapUrl'], message: 'Google Maps URL is required.' });
-    }
-  }
-  if (data.inputMethod === 'cid') {
-    if (!data.cid || !/^\d+$/.test(data.cid)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Please enter a valid numeric CID.' });
-    }
-  }
-});
 
 export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
+  const { t } = useI18nNamespace("Laed-module-component/AddLeadModal");
+
+  const leadFormSchema = z
+    .object({
+      businessName: z.string().optional(),
+      mapUrl: z.string().optional(),
+      cid: z.string().optional(),
+      email: z.string().email("Please enter a valid email").or(z.literal("")),
+      phone: z.string().optional(),
+      location: z.string().optional(),
+      keyword: z.string().optional(),
+      inputMethod: z.enum(["name", "url", "cid"]),
+    })
+    .superRefine((data, ctx) => {
+      if (data.inputMethod === "name") {
+        if (!data.businessName) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["businessName"],
+            message: t("addLead.validation.businessNameRequired"),
+          });
+        }
+        if (!data.cid || !/^\d+$/.test(data.cid)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["cid"],
+            message: t("addLead.validation.cidInvalid"),
+          });
+        }
+      }
+      if (data.inputMethod === "url") {
+        if (!data.mapUrl) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["mapUrl"],
+            message: t("addLead.validation.mapUrlRequired"),
+          });
+        }
+      }
+      if (data.inputMethod === "cid") {
+        if (!data.cid || !/^\d+$/.test(data.cid)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["cid"],
+            message: t("addLead.validation.cidNumeric"),
+          });
+        }
+      }
+    });
+
   const [open, setOpen] = useState(false);
   const [showOptionalDetails, setShowOptionalDetails] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { validate, getFieldError, hasFieldError, clearErrors } = useFormValidation(leadFormSchema);
-  
+  const { validate, getFieldError, hasFieldError, clearErrors } =
+    useFormValidation(leadFormSchema);
+
   const [formData, setFormData] = useState<LeadFormData>({
     businessName: "",
     address: "",
@@ -82,34 +116,42 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     phone: "",
     location: "",
     keyword: "",
-    inputMethod: 'name',
+    inputMethod: "name",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (isSubmitting) return;
-    
+
     // Validate form data
     const validation = validate(formData);
     if (!validation.isValid) {
       toast({
         variant: "destructive",
-        title: "Validation Error",
-        description: "Please fix the errors and try again.",
+        title: t("addLead.error.validationTitle"),
+        description: t("addLead.error.validationDesc"),
       });
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Prepare API request based on input method
       const apiRequest: AddLeadRequest = {
-        inputtype: formData.inputMethod === 'name' ? "0" : 
-                  formData.inputMethod === 'url' ? "1" : "2",
-        inputtext: formData.inputMethod === 'name' ? formData.cid :
-                  formData.inputMethod === 'url' ? formData.mapUrl : formData.cid,
+        inputtype:
+          formData.inputMethod === "name"
+            ? "0"
+            : formData.inputMethod === "url"
+            ? "1"
+            : "2",
+        inputtext:
+          formData.inputMethod === "name"
+            ? formData.cid
+            : formData.inputMethod === "url"
+            ? formData.mapUrl
+            : formData.cid,
         email: formData.email || undefined,
         phone: formData.phone || undefined,
         location: formData.location || undefined,
@@ -117,13 +159,13 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       };
 
       const response = await addLead(apiRequest);
-      
+
       if (response.code === 200) {
         toast({
-          title: "Success",
-          description: response.message || "Lead added successfully",
+          title: t("addLead.success.title"),
+          description: response.message || t("addLead.success.description"),
         });
-        
+
         // Reset form and close modal
         setFormData({
           businessName: "",
@@ -134,23 +176,23 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
           phone: "",
           location: "",
           keyword: "",
-          inputMethod: 'name',
+          inputMethod: "name",
         });
         setShowOptionalDetails(false);
         clearErrors();
         setOpen(false);
-        
+
         // Notify parent component
         onSuccess?.();
       } else {
-        throw new Error(response.message || "Failed to add lead");
+        throw new Error(response.message || t("addLead.error.addFailedTitle"));
       }
     } catch (error) {
-      console.error('Error adding lead:', error);
-      
+      console.error("Error adding lead:", error);
+
       // Extract backend message from API response
       const backendMessage = (error as any)?.response?.data?.message;
-      
+
       if (backendMessage) {
         toast({
           variant: "destructive",
@@ -160,8 +202,8 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       } else {
         toast({
           variant: "destructive",
-          title: "Failed to add lead",
-          description: "Please try again.",
+          title: t("addLead.error.addFailedTitle"),
+          description: t("addLead.error.addFailedDesc"),
         });
       }
     } finally {
@@ -169,68 +211,85 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     }
   };
 
-  const handlePlaceSelect = useCallback((business: { name: string; address: string; latitude: string; longitude: string; cid?: string; placeId?: string }) => {
-    setFormData(prev => ({
-      ...prev,
-      businessName: business.name || "",
-      address: business.address || "",
-      cid: business.cid || "",
-    }));
-  }, []);
+  const handlePlaceSelect = useCallback(
+    (business: {
+      name: string;
+      address: string;
+      latitude: string;
+      longitude: string;
+      cid?: string;
+      placeId?: string;
+    }) => {
+      setFormData((prev) => ({
+        ...prev,
+        businessName: business.name || "",
+        address: business.address || "",
+        cid: business.cid || "",
+      }));
+    },
+    []
+  );
 
   const isFromPac = (e: any) => {
     const original = e?.detail?.originalEvent as Event | undefined;
-    const t = (original?.target as HTMLElement) || (e.target as HTMLElement | null);
-    return !!t?.closest?.('.pac-container');
+    const t =
+      (original?.target as HTMLElement) || (e.target as HTMLElement | null);
+    return !!t?.closest?.(".pac-container");
   };
 
   const renderPrimaryFields = () => {
     switch (formData.inputMethod) {
-      case 'name':
+      case "name":
         return (
           <div className="space-y-2">
-            <Label htmlFor="business-name">Search by business name</Label>
+            <Label htmlFor="business-name">
+              {t("addLead.fields.businessName")}
+            </Label>
             <LeadGooglePlacesInput
               onPlaceSelect={handlePlaceSelect}
-              placeholder="Search for business name..."
+              placeholder={t("addLead.fields.businessPlaceholder")}
               defaultValue={formData.businessName}
             />
             {hasFieldError("businessName") && (
-              <p className="text-sm text-destructive">{getFieldError("businessName")}</p>
+              <p className="text-sm text-destructive">
+                {getFieldError("businessName")}
+              </p>
             )}
             {hasFieldError("cid") && (
               <p className="text-sm text-destructive">{getFieldError("cid")}</p>
             )}
           </div>
         );
-      case 'url':
+      case "url":
         return (
           <div className="space-y-2">
-            <Label htmlFor="map-url">Google Maps URL</Label>
+            <Label htmlFor="map-url">{t("addLead.fields.mapUrl")}</Label>
             <Input
               id="map-url"
               type="url"
-              placeholder="Enter Google Maps URL"
+              placeholder={t("addLead.fields.mapUrlPlaceholder")}
               value={formData.mapUrl}
               onChange={(e) =>
-                setFormData(prev => ({ ...prev, mapUrl: e.target.value }))
+                setFormData((prev) => ({ ...prev, mapUrl: e.target.value }))
               }
             />
             {hasFieldError("mapUrl") && (
-              <p className="text-sm text-destructive">{getFieldError("mapUrl")}</p>
+              <p className="text-sm text-destructive">
+                {getFieldError("mapUrl")}
+              </p>
             )}
           </div>
         );
-      case 'cid':
+      case "cid":
         return (
           <div className="space-y-2">
-            <Label htmlFor="cid"> Listing CID</Label>
+            <Label htmlFor="cid"> {t("addLead.fields.cid")}</Label>
             <Input
               id="cid"
-              placeholder="Enter CID"
+              placeholder={t("addLead.fields.cidPlaceholder")}
               value={formData.cid}
               onChange={(e) =>
-                setFormData(prev => ({ ...prev, cid: e.target.value }))
+                setFormData((prev) => ({ ...prev, cid: e.target.value }))
               }
             />
             {hasFieldError("cid") && (
@@ -248,18 +307,24 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add Lead
+          {t("addLead.button")}
         </Button>
       </DialogTrigger>
       <DialogContent
-          className="sm:max-w-xl max-h-[90vh] overflow-y-auto"
-          onPointerDownOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
-          onFocusOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
-          onInteractOutside={(e) => { if (isFromPac(e)) e.preventDefault(); }}
-        >
+        className="sm:max-w-xl max-h-[90vh] overflow-y-auto"
+        onPointerDownOutside={(e) => {
+          if (isFromPac(e)) e.preventDefault();
+        }}
+        onFocusOutside={(e) => {
+          if (isFromPac(e)) e.preventDefault();
+        }}
+        onInteractOutside={(e) => {
+          if (isFromPac(e)) e.preventDefault();
+        }}
+      >
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle>Add New Lead</DialogTitle>
+            <DialogTitle>{t("addLead.title")}</DialogTitle>
             <Button
               variant="ghost"
               size="sm"
@@ -273,44 +338,44 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Input Method Selection */}
           <div className="space-y-3">
-            <Label className="text-base font-medium">How would you like to add business details?</Label>
+            <Label className="text-base font-medium">
+              {t("addLead.inputMethod.label")}
+            </Label>
             <RadioGroup
               value={formData.inputMethod}
-              onValueChange={(value: 'name' | 'url' | 'cid') =>
-                setFormData(prev => ({ ...prev, inputMethod: value }))
+              onValueChange={(value: "name" | "url" | "cid") =>
+                setFormData((prev) => ({ ...prev, inputMethod: value }))
               }
               className="flex flex-col sm:flex-row sm:gap-6 gap-3"
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="name" id="name" />
                 <Label htmlFor="name" className="cursor-pointer">
-                  Google Auto suggestion
+                  {t("addLead.inputMethod.name")}
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="url" id="url" />
                 <Label htmlFor="url" className="cursor-pointer">
-                  Google Maps URL
+                  {t("addLead.inputMethod.url")}
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="cid" id="cid" />
                 <Label htmlFor="cid" className="cursor-pointer">
-                  Listing CID
+                  {t("addLead.inputMethod.cid")}
                 </Label>
               </div>
             </RadioGroup>
           </div>
 
           {/* Primary Fields */}
-          <div className="space-y-4">
-            {renderPrimaryFields()}
-          </div>
+          <div className="space-y-4">{renderPrimaryFields()}</div>
 
           {/* Optional Details Toggle */}
           <div className="flex items-center justify-between">
             <Label htmlFor="optional-toggle" className="text-sm font-medium">
-              Add optional details
+              {t("addLead.fields.optionalDetails")}
             </Label>
             <Switch
               id="optional-toggle"
@@ -326,93 +391,126 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="flex items-center space-x-2">
+                  <Label
+                    htmlFor="email"
+                    className="flex items-center space-x-2"
+                  >
                     <Mail className="h-4 w-4" />
-                    <span>Email</span>
+                    <span>{t("addLead.fields.email")}</span>
                   </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter email address"
+                    placeholder={t("addLead.fields.emailPlaceholder")}
                     value={formData.email}
                     onChange={(e) =>
-                      setFormData(prev => ({ ...prev, email: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
                     }
                   />
                   {hasFieldError("email") && (
-                    <p className="text-sm text-destructive">{getFieldError("email")}</p>
+                    <p className="text-sm text-destructive">
+                      {getFieldError("email")}
+                    </p>
                   )}
                 </div>
 
                 {/* Phone Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="flex items-center space-x-2">
+                  <Label
+                    htmlFor="phone"
+                    className="flex items-center space-x-2"
+                  >
                     <Phone className="h-4 w-4" />
-                    <span>Phone Number</span>
+                    <span>{t("addLead.fields.phone")}</span>
                   </Label>
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="Enter phone number"
+                    placeholder={t("addLead.fields.phonePlaceholder")}
                     value={formData.phone}
                     onChange={(e) =>
-                      setFormData(prev => ({ ...prev, phone: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        phone: e.target.value,
+                      }))
                     }
                   />
                 </div>
 
                 {/* Location Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="location" className="flex items-center space-x-2">
+                  <Label
+                    htmlFor="location"
+                    className="flex items-center space-x-2"
+                  >
                     <MapPin className="h-4 w-4" />
-                    <span>Latitude, Longitude or City</span>
+                    <span>{t("addLead.fields.location")}</span>
                   </Label>
                   <Input
                     id="location"
-                    placeholder="Enter location lat, long or city"
+                    placeholder={t("addLead.fields.locationPlaceholder")}
                     value={formData.location}
                     onChange={(e) =>
-                      setFormData(prev => ({ ...prev, location: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        location: e.target.value,
+                      }))
                     }
                   />
                 </div>
 
                 {/* Keyword Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="keyword" className="flex items-center space-x-2">
+                  <Label
+                    htmlFor="keyword"
+                    className="flex items-center space-x-2"
+                  >
                     <Search className="h-4 w-4" />
-                    <span>Custom Keyword</span>
+                    <span>{t("addLead.fields.keyword")}</span>
                   </Label>
                   <Input
                     id="keyword"
-                    placeholder="Enter custom keyword"
+                    placeholder={t("addLead.fields.keywordPlaceholder")}
                     value={formData.keyword}
                     onChange={(e) =>
-                      setFormData(prev => ({ ...prev, keyword: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        keyword: e.target.value,
+                      }))
                     }
                   />
                 </div>
               </div>
 
               <div className="bg-muted p-4 rounded-md">
-                 <p className="text-sm mb-2"># Latitude and longitude should be entered as follows: lat:34.048927,lon:-111.093735,zoom=15</p>
-                 <p className="text-sm"># The free text should be entered as follows: City, State, Country</p>
+                <p className="text-sm mb-2">
+                  {t("addLead.notes.latitudeLongitude")}
+                </p>
+                <p className="text-sm">{t("addLead.notes.freeText")}</p>
               </div>
             </div>
           )}
 
           <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={isSubmitting}>
-              Cancel
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+              disabled={isSubmitting}
+            >
+              {t("addLead.cancel")}
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Adding Lead...
+                  {t("addLead.adding")}
                 </>
               ) : (
-                "Add Lead"
+                t("addLead.button")
               )}
             </Button>
           </div>

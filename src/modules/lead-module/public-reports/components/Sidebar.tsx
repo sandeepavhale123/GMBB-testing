@@ -1,10 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Heart,
-  BarChart3,
-  BookOpen,
-} from "lucide-react";
+import { Heart, BarChart3, BookOpen } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,7 +8,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 
+export const namespaces = ["Lead-module-public-report/reviewsSection"];
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
@@ -27,6 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setSidebarOpen,
   brandingData,
 }) => {
+  const { t } = usePublicI18n(namespaces);
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
@@ -34,21 +33,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarItems = [
     {
       id: "gmb-health",
-      label: "GMB Health Report",
+      label: t("gmbHealthReport"),
       name: "gbp",
       icon: Heart,
       path: "/lead/gbp",
     },
     {
       id: "gmb-prospect",
-      label: "GMB Prospect Report",
+      label: t("gmbProspectReport"),
       name: "prospect",
       icon: BarChart3,
       path: "/lead/prospect",
     },
     {
       id: "citation-audit",
-      label: "Citation Audit Report",
+      label: t("citationAuditReport"),
       name: "citation",
       icon: BookOpen,
       path: "/lead/citation",

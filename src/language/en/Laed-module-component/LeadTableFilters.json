@@ -1,0 +1,19 @@
+{
+  "leadFilters": {
+    "searchPlaceholder": "Search by business name or email",
+    "emailPlaceholder": "Filter by email...",
+    "categoryPlaceholder": "Category",
+    "allCategories": "All Categories",
+    "clear": "Clear",
+    "categories": {
+      "Restaurant": "Restaurant",
+      "Retail": "Retail",
+      "Healthcare": "Healthcare",
+      "Technology": "Technology",
+      "Services": "Services",
+      "Real_Estate": "Real Estate",
+      "Finance": "Finance",
+      "Other": "Other"
+    }
+  }
+}

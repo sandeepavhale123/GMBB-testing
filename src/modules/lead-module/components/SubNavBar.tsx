@@ -1,33 +1,34 @@
-import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { LayoutDashboard, History, Settings } from 'lucide-react';
-
-const navItems = [
-  {
-    label: 'Dashboard',
-    path: '/module/lead',
-    icon: LayoutDashboard,
-    type: 'link'
-  },
-  {
-    label: 'Credits',
-    path: '/module/lead/credits',
-    icon: History,
-    type: 'link'
-  },
-  {
-    label: 'Settings',
-    path: '/module/lead/settings',
-    icon: Settings,
-    type: 'link'
-  }
-];
+import React from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { LayoutDashboard, History, Settings } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const SubNavBar: React.FC = () => {
+  const { t } = useI18nNamespace("Laed-module-component/SubNavBar");
+  const navItems = [
+    {
+      label: t("subNav.dashboard"),
+      path: "/module/lead",
+      icon: LayoutDashboard,
+      type: "link",
+    },
+    {
+      label: t("subNav.credits"),
+      path: "/module/lead/credits",
+      icon: History,
+      type: "link",
+    },
+    {
+      label: t("subNav.settings"),
+      path: "/module/lead/settings",
+      icon: Settings,
+      type: "link",
+    },
+  ];
+
   const location = useLocation();
   const navigate = useNavigate();
-
 
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
@@ -36,10 +37,11 @@ export const SubNavBar: React.FC = () => {
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
             // Special handling for Settings to include nested routes
-            const isActive = item.path === '/module/lead/settings' 
-              ? location.pathname.startsWith('/module/lead/settings')
-              : location.pathname === item.path;
-            
+            const isActive =
+              item.path === "/module/lead/settings"
+                ? location.pathname.startsWith("/module/lead/settings")
+                : location.pathname === item.path;
+
             return (
               <NavLink
                 key={item.path}
@@ -52,7 +54,9 @@ export const SubNavBar: React.FC = () => {
                 )}
               >
                 <IconComponent size={18} />
-                <span className="hidden md:block whitespace-nowrap">{item.label}</span>
+                <span className="hidden md:block whitespace-nowrap">
+                  {item.label}
+                </span>
               </NavLink>
             );
           })}

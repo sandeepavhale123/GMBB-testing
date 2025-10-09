@@ -1,7 +1,9 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Camera } from "lucide-react";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 
+export const namespaces = ["Lead-module-public-report/photoGallery"];
 interface Photo {
   id: string;
   url: string;
@@ -14,25 +16,33 @@ interface PhotoGalleryProps {
   totalCount: number;
 }
 
-export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }) => {
+export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
+  photos,
+  totalCount,
+}) => {
+  const { t } = usePublicI18n(namespaces);
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Camera className="h-5 w-5" />
-          GMB photo ({totalCount} photos)
+          {t("title", { totalCount })}
+          {/* ({totalCount} photos) */}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {photos.slice(0, 4).map((photo) => (
-            <div key={photo.id} className="aspect-square relative overflow-hidden rounded-lg border">
-              <img 
-                src={photo.url} 
+            <div
+              key={photo.id}
+              className="aspect-square relative overflow-hidden rounded-lg border"
+            >
+              <img
+                src={photo.url}
                 alt={photo.alt}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder.svg';
+                  e.currentTarget.src = "/placeholder.svg";
                 }}
               />
             </div>
@@ -42,7 +52,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, totalCount }
               <div className="text-center">
                 <Camera className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
                 <span className="text-sm font-medium text-muted-foreground">
-                  +{totalCount - 4} more images
+                  +{t("moreImages", { count: totalCount - 4 })}
                 </span>
               </div>
             </div>

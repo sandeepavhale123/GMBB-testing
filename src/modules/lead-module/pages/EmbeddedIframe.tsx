@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Code, Copy, Eye, Settings, ExternalLink } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Code, Copy, Eye, Settings, ExternalLink } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const EmbeddedIframe: React.FC = () => {
+  const { t } = useI18nNamespace("Lead-module-pages/embeddedIframe");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -28,8 +36,8 @@ const EmbeddedIframe: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Embedded Iframe</h1>
-        <p className="text-muted-foreground">Generate and manage embeddable lead forms</p>
+        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+        <p className="text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -38,56 +46,82 @@ const EmbeddedIframe: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Settings className="w-5 h-5" />
-              Iframe Configuration
+              {t("configuration.title")}
             </CardTitle>
-            <CardDescription>Customize your embedded form settings</CardDescription>
+            <CardDescription>{t("configuration.description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="form-title">Form Title</Label>
-              <Input id="form-title" placeholder="Enter form title" defaultValue="Contact Us" />
+              <Label htmlFor="form-title">
+                {t("configuration.formTitleLabel")}
+              </Label>
+              <Input
+                id="form-title"
+                placeholder={t("configuration.formTitlePlaceholder")}
+                defaultValue="Contact Us"
+              />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="iframe-width">Width</Label>
-                <Input id="iframe-width" placeholder="100%" defaultValue="100%" />
+                <Label htmlFor="iframe-width">
+                  {t("configuration.widthLabel")}
+                </Label>
+                <Input
+                  id="iframe-width"
+                  placeholder={t("configuration.widthPlaceholder")}
+                  defaultValue="100%"
+                />
               </div>
               <div>
-                <Label htmlFor="iframe-height">Height</Label>
-                <Input id="iframe-height" placeholder="400" defaultValue="400" />
+                <Label htmlFor="iframe-height">
+                  {t("configuration.heightLabel")}
+                </Label>
+                <Input
+                  id="iframe-height"
+                  placeholder={t("configuration.heightPlaceholder")}
+                  defaultValue="400"
+                />
               </div>
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Show Company Logo</Label>
-                <p className="text-sm text-muted-foreground">Display your logo in the form</p>
+                <Label>{t("configuration.showLogoLabel")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t("configuration.showLogoDescription")}
+                </p>
               </div>
               <Switch defaultChecked />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Enable Dark Mode</Label>
-                <p className="text-sm text-muted-foreground">Allow users to toggle dark theme</p>
+                <Label>{t("configuration.darkModeLabel")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t("configuration.darkModeDescription")}
+                </p>
               </div>
               <Switch />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Auto-resize</Label>
-                <p className="text-sm text-muted-foreground">Automatically adjust iframe height</p>
+                <Label>{t("configuration.autoResizeLabel")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t("configuration.autoResizeDescription")}
+                </p>
               </div>
               <Switch defaultChecked />
             </div>
 
             <div>
-              <Label htmlFor="success-message">Success Message</Label>
-              <Textarea 
+              <Label htmlFor="success-message">
+                {t("configuration.successMessageLabel")}
+              </Label>
+              <Textarea
                 id="success-message"
-                placeholder="Message shown after form submission"
+                placeholder={t("configuration.successMessagePlaceholder")}
                 defaultValue="Thank you for your interest! We'll get back to you soon."
               />
             </div>
@@ -99,13 +133,13 @@ const EmbeddedIframe: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Code className="w-5 h-5" />
-              Embed Code
+              {t("embedCode.title")}
             </CardTitle>
-            <CardDescription>Copy this code to embed the form on your website</CardDescription>
+            <CardDescription>{t("embedCode.description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="relative">
-              <Textarea 
+              <Textarea
                 readOnly
                 className="font-mono text-sm min-h-[150px]"
                 value={`<iframe 
@@ -124,12 +158,14 @@ const EmbeddedIframe: React.FC = () => {
               >
                 {copied ? (
                   <>
-                    <Badge variant="secondary" className="text-xs">Copied!</Badge>
+                    <Badge variant="secondary" className="text-xs">
+                      {t("embedCode.copied")}
+                    </Badge>
                   </>
                 ) : (
                   <>
                     <Copy className="w-4 h-4 mr-1" />
-                    Copy
+                    {t("embedCode.copy")}
                   </>
                 )}
               </Button>
@@ -138,21 +174,23 @@ const EmbeddedIframe: React.FC = () => {
             <div className="flex gap-2">
               <Button variant="outline" className="gap-2 flex-1">
                 <Eye className="w-4 h-4" />
-                Preview
+                {t("embedCode.preview")}
               </Button>
               <Button variant="outline" className="gap-2 flex-1">
                 <ExternalLink className="w-4 h-4" />
-                Test Form
+                {t("embedCode.test")}
               </Button>
             </div>
 
             <div className="bg-muted/30 p-3 rounded-lg">
-              <p className="text-sm font-medium mb-2">Integration Tips:</p>
+              <p className="text-sm font-medium mb-2">
+                {t("embedCode.tipsTitle")}
+              </p>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Add the iframe to any HTML page or CMS</li>
-                <li>• The form will match your site's theme automatically</li>
-                <li>• All submissions are captured in your lead dashboard</li>
-                <li>• HTTPS is required for iframe embedding</li>
+                <li>• {t("embedCode.tips1")}</li>
+                <li>• {t("embedCode.tips2")}</li>
+                <li>• {t("embedCode.tips3")}</li>
+                <li>• {t("embedCode.tips4")}</li>
               </ul>
             </div>
           </CardContent>
@@ -161,32 +199,58 @@ const EmbeddedIframe: React.FC = () => {
         {/* Active Embeds */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Active Embeds</CardTitle>
-            <CardDescription>Manage your deployed iframe forms</CardDescription>
+            <CardTitle>{t("activeEmbeds.title")}</CardTitle>
+            <CardDescription>{t("activeEmbeds.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {[
-                { name: 'Homepage Contact Form', domain: 'yoursite.com', submissions: 45, status: 'Active' },
-                { name: 'Landing Page Form', domain: 'landing.yoursite.com', submissions: 23, status: 'Active' },
-                { name: 'Blog Sidebar Form', domain: 'blog.yoursite.com', submissions: 12, status: 'Inactive' }
+                {
+                  name: t("name.home"),
+                  domain: t("name.homeDom"),
+                  submissions: 45,
+                  status: t("statuses.Active"),
+                },
+                {
+                  name: t("name.landing"),
+                  domain: t("name.landingDom"),
+                  submissions: 23,
+                  status: t("statuses.Active"),
+                },
+                {
+                  name: t("name.blog"),
+                  domain: t("name.home"),
+                  submissions: 12,
+                  status: t("statuses.blogDom"),
+                },
               ].map((embed, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
                   <div className="flex items-center space-x-4">
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                       <Code className="w-5 h-5 text-primary" />
                     </div>
                     <div>
                       <p className="font-medium">{embed.name}</p>
-                      <p className="text-sm text-muted-foreground">{embed.domain}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {embed.domain}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="text-center">
                       <p className="text-sm font-medium">{embed.submissions}</p>
-                      <p className="text-xs text-muted-foreground">Submissions</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t("activeEmbeds.submissions")}
+                      </p>
                     </div>
-                    <Badge variant={embed.status === 'Active' ? 'default' : 'secondary'}>
+                    <Badge
+                      variant={
+                        embed.status === "Active" ? "default" : "secondary"
+                      }
+                    >
                       {embed.status}
                     </Badge>
                     <Button size="sm" variant="ghost">

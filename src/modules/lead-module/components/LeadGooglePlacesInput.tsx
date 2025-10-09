@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/hooks/use-toast';
-import { getLeadApiKeyForSearch } from '../api/leadSearchApi';
+import React, { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
+import { getLeadApiKeyForSearch } from "../api/leadSearchApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface LeadBusinessDetails {
   name: string;
@@ -28,10 +29,11 @@ declare global {
 
 export function LeadGooglePlacesInput({
   onPlaceSelect,
-  defaultValue = '',
+  defaultValue = "",
   disabled = false,
-  placeholder = 'Search for a business...',
+  placeholder = "Search for a business...",
 }: LeadGooglePlacesInputProps) {
+  const { t } = useI18nNamespace("Laed-module-component/LeadGooglePlacesInput");
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
   const onPlaceSelectRef = useRef(onPlaceSelect);
@@ -48,7 +50,7 @@ export function LeadGooglePlacesInput({
     const extractCidFromUrl = (url: string): string | null => {
       try {
         const u = new URL(url);
-        const cid = u.searchParams.get('cid') || u.searchParams.get('ludocid');
+        const cid = u.searchParams.get("cid") || u.searchParams.get("ludocid");
         if (cid) return cid;
       } catch {}
       const m = url.match(/[?&](?:cid|ludocid)=(\d+)/i);
@@ -58,15 +60,17 @@ export function LeadGooglePlacesInput({
     const initializeAutocomplete = async () => {
       try {
         setLoading(true);
-        
+
         // Get API key from lead module endpoint
         const apiKeyResponse = await getLeadApiKeyForSearch();
         const apiKey = apiKeyResponse.data.apikey;
 
         if (!apiKey) {
           toast({
-            title: "API Key Missing",
-            description: "Google Places API key is not configured.",
+            title: t("leadGooglePlacesInput.errors.apiKeyMissing.title"),
+            description: t(
+              "leadGooglePlacesInput.errors.apiKeyMissing.description"
+            ),
             variant: "destructive",
           });
           return;
@@ -74,24 +78,26 @@ export function LeadGooglePlacesInput({
 
         // Load Google Maps script if not already loaded
         if (!window.google) {
-          const script = document.createElement('script');
+          const script = document.createElement("script");
           script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
           script.async = true;
           script.defer = true;
-          
+
           script.onload = () => {
             setupAutocomplete();
           };
-          
+
           document.head.appendChild(script);
         } else {
           setupAutocomplete();
         }
       } catch (error) {
-        console.error('Failed to initialize Google Places:', error);
+        console.error("Failed to initialize Google Places:", error);
         toast({
-          title: "Initialization Failed",
-          description: "Failed to initialize Google Places API.",
+          title: t("leadGooglePlacesInput.errors.initializationFailed.title"),
+          description: t(
+            "leadGooglePlacesInput.errors.initializationFailed.description"
+          ),
           variant: "destructive",
         });
       } finally {
@@ -102,20 +108,23 @@ export function LeadGooglePlacesInput({
     const setupAutocomplete = () => {
       if (!inputRef.current || !window.google) return;
 
-      const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ['establishment'],
-        fields: ['name', 'geometry', 'formatted_address', 'place_id'],
-      });
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        {
+          types: ["establishment"],
+          fields: ["name", "geometry", "formatted_address", "place_id"],
+        }
+      );
 
       autocompleteRef.current = autocomplete;
 
-      autocomplete.addListener('place_changed', () => {
+      autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
-        
+
         if (place?.geometry?.location && place.name) {
           const businessBase: LeadBusinessDetails = {
             name: place.name,
-            address: place.formatted_address || '',
+            address: place.formatted_address || "",
             latitude: place.geometry.location.lat().toString(),
             longitude: place.geometry.location.lng().toString(),
             placeId: place.place_id,
@@ -124,21 +133,34 @@ export function LeadGooglePlacesInput({
           setInputValue(place.name);
 
           if (place.place_id && window.google?.maps?.places?.PlacesService) {
-            const service = new window.google.maps.places.PlacesService(document.createElement('div'));
-            service.getDetails({ placeId: place.place_id, fields: ['url'] }, (res: any, status: any) => {
-              let cid: string | undefined;
-              if (status === window.google.maps.places.PlacesServiceStatus.OK && res?.url) {
-                const extracted = extractCidFromUrl(res.url);
-                if (extracted) cid = extracted;
+            const service = new window.google.maps.places.PlacesService(
+              document.createElement("div")
+            );
+            service.getDetails(
+              { placeId: place.place_id, fields: ["url"] },
+              (res: any, status: any) => {
+                let cid: string | undefined;
+                if (
+                  status === window.google.maps.places.PlacesServiceStatus.OK &&
+                  res?.url
+                ) {
+                  const extracted = extractCidFromUrl(res.url);
+                  if (extracted) cid = extracted;
+                }
+                const payload = { ...businessBase, cid } as LeadBusinessDetails;
+                onPlaceSelectRef.current?.(payload);
+                if (!cid) {
+                  console.warn(
+                    "CID not found for placeId:",
+                    place.place_id,
+                    "url:",
+                    res?.url
+                  );
+                } else {
+                  console.log("Resolved CID for", place.name, "->", cid);
+                }
               }
-              const payload = { ...businessBase, cid } as LeadBusinessDetails;
-              onPlaceSelectRef.current?.(payload);
-              if (!cid) {
-                console.warn('CID not found for placeId:', place.place_id, 'url:', res?.url);
-              } else {
-                console.log('Resolved CID for', place.name, '->', cid);
-              }
-            });
+            );
           } else {
             onPlaceSelectRef.current?.(businessBase);
           }
@@ -152,7 +174,9 @@ export function LeadGooglePlacesInput({
 
     return () => {
       if (autocompleteRef.current) {
-        window.google?.maps?.event?.clearInstanceListeners(autocompleteRef.current);
+        window.google?.maps?.event?.clearInstanceListeners(
+          autocompleteRef.current
+        );
       }
     };
   }, [disabled]);
@@ -160,7 +184,7 @@ export function LeadGooglePlacesInput({
   // Ensure Google suggestions overlay works inside modals
   useEffect(() => {
     // Elevate z-index and ensure solid background for dropdown
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
       .pac-container{ 
         z-index: 999999 !important; 
@@ -180,23 +204,23 @@ export function LeadGooglePlacesInput({
     // Stop propagation to Radix Dialog while keeping Google interactions intact
     const stopOutsideDismiss = (e: Event) => {
       const target = e.target as HTMLElement | null;
-      if (target && target.closest('.pac-container')) {
+      if (target && target.closest(".pac-container")) {
         e.stopPropagation();
       }
     };
     // Use bubble phase so the event reaches the target first (Google handlers)
-    document.addEventListener('pointerdown', stopOutsideDismiss, false);
-    document.addEventListener('mousedown', stopOutsideDismiss, false);
-    document.addEventListener('click', stopOutsideDismiss, false);
+    document.addEventListener("pointerdown", stopOutsideDismiss, false);
+    document.addEventListener("mousedown", stopOutsideDismiss, false);
+    document.addEventListener("click", stopOutsideDismiss, false);
 
     return () => {
       if (styleRef.current) {
         document.head.removeChild(styleRef.current);
         styleRef.current = null;
       }
-      document.removeEventListener('pointerdown', stopOutsideDismiss, false);
-      document.removeEventListener('mousedown', stopOutsideDismiss, false);
-      document.removeEventListener('click', stopOutsideDismiss, false);
+      document.removeEventListener("pointerdown", stopOutsideDismiss, false);
+      document.removeEventListener("mousedown", stopOutsideDismiss, false);
+      document.removeEventListener("click", stopOutsideDismiss, false);
     };
   }, []);
 
@@ -211,11 +235,15 @@ export function LeadGooglePlacesInput({
       value={inputValue}
       onChange={handleInputChange}
       onKeyDown={(e) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
           e.preventDefault();
         }
       }}
-      placeholder={loading ? "Loading Google Places..." : placeholder}
+      placeholder={
+        loading
+          ? t("leadGooglePlacesInput.placeholders.loading")
+          : placeholder || t("leadGooglePlacesInput.placeholders.default")
+      }
       disabled={disabled || loading}
       className="w-full"
       autoComplete="off"

@@ -1,0 +1,45 @@
+{
+  "leadClassifier": {
+    "title": "Lead Classifier",
+    "description": "Classify this lead to better organize and track your business opportunities.",
+    "businessDetails": "Business Details",
+    "businessName": "Business Name",
+    "email": "Email",
+    "phone": "Phone",
+    "website": "Website",
+    "address": "Address",
+    "leadCategory": "Lead Category",
+    "notProvided": "Not provided",
+    "notClassified": "Not classified",
+    "tabs": {
+      "webLead": "Web Lead",
+      "newClient": "New Client",
+      "badLead": "Bad Lead",
+      "other": "Other"
+    },
+    "options": {
+      "1": "Identified as Potential New Client",
+      "2": "Converted",
+      "3": "Warm Leads",
+      "4": "Cold Leads",
+      "5": "Lost Leads",
+      "6": "Did Not Become Client (Other)",
+      "7": "Became Client",
+      "8": "Spammer / Telemarketer",
+      "9": "Don't Provide This Service",
+      "10": "Identified as Existing Client",
+      "11": "Referral Likely",
+      "12": "Hang Up / Did Not Receive / Unknown",
+      "13": "Other"
+    },
+    "selectClassification": "Select {{category}} Classification:",
+    "leadNotes": "Lead Notes",
+    "notesPlaceholder": "Add any additional notes about this lead...",
+    "cancel": "Cancel",
+    "save": "Save Classification",
+    "errors": {
+      "selectClassification": "Please select a lead classification",
+      "leadUnavailable": "Lead data is not available"
+    }
+  }
+}

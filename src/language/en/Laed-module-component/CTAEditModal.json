@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Edit Call CTA Settings",
+    "editTitleAppointment": "Edit Appointment CTA Settings",
+    "editDescription": "Customize your call-to-action header, description, button text, and link.",
+    "visibilityLabel": "Show CTA in Reports",
+    "visibilityHelp": "Toggle to show or hide this CTA section in generated reports.",
+    "headerLabel": "CTA Header",
+    "headerPlaceholder": "Enter CTA header text",
+    "descriptionLabel": "CTA Description",
+    "descriptionPlaceholder": "Enter CTA description text",
+    "buttonLabel": "Button Label",
+    "buttonPlaceholder": "Enter button text",
+    "buttonLinkLabel": "Button Link",
+    "buttonLinkPlaceholder": "https://example.com or #contact",
+    "buttonLinkHelp": "Enter a full URL (https://...) or leave empty for no link.",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "toast": {
+      "validationTitle": "Validation Error",
+      "validationDescription": "Please fix the errors before saving.",
+      "saveSuccessTitle": "CTA Settings Saved",
+      "saveSuccessDescription": "Your call-to-action has been updated successfully.",
+      "saveFailTitle": "Save Failed",
+      "saveFailDescription": "Failed to save CTA settings. Please try again."
+    },
+    "default":{
+        "header":"BOOST YOUR GBP SCORE &&& Increase your calls",
+        "description":"Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+        "buttonLabel":"BOOK A CALL",
+        "buttonLinkLabel":"#contact"
+    }
+  }
+}

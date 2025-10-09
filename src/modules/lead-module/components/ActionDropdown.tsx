@@ -7,16 +7,17 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { 
-  MoreVertical, 
-  FileText, 
-  Search, 
-  TrendingUp, 
-  Mail, 
+import {
+  MoreVertical,
+  FileText,
+  Search,
+  TrendingUp,
+  Mail,
   Trash2,
   MapPin,
-  Tags
+  Tags,
 } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ReportStatus {
   status: 0 | 1;
@@ -39,14 +40,27 @@ interface ActionDropdownProps {
   citationReportId?: string;
 }
 
-export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId, citationReportId }) => {
+export const ActionDropdown: React.FC<ActionDropdownProps> = ({
+  onAction,
+  leadId,
+  reports,
+  reportId,
+  citationReportId,
+}) => {
+  const { t } = useI18nNamespace("Laed-module-component/ActionDropdown");
   const handleAction = (action: string, viewUrl?: string) => {
     // Handle view actions with external URLs
-    if (viewUrl && (action === 'view-gmb-health' || action === 'view-citation' || action === 'view-prospect' || action === 'view-geo')) {
-      window.open(viewUrl, '_blank');
+    if (
+      viewUrl &&
+      (action === "view-gmb-health" ||
+        action === "view-citation" ||
+        action === "view-prospect" ||
+        action === "view-geo")
+    ) {
+      window.open(viewUrl, "_blank");
       return;
     }
-    
+
     onAction(action, leadId);
   };
 
@@ -54,63 +68,85 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{t("actionDropdown.openMenu")}</span>
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem 
-          onClick={() => handleAction(
-            reports?.gmbReport?.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
-            reports?.gmbReport?.viewUrl || undefined
-          )}
+        <DropdownMenuItem
+          onClick={() =>
+            handleAction(
+              reports?.gmbReport?.status === 1
+                ? "view-gmb-health"
+                : "generate-gmb-health",
+              reports?.gmbReport?.viewUrl || undefined
+            )
+          }
         >
           <FileText className="mr-2 h-4 w-4" />
-          {reports?.gmbReport?.status === 1 ? 'View GMB Health Report' : 'Generate GMB Health Report'}
+          {reports?.gmbReport?.status === 1
+            ? t("actionDropdown.viewGmbHealthReport")
+            : t("actionDropdown.generateGmbHealthReport")}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => handleAction(
-            reports?.citation?.status === 1 ? 'view-citation' : 'generate-citation',
-            reports?.citation?.viewUrl || undefined
-          )}
+        <DropdownMenuItem
+          onClick={() =>
+            handleAction(
+              reports?.citation?.status === 1
+                ? "view-citation"
+                : "generate-citation",
+              reports?.citation?.viewUrl || undefined
+            )
+          }
         >
           <Search className="mr-2 h-4 w-4" />
-          {reports?.citation?.status === 1 ? 'View Citation Audit Report' : 'Generate Citation Audit Report'}
+          {reports?.citation?.status === 1
+            ? t("actionDropdown.viewCitationAuditReport")
+            : t("actionDropdown.generateCitationAuditReport")}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => handleAction(
-            reports?.geo?.status === 1 ? 'view-geo' : 'generate-geo',
-            reports?.geo?.viewUrl || undefined
-          )}
+        <DropdownMenuItem
+          onClick={() =>
+            handleAction(
+              reports?.geo?.status === 1 ? "view-geo" : "generate-geo",
+              reports?.geo?.viewUrl || undefined
+            )
+          }
         >
           <MapPin className="mr-2 h-4 w-4" />
-          {reports?.geo?.status === 1 ? 'View GEO Ranking Report' : 'Generate GEO Ranking Report'}
+          {reports?.geo?.status === 1
+            ? t("actionDropdown.viewGeoRankingReport")
+            : t("actionDropdown.generateGeoRankingReport")}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => handleAction(
-            reports?.prospect?.status === 1 ? 'view-prospect' : 'generate-prospect',
-            reports?.prospect?.viewUrl || undefined
-          )}
+        <DropdownMenuItem
+          onClick={() =>
+            handleAction(
+              reports?.prospect?.status === 1
+                ? "view-prospect"
+                : "generate-prospect",
+              reports?.prospect?.viewUrl || undefined
+            )
+          }
         >
           <TrendingUp className="mr-2 h-4 w-4" />
-          {reports?.prospect?.status === 1 ? 'View GMB Prospect Report' : 'Generate GMB Prospect Report'}
+          {reports?.prospect?.status === 1
+            ? t("actionDropdown.viewGmbProspectReport")
+            : t("actionDropdown.generateGmbProspectReport")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleAction('lead-classifier')}>
+        <DropdownMenuItem onClick={() => handleAction("lead-classifier")}>
           <Tags className="mr-2 h-4 w-4" />
-          Lead Classifier
+          {t("actionDropdown.leadClassifier")}
         </DropdownMenuItem>
         {/* <DropdownMenuItem onClick={() => handleAction('send-email')}>
           <Mail className="mr-2 h-4 w-4" />
           Send Email
         </DropdownMenuItem> */}
         <DropdownMenuSeparator />
-        <DropdownMenuItem 
-          onClick={() => handleAction('delete')}
+        <DropdownMenuItem
+          onClick={() => handleAction("delete")}
           className="text-destructive focus:text-destructive"
         >
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete
+          {t("actionDropdown.delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

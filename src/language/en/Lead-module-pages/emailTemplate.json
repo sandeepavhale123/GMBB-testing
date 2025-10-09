@@ -1,0 +1,49 @@
+{
+  "title": "Email Templates",
+  "subtitle": "Create and manage your email templates",
+  "newTemplate": "New Template",
+
+  "templateList": {
+    "title": "Templates",
+    "description": "Manage your email templates"
+  },
+
+  "editor": {
+    "title": "Template Editor",
+    "description": "Edit your email template content",
+    "nameLabel": "Template Name",
+    "namePlaceholder": "Enter template name",
+    "subjectLabel": "Subject Line",
+    "subjectPlaceholder": "Enter email subject",
+    "contentLabel": "Email Content",
+    "contentPlaceholder": "Enter your email content here...",
+    "variablesTitle": "Available Variables"
+  },
+
+  "buttons": {
+    "preview": "Preview",
+    "saveDraft": "Save as Draft",
+    "saveActivate": "Save & Activate"
+  },
+
+  "statuses": {
+    "Active": "Active",
+    "Draft": "Draft",
+    "Inactive": "Inactive"
+  },
+  "template":{
+    "welcome":"Welcome Email",
+    "welcomeMod":"2 days ago",
+    "follow":"Follow-up Sequence",
+    "followMod":"1 week ago",
+    "news": "Newsletter Template",
+    "newsMod":"3 days ago",
+    "promo":"Promotional Offer",
+    "promoMod": "2 weeks ago"
+  },
+  "input":{
+    "email":"Welcome Email",
+    "subject":"Welcome to our service!",
+    "emailContent":"Hi {{firstName}},\n\nWelcome to our service! We're excited to have you on board.\n\nHere's what you can expect:\n- Personalized lead management\n- Advanced analytics and reporting\n- 24/7 customer support\n\nIf you have any questions, feel free to reach out to us.\n\nBest regards,\nThe Team"
+  }
+}

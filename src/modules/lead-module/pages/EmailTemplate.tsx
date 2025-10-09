@@ -1,18 +1,53 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Mail, Save, Eye, Plus, Edit } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Save, Eye, Plus, Edit } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const EmailTemplate: React.FC = () => {
+  const { t, loaded } = useI18nNamespace("Lead-module-pages/emailTemplate");
+  const [email, setEmail] = useState("");
+  const [subjeact, setSubject] = useState("");
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (loaded) {
+      setEmail(t("input.email"));
+      setSubject(t("input.subject"));
+      setContent(t("input.emailContent"));
+    }
+  }, [loaded, t]);
   const templates = [
-    { name: 'Welcome Email', status: 'Active', lastModified: '2 days ago' },
-    { name: 'Follow-up Sequence', status: 'Active', lastModified: '1 week ago' },
-    { name: 'Newsletter Template', status: 'Draft', lastModified: '3 days ago' },
-    { name: 'Promotional Offer', status: 'Inactive', lastModified: '2 weeks ago' }
+    {
+      name: t("template.welcome"),
+      status: t("statuses.Active"),
+      lastModified: t("template.welcomeMod"),
+    },
+    {
+      name: t("template.follow"),
+      status: t("statuses.Active"),
+      lastModified: t("template.followMod"),
+    },
+    {
+      name: t("template.news"),
+      status: t("statuses.Draft"),
+      lastModified: t("template.newsMod"),
+    },
+    {
+      name: t("template.promo"),
+      status: t("statuses.Inactive"),
+      lastModified: t("template.promoMod"),
+    },
   ];
 
   return (
@@ -20,12 +55,12 @@ const EmailTemplate: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Email Templates</h1>
-          <p className="text-muted-foreground">Create and manage your email templates</p>
+          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button className="gap-2">
           <Plus className="w-4 h-4" />
-          New Template
+          {t("newTemplate")}
         </Button>
       </div>
 
@@ -33,26 +68,34 @@ const EmailTemplate: React.FC = () => {
         {/* Template List */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle>Templates</CardTitle>
-            <CardDescription>Manage your email templates</CardDescription>
+            <CardTitle>{t("templateList.title")}</CardTitle>
+            <CardDescription>{t("templateList.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {templates.map((template, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 cursor-pointer">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 cursor-pointer"
+                >
                   <div>
                     <p className="font-medium">{template.name}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge 
+                      <Badge
                         variant={
-                          template.status === 'Active' ? 'default' : 
-                          template.status === 'Draft' ? 'secondary' : 'outline'
+                          template.status === "Active"
+                            ? "default"
+                            : template.status === "Draft"
+                            ? "secondary"
+                            : "outline"
                         }
                         className="text-xs"
                       >
                         {template.status}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">{template.lastModified}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {template.lastModified}
+                      </span>
                     </div>
                   </div>
                   <Button size="sm" variant="ghost">
@@ -69,48 +112,52 @@ const EmailTemplate: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Mail className="w-5 h-5" />
-              Template Editor
+              {t("editor.title")}
             </CardTitle>
-            <CardDescription>Edit your email template content</CardDescription>
+            <CardDescription>{t("editor.description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="template-name">Template Name</Label>
-                <Input id="template-name" placeholder="Enter template name" defaultValue="Welcome Email" />
+                <Label htmlFor="template-name">{t("editor.nameLabel")}</Label>
+                <Input
+                  id="template-name"
+                  placeholder={t("editor.namePlaceholder")}
+                  defaultValue={email}
+                />
               </div>
               <div>
-                <Label htmlFor="subject-line">Subject Line</Label>
-                <Input id="subject-line" placeholder="Enter email subject" defaultValue="Welcome to our service!" />
+                <Label htmlFor="subject-line">{t("editor.subjectLabel")}</Label>
+                <Input
+                  id="subject-line"
+                  placeholder={t("editor.subjectPlaceholder")}
+                  defaultValue={subjeact}
+                />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="email-content">Email Content</Label>
-              <Textarea 
+              <Label htmlFor="email-content">{t("editor.contentLabel")}</Label>
+              <Textarea
                 id="email-content"
-                placeholder="Enter your email content here..."
+                placeholder={t("editor.contentPlaceholder")}
                 className="min-h-[200px]"
-                defaultValue="Hi {{firstName}},
-
-Welcome to our service! We're excited to have you on board.
-
-Here's what you can expect:
-- Personalized lead management
-- Advanced analytics and reporting
-- 24/7 customer support
-
-If you have any questions, feel free to reach out to us.
-
-Best regards,
-The Team"
+                defaultValue={content}
               />
             </div>
 
             <div className="bg-muted/30 p-3 rounded-lg">
-              <p className="text-sm font-medium mb-2">Available Variables:</p>
+              <p className="text-sm font-medium mb-2">
+                {t("editor.variablesTitle")}:
+              </p>
               <div className="flex flex-wrap gap-2">
-                {['{{firstName}}', '{{lastName}}', '{{email}}', '{{company}}', '{{phone}}'].map((variable) => (
+                {[
+                  "{{firstName}}",
+                  "{{lastName}}",
+                  "{{email}}",
+                  "{{company}}",
+                  "{{phone}}",
+                ].map((variable) => (
                   <Badge key={variable} variant="outline" className="text-xs">
                     {variable}
                   </Badge>
@@ -121,13 +168,13 @@ The Team"
             <div className="flex justify-between">
               <Button variant="outline" className="gap-2">
                 <Eye className="w-4 h-4" />
-                Preview
+                {t("buttons.preview")}
               </Button>
               <div className="flex gap-2">
-                <Button variant="outline">Save as Draft</Button>
+                <Button variant="outline"> {t("buttons.saveDraft")}</Button>
                 <Button className="gap-2">
                   <Save className="w-4 h-4" />
-                  Save & Activate
+                  {t("buttons.saveActivate")}
                 </Button>
               </div>
             </div>

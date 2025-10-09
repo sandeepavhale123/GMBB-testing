@@ -1,7 +1,9 @@
 import React from "react";
 import { MapPin } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 
+export const namespaces = ["Lead-module-public-report/footer"];
 interface HeaderProps {
   title: string;
   listingName: string;
@@ -19,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   date,
   compareDate,
 }) => {
+  const { t } = usePublicI18n(namespaces);
   const isMobile = useIsMobile();
 
   return (
@@ -28,7 +31,6 @@ export const Header: React.FC<HeaderProps> = ({
         background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`,
       }}
     >
-      
       {compareDate && (
         <div className="absolute right-1 top-2 bg-black rounded-2xl px-3 py-2">
           <p className={`text-white text-[10px]`}>{compareDate}</p>
@@ -44,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
       >
         {title}
       </h2> */}
-      
+
       <div
         className={`container mx-auto flex items-center justify-between px-4 md:px-8 mt-[70px] ${
           isMobile ? "flex-col space-y-4" : ""
@@ -71,9 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               <MapPin
-                className={`text-gray-900 ${
-                  isMobile ? "w-6 h-6" : "w-8 h-8"
-                }`}
+                className={`text-gray-900 ${isMobile ? "w-6 h-6" : "w-8 h-8"}`}
               />
             </div>
           )}
@@ -87,9 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
             </h1>
             <p
               className={`text-white ${
-                isMobile
-                  ? "text-xs leading-tight max-w-[280px]"
-                  : "text-sm"
+                isMobile ? "text-xs leading-tight max-w-[280px]" : "text-sm"
               }`}
             >
               {address}
@@ -106,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({
             isMobile ? "text-center" : "text-right"
           }`}
         >
-          <p className="text-sm text-white">Report Date</p>
+          <p className="text-sm text-white">{t("reportDateLabel")}</p>
           <p
             className={`text-white min-w-max ${
               isMobile ? "text-base" : "text-lg"

@@ -1,0 +1,15 @@
+{
+  "actionDropdown": {
+    "openMenu": "Open menu",
+    "viewGmbHealthReport": "View GMB Health Report",
+    "generateGmbHealthReport": "Generate GMB Health Report",
+    "viewCitationAuditReport": "View Citation Audit Report",
+    "generateCitationAuditReport": "Generate Citation Audit Report",
+    "viewGeoRankingReport": "View GEO Ranking Report",
+    "generateGeoRankingReport": "Generate GEO Ranking Report",
+    "viewGmbProspectReport": "View GMB Prospect Report",
+    "generateGmbProspectReport": "Generate GMB Prospect Report",
+    "leadClassifier": "Lead Classifier",
+    "delete": "Delete"
+  }
+}

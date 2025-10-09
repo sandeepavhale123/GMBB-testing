@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { 
-  Palette, 
-  FileText, 
-  Settings,
-  Menu,
-  MousePointer2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useIsMobile } from '@/hooks/use-mobile';
+import React, { useState } from "react";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Palette, FileText, Settings, Menu, MousePointer2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface SettingsNavItem {
   label: string;
@@ -17,41 +12,43 @@ interface SettingsNavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const settingsNavItems: SettingsNavItem[] = [
-  {
-    label: 'Theme Customization',
-    path: '/module/lead/settings/theme-customization',
-    icon: Palette
-  },
-  {
-    label: 'Report Branding',
-    path: '/module/lead/settings/report-branding',
-    icon: FileText
-  },
-  {
-    label: 'Integrations',
-    path: '/module/lead/settings/integrations',
-    icon: Settings
-  },
-  {
-    label: 'CTA Customization',
-    path: '/module/lead/settings/cta-customization',
-    icon: MousePointer2
-  }
-];
-
 export const LeadSettingsLayout: React.FC = () => {
+  const { t } = useI18nNamespace("Laed-module-component/LeadSettingsLayout");
+
+  const settingsNavItems: SettingsNavItem[] = [
+    {
+      label: t("leadSettingsLayout.navItems.themeCustomization"),
+      path: "/module/lead/settings/theme-customization",
+      icon: Palette,
+    },
+    {
+      label: t("leadSettingsLayout.navItems.reportBranding"),
+      path: "/module/lead/settings/report-branding",
+      icon: FileText,
+    },
+    {
+      label: t("leadSettingsLayout.navItems.integrations"),
+      path: "/module/lead/settings/integrations",
+      icon: Settings,
+    },
+    {
+      label: t("leadSettingsLayout.navItems.ctaCustomization"),
+      path: "/module/lead/settings/cta-customization",
+      icon: MousePointer2,
+    },
+  ];
+
   const location = useLocation();
   const isMobile = useIsMobile(1024);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const getActivePath = (itemPath: string) => {
     const currentPath = location.pathname;
-    
-    if (currentPath === '/module/lead/settings') {
-      return '/module/lead/settings/theme-customization';
+
+    if (currentPath === "/module/lead/settings") {
+      return "/module/lead/settings/theme-customization";
     }
-    
+
     return currentPath;
   };
 
@@ -60,7 +57,7 @@ export const LeadSettingsLayout: React.FC = () => {
       {settingsNavItems.map((item) => {
         const Icon = item.icon;
         const isActive = getActivePath(item.path) === item.path;
-        
+
         return (
           <NavLink
             key={item.path}
@@ -68,8 +65,8 @@ export const LeadSettingsLayout: React.FC = () => {
             onClick={() => isMobile && setIsSheetOpen(false)}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive
-                ? 'bg-primary text-primary-foreground'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
             }`}
           >
             <Icon className="h-4 w-4" />
@@ -85,8 +82,12 @@ export const LeadSettingsLayout: React.FC = () => {
       {isMobile && (
         <div className="flex items-center justify-between p-4 bg-white border border-border rounded-lg lg:hidden">
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-            <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+            <h3 className="text-lg font-semibold text-foreground">
+              {t("leadSettingsLayout.titles.settings")}
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {t("leadSettingsLayout.descriptions.manageSettings")}
+            </p>
           </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -96,8 +97,12 @@ export const LeadSettingsLayout: React.FC = () => {
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
               <div className="mb-4">
-                <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-                <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("leadSettingsLayout.titles.settings")}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {t("leadSettingsLayout.descriptions.manageSettings")}
+                </p>
               </div>
               <SettingsNav />
             </SheetContent>
@@ -106,16 +111,23 @@ export const LeadSettingsLayout: React.FC = () => {
       )}
 
       {!isMobile && (
-        <div className="w-64 bg-white border border-border rounded-lg p-4" style={{minWidth:"270px"}}>
+        <div
+          className="w-64 bg-white border border-border rounded-lg p-4"
+          style={{ minWidth: "270px" }}
+        >
           <div className="mb-4">
-            <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-            <p className="text-sm text-muted-foreground">Manage your lead module settings.</p>
+            <h3 className="text-lg font-semibold text-foreground">
+              {t("leadSettingsLayout.titles.settings")}
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {t("leadSettingsLayout.descriptions.manageSettings")}
+            </p>
           </div>
           <SettingsNav />
         </div>
       )}
 
-      <div className="flex-1 bg-white border border-border rounded-lg" >
+      <div className="flex-1 bg-white border border-border rounded-lg">
         <Outlet />
       </div>
     </div>
