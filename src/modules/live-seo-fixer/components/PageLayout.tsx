@@ -9,10 +9,7 @@ export const LiveSeoFixerLayout: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: theme.bg_color || "hsl(var(--background))" }}
-    >
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "white" }}>
       <Header />
       <SubNavBar />
       <MainBody>
