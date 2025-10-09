@@ -58,7 +58,7 @@ const ConnectGoogleStep = () => {
 
         <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
           <a
-            href={`https://api.gmbbriefcase.com/api/v1/google-auth?domain=${localdomain}/onboarding`}
+            href={`https://api.gmbbriefcase.com/apiv2/v1/google-auth?domain=${localdomain}/onboarding`}
           >
             <Button
               variant="outline"

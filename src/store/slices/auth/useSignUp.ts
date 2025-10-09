@@ -54,7 +54,7 @@ export const useSignup = () => {
       // console.log("📤 Sending signup request to /signup", payload);
 
       const response = await fetch(
-        "https://api.gmbbriefcase.com/api/v1/signup",
+        "https://api.gmbbriefcase.com/apiv2/v1/signup",
         {
           method: "POST",
           headers: {
