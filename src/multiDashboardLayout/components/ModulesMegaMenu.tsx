@@ -28,8 +28,8 @@ export const ModulesMegaMenu: React.FC = () => {
       name: t("modules.leadManagement.name"),
       description: t("modules.leadManagement.description"),
       icon: Users,
-      href: "#",
-      comingSoon: true,
+      href: "/module/lead",
+      // comingSoon: true,
     },
     {
       name: t("modules.reputation.name"),
