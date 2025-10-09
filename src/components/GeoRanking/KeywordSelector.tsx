@@ -1,9 +1,10 @@
 import React, { useState, memo, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Search } from 'lucide-react';
 import { Loader } from '../ui/loader';
 import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
+import { AllKeywordsModal } from './AllKeywordsModal';
+import { Button } from '../ui/button';
 
 interface KeywordSelectorProps {
   keywords: KeywordData[];
@@ -16,7 +17,9 @@ interface KeywordSelectorProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   isRefreshing?: boolean;
-   isShareableView?: boolean;
+  isShareableView?: boolean;
+  listingId?: number;
+  onDeleteSuccess?: () => void;
 }
 
 export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
@@ -30,9 +33,12 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
   keywordChanging,
   dateChanging,
   isRefreshing = false,
-   isShareableView = false,
+  isShareableView = false,
+  listingId,
+  onDeleteSuccess,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAllModal, setShowAllModal] = useState(false);
 
   // Memoize filtered keywords to prevent unnecessary recalculations
   const displayedKeywords = useMemo(() => {
@@ -63,12 +69,14 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
       <div className="flex items-center justify-between mb-1">
         <div className="text-sm text-gray-500 font-medium">Keyword</div>
         {!isShareableView && (
-          <Link 
-            to="/module/geo-ranking"
-            className="text-sm text-primary hover:underline font-medium"
+          <Button
+            variant="link"
+            size="sm"
+            onClick={() => setShowAllModal(true)}
+            className="text-sm text-primary hover:underline font-medium h-auto p-0"
           >
             All
-          </Link>
+          </Button>
         )}
       </div>
       <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={isRefreshing ? false : (loading || keywordChanging)}>
@@ -118,6 +126,17 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
           </SelectContent>
         </Select>
       </div>
+
+      {/* All Keywords Modal */}
+      <AllKeywordsModal
+        open={showAllModal}
+        onOpenChange={setShowAllModal}
+        keywords={keywords}
+        listingId={listingId}
+        onViewKeyword={onKeywordChange}
+        onDeleteSuccess={onDeleteSuccess}
+        loading={loading}
+      />
     </div>
   );
 });
