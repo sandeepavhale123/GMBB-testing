@@ -28,9 +28,6 @@ export interface DeleteKeywordRequest {
 export interface DeleteKeywordResponse {
   code: number;
   message: string;
-  data?: {
-    deleted_keywords: string[];
-  };
 }
 
 export interface ShareableKeywordsRequest {

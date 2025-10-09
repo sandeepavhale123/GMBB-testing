@@ -77,7 +77,6 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     pollingProgress,
     handleRefreshKeyword,
     fetchPositionDetails,
-    fetchKeywords,
   } = geoRankingData;
 
   console.log("geo ranking data", geoRankingData);
@@ -232,10 +231,6 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     }));
   }, []);
 
-  const handleDeleteSuccess = useCallback(() => {
-    fetchKeywords?.();
-  }, [fetchKeywords]);
-
   // Clear URL parameters after initial processing setup
   useEffect(() => {
     if (isProcessing && submittedKeywordsList.length > 0) {
@@ -320,7 +315,6 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
               dateChanging={dateChanging}
               error={error}
               projectId={projectId}
-              onDeleteSuccess={handleDeleteSuccess}
             />
 
             <div className="space-y-4 sm:space-y-6">

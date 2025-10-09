@@ -186,6 +186,5 @@ export const useGeoRanking = (listingId: number) => {
     handleRefreshKeyword,
     startCustomPolling,
     completePolling,
-    fetchKeywords,
   };
 };
