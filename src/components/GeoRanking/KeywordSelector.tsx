@@ -58,6 +58,17 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
     setSearchTerm('');
   };
 
+  // Prevent Select's typeahead from stealing focus
+  const stopSelectKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== 'Escape' && e.key !== 'Tab') {
+      e.stopPropagation();
+    }
+  };
+
+  const stopSelectPointer = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className={isShareableView ? 'lg:col-span-4 space-y-3' : 'lg:col-span-3 space-y-3'}>
       <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
@@ -75,7 +86,12 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
                 type="text" 
                 placeholder="Search keywords..." 
                 value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
+                onChange={e => setSearchTerm(e.target.value)}
+                onKeyDown={stopSelectKeyDown}
+                onClick={stopSelectPointer}
+                onMouseDown={stopSelectPointer}
+                onTouchStart={stopSelectPointer}
+                autoFocus
                 className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
               />
             </div>
