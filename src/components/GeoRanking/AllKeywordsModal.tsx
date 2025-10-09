@@ -26,7 +26,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../ui/alert-dialog';
-import { Search, Eye, Trash2 } from 'lucide-react';
+import { Search, Eye, Trash2, X } from 'lucide-react';
 import { KeywordData } from '../../api/geoRankingApi';
 import { useToast } from '@/hooks/use-toast';
 
@@ -148,8 +148,16 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             e.preventDefault();
           }}
         >
-          <DialogHeader>
+          <DialogHeader className="flex flex-row items-center justify-between pr-6">
             <DialogTitle>All Keywords</DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="h-8 w-8 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </DialogHeader>
 
           <div className="flex-1 flex flex-col overflow-hidden">
@@ -198,16 +206,16 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-12">
+                    <TableHead className="w-12 py-2">
                       <Checkbox
                         checked={allSelected}
                         onCheckedChange={handleSelectAll}
                         disabled={filteredKeywords.length === 0}
                       />
                     </TableHead>
-                    <TableHead className="w-20">Sr. No.</TableHead>
-                    <TableHead>Keyword</TableHead>
-                    <TableHead className="w-32 text-right">Actions</TableHead>
+                    <TableHead className="w-20 py-2">Sr. No.</TableHead>
+                    <TableHead className="py-2">Keyword</TableHead>
+                    <TableHead className="w-32 text-right py-2">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -226,15 +234,15 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   ) : (
                     filteredKeywords.map((keyword, index) => (
                       <TableRow key={keyword.id}>
-                        <TableCell>
+                        <TableCell className="py-2">
                           <Checkbox
                             checked={selectedKeywords.includes(keyword.id)}
                             onCheckedChange={() => handleSelectKeyword(keyword.id)}
                           />
                         </TableCell>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell className="font-medium">{keyword.keyword}</TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="py-2">{index + 1}</TableCell>
+                        <TableCell className="font-medium py-2">{keyword.keyword}</TableCell>
+                        <TableCell className="text-right py-2">
                           <div className="flex items-center justify-end gap-2">
                             <Button
                               variant="ghost"
@@ -260,6 +268,16 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   )}
                 </TableBody>
               </Table>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={() => onOpenChange(false)}
+              >
+                Close
+              </Button>
             </div>
           </div>
         </DialogContent>
