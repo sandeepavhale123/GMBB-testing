@@ -888,23 +888,27 @@ export const Gallery: React.FC<GalleryProps> = ({
 
             {/* Media Filter Tabs */}
             <div className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <Button
-                  variant={mediaType === "IMAGE" ? "secondary" : "ghost"}
-                  size="sm"
-                  className="h-8"
+              <div className="flex items-center space-x-2">
+                <button
                   onClick={() => setMediaType("IMAGE")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    mediaType === "IMAGE"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
                 >
                   {t("gallery.images")}
-                </Button>
-                <Button
-                  variant={mediaType === "VIDEO" ? "secondary" : "ghost"}
-                  size="sm"
-                  className="h-8"
+                </button>
+                <button
                   onClick={() => setMediaType("VIDEO")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    mediaType === "VIDEO"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
                 >
                   {t("gallery.videos")}
-                </Button>
+                </button>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-sm text-muted-foreground">
