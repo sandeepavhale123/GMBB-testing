@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "checkRank": "Vérifier le classement",
+    "creditsHistory": "Historique des crédits",
+    "settings": "Paramètres",
+    "aiChatbot": "Chatbot IA"
+  },
+  "back": "Retour"
+}
