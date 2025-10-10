@@ -1,21 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '../ui/dialog';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../ui/table';
-import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
-import { Input } from '../ui/input';
+import React, { useState, useMemo } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,10 +13,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog';
-import { Search, Eye, Trash2, X } from 'lucide-react';
-import { KeywordData } from '../../api/geoRankingApi';
-import { useToast } from '@/hooks/use-toast';
+} from "../ui/alert-dialog";
+import { Search, Eye, Trash2, X } from "lucide-react";
+import { KeywordData } from "../../api/geoRankingApi";
+import { useToast } from "@/hooks/use-toast";
 
 interface AllKeywordsModalProps {
   open: boolean;
@@ -49,7 +37,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
   onDeleteSuccess,
   loading = false,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [keywordToDelete, setKeywordToDelete] = useState<string[]>([]);
@@ -58,30 +46,25 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
   // Filter keywords based on search term
   const filteredKeywords = useMemo(() => {
-    return keywords.filter(keyword =>
-      keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return keywords.filter((keyword) => keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase()));
   }, [keywords, searchTerm]);
 
   // Check if all visible keywords are selected
   const allSelected = useMemo(() => {
-    return filteredKeywords.length > 0 && 
-           filteredKeywords.every(k => selectedKeywords.includes(k.id));
+    return filteredKeywords.length > 0 && filteredKeywords.every((k) => selectedKeywords.includes(k.id));
   }, [filteredKeywords, selectedKeywords]);
 
   const handleSelectAll = () => {
     if (allSelected) {
       setSelectedKeywords([]);
     } else {
-      setSelectedKeywords(filteredKeywords.map(k => k.id));
+      setSelectedKeywords(filteredKeywords.map((k) => k.id));
     }
   };
 
   const handleSelectKeyword = (keywordId: string) => {
-    setSelectedKeywords(prev => 
-      prev.includes(keywordId)
-        ? prev.filter(id => id !== keywordId)
-        : [...prev, keywordId]
+    setSelectedKeywords((prev) =>
+      prev.includes(keywordId) ? prev.filter((id) => id !== keywordId) : [...prev, keywordId],
     );
   };
 
@@ -100,16 +83,16 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
     setIsDeleting(true);
     try {
-      const { deleteKeywords } = await import('../../api/geoRankingApi');
-      
+      const { deleteKeywords } = await import("../../api/geoRankingApi");
+
       await deleteKeywords({
         listingId: listingId,
-        keywordIds: keywordToDelete.map(id => parseInt(id)),
+        keywordIds: keywordToDelete.map((id) => parseInt(id)),
         isDelete: "delete",
       });
 
       toast({
-        title: 'Success',
+        title: "Success",
         description: `${keywordToDelete.length} keyword(s) deleted successfully`,
       });
 
@@ -124,9 +107,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to delete keywords',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to delete keywords",
+        variant: "destructive",
       });
     } finally {
       setIsDeleting(false);
@@ -142,7 +125,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent 
+        <DialogContent
           className="max-w-4xl max-h-[80vh] flex flex-col overflow-y-auto"
           onOpenAutoFocus={(e) => {
             e.preventDefault();
@@ -150,12 +133,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
         >
           <DialogHeader className="flex flex-row items-center justify-between pr-6">
             <DialogTitle>All Keywords</DialogTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onOpenChange(false)}
-              className="h-8 w-8 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-8 w-8 p-0">
               <X className="h-4 w-4" />
             </Button>
           </DialogHeader>
@@ -169,9 +147,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   type="text"
                   placeholder="Search keywords..."
                   value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDownCapture={(e) => {
-                    if (e.key !== 'Escape' && e.key !== 'Tab') {
+                    if (e.key !== "Escape" && e.key !== "Tab") {
                       e.stopPropagation();
                     }
                   }}
@@ -186,15 +164,8 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             {/* Bulk Actions Bar */}
             {selectedKeywords.length > 0 && (
               <div className="mb-4 p-3 bg-muted rounded-md flex items-center justify-between">
-                <span className="text-sm font-medium">
-                  {selectedKeywords.length} keyword(s) selected
-                </span>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleDeleteSelected}
-                  disabled={isDeleting}
-                >
+                <span className="text-sm font-medium">{selectedKeywords.length} keyword(s) selected</span>
+                <Button variant="destructive" size="sm" onClick={handleDeleteSelected} disabled={isDeleting}>
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete Selected
                 </Button>
@@ -228,7 +199,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   ) : filteredKeywords.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                        {searchTerm ? 'No keywords found matching your search' : 'No keywords available'}
+                        {searchTerm ? "No keywords found matching your search" : "No keywords available"}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -272,10 +243,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
             {/* Footer */}
             <div className="flex justify-end pt-4 border-t">
-              <Button
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-              >
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
                 Close
               </Button>
             </div>
@@ -284,13 +252,22 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) {
+            setTimeout(() => {
+              document.body.style.removeProperty("pointer-events");
+            }, 100);
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete {keywordToDelete.length} keyword(s). 
-              This action cannot be undone.
+              This will permanently delete {keywordToDelete.length} keyword(s). This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -300,7 +277,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? 'Deleting...' : 'Delete'}
+              {isDeleting ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
