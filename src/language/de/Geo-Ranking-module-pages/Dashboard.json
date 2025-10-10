@@ -1,0 +1,60 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Projektverwaltung",
+      "description": "Verwalten Sie Ihre GEO-Ranking-Projekte."
+    },
+    "buttons": {
+      "createProject": "Projekt erstellen",
+      "editProject": "Projekt bearbeiten",
+      "updateProject": "Projekt aktualisieren",
+      "cancel": "Abbrechen",
+      "deleteProject": "Projekt löschen",
+      "view": "Anzeigen",
+      "edit": "Bearbeiten"
+    },
+    "dialog": {
+      "createNew": "Neues Projekt erstellen",
+      "edit": "Projekt bearbeiten",
+      "descCreate": "Geben Sie die Details für Ihr neues GEO-Ranking-Projekt ein.",
+      "descEdit": "Aktualisieren Sie die Details Ihres GEO-Ranking-Projekts.",
+      "projectName": "Projektname",
+      "notificationEmail": "Benachrichtigungs-E-Mail",
+      "placeholder": {
+        "enterProjectName": "Projektname eingeben",
+        "enterEmails": "E-Mails durch Kommas getrennt eingeben"
+      }
+    },
+    "summary": {
+      "noOfProject": "Anzahl der Projekte",
+      "noOfKeywords": "Anzahl der Schlüsselwörter",
+      "noOfScheduledScan": "Anzahl der geplanten Scans",
+      "availableCredits": "Verfügbare Guthaben",
+      "creditsRemaining": "{{remaining}} verbleibend von insgesamt {{total}}"
+    },
+    "table": {
+      "searchPlaceholder": "Projekte suchen...",
+      "projectName": "Projektname",
+      "noOfKeywords": "Anzahl der Schlüsselwörter",
+      "date": "Datum",
+      "notificationEmail": "Benachrichtigungs-E-Mail",
+      "action": "Aktion",
+      "loadingProjects": "Projekte werden geladen...",
+      "noProjectsFound": "Keine Projekte gefunden",
+      "deleteConfirmationTitle": "Projekt löschen",
+      "deleteConfirmationDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Projekt \"{name}\" und alle zugehörigen Daten, einschließlich Schlüsselwörter und Kartendaten, werden dauerhaft gelöscht.",
+      "typeDeleteToConfirm": "Geben Sie \"löschen\" ein, um zu bestätigen",
+      "placeholderDelete": "löschen",
+      "shareablelink": "Freigabelink"
+    },
+    "pagination": {
+      "showing": "Zeige {{from}} bis {{to}} von insgesamt {{total}} Projekten",
+      "previous": "Zurück",
+      "next": "Weiter"
+    },
+    "alerts": {
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
+    }
+  }
+}
