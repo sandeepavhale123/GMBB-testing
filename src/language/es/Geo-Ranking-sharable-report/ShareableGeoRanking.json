@@ -1,0 +1,7 @@
+{
+  "reportNotFound": {
+    "title": "Informe No Encontrado",
+    "description": "Este informe puede haber caducado o sido eliminado.",
+    "business": "Ubicación del Negocio"
+  }
+}

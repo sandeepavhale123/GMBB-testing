@@ -1,0 +1,10 @@
+{
+  "checkRanking": {
+    "title": "Verificar Posición",
+    "description": "Monitorea tus clasificaciones de búsqueda local en diferentes ubicaciones.",
+    "alerts": {
+      "selectBusiness": "Por favor, selecciona un negocio primero",
+      "selectProject": "Por favor, selecciona un proyecto primero"
+    }
+  }
+}
