@@ -6,7 +6,17 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Checkbox } from "../ui/checkbox";
 import { PostViewModal } from "./PostViewModal";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
@@ -27,22 +37,15 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   onClonePost,
   isSelected = false,
   onSelectionChange,
-  isSelectionMode = false
+  isSelectionMode = false,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const queryClient = useQueryClient();
-  const {
-    selectedListing
-  } = useListingContext();
-  const {
-    deleteLoading,
-    deleteError
-  } = useAppSelector(state => state.posts);
+  const { selectedListing } = useListingContext();
+  const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const {
-    t
-  } = useI18nNamespace("Post/postListItem");
+  const { t } = useI18nNamespace("Post/postListItem");
 
   // Check if we're on bulk dashboard
   const isBulkDashboard = location.pathname.startsWith("/main-dashboard");
@@ -81,28 +84,33 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       toast({
         title: t("toast.errorTitle"),
         description: t("toast.noListingSelected"),
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     // Show progress toast
     const progressToast = toast({
-      title: <div className="flex items-center gap-2">
+      title: (
+        <div className="flex items-center gap-2">
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
           {t("toast.deletingPost")}
-        </div>,
-      description: <div className="space-y-2">
-          <div className="text-sm text-muted-foreground">
-            {t("toast.preparingDeletion")}
-          </div>
+        </div>
+      ),
+      description: (
+        <div className="space-y-2">
+          <div className="text-sm text-muted-foreground">{t("toast.preparingDeletion")}</div>
           <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-            width: "10%"
-          }} />
+            <div
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{
+                width: "10%",
+              }}
+            />
           </div>
-        </div>,
-      duration: Infinity // Keep open until we dismiss it
+        </div>
+      ),
+      duration: Infinity, // Keep open until we dismiss it
     });
     try {
       // Clear any previous errors
@@ -112,64 +120,81 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">
-                {t("toast.deletingPost")}
-              </div>
+          description: (
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">{t("toast.deletingPost")}</div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-                width: "60%"
-              }} />
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: "60%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 300);
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">
-                {t("toast.finalizing")}
-              </div>
+          description: (
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">{t("toast.finalizing")}</div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-                width: "90%"
-              }} />
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: "90%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 600);
-      await dispatch(deletePost({
-        postId: [parseInt(post.id)],
-        listingId: parseInt(listingId.toString())
-      })).unwrap();
+      await dispatch(
+        deletePost({
+          postId: [parseInt(post.id)],
+          listingId: parseInt(listingId.toString()),
+        }),
+      ).unwrap();
 
       // Invalidate React Query cache to refresh data without page reload
       queryClient.invalidateQueries({
-        queryKey: ["posts-dashboard-data"]
+        queryKey: ["posts-dashboard-data"],
       });
 
       // Complete progress and show success
       progressToast.update({
         id: progressToast.id,
-        title: <div className="flex items-center gap-2">
+        title: (
+          <div className="flex items-center gap-2">
             <div className="h-4 w-4 bg-green-500 rounded-full flex items-center justify-center">
               <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             {t("toast.successTitle")}
-          </div>,
-        description: <div className="space-y-2">
-            <div className="text-sm text-green-600">
-              {t("toast.successDescription")}
-            </div>
+          </div>
+        ),
+        description: (
+          <div className="space-y-2">
+            <div className="text-sm text-green-600">{t("toast.successDescription")}</div>
             <div className="w-full bg-muted rounded-full h-2">
-              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{
-              width: "100%"
-            }} />
+              <div
+                className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: "100%",
+                }}
+              />
             </div>
           </div>
+        ),
       });
 
       // Auto-dismiss success toast after 2 seconds
@@ -185,8 +210,11 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       progressToast.dismiss();
       toast({
         title: t("toast.failedTitle"),
-        description: error instanceof Error ? (error as any)?.response?.data?.message || error.message : t("toast.unexpectedError"),
-        variant: "destructive"
+        description:
+          error instanceof Error
+            ? (error as any)?.response?.data?.message || error.message
+            : t("toast.unexpectedError"),
+        variant: "destructive",
       });
     }
   };
@@ -202,12 +230,13 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       toast({
         title: t("toast.errorTitle"),
         description: deleteError,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   }, [deleteError]);
-  return <>
-      <div className="relative border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20 mb-4">
+  return (
+    <>
+      <div className="relative border border-border rounded-lg bg-card p-4 shadow-md transition-all duration-200 hover:border-primary/20 mb-4">
         {/* Date positioned at top right, avoiding action buttons */}
         <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
           <Calendar className="w-3 h-3 mr-1" />
@@ -217,26 +246,30 @@ export const PostListItem: React.FC<PostListItemProps> = ({
         <div className="flex flex-col justify-between sm:flex-row sm:items-center gap-4">
           <div className="flex items-center gap-4">
             {/* Selection Checkbox */}
-            {isSelectionMode && onSelectionChange && <Checkbox checked={isSelected} onCheckedChange={checked => onSelectionChange(post.id, !!checked)} className="flex-shrink-0" />}
+            {isSelectionMode && onSelectionChange && (
+              <Checkbox
+                checked={isSelected}
+                onCheckedChange={(checked) => onSelectionChange(post.id, !!checked)}
+                className="flex-shrink-0"
+              />
+            )}
 
             {/* Thumbnail */}
             <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-              {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white text-xs font-medium">IMG</span>}
+              {post.media?.images ? (
+                <img src={post.media.images} alt="Post" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-white text-xs font-medium">IMG</span>
+              )}
             </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0 sm:pr-20">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="font-medium text-foreground truncate">
-                  {post.title || t("ui.untitled")}
-                </h3>
-                <Badge className={getStatusColor(post.status)}>
-                  {getStatusText(post.status)}
-                </Badge>
+                <h3 className="font-medium text-foreground truncate">{post.title || t("ui.untitled")}</h3>
+                <Badge className={getStatusColor(post.status)}>{getStatusText(post.status)}</Badge>
               </div>
-              <p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1 mb-1">
-                {post.content}
-              </p>
+              <p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1 mb-1">{post.content}</p>
               <div className="flex items-center gap-4 text-xs text-muted-foreground">
                 {post.tags && <span className="text-primary">{post.tags}</span>}
               </div>
@@ -248,24 +281,35 @@ export const PostListItem: React.FC<PostListItemProps> = ({
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setIsViewModalOpen(true)}>
               <Eye className="w-3 h-3" />
             </Button>
-            {post.searchUrl && <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={e => {
-            e.stopPropagation();
-            window.open(post.searchUrl, "_blank");
-          }} title={t("ui.openOnGoogle")}>
+            {post.searchUrl && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(post.searchUrl, "_blank");
+                }}
+                title={t("ui.openOnGoogle")}
+              >
                 <ExternalLink className="w-3 h-3" />
-              </Button>}
+              </Button>
+            )}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700" disabled={deleteLoading}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                  disabled={deleteLoading}
+                >
                   <Trash2 className="w-3 h-3" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>{t("dialog.deleteTitle")}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t("dialog.deleteDescription")}
-                  </AlertDialogDescription>
+                  <AlertDialogDescription>{t("dialog.deleteDescription")}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>{t("dialog.cancel")}</AlertDialogCancel>
@@ -280,5 +324,6 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       </div>
 
       <PostViewModal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} post={post} />
-    </>;
+    </>
+  );
 };
