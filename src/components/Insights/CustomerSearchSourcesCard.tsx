@@ -75,13 +75,13 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
             No data available
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Column 1: Title and Description */}
-            <div className="flex flex-col justify-center space-y-2 lg:space-y-3 lg:w-[65%]">
-              <h3 className="text-base lg:text-lg font-semibold text-foreground">
+            <div className="flex flex-col justify-center space-y-3 lg:w-[65%]">
+              <h3 className="text-lg font-semibold text-foreground">
                 How Customers Search For Your Business
               </h3>
-              <p className="text-xs lg:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Understanding how customers discover your business helps optimize your online presence. 
                 This breakdown shows whether customers find you through search results or map views, 
                 and whether they're using desktop or mobile devices to access your information.
@@ -89,17 +89,17 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
             </div>
 
             {/* Column 2: Donut Chart and Legend */}
-            <div className="flex flex-col items-center gap-4 lg:w-[35%]">
+            <div className="flex flex-col md:flex-row items-center gap-6 max-h-[200px] lg:w-[35%]">
               {/* Chart Section */}
-              <div className="relative w-full max-w-[180px] h-[180px] sm:max-w-[200px] sm:h-[200px] flex items-center justify-center shrink-0">
+              <div className="relative w-full md:w-[200px] h-[160px] md:h-[180px] flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={chartData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={45}
-                      outerRadius={70}
+                      innerRadius={55}
+                      outerRadius={80}
                       paddingAngle={2}
                       dataKey="value"
                       onMouseEnter={(data) => setHoveredSegment({ name: data.name, value: data.value })}
@@ -113,7 +113,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                 </ResponsiveContainer>
                 {/* Center Display */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-xl sm:text-2xl font-bold text-foreground">
+                  <span className="text-2xl md:text-3xl font-bold text-foreground">
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
                   <span className="text-xs text-muted-foreground">
@@ -123,16 +123,16 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
               </div>
 
               {/* Legend Section */}
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2 lg:gap-3">
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-1 gap-3 w-full">
                 {chartData.map((item, index) => {
                   return (
-                    <div key={index} className="flex items-center gap-2 min-w-0">
+                    <div key={index} className="flex items-center gap-2">
                       <div
                         className="w-3 h-3 rounded-full shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-xs sm:text-sm font-medium text-foreground flex-1 truncate">{item.name}</span>
-                      <span className="text-xs sm:text-sm text-muted-foreground shrink-0">{item.value}</span>
+                      <span className="text-sm font-medium text-foreground flex-1">{item.name}</span>
+                      <span className="text-sm text-muted-foreground">{item.value}</span>
                     </div>
                   );
                 })}
