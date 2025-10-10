@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -792,28 +791,28 @@ export const Gallery: React.FC<GalleryProps> = ({
               1.5 GB / 790 MB Available
             </Badge>
             {showTabs && (
-              <Tabs
-                value={selectedTab}
-                onValueChange={(value) =>
-                  setSelectedTab(value as "local" | "ai-generated")
-                }
-                className="w-fit"
-              >
-                <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
-                  <TabsTrigger
-                    value="local"
-                    className="data-[state=active]:bg-background"
-                  >
-                    {t("gallery.uploaded")}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="ai-generated"
-                    className="data-[state=active]:bg-background"
-                  >
-                    {t("gallery.aiGenerated")}
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setSelectedTab("local")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    selectedTab === "local"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {t("gallery.uploaded")}
+                </button>
+                <button
+                  onClick={() => setSelectedTab("ai-generated")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    selectedTab === "ai-generated"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {t("gallery.aiGenerated")}
+                </button>
+              </div>
             )}
           </div>
         </div>
