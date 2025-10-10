@@ -127,7 +127,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 </div>
 
                 <div
-                  className="bg-secondary p-2 rounded"
+                  className="bg-secondary p-2 rounded hidden"
                   style={{ width: "110px" }}
                 >
                   <div className="text-lg font-bold text-gray-900">
