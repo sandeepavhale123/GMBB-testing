@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Kredietgeschiedenis",
+    "description": "Volg uw kredietgebruik voor alle rangcontroles.",
+    "searchPlaceholder": "Zoek trefwoorden...",
+    "table": {
+      "keyword": "Trefwoord",
+      "type": "Krediettype",
+      "credit": "Krediet",
+      "date": "Datum"
+    },
+    "empty": {
+      "title": "Geen kredietgeschiedenis gevonden",
+      "subtitle": "Probeer uw zoekopdracht aan te passen"
+    }
+  }
+}

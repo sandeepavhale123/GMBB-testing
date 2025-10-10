@@ -1,0 +1,36 @@
+{
+  "title": {
+    "default": "Geo Ranglijstkaart",
+    "processing": "Trefwoord wordt verwerkt...",
+    "results": "Trefwoord Rangschikkingsresultaten"
+  },
+  "mapPopup": {
+    "yourBusiness": "Uw Bedrijf",
+    "primaryLocation": "Primaire locatie",
+    "gridPoint": "Rasterpunt {{index}}",
+    "awaitingResults": "Wachten op resultaten...",
+    "rank": "Rang: {{rank}}",
+    "clickForDetails": "Klik voor details",
+    "manualCoordinate": "Handmatige coördinaat {{index}}",
+    "lat": "Breedtegraad: {{lat}}, Lengtegraad: {{lng}}",
+    "drag": "Sleep om te verplaatsen",
+    "remove": "Verwijderen"
+  },
+  "loading": {
+    "keywordTitle": "Trefwoordgegevens worden verwerkt",
+    "gridTitle": "Kaartgegevens laden",
+    "keywordSubtitle": "Zoekrangschikkingen analyseren...",
+    "gridSubtitle": "Rastercoördinaten genereren..."
+  },
+  "zoom": {
+    "in": "Inzoomen",
+    "out": "Uitzoomen"
+  },
+  "legend": {
+    "title": "Ranglijst Legenda",
+    "top": "1-3 (Top)",
+    "good": "4-10 (Goed)",
+    "fair": "11-15 (Redelijk)",
+    "poor": "16+ (Slecht)"
+  }
+}

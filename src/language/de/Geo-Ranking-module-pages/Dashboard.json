@@ -1,0 +1,60 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Projectbeheer",
+      "description": "Beheer uw GEO-rangschikkingsprojecten."
+    },
+    "buttons": {
+      "createProject": "Project aanmaken",
+      "editProject": "Project bewerken",
+      "updateProject": "Project bijwerken",
+      "cancel": "Annuleren",
+      "deleteProject": "Project verwijderen",
+      "view": "Bekijken",
+      "edit": "Bewerken"
+    },
+    "dialog": {
+      "createNew": "Nieuw project aanmaken",
+      "edit": "Project bewerken",
+      "descCreate": "Voer de gegevens in voor uw nieuwe GEO-rangschikkingsproject.",
+      "descEdit": "Werk de gegevens bij voor uw GEO-rangschikkingsproject.",
+      "projectName": "Projectnaam",
+      "notificationEmail": "Notificatie-e-mail",
+      "placeholder": {
+        "enterProjectName": "Voer projectnaam in",
+        "enterEmails": "Voer e-mails in, gescheiden door komma’s"
+      }
+    },
+    "summary": {
+      "noOfProject": "Aantal projecten",
+      "noOfKeywords": "Aantal trefwoorden",
+      "noOfScheduledScan": "Aantal geplande scans",
+      "availableCredits": "Beschikbare kredieten",
+      "creditsRemaining": "{{remaining}} resterend van totaal {{total}}"
+    },
+    "table": {
+      "searchPlaceholder": "Zoek projecten...",
+      "projectName": "Projectnaam",
+      "noOfKeywords": "Aantal trefwoorden",
+      "date": "Datum",
+      "notificationEmail": "Notificatie-e-mail",
+      "action": "Actie",
+      "loadingProjects": "Projecten laden...",
+      "noProjectsFound": "Geen projecten gevonden",
+      "deleteConfirmationTitle": "Project verwijderen",
+      "deleteConfirmationDescription": "Deze actie kan niet ongedaan worden gemaakt. Dit verwijdert het project \"{name}\" permanent, inclusief alle gerelateerde gegevens zoals trefwoorden en kaartpunten.",
+      "typeDeleteToConfirm": "Typ \"delete\" om te bevestigen",
+      "placeholderDelete": "delete",
+      "shareablelink": "Deelbare link"
+    },
+    "pagination": {
+      "showing": "Weergave van {{from}} tot {{to}} van {{total}} projecten",
+      "previous": "Vorige",
+      "next": "Volgende"
+    },
+    "alerts": {
+      "delete": "Verwijderen",
+      "cancel": "Annuleren"
+    }
+  }
+}

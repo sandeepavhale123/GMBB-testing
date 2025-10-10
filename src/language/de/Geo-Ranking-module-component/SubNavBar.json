@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "checkRank": "Controleer rang",
+    "creditsHistory": "Kredietgeschiedenis",
+    "settings": "Instellingen",
+    "aiChatbot": "AI-chatbot"
+  },
+  "back": "Terug"
+}
