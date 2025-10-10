@@ -12,7 +12,6 @@ import {
 import { Search } from "lucide-react";
 import { useCreditHistory } from "../hooks/useCreditHistory";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-
 export const CreditHistory: React.FC = () => {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/CreditHistory");
   const { creditHistory, isLoading, searchTerm, handleSearchChange } =
@@ -21,14 +20,11 @@ export const CreditHistory: React.FC = () => {
   // frontend pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const totalPages = Math.ceil(creditHistory.length / itemsPerPage);
-
   const currentData = creditHistory.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -49,24 +45,18 @@ export const CreditHistory: React.FC = () => {
       if (currentPage > maxVisible) {
         pages.push("..."); // left ellipsis
       }
-
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
-
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
-
       if (currentPage < totalPages - (maxVisible - 1)) {
         pages.push("..."); // right ellipsis
       }
-
       pages.push(totalPages); // always show last
     }
-
     return pages;
   };
-
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -88,7 +78,6 @@ export const CreditHistory: React.FC = () => {
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -124,10 +113,10 @@ export const CreditHistory: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium">
-                    {" "}
                     {t("creditHistory.table.keyword")}
                   </th>
                   <th className="text-left py-3 px-4 font-medium">
+                    {" "}
                     {t("creditHistory.table.type")}
                   </th>
                   <th className="text-left py-3 px-4 font-medium">
@@ -135,6 +124,7 @@ export const CreditHistory: React.FC = () => {
                     {t("creditHistory.table.credit")}
                   </th>
                   <th className="text-right py-3 px-4 font-medium">
+                    {" "}
                     {t("creditHistory.table.date")}
                   </th>
                 </tr>
@@ -183,7 +173,7 @@ export const CreditHistory: React.FC = () => {
           {totalPages > 1 && (
             <div className="p-4 flex justify-end">
               <Pagination>
-                <PaginationContent>
+                <PaginationContent className="ml-auto ">
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => handlePageChange(currentPage - 1)}

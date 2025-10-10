@@ -472,7 +472,11 @@ export const Dashboard: React.FC = () => {
                         {project.createdDate}
                       </td>
                       <td className="py-3 px-4 text-muted-foreground">
-                        {project.notificationEmail}
+                        <div className="flex flex-col gap-1">
+                          {project.notificationEmail?.split(',').map((email, idx) => (
+                            <span key={idx}>{email.trim()}</span>
+                          ))}
+                        </div>
                       </td>
                       <td className="py-3 px-4">
                         <DropdownMenu>
@@ -562,18 +566,18 @@ export const Dashboard: React.FC = () => {
                   {/* Page numbers */}
                   {Array.from(
                     {
-                      length: Math.min(5, pagination.totalPages),
+                      length: Math.min(3, pagination.totalPages),
                     },
                     (_, i) => {
                       let pageNum: number;
-                      if (pagination.totalPages <= 5) {
+                      if (pagination.totalPages <= 3) {
                         pageNum = i + 1;
-                      } else if (currentPage <= 3) {
+                      } else if (currentPage <= 2) {
                         pageNum = i + 1;
-                      } else if (currentPage >= pagination.totalPages - 2) {
-                        pageNum = pagination.totalPages - 4 + i;
+                      } else if (currentPage >= pagination.totalPages - 1) {
+                        pageNum = pagination.totalPages - 2 + i;
                       } else {
-                        pageNum = currentPage - 2 + i;
+                        pageNum = currentPage - 1 + i;
                       }
                       return (
                         <PaginationItem key={pageNum}>
@@ -589,8 +593,8 @@ export const Dashboard: React.FC = () => {
                     }
                   )}
 
-                  {pagination.totalPages > 5 &&
-                    currentPage < pagination.totalPages - 2 && (
+                  {pagination.totalPages > 3 &&
+                    currentPage < pagination.totalPages - 1 && (
                       <>
                         <PaginationItem>
                           <PaginationEllipsis />

@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CircularProgress } from "@/components/ui/circular-progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
 import {
   BarChart,
@@ -52,6 +59,10 @@ export const PublicGMBHealthReport: React.FC = () => {
     error,
     refetch,
   } = usePerformanceHealthReport(reportId || "");
+
+  const [breakdownSort, setBreakdownSort] = useState<
+    "default" | "failed-first" | "passed-first"
+  >("default");
 
   const truncateToTwoDecimals = (num: number) => {
     return Math.trunc(num * 100) / 100;
@@ -311,15 +322,14 @@ export const PublicGMBHealthReport: React.FC = () => {
         {/* GMB Report at a Glance */}
         <Card className="bg-white border border-gray-200">
           <CardContent className="p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                {t("glanceReport.title")}
-              </h2>
-            </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               {/* Left side - Test Results Cards */}
               <div className="space-y-4">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {t("glanceReport.title")}
+                  </h2>
+                </div>
                 {/* Failed Tests Card */}
                 <div className="bg-red-100 border border-red-200 rounded-lg p-6">
                   <div className="text-red-800 text-sm font-medium mb-1">
@@ -343,7 +353,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
               {/* Right side - Pie Chart */}
               <div className="flex justify-center">
-                <div className="w-48 h-48">
+                <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -361,7 +371,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                         ]}
                         cx="50%"
                         cy="50%"
-                        outerRadius={80}
+                        outerRadius={110}
                         dataKey="value"
                         startAngle={90}
                         endAngle={450}
@@ -385,14 +395,44 @@ export const PublicGMBHealthReport: React.FC = () => {
 
         {/* Detailed Breakdown */}
         <Card>
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+            <CardTitle className="text-2xl font-bold">
               {t("detailedBreakdown.title")}
-            </h2>
-
+            </CardTitle>
+            <Select
+              value={breakdownSort}
+              onValueChange={(value) =>
+                setBreakdownSort(
+                  value as "default" | "failed-first" | "passed-first"
+                )
+              }
+            >
+              <SelectTrigger className="w-[160px] bg-card z-50">
+                <SelectValue placeholder="Sort by..." />
+              </SelectTrigger>
+              <SelectContent className="bg-popover z-50">
+                <SelectItem value="default">Default Order</SelectItem>
+                <SelectItem value="failed-first">Failed First</SelectItem>
+                <SelectItem value="passed-first">Passed First</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent className="p-6 pt-0">
             <div className="space-y-6">
-              {Object.entries(publichealthData?.data?.detailedBreakdown).map(
-                ([key, value], index) => {
+              {Object.entries(publichealthData?.data?.detailedBreakdown)
+                .sort(([, valueA], [, valueB]) => {
+                  if (breakdownSort === "default") return 0;
+                  if (breakdownSort === "failed-first") {
+                    // Failed (false) comes first, Passed (true) comes last
+                    return valueA === valueB ? 0 : valueA ? 1 : -1;
+                  }
+                  if (breakdownSort === "passed-first") {
+                    // Passed (true) comes first, Failed (false) comes last
+                    return valueA === valueB ? 0 : valueA ? -1 : 1;
+                  }
+                  return 0;
+                })
+                .map(([key, value], index) => {
                   const breakdownInfo: Record<
                     string,
                     { title: string; why: string; recommendation: string }
@@ -534,8 +574,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                       </div>
                     </div>
                   );
-                }
-              )}
+                })}
             </div>
           </CardContent>
         </Card>
@@ -547,184 +586,205 @@ export const PublicGMBHealthReport: React.FC = () => {
               {t("competitorAnalysis.title")}
             </h2>
 
-            <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
-              <div className="flex items-center justify-start mb-3">
-                <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-                  {t("competitorAnalysis.moderateImpact")}
-                </Badge>
-              </div>
-              <h3 className="font-semibold text-lg mb-3">
-                {t("competitorAnalysis.message")}
-              </h3>
-
-              <div className="mb-4">
-                <h4 className="font-medium mb-2">
-                  {t("detailedBreakdown.whyItMatters")}
-                </h4>
-                <p className="text-sm text-muted-foreground ml-4">
-                  {t("competitorAnalysis.message1")}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-medium mb-2">
-                  {t("detailedBreakdown.recommendation")}
-                </h4>
-                <p className="text-sm text-muted-foreground ml-4">
-                  {t("competitorAnalysis.analyze")}
-                </p>
-              </div>
-            </div>
-
-            {/* Competitor Analysis Chart */}
-            <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  {t("competitorAnalysis.chartDescription")}
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  No Competitor Data Found
                 </h3>
-                <p className="text-gray-600">{t("competitorAnalysis.title")}</p>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any competitor information for this location
+                  at this time. Please check back later or contact support if
+                  you believe this is an error.
+                </p>
               </div>
+            ) : (
+              <>
+                <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                  <div className="flex items-center justify-start mb-3">
+                    <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+                      {t("competitorAnalysis.moderateImpact")}
+                    </Badge>
+                  </div>
+                  <h3 className="font-semibold text-lg mb-3">
+                    {t("competitorAnalysis.message")}
+                  </h3>
 
-              {/* Enhanced Legend */}
-              <div className="flex justify-center items-center gap-8 mb-8 p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-                  <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"></div>
-                  <span className="text-sm font-medium text-gray-700">
-                    {t("competitorAnalysis.avgRating")}
-                  </span>
+                  <div className="mb-4">
+                    <h4 className="font-medium mb-2">
+                      {t("detailedBreakdown.whyItMatters")}
+                    </h4>
+                    <p className="text-sm text-muted-foreground ml-4">
+                      {t("competitorAnalysis.message1")}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium mb-2">
+                      {t("detailedBreakdown.recommendation")}
+                    </h4>
+                    <p className="text-sm text-muted-foreground ml-4">
+                      {t("competitorAnalysis.analyze")}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-                  <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-sm"></div>
-                  <span className="text-sm font-medium text-gray-700">
-                    {t("competitorAnalysis.reviewCount")}
-                  </span>
+
+                {/* Competitor Analysis Chart */}
+                <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
+                  <div className="text-center mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                      {t("competitorAnalysis.chartDescription")}
+                    </h3>
+                    <p className="text-gray-600">
+                      {t("competitorAnalysis.title")}
+                    </p>
+                  </div>
+
+                  {/* Enhanced Legend */}
+                  <div className="flex justify-center items-center gap-8 mb-8 p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
+                      <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"></div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {t("competitorAnalysis.avgRating")}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
+                      <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-sm"></div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {t("competitorAnalysis.reviewCount")}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Enhanced Bar Chart */}
+                  <div className="h-96 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={competitorChartData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                        <XAxis dataKey="index" />
+                        <YAxis yAxisId="left" domain={[0, 5]} />
+                        <YAxis
+                          yAxisId="right"
+                          orientation="right"
+                          domain={[0, 100]}
+                        />
+
+                        {/* ✅ Add missing gradient definitions */}
+                        <defs>
+                          <linearGradient
+                            id="blueGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop offset="0%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#1d4ed8" />
+                          </linearGradient>
+                          <linearGradient
+                            id="orangeGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop offset="0%" stopColor="#f97316" />
+                            <stop offset="100%" stopColor="#ea580c" />
+                          </linearGradient>
+                        </defs>
+
+                        <Tooltip
+                          shared={false}
+                          formatter={(value, name) => [
+                            name === "avgRating"
+                              ? `${value} ⭐`
+                              : `${value} reviews`,
+                            name === "avgRating" ? "Rating" : "Reviews",
+                          ]}
+                          labelFormatter={(label) => {
+                            const business = competitorChartData.find(
+                              (b) => b.index === label
+                            );
+                            return business ? business.displayName : label;
+                          }}
+                        />
+
+                        <Bar
+                          yAxisId="left"
+                          dataKey="avgRating"
+                          fill="url(#blueGradient)"
+                          name="avgRating"
+                          radius={[2, 2, 0, 0]}
+                        />
+                        <Bar
+                          yAxisId="right"
+                          dataKey="reviewCount"
+                          fill="url(#orangeGradient)"
+                          name="reviewCount"
+                          radius={[2, 2, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
-              </div>
 
-              {/* Enhanced Bar Chart */}
-              <div className="h-96 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={competitorChartData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                    <XAxis dataKey="index" />
-                    <YAxis yAxisId="left" domain={[0, 5]} />
-                    <YAxis
-                      yAxisId="right"
-                      orientation="right"
-                      domain={[0, 100]}
-                    />
-
-                    {/* ✅ Add missing gradient definitions */}
-                    <defs>
-                      <linearGradient
-                        id="blueGradient"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop offset="0%" stopColor="#3b82f6" />
-                        <stop offset="100%" stopColor="#1d4ed8" />
-                      </linearGradient>
-                      <linearGradient
-                        id="orangeGradient"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop offset="0%" stopColor="#f97316" />
-                        <stop offset="100%" stopColor="#ea580c" />
-                      </linearGradient>
-                    </defs>
-
-                    <Tooltip
-                      formatter={(value, name) => [
-                        name === "avgRating"
-                          ? `${value} ⭐`
-                          : `${value} reviews`,
-                        name === "avgRating" ? "Rating" : "Reviews",
-                      ]}
-                      labelFormatter={(label) => {
-                        const business = competitorChartData.find(
-                          (b) => b.index === label
-                        );
-                        return business ? business.displayName : label;
-                      }}
-                    />
-
-                    <Bar
-                      yAxisId="left"
-                      dataKey="avgRating"
-                      fill="url(#blueGradient)"
-                      name="avgRating"
-                      radius={[2, 2, 0, 0]}
-                    />
-                    <Bar
-                      yAxisId="right"
-                      dataKey="reviewCount"
-                      fill="url(#orangeGradient)"
-                      name="reviewCount"
-                      radius={[2, 2, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Competitor Table */}
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-green-200">
-                    <th className="px-4 py-3 text-left font-semibold">#</th>
-                    <th className="px-4 py-3 text-left font-semibold">
-                      {t("competitorTable.business")}
-                    </th>
-                    <th className="px-4 py-3 text-center font-semibold">
-                      {t("competitorTable.avg")}
-                    </th>
-                    <th className="px-4 py-3 text-center font-semibold">
-                      {t("competitorTable.review")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {competitorChartData.map((item, idx) => {
-                    const isYou = publichealthData?.data?.locationName
-                      .toLowerCase()
-                      .includes(item.displayName.toLowerCase());
-                    // console.log("you value", isYou);
-                    return (
-                      <tr
-                        key={item.index}
-                        className={
-                          isYou
-                            ? "bg-green-100"
-                            : idx % 2 === 0
-                            ? "bg-white"
-                            : "bg-gray-50"
-                        }
-                      >
-                        <td className="px-4 py-3 font-medium">
-                          {isYou ? "YOU" : item.index}
-                        </td>
-                        <td className="px-4 py-3">{item.displayName}</td>
-                        <td className="px-4 py-3 text-center">
-                          {item.avgRating > 0 ? item.avgRating : "—"}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          {item.reviewCount > 0 ? item.reviewCount : "—"}
-                        </td>
+                {/* Competitor Table */}
+                <div className="overflow-x-auto rounded-lg border border-gray-200">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-green-200">
+                        <th className="px-4 py-3 text-left font-semibold">#</th>
+                        <th className="px-4 py-3 text-left font-semibold">
+                          {t("competitorTable.business")}
+                        </th>
+                        <th className="px-4 py-3 text-center font-semibold">
+                          {t("competitorTable.avg")}
+                        </th>
+                        <th className="px-4 py-3 text-center font-semibold">
+                          {t("competitorTable.review")}
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {competitorChartData.map((item, idx) => {
+                        const isYou = publichealthData?.data?.locationName
+                          .toLowerCase()
+                          .includes(item.displayName.toLowerCase());
+                        // console.log("you value", isYou);
+                        return (
+                          <tr
+                            key={item.index}
+                            className={
+                              isYou
+                                ? "bg-green-100"
+                                : idx % 2 === 0
+                                ? "bg-white"
+                                : "bg-gray-50"
+                            }
+                          >
+                            <td className="px-4 py-3 font-medium">
+                              {isYou ? "YOU" : item.index}
+                            </td>
+                            <td className="px-4 py-3">{item.displayName}</td>
+                            <td className="px-4 py-3 text-center">
+                              {item.avgRating > 0 ? item.avgRating : "—"}
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              {item.reviewCount > 0 ? item.reviewCount : "—"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -735,166 +795,186 @@ export const PublicGMBHealthReport: React.FC = () => {
               {t("citationAnalysis.title")}
             </h2>
 
-            <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
-              <div className="flex items-center justify-start mb-3">
-                <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
-                  {t("citationAnalysis.highImpact")}
-                </Badge>
-              </div>
-              <h3 className="font-semibold text-lg mb-3">
-                {t("citationAnalysis.message")}
-              </h3>
-
-              <div className="mb-4">
-                <h4 className="font-medium mb-2">
-                  {t("detailedBreakdown.whyItMatters")}
-                </h4>
-                <p className="text-sm text-muted-foreground ml-4"></p>
-              </div>
-              {t("citationAnalysis.why")}
-              <div>
-                <h4 className="font-medium mb-2">
-                  {t("detailedBreakdown.recommendation")}
-                </h4>
-                <p className="text-sm text-muted-foreground ml-4">
-                  {t("citationAnalysis.recommendation")}
-                </p>
-              </div>
-            </div>
-
-            {/* Citation Analysis Chart */}
-            <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  {t("citationAnalysis.chartTitle")}
+            {competitors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 bg-muted/30 rounded-lg border-2 border-dashed border-muted">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  No Citation Data Found
                 </h3>
-                <p className="text-gray-600">
-                  {t("citationAnalysis.chartDescription")}
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  We couldn't find any citation information for this location at
+                  this time. Citations will be analyzed once competitor data
+                  becomes available.
                 </p>
               </div>
+            ) : (
+              <>
+                <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                  <div className="flex items-center justify-start mb-3">
+                    <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+                      {t("citationAnalysis.highImpact")}
+                    </Badge>
+                  </div>
+                  <h3 className="font-semibold text-lg mb-3">
+                    {t("citationAnalysis.message")}
+                  </h3>
 
-              {/* Enhanced Bar Chart */}
-              <div className="h-96 w-full">
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart
-                    data={citationChartData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <div className="mb-4">
+                    <h4 className="font-medium mb-2">
+                      {t("detailedBreakdown.whyItMatters")}
+                    </h4>
+                    <p className="text-sm text-muted-foreground ml-4"></p>
+                  </div>
+                  {t("citationAnalysis.why")}
+                  <div>
+                    <h4 className="font-medium mb-2">
+                      {t("detailedBreakdown.recommendation")}
+                    </h4>
+                    <p className="text-sm text-muted-foreground ml-4">
+                      {t("citationAnalysis.recommendation")}
+                    </p>
+                  </div>
+                </div>
 
-                    <XAxis
-                      dataKey="index"
-                      height={60}
-                      interval={0}
-                      fontSize={14}
-                      tick={{ fill: "#374151", fontWeight: 600 }}
-                    />
+                {/* Citation Analysis Chart */}
+                <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
+                  <div className="text-center mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                      {t("citationAnalysis.chartTitle")}
+                    </h3>
+                    <p className="text-gray-600">
+                      {t("citationAnalysis.chartDescription")}
+                    </p>
+                  </div>
 
-                    <YAxis
-                      domain={[
-                        0,
-                        Math.max(
-                          ...citationChartData.map((d) => d.citationCount),
-                          10
-                        ),
-                      ]}
-                      tick={{ fill: "#374151", fontSize: 12 }}
-                    />
-
-                    <Tooltip
-                      formatter={(value) => [
-                        `${value} citations`,
-                        t("citationAnalysis.citationCount"),
-                      ]}
-                      labelFormatter={(label) => {
-                        const business = citationChartData.find(
-                          (b) => b.index === label
-                        );
-                        return business ? business.displayName : label;
-                      }}
-                      contentStyle={{
-                        backgroundColor: "white",
-                        border: "1px solid #e5e7eb",
-                        borderRadius: "8px",
-                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                      }}
-                    />
-
-                    <Bar
-                      dataKey="citationCount"
-                      fill="url(#citationGradient)"
-                      name="Citation Count"
-                      radius={[2, 2, 0, 0]}
-                    />
-
-                    <defs>
-                      <linearGradient
-                        id="citationGradient"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
+                  {/* Enhanced Bar Chart */}
+                  <div className="h-96 w-full">
+                    <ResponsiveContainer width="100%" height={400}>
+                      <BarChart
+                        data={citationChartData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
                       >
-                        <stop offset="0%" stopColor="#3b82f6" />
-                        <stop offset="100%" stopColor="#1d4ed8" />
-                      </linearGradient>
-                    </defs>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
 
-            {/* Citation Table */}
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-green-200">
-                    <th className="px-4 py-3 text-left font-semibold">#</th>
-                    <th className="px-4 py-3 text-left font-semibold">
-                      {t("citationTable.business")}
-                    </th>
-                    <th className="px-4 py-3 text-center font-semibold">
-                      {t("citationTable.local")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {/* Optional: Add your own business as "YOU" at the top */}
-                  {/* <tr className="bg-green-100">
+                        <XAxis
+                          dataKey="index"
+                          height={60}
+                          interval={0}
+                          fontSize={14}
+                          tick={{ fill: "#374151", fontWeight: 600 }}
+                        />
+
+                        <YAxis
+                          domain={[
+                            0,
+                            Math.max(
+                              ...citationChartData.map((d) => d.citationCount),
+                              10
+                            ),
+                          ]}
+                          tick={{ fill: "#374151", fontSize: 12 }}
+                        />
+
+                        <Tooltip
+                          formatter={(value) => [
+                            `${value} citations`,
+                            t("citationAnalysis.citationCount"),
+                          ]}
+                          labelFormatter={(label) => {
+                            const business = citationChartData.find(
+                              (b) => b.index === label
+                            );
+                            return business ? business.displayName : label;
+                          }}
+                          contentStyle={{
+                            backgroundColor: "white",
+                            border: "1px solid #e5e7eb",
+                            borderRadius: "8px",
+                            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                          }}
+                        />
+
+                        <Bar
+                          dataKey="citationCount"
+                          fill="url(#citationGradient)"
+                          name="Citation Count"
+                          radius={[2, 2, 0, 0]}
+                        />
+
+                        <defs>
+                          <linearGradient
+                            id="citationGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop offset="0%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#1d4ed8" />
+                          </linearGradient>
+                        </defs>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Citation Table */}
+                <div className="overflow-x-auto rounded-lg border border-gray-200">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-green-200">
+                        <th className="px-4 py-3 text-left font-semibold">#</th>
+                        <th className="px-4 py-3 text-left font-semibold">
+                          {t("citationTable.business")}
+                        </th>
+                        <th className="px-4 py-3 text-center font-semibold">
+                          {t("citationTable.local")}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {/* Optional: Add your own business as "YOU" at the top */}
+                      {/* <tr className="bg-green-100">
                     <td className="px-4 py-3 font-medium">YOU</td>
                     <td className="px-4 py-3">Webmarts Software Solution</td>
                     <td className="px-4 py-3 text-center">14</td>
                   </tr> */}
 
-                  {/* Competitor rows */}
-                  {citationChartData.map((item, idx) => {
-                    const isYou = publichealthData?.data?.locationName
-                      .toLowerCase()
-                      .includes(item.displayName.toLowerCase());
-                    return (
-                      <tr
-                        key={item.index}
-                        className={
-                          isYou
-                            ? "bg-green-100"
-                            : idx % 2 === 0
-                            ? "bg-white"
-                            : "bg-gray-50"
-                        }
-                      >
-                        <td className="px-4 py-3 font-medium">
-                          {isYou ? "YOU" : item.index}
-                        </td>
-                        <td className="px-4 py-3">{item.displayName}</td>
-                        <td className="px-4 py-3 text-center">
-                          {item.citationCount > 0 ? item.citationCount : "—"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                      {/* Competitor rows */}
+                      {citationChartData.map((item, idx) => {
+                        const isYou = publichealthData?.data?.locationName
+                          .toLowerCase()
+                          .includes(item.displayName.toLowerCase());
+                        return (
+                          <tr
+                            key={item.index}
+                            className={
+                              isYou
+                                ? "bg-green-100"
+                                : idx % 2 === 0
+                                ? "bg-white"
+                                : "bg-gray-50"
+                            }
+                          >
+                            <td className="px-4 py-3 font-medium">
+                              {isYou ? "YOU" : item.index}
+                            </td>
+                            <td className="px-4 py-3">{item.displayName}</td>
+                            <td className="px-4 py-3 text-center">
+                              {item.citationCount > 0
+                                ? item.citationCount
+                                : "—"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -906,32 +986,14 @@ export const PublicGMBHealthReport: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item1")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item2")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item3")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item4")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item5")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gray-600 mt-1">•</span>
-                  <span>{t("summaryRecommendations.item6")}</span>
-                </li>
+            <div className="border rounded-lg p-6 bg-card">
+              <ul className="space-y-3 list-disc list-inside text-foreground">
+                <li className="pl-2">{t("summaryRecommendations.item1")}</li>
+                <li className="pl-2">{t("summaryRecommendations.item2")}</li>
+                <li className="pl-2">{t("summaryRecommendations.item3")}</li>
+                <li className="pl-2">{t("summaryRecommendations.item4")}</li>
+                <li className="pl-2">{t("summaryRecommendations.item5")}</li>
+                <li className="pl-2">{t("summaryRecommendations.item6")}</li>
               </ul>
             </div>
           </CardContent>

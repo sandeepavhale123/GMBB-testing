@@ -20,7 +20,7 @@ export const NotificationsPage: React.FC = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="inline-flex h-auto w-full justify-start rounded-none border-b bg-transparent p-0">
           <TabsTrigger value="report-notifications">
             {t("notificationsPage.tabs.reportNotifications")}
           </TabsTrigger>

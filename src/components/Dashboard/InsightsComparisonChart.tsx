@@ -15,6 +15,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { useListingContext } from "@/context/ListingContext";
 import { fetchInsightsComparison } from "../../store/slices/insightsSlice";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { Link } from "react-router-dom";
 
 export const InsightsComparisonChart: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -120,8 +121,20 @@ export const InsightsComparisonChart: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">{chartTitle}</CardTitle>
-        <p className="text-sm text-gray-600">{chartDescription}</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-semibold">
+              {chartTitle}
+            </CardTitle>
+            <p className="text-sm text-gray-600">{chartDescription}</p>
+          </div>
+          <Link
+            to={`/insights/${selectedListing?.id || "default"}`}
+            className="text-sm text-primary hover:underline"
+          >
+            View All
+          </Link>
+        </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (

@@ -437,7 +437,7 @@ export const SubscriptionPage: React.FC = () => {
       </div>
 
       <Tabs defaultValue="pricing-plan" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
+        <TabsList className="inline-flex h-auto w-full justify-start rounded-none border-b bg-transparent p-0 mb-6 sm:mb-8">
           <TabsTrigger value="pricing-plan" className="text-sm sm:text-base">
             {t("subscriptionPage.tabs.pricingPlan")}
           </TabsTrigger>

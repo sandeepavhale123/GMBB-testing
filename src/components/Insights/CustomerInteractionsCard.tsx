@@ -12,6 +12,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { Link, useLocation } from "react-router-dom";
+import { useListingContext } from "../../context/ListingContext";
 
 interface CustomerInteractionsCardProps {
   isLoadingSummary: boolean;
@@ -21,6 +23,10 @@ interface CustomerInteractionsCardProps {
 export const CustomerInteractionsCard: React.FC<
   CustomerInteractionsCardProps
 > = ({ isLoadingSummary, summary }) => {
+  const { selectedListing } = useListingContext();
+  const location = useLocation();
+  const isInsightsPage = location.pathname.startsWith("/insights/");
+
   const { t } = useI18nNamespace("Insights/customerInteractionsCard");
   // Create customer actions data from summary
   const customerActionsData = summary
@@ -115,9 +121,19 @@ export const CustomerInteractionsCard: React.FC<
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">
-          {t("customerInteractionsTitle")}
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold">
+            {t("customerInteractionsTitle")}
+          </CardTitle>
+          {!isInsightsPage && (
+            <Link
+              to={`/insights/${selectedListing?.id || "default"}`}
+              className="text-sm text-primary hover:underline"
+            >
+              View All
+            </Link>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         {isLoadingSummary ? (

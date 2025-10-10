@@ -260,23 +260,29 @@ export const Dashboard: React.FC = () => {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50  rounded-none p-0 h-auto">
+            <TabsList
+              className="inline-flex bg-white border-b border-border w-full p-0 h-auto rounded-none"
+              style={{ justifyContent: "start" }}
+            >
               <TabsTrigger value="posts">
                 <FileText className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>{t("posts")}</span>
+                <span className="text-md">{t("posts")}</span>
               </TabsTrigger>
               <TabsTrigger value="reviews">
                 <MessageSquare className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span>{t("reviews")}</span>
+                <span className="text-md">{t("reviews")}</span>
               </TabsTrigger>
               <TabsTrigger value="geo-ranking">
                 <MapPin className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline"> {t("GeoRanking")}</span>
-                <span className="sm:hidden"> {t("Geo")}</span>
+                <span className="hidden sm:inline text-md">
+                  {" "}
+                  {t("GeoRanking")}
+                </span>
+                <span className="sm:hidden text-md"> {t("Geo")}</span>
               </TabsTrigger>
               <TabsTrigger value="insights">
                 <TrendingUp className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
-                <span> {t("insights")}</span>
+                <span className="text-md"> {t("insights")}</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-4 sm:mt-6">

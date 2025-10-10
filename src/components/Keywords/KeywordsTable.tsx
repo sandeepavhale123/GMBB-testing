@@ -398,7 +398,14 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 <TableCell className="font-medium">
                   {startIndex + index + 1}
                 </TableCell>
-                <TableCell className="font-medium">{keyword.keyword}</TableCell>
+                <TableCell className="font-medium">
+                  <button
+                    onClick={() => handleViewRank(keyword)}
+                    className="text-foreground hover:text-primary cursor-pointer transition-colors"
+                  >
+                    {keyword.keyword}
+                  </button>
+                </TableCell>
                 <TableCell className="text-center">
                   <TooltipProvider>
                     <Tooltip>

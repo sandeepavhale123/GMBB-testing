@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { RankingMap } from "./RankingMap";
 import { RankDetail, RankStats, ProjectDetails } from "../../api/geoRankingApi";
 import { Loader } from "../ui/loader";
+import { Link } from "react-router-dom";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface GeoRankingMapSectionProps {
@@ -12,6 +13,8 @@ interface GeoRankingMapSectionProps {
   rankStats?: RankStats;
   projectDetails?: ProjectDetails;
   loading: boolean;
+  showKeywordsLink?: boolean;
+  listingId?: string | number;
 }
 
 export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
@@ -22,6 +25,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
     rankStats,
     projectDetails,
     loading,
+    showKeywordsLink = false,
+    listingId,
   }) => {
     const { t } = useI18nNamespace("GeoRanking/GeoRankingMapSection");
 
@@ -140,6 +145,14 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                   {t("GeoRankingMapSection.title")}
                 </h3>
+                {showKeywordsLink && listingId && (
+                  <Link
+                    to={`/keywords/${listingId}`}
+                    className="text-sm text-primary hover:underline"
+                  >
+                    View All Keywords
+                  </Link>
+                )}
               </div>
 
               {/* Info Badges */}

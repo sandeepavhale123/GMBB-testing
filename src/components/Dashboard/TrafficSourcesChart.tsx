@@ -2,6 +2,9 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { PieChart as PieChartIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
+import { useListingContext } from "@/context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 type TrafficSourcesChartProps = {
@@ -13,6 +16,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
+  const { selectedListing } = useListingContext();
   const { t } = useI18nNamespace("Dashboard/trafficSourcesChart");
   // console.log("donut values", live, failed);
   const donutChartData = [
@@ -59,6 +63,11 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
               <span>{t("failedCountPosts", { count: failed })}</span>
             </div>
           </div>
+          <Button variant="outline" className="w-full mt-4" asChild>
+            <Link to={`/posts/${selectedListing?.id || "default"}`}>
+              View All
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>

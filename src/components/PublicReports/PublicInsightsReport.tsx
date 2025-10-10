@@ -45,6 +45,38 @@ export const PublicInsightsReport: React.FC = () => {
   const isMobile = useIsMobile(1281);
   const { t, loaded } = usePublicI18n(namespaces);
 
+  // State for donut chart visibility
+  const [visibleDonutSegments, setVisibleDonutSegments] = useState<Record<string, boolean>>({
+    "Desktop Search": true,
+    "Mobile Search": true,
+    "Desktop Map": true,
+    "Mobile Map": true,
+  });
+
+  // State for bar chart visibility
+  const [visibleBarSegments, setVisibleBarSegments] = useState<Record<string, boolean>>({
+    search: true,
+    map: true,
+    website: true,
+    direction: true,
+    call: true,
+    message: true,
+  });
+
+  const toggleDonutSegment = (segmentName: string) => {
+    setVisibleDonutSegments(prev => ({
+      ...prev,
+      [segmentName]: !prev[segmentName]
+    }));
+  };
+
+  const toggleBarSegment = (segmentName: string) => {
+    setVisibleBarSegments(prev => ({
+      ...prev,
+      [segmentName]: !prev[segmentName]
+    }));
+  };
+
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -173,12 +205,90 @@ export const PublicInsightsReport: React.FC = () => {
     donutChart: { label: string; value: number }[]
   ) => {
     const total = donutChart.reduce((sum, item) => sum + item.value, 0);
-    return donutChart.map((item) => ({
-      name: item.label,
-      count: item.value,
-      value: total ? Math.round((item.value / total) * 100) : 0,
-      fill: donutChartColorMap[item.label] || "#ccc",
-    }));
+    return donutChart
+      .filter(item => visibleDonutSegments[item.label])
+      .map((item) => ({
+        name: item.label,
+        count: item.value,
+        value: total ? Math.round((item.value / total) * 100) : 0,
+        fill: donutChartColorMap[item.label] || "#ccc",
+      }));
+  };
+
+  const renderCustomDonutLegend = () => {
+    const segments = [
+      { name: "Desktop Search", color: "hsl(220 100% 60%)" },
+      { name: "Mobile Search", color: "hsl(142 76% 60%)" },
+      { name: "Desktop Map", color: "hsl(47 96% 60%)" },
+      { name: "Mobile Map", color: "hsl(280 100% 60%)" },
+    ];
+
+    return (
+      <div className="flex justify-center flex-wrap gap-4 pt-4">
+        {segments.map((segment) => (
+          <button
+            key={segment.name}
+            onClick={() => toggleDonutSegment(segment.name)}
+            className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+              !visibleDonutSegments[segment.name] ? 'opacity-50' : ''
+            }`}
+            aria-pressed={visibleDonutSegments[segment.name]}
+            title={`${visibleDonutSegments[segment.name] ? 'Hide' : 'Show'} ${segment.name}`}
+            style={{ fontSize: isMobile ? "12px" : "14px" }}
+          >
+            <div
+              className="w-3 h-3 rounded"
+              style={{ backgroundColor: segment.color }}
+            />
+            <span
+              className={visibleDonutSegments[segment.name] ? '' : 'line-through'}
+              style={{ color: segment.color }}
+            >
+              {segment.name}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  };
+
+  const renderCustomBarLegend = () => {
+    const segments = [
+      { key: "search", label: "Search", color: "hsl(210 100% 55%)" },
+      { key: "map", label: "Map", color: "hsl(160 85% 50%)" },
+      { key: "website", label: "Website", color: "hsl(25 95% 55%)" },
+      { key: "direction", label: "Direction", color: "hsl(340 100% 55%)" },
+      { key: "call", label: "Call", color: "hsl(260 85% 55%)" },
+      { key: "message", label: "Message", color: "hsl(195 90% 50%)" },
+    ];
+
+    return (
+      <div className="flex justify-center flex-wrap gap-4 pt-4">
+        {segments.map((segment) => (
+          <button
+            key={segment.key}
+            onClick={() => toggleBarSegment(segment.key)}
+            className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+              !visibleBarSegments[segment.key] ? 'opacity-50' : ''
+            }`}
+            aria-pressed={visibleBarSegments[segment.key]}
+            title={`${visibleBarSegments[segment.key] ? 'Hide' : 'Show'} ${segment.label}`}
+            style={{ fontSize: isMobile ? "10px" : "12px" }}
+          >
+            <div
+              className="w-3 h-3 rounded"
+              style={{ backgroundColor: segment.color }}
+            />
+            <span
+              className={visibleBarSegments[segment.key] ? '' : 'line-through'}
+              style={{ color: segment.color }}
+            >
+              {segment.label}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -440,25 +550,10 @@ export const PublicInsightsReport: React.FC = () => {
                             return null;
                           }}
                         />
-                        <Legend
-                          verticalAlign="bottom"
-                          align="center"
-                          wrapperStyle={{
-                            display: "flex",
-                            justifyContent: "center",
-                            flexWrap: "wrap",
-                            paddingTop: "1rem",
-                            fontSize: isMobile ? "12px" : "14px",
-                            lineHeight: "20px",
-                            textAlign: "center",
-                          }}
-                          formatter={(value, entry) => (
-                            <span style={{ color: entry.color }}>{value}</span>
-                          )}
-                        />
                       </PieChart>
                     </ResponsiveContainer>
                   </ChartContainer>
+                  {renderCustomDonutLegend()}
                 </CardContent>
               </Card>
             </div>
@@ -519,25 +614,10 @@ export const PublicInsightsReport: React.FC = () => {
                           return null;
                         }}
                       />
-                      <Legend
-                        verticalAlign="bottom"
-                        align="center"
-                        wrapperStyle={{
-                          display: "flex",
-                          justifyContent: "center",
-                          flexWrap: "wrap",
-                          paddingTop: "1rem",
-                          fontSize: isMobile ? "12px" : "14px",
-                          lineHeight: "20px",
-                          textAlign: "center",
-                        }}
-                        formatter={(value, entry) => (
-                          <span style={{ color: entry.color }}>{value}</span>
-                        )}
-                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </ChartContainer>
+                {renderCustomDonutLegend()}
               </CardContent>
             </Card>
           )}
@@ -600,17 +680,7 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend
-                          fontSize={isMobile ? 10 : 12}
-                          wrapperStyle={{
-                            paddingTop:
-                              (insightData?.data?.periodOne?.bar_chart
-                                ?.length || 0) > 6
-                                ? "3.5rem" // tilted → add extra space
-                                : "1rem", // normal
-                          }}
-                        />
-                        {Object.keys(chartConfig).map((key) => (
+                        {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
                           <Bar
                             key={key}
                             dataKey={key}
@@ -621,6 +691,7 @@ export const PublicInsightsReport: React.FC = () => {
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
+                  {renderCustomBarLegend()}
                 </CardContent>
               </Card>
 
@@ -675,17 +746,7 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend
-                          fontSize={isMobile ? 10 : 12}
-                          wrapperStyle={{
-                            paddingTop:
-                              (insightData?.data?.periodTwo?.bar_chart
-                                ?.length || 0) > 6
-                                ? "3.5rem" // tilted → add extra space
-                                : "1rem", // normal
-                          }}
-                        />
-                        {Object.keys(chartConfig).map((key) => (
+                        {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
                           <Bar
                             key={key}
                             dataKey={key}
@@ -696,6 +757,7 @@ export const PublicInsightsReport: React.FC = () => {
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
+                  {renderCustomBarLegend()}
                 </CardContent>
               </Card>
             </div>
@@ -742,17 +804,7 @@ export const PublicInsightsReport: React.FC = () => {
                       />
                       <YAxis fontSize={isMobile ? 10 : 12} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend
-                        fontSize={isMobile ? 10 : 12}
-                        wrapperStyle={{
-                          paddingTop:
-                            (insightData?.data?.periodOne?.bar_chart?.length ||
-                              0) > 6
-                              ? "3.5rem" // tilted → add extra space
-                              : "1rem", // normal
-                        }}
-                      />
-                      {Object.keys(chartConfig).map((key) => (
+                      {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
                         <Bar
                           key={key}
                           dataKey={key}
@@ -763,6 +815,7 @@ export const PublicInsightsReport: React.FC = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
+                {renderCustomBarLegend()}
               </CardContent>
             </Card>
           )}
