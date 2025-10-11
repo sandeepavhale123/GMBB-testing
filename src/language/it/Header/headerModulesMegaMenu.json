@@ -1,0 +1,28 @@
+{
+  "modulesMenu": {
+    "title": "Moduli",
+    "comingSoon": "Prossimamente",
+    "gmbListing": {
+      "single": {
+        "name": "Gestisci scheda GMB",
+        "description": "Gestisci la scheda Google My Business di questa sede"
+      },
+      "multiple": {
+        "name": "Dashboard principale",
+        "description": "Gestisci le tue schede Google My Business"
+      }
+    },
+    "geoRanking": {
+      "name": "Classifica GEO",
+      "description": "Monitora e ottimizza le tue classifiche di ricerca locale"
+    },
+    "leadManagement": {
+      "name": "Gestione lead",
+      "description": "Gestisci e monitora i tuoi lead in modo efficace."
+    },
+    "reputation": {
+      "name": "Reputazione",
+      "description": "Monitora e gestisci la tua reputazione online"
+    }
+  }
+}

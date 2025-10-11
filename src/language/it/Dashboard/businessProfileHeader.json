@@ -1,10 +1,13 @@
 {
-  "businessOverview": "Panoramica Aziendale",
+  "businessOverview": "Panoramica aziendale",
   "verified": "Verificato",
-  "pending": "In Attesa",
+  "pending": "In attesa",
   "viewOnGoogle": "Visualizza su Google",
   "view": "Visualizza",
-  "viewReports": "Visualizza Rapporti",
+  "viewReports": "Visualizza rapporti",
   "reports": "Rapporti",
-  "summaryFor": "Ecco il riepilogo per: \"{{listingName}}\""
+  "summaryFor": "Ecco il riepilogo per: \"{{listingName}}\"",
+  "morning": "Buongiorno",
+  "afternoon": "Buon pomeriggio",
+  "evening": "Buonasera"
 }

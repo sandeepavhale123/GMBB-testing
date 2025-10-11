@@ -1,0 +1,28 @@
+{
+  "modulesMenu": {
+    "title": "Módulos",
+    "comingSoon": "Próximamente",
+    "gmbListing": {
+      "single": {
+        "name": "Gestionar ficha de GMB",
+        "description": "Administra la ficha de Google My Business de esta ubicación"
+      },
+      "multiple": {
+        "name": "Panel principal",
+        "description": "Administra tus fichas de Google My Business"
+      }
+    },
+    "geoRanking": {
+      "name": "Clasificación GEO",
+      "description": "Sigue y optimiza tus clasificaciones en búsquedas locales"
+    },
+    "leadManagement": {
+      "name": "Gestión de clientes potenciales",
+      "description": "Administra y realiza un seguimiento eficaz de tus clientes potenciales."
+    },
+    "reputation": {
+      "name": "Reputación",
+      "description": "Supervisa y gestiona tu reputación en línea"
+    }
+  }
+}

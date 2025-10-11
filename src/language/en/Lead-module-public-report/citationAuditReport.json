@@ -1,0 +1,45 @@
+{
+  "citationAudit": {
+    "title": "Citation Audit Report",
+    "listingName": "Business Name",
+    "loading": "Loading Citation Audit Report...",
+    "loadError": "Failed to load citation audit report",
+    "retry": "Retry",
+
+    "metrics": {
+      "total": "Total Citations Found",
+      "accuracy": "Accuracy Score",
+      "missing": "Missing Citations",
+      "duplicates": "Duplicate Listings"
+    },
+
+    "atAGlance": {
+      "title": "Your Citation Report at a Glance",
+      "foundTitle": "Found Citations",
+      "foundDesc": "Citations currently present",
+      "missingTitle": "Missing Citations",
+      "missingDesc": "Citations that need to be added"
+    },
+
+    "localPageScore": {
+      "title": "Local Page & Directory Score",
+      "description": "Your local page and directory score is based on the number of places in which your listing is present, divided by the number of local page and directories we've checked."
+    },
+
+    "tabs": {
+      "citation":"Citation Audit",
+      "existing": "Existing Citations",
+      "possible": "Possible Citations"
+    },
+
+    "table": {
+      "siteName": "Site Name",
+      "businessName": "Business Name",
+      "phone": "Phone",
+      "action": "Action",
+      "notMatching": "Not Matching",
+      "view": "View",
+      "add": "Add Listing"
+    }
+  }
+}

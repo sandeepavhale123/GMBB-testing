@@ -1,10 +1,14 @@
 {
   "businessOverview": "Unternehmensübersicht",
-  "verified": "Verifiziert",
+  "verified": "Bestätigt",
   "pending": "Ausstehend",
   "viewOnGoogle": "Auf Google ansehen",
   "view": "Ansehen",
   "viewReports": "Berichte ansehen",
   "reports": "Berichte",
-  "summaryFor": "Hier ist die Zusammenfassung für: \"{{listingName}}\""
+  "summaryFor": "Hier ist die Zusammenfassung für: \"{{listingName}}\"",
+  "morning": "Guten Morgen",
+  "afternoon": "Guten Nachmittag",
+  "evening": "Guten Abend"
 }
+

@@ -1,14 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { PublicReportLayout } from '../components/PublicReportLayout';
-import { GeoRankingHeader } from '@/components/GeoRanking/GeoRankingHeader';
-import { GeoRankingMapSection } from '@/components/GeoRanking/GeoRankingMapSection';
-import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
-import { Card, CardContent } from '@/components/ui/card';
-import { useLeadGeoRanking } from '@/hooks/useLeadGeoRanking';
-import { useLeadKeywordPositionDetails } from '@/hooks/useLeadKeywordPositionDetails';
-import { useGetLeadReportBranding } from '@/api/leadApi';
+import React, { useState, useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { PublicReportLayout } from "../components/PublicReportLayout";
+import { GeoRankingHeader } from "@/components/GeoRanking/GeoRankingHeader";
+import { GeoRankingMapSection } from "@/components/GeoRanking/GeoRankingMapSection";
+import { GeoPositionModal } from "@/components/GeoRanking/GeoPositionModal";
+import { Card, CardContent } from "@/components/ui/card";
+import { useLeadGeoRanking } from "@/hooks/useLeadGeoRanking";
+import { useLeadKeywordPositionDetails } from "@/hooks/useLeadKeywordPositionDetails";
+import { useGetLeadReportBranding } from "@/api/leadApi";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 
+export const namespaces = ["Lead-module-public-report/leadGeoRankingReport"];
 interface ModalData {
   isOpen: boolean;
   gpsCoordinates: string;
@@ -24,8 +26,9 @@ interface ModalData {
 }
 
 export const LeadGeoRankingReport: React.FC = () => {
+  const { t, loaded } = usePublicI18n(namespaces);
   const { reportId } = useParams<{ reportId: string }>();
-  
+
   // Use the lead geo ranking hook for real data
   const {
     keywords,
@@ -38,25 +41,25 @@ export const LeadGeoRankingReport: React.FC = () => {
     error,
     handleKeywordChange,
     handleDateChange,
-    setSelectedKeyword
-  } = useLeadGeoRanking(reportId || '');
+    setSelectedKeyword,
+  } = useLeadGeoRanking(reportId || "");
 
   // Get branding data
-  const { data: brandingData } = useGetLeadReportBranding(reportId || '');
-  
+  const { data: brandingData } = useGetLeadReportBranding(reportId || "");
+
   // Position details hook for modal
   const {
     data: positionDetailsData,
     loading: positionDetailsLoading,
     error: positionDetailsError,
-    fetchPositionDetails
+    fetchPositionDetails,
   } = useLeadKeywordPositionDetails();
-  
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
-    gpsCoordinates: '',
+    gpsCoordinates: "",
     competitors: [],
-    loading: false
+    loading: false,
   });
 
   // Set first keyword as default when data loads
@@ -69,39 +72,42 @@ export const LeadGeoRankingReport: React.FC = () => {
   // Update modal data when position details are fetched
   useEffect(() => {
     if (positionDetailsData && modalData.isOpen) {
-      setModalData(prev => ({
+      setModalData((prev) => ({
         ...prev,
         competitors: positionDetailsData.competitors,
         gpsCoordinates: positionDetailsData.coordinates,
-        loading: false
+        loading: false,
       }));
     }
   }, [positionDetailsData, modalData.isOpen]);
 
   // Handle marker click with real API call
-  const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
-    setModalData({
-      isOpen: true,
-      gpsCoordinates,
-      competitors: [],
-      loading: true
-    });
+  const handleMarkerClick = useCallback(
+    async (gpsCoordinates: string, positionId: string) => {
+      setModalData({
+        isOpen: true,
+        gpsCoordinates,
+        competitors: [],
+        loading: true,
+      });
 
-    try {
-      await fetchPositionDetails(parseInt(positionId));
-    } catch (error) {
-      console.error('Error fetching position details:', error);
-      setModalData(prev => ({
-        ...prev,
-        loading: false
-      }));
-    }
-  }, [fetchPositionDetails]);
+      try {
+        await fetchPositionDetails(parseInt(positionId));
+      } catch (error) {
+        console.error("Error fetching position details:", error);
+        setModalData((prev) => ({
+          ...prev,
+          loading: false,
+        }));
+      }
+    },
+    [fetchPositionDetails]
+  );
 
   const handleCloseModal = useCallback(() => {
-    setModalData(prev => ({
+    setModalData((prev) => ({
       ...prev,
-      isOpen: false
+      isOpen: false,
     }));
   }, []);
 
@@ -109,12 +115,12 @@ export const LeadGeoRankingReport: React.FC = () => {
   const dummyHandler = () => {};
 
   // Show loading state
-  if (isLoading) {
+  if (isLoading || !loaded) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-lg text-gray-600">Loading GEO Ranking Report...</p>
+          <p className="mt-4 text-lg text-gray-600">{t("geoReport.loading")}</p>
         </div>
       </div>
     );
@@ -125,75 +131,87 @@ export const LeadGeoRankingReport: React.FC = () => {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg text-red-600">Error loading report data</p>
-          <p className="text-gray-600">Please try again later</p>
+          <p className="text-lg text-red-600">{t("geoReport.error.main")}</p>
+          <p className="text-gray-600">{t("geoReport.error.sub")}</p>
         </div>
       </div>
     );
   }
 
   // Create mock underperforming areas (until this data is available from API)
-  const mockUnderPerformingAreas = rankingData?.rankDetails?.slice(0, 2).map((detail, index) => ({
-    id: detail.positionId,
-    areaName: `Area ${index + 1}`,
-    coordinate: detail.coordinates,
-    compRank: 1,
-    compName: 'Competitor',
-    compRating: '4.5',
-    compReview: '324',
-    priority: index === 0 ? 'High' : 'Medium',
-    youRank: detail.rank.toString(),
-    youName: businessInfo.name,
-    youRating: '4.2',
-    youReview: '156'
-  })) || [];
+  const mockUnderPerformingAreas =
+    rankingData?.rankDetails?.slice(0, 2).map((detail, index) => ({
+      id: detail.positionId,
+      areaName: `Area ${index + 1}`,
+      coordinate: detail.coordinates,
+      compRank: 1,
+      compName: "Competitor",
+      compRating: "4.5",
+      compReview: "324",
+      priority: index === 0 ? "High" : "Medium",
+      youRank: detail.rank.toString(),
+      youName: businessInfo.name,
+      youRating: "4.2",
+      youReview: "156",
+    })) || [];
 
   // Create project details from available data, prioritizing API data
   const projectDetails = {
     id: reportId,
-    sab: apiProjectDetails?.sab || 'Google Maps',
-    keyword: apiProjectDetails?.keyword || keywords.find(k => k.id === selectedKeyword)?.keyword || '',
-    mappoint: apiProjectDetails?.mappoint || rankingData?.rankDetails?.[0]?.coordinates || '40.7128,-74.0060',
-    prev_id: '0',
-    distance: apiProjectDetails?.distance || '10 Miles',
-    grid: apiProjectDetails?.grid || '3x3',
-    last_checked: apiProjectDetails?.date || new Date().toISOString().split('T')[0],
-    schedule: apiProjectDetails?.schedule || 'daily',
-    date: apiProjectDetails?.date || availableDates?.[0]?.date || new Date().toISOString().split('T')[0]
+    sab: apiProjectDetails?.sab || "Google Maps",
+    keyword:
+      apiProjectDetails?.keyword ||
+      keywords.find((k) => k.id === selectedKeyword)?.keyword ||
+      "",
+    mappoint:
+      apiProjectDetails?.mappoint ||
+      rankingData?.rankDetails?.[0]?.coordinates ||
+      "40.7128,-74.0060",
+    prev_id: "0",
+    distance: apiProjectDetails?.distance || "10 Miles",
+    grid: apiProjectDetails?.grid || "3x3",
+    last_checked:
+      apiProjectDetails?.date || new Date().toISOString().split("T")[0],
+    schedule: apiProjectDetails?.schedule || "daily",
+    date:
+      apiProjectDetails?.date ||
+      availableDates?.[0]?.date ||
+      new Date().toISOString().split("T")[0],
   };
 
   // Prepare keyword details for components
   const keywordDetails = {
-    rankDetails: rankingData?.rankDetails.map(detail => ({
-      coordinate: detail.coordinates,
-      positionId: detail.positionId,
-      rank: detail.rank.toString()
-    })) || [],
+    rankDetails:
+      rankingData?.rankDetails.map((detail) => ({
+        coordinate: detail.coordinates,
+        positionId: detail.positionId,
+        rank: detail.rank.toString(),
+      })) || [],
     dates: availableDates,
     rankStats: {
-      atr: rankingData?.atr?.toString() || '0',
-      atrp: rankingData?.atrp?.toString() || '0',
-      solvability: rankingData?.solvability?.toString() || '0'
+      atr: rankingData?.atr?.toString() || "0",
+      atrp: rankingData?.atrp?.toString() || "0",
+      solvability: rankingData?.solvability?.toString() || "0",
     },
     projectDetails,
-    underPerformingArea: mockUnderPerformingAreas
+    underPerformingArea: mockUnderPerformingAreas,
   };
 
   // Transform data for PublicReportLayout
   const transformedReportData = {
-    title: "GEO Ranking Report",
+    title: t("geoReport.title"),
     listingName: businessInfo.name,
     address: businessInfo.address,
     logo: "",
-    date: new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long', 
-      day: 'numeric'
-    })
+    date: new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
   };
 
   return (
-    <PublicReportLayout 
+    <PublicReportLayout
       title={transformedReportData.title}
       listingName={transformedReportData.listingName}
       address={transformedReportData.address}
@@ -207,12 +225,12 @@ export const LeadGeoRankingReport: React.FC = () => {
         <Card className="bg-white shadow-sm">
           <CardContent className="p-4 sm:p-6">
             <div data-export-target>
-              <GeoRankingHeader 
+              <GeoRankingHeader
                 keywords={keywords}
                 selectedKeyword={selectedKeyword}
-                selectedDate={availableDates?.[0]?.id || '1'}
+                selectedDate={availableDates?.[0]?.id || "1"}
                 keywordDetails={keywordDetails}
-                credits={{ allowedCredit: '0', remainingCredit: 0 }}
+                credits={{ allowedCredit: "0", remainingCredit: 0 }}
                 onKeywordChange={handleKeywordChange}
                 onDateChange={handleDateChange}
                 onClone={dummyHandler}
@@ -229,7 +247,7 @@ export const LeadGeoRankingReport: React.FC = () => {
               />
 
               <div className="space-y-4 sm:space-y-6">
-                <GeoRankingMapSection 
+                <GeoRankingMapSection
                   gridSize={apiProjectDetails?.grid || projectDetails.grid}
                   onMarkerClick={handleMarkerClick}
                   rankDetails={keywordDetails.rankDetails}
@@ -237,8 +255,11 @@ export const LeadGeoRankingReport: React.FC = () => {
                   projectDetails={{
                     ...projectDetails,
                     ...apiProjectDetails,
-                    prev_id: apiProjectDetails?.id ? '0' : projectDetails.prev_id,
-                    last_checked: apiProjectDetails?.date || projectDetails.last_checked
+                    prev_id: apiProjectDetails?.id
+                      ? "0"
+                      : projectDetails.prev_id,
+                    last_checked:
+                      apiProjectDetails?.date || projectDetails.last_checked,
                   }}
                   loading={isLoading}
                 />
@@ -248,7 +269,7 @@ export const LeadGeoRankingReport: React.FC = () => {
         </Card>
       </div>
 
-      <GeoPositionModal 
+      <GeoPositionModal
         isOpen={modalData.isOpen}
         onClose={handleCloseModal}
         gpsCoordinates={modalData.gpsCoordinates}

@@ -6,5 +6,8 @@
   "view": "View",
   "viewReports": "View Reports",
   "reports": "Reports",
-  "summaryFor": "Here's the summary for: \"{{listingName}}\""
+  "summaryFor": "Here's the summary for: \"{{listingName}}\"",
+  "morning":"Good Morning",
+  "afternoon":"Good Afternoon",
+  "evening":"Good Evening"  
 }

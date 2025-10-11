@@ -88,6 +88,7 @@
     },
     "competitorAnalysis": {
       "title": "Competitor Analysis",
+      "subtitle":"See how you compare against your local competitors",
       "moderateImpact": "Moderate Impact",
       "description": "The listing outperforms or matches its competitors in key areas.",
       "whyItMatters": "Standing out among competitors increases the chance of attracting more customers.",
@@ -96,12 +97,14 @@
         "averageRating": "Average Rating",
         "reviewCount": "Review Count",
         "tooltipRating": "Rating",
-        "tooltipReviews": "Reviews"
+        "tooltipReviews": "Reviews",
+        "reviews": "reviews"
       },
       "table": {
         "businessName": "Business Name",
         "avgRating": "Avg. Rating",
-        "reviewCount": "Review Count"
+        "reviewCount": "Review Count",
+        "you":"YOU"
       }
     },
     "citationAnalysis": {

@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { BarChart3, Menu, X } from 'lucide-react';
+import React, { useState } from "react";
+import { BarChart3, Menu, X } from "lucide-react";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
+
+export const namespaces = ["Lead-module-public-report/topHeader"];
 
 interface TopHeaderProps {
   reportId?: string;
@@ -11,23 +14,25 @@ interface TopHeaderProps {
     company_phone?: string;
     company_address?: string;
   } | null;
-  reportType?: 'gmb-health' | 'citation' | 'prospect' | 'geo-ranking';
+  reportType?: "gmb-health" | "citation" | "prospect" | "geo-ranking";
   reportTitle?: string;
 }
 
-const navigationItems = [
-  { id: 'overall-section', label: 'Overall' },
-  { id: 'presence-section', label: 'Presence' },
-  { id: 'post-section', label: 'Posts' },
-  { id: 'competitors-section', label: 'Competitors' },
-  { id: 'reviews-section', label: 'Reviews' }
-];
-
-export const TopHeader: React.FC<TopHeaderProps> = ({ 
-  brandingData, 
-  reportType = 'gmb-health',
-  reportTitle
+export const TopHeader: React.FC<TopHeaderProps> = ({
+  brandingData,
+  reportType = "gmb-health",
+  reportTitle,
 }) => {
+  const { t } = usePublicI18n(namespaces);
+
+  const navigationItems = [
+    { id: "overall-section", label: t("topHeader.navigation.overall") },
+    { id: "presence-section", label: t("topHeader.navigation.presence") },
+    { id: "post-section", label: t("topHeader.navigation.posts") },
+    { id: "competitors-section", label: t("topHeader.navigation.competitors") },
+    { id: "reviews-section", label: t("topHeader.navigation.reviews") },
+  ];
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSmoothScroll = (sectionId: string) => {
@@ -39,9 +44,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
-      
+
       // Close mobile menu after navigation
       setIsMobileMenuOpen(false);
     }
@@ -49,21 +54,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
   // Use branding data if available, otherwise fallback to default
   const displayLogo = brandingData?.company_logo;
-  const displayName = brandingData?.company_name || 'Report Ranking';
-  const displaySubtitle = reportTitle || 'Professional Business Reports';
+  const displayName = brandingData?.company_name || t("topHeader.defaultTitle");
+  const displaySubtitle = reportTitle || t("topHeader.defaultSubtitle");
 
   return (
-    <header 
-      className="fixed top-0 left-0 right-0 z-[405] w-full px-4 py-3 border-b border-border bg-background"
-    >
+    <header className="fixed top-0 left-0 right-0 z-[405] w-full px-4 py-3 border-b border-border bg-background">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
             {displayLogo ? (
-              <img 
-                src={displayLogo} 
-                alt="Company Logo" 
+              <img
+                src={displayLogo}
+                alt="Company Logo"
                 className="h-8 w-8 object-contain rounded-lg"
               />
             ) : (
@@ -72,14 +75,18 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
               </div>
             )}
             <div className="border-l border-border/30 pl-3 hidden md:block">
-              <h1 className="text-md font-semibold text-foreground mb-0 p-0">{displayName}</h1>
-              <p className="text-sm text-muted-foreground mt-0 p-0">{displaySubtitle}</p>
+              <h1 className="text-md font-semibold text-foreground mb-0 p-0">
+                {displayName}
+              </h1>
+              <p className="text-sm text-muted-foreground mt-0 p-0">
+                {displaySubtitle}
+              </p>
             </div>
           </div>
         </div>
 
         {/* Right section - Navigation Menu */}
-        {reportType === 'gmb-health' && (
+        {reportType === "gmb-health" && (
           <div className="flex items-center">
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
@@ -98,7 +105,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
-              aria-label="Toggle navigation menu"
+              aria-label={t("topHeader.menu.toggle")}
             >
               {isMobileMenuOpen ? (
                 <X className="h-5 w-5" />

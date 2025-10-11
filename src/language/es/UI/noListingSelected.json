@@ -1,0 +1,6 @@
+{
+  "noListing": {
+    "title": "No hay listado disponible",
+    "description": "Por favor, selecciona un listado de negocio para ver {{pageType}}."
+  }
+}

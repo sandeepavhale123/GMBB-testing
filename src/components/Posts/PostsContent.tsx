@@ -274,7 +274,7 @@ export const PostsContent: React.FC<PostsContentProps> = ({
           <span className="text-sm text-gray-600">
             {t("pageInfo", {
               current: pagination.currentPage,
-              toatl: pagination.totalPages,
+              total: pagination.totalPages,
             })}
             {/* Page {pagination.currentPage} of {pagination.totalPages} */}
           </span>

@@ -609,7 +609,7 @@ export const Health: React.FC = () => {
                       {t("healthPage.competitorAnalysis.title")}
                     </h3>
                     <p className="text-gray-600">
-                      See how you compare against your local competitors
+                      {t("healthPage.competitorAnalysis.subtitle")}
                     </p>
                   </div>
 
@@ -674,7 +674,9 @@ export const Health: React.FC = () => {
                           formatter={(value, name) => [
                             name === "avgRating"
                               ? `${value} ⭐`
-                              : `${value} reviews`,
+                              : `${value} ${t(
+                                  "healthPage.competitorAnalysis.chart.reviews"
+                                )}`,
                             name === "avgRating"
                               ? t(
                                   "healthPage.competitorAnalysis.chart.tooltipRating"
@@ -747,7 +749,9 @@ export const Health: React.FC = () => {
                             }
                           >
                             <td className="px-4 py-3 font-medium">
-                              {isYou ? "YOU" : item.index}
+                              {isYou
+                                ? t("healthPage.competitorAnalysis.table.you")
+                                : item.index}
                             </td>
                             <td className="px-4 py-3">{item.displayName}</td>
                             <td className="px-4 py-3 text-center">
@@ -925,7 +929,9 @@ export const Health: React.FC = () => {
                             }
                           >
                             <td className="px-4 py-3 font-medium">
-                              {isYou ? "YOU" : item.index}
+                              {isYou
+                                ? t("healthPage.competitorAnalysis.table.you")
+                                : item.index}
                             </td>
                             <td className="px-4 py-3">{item.displayName}</td>
                             <td className="px-4 py-3 text-center">

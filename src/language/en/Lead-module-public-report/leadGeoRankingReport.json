@@ -1,0 +1,15 @@
+{
+  "geoReport": {
+    "title": "GEO Ranking Report",
+    "loading": "Loading GEO Ranking Report...",
+    "error": {
+      "main": "Error loading report data",
+      "sub": "Please try again later"
+    },
+    "area": "Area",
+    "priority": {
+      "high": "High",
+      "medium": "Medium"
+    }
+  }
+}

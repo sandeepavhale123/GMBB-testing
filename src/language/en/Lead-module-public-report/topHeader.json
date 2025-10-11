@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Report Ranking",
+    "defaultSubtitle": "Professional Business Reports",
+    "navigation": {
+      "overall": "Overall",
+      "presence": "Presence",
+      "posts": "Posts",
+      "competitors": "Competitors",
+      "reviews": "Reviews"
+    },
+    "menu": {
+      "toggle": "Toggle navigation menu"
+    }
+  }
+}

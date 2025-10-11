@@ -6,5 +6,9 @@
   "view": "Voir",
   "viewReports": "Voir les rapports",
   "reports": "Rapports",
-  "summaryFor": "Voici le résumé pour : « {{listingName}} »"
+  "summaryFor": "Voici le résumé pour : \"{{listingName}}\"",
+  "morning": "Bonjour",
+  "afternoon": "Bon après-midi",
+  "evening": "Bonsoir"
 }
+

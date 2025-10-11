@@ -29,9 +29,9 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
   // Dynamic greeting based on time
   const getTimeBasedGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning";
-    if (hour < 17) return "Good Afternoon";
-    return "Good Evening";
+    if (hour < 12) return t("morning");
+    if (hour < 17) return t("afternoon");
+    return t("evening");
   };
 
   // Button click handlers
@@ -105,7 +105,9 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                   }`}
                 ></div>
                 <span className="text-purple-100">
-                  {selectedListing?.isVerified === "1" ? "Verified" : "Pending"}
+                  {selectedListing?.isVerified === "1"
+                    ? t("verified")
+                    : t("pending")}
                 </span>
               </div>
 
