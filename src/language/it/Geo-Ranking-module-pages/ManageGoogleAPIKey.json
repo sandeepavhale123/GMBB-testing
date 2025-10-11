@@ -1,0 +1,43 @@
+{
+  "manageApiKey": {
+    "pageTitle": "Chiave API Google Places",
+    "pageDescription": "Gestisci la tua chiave API Google Places per i controlli di ranking basati sulla posizione.",
+    "infoAlert": {
+      "description": "Hai bisogno di una chiave API Google Places valida per eseguire i controlli di ranking basati sulla posizione. Assicurati che la tua chiave API abbia abilitato Places API e Geocoding API.",
+      "getKey": "Ottieni Chiave API"
+    },
+    "status": {
+      "title": "Stato Attuale",
+      "configured": "Chiave API Configurata",
+      "keyLabel": "Chiave",
+      "active": "Attiva",
+      "delete": "Elimina",
+      "deleting": "Eliminazione in corso...",
+      "deleteTitle": "Elimina Chiave API",
+      "deleteDescription": "Sei sicuro di voler eliminare la tua chiave API Google Places? Questa azione non può essere annullata e disabiliterà tutti i controlli di ranking basati sulla posizione.",
+      "cancel": "Annulla",
+      "confirmDelete": "Elimina Chiave API"
+    },
+    "config": {
+      "title": "Configurazione Chiave API",
+      "label": "Chiave API Google Places",
+      "placeholder": "Inserisci la tua chiave API Google Places",
+      "add": "Aggiungi",
+      "update": "Aggiorna",
+      "saving": "Salvataggio in corso..."
+    },
+    "instructions": {
+      "title": "Come generare la chiave API Google Places:",
+      "step1": "1. Nota - Devi abilitare la fatturazione per il progetto Google.",
+      "step2_p1": "2. Visita la ",
+      "step2_p2": "Console Google Cloud Platform.",
+      "step3": "3. Clicca sul menu a tendina del progetto e seleziona o crea il progetto per il quale vuoi aggiungere una chiave API.",
+      "step4": "4. Dal Dashboard > Vai a Panoramica API > Clicca su Libreria > Abilita Maps JavaScript API & Abilita Places API cliccando su entrambe rispettivamente.",
+      "step5": "5. Dopo di che clicca sul pulsante menu e seleziona API e Servizi > Credenziali.",
+      "step6": "6. Nella pagina Credenziali, menu a tendina Crea credenziali - Seleziona Opzione Chiave API.",
+      "step7": "7. Questo creerà una finestra che mostra “la tua chiave API appena creata” - Copia la chiave.",
+      "step8": "8. Usa o incolla la chiave generata sotto Geo Ranking > scheda Gestisci Chiave. (Attività una tantum - Solo al primo utilizzo del controllo GEO Ranking).",
+      "step9": "9. Una volta aggiunta la chiave, sarà utilizzata per tutte le tue schede e non sarà più necessario generare chiavi separate per ogni scheda GMB."
+    }
+  }
+}

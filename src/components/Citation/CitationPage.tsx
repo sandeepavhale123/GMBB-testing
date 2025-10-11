@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   Table,
   TableBody,
@@ -166,6 +165,7 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [citationTab, setCitationTab] = useState<"existing" | "possible">("existing");
   const [reportProgressOpen, setReportProgressOpen] = useState(false);
   const [reportStatus, setReportStatus] = useState<
     "loading" | "success" | "error" | null
@@ -537,23 +537,31 @@ export const CitationPage: React.FC = () => {
                     </Button>
                   </CardHeader>
                   <CardContent>
-                    <Tabs defaultValue="existing" className="w-full">
-                      <TabsList className="grid grid-cols-2 sm:inline-flex sm:h-10 sm:items-center sm:justify-center sm:rounded-md bg-muted p-1 text-muted-foreground">
-                        <TabsTrigger
-                          value="existing"
-                          className="text-xs sm:text-sm"
+                    <div className="w-full">
+                      <div className="flex items-center space-x-2 mb-6">
+                        <button
+                          onClick={() => setCitationTab("existing")}
+                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
+                            citationTab === "existing"
+                              ? "bg-primary text-primary-foreground"
+                              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                          }`}
                         >
                           Existing Citation ({citationData?.existingCitation})
-                        </TabsTrigger>
-                        <TabsTrigger
-                          value="possible"
-                          className="text-xs sm:text-sm"
+                        </button>
+                        <button
+                          onClick={() => setCitationTab("possible")}
+                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
+                            citationTab === "possible"
+                              ? "bg-primary text-primary-foreground"
+                              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                          }`}
                         >
                           Possible Citation ({trackerData?.totalChecked})
-                        </TabsTrigger>
-                      </TabsList>
+                        </button>
+                      </div>
 
-                      <TabsContent value="existing" className="mt-6">
+                      {citationTab === "existing" && (
                         <div className="overflow-x-auto rounded-md border">
                           <Table className="min-w-full">
                             <TableHeader>
@@ -620,9 +628,9 @@ export const CitationPage: React.FC = () => {
                             </TableBody>
                           </Table>
                         </div>
-                      </TabsContent>
+                      )}
 
-                      <TabsContent value="possible" className="mt-6">
+                      {citationTab === "possible" && (
                         <div className="overflow-x-auto rounded-md border">
                           <Table className="min-w-full">
                             <TableHeader>
@@ -678,12 +686,12 @@ export const CitationPage: React.FC = () => {
                                     </Button>
                                   </TableCell>
                                 </TableRow>
-                              ))}
+                               ))}
                             </TableBody>
                           </Table>
                         </div>
-                      </TabsContent>
-                    </Tabs>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               </>

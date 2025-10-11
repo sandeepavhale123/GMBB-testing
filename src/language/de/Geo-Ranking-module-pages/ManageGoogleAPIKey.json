@@ -1,0 +1,43 @@
+{
+  "manageApiKey": {
+    "pageTitle": "Google Places API-Schlüssel",
+    "pageDescription": "Verwalten Sie Ihren Google Places API-Schlüssel für standortbasierte Ranking-Checks.",
+    "infoAlert": {
+      "description": "Sie benötigen einen gültigen Google Places API-Schlüssel, um standortbasierte Ranking-Checks durchzuführen. Stellen Sie sicher, dass Ihr API-Schlüssel die Places API und die Geocoding API aktiviert hat.",
+      "getKey": "API-Schlüssel erhalten"
+    },
+    "status": {
+      "title": "Aktueller Status",
+      "configured": "API-Schlüssel konfiguriert",
+      "keyLabel": "Schlüssel",
+      "active": "Aktiv",
+      "delete": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "deleteTitle": "API-Schlüssel löschen",
+      "deleteDescription": "Sind Sie sicher, dass Sie Ihren Google Places API-Schlüssel löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und deaktiviert alle standortbasierten Ranking-Checks.",
+      "cancel": "Abbrechen",
+      "confirmDelete": "API-Schlüssel löschen"
+    },
+    "config": {
+      "title": "API-Schlüssel-Konfiguration",
+      "label": "Google Places API-Schlüssel",
+      "placeholder": "Geben Sie Ihren Google Places API-Schlüssel ein",
+      "add": "Hinzufügen",
+      "update": "Aktualisieren",
+      "saving": "Speichert..."
+    },
+    "instructions": {
+      "title": "So generieren Sie einen Google Places API-Schlüssel:",
+      "step1": "1. Hinweis - Sie müssen die Abrechnung für Ihr Google-Projekt aktivieren.",
+      "step2_p1": "2. Besuchen Sie die Google ",
+      "step2_p2": "Cloud Platform Console.",
+      "step3": "3. Klicken Sie auf das Projekt-Dropdown und wählen oder erstellen Sie das Projekt, für das Sie einen API-Schlüssel hinzufügen möchten.",
+      "step4": "4. Gehen Sie im Dashboard zu APIs Übersicht > Klicken Sie auf Bibliothek > Aktivieren Sie Maps JavaScript API & Places API, indem Sie beide nacheinander aktivieren.",
+      "step5": "5. Klicken Sie anschließend auf die Menüschaltfläche und wählen Sie APIs & Dienste > Anmeldedaten.",
+      "step6": "6. Auf der Seite Anmeldedaten: Dropdown „Anmeldedaten erstellen“ - Wählen Sie die Option API-Schlüssel.",
+      "step7": "7. Es erscheint ein Dialogfeld mit „Ihr neu erstellter API-Schlüssel“ – Kopieren Sie den Schlüssel.",
+      "step8": "8. Verwenden oder fügen Sie den generierten Schlüssel unter Geo Ranking > Reiter 'Schlüssel verwalten' ein. (Einmalige Aktivität – nur beim ersten Gebrauch des GEO-Ranking-Checks).",
+      "step9": "9. Sobald Sie einen Schlüssel hinzugefügt haben, wird er für alle Ihre Einträge verwendet, und es ist nicht nötig, für jeden GMB-Eintrag einen separaten Schlüssel zu generieren."
+    }
+  }
+}

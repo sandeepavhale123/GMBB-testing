@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../ui/tabs";
 import {
   Carousel,
   CarouselContent,
@@ -312,18 +311,10 @@ export const AutoResponseTab: React.FC = () => {
       {autoResponse.enabled && (
         <Card className="bg-white p-6">
           {/* Header with Title, Tabs, and Create Button in single row */}
-          <Tabs
-            defaultValue="review"
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
-          >
+          <div className="w-full">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
-              {/* ✨ Changed to flex-col on small screens and row on lg+ */}
-
               {/* Left Section */}
               <div className="flex-1">
-                {/* ✨ Removed unnecessary nested flex containers */}
                 <h3 className="text-lg font-semibold text-gray-900">
                   {t("autoResponseTab.replyTemplates.title")}
                 </h3>
@@ -332,23 +323,34 @@ export const AutoResponseTab: React.FC = () => {
                 </p>
               </div>
 
-              {/* Right Section */}
-              <div className="w-full sm:w-auto">
-                {/* ✨ Ensures full width on mobile, auto on sm and up */}
-                <TabsList className="grid grid-cols-2 gap-2 sm:gap-4">
-                  {/* ✨ Removed conflicting w-full and w-auto, added gap for spacing */}
-                  <TabsTrigger value="review">
-                    {t("autoResponseTab.replyTemplates.tabs.review")}
-                  </TabsTrigger>
-                  <TabsTrigger value="rating-only">
-                    {t("autoResponseTab.replyTemplates.tabs.ratingOnly")}
-                  </TabsTrigger>
-                </TabsList>
+              {/* Right Section - Button Style Tabs */}
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setActiveTab("review")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    activeTab === "review"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {t("autoResponseTab.replyTemplates.tabs.review")}
+                </button>
+                <button
+                  onClick={() => setActiveTab("rating-only")}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    activeTab === "rating-only"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {t("autoResponseTab.replyTemplates.tabs.ratingOnly")}
+                </button>
               </div>
             </div>
 
             {/* Reply for Review Tab Content */}
-            <TabsContent value="review" className="space-y-4">
+            {activeTab === "review" && (
+              <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <TemplateCard
@@ -373,10 +375,12 @@ export const AutoResponseTab: React.FC = () => {
                 }
                 isAutoResponseMode={true}
               />
-            </TabsContent>
+            </div>
+            )}
 
             {/* Reply for Rating Only Tab Content */}
-            <TabsContent value="rating-only" className="space-y-4">
+            {activeTab === "rating-only" && (
+              <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <TemplateCard
@@ -402,8 +406,9 @@ export const AutoResponseTab: React.FC = () => {
                 }
                 isAutoResponseMode={true}
               />
-            </TabsContent>
-          </Tabs>
+            </div>
+            )}
+          </div>
 
           {/* Divider */}
           <Separator className="my-6" />

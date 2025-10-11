@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Historique des crédits",
+    "description": "Suivez l'utilisation de vos crédits pour toutes les vérifications de classement.",
+    "searchPlaceholder": "Rechercher des mots-clés...",
+    "table": {
+      "keyword": "Mot-clé",
+      "type": "Type de crédit",
+      "credit": "Crédit",
+      "date": "Date"
+    },
+    "empty": {
+      "title": "Aucun historique de crédits trouvé",
+      "subtitle": "Essayez d'ajuster votre recherche"
+    }
+  }
+}

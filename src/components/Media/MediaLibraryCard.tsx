@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { MediaFilters } from "./MediaFilters";
 import { EnhancedMediaCard } from "./EnhancedMediaCard";
 import { MediaPagination } from "./MediaPagination";
+import { MediaTabs } from "./MediaTabs";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MediaItem {
@@ -84,23 +84,10 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
           <CardTitle className="text-lg font-semibold text-gray-700">
             {t("mediaLibraryCard.title")}
           </CardTitle>
-          <Tabs
-            value={mediaTypeTab}
-            onValueChange={onMediaTypeTabChange}
-            className="w-auto"
-          >
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all">
-                {t("mediaLibraryCard.tabs.all")}
-              </TabsTrigger>
-              <TabsTrigger value="image">
-                {t("mediaLibraryCard.tabs.image")}
-              </TabsTrigger>
-              <TabsTrigger value="video">
-                {t("mediaLibraryCard.tabs.video")}
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <MediaTabs
+            activeTab={mediaTypeTab}
+            onTabChange={onMediaTypeTabChange}
+          />
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

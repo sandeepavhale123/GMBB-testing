@@ -10,7 +10,7 @@ import type {
   BusinessInfo,
   BusinessStatistics,
 } from "../../types/businessInfoTypes";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessProfileCardProps {
@@ -127,7 +127,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 </div>
 
                 <div
-                  className="bg-secondary p-2 rounded"
+                  className="bg-secondary p-2 rounded hidden"
                   style={{ width: "110px" }}
                 >
                   <div className="text-lg font-bold text-gray-900">
@@ -202,27 +202,21 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 {tab.label}
               </button>
             ))} */}
-            <Tabs
-              value={activeTab}
-              onValueChange={(value) =>
-                onTabChange?.(
-                  value as "business-info" | "opening-hours" | "edit-log"
-                )
-              }
-              className="w-full"
-            >
-              <TabsList className="flex flex-wrap gap-2 max-w-max  min-h-max h-min justify-start">
-                {tabs.map((tab) => (
-                  <TabsTrigger
-                    key={tab.id}
-                    value={tab.id}
-                    className="w-[100px] md:w-auto whitespace-normal break-words text-center text-sm leading-tight px-2 py-2"
-                  >
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
+            <div className="flex items-center space-x-2 flex-wrap">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => onTabChange?.(tab.id)}
+                  className={`px-4 py-2 font-medium text-sm rounded-md transition-colors ${
+                    activeTab === tab.id
+                      ? "bg-primary text-primary-foreground"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </nav>
         </div>
       </CardFooter>

@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Storico Crediti",
+    "description": "Monitora l'utilizzo dei crediti per tutti i controlli di ranking.",
+    "searchPlaceholder": "Cerca parole chiave...",
+    "table": {
+      "keyword": "Parola Chiave",
+      "type": "Tipo di Credito",
+      "credit": "Credito",
+      "date": "Data"
+    },
+    "empty": {
+      "title": "Nessuno storico crediti trovato",
+      "subtitle": "Prova a modificare la tua ricerca"
+    }
+  }
+}

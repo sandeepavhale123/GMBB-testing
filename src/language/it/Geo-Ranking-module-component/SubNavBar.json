@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "checkRank": "Controlla Posizione",
+    "creditsHistory": "Storico Crediti",
+    "settings": "Impostazioni",
+    "aiChatbot": "Chatbot AI"
+  },
+  "back": "Indietro"
+}

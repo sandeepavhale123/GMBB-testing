@@ -1,0 +1,60 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Gestion de projet",
+      "description": "Gérez vos projets de classement GEO."
+    },
+    "buttons": {
+      "createProject": "Créer un projet",
+      "editProject": "Modifier le projet",
+      "updateProject": "Mettre à jour le projet",
+      "cancel": "Annuler",
+      "deleteProject": "Supprimer le projet",
+      "view": "Voir",
+      "edit": "Modifier"
+    },
+    "dialog": {
+      "createNew": "Créer un nouveau projet",
+      "edit": "Modifier le projet",
+      "descCreate": "Entrez les détails de votre nouveau projet de classement GEO.",
+      "descEdit": "Mettez à jour les détails de votre projet de classement GEO.",
+      "projectName": "Nom du projet",
+      "notificationEmail": "Email de notification",
+      "placeholder": {
+        "enterProjectName": "Entrez le nom du projet",
+        "enterEmails": "Entrez les emails séparés par des virgules"
+      }
+    },
+    "summary": {
+      "noOfProject": "Nombre de projets",
+      "noOfKeywords": "Nombre de mots-clés",
+      "noOfScheduledScan": "Nombre de scans programmés",
+      "availableCredits": "Crédits disponibles",
+      "creditsRemaining": "{{remaining}} restants sur {{total}} au total"
+    },
+    "table": {
+      "searchPlaceholder": "Rechercher des projets...",
+      "projectName": "Nom du projet",
+      "noOfKeywords": "Nombre de mots-clés",
+      "date": "Date",
+      "notificationEmail": "Email de notification",
+      "action": "Action",
+      "loadingProjects": "Chargement des projets...",
+      "noProjectsFound": "Aucun projet trouvé",
+      "deleteConfirmationTitle": "Supprimer le projet",
+      "deleteConfirmationDescription": "Cette action est irréversible. Cela supprimera définitivement le projet \"{name}\" et toutes ses données associées, y compris les mots-clés et les points sur la carte.",
+      "typeDeleteToConfirm": "Tapez \"delete\" pour confirmer",
+      "placeholderDelete": "delete",
+      "shareablelink": "Lien partageable"
+    },
+    "pagination": {
+      "showing": "Affichage de {{from}} à {{to}} sur {{total}} projets",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "alerts": {
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    }
+  }
+}
