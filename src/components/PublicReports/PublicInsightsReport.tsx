@@ -46,7 +46,9 @@ export const PublicInsightsReport: React.FC = () => {
   const { t, loaded } = usePublicI18n(namespaces);
 
   // State for donut chart visibility
-  const [visibleDonutSegments, setVisibleDonutSegments] = useState<Record<string, boolean>>({
+  const [visibleDonutSegments, setVisibleDonutSegments] = useState<
+    Record<string, boolean>
+  >({
     "Desktop Search": true,
     "Mobile Search": true,
     "Desktop Map": true,
@@ -54,7 +56,9 @@ export const PublicInsightsReport: React.FC = () => {
   });
 
   // State for bar chart visibility
-  const [visibleBarSegments, setVisibleBarSegments] = useState<Record<string, boolean>>({
+  const [visibleBarSegments, setVisibleBarSegments] = useState<
+    Record<string, boolean>
+  >({
     search: true,
     map: true,
     website: true,
@@ -64,16 +68,16 @@ export const PublicInsightsReport: React.FC = () => {
   });
 
   const toggleDonutSegment = (segmentName: string) => {
-    setVisibleDonutSegments(prev => ({
+    setVisibleDonutSegments((prev) => ({
       ...prev,
-      [segmentName]: !prev[segmentName]
+      [segmentName]: !prev[segmentName],
     }));
   };
 
   const toggleBarSegment = (segmentName: string) => {
-    setVisibleBarSegments(prev => ({
+    setVisibleBarSegments((prev) => ({
       ...prev,
-      [segmentName]: !prev[segmentName]
+      [segmentName]: !prev[segmentName],
     }));
   };
 
@@ -206,7 +210,7 @@ export const PublicInsightsReport: React.FC = () => {
   ) => {
     const total = donutChart.reduce((sum, item) => sum + item.value, 0);
     return donutChart
-      .filter(item => visibleDonutSegments[item.label])
+      .filter((item) => visibleDonutSegments[item.label])
       .map((item) => ({
         name: item.label,
         count: item.value,
@@ -230,10 +234,12 @@ export const PublicInsightsReport: React.FC = () => {
             key={segment.name}
             onClick={() => toggleDonutSegment(segment.name)}
             className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
-              !visibleDonutSegments[segment.name] ? 'opacity-50' : ''
+              !visibleDonutSegments[segment.name] ? "opacity-50" : ""
             }`}
             aria-pressed={visibleDonutSegments[segment.name]}
-            title={`${visibleDonutSegments[segment.name] ? 'Hide' : 'Show'} ${segment.name}`}
+            title={`${visibleDonutSegments[segment.name] ? "Hide" : "Show"} ${
+              segment.name
+            }`}
             style={{ fontSize: isMobile ? "12px" : "14px" }}
           >
             <div
@@ -241,7 +247,9 @@ export const PublicInsightsReport: React.FC = () => {
               style={{ backgroundColor: segment.color }}
             />
             <span
-              className={visibleDonutSegments[segment.name] ? '' : 'line-through'}
+              className={
+                visibleDonutSegments[segment.name] ? "" : "line-through"
+              }
               style={{ color: segment.color }}
             >
               {segment.name}
@@ -269,10 +277,12 @@ export const PublicInsightsReport: React.FC = () => {
             key={segment.key}
             onClick={() => toggleBarSegment(segment.key)}
             className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
-              !visibleBarSegments[segment.key] ? 'opacity-50' : ''
+              !visibleBarSegments[segment.key] ? "opacity-50" : ""
             }`}
             aria-pressed={visibleBarSegments[segment.key]}
-            title={`${visibleBarSegments[segment.key] ? 'Hide' : 'Show'} ${segment.label}`}
+            title={`${visibleBarSegments[segment.key] ? "Hide" : "Show"} ${
+              segment.label
+            }`}
             style={{ fontSize: isMobile ? "10px" : "12px" }}
           >
             <div
@@ -280,7 +290,7 @@ export const PublicInsightsReport: React.FC = () => {
               style={{ backgroundColor: segment.color }}
             />
             <span
-              className={visibleBarSegments[segment.key] ? '' : 'line-through'}
+              className={visibleBarSegments[segment.key] ? "" : "line-through"}
               style={{ color: segment.color }}
             >
               {segment.label}
@@ -680,14 +690,16 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
-                          <Bar
-                            key={key}
-                            dataKey={key}
-                            fill={chartConfig[key].color}
-                            name={chartConfig[key].label}
-                          />
-                        ))}
+                        {Object.keys(chartConfig)
+                          .filter((key) => visibleBarSegments[key])
+                          .map((key) => (
+                            <Bar
+                              key={key}
+                              dataKey={key}
+                              fill={chartConfig[key].color}
+                              name={chartConfig[key].label}
+                            />
+                          ))}
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -746,14 +758,16 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
-                          <Bar
-                            key={key}
-                            dataKey={key}
-                            fill={chartConfig[key].color}
-                            name={chartConfig[key].label}
-                          />
-                        ))}
+                        {Object.keys(chartConfig)
+                          .filter((key) => visibleBarSegments[key])
+                          .map((key) => (
+                            <Bar
+                              key={key}
+                              dataKey={key}
+                              fill={chartConfig[key].color}
+                              name={chartConfig[key].label}
+                            />
+                          ))}
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -804,14 +818,16 @@ export const PublicInsightsReport: React.FC = () => {
                       />
                       <YAxis fontSize={isMobile ? 10 : 12} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      {Object.keys(chartConfig).filter(key => visibleBarSegments[key]).map((key) => (
-                        <Bar
-                          key={key}
-                          dataKey={key}
-                          fill={chartConfig[key].color}
-                          name={chartConfig[key].label}
-                        />
-                      ))}
+                      {Object.keys(chartConfig)
+                        .filter((key) => visibleBarSegments[key])
+                        .map((key) => (
+                          <Bar
+                            key={key}
+                            dataKey={key}
+                            fill={chartConfig[key].color}
+                            name={chartConfig[key].label}
+                          />
+                        ))}
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>

@@ -1,6 +1,13 @@
 import React, { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
@@ -46,12 +53,17 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
   // Filter keywords based on search term
   const filteredKeywords = useMemo(() => {
-    return keywords.filter((keyword) => keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase()));
+    return keywords.filter((keyword) =>
+      keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }, [keywords, searchTerm]);
 
   // Check if all visible keywords are selected
   const allSelected = useMemo(() => {
-    return filteredKeywords.length > 0 && filteredKeywords.every((k) => selectedKeywords.includes(k.id));
+    return (
+      filteredKeywords.length > 0 &&
+      filteredKeywords.every((k) => selectedKeywords.includes(k.id))
+    );
   }, [filteredKeywords, selectedKeywords]);
 
   const handleSelectAll = () => {
@@ -64,7 +76,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
 
   const handleSelectKeyword = (keywordId: string) => {
     setSelectedKeywords((prev) =>
-      prev.includes(keywordId) ? prev.filter((id) => id !== keywordId) : [...prev, keywordId],
+      prev.includes(keywordId)
+        ? prev.filter((id) => id !== keywordId)
+        : [...prev, keywordId]
     );
   };
 
@@ -133,7 +147,12 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
         >
           <DialogHeader className="flex flex-row items-center justify-between pr-6">
             <DialogTitle>All Keywords</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="h-8 w-8 p-0"
+            >
               <X className="h-4 w-4" />
             </Button>
           </DialogHeader>
@@ -164,8 +183,15 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             {/* Bulk Actions Bar */}
             {selectedKeywords.length > 0 && (
               <div className="mb-4 p-3 bg-muted rounded-md flex items-center justify-between">
-                <span className="text-sm font-medium">{selectedKeywords.length} keyword(s) selected</span>
-                <Button variant="destructive" size="sm" onClick={handleDeleteSelected} disabled={isDeleting}>
+                <span className="text-sm font-medium">
+                  {selectedKeywords.length} keyword(s) selected
+                </span>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleDeleteSelected}
+                  disabled={isDeleting}
+                >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete Selected
                 </Button>
@@ -186,7 +212,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                     </TableHead>
                     <TableHead className="w-20 py-2">Sr. No.</TableHead>
                     <TableHead className="py-2">Keyword</TableHead>
-                    <TableHead className="w-32 text-right py-2">Actions</TableHead>
+                    <TableHead className="w-32 text-right py-2">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -198,8 +226,13 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                     </TableRow>
                   ) : filteredKeywords.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                        {searchTerm ? "No keywords found matching your search" : "No keywords available"}
+                      <TableCell
+                        colSpan={4}
+                        className="text-center py-8 text-muted-foreground"
+                      >
+                        {searchTerm
+                          ? "No keywords found matching your search"
+                          : "No keywords available"}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -208,11 +241,15 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                         <TableCell className="py-2">
                           <Checkbox
                             checked={selectedKeywords.includes(keyword.id)}
-                            onCheckedChange={() => handleSelectKeyword(keyword.id)}
+                            onCheckedChange={() =>
+                              handleSelectKeyword(keyword.id)
+                            }
                           />
                         </TableCell>
                         <TableCell className="py-2">{index + 1}</TableCell>
-                        <TableCell className="font-medium py-2">{keyword.keyword}</TableCell>
+                        <TableCell className="font-medium py-2">
+                          {keyword.keyword}
+                        </TableCell>
                         <TableCell className="text-right py-2">
                           <div className="flex items-center justify-end gap-2">
                             <Button
@@ -252,22 +289,13 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog
-        open={deleteDialogOpen}
-        onOpenChange={(open) => {
-          setDeleteDialogOpen(open);
-          if (!open) {
-            setTimeout(() => {
-              document.body.style.removeProperty("pointer-events");
-            }, 100);
-          }
-        }}
-      >
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete {keywordToDelete.length} keyword(s). This action cannot be undone.
+              This will permanently delete {keywordToDelete.length} keyword(s).
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

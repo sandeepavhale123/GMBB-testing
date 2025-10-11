@@ -116,11 +116,9 @@ export const CreditHistory: React.FC = () => {
                     {t("creditHistory.table.keyword")}
                   </th>
                   <th className="text-left py-3 px-4 font-medium">
-                    {" "}
                     {t("creditHistory.table.type")}
                   </th>
                   <th className="text-left py-3 px-4 font-medium">
-                    {" "}
                     {t("creditHistory.table.credit")}
                   </th>
                   <th className="text-right py-3 px-4 font-medium">

@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Skeleton } from '../ui/skeleton';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 interface CustomerSearchSourcesCardProps {
   summary: any;
   isLoadingSummary: boolean;
 }
 
-export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps> = ({
-  summary,
-  isLoadingSummary,
-}) => {
-  const [hoveredSegment, setHoveredSegment] = useState<{ name: string; value: number } | null>(null);
-  
+export const CustomerSearchSourcesCard: React.FC<
+  CustomerSearchSourcesCardProps
+> = ({ summary, isLoadingSummary }) => {
+  const [hoveredSegment, setHoveredSegment] = useState<{
+    name: string;
+    value: number;
+  } | null>(null);
+
   const totalSearches =
     (summary?.customer_actions?.desktop_search?.value || 0) +
     (summary?.customer_actions?.desktop_map?.value || 0) +
@@ -22,24 +24,24 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
 
   const chartData = [
     {
-      name: 'Desktop search',
+      name: "Desktop search",
       value: summary?.customer_actions?.desktop_search?.value || 0,
-      color: '#22c55e',
+      color: "#22c55e",
     },
     {
-      name: 'Desktop map',
+      name: "Desktop map",
       value: summary?.customer_actions?.desktop_map?.value || 0,
-      color: '#3b82f6',
+      color: "#3b82f6",
     },
     {
-      name: 'Mobile search',
+      name: "Mobile search",
       value: summary?.customer_actions?.mobile_search?.value || 0,
-      color: '#a855f7',
+      color: "#a855f7",
     },
     {
-      name: 'Mobile map',
+      name: "Mobile map",
       value: summary?.customer_actions?.mobile_map?.value || 0,
-      color: '#f97316',
+      color: "#f97316",
     },
   ];
 
@@ -82,9 +84,11 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                 How Customers Search For Your Business
               </h3>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                Understanding how customers discover your business helps optimize your online presence. 
-                This breakdown shows whether customers find you through search results or map views, 
-                and whether they're using desktop or mobile devices to access your information.
+                Understanding how customers discover your business helps
+                optimize your online presence. This breakdown shows whether
+                customers find you through search results or map views, and
+                whether they're using desktop or mobile devices to access your
+                information.
               </p>
             </div>
 
@@ -102,7 +106,12 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                       outerRadius={70}
                       paddingAngle={2}
                       dataKey="value"
-                      onMouseEnter={(data) => setHoveredSegment({ name: data.name, value: data.value })}
+                      onMouseEnter={(data) =>
+                        setHoveredSegment({
+                          name: data.name,
+                          value: data.value,
+                        })
+                      }
                       onMouseLeave={() => setHoveredSegment(null)}
                     >
                       {chartData.map((entry, index) => (
@@ -117,7 +126,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {hoveredSegment ? hoveredSegment.name : 'Total Searches'}
+                    {hoveredSegment ? hoveredSegment.name : "Total Searches"}
                   </span>
                 </div>
               </div>
@@ -126,13 +135,20 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 md:gap-3 w-full">
                 {chartData.map((item, index) => {
                   return (
-                    <div key={index} className="flex items-center gap-2 min-w-0">
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 min-w-0"
+                    >
                       <div
                         className="w-3 h-3 rounded-full shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-xs md:text-sm font-medium text-foreground flex-1 truncate">{item.name}</span>
-                      <span className="text-xs md:text-sm text-muted-foreground">{item.value}</span>
+                      <span className="text-xs md:text-sm font-medium text-foreground flex-1 truncate">
+                        {item.name}
+                      </span>
+                      <span className="text-xs md:text-sm text-muted-foreground">
+                        {item.value}
+                      </span>
                     </div>
                   );
                 })}

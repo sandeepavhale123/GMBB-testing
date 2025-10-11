@@ -475,7 +475,6 @@ export const GmbProspectReport: React.FC = () => {
                       domain={[0, 100]}
                     />
                     <Tooltip
-                      shared={false}
                       formatter={(value, name) => [
                         name === "avgRating" ? `${value}/5.0` : value,
                         name === "avgRating"
