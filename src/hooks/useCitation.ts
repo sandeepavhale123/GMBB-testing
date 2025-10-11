@@ -42,23 +42,19 @@ export const useGetCitationReport = (
   });
 
   useEffect(() => {
-    if (query.isSuccess) {
-      toast({
-        title: "Success",
-        description: query.data?.message || "Citation audit data fetched",
-      });
-    }
-  }, [query.isSuccess]);
-
-  useEffect(() => {
     if (query.isError) {
       const error = query.error as any;
+      const errorStatus = error?.response?.status;
+      
+      // Don't show toast for expected errors
       const isValidationError = 
-        error?.response?.status === 400 && 
+        errorStatus === 400 && 
         error?.response?.data?.message?.includes("businessName, phone, and address are required");
       
-      // Only show error toast for real errors, not the expected validation error
-      if (!isValidationError) {
+      const isAuthError = errorStatus === 401; // Hide 401 errors
+      
+      // Only show error toast for real errors
+      if (!isValidationError && !isAuthError) {
         toast({
           title: "Error",
           description: error?.message || "Failed to fetch Citation audit",

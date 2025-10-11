@@ -215,7 +215,7 @@ export const CitationPage: React.FC = () => {
         ...prev,
         businessName: selectedListing.name,
       }));
-      refetch();
+      // React Query automatically refetches when listingId changes
     }
   }, [selectedListing]);
   console.log("Current searchData state:", searchData);

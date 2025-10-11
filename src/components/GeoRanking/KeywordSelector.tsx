@@ -28,9 +28,6 @@ interface KeywordSelectorProps {
   isShareableView?: boolean;
   listingId?: number;
   onDeleteSuccess?: () => void;
-  isShareableView?: boolean;
-  listingId?: number;
-  onDeleteSuccess?: () => void;
 }
 
 export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(
