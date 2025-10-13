@@ -78,7 +78,6 @@ export const AuditResultsGrouped: React.FC = () => {
 
   const auditId = auditData?.data?.audits?.[0]?.id;
 
-
   // Fetch audit categories
   const { data: categoriesData, isLoading: isLoadingCategories } = useQuery({
     queryKey: ["audit-categories", projectId, auditId],
@@ -127,7 +126,7 @@ export const AuditResultsGrouped: React.FC = () => {
       const count = response?.data?.affected_issues || 0;
       setAppliedCount(count);
       setShowSuccessModal(true);
-      
+
       queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId, selectedCategory] });
       queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
     },
@@ -307,7 +306,18 @@ export const AuditResultsGrouped: React.FC = () => {
   };
 
   const handleEditIssue = (issue: any) => {
-    setEditingIssue(issue);
+    // For schema issues, navigate to schema editor instead of opening modal
+    if (issue.type === "schema") {
+      navigate(`/module/live-seo-fixer/projects/${projectId}/audits/${auditId}/schema-editor`, {
+        state: {
+          schemaData: issue.fix?.content || issue.suggested_value || issue.current_value,
+          issueId: issue.id.toString(),
+          auditId: auditId,
+        },
+      });
+    } else {
+      setEditingIssue(issue);
+    }
   };
 
   const handleSaveEdit = async (newValue: string) => {
@@ -599,7 +609,7 @@ export const AuditResultsGrouped: React.FC = () => {
                     <TableRow>
                       <TableHead className="w-[120px]">STATUS</TableHead>
                       <TableHead className="w-[200px]">PAGE URL</TableHead>
-                      <TableHead>ORIGINAL TITLE</TableHead>
+                      <TableHead>ORIGINAL VALUE</TableHead>
                       <TableHead>SUGGESTED FIX</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -694,14 +704,16 @@ export const AuditResultsGrouped: React.FC = () => {
                                   >
                                     <Edit className="h-3 w-3" />
                                   </Button>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-6 w-6"
-                                    onClick={() => handleRegenerateIssue(issue)}
-                                  >
-                                    <RefreshCw className="h-3 w-3" />
-                                  </Button>
+                                  {issue.type !== "schema" && (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-6 w-6"
+                                      onClick={() => handleRegenerateIssue(issue)}
+                                    >
+                                      <RefreshCw className="h-3 w-3" />
+                                    </Button>
+                                  )}
                                 </div>
                                 {suggestedProgress && (
                                   <div className="flex items-center gap-2">

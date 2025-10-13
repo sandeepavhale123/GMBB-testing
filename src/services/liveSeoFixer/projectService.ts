@@ -23,11 +23,29 @@ export const fetchProjects = async (params: FetchProjectsParams = {}): Promise<P
   return response.data;
 };
 
+export const getSupportedSchemaTypes = async (): Promise<{
+  code: number;
+  message: string;
+  data: {
+    Organization: string[];
+    Place: string[];
+    LocalBusiness: {
+      General: string[];
+      Specific: string[];
+      Retail: string[];
+    };
+  };
+}> => {
+  const response = await axios.get("/live-seo-fixer/supported-schema-types");
+  return response.data;
+};
+
 export const createProject = async (data: {
   name: string;
   website: string;
   address?: string;
   phone?: string;
+  schema_types?: string[];
 }): Promise<{ code: number; message: string; data: { project: any } }> => {
   const response = await axios.post("/live-seo-fixer/projects", data);
   return response.data;

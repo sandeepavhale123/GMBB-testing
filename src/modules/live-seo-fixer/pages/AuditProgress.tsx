@@ -25,7 +25,7 @@ export const AuditProgress: React.FC = () => {
         return false;
       }
       // Poll every 2 seconds
-      return 2000;
+      return 15000;
     },
     refetchIntervalInBackground: false, // Stop polling when tab is not active
   });
