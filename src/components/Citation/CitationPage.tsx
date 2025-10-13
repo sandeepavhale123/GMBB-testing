@@ -318,7 +318,12 @@ export const CitationPage: React.FC = () => {
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
     setReportStatus(null);
-    setCopyUrlModalOpen(true);
+    
+    // Only show copy URL modal if we're not on a citation viewing route
+    const isCitationViewRoute = /^\/citation\/\d+/.test(location.pathname);
+    if (!isCitationViewRoute) {
+      setCopyUrlModalOpen(true);
+    }
   };
 
   const handleReportProgressClose = (open: boolean) => {
