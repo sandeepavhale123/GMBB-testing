@@ -1,11 +1,14 @@
 {
   "reportsTable": {
-    "loading": "Lade Berichte...",
+    "loading": "Berichte werden geladen...",
     "error": "Fehler beim Laden der Berichte. Bitte versuchen Sie es später erneut.",
     "noReports": {
       "title": "Keine Berichte gefunden",
       "description": "Erstellen Sie Ihren ersten Bericht, um zu beginnen"
     },
+    "period1": "Zeitraum 1:",
+    "period2": "Zeitraum 2:",
+    "to": "bis",
     "tableHeaders": {
       "reportName": "Berichtsname",
       "report": "Bericht",
@@ -16,7 +19,7 @@
     },
     "reportTypes": {
       "compare": "Vergleich",
-      "individual": "Einzelbericht"
+      "individual": "Einzeln"
     },
     "pagination": {
       "previous": "Zurück",

@@ -49,7 +49,7 @@
       },
       "success": {
         "title": "Teammitglied hinzugefügt",
-        "description": "{firstName} {lastName} wurde erfolgreich hinzugefügt."
+        "description": "{{firstName}} {{lastName}} wurde erfolgreich hinzugefügt."
       },
       "error": {
         "title": "Fehler",

@@ -98,8 +98,8 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
     mutationFn: (reportId: number) => reportsApi.deleteBulkReport(reportId),
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "Report deleted successfully",
+        title: t("toast.successTitle"),
+        description: t("toast.successDesc"),
       });
       queryClient.invalidateQueries({ queryKey: ["bulk-reports"] });
       setDeleteDialogOpen(false);
@@ -273,7 +273,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Search reports..."
+              placeholder={t("searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -461,7 +461,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Report</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteReport")}</AlertDialogTitle>
             <AlertDialogDescription>
               {t("deleteReportConfirmation", {
                 reportTitle: reportToDelete?.title,
@@ -488,7 +488,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
               {deleteMutation.isPending && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              t("delete")
+              {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

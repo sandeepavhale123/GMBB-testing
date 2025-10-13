@@ -37,127 +37,137 @@ import { FileSearch } from "lucide-react";
 import { Loader } from "../ui/loader";
 import { ReportProgressModal } from "@/components/Dashboard/ReportProgressModal";
 import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 type TrackerData = {
   listed: number;
   notListed: number;
   listedPercent: number;
   totalChecked: number;
 };
-const CitationTrackerCard = ({ trackerData }: { trackerData: TrackerData }) => {
-  const listed = trackerData?.listed || 0;
-  const notListed = trackerData?.notListed || 0;
-  const listedPercent = trackerData?.listedPercent || 0;
-  const chartData = [
-    {
-      name: "Listed",
-      value: listed,
-      fill: "hsl(var(--primary))",
-    },
-    {
-      name: "Not Listed",
-      value: notListed,
-      fill: "hsl(var(--muted))",
-    },
-  ];
-  const CustomLegend = ({ payload }: any) => (
-    <div className="flex flex-col gap-2 ml-4">
-      {payload?.map((entry: any, index: number) => (
-        <div
-          key={index}
-          className="flex items-center gap-2 px-3 py-2 rounded text-sm"
-          style={{
-            backgroundColor: entry.color + "20",
-            color: entry.color,
-          }}
-        >
-          <span>{entry.value}</span>
-          <span className="font-semibold">{entry.payload.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="text-lg">Citation Tracker</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
-        <div className="flex-1">
-          <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={30}
-                  outerRadius={48}
-                  paddingAngle={2}
-                  dataKey="value"
-                  className="sm:!hidden"
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={64}
-                  paddingAngle={2}
-                  dataKey="value"
-                  className="hidden sm:!block"
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-xs sm:text-sm text-muted-foreground">
-                Listed
-              </span>
-              <span className="text-sm sm:text-lg font-semibold">
-                {listedPercent}%
-              </span>
+
+export const CitationPage: React.FC = () => {
+  const { t } = useI18nNamespace("Citation/citationPage");
+
+  const CitationTrackerCard = ({
+    trackerData,
+  }: {
+    trackerData: TrackerData;
+  }) => {
+    const listed = trackerData?.listed || 0;
+    const notListed = trackerData?.notListed || 0;
+    const listedPercent = trackerData?.listedPercent || 0;
+    const chartData = [
+      {
+        name: t("citationPage.trackerCard.title"),
+        value: listed,
+        fill: "hsl(var(--primary))",
+      },
+      {
+        name: t("citationPage.trackerCard.notListed"),
+        value: notListed,
+        fill: "hsl(var(--muted))",
+      },
+    ];
+    const CustomLegend = ({ payload }: any) => (
+      <div className="flex flex-col gap-2 ml-4">
+        {payload?.map((entry: any, index: number) => (
+          <div
+            key={index}
+            className="flex items-center gap-2 px-3 py-2 rounded text-sm"
+            style={{
+              backgroundColor: entry.color + "20",
+              color: entry.color,
+            }}
+          >
+            <span>{entry.value}</span>
+            <span className="font-semibold">{entry.payload.value}</span>
+          </div>
+        ))}
+      </div>
+    );
+    return (
+      <Card className="h-full">
+        <CardHeader>
+          <CardTitle className="text-lg">
+            {t("citationPage.trackerCard.listed")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div className="flex-1">
+            <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={30}
+                    outerRadius={48}
+                    paddingAngle={2}
+                    dataKey="value"
+                    className="sm:!hidden"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                  </Pie>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={40}
+                    outerRadius={64}
+                    paddingAngle={2}
+                    dataKey="value"
+                    className="hidden sm:!block"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-xs sm:text-sm text-muted-foreground">
+                  {t("citationPage.trackerCard.listed")}
+                </span>
+                <span className="text-sm sm:text-lg font-semibold">
+                  {listedPercent}%
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-2 sm:ml-4">
-          <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm">
-            <span>Listed</span>
-            <span className="font-semibold">{listed}</span>
+          <div className="flex flex-col gap-2 sm:ml-4">
+            <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm">
+              <span>{t("citationPage.trackerCard.listed")}</span>
+              <span className="font-semibold">{listed}</span>
+            </div>
+            <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-muted text-muted-foreground rounded text-xs sm:text-sm">
+              <span>{t("citationPage.trackerCard.notListed")}</span>
+              <span className="font-semibold">{notListed}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-muted text-muted-foreground rounded text-xs sm:text-sm">
-            <span>Not Listed</span>
-            <span className="font-semibold">{notListed}</span>
-          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+  const LocalPagesCard = () => (
+    <Card className="h-full">
+      <CardHeader className="text-center">
+        <div className="mx-auto mb-4 w-12 h-12 sm:w-16 sm:h-16 bg-muted rounded-full flex items-center justify-center">
+          <FileSearch className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
         </div>
-      </CardContent>
+        <CardTitle className="text-base sm:text-lg">
+          {t("citationPage.localPagesCard.title")}
+        </CardTitle>
+        <CardDescription className="text-xs sm:text-sm text-muted-foreground px-2">
+          {t("citationPage.localPagesCard.description")}
+        </CardDescription>
+      </CardHeader>
     </Card>
   );
-};
-const LocalPagesCard = () => (
-  <Card className="h-full">
-    <CardHeader className="text-center">
-      <div className="mx-auto mb-4 w-12 h-12 sm:w-16 sm:h-16 bg-muted rounded-full flex items-center justify-center">
-        <FileSearch className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
-      </div>
-      <CardTitle className="text-base sm:text-lg">
-        Local Pages & Directories
-      </CardTitle>
-      <CardDescription className="text-xs sm:text-sm text-muted-foreground px-2">
-        Your local page and directory score is based on the number of places in
-        which your listing is present, divided by the number of local page and
-        directories we've checked.
-      </CardDescription>
-    </CardHeader>
-  </Card>
-);
-export const CitationPage: React.FC = () => {
+
   const location = useLocation();
   const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -165,7 +175,9 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
-  const [citationTab, setCitationTab] = useState<"existing" | "possible">("existing");
+  const [citationTab, setCitationTab] = useState<"existing" | "possible">(
+    "existing"
+  );
   const [reportProgressOpen, setReportProgressOpen] = useState(false);
   const [reportStatus, setReportStatus] = useState<
     "loading" | "success" | "error" | null
@@ -284,13 +296,13 @@ export const CitationPage: React.FC = () => {
     createCitationReport(payload, {
       onSuccess: (data) => {
         setReportStatus("success");
-        
+
         // Construct shareable URL from report_id
         const reportId = data.data.report_id;
-        const shareableUrl = reportId 
+        const shareableUrl = reportId
           ? `${window.location.origin}/lead/citation/${reportId}`
           : "";
-        
+
         setReportUrl(shareableUrl);
         setHasSearched(true);
         refetch();
@@ -364,7 +376,7 @@ export const CitationPage: React.FC = () => {
         >
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
-            <Loader size="lg" text="Loading citation page..." />
+            <Loader size="lg" text={t("citationPage.loading")} />
           </div>
         </div>
       </div>
@@ -413,10 +425,10 @@ export const CitationPage: React.FC = () => {
                 <Card className="w-full max-w-md">
                   <CardHeader className="text-center">
                     <CardTitle className="text-2xl">
-                      Citation Audit Report
+                      {t("citationPage.searchForm.title")}
                     </CardTitle>
                     <CardDescription>
-                      Enter your business details to start the citation audit
+                      {t("citationPage.searchForm.description")}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -426,11 +438,16 @@ export const CitationPage: React.FC = () => {
                       autoComplete="off"
                     >
                       <div className="space-y-2">
-                        <Label htmlFor="businessName">Business Name</Label>
+                        <Label htmlFor="businessName">
+                          {" "}
+                          {t("citationPage.searchForm.businessNameLabel")}
+                        </Label>
                         <Input
                           id="businessName"
                           type="text"
-                          placeholder="Enter business name"
+                          placeholder={t(
+                            "citationPage.searchForm.businessNamePlaceholder"
+                          )}
                           value={searchData.businessName}
                           onChange={(e) =>
                             handleInputChange("businessName", e.target.value)
@@ -440,11 +457,16 @@ export const CitationPage: React.FC = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone</Label>
+                        <Label htmlFor="phone">
+                          {" "}
+                          {t("citationPage.searchForm.phoneLabel")}
+                        </Label>
                         <Input
                           id="phone"
                           type="tel"
-                          placeholder="Enter phone number"
+                          placeholder={t(
+                            "citationPage.searchForm.phonePlaceholder"
+                          )}
                           value={searchData.phone}
                           onChange={(e) =>
                             handleInputChange("phone", e.target.value)
@@ -455,13 +477,18 @@ export const CitationPage: React.FC = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="city">City</Label>
+                        <Label htmlFor="city">
+                          {" "}
+                          {t("citationPage.searchForm.cityLabel")}
+                        </Label>
                         <GooglePlacesInput
                           ref={cityInputRef}
                           id="city"
                           name="city"
                           type="text"
-                          placeholder="Enter city name"
+                          placeholder={t(
+                            "citationPage.searchForm.cityPlaceholder"
+                          )}
                           defaultValue={searchData.city}
                           onChange={handleCityInputChange}
                           onPlaceSelect={handlePlaceSelect}
@@ -476,7 +503,9 @@ export const CitationPage: React.FC = () => {
                         size="lg"
                         disabled={isCreating}
                       >
-                        {isCreating ? "Searching..." : "Search"}
+                        {isCreating
+                          ? t("citationPage.searchForm.searchingButton")
+                          : t("citationPage.searchForm.searchButton")}
                       </Button>
                     </form>
                   </CardContent>
@@ -489,11 +518,10 @@ export const CitationPage: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h1 className="text-2xl font-bold text-foreground">
-                      Citation Management
+                      {t("citationPage.management.title")}
                     </h1>
                     <p className="text-muted-foreground">
-                      Monitor and manage your business citations across
-                      directories
+                      {t("citationPage.management.description")}
                     </p>
                   </div>
                   <div>
@@ -503,14 +531,16 @@ export const CitationPage: React.FC = () => {
                       className="me-4"
                       disabled={isPending}
                     >
-                      {isPending ? "Refreshing..." : "Refresh Citation"}
+                      {isPending
+                        ? t("citationPage.management.refreshing")
+                        : t("citationPage.management.refresh")}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => setHasSearched(false)}
                       className="hidden"
                     >
-                      New Search
+                      {t("citationPage.management.newSearch")}
                     </Button>
                   </div>
                 </div>
@@ -526,7 +556,7 @@ export const CitationPage: React.FC = () => {
                   <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                       <CardTitle className="text-lg sm:text-xl">
-                        Citation Audit
+                        {t("citationPage.auditCard.title")}
                       </CardTitle>
                     </div>
                     <Button
@@ -539,7 +569,7 @@ export const CitationPage: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Place Order
+                        {t("citationPage.auditCard.orderButton")}
                       </a>
                     </Button>
                   </CardHeader>
@@ -554,7 +584,8 @@ export const CitationPage: React.FC = () => {
                               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                           }`}
                         >
-                          Existing Citation ({citationData?.existingCitation})
+                          {t("citationPage.auditCard.existingTab")}(
+                          {citationData?.existingCitation})
                         </button>
                         <button
                           onClick={() => setCitationTab("possible")}
@@ -564,7 +595,8 @@ export const CitationPage: React.FC = () => {
                               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                           }`}
                         >
-                          Possible Citation ({trackerData?.totalChecked})
+                          {t("citationPage.auditCard.possibleTab")}(
+                          {trackerData?.totalChecked})
                         </button>
                       </div>
 
@@ -574,16 +606,18 @@ export const CitationPage: React.FC = () => {
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">
-                                  Website
+                                  {t("citationPage.auditCard.table.website")}
                                 </TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden sm:table-cell">
-                                  Business Name
+                                  {t(
+                                    "citationPage.auditCard.table.businessName"
+                                  )}
                                 </TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden md:table-cell">
-                                  Phone
+                                  {t("citationPage.auditCard.table.phone")}
                                 </TableHead>
                                 <TableHead className="text-xs sm:text-sm">
-                                  Action
+                                  {t("citationPage.auditCard.table.action")}
                                 </TableHead>
                               </TableRow>
                             </TableHeader>
@@ -627,7 +661,7 @@ export const CitationPage: React.FC = () => {
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors"
                                     >
-                                      View
+                                      {t("citationPage.auditCard.table.view")}
                                     </a>
                                   </TableCell>
                                 </TableRow>
@@ -643,10 +677,10 @@ export const CitationPage: React.FC = () => {
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">
-                                  Site Name
+                                  {t("citationPage.auditCard.table.siteName")}
                                 </TableHead>
                                 <TableHead className="text-xs sm:text-sm text-right">
-                                  Action
+                                  {t("citationPage.auditCard.table.action")}
                                 </TableHead>
                               </TableRow>
                             </TableHeader>
@@ -689,11 +723,11 @@ export const CitationPage: React.FC = () => {
                                         }
                                       }}
                                     >
-                                      Fix Now
+                                      {t("citationPage.auditCard.table.fixNow")}
                                     </Button>
                                   </TableCell>
                                 </TableRow>
-                               ))}
+                              ))}
                             </TableBody>
                           </Table>
                         </div>

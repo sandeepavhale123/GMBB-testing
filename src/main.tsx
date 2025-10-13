@@ -11,11 +11,13 @@ const queryClient = new QueryClient();
 // Apply stored theme on app startup
 applyStoredTheme();
 
-// Get persisted language from i18next (LanguageDetector will read localStorage automatically)
-const initialLang = i18n.language || "en";
+const savedLang = localStorage.getItem("i18nextLng") || "en";
 
-// Preload all i18n namespaces before rendering
-preloadNamespaces(initialLang);
+// ✅ Important: explicitly set language BEFORE rendering
+await i18n.changeLanguage(savedLang);
+
+// ✅ Then preload namespaces
+preloadNamespaces(savedLang);
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>

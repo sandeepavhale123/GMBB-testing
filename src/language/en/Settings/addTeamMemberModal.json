@@ -49,7 +49,7 @@
       },
       "success": {
         "title": "Team Member Added",
-        "description": "{firstName} {lastName} has been added successfully."
+        "description": "{{firstName}} {{lastName}} has been added successfully."
       },
       "error": {
         "title": "Error",

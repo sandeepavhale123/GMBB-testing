@@ -3,7 +3,7 @@
     "pageTitle": "Manage Google Account",
     "pageDescription": "Connect and monitor your Google Business Profiles to maximize local visibility and SEO performance.",
     "searchPlaceholder": "Search accounts by name or email",
-    "activeListingsBadge": "Active Listings: {active}/{allowed}",
+    "activeListingsBadge": "Active Listings: {{active}}/{{allowed}}",
     "addNewAccount": {
       "full": "Add New Account",
       "short": "Add"

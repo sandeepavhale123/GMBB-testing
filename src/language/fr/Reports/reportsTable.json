@@ -6,6 +6,9 @@
       "title": "Aucun rapport trouvé",
       "description": "Créez votre premier rapport pour commencer"
     },
+    "period1": "Période 1 :",
+    "period2": "Période 2 :",
+    "to": "à",
     "tableHeaders": {
       "reportName": "Nom du rapport",
       "report": "Rapport",
@@ -15,7 +18,7 @@
       "action": "Action"
     },
     "reportTypes": {
-      "compare": "Comparatif",
+      "compare": "Comparaison",
       "individual": "Individuel"
     },
     "pagination": {

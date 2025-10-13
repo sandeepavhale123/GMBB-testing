@@ -3,7 +3,7 @@
     "pageTitle": "Gestisci Account Google",
     "pageDescription": "Collega e monitora i tuoi Profili Google Business per massimizzare la visibilità locale e le prestazioni SEO.",
     "searchPlaceholder": "Cerca account per nome o email",
-    "activeListingsBadge": "Annunci Attivi: {active}/{allowed}",
+    "activeListingsBadge": "Annunci Attivi: {{active}}/{{allowed}}",
     "addNewAccount": {
       "full": "Aggiungi Nuovo Account",
       "short": "Aggiungi"

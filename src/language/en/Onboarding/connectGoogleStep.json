@@ -3,7 +3,7 @@
     "title": "Secure Google Authentication",
     "description": "We use Google's secure OAuth system to connect your account. Your credentials are never stored on our servers.",
     "button": "Connect with Google",
-    "permissions": [
+    "permissions1": [
       "View and manage your business information",
       "Read and respond to customer reviews",
       "Create and manage posts",

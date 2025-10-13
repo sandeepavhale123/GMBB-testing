@@ -67,11 +67,15 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
       return (
         <div className="space-y-1">
           <div>
-            Period 1: {formatToDayMonthYear(compareRange.period1.from)} to{" "}
+            {t("reportsTable.period1")}{" "}
+            {formatToDayMonthYear(compareRange.period1.from)}{" "}
+            {t("reportsTable.to")}{" "}
             {formatToDayMonthYear(compareRange.period1.to)}
           </div>
           <div>
-            Period 2: {formatToDayMonthYear(compareRange.period2.from)} to{" "}
+            {t("reportsTable.period2")}{" "}
+            {formatToDayMonthYear(compareRange.period2.from)}{" "}
+            {t("reportsTable.to")}{" "}
             {formatToDayMonthYear(compareRange.period2.to)}
           </div>
         </div>
@@ -196,7 +200,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                   <TableCell>
                     <span className="font-medium text-gray-600">
                       {report.type === "Compare" ? "Comparision" : report.type}{" "}
-                      {t("tableHeaders.report")}
+                      {t("reportsTable.tableHeaders.report")}
                     </span>
                   </TableCell>
                   <TableCell className="min-w-[200px]">

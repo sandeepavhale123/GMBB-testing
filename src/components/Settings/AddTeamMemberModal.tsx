@@ -145,7 +145,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         toast({
           title: t("addTeamMemberModal.messages.success.title"),
           description: t("addTeamMemberModal.messages.success.description", {
-            firestName: formData.firstName,
+            firstName: formData.firstName,
             lastName: formData.lastName,
           }),
           //  `${formData.firstName} ${formData.lastName} has been added successfully.`

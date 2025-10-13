@@ -12,6 +12,11 @@ const ConnectGoogleStep = () => {
   const { t } = useI18nNamespace("Onboarding/connectGoogleStep");
   const { toast } = useToast();
   const { oauthParams, setOauthParameters } = useOnboarding();
+  const permissions = t("connectGoogleStep.permissions", {
+    returnObjects: true,
+  });
+
+  const permissionsArray = Array.isArray(permissions) ? permissions : [];
 
   const localdomain = window.location.host;
   const { search } = useLocation();
@@ -93,19 +98,13 @@ const ConnectGoogleStep = () => {
               </span>
             </div>
           ))} */}
-          {t("connectGoogleStep.permissions", { returnObjects: true }).map(
-            (text: string, index: number) => (
-              <div
-                key={index}
-                className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-green-50 rounded-lg"
-              >
-                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-green-800">
-                  {text}
-                </span>
-              </div>
-            )
-          )}
+
+          {permissionsArray.map((text, index) => (
+            <div key={index} className="flex items-center ...">
+              <CheckCircle className="..." />
+              <span className="...">{text}</span>
+            </div>
+          ))}
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 mb-6 sm:mb-8">

@@ -49,7 +49,7 @@
       },
       "success": {
         "title": "Membre ajouté",
-        "description": "{firstName} {lastName} a été ajouté avec succès."
+        "description": "{{firstName}} {{lastName}} a été ajouté avec succès."
       },
       "error": {
         "title": "Erreur",

@@ -110,7 +110,7 @@
 
     "toasts": {
       "reportCreatedTitle": "Proyecto de Informe Creado",
-      "reportCreatedDescription": "{projectName} ha sido creado exitosamente con ID de proyecto: {projectId}",
+      "reportCreatedDescription": "{{projectName}} ha sido creado exitosamente con ID de proyecto: {{projectId}}",
       "errorTitle": "Error",
       "errorMessage": "No se pudo crear el proyecto de informe. Por favor, inténtalo de nuevo."
     },

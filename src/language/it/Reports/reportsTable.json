@@ -1,17 +1,20 @@
 {
   "reportsTable": {
     "loading": "Caricamento dei rapporti...",
-    "error": "Impossibile caricare i rapporti. Per favore, riprova più tardi.",
+    "error": "Impossibile caricare i rapporti. Riprova più tardi.",
     "noReports": {
       "title": "Nessun rapporto trovato",
       "description": "Crea il tuo primo rapporto per iniziare"
     },
+    "period1": "Periodo 1:",
+    "period2": "Periodo 2:",
+    "to": "a",
     "tableHeaders": {
-      "reportName": "Nome del Rapporto",
+      "reportName": "Nome del rapporto",
       "report": "Rapporto",
       "reports": "Rapporti",
-      "reportType": "Tipo di Rapporto",
-      "reportDate": "Data del Rapporto",
+      "reportType": "Tipo di rapporto",
+      "reportDate": "Data del rapporto",
       "action": "Azione"
     },
     "reportTypes": {

@@ -49,7 +49,7 @@
       },
       "success": {
         "title": "Membro del Team Aggiunto",
-        "description": "{firstName} {lastName} è stato aggiunto con successo."
+        "description": "{{firstName}} {{lastName}} è stato aggiunto con successo."
       },
       "error": {
         "title": "Errore",

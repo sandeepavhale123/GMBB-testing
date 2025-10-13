@@ -6,12 +6,15 @@
       "title": "No se encontraron informes",
       "description": "Crea tu primer informe para comenzar"
     },
+    "period1": "Período 1:",
+    "period2": "Período 2:",
+    "to": "a",
     "tableHeaders": {
-      "reportName": "Nombre del Informe",
+      "reportName": "Nombre del informe",
       "report": "Informe",
       "reports": "Informes",
-      "reportType": "Tipo de Informe",
-      "reportDate": "Fecha del Informe",
+      "reportType": "Tipo de informe",
+      "reportDate": "Fecha del informe",
       "action": "Acción"
     },
     "reportTypes": {

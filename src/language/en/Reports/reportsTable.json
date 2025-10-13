@@ -6,6 +6,9 @@
       "title": "No reports found",
       "description": "Create your first report to get started"
     },
+    "period1":"Period 1:",
+    "period2":"Period 2:",
+    "to":"to",
     "tableHeaders": {
       "reportName": "Report Name",
       "report": "Report",

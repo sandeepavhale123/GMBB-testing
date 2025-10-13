@@ -3,7 +3,7 @@
     "pageTitle": "Gérer le compte Google",
     "pageDescription": "Connectez et surveillez vos profils Google Business pour maximiser la visibilité locale et la performance SEO.",
     "searchPlaceholder": "Rechercher des comptes par nom ou e-mail",
-    "activeListingsBadge": "Fiches actives : {active}/{allowed}",
+    "activeListingsBadge": "Fiches actives : {{active}}/{{allowed}}",
     "addNewAccount": {
       "full": "Ajouter un nouveau compte",
       "short": "Ajouter"

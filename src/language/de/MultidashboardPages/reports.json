@@ -1,8 +1,8 @@
 {
   "reportsManagement": "Berichtsverwaltung",
-  "reportsManagementDescription": "Berichte für mehrere Einträge erstellen und verwalten.",
+  "reportsManagementDescription": "Erstellen und verwalten Sie Berichte über mehrere Einträge hinweg.",
   "generateReport": "Bericht erstellen",
-  "totalReports": "Gesamtberichte",
+  "totalReports": "Gesamtanzahl Berichte",
   "totalReport": "Gesamtbericht",
   "oneTime": "Einmalig",
   "monthly": "Monatlich",
@@ -12,11 +12,11 @@
   "allReports": "Alle Berichte",
   "projectName": "Projektname",
   "scheduledStatus": "Geplanter Status",
-  "lastUpdate": "Letztes Update",
-  "nextUpdate": "Nächstes Update",
+  "lastUpdate": "Letzte Aktualisierung",
+  "nextUpdate": "Nächste Aktualisierung",
   "location": "{{count}} Standorte",
   "actions": "Aktionen",
-  "viewProject": "Projekt ansehen",
+  "viewProject": "Projekt anzeigen",
   "editProject": "Projekt bearbeiten",
   "deleteProject": "Projekt löschen",
   "loadingReports": "Berichte werden geladen...",
@@ -27,6 +27,8 @@
   "delete": "Löschen",
   "toast": {
     "title": "Fehler",
-    "description": "Bericht konnte nicht gelöscht werden"
+    "description": "Bericht konnte nicht gelöscht werden",
+    "successTitle": "Erfolg",
+    "successDesc": "Bericht erfolgreich gelöscht"
   }
 }

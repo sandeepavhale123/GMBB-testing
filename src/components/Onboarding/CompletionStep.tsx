@@ -16,7 +16,7 @@ interface CompletionStepProps {
 }
 
 const CompletionStep = ({ onComplete }: CompletionStepProps) => {
-  const { t } = useI18nNamespace("Onboarding/businessLocationStep");
+  const { t } = useI18nNamespace("Onboarding/completionStep");
   return (
     <div className="max-w-3xl mx-auto px-6">
       <div className="text-center mb-12">

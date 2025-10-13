@@ -27,6 +27,8 @@
   "delete": "Delete",
   "toast":{
     "title":"Error",
-    "description":"Failed to delete report"
+    "description":"Failed to delete report",
+    "successTitle":"Success",
+    "successDesc":"Report deleted successfully"
   }
 }

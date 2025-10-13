@@ -3,7 +3,7 @@
     "pageTitle": "Administrar Cuenta de Google",
     "pageDescription": "Conecta y supervisa tus Perfiles de Negocio de Google para maximizar la visibilidad local y el rendimiento SEO.",
     "searchPlaceholder": "Buscar cuentas por nombre o correo electrónico",
-    "activeListingsBadge": "Listados Activos: {active}/{allowed}",
+    "activeListingsBadge": "Listados Activos: {{active}}/{{allowed}}",
     "addNewAccount": {
       "full": "Agregar Nueva Cuenta",
       "short": "Agregar"
