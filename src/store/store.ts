@@ -48,9 +48,27 @@ const rootReducer = (state: any, action: any) => {
   // Reset store to initial state when RESET_STORE action is dispatched
   if (action.type === RESET_STORE) {
     // console.log("🔄 Global store reset triggered");
+    
+    // Preserve certain keys before clearing
+    const preservedKeys = ["theme", "i18nextLng", "onboarding_current_step"];
+    const preservedData: Record<string, string> = {};
+    
+    preservedKeys.forEach((key) => {
+      const value = localStorage.getItem(key);
+      if (value) {
+        preservedData[key] = value;
+      }
+    });
+    
     // Clear all storage
     sessionStorage.clear();
     localStorage.clear();
+    
+    // Restore preserved keys
+    Object.entries(preservedData).forEach(([key, value]) => {
+      localStorage.setItem(key, value);
+    });
+    
     // Return undefined to reset to initial state
     state = undefined;
   }
