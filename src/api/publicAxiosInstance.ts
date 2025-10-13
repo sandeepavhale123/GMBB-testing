@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create a separate axios instance for public API calls without authentication
 export const publicAxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.gmbbriefcase.com/apiv2/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.gmbbriefcase.com/api/v1',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
