@@ -284,7 +284,14 @@ export const CitationPage: React.FC = () => {
     createCitationReport(payload, {
       onSuccess: (data) => {
         setReportStatus("success");
-        setReportUrl(data.data.reportUrl || "");
+        
+        // Construct shareable URL from report_id
+        const reportId = data.data.report_id;
+        const shareableUrl = reportId 
+          ? `${window.location.origin}/lead/citation/${reportId}`
+          : "";
+        
+        setReportUrl(shareableUrl);
         setHasSearched(true);
         refetch();
       },
