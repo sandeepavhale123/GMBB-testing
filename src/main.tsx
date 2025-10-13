@@ -14,7 +14,7 @@ applyStoredTheme();
 const savedLang = localStorage.getItem("i18nextLng") || "en";
 
 // ✅ Important: explicitly set language BEFORE rendering
-await i18n.changeLanguage(savedLang);
+i18n.changeLanguage(savedLang);
 
 // ✅ Then preload namespaces
 preloadNamespaces(savedLang);
