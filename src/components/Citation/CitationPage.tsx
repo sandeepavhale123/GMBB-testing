@@ -184,6 +184,7 @@ export const CitationPage: React.FC = () => {
   >(null);
   const [reportUrl, setReportUrl] = useState<string>("");
   const [copyUrlModalOpen, setCopyUrlModalOpen] = useState(false);
+  const [shouldShowCopyModal, setShouldShowCopyModal] = useState(false);
   const [searchData, setSearchData] = useState({
     businessName: "",
     phone: "",
@@ -304,6 +305,11 @@ export const CitationPage: React.FC = () => {
           : "";
 
         setReportUrl(shareableUrl);
+        
+        // Check if we're on a citation viewing route
+        const isCitationViewRoute = /^\/citation\/\d+/.test(location.pathname);
+        setShouldShowCopyModal(!isCitationViewRoute);
+        
         setHasSearched(true);
         refetch();
       },
@@ -330,7 +336,11 @@ export const CitationPage: React.FC = () => {
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
     setReportStatus(null);
-    setCopyUrlModalOpen(true);
+    
+    // Only show copy URL modal if we decided to show it during report creation
+    if (shouldShowCopyModal) {
+      setCopyUrlModalOpen(true);
+    }
   };
 
   const handleReportProgressClose = (open: boolean) => {
