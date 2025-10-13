@@ -1,14 +1,14 @@
 {
-  "totalPosts": "Total des posts : {{count}}",
-  "totalPostsFiltered": "Total des posts : {{count}} (filtrés)",
-  "selectPosts": "Sélectionner des posts",
+  "totalPosts": "Total des publications : {{count}}",
+  "totalPostsFiltered": "Total des publications : {{count}} (filtrées)",
+  "selectPosts": "Sélectionner des publications",
   "cancelSelection": "Annuler la sélection",
   "selectAll": "Tout sélectionner",
   "deselectAll": "Tout désélectionner",
   "deleteSelected": "Supprimer la sélection ({{count}})",
   "deleting": "Suppression...",
-  "deletePostsTitle": "Supprimer les posts",
-  "deletePostsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} post{{plural}} sélectionné(s) ? Cette action est irréversible.",
+  "deletePostsTitle": "Supprimer des publications",
+  "deletePostsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} publication{{plural}} sélectionnée{{plural}} ? Cette action est irréversible.",
   "cancel": "Annuler",
   "delete": "Supprimer",
   "previous": "Précédent",
@@ -17,12 +17,12 @@
   "toast": {
     "error": "Erreur",
     "noListingTitle": "Erreur",
-    "noListingDesc": "Aucune fiche d’entreprise sélectionnée. Veuillez d’abord en sélectionner une.",
-    "noPostsTitle": "Aucun post sélectionné",
-    "noPostsDesc": "Veuillez sélectionner des posts à supprimer.",
-    "postsDeletedTitle": "Posts supprimés",
-    "postsDeletedDesc": "{{count}} post{{plural}} ont été supprimé(s) avec succès.",
-    "deleteFailedTitle": "Échec de la suppression des posts",
+    "noListingDesc": "Aucune fiche d’entreprise sélectionnée. Veuillez en sélectionner une d’abord.",
+    "noPostsTitle": "Aucune publication sélectionnée",
+    "noPostsDesc": "Veuillez sélectionner des publications à supprimer.",
+    "postsDeletedTitle": "Publications supprimées",
+    "postsDeletedDesc": "{{count}} publication{{plural}} ont été supprimées avec succès.",
+    "deleteFailedTitle": "Échec de la suppression",
     "deleteFailedDesc": "Une erreur inattendue s’est produite. Veuillez réessayer."
   }
 }

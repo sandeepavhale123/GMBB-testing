@@ -1,38 +1,40 @@
 {
   "templateCard": {
-    "noTemplate": "Aún no se ha creado una plantilla",
+    "noTemplate": "Aún no se ha creado ningún modelo",
     "enable": "Habilitar",
     "enabling": "Habilitando...",
     "disable": "Deshabilitar",
     "disabling": "Deshabilitando...",
     "manage": "Gestionar",
     "create": "Crear",
-    "availableVariables": "Variables Disponibles",
+    "availableVariables": "Variables disponibles",
     "multipleResponses": {
-      "title": "Respuestas Múltiples",
-      "note": "Nota: Si deseas usar múltiples respuestas, utiliza el símbolo de barra vertical (|) después de cada respuesta."
+      "title": "Respuestas múltiples",
+      "note": "Nota: Si deseas usar múltiples respuestas, utiliza el símbolo de barra (|) después de cada respuesta."
     },
-    "templateContent": "Contenido de la Plantilla",
-    "systemTemplateNotice": "Esta es una plantilla del sistema cargada desde tu configuración. Los cambios deben realizarse desde el panel de configuración principal.",
+    "templateContent": "Contenido del modelo",
+    "textareaPlaceholder": "Introduce la respuesta de tu modelo...",
+    "more": "más variantes",
+    "systemTemplateNotice": "Este es un modelo del sistema cargado desde tus configuraciones. Los cambios deben realizarse a través del panel principal de configuración.",
     "cancel": "Cancelar",
     "close": "Cerrar",
-    "save": "Guardar Plantilla",
+    "save": "Guardar modelo",
     "saving": "Guardando...",
     "manageDialog": {
       "title": {
-        "rating": "Gestionar Plantilla de {{starRating}} Estrellas",
-        "ratingOnly": "Gestionar Plantilla Solo de Calificación"
+        "rating": "Gestionar modelo de {{starRating}} estrellas",
+        "ratingOnly": "Gestionar modelo solo de valoración"
       }
     },
     "disableDialog": {
-      "title": "¿Estás seguro de que deseas eliminar esta calificación?",
-      "confirm": "Sí, Eliminar"
+      "title": "¿Estás seguro de que deseas eliminar esta valoración?",
+      "confirm": "Sí, eliminar"
     },
     "toast": {
       "error": {
         "title": "Error",
-        "enable": "No se pudo habilitar la configuración de respuesta automática.",
-        "disable": "No se pudo deshabilitar la configuración de respuesta automática."
+        "enable": "No se pudo habilitar la respuesta automática.",
+        "disable": "No se pudo deshabilitar la respuesta automática."
       }
     }
   }

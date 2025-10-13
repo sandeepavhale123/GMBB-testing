@@ -372,12 +372,24 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         : t("toast.success.single.created.title");
 
       const successDescription = isBulkPosting
-        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${
-            formData.listings.length
-          } listings.`
-        : `Post ${isCloning ? "cloned" : "created"} with ID: ${
-            response.data.postId
-          }`;
+        ? isCloning
+          ? t("toast.success.bulk.cloned.description", {
+              count: formData.listings.length,
+            })
+          : t("toast.success.bulk.created.description", {
+              count: formData.listings.length,
+            })
+        : isCloning
+        ? t("toast.success.single.cloned.description", {
+            id: response.data.postId,
+          })
+        : t("toast.success.single.created.description", {
+            id: response.data.postId,
+          });
+      //   } listings.` //     formData.listings.length //  `Bulk post ${isCloning ? "cloned" : "created"} for ${
+      // `Post ${isCloning ? "cloned" : "created"} with ID: ${
+      //   response.data.postId
+      // }`;
 
       toast({
         title: successTitle,
@@ -435,7 +447,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "An unexpected error occurred. Please try again.",
+            : t("toast.error.desc"),
         variant: "destructive",
       });
     }
@@ -449,7 +461,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   React.useEffect(() => {
     if (createError) {
       toast({
-        title: "Error",
+        title: t("toast.error.title"),
         description: createError,
         variant: "destructive",
       });

@@ -417,9 +417,12 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         }
 
         toast({
-          title: "Success",
-          description: `${files.length} media item(s) uploaded successfully`,
-          variant: "default",
+          title: t("mediaUploadModal.success"),
+          description: t("mediaUploadModal.successDesc", {
+            count: files.length,
+          }),
+          // `${files.length} media item(s) uploaded successfully`,
+          // variant: "default",
         });
       }
       // Handle single file
@@ -457,11 +460,19 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           };
           uploadedItems.push(mediaItem);
           toast({
-            title: "Bulk Media Posted Successfully",
-            description: `Media has been posted to ${
-              selectedListings.length
-            } listing${selectedListings.length > 1 ? "s" : ""}.`,
-            variant: "default",
+            title: t("mediaUploadModal.bulkSuccess"),
+            description:
+              selectedListings.length > 1
+                ? t("mediaUploadModal.bulkSuccessMessages", {
+                    count: selectedListings.length,
+                  })
+                : t("mediaUploadModal.bulkSuccessMessage", {
+                    count: selectedListings.length,
+                  }),
+            // `Media has been posted to ${
+            //   selectedListings.length
+            // } listing${selectedListings.length > 1 ? "s" : ""}.`,
+            // variant: "default",
           });
         } else {
           const uploadData = {
@@ -493,11 +504,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             };
             uploadedItems.push(mediaItem);
             toast({
-              title: "Upload Successful",
+              title: t("mediaUploadModal.uploadSuccess"),
               description: response.message,
             });
           } else {
-            throw new Error(response.message || "Upload failed");
+            throw new Error(
+              response.message || t("mediaUploadModal.uploadFailed")
+            );
           }
         }
       }
@@ -511,7 +524,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
-            : "Failed to upload media. Please try again.",
+            : t("mediaUploadModal.uploadDesc"),
         variant: "destructive",
       });
     } finally {
@@ -612,7 +625,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogDescription className="sr-only">
-            Upload media and optionally edit EXIF metadata.
+            {t("mediaUploadModal.uploadTitle")}
           </DialogDescription>
           <div className="flex h-full overflow-hidden">
             {/* Main Content Section - Hidden on mobile/tablet when EXIF is open */}
@@ -672,14 +685,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {t("mediaUploadModal.uploadCompleteTitle")}
                     </h3>
                     <p className="text-muted-foreground">
-                      Your{" "}
+                      {t("mediaUploadModal.your")}
                       <span className="font-medium text-primary">
                         {files.length > 0
-                          ? `${files.length} media items`
-                          : file?.type}
+                          ? t("mediaUploadModal.media", { count: files.length })
+                          : // `${files.length} media items`
+                            file?.type}
                       </span>{" "}
-                      {files.length > 0 ? "have" : "has"} been uploaded
-                      successfully.
+                      {files.length > 0
+                        ? t("mediaUploadModal.uploadHave")
+                        : t("mediaUploadModal.uploadHas")}
                     </p>
                   </div>
                 )}
@@ -717,7 +732,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <h3 className="text-lg font-semibold text-foreground">
-                            Media Preview ({files.length} items)
+                            {t("mediaUploadModal.multipleFile.preview", {
+                              count: files.length,
+                            })}
+                            {/* Media Preview ({files.length} items) */}
                           </h3>
                           {files.some((f) => f.type === "image") && (
                             <TooltipProvider>
@@ -735,8 +753,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                     >
                                       <Settings2 className="h-3 w-3" />
                                       {isExifSheetOpen
-                                        ? "Close EXIF"
-                                        : "Edit EXIF"}
+                                        ? t("mediaUploadModal.close")
+                                        : t("mediaUploadModal.edit")}
                                     </Button>
                                   </span>
                                 </TooltipTrigger>
@@ -746,10 +764,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                     align="center"
                                     className="z-50"
                                   >
-                                    <p>
-                                      EXIF editing is supported only for
-                                      JPG/JPEG images.
-                                    </p>
+                                    <p>{t("mediaUploadModal.exif")}</p>
                                   </TooltipContent>
                                 )}
                               </Tooltip>
@@ -831,8 +846,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                       >
                                         <Settings2 className="h-3 w-3" />
                                         {isExifSheetOpen
-                                          ? "Close EXIF"
-                                          : "Edit EXIF"}
+                                          ? t("mediaUploadModal.close")
+                                          : t("mediaUploadModal.edit")}
                                       </Button>
                                     </span>
                                   </TooltipTrigger>
@@ -843,10 +858,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                       sideOffset={5}
                                       className="z-[9999] max-w-[200px]"
                                     >
-                                      <p>
-                                        This feature works only with JPG or JPEG
-                                        images
-                                      </p>
+                                      <p>{t("mediaUploadModal.jpg")}</p>
                                     </TooltipContent>
                                   )}
                                 </Tooltip>
@@ -878,7 +890,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         onClick={handleClose}
                         disabled={isUploading}
                       >
-                        Cancel
+                        {t("mediaUploadModal.cancel")}
                       </Button>
                       <Button
                         onClick={handleUpload}
@@ -893,13 +905,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       >
                         {isUploading
                           ? isBulkUpload
-                            ? "Uploading to Multiple Listings..."
-                            : "Uploading..."
+                            ? t("mediaUploadModal.uploadingBulk")
+                            : t("mediaUploadModal.uploadingSingle")
                           : isBulkUpload
-                          ? "Upload to Selected Listings"
+                          ? t("mediaUploadModal.uploadButtonBulk")
                           : files.length > 0
-                          ? `Upload ${files.length} Items`
-                          : "Upload Media"}
+                          ? t("mediaUploadModal.uploadBulkItem", {
+                              count: files.length,
+                            })
+                          : // `Upload ${files.length} Items`
+                            t("mediaUploadModal.uploadButtonSingle")}
                       </Button>
                     </div>
                   </>
@@ -927,11 +942,11 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         <div className="flex items-center gap-2">
                           <Settings2 className="h-5 w-5 text-primary" />
                           <h3 className="text-2xl font-bold text-foreground">
-                            Edit EXIF Metadata
+                            {t("mediaUploadModal.editExif")}
                             {files.length > 0 &&
                               ` (${
                                 files.filter((f) => f.type === "image").length
-                              } images)`}
+                              } ${t("mediaUploadModal.images")})`}
                           </h3>
                         </div>
                         <Button
@@ -965,14 +980,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         onSave={(data) => {
                           setExifData(data);
                           toast({
-                            title: "EXIF Data Updated",
+                            title: t("mediaUploadModal.updateExif"),
                             description:
                               files.length > 0
                                 ? `Metadata will be applied to ${
                                     files.filter((f) => f.type === "image")
                                       .length
                                   } image(s)`
-                                : "Metadata has been updated successfully.",
+                                : t("mediaUploadModal.metaUpdate"),
                           });
                         }}
                         onClose={() => setIsExifSheetOpen(false)}
@@ -1009,6 +1024,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
   onSave,
   onClose,
 }) => {
+  const { t } = useI18nNamespace("Media/mediaUploadModal");
   const { toast } = useToast();
   const [localData, setLocalData] = React.useState(exifData);
   const [showAdvanced, setShowAdvanced] = React.useState(false);
@@ -1057,8 +1073,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       } catch (error) {
         console.error("Error loading templates:", error);
         toast({
-          title: "Error",
-          description: "Failed to load templates",
+          title: t("mediaUploadModal.error"),
+          description: t("mediaUploadModal.failed"),
           variant: "destructive",
         });
       } finally {
@@ -1103,8 +1119,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     } catch (error) {
       console.error("Error loading template details:", error);
       toast({
-        title: "Error",
-        description: "Failed to load template details",
+        title: t("mediaUploadModal.error"),
+        description: t("mediaUploadModal.tempDetail"),
         variant: "destructive",
       });
     } finally {
@@ -1136,8 +1152,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
       if (response.code === 200) {
         toast({
-          title: "Success",
-          description: "Template deleted successfully",
+          title: t("mediaUploadModal.success"),
+          description: t("mediaUploadModal.tempDelete"),
           variant: "default",
         });
 
@@ -1179,8 +1195,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     } catch (error) {
       console.error("Error deleting template:", error);
       toast({
-        title: "Error",
-        description: "Failed to delete template",
+        title: t("mediaUploadModal.error"),
+        description: t("mediaUploadModal.tempFail"),
         variant: "destructive",
       });
     } finally {
@@ -1238,11 +1254,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         // No image URLs available - save locally as fallback
         onSave(localData);
         toast({
-          title: "Success",
+          title: t("mediaUploadModal.success"),
           description:
             saveAsNew === 1
-              ? `Template "${templateName}" saved successfully`
-              : "EXIF data prepared for all images",
+              ? t("mediaUploadModal.tempSave", { templateName })
+              : // `Template "${templateName}" saved successfully`
+                t("mediaUploadModal.exifData"),
           variant: "success",
         });
 
@@ -1290,11 +1307,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         if (response.code === 200) {
           onSave(localData);
           toast({
-            title: "Success",
+            title: t("mediaUploadModal.success"),
             description:
               saveAsNew === 1
-                ? `Template "${templateName}" saved successfully`
-                : "EXIF data updated successfully",
+                ? t("mediaUploadModal.tempSave", { templateName })
+                : // `Template "${templateName}" saved successfully`
+                  t("mediaUploadModal.exifUpdate"),
             variant: "success",
           });
 
@@ -1314,8 +1332,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       } catch (error) {
         console.error("Error saving EXIF data:", error);
         toast({
-          title: "Error",
-          description: "Failed to save EXIF data",
+          title: t("mediaUploadModal.error"),
+          description: t("mediaUploadModal.exifFail"),
           variant: "destructive",
         });
       } finally {
@@ -1350,11 +1368,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       if (response.code === 200) {
         onSave(localData);
         toast({
-          title: "Success",
+          title: t("mediaUploadModal.success"),
           description:
             saveAsNew === 1
-              ? `Template "${templateName}" saved successfully`
-              : "EXIF data updated successfully",
+              ? t("mediaUploadModal.tempSave", { templateName })
+              : // `Template "${templateName}" saved successfully`
+                t("mediaUploadModal.exifUpdate"),
           variant: "success",
         });
 
@@ -1374,8 +1393,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     } catch (error) {
       console.error("Error saving EXIF data:", error);
       toast({
-        title: "Error",
-        description: "Failed to save EXIF data",
+        title: t("mediaUploadModal.error"),
+        description: t("mediaUploadModal.exifFail"),
         variant: "destructive",
       });
     } finally {
@@ -1389,8 +1408,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     const missingFields = validateRequiredFields();
     if (missingFields.length > 0) {
       toast({
-        title: "Required Fields Missing",
-        description: `Please fill in: ${missingFields.join(", ")}`,
+        title: t("mediaUploadModal.required"),
+        description: `${t("mediaUploadModal.fill")}: ${missingFields.join(
+          ", "
+        )}`,
         variant: "destructive",
       });
       return;
@@ -1417,8 +1438,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     const missingFields = validateRequiredFields();
     if (missingFields.length > 0) {
       toast({
-        title: "Required Fields Missing",
-        description: `Please fill in: ${missingFields.join(", ")}`,
+        title: t("mediaUploadModal.required"),
+        description: `${t("mediaUploadModal.fill")}: ${missingFields.join(
+          ", "
+        )}`,
         variant: "destructive",
       });
       return;
@@ -1428,8 +1451,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
     if (!trimmedName) {
       toast({
-        title: "Error",
-        description: "Please enter a template name",
+        title: t("mediaUploadModal.error"),
+        description: t("mediaUploadModal.template"),
         variant: "destructive",
       });
       return;
@@ -1439,9 +1462,8 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
     if (isDuplicateTemplateName(trimmedName)) {
       setIsDuplicateTemplate(true);
       toast({
-        title: "Duplicate Template Name",
-        description:
-          "A template with this name already exists. Please use a different name.",
+        title: t("mediaUploadModal.duplicate"),
+        description: t("mediaUploadModal.duplicateDesc"),
         variant: "destructive",
       });
       return;
@@ -1460,10 +1482,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
             <p className="text-sm text-blue-900 font-medium">
-              EXIF Template Information
+              {t("mediaUploadModal.infoExif")}
             </p>
             <p className="text-xs text-blue-700 mt-1">
-              This feature only works with .JPG and .JPEG image formats.
+              {t("mediaUploadModal.descExif")}
             </p>
           </div>
         </div>
@@ -1484,7 +1506,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               htmlFor="template"
               className="text-sm font-medium text-foreground"
             >
-              Select Template
+              {t("mediaUploadModal.select")}
             </Label>
             <Select
               value={selectedTemplate}
@@ -1492,7 +1514,9 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               disabled={isLoadingTemplates || isLoadingTemplateDetails}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="-- Select Template --" />
+                <SelectValue
+                  placeholder={t("mediaUploadModal.selectPlaceholder")}
+                />
               </SelectTrigger>
               <SelectContent className="z-[10000] bg-popover">
                 {templates.map((template) => (
@@ -1536,7 +1560,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             {isLoadingTemplateDetails && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Loader2 className="h-3 w-3 animate-spin" />
-                Loading template...
+                {t("mediaUploadModal.loading")}
               </div>
             )}
           </div>
@@ -1546,19 +1570,18 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
         {/* Image Metadata Section */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-foreground">
-            Image Metadata
-          </h3>
+          <h3 className="text-sm font-semibold text-foreground"></h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-xs text-muted-foreground">
-                Title <span className="text-destructive">*</span>
+                {t("mediaUploadModal.title")}{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="title"
                 value={localData.title || ""}
                 onChange={(e) => handleChange("title", e.target.value)}
-                placeholder="Enter title"
+                placeholder={t("mediaUploadModal.titlePlaceholder")}
                 className={validationErrors.title ? "border-destructive" : ""}
               />
             </div>
@@ -1567,13 +1590,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 htmlFor="subject"
                 className="text-xs text-muted-foreground"
               >
-                Subject <span className="text-destructive">*</span>
+                {t("mediaUploadModal.subject")}{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="subject"
                 value={localData.subject || ""}
                 onChange={(e) => handleChange("subject", e.target.value)}
-                placeholder="Enter subject"
+                placeholder={t("mediaUploadModal.subjectPlaceholder")}
                 className={validationErrors.subject ? "border-destructive" : ""}
               />
             </div>
@@ -1582,13 +1606,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 htmlFor="copyright"
                 className="text-xs text-muted-foreground"
               >
-                Copyright <span className="text-destructive">*</span>
+                {t("mediaUploadModal.copyright")}
+                <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="copyright"
                 value={localData.copyright || ""}
                 onChange={(e) => handleChange("copyright", e.target.value)}
-                placeholder="Enter copyright"
+                placeholder={t("mediaUploadModal.copyrightPlaceholder")}
                 className={
                   validationErrors.copyright ? "border-destructive" : ""
                 }
@@ -1597,13 +1622,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
 
             <div className="space-y-2">
               <Label htmlFor="author" className="text-xs text-muted-foreground">
-                Author <span className="text-destructive">*</span>
+                {t("mediaUploadModal.author")}{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="author"
                 value={localData.author || ""}
                 onChange={(e) => handleChange("author", e.target.value)}
-                placeholder="Enter author"
+                placeholder={t("mediaUploadModal.autorPlaceholder")}
                 className={validationErrors.author ? "border-destructive" : ""}
               />
             </div>
@@ -1616,13 +1642,14 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 htmlFor="keyword"
                 className="text-xs text-muted-foreground"
               >
-                Keyword <span className="text-destructive">*</span>
+                {t("mediaUploadModal.keyword")}{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="keyword"
                 value={localData.keyword || ""}
                 onChange={(e) => handleChange("keyword", e.target.value)}
-                placeholder="Enter keywords"
+                placeholder={t("mediaUploadModal.keywordPlaceholder")}
                 className={validationErrors.keyword ? "border-destructive" : ""}
               />
             </div>
@@ -1631,13 +1658,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 htmlFor="comment"
                 className="text-xs text-muted-foreground"
               >
-                Comment
+                {t("mediaUploadModal.comment")}
               </Label>
               <Textarea
                 id="comment"
                 value={localData.comment || ""}
                 onChange={(e) => handleChange("comment", e.target.value)}
-                placeholder="Enter comment"
+                placeholder={t("mediaUploadModal.commentPlaceholder")}
                 className="min-h-[80px]"
               />
             </div>
@@ -1646,13 +1673,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 htmlFor="description"
                 className="text-xs text-muted-foreground"
               >
-                Description
+                {t("mediaUploadModal.description")}
               </Label>
               <Textarea
                 id="description"
                 value={localData.description || ""}
                 onChange={(e) => handleChange("description", e.target.value)}
-                placeholder="Enter description"
+                placeholder={t("mediaUploadModal.descriptionPlaceholder")}
                 className="min-h-[80px]"
               />
             </div>
@@ -1667,7 +1694,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
             <div className="flex items-center gap-2">
               <Settings2 className="h-4 w-4 text-primary" />
               <h3 className="text-sm font-semibold text-foreground">
-                Advanced
+                {t("mediaUploadModal.advanced")}
               </h3>
             </div>
             <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
@@ -1680,7 +1707,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 <div className="flex items-center gap-2">
                   <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
                   <Label className="text-xs font-medium text-muted-foreground">
-                    GPS Info
+                    {t("mediaUploadModal.gps")}
                   </Label>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -1689,7 +1716,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       htmlFor="gpsLatitude"
                       className="text-xs text-muted-foreground"
                     >
-                      Latitude
+                      {t("mediaUploadModal.lat")}
                     </Label>
                     <Input
                       id="gpsLatitude"
@@ -1697,7 +1724,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       onChange={(e) =>
                         handleChange("gpsLatitude", e.target.value)
                       }
-                      placeholder="e.g., 40.7128"
+                      placeholder={t("mediaUploadModal.latPlaeholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -1705,7 +1732,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       htmlFor="gpsLongitude"
                       className="text-xs text-muted-foreground"
                     >
-                      Longitude
+                      {t("mediaUploadModal.lang")}
                     </Label>
                     <Input
                       id="gpsLongitude"
@@ -1713,7 +1740,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                       onChange={(e) =>
                         handleChange("gpsLongitude", e.target.value)
                       }
-                      placeholder="e.g., -74.0060"
+                      placeholder={t("mediaUploadModal.langPlaeholder")}
                     />
                   </div>
                 </div>
@@ -1726,13 +1753,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                     htmlFor="maker"
                     className="text-xs text-muted-foreground"
                   >
-                    Maker
+                    {t("mediaUploadModal.maker")}
                   </Label>
                   <Input
                     id="maker"
                     value={localData.maker || ""}
                     onChange={(e) => handleChange("maker", e.target.value)}
-                    placeholder="e.g., Canon"
+                    placeholder={t("mediaUploadModal.makerPlaceholder")}
                   />
                 </div>
                 <div className="space-y-2">
@@ -1740,13 +1767,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                     htmlFor="software"
                     className="text-xs text-muted-foreground"
                   >
-                    Software
+                    {t("mediaUploadModal.software")}
                   </Label>
                   <Input
                     id="software"
                     value={localData.software || ""}
                     onChange={(e) => handleChange("software", e.target.value)}
-                    placeholder="e.g., Adobe Photoshop"
+                    placeholder={t("mediaUploadModal.softwarePlaceholder")}
                   />
                 </div>
                 <div className="space-y-2 col-span-2">
@@ -1754,13 +1781,13 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                     htmlFor="model"
                     className="text-xs text-muted-foreground"
                   >
-                    Model
+                    {t("mediaUploadModal.model")}
                   </Label>
                   <Input
                     id="model"
                     value={localData.model || ""}
                     onChange={(e) => handleChange("model", e.target.value)}
-                    placeholder="e.g., EOS R5"
+                    placeholder={t("mediaUploadModal.modelPlaceholder")}
                   />
                 </div>
               </div>
@@ -1780,7 +1807,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                   htmlFor="templateName"
                   className="text-sm font-medium text-foreground"
                 >
-                  Save as Template
+                  {t("mediaUploadModal.save")}
                 </Label>
               </div>
               <Input
@@ -1790,7 +1817,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                   setNewTemplateName(e.target.value);
                   setIsDuplicateTemplate(false);
                 }}
-                placeholder="Enter template name"
+                placeholder={t("mediaUploadModal.templatePlaceholder")}
                 className={`w-full ${
                   isDuplicateTemplate ? "border-destructive" : ""
                 }`}
@@ -1798,12 +1825,11 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               />
               {isDuplicateTemplate && (
                 <p className="text-xs text-destructive mt-1">
-                  This template name already exists. Please choose a different
-                  name.
+                  {t("mediaUploadModal.duplicateTemp")}
                 </p>
               )}
               <p className="text-xs text-muted-foreground">
-                Do you want to save this EXIF data as a template for future use?
+                {t("mediaUploadModal.future")}
               </p>
             </div>
           </div>
@@ -1814,7 +1840,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           {!showTemplateField ? (
             <>
               <Button variant="outline" onClick={onClose} disabled={isSaving}>
-                Close
+                {t("mediaUploadModal.close1")}
               </Button>
               <Button
                 onClick={handleSave}
@@ -1824,12 +1850,12 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 {isSaving ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Saving...
+                    {t("mediaUploadModal.saving")}
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4" />
-                    Save
+                    {t("mediaUploadModal.save1")}
                   </>
                 )}
               </Button>
@@ -1841,7 +1867,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 onClick={handleSkipTemplate}
                 disabled={isSaving}
               >
-                Skip
+                {t("mediaUploadModal.skip")}
               </Button>
               <Button
                 onClick={handleSubmitTemplate}
@@ -1851,10 +1877,10 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
                 {isSaving ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Saving...
+                    {t("mediaUploadModal.saving")}
                   </>
                 ) : (
-                  "Continue"
+                  t("mediaUploadModal.continue")
                 )}
               </Button>
             </>
@@ -1868,22 +1894,27 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           <AlertDialogOverlay className="z-[190]" />
           <AlertDialogContent className="z-[200]">
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Template</AlertDialogTitle>
+              <AlertDialogTitle>
+                {t("mediaUploadModal.deleteTemplate")}
+              </AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete the template "
-                {templateToDelete?.name}"? This action cannot be undone.
+                {t("mediaUploadModal.deleteDesc", {
+                  name: templateToDelete?.name,
+                })}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel disabled={isDeletingTemplate}>
-                Cancel
+                {t("mediaUploadModal.cancel")}
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={confirmDeleteTemplate}
                 disabled={isDeletingTemplate}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                {isDeletingTemplate ? "Deleting..." : "Delete"}
+                {isDeletingTemplate
+                  ? t("mediaUploadModal.deleting")
+                  : t("mediaUploadModal.delete")}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

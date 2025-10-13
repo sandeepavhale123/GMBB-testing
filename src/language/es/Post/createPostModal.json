@@ -1,7 +1,7 @@
 {
   "title": {
-    "create": "Crear Publicación",
-    "clone": "Clonar Publicación"
+    "create": "Crear publicación",
+    "clone": "Clonar publicación"
   },
   "validation": {
     "titleRequired": "El título es obligatorio para publicaciones de eventos y ofertas.",
@@ -11,43 +11,44 @@
   },
   "toast": {
     "listingRequired": {
-      "title": "Listado Requerido",
+      "title": "Listado requerido",
       "description": "Por favor, selecciona al menos un listado."
     },
     "titleRequired": {
-      "title": "Título Requerido",
+      "title": "Título requerido",
       "description": "El título es obligatorio para publicaciones de eventos y ofertas."
     },
     "urlRequired": {
-      "title": "URL Requerida",
+      "title": "URL requerida",
       "description": "La URL es obligatoria cuando el botón CTA está habilitado."
     },
     "validationError": {
-      "title": "Error de Validación",
+      "title": "Error de validación",
       "description": "Por favor, corrige los errores de validación antes de enviar."
     },
     "error": {
       "title": "Error",
-      "noListing": "No se ha seleccionado ningún listado. Por favor, selecciona un listado primero."
+      "noListing": "No se ha seleccionado ningún listado. Por favor, selecciona uno primero.",
+      "desc": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
     },
     "success": {
       "bulk": {
         "created": {
-          "title": "Publicación Masiva Creada Exitosamente.",
+          "title": "Publicación masiva creada con éxito.",
           "description": "Publicación masiva creada para {{count}} listados."
         },
         "cloned": {
-          "title": "Publicación Masiva Clonada Exitosamente",
+          "title": "Publicación masiva clonada con éxito",
           "description": "Publicación masiva clonada para {{count}} listados."
         }
       },
       "single": {
         "created": {
-          "title": "Publicación Creada Exitosamente.",
+          "title": "Publicación creada con éxito.",
           "description": "Publicación creada con ID: {{id}}"
         },
         "cloned": {
-          "title": "Publicación Clonada Exitosamente",
+          "title": "Publicación clonada con éxito",
           "description": "Publicación clonada con ID: {{id}}"
         }
       }
@@ -65,13 +66,13 @@
   },
   "buttons": {
     "cancel": "Cancelar",
-    "preview": "Vista Previa",
-    "create": "Crear Publicación",
-    "clone": "Clonar Publicación",
+    "preview": "Vista previa",
+    "create": "Crear publicación",
+    "clone": "Clonar publicación",
     "creating": "Creando...",
     "cloning": "Clonando..."
   },
   "preview": {
-    "title": "Vista Previa en Vivo"
+    "title": "Vista previa en vivo"
   }
 }

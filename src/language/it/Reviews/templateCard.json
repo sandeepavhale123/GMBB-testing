@@ -1,38 +1,40 @@
 {
   "templateCard": {
-    "noTemplate": "Nessun template creato ancora",
+    "noTemplate": "Nessun modello creato ancora",
     "enable": "Abilita",
-    "enabling": "Abilitazione in corso...",
+    "enabling": "Abilitazione...",
     "disable": "Disabilita",
-    "disabling": "Disabilitazione in corso...",
+    "disabling": "Disabilitazione...",
     "manage": "Gestisci",
     "create": "Crea",
-    "availableVariables": "Variabili Disponibili",
+    "availableVariables": "Variabili disponibili",
     "multipleResponses": {
-      "title": "Risposte Multiple",
-      "note": "Nota: Se desideri utilizzare risposte multiple, usa il simbolo della barra verticale (|) dopo ogni risposta."
+      "title": "Risposte multiple",
+      "note": "Nota: Se desideri utilizzare più risposte, utilizza il simbolo pipe dopo ogni risposta."
     },
-    "templateContent": "Contenuto del Template",
-    "systemTemplateNotice": "Questo è un template di sistema caricato dalle tue impostazioni. Le modifiche devono essere apportate tramite il pannello principale delle impostazioni.",
+    "templateContent": "Contenuto del modello",
+    "textareaPlaceholder": "Inserisci la risposta del modello...",
+    "more": "altre varianti",
+    "systemTemplateNotice": "Questo è un modello di sistema caricato dalle impostazioni. Le modifiche devono essere effettuate tramite il pannello principale delle impostazioni.",
     "cancel": "Annulla",
     "close": "Chiudi",
-    "save": "Salva Template",
-    "saving": "Salvataggio in corso...",
+    "save": "Salva modello",
+    "saving": "Salvataggio...",
     "manageDialog": {
       "title": {
-        "rating": "Gestisci il Template da {{starRating}} Stelle",
-        "ratingOnly": "Gestisci Template Solo per Valutazione"
+        "rating": "Gestisci modello {{starRating}} stelle",
+        "ratingOnly": "Gestisci modello solo valutazione"
       }
     },
     "disableDialog": {
       "title": "Sei sicuro di voler rimuovere questa valutazione?",
-      "confirm": "Sì, Rimuovi"
+      "confirm": "Sì, rimuovi"
     },
     "toast": {
       "error": {
         "title": "Errore",
-        "enable": "Impossibile abilitare l'impostazione di risposta automatica.",
-        "disable": "Impossibile disabilitare l'impostazione di risposta automatica."
+        "enable": "Impossibile abilitare la risposta automatica.",
+        "disable": "Impossibile disabilitare la risposta automatica."
       }
     }
   }

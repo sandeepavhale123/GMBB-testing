@@ -28,7 +28,8 @@
     },
     "error": {
       "title": "Error",
-      "noListing": "No business listing selected. Please select a listing first."
+      "noListing": "No business listing selected. Please select a listing first.",
+      "desc":"An unexpected error occurred. Please try again."
     },
     "success": {
       "bulk": {

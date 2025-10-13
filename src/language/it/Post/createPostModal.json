@@ -4,41 +4,42 @@
     "clone": "Clona Post"
   },
   "validation": {
-    "titleRequired": "Il titolo è richiesto per i post di eventi e offerte.",
-    "urlRequired": "L'URL è richiesto quando il pulsante CTA è abilitato.",
-    "listingsRequired": "Seleziona almeno un'inserzione o gruppo.",
-    "genericError": "Per favore, correggi gli errori di validazione prima di inviare."
+    "titleRequired": "Il titolo è obbligatorio per i post di eventi e offerte.",
+    "urlRequired": "L'URL è obbligatorio quando il pulsante CTA è abilitato.",
+    "listingsRequired": "Seleziona almeno un elenco o un gruppo.",
+    "genericError": "Correggi gli errori di validazione prima di inviare."
   },
   "toast": {
     "listingRequired": {
-      "title": "Inserzione Richiesta",
-      "description": "Seleziona almeno un'inserzione."
+      "title": "Elenco richiesto",
+      "description": "Seleziona almeno un elenco."
     },
     "titleRequired": {
-      "title": "Titolo Richiesto",
-      "description": "Il titolo è richiesto per i post di eventi e offerte."
+      "title": "Titolo richiesto",
+      "description": "Il titolo è obbligatorio per i post di eventi e offerte."
     },
     "urlRequired": {
-      "title": "URL Richiesto",
-      "description": "L'URL è richiesto quando il pulsante CTA è abilitato."
+      "title": "URL richiesto",
+      "description": "L'URL è obbligatorio quando il pulsante CTA è abilitato."
     },
     "validationError": {
-      "title": "Errore di Validazione",
+      "title": "Errore di validazione",
       "description": "Correggi gli errori di validazione prima di inviare."
     },
     "error": {
       "title": "Errore",
-      "noListing": "Nessuna inserzione aziendale selezionata. Seleziona prima un'inserzione."
+      "noListing": "Nessun elenco selezionato. Seleziona prima un elenco.",
+      "desc": "Si è verificato un errore imprevisto. Riprova."
     },
     "success": {
       "bulk": {
         "created": {
-          "title": "Post in massa creato con successo.",
-          "description": "Post in massa creato per {{count}} inserzioni."
+          "title": "Post di massa creato con successo.",
+          "description": "Post di massa creato per {{count}} elenchi."
         },
         "cloned": {
-          "title": "Post in massa clonato con successo",
-          "description": "Post in massa clonato per {{count}} inserzioni."
+          "title": "Post di massa clonato con successo",
+          "description": "Post di massa clonato per {{count}} elenchi."
         }
       },
       "single": {
@@ -54,12 +55,12 @@
     },
     "failure": {
       "bulk": {
-        "created": "Impossibile creare il post in massa.",
-        "cloned": "Impossibile clonare il post in massa"
+        "created": "Creazione del post di massa non riuscita.",
+        "cloned": "Clonazione del post di massa non riuscita."
       },
       "single": {
-        "created": "Impossibile creare il post.",
-        "cloned": "Impossibile clonare il post"
+        "created": "Creazione del post non riuscita.",
+        "cloned": "Clonazione del post non riuscita."
       }
     }
   },
@@ -68,10 +69,10 @@
     "preview": "Anteprima",
     "create": "Crea Post",
     "clone": "Clona Post",
-    "creating": "Creando...",
-    "cloning": "Clonando..."
+    "creating": "Creazione in corso...",
+    "cloning": "Clonazione in corso..."
   },
   "preview": {
-    "title": "Anteprima dal vivo"
+    "title": "Anteprima live"
   }
 }

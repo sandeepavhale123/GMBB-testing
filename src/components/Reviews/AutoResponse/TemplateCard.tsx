@@ -174,7 +174,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             </p>
             {hasVariations && (
               <p className="text-xs text-blue-600 font-medium">
-                +{template.variations!.length - 1} more variations
+                +{template.variations!.length - 1} {t("templateCard.more")}
               </p>
             )}
           </div>

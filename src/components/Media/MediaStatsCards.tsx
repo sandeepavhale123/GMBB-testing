@@ -13,7 +13,7 @@ export const MediaStatsCards: React.FC<MediaStatsCardsProps> = ({
   currentPageItems,
   isLoading = false,
 }) => {
-  const { t } = useI18nNamespace("Media/mediaPreview");
+  const { t } = useI18nNamespace("Media/mediaStatsCards");
   if (isLoading) {
     return (
       <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">

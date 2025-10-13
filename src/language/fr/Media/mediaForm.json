@@ -1,9 +1,17 @@
 {
-  "mediaFilters": {
-    "searchPlaceholder": "Rechercher des fichiers multimédias...",
-    "category": {
-      "placeholder": "Catégorie",
-      "all": "Toutes les catégories",
+  "mediaForm": {
+    "title": "Détails du média",
+    "fields": {
+      "titleLabel": "Titre ou légende",
+      "titlePlaceholder": "Entrez le titre ou la légende du média...",
+      "categoryLabel": "Catégorie",
+      "categoryPlaceholder": "Sélectionnez une catégorie",
+      "publishOptionsLabel": "Options de publication",
+      "publishOptionsPlaceholder": "Choisissez une option de publication",
+      "scheduleLabel": "Date et heure de programmation",
+      "timezoneLabel": "Votre fuseau horaire : {{timezone}}"
+    },
+    "categories": {
       "cover": "Couverture",
       "profile": "Profil",
       "logo": "Logo",
@@ -13,22 +21,14 @@
       "atWork": "Au travail",
       "foodAndDrink": "Nourriture et boissons",
       "menu": "Menu",
-      "commonArea": "Espace commun",
+      "commonArea": "Zone commune",
       "rooms": "Chambres",
       "teams": "Équipes",
       "additional": "Supplémentaire"
     },
-    "status": {
-      "placeholder": "Statut",
-      "all": "Tous les statuts",
-      "live": "En ligne",
-      "scheduled": "Planifié",
-      "failed": "Échoué"
-    },
-    "sortOrder": {
-      "placeholder": "Ordre",
-      "desc": "Décroissant",
-      "asc": "Croissant"
+    "publishOptions": {
+      "now": "Publier maintenant",
+      "schedule": "Programmer"
     }
   }
 }

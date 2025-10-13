@@ -1,11 +1,11 @@
 {
   "title": {
     "create": "Créer une publication",
-    "clone": "Cloner la publication"
+    "clone": "Cloner une publication"
   },
   "validation": {
-    "titleRequired": "Le titre est requis pour les publications d'événement et d'offre.",
-    "urlRequired": "L'URL est requise lorsque le bouton CTA est activé.",
+    "titleRequired": "Le titre est requis pour les publications d’événements et d’offres.",
+    "urlRequired": "L’URL est requise lorsque le bouton CTA est activé.",
     "listingsRequired": "Veuillez sélectionner au moins une fiche ou un groupe.",
     "genericError": "Veuillez corriger les erreurs de validation avant de soumettre."
   },
@@ -16,11 +16,11 @@
     },
     "titleRequired": {
       "title": "Titre requis",
-      "description": "Le titre est requis pour les publications d'événement et d'offre."
+      "description": "Le titre est requis pour les publications d’événements et d’offres."
     },
     "urlRequired": {
       "title": "URL requise",
-      "description": "L'URL est requise lorsque le bouton CTA est activé."
+      "description": "L’URL est requise lorsque le bouton CTA est activé."
     },
     "validationError": {
       "title": "Erreur de validation",
@@ -28,46 +28,47 @@
     },
     "error": {
       "title": "Erreur",
-      "noListing": "Aucune fiche sélectionnée. Veuillez sélectionner une fiche d'abord."
+      "noListing": "Aucune fiche d’entreprise sélectionnée. Veuillez en sélectionner une d’abord.",
+      "desc": "Une erreur inattendue est survenue. Veuillez réessayer."
     },
     "success": {
       "bulk": {
         "created": {
-          "title": "Publication en masse créée avec succès.",
-          "description": "Publication en masse créée pour {{count}} fiches."
+          "title": "Publication groupée créée avec succès.",
+          "description": "Publication groupée créée pour {{count}} fiches."
         },
         "cloned": {
-          "title": "Publication en masse clonée avec succès",
-          "description": "Publication en masse clonée pour {{count}} fiches."
+          "title": "Publication groupée clonée avec succès",
+          "description": "Publication groupée clonée pour {{count}} fiches."
         }
       },
       "single": {
         "created": {
           "title": "Publication créée avec succès.",
-          "description": "Publication créée avec l'ID : {{id}}"
+          "description": "Publication créée avec l’ID : {{id}}"
         },
         "cloned": {
           "title": "Publication clonée avec succès",
-          "description": "Publication clonée avec l'ID : {{id}}"
+          "description": "Publication clonée avec l’ID : {{id}}"
         }
       }
     },
     "failure": {
       "bulk": {
-        "created": "Échec de la création de la publication en masse.",
-        "cloned": "Échec du clonage de la publication en masse"
+        "created": "Échec de la création de la publication groupée.",
+        "cloned": "Échec du clonage de la publication groupée."
       },
       "single": {
         "created": "Échec de la création de la publication.",
-        "cloned": "Échec du clonage de la publication"
+        "cloned": "Échec du clonage de la publication."
       }
     }
   },
   "buttons": {
     "cancel": "Annuler",
     "preview": "Aperçu",
-    "create": "Créer la publication",
-    "clone": "Cloner la publication",
+    "create": "Créer une publication",
+    "clone": "Cloner une publication",
     "creating": "Création en cours...",
     "cloning": "Clonage en cours..."
   },

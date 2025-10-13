@@ -4,23 +4,23 @@
     "clone": "Beitrag klonen"
   },
   "validation": {
-    "titleRequired": "Der Titel ist für Event- und Angebotsbeiträge erforderlich.",
-    "urlRequired": "Die URL ist erforderlich, wenn die CTA-Schaltfläche aktiviert ist.",
-    "listingsRequired": "Bitte wählen Sie mindestens eine Liste oder Gruppe aus.",
+    "titleRequired": "Titel ist für Event- und Angebotsbeiträge erforderlich.",
+    "urlRequired": "URL ist erforderlich, wenn der CTA-Button aktiviert ist.",
+    "listingsRequired": "Bitte wählen Sie mindestens ein Listing oder eine Gruppe aus.",
     "genericError": "Bitte beheben Sie die Validierungsfehler, bevor Sie senden."
   },
   "toast": {
     "listingRequired": {
-      "title": "Liste erforderlich",
-      "description": "Bitte wählen Sie mindestens eine Liste aus."
+      "title": "Listing erforderlich",
+      "description": "Bitte wählen Sie mindestens ein Listing aus."
     },
     "titleRequired": {
       "title": "Titel erforderlich",
-      "description": "Der Titel ist für Event- und Angebotsbeiträge erforderlich."
+      "description": "Titel ist für Event- und Angebotsbeiträge erforderlich."
     },
     "urlRequired": {
       "title": "URL erforderlich",
-      "description": "Die URL ist erforderlich, wenn die CTA-Schaltfläche aktiviert ist."
+      "description": "URL ist erforderlich, wenn der CTA-Button aktiviert ist."
     },
     "validationError": {
       "title": "Validierungsfehler",
@@ -28,17 +28,18 @@
     },
     "error": {
       "title": "Fehler",
-      "noListing": "Keine Unternehmensliste ausgewählt. Bitte wählen Sie zuerst eine Liste aus."
+      "noListing": "Es wurde kein Unternehmenslisting ausgewählt. Bitte wählen Sie zuerst ein Listing aus.",
+      "desc": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
     },
     "success": {
       "bulk": {
         "created": {
           "title": "Massenbeitrag erfolgreich erstellt.",
-          "description": "Massenbeitrag für {{count}} Listen erstellt."
+          "description": "Massenbeitrag für {{count}} Listings erstellt."
         },
         "cloned": {
           "title": "Massenbeitrag erfolgreich geklont",
-          "description": "Massenbeitrag für {{count}} Listen geklont."
+          "description": "Massenbeitrag für {{count}} Listings geklont."
         }
       },
       "single": {
@@ -54,12 +55,12 @@
     },
     "failure": {
       "bulk": {
-        "created": "Massenbeitrag konnte nicht erstellt werden.",
-        "cloned": "Massenbeitrag konnte nicht geklont werden."
+        "created": "Fehler beim Erstellen des Massenbeitrags.",
+        "cloned": "Fehler beim Klonen des Massenbeitrags."
       },
       "single": {
-        "created": "Beitrag konnte nicht erstellt werden.",
-        "cloned": "Beitrag konnte nicht geklont werden."
+        "created": "Fehler beim Erstellen des Beitrags.",
+        "cloned": "Fehler beim Klonen des Beitrags."
       }
     }
   },
@@ -68,8 +69,8 @@
     "preview": "Vorschau",
     "create": "Beitrag erstellen",
     "clone": "Beitrag klonen",
-    "creating": "Wird erstellt...",
-    "cloning": "Wird geklont..."
+    "creating": "Erstellen...",
+    "cloning": "Klonen..."
   },
   "preview": {
     "title": "Live-Vorschau"

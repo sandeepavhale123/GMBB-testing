@@ -1,0 +1,18 @@
+{
+  "toast": {
+    "success": "Successo",
+    "error": "Errore",
+    "upload": {
+      "success": "File multimediale caricato con successo",
+      "failed": "Caricamento del file multimediale non riuscito"
+    },
+    "delete": {
+      "success": "File multimediale eliminato con successo",
+      "failed": "Eliminazione del file multimediale non riuscita"
+    },
+    "saveAI": {
+      "success": "Immagine AI salvata con successo",
+      "failed": "Salvataggio dell’immagine AI non riuscito"
+    }
+  }
+}
