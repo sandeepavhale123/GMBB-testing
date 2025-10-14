@@ -183,10 +183,10 @@ export const useDashboardPolling = ({
 
     try {
       // Debug: Log the initial data structure
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial data:`,
-        data
-      );
+      // console.log(
+      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial data:`,
+      //   data
+      // );
 
       // Try different possible data structures
       let listings = [];
@@ -196,15 +196,15 @@ export const useDashboardPolling = ({
         listings = data.listings;
       }
 
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial extracted listings:`,
-        listings
-      );
+      // console.log(
+      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial extracted listings:`,
+      //   listings
+      // );
 
       if (!listings || listings.length === 0) {
-        console.log(
-          `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No listings found in initial data`
-        );
+        // console.log(
+        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No listings found in initial data`
+        // );
         return;
       }
 
@@ -213,29 +213,29 @@ export const useDashboardPolling = ({
         .map((listing: DashboardListing) => getListingId(listing));
 
       if (syncingIds.length > 0) {
-        console.log(
-          `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial check found ${
-            syncingIds.length
-          } syncing listings, starting polling`
-        );
+        // console.log(
+        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial check found ${
+        //     syncingIds.length
+        //   } syncing listings, starting polling`
+        // );
         setSyncingListings(syncingIds);
         setIsSyncing(true);
         setDidFinalRefetch(false); // allow final refetch for this run
         startPolling();
       } else {
-        console.log(
-          `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No syncing listings found`
-        );
+        // console.log(
+        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No syncing listings found`
+        // );
         setSyncingListings([]);
         setIsSyncing(false);
         setIsPolling(false);
         setDidFinalRefetch(false);
       }
     } catch (error) {
-      console.error(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Error in initial sync check:`,
-        error
-      );
+      // console.error(
+      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Error in initial sync check:`,
+      //   error
+      // );
     }
   }, [enabled, data, dashboardType, getListingId, startPolling]);
 
@@ -255,9 +255,9 @@ export const useDashboardPolling = ({
   const stopPolling = useCallback(() => {
     // Only log and execute if currently polling to avoid spam
     if (isPolling || pollingIntervalRef.current) {
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Stopping polling`
-      );
+      // console.log(
+      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Stopping polling`
+      // );
       clearPollingInterval();
       setIsPolling(false);
       setSyncingListings([]);

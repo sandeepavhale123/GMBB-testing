@@ -141,7 +141,7 @@ const TeamMembersPage: React.FC = () => {
     return `https://member.gmbbriefcase.com/files/suninfo/profile/${profilePicture}`;
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    <div className="p-4 pb-[100px] sm:p-6 sm:pb-[100px] max-w-6xl mx-auto">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">

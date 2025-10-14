@@ -154,7 +154,7 @@ export const BrandingPage: React.FC = () => {
     }
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto ">
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto pb-[100px] sm:pb-[100px] ">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
