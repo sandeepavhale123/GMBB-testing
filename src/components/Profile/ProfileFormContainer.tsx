@@ -121,15 +121,18 @@ export const ProfileFormContainer: React.FC = () => {
         description: t("profileUpdatedtext"), // or a more general success message
       });
 
-      // Check if we need to redirect to multi-dashboard
-      const shouldRedirect =
-        initialDashboardType === "0" && formData.dashboardType === "1";
+      // Only navigate if dashboard type actually changed
+      const dashboardTypeChanged = initialDashboardType !== formData.dashboardType;
 
-      if (shouldRedirect) {
-        navigate("/main-dashboard");
-      } else {
-        navigate("/location-dashboard");
+      if (dashboardTypeChanged) {
+        // Redirect based on new dashboard type
+        if (formData.dashboardType === "1") {
+          navigate("/main-dashboard");
+        } else {
+          navigate("/location-dashboard");
+        }
       }
+      // If dashboard type didn't change, stay on current page
     } catch (error) {
       toast({
         title: t("updateFailed"),
