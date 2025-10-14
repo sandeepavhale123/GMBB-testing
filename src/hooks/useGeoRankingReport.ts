@@ -15,6 +15,7 @@ import {
 import { useToast } from "./use-toast";
 import { processDistanceValue } from "../utils/geoRankingUtils";
 import L from "leaflet";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface GeoRankingHookFormData {
   searchBusinessType: string;
@@ -42,7 +43,11 @@ const getInitialFormData = (): GeoRankingHookFormData => ({
   language: "en",
 });
 
-export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = false) => {
+export const useGeoRankingReport = (
+  listingId: number,
+  useModuleApi: boolean = false
+) => {
+  const { t } = useI18nNamespace("hooks/useGeoRankingReport");
   const { toast } = useToast();
   const [defaultCoordinates, setDefaultCoordinates] = useState<{
     lat: number;
@@ -62,7 +67,9 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   const [isCompleting, setIsCompleting] = useState(false);
   const [previousMapPoint, setPreviousMapPoint] = useState<string>("");
 
-  const [formData, setFormData] = useState<GeoRankingHookFormData>(getInitialFormData());
+  const [formData, setFormData] = useState<GeoRankingHookFormData>(
+    getInitialFormData()
+  );
 
   // Helper function to determine distance unit from distance value
   const determineDistanceUnit = (
@@ -241,27 +248,34 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   }, []);
 
   // Function to fetch default coordinates
-  const fetchDefaultCoordinates = async (searchType?: number, inputText?: string) => {
+  const fetchDefaultCoordinates = async (
+    searchType?: number,
+    inputText?: string
+  ) => {
     try {
-      const response = useModuleApi 
-        ? (searchType && inputText ? await getDefaultCoordinatesForGeoModule(searchType, inputText) : null)
+      const response = useModuleApi
+        ? searchType && inputText
+          ? await getDefaultCoordinatesForGeoModule(searchType, inputText)
+          : null
         : await getDefaultCoordinates(listingId);
-        
+
       if (response?.code === 200) {
         const [lat, lng] = response.data.latlong.split(",").map(Number);
         setDefaultCoordinates({ lat, lng });
       } else if (response) {
         toast({
-          title: "Error",
-          description: response.message || "Failed to fetch default coordinates",
+          title: t("geoRanking.toast.error.error"),
+          description:
+            response.message ||
+            t("geoRanking.toast.error.fetchDefaultCoordinates"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error fetching default coordinates:", error);
       toast({
-        title: "Error",
-        description: "Failed to fetch default coordinates",
+        title: t("geoRanking.toast.error.error"),
+        description: t("geoRanking.toast.error.fetchDefaultCoordinates"),
         variant: "destructive",
       });
       // Use fallback coordinates (Delhi)
@@ -277,7 +291,10 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   }, [listingId, toast, useModuleApi]);
 
   // Fetch grid coordinates from API
-  const fetchGridCoordinates = async (businessCoords?: { lat: number; lng: number }) => {
+  const fetchGridCoordinates = async (businessCoords?: {
+    lat: number;
+    lng: number;
+  }) => {
     const coords = businessCoords || defaultCoordinates;
     if (!coords) return;
 
@@ -303,7 +320,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
       //   processedDistance,
       // });
 
-      const response = useModuleApi 
+      const response = useModuleApi
         ? await getGridCoordinatesForGeoModule(distance, latlong, gridSize)
         : await getGridCoordinates(listingId, distance, latlong, gridSize);
       if (response.code === 200) {
@@ -312,11 +329,11 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     } catch (error) {
       console.error("Error fetching grid coordinates:", error);
       toast({
-        title: "Error",
+        title: t("geoRanking.toast.error.error"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to fetch grid coordinates",
+          t("geoRanking.toast.error.fetchGridCoordinates"),
         variant: "destructive",
       });
     } finally {
@@ -417,8 +434,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     setPreviousMapPoint("");
 
     toast({
-      title: "Form Reset",
-      description: "Ready for a new keyword search",
+      title: t("geoRanking.form.resetTitle"),
+      description: t("geoRanking.form.keywordsRequired"),
     });
   };
 
@@ -435,11 +452,14 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     setManualCoordinates([]);
   }, []);
 
-  const updateManualCoordinate = useCallback((index: number, coordinate: string) => {
-    setManualCoordinates((prev) =>
-      prev.map((coord, i) => (i === index ? coordinate : coord))
-    );
-  }, []);
+  const updateManualCoordinate = useCallback(
+    (index: number, coordinate: string) => {
+      setManualCoordinates((prev) =>
+        prev.map((coord, i) => (i === index ? coordinate : coord))
+      );
+    },
+    []
+  );
 
   // Helper function to detect multiple keywords
   const isMultipleKeywords = (keywords: string): boolean => {
@@ -513,8 +533,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
             setPollingProgress(0);
             setIsCompleting(false);
             toast({
-              title: "Keyword Processed",
-              description: "Your keyword ranking data is now available!",
+              title: t("geoRanking.form.keyword"),
+              description: t("geoRanking.toast.success.keywordProcessed"),
             });
           }, 2000);
 
@@ -527,11 +547,11 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     } catch (error) {
       console.error("Polling error:", error);
       toast({
-        title: "Processing Timeout",
+        title: t("geoRanking.toast.success.timeout"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Keyword processing is taking longer than expected. Please check back later.",
+          t("geoRanking.toast.error.processingTimeout"),
         variant: "destructive",
       });
       return false;
@@ -551,8 +571,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   }> => {
     if (!formData.keywords.trim()) {
       toast({
-        title: "Error",
-        description: "Keywords are required.",
+        title: t("geoRanking.toast.error.error"),
+        description: t("geoRanking.form.keywordsRequired"),
         variant: "destructive",
       });
       return { success: false, shouldNavigate: false };
@@ -578,9 +598,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
       if (coordinatesArray.length === 0) {
         toast({
-          title: "Error",
-          description:
-            "No coordinates available. Please generate grid or place markers.",
+          title: t("geoRanking.toast.error.error"),
+          description: t("geoRanking.form.coordinatesRequired"),
           variant: "destructive",
         });
         return { success: false, shouldNavigate: false };
@@ -620,9 +639,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         if (response.data?.keywordId) {
           setCurrentKeywordId(response.data.keywordId.toString());
           toast({
-            title: "Processing Keyword",
-            description:
-              "Please wait while we process your keyword ranking data...",
+            title: t("geoRanking.toast.info.titleProcessing"),
+            description: t("geoRanking.toast.info.processingKeyword"),
             variant: "default",
           });
 
@@ -635,23 +653,23 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         } else {
           // No keywordId received, keyword is in queue
           toast({
-            title: "Keyword in Queue",
-            description:
-              "Your keyword is in queue. It will take some time to process.",
+            title: t("geoRanking.toast.info.titleKeyword"),
+            description: t("geoRanking.toast.info.keywordInQueue"),
             variant: "default",
           });
         }
 
         toast({
-          title: "Success",
-          description: "Rank check submitted successfully",
+          title: t("geoRanking.toast.success.title"),
+          description: t("geoRanking.toast.success.submitRank"),
         });
 
         return { success: true, shouldNavigate: multipleKeywords };
       } else {
         toast({
-          title: "Error",
-          description: response.message || "Failed to submit rank check",
+          title: t("geoRanking.toast.error.error"),
+          description:
+            response.message || t("geoRanking.toast.error.submitRank"),
           variant: "destructive",
         });
         return { success: false, shouldNavigate: false };
@@ -659,11 +677,11 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     } catch (error) {
       console.error("Error submitting rank check:", error);
       toast({
-        title: "Error",
+        title: t("geoRanking.toast.error.error"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to submit rank check",
+          t("geoRanking.toast.error.submitRank"),
         variant: "destructive",
       });
       return { success: false, shouldNavigate: false };
@@ -673,14 +691,17 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   };
 
   // Submit add keywords request for GEO module
-  const submitAddKeywords = async (selectedBusiness: any, selectedProject: any): Promise<{
+  const submitAddKeywords = async (
+    selectedBusiness: any,
+    selectedProject: any
+  ): Promise<{
     success: boolean;
     keywordCount: number;
   }> => {
     if (!useModuleApi) {
       toast({
-        title: "Error",
-        description: "This function is only available in module mode",
+        title: t("geoRanking.toast.error.error"),
+        description: t("geoRanking.toast.error.moduleOnly"),
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };
@@ -688,8 +709,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
     if (!formData.keywords.trim()) {
       toast({
-        title: "Error",
-        description: "Keywords are required.",
+        title: t("geoRanking.toast.error.error"),
+        description: t("geoRanking.form.keywordsRequired"),
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };
@@ -697,8 +718,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
     if (!selectedBusiness || !selectedProject) {
       toast({
-        title: "Error",
-        description: "Please select a business and project first",
+        title: t("geoRanking.toast.error.error"),
+        description: t("geoRanking.toast.error.selectBusinessProject"),
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };
@@ -724,9 +745,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
       if (coordinatesArray.length === 0) {
         toast({
-          title: "Error",
-          description:
-            "No coordinates available. Please generate grid or place markers.",
+          title: t("geoRanking.toast.error.error"),
+          description: t("geoRanking.form.coordinatesRequired"),
           variant: "destructive",
         });
         return { success: false, keywordCount: 0 };
@@ -743,7 +763,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
         formData.distanceValue,
         formData.distanceUnit
       );
-      
+
       const requestData: AddKeywordsToProjectRequest = {
         projectId: selectedProject.id,
         businessName: selectedBusiness.name || "",
@@ -761,14 +781,15 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
       if (response.code === 200) {
         toast({
-          title: "Success",
-          description: "Keywords added successfully to the project",
+          title: t("geoRanking.toast.success.title"),
+          description: t("geoRanking.toast.success.addKeywords"),
         });
         return { success: true, keywordCount: keywordArray.length };
       } else {
         toast({
-          title: "Error",
-          description: response.message || "Failed to add keywords",
+          title: t("geoRanking.toast.error.error"),
+          description:
+            response.message || t("geoRanking.toast.error.addKeywords"),
           variant: "destructive",
         });
         return { success: false, keywordCount: 0 };
@@ -776,11 +797,11 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     } catch (error) {
       console.error("Error adding keywords:", error);
       toast({
-        title: "Error",
+        title: t("geoRanking.toast.error.error"),
         description:
           error?.response?.data?.message ||
           error.message ||
-          "Failed to add keywords",
+          t("geoRanking.toast.error.addKeywords"),
         variant: "destructive",
       });
       return { success: false, keywordCount: 0 };
@@ -790,7 +811,10 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   };
 
   // Helper function to set default coordinates directly
-  const setDefaultCoordinatesFromBusiness = (coordinates: { lat: number; lng: number }) => {
+  const setDefaultCoordinatesFromBusiness = (coordinates: {
+    lat: number;
+    lng: number;
+  }) => {
     setDefaultCoordinates(coordinates);
   };
 

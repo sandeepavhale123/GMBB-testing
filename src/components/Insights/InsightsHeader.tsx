@@ -66,10 +66,20 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
       // `From: ${fromDate} - To: ${toDate}`;
     }
     if (summary?.timeframe) {
-      return `From: ${format(
+      const fromDate = format(
         new Date(summary.timeframe.start_date),
         "dd MMM yyyy"
-      )} - To: ${format(new Date(summary.timeframe.end_date), "dd MMM yyyy")}`;
+      );
+      const toDate = format(
+        new Date(summary.timeframe.end_date),
+        "dd MMM yyyy"
+      );
+      return t("insightsHeader.fromTo", { from: fromDate, to: toDate });
+
+      // `From: ${format(
+      //   new Date(summary.timeframe.start_date),
+      //   "dd MMM yyyy"
+      // )} - To: ${format(new Date(summary.timeframe.end_date), "dd MMM yyyy")}`;
     }
     const today = new Date();
     let startDate: Date;
@@ -105,10 +115,14 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
         // 30 days
         startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
-    return `From: ${format(startDate, "dd MMM yyyy")} - To: ${format(
-      today,
-      "dd MMM yyyy"
-    )}`;
+    const fromDate = format(startDate, "dd MMM yyyy");
+    const toDate = format(today, "dd MMM yyyy");
+    return t("insightsHeader.fromTo", { from: fromDate, to: toDate });
+
+    // `From: ${format(startDate, "dd MMM yyyy")} - To: ${format(
+    //   today,
+    //   "dd MMM yyyy"
+    // )}`;
   };
   return (
     <>

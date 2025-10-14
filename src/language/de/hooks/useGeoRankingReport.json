@@ -1,0 +1,46 @@
+{
+  "geoRanking": {
+    "form": {
+      "resetTitle": "Formular zurücksetzen",
+      "resetDescription": "Bereit für eine neue Schlüsselwortsuche",
+      "keyword": "Schlüsselwort verarbeitet",
+      "keywordsRequired": "Schlüsselwörter sind erforderlich.",
+      "coordinatesRequired": "Keine Koordinaten verfügbar. Bitte Gitter erzeugen oder Marker setzen."
+    },
+    "toast": {
+      "success": {
+        "title": "Erfolg",
+        "timeout": "Verarbeitungszeit abgelaufen",
+        "submitRank": "Ranking-Check erfolgreich eingereicht",
+        "addKeywords": "Schlüsselwörter erfolgreich zum Projekt hinzugefügt",
+        "keywordProcessed": "Ihre Schlüsselwort-Ranking-Daten sind jetzt verfügbar!"
+      },
+      "error": {
+        "error": "Fehler",
+        "fetchDefaultCoordinates": "Standardkoordinaten konnten nicht abgerufen werden",
+        "fetchGridCoordinates": "Gitterkoordinaten konnten nicht abgerufen werden",
+        "submitRank": "Ranking-Check konnte nicht eingereicht werden",
+        "addKeywords": "Schlüsselwörter konnten nicht hinzugefügt werden",
+        "processingTimeout": "Die Verarbeitung des Schlüsselworts dauert länger als erwartet. Bitte später erneut prüfen.",
+        "moduleOnly": "Diese Funktion ist nur im Modulmodus verfügbar",
+        "selectBusinessProject": "Bitte zuerst ein Unternehmen und Projekt auswählen"
+      },
+      "info": {
+        "titleProcessing": "Schlüsselwort wird verarbeitet",
+        "titleKeyword": "Schlüsselwort in der Warteschlange",
+        "keywordInQueue": "Ihr Schlüsselwort befindet sich in der Warteschlange. Die Verarbeitung dauert einige Zeit.",
+        "processingKeyword": "Bitte warten Sie, während wir Ihre Schlüsselwort-Ranking-Daten verarbeiten..."
+      }
+    },
+    "labels": {
+      "automatic": "Automatisch",
+      "manual": "Manuell",
+      "meters": "Meter",
+      "miles": "Meilen",
+      "distanceValue": "Distanzwert",
+      "gridSize": "Gittergröße",
+      "mapPoint": "Kartensymbol",
+      "scheduleCheck": "Zeitplanprüfung"
+    }
+  }
+}
