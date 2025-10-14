@@ -37,7 +37,7 @@ export const getSupportedPageTypes = async (): Promise<SupportedPageTypesRespons
 export const transformToPageTypeOptions = (data: SupportedPageTypesResponse['data']): PageTypeOption[] => {
   return data.supported_types.map(type => ({
     value: type,
-    label: data.descriptions[type] || type.charAt(0).toUpperCase() + type.slice(1).replace(/-/g, ' '),
+    label: type.charAt(0).toUpperCase() + type.slice(1).replace(/-/g, ' '),
     description: data.descriptions[type]
   }));
 };

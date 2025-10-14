@@ -14,8 +14,7 @@ import {
   Wand2,
   Save,
   Play,
-  Loader2,
-  Edit
+  Loader2
 } from 'lucide-react';
 import { AIContentModal } from '../components/AIContentModal';
 import { getPageAuditDetails, approveFixes, updateFixStatus } from '@/services/liveSeoFixer';
@@ -252,24 +251,6 @@ export const PageAudit: React.FC = () => {
                 </div>
                 {issue.can_auto_fix && (
                   <div className="flex gap-2">
-                    {issue.type === 'schema' && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => navigate(
-                          `/module/live-seo-fixer/projects/${projectId}/pages/${pageId}/schema-editor`,
-                          { 
-                            state: { 
-                              schemaData: issue.fix_value || issue.suggested_fix || issue.current_value,
-                              issueId: issue.issue_id 
-                            } 
-                          }
-                        )}
-                      >
-                        <Edit size={16} className="mr-2" />
-                        Edit Schema
-                      </Button>
-                    )}
                     <AIContentModal
                       projectName={audit.project?.name || 'Project'}
                       pageUrl={audit.url}

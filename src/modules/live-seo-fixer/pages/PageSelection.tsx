@@ -22,35 +22,6 @@ interface SelectedPage {
   targetKeyword: string;
 }
 
-// Utility function to extract and convert last URL segment to title case
-const extractKeywordFromUrl = (url: string): string => {
-  try {
-    const urlObj = new URL(url);
-    const pathSegments = urlObj.pathname.split('/').filter(segment => segment.length > 0);
-    
-    if (pathSegments.length === 0) {
-      return '';
-    }
-    
-    // Get the last segment
-    const lastSegment = pathSegments[pathSegments.length - 1];
-    
-    // Remove file extensions if any
-    const withoutExtension = lastSegment.replace(/\.(html|php|aspx|jsp)$/, '');
-    
-    // Convert kebab-case, snake_case, or space-separated to Title Case
-    const words = withoutExtension
-      .replace(/[-_]/g, ' ') // Replace hyphens and underscores with spaces
-      .split(' ')
-      .filter(word => word.length > 0)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
-    
-    return words.join(' ');
-  } catch (error) {
-    return '';
-  }
-};
-
 export const PageSelection: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [searchParams] = useSearchParams();
@@ -93,24 +64,20 @@ export const PageSelection: React.FC = () => {
       // Pre-select only the first 20 pages
       const pagesToPreselect = pages.slice(0, 20);
       
-      const preselectedPages: SelectedPage[] = pagesToPreselect.map(page => {
-        const autoKeyword = extractKeywordFromUrl(page.url);
-        return {
-          id: page.id,
-          url: page.url,
-          title: page.title,
-          pageType: page.estimated_type,
-          targetKeyword: page.suggested_keywords?.[0] || autoKeyword
-        };
-      });
+      const preselectedPages: SelectedPage[] = pagesToPreselect.map(page => ({
+        id: page.id,
+        url: page.url,
+        title: page.title,
+        pageType: page.estimated_type,
+        targetKeyword: page.suggested_keywords?.[0] || '' // Use first suggested keyword
+      }));
       
       const preselectedTypes: Record<string, string> = {};
       const preselectedKeywords: Record<string, string> = {};
       
       pagesToPreselect.forEach(page => {
-        const autoKeyword = extractKeywordFromUrl(page.url);
         preselectedTypes[page.id] = page.estimated_type;
-        preselectedKeywords[page.id] = page.suggested_keywords?.[0] || autoKeyword;
+        preselectedKeywords[page.id] = page.suggested_keywords?.[0] || '';
       });
       
       setSelectedPages(preselectedPages);
@@ -125,20 +92,12 @@ export const PageSelection: React.FC = () => {
       if (selectedPages.length >= 20) {
         return; // Don't allow more than 20 selections
       }
-      
-      // Auto-generate keyword from URL if not already set
-      const autoKeyword = extractKeywordFromUrl(page.url);
-      const keyword = targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
-      
-      // Set the keyword in state
-      setTargetKeywords(prev => ({ ...prev, [page.id]: keyword }));
-      
       setSelectedPages(prev => [...prev, {
         id: page.id,
         url: page.url,
         title: page.title,
         pageType: pageTypes[page.id] || page.estimated_type,
-        targetKeyword: keyword
+        targetKeyword: targetKeywords[page.id] || ''
       }]);
     } else {
       setSelectedPages(prev => prev.filter(p => p.id !== page.id));
@@ -226,39 +185,38 @@ export const PageSelection: React.FC = () => {
 
   const isPageSelected = (pageId: string) => selectedPages.some(p => p.id === pageId);
 
-  const handleSelectAllPages = () => {
-    const availableSlots = 20 - selectedPages.length;
-    const pagesToAdd = pages.slice(0, availableSlots).filter(page => !isPageSelected(page.id));
-    
-    const newSelectedPages: SelectedPage[] = [];
-    const newPageTypes: Record<string, string> = {};
-    const newTargetKeywords: Record<string, string> = {};
-    
-    pagesToAdd.forEach(page => {
-      const autoKeyword = extractKeywordFromUrl(page.url);
-      const keyword = targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const availableSlots = 20 - selectedPages.length;
+      const pagesToAdd = pages.slice(0, availableSlots).filter(page => !isPageSelected(page.id));
       
-      newSelectedPages.push({
-        id: page.id,
-        url: page.url,
-        title: page.title,
-        pageType: pageTypes[page.id] || page.estimated_type,
-        targetKeyword: keyword
+      pagesToAdd.forEach(page => {
+        setSelectedPages(prev => [...prev, {
+          id: page.id,
+          url: page.url,
+          title: page.title,
+          pageType: pageTypes[page.id] || page.estimated_type,
+          targetKeyword: targetKeywords[page.id] || ''
+        }]);
       });
-      
-      newPageTypes[page.id] = pageTypes[page.id] || page.estimated_type;
-      newTargetKeywords[page.id] = keyword;
-    });
-    
-    setSelectedPages(prev => [...prev, ...newSelectedPages]);
-    setPageTypes(prev => ({ ...prev, ...newPageTypes }));
-    setTargetKeywords(prev => ({ ...prev, ...newTargetKeywords }));
-  };
-
-  const handleDeselectAllPages = () => {
-    setSelectedPages([]);
-    setPageTypes({});
-    setTargetKeywords({});
+    } else {
+      // Deselect all pages on current page
+      const pageIdsOnCurrentPage = pages.map(p => p.id);
+      setSelectedPages(prev => prev.filter(p => !pageIdsOnCurrentPage.includes(p.id)));
+      // Also clean up state for all unselected pages
+      pageIdsOnCurrentPage.forEach(pageId => {
+        setPageTypes(prev => {
+          const newTypes = { ...prev };
+          delete newTypes[pageId];
+          return newTypes;
+        });
+        setTargetKeywords(prev => {
+          const newKeywords = { ...prev };
+          delete newKeywords[pageId];
+          return newKeywords;
+        });
+      });
+    }
   };
 
   const allCurrentPagesSelected = pages.length > 0 && pages.every(page => isPageSelected(page.id));
@@ -437,36 +395,15 @@ export const PageSelection: React.FC = () => {
 
       {/* Pages Table */}
       <Card>
-        <CardContent className="pt-6 pb-0">
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-sm text-muted-foreground">
-              {pages.length} pages found
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSelectAllPages}
-                disabled={selectedPages.length >= 20}
-              >
-                Select All (max 20)
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDeselectAllPages}
-                disabled={selectedPages.length === 0}
-              >
-                Deselect All
-              </Button>
-            </div>
-          </div>
-        </CardContent>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-12">
-                <span className="sr-only">Select</span>
+                <Checkbox
+                  checked={allCurrentPagesSelected}
+                  onCheckedChange={handleSelectAll}
+                  disabled={selectedPages.length >= 20 && !allCurrentPagesSelected}
+                />
               </TableHead>
               <TableHead className="w-1/2">URL</TableHead>
               <TableHead className="w-32">Page Type</TableHead>
@@ -488,8 +425,8 @@ export const PageSelection: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <div className="space-y-1">
-                    <div className="font-medium text-sm" title={page.url}>
-                      {page.url.length > 50 ? `${page.url.substring(0, 50)}...` : page.url}
+                    <div className="font-medium text-sm truncate max-w-full" title={page.url}>
+                      {page.url}
                     </div>
                     {page.suggested_keywords && page.suggested_keywords.length > 0 && (
                       <div className="flex flex-wrap gap-1">
@@ -514,7 +451,7 @@ export const PageSelection: React.FC = () => {
                       <SelectContent>
                         {pageTypeOptions.map((type) => (
                           <SelectItem key={type.value} value={type.value}>
-                            <span className="capitalize">{type.value.replace(/-/g, ' ')}</span>
+                            {type.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
