@@ -390,7 +390,7 @@ export const SubscriptionPage: React.FC = () => {
     return plan ? plan.name : "";
   };
   return (
-    <div className="p-4 sm:p-6 xxl:max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 xxl:max-w-6xl mx-auto pb-[100px] sm:pb-[100px]">
       {/* Page Header */}
       <div className="mb-6 sm:mb-8 flex items-center justify-between flex-wrap gap-2">
         <div>

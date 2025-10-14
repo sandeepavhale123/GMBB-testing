@@ -277,7 +277,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
     return <GoogleAuthHandler />;
   }
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 pb-[100px] sm:pb-[100px] max-w-6xl mx-auto">
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl  font-bold text-gray-900 mb-2">

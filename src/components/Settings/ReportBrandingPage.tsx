@@ -188,7 +188,7 @@ export const ReportBrandingPage: React.FC = () => {
     }
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto ">
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto pb-[100px] sm:pb-[100px]">
       <div className="flex items-center justify-between mb-6 flex-col gap-4 md:flex-row md:gap-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground">

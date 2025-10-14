@@ -65,7 +65,7 @@ const ViewBulkReportDetails = () => {
               />
 
               {/* Page Content */}
-              <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
+              <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
                 <BulkReportDetails />
               </main>
             </div>
@@ -122,7 +122,7 @@ const ViewBulkReportDetails = () => {
             />
 
             {/* Page Content */}
-            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
+            <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
               <BulkReportDetails />
             </main>
           </div>
