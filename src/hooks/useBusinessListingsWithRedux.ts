@@ -58,22 +58,22 @@ export const useBusinessListingsWithRedux =
         const data = await businessListingsService.getActiveListings({
           limit: 1000,
         });
-        console.log(
-          "📋🔄 useBusinessListingsWithRedux: Received",
-          data.length,
-          "API listings"
-        );
+        // console.log(
+        //   "📋🔄 useBusinessListingsWithRedux: Received",
+        //   data.length,
+        //   "API listings"
+        // );
 
         setApiListings(data);
-        console.log(
-          "📋🔄 useBusinessListingsWithRedux: Successfully updated API listings state",
-          { timestamp: currentTime, count: data.length } // ADD THIS LOGGING
-        );
+        // console.log(
+        //   "📋🔄 useBusinessListingsWithRedux: Successfully updated API listings state",
+        //   { timestamp: currentTime, count: data.length } // ADD THIS LOGGING
+        // );
       } catch (err: any) {
-        console.error(
-          "📋🔄 useBusinessListingsWithRedux: Failed to fetch API business listings:",
-          err
-        );
+        // console.error(
+        //   "📋🔄 useBusinessListingsWithRedux: Failed to fetch API business listings:",
+        //   err
+        // );
 
         // Handle 401 errors with token refresh
         if (err.response?.status === 401 && retryCount === 0) {
@@ -89,10 +89,10 @@ export const useBusinessListingsWithRedux =
               return fetchListings(1);
             }
           } catch (refreshError) {
-            console.error(
-              "📋🔄 useBusinessListingsWithRedux: Token refresh failed:",
-              refreshError
-            );
+            // console.error(
+            //   "📋🔄 useBusinessListingsWithRedux: Token refresh failed:",
+            //   refreshError
+            // );
           }
         }
 

@@ -6,8 +6,8 @@ import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 export const getThemeUnauthenticated = async () => {
   const domain = window.location.hostname;
   
-  console.log("🎨 Requesting theme for domain:", domain);
-  console.log("🔗 API URL:", `${import.meta.env.VITE_BASE_URL}/get-theme`);
+  // console.log("🎨 Requesting theme for domain:", domain);
+  // console.log("🔗 API URL:", `${import.meta.env.VITE_BASE_URL}/get-theme`);
 
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/get-theme`, {
     method: "POST",
@@ -18,7 +18,7 @@ export const getThemeUnauthenticated = async () => {
   });
 
   const result = await response.json();
-  console.log("🎨 Theme API response:", { status: response.status, result });
+  // console.log("🎨 Theme API response:", { status: response.status, result });
 
   if (!response.ok) {
     // Return the parsed result so we can check the code in the calling function
@@ -42,7 +42,7 @@ export const useThemeLoader = () => {
           // console.log('🎨 Theme loaded successfully on login page');
         }
       } catch (error) {
-        console.warn("Failed to load theme on login page:", error);
+        // console.warn("Failed to load theme on login page:", error);
         // Graceful fallback - continue without custom theme
       }
     };

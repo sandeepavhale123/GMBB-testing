@@ -17,22 +17,22 @@ export const SmartRedirect = () => {
 
     // Wait for auth to be determined
     if (isAuthLoading || shouldWaitForAuth) {
-      console.log("SmartRedirect: Waiting for auth");
+      // console.log("SmartRedirect: Waiting for auth");
       return;
     }
 
     // If not authenticated, go to login
     if (!isAuthenticated) {
-      console.log("SmartRedirect: Not authenticated, redirecting to login");
+      // console.log("SmartRedirect: Not authenticated, redirecting to login");
       setRedirectPath("/login");
       return;
     }
 
     // Check onboarding status (PRIORITY - must come first)
     const onboarding = Number(localStorage.getItem("onboarding"));
-    console.log("SmartRedirect: Onboarding status:", onboarding);
+    // console.log("SmartRedirect: Onboarding status:", onboarding);
     if (onboarding === 1) {
-      console.log("SmartRedirect: Redirecting to onboarding");
+      // console.log("SmartRedirect: Redirecting to onboarding");
       setRedirectPath("/onboarding");
       return;
     }
@@ -42,9 +42,9 @@ export const SmartRedirect = () => {
 
     // Only apply dashboardType logic if user just logged in
     if (justLoggedIn) {
-      console.log(
-        "SmartRedirect: User just logged in, applying dashboardType logic"
-      );
+      // console.log(
+      //   "SmartRedirect: User just logged in, applying dashboardType logic"
+      // );
       sessionStorage.removeItem("just_logged_in"); // Clear the flag
 
       // Clear any old session storage to prevent conflicts
