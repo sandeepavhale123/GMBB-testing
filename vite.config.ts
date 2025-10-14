@@ -3,7 +3,9 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
+// ✅ Read version from environment (created in package.json build step)
+const buildVersion = process.env.VITE_BUILD_VERSION || Date.now().toString();
+
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -11,12 +13,15 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  define: {
+    // 🧩 Inject build version for cache-busting and debugging
+    __BUILD_VERSION__: JSON.stringify(buildVersion),
   },
 }));
