@@ -1,0 +1,46 @@
+{
+  "geoRanking": {
+    "form": {
+      "resetTitle": "Restablecer formulario",
+      "resetDescription": "Listo para una nueva búsqueda de palabras clave",
+      "keyword": "Palabra clave procesada",
+      "keywordsRequired": "Se requieren palabras clave.",
+      "coordinatesRequired": "No hay coordenadas disponibles. Por favor, genere la cuadrícula o coloque marcadores."
+    },
+    "toast": {
+      "success": {
+        "title": "Éxito",
+        "timeout": "Tiempo de procesamiento agotado",
+        "submitRank": "Comprobación de ranking enviada con éxito",
+        "addKeywords": "Palabras clave agregadas al proyecto con éxito",
+        "keywordProcessed": "¡Los datos de ranking de tu palabra clave ya están disponibles!"
+      },
+      "error": {
+        "error": "Error",
+        "fetchDefaultCoordinates": "No se pudieron obtener las coordenadas predeterminadas",
+        "fetchGridCoordinates": "No se pudieron obtener las coordenadas de la cuadrícula",
+        "submitRank": "No se pudo enviar la comprobación de ranking",
+        "addKeywords": "No se pudieron agregar las palabras clave",
+        "processingTimeout": "El procesamiento de la palabra clave está tardando más de lo esperado. Por favor, revisa más tarde.",
+        "moduleOnly": "Esta función solo está disponible en modo módulo",
+        "selectBusinessProject": "Por favor, selecciona primero un negocio y un proyecto"
+      },
+      "info": {
+        "titleProcessing": "Procesando palabra clave",
+        "titleKeyword": "Palabra clave en cola",
+        "keywordInQueue": "Tu palabra clave está en cola. Tomará un tiempo procesarla.",
+        "processingKeyword": "Por favor, espera mientras procesamos los datos de ranking de tu palabra clave..."
+      }
+    },
+    "labels": {
+      "automatic": "Automático",
+      "manual": "Manual",
+      "meters": "Metros",
+      "miles": "Millas",
+      "distanceValue": "Valor de distancia",
+      "gridSize": "Tamaño de la cuadrícula",
+      "mapPoint": "Punto en el mapa",
+      "scheduleCheck": "Programación"
+    }
+  }
+}

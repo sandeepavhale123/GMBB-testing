@@ -61,24 +61,42 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
         if (!distance) return "2km";
 
         const distanceMap = [
-          { value: "100", label: "100 Meter" },
-          { value: "200", label: "200 Meter" },
-          { value: "500", label: "500 Meter" },
-          { value: "1", label: "1 Kilometer" },
-          { value: "2.5", label: "2.5 Kilometer" },
-          { value: "5", label: "5 Kilometer" },
-          { value: "10", label: "10 Kilometer" },
-          { value: "25", label: "25 Kilometer" },
-          { value: ".1", label: ".1 Miles" },
-          { value: ".25", label: ".25 Miles" },
-          { value: ".5", label: ".5 Miles" },
-          { value: ".75", label: ".75 Miles" },
-          { value: "1mi", label: "1 Miles" },
-          { value: "2", label: "2 Miles" },
-          { value: "3", label: "3 Miles" },
-          { value: "5mi", label: "5 Miles" },
-          { value: "8", label: "8 Miles" },
-          { value: "10mi", label: "10 Miles" },
+          {
+            value: "100",
+            label: t("GeoRankingMapSection.distanceMap.label1"),
+          },
+          { value: "200", label: t("GeoRankingMapSection.distanceMap.label2") },
+          { value: "500", label: t("GeoRankingMapSection.distanceMap.label3") },
+          { value: "1", label: t("GeoRankingMapSection.distanceMap.label4") },
+          { value: "2.5", label: t("GeoRankingMapSection.distanceMap.label5") },
+          { value: "5", label: t("GeoRankingMapSection.distanceMap.label6") },
+          { value: "10", label: t("GeoRankingMapSection.distanceMap.label7") },
+          { value: "25", label: t("GeoRankingMapSection.distanceMap.label8") },
+          { value: ".1", label: t("GeoRankingMapSection.distanceMap.label9") },
+          {
+            value: ".25",
+            label: t("GeoRankingMapSection.distanceMap.label10"),
+          },
+          { value: ".5", label: t("GeoRankingMapSection.distanceMap.label11") },
+          {
+            value: ".75",
+            label: t("GeoRankingMapSection.distanceMap.label12"),
+          },
+          {
+            value: "1mi",
+            label: t("GeoRankingMapSection.distanceMap.label13"),
+          },
+          { value: "2", label: t("GeoRankingMapSection.distanceMap.label14") },
+          { value: "3", label: t("GeoRankingMapSection.distanceMap.label15") },
+          {
+            value: "5mi",
+            label: t("GeoRankingMapSection.distanceMap.label16"),
+          },
+          { value: "8", label: t("GeoRankingMapSection.distanceMap.label17") },
+          {
+            value: "10mi",
+            label: t("GeoRankingMapSection.distanceMap.label18"),
+          },
         ];
 
         const matchedDistance = distanceMap.find(
@@ -98,7 +116,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
         if (!schedule) return "Daily";
         switch (schedule.toLowerCase()) {
           case "onetime":
-            return "One Time";
+            return t("GeoRankingMapSection.frequencyOptions.one");
           case "daily":
             return t("GeoRankingMapSection.frequencyOptions.daily");
           case "weekly":
@@ -150,7 +168,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
                     to={`/keywords/${listingId}`}
                     className="text-sm text-primary hover:underline"
                   >
-                    View All Keywords
+                    {t("GeoRankingMapSection.view")}
                   </Link>
                 )}
               </div>
@@ -167,7 +185,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
                   {t("GeoRankingMapSection.labels.distance")}: {distance}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                  Engine: {projectDetails?.sab || "Google Maps"}
+                  {t("GeoRankingMapSection.labels.engine")}:{" "}
+                  {projectDetails?.sab ||
+                    t("GeoRankingMapSection.labels.engineValue")}
                 </span>
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                   {t("GeoRankingMapSection.labels.frequency")}: {frequency}

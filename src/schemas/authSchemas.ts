@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 // Email validation
 const emailSchema = z
   .string()

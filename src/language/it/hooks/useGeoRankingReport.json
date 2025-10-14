@@ -1,0 +1,46 @@
+{
+  "geoRanking": {
+    "form": {
+      "resetTitle": "Reimposta modulo",
+      "resetDescription": "Pronto per una nuova ricerca di parole chiave",
+      "keyword": "Parola chiave elaborata",
+      "keywordsRequired": "Le parole chiave sono obbligatorie.",
+      "coordinatesRequired": "Nessuna coordinata disponibile. Generare una griglia o posizionare i marcatori."
+    },
+    "toast": {
+      "success": {
+        "title": "Successo",
+        "timeout": "Timeout di elaborazione",
+        "submitRank": "Controllo del ranking inviato con successo",
+        "addKeywords": "Parole chiave aggiunte con successo al progetto",
+        "keywordProcessed": "I dati di ranking della tua parola chiave sono ora disponibili!"
+      },
+      "error": {
+        "error": "Errore",
+        "fetchDefaultCoordinates": "Impossibile recuperare le coordinate predefinite",
+        "fetchGridCoordinates": "Impossibile recuperare le coordinate della griglia",
+        "submitRank": "Impossibile inviare il controllo del ranking",
+        "addKeywords": "Impossibile aggiungere le parole chiave",
+        "processingTimeout": "L'elaborazione della parola chiave sta richiedendo più tempo del previsto. Controlla più tardi.",
+        "moduleOnly": "Questa funzione è disponibile solo in modalità modulo",
+        "selectBusinessProject": "Seleziona prima un'azienda e un progetto"
+      },
+      "info": {
+        "titleProcessing": "Elaborazione parola chiave",
+        "titleKeyword": "Parola chiave in coda",
+        "keywordInQueue": "La tua parola chiave è in coda. L'elaborazione richiederà del tempo.",
+        "processingKeyword": "Attendere mentre elaboriamo i dati di ranking della tua parola chiave..."
+      }
+    },
+    "labels": {
+      "automatic": "Automatico",
+      "manual": "Manuale",
+      "meters": "Metri",
+      "miles": "Miglia",
+      "distanceValue": "Valore distanza",
+      "gridSize": "Dimensione griglia",
+      "mapPoint": "Punto sulla mappa",
+      "scheduleCheck": "Programmazione"
+    }
+  }
+}
