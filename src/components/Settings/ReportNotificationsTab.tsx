@@ -201,7 +201,7 @@ export const ReportNotificationsTab: React.FC = () => {
           );
         }
       } catch (error) {
-        console.error("Failed to fetch notification settings:", error);
+        // console.error("Failed to fetch notification settings:", error);
         toast({
           title: t("reportNotificationsTab.toast.error.title"),
           description: t("reportNotificationsTab.toast.error.load"),
@@ -293,7 +293,7 @@ export const ReportNotificationsTab: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error("Failed to update notification settings:", error);
+      // console.error("Failed to update notification settings:", error);
       toast({
         title: t("reportNotificationsTab.toast.error.title"),
         description: t("reportNotificationsTab.toast.error.update"),

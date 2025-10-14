@@ -140,7 +140,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       };
 
       const result = await addTeamMember(requestData);
-      console.log("result of add team member", result);
+      // console.log("result of add team member", result);
       if (result.meta.requestStatus === "fulfilled") {
         toast({
           title: t("addTeamMemberModal.messages.success.title"),
@@ -157,7 +157,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         onSuccess?.();
       }
     } catch (error) {
-      console.error("Failed to add team member:", error);
+      // console.error("Failed to add team member:", error);
       toast({
         title: t("addTeamMemberModal.messages.error.title"),
         description:

@@ -23,7 +23,7 @@ export class MediaErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Media page error:", error, errorInfo);
+    // console.error("Media page error:", error, errorInfo);
   }
 
   private handleRetry = () => {

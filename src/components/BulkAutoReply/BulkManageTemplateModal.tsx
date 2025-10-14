@@ -62,7 +62,7 @@ export const BulkManageTemplateModal: React.FC<
       };
       await onSave(updatedTemplate);
     } catch (error) {
-      console.error("Error saving template:", error);
+      // console.error("Error saving template:", error);
     } finally {
       setIsSaving(false);
     }

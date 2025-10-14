@@ -97,7 +97,7 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
         setChatHistory(transformedHistory);
       }
     } catch (error: any) {
-      console.error("Failed to fetch chat history:", error);
+      // console.error("Failed to fetch chat history:", error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -217,7 +217,7 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
           setCurrentSession(newSession);
         }
       } catch (error: any) {
-        console.error("Chat send error:", error);
+        // console.error("Chat send error:", error);
 
         // Replace loading message with error message
         const errorMessage: ChatMessage = {
@@ -300,7 +300,7 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
           description: "Thank you for your feedback!",
         });
       } catch (error: any) {
-        console.error("Failed to submit feedback:", error);
+        // console.error("Failed to submit feedback:", error);
 
         // Remove loading state
         setMessages((prev) =>
@@ -392,7 +392,7 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
           setMessages(transformedMessages);
         }
       } catch (error: any) {
-        console.error("Failed to fetch chat messages:", error);
+        // console.error("Failed to fetch chat messages:", error);
         toast({
           variant: "destructive",
           title: "Error",
@@ -458,7 +458,7 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
           description: "Chat session has been deleted successfully",
         });
       } catch (error: any) {
-        console.error("Failed to delete chat session:", error);
+        // console.error("Failed to delete chat session:", error);
         toast({
           variant: "destructive",
           title: "Delete Failed",

@@ -13,7 +13,7 @@ export const publicAxiosInstance = axios.create({
 publicAxiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('Public API Error:', error);
+    // console.error('Public API Error:', error);
     return Promise.reject(error);
   }
 );

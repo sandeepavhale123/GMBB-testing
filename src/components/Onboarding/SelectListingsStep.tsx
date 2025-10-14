@@ -143,7 +143,7 @@ const SelectListingsStep = ({
         throw new Error(response.message || "Failed to connect listings");
       }
     } catch (error) {
-      console.error("Error connecting listings:", error);
+      // console.error("Error connecting listings:", error);
       toast({
         variant: "destructive",
         title: t("selectListingsStep.connectionFailedTitle"),

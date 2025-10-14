@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "clean": "rimraf dist",
+    "version": "node -e \"const fs=require('fs');const path='.env';const v=Date.now().toString();let env='';try{env=fs.readFileSync(path,'utf8');}catch{}env=env.replace(/VITE_BUILD_VERSION=.*/,'').trim();fs.writeFileSync(path,(env?'\\n':'')+'VITE_BUILD_VERSION='+v+'\\n',{flag:'a'});\"",
+    "build": "npm run clean && npm run version && vite build",
+    "build:dev": "npm run clean && npm run version && vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -99,6 +101,7 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "rimraf": "^6.0.1"
   }
 }

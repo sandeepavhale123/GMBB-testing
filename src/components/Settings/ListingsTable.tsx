@@ -82,7 +82,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
         await onToggleListing(listingId, checked);
       } catch (error) {
         // Error is already handled in the hook, no need to do anything here
-        console.error("Toggle failed:", error);
+        // console.error("Toggle failed:", error);
       }
     }
   };

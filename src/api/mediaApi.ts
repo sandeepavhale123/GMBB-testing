@@ -212,7 +212,7 @@ export const uploadMedia = async (
     // console.log("Upload API response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Upload API error:", error?.response?.data?.message);
+    // console.error("Upload API error:", error?.response?.data?.message);
     throw error;
   }
 };
@@ -311,7 +311,7 @@ export const getGalleryImages = async (params: GalleryImageRequest): Promise<Gal
     const response = await axiosInstance.post('/get-gallery-images', params);
     return response.data;
   } catch (error) {
-    console.error('Error fetching gallery images:', error);
+    // console.error('Error fetching gallery images:', error);
     throw error;
   }
 };
@@ -351,7 +351,7 @@ export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<Ga
     
     return response.data;
   } catch (error) {
-    console.error('Error uploading to gallery:', error);
+    // console.error('Error uploading to gallery:', error);
     throw error;
   }
 };
@@ -362,7 +362,7 @@ export const deleteGalleryMedia = async (data: GalleryDeleteRequest): Promise<Ga
     const response = await axiosInstance.post<GalleryDeleteResponse>('/delete-gallery-images', data);
     return response.data;
   } catch (error) {
-    console.error('Error deleting gallery media:', error);
+    // console.error('Error deleting gallery media:', error);
     throw error;
   }
 };
@@ -410,7 +410,7 @@ export const getBulkMediaOverview = async (params: BulkMediaOverviewRequest): Pr
     const response = await axiosInstance.post('/get-bulk-media-overview', params);
     return response.data;
   } catch (error) {
-    console.error('Error fetching bulk media overview:', error);
+    // console.error('Error fetching bulk media overview:', error);
     throw error;
   }
 };
@@ -498,7 +498,7 @@ export const createBulkMedia = async (
 
     return response.data;
   } catch (error) {
-    console.error("Bulk media upload API error:", error?.response?.data?.message);
+    // console.error("Bulk media upload API error:", error?.response?.data?.message);
     throw error;
   }
 };
@@ -509,7 +509,7 @@ export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<Bul
     const response = await axiosInstance.post<BulkMediaDeleteResponse>('/delete-bulk-overview-media', data);
     return response.data;
   } catch (error) {
-    console.error('Error deleting bulk media:', error);
+    // console.error('Error deleting bulk media:', error);
     throw error;
   }
 };

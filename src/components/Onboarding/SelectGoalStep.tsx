@@ -78,7 +78,7 @@ const SelectGoalStep = ({
   // Handle API errors
   useEffect(() => {
     if (goalsError) {
-      console.error("Goals loading error:", goalsError);
+      // console.error("Goals loading error:", goalsError);
       toast({
         variant: "destructive",
         title: t("selectGoalStep.errorLoading"),
@@ -89,7 +89,7 @@ const SelectGoalStep = ({
 
   useEffect(() => {
     if (goalsSaveError) {
-      console.error("Goals save error:", goalsSaveError);
+      // console.error("Goals save error:", goalsSaveError);
       toast({
         variant: "destructive",
         title: t("selectGoalStep.errorSaving"),
@@ -149,7 +149,7 @@ const SelectGoalStep = ({
 
       onNext();
     } catch (error) {
-      console.error("Error in handleNext:", error);
+      // console.error("Error in handleNext:", error);
     }
   };
 

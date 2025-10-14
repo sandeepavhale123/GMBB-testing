@@ -37,7 +37,7 @@ export const useLogin = () => {
       }
 
       const data: LoginResponse = await response.json();
-      console.log("Login response data:", data.data.profile.language);
+      // console.log("Login response data:", data.data.profile.language);
       // set language as soon user login
       const lang = languageMap[data?.data?.profile.language];
       localStorage.setItem("i18nextLng", lang);
@@ -78,14 +78,14 @@ export const useLogin = () => {
           // console.log("🎨 Theme loaded successfully after login");
         }
       } catch (error) {
-        console.warn("Failed to load theme after login:", error);
+        // console.warn("Failed to load theme after login:", error);
         // Graceful fallback - continue without custom theme
       }
 
       // Return the response with our added subscriptionExpired flag
       return { ...data, subscriptionExpired };
     } catch (error) {
-      console.error("Login error:", error);
+      // console.error("Login error:", error);
       throw error;
     } finally {
       dispatch(setLoading(false));

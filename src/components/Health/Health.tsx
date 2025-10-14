@@ -41,7 +41,7 @@ export const Health: React.FC = () => {
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
-  console.log("health data", healthData);
+  // console.log("health data", healthData);
 
   const truncateToTwoDecimals = (num: number) => {
     return Math.trunc(num * 100) / 100;

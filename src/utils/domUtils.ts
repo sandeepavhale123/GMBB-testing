@@ -11,7 +11,7 @@ export const forceBodyStylesReset = () => {
   try {
     // Dev warning for debugging
     if (document.body.style.pointerEvents === 'none') {
-      console.warn('[DOM Utils] Auto-recovering from pointer-events: none on body');
+      // console.warn('[DOM Utils] Auto-recovering from pointer-events: none on body');
     }
     
     // Force reset all potentially problematic styles
@@ -35,9 +35,9 @@ export const forceBodyStylesReset = () => {
       document.body.offsetHeight;
     });
     
-    console.log('Force reset body styles completed');
+    // console.log('Force reset body styles completed');
   } catch (error) {
-    console.warn('Failed to force reset body styles:', error);
+    // console.warn('Failed to force reset body styles:', error);
   }
 };
 
@@ -55,7 +55,7 @@ export const cleanupBodyStyles = () => {
     // Force a repaint to ensure styles are applied
     document.body.offsetHeight;
   } catch (error) {
-    console.warn('Failed to cleanup body styles:', error);
+    // console.warn('Failed to cleanup body styles:', error);
   }
 };
 
@@ -74,7 +74,7 @@ export const startGlobalCleanupMonitor = () => {
   globalCleanupInterval = setInterval(() => {
     const computedStyle = window.getComputedStyle(document.body);
     if (computedStyle.pointerEvents === 'none') {
-      console.warn('Detected persistent pointer-events: none, forcing cleanup');
+      // console.warn('Detected persistent pointer-events: none, forcing cleanup');
       forceBodyStylesReset();
     }
   }, 500);
@@ -103,7 +103,7 @@ export const startBodyStyleObserver = () => {
         if (target === document.body) {
           const style = target.style;
           if (style.pointerEvents === 'none') {
-            console.warn('MutationObserver detected pointer-events: none, forcing cleanup');
+            // console.warn('MutationObserver detected pointer-events: none, forcing cleanup');
             // Use requestAnimationFrame to avoid infinite loops
             requestAnimationFrame(() => {
               forceBodyStylesReset();
@@ -135,7 +135,7 @@ const handleWindowFocus = () => {
   setTimeout(() => {
     const computedStyle = window.getComputedStyle(document.body);
     if (computedStyle.pointerEvents === 'none') {
-      console.warn('Window focus detected pointer-events: none, forcing cleanup');
+      // console.warn('Window focus detected pointer-events: none, forcing cleanup');
       forceBodyStylesReset();
     }
   }, 100);

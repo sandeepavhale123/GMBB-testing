@@ -27,12 +27,12 @@ export const ThemePreloader = ({
 
         // If loadFromAPI is true, call the get-theme API
         if (loadFromAPI) {
-          console.log("🎨 Loading theme from API for login page...");
+          // console.log("🎨 Loading theme from API for login page...");
           const themeResponse = await getThemeUnauthenticated();
 
           if (themeResponse.code === 200) {
             dispatch(loadThemeFromAPI(themeResponse.data));
-            console.log("🎨 Theme loaded successfully from API on login page");
+            // console.log("🎨 Theme loaded successfully from API on login page");
           } else {
             console.warn(
               "Theme API returned non-200 status, using stored theme"
@@ -40,7 +40,7 @@ export const ThemePreloader = ({
           }
         }
       } catch (error) {
-        console.warn("Failed to load theme:", error);
+        // console.warn("Failed to load theme:", error);
         // Fallback to stored theme
         applyStoredTheme();
       } finally {

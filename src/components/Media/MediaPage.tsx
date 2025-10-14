@@ -132,7 +132,7 @@ export const MediaPage: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error("Error fetching media list:", error);
+      // console.error("Error fetching media list:", error);
       toast({
         title: t("mediaPage.toast.errorTitle"),
         description: t("mediaPage.toast.errorFetchRetry"),

@@ -155,7 +155,7 @@ export const CustomNotificationsTab: React.FC = () => {
         throw new Error(response.message || "Failed to add notification");
       }
     } catch (error: any) {
-      console.error("Error adding notification:", error);
+      // console.error("Error adding notification:", error);
 
       // Extract error message from API response
       const errorMessage =
@@ -215,7 +215,7 @@ export const CustomNotificationsTab: React.FC = () => {
         throw new Error(response.message || "Failed to update notification");
       }
     } catch (error) {
-      console.error("Error updating notification:", error);
+      // console.error("Error updating notification:", error);
       toast({
         title: t("customNotifications.error"),
         description:
@@ -275,7 +275,7 @@ export const CustomNotificationsTab: React.FC = () => {
         throw new Error(response.message || "Failed to delete notification");
       }
     } catch (error) {
-      console.error("Error deleting notification:", error);
+      // console.error("Error deleting notification:", error);
       toast({
         title: t("customNotifications.error"),
         description:

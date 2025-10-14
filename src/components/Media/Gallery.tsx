@@ -480,9 +480,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   // Debug: Log video data when mediaType is VIDEO
   React.useEffect(() => {
     if (mediaType === "VIDEO") {
-      console.log("VIDEO tab selected");
-      console.log("Raw images data:", images);
-      console.log("Transformed mediaData:", mediaData);
+      // console.log("VIDEO tab selected");
+      // console.log("Raw images data:", images);
+      // console.log("Transformed mediaData:", mediaData);
       console.log(
         "Video items:",
         mediaData.filter((item) => item.type === "video")
@@ -524,8 +524,8 @@ export const Gallery: React.FC<GalleryProps> = ({
       "video/avi",
       "video/mov",
     ];
-    console.log("we are inside validate file and file size is", file.size);
-    console.log("we are inside validate file and max size is", maxSize);
+    // console.log("we are inside validate file and file size is", file.size);
+    // console.log("we are inside validate file and max size is", maxSize);
 
     if (!allowedTypes.includes(file.type)) {
       toast({
@@ -537,7 +537,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
 
     if (file.size > maxSize) {
-      console.log("inside test size");
+      // console.log("inside test size");
       toast({
         title: t("gallery.errTitle.fileTitle"),
         description: t("gallery.messages.fileTooLarge", {
@@ -594,7 +594,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         variant: "success",
       });
     } catch (error) {
-      console.error("Upload error:", error);
+      // console.error("Upload error:", error);
       toast({
         title: t("gallery.errTitle.uploadFailedTitle"),
         description: t("gallery.messages.uploadFailed"),
@@ -622,7 +622,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         key: mediaKey,
       });
     } catch (error) {
-      console.error("Error deleting media:", error);
+      // console.error("Error deleting media:", error);
     } finally {
       setDeletingItemKey(null);
     }
@@ -736,7 +736,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         });
       }
     } catch (error) {
-      console.error("AI generation error:", error);
+      // console.error("AI generation error:", error);
       toast({
         title: t("gallery.errTitle.generateFailedTitle"),
         description: t("gallery.messages.generationFailed"),
@@ -771,7 +771,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         mediaType: "photo",
       });
     } catch (error) {
-      console.error("Save AI image error:", error);
+      // console.error("Save AI image error:", error);
     } finally {
       setSavingImageIndex(undefined);
     }
@@ -1479,7 +1479,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       link.click();
                                       document.body.removeChild(link);
                                     } catch (error) {
-                                      console.error("Download failed:", error);
+                                      // console.error("Download failed:", error);
                                       toast({
                                         title: t(
                                           "gallery.errTitle.downloadTitle"
@@ -1540,10 +1540,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                                         variant: "default",
                                       });
                                     } catch (error) {
-                                      console.error(
-                                        "Failed to copy URL:",
-                                        error
-                                      );
+                                      // console.error(
+                                      //   "Failed to copy URL:",
+                                      //   error
+                                      // );
                                       toast({
                                         title: t("gallery.errTitle.falied"),
                                         description: t(

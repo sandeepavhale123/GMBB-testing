@@ -139,7 +139,7 @@ export const reportsApi = {
       // console.log("Performance insights report data:", response.data);
       return response.data;
     } catch (error) {
-      console.error("POST get-performance-insight failed:", error);
+      // console.error("POST get-performance-insight failed:", error);
       throw error;
     }
   },
@@ -154,7 +154,7 @@ export const reportsApi = {
       // console.log("Performance review report data:", response.data);
       return response.data;
     } catch (error) {
-      console.error("POST get-performance-review failed:", error);
+      // console.error("POST get-performance-review failed:", error);
       throw error;
     }
   },
@@ -173,7 +173,7 @@ export const reportsApi = {
         throw new Error(response.data?.message || "Failed to fetch report");
       }
     } catch (error) {
-      console.error("POST get-performance-post failed:", error);
+      // console.error("POST get-performance-post failed:", error);
       throw error;
     }
   },
@@ -194,7 +194,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST get-performance-media failed:", error);
+      // console.error("POST get-performance-media failed:", error);
       throw error;
     }
   },
@@ -215,7 +215,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST get-performance-report failed:", error);
+      // console.error("POST get-performance-report failed:", error);
       throw error;
     }
   },
@@ -236,7 +236,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST get-performance-keywords failed:", error);
+      // console.error("POST get-performance-keywords failed:", error);
       throw error;
     }
   },
@@ -267,7 +267,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST get-performance-ranking failed:", error);
+      // console.error("POST get-performance-ranking failed:", error);
       throw error;
     }
   },
@@ -294,7 +294,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST /get-all-reports failed:", error);
+      // console.error("POST /get-all-reports failed:", error);
       throw error;
     }
   },
@@ -313,7 +313,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST get-performance-citation failed:", error);
+      // console.error("POST get-performance-citation failed:", error);
       throw error;
     }
   },
@@ -336,7 +336,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST /get-all-bulk-reports failed:", error);
+      // console.error("POST /get-all-bulk-reports failed:", error);
       throw error;
     }
   },
@@ -357,7 +357,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST /delete-bulk-report failed:", error);
+      // console.error("POST /delete-bulk-report failed:", error);
       throw error;
     }
   },
@@ -375,7 +375,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST /create-bulk-report failed:", error);
+      // console.error("POST /create-bulk-report failed:", error);
       throw error;
     }
   },
@@ -393,7 +393,7 @@ export const reportsApi = {
         );
       }
     } catch (error) {
-      console.error("POST /view-report-details failed:", error);
+      // console.error("POST /view-report-details failed:", error);
       throw error;
     }
   },

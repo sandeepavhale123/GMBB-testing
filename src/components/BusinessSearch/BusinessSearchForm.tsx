@@ -72,7 +72,7 @@ export function BusinessSearchForm({
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
-      console.log("response of business", response);
+      // console.log("response of business", response);
       if (response.code === 200 && response.data) {
         const { lat, long } = parseLatLong(response.data.latlong);
         const business: BusinessLocationLite = {
@@ -96,7 +96,7 @@ export function BusinessSearchForm({
         });
       }
     } catch (error) {
-      console.error("Map URL search error:", error);
+      // console.error("Map URL search error:", error);
       toast({
         title: "Search Failed",
         description:
@@ -139,7 +139,7 @@ export function BusinessSearchForm({
         });
       }
     } catch (error) {
-      console.error("CID search error:", error);
+      // console.error("CID search error:", error);
       toast({
         title: "Search Failed",
         description: "Failed to search business by CID. Please try again.",
@@ -186,7 +186,7 @@ export function BusinessSearchForm({
           });
         }
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        // console.error("Failed to fetch projects:", error);
         toast({
           title: "Error Loading Projects",
           description: "Failed to load project list. Please try again.",

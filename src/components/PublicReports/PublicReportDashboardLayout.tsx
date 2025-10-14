@@ -71,9 +71,9 @@ export const PublicReportDashboardLayout: React.FC<
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
   const { lightLogo, darkLogo } = useThemeLogo();
-  console.log("use theme logo", lightLogo);
-  console.log("use theme darklogo", useThemeLogo());
-  console.log("start date", compareDate);
+  // console.log("use theme logo", lightLogo);
+  // console.log("use theme darklogo", useThemeLogo());
+  // console.log("start date", compareDate);
 
   const allEmptyExceptLogo = branding
     ? Object.entries(branding)

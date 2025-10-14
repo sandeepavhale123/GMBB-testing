@@ -173,27 +173,27 @@ export interface DeleteBulkListingPostsResponse {
 
 export const csvApi = {
   generateMultiCSVFile: async (request: GenerateCSVRequest): Promise<GenerateCSVResponse> => {
-    console.log('🌐 Making API request to /generate-multicsv-file with:', request);
+    // console.log('🌐 Making API request to /generate-multicsv-file with:', request);
     
     try {
       const response = await axiosInstance.post('/generate-multicsv-file', request);
-      console.log('✅ API response received:', response.data);
+      // console.log('✅ API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ API request failed:', {
-        url: '/generate-multicsv-file',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ API request failed:', {
+      //   url: '/generate-multicsv-file',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   uploadBulkSheet: async (fileType: string, userFile: File): Promise<UploadBulkSheetResponse> => {
-    console.log('🌐 Making API request to /upload-bulk-sheet with:', { fileType, fileName: userFile.name });
+    // console.log('🌐 Making API request to /upload-bulk-sheet with:', { fileType, fileName: userFile.name });
     
     const formData = new FormData();
     formData.append('fileType', fileType);
@@ -207,138 +207,138 @@ export const csvApi = {
         // @ts-ignore - Custom property for skipping global error toast
         skipGlobalErrorToast: true
       });
-      console.log('✅ Upload API response received:', response.data);
+      // console.log('✅ Upload API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Upload API request failed:', {
-        url: '/upload-bulk-sheet',
-        fileType,
-        fileName: userFile.name,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Upload API request failed:', {
+      //   url: '/upload-bulk-sheet',
+      //   fileType,
+      //   fileName: userFile.name,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   saveBulkSheet: async (request: SaveBulkSheetRequest): Promise<SaveBulkSheetResponse> => {
-    console.log('🌐 Making API request to /save-bulk-sheet with:', request);
+    // console.log('🌐 Making API request to /save-bulk-sheet with:', request);
     
     try {
       const response = await axiosInstance.post('/save-bulk-sheet', request);
-      console.log('✅ Save API response received:', response.data);
+      // console.log('✅ Save API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Save API request failed:', {
-        url: '/save-bulk-sheet',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Save API request failed:', {
+      //   url: '/save-bulk-sheet',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   getBulkCSVListing: async (request: GetBulkCSVListingRequest): Promise<GetBulkCSVListingResponse> => {
-    console.log('🌐 Making API request to /get-bulkcsv-listing with:', request);
+    // console.log('🌐 Making API request to /get-bulkcsv-listing with:', request);
     
     try {
       const response = await axiosInstance.post('/get-bulkcsv-listing', request);
-      console.log('✅ Bulk CSV Listing API response received:', response.data);
+      // console.log('✅ Bulk CSV Listing API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Bulk CSV Listing API request failed:', {
-        url: '/get-bulkcsv-listing',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Bulk CSV Listing API request failed:', {
+      //   url: '/get-bulkcsv-listing',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   getListingPostDetails: async (request: GetListingPostDetailsRequest): Promise<GetListingPostDetailsResponse> => {
-    console.log('🌐 Making API request to /get-listingpost-details with:', request);
+    // console.log('🌐 Making API request to /get-listingpost-details with:', request);
     
     try {
       const response = await axiosInstance.post('/get-listingpost-details', request);
-      console.log('✅ Listing Post Details API response received:', response.data);
+      // console.log('✅ Listing Post Details API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Listing Post Details API request failed:', {
-        url: '/get-listingpost-details',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Listing Post Details API request failed:', {
+      //   url: '/get-listingpost-details',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   getBulkCSVHistory: async (request: GetBulkCSVHistoryRequest): Promise<GetBulkCSVHistoryResponse> => {
-    console.log('🌐 Making API request to /get-bulkcsv-history with:', request);
+    // console.log('🌐 Making API request to /get-bulkcsv-history with:', request);
     
     try {
       const response = await axiosInstance.post('/get-bulkcsv-history', request);
-      console.log('✅ Bulk CSV History API response received:', response.data);
+      // console.log('✅ Bulk CSV History API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Bulk CSV History API request failed:', {
-        url: '/get-bulkcsv-history',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Bulk CSV History API request failed:', {
+      //   url: '/get-bulkcsv-history',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   deleteBulkCSVHistory: async (request: DeleteBulkCSVHistoryRequest): Promise<DeleteBulkCSVHistoryResponse> => {
-    console.log('🌐 Making API request to /delete-bulkcsv-history with:', request);
+    // console.log('🌐 Making API request to /delete-bulkcsv-history with:', request);
     
     try {
       const response = await axiosInstance.post('/delete-bulkcsv-history', request);
-      console.log('✅ Delete Bulk CSV History API response received:', response.data);
+      // console.log('✅ Delete Bulk CSV History API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Delete Bulk CSV History API request failed:', {
-        url: '/delete-bulkcsv-history',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Delete Bulk CSV History API request failed:', {
+      //   url: '/delete-bulkcsv-history',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   },
 
   deleteBulkListingPosts: async (request: DeleteBulkListingPostsRequest): Promise<DeleteBulkListingPostsResponse> => {
-    console.log('🌐 Making API request to /delete-bulklisting-posts with:', request);
+    // console.log('🌐 Making API request to /delete-bulklisting-posts with:', request);
     
     try {
       const response = await axiosInstance.post('/delete-bulklisting-posts', request);
-      console.log('✅ Delete Bulk Listing Posts API response received:', response.data);
+      // console.log('✅ Delete Bulk Listing Posts API response received:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Delete Bulk Listing Posts API request failed:', {
-        url: '/delete-bulklisting-posts',
-        request,
-        error: error?.message,
-        status: error?.response?.status,
-        statusText: error?.response?.statusText,
-        responseData: error?.response?.data
-      });
+      // console.error('❌ Delete Bulk Listing Posts API request failed:', {
+      //   url: '/delete-bulklisting-posts',
+      //   request,
+      //   error: error?.message,
+      //   status: error?.response?.status,
+      //   statusText: error?.response?.statusText,
+      //   responseData: error?.response?.data
+      // });
       throw error;
     }
   }

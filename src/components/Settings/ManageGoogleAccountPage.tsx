@@ -165,7 +165,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
         refetch(); // Refresh the accounts list
       }
     } catch (error) {
-      console.error("Error refreshing account:", error);
+      // console.error("Error refreshing account:", error);
       toast({
         title: t("manageGoogleAccountPage.modals.refreshAccount.refreshTitle"),
         description:

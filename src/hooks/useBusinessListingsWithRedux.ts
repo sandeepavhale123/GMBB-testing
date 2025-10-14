@@ -44,16 +44,16 @@ export const useBusinessListingsWithRedux =
         const currentTime = Date.now();
         lastFetchRef.current = currentTime; // ADD THIS LINE
 
-        console.log(
-          "📋🔄 useBusinessListingsWithRedux: Fetching API business listings...",
-          { timestamp: currentTime } // ADD TIMESTAMP LOGGING
-        );
-        console.log("📋🔄 Auth state:", {
-          accessToken: !!accessToken,
-          isAuthenticated,
-          hasAttemptedRefresh,
-          isInitialized,
-        });
+        // console.log(
+        //   "📋🔄 useBusinessListingsWithRedux: Fetching API business listings...",
+        //   { timestamp: currentTime } // ADD TIMESTAMP LOGGING
+        // );
+        // console.log("📋🔄 Auth state:", {
+        //   accessToken: !!accessToken,
+        //   isAuthenticated,
+        //   hasAttemptedRefresh,
+        //   isInitialized,
+        // });
 
         const data = await businessListingsService.getActiveListings({
           limit: 1000,

@@ -108,7 +108,7 @@ export const AITaskManagerPage: React.FC = () => {
         description: response.message,
       });
     } catch (err) {
-      console.error("Failed to complete task", err);
+      // console.error("Failed to complete task", err);
     }
   };
   const handleRevertTask = async (taskId: string | number) => {

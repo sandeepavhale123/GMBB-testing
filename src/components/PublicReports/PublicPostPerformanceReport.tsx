@@ -205,7 +205,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
   const trendDataTwo = postData?.data?.periodTwo?.trend_data || [];
   const chartData = prepareChartData(trendDataOne, trendDataTwo, reportType);
 
-  console.log("trenddatatwo", trendDataTwo);
+  // console.log("trenddatatwo", trendDataTwo);
   const formatTrendData = (data: any[]) =>
     data.map((item) => ({
       date: item.post_date,

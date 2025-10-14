@@ -73,7 +73,7 @@ export const useInsightsData = () => {
         dispatch(fetchCustomerActions(params)),
       ]);
     } catch (error) {
-      console.error("Error fetching insights data:", error);
+      // console.error("Error fetching insights data:", error);
     }
   };
 
@@ -108,7 +108,7 @@ export const useInsightsData = () => {
           "Your insights have been updated with the latest data from Google Business Profile.",
       });
     } catch (error) {
-      console.error("Error refreshing insights:", error);
+      // console.error("Error refreshing insights:", error);
       toast({
         title: "Refresh Failed",
         description:

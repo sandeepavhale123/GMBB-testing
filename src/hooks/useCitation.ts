@@ -75,7 +75,7 @@ export const useRefreshCitationReport = () => {
     mutationFn: (payload: RefreshCitationReportPayload) =>
       refreshCitationReport(payload),
     onSuccess: (data) => {
-      console.log("Citation refresh data", data);
+      // console.log("Citation refresh data", data);
       toast({
         title: "Success",
         description: data?.message || "Citation report refreshed successfully.",

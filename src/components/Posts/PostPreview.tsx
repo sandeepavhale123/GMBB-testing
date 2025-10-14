@@ -48,7 +48,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
 
   // Add debug logging
   React.useEffect(() => {
-    console.log("🎯 PostPreview mounted with data:", data);
+    // console.log("🎯 PostPreview mounted with data:", data);
     return () => {
       console.log("🎯 PostPreview unmounting");
     };

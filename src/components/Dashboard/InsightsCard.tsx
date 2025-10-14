@@ -61,7 +61,7 @@ export const InsightsCard: React.FC = () => {
     try {
       await dispatch(fetchInsightsSummary(params));
     } catch (error) {
-      console.error("Error fetching dashboard insights data:", error);
+      // console.error("Error fetching dashboard insights data:", error);
     }
   };
 

@@ -101,7 +101,7 @@ export const AvailableGroupListingSelector: React.FC<
         setLocationsOpen(newLocationsOpen);
       }
     } catch (error) {
-      console.error("Error fetching available listings:", error);
+      // console.error("Error fetching available listings:", error);
     }
   };
 

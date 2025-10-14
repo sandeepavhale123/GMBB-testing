@@ -61,7 +61,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
     // Check if there's a selected media from gallery
     if (selectedMedia) {
-      console.log("🖼️ Gallery media selected for post:", selectedMedia);
+      // console.log("🖼️ Gallery media selected for post:", selectedMedia);
       return {
         listings: [] as string[],
         title: "",
@@ -291,11 +291,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
         };
 
-        console.log("📤 Sending bulk post data to backend:", bulkPostData);
-        console.log(
-          "🔄 Selected listings for bulk posting:",
-          formData.listings
-        );
+        // console.log("📤 Sending bulk post data to backend:", bulkPostData);
+        // console.log(
+        //   "🔄 Selected listings for bulk posting:",
+        //   formData.listings
+        // );
 
         response = await dispatch(createBulkPost(bulkPostData)).unwrap();
 
@@ -357,7 +357,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
         };
 
-        console.log("📤 Sending single post data to backend:", createPostData);
+        // console.log("📤 Sending single post data to backend:", createPostData);
 
         response = await dispatch(createPost(createPostData)).unwrap();
       }
@@ -435,7 +435,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       clearSelection();
       onClose();
     } catch (error) {
-      console.error("Error creating post:", error);
+      // console.error("Error creating post:", error);
       toast({
         title: isBulkPosting
           ? isCloning

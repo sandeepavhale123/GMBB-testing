@@ -219,12 +219,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const isPlanExpired = isSubscriptionExpired(planExpDate);
   const isEnterprisePlan =
     profileData?.planName?.toLowerCase() === "enterprise";
-  console.log("profile data", profileData);
+  // console.log("profile data", profileData);
   const trialPlan =
     profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
     profileData?.planName?.toLowerCase() === "trial" ||
     profileData?.planId === "50";
-  console.log("is  plan .....", trialPlan);
+  // console.log("is  plan .....", trialPlan);
   // console.log(
   //   "result of condition",
   //   !isPlanExpired && !collapsed && !isEnterprisePlan

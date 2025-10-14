@@ -73,7 +73,7 @@ export const BrandingPage: React.FC = () => {
           dispatch(loadThemeFromAPI(response.data));
         }
       } catch (error) {
-        console.error("Error loading theme data:", error);
+        // console.error("Error loading theme data:", error);
       } finally {
         dispatch(setThemeLoading(false));
       }
@@ -99,7 +99,7 @@ export const BrandingPage: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error("Theme reset error:", error);
+      // console.error("Theme reset error:", error);
       toast({
         title: t("brandingPage.messages.reset.errorTitle"),
         description:
@@ -140,7 +140,7 @@ export const BrandingPage: React.FC = () => {
         throw new Error(response.message);
       }
     } catch (error) {
-      console.error("Error saving theme:", error);
+      // console.error("Error saving theme:", error);
       toast({
         title: t("brandingPage.messages.save.errorTitle"),
         description:

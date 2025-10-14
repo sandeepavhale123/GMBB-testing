@@ -166,7 +166,7 @@ export const ReportBrandingPage: React.FC = () => {
       setLogoFile(null);
     } catch (error) {
       // Error is handled by the mutation hook
-      console.error("Error submitting form:", error);
+      // console.error("Error submitting form:", error);
     }
   };
   const handleDeleteBranding = async () => {

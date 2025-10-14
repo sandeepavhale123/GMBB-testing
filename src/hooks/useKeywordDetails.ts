@@ -20,7 +20,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
 
   // Enhanced setSelectedDate to update URL params (now using 'id' parameter)
   const setSelectedDateWithURL = (dateId: string) => {
-    console.log('🔄 setSelectedDateWithURL - Setting date:', dateId);
+    // console.log('🔄 setSelectedDateWithURL - Setting date:', dateId);
     setSelectedDate(dateId);
     
     // Update URL params - changed from 'date' to 'id'

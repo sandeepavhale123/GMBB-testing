@@ -86,7 +86,7 @@ export const getTeamMembers = async (
     // console.log("Team members API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to fetch team members:", error);
+    // console.error("Failed to fetch team members:", error);
     throw error;
   }
 };
@@ -104,7 +104,7 @@ export const addTeamMember = async (
     // console.log("Add team member API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to add team member:", error);
+    // console.error("Failed to add team member:", error);
     toast({
       title: "Error",
       description:
@@ -155,7 +155,7 @@ export const getEditMember = async (
     // console.log("Get edit member API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to fetch edit member:", error);
+    // console.error("Failed to fetch edit member:", error);
     throw error;
   }
 };
@@ -173,7 +173,7 @@ export const updateTeamMember = async (
     // console.log("Update team member API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to update team member:", error);
+    // console.error("Failed to update team member:", error);
     throw error;
   }
 };
@@ -191,7 +191,7 @@ export const deleteTeamMember = async (
     // console.log("Delete team member API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to delete team member:", error);
+    // console.error("Failed to delete team member:", error);
     throw error;
   }
 };
@@ -282,7 +282,7 @@ export const getActiveAccounts = async (
     // console.log("Get active accounts API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to fetch active accounts:", error);
+    // console.error("Failed to fetch active accounts:", error);
     throw error;
   }
 };
@@ -300,7 +300,7 @@ export const getActiveAccountList = async (
     // console.log("Get active account list API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to fetch active account list:", error);
+    // console.error("Failed to fetch active account list:", error);
     throw error;
   }
 };
@@ -318,7 +318,7 @@ export const saveAssignListings = async (
     // console.log("Save assign listings API response:", result.data);
     return result.data;
   } catch (error) {
-    console.error("Failed to save assign listings:", error);
+    // console.error("Failed to save assign listings:", error);
     throw error;
   }
 };

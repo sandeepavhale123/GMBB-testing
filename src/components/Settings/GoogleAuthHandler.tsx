@@ -60,7 +60,7 @@ const GoogleAuthHandler = () => {
         );
 
         const responseData = await response.json();
-        console.log("GoogleAuthHandler: API response", responseData);
+        // console.log("GoogleAuthHandler: API response", responseData);
 
         if (!response.ok) {
           const message =
@@ -102,7 +102,7 @@ const GoogleAuthHandler = () => {
           navigate(`/settings/listings/${accountId}`, { replace: true });
         }
       } catch (error) {
-        console.error("GoogleAuthHandler: Authentication error", error);
+        // console.error("GoogleAuthHandler: Authentication error", error);
 
         const errorMessage =
           error instanceof Error

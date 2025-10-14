@@ -97,7 +97,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         });
       }
     } catch (error: any) {
-      console.error("Keyword search error:", error);
+      // console.error("Keyword search error:", error);
       if (error.response?.status === 401) {
         toast({
           title: t("AddKeywordsPage.toast.authErrorTitle"),

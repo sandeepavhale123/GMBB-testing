@@ -11,16 +11,16 @@ export const getNotifications = async ({
   limit,
 }: GetNotificationsRequest) => {
   try {
-    console.log("🚀 Making notification API call with:", { page, limit });
+    // console.log("🚀 Making notification API call with:", { page, limit });
     const response = await axiosInstance.post("/get-beamer-notification", {
       page,
       limit,
     });
-    console.log("✅ Notification API response:", response);
+    // console.log("✅ Notification API response:", response);
     // Adjust depending on actual API response shape
     return response.data;
   } catch (error) {
-    console.error("❌ Notification API error:", error);
+    // console.error("❌ Notification API error:", error);
     throw error;
   }
 };

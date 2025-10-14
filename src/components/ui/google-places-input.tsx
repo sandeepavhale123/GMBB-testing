@@ -54,10 +54,10 @@ export const GooglePlacesInput = React.forwardRef<
 
         autocompleteRef.current.addListener("place_changed", () => {
           const place = autocompleteRef.current?.getPlace();
-          console.log("Google Places - place_changed triggered:", place);
+          // console.log("Google Places - place_changed triggered:", place);
           
           if (place && place.formatted_address) {
-            console.log("Google Places - formatted_address:", place.formatted_address);
+            // console.log("Google Places - formatted_address:", place.formatted_address);
             
             // Store the selected value
             lastSelectedValue.current = place.formatted_address;
@@ -65,16 +65,16 @@ export const GooglePlacesInput = React.forwardRef<
             // Update the input value directly
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
-              console.log("Google Places - input value updated to:", inputRef.current.value);
+              // console.log("Google Places - input value updated to:", inputRef.current.value);
             }
             
             // Call the onPlaceSelect callback
             if (onPlaceSelect) {
-              console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
+              // console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
             }
           } else {
-            console.log("Google Places - no place or formatted_address found");
+            // console.log("Google Places - no place or formatted_address found");
           }
         });
       }
@@ -105,7 +105,7 @@ export const GooglePlacesInput = React.forwardRef<
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only call onChange if we're not dealing with a Google Places selection
     if (onChange && e.target.value !== lastSelectedValue.current) {
-      console.log("GooglePlacesInput - onChange called with:", e.target.value);
+      // console.log("GooglePlacesInput - onChange called with:", e.target.value);
       onChange(e);
     }
   };

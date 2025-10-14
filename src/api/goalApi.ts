@@ -30,7 +30,7 @@ export const getGoalList = async (): Promise<GoalListResponse> => {
     // console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching goal list:", error);
+    // console.error("Error fetching goal list:", error);
     throw error;
   }
 };
@@ -43,7 +43,7 @@ export const updateGoalList = async (
     const response = await axiosInstance.post("/update-goal-list", payload);
     return response.data;
   } catch (error) {
-    console.error("Error updating goal list:", error);
+    // console.error("Error updating goal list:", error);
     throw error;
   }
 };
