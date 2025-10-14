@@ -69,7 +69,7 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
         throw new Error(response.message || t("errorDescription"));
       }
     } catch (error: any) {
-      console.error("Error adding listings to group:", error);
+      // console.error("Error adding listings to group:", error);
       toast.error({
         title: t("errorTitle"),
         description:

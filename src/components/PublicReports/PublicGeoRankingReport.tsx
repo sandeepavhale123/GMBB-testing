@@ -120,7 +120,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     if (!mapInstance.current || !data) return;
 
     data.forEach((detail, index) => {
-      console.log("rank maker", detail, index + 1);
+      // console.log("rank maker", detail, index + 1);
       // const [lat, lng] = detail.coordinate.split(",").map(Number);
       const lat = detail?.lat;
       const lng = detail?.lng;
@@ -261,7 +261,7 @@ export const PublicGeoRankingReport: React.FC = () => {
         data[0]?.lat === undefined ||
         data[0]?.lng === undefined
       ) {
-        console.warn("Map initialization skipped: Invalid or empty geo_data");
+        // console.warn("Map initialization skipped: Invalid or empty geo_data");
         return null;
       }
 
@@ -281,7 +281,7 @@ export const PublicGeoRankingReport: React.FC = () => {
 
       return map;
     } catch (error) {
-      console.error("Error initializing map:", error);
+      // console.error("Error initializing map:", error);
       return null;
     }
   };

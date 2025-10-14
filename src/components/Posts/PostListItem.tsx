@@ -204,7 +204,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
 
       // Post will be automatically removed from UI by Redux store
     } catch (error) {
-      console.error("Error deleting post:", error);
+      // console.error("Error deleting post:", error);
 
       // Dismiss progress toast and show error
       progressToast.dismiss();

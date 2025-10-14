@@ -63,7 +63,7 @@ export function BusinessGooglePlacesInput({
           setupAutocomplete();
         }
       } catch (error) {
-        console.error('Failed to initialize Google Places:', error);
+        // console.error('Failed to initialize Google Places:', error);
         toast({
           title: "Initialization Failed",
           description: "Failed to initialize Google Places API.",

@@ -57,22 +57,22 @@ export const SmartRedirect = () => {
         try {
           setIsLoadingProfile(true);
           const profile = await profileService.getUserProfile();
-          console.log("SmartRedirect: Profile data:", profile);
-          console.log("SmartRedirect: Dashboard type:", profile.dashboardType);
+          // console.log("SmartRedirect: Profile data:", profile);
+          // console.log("SmartRedirect: Dashboard type:", profile.dashboardType);
 
           if (profile.dashboardType === 1) {
-            console.log("SmartRedirect: Redirecting to main-dashboard");
+            // console.log("SmartRedirect: Redirecting to main-dashboard");
             setRedirectPath("/main-dashboard");
           } else if (profile.dashboardType === 2) {
-            console.log("SmartRedirect: Redirecting to geo-ranking-dashboard");
+            // console.log("SmartRedirect: Redirecting to geo-ranking-dashboard");
             setRedirectPath("/module/geo-ranking");
           } else {
-            console.log("SmartRedirect: Redirecting to location-dashboard");
+            // console.log("SmartRedirect: Redirecting to location-dashboard");
             // dashboardType === 0 or default case
             setRedirectPath("/location-dashboard/default");
           }
         } catch (error) {
-          console.error("SmartRedirect: Failed to fetch profile:", error);
+          // console.error("SmartRedirect: Failed to fetch profile:", error);
           // Fallback to location dashboard on error
           setRedirectPath("/location-dashboard/default");
         } finally {
@@ -87,7 +87,7 @@ export const SmartRedirect = () => {
     // Try to restore from sessionStorage (only if user didn't just log in)
     const savedPath = sessionStorage.getItem("post_refresh_path");
     const savedAt = sessionStorage.getItem("navigation_saved_at");
-    console.log("SmartRedirect: Session storage check", { savedPath, savedAt });
+    // console.log("SmartRedirect: Session storage check", { savedPath, savedAt });
 
     if (savedPath && savedAt) {
       // Check if the saved navigation state is not too old (within 5 minutes)
@@ -95,7 +95,7 @@ export const SmartRedirect = () => {
       const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
       if (savedTimestamp > fiveMinutesAgo) {
-        console.log("SmartRedirect: Using saved path:", savedPath);
+        // console.log("SmartRedirect: Using saved path:", savedPath);
         // Clear the stored path to prevent loops
         sessionStorage.removeItem("post_refresh_path");
         sessionStorage.removeItem("navigation_saved_at");
@@ -131,21 +131,21 @@ export const SmartRedirect = () => {
         console.log("SmartRedirect: Fallback profile data:", profile);
 
         if (profile.dashboardType === 1) {
-          console.log(
-            "SmartRedirect: Fallback → Redirecting to main-dashboard"
-          );
+          // console.log(
+          //   "SmartRedirect: Fallback → Redirecting to main-dashboard"
+          // );
           setRedirectPath("/main-dashboard");
         } else {
-          console.log(
-            "SmartRedirect: Fallback → Redirecting to location-dashboard"
-          );
+          // console.log(
+          //   "SmartRedirect: Fallback → Redirecting to location-dashboard"
+          // );
           setRedirectPath("/location-dashboard/default");
         }
       } catch (error) {
-        console.error(
-          "SmartRedirect: Failed to fetch profile in fallback:",
-          error
-        );
+        // console.error(
+        //   "SmartRedirect: Failed to fetch profile in fallback:",
+        //   error
+        // );
         // Fallback to location dashboard on error
         setRedirectPath("/location-dashboard/default");
       } finally {
@@ -153,9 +153,9 @@ export const SmartRedirect = () => {
       }
     };
 
-    console.log(
-      "SmartRedirect: No specific condition met, applying fallback dashboardType logic"
-    );
+    // console.log(
+    //   "SmartRedirect: No specific condition met, applying fallback dashboardType logic"
+    // );
     fetchProfileForFallback();
   }, [isAuthenticated, isAuthLoading, shouldWaitForAuth]);
 

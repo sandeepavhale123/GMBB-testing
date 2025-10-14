@@ -201,7 +201,7 @@ export const postsApi = {
   createPost: async (
     request: CreatePostRequest
   ): Promise<CreatePostResponse> => {
-    console.log('🚀 API createPost called with:', request);
+    // console.log('🚀 API createPost called with:', request);
     const formData = new FormData();
 
     // Add all fields to FormData
@@ -218,14 +218,14 @@ export const postsApi = {
     }
     if (request.selectedImage) {
       formData.append("selectedImage", request.selectedImage);
-      console.log('✅ Added selectedImage to FormData:', request.selectedImage);
+      // console.log('✅ Added selectedImage to FormData:', request.selectedImage);
     }
     if (request.aiImageUrl) {
       formData.append("aiImageUrl", request.aiImageUrl);
     }
     if (request.galleryImageUrl) {
       formData.append("galleryImageUrl", request.galleryImageUrl);
-      console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
+      // console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
     }
     if (request.ctaButton) {
       formData.append("ctaButton", request.ctaButton);
@@ -276,7 +276,7 @@ export const postsApi = {
   createBulkPost: async (
     request: CreateBulkPostRequest
   ): Promise<CreateBulkPostResponse> => {
-    console.log('🚀 API createBulkPost called with:', request);
+    // console.log('🚀 API createBulkPost called with:', request);
     const formData = new FormData();
 
     // Add all fields to FormData
@@ -293,14 +293,14 @@ export const postsApi = {
     }
     if (request.selectedImage) {
       formData.append("selectedImage", request.selectedImage);
-      console.log('✅ Added selectedImage to FormData:', request.selectedImage);
+      // console.log('✅ Added selectedImage to FormData:', request.selectedImage);
     }
     if (request.aiImageUrl) {
       formData.append("aiImageUrl", request.aiImageUrl);
     }
     if (request.galleryImageUrl) {
       formData.append("galleryImageUrl", request.galleryImageUrl);
-      console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
+      // console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
     }
     if (request.ctaButton) {
       formData.append("ctaButton", request.ctaButton);

@@ -168,7 +168,7 @@ export const SubscriptionPage: React.FC = () => {
           // });
         }
       } catch (error) {
-        console.error("Failed to fetch user plan:", error);
+        // console.error("Failed to fetch user plan:", error);
       }
     };
     fetchUserPlan();
@@ -278,7 +278,7 @@ export const SubscriptionPage: React.FC = () => {
         throw new Error("No checkout session or URL received");
       }
     } catch (error) {
-      console.error("Payment error:", error);
+      // console.error("Payment error:", error);
       toast({
         title: t("subscriptionPage.toast.paymentError.title"),
         description:
@@ -324,7 +324,7 @@ export const SubscriptionPage: React.FC = () => {
       // Trigger immediate profile refresh for sidebar update
       await refreshProfileData();
     } catch (error) {
-      console.error("Upgrade error:", error);
+      // console.error("Upgrade error:", error);
       toast({
         title: t("subscriptionPage.toast.upgradeError.title"),
         description:
@@ -367,7 +367,7 @@ export const SubscriptionPage: React.FC = () => {
       // Trigger immediate profile refresh for sidebar update
       await refreshProfileData();
     } catch (error: any) {
-      console.error("Cancel subscription error:", error);
+      // console.error("Cancel subscription error:", error);
       toast({
         title: t("subscriptionPage.toast.cancelError.title"),
         description:

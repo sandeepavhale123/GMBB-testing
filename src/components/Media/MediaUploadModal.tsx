@@ -518,7 +518,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       setUploadComplete(true);
       clearSelection();
     } catch (error) {
-      console.error("Upload error:", error);
+      // console.error("Upload error:", error);
       toast({
         title: t("mediaUploadModal.uploadFailed"),
         description:
@@ -1071,7 +1071,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           setTemplates(response.data.templates);
         }
       } catch (error) {
-        console.error("Error loading templates:", error);
+        // console.error("Error loading templates:", error);
         toast({
           title: t("mediaUploadModal.error"),
           description: t("mediaUploadModal.failed"),
@@ -1117,7 +1117,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         });
       }
     } catch (error) {
-      console.error("Error loading template details:", error);
+      // console.error("Error loading template details:", error);
       toast({
         title: t("mediaUploadModal.error"),
         description: t("mediaUploadModal.tempDetail"),
@@ -1193,7 +1193,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
       setShowDeleteDialog(false);
       setTemplateToDelete(null);
     } catch (error) {
-      console.error("Error deleting template:", error);
+      // console.error("Error deleting template:", error);
       toast({
         title: t("mediaUploadModal.error"),
         description: t("mediaUploadModal.tempFail"),
@@ -1275,7 +1275,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
               setTemplates(templatesResponse.data.templates);
             }
           } catch (error) {
-            console.error("Error reloading templates:", error);
+            // console.error("Error reloading templates:", error);
           }
         }
 
@@ -1330,7 +1330,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
           onClose();
         }
       } catch (error) {
-        console.error("Error saving EXIF data:", error);
+        // console.error("Error saving EXIF data:", error);
         toast({
           title: t("mediaUploadModal.error"),
           description: t("mediaUploadModal.exifFail"),
@@ -1391,7 +1391,7 @@ const ExifEditorContent: React.FC<ExifEditorContentProps> = ({
         onClose();
       }
     } catch (error) {
-      console.error("Error saving EXIF data:", error);
+      // console.error("Error saving EXIF data:", error);
       toast({
         title: t("mediaUploadModal.error"),
         description: t("mediaUploadModal.exifFail"),

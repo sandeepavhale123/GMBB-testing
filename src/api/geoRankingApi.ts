@@ -190,19 +190,19 @@ export const getKeywordDetails = async (
     status: 0,
   };
   
-  console.log('🗺️ getKeywordDetails - API call:', {
-    listingId,
-    keywordId,
-    dateId
-  });
+  // console.log('🗺️ getKeywordDetails - API call:', {
+  //   listingId,
+  //   keywordId,
+  //   dateId
+  // });
   
   const response = await axiosInstance.post("/get-keyword-details", payload);
   
-  console.log('🗺️ getKeywordDetails - API response:', {
-    code: response.data.code,
-    rankDetailsCount: response.data.data?.rankDetails?.length || 0,
-    datesCount: response.data.data?.dates?.length || 0
-  });
+  // console.log('🗺️ getKeywordDetails - API response:', {
+  //   code: response.data.code,
+  //   rankDetailsCount: response.data.data?.rankDetails?.length || 0,
+  //   datesCount: response.data.data?.dates?.length || 0
+  // });
   
   return response.data;
 };
@@ -476,7 +476,7 @@ export const deleteKeywords = async (
     );
     return response.data;
   } catch (error) {
-    console.error("Error deleting keywords:", error);
+    // console.error("Error deleting keywords:", error);
     throw error;
   }
 };
@@ -563,19 +563,19 @@ export const getKeywordDetailsForProject = async (
     status: 0,
   };
   
-  console.log('🗺️ getKeywordDetailsForProject - API call:', {
-    projectId,
-    keywordId,
-    dateId
-  });
+  // console.log('🗺️ getKeywordDetailsForProject - API call:', {
+  //   projectId,
+  //   keywordId,
+  //   dateId
+  // });
   
   const response = await axiosInstance.post("/get-keyword-details", payload);
   
-  console.log('🗺️ getKeywordDetailsForProject - API response:', {
-    code: response.data.code,
-    rankDetailsCount: response.data.data?.rankDetails?.length || 0,
-    datesCount: response.data.data?.dates?.length || 0
-  });
+  // console.log('🗺️ getKeywordDetailsForProject - API response:', {
+  //   code: response.data.code,
+  //   rankDetailsCount: response.data.data?.rankDetails?.length || 0,
+  //   datesCount: response.data.data?.dates?.length || 0
+  // });
   
   return response.data;
 };

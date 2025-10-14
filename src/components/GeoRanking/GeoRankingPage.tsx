@@ -82,7 +82,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     fetchKeywords,
   } = geoRankingData;
 
-  console.log("geo ranking data", geoRankingData);
+  // console.log("geo ranking data", geoRankingData);
 
   // Normalize the interface differences between hooks
   const refreshPollingActive =
@@ -156,7 +156,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
           });
         }
       } catch (error) {
-        console.error("Error fetching position details:", error);
+        // console.error("Error fetching position details:", error);
         setModalData({
           isOpen: true,
           gpsCoordinates,

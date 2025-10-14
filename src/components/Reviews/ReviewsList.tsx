@@ -197,7 +197,7 @@ export const ReviewsList: React.FC = () => {
       });
     } catch (error) {
       // Error will be handled by the useEffect below
-      console.error("Failed to refresh review data:", error);
+      // console.error("Failed to refresh review data:", error);
     }
   };
 
@@ -298,7 +298,7 @@ export const ReviewsList: React.FC = () => {
       });
     } catch (error) {
       // Error will be handled by the useEffect above
-      console.error("Failed to send reply:", error);
+      // console.error("Failed to send reply:", error);
     }
   };
 
@@ -319,7 +319,7 @@ export const ReviewsList: React.FC = () => {
       });
     } catch (error) {
       // Error will be handled by the useEffect above
-      console.error("Failed to delete reply:", error);
+      // console.error("Failed to delete reply:", error);
     }
   };
 

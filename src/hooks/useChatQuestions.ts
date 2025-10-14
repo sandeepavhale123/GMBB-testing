@@ -14,7 +14,7 @@ export const useChatQuestions = () => {
       setQuestions(data);
     } catch (err) {
       setError('Failed to load suggested questions');
-      console.error('Error fetching chat questions:', err);
+      // console.error('Error fetching chat questions:', err);
     } finally {
       setIsLoading(false);
     }

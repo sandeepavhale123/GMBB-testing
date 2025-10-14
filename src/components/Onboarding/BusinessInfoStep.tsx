@@ -112,12 +112,12 @@ const BusinessInfoStep = ({
     if (count <= 200) return "101-200";
     return "201+";
   };
-  console.log("business details", businessDetails);
-  console.log("formdata details", formData);
-  console.log("localData details", localData);
+  // console.log("business details", businessDetails);
+  // console.log("formdata details", formData);
+  // console.log("localData details", localData);
 
   useEffect(() => {
-    console.log("businessDetails from API:", businessDetails);
+    // console.log("businessDetails from API:", businessDetails);
     // Only prefill when businessDetails exist and localData is still in its initial state
     if (
       businessDetails &&
@@ -137,8 +137,8 @@ const BusinessInfoStep = ({
         locationCount:
           mapManageListingToLocationCount(businessDetails.manageListing) ?? "",
       };
-      console.log("Prefilling form with business details:", businessDetails);
-      console.log("Mapped prefill data:", prefillData);
+      // console.log("Prefilling form with business details:", businessDetails);
+      // console.log("Mapped prefill data:", prefillData);
       setLocalData(prefillData);
       updateFormData(prefillData);
     }
@@ -182,7 +182,7 @@ const BusinessInfoStep = ({
       await dispatch(saveBusinessDetails()).unwrap();
       onNext();
     } catch (error) {
-      console.error("Failed to save business details:", error);
+      // console.error("Failed to save business details:", error);
     }
   };
 

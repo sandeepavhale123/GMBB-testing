@@ -205,7 +205,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({
         // } successfully`,
       });
     } catch (error: any) {
-      console.error("Error updating template:", error);
+      // console.error("Error updating template:", error);
 
       // Extract the error message from the API response
       const errorMessage =
@@ -323,7 +323,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({
             });
             setShowManageModal(false);
           } catch (error: any) {
-            console.error("Error saving template:", error);
+            // console.error("Error saving template:", error);
 
             // Extract the error message from the API response
             const errorMessage =

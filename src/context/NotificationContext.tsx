@@ -371,15 +371,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       
       // Only fetch if user is authenticated AND not on a public route
       if (!isAuthenticated || isPublicRoute) {
-        console.log("🔒 Skipping notification fetch:", { isAuthenticated, isPublicRoute });
+        // console.log("🔒 Skipping notification fetch:", { isAuthenticated, isPublicRoute });
         setNotifications([]);
         return;
       }
 
       try {
         const response = await getNotifications({ page: 1, limit: 10 });
-        console.log("📡 API raw response (initial):", response);
-        console.log("👉 Full response object:", JSON.stringify(response, null, 2));
+        // console.log("📡 API raw response (initial):", response);
+        // console.log("👉 Full response object:", JSON.stringify(response, null, 2));
         
         // Handle different possible response structures
         let notificationData = null;
@@ -397,10 +397,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
           notificationData = response;
         }
 
-        console.log("👉 Extracted notification data:", notificationData);
+        // console.log("👉 Extracted notification data:", notificationData);
 
         if (!Array.isArray(notificationData)) {
-          console.warn("⚠️ Notification data is not an array!", notificationData);
+          // console.warn("⚠️ Notification data is not an array!", notificationData);
           setNotifications([]);
           return;
         }
@@ -423,14 +423,14 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
           };
         });
         
-        console.log("✅ Final mapped notifications:", mapped);
+        // console.log("✅ Final mapped notifications:", mapped);
         setNotifications(mapped);
       } catch (err) {
-        console.error("❌ Failed to load notifications:", err);
+        // console.error("❌ Failed to load notifications:", err);
         if (err && typeof err === 'object' && 'response' in err) {
           const axiosError = err as any;
           if (axiosError.response?.status === 401) {
-            console.log("🔒 Authentication required for notifications");
+            // console.log("🔒 Authentication required for notifications");
             return;
           }
         }
@@ -450,8 +450,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     setIsLoading(true);
     try {
       const response = await getNotifications({ page: pageToLoad, limit });
-      console.log(`📡 API raw response (page ${pageToLoad}):`, response);
-      console.log("👉 Full response object:", JSON.stringify(response, null, 2));
+      // console.log(`📡 API raw response (page ${pageToLoad}):`, response);
+      // console.log("👉 Full response object:", JSON.stringify(response, null, 2));
       
       // Handle different possible response structures
       let notificationData = null;
@@ -469,10 +469,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         notificationData = response;
       }
 
-      console.log("👉 Extracted notification data:", notificationData);
+      // console.log("👉 Extracted notification data:", notificationData);
 
       if (!Array.isArray(notificationData)) {
-        console.warn("⚠️ Notification data is not an array!", notificationData);
+        // console.warn("⚠️ Notification data is not an array!", notificationData);
         return [];
       }
 
@@ -493,7 +493,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         };
       });
       
-      console.log("✅ Final newNotifications:", newNotifications);
+      // console.log("✅ Final newNotifications:", newNotifications);
 
       setNotifications((prev) =>
         pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
@@ -502,11 +502,11 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
       return newNotifications;
     } catch (err) {
-      console.error("❌ fetchNotifications failed:", err);
+      // console.error("❌ fetchNotifications failed:", err);
       if (err && typeof err === 'object' && 'response' in err) {
         const axiosError = err as any;
         if (axiosError.response?.status === 401) {
-          console.log("🔒 Authentication required for notifications");
+          // console.log("🔒 Authentication required for notifications");
           return [];
         }
       }
@@ -536,19 +536,19 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   }, [page]);
 
   const openDrawer = () => {
-    console.log("🔔 openDrawer called");
+    // console.log("🔔 openDrawer called");
     setIsDrawerOpen(true);
     // resetNotifications();
     // setTimeout(() => fetchNotifications(1), 0);
   };
 
   const closeDrawer = () => {
-    console.log("❌ closeDrawer called");
+    // console.log("❌ closeDrawer called");
     setIsDrawerOpen(false);
     setSearchQuery(""); // just clear search input
   };
   const toggleDrawer = (open: boolean) => {
-    console.log("🔄 toggleDrawer called with:", open);
+    // console.log("🔄 toggleDrawer called with:", open);
     setIsDrawerOpen(open);
   };
 

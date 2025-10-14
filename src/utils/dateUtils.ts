@@ -81,7 +81,7 @@ export const formatToDayMonthYear = (dateInput: string | Date): string => {
       typeof dateInput === "string" ? parseISO(dateInput) : dateInput;
     return format(date, "dd MMM yyyy"); // Example: 01 Jan 2025
   } catch (error) {
-    console.error("Invalid date passed to formatToDayMonthYear:", dateInput);
+    // console.error("Invalid date passed to formatToDayMonthYear:", dateInput);
     return "";
   }
 };
@@ -93,7 +93,7 @@ export const formatToDDMMYY = (dateInput: string | Date): string => {
       typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
     if (isNaN(date.getTime())) {
-      console.error("Invalid date passed to formatToDDMMYY:", dateInput);
+      // console.error("Invalid date passed to formatToDDMMYY:", dateInput);
       return "";
     }
 

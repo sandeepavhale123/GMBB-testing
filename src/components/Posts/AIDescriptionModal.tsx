@@ -78,7 +78,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
         throw new Error(response.message || "Failed to generate content");
       }
     } catch (error: any) {
-      console.error("Error generating content:", error);
+      // console.error("Error generating content:", error);
       toast({
         title: t("toast.failedTitle"),
         description:

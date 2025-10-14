@@ -69,7 +69,7 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
       const response = await accountListingsApi.getAccountListings(request);
       setData(response.data);
     } catch (err: any) {
-      console.error("Error fetching account listings:", err);
+      // console.error("Error fetching account listings:", err);
       setError(
         err.response?.data?.message || "Failed to fetch account listings"
       );
@@ -79,14 +79,14 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
   }, [accountId, page, limit, search, status, sortOrder]);
 
   useEffect(() => {
-    console.log("[useAccountListings] Effect Triggered", {
-      accountId,
-      page,
-      limit,
-      search,
-      status,
-      sortOrder,
-    });
+    // console.log("[useAccountListings] Effect Triggered", {
+    //   accountId,
+    //   page,
+    //   limit,
+    //   search,
+    //   status,
+    //   sortOrder,
+    // });
     fetchListings();
   }, [fetchListings]);
 

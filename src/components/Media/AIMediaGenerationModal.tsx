@@ -73,7 +73,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         throw new Error(response.message || "Failed to generate images");
       }
     } catch (error) {
-      console.error("AI image generation error:", error);
+      // console.error("AI image generation error:", error);
       toast({
         title: t("aiMediaGeneration.generationFailedTitle"),
         description:

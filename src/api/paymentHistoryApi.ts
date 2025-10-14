@@ -21,7 +21,7 @@ export const downloadInvoice = async (transactionId: string): Promise<Blob> => {
     );
     return response.data;
   } catch (error) {
-    console.error("Download invoice API error:", error);
+    // console.error("Download invoice API error:", error);
 
     // For development, create a mock PDF blob
     if (

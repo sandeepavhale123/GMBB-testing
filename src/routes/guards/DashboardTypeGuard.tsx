@@ -19,21 +19,21 @@ export const DashboardTypeGuard = ({
   useEffect(() => {
     const checkDashboardType = async () => {
       try {
-        console.log("DashboardTypeGuard: Checking dashboard type", {
-          currentPath: location.pathname,
-          allowedDashboardTypes,
-        });
+        // console.log("DashboardTypeGuard: Checking dashboard type", {
+        //   currentPath: location.pathname,
+        //   allowedDashboardTypes,
+        // });
 
         const profile = await profileService.getUserProfile();
-        console.log("DashboardTypeGuard: User profile:", profile);
-        console.log(
-          "DashboardTypeGuard: User dashboard type:",
-          profile.dashboardType
-        );
+        // console.log("DashboardTypeGuard: User profile:", profile);
+        // console.log(
+        //   "DashboardTypeGuard: User dashboard type:",
+        //   profile.dashboardType
+        // );
 
         // Check if user's dashboard type is allowed
         if (!allowedDashboardTypes.includes(profile.dashboardType)) {
-          console.log("DashboardTypeGuard: Dashboard type not allowed, redirecting");
+          // console.log("DashboardTypeGuard: Dashboard type not allowed, redirecting");
           setShouldRedirect(true);
 
           if (profile.dashboardType === 1) {
@@ -44,13 +44,13 @@ export const DashboardTypeGuard = ({
             setRedirectPath("/location-dashboard/default");
           }
         } else {
-          console.log(
-            "DashboardTypeGuard: Dashboard type allowed, allowing access"
-          );
+          // console.log(
+          //   "DashboardTypeGuard: Dashboard type allowed, allowing access"
+          // );
           setShouldRedirect(false);
         }
       } catch (error) {
-        console.error("DashboardTypeGuard: Failed to fetch profile:", error);
+        // console.error("DashboardTypeGuard: Failed to fetch profile:", error);
         // On error, don't redirect - let the user stay where they are
         setShouldRedirect(false);
       } finally {
@@ -73,7 +73,7 @@ export const DashboardTypeGuard = ({
   }
 
   if (shouldRedirect && redirectPath) {
-    console.log("DashboardTypeGuard: Redirecting to:", redirectPath);
+    // console.log("DashboardTypeGuard: Redirecting to:", redirectPath);
     return <Navigate to={redirectPath} replace />;
   }
 

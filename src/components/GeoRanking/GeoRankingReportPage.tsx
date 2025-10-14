@@ -126,7 +126,7 @@ export const GeoRankingReportPage: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error("Error fetching position details:", error);
+      // console.error("Error fetching position details:", error);
       toast({
         title: t("geoRankingReportPage.modal.error.title"),
         description:

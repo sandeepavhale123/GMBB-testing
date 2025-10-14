@@ -52,7 +52,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [showDisableConfirm, setShowDisableConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  console.log("starRating", starRating);
+  // console.log("starRating", starRating);
 
   const handleManageClick = () => {
     if (template) {
@@ -84,7 +84,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
       dispatch(fetchAutoReviewReplySettings(listingId));
       setIsManageOpen(false);
     } catch (error) {
-      console.error("❌ Failed to update auto-reply:", error);
+      // console.error("❌ Failed to update auto-reply:", error);
       toast({
         title: t("templateCard.toast.error.title"),
         description:
@@ -136,7 +136,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   // Get display content
   const getDisplayContent = () => {
     if (!template) return "No template created yet";
-    console.log("template data", template);
+    // console.log("template data", template);
 
     let content = "";
     if (Array.isArray(template.content)) {

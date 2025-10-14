@@ -116,7 +116,7 @@ export const KeywordsPage: React.FC = () => {
         // } deleted successfully.`,
       });
     } catch (error) {
-      console.error("Error deleting keywords:", error);
+      // console.error("Error deleting keywords:", error);
       toast({
         title: t("keywords.errorTitle"),
         description: t("keywords.errorDelete"),

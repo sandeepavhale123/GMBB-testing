@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({ errorInfo });
 
     // Log error for debugging
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    // console.error("ErrorBoundary caught an error:", error, errorInfo);
 
     // Show toast notification
     const { t } = this.props;

@@ -43,7 +43,7 @@ export const ApiKeyProvider: React.FC<ApiKeyProviderProps> = ({ children }) => {
         }
       } catch (err) {
         setError('Error fetching API key');
-        console.error('API key fetch error:', err);
+        // console.error('API key fetch error:', err);
       } finally {
         setIsLoading(false);
       }

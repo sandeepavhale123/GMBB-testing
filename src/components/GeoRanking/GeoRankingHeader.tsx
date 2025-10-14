@@ -135,7 +135,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         description: t("GeoRankingHeader.export.complete.description"),
       });
     } catch (error) {
-      console.error("Error exporting image:", error);
+      // console.error("Error exporting image:", error);
       toast({
         title: t("GeoRankingHeader.export.error.title"),
         description:

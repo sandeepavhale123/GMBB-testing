@@ -98,7 +98,7 @@ export const useCTASettings = () => {
 
       return true;
     } catch (error) {
-      console.error("Failed to update CTA settings:", error);
+      // console.error("Failed to update CTA settings:", error);
       return false;
     }
   };
@@ -140,7 +140,7 @@ export const useCTASettings = () => {
       }
       return false;
     } catch (error) {
-      console.error("Failed to reset CTA settings:", error);
+      // console.error("Failed to reset CTA settings:", error);
       return false;
     }
   };

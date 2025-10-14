@@ -22,10 +22,10 @@ export const businessListingsService = {
     };
 
     try {
-      console.log(
-        "🌐 businessListingsService.getActiveListings: Making request with payload:",
-        payload
-      );
+      // console.log(
+      //   "🌐 businessListingsService.getActiveListings: Making request with payload:",
+      //   payload
+      // );
 
       const response = await axiosInstance.post<BusinessListingsApiResponse>(
         "/get-active-listings",
@@ -61,32 +61,32 @@ export const businessListingsService = {
         return transformedData;
       }
 
-      console.warn(
-        "🌐 businessListingsService.getActiveListings: API returned non-200 code or no data:",
-        response.data
-      );
+      // console.warn(
+      //   "🌐 businessListingsService.getActiveListings: API returned non-200 code or no data:",
+      //   response.data
+      // );
       return [];
     } catch (error: any) {
-      console.error(
-        "🌐 businessListingsService.getActiveListings: Error:",
-        error
-      );
+      // console.error(
+      //   "🌐 businessListingsService.getActiveListings: Error:",
+      //   error
+      // );
 
       if (error.response) {
-        console.error(
-          "🌐 businessListingsService.getActiveListings: Response error:",
-          error.response.status,
-          error.response.data
-        );
+        // console.error(
+        //   "🌐 businessListingsService.getActiveListings: Response error:",
+        //   error.response.status,
+        //   error.response.data
+        // );
       } else if (error.request) {
-        console.error(
-          "🌐 businessListingsService.getActiveListings: Request error - no response received"
-        );
+        // console.error(
+        //   "🌐 businessListingsService.getActiveListings: Request error - no response received"
+        // );
       } else {
-        console.error(
-          "🌐 businessListingsService.getActiveListings: Setup error:",
-          error.message
-        );
+        // console.error(
+        //   "🌐 businessListingsService.getActiveListings: Setup error:",
+        //   error.message
+        // );
       }
 
       throw error;

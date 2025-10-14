@@ -25,7 +25,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   const { t } = useI18nNamespace("PaymentHistory/invoiceModal");
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  console.log("payment item from main screen", paymentItem);
+  // console.log("payment item from main screen", paymentItem);
   const [isLoading, setIsLoading] = useState(false);
   const handleDownload = async () => {
     if (!paymentItem) {
@@ -76,7 +76,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
         }
       }, "image/png");
     } catch (error) {
-      console.error("Failed to capture invoice image:", error);
+      // console.error("Failed to capture invoice image:", error);
       toast({
         title: t("invoiceModal.error.title"),
         description: t("invoiceModal.error.captureFailed"),

@@ -60,7 +60,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
       if (!newOpen) {
-        console.log("Modal closing, starting aggressive cleanup");
+        // console.log("Modal closing, starting aggressive cleanup");
 
         // Immediate cleanup
         forceBodyStylesReset();
@@ -87,14 +87,14 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
     try {
       clearTeamDeleteError();
 
-      console.log("Starting delete operation");
+      // console.log("Starting delete operation");
       const result = await deleteTeamMember({
         id: parseInt(member.id),
         isDelete: "delete",
       });
 
       if (result.meta.requestStatus === "fulfilled") {
-        console.log("Delete successful, starting cleanup and close sequence");
+        // console.log("Delete successful, starting cleanup and close sequence");
 
         // Immediate cleanup before any other operations
         forceBodyStylesReset();
@@ -122,7 +122,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
         });
       }
     } catch (error) {
-      console.error("Delete failed:", error);
+      // console.error("Delete failed:", error);
 
       // Ensure cleanup happens even on error
       forceBodyStylesReset();

@@ -41,7 +41,7 @@ export const useInsightsExport = (selectedListing: any) => {
         description: "Your insights report has been downloaded as an image.",
       });
     } catch (error) {
-      console.error("Error exporting image:", error);
+      // console.error("Error exporting image:", error);
       toast({
         title: "Export Failed",
         description:

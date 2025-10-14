@@ -86,7 +86,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         root.style.setProperty('--primary-gradient-from', hslColor);
         root.style.setProperty('--primary-gradient-via', hslColor);
       } catch (error) {
-        console.warn('Error converting hex color to HSL:', error);
+        // console.warn('Error converting hex color to HSL:', error);
       }
     }
   }, [isDark, accentColor, accent_color]);
