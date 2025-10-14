@@ -10,6 +10,7 @@ import { AuditResultsGrouped } from "@/modules/live-seo-fixer/pages/AuditResults
 import { PageAudit } from "@/modules/live-seo-fixer/pages/PageAudit";
 import { Settings } from "@/modules/live-seo-fixer/pages/Settings";
 import { ProjectSettings } from "@/modules/live-seo-fixer/pages/ProjectSettings";
+import { SchemaEditor } from "@/modules/live-seo-fixer/pages/SchemaEditor";
 import { RouteConfig } from "../routeConfig";
 
 export const liveSeoFixerModuleRoutes: RouteConfig[] = [
@@ -52,6 +53,14 @@ export const liveSeoFixerModuleRoutes: RouteConfig[] = [
       {
         path: "projects/:projectId/pages/:pageId/audit",
         element: <PageAudit />
+      },
+      {
+        path: "projects/:projectId/pages/:pageId/schema-editor",
+        element: <SchemaEditor />
+      },
+      {
+        path: "projects/:projectId/audits/:auditId/schema-editor",
+        element: <SchemaEditor />
       },
       {
         path: "settings",

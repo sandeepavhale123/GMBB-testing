@@ -63,6 +63,7 @@ export const ProjectDetail: React.FC = () => {
     mutationFn: (projectId: string) => deleteProject(projectId),
     onSuccess: () => {
       toast.success('Project deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
       navigate('/module/live-seo-fixer/dashboard');
     },
     onError: (error: any) => {

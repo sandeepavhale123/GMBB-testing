@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useQuery } from '@tanstack/react-query';
 import {
   Dialog,
   DialogContent,
@@ -20,11 +21,16 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Plus } from 'lucide-react';
+import { NicheSelector } from './NicheSelector';
 
 const createProjectSchema = z.object({
   name: z.string().min(1, 'Business name is required').max(100, 'Business name must be less than 100 characters'),
   website: z.string().url('Please enter a valid website URL'),
+  schema_types: z.array(z.string()).min(1, 'Please select a niche'),
   address: z.string().optional(),
   phone: z.string().optional(),
 });
@@ -43,16 +49,18 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
   trigger
 }) => {
   const [open, setOpen] = React.useState(false);
-  
+
   const form = useForm<CreateProjectForm>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
       name: '',
       website: '',
+      schema_types: [],
       address: '',
       phone: '',
     },
   });
+
 
   const onSubmit = (data: CreateProjectForm) => {
     onCreateProject(data);
@@ -74,7 +82,7 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
         <DialogHeader>
           <DialogTitle>Create New SEO Project</DialogTitle>
           <DialogDescription>
-            Add a new website to monitor and optimize for SEO issues. Business name and website URL are required.
+            Add a new website to monitor and optimize for SEO issues. Business name, website URL and Niche are required.
           </DialogDescription>
         </DialogHeader>
         
@@ -110,6 +118,23 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="schema_types"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Niche *</FormLabel>
+                  <FormControl>
+                    <NicheSelector
+                      selectedNiche={field.value?.[0] || ''}
+                      onNicheChange={(niche) => field.onChange([niche])}
+                      error={form.formState.errors.schema_types?.message}
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />
