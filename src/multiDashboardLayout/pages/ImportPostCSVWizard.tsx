@@ -297,7 +297,7 @@ export const ImportPostCSVWizard: React.FC = () => {
 
       if (error?.response?.status === 401) {
         const backendMessage = error?.response?.data?.message || error.message;
-        
+
         // If there's a backend message, always show it for CSV-related errors
         if (backendMessage) {
           errorTitle = "Upload Error";
@@ -567,10 +567,10 @@ export const ImportPostCSVWizard: React.FC = () => {
           {isGeneratingCSV ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              {t("importPostCSVWizard.generatingCSV")}
+              {t("importPostCSVWizard.selectListings.generatingCSV")}
             </>
           ) : (
-            "Next"
+            t("importPostCSVWizard.selectListings.next")
           )}
         </Button>
       </div>
@@ -665,8 +665,8 @@ export const ImportPostCSVWizard: React.FC = () => {
           </Card>
 
           {formData.uploadedFile && (
-            <FilePreview 
-              file={formData.uploadedFile} 
+            <FilePreview
+              file={formData.uploadedFile}
               validatedRows={formData.validatedRows}
             />
           )}

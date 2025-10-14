@@ -1,14 +1,14 @@
 {
   "totalPosts": "Gesamtbeiträge: {{count}}",
-  "totalPostsFiltered": "Gesamtbeiträge: {{count}} (gefiltert)",
+  "totalPostsFiltered": "(gefiltert)",
   "selectPosts": "Beiträge auswählen",
   "cancelSelection": "Auswahl abbrechen",
   "selectAll": "Alle auswählen",
-  "deselectAll": "Alle abwählen",
+  "deselectAll": "Auswahl aufheben",
   "deleteSelected": "Ausgewählte löschen ({{count}})",
-  "deleting": "Löschen...",
+  "deleting": "Wird gelöscht...",
   "deletePostsTitle": "Beiträge löschen",
-  "deletePostsDescription": "Sind Sie sicher, dass Sie {{count}} ausgewählte Beitrag{{plural}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "deletePostsDescription": "Sind Sie sicher, dass Sie {{count}} ausgewählten Beitrag{{plural}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
   "cancel": "Abbrechen",
   "delete": "Löschen",
   "previous": "Zurück",
@@ -17,12 +17,12 @@
   "toast": {
     "error": "Fehler",
     "noListingTitle": "Fehler",
-    "noListingDesc": "Keine Unternehmensliste ausgewählt. Bitte wählen Sie zuerst eine Liste aus.",
+    "noListingDesc": "Kein Unternehmenseintrag ausgewählt. Bitte wählen Sie zuerst einen Eintrag aus.",
     "noPostsTitle": "Keine Beiträge ausgewählt",
     "noPostsDesc": "Bitte wählen Sie Beiträge zum Löschen aus.",
     "postsDeletedTitle": "Beiträge gelöscht",
-    "postsDeletedDesc": "{{count}} Beitrag{{plural}} wurde erfolgreich gelöscht.",
-    "deleteFailedTitle": "Beiträge konnten nicht gelöscht werden",
+    "postsDeletedDesc": "{{count}} Beitrag{{plural}} wurde(n) erfolgreich gelöscht.",
+    "deleteFailedTitle": "Löschen der Beiträge fehlgeschlagen",
     "deleteFailedDesc": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   }
 }

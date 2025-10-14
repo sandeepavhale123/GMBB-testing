@@ -1,21 +1,26 @@
 {
   "importPostCSV": {
-    "title": "Gestione Post in Massa",
+    "title": "Gestione dei post in massa",
     "importButton": "Importa file CSV",
-    "searchPlaceholder": "Cerca per nome file o nota...",
+    "searchPlaceholder": "Cerca per nome del file o nota...",
     "noRecordsFound": "Nessun record trovato per la tua ricerca.",
-    "noCSVFound": "Nessun import CSV trovato. Clicca su \"Importa\" per iniziare.",
+    "noCSVFound": "Nessuna importazione CSV trovata. Clicca su \"Importa\" per iniziare.",
     "tableHeaders": {
-      "filename": "Nome file",
+      "filename": "Nome del file",
       "note": "Nota",
       "date": "Data",
-      "totalPosts": "Post totali",
-      "listingsApplied": "Annunci applicati",
+      "totalPosts": "Totale post",
+      "listingsApplied": "Schede applicate",
       "status": "Stato",
       "action": "Azione"
     },
+    "status": {
+      "completed": "completato",
+      "processing": "in elaborazione",
+      "failed": "fallito"
+    },
     "deleteDialog": {
-      "title": "Elimina Importazione CSV",
+      "title": "Elimina importazione CSV",
       "description": "Sei sicuro di voler eliminare il record di importazione per \"{{filename}}\"? Questa azione non può essere annullata.",
       "cancel": "Annulla",
       "delete": "Elimina",

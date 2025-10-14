@@ -325,7 +325,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => window.open(post.searchUrl, "_blank")}
-              title="Open post on Google"
+              title={t("buttons.openOnGoogle")}
               className="absolute top-2 right-2 h-8 w-8 p-0 text-white rounded-full z-20 bg-gray-800 hover:bg-gray-700 hover:text-white "
             >
               <ArrowUpRight className="w-4 h-4" />

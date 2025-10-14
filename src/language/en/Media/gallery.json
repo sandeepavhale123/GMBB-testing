@@ -25,6 +25,10 @@
     "cancel": "Cancel",
     "confirmDelete": "Delete",
     "deleting": "Deleting...",
+    "cpoyUrl":" Copy Image URL",
+    "more":"More Actions",
+    "available":"1.5 GB / 790 MB Available",
+    "quick":"Quick View",
     "aiSection": {
       "title": "Generate AI Images",
       "promptPlaceholder": "Describe the image you want to generate...",
@@ -53,7 +57,13 @@
         "uploadFailedTitle": "Upload Failed",
         "generateTitle": "Images Generated",
         "generateFailedTitle": "Generation Failed",
-        "downloadTitle": "Download Failed"
+        "downloadTitle": "Download Failed",
+        "limit":"Selection Limit Reached",
+        "noImage":"No Images Selected",
+        "url":"URL copied",
+        "falied":"Copy failed",
+        "url1":"URL Copied!"
+
     },
     "messages": {
       "uploadSuccess": "Successfully uploaded {{count}} file(s).",
@@ -62,7 +72,13 @@
       "fileTooLarge": "File size must be less than 10MB. Your file is {{size}}MB.",
       "geneateSuccess": "Successfully generated {{count}} image(s).",
       "generationFailed": "Failed to generate images. Please try again.",
-      "downloadFailed": "Unable to download the media. Please try again."
+      "downloadFailed": "Unable to download the media. Please try again.",
+      "uploadLimit":"You can only select up to {{maxSelectionLimit}} images.",
+      "least":"Please select at least one image.",
+      "url":"Image URL copied to clipboard",
+      "failed":"Failed to copy URL to clipboard",
+      "url1":"Image URL has been copied to clipboard.",
+      "unableCopy":"Unable to copy URL to clipboard."
     }
   }
 }

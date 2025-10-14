@@ -1,6 +1,6 @@
 {
   "totalPosts": "Totale post: {{count}}",
-  "totalPostsFiltered": "Totale post: {{count}} (filtrati)",
+  "totalPostsFiltered": "(filtrato)",
   "selectPosts": "Seleziona post",
   "cancelSelection": "Annulla selezione",
   "selectAll": "Seleziona tutto",
@@ -8,7 +8,7 @@
   "deleteSelected": "Elimina selezionati ({{count}})",
   "deleting": "Eliminazione in corso...",
   "deletePostsTitle": "Elimina post",
-  "deletePostsDescription": "Sei sicuro di voler eliminare {{count}} post selezionato{{plural}}? Questa azione non può essere annullata.",
+  "deletePostsDescription": "Sei sicuro di voler eliminare {{count}} post{{plural}} selezionato/i? Questa azione non può essere annullata.",
   "cancel": "Annulla",
   "delete": "Elimina",
   "previous": "Precedente",
@@ -17,12 +17,12 @@
   "toast": {
     "error": "Errore",
     "noListingTitle": "Errore",
-    "noListingDesc": "Nessuna attività selezionata. Per favore seleziona una attività prima.",
+    "noListingDesc": "Nessuna scheda aziendale selezionata. Selezionane una prima.",
     "noPostsTitle": "Nessun post selezionato",
     "noPostsDesc": "Seleziona i post da eliminare.",
     "postsDeletedTitle": "Post eliminati",
-    "postsDeletedDesc": "{{count}} post{{plural}} sono stati eliminati con successo.",
-    "deleteFailedTitle": "Impossibile eliminare i post",
+    "postsDeletedDesc": "{{count}} post{{plural}} eliminato/i con successo.",
+    "deleteFailedTitle": "Eliminazione dei post non riuscita",
     "deleteFailedDesc": "Si è verificato un errore imprevisto. Riprova."
   }
 }

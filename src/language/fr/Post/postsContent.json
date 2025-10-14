@@ -1,14 +1,14 @@
 {
   "totalPosts": "Total des publications : {{count}}",
-  "totalPostsFiltered": "Total des publications : {{count}} (filtrées)",
+  "totalPostsFiltered": "(filtré)",
   "selectPosts": "Sélectionner des publications",
   "cancelSelection": "Annuler la sélection",
   "selectAll": "Tout sélectionner",
   "deselectAll": "Tout désélectionner",
   "deleteSelected": "Supprimer la sélection ({{count}})",
   "deleting": "Suppression...",
-  "deletePostsTitle": "Supprimer des publications",
-  "deletePostsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} publication{{plural}} sélectionnée{{plural}} ? Cette action est irréversible.",
+  "deletePostsTitle": "Supprimer les publications",
+  "deletePostsDescription": "Êtes-vous sûr de vouloir supprimer {{count}} publication{{plural}} sélectionnée(s) ? Cette action est irréversible.",
   "cancel": "Annuler",
   "delete": "Supprimer",
   "previous": "Précédent",
@@ -17,12 +17,12 @@
   "toast": {
     "error": "Erreur",
     "noListingTitle": "Erreur",
-    "noListingDesc": "Aucune fiche d’entreprise sélectionnée. Veuillez en sélectionner une d’abord.",
+    "noListingDesc": "Aucune fiche d’entreprise sélectionnée. Veuillez d’abord en sélectionner une.",
     "noPostsTitle": "Aucune publication sélectionnée",
     "noPostsDesc": "Veuillez sélectionner des publications à supprimer.",
     "postsDeletedTitle": "Publications supprimées",
-    "postsDeletedDesc": "{{count}} publication{{plural}} ont été supprimées avec succès.",
-    "deleteFailedTitle": "Échec de la suppression",
+    "postsDeletedDesc": "{{count}} publication{{plural}} ont été supprimée(s) avec succès.",
+    "deleteFailedTitle": "Échec de la suppression des publications",
     "deleteFailedDesc": "Une erreur inattendue s’est produite. Veuillez réessayer."
   }
 }

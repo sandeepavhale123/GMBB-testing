@@ -99,10 +99,14 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
       } else {
         if (prev.length >= maxSelectionLimit) {
           toast({
-            title: "Selection Limit Reached",
-            description: `You can only select up to ${maxSelectionLimit} image${
-              maxSelectionLimit > 1 ? "s" : ""
-            }.`,
+            title: t("mediaDropzone.toast.title"),
+            description:
+              maxSelectionLimit > 1
+                ? t("mediaDropzone.toast.description", { maxSelectionLimit })
+                : t("mediaDropzone.toast.descriptions", { maxSelectionLimit }),
+            //  `You can only select up to ${maxSelectionLimit} image${
+            //     maxSelectionLimit > 1 ? "s" : ""
+            //   }.`,
             variant: "destructive",
           });
           return prev;
@@ -187,7 +191,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
                 : t("mediaDropzone.dragDropFile")}
             </h3>
             <p className="text-gray-600 mb-4">
-              or{" "}
+              {t("mediaDropzone.or")}{" "}
               <button
                 type="button"
                 onClick={(e) => {
@@ -249,21 +253,22 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               {selectedImages.length > 0 && (
                 <>
                   <span className="text-sm font-medium text-primary">
-                    {selectedImages.length}/{maxSelectionLimit} selected
+                    {selectedImages.length}/{maxSelectionLimit}{" "}
+                    {t("mediaDropzone.select")}
                   </span>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleClearSelection}
                   >
-                    Clear All
+                    {t("mediaDropzone.clear")}
                   </Button>
                   <Button
                     variant="default"
                     size="sm"
                     onClick={handleUseSelected}
                   >
-                    Use Selected
+                    {t("mediaDropzone.use")}
                   </Button>
                 </>
               )}

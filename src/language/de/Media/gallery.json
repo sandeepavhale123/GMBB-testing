@@ -2,14 +2,14 @@
   "gallery": {
     "title": "Galerie",
     "uploaded": "Hochgeladen",
-    "aiGenerated": "KI-generiert",
+    "aiGenerated": "Von KI erzeugt",
     "uploadedImages": "Hochgeladene Bilder",
     "searchPlaceholder": "Medien suchen",
     "sortBy": "Sortieren nach",
     "newestFirst": "Neueste zuerst",
     "oldestFirst": "Älteste zuerst",
     "uploadMedia": "Medien hochladen",
-    "uploading": "Hochladen...",
+    "uploading": "Wird hochgeladen...",
     "images": "Bilder",
     "videos": "Videos",
     "items": "{{count}} Elemente",
@@ -20,14 +20,18 @@
     "useForPost": "Für Beitrag verwenden",
     "useForMedia": "Für Medien verwenden",
     "delete": "Löschen",
-    "deleteMediaTitle": "Medien löschen",
-    "deleteMediaDescription": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "deleteMediaTitle": "Medium löschen",
+    "deleteMediaDescription": "Möchten Sie \"{{title}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
     "cancel": "Abbrechen",
     "confirmDelete": "Löschen",
     "deleting": "Löschen...",
+    "cpoyUrl": "Bild-URL kopieren",
+    "more": "Weitere Aktionen",
+    "available": "1,5 GB / 790 MB verfügbar",
+    "quick": "Schnellansicht",
     "aiSection": {
       "title": "KI-Bilder generieren",
-      "promptPlaceholder": "Beschreiben Sie das Bild, das Sie generieren möchten...",
+      "promptPlaceholder": "Beschreiben Sie das Bild, das Sie erzeugen möchten...",
       "selectStyle": "Stil auswählen",
       "realistic": "Realistisch",
       "artistic": "Künstlerisch",
@@ -36,11 +40,11 @@
       "minimalist": "Minimalistisch",
       "vintage": "Vintage",
       "modern": "Modern",
-      "numVariants": "Anzahl Varianten",
+      "numVariants": "Anzahl der Varianten",
       "variant": "{{count}} Variante",
       "variants": "{{count}} Varianten",
       "generate": "Generieren",
-      "generating": "Generiere..."
+      "generating": "Generierung..."
     },
     "emptyState": {
       "title": "Keine Medien gefunden",
@@ -53,16 +57,27 @@
       "uploadFailedTitle": "Upload fehlgeschlagen",
       "generateTitle": "Bilder generiert",
       "generateFailedTitle": "Generierung fehlgeschlagen",
-      "downloadTitle": "Download fehlgeschlagen"
+      "downloadTitle": "Download fehlgeschlagen",
+      "limit": "Auswahllimit erreicht",
+      "noImage": "Keine Bilder ausgewählt",
+      "url": "URL kopiert",
+      "falied": "Kopieren fehlgeschlagen",
+      "url1": "URL kopiert!"
     },
     "messages": {
       "uploadSuccess": "{{count}} Datei(en) erfolgreich hochgeladen.",
-      "uploadFailed": "Beim Hochladen der Dateien ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-      "invalidFileType": "Erlaubt sind nur JPG, PNG, WebP, GIF, MP4, MOV und AVI Dateien.",
-      "fileTooLarge": "Dateigröße muss kleiner als 10 MB sein. Ihre Datei ist {{size}} MB.",
+      "uploadFailed": "Beim Hochladen Ihrer Dateien ist ein Fehler aufgetreten. Bitte erneut versuchen.",
+      "invalidFileType": "Nur JPG-, PNG-, WebP-, GIF-, MP4-, MOV- und AVI-Dateien sind erlaubt.",
+      "fileTooLarge": "Die Dateigröße muss kleiner als 10 MB sein. Ihre Datei ist {{size}} MB groß.",
       "geneateSuccess": "{{count}} Bild(er) erfolgreich generiert.",
-      "generationFailed": "Fehler beim Generieren der Bilder. Bitte versuchen Sie es erneut.",
-      "downloadFailed": "Die Medien konnten nicht heruntergeladen werden. Bitte versuchen Sie es erneut."
+      "generationFailed": "Bilder konnten nicht generiert werden. Bitte erneut versuchen.",
+      "downloadFailed": "Medien konnten nicht heruntergeladen werden. Bitte erneut versuchen.",
+      "uploadLimit": "Sie können maximal {{maxSelectionLimit}} Bilder auswählen.",
+      "least": "Bitte wählen Sie mindestens ein Bild aus.",
+      "url": "Bild-URL in die Zwischenablage kopiert",
+      "failed": "Kopieren der URL in die Zwischenablage fehlgeschlagen",
+      "url1": "Bild-URL wurde in die Zwischenablage kopiert.",
+      "unableCopy": "URL konnte nicht in die Zwischenablage kopiert werden."
     }
   }
 }

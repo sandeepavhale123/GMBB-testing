@@ -12,6 +12,7 @@ import { LoginCredentials, LoginResponse } from "./authTypes";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { getTheme } from "@/api/themeApi";
 import { loadThemeFromAPI } from "../themeSlice";
+import { languageMap } from "@/lib/languageMap";
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,7 +37,10 @@ export const useLogin = () => {
       }
 
       const data: LoginResponse = await response.json();
-      // console.log("Login response data:", data);
+      console.log("Login response data:", data.data.profile.language);
+      // set language as soon user login
+      const lang = languageMap[data?.data?.profile.language];
+      localStorage.setItem("i18nextLng", lang);
 
       // Check if subscription is expired based on planExpDate in profile
       const planExpDate = data.data.profile.planExpDate;

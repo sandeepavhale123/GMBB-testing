@@ -10,9 +10,18 @@
       "videos": "MP4, MOV",
       "maxSize": "• Max 10MB"
     },
+    "or":"or",
+    "select":"selected",
+    "clear":"Clear All",
+    "use":"Use Selected",
     "errors": {
       "invalidFile": "Only JPG, PNG, WebP, and MP4 files are allowed",
       "fileTooLarge": "File size must be less than 10MB"
+    },
+    "toast":{
+      "title":"Selection Limit Reached",
+      "description":"You can only select up to {{maxSelectionLimit}} image.",
+      "descriptions":"You can only select up to {{maxSelectionLimit}} images."
     },
     "close": "Close"
   }

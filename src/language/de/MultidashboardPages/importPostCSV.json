@@ -3,29 +3,34 @@
     "title": "Massenbeitragsverwaltung",
     "importButton": "CSV-Datei importieren",
     "searchPlaceholder": "Nach Dateiname oder Notiz suchen...",
-    "noRecordsFound": "Keine Einträge für Ihre Suche gefunden.",
-    "noCSVFound": "Keine CSV-Importe gefunden. Klicken Sie auf \"Importieren\", um zu beginnen.",
+    "noRecordsFound": "Keine Datensätze für Ihre Suche gefunden.",
+    "noCSVFound": "Keine CSV-Importe gefunden. Klicken Sie auf „Importieren“, um zu beginnen.",
     "tableHeaders": {
       "filename": "Dateiname",
       "note": "Notiz",
       "date": "Datum",
-      "totalPosts": "Gesamtanzahl Beiträge",
-      "listingsApplied": "Angewendete Standorte",
+      "totalPosts": "Gesamtanzahl der Beiträge",
+      "listingsApplied": "Angewendete Einträge",
       "status": "Status",
       "action": "Aktion"
     },
+    "status": {
+      "completed": "abgeschlossen",
+      "processing": "in Bearbeitung",
+      "failed": "fehlgeschlagen"
+    },
     "deleteDialog": {
       "title": "CSV-Import löschen",
-      "description": "Sind Sie sicher, dass Sie den Importeintrag für \"{{filename}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "description": "Sind Sie sicher, dass Sie den Importdatensatz für „{{filename}}“ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "cancel": "Abbrechen",
       "delete": "Löschen",
-      "deleting": "Lösche..."
+      "deleting": "Wird gelöscht..."
     },
     "toast": {
       "successTitle": "Erfolg",
-      "successMessage": "Eintrag erfolgreich gelöscht",
+      "successMessage": "Datensatz erfolgreich gelöscht",
       "errorTitle": "Fehler",
-      "errorMessage": "Eintrag konnte nicht gelöscht werden"
+      "errorMessage": "Datensatz konnte nicht gelöscht werden"
     },
     "paginationInfo": "Zeige {{start}} bis {{end}} von {{total}} Einträgen"
   }

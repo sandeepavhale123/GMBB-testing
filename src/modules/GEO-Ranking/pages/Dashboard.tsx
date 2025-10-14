@@ -345,7 +345,7 @@ export const Dashboard: React.FC = () => {
           const Icon = card.icon;
 
           // Special layout for Credits card
-          if (card.title === "Available Credits") {
+          if (card.title === t("dashboard.summary.availableCredits")) {
             const remainingCredits = summary?.availableCredits || 0;
             const totalCredits = summary?.allowedCredits || 0;
             const progressPercentage =
@@ -473,9 +473,11 @@ export const Dashboard: React.FC = () => {
                       </td>
                       <td className="py-3 px-4 text-muted-foreground">
                         <div className="flex flex-col gap-1">
-                          {project.notificationEmail?.split(',').map((email, idx) => (
-                            <span key={idx}>{email.trim()}</span>
-                          ))}
+                          {project.notificationEmail
+                            ?.split(",")
+                            .map((email, idx) => (
+                              <span key={idx}>{email.trim()}</span>
+                            ))}
                         </div>
                       </td>
                       <td className="py-3 px-4">

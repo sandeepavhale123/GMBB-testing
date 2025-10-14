@@ -14,6 +14,11 @@
       "status": "Status",
       "action": "Action"
     },
+    "status":{
+      "completed": "completed",
+      "processing":"processing",
+      "failed":"failed"
+    },
     "deleteDialog": {
       "title": "Delete CSV Import",
       "description": "Are you sure you want to delete the import record for \"{{filename}}\"? This action cannot be undone.",

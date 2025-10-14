@@ -8,6 +8,7 @@ import {
 } from "@/store/slices/auth/authSlice";
 import { resetStore } from "@/store/actions/globalActions";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -217,33 +218,37 @@ axiosInstance.interceptors.response.use(
       } else {
         // For other 401 errors, show specific toast messages based on the error
         // console.log("⚠️ 401 error with message:", errorMessage);
-        
+        const { t } = useI18nNamespace("api/axiosInstance");
         // Skip toast for specific "no listings found" error as it's handled in components
         if (errorMessage === "No listings found for this history ID.") {
           return Promise.reject(error);
         }
-        
+
         // Check if this request should skip global error toasts
         const skipGlobalToast = originalRequest.skipGlobalErrorToast;
-        
+
         // Skip authentication toasts for notification endpoints as they handle 401s gracefully
-        const isNotificationEndpoint = originalRequest.url?.includes("/get-beamer-notification");
+        const isNotificationEndpoint = originalRequest.url?.includes(
+          "/get-beamer-notification"
+        );
         if (isNotificationEndpoint) {
           return Promise.reject(error);
         }
-        
+
         let title = "Access Denied";
         let description = "You don't have permission to perform this action";
-        
+
         // Special handling for file upload validation errors
         if (originalRequest.url?.includes("/upload-bulk-sheet")) {
           // Check if it's a file validation error (not an auth error)
-          if (errorMessage?.toLowerCase().includes("invalid file") || 
-              errorMessage?.toLowerCase().includes("upload a valid csv") ||
-              errorMessage?.toLowerCase().includes("file parameters")) {
+          if (
+            errorMessage?.toLowerCase().includes("invalid file") ||
+            errorMessage?.toLowerCase().includes("upload a valid csv") ||
+            errorMessage?.toLowerCase().includes("file parameters")
+          ) {
             title = "Invalid File";
             description = errorMessage || "Please upload a valid CSV file.";
-            
+
             // If skipGlobalToast is true, don't show toast here - let component handle it
             if (skipGlobalToast) {
               return Promise.reject(error);
@@ -256,14 +261,16 @@ axiosInstance.interceptors.response.use(
           description = "Your session has expired. Please log in again.";
         } else if (errorMessage?.toLowerCase().includes("insufficient")) {
           title = "Insufficient Permissions";
-          description = "You don't have the required permissions for this action.";
+          description =
+            "You don't have the required permissions for this action.";
         } else if (errorMessage?.toLowerCase().includes("token")) {
           title = "Authentication Error";
-          description = "There was an issue with your authentication. Please try logging in again.";
+          description =
+            "There was an issue with your authentication. Please try logging in again.";
         } else if (errorMessage) {
           description = errorMessage;
         }
-        
+
         toast({
           title,
           description,

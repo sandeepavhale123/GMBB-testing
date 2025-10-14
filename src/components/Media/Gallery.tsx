@@ -658,8 +658,11 @@ export const Gallery: React.FC<GalleryProps> = ({
         } else {
           if (prev.length >= maxSelectionLimit) {
             toast({
-              title: "Selection Limit Reached",
-              description: `You can only select up to ${maxSelectionLimit} images.`,
+              title: t("gallery.errTitle.limit"),
+              description: t("gallery.messages.uploadLimit", {
+                maxSelectionLimit,
+              }),
+              // `You can only select up to ${maxSelectionLimit} images.`,
               variant: "destructive",
             });
             return prev;
@@ -684,8 +687,8 @@ export const Gallery: React.FC<GalleryProps> = ({
     } else {
       if (selectedImages.length === 0) {
         toast({
-          title: "No Images Selected",
-          description: "Please select at least one image.",
+          title: t("gallery.errTitle.noImage"),
+          description: t("gallery.messages.least"),
           variant: "destructive",
         });
         return;
@@ -788,7 +791,7 @@ export const Gallery: React.FC<GalleryProps> = ({
               variant="secondary"
               className="text-mg bg-primary text-white hidden rounded-[5px] hover:bg-primary hover:text-white"
             >
-              1.5 GB / 790 MB Available
+              {t("gallery.available")}
             </Badge>
             {showTabs && (
               <div className="flex items-center space-x-2">
@@ -1000,7 +1003,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       variant="secondary"
                                       onClick={() => handleViewMedia(item)}
                                       className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                      title="Quick View"
+                                      title={t("gallery.quick")}
                                     >
                                       <Eye className="h-4 w-4 text-gray-700" />
                                     </Button>
@@ -1046,7 +1049,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       size="sm"
                                       variant="secondary"
                                       className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                      title="More Actions"
+                                      title={t("gallery.more")}
                                     >
                                       <MoreVertical className="h-4 w-4 text-gray-700" />
                                     </Button>
@@ -1136,22 +1139,24 @@ export const Gallery: React.FC<GalleryProps> = ({
                                             item.url
                                           );
                                           toast.success({
-                                            title: "URL copied",
-                                            description:
-                                              "Image URL copied to clipboard",
+                                            title: t("gallery.errTitle.url"),
+                                            description: t(
+                                              "gallery.messages.url"
+                                            ),
                                           });
                                         } catch (error) {
                                           toast.error({
-                                            title: "Copy failed",
-                                            description:
-                                              "Failed to copy URL to clipboard",
+                                            title: t("gallery.errTitle.falied"),
+                                            description: t(
+                                              "gallery.messages.failed"
+                                            ),
                                           });
                                         }
                                       }}
                                       className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     >
                                       <Copy className="h-4 w-4" />
-                                      Copy Image URL
+                                      {t("gallery.cpoyUrl")}
                                     </DropdownMenuItem>
 
                                     {showDeleteButton && (
@@ -1530,9 +1535,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                                         item.url
                                       );
                                       toast({
-                                        title: "URL Copied!",
-                                        description:
-                                          "Image URL has been copied to clipboard.",
+                                        title: t("gallery.errTitle.url1"),
+                                        description: t("gallery.messages.url1"),
                                         variant: "default",
                                       });
                                     } catch (error) {
@@ -1541,9 +1545,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                                         error
                                       );
                                       toast({
-                                        title: "Copy Failed",
-                                        description:
-                                          "Unable to copy URL to clipboard.",
+                                        title: t("gallery.errTitle.falied"),
+                                        description: t(
+                                          "gallery.messages.unableCopy"
+                                        ),
                                         variant: "destructive",
                                       });
                                     }
@@ -1551,7 +1556,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                   <Copy className="h-4 w-4" />
-                                  Copy Image URL
+                                  {t("gallery.cpoyUrl")}
                                 </DropdownMenuItem>
 
                                 {showDeleteButton && (

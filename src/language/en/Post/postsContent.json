@@ -1,5 +1,5 @@
 { "totalPosts": "Total Posts: {{count}}", 
- "totalPostsFiltered": "Total Posts: {{count}} (filtered)",
+ "totalPostsFiltered": "(filtered)",
  "selectPosts": "Select Posts", "cancelSelection": "Cancel Selection",
   "selectAll": "Select All", "deselectAll": "Deselect All",
   "deleteSelected": "Delete Selected ({{count}})",

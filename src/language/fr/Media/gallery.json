@@ -4,7 +4,7 @@
     "uploaded": "Téléversé",
     "aiGenerated": "Généré par IA",
     "uploadedImages": "Images téléversées",
-    "searchPlaceholder": "Rechercher des médias",
+    "searchPlaceholder": "Rechercher un média",
     "sortBy": "Trier par",
     "newestFirst": "Les plus récents",
     "oldestFirst": "Les plus anciens",
@@ -25,9 +25,13 @@
     "cancel": "Annuler",
     "confirmDelete": "Supprimer",
     "deleting": "Suppression...",
+    "cpoyUrl": "Copier l’URL de l’image",
+    "more": "Plus d’actions",
+    "available": "1,5 Go / 790 Mo disponibles",
+    "quick": "Aperçu rapide",
     "aiSection": {
       "title": "Générer des images IA",
-      "promptPlaceholder": "Décrivez l'image que vous souhaitez générer...",
+      "promptPlaceholder": "Décrivez l’image que vous souhaitez générer...",
       "selectStyle": "Sélectionner un style",
       "realistic": "Réaliste",
       "artistic": "Artistique",
@@ -36,7 +40,7 @@
       "minimalist": "Minimaliste",
       "vintage": "Vintage",
       "modern": "Moderne",
-      "numVariants": "Nb. de variantes",
+      "numVariants": "Nombre de variantes",
       "variant": "{{count}} variante",
       "variants": "{{count}} variantes",
       "generate": "Générer",
@@ -44,7 +48,7 @@
     },
     "emptyState": {
       "title": "Aucun média trouvé",
-      "description": "Essayez d'ajuster vos critères de recherche ou générez de nouvelles images IA."
+      "description": "Essayez d’ajuster vos critères de recherche ou générez de nouvelles images IA."
     },
     "errTitle": {
       "invalideTitle": "Type de fichier invalide",
@@ -53,7 +57,12 @@
       "uploadFailedTitle": "Échec du téléversement",
       "generateTitle": "Images générées",
       "generateFailedTitle": "Échec de la génération",
-      "downloadTitle": "Échec du téléchargement"
+      "downloadTitle": "Échec du téléchargement",
+      "limit": "Limite de sélection atteinte",
+      "noImage": "Aucune image sélectionnée",
+      "url": "URL copiée",
+      "falied": "Échec de la copie",
+      "url1": "URL copiée !"
     },
     "messages": {
       "uploadSuccess": "{{count}} fichier(s) téléversé(s) avec succès.",
@@ -62,7 +71,13 @@
       "fileTooLarge": "La taille du fichier doit être inférieure à 10 Mo. Votre fichier fait {{size}} Mo.",
       "geneateSuccess": "{{count}} image(s) générée(s) avec succès.",
       "generationFailed": "Échec de la génération des images. Veuillez réessayer.",
-      "downloadFailed": "Impossible de télécharger le média. Veuillez réessayer."
+      "downloadFailed": "Impossible de télécharger le média. Veuillez réessayer.",
+      "uploadLimit": "Vous pouvez sélectionner jusqu’à {{maxSelectionLimit}} images.",
+      "least": "Veuillez sélectionner au moins une image.",
+      "url": "L’URL de l’image a été copiée dans le presse-papiers.",
+      "failed": "Échec de la copie de l’URL dans le presse-papiers.",
+      "url1": "L’URL de l’image a bien été copiée dans le presse-papiers.",
+      "unableCopy": "Impossible de copier l’URL dans le presse-papiers."
     }
   }
 }

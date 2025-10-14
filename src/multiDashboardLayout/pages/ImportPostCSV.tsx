@@ -37,36 +37,37 @@ import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { start } from "repl";
 
-const getStatusVariant = (status: string) => {
-  const normalizedStatus = status.toLowerCase();
-  switch (normalizedStatus) {
-    case "completed":
-      return "default";
-    case "processing":
-      return "secondary";
-    case "failed":
-      return "destructive";
-    default:
-      return "secondary";
-  }
-};
-
-const getStatusColor = (status: string) => {
-  const normalizedStatus = status.toLowerCase();
-  switch (normalizedStatus) {
-    case "completed":
-      return "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-300";
-    case "processing":
-      return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-300";
-    case "failed":
-      return "bg-red-100 text-red-800 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300";
-    default:
-      return "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-900/20 dark:text-gray-300";
-  }
-};
-
 export const ImportPostCSV: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardPages/importPostCSV");
+
+  const getStatusVariant = (status: string) => {
+    const normalizedStatus = status.toLowerCase();
+    switch (normalizedStatus) {
+      case t("importPostCSV.status.completed"):
+        return "default";
+      case t("importPostCSV.status.processing"):
+        return "secondary";
+      case t("importPostCSV.status.failed"):
+        return "destructive";
+      default:
+        return "secondary";
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    const normalizedStatus = status.toLowerCase();
+    switch (normalizedStatus) {
+      case t("importPostCSV.status.completed"):
+        return "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-300";
+      case t("importPostCSV.status.processing"):
+        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-300";
+      case t("importPostCSV.status.failed"):
+        return "bg-red-100 text-red-800 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-900/20 dark:text-gray-300";
+    }
+  };
+
   const navigate = useNavigate();
   const { toast } = useToast();
   const {
