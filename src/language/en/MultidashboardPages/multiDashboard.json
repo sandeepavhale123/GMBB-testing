@@ -35,6 +35,11 @@
       "location": "Location Dashboard",
       "post": "Post Dashboard"
     },
+    "review":"Review",
+    "insight":"Insight",
+    "location":"Location",
+    "post":"Post",
+    "default":"Default",
     "shareReport": "Share Report",
     "searchPlaceholder": "Search by listing name or ZIP code",
     "filters": {

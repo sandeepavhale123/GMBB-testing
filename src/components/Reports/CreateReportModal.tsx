@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useListingContext } from "@/context/ListingContext";
 import { useCreateReport, useAllReports } from "@/hooks/useReports";
-import { REPORT_SECTIONS, ReportSectionId } from "@/types/reportTypes";
+import { useReportSections, ReportSectionId } from "@/types/reportTypes";
 import { DateRange } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
@@ -27,6 +27,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   open,
   onOpenChange,
 }) => {
+  const REPORT_SECTIONS = useReportSections();
   const { t } = useI18nNamespace("Reports/createReportModal");
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();

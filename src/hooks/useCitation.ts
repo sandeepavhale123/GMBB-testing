@@ -10,21 +10,25 @@ import {
 } from "@/api/citationApi";
 import { toast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const useCreateCitationReport = () => {
+  const { t } = useI18nNamespace("hooks/useCitation");
   return useMutation({
     mutationFn: (payload: CreateCitationReportPayload) =>
       createCitationReport(payload),
     onSuccess: (data) => {
       toast({
-        title: "Success",
-        description: data?.message || "Citation report created successfully.",
+        title: t("citationReport.toast.success.create.title"),
+        description:
+          data?.message || t("citationReport.toast.success.create.description"),
       });
     },
     onError: (data) => {
       toast({
-        title: "Error",
-        description: data?.message || "Failed to create citation report.",
+        title: t("citationReport.toast.error.create.title"),
+        description:
+          data?.message || t("citationReport.toast.error.create.description"),
       });
     },
   });
@@ -34,6 +38,7 @@ export const useGetCitationReport = (
   listingId?: string | number,
   enabled = true
 ) => {
+  const { t } = useI18nNamespace("hooks/useCitation");
   const query = useQuery({
     queryKey: ["citation-report", listingId],
     queryFn: () => getCitationReport({ listingId: listingId! }),
@@ -44,8 +49,10 @@ export const useGetCitationReport = (
   useEffect(() => {
     if (query.isSuccess) {
       toast({
-        title: "Success",
-        description: query.data?.message || "Citation audit data fetched",
+        title: t("citationReport.toast.success.fetch.title"),
+        description:
+          query.data?.message ||
+          t("citationReport.toast.success.fetch.description"),
       });
     }
   }, [query.isSuccess]);
@@ -53,15 +60,18 @@ export const useGetCitationReport = (
   useEffect(() => {
     if (query.isError) {
       const error = query.error as any;
-      const isValidationError = 
-        error?.response?.status === 400 && 
-        error?.response?.data?.message?.includes("businessName, phone, and address are required");
-      
+      const isValidationError =
+        error?.response?.status === 400 &&
+        error?.response?.data?.message?.includes(
+          t("citationReport.toast.validation.requiredFields")
+        );
+
       // Only show error toast for real errors, not the expected validation error
       if (!isValidationError) {
         toast({
-          title: "Error",
-          description: error?.message || "Failed to fetch Citation audit",
+          title: t("citationReport.toast.error.fetch.title"),
+          description:
+            error?.message || t("citationReport.toast.error.fetch.description"),
         });
       }
     }
@@ -71,20 +81,24 @@ export const useGetCitationReport = (
 };
 
 export const useRefreshCitationReport = () => {
+  const { t } = useI18nNamespace("hooks/useCitation");
   return useMutation({
     mutationFn: (payload: RefreshCitationReportPayload) =>
       refreshCitationReport(payload),
     onSuccess: (data) => {
       // console.log("Citation refresh data", data);
       toast({
-        title: "Success",
-        description: data?.message || "Citation report refreshed successfully.",
+        title: t("citationReport.toast.success.refresh.title"),
+        description:
+          data?.message ||
+          t("citationReport.toast.success.refresh.description"),
       });
     },
     onError: (data) => {
       toast({
-        title: "Error",
-        description: data?.message || "Failed to refresh citation report.",
+        title: t("citationReport.toast.error.refresh.title"),
+        description:
+          data?.message || t("citationReport.toast.error.refresh.description"),
       });
     },
   });

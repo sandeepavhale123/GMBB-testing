@@ -1,54 +1,59 @@
 {
   "metrics": {
     "totalListings": {
-      "title": "Total des fiches",
+      "title": "Total des annonces",
       "subtitle": "Emplacements actifs",
       "trend": "+2 ce mois-ci"
     },
     "avgRating": {
       "title": "Note moyenne",
-      "subtitle": "Sur toutes les fiches",
-      "trend": "↑ 0,3 point"
+      "subtitle": "Toutes les annonces",
+      "trend": "↑ 0,3 points"
     },
     "totalReviews": {
       "title": "Total des avis",
-      "subtitle": "Retour client",
+      "subtitle": "Commentaires des clients",
       "trend": "En amélioration"
     },
     "totalPosts": {
       "title": "Total des publications",
-      "subtitle": "Publié ce mois-ci",
+      "subtitle": "Publiées ce mois-ci",
       "trend": "+12 cette semaine"
     }
   },
   "errors": {
     "metricsLoad": "Échec du chargement des indicateurs. Veuillez réessayer.",
-    "listingsLoad": "Échec du chargement des fiches. Veuillez réessayer.",
+    "listingsLoad": "Échec du chargement des annonces. Veuillez réessayer.",
     "postsLoad": "Échec du chargement des publications. Veuillez réessayer."
   },
   "dashboard": {
-    "title": "Tableau de bord des fiches GMB – {{type}}",
+    "title": "Annonce GMB – tableau de bord {{type}}",
     "types": {
       "default": "Tableau de bord par défaut",
       "insight": "Tableau de bord Insight",
-      "review": "Tableau de bord Avis",
-      "location": "Tableau de bord Emplacement",
-      "post": "Tableau de bord Publications"
+      "review": "Tableau de bord des avis",
+      "location": "Tableau de bord de localisation",
+      "post": "Tableau de bord des publications"
     },
+    "review": "Avis",
+    "insight": "Insight",
+    "location": "Localisation",
+    "post": "Publication",
+    "default": "Par défaut",
     "shareReport": "Partager le rapport",
-    "searchPlaceholder": "Rechercher par nom de fiche ou code postal",
+    "searchPlaceholder": "Rechercher par nom d'annonce ou code postal",
     "filters": {
       "allCategories": "Toutes les catégories",
       "allStates": "Tous les états",
       "reviewFilter": "Filtre des avis",
       "allReviews": "Tous les avis",
-      "unrespondedReview": "Avis sans réponse",
-      "unrespondedARE": "ARE sans réponse",
-      "unrespondedDNR": "DNR sans réponse",
-      "excludeARE": "Exclure avis ARE",
-      "excludeDNR": "Exclure avis DNR",
-      "excludeARE_DNR": "Exclure avis ARE/DNR",
-      "postStatus": "Statut de la publication",
+      "unrespondedReview": "Avis non répondu",
+      "unrespondedARE": "ARE non répondu",
+      "unrespondedDNR": "DNR non répondu",
+      "excludeARE": "Exclure les avis ARE",
+      "excludeDNR": "Exclure les avis DNR",
+      "excludeARE_DNR": "Exclure les avis ARE/DNR",
+      "postStatus": "Statut des publications",
       "allPosts": "Toutes les publications",
       "scheduledPost": "Publication programmée",
       "livePost": "Publication en direct",
@@ -59,7 +64,7 @@
     "loading": "Chargement...",
     "error": "Erreur lors du chargement des données",
     "showingPosts": "Affichage de {{count}} sur {{total}} publications",
-    "showingListings": "Affichage de {{count}} sur {{total}} fiches",
+    "showingListings": "Affichage de {{count}} sur {{total}} annonces",
     "previous": "Précédent",
     "next": "Suivant"
   },
@@ -67,14 +72,14 @@
     "listingid": "ID : {{id}}",
     "zipcode": "Code postal : {{zipcode}}",
     "state": "État : {{city}}",
-    "fetchingData": "Récupération des données de la fiche...",
+    "fetchingData": "Récupération des données de l'annonce...",
     "visibility": "Visibilité",
-    "Search": "Rechercher",
+    "Search": "Recherche",
     "Maps": "Cartes",
     "Total": "Total",
-    "customerActions": "Actions client",
+    "customerActions": "Actions des clients",
     "clicks": "Clics",
-    "directions": "Itinéraires",
+    "directions": "Itinéraire",
     "calls": "Appels",
     "messages": "Messages",
     "reviewStats": "Statistiques des avis",
@@ -84,21 +89,21 @@
     "positive": "Positif",
     "neutral": "Neutre",
     "negative": "Négatif",
-    "listingStatus": "Statut de la fiche",
+    "listingStatus": "Statut de l'annonce",
     "visibilityLabel": "Visibilité :",
-    "completeLabel": "Complet :",
+    "completeLabel": "Complété :",
     "lastUpdated": "Dernière mise à jour :",
     "photos": "Photos",
     "rating": "Note",
-    "website": "Site Web",
+    "website": "Site web",
     "maps": "Cartes",
     "avgRating": "Note moyenne",
-    "starRating": "Étoiles",
+    "starRating": "Notation par étoiles",
     "reviewsVsReplies": "Avis vs Réponses",
     "lastPost": "Dernière publication",
     "upcoming": "À venir",
     "viewDetails": "Voir les détails",
-    "totalViews": "Total des vues",
+    "totalViews": "Nombre total de vues",
     "phone": "Téléphone",
     "na": "N/A",
     "stateLabel": "État"
@@ -106,7 +111,7 @@
   "pagination": {
     "showing": {
       "posts": "Affichage de {{from}} à {{to}} sur {{total}} publications",
-      "listings": "Affichage de {{from}} à {{to}} sur {{total}} fiches"
+      "listings": "Affichage de {{from}} à {{to}} sur {{total}} annonces"
     },
     "previous": "Précédent",
     "next": "Suivant",

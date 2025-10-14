@@ -1,0 +1,37 @@
+{
+  "citationReport": {
+    "toast": {
+      "success": {
+        "create": {
+          "title": "Success",
+          "description": "Citation report created successfully."
+        },
+        "fetch": {
+          "title": "Success",
+          "description": "Citation audit data fetched."
+        },
+        "refresh": {
+          "title": "Success",
+          "description": "Citation report refreshed successfully."
+        }
+      },
+      "error": {
+        "create": {
+          "title": "Error",
+          "description": "Failed to create citation report."
+        },
+        "fetch": {
+          "title": "Error",
+          "description": "Failed to fetch Citation audit."
+        },
+        "refresh": {
+          "title": "Error",
+          "description": "Failed to refresh citation report."
+        }
+      },
+      "validation": {
+        "requiredFields": "businessName, phone, and address are required"
+      }
+    }
+  }
+}

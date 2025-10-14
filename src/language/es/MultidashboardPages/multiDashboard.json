@@ -6,28 +6,28 @@
       "trend": "+2 este mes"
     },
     "avgRating": {
-      "title": "Prom. de Calificación",
+      "title": "Calificación Promedio",
       "subtitle": "En todos los listados",
       "trend": "↑ 0.3 puntos"
     },
     "totalReviews": {
       "title": "Total de Reseñas",
-      "subtitle": "Opiniones de clientes",
+      "subtitle": "Comentarios de clientes",
       "trend": "Mejorando"
     },
     "totalPosts": {
       "title": "Total de Publicaciones",
-      "subtitle": "Publicadas este mes",
+      "subtitle": "Publicado este mes",
       "trend": "+12 esta semana"
     }
   },
   "errors": {
-    "metricsLoad": "No se pudieron cargar las métricas. Por favor, intenta de nuevo.",
-    "listingsLoad": "No se pudieron cargar los listados. Por favor, intenta de nuevo.",
-    "postsLoad": "No se pudieron cargar las publicaciones. Por favor, intenta de nuevo."
+    "metricsLoad": "No se pudieron cargar las métricas. Por favor, inténtelo de nuevo.",
+    "listingsLoad": "No se pudieron cargar los listados. Por favor, inténtelo de nuevo.",
+    "postsLoad": "No se pudieron cargar las publicaciones. Por favor, inténtelo de nuevo."
   },
   "dashboard": {
-    "title": "GMB Listing – Panel de {{type}}",
+    "title": "Listado GMB – Panel {{type}}",
     "types": {
       "default": "Panel Predeterminado",
       "insight": "Panel de Insights",
@@ -35,6 +35,11 @@
       "location": "Panel de Ubicación",
       "post": "Panel de Publicaciones"
     },
+    "review":"Reseña",
+    "insight":"Insight",
+    "location":"Ubicación",
+    "post":"Publicación",
+    "default":"Predeterminado",
     "shareReport": "Compartir Informe",
     "searchPlaceholder": "Buscar por nombre del listado o código postal",
     "filters": {
@@ -42,7 +47,7 @@
       "allStates": "Todos los Estados",
       "reviewFilter": "Filtro de Reseñas",
       "allReviews": "Todas las Reseñas",
-      "unrespondedReview": "Reseñas sin Responder",
+      "unrespondedReview": "Reseña sin Responder",
       "unrespondedARE": "ARE sin Responder",
       "unrespondedDNR": "DNR sin Responder",
       "excludeARE": "Excluir Reseñas ARE",
@@ -51,7 +56,7 @@
       "postStatus": "Estado de Publicación",
       "allPosts": "Todas las Publicaciones",
       "scheduledPost": "Publicación Programada",
-      "livePost": "Publicación Activa",
+      "livePost": "Publicación en Vivo",
       "failedPost": "Publicación Fallida"
     }
   },
@@ -64,17 +69,17 @@
     "next": "Siguiente"
   },
   "listing": {
-    "listingid": "ID: {{id}}",
-    "zipcode": "Código Postal: {{zipcode}}",
-    "state": "Estado: {{city}}",
+    "listingid":"ID: {{id}}",
+    "zipcode":"CP: {{zipcode}}",
+    "state":"Estado: {{city}}",
     "fetchingData": "Obteniendo datos del listado...",
     "visibility": "Visibilidad",
-    "Search": "Buscar",
-    "Maps": "Mapas",
-    "Total": "Total",
+    "Search":"Buscar",
+    "Maps":"Mapas",
+    "Total":"Total",
     "customerActions": "Acciones de Clientes",
     "clicks": "Clics",
-    "directions": "Direcciones",
+    "directions": "Indicaciones",
     "calls": "Llamadas",
     "messages": "Mensajes",
     "reviewStats": "Estadísticas de Reseñas",
@@ -86,24 +91,24 @@
     "negative": "Negativo",
     "listingStatus": "Estado del Listado",
     "visibilityLabel": "Visibilidad:",
-    "completeLabel": "Completo:",
+    "completeLabel": "Completado:",
     "lastUpdated": "Última Actualización:",
     "photos": "Fotos",
     "rating": "Calificación",
     "website": "Sitio Web",
     "maps": "Mapas",
-    "avgRating": "Prom. de Calificación",
+    "avgRating": "Calificación Promedio",
     "starRating": "Calificación por Estrellas",
     "reviewsVsReplies": "Reseñas vs Respuestas",
     "lastPost": "Última Publicación",
-    "upcoming": "Próximas",
+    "upcoming": "Próximo",
     "viewDetails": "Ver Detalles",
-    "totalViews": "Vistas Totales",
-    "phone": "Teléfono",
-    "na": "N/D",
-    "stateLabel": "Estado"
+    "totalViews":"Vistas Totales",
+    "phone":"Teléfono",
+    "na":"N/A",
+    "stateLabel":"Estado"
   },
-  "pagination": {
+  "pagination":{
     "showing": {
       "posts": "Mostrando {{from}} a {{to}} de {{total}} publicaciones",
       "listings": "Mostrando {{from}} a {{to}} de {{total}} listados"

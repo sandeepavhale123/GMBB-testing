@@ -1094,10 +1094,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     >
                                       <Download className="h-4 w-4" />
-                                      {t("gallery.download")}
                                       {item.type === "video"
-                                        ? "Video"
-                                        : "Image"}
+                                        ? t("gallery.downloadVideo")
+                                        : t("gallery.downloadImage")}
                                     </DropdownMenuItem>
 
                                     {item.type === "image" && (
@@ -1156,7 +1155,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     >
                                       <Copy className="h-4 w-4" />
-                                      {t("gallery.cpoyUrl")}
+                                      {item.type === "video"
+                                        ? t("gallery.cpoyVideoUrl")
+                                        : t("gallery.cpoyUrl")}
+                                      {/* {t("gallery.cpoyUrl")} */}
                                     </DropdownMenuItem>
 
                                     {showDeleteButton && (
@@ -1494,8 +1496,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                   <Download className="h-4 w-4" />
-                                  {t("gallery.download")}
-                                  {item.type === "video" ? "Video" : "Image"}
+                                  {item.type === "video"
+                                    ? t("gallery.downloadVideo")
+                                    : t("gallery.downloadImage")}
                                 </DropdownMenuItem>
 
                                 <DropdownMenuItem

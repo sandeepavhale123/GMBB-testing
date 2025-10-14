@@ -1,0 +1,30 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStarted": {
+        "title": "Actualización iniciada",
+        "description": "Actualizando datos de la palabra clave..."
+      },
+      "refreshComplete": {
+        "title": "Actualización completada",
+        "description": "Los datos de la palabra clave se han actualizado correctamente"
+      },
+      "refreshTimeout": {
+        "title": "Tiempo de actualización agotado",
+        "description": "La actualización está tardando más de lo esperado. Por favor, inténtelo de nuevo."
+      },
+      "refreshFailed": {
+        "title": "Actualización fallida",
+        "description": "No se pudo actualizar la palabra clave"
+      }
+    },
+    "errors": {
+      "refreshTimeout": "Tiempo de actualización agotado - por favor, inténtelo de nuevo",
+      "missingKeywordOrListing": "Se requiere el ID del listado y la palabra clave seleccionada"
+    },
+    "labels": {
+      "refreshing": "Actualizando...",
+      "progress": "Progreso"
+    }
+  }
+}

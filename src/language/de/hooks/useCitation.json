@@ -1,0 +1,37 @@
+{
+  "citationReport": {
+    "toast": {
+      "success": {
+        "create": {
+          "title": "Erfolg",
+          "description": "Zitationsbericht wurde erfolgreich erstellt."
+        },
+        "fetch": {
+          "title": "Erfolg",
+          "description": "Zitationsprüfdaten wurden erfolgreich abgerufen."
+        },
+        "refresh": {
+          "title": "Erfolg",
+          "description": "Zitationsbericht wurde erfolgreich aktualisiert."
+        }
+      },
+      "error": {
+        "create": {
+          "title": "Fehler",
+          "description": "Zitationsbericht konnte nicht erstellt werden."
+        },
+        "fetch": {
+          "title": "Fehler",
+          "description": "Zitationsprüfdaten konnten nicht abgerufen werden."
+        },
+        "refresh": {
+          "title": "Fehler",
+          "description": "Zitationsbericht konnte nicht aktualisiert werden."
+        }
+      },
+      "validation": {
+        "requiredFields": "Geschäftsname, Telefonnummer und Adresse sind erforderlich."
+      }
+    }
+  }
+}

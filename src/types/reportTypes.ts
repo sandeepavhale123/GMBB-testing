@@ -1,3 +1,5 @@
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 export interface Report {
   id: string;
   report_id?: string;
@@ -91,17 +93,60 @@ export interface PerformanceHealthReportData {
   };
 }
 
-export const REPORT_SECTIONS = [
-  { id: "gmb-health", name: "GMB Health Report" },
-  { id: "insights", name: "Insight Report" },
-  { id: "reviews", name: "Review Report" },
-  { id: "posts", name: "Post Report" },
-  { id: "media", name: "Media Report" },
-  { id: "geo-ranking", name: "GEO Ranking Report" },
-  { id: "citation", name: "Citation Report" },
-] as const;
+// export const REPORT_SECTIONS = [
+//   { id: "gmb-health", name: "GMB Health Report" },
+//   { id: "insights", name: "Insight Report" },
+//   { id: "reviews", name: "Review Report" },
+//   { id: "posts", name: "Post Report" },
+//   { id: "media", name: "Media Report" },
+//   { id: "geo-ranking", name: "GEO Ranking Report" },
+//   { id: "citation", name: "Citation Report" },
+// ] as const;
 
-export type ReportSectionId = (typeof REPORT_SECTIONS)[number]["id"];
+// export type ReportSectionId = (typeof REPORT_SECTIONS)[number]["id"];
+
+export type ReportSectionId =
+  | "gmb-health"
+  | "insights"
+  | "reviews"
+  | "posts"
+  | "media"
+  | "geo-ranking"
+  | "citation";
+
+// ✅ Hook-based i18n integration
+export function useReportSections() {
+  // Load the namespace for report translations
+  const { t } = useI18nNamespace("Reports/reportSections");
+
+  // Each section name uses the i18n key pattern
+  const REPORT_SECTIONS = [
+    {
+      id: "gmb-health",
+      name: t("gmbHealthReport", { defaultValue: "GMB Health Report" }),
+    },
+    {
+      id: "insights",
+      name: t("insightReport", { defaultValue: "Insight Report" }),
+    },
+    {
+      id: "reviews",
+      name: t("reviewReport", { defaultValue: "Review Report" }),
+    },
+    { id: "posts", name: t("postReport", { defaultValue: "Post Report" }) },
+    { id: "media", name: t("mediaReport", { defaultValue: "Media Report" }) },
+    {
+      id: "geo-ranking",
+      name: t("geoRankingReport", { defaultValue: "GEO Ranking Report" }),
+    },
+    {
+      id: "citation",
+      name: t("citationReport", { defaultValue: "Citation Report" }),
+    },
+  ] as const;
+
+  return REPORT_SECTIONS;
+}
 
 // Response interface for getAllReports API
 export interface GetAllReportsResponse {

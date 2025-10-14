@@ -59,123 +59,129 @@ import { reportsApi } from "@/api/reportsApi";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Force refresh - Specific report sections for bulk report generation
-
-const generateBulkReportSchema = z
-  .object({
-    projectName: z.string().min(1, "Project name is required."),
-    selectedListings: z
-      .array(z.string())
-      .min(1, "Select at least one location."),
-    reportSections: z
-      .array(z.string())
-      .min(1, "Select at least one report type."),
-    scheduleType: z.enum(["one-time", "weekly", "monthly"]),
-    frequency: z.string().optional(),
-    emailWeek: z.string().optional(),
-    emailDay: z.string().optional(),
-    fromDate: z.date().optional(),
-    toDate: z.date().optional(),
-    deliveryFormat: z
-      .array(z.enum(["csv", "pdf", "html"]))
-      .min(1, "Select at least one delivery format."),
-    emailTo: z
-      .string()
-      .min(1, "Email recipient is required.")
-      .refine(
-        (value) => {
-          const emails = value.split(",").map((email) => email.trim());
-          return emails.every(
-            (email) =>
-              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-          );
-        },
-        { message: "Please enter valid email addresses separated by commas." }
-      ),
-    emailCc: z
-      .string()
-      .optional()
-      .refine(
-        (value) => {
-          if (!value || value.trim() === "") return true;
-          const emails = value.split(",").map((email) => email.trim());
-          return emails.every(
-            (email) =>
-              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-          );
-        },
-        { message: "Please enter valid email addresses separated by commas." }
-      ),
-    emailBcc: z
-      .string()
-      .optional()
-      .refine(
-        (value) => {
-          if (!value || value.trim() === "") return true;
-          const emails = value.split(",").map((email) => email.trim());
-          return emails.every(
-            (email) =>
-              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-          );
-        },
-        { message: "Please enter valid email addresses separated by commas." }
-      ),
-    emailSubject: z.string().min(1, "Email subject is required."),
-    emailMessage: z.string().min(1, "Email message is required."),
-  })
-  .superRefine((data, ctx) => {
-    // Individual field validation based on schedule type
-    if (data.scheduleType === "one-time") {
-      if (!data.fromDate) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Start date is required for one-time reports.",
-          path: ["fromDate"],
-        });
-      }
-      if (!data.toDate) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "End date is required for one-time reports.",
-          path: ["toDate"],
-        });
-      }
-    }
-
-    if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
-      if (!data.frequency) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Frequency is required for recurring reports.",
-          path: ["frequency"],
-        });
-      }
-      if (!data.emailDay) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Email day is required for recurring reports.",
-          path: ["emailDay"],
-        });
-      }
-    }
-
-    if (data.scheduleType === "monthly" && !data.emailWeek) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Email week is required for monthly reports.",
-        path: ["emailWeek"],
-      });
-    }
-  });
 type GenerateBulkReportProps = {
   isSingleListingDashboard?: boolean; // make it optional
 };
 
-type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
   isSingleListingDashboard = false,
 }) => {
   const { t } = useI18nNamespace("MultidashboardPages/generateBulkReport");
 
+  const generateBulkReportSchema = z
+    .object({
+      projectName: z
+        .string()
+        .min(1, t("GenerateBulkReport.validation.projectNameRequired")),
+      selectedListings: z
+        .array(z.string())
+        .min(1, t("GenerateBulkReport.validation.selectedListingsRequired")),
+      reportSections: z
+        .array(z.string())
+        .min(1, t("GenerateBulkReport.validation.reportSectionsRequired")),
+      scheduleType: z.enum(["one-time", "weekly", "monthly"]),
+      frequency: z.string().optional(),
+      emailWeek: z.string().optional(),
+      emailDay: z.string().optional(),
+      fromDate: z.date().optional(),
+      toDate: z.date().optional(),
+      deliveryFormat: z
+        .array(z.enum(["csv", "pdf", "html"]))
+        .min(1, t("GenerateBulkReport.validation.deliveryFormatRequired")),
+      emailTo: z
+        .string()
+        .min(1, t("GenerateBulkReport.validation.emailToRequired"))
+        .refine(
+          (value) => {
+            const emails = value.split(",").map((email) => email.trim());
+            return emails.every(
+              (email) =>
+                email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            );
+          },
+          { message: t("GenerateBulkReport.validation.invalidEmails") }
+        ),
+      emailCc: z
+        .string()
+        .optional()
+        .refine(
+          (value) => {
+            if (!value || value.trim() === "") return true;
+            const emails = value.split(",").map((email) => email.trim());
+            return emails.every(
+              (email) =>
+                email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            );
+          },
+          { message: t("GenerateBulkReport.validation.invalidEmails") }
+        ),
+      emailBcc: z
+        .string()
+        .optional()
+        .refine(
+          (value) => {
+            if (!value || value.trim() === "") return true;
+            const emails = value.split(",").map((email) => email.trim());
+            return emails.every(
+              (email) =>
+                email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            );
+          },
+          { message: t("GenerateBulkReport.validation.invalidEmails") }
+        ),
+      emailSubject: z
+        .string()
+        .min(1, t("GenerateBulkReport.validation.emailSubjectRequired")),
+      emailMessage: z
+        .string()
+        .min(1, t("GenerateBulkReport.validation.emailMessageRequired")),
+    })
+    .superRefine((data, ctx) => {
+      // Individual field validation based on schedule type
+      if (data.scheduleType === "one-time") {
+        if (!data.fromDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("GenerateBulkReport.validation.fromDateRequired"),
+            path: ["fromDate"],
+          });
+        }
+        if (!data.toDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("GenerateBulkReport.validation.toDateRequired"),
+            path: ["toDate"],
+          });
+        }
+      }
+
+      if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
+        if (!data.frequency) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("GenerateBulkReport.validation.frequencyRequired"),
+            path: ["frequency"],
+          });
+        }
+        if (!data.emailDay) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("GenerateBulkReport.validation.emailDayRequired"),
+            path: ["emailDay"],
+          });
+        }
+      }
+
+      if (data.scheduleType === "monthly" && !data.emailWeek) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t("GenerateBulkReport.validation.emailWeekRequired"),
+          path: ["emailWeek"],
+        });
+      }
+    });
+
+  type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
   const BULK_REPORT_SECTIONS = [
     { id: "posts", name: t("GenerateBulkReport.reportTypes.sections.posts") },
     { id: "media", name: t("GenerateBulkReport.reportTypes.sections.media") },

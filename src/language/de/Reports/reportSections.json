@@ -1,0 +1,9 @@
+{
+  "gmbHealthReport": "GMB-Gesundheitsbericht",
+  "insightReport": "Analysebericht",
+  "reviewReport": "Bewertungsbericht",
+  "postReport": "Beitragsbericht",
+  "mediaReport": "Medienbericht",
+  "geoRankingReport": "Geo-Ranking-Bericht",
+  "citationReport": "Zitationsbericht"
+}

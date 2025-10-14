@@ -617,14 +617,14 @@ export const MultiDashboard: React.FC = () => {
               {t("dashboard.title", {
                 type:
                   dashboardType === "review"
-                    ? "Review"
+                    ? t("dashboard.review")
                     : dashboardType === "insight"
-                    ? "Insight"
+                    ? t("dashboard.insight")
                     : dashboardType === "location"
-                    ? "Location"
+                    ? t("dashboard.location")
                     : dashboardType === "post"
-                    ? "Post"
-                    : "Default",
+                    ? t("dashboard.post")
+                    : t("dashboard.default"),
               })}
               {/* GMB Listing –{" "}
               {dashboardType === "review"

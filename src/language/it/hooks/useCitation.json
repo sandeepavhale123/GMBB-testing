@@ -1,0 +1,37 @@
+{
+  "citationReport": {
+    "toast": {
+      "success": {
+        "create": {
+          "title": "Successo",
+          "description": "Rapporto sulle citazioni creato con successo."
+        },
+        "fetch": {
+          "title": "Successo",
+          "description": "Dati dell'audit delle citazioni recuperati con successo."
+        },
+        "refresh": {
+          "title": "Successo",
+          "description": "Rapporto sulle citazioni aggiornato con successo."
+        }
+      },
+      "error": {
+        "create": {
+          "title": "Errore",
+          "description": "Impossibile creare il rapporto sulle citazioni."
+        },
+        "fetch": {
+          "title": "Errore",
+          "description": "Impossibile recuperare i dati dell'audit delle citazioni."
+        },
+        "refresh": {
+          "title": "Errore",
+          "description": "Impossibile aggiornare il rapporto sulle citazioni."
+        }
+      },
+      "validation": {
+        "requiredFields": "Sono richiesti nome dell'attività, telefono e indirizzo."
+      }
+    }
+  }
+}

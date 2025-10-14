@@ -1,19 +1,19 @@
 {
   "metrics": {
     "totalListings": {
-      "title": "Gesamtanzahl der Standorte",
+      "title": "Gesamtaufträge",
       "subtitle": "Aktive Standorte",
-      "trend": "+2 in diesem Monat"
+      "trend": "+2 diesen Monat"
     },
     "avgRating": {
-      "title": "Durchschnittliche Bewertung",
-      "subtitle": "Über alle Standorte",
+      "title": "Durchschnittsbewertung",
+      "subtitle": "Über alle Einträge",
       "trend": "↑ 0,3 Punkte"
     },
     "totalReviews": {
-      "title": "Gesamtbewertungen",
+      "title": "Gesamtbewertung",
       "subtitle": "Kundenfeedback",
-      "trend": "Verbessert"
+      "trend": "Verbesserung"
     },
     "totalPosts": {
       "title": "Gesamtbeiträge",
@@ -23,11 +23,11 @@
   },
   "errors": {
     "metricsLoad": "Metriken konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
-    "listingsLoad": "Standorte konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "listingsLoad": "Einträge konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
     "postsLoad": "Beiträge konnten nicht geladen werden. Bitte versuchen Sie es erneut."
   },
   "dashboard": {
-    "title": "GMB-Listing – {{type}} Dashboard",
+    "title": "GMB-Eintrag – {{type}} Dashboard",
     "types": {
       "default": "Standard-Dashboard",
       "insight": "Insight-Dashboard",
@@ -35,8 +35,13 @@
       "location": "Standort-Dashboard",
       "post": "Post-Dashboard"
     },
+    "review":"Bewertung",
+    "insight":"Insight",
+    "location":"Standort",
+    "post":"Beitrag",
+    "default":"Standard",
     "shareReport": "Bericht teilen",
-    "searchPlaceholder": "Suche nach Standortname oder PLZ",
+    "searchPlaceholder": "Suche nach Eintragsname oder PLZ",
     "filters": {
       "allCategories": "Alle Kategorien",
       "allStates": "Alle Bundesländer",
@@ -45,9 +50,9 @@
       "unrespondedReview": "Nicht beantwortete Bewertung",
       "unrespondedARE": "Nicht beantwortete ARE",
       "unrespondedDNR": "Nicht beantwortete DNR",
-      "excludeARE": "ARE-Bewertung ausschließen",
-      "excludeDNR": "DNR-Bewertung ausschließen",
-      "excludeARE_DNR": "ARE/DNR-Bewertung ausschließen",
+      "excludeARE": "ARE-Bewertungen ausschließen",
+      "excludeDNR": "DNR-Bewertungen ausschließen",
+      "excludeARE_DNR": "ARE/DNR-Bewertungen ausschließen",
       "postStatus": "Beitragsstatus",
       "allPosts": "Alle Beiträge",
       "scheduledPost": "Geplanter Beitrag",
@@ -56,37 +61,37 @@
     }
   },
   "status": {
-    "loading": "Lädt...",
+    "loading": "Laden...",
     "error": "Fehler beim Laden der Daten",
     "showingPosts": "Zeige {{count}} von {{total}} Beiträgen",
-    "showingListings": "Zeige {{count}} von {{total}} Standorten",
+    "showingListings": "Zeige {{count}} von {{total}} Einträgen",
     "previous": "Zurück",
     "next": "Weiter"
   },
   "listing": {
-    "listingid": "ID: {{id}}",
-    "zipcode": "PLZ: {{zipcode}}",
-    "state": "Bundesland: {{city}}",
-    "fetchingData": "Lade Standortdaten...",
+    "listingid":"ID: {{id}}",
+    "zipcode":"PLZ: {{zipcode}}",
+    "state":"Bundesland: {{city}}",
+    "fetchingData": "Lade Eintragsdaten...",
     "visibility": "Sichtbarkeit",
-    "Search": "Suche",
-    "Maps": "Karten",
-    "Total": "Gesamt",
+    "Search":"Suche",
+    "Maps":"Karten",
+    "Total":"Gesamt",
     "customerActions": "Kundenaktionen",
     "clicks": "Klicks",
     "directions": "Wegbeschreibung",
     "calls": "Anrufe",
     "messages": "Nachrichten",
-    "reviewStats": "Bewertungsstatistik",
+    "reviewStats": "Bewertungsstatistiken",
     "reviewsReplies": "Bewertungen / Antworten",
     "autoReply": "Automatische Antwort",
     "reviewSentiment": "Bewertungsstimmung",
     "positive": "Positiv",
     "neutral": "Neutral",
     "negative": "Negativ",
-    "listingStatus": "Status des Standorts",
+    "listingStatus": "Eintragsstatus",
     "visibilityLabel": "Sichtbarkeit:",
-    "completeLabel": "Vollständig:",
+    "completeLabel": "Abgeschlossen:",
     "lastUpdated": "Zuletzt aktualisiert:",
     "photos": "Fotos",
     "rating": "Bewertung",
@@ -94,19 +99,19 @@
     "maps": "Karten",
     "avgRating": "Durchschnittsbewertung",
     "starRating": "Sternebewertung",
-    "reviewsVsReplies": "Bewertungen vs. Antworten",
+    "reviewsVsReplies": "Bewertungen vs Antworten",
     "lastPost": "Letzter Beitrag",
     "upcoming": "Kommend",
     "viewDetails": "Details ansehen",
-    "totalViews": "Gesamtansichten",
-    "phone": "Telefon",
-    "na": "N/V",
-    "stateLabel": "Bundesland"
+    "totalViews":"Gesamtansichten",
+    "phone":"Telefon",
+    "na":"n.v.",
+    "stateLabel":"Bundesland"
   },
-  "pagination": {
+  "pagination":{
     "showing": {
       "posts": "Zeige {{from}} bis {{to}} von {{total}} Beiträgen",
-      "listings": "Zeige {{from}} bis {{to}} von {{total}} Standorten"
+      "listings": "Zeige {{from}} bis {{to}} von {{total}} Einträgen"
     },
     "previous": "Zurück",
     "next": "Weiter",

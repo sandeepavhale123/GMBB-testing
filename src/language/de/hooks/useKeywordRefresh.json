@@ -1,0 +1,30 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStarted": {
+        "title": "Aktualisierung gestartet",
+        "description": "Daten des Schlüsselworts werden aktualisiert..."
+      },
+      "refreshComplete": {
+        "title": "Aktualisierung abgeschlossen",
+        "description": "Die Daten des Schlüsselworts wurden erfolgreich aktualisiert"
+      },
+      "refreshTimeout": {
+        "title": "Aktualisierungszeit überschritten",
+        "description": "Die Aktualisierung dauert länger als erwartet. Bitte versuchen Sie es erneut."
+      },
+      "refreshFailed": {
+        "title": "Aktualisierung fehlgeschlagen",
+        "description": "Die Aktualisierung des Schlüsselworts ist fehlgeschlagen"
+      }
+    },
+    "errors": {
+      "refreshTimeout": "Aktualisierungszeit überschritten - bitte erneut versuchen",
+      "missingKeywordOrListing": "Listing-ID und ausgewähltes Schlüsselwort sind erforderlich"
+    },
+    "labels": {
+      "refreshing": "Aktualisiere...",
+      "progress": "Fortschritt"
+    }
+  }
+}

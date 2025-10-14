@@ -1,0 +1,30 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStarted": {
+        "title": "Refresh Started",
+        "description": "Refreshing keyword data..."
+      },
+      "refreshComplete": {
+        "title": "Refresh Complete",
+        "description": "Keyword data has been refreshed successfully"
+      },
+      "refreshTimeout": {
+        "title": "Refresh Timeout",
+        "description": "The refresh is taking longer than expected. Please try again."
+      },
+      "refreshFailed": {
+        "title": "Refresh Failed",
+        "description": "Failed to refresh keyword"
+      }
+    },
+    "errors": {
+      "refreshTimeout": "Refresh timeout - please try again",
+      "missingKeywordOrListing": "Listing ID and selected keyword are required"
+    },
+    "labels": {
+      "refreshing": "Refreshing...",
+      "progress": "Progress"
+    }
+  }
+}

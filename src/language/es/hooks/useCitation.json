@@ -1,0 +1,37 @@
+{
+  "citationReport": {
+    "toast": {
+      "success": {
+        "create": {
+          "title": "Éxito",
+          "description": "El informe de citaciones se creó correctamente."
+        },
+        "fetch": {
+          "title": "Éxito",
+          "description": "Los datos de auditoría de citaciones se obtuvieron correctamente."
+        },
+        "refresh": {
+          "title": "Éxito",
+          "description": "El informe de citaciones se actualizó correctamente."
+        }
+      },
+      "error": {
+        "create": {
+          "title": "Error",
+          "description": "No se pudo crear el informe de citaciones."
+        },
+        "fetch": {
+          "title": "Error",
+          "description": "No se pudieron obtener los datos de auditoría de citaciones."
+        },
+        "refresh": {
+          "title": "Error",
+          "description": "No se pudo actualizar el informe de citaciones."
+        }
+      },
+      "validation": {
+        "requiredFields": "Se requieren el nombre del negocio, el teléfono y la dirección."
+      }
+    }
+  }
+}
