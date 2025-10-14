@@ -16,6 +16,17 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const formatFileSize = (bytes: number): string => {
+    const kb = bytes / 1024;
+    const mb = kb / 1024;
+    
+    if (mb >= 1) {
+      return `${mb.toFixed(2)} MB`;
+    } else {
+      return `${Math.round(kb)} KB`;
+    }
+  };
+
   const validateFile = (file: File): boolean => {
     const maxSize = 5 * 1024 * 1024; // 5MB
     const allowedTypes = ["text/csv", "application/vnd.ms-excel"];
@@ -83,7 +94,7 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
             <div>
               <p className="font-medium">{uploadedFile.name}</p>
               <p className="text-sm text-muted-foreground">
-                {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                {formatFileSize(uploadedFile.size)}
               </p>
             </div>
           </div>
