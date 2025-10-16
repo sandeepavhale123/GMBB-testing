@@ -1,25 +1,25 @@
 {
   "subscriptionPage": {
-    "title": "Planes de Suscripción",
+    "title": "Planes de suscripción",
     "activePlan": "Tu plan está activo hasta {{date}}.",
-    "expiredPlan": "Tu plan ha expirado. Por favor, renueva para continuar accediendo a las funciones.",
-    "description": "Elige el plan perfecto para las necesidades de tu negocio. Puedes mejorar o degradar tu plan en cualquier momento.",
-    "unsubscribe": "Cancelar Suscripción",
+    "expiredPlan": "Tu plan ha expirado. Por favor, renuévalo para seguir accediendo a las funciones.",
+    "description": "Elige el plan perfecto para las necesidades de tu negocio. Puedes actualizarlo o degradarlo en cualquier momento.",
+    "unsubscribe": "Darse de baja",
     "tabs": {
-      "pricingPlan": "Plan de Precios",
-      "paymentHistory": "Historial de Pagos"
+      "pricingPlan": "Plan de precios",
+      "paymentHistory": "Historial de pagos"
     },
     "labels": {
-      "features": "Funciones",
+      "features": "Características",
       "pricePerMonth": "Precio/mes",
-      "mostPopular": "Más Popular"
+      "mostPopular": "Más popular"
     },
     "buttons": {
       "active": "Activo",
       "processing": "Procesando...",
-      "payNow": "Pagar Ahora",
-      "upgradeNow": "Mejorar Ahora",
-      "contactSales": "Contactar Ventas"
+      "payNow": "Pagar ahora",
+      "upgradeNow": "Actualizar ahora",
+      "contactSales": "Contactar ventas"
     },
     "help": {
       "title": "¿Necesitas ayuda para elegir?",
@@ -27,24 +27,42 @@
     },
     "toast": {
       "paymentError": {
-        "title": "Error de Pago",
+        "title": "Error de pago",
         "description": "No se pudo procesar el pago. Por favor, inténtalo de nuevo."
       },
       "upgradeSuccess": {
-        "title": "Mejora Exitosa"
+        "title": "Actualización exitosa"
       },
       "upgradeError": {
-        "title": "Error al Mejorar",
-        "description": "No se pudo mejorar el plan. Por favor, inténtalo de nuevo."
+        "title": "Error de actualización",
+        "description": "No se pudo actualizar el plan. Por favor, inténtalo de nuevo."
       },
       "subscriptionCancelled": {
-        "title": "Suscripción Cancelada",
+        "title": "Suscripción cancelada",
         "description": "Tu suscripción ha sido cancelada."
       },
       "cancelError": {
         "title": "Error",
         "description": "No se pudo cancelar la suscripción."
       }
-    }
+    },
+    "planFeature": {
+      "name1": "Número de listados GMB permitidos",
+      "name2": "Verificación de rango de KW por día",
+      "name3": "Listado de KW orgánicos",
+      "name4": "Verificación de KW GEO",
+      "name5": "Agregar equipo",
+      "name6": "Informe de marca blanca",
+      "name7": "Subdominio de marca blanca",
+      "unlmited": "Ilimitado"
+    },
+    "plans": {
+      "business": "Negocio",
+      "pro": "Pro",
+      "agency": "Agencia",
+      "enterprise": "Empresa"
+    },
+    "upgrade": "Actualizar ahora",
+    "pay": "Pagar ahora"
   }
 }

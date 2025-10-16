@@ -31,89 +31,92 @@ interface PlanFeature {
   agency: boolean | number | string;
   enterprise: boolean | number | string;
 }
-const planFeatures: PlanFeature[] = [
-  {
-    name: "No. of GMB Listings Allowed",
-    business: 40,
-    pro: 100,
-    agency: 200,
-    enterprise: 400,
-  },
-  {
-    name: "KW Rank Check P/day",
-    business: 600,
-    pro: 1000,
-    agency: 1500,
-    enterprise: 2000,
-  },
-  {
-    name: "Organic KW listing",
-    business: 20,
-    pro: 20,
-    agency: 20,
-    enterprise: 20,
-  },
-  {
-    name: "GEO KW Check",
-    business: "Unlimited",
-    pro: "Unlimited",
-    agency: "Unlimited",
-    enterprise: "Unlimited",
-  },
-  {
-    name: "Add Team",
-    business: true,
-    pro: true,
-    agency: true,
-    enterprise: true,
-  },
-  {
-    name: "White Label Report",
-    business: false,
-    pro: true,
-    agency: true,
-    enterprise: true,
-  },
-  {
-    name: "White Label Subdomain",
-    business: false,
-    pro: true,
-    agency: true,
-    enterprise: true,
-  },
-];
-const plans = [
-  {
-    id: "52",
-    name: "Business",
-    price: 99,
-    color: "bg-primary",
-    popular: false,
-  },
-  {
-    id: "53",
-    name: "Pro",
-    price: 199,
-    color: "bg-primary",
-    popular: true,
-  },
-  {
-    id: "54",
-    name: "Agency",
-    price: 299,
-    color: "bg-primary",
-    popular: false,
-  },
-  {
-    id: "55",
-    name: "Enterprise",
-    price: 560,
-    color: "bg-primary",
-    popular: false,
-  },
-];
+
 export const SubscriptionPage: React.FC = () => {
   const { t } = useI18nNamespace("Settings/subscriptionPage");
+
+  const planFeatures: PlanFeature[] = [
+    {
+      name: t("subscriptionPage.planFeature.name1"),
+      business: 40,
+      pro: 100,
+      agency: 200,
+      enterprise: 400,
+    },
+    {
+      name: t("subscriptionPage.planFeature.name2"),
+      business: 600,
+      pro: 1000,
+      agency: 1500,
+      enterprise: 2000,
+    },
+    {
+      name: t("subscriptionPage.planFeature.name3"),
+      business: 20,
+      pro: 20,
+      agency: 20,
+      enterprise: 20,
+    },
+    {
+      name: t("subscriptionPage.planFeature.name4"),
+      business: t("subscriptionPage.planFeature.unlmited"),
+      pro: t("subscriptionPage.planFeature.unlmited"),
+      agency: t("subscriptionPage.planFeature.unlmited"),
+      enterprise: t("subscriptionPage.planFeature.unlmited"),
+    },
+    {
+      name: t("subscriptionPage.planFeature.name5"),
+      business: true,
+      pro: true,
+      agency: true,
+      enterprise: true,
+    },
+    {
+      name: t("subscriptionPage.planFeature.name6"),
+      business: false,
+      pro: true,
+      agency: true,
+      enterprise: true,
+    },
+    {
+      name: t("subscriptionPage.planFeature.name7"),
+      business: false,
+      pro: true,
+      agency: true,
+      enterprise: true,
+    },
+  ];
+
+  const plans = [
+    {
+      id: "52",
+      name: t("subscriptionPage.plans.business"),
+      price: 99,
+      color: "bg-primary",
+      popular: false,
+    },
+    {
+      id: "53",
+      name: t("subscriptionPage.plans.pro"),
+      price: 199,
+      color: "bg-primary",
+      popular: true,
+    },
+    {
+      id: "54",
+      name: t("subscriptionPage.plans.agency"),
+      price: 299,
+      color: "bg-primary",
+      popular: false,
+    },
+    {
+      id: "55",
+      name: t("subscriptionPage.plans.enterprise"),
+      price: 560,
+      color: "bg-primary",
+      popular: false,
+    },
+  ];
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
@@ -220,8 +223,8 @@ export const SubscriptionPage: React.FC = () => {
     return hasActivePlan()
       ? isPlanActive(planId)
         ? "Active"
-        : "Upgrade Now"
-      : "Pay Now";
+        : t("subscriptionPage.upgrade")
+      : t("subscriptionPage.pay");
   };
   const getButtonClass = (planId: string, planColor: string) => {
     if (isPlanActive(planId)) {

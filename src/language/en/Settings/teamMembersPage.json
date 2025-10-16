@@ -46,6 +46,14 @@
       "role": "Role:",
       "listings": "Listings:",
       "status": "Status:"
+    },
+    "roles": {
+      "Admin": "Admin",
+      "Editor": "Editor",
+      "Viewer": "Viewer",
+      "Staff": "Staff",
+      "Client": "Client",
+      "Moderator": "Moderator"
     }
   }
 }

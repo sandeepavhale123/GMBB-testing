@@ -9,7 +9,7 @@
     "staff": "Mitarbeiter",
     "client": "Kunde",
     "moderator": "Moderator",
-    "totalMembers": "Insgesamt: {{count}}",
+    "totalMembers": "Gesamt: {{count}}",
     "error": {
       "title": "Fehler beim Laden der Teammitglieder",
       "tryAgain": "Erneut versuchen"
@@ -29,9 +29,9 @@
     },
     "copy": {
       "successTitle": "E-Mail kopiert",
-      "successDesc": "E-Mail-Adresse wurde in die Zwischenablage kopiert.",
+      "successDesc": "Die E-Mail-Adresse wurde in die Zwischenablage kopiert.",
       "errorTitle": "Kopieren fehlgeschlagen",
-      "errorDesc": "E-Mail konnte nicht in die Zwischenablage kopiert werden."
+      "errorDesc": "Die E-Mail konnte nicht in die Zwischenablage kopiert werden."
     },
     "password": {
       "show": "Passwort anzeigen",
@@ -46,6 +46,14 @@
       "role": "Rolle:",
       "listings": "Einträge:",
       "status": "Status:"
+    },
+    "roles": {
+      "Admin": "Administrator",
+      "Editor": "Redakteur",
+      "Viewer": "Betrachter",
+      "Staff": "Mitarbeiter",
+      "Client": "Kunde",
+      "Moderator": "Moderator"
     }
   }
 }

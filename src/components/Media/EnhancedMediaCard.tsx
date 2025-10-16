@@ -79,6 +79,19 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
     setImageLoading(false);
   };
 
+  const getStatusLabel = (status: "Live" | "Schedule" | "Failed") => {
+    switch (status) {
+      case "Live":
+        return t("mediaCard.status.Live");
+      case "Schedule":
+        return t("mediaCard.status.Schedule");
+      case "Failed":
+        return t("mediaCard.status.Failed");
+      default:
+        return status;
+    }
+  };
+
   return (
     <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
@@ -115,7 +128,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         {!imageLoading && (
           <div className="absolute top-2 right-2">
             <Badge className={`text-xs ${statusColors[status]}`}>
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {getStatusLabel(status)}
             </Badge>
           </div>
         )}

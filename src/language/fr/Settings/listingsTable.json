@@ -9,6 +9,12 @@
       "state": "État",
       "actions": "Actions"
     },
-    "noListings": "Aucune fiche ne correspond à vos critères."
+    "status": {
+      "verified": "Vérifié",
+      "pending": "En attente",
+      "suspended": "Suspendu"
+    },
+    "noListings": "Aucune annonce trouvée correspondant à vos critères.",
+    "tootltip": "Activez ou désactivez vos annonces en basculant l'interrupteur"
   }
 }

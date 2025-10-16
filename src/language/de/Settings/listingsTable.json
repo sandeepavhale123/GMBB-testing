@@ -9,6 +9,12 @@
       "state": "Bundesland",
       "actions": "Aktionen"
     },
-    "noListings": "Keine Einträge gefunden, die Ihren Kriterien entsprechen."
+    "status": {
+      "verified": "Verifiziert",
+      "pending": "Ausstehend",
+      "suspended": "Ausgesetzt"
+    },
+    "noListings": "Keine Einträge gefunden, die Ihren Kriterien entsprechen.",
+    "tootltip": "Schalten Sie den Schalter um, um Ihre Einträge zu aktivieren oder zu deaktivieren"
   }
 }

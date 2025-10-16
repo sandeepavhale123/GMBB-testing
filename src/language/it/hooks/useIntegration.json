@@ -1,0 +1,42 @@
+{
+  "integration": {
+    "mapApiKey": {
+      "success": {
+        "update": "Chiave API aggiornata con successo",
+        "delete": "Chiave API disconnessa con successo"
+      },
+      "error": {
+        "update": "Impossibile salvare la chiave API. Riprova.",
+        "delete": "Impossibile disconnettere la chiave API. Riprova."
+      }
+    },
+    "subdomain": {
+      "success": {
+        "update": "Configurazione del sottodominio salvata con successo",
+        "delete": "Sottodominio eliminato con successo"
+      },
+      "error": {
+        "update": "Impossibile salvare la configurazione del sottodominio. Riprova.",
+        "delete": "Impossibile eliminare il sottodominio. Riprova."
+      }
+    },
+    "smtp": {
+      "success": {
+        "update": "Impostazioni SMTP salvate con successo",
+        "delete": "Impostazioni SMTP eliminate con successo",
+        "testEmail": "Email di test SMTP inviata con successo"
+      },
+      "error": {
+        "update": "Impossibile salvare le impostazioni SMTP. Riprova.",
+        "delete": "Impossibile eliminare le impostazioni SMTP. Riprova.",
+        "testEmail": "Impossibile inviare l'email di test. Controlla le impostazioni."
+      }
+    },
+    "toast": {
+      "titleSuccess": "Successo",
+      "titleError": "Errore",
+      "titleTestSuccess": "Email di test inviata",
+      "titleTestError": "Test fallito"
+    }
+  }
+}

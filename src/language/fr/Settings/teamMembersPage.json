@@ -17,7 +17,7 @@
     "empty": {
       "title": "Aucun membre trouvé",
       "searchAdjust": "Essayez d'ajuster vos critères de recherche ou filtres",
-      "addFirst": "Commencez par ajouter votre premier membre"
+      "addFirst": "Commencez en ajoutant votre premier membre"
     },
     "table": {
       "member": "Membre",
@@ -46,6 +46,14 @@
       "role": "Rôle :",
       "listings": "Annonces :",
       "status": "Statut :"
+    },
+    "roles": {
+      "Admin": "Administrateur",
+      "Editor": "Éditeur",
+      "Viewer": "Lecteur",
+      "Staff": "Personnel",
+      "Client": "Client",
+      "Moderator": "Modérateur"
     }
   }
 }

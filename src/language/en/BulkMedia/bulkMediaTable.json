@@ -4,6 +4,13 @@
     "selected_plural": "{{count}} medias selected",
     "deleteSelected": "Delete Selected"
   },
+    "status": {
+    "live": "Live",
+    "published": "Published",
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "failed": "Failed"
+  },
   "table": {
     "listingName": "Listing Name",
     "zipCode": "Zip Code",

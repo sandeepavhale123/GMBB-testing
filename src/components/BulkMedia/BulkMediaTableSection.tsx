@@ -78,6 +78,7 @@ const getStatusVariant = (status: string | null | undefined) => {
       return "secondary";
   }
 };
+
 export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(
   ({
     medias,
@@ -95,6 +96,13 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(
     setSearchInput,
   }) => {
     const { t } = useI18nNamespace("BulkMedia/bulkMediaTable");
+
+    const getTranslatedStatus = (status: string) => {
+      if (!status) return status;
+      // Convert status to lowercase to match JSON keys
+      return t(`status.${status.toLowerCase()}`) || status;
+    };
+
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deletingMediaId, setDeletingMediaId] = useState<string | null>(null);
     const [selectedMedias, setSelectedMedias] = useState<Set<string>>(
@@ -258,7 +266,7 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusVariant(media.status)}>
-                          {media.status}
+                          {getTranslatedStatus(media.status)}
                         </Badge>
                       </TableCell>
                       <TableCell className="flex justify-end ">

@@ -45,7 +45,8 @@
       "deleteConfirmationDescription": "Questa azione non può essere annullata. Verrà eliminato permanentemente il progetto \"{name}\" e tutti i dati correlati, incluse le parole chiave e i punti sulla mappa.",
       "typeDeleteToConfirm": "Digita \"elimina\" per confermare",
       "placeholderDelete": "elimina",
-      "shareablelink": "Link Condivisibile"
+      "shareablelink": "Link Condivisibile",
+      "noEmailProvided": "Nessuna email fornita"
     },
     "pagination": {
       "showing": "Mostrati {{from}} - {{to}} di {{total}} progetti",

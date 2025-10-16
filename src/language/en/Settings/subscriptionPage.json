@@ -45,6 +45,24 @@
         "title": "Error",
         "description": "Failed to cancel subscription."
       }
-    }
+    },
+    "planFeature":{
+      "name1":"No. of GMB Listings Allowed",
+      "name2":"KW Rank Check P/day",
+      "name3":"Organic KW listing",
+      "name4":"GEO KW Check",
+      "name5":"Add Team",
+      "name6":"White Label Report",
+      "name7":"White Label Subdomain",
+      "unlmited":"Unlimited"
+    },
+    "plans":{
+      "business":"Business",
+      "pro":"Pro",
+      "agency":"Agency",
+      "enterprise":"Enterprise"
+    },
+    "upgrade":"Upgrade Now",
+    "pay":"Pay Now"
   }
 }

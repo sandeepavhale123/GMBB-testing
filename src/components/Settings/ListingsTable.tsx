@@ -136,10 +136,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                       align="center"
                       className="max-w-[200px] text-center"
                     >
-                      <p>
-                        Toggle the switch to activate or deactivate your
-                        listings
-                      </p>
+                      <p>{t("listingsTable.tootltip")}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -202,10 +199,11 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                     variant="secondary"
                     className={`${getStatusColor(
                       listing.status
-                    )} border-0 font-medium`}
+                    )} border-0 font-medium min-w-max`}
                   >
-                    {listing.status.charAt(0).toUpperCase() +
-                      listing.status.slice(1)}
+                    {t(`listingsTable.status.${listing.status}`)}
+                    {/* {listing.status.charAt(0).toUpperCase() +
+                      listing.status.slice(1)} */}
                   </Badge>
                 </TableCell>
                 <TableCell>

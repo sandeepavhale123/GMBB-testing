@@ -45,7 +45,8 @@
       "deleteConfirmationDescription": "Cette action est irréversible. Cela supprimera définitivement le projet \"{name}\" et toutes ses données associées, y compris les mots-clés et les points sur la carte.",
       "typeDeleteToConfirm": "Tapez \"delete\" pour confirmer",
       "placeholderDelete": "delete",
-      "shareablelink": "Lien partageable"
+      "shareablelink": "Lien partageable",
+      "noEmailProvided": "Aucun e-mail fourni"
     },
     "pagination": {
       "showing": "Affichage de {{from}} à {{to}} sur {{total}} projets",

@@ -1,0 +1,42 @@
+{
+  "integration": {
+    "mapApiKey": {
+      "success": {
+        "update": "API key updated successfully",
+        "delete": "API key disconnected successfully"
+      },
+      "error": {
+        "update": "Failed to save API key. Please try again.",
+        "delete": "Failed to disconnect API key. Please try again."
+      }
+    },
+    "subdomain": {
+      "success": {
+        "update": "Subdomain configuration saved successfully",
+        "delete": "Subdomain is deleted successfully."
+      },
+      "error": {
+        "update": "Failed to save subdomain configuration. Please try again.",
+        "delete": "Failed to delete Subdomain. Please try again."
+      }
+    },
+    "smtp": {
+      "success": {
+        "update": "SMTP settings saved successfully",
+        "delete": "SMTP settings deleted successfully",
+        "testEmail": "SMTP test email sent successfully"
+      },
+      "error": {
+        "update": "Failed to save SMTP settings. Please try again.",
+        "delete": "Failed to delete SMTP settings. Please try again.",
+        "testEmail": "Failed to send test email. Please check your settings."
+      }
+    },
+    "toast": {
+      "titleSuccess": "Success",
+      "titleError": "Error",
+      "titleTestSuccess": "Test Email Sent",
+      "titleTestError": "Test Failed"
+    }
+  }
+}

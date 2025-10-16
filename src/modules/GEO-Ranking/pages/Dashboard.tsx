@@ -473,11 +473,19 @@ export const Dashboard: React.FC = () => {
                       </td>
                       <td className="py-3 px-4 text-muted-foreground">
                         <div className="flex flex-col gap-1">
-                          {project.notificationEmail
-                            ?.split(",")
-                            .map((email, idx) => (
-                              <span key={idx}>{email.trim()}</span>
-                            ))}
+                          {project.notificationEmail &&
+                          project.notificationEmail.trim() !== "" &&
+                          !project.notificationEmail.includes(
+                            "No email provided"
+                          ) ? (
+                            project.notificationEmail
+                              .split(",")
+                              .map((email, idx) => (
+                                <span key={idx}>{email.trim()}</span>
+                              ))
+                          ) : (
+                            <span>{t("dashboard.table.noEmailProvided")}</span>
+                          )}
                         </div>
                       </td>
                       <td className="py-3 px-4">
