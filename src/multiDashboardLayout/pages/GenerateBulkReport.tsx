@@ -742,7 +742,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   <Label className="text-sm font-medium">
                     {t("GenerateBulkReport.reportTypes.availableReports")}
                   </Label>
