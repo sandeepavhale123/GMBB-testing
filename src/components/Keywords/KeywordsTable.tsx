@@ -1,17 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Badge } from "../ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { Checkbox } from "../ui/checkbox";
-import { MoreVertical, Eye, Trash, RefreshCw, Info } from "lucide-react";
+import { MoreVertical, Eye, Trash, RefreshCw, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { current } from "@reduxjs/toolkit";
+
 interface Keyword {
   id: string;
   keyword: string;
@@ -21,6 +49,7 @@ interface Keyword {
   atr: string;
   status: string;
 }
+
 interface KeywordsTableProps {
   keywords: Keyword[];
   currentPage: number;
@@ -35,6 +64,7 @@ interface KeywordsTableProps {
   listingId: string;
   deleteLoading?: boolean;
 }
+
 export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   keywords,
   currentPage,
@@ -47,48 +77,55 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   error,
   onRefresh,
   listingId,
-  deleteLoading = false
+  deleteLoading = false,
 }) => {
-  const {
-    t
-  } = useI18nNamespace("Keywords/keywordsTable");
+  const { t } = useI18nNamespace("Keywords/keywordsTable");
   const navigate = useNavigate();
-  const {
-    selectedListing
-  } = useListingContext();
+  const { selectedListing } = useListingContext();
+
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const startIndex = (currentPage - 1) * 10;
   const endIndex = Math.min(startIndex + 10, totalKeywords);
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedKeywords(keywords.map(k => k.id));
+      setSelectedKeywords(keywords.map((k) => k.id));
     } else {
       setSelectedKeywords([]);
     }
   };
+
   const handleSelectKeyword = (keywordId: string, checked: boolean) => {
     if (checked) {
-      setSelectedKeywords(prev => [...prev, keywordId]);
+      setSelectedKeywords((prev) => [...prev, keywordId]);
     } else {
-      setSelectedKeywords(prev => prev.filter(id => id !== keywordId));
+      setSelectedKeywords((prev) => prev.filter((id) => id !== keywordId));
     }
   };
+
   const handleBulkDelete = () => {
     if (selectedKeywords.length > 0) {
       setIsDeleteDialogOpen(true);
     }
   };
+
   const confirmDelete = () => {
     onDeleteKeyword(selectedKeywords);
     setSelectedKeywords([]);
     setIsDeleteDialogOpen(false);
   };
-  const isAllSelected = keywords.length > 0 && selectedKeywords.length === keywords.length;
-  const isPartiallySelected = selectedKeywords.length > 0 && selectedKeywords.length < keywords.length;
+
+  const isAllSelected =
+    keywords.length > 0 && selectedKeywords.length === keywords.length;
+  const isPartiallySelected =
+    selectedKeywords.length > 0 && selectedKeywords.length < keywords.length;
+
   const handleViewRank = (keyword: Keyword) => {
     navigate(`/geo-ranking/${listingId}?keyword=${keyword.id}`);
   };
+
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";
 
@@ -97,53 +134,77 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
     if (parts.length === 3) {
       const [day, month, year] = parts;
       const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
       if (!isNaN(date.getTime())) {
         return date.toLocaleDateString("en-GB", {
           day: "numeric",
           month: "long",
-          year: "numeric"
+          year: "numeric",
         });
       }
     }
 
     // Fallback for other formats
     const date = new Date(dateString);
-    return !isNaN(date.getTime()) ? date.toLocaleDateString() : t("keywordsTable.misc.invalidDate");
+    return !isNaN(date.getTime())
+      ? date.toLocaleDateString()
+      : t("keywordsTable.misc.invalidDate");
   };
+
   const getStatusBadge = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower === "active" || statusLower === "completed") {
-      return <Badge variant="default" className="bg-green-100 text-green-800">
+      return (
+        <Badge variant="default" className="bg-green-100 text-green-800">
           {t("keywordsTable.status.completed")}
-        </Badge>;
+        </Badge>
+      );
     } else if (statusLower === "pending") {
-      return <Badge variant="secondary">{t("keywordsTable.status.pending")}</Badge>;
+      return (
+        <Badge variant="secondary">{t("keywordsTable.status.pending")}</Badge>
+      );
     } else if (statusLower === "failed") {
-      return <Badge variant="destructive">{t("keywordsTable.status.failed")}</Badge>;
-    } else if (statusLower === "running" || statusLower === "processing" || statusLower === "in progress") {
-      return <Badge variant="secondary" className="flex items-center gap-1">
+      return (
+        <Badge variant="destructive">{t("keywordsTable.status.failed")}</Badge>
+      );
+    } else if (
+      statusLower === "running" ||
+      statusLower === "processing" ||
+      statusLower === "in progress"
+    ) {
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
           <Loader2 className="h-3 w-3 animate-spin" />
           {t("keywordsTable.status.running")}
-        </Badge>;
+        </Badge>
+      );
     }
     return <Badge variant="outline">{status}</Badge>;
   };
+
   if (loading) {
-    return <div className="flex items-center justify-center py-12">
+    return (
+      <div className="flex items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-      </div>;
+      </div>
+    );
   }
+
   if (error) {
-    return <div className="text-center py-12">
+    return (
+      <div className="text-center py-12">
         <div className="text-red-600 mb-4">{error}</div>
         <Button onClick={onRefresh} variant="outline">
           <RefreshCw className="w-4 h-4 mr-1" />
           {t("keywordsTable.error.tryAgain")}
         </Button>
-      </div>;
+      </div>
+    );
   }
+
   if (keywords.length === 0) {
-    return <div className="text-center py-12">
+    return (
+      <div className="text-center py-12">
         <div className="max-w-md mx-auto space-y-6">
           <div className="flex justify-center">
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
@@ -161,34 +222,54 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)} className="flex items-center gap-2">
+            <Button
+              onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)}
+              className="flex items-center gap-2"
+            >
               <Eye className="w-4 h-4" />
               {t("keywordsTable.emptyState.button")}
             </Button>
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
-  return <div className="space-y-4">
-      {selectedKeywords.length > 0 && <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-muted rounded-lg">
+
+  return (
+    <div className="space-y-4">
+      {selectedKeywords.length > 0 && (
+        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-muted rounded-lg">
           <span className="text-sm text-muted-foreground">
             {t("keywordsTable.bulkActions.selected", {
-          count: selectedKeywords.length,
-          plural: selectedKeywords.length > 1 ? "s" : ""
-        })}
+              count: selectedKeywords.length,
+              plural: selectedKeywords.length > 1 ? "s" : "",
+            })}
             {/* {selectedKeywords.length} keyword
-             {selectedKeywords.length !== 1 ? "s" : ""} selected */}
+            {selectedKeywords.length !== 1 ? "s" : ""} selected */}
           </span>
-          <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <AlertDialog
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          >
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm" onClick={handleBulkDelete} disabled={deleteLoading} className="w-full sm:w-auto">
-                {deleteLoading ? <>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={deleteLoading}
+                className="w-full sm:w-auto"
+              >
+                {deleteLoading ? (
+                  <>
                     <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                     {t("keywordsTable.bulkActions.deleting")}
-                  </> : <>
+                  </>
+                ) : (
+                  <>
                     <Trash className="w-4 h-4 mr-1" />
                     {t("keywordsTable.bulkActions.delete")}
-                  </>}
+                  </>
+                )}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -198,35 +279,51 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 </AlertDialogTitle>
                 <AlertDialogDescription>
                   {t("keywordsTable.bulkActions.confirmDescription", {
-                count: selectedKeywords.length,
-                plural: selectedKeywords.length > 1 ? "s" : ""
-              })}
+                    count: selectedKeywords.length,
+                    plural: selectedKeywords.length > 1 ? "s" : "",
+                  })}
                   {/* Are you sure you want to delete {selectedKeywords.length}{" "}
-                   keyword{selectedKeywords.length !== 1 ? "s" : ""}? This action
-                   cannot be undone. */}
+                  keyword{selectedKeywords.length !== 1 ? "s" : ""}? This action
+                  cannot be undone. */}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>
                   {t("keywordsTable.bulkActions.cancel")}
                 </AlertDialogCancel>
-                <AlertDialogAction onClick={confirmDelete} className="bg-destructive hover:bg-destructive/90">
+                <AlertDialogAction
+                  onClick={confirmDelete}
+                  className="bg-destructive hover:bg-destructive/90"
+                >
                   {t("keywordsTable.bulkActions.confirm")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <Button variant="outline" size="sm" onClick={() => setSelectedKeywords([])} className="w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSelectedKeywords([])}
+            className="w-full sm:w-auto"
+          >
             {t("keywordsTable.bulkActions.clear")}
           </Button>
-        </div>}
+        </div>
+      )}
 
       <div className="bg-white rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-12">
-                <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label={t("keywordsTable.table.selectAll")} className={isPartiallySelected ? "data-[state=checked]:bg-primary" : ""} />
+                <Checkbox
+                  checked={isAllSelected}
+                  onCheckedChange={handleSelectAll}
+                  aria-label={t("keywordsTable.table.selectAll")}
+                  className={
+                    isPartiallySelected ? "data-[state=checked]:bg-primary" : ""
+                  }
+                />
               </TableHead>
               <TableHead className="w-16">
                 {t("keywordsTable.table.columns.srNo")}
@@ -289,15 +386,25 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {keywords.map((keyword, index) => <TableRow key={keyword.id}>
+            {keywords.map((keyword, index) => (
+              <TableRow key={keyword.id}>
                 <TableCell>
-                  <Checkbox checked={selectedKeywords.includes(keyword.id)} onCheckedChange={checked => handleSelectKeyword(keyword.id, checked as boolean)} aria-label={`Select keyword ${keyword.keyword}`} />
+                  <Checkbox
+                    checked={selectedKeywords.includes(keyword.id)}
+                    onCheckedChange={(checked) =>
+                      handleSelectKeyword(keyword.id, checked as boolean)
+                    }
+                    aria-label={`Select keyword ${keyword.keyword}`}
+                  />
                 </TableCell>
                 <TableCell className="font-medium">
                   {startIndex + index + 1}
                 </TableCell>
                 <TableCell className="font-medium">
-                  <button onClick={() => handleViewRank(keyword)} className="text-foreground hover:text-primary cursor-pointer transition-colors">
+                  <button
+                    onClick={() => handleViewRank(keyword)}
+                    className="text-foreground hover:text-primary cursor-pointer transition-colors"
+                  >
                     {keyword.keyword}
                   </button>
                 </TableCell>
@@ -361,44 +468,64 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                         <Eye className="mr-2 h-4 w-4" />
                         {t("keywordsTable.table.actions.viewRank")}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleSelectKeyword(keyword.id, true)}>
+                      <DropdownMenuItem
+                        onClick={() => handleSelectKeyword(keyword.id, true)}
+                      >
                         <Trash className="mr-2 h-4 w-4" />
                         {t("keywordsTable.table.actions.selectDelete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
-              </TableRow>)}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
 
         {/* Pagination */}
       </div>
-      {totalPages > 1 && <div className="flex items-center justify-between px-2 flex-col md:flex-row">
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between px-2">
           <div className="text-sm text-gray-700">
             {t("keywordsTable.pagination.showing", {
-          from: startIndex + 1,
-          to: Math.min(endIndex, totalKeywords),
-          total: totalKeywords
-        })}
+              from: startIndex + 1,
+              to: Math.min(endIndex, totalKeywords),
+              total: totalKeywords,
+            })}
             {/* Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of{" "}
-             {totalKeywords} results */}
+            {totalKeywords} results */}
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1}>
-              {t("keywordsTable.pagination.previous")}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+              className="flex items-center gap-1"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.previous")}</span>
             </Button>
             <span className="text-sm">
               {t("keywordsTable.pagination.page", {
-            current: currentPage,
-            total: totalPages
-          })}
+                current: currentPage,
+                total: totalPages,
+              })}
               {/* Page {currentPage} of {totalPages} */}
             </span>
-            <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage >= totalPages}>
-              {t("keywordsTable.pagination.next")}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+              className="flex items-center gap-1"
+            >
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.next")}</span>
+              <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
-        </div>}
-    </div>;
+        </div>
+      )}
+    </div>
+  );
 };
