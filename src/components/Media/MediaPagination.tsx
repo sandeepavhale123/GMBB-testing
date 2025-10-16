@@ -63,13 +63,22 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           <span className="hidden sm:inline">{t("mediaPagination.previous")}</span>
         </Button>
 
-        <span className="text-sm text-gray-600 px-3">
-          {t("mediaPagination.pageInfo", {
-            current: currentPage,
-            total: totalPages,
-          })}
-          {/* Page {currentPage} of {totalPages} */}
-        </span>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1).map((pageNum) => (
+            <Button
+              key={pageNum}
+              variant={currentPage === pageNum ? "default" : "outline"}
+              size="sm"
+              onClick={() => onPageChange(pageNum)}
+              className="w-8 h-8 p-0"
+            >
+              {pageNum}
+            </Button>
+          ))}
+          {totalPages > 9 && (
+            <span className="text-sm text-gray-600 px-2">...</span>
+          )}
+        </div>
 
         <Button
           variant="outline"
