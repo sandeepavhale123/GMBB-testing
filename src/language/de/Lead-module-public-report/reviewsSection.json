@@ -1,5 +1,5 @@
 {
-  "title": "Reviews",
-  "total": "Totaal {{count}}",
-  "average": "gemiddelde beoordeling"
+  "title": "Bewertungen",
+  "total": "Insgesamt {{count}}",
+  "average": "Durchschnittsbewertung"
 }

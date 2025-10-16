@@ -165,7 +165,7 @@ export const GroupDetails: React.FC = () => {
     <div className="space-y-6 py-4 px-6">
       {/* Header with back button and title */}
       <div className=" space-x-4">
-        <div className="flex items-center justify-between flex-1">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 flex-1">
           <div className="flex gap-4">
             <Button
               variant="ghost"
@@ -181,7 +181,7 @@ export const GroupDetails: React.FC = () => {
           </div>
           <Button
             onClick={() => setIsAddListingModalOpen(true)}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 w-full sm:w-auto"
           >
             <Plus className="h-4 w-4" />
             <span>{t("addListing")}</span>

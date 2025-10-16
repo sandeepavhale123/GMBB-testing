@@ -525,7 +525,7 @@ export const CitationPage: React.FC = () => {
               // Citation Management Content
               <>
                 {/* Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <h1 className="text-2xl font-bold text-foreground">
                       {t("citationPage.management.title")}
@@ -585,10 +585,10 @@ export const CitationPage: React.FC = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="w-full">
-                      <div className="flex items-center space-x-2 mb-6">
+                      <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
                         <button
                           onClick={() => setCitationTab("existing")}
-                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
+                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors whitespace-nowrap ${
                             citationTab === "existing"
                               ? "bg-primary text-primary-foreground"
                               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -599,7 +599,7 @@ export const CitationPage: React.FC = () => {
                         </button>
                         <button
                           onClick={() => setCitationTab("possible")}
-                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
+                          className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors whitespace-nowrap ${
                             citationTab === "possible"
                               ? "bg-primary text-primary-foreground"
                               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -611,7 +611,7 @@ export const CitationPage: React.FC = () => {
                       </div>
 
                       {citationTab === "existing" && (
-                        <div className="overflow-x-auto rounded-md border">
+                        <div className="overflow-x-auto rounded-md border -mx-4 sm:mx-0">
                           <Table className="min-w-full">
                             <TableHeader>
                               <TableRow>
@@ -669,7 +669,7 @@ export const CitationPage: React.FC = () => {
                                       }
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors"
+                                      className="inline-flex items-center justify-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors w-full sm:w-auto"
                                     >
                                       {t("citationPage.auditCard.table.view")}
                                     </a>
@@ -682,8 +682,8 @@ export const CitationPage: React.FC = () => {
                       )}
 
                       {citationTab === "possible" && (
-                        <div className="overflow-x-auto rounded-md border">
-                          <Table className="min-w-full">
+                        <div className="overflow-x-auto rounded-md border -mx-4 sm:mx-0">
+                          <Table className="min-w-full table-auto">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">
@@ -708,7 +708,7 @@ export const CitationPage: React.FC = () => {
                                             "/default-icon.png")
                                         }
                                       />
-                                      <span className="text-xs sm:text-sm">
+                                      <span className="text-xs sm:text-sm break-words">
                                         {row.site}
                                       </span>
                                     </div>
@@ -717,7 +717,7 @@ export const CitationPage: React.FC = () => {
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="text-xs"
+                                      className="text-xs w-full sm:w-auto whitespace-nowrap"
                                       onClick={() => {
                                         if (row.website) {
                                           const url =

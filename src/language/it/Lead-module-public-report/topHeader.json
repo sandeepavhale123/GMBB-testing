@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Report di Posizionamento",
+    "defaultSubtitle": "Report Professionali per Aziende",
+    "navigation": {
+      "overall": "Generale",
+      "presence": "Presenza",
+      "posts": "Post",
+      "competitors": "Competitor",
+      "reviews": "Recensioni"
+    },
+    "menu": {
+      "toggle": "Apri/Chiudi Menu di Navigazione"
+    }
+  }
+}

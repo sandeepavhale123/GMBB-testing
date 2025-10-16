@@ -28,7 +28,7 @@ export const QAFilters: React.FC<QAFiltersProps> = ({
     <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
       <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
         {/* Search Input */}
-        <div className="relative flex-1 min-w-0">
+        <div className="relative w-full lg:flex-1 min-w-0">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
             placeholder={t("qaFilters.searchPlaceholder")}

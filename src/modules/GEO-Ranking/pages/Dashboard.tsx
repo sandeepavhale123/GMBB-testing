@@ -238,7 +238,7 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
             {t("dashboard.header.title")}
@@ -258,7 +258,7 @@ export const Dashboard: React.FC = () => {
           }}
         >
           <DialogTrigger asChild>
-            <Button onClick={() => setShowCreateModal(true)}>
+            <Button onClick={() => setShowCreateModal(true)} className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-1" />
               {t("dashboard.buttons.createProject")}
             </Button>
@@ -545,7 +545,7 @@ export const Dashboard: React.FC = () => {
 
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border p-4 ">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mt-6 pt-4 border-t border-border p-4 ">
               <div className="text-sm text-muted-foreground flex-1 max-w[200px]">
                 {t("dashboard.pagination.showing", {
                   from: (currentPage - 1) * pagination.limit + 1,
@@ -560,7 +560,7 @@ export const Dashboard: React.FC = () => {
                 {pagination.total} projects */}
               </div>
 
-              <Pagination className="flex justify-end max-w-[300px]">
+              <Pagination className="flex justify-end max-w-[300px] w-full sm:w-auto overflow-x-auto">
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious

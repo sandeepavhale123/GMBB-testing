@@ -1,19 +1,19 @@
 {
   "leadFilters": {
-    "searchPlaceholder": "Zoek op bedrijfsnaam of e-mail",
-    "emailPlaceholder": "Filter op e-mail...",
-    "categoryPlaceholder": "Categorie",
-    "allCategories": "Alle categorieën",
-    "clear": "Wissen",
+    "searchPlaceholder": "Nach Unternehmensname oder E-Mail suchen",
+    "emailPlaceholder": "Nach E-Mail filtern...",
+    "categoryPlaceholder": "Kategorie",
+    "allCategories": "Alle Kategorien",
+    "clear": "Zurücksetzen",
     "categories": {
       "Restaurant": "Restaurant",
-      "Retail": "Detailhandel",
-      "Healthcare": "Gezondheidszorg",
+      "Retail": "Einzelhandel",
+      "Healthcare": "Gesundheitswesen",
       "Technology": "Technologie",
-      "Services": "Diensten",
-      "Real_Estate": "Vastgoed",
-      "Finance": "Financiën",
-      "Other": "Overig"
+      "Services": "Dienstleistungen",
+      "Real_Estate": "Immobilien",
+      "Finance": "Finanzen",
+      "Other": "Andere"
     }
   }
 }

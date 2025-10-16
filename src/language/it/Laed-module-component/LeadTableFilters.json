@@ -1,0 +1,19 @@
+{
+  "leadFilters": {
+    "searchPlaceholder": "Cerca per nome attività o email",
+    "emailPlaceholder": "Filtra per email...",
+    "categoryPlaceholder": "Categoria",
+    "allCategories": "Tutte le categorie",
+    "clear": "Pulisci",
+    "categories": {
+      "Restaurant": "Ristorante",
+      "Retail": "Commercio al dettaglio",
+      "Healthcare": "Sanità",
+      "Technology": "Tecnologia",
+      "Services": "Servizi",
+      "Real_Estate": "Immobiliare",
+      "Finance": "Finanza",
+      "Other": "Altro"
+    }
+  }
+}

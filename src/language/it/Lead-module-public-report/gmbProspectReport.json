@@ -1,0 +1,76 @@
+{
+  "report": {
+    "title": "Rapporto Prospect GMB",
+    "loading": "Caricamento rapporto...",
+    "error": "Impossibile caricare il rapporto prospect",
+    "introductionTitle": "Introduzione",
+    "introductionDesc": "Ciao, grazie per aver valutato il tuo profilo Google My Business (GMB). Di seguito sono riportati i risultati della nostra valutazione su 10 punti.",
+    "atAGlance": "Il tuo Rapporto GMB a Colpo d'Occhio",
+    "failedTests": {
+      "title": "Test Non Superati",
+      "desc": "Aree che necessitano attenzione"
+    },
+    "passedTests": {
+      "title": "Test Superati",
+      "desc": "Aree che performano bene"
+    },
+    "breakdownTitle": "Dettaglio Dettagliato",
+    "whyItMatters": "Perché è Importante:",
+    "recommendation": "Raccomandazione:",
+    "passed": "Superato",
+    "failed": "Non Superato",
+    "competitor": {
+      "title": "Analisi dei Concorrenti",
+      "chartTitle": "Analisi dei Concorrenti",
+      "impact": "Nessun Impatto",
+      "listingDesc": "L'elenco supera o eguaglia i concorrenti nelle aree chiave",
+      "why": "Distinguersi tra i concorrenti aumenta la possibilità di attrarre più clienti",
+      "recomendation": "Analizza il profilo dei concorrenti e concentra l'attenzione sulle aree in cui eccellono, come valutazioni migliori o descrizioni più dettagliate.",
+      "legend": {
+        "avgRating": "Valutazione Media",
+        "reviewCount": "Numero di Recensioni"
+      },
+      "tableHeaders": {
+        "name": "Nome Attività",
+        "rating": "Valutazione",
+        "reviews": "Recensioni"
+      }
+    },
+    "citation": {
+      "title": "Analisi Citazioni Concorrenti",
+      "impact": "Nessun Impatto",
+      "result": "Risultati Analisi Citazioni",
+      "why": "Le citazioni migliorano il posizionamento SEO locale e segnalano credibilità",
+      "recommendation": "Identifica le lacune nelle citazioni e inserisci la tua attività nelle directory",
+      "chartTitle": "Confronto Citazioni",
+      "legend": {
+        "localCitations": "Citazioni Locali"
+      },
+      "tableHeaders": {
+        "name": "Nome Attività",
+        "citations": "Citazioni Locali"
+      }
+    },
+    "suggestions": {
+      "title": "Suggerimenti Avanzati Oltre i Controlli Attuali",
+      "tableHeaders": {
+        "suggestion": "Suggerimento",
+        "impact": "Livello di Impatto"
+      },
+      "impactLevels": {
+        "high": "Alto Impatto",
+        "moderate": "Impatto Moderato",
+        "low": "Basso Impatto"
+      }
+    },
+    "summary": {
+      "title": "Riepilogo Raccomandazioni",
+      "li1": "Aggiungi un link funzionante al sito web.",
+      "li2": "Incoraggia i clienti soddisfatti a lasciare recensioni.",
+      "li3": "La valutazione media è inferiore a 4 stelle",
+      "li4": "Il logo è presente e professionale.",
+      "li5": "Aggiorna i tuoi orari di apertura.",
+      "li6": "Meno di 5 foto. Migliora le foto."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "geoReport": {
+    "title": "Rapporto di Classifica GEO",
+    "loading": "Caricamento Rapporto di Classifica GEO...",
+    "error": {
+      "main": "Errore nel caricamento dei dati del rapporto",
+      "sub": "Per favore riprova più tardi"
+    },
+    "area": "Area",
+    "priority": {
+      "high": "Alta",
+      "medium": "Media"
+    }
+  }
+}

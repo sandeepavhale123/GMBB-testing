@@ -1,0 +1,35 @@
+{
+  "title": "Branding dei Rapporti",
+  "subtitle": "Personalizza l'aspetto dei tuoi report lead",
+  "logo": {
+    "title": "Logo Azienda",
+    "description": "Carica il logo della tua azienda per i report",
+    "dropText": "Trascina qui il logo o clicca per selezionarlo",
+    "buttonText": "Scegli File",
+    "note": "Consigliato: formato PNG o JPG, max 2MB, 300x100px"
+  },
+  "colors": {
+    "title": "Schema Colori",
+    "description": "Personalizza i colori del tuo brand",
+    "primary": "Colore Primario",
+    "secondary": "Colore Secondario"
+  },
+  "companyInfo": {
+    "title": "Informazioni Azienda",
+    "description": "Dettagli che appariranno nei tuoi report",
+    "nameLabel": "Nome Azienda",
+    "namePlaceholder": "Inserisci il nome dell'azienda",
+    "websiteLabel": "Sito Web",
+    "websitePlaceholder": "https://tuaazienda.com",
+    "phoneLabel": "Numero di Telefono",
+    "phonePlaceholder": "+39 055 123-4567"
+  },
+  "preview": {
+    "title": "Anteprima",
+    "description": "Come apparirà il tuo branding",
+    "lead": "Report Lead"
+  },
+  "buttons": {
+    "save": "Salva Impostazioni Branding"
+  }
+}

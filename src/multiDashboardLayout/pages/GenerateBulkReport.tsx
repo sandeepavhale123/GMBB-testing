@@ -742,7 +742,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   <Label className="text-sm font-medium">
                     {t("GenerateBulkReport.reportTypes.availableReports")}
                   </Label>
@@ -838,7 +838,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex flex-row space-x-6"
+                        className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6"
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="one-time" id="one-time" />

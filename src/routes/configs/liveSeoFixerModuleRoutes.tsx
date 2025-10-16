@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
 import { LiveSeoFixerLayout } from "@/modules/live-seo-fixer/components/PageLayout";
 import { Dashboard } from "@/modules/live-seo-fixer/pages/Dashboard";
+import { CreateProject } from "@/modules/live-seo-fixer/pages/CreateProject";
 import { ProjectDetail } from "@/modules/live-seo-fixer/pages/ProjectDetail";
 import { PageSelection } from "@/modules/live-seo-fixer/pages/PageSelection";
 import { AuditProgress } from "@/modules/live-seo-fixer/pages/AuditProgress";
@@ -29,6 +30,10 @@ export const liveSeoFixerModuleRoutes: RouteConfig[] = [
       {
         path: "dashboard",
         element: <Dashboard />
+      },
+      {
+        path: "create-project",
+        element: <CreateProject />
       },
       {
         path: "projects/:projectId",

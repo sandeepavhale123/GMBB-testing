@@ -1,0 +1,52 @@
+{
+  "addLead": {
+    "title": "Aggiungi Nuovo Lead",
+    "button": "Aggiungi Lead",
+    "cancel": "Annulla",
+    "adding": "Aggiunta Lead...",
+    "inputMethod": {
+      "label": "Come desideri aggiungere i dettagli dell'attività?",
+      "name": "Suggerimento automatico Google",
+      "url": "URL di Google Maps",
+      "cid": "CID dell'inserzione"
+    },
+    "fields": {
+      "businessName": "Cerca per nome attività",
+      "businessPlaceholder": "Cerca nome attività...",
+      "mapUrl": "URL di Google Maps",
+      "mapUrlPlaceholder": "Inserisci URL di Google Maps",
+      "cid": "CID dell'inserzione",
+      "cidPlaceholder": "Inserisci CID",
+      "email": "Email",
+      "emailPlaceholder": "Inserisci indirizzo email",
+      "phone": "Numero di telefono",
+      "phonePlaceholder": "Inserisci numero di telefono",
+      "location": "Latitudine, Longitudine o Città",
+      "locationPlaceholder": "Inserisci latitudine, longitudine o città",
+      "keyword": "Parola chiave personalizzata",
+      "keywordPlaceholder": "Inserisci parola chiave personalizzata",
+      "optionalDetails": "Aggiungi dettagli opzionali"
+    },
+    "validation": {
+      "emailInvalid": "Per favore inserisci un'email valida",
+      "businessNameRequired": "Seleziona un'attività.",
+      "cidInvalid": "Impossibile risolvere il CID. Seleziona nuovamente il suggerimento o usa URL/CID della mappa.",
+      "mapUrlRequired": "L'URL di Google Maps è obbligatorio.",
+      "cidNumeric": "Inserisci un CID numerico valido."
+    },
+    "success": {
+      "title": "Successo",
+      "description": "Lead aggiunto correttamente"
+    },
+    "error": {
+      "validationTitle": "Errore di validazione",
+      "validationDesc": "Correggi gli errori e riprova.",
+      "addFailedTitle": "Impossibile aggiungere il lead",
+      "addFailedDesc": "Riprova."
+    },
+    "notes": {
+      "latitudeLongitude": "Latitudine e longitudine devono essere inserite come segue: lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "Il testo libero deve essere inserito come segue: Città, Stato, Paese"
+    }
+  }
+}

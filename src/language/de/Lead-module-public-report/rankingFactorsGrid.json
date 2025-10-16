@@ -1,8 +1,8 @@
 {
-  "title": "GBP Rankingfactoren",
-  "description": "Na een gedetailleerde beoordeling van uw Google Business-profiel (GBP) hebben we het optimalisatieniveau geëvalueerd. Hieronder vindt u een beknopte samenvatting van uw prestaties op verschillende belangrijke lokale rankingfactoren.",
+  "title": "GBP-Ranking-Faktoren",
+  "description": "Nach einer detaillierten Überprüfung Ihres Google Business Profiles (GBP) haben wir dessen Optimierungsgrad bewertet. Nachfolgend finden Sie eine kurze Zusammenfassung Ihrer Leistung in Bezug auf mehrere wichtige lokale Ranking-Faktoren.",
   "status": {
-    "passed": "Geslaagd",
-    "failed": "Mislukt"
+    "passed": "Bestanden",
+    "failed": "Nicht bestanden"
   }
 }

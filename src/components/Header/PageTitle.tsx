@@ -135,7 +135,7 @@ export const PageTitle: React.FC = () => {
 
   return (
     <div className="min-w-0">
-      <h5 className="font-semibold text-gray-900 mb-1">{pageInfo.title}</h5>
+      <h5 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base truncate">{pageInfo.title}</h5>
     </div>
   );
 };

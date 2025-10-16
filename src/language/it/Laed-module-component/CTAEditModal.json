@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Modifica impostazioni CTA Chiamata",
+    "editTitleAppointment": "Modifica impostazioni CTA Appuntamento",
+    "editDescription": "Personalizza l'intestazione della CTA, la descrizione, il testo del pulsante e il link.",
+    "visibilityLabel": "Mostra CTA nei rapporti",
+    "visibilityHelp": "Attiva per mostrare o nascondere questa sezione CTA nei rapporti generati.",
+    "headerLabel": "Intestazione CTA",
+    "headerPlaceholder": "Inserisci il testo dell'intestazione CTA",
+    "descriptionLabel": "Descrizione CTA",
+    "descriptionPlaceholder": "Inserisci il testo della descrizione CTA",
+    "buttonLabel": "Etichetta pulsante",
+    "buttonPlaceholder": "Inserisci il testo del pulsante",
+    "buttonLinkLabel": "Link del pulsante",
+    "buttonLinkPlaceholder": "https://example.com o #contact",
+    "buttonLinkHelp": "Inserisci un URL completo (https://...) o lascia vuoto per nessun link.",
+    "cancel": "Annulla",
+    "save": "Salva modifiche",
+    "saving": "Salvataggio in corso...",
+    "toast": {
+      "validationTitle": "Errore di validazione",
+      "validationDescription": "Correggi gli errori prima di salvare.",
+      "saveSuccessTitle": "Impostazioni CTA salvate",
+      "saveSuccessDescription": "La tua call-to-action è stata aggiornata con successo.",
+      "saveFailTitle": "Salvataggio fallito",
+      "saveFailDescription": "Impossibile salvare le impostazioni CTA. Riprova."
+    },
+    "default": {
+      "header": "BOOSTA IL TUO PUNTEGGIO GBP &&& Aumenta le tue chiamate",
+      "description": "Scopri come pagare ai tuoi dipendenti uno stipendio mensile semplicemente risolvendo ciò che non funziona. Ottieni il tuo blueprint gratuito per superare la concorrenza!",
+      "buttonLabel": "PRENOTA UNA CHIAMATA",
+      "buttonLinkLabel": "#contact"
+    }
+  }
+}

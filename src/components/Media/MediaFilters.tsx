@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Button } from "../ui/button";
 import { Search, Filter } from "lucide-react";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
@@ -36,6 +37,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   onSortOrderChange,
 }) => {
   const { t } = useI18nNamespace("Media/mediaFilters");
+  const [showFilters, setShowFilters] = useState(false);
   const categories = [
     { value: "all", label: t("mediaFilters.category.all") },
     { value: "COVER", label: t("mediaFilters.category.cover") },
@@ -67,19 +69,30 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 mb-6">
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-        <Input
-          placeholder={t("mediaFilters.searchPlaceholder")}
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10"
-        />
+      <div className="flex gap-3 w-full sm:flex-1">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            placeholder={t("mediaFilters.searchPlaceholder")}
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setShowFilters(!showFilters)}
+          className="sm:hidden"
+        >
+          <Filter className="h-4 w-4" />
+        </Button>
       </div>
 
-      <div className="flex gap-3 flex-wrap">
+      <div className={`flex gap-3 flex-wrap ${showFilters ? 'flex' : 'hidden'} sm:flex`}>
         <Select value={category || "all"} onValueChange={onCategoryChange}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder={t("mediaFilters.category.placeholder")} />
           </SelectTrigger>
           <SelectContent>
@@ -92,7 +105,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
         </Select>
 
         <Select value={status || "all"} onValueChange={onStatusChange}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder={t("mediaFilters.status.placeholder")} />
           </SelectTrigger>
           <SelectContent>
@@ -105,7 +118,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
         </Select>
 
         <Select value={sortOrder} onValueChange={onSortOrderChange}>
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-full sm:w-32">
             <SelectValue
               placeholder={t("mediaFilters.sortOrder.placeholder")}
             />

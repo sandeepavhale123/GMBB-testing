@@ -41,7 +41,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between mt-6">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
       <div className="text-sm text-gray-600">
         {t("mediaPagination.showing", {
           start: startItem,
@@ -60,16 +60,37 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           className="flex items-center gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
-          {t("mediaPagination.previous")}
+          <span className="hidden sm:inline">{t("mediaPagination.previous")}</span>
         </Button>
 
-        <span className="text-sm text-gray-600 px-3">
-          {t("mediaPagination.pageInfo", {
-            current: currentPage,
-            total: totalPages,
-          })}
-          {/* Page {currentPage} of {totalPages} */}
-        </span>
+        <div className="flex items-center gap-1">
+          {[1, 2, 3].map((pageNum) => (
+            pageNum <= totalPages && (
+              <Button
+                key={pageNum}
+                variant={currentPage === pageNum ? "default" : "outline"}
+                size="sm"
+                onClick={() => onPageChange(pageNum)}
+                className="w-8 h-8 p-0"
+              >
+                {pageNum}
+              </Button>
+            )
+          ))}
+          {totalPages > 4 && (
+            <span className="text-sm text-gray-600 px-2">...</span>
+          )}
+          {totalPages > 3 && (
+            <Button
+              variant={currentPage === totalPages ? "default" : "outline"}
+              size="sm"
+              onClick={() => onPageChange(totalPages)}
+              className="w-8 h-8 p-0"
+            >
+              {totalPages}
+            </Button>
+          )}
+        </div>
 
         <Button
           variant="outline"
@@ -78,7 +99,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           disabled={!hasNext}
           className="flex items-center gap-1"
         >
-          {t("mediaPagination.next")}
+          <span className="hidden sm:inline">{t("mediaPagination.next")}</span>
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>

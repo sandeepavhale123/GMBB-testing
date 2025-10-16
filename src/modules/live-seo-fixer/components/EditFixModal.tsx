@@ -22,7 +22,7 @@ interface EditFixModalProps {
   projectName: string;
   originalValue: string;
   suggestedFix: string;
-  contentType: 'title' | 'meta-description' | 'alt-tag' | 'schema' | 'h1';
+  contentType: 'title' | 'meta-description' | 'alt-tags' | 'schema' | 'h1';
   onSave: (newValue: string) => void;
   optimalMin?: number;
   optimalMax?: number;

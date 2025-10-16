@@ -19,7 +19,7 @@ export const MediaTabs: React.FC<MediaTabsProps> = ({
   ];
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex w-full sm:w-auto flex-wrap sm:flex-nowrap items-center gap-2">
       {tabs.map((tab) => (
         <button
           key={tab.value}

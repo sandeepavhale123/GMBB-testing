@@ -126,17 +126,58 @@ const getFieldValidation = (fieldName: string, value: any): string | null => {
   return null;
 };
 
-// Check if field is required based on schema type
-const isRequiredField = (schemaType: string, fieldName: string): boolean => {
-  const requiredFields: Record<string, string[]> = {
-    LocalBusiness: ['name', 'url'],
-    WebSite: ['name', 'url'],
-    Place: ['name'],
-    BreadcrumbList: ['itemListElement'],
-    ImageObject: ['contentUrl'],
-  };
+// Check if field is required based on schema requirements metadata
+const isRequiredField = (
+  schemaType: string, 
+  fieldPath: string[], 
+  schemaRequirements: any
+): boolean => {
+  if (!schemaRequirements || !schemaRequirements[schemaType]) {
+    return false;
+  }
+
+  let current = schemaRequirements[schemaType];
   
-  return requiredFields[schemaType]?.includes(fieldName) || false;
+  for (let i = 0; i < fieldPath.length; i++) {
+    const field = fieldPath[i];
+    
+    // Skip numeric indices (array item indices)
+    if (!isNaN(Number(field))) {
+      continue;
+    }
+    
+    // Get the field definition
+    const fieldDef = current[field];
+    
+    if (!fieldDef) {
+      return false;
+    }
+    
+    // If it's the last field in path
+    if (i === fieldPath.length - 1) {
+      if (typeof fieldDef === 'string') {
+        return fieldDef === 'required';
+      }
+      if (typeof fieldDef === 'object' && fieldDef._requirement) {
+        return fieldDef._requirement === 'required';
+      }
+      return false;
+    }
+    
+    // Navigate deeper for nested objects/arrays
+    if (typeof fieldDef === 'object') {
+      // Check if next field is inside _item_fields (for arrays)
+      if (fieldDef._type === 'array' && fieldDef._item_fields) {
+        current = fieldDef._item_fields;
+      } else {
+        current = fieldDef;
+      }
+    } else {
+      return false;
+    }
+  }
+  
+  return false;
 };
 
 interface SchemaEditorProps {}
@@ -151,6 +192,7 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   const initialSchemaData = location.state?.schemaData;
   const issueId = location.state?.issueId;
   const stateAuditId = location.state?.auditId;
+  const schemaRequirements = location.state?.schemaRequirements || {};
 
   const [schemas, setSchemas] = useState<any[]>([]);
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
@@ -206,9 +248,22 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
     });
     setIsModified(true);
     
-    // Validate the field
+    // Get schema type for validation
+    const schemaType = schemas[schemaIndex]['@type'];
     const fieldName = path[path.length - 1];
-    const error = getFieldValidation(fieldName, value);
+    const isRequired = isRequiredField(schemaType, path, schemaRequirements);
+    
+    // Validate the field
+    let error: string | null = null;
+    
+    // Check if required field is empty
+    if (isRequired && (value === null || value === undefined || value === '')) {
+      error = `${camelToTitle(fieldName)} is required`;
+    } else if (value !== null && value !== undefined && value !== '') {
+      // Check format validation only if field has a value
+      error = getFieldValidation(fieldName, value);
+    }
+    
     if (error) {
       setValidationErrors(prev => ({
         ...prev,
@@ -222,6 +277,10 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
         const newErrors = { ...prev };
         if (newErrors[schemaIndex]) {
           delete newErrors[schemaIndex][path.join('.')];
+          // Remove schema index if no errors left
+          if (Object.keys(newErrors[schemaIndex]).length === 0) {
+            delete newErrors[schemaIndex];
+          }
         }
         return newErrors;
       });
@@ -378,16 +437,28 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
 
   // Handle save
   const handleSave = async () => {
-    // Validate all fields
-    let hasErrors = false;
+    // Clear previous validation errors
+    setValidationErrors({});
+    
+    // Validate all schemas
+    const newErrors: Record<string, Record<string, string>> = {};
     schemas.forEach((schema, schemaIndex) => {
-      validateSchemaFields(schema, schemaIndex, []);
+      const schemaType = schema['@type'];
+      validateSchemaFields(schema, schemaIndex, [], schemaType, newErrors);
     });
     
-    if (Object.keys(validationErrors).length > 0) {
+    // Set validation errors
+    setValidationErrors(newErrors);
+    
+    if (Object.keys(newErrors).length > 0) {
+      // Count total errors
+      const errorCount = Object.values(newErrors).reduce((sum, schemaErrors) => {
+        return sum + Object.keys(schemaErrors).length;
+      }, 0);
+      
       toast({
         title: 'Validation Error',
-        description: 'Please fix all validation errors before saving.',
+        description: `Please fix ${errorCount} validation error${errorCount > 1 ? 's' : ''} before saving. Required fields must be filled and values must be valid.`,
         variant: 'destructive',
       });
       return;
@@ -429,25 +500,63 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   };
 
   // Validate schema fields recursively
-  const validateSchemaFields = (obj: any, schemaIndex: number, path: string[]) => {
+  const validateSchemaFields = (
+    obj: any, 
+    schemaIndex: number, 
+    path: string[], 
+    schemaType: string,
+    errors: Record<string, Record<string, string>>
+  ) => {
     Object.keys(obj).forEach(key => {
       if (key === '@context' || key === '@type') return;
       
       const value = obj[key];
       const currentPath = [...path, key];
+      const fieldPath = currentPath.join('.');
       
+      // Check if field is required
+      const required = isRequiredField(schemaType, currentPath, schemaRequirements);
+      
+      // Validate required fields
+      if (required) {
+        if (value === null || value === undefined || value === '') {
+          if (!errors[schemaIndex]) {
+            errors[schemaIndex] = {};
+          }
+          errors[schemaIndex][fieldPath] = `${camelToTitle(key)} is required`;
+          return;
+        }
+        
+        // For arrays, check if they have at least one item
+        if (Array.isArray(value) && value.length === 0) {
+          if (!errors[schemaIndex]) {
+            errors[schemaIndex] = {};
+          }
+          errors[schemaIndex][fieldPath] = `${camelToTitle(key)} must have at least one item`;
+          return;
+        }
+      }
+      
+      // Recursively validate nested objects
       if (value && typeof value === 'object' && !Array.isArray(value)) {
-        validateSchemaFields(value, schemaIndex, currentPath);
-      } else if (!Array.isArray(value)) {
-        const error = getFieldValidation(key, value);
-        if (error) {
-          setValidationErrors(prev => ({
-            ...prev,
-            [schemaIndex]: {
-              ...prev[schemaIndex],
-              [currentPath.join('.')]: error,
-            },
-          }));
+        validateSchemaFields(value, schemaIndex, currentPath, schemaType, errors);
+      } 
+      // Validate array items
+      else if (Array.isArray(value)) {
+        value.forEach((item, itemIndex) => {
+          if (item && typeof item === 'object') {
+            validateSchemaFields(item, schemaIndex, [...currentPath, itemIndex.toString()], schemaType, errors);
+          }
+        });
+      } 
+      // Validate primitive values
+      else if (value !== null && value !== undefined && value !== '') {
+        const formatError = getFieldValidation(key, value);
+        if (formatError) {
+          if (!errors[schemaIndex]) {
+            errors[schemaIndex] = {};
+          }
+          errors[schemaIndex][fieldPath] = formatError;
         }
       }
     });
@@ -463,7 +572,7 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   ) => {
     const fieldPath = path.join('.');
     const error = validationErrors[schemaIndex]?.[fieldPath];
-    const required = isRequiredField(schemaType, fieldName);
+    const required = isRequiredField(schemaType, path, schemaRequirements);
     
     if (fieldName === '@context' || fieldName === '@type') {
       return null;

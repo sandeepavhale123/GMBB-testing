@@ -1,24 +1,24 @@
 {
   "ctaCustomization": {
-    "title": "CTA-aanpassing",
-    "subtitle": "Pas uw call-to-action-sectie aan voor leadrapporten.",
-    "previewTitle": "Voorbeeld",
-    "previewDescription": "Zo zal uw CTA verschijnen in leadrapporten.",
+    "title": "CTA-Anpassung",
+    "subtitle": "Passen Sie Ihren Call-to-Action-Bereich für Lead-Berichte an.",
+    "previewTitle": "Vorschau",
+    "previewDescription": "So wird Ihr CTA in den Lead-Berichten angezeigt.",
     "toast": {
-      "resetTitle": "CTA gereset",
-      "resetDescription": "CTA-instellingen zijn teruggezet naar de standaardwaarden.",
-      "updateTitle": "CTA bijgewerkt",
-      "updateCallDescription": "Call-CTA is succesvol bijgewerkt.",
-      "updateAppointmentDescription": "Appointment-CTA is succesvol bijgewerkt.",
-      "resetCallDescription": "Call-CTA is teruggezet naar de standaardwaarden.",
-      "resetAppointmentDescription": "Appointment-CTA is teruggezet naar de standaardwaarden.",
-      "errorTitle": "Fout",
-      "errorDescription": "Het bijwerken van CTA-instellingen is mislukt. Probeer het opnieuw."
+      "resetTitle": "CTA zurückgesetzt",
+      "resetDescription": "CTA-Einstellungen wurden auf die Standardwerte zurückgesetzt.",
+      "updateTitle": "CTA aktualisiert",
+      "updateCallDescription": "Call-CTA wurde erfolgreich aktualisiert.",
+      "updateAppointmentDescription": "Termin-CTA wurde erfolgreich aktualisiert.",
+      "resetCallDescription": "Call-CTA wurde auf Standardwerte zurückgesetzt.",
+      "resetAppointmentDescription": "Termin-CTA wurde auf Standardwerte zurückgesetzt.",
+      "errorTitle": "Fehler",
+      "errorDescription": "CTA-Einstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
     },
     "defaultCTA": {
-      "header": "BOOST UW GBP-SCORE &&& Verhoog uw oproepen",
-      "description": "Leer hoe u uw werknemers een maandloon kunt betalen door eenvoudig te repareren wat kapot is. Ontvang uw gratis blueprint om uw concurrentie te overtreffen!",
-      "buttonLabel": "BOEK EEN BELAFSPRAAK"
+      "header": "STEIGERN SIE IHREN GBP SCORE &&& Erhöhen Sie Ihre Anrufe",
+      "description": "Erfahren Sie, wie Sie Ihren Mitarbeitern ein Monatsgehalt zahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Plan, um Ihre Konkurrenz zu schlagen!",
+      "buttonLabel": "JETZT TERMIN BUCHEN"
     }
   }
 }

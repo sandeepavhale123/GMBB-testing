@@ -186,7 +186,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-3">
           <p className="text-sm text-muted-foreground">
             {t("paginationInfo", {
               start: startItem,
@@ -195,7 +195,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
             })}
             {/* Showing {startItem} to {endItem} of {totalItems} projects */}
           </p>
-          <Pagination className="d-flex justify-end">
+          <Pagination className="d-flex justify-end w-full sm:w-auto overflow-x-auto whitespace-nowrap flex sm:justify-end">
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious

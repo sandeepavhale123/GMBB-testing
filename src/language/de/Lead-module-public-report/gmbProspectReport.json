@@ -1,76 +1,76 @@
 {
   "report": {
-    "title": "GMB Prospect Rapport",
-    "loading": "Rapport laden...",
-    "error": "Het laden van het prospectrapport is mislukt",
-    "introductionTitle": "Inleiding",
-    "introductionDesc": "Hallo, bedankt voor het beoordelen van uw Google Mijn Bedrijf (GMB) profiel. Hieronder vindt u de resultaten van onze 10-punten evaluatie.",
-    "atAGlance": "Uw GMB-rapport in één oogopslag",
+    "title": "GMB-Prospektbericht",
+    "loading": "Bericht wird geladen...",
+    "error": "Prospektbericht konnte nicht geladen werden",
+    "introductionTitle": "Einführung",
+    "introductionDesc": "Hallo, vielen Dank, dass Sie Ihr Google My Business (GMB) Profil bewertet haben. Nachfolgend finden Sie die Ergebnisse unserer 10-Punkte-Auswertung.",
+    "atAGlance": "Ihr GMB-Bericht auf einen Blick",
     "failedTests": {
-      "title": "Mislukte Tests",
-      "desc": "Gebieden die aandacht nodig hebben"
+      "title": "Nicht bestandene Tests",
+      "desc": "Bereiche, die Aufmerksamkeit benötigen"
     },
     "passedTests": {
-      "title": "Geslaagde Tests",
-      "desc": "Gebieden die goed presteren"
+      "title": "Bestandene Tests",
+      "desc": "Bereiche mit guter Leistung"
     },
-    "breakdownTitle": "Gedetailleerde Analyse",
-    "whyItMatters": "Waarom dit belangrijk is:",
-    "recommendation": "Aanbeveling:",
-    "passed": "Geslaagd",
-    "failed": "Mislukt",
+    "breakdownTitle": "Detaillierte Aufschlüsselung",
+    "whyItMatters": "Warum es wichtig ist:",
+    "recommendation": "Empfehlung:",
+    "passed": "Bestanden",
+    "failed": "Nicht bestanden",
     "competitor": {
-      "title": "Concurrentieanalyse",
-      "chartTitle": "Concurrentieanalyse",
-      "impact": "Geen impact",
-      "listingDesc": "De vermelding presteert beter of gelijk aan de concurrenten in belangrijke gebieden",
-      "why": "U onderscheiden van concurrenten vergroot de kans op het aantrekken van meer klanten",
-      "recomendation": "Analyseer het concurrentprofiel en focus op gebieden waar zij uitblinken, zoals betere beoordeling of meer gedetailleerde beschrijving.",
+      "title": "Wettbewerbsanalyse",
+      "chartTitle": "Wettbewerbsanalyse",
+      "impact": "Keine Auswirkung",
+      "listingDesc": "Der Eintrag übertrifft oder entspricht seinen Wettbewerbern in wichtigen Bereichen",
+      "why": "Hervorstechen gegenüber Wettbewerbern erhöht die Chance, mehr Kunden anzuziehen",
+      "recomendation": "Analysieren Sie das Wettbewerberprofil und konzentrieren Sie sich auf Bereiche, in denen sie sich auszeichnen, z. B. bessere Bewertungen oder detailliertere Beschreibungen.",
       "legend": {
-        "avgRating": "Gem. Beoordeling",
-        "reviewCount": "Aantal Reviews"
+        "avgRating": "Durchschnittsbewertung",
+        "reviewCount": "Anzahl Bewertungen"
       },
       "tableHeaders": {
-        "name": "Bedrijfsnaam",
-        "rating": "Beoordeling",
-        "reviews": "Reviews"
+        "name": "Unternehmensname",
+        "rating": "Bewertung",
+        "reviews": "Bewertungen"
       }
     },
     "citation": {
-      "title": "Citation Concurrentieanalyse",
-      "impact": "Geen impact",
-      "result": "Resultaten van citationanalyse",
-      "why": "Citaties verbeteren de lokale SEO-ranking en geven geloofwaardigheid aan",
-      "recommendation": "Identificeer ontbrekende citaties en voeg uw bedrijf toe aan directories",
-      "chartTitle": "Citation Vergelijking",
+      "title": "Citation-Wettbewerbsanalyse",
+      "impact": "Keine Auswirkung",
+      "result": "Ergebnisse der Citation-Analyse",
+      "why": "Citations verbessern das lokale SEO-Ranking und signalisieren Glaubwürdigkeit",
+      "recommendation": "Identifizieren Sie Citation-Lücken und tragen Sie Ihr Unternehmen in Verzeichnisse ein",
+      "chartTitle": "Citation-Vergleich",
       "legend": {
-        "localCitations": "Lokale citaties"
+        "localCitations": "Lokale Citations"
       },
       "tableHeaders": {
-        "name": "Bedrijfsnaam",
-        "citations": "Lokale citaties"
+        "name": "Unternehmensname",
+        "citations": "Lokale Citations"
       }
     },
     "suggestions": {
-      "title": "Geavanceerde Suggesties Buiten Huidige Controles",
+      "title": "Erweiterte Vorschläge über die aktuellen Prüfungen hinaus",
       "tableHeaders": {
-        "suggestion": "Suggestie",
-        "impact": "Impactniveau"
+        "suggestion": "Vorschlag",
+        "impact": "Auswirkungsgrad"
       },
       "impactLevels": {
-        "high": "Hoge impact",
-        "moderate": "Gemiddelde impact",
-        "low": "Lage impact"
+        "high": "Hohe Auswirkung",
+        "moderate": "Mittlere Auswirkung",
+        "low": "Geringe Auswirkung"
       }
     },
     "summary": {
-      "title": "Samenvatting van Aanbevelingen",
-      "li1": "Voeg een werkende website-link toe.",
-      "li2": "Moedig tevreden klanten aan om reviews achter te laten.",
-      "li3": "Gemiddelde beoordeling is lager dan 4 sterren",
-      "li4": "Het logo is aanwezig en professioneel.",
-      "li5": "Werk uw openingstijden bij.",
-      "li6": "Minder dan 5 foto’s. Verbeter de foto’s"
+      "title": "Zusammenfassung der Empfehlungen",
+      "li1": "Fügen Sie einen funktionierenden Website-Link hinzu.",
+      "li2": "Ermutigen Sie zufriedene Kunden, Bewertungen zu hinterlassen.",
+      "li3": "Die Durchschnittsbewertung liegt unter 4 Sternen.",
+      "li4": "Das Logo ist vorhanden und professionell.",
+      "li5": "Aktualisieren Sie Ihre Geschäftszeiten.",
+      "li6": "Weniger als 5 Fotos. Fotos verbessern."
     }
   }
 }

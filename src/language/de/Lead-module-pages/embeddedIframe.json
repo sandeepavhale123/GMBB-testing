@@ -1,56 +1,57 @@
 {
-  "title": "Ingesloten Iframe",
-  "subtitle": "Genereer en beheer insluitbare leadformulieren",
+  "title": "Eingebettetes Iframe",
+  "subtitle": "Erstellen und verwalten Sie einbettbare Lead-Formulare",
 
   "configuration": {
-    "title": "Iframe-configuratie",
-    "description": "Pas uw insluitformuliersettings aan",
-    "formTitleLabel": "Formulier Titel",
-    "formTitlePlaceholder": "Voer formulier titel in",
-    "widthLabel": "Breedte",
+    "title": "Iframe-Konfiguration",
+    "description": "Passen Sie die Einstellungen Ihres eingebetteten Formulars an",
+    "formTitleLabel": "Formulartitel",
+    "formTitlePlaceholder": "Formulartitel eingeben",
+    "widthLabel": "Breite",
     "widthPlaceholder": "100%",
-    "heightLabel": "Hoogte",
+    "heightLabel": "Höhe",
     "heightPlaceholder": "400",
-    "showLogoLabel": "Bedrijfslogo weergeven",
-    "showLogoDescription": "Toon uw logo in het formulier",
-    "darkModeLabel": "Donkere modus inschakelen",
-    "darkModeDescription": "Laat gebruikers schakelen naar een donker thema",
-    "autoResizeLabel": "Automatisch aanpassen",
-    "autoResizeDescription": "Pas automatisch de iframe-hoogte aan",
-    "successMessageLabel": "Succesbericht",
-    "successMessagePlaceholder": "Bericht weergegeven na formulierinzending"
+    "showLogoLabel": "Firmenlogo anzeigen",
+    "showLogoDescription": "Ihr Logo im Formular anzeigen",
+    "darkModeLabel": "Dunkelmodus aktivieren",
+    "darkModeDescription": "Benutzern erlauben, das dunkle Thema zu aktivieren",
+    "autoResizeLabel": "Automatische Größenanpassung",
+    "autoResizeDescription": "Iframe-Höhe automatisch anpassen",
+    "successMessageLabel": "Erfolgsmeldung",
+    "successMessagePlaceholder": "Nach dem Absenden des Formulars angezeigte Nachricht"
   },
 
   "embedCode": {
-    "title": "Insluitcode",
-    "description": "Kopieer deze code om het formulier op uw website in te sluiten",
-    "copied": "Gekopieerd!",
-    "copy": "Kopiëren",
-    "preview": "Voorbeeld",
-    "test": "Formulier testen",
-    "tipsTitle": "Integratietips:",
-    "tips1": "Voeg het iframe toe aan elke HTML-pagina of CMS",
-    "tips2": "Het formulier past automatisch bij het thema van uw site",
-    "tips3": "Alle inzendingen worden vastgelegd in uw leaddashboard",
-    "tips4": "HTTPS is vereist voor iframe-insluiting"
+    "title": "Embed-Code",
+    "description": "Kopieren Sie diesen Code, um das Formular auf Ihrer Website einzubetten",
+    "copied": "Kopiert!",
+    "copy": "Kopieren",
+    "preview": "Vorschau",
+    "test": "Formular testen",
+    "tipsTitle": "Integrationstipps:",
+    "tips1": "Fügen Sie das Iframe auf jeder HTML-Seite oder CMS-Seite ein",
+    "tips2": "Das Formular passt sich automatisch an das Design Ihrer Website an",
+    "tips3": "Alle Einreichungen werden in Ihrem Lead-Dashboard erfasst",
+    "tips4": "HTTPS ist für das Einbetten des Iframes erforderlich"
   },
 
   "activeEmbeds": {
-    "title": "Actieve insluitingen",
-    "description": "Beheer uw geïmplementeerde iframe-formulieren",
-    "submissions": "Inzendingen"
+    "title": "Aktive Embeds",
+    "description": "Verwalten Sie Ihre eingesetzten Iframe-Formulare",
+    "submissions": "Einreichungen"
   },
 
   "statuses": {
-    "Active": "Actief",
-    "Inactive": "Inactief"
+    "Active": "Aktiv",
+    "Inactive": "Inaktiv"
   },
+
   "name": {
-    "home": "Contactformulier Startpagina",
-    "homeDom": "jouwsite.com",
-    "landing": "Formulier Landingspagina",
-    "landingDom": "landing.jouwsite.com",
-    "blog": "Formulier Blog Sidebar",
-    "blogDom": "blog.jouwsite.com"
+    "home": "Kontaktformular Startseite",
+    "homeDom": "ihrseite.com",
+    "landing": "Landingpage-Formular",
+    "landingDom": "landing.ihrseite.com",
+    "blog": "Blog-Sidebar-Formular",
+    "blogDom": "blog.ihrseite.com"
   }
 }

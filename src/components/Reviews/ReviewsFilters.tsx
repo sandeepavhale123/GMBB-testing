@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -15,7 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Search, X, RefreshCw } from "lucide-react";
+import { Search, X, RefreshCw, Filter } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
@@ -53,20 +53,33 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
   onRefresh,
 }) => {
   const { t } = useI18nNamespace("Reviews/reviewsFilters");
+  const [showFilters, setShowFilters] = useState(false);
+
   return (
     <div className="flex flex-wrap items-center gap-3 mt-4">
-      <div className="relative flex-1 min-w-[200px]">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-        <Input
-          placeholder={t("reviewsFilters.search.placeholder")}
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10"
-        />
+      <div className="flex items-center gap-2 w-full sm:w-auto sm:flex-1 sm:min-w-[200px]">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            placeholder={t("reviewsFilters.search.placeholder")}
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setShowFilters(!showFilters)}
+          className="sm:hidden"
+          aria-label="Toggle filters"
+        >
+          <Filter className="w-4 h-4" />
+        </Button>
       </div>
 
       <Select value={filter} onValueChange={onFilterChange}>
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className={`${showFilters ? 'flex' : 'hidden'} sm:flex w-full sm:w-[140px]`}>
           <SelectValue placeholder={t("reviewsFilters.filter.placeholder")} />
         </SelectTrigger>
         <SelectContent>
@@ -81,7 +94,7 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
       </Select>
 
       <Select value={sentimentFilter} onValueChange={onSentimentFilterChange}>
-        <SelectTrigger className="w-[130px]">
+        <SelectTrigger className={`${showFilters ? 'flex' : 'hidden'} sm:flex w-full sm:w-[130px]`}>
           <SelectValue
             placeholder={t("reviewsFilters.sentiment.placeholder")}
           />
@@ -103,7 +116,7 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
       </Select>
 
       <Select value={sortBy} onValueChange={onSortChange}>
-        <SelectTrigger className="w-[130px]">
+        <SelectTrigger className={`${showFilters ? 'flex' : 'hidden'} sm:flex w-full sm:w-[130px]`}>
           <SelectValue placeholder={t("reviewsFilters.sort.placeholder")} />
         </SelectTrigger>
         <SelectContent>
@@ -126,10 +139,10 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         date={localDateRange}
         onDateChange={onDateRangeChange}
         placeholder={t("reviewsFilters.dateRange.placeholder")}
-        className="w-[200px] max-w-[200]"
+        className={`${showFilters ? 'flex' : 'hidden'} sm:flex w-full sm:w-[200px] max-w-[200]`}
       />
 
-      <div className="flex items-center gap-2">
+      <div className={`${showFilters ? 'flex' : 'hidden'} sm:flex items-center gap-2 w-full sm:w-auto`}>
         {hasDateRange && (
           <Button
             variant="outline"

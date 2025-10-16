@@ -1,26 +1,26 @@
 {
   "leadsTable": {
     "headers": {
-      "businessName": "Bedrijfsnaam",
-      "email": "E-mail",
+      "businessName": "Unternehmensname",
+      "email": "E-Mail",
       "date": "Datum",
-      "category": "Categorie",
-      "reports": "Rapporten",
-      "actions": "Acties"
+      "category": "Kategorie",
+      "reports": "Berichte",
+      "actions": "Aktionen"
     },
     "reportLabels": {
-      "gmbHealthReport": "GMB Health-rapport",
+      "gmbHealthReport": "GMB-Gesundheitsbericht",
       "citationAudit": "Citation Audit",
-      "geoRanking": "GEO Ranking",
-      "gmbProspect": "GMB Prospect",
-      "onPageReport": "On-Page Rapport",
-      "noReports": "Geen rapporten"
+      "geoRanking": "GEO-Ranking",
+      "gmbProspect": "GMB-Interessentenbericht",
+      "onPageReport": "On-Page-Bericht",
+      "noReports": "Keine Berichte"
     },
     "fallbacks": {
-      "na": "N/B"
+      "na": "k.A."
     },
     "empty": {
-      "noLeads": "Geen leads gevonden. Voeg uw eerste lead toe om te beginnen."
+      "noLeads": "Keine Leads gefunden. Fügen Sie Ihren ersten Lead hinzu, um zu beginnen."
     }
   }
 }

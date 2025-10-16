@@ -19,7 +19,7 @@ interface AIContentModalProps {
   pageUrl: string;
   pageType: string;
   targetKeyword: string;
-  contentType: 'title' | 'meta-description' | 'alt-tag' | 'schema' | 'h1';
+  contentType: 'title' | 'meta-description' | 'alt-tags' | 'schema' | 'h1';
   currentContent?: string;
   onContentGenerated: (content: string) => void;
   trigger?: React.ReactNode;
@@ -46,6 +46,11 @@ export const AIContentModal: React.FC<AIContentModalProps> = ({
   const [generatedContent, setGeneratedContent] = React.useState('');
   const [customContent, setCustomContent] = React.useState('');
   const [copied, setCopied] = React.useState(false);
+
+  // Sync internal open state with initiallyOpen prop
+  React.useEffect(() => {
+    setOpen(initiallyOpen);
+  }, [initiallyOpen]);
 
   const generateContent = async () => {
     setIsGenerating(true);
@@ -103,7 +108,7 @@ export const AIContentModal: React.FC<AIContentModalProps> = ({
         return 'Page Title';
       case 'meta-description':
         return 'Meta Description';
-      case 'alt-tag':
+      case 'alt-tags':
         return 'Alt Text';
       case 'schema':
         return 'Schema Markup';
@@ -201,7 +206,7 @@ export const AIContentModal: React.FC<AIContentModalProps> = ({
               <div className="text-xs text-muted-foreground">
                 {contentType === 'title' && `Length: ${customContent.length}/60 characters`}
                 {contentType === 'meta-description' && `Length: ${customContent.length}/160 characters`}
-                {contentType === 'alt-tag' && `Length: ${customContent.length} characters`}
+                {contentType === 'alt-tags' && `Length: ${customContent.length} characters`}
                 {contentType === 'schema' && `JSON-LD schema markup`}
               </div>
 
@@ -241,12 +246,20 @@ export const AIContentModal: React.FC<AIContentModalProps> = ({
                   <li>• Highlight unique value proposition</li>
                 </>
               )}
-              {contentType === 'alt-tag' && (
+              {contentType === 'alt-tags' && (
                 <>
                   <li>• Be descriptive and specific</li>
                   <li>• Include keywords when relevant</li>
                   <li>• Keep it concise but informative</li>
                   <li>• Focus on image content and context</li>
+                </>
+              )}
+              {contentType === 'h1' && (
+                <>
+                  <li>• Include primary target keyword</li>
+                  <li>• Only one H1 tag per page</li>
+                  <li>• Make it clear and descriptive</li>
+                  <li>• Align with page title and content</li>
                 </>
               )}
               {contentType === 'schema' && (
@@ -255,6 +268,14 @@ export const AIContentModal: React.FC<AIContentModalProps> = ({
                   <li>• Include all relevant properties</li>
                   <li>• Validate with Google's tool</li>
                   <li>• Keep data accurate and up-to-date</li>
+                </>
+              )}
+              {!['title', 'meta-description', 'alt-tags', 'h1', 'schema'].includes(contentType) && (
+                <>
+                  <li>• Include relevant keywords naturally</li>
+                  <li>• Keep content clear and descriptive</li>
+                  <li>• Align with user search intent</li>
+                  <li>• Follow SEO best practices for your content type</li>
                 </>
               )}
             </ul>

@@ -1,0 +1,45 @@
+{
+  "leadClassifier": {
+    "title": "Classificatore Lead",
+    "description": "Classifica questo lead per organizzare e monitorare meglio le opportunità di business.",
+    "businessDetails": "Dettagli attività",
+    "businessName": "Nome attività",
+    "email": "Email",
+    "phone": "Telefono",
+    "website": "Sito web",
+    "address": "Indirizzo",
+    "leadCategory": "Categoria Lead",
+    "notProvided": "Non fornito",
+    "notClassified": "Non classificato",
+    "tabs": {
+      "webLead": "Lead Web",
+      "newClient": "Nuovo Cliente",
+      "badLead": "Lead Non Valido",
+      "other": "Altro"
+    },
+    "options": {
+      "1": "Identificato come Potenziale Nuovo Cliente",
+      "2": "Convertito",
+      "3": "Lead Caldi",
+      "4": "Lead Freddi",
+      "5": "Lead Persi",
+      "6": "Non è diventato Cliente (Altro)",
+      "7": "Diventato Cliente",
+      "8": "Spammer / Telemarketing",
+      "9": "Non Fornisce Questo Servizio",
+      "10": "Identificato come Cliente Esistente",
+      "11": "Probabile Referenza",
+      "12": "Riagganciato / Non Risposto / Sconosciuto",
+      "13": "Altro"
+    },
+    "selectClassification": "Seleziona classificazione {{category}}:",
+    "leadNotes": "Note Lead",
+    "notesPlaceholder": "Aggiungi eventuali note aggiuntive su questo lead...",
+    "cancel": "Annulla",
+    "save": "Salva Classificazione",
+    "errors": {
+      "selectClassification": "Seleziona una classificazione per il lead",
+      "leadUnavailable": "I dati del lead non sono disponibili"
+    }
+  }
+}

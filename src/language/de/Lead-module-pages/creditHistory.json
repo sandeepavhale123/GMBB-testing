@@ -1,35 +1,35 @@
 {
-  "pageTitle": "Creditsgeschiedenis",
-  "pageDescription": "Volg uw creditgebruik en aankopen.",
-  "buyCredits": "Credits kopen",
+  "pageTitle": "Guthabenverlauf",
+  "pageDescription": "Verfolgen Sie Ihre Guthabennutzung und Käufe.",
+  "buyCredits": "Guthaben kaufen",
 
-  "currentCredits": "Huidige credits",
-  "currentCreditsSub": "Beschikbaar voor gebruik",
-  "creditsUsed": "Gebruikte credits",
-  "creditsUsedSub": "Verbruikte credits",
-  "totalAllocated": "Totaal toegewezen",
-  "totalAllocatedSub": "Totale credits",
+  "currentCredits": "Aktuelles Guthaben",
+  "currentCreditsSub": "Verfügbar zur Nutzung",
+  "creditsUsed": "Verbrauchtes Guthaben",
+  "creditsUsedSub": "Genutztes Guthaben",
+  "totalAllocated": "Gesamt zugeteilt",
+  "totalAllocatedSub": "Gesamtes Guthaben",
 
-  "creditUsageTitle": "Creditgebruik",
-  "creditUsageDescription": "Uw huidige creditverbruik.",
-  "usedLabel": "Gebruikt: {{used}} credits",
-  "availableLabel": "Beschikbaar: {{available}} credits",
-  "loadingUsage": "Kan creditgebruiksgegevens niet laden",
+  "creditUsageTitle": "Guthabenverbrauch",
+  "creditUsageDescription": "Ihr aktueller Guthabenverbrauch.",
+  "usedLabel": "Verbraucht: {{used}} Guthaben",
+  "availableLabel": "Verfügbar: {{available}} Guthaben",
+  "loadingUsage": "Guthabenverbrauch konnte nicht geladen werden",
 
-  "historyTitle": "Creditsgeschiedenis",
-  "searchPlaceholder": "Zoek op bedrijfsnaam...",
+  "historyTitle": "Guthabenverlauf",
+  "searchPlaceholder": "Nach Unternehmensname suchen...",
 
   "table": {
-    "businessName": "Bedrijfsnaam",
-    "reportType": "Rapporttype",
-    "credit": "Credit",
+    "businessName": "Unternehmensname",
+    "reportType": "Berichtstyp",
+    "credit": "Guthaben",
     "date": "Datum"
   },
 
-  "noHistoryTitle": "Geen creditsgeschiedenis gevonden",
-  "noHistoryDescription": "Uw creditgebruik wordt hier weergegeven",
-  "noSearchResults": "Probeer uw zoekopdracht aan te passen",
+  "noHistoryTitle": "Kein Guthabenverlauf gefunden",
+  "noHistoryDescription": "Ihre Guthabennutzung wird hier angezeigt",
+  "noSearchResults": "Versuchen Sie, Ihre Suche anzupassen",
 
-  "loadErrorTitle": "Kan creditsgeschiedenis niet laden",
-  "loadErrorDescription": "Probeer het later opnieuw"
+  "loadErrorTitle": "Guthabenverlauf konnte nicht geladen werden",
+  "loadErrorDescription": "Bitte versuchen Sie es später erneut"
 }

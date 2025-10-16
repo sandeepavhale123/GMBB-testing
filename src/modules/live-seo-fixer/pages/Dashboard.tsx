@@ -6,10 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ProjectCard } from '../components/ProjectCard';
-import { ProjectCreateModal } from '../components/ProjectCreateModal';
 import { Project } from '../types/Project';
-import { fetchProjects, createProject, updateProjectStatus, deleteProject } from '@/services/liveSeoFixer';
-import { BarChart3, CheckCircle, AlertCircle, Clock, Search, Loader2 } from 'lucide-react';
+import { fetchProjects, updateProjectStatus, deleteProject } from '@/services/liveSeoFixer';
+import { BarChart3, CheckCircle, AlertCircle, Clock, Search, Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const Dashboard: React.FC = () => {
@@ -47,18 +46,6 @@ export const Dashboard: React.FC = () => {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Create project mutation
-  const createProjectMutation = useMutation({
-    mutationFn: createProject,
-    onSuccess: (response) => {
-      toast.success('Project created successfully!');
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to create project');
-    },
-  });
-
   // Update project status mutation
   const updateStatusMutation = useMutation({
     mutationFn: ({ projectId, status }: { projectId: string; status: 'active' | 'paused' | 'completed' }) =>
@@ -83,10 +70,6 @@ export const Dashboard: React.FC = () => {
       toast.error(error.response?.data?.message || 'Failed to delete project');
     },
   });
-
-  const handleCreateProject = (data: { name: string; website: string; address?: string; phone?: string }) => {
-    createProjectMutation.mutate(data);
-  };
 
   const handleEditProject = (project: Project) => {
     navigate(`/module/live-seo-fixer/projects/${project.id}`);
@@ -119,7 +102,13 @@ export const Dashboard: React.FC = () => {
             Monitor and optimize your websites for better search engine performance.
           </p>
         </div>
-        <ProjectCreateModal onCreateProject={handleCreateProject} />
+        <Button 
+          onClick={() => navigate('/module/live-seo-fixer/create-project')}
+          className="flex items-center gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          Create New Project
+        </Button>
       </div>
 
       {/* Summary Cards */}
@@ -241,7 +230,13 @@ export const Dashboard: React.FC = () => {
                 }
               </CardDescription>
               {!searchTerm && statusFilter === 'all' && (
-                <ProjectCreateModal onCreateProject={handleCreateProject} />
+                <Button 
+                  onClick={() => navigate('/module/live-seo-fixer/create-project')}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Create New Project
+                </Button>
               )}
             </CardContent>
           </Card>

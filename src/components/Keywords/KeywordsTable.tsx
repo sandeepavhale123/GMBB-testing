@@ -34,7 +34,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Checkbox } from "../ui/checkbox";
-import { MoreVertical, Eye, Trash, RefreshCw, Info } from "lucide-react";
+import { MoreVertical, Eye, Trash, RefreshCw, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -238,7 +238,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   return (
     <div className="space-y-4">
       {selectedKeywords.length > 0 && (
-        <div className="mb-4 flex items-center gap-4 p-4 bg-muted rounded-lg">
+        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-muted rounded-lg">
           <span className="text-sm text-muted-foreground">
             {t("keywordsTable.bulkActions.selected", {
               count: selectedKeywords.length,
@@ -257,6 +257,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 size="sm"
                 onClick={handleBulkDelete}
                 disabled={deleteLoading}
+                className="w-full sm:w-auto"
               >
                 {deleteLoading ? (
                   <>
@@ -303,6 +304,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             variant="outline"
             size="sm"
             onClick={() => setSelectedKeywords([])}
+            className="w-full sm:w-auto"
           >
             {t("keywordsTable.bulkActions.clear")}
           </Button>
@@ -499,8 +501,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               size="sm"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage <= 1}
+              className="flex items-center gap-1"
             >
-              {t("keywordsTable.pagination.previous")}
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.previous")}</span>
             </Button>
             <span className="text-sm">
               {t("keywordsTable.pagination.page", {
@@ -514,8 +518,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               size="sm"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
+              className="flex items-center gap-1"
             >
-              {t("keywordsTable.pagination.next")}
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.next")}</span>
+              <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
         </div>
