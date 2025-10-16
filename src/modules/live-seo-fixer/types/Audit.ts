@@ -62,7 +62,7 @@ export interface AIContentRequest {
   pageType: string;
   targetKeyword: string;
   currentContent?: string;
-  contentType: 'title' | 'meta-description' | 'alt-tag' | 'schema';
+  contentType: 'title' | 'meta-description' | 'alt-tags' | 'schema';
 }
 
 export interface AIContentResponse {

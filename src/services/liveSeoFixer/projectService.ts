@@ -44,6 +44,14 @@ export const createProject = async (data: {
   name: string;
   website: string;
   address?: string;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
+  place_id?: string;
+  latitude?: string;
+  longitude?: string;
   phone?: string;
   schema_types?: string[];
 }): Promise<{ code: number; message: string; data: { project: any } }> => {

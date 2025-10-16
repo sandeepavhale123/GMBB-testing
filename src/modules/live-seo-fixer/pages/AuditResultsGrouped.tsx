@@ -26,8 +26,10 @@ import {
   Ruler,
   Link2,
   Share2,
+  Eye,
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   getAuditResultsGrouped,
   applyFixesBulk,
@@ -44,6 +46,7 @@ import { toast } from "sonner";
 import { JSSnippetModal } from "../components/JSSnippetModal";
 import { EditFixModal } from "../components/EditFixModal";
 import { AIContentModal } from "../components/AIContentModal";
+import { SchemaViewModal } from "../components/SchemaViewModal";
 import { useToast } from "@/hooks/use-toast";
 
 export const AuditResultsGrouped: React.FC = () => {
@@ -59,6 +62,7 @@ export const AuditResultsGrouped: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const [editingIssue, setEditingIssue] = React.useState<any>(null);
   const [regeneratingIssue, setRegeneratingIssue] = React.useState<any>(null);
+  const [viewingSchema, setViewingSchema] = React.useState<{ data: string; title: string } | null>(null);
 
   // Fetch project details
   const { data: projectData } = useQuery({
@@ -313,6 +317,7 @@ export const AuditResultsGrouped: React.FC = () => {
           schemaData: issue.fix?.content || issue.suggested_value || issue.current_value,
           issueId: issue.id.toString(),
           auditId: auditId,
+          schemaRequirements: issue.schema_requirements || {},
         },
       });
     } else {
@@ -608,6 +613,7 @@ export const AuditResultsGrouped: React.FC = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[120px]">STATUS</TableHead>
+                      {selectedCategory === "alt-tags" && <TableHead className="w-[200px]">IMAGE</TableHead>}
                       <TableHead className="w-[200px]">PAGE URL</TableHead>
                       <TableHead>ORIGINAL VALUE</TableHead>
                       <TableHead>SUGGESTED FIX</TableHead>
@@ -616,7 +622,10 @@ export const AuditResultsGrouped: React.FC = () => {
                   <TableBody>
                     {paginatedIssues.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={selectedCategory === "alt-tags" ? 5 : 4}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           No issues found matching your filters
                         </TableCell>
                       </TableRow>
@@ -658,79 +667,187 @@ export const AuditResultsGrouped: React.FC = () => {
                                 {isApproved ? "Approved" : "Approve"}
                               </Button>
                             </TableCell>
+                            {selectedCategory === "alt-tags" && (
+                              <TableCell>
+                                {issue.image_url ? (
+                                  <TooltipProvider>
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <a
+                                          href={issue.image_url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-blue-600 hover:underline text-xs block"
+                                        >
+                                          {issue.image_url.length > 30
+                                            ? issue.image_url.substring(0, 30) + "..."
+                                            : issue.image_url}
+                                        </a>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p className="max-w-md break-all">{issue.image_url}</p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </TooltipProvider>
+                                ) : (
+                                  <span className="text-xs text-muted-foreground">No image</span>
+                                )}
+                              </TableCell>
+                            )}
+
                             <TableCell>
-                              <a
-                                href={issue?.page?.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline text-sm"
-                              >
-                                {issue?.page?.url?.length > 30
-                                  ? issue.page.url.substring(0, 30) + "..."
-                                  : issue.page.url}
-                              </a>
+                              {issue?.page?.url ? (
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <a
+                                        href={issue.page.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline text-xs block"
+                                      >
+                                        {issue.page.url.length > 30
+                                          ? issue.page.url.substring(0, 30) + "..."
+                                          : issue.page.url}
+                                      </a>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p className="max-w-md break-all">{issue.page.url}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              ) : (
+                                <span className="text-xs text-muted-foreground">No page URL</span>
+                              )}
                             </TableCell>
+
                             <TableCell>
                               <div className="space-y-2">
-                                <div className="text-[11px] text-muted-foreground">{originalTitle}</div>
-                                {originalProgress && (
-                                  <div className="flex items-center gap-2">
-                                    <div
-                                      className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
-                                      title={valueStats?.recommended?.description || ""}
-                                    >
-                                      <div
-                                        className={`h-2 rounded-full ${originalProgress.color}`}
-                                        style={{ width: `${originalProgress.percentage}%` }}
-                                      />
+                                {issue.type === "schema" ? (
+                                  originalTitle !== "Missing" ? (
+                                    <div className="flex items-center gap-2">
+                                      <div className="text-[11px] text-muted-foreground flex-1">Schema present</div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() =>
+                                          setViewingSchema({
+                                            data: originalTitle,
+                                            title: "Original Schema",
+                                          })
+                                        }
+                                      >
+                                        <Eye className="h-3 w-3" />
+                                      </Button>
                                     </div>
-                                    <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                      {originalProgress.length} / {originalProgress.optimalMin}-
-                                      {originalProgress.optimalMax}
-                                    </span>
-                                  </div>
+                                  ) : (
+                                    <div className="text-[11px] text-muted-foreground">Missing</div>
+                                  )
+                                ) : (
+                                  <>
+                                    <div className="text-[11px] text-muted-foreground">{originalTitle}</div>
+                                    {originalProgress && (
+                                      <div className="flex items-center gap-2">
+                                        <div
+                                          className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
+                                          title={valueStats?.recommended?.description || ""}
+                                        >
+                                          <div
+                                            className={`h-2 rounded-full ${originalProgress.color}`}
+                                            style={{ width: `${originalProgress.percentage}%` }}
+                                          />
+                                        </div>
+                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                          {originalProgress.length} / {originalProgress.optimalMin}-
+                                          {originalProgress.optimalMax}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                             </TableCell>
                             <TableCell>
                               <div className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="font-semibold text-[11px] flex-1">{suggestedTitle}</div>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-6 w-6"
-                                    onClick={() => handleEditIssue(issue)}
-                                  >
-                                    <Edit className="h-3 w-3" />
-                                  </Button>
-                                  {issue.type !== "schema" && (
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-6 w-6"
-                                      onClick={() => handleRegenerateIssue(issue)}
-                                    >
-                                      <RefreshCw className="h-3 w-3" />
-                                    </Button>
-                                  )}
-                                </div>
-                                {suggestedProgress && (
-                                  <div className="flex items-center gap-2">
-                                    <div
-                                      className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
-                                      title={valueStats?.recommended?.description || ""}
-                                    >
-                                      <div
-                                        className={`h-2 rounded-full ${suggestedProgress.color}`}
-                                        style={{ width: `${suggestedProgress.percentage}%` }}
-                                      />
+                                {issue.type === "schema" ? (
+                                  suggestedTitle !== "No suggestion" ? (
+                                    <div className="flex items-center gap-2">
+                                      <div className="font-semibold text-[11px] flex-1">Schema suggested</div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() =>
+                                          setViewingSchema({
+                                            data: suggestedTitle,
+                                            title: "Suggested Schema",
+                                          })
+                                        }
+                                      >
+                                        <Eye className="h-3 w-3" />
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() => handleEditIssue(issue)}
+                                      >
+                                        <Edit className="h-3 w-3" />
+                                      </Button>
                                     </div>
-                                    <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                      {suggestedProgress.length} / {suggestedProgress.optimalMin}-
-                                      {suggestedProgress.optimalMax}
-                                    </span>
-                                  </div>
+                                  ) : (
+                                    <div className="flex items-center gap-2">
+                                      <div className="font-semibold text-[11px] flex-1">No suggestion</div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() => handleEditIssue(issue)}
+                                      >
+                                        <Edit className="h-3 w-3" />
+                                      </Button>
+                                    </div>
+                                  )
+                                ) : (
+                                  <>
+                                    <div className="flex items-center gap-2">
+                                      <div className="font-semibold text-[11px] flex-1">{suggestedTitle}</div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() => handleEditIssue(issue)}
+                                      >
+                                        <Edit className="h-3 w-3" />
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() => handleRegenerateIssue(issue)}
+                                      >
+                                        <RefreshCw className="h-3 w-3" />
+                                      </Button>
+                                    </div>
+                                    {suggestedProgress && (
+                                      <div className="flex items-center gap-2">
+                                        <div
+                                          className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
+                                          title={valueStats?.recommended?.description || ""}
+                                        >
+                                          <div
+                                            className={`h-2 rounded-full ${suggestedProgress.color}`}
+                                            style={{ width: `${suggestedProgress.percentage}%` }}
+                                          />
+                                        </div>
+                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                          {suggestedProgress.length} / {suggestedProgress.optimalMin}-
+                                          {suggestedProgress.optimalMax}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                             </TableCell>
@@ -837,6 +954,16 @@ export const AuditResultsGrouped: React.FC = () => {
           trigger={null}
           initiallyOpen={true}
           onClose={() => setRegeneratingIssue(null)}
+        />
+      )}
+
+      {/* Schema View Modal */}
+      {viewingSchema && (
+        <SchemaViewModal
+          open={!!viewingSchema}
+          onOpenChange={(open) => !open && setViewingSchema(null)}
+          schemaData={viewingSchema.data}
+          title={viewingSchema.title}
         />
       )}
     </div>

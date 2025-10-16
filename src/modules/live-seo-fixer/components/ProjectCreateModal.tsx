@@ -26,12 +26,21 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Plus } from 'lucide-react';
 import { NicheSelector } from './NicheSelector';
+import { GooglePlacesAddressInput, AddressComponents } from './GooglePlacesAddressInput';
 
 const createProjectSchema = z.object({
   name: z.string().min(1, 'Business name is required').max(100, 'Business name must be less than 100 characters'),
   website: z.string().url('Please enter a valid website URL'),
   schema_types: z.array(z.string()).min(1, 'Please select a niche'),
   address: z.string().optional(),
+  street_address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postal_code: z.string().optional(),
+  country: z.string().optional(),
+  place_id: z.string().optional(),
+  latitude: z.string().optional(),
+  longitude: z.string().optional(),
   phone: z.string().optional(),
 });
 
@@ -57,9 +66,33 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
       website: '',
       schema_types: [],
       address: '',
+      street_address: '',
+      city: '',
+      state: '',
+      postal_code: '',
+      country: '',
+      place_id: '',
+      latitude: '',
+      longitude: '',
       phone: '',
     },
   });
+
+  const handlePlaceSelected = (addressData: AddressComponents) => {
+    form.setValue('address', addressData.full_address);
+    form.setValue('street_address', addressData.street_address);
+    form.setValue('city', addressData.city);
+    form.setValue('state', addressData.state);
+    form.setValue('postal_code', addressData.postal_code);
+    form.setValue('country', addressData.country);
+    form.setValue('place_id', addressData.place_id);
+    form.setValue('latitude', addressData.latitude);
+    form.setValue('longitude', addressData.longitude);
+    
+    if (addressData.phone && !form.getValues('phone')) {
+      form.setValue('phone', addressData.phone);
+    }
+  };
 
 
   const onSubmit = (data: CreateProjectForm) => {
@@ -72,7 +105,7 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger || (
-          <Button className="flex items-center gap-2 w-full sm:w-auto">
+          <Button className="flex items-center gap-2">
             <Plus size={16} />
             Create New Project
           </Button>
@@ -146,9 +179,11 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
                 <FormItem>
                   <FormLabel>Address (Optional)</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="123 Main St, City, State" 
-                      {...field} 
+                    <GooglePlacesAddressInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      onPlaceSelected={handlePlaceSelected}
+                      placeholder="Search business address"
                     />
                   </FormControl>
                   <FormMessage />
