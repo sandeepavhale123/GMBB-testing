@@ -72,7 +72,7 @@ export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger || (
-          <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2 w-full sm:w-auto">
             <Plus size={16} />
             Create New Project
           </Button>
