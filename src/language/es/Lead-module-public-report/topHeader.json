@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Ranking del Informe",
+    "defaultSubtitle": "Informes Profesionales de Negocios",
+    "navigation": {
+      "overall": "General",
+      "presence": "Presencia",
+      "posts": "Publicaciones",
+      "competitors": "Competidores",
+      "reviews": "Reseñas"
+    },
+    "menu": {
+      "toggle": "Alternar menú de navegación"
+    }
+  }
+}

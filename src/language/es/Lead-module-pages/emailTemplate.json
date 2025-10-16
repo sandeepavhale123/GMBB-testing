@@ -1,0 +1,51 @@
+{
+  "title": "Plantillas de correo electrónico",
+  "subtitle": "Crea y administra tus plantillas de correo electrónico",
+  "newTemplate": "Nueva plantilla",
+
+  "templateList": {
+    "title": "Plantillas",
+    "description": "Administra tus plantillas de correo electrónico"
+  },
+
+  "editor": {
+    "title": "Editor de plantillas",
+    "description": "Edita el contenido de tu plantilla de correo electrónico",
+    "nameLabel": "Nombre de la plantilla",
+    "namePlaceholder": "Ingrese el nombre de la plantilla",
+    "subjectLabel": "Asunto",
+    "subjectPlaceholder": "Ingrese el asunto del correo",
+    "contentLabel": "Contenido del correo",
+    "contentPlaceholder": "Ingresa aquí el contenido de tu correo...",
+    "variablesTitle": "Variables disponibles"
+  },
+
+  "buttons": {
+    "preview": "Vista previa",
+    "saveDraft": "Guardar como borrador",
+    "saveActivate": "Guardar y activar"
+  },
+
+  "statuses": {
+    "Active": "Activo",
+    "Draft": "Borrador",
+    "Inactive": "Inactivo"
+  },
+
+  "template": {
+    "welcome": "Correo de bienvenida",
+    "welcomeMod": "Hace 2 días",
+    "follow": "Secuencia de seguimiento",
+    "followMod": "Hace 1 semana",
+    "news": "Plantilla de boletín",
+    "newsMod": "Hace 3 días",
+    "promo": "Oferta promocional",
+    "promoMod": "Hace 2 semanas"
+  },
+
+  "input": {
+    "email": "Correo de bienvenida",
+    "subject": "¡Bienvenido a nuestro servicio!",
+    "emailContent": "Hola {{firstName}},\n\n¡Bienvenido a nuestro servicio! Estamos emocionados de tenerte a bordo.\n\nEsto es lo que puedes esperar:\n- Gestión personalizada de leads\n- Análisis e informes avanzados\n- Soporte al cliente 24/7\n\nSi tienes alguna pregunta, no dudes en contactarnos.\n\nSaludos cordiales,\nEl equipo"
+  }
+}

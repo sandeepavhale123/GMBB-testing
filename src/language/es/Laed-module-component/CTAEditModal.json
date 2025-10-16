@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Editar configuración de CTA de llamada",
+    "editTitleAppointment": "Editar configuración de CTA de cita",
+    "editDescription": "Personaliza el encabezado de la llamada a la acción, la descripción, el texto del botón y el enlace.",
+    "visibilityLabel": "Mostrar CTA en los informes",
+    "visibilityHelp": "Alterna para mostrar u ocultar esta sección de CTA en los informes generados.",
+    "headerLabel": "Encabezado de CTA",
+    "headerPlaceholder": "Ingrese el texto del encabezado del CTA",
+    "descriptionLabel": "Descripción de CTA",
+    "descriptionPlaceholder": "Ingrese el texto de la descripción del CTA",
+    "buttonLabel": "Etiqueta del botón",
+    "buttonPlaceholder": "Ingrese el texto del botón",
+    "buttonLinkLabel": "Enlace del botón",
+    "buttonLinkPlaceholder": "https://example.com o #contact",
+    "buttonLinkHelp": "Ingrese una URL completa (https://...) o deje vacío para ningún enlace.",
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "toast": {
+      "validationTitle": "Error de validación",
+      "validationDescription": "Por favor corrija los errores antes de guardar.",
+      "saveSuccessTitle": "Configuración de CTA guardada",
+      "saveSuccessDescription": "Su llamada a la acción se ha actualizado correctamente.",
+      "saveFailTitle": "Error al guardar",
+      "saveFailDescription": "No se pudo guardar la configuración del CTA. Por favor, inténtelo de nuevo."
+    },
+    "default": {
+      "header": "MEJORA TU PUNTUACIÓN GBP &&& Incrementa tus llamadas",
+      "description": "Aprende cómo pagar un mes de salario a tus empleados simplemente arreglando lo que está roto. ¡Obtén tu guía gratuita para superar a la competencia!",
+      "buttonLabel": "RESERVAR UNA LLAMADA",
+      "buttonLinkLabel": "#contact"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "report": {
+    "title": "Informe de Prospectos de GMB",
+    "loading": "Cargando informe...",
+    "error": "No se pudo cargar el informe de prospectos",
+    "introductionTitle": "Introducción",
+    "introductionDesc": "Hola, gracias por evaluar tu perfil de Google My Business (GMB). A continuación se muestran los resultados de nuestra evaluación de 10 puntos.",
+    "atAGlance": "Tu informe de GMB de un vistazo",
+    "failedTests": {
+      "title": "Pruebas fallidas",
+      "desc": "Áreas que necesitan atención"
+    },
+    "passedTests": {
+      "title": "Pruebas aprobadas",
+      "desc": "Áreas que funcionan correctamente"
+    },
+    "breakdownTitle": "Desglose detallado",
+    "whyItMatters": "Por qué importa:",
+    "recommendation": "Recomendación:",
+    "passed": "Aprobado",
+    "failed": "Fallido",
+    "competitor": {
+      "title": "Análisis de Competidores",
+      "chartTitle": "Análisis de Competidores",
+      "impact": "Sin impacto",
+      "listingDesc": "El listado supera o iguala a sus competidores en áreas clave",
+      "why": "destacarse entre los competidores aumenta la probabilidad de atraer más clientes",
+      "recomendation": "analiza el perfil de los competidores y enfócate en áreas donde sobresalen, como mejor calificación o descripción más detallada.",
+      "legend": {
+        "avgRating": "Calificación promedio",
+        "reviewCount": "Cantidad de reseñas"
+      },
+      "tableHeaders": {
+        "name": "Nombre del negocio",
+        "rating": "Calificación",
+        "reviews": "Reseñas"
+      }
+    },
+    "citation": {
+      "title": "Análisis de Competencia de Citas",
+      "impact": "Sin impacto",
+      "result": "Resultados del análisis de citas",
+      "why": "Las citas mejoran el ranking SEO local y señalan credibilidad",
+      "recommendation": "Identifica las brechas de citas y registra tu negocio en directorios",
+      "chartTitle": "Comparación de citas",
+      "legend": {
+        "localCitations": "Citas locales"
+      },
+      "tableHeaders": {
+        "name": "Nombre del negocio",
+        "citations": "Citas locales"
+      }
+    },
+    "suggestions": {
+      "title": "Sugerencias avanzadas más allá de las comprobaciones actuales",
+      "tableHeaders": {
+        "suggestion": "Sugerencia",
+        "impact": "Nivel de impacto"
+      },
+      "impactLevels": {
+        "high": "Alto impacto",
+        "moderate": "Impacto moderado",
+        "low": "Bajo impacto"
+      }
+    },
+    "summary": {
+      "title": "Resumen de recomendaciones",
+      "li1": "Agregar un enlace de sitio web funcional.",
+      "li2": "Incentivar a los clientes satisfechos a dejar reseñas.",
+      "li3": "La calificación promedio es inferior a 4 estrellas.",
+      "li4": "El logo está presente y es profesional.",
+      "li5": "Actualiza tu horario comercial.",
+      "li6": "Menos de 5 fotos. Mejora las fotos."
+    }
+  }
+}

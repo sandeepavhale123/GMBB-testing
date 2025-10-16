@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Historial de Créditos",
+  "pageDescription": "Realiza un seguimiento de tu uso de créditos y compras.",
+  "buyCredits": "Comprar créditos",
+
+  "currentCredits": "Créditos actuales",
+  "currentCreditsSub": "Disponibles para usar",
+  "creditsUsed": "Créditos usados",
+  "creditsUsedSub": "Créditos consumidos",
+  "totalAllocated": "Total asignado",
+  "totalAllocatedSub": "Total de créditos",
+
+  "creditUsageTitle": "Uso de créditos",
+  "creditUsageDescription": "Tu consumo actual de créditos.",
+  "usedLabel": "Usados: {{used}} créditos",
+  "availableLabel": "Disponibles: {{available}} créditos",
+  "loadingUsage": "No se pudieron cargar los datos de uso de créditos",
+
+  "historyTitle": "Historial de créditos",
+  "searchPlaceholder": "Buscar por nombre de negocio...",
+
+  "table": {
+    "businessName": "Nombre del negocio",
+    "reportType": "Tipo de informe",
+    "credit": "Crédito",
+    "date": "Fecha"
+  },
+
+  "noHistoryTitle": "No se encontró historial de créditos",
+  "noHistoryDescription": "Tu uso de créditos aparecerá aquí",
+  "noSearchResults": "Intenta ajustar tu búsqueda",
+
+  "loadErrorTitle": "No se pudo cargar el historial de créditos",
+  "loadErrorDescription": "Por favor, inténtalo de nuevo más tarde"
+}

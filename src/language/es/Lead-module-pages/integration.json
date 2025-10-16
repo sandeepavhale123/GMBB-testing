@@ -1,0 +1,61 @@
+{
+  "title": "Integraciones",
+  "subtitle": "Conecta tu gestión de leads con otras herramientas",
+  "availableIntegrations": {
+    "title": "Integraciones disponibles",
+    "description": "Conéctate con tus herramientas y servicios favoritos"
+  },
+  "statuses": {
+    "Connected": "Conectado",
+    "Available": "Disponible",
+    "Success": "Éxito",
+    "Error": "Error"
+  },
+  "buttons": {
+    "configure": "Configurar",
+    "connect": "Conectar",
+    "saveApiSettings": "Guardar configuración de API"
+  },
+  "apiSettings": {
+    "title": "Configuración de API",
+    "description": "Administra tu acceso a la API y webhooks",
+    "apiKeyLabel": "Clave API",
+    "webhookUrlLabel": "URL del Webhook",
+    "webhooksPlaceholder": "https://tuapp.com/webhook",
+    "webhookToggleLabel": "Habilitar Webhooks",
+    "webhookToggleDescription": "Enviar datos en tiempo real a tu endpoint",
+    "usageTitle": "Uso de API",
+    "requests": "Solicitudes este mes",
+    "rateLimit": "Límite de velocidad"
+  },
+  "activity": {
+    "title": "Actividad de integración",
+    "description": "Eventos recientes de sincronización e integración"
+  },
+  "integration": {
+    "sales": "Salesforce",
+    "slaesDesc": "Sincroniza leads con tu CRM de Salesforce",
+    "salesSync": "Hace 2 horas",
+    "salesAct": "12 nuevos leads sincronizados",
+    "hub": "HubSpot",
+    "hubDesc": "Importa contactos y realiza seguimiento de interacciones",
+    "hubAct": "Conexión fallida - Tiempo de espera de la API",
+    "hubTime": "Hace 6 horas",
+    "email": "Mailchimp",
+    "emailDesc": "Agrega leads a campañas de email marketing",
+    "emailSync": "Hace 1 hora",
+    "emailAct": "5 contactos añadidos a la campaña",
+    "emailTime": "Hace 3 horas",
+    "slack": "Slack",
+    "slackDesc": "Recibe notificaciones de nuevos leads en Slack",
+    "slackSync": "Hace 30 minutos",
+    "slackAct": "Notificación de nuevo lead enviada",
+    "slackTime": "Hace 4 horas",
+    "zapier": "Zapier",
+    "zapierDesc": "Conéctate con más de 5000 apps mediante Zapier",
+    "google": "Google Sheets",
+    "googleDesc": "Exporta leads automáticamente a Google Sheets",
+    "googleAct": "25 leads exportados a la hoja de cálculo",
+    "googleTime": "Hace 1 día"
+  }
+}

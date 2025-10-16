@@ -1,0 +1,19 @@
+{
+  "leadFilters": {
+    "searchPlaceholder": "Buscar por nombre del negocio o correo electrónico",
+    "emailPlaceholder": "Filtrar por correo electrónico...",
+    "categoryPlaceholder": "Categoría",
+    "allCategories": "Todas las categorías",
+    "clear": "Limpiar",
+    "categories": {
+      "Restaurant": "Restaurante",
+      "Retail": "Comercio minorista",
+      "Healthcare": "Salud",
+      "Technology": "Tecnología",
+      "Services": "Servicios",
+      "Real_Estate": "Bienes raíces",
+      "Finance": "Finanzas",
+      "Other": "Otro"
+    }
+  }
+}

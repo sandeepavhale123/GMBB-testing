@@ -1,0 +1,52 @@
+{
+  "addLead": {
+    "title": "Agregar nuevo lead",
+    "button": "Agregar lead",
+    "cancel": "Cancelar",
+    "adding": "Agregando lead...",
+    "inputMethod": {
+      "label": "¿Cómo desea agregar los detalles del negocio?",
+      "name": "Sugerencia automática de Google",
+      "url": "URL de Google Maps",
+      "cid": "CID del listado"
+    },
+    "fields": {
+      "businessName": "Buscar por nombre de negocio",
+      "businessPlaceholder": "Buscar nombre de negocio...",
+      "mapUrl": "URL de Google Maps",
+      "mapUrlPlaceholder": "Ingrese la URL de Google Maps",
+      "cid": "CID del listado",
+      "cidPlaceholder": "Ingrese el CID",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Ingrese la dirección de correo electrónico",
+      "phone": "Número de teléfono",
+      "phonePlaceholder": "Ingrese el número de teléfono",
+      "location": "Latitud, longitud o ciudad",
+      "locationPlaceholder": "Ingrese la latitud, longitud o ciudad",
+      "keyword": "Palabra clave personalizada",
+      "keywordPlaceholder": "Ingrese palabra clave personalizada",
+      "optionalDetails": "Agregar detalles opcionales"
+    },
+    "validation": {
+      "emailInvalid": "Por favor ingrese un correo electrónico válido",
+      "businessNameRequired": "Por favor seleccione un negocio.",
+      "cidInvalid": "No se pudo resolver el CID. Por favor seleccione la sugerencia nuevamente o use URL de mapa/CID.",
+      "mapUrlRequired": "Se requiere la URL de Google Maps.",
+      "cidNumeric": "Por favor ingrese un CID numérico válido."
+    },
+    "success": {
+      "title": "Éxito",
+      "description": "Lead agregado con éxito"
+    },
+    "error": {
+      "validationTitle": "Error de validación",
+      "validationDesc": "Por favor corrija los errores e intente nuevamente.",
+      "addFailedTitle": "Error al agregar lead",
+      "addFailedDesc": "Por favor intente nuevamente."
+    },
+    "notes": {
+      "latitudeLongitude": "La latitud y longitud deben ingresarse de la siguiente manera: lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "El texto libre debe ingresarse de la siguiente manera: Ciudad, Estado, País"
+    }
+  }
+}

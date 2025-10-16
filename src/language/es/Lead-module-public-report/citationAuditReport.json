@@ -1,0 +1,45 @@
+{
+  "citationAudit": {
+    "title": "Informe de Auditoría de Citas",
+    "listingName": "Nombre del negocio",
+    "loading": "Cargando informe de auditoría de citas...",
+    "loadError": "No se pudo cargar el informe de auditoría de citas",
+    "retry": "Reintentar",
+
+    "metrics": {
+      "total": "Total de citas encontradas",
+      "accuracy": "Puntuación de precisión",
+      "missing": "Citas faltantes",
+      "duplicates": "Listados duplicados"
+    },
+
+    "atAGlance": {
+      "title": "Tu informe de citas de un vistazo",
+      "foundTitle": "Citas encontradas",
+      "foundDesc": "Citas actualmente presentes",
+      "missingTitle": "Citas faltantes",
+      "missingDesc": "Citas que necesitan ser añadidas"
+    },
+
+    "localPageScore": {
+      "title": "Puntuación de página local y directorios",
+      "description": "Tu puntuación de página local y directorios se basa en el número de lugares en los que tu listado está presente, dividido por el número de páginas locales y directorios que hemos verificado."
+    },
+
+    "tabs": {
+      "citation": "Auditoría de citas",
+      "existing": "Citas existentes",
+      "possible": "Citas posibles"
+    },
+
+    "table": {
+      "siteName": "Nombre del sitio",
+      "businessName": "Nombre del negocio",
+      "phone": "Teléfono",
+      "action": "Acción",
+      "notMatching": "No coincide",
+      "view": "Ver",
+      "add": "Agregar listado"
+    }
+  }
+}
