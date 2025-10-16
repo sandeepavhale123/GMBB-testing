@@ -1,0 +1,18 @@
+{
+  "leadGooglePlacesInput": {
+    "placeholders": {
+      "default": "Cerca un'attività...",
+      "loading": "Caricamento Google Places..."
+    },
+    "errors": {
+      "apiKeyMissing": {
+        "title": "Chiave API mancante",
+        "description": "La chiave API di Google Places non è configurata."
+      },
+      "initializationFailed": {
+        "title": "Inizializzazione fallita",
+        "description": "Impossibile inizializzare l'API di Google Places."
+      }
+    }
+  }
+}

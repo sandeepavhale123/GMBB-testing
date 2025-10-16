@@ -1,0 +1,49 @@
+{
+  "title": "Modelli Email",
+  "subtitle": "Crea e gestisci i tuoi modelli email",
+  "newTemplate": "Nuovo Modello",
+
+  "templateList": {
+    "title": "Modelli",
+    "description": "Gestisci i tuoi modelli email"
+  },
+
+  "editor": {
+    "title": "Editor Modello",
+    "description": "Modifica il contenuto del tuo modello email",
+    "nameLabel": "Nome Modello",
+    "namePlaceholder": "Inserisci il nome del modello",
+    "subjectLabel": "Oggetto",
+    "subjectPlaceholder": "Inserisci l'oggetto dell'email",
+    "contentLabel": "Contenuto Email",
+    "contentPlaceholder": "Inserisci qui il contenuto della tua email...",
+    "variablesTitle": "Variabili Disponibili"
+  },
+
+  "buttons": {
+    "preview": "Anteprima",
+    "saveDraft": "Salva come Bozza",
+    "saveActivate": "Salva e Attiva"
+  },
+
+  "statuses": {
+    "Active": "Attivo",
+    "Draft": "Bozza",
+    "Inactive": "Inattivo"
+  },
+  "template": {
+    "welcome": "Email di Benvenuto",
+    "welcomeMod": "2 giorni fa",
+    "follow": "Sequenza Follow-up",
+    "followMod": "1 settimana fa",
+    "news": "Modello Newsletter",
+    "newsMod": "3 giorni fa",
+    "promo": "Offerta Promozionale",
+    "promoMod": "2 settimane fa"
+  },
+  "input": {
+    "email": "Email di Benvenuto",
+    "subject": "Benvenuto nel nostro servizio!",
+    "emailContent": "Ciao {{firstName}},\n\nBenvenuto nel nostro servizio! Siamo entusiasti di averti con noi.\n\nEcco cosa puoi aspettarti:\n- Gestione lead personalizzata\n- Analisi e report avanzati\n- Supporto clienti 24/7\n\nSe hai domande, non esitare a contattarci.\n\nCordiali saluti,\nIl Team"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Genera Rapporto Audit Citazioni",
+    "description": "Compila i dettagli dell'attività per generare un rapporto completo di audit delle citazioni.",
+    "form": {
+      "businessName": "Nome attività *",
+      "businessNamePlaceholder": "Inserisci il nome dell'attività",
+      "phone": "Numero di telefono *",
+      "phonePlaceholder": "Inserisci il numero di telefono",
+      "keyword": "Parola chiave *",
+      "keywordPlaceholder": "Inserisci la parola chiave target",
+      "city": "Città *",
+      "cityPlaceholder": "Cerca la città"
+    },
+    "buttons": {
+      "cancel": "Annulla",
+      "generate": "Genera Rapporto",
+      "generating": "Generazione in corso..."
+    },
+    "errors": {
+      "cityRequired": "Seleziona una città valida",
+      "generateFailed": "Impossibile creare il rapporto audit citazioni"
+    },
+    "validation": {
+      "business": "Il nome dell'attività è obbligatorio.",
+      "phone": "Il numero di telefono è obbligatorio.",
+      "keyword": "La parola chiave è obbligatoria.",
+      "city": "La città è obbligatoria."
+    }
+  }
+}

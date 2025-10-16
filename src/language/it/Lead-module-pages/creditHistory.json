@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Storico Crediti",
+  "pageDescription": "Monitora l'utilizzo dei tuoi crediti e gli acquisti.",
+  "buyCredits": "Acquista Crediti",
+
+  "currentCredits": "Crediti Correnti",
+  "currentCreditsSub": "Disponibili per l'uso",
+  "creditsUsed": "Crediti Utilizzati",
+  "creditsUsedSub": "Crediti consumati",
+  "totalAllocated": "Totale Assegnato",
+  "totalAllocatedSub": "Totale crediti",
+
+  "creditUsageTitle": "Utilizzo Crediti",
+  "creditUsageDescription": "Il consumo attuale dei tuoi crediti.",
+  "usedLabel": "Utilizzati: {{used}} crediti",
+  "availableLabel": "Disponibili: {{available}} crediti",
+  "loadingUsage": "Impossibile caricare i dati di utilizzo dei crediti",
+
+  "historyTitle": "Storico Crediti",
+  "searchPlaceholder": "Cerca per nome attività...",
+
+  "table": {
+    "businessName": "Nome attività",
+    "reportType": "Tipo di rapporto",
+    "credit": "Credito",
+    "date": "Data"
+  },
+
+  "noHistoryTitle": "Nessuno storico crediti trovato",
+  "noHistoryDescription": "L'utilizzo dei tuoi crediti apparirà qui",
+  "noSearchResults": "Prova a modificare la ricerca",
+
+  "loadErrorTitle": "Impossibile caricare lo storico crediti",
+  "loadErrorDescription": "Riprova più tardi"
+}

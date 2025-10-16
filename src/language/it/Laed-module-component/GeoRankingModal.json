@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "Genera Rapporto GEO Ranking",
+    "description": "Inserisci le parole chiave e configura le impostazioni per generare un rapporto completo di GEO ranking.",
+    "form": {
+      "keywords": "Parole chiave *",
+      "keywordsPlaceholder": "Inserisci le parole chiave separate da virgola (max 3)",
+      "gridSize": "Dimensione griglia *",
+      "gridSizePlaceholder": "Seleziona la dimensione della griglia",
+      "distanceUnit": "Unità di distanza *",
+      "meters": "Metri",
+      "miles": "Miglia",
+      "distanceValue": "Valore distanza *",
+      "distanceValuePlaceholder": "Seleziona distanza"
+    },
+    "buttons": {
+      "cancel": "Annulla",
+      "generate": "Genera Rapporto",
+      "generating": "Generazione in corso..."
+    },
+    "errors": {
+      "failed": "Impossibile creare il rapporto GEO ranking."
+    },
+    "validation": {
+      "keywordsMin": "Le parole chiave sono obbligatorie.",
+      "maxKeyword": "Massimo 3 parole chiave consentite.",
+      "keywords": "È richiesta almeno 1 parola chiave.",
+      "grid": "La dimensione della griglia deve essere 3 o 5.",
+      "distance": "Il valore della distanza è obbligatorio."
+    }
+  }
+}
