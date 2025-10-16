@@ -64,19 +64,31 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
         </Button>
 
         <div className="flex items-center gap-1">
-          {Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1).map((pageNum) => (
+          {[1, 2, 3].map((pageNum) => (
+            pageNum <= totalPages && (
+              <Button
+                key={pageNum}
+                variant={currentPage === pageNum ? "default" : "outline"}
+                size="sm"
+                onClick={() => onPageChange(pageNum)}
+                className="w-8 h-8 p-0"
+              >
+                {pageNum}
+              </Button>
+            )
+          ))}
+          {totalPages > 4 && (
+            <span className="text-sm text-gray-600 px-2">...</span>
+          )}
+          {totalPages > 3 && (
             <Button
-              key={pageNum}
-              variant={currentPage === pageNum ? "default" : "outline"}
+              variant={currentPage === totalPages ? "default" : "outline"}
               size="sm"
-              onClick={() => onPageChange(pageNum)}
+              onClick={() => onPageChange(totalPages)}
               className="w-8 h-8 p-0"
             >
-              {pageNum}
+              {totalPages}
             </Button>
-          ))}
-          {totalPages > 9 && (
-            <span className="text-sm text-gray-600 px-2">...</span>
           )}
         </div>
 
