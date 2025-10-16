@@ -1,15 +1,15 @@
 {
   "actionDropdown": {
-    "openMenu": "Menu openen",
-    "viewGmbHealthReport": "Bekijk GMB Health-rapport",
-    "generateGmbHealthReport": "Genereer GMB Health-rapport",
-    "viewCitationAuditReport": "Bekijk Citation Audit-rapport",
-    "generateCitationAuditReport": "Genereer Citation Audit-rapport",
-    "viewGeoRankingReport": "Bekijk GEO Ranking-rapport",
-    "generateGeoRankingReport": "Genereer GEO Ranking-rapport",
-    "viewGmbProspectReport": "Bekijk GMB Prospect-rapport",
-    "generateGmbProspectReport": "Genereer GMB Prospect-rapport",
-    "leadClassifier": "Leadclassificatie",
-    "delete": "Verwijderen"
+    "openMenu": "Menü öffnen",
+    "viewGmbHealthReport": "GMB-Gesundheitsbericht ansehen",
+    "generateGmbHealthReport": "GMB-Gesundheitsbericht erstellen",
+    "viewCitationAuditReport": "Citation Audit Bericht ansehen",
+    "generateCitationAuditReport": "Citation Audit Bericht erstellen",
+    "viewGeoRankingReport": "GEO-Ranking-Bericht ansehen",
+    "generateGeoRankingReport": "GEO-Ranking-Bericht erstellen",
+    "viewGmbProspectReport": "GMB-Interessentenbericht ansehen",
+    "generateGmbProspectReport": "GMB-Interessentenbericht erstellen",
+    "leadClassifier": "Lead-Klassifizierer",
+    "delete": "Löschen"
   }
 }

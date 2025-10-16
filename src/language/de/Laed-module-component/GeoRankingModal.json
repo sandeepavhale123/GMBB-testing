@@ -1,32 +1,32 @@
 {
   "geoRanking": {
-    "title": "GEO Ranking-rapport genereren",
-    "description": "Voer zoekwoorden in en configureer de instellingen om een uitgebreid GEO ranking-rapport te genereren.",
+    "title": "GEO-Ranking-Bericht erstellen",
+    "description": "Geben Sie Keywords ein und konfigurieren Sie die Einstellungen, um einen umfassenden GEO-Ranking-Bericht zu erstellen.",
     "form": {
-      "keywords": "Zoekwoorden *",
-      "keywordsPlaceholder": "Voer zoekwoorden in, gescheiden door komma's (max. 3)",
-      "gridSize": "Rastergrootte *",
-      "gridSizePlaceholder": "Selecteer rastergrootte",
-      "distanceUnit": "Afstandseenheid *",
-      "meters": "Meters",
-      "miles": "Mijlen",
-      "distanceValue": "Afstandswaarde *",
-      "distanceValuePlaceholder": "Selecteer afstand"
+      "keywords": "Keywords *",
+      "keywordsPlaceholder": "Keywords durch Kommas getrennt eingeben (max. 3)",
+      "gridSize": "Gittergröße *",
+      "gridSizePlaceholder": "Gittergröße auswählen",
+      "distanceUnit": "Entfernungseinheit *",
+      "meters": "Meter",
+      "miles": "Meilen",
+      "distanceValue": "Entfernungswert *",
+      "distanceValuePlaceholder": "Entfernung auswählen"
     },
     "buttons": {
-      "cancel": "Annuleren",
-      "generate": "Rapport genereren",
-      "generating": "Bezig met genereren..."
+      "cancel": "Abbrechen",
+      "generate": "Bericht erstellen",
+      "generating": "Wird erstellt..."
     },
     "errors": {
-      "failed": "Het genereren van het GEO ranking-rapport is mislukt."
+      "failed": "GEO-Ranking-Bericht konnte nicht erstellt werden."
     },
     "validation": {
-      "keywordsMin": "Zoekwoorden zijn verplicht.",
-      "maxKeyword": "Maximaal 3 zoekwoorden toegestaan.",
-      "keywords": "Minstens 1 zoekwoord is verplicht.",
-      "grid": "Rastergrootte moet 3 of 5 zijn.",
-      "distance": "Afstandswaarde is verplicht."
+      "keywordsMin": "Keywords sind erforderlich.",
+      "maxKeyword": "Maximal 3 Keywords erlaubt.",
+      "keywords": "Mindestens 1 Keyword ist erforderlich.",
+      "grid": "Gittergröße muss 3 oder 5 sein.",
+      "distance": "Entfernungswert ist erforderlich."
     }
   }
 }

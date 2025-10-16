@@ -1,35 +1,35 @@
 {
-  "title": "Rapportbranding",
-  "subtitle": "Pas het uiterlijk van uw leadrapporten aan",
+  "title": "Berichts-Branding",
+  "subtitle": "Passen Sie das Erscheinungsbild Ihrer Lead-Berichte an",
   "logo": {
-    "title": "Bedrijfslogo",
-    "description": "Upload uw bedrijfslogo voor rapporten",
-    "dropText": "Sleep uw logo hier of klik om te bladeren",
-    "buttonText": "Bestand kiezen",
-    "note": "Aanbevolen: PNG- of JPG-formaat, max. 2MB, 300x100px"
+    "title": "Firmenlogo",
+    "description": "Laden Sie Ihr Firmenlogo für Berichte hoch",
+    "dropText": "Ziehen Sie Ihr Logo hierher oder klicken Sie, um zu durchsuchen",
+    "buttonText": "Datei auswählen",
+    "note": "Empfohlen: PNG- oder JPG-Format, max. 2 MB, 300x100px"
   },
   "colors": {
-    "title": "Kleurenpalet",
-    "description": "Pas uw merk kleuren aan",
-    "primary": "Primaire kleur",
-    "secondary": "Secundaire kleur"
+    "title": "Farbschema",
+    "description": "Passen Sie Ihre Markenfarben an",
+    "primary": "Primärfarbe",
+    "secondary": "Sekundärfarbe"
   },
   "companyInfo": {
-    "title": "Bedrijfsinformatie",
-    "description": "Gegevens die op uw rapporten verschijnen",
-    "nameLabel": "Bedrijfsnaam",
-    "namePlaceholder": "Voer bedrijfsnaam in",
-    "websiteLabel": "Website",
-    "websitePlaceholder": "https://uwbedrijf.com",
-    "phoneLabel": "Telefoonnummer",
-    "phonePlaceholder": "+31 (0)6 1234 5678"
+    "title": "Firmeninformationen",
+    "description": "Details, die in Ihren Berichten erscheinen",
+    "nameLabel": "Firmenname",
+    "namePlaceholder": "Firmenname eingeben",
+    "websiteLabel": "Webseite",
+    "websitePlaceholder": "https://ihrefirma.com",
+    "phoneLabel": "Telefonnummer",
+    "phonePlaceholder": "+49 123 4567890"
   },
   "preview": {
-    "title": "Voorbeeld",
-    "description": "Zo zal uw branding eruitzien",
-    "lead": "Leadrapport"
+    "title": "Vorschau",
+    "description": "So wird Ihr Branding angezeigt",
+    "lead": "Lead-Bericht"
   },
   "buttons": {
-    "save": "Brandinginstellingen opslaan"
+    "save": "Branding-Einstellungen speichern"
   }
 }

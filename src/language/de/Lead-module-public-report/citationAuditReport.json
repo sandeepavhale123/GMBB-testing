@@ -1,45 +1,45 @@
 {
   "citationAudit": {
-    "title": "Citation Audit Rapport",
-    "listingName": "Bedrijfsnaam",
-    "loading": "Citation Audit Rapport laden...",
-    "loadError": "Het laden van het citation audit-rapport is mislukt",
-    "retry": "Opnieuw proberen",
+    "title": "Citation-Audit-Bericht",
+    "listingName": "Unternehmensname",
+    "loading": "Citation-Audit-Bericht wird geladen...",
+    "loadError": "Citation-Audit-Bericht konnte nicht geladen werden",
+    "retry": "Erneut versuchen",
 
     "metrics": {
-      "total": "Totaal gevonden citaties",
-      "accuracy": "Nauwkeurigheidsscore",
-      "missing": "Ontbrekende citaties",
-      "duplicates": "Dubbele vermeldingen"
+      "total": "Gefundene Citations insgesamt",
+      "accuracy": "Genauigkeitswert",
+      "missing": "Fehlende Citations",
+      "duplicates": "Doppelte Einträge"
     },
 
     "atAGlance": {
-      "title": "Uw citationrapport in één oogopslag",
-      "foundTitle": "Gevonden citaties",
-      "foundDesc": "Citaties die momenteel aanwezig zijn",
-      "missingTitle": "Ontbrekende citaties",
-      "missingDesc": "Citaties die moeten worden toegevoegd"
+      "title": "Ihr Citation-Bericht auf einen Blick",
+      "foundTitle": "Gefundene Citations",
+      "foundDesc": "Derzeit vorhandene Citations",
+      "missingTitle": "Fehlende Citations",
+      "missingDesc": "Citations, die hinzugefügt werden müssen"
     },
 
     "localPageScore": {
-      "title": "Score lokale pagina & directory",
-      "description": "Uw lokale pagina- en directoryscore is gebaseerd op het aantal plaatsen waar uw vermelding aanwezig is, gedeeld door het aantal lokale pagina's en directories dat we hebben gecontroleerd."
+      "title": "Local Page & Verzeichnis-Score",
+      "description": "Ihr Local Page- und Verzeichnis-Score basiert auf der Anzahl der Orte, an denen Ihr Eintrag vorhanden ist, geteilt durch die Anzahl der überprüften Local Pages und Verzeichnisse."
     },
 
     "tabs": {
-      "citation": "Citation Audit",
-      "existing": "Bestaande citaties",
-      "possible": "Mogelijke citaties"
+      "citation": "Citation-Audit",
+      "existing": "Bestehende Citations",
+      "possible": "Mögliche Citations"
     },
 
     "table": {
-      "siteName": "Site-naam",
-      "businessName": "Bedrijfsnaam",
-      "phone": "Telefoon",
-      "action": "Actie",
-      "notMatching": "Komt niet overeen",
-      "view": "Bekijken",
-      "add": "Vermelding toevoegen"
+      "siteName": "Seitenname",
+      "businessName": "Unternehmensname",
+      "phone": "Telefon",
+      "action": "Aktion",
+      "notMatching": "Nicht übereinstimmend",
+      "view": "Ansehen",
+      "add": "Eintrag hinzufügen"
     }
   }
 }

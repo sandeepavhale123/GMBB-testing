@@ -1,61 +1,61 @@
 {
-  "title": "Integraties",
-  "subtitle": "Verbind uw leadbeheer met andere tools",
+  "title": "Integrationen",
+  "subtitle": "Verbinden Sie Ihr Lead-Management mit anderen Tools",
   "availableIntegrations": {
-    "title": "Beschikbare integraties",
-    "description": "Verbind met uw favoriete tools en diensten"
+    "title": "Verfügbare Integrationen",
+    "description": "Verbinden Sie sich mit Ihren bevorzugten Tools und Diensten"
   },
   "statuses": {
-    "Connected": "Verbonden",
-    "Available": "Beschikbaar",
-    "Success": "Succes",
-    "Error": "Fout"
+    "Connected": "Verbunden",
+    "Available": "Verfügbar",
+    "Success": "Erfolgreich",
+    "Error": "Fehler"
   },
   "buttons": {
-    "configure": "Configureren",
+    "configure": "Konfigurieren",
     "connect": "Verbinden",
-    "saveApiSettings": "API-instellingen opslaan"
+    "saveApiSettings": "API-Einstellungen speichern"
   },
   "apiSettings": {
-    "title": "API-instellingen",
-    "description": "Beheer uw API-toegang en webhooks",
-    "apiKeyLabel": "API-sleutel",
+    "title": "API-Einstellungen",
+    "description": "Verwalten Sie Ihren API-Zugang und Webhooks",
+    "apiKeyLabel": "API-Schlüssel",
     "webhookUrlLabel": "Webhook-URL",
-    "webhooksPlaceholder":"https://uwapp.com/webhook",
-    "webhookToggleLabel": "Webhooks inschakelen",
-    "webhookToggleDescription": "Verzend realtime gegevens naar uw endpoint",
-    "usageTitle": "API-gebruik",
-    "requests": "Verzoeken deze maand",
-    "rateLimit": "Snelheidslimiet"
+    "webhooksPlaceholder": "https://yourapp.com/webhook",
+    "webhookToggleLabel": "Webhooks aktivieren",
+    "webhookToggleDescription": "Senden Sie Echtzeitdaten an Ihren Endpunkt",
+    "usageTitle": "API-Nutzung",
+    "requests": "Anfragen diesen Monat",
+    "rateLimit": "Limit"
   },
   "activity": {
-    "title": "Integratieactiviteit",
-    "description": "Recente synchronisatie- en integratiegebeurtenissen"
+    "title": "Integrationsaktivität",
+    "description": "Letzte Synchronisations- und Integrationsereignisse"
   },
   "integration": {
     "sales": "Salesforce",
-    "slaesDesc": "Synchroniseer leads met uw Salesforce CRM",
-    "salesSync": "2 uur geleden",
-    "salesAct": "12 nieuwe leads gesynchroniseerd",
+    "slaesDesc": "Leads in Ihr Salesforce-CRM synchronisieren",
+    "salesSync": "vor 2 Stunden",
+    "salesAct": "12 neue Leads synchronisiert",
     "hub": "HubSpot",
-    "hubDesc": "Importeer contacten en volg interacties",
-    "hubAct": "Verbinding mislukt - API-timeout",
-    "hubTime": "6 uur geleden",
+    "hubDesc": "Kontakte importieren und Interaktionen verfolgen",
+    "hubAct": "Verbindung fehlgeschlagen - API-Timeout",
+    "hubTime": "vor 6 Stunden",
     "email": "Mailchimp",
-    "emailDesc": "Voeg leads toe aan e-mailmarketingcampagnes",
-    "emailSync": "1 uur geleden",
-    "emailAct": "5 contacten toegevoegd aan campagne",
-    "emailTime": "3 uur geleden",
+    "emailDesc": "Leads zu E-Mail-Marketingkampagnen hinzufügen",
+    "emailSync": "vor 1 Stunde",
+    "emailAct": "5 Kontakte zur Kampagne hinzugefügt",
+    "emailTime": "vor 3 Stunden",
     "slack": "Slack",
-    "slackDesc": "Ontvang meldingen van nieuwe leads in Slack",
-    "slackSync": "30 minuten geleden",
-    "slackAct": "Nieuwe leadmelding verzonden",
-    "slackTime": "4 uur geleden",
+    "slackDesc": "Benachrichtigungen über neue Leads in Slack erhalten",
+    "slackSync": "vor 30 Minuten",
+    "slackAct": "Neue Lead-Benachrichtigung gesendet",
+    "slackTime": "vor 4 Stunden",
     "zapier": "Zapier",
-    "zapierDesc": "Verbind met 5000+ apps via Zapier",
+    "zapierDesc": "Verbinden Sie sich mit 5000+ Apps über Zapier",
     "google": "Google Sheets",
-    "googleDesc": "Exporteer leads automatisch naar Google Sheets",
-    "googleAct": "25 leads geëxporteerd naar spreadsheet",
-    "googleTime": "1 dag geleden"
+    "googleDesc": "Leads automatisch in Google Sheets exportieren",
+    "googleAct": "25 Leads in Tabellenblatt exportiert",
+    "googleTime": "vor 1 Tag"
   }
 }
