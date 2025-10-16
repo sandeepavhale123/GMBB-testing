@@ -41,7 +41,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between mt-6">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
       <div className="text-sm text-gray-600">
         {t("mediaPagination.showing", {
           start: startItem,
@@ -60,7 +60,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           className="flex items-center gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
-          {t("mediaPagination.previous")}
+          <span className="hidden sm:inline">{t("mediaPagination.previous")}</span>
         </Button>
 
         <span className="text-sm text-gray-600 px-3">
@@ -78,7 +78,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
           disabled={!hasNext}
           className="flex items-center gap-1"
         >
-          {t("mediaPagination.next")}
+          <span className="hidden sm:inline">{t("mediaPagination.next")}</span>
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
