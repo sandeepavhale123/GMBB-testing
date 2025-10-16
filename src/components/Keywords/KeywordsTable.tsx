@@ -34,7 +34,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Checkbox } from "../ui/checkbox";
-import { MoreVertical, Eye, Trash, RefreshCw, Info } from "lucide-react";
+import { MoreVertical, Eye, Trash, RefreshCw, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -501,8 +501,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               size="sm"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage <= 1}
+              className="flex items-center gap-1"
             >
-              {t("keywordsTable.pagination.previous")}
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.previous")}</span>
             </Button>
             <span className="text-sm">
               {t("keywordsTable.pagination.page", {
@@ -516,8 +518,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               size="sm"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
+              className="flex items-center gap-1"
             >
-              {t("keywordsTable.pagination.next")}
+              <span className="hidden sm:inline">{t("keywordsTable.pagination.next")}</span>
+              <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
         </div>
