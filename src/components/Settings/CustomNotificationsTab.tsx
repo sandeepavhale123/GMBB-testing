@@ -323,7 +323,7 @@ export const CustomNotificationsTab: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Search and Add Button */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
