@@ -683,7 +683,7 @@ export const CitationPage: React.FC = () => {
 
                       {citationTab === "possible" && (
                         <div className="overflow-x-auto rounded-md border">
-                          <Table className="min-w-full">
+                          <Table className="min-w-full table-auto">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">
@@ -708,7 +708,7 @@ export const CitationPage: React.FC = () => {
                                             "/default-icon.png")
                                         }
                                       />
-                                      <span className="text-xs sm:text-sm">
+                                      <span className="text-xs sm:text-sm break-words">
                                         {row.site}
                                       </span>
                                     </div>
@@ -717,7 +717,7 @@ export const CitationPage: React.FC = () => {
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="text-xs"
+                                      className="text-xs w-full sm:w-auto whitespace-nowrap"
                                       onClick={() => {
                                         if (row.website) {
                                           const url =
