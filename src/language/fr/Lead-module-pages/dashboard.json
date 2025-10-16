@@ -1,0 +1,21 @@
+{
+  "title": "Tableau de bord des prospects",
+  "description": "Gérez et suivez vos prospects efficacement.",
+  "convertedLeads": "Prospects convertis",
+  "totalLeads": "Total des prospects",
+  "remainingCredits": "Crédits restants",
+  "addLead": "Ajouter un prospect",
+  "leads": "Prospects",
+  "manageLeads": "Gérez votre base de prospects et suivez les interactions",
+  "showingPage": "Affichage de la page {{currentPage}} sur {{totalPages}} ({{leadCount}} prospects)",
+  "deleteLeadTitle": "Supprimer le prospect",
+  "deleteLeadDescription": "Êtes-vous sûr de vouloir supprimer le prospect de ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": " ? Cette action est irréversible.",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "deleting": "Suppression en cours...",
+  "reportIDMissing": "ID du rapport introuvable pour ce prospect",
+  "noReportID": "Aucun ID de rapport trouvé pour ce prospect",
+  "fetchError": "Échec de récupération des prospects. Veuillez réessayer."
+}

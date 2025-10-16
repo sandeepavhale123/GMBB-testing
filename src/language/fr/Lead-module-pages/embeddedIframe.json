@@ -1,0 +1,57 @@
+{
+  "title": "Iframe intégré",
+  "subtitle": "Générez et gérez des formulaires de prospects intégrables",
+
+  "configuration": {
+    "title": "Configuration de l’iframe",
+    "description": "Personnalisez les paramètres de votre formulaire intégré",
+    "formTitleLabel": "Titre du formulaire",
+    "formTitlePlaceholder": "Saisir le titre du formulaire",
+    "widthLabel": "Largeur",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Hauteur",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Afficher le logo de l’entreprise",
+    "showLogoDescription": "Afficher votre logo dans le formulaire",
+    "darkModeLabel": "Activer le mode sombre",
+    "darkModeDescription": "Permettre aux utilisateurs de basculer vers le thème sombre",
+    "autoResizeLabel": "Redimensionnement automatique",
+    "autoResizeDescription": "Ajuster automatiquement la hauteur de l’iframe",
+    "successMessageLabel": "Message de succès",
+    "successMessagePlaceholder": "Message affiché après la soumission du formulaire"
+  },
+
+  "embedCode": {
+    "title": "Code d’intégration",
+    "description": "Copiez ce code pour intégrer le formulaire sur votre site web",
+    "copied": "Copié !",
+    "copy": "Copier",
+    "preview": "Aperçu",
+    "test": "Tester le formulaire",
+    "tipsTitle": "Conseils d’intégration :",
+    "tips1": "Ajoutez l’iframe sur n’importe quelle page HTML ou CMS",
+    "tips2": "Le formulaire s’adaptera automatiquement au thème de votre site",
+    "tips3": "Toutes les soumissions sont capturées dans votre tableau de bord des prospects",
+    "tips4": "HTTPS est requis pour l’intégration de l’iframe"
+  },
+
+  "activeEmbeds": {
+    "title": "Intégrations actives",
+    "description": "Gérez vos formulaires iframe déployés",
+    "submissions": "Soumissions"
+  },
+
+  "statuses": {
+    "Active": "Actif",
+    "Inactive": "Inactif"
+  },
+
+  "name": {
+    "home": "Formulaire de contact de la page d’accueil",
+    "homeDom": "votresite.com",
+    "landing": "Formulaire de page de destination",
+    "landingDom": "landing.votresite.com",
+    "blog": "Formulaire dans la barre latérale du blog",
+    "blogDom": "blog.votresite.com"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Historique des crédits",
+  "pageDescription": "Suivez l’utilisation et les achats de vos crédits.",
+  "buyCredits": "Acheter des crédits",
+
+  "currentCredits": "Crédits actuels",
+  "currentCreditsSub": "Disponibles à l’utilisation",
+  "creditsUsed": "Crédits utilisés",
+  "creditsUsedSub": "Crédits consommés",
+  "totalAllocated": "Total alloué",
+  "totalAllocatedSub": "Total des crédits",
+
+  "creditUsageTitle": "Utilisation des crédits",
+  "creditUsageDescription": "Votre consommation actuelle de crédits.",
+  "usedLabel": "Utilisés : {{used}} crédits",
+  "availableLabel": "Disponibles : {{available}} crédits",
+  "loadingUsage": "Impossible de charger les données d’utilisation des crédits",
+
+  "historyTitle": "Historique des crédits",
+  "searchPlaceholder": "Rechercher par nom d’entreprise...",
+
+  "table": {
+    "businessName": "Nom de l’entreprise",
+    "reportType": "Type de rapport",
+    "credit": "Crédit",
+    "date": "Date"
+  },
+
+  "noHistoryTitle": "Aucun historique de crédits trouvé",
+  "noHistoryDescription": "Votre utilisation des crédits apparaîtra ici",
+  "noSearchResults": "Essayez d’ajuster votre recherche",
+
+  "loadErrorTitle": "Échec du chargement de l’historique des crédits",
+  "loadErrorDescription": "Veuillez réessayer plus tard"
+}

@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "Générer un rapport de classement GEO",
+    "description": "Saisissez des mots-clés et configurez les paramètres pour générer un rapport de classement GEO complet.",
+    "form": {
+      "keywords": "Mots-clés *",
+      "keywordsPlaceholder": "Saisir les mots-clés séparés par des virgules (maximum 3)",
+      "gridSize": "Taille de la grille *",
+      "gridSizePlaceholder": "Sélectionner la taille de la grille",
+      "distanceUnit": "Unité de distance *",
+      "meters": "Mètres",
+      "miles": "Miles",
+      "distanceValue": "Valeur de distance *",
+      "distanceValuePlaceholder": "Sélectionner la distance"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "generate": "Générer le rapport",
+      "generating": "Génération en cours..."
+    },
+    "errors": {
+      "failed": "Échec de la création du rapport de classement GEO."
+    },
+    "validation": {
+      "keywordsMin": "Les mots-clés sont requis.",
+      "maxKeyword": "Maximum de 3 mots-clés autorisés.",
+      "keywords": "Au moins un mot-clé est requis.",
+      "grid": "La taille de la grille doit être 3 ou 5.",
+      "distance": "La valeur de distance est requise."
+    }
+  }
+}

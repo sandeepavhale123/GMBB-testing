@@ -1,0 +1,45 @@
+{
+  "leadClassifier": {
+    "title": "Classificateur de prospects",
+    "description": "Classez ce prospect afin de mieux organiser et suivre vos opportunités commerciales.",
+    "businessDetails": "Détails de l’entreprise",
+    "businessName": "Nom de l’entreprise",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "website": "Site web",
+    "address": "Adresse",
+    "leadCategory": "Catégorie de prospect",
+    "notProvided": "Non fourni",
+    "notClassified": "Non classé",
+    "tabs": {
+      "webLead": "Prospect web",
+      "newClient": "Nouveau client",
+      "badLead": "Mauvais prospect",
+      "other": "Autre"
+    },
+    "options": {
+      "1": "Identifié comme client potentiel",
+      "2": "Converti",
+      "3": "Prospect chaud",
+      "4": "Prospect froid",
+      "5": "Prospect perdu",
+      "6": "N’est pas devenu client (autre)",
+      "7": "Devenu client",
+      "8": "Spammeur / Télévendeur",
+      "9": "Ne fournit pas ce service",
+      "10": "Identifié comme client existant",
+      "11": "Référence probable",
+      "12": "A raccroché / Non reçu / Inconnu",
+      "13": "Autre"
+    },
+    "selectClassification": "Sélectionner la classification de {{category}} :",
+    "leadNotes": "Notes sur le prospect",
+    "notesPlaceholder": "Ajoutez des notes supplémentaires sur ce prospect...",
+    "cancel": "Annuler",
+    "save": "Enregistrer la classification",
+    "errors": {
+      "selectClassification": "Veuillez sélectionner une classification de prospect",
+      "leadUnavailable": "Les données du prospect ne sont pas disponibles"
+    }
+  }
+}

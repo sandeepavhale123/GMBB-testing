@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Modifier les paramètres du CTA d’appel",
+    "editTitleAppointment": "Modifier les paramètres du CTA de rendez-vous",
+    "editDescription": "Personnalisez l’en-tête, la description, le texte du bouton et le lien de votre appel à l’action.",
+    "visibilityLabel": "Afficher le CTA dans les rapports",
+    "visibilityHelp": "Activez ou désactivez cette section CTA dans les rapports générés.",
+    "headerLabel": "En-tête du CTA",
+    "headerPlaceholder": "Saisir le texte de l’en-tête du CTA",
+    "descriptionLabel": "Description du CTA",
+    "descriptionPlaceholder": "Saisir le texte de la description du CTA",
+    "buttonLabel": "Texte du bouton",
+    "buttonPlaceholder": "Saisir le texte du bouton",
+    "buttonLinkLabel": "Lien du bouton",
+    "buttonLinkPlaceholder": "https://exemple.com ou #contact",
+    "buttonLinkHelp": "Saisissez une URL complète (https://...) ou laissez vide pour aucun lien.",
+    "cancel": "Annuler",
+    "save": "Enregistrer les modifications",
+    "saving": "Enregistrement...",
+    "toast": {
+      "validationTitle": "Erreur de validation",
+      "validationDescription": "Veuillez corriger les erreurs avant d’enregistrer.",
+      "saveSuccessTitle": "Paramètres du CTA enregistrés",
+      "saveSuccessDescription": "Votre appel à l’action a été mis à jour avec succès.",
+      "saveFailTitle": "Échec de l’enregistrement",
+      "saveFailDescription": "Impossible d’enregistrer les paramètres du CTA. Veuillez réessayer."
+    },
+    "default": {
+      "header": "BOOSTEZ VOTRE SCORE GBP &&& augmentez vos appels",
+      "description": "Découvrez comment payer un mois de salaire à vos employés simplement en réparant ce qui ne va pas. Obtenez votre plan gratuit pour écraser la concurrence !",
+      "buttonLabel": "RÉSERVEZ UN APPEL",
+      "buttonLinkLabel": "#contact"
+    }
+  }
+}

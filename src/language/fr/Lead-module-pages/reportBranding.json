@@ -1,0 +1,35 @@
+{
+  "title": "Branding des rapports",
+  "subtitle": "Personnalisez l’apparence de vos rapports de prospects",
+  "logo": {
+    "title": "Logo de l’entreprise",
+    "description": "Téléchargez le logo de votre entreprise pour les rapports",
+    "dropText": "Déposez votre logo ici ou cliquez pour parcourir",
+    "buttonText": "Choisir un fichier",
+    "note": "Recommandé : format PNG ou JPG, max 2 Mo, 300x100px"
+  },
+  "colors": {
+    "title": "Palette de couleurs",
+    "description": "Personnalisez les couleurs de votre marque",
+    "primary": "Couleur principale",
+    "secondary": "Couleur secondaire"
+  },
+  "companyInfo": {
+    "title": "Informations sur l’entreprise",
+    "description": "Détails qui apparaissent sur vos rapports",
+    "nameLabel": "Nom de l’entreprise",
+    "namePlaceholder": "Saisir le nom de l’entreprise",
+    "websiteLabel": "Site web",
+    "websitePlaceholder": "https://votreentreprise.com",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "+1 (555) 123-4567"
+  },
+  "preview": {
+    "title": "Aperçu",
+    "description": "Comment votre branding apparaîtra",
+    "lead": "Rapport de prospects"
+  },
+  "buttons": {
+    "save": "Enregistrer les paramètres de branding"
+  }
+}
