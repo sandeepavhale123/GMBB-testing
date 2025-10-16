@@ -238,7 +238,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   return (
     <div className="space-y-4">
       {selectedKeywords.length > 0 && (
-        <div className="mb-4 flex items-center gap-4 p-4 bg-muted rounded-lg">
+        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-muted rounded-lg">
           <span className="text-sm text-muted-foreground">
             {t("keywordsTable.bulkActions.selected", {
               count: selectedKeywords.length,
@@ -257,6 +257,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 size="sm"
                 onClick={handleBulkDelete}
                 disabled={deleteLoading}
+                className="w-full sm:w-auto"
               >
                 {deleteLoading ? (
                   <>
@@ -303,6 +304,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             variant="outline"
             size="sm"
             onClick={() => setSelectedKeywords([])}
+            className="w-full sm:w-auto"
           >
             {t("keywordsTable.bulkActions.clear")}
           </Button>
