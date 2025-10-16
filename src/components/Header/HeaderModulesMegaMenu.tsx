@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star } from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -31,6 +31,13 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       description: t("modulesMenu.leadManagement.description"),
       icon: Users,
       href: "/module/lead",
+    },
+    {
+      name: "SEO Fixer",
+      description: "Automatically detect and fix SEO issues on websites",
+      icon: Search,
+      href: "/module/live-seo-fixer",
+      beta: true,
     },
     {
       name: t("modulesMenu.reputation.name"),
@@ -66,6 +73,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
             ? `/location-dashboard/${selectedListing.id}`
             : "/main-dashboard",
         comingSoon: false,
+        beta: false,
       };
       return [gmbModule, ...baseModules];
     }
@@ -159,6 +167,14 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                             className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
                           >
                             {t("modulesMenu.comingSoon")}
+                          </Badge>
+                        )}
+                        {module.beta && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gradient-to-r from-blue-400 to-indigo-500 text-blue-900 border-0 text-[8px]"
+                          >
+                            Beta
                           </Badge>
                         )}
                       </div>
