@@ -8,6 +8,13 @@
     "dashboard": "Failed to load dashboard data",
     "retry": "Try Again"
   },
+   "dashboardTypes": {
+    "default": "Default",
+    "insight": "Insight",
+    "review": "Review",
+    "location": "Location",
+    "post": "Post"
+  },
   "metrics": {
     "totalListings": {
       "title": "Total Listings",

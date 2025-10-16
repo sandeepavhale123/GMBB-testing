@@ -134,14 +134,14 @@ const PostsTable = memo(
     const getStatusVariant = (status: string | null | undefined) => {
       if (!status) return "secondary";
       switch (status.toLowerCase()) {
-        case "published":
-        case "live":
+        case t("bulkPostDetails.status.published"):
+        case t("bulkPostDetails.status.live"):
           return "default";
-        case "draft":
+        case t("bulkPostDetails.status.draft"):
           return "secondary";
-        case "scheduled":
+        case t("bulkPostDetails.status.scheduled"):
           return "outline";
-        case "failed":
+        case t("bulkPostDetails.status.failed"):
           return "destructive";
         default:
           return "secondary";
@@ -216,7 +216,8 @@ const PostsTable = memo(
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2 justify-end">
-                        {post.status?.toLowerCase() === "live" && (
+                        {post.status?.toLowerCase() ===
+                          t("bulkPostDetails.status.live") && (
                           <button
                             onClick={() => onViewPost(post)}
                             className="text-primary hover:bg-primary/10 p-1 rounded transition-colors"

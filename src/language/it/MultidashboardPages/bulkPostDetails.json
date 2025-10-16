@@ -1,53 +1,60 @@
 {
   "bulkPostDetails": {
     "header": {
-      "title": "Visualizza Dettagli",
-      "subtitle": "Visualizza i dettagli del post massivo selezionato"
+      "title": "Visualizza dettagli",
+      "subtitle": "Visualizza i dettagli del post multiplo selezionato"
     },
     "postPreview": {
       "postedOn": "Pubblicato il:",
-      "viewPost": "Visualizza Post",
-      "deletePost": "Elimina Post"
+      "viewPost": "Visualizza post",
+      "deletePost": "Elimina post"
     },
     "table": {
-      "listingName": "Nome Inserzione",
-      "zipCode": "CAP",
+      "listingName": "Nome elenco",
+      "zipCode": "Codice postale",
       "status": "Stato",
       "action": "Azione",
-      "noListings": "Nessuna inserzione trovata.",
+      "noListings": "Nessun elenco trovato.",
       "unknown": "Sconosciuto",
       "post": "post",
-      "na": "N/A"
+      "na": "N/D"
     },
     "filter": {
-      "searchPlaceholder": "Cerca per nome inserzione.",
+      "searchPlaceholder": "Cerca per nome elenco.",
       "statusPlaceholder": "Filtra per stato",
-      "postStatus": "Stato del Post",
+      "postStatus": "Stato del post",
       "live": "Attivo",
       "scheduled": "Programmato",
-      "failed": "Fallito"
+      "failed": "Non riuscito"
+    },
+    "status": {
+      "published": "pubblicato",
+      "live": "attivo",
+      "draft": "bozza",
+      "scheduled": "programmato",
+      "failed": "non riuscito"
     },
     "bulkActions": {
-      "selected": "{{count}} post selezionati",
+      "selected": "{{count}} post selezionato",
       "selected_plural": "{{count}} post selezionati",
-      "deleteSelected": "Elimina Selezionati"
+      "deleteSelected": "Elimina selezionati"
     },
     "pagination": {
-      "showing": "Mostrando da {{from}} a {{to}} di {{total}} voci",
+      "showing": "Visualizzati {{from}} a {{to}} di {{total}} elementi",
       "previous": "Precedente",
       "next": "Successivo",
       "page": "Pagina {{current}} di {{totalPages}}"
     },
     "dialogs": {
       "bulkDelete": {
-        "title": "Elimina Post Multipli",
+        "title": "Elimina più post",
         "description": "Sei sicuro di voler eliminare {{count}} post selezionati? Questa azione non può essere annullata.",
         "cancel": "Annulla",
-        "confirm": "Elimina Tutti"
+        "confirm": "Elimina tutto"
       },
       "deleteSingle": {
         "title": "Sei sicuro?",
-        "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente il post.",
+        "description": "Questa azione non può essere annullata. Il post sarà eliminato definitivamente.",
         "cancel": "Annulla",
         "confirm": "Elimina"
       }

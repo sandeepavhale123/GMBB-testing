@@ -27,6 +27,13 @@
       "scheduled": "Scheduled",
       "failed": "Failed"
     },
+    "status":{
+      "published":"published",
+      "live":"live",
+      "draft":"draft",
+      "scheduled":"scheduled",
+      "failed":"failed"
+    },
     "bulkActions": {
       "selected": "{{count}} post selected",
       "selected_plural": "{{count}} posts selected",

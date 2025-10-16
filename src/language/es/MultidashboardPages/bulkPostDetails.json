@@ -1,36 +1,43 @@
 {
   "bulkPostDetails": {
     "header": {
-      "title": "Ver Detalles",
+      "title": "Ver detalles",
       "subtitle": "Ver detalles de la publicación masiva seleccionada"
     },
     "postPreview": {
       "postedOn": "Publicado en:",
-      "viewPost": "Ver Publicación",
-      "deletePost": "Eliminar Publicación"
+      "viewPost": "Ver publicación",
+      "deletePost": "Eliminar publicación"
     },
     "table": {
-      "listingName": "Nombre del Listado",
-      "zipCode": "Código Postal",
+      "listingName": "Nombre de la lista",
+      "zipCode": "Código postal",
       "status": "Estado",
       "action": "Acción",
-      "noListings": "No se encontraron listados.",
+      "noListings": "No se encontraron listas.",
       "unknown": "Desconocido",
       "post": "publicación",
       "na": "N/D"
     },
     "filter": {
-      "searchPlaceholder": "Buscar por nombre de listado.",
+      "searchPlaceholder": "Buscar por nombre de lista.",
       "statusPlaceholder": "Filtrar por estado",
-      "postStatus": "Estado de la Publicación",
+      "postStatus": "Estado de la publicación",
       "live": "Activo",
       "scheduled": "Programado",
       "failed": "Fallido"
     },
+    "status": {
+      "published": "publicado",
+      "live": "activo",
+      "draft": "borrador",
+      "scheduled": "programado",
+      "failed": "fallido"
+    },
     "bulkActions": {
       "selected": "{{count}} publicación seleccionada",
       "selected_plural": "{{count}} publicaciones seleccionadas",
-      "deleteSelected": "Eliminar Seleccionadas"
+      "deleteSelected": "Eliminar seleccionadas"
     },
     "pagination": {
       "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
@@ -40,13 +47,13 @@
     },
     "dialogs": {
       "bulkDelete": {
-        "title": "Eliminar Múltiples Publicaciones",
-        "description": "¿Estás seguro de que deseas eliminar {{count}} publicación(es) seleccionada(s)? Esta acción no se puede deshacer.",
+        "title": "Eliminar varias publicaciones",
+        "description": "¿Está seguro de que desea eliminar {{count}} publicación(es) seleccionada(s)? Esta acción no se puede deshacer.",
         "cancel": "Cancelar",
-        "confirm": "Eliminar Todo"
+        "confirm": "Eliminar todo"
       },
       "deleteSingle": {
-        "title": "¿Estás seguro?",
+        "title": "¿Está seguro?",
         "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente la publicación.",
         "cancel": "Cancelar",
         "confirm": "Eliminar"
@@ -54,13 +61,13 @@
     },
     "messages": {
       "successTitle": "Éxito",
-      "successDelete": "Publicación eliminada correctamente",
-      "successBulkDelete": "{{count}} publicaciones eliminadas correctamente",
+      "successDelete": "Publicación eliminada con éxito",
+      "successBulkDelete": "{{count}} publicaciones eliminadas con éxito",
       "errorTitle": "Error",
-      "errorDelete": "No se pudo eliminar la publicación",
-      "errorBulkDelete": "No se pudieron eliminar algunas publicaciones",
+      "errorDelete": "Error al eliminar la publicación",
+      "errorBulkDelete": "Error al eliminar algunas publicaciones",
       "errorDetails": "Error al cargar los detalles de la publicación: {{error}}",
-      "tryAgain": "Intentar de Nuevo"
+      "tryAgain": "Intentar de nuevo"
     }
   }
 }

@@ -1,31 +1,38 @@
 {
   "bulkPostDetails": {
     "header": {
-      "title": "Details anzeigen",
+      "title": "Details ansehen",
       "subtitle": "Details des ausgewählten Massenbeitrags anzeigen"
     },
     "postPreview": {
       "postedOn": "Veröffentlicht am:",
-      "viewPost": "Beitrag anzeigen",
+      "viewPost": "Beitrag ansehen",
       "deletePost": "Beitrag löschen"
     },
     "table": {
-      "listingName": "Eintragsname",
+      "listingName": "Listenname",
       "zipCode": "Postleitzahl",
       "status": "Status",
       "action": "Aktion",
       "noListings": "Keine Einträge gefunden.",
       "unknown": "Unbekannt",
       "post": "Beitrag",
-      "na": "k.A."
+      "na": "Nicht verfügbar"
     },
     "filter": {
-      "searchPlaceholder": "Nach Eintragsname suchen.",
+      "searchPlaceholder": "Nach Listenname suchen.",
       "statusPlaceholder": "Nach Status filtern",
       "postStatus": "Beitragsstatus",
       "live": "Live",
       "scheduled": "Geplant",
       "failed": "Fehlgeschlagen"
+    },
+    "status": {
+      "published": "veröffentlicht",
+      "live": "live",
+      "draft": "Entwurf",
+      "scheduled": "geplant",
+      "failed": "fehlgeschlagen"
     },
     "bulkActions": {
       "selected": "{{count}} Beitrag ausgewählt",
@@ -34,14 +41,14 @@
     },
     "pagination": {
       "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
-      "previous": "Vorherige",
-      "next": "Nächste",
+      "previous": "Zurück",
+      "next": "Weiter",
       "page": "Seite {{current}} von {{totalPages}}"
     },
     "dialogs": {
       "bulkDelete": {
         "title": "Mehrere Beiträge löschen",
-        "description": "Sind Sie sicher, dass Sie {{count}} ausgewählte Beiträge löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "description": "Möchten Sie wirklich {{count}} ausgewählte Beiträge löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
         "cancel": "Abbrechen",
         "confirm": "Alle löschen"
       },

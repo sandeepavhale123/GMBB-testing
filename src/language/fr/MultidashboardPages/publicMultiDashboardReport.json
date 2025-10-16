@@ -8,47 +8,54 @@
     "dashboard": "Échec du chargement des données du tableau de bord",
     "retry": "Réessayer"
   },
+  "dashboardTypes": {
+    "default": "Par défaut",
+    "insight": "Aperçu",
+    "review": "Avis",
+    "location": "Emplacement",
+    "post": "Publication"
+  },
   "metrics": {
     "totalListings": {
-      "title": "Total des Annonces",
+      "title": "Nombre total de fiches",
       "subtitle": "Emplacements actifs"
     },
     "avgRating": {
-      "title": "Note Moyenne",
-      "subtitle": "Sur toutes les annonces"
+      "title": "Note moyenne",
+      "subtitle": "Sur l'ensemble des fiches"
     },
     "totalPosts": {
-      "title": "Total des Posts",
+      "title": "Nombre total de publications",
       "subtitle": "Contenu publié"
     },
     "totalReviews": {
-      "title": "Total des Avis",
-      "subtitle": "Retours des clients"
+      "title": "Nombre total d'avis",
+      "subtitle": "Commentaires des clients"
     }
   },
-  "listing":"Tableau de bord de l'annonce GMB – {{name}}",
-  "allcategories":"Toutes les catégories",
+  "listing": "Tableau de bord GMB – {{name}}",
+  "allcategories": "Toutes les catégories",
   "filters": {
-    "dashboardSelector": "Sélectionnez le type de tableau de bord",
+    "dashboardSelector": "Sélectionner le type de tableau de bord",
     "default": "Tableau de bord par défaut",
-    "insight": "Tableau de bord Insight",
-    "review": "Tableau de bord des Avis",
-    "location": "Tableau de bord par Emplacement",
-    "post": "Tableau de bord des Posts",
-    "searchPlaceholder": "Rechercher par nom d'annonce ou code postal.",
+    "insight": "Tableau de bord des aperçus",
+    "review": "Tableau de bord des avis",
+    "location": "Tableau de bord des emplacements",
+    "post": "Tableau de bord des publications",
+    "searchPlaceholder": "Rechercher par nom de fiche ou code postal.",
     "categories": "Toutes les catégories",
     "locations": "Tous les emplacements",
     "reviews": {
       "all": "Tous les avis",
       "unresponded": "Avis non répondu",
-      "unrespondedARE": "ARE non répondu",
-      "unrespondedDNR": "DNR non répondu",
+      "unrespondedARE": "Avis ARE non répondu",
+      "unrespondedDNR": "Avis DNR non répondu",
       "excludeARE": "Exclure les avis ARE",
       "excludeDNR": "Exclure les avis DNR",
       "excludeBoth": "Exclure les avis ARE/DNR"
     },
     "posts": {
-      "status": "Statut du Post",
+      "status": "Statut de la publication",
       "all": "Tous les statuts",
       "live": "En ligne",
       "scheduled": "Planifié",
@@ -59,7 +66,7 @@
     "showing": "Affichage de {{count}} sur {{total}} {{type}}",
     "noData": "Aucune donnée disponible",
     "imageNotAvailable": "Image non disponible",
-    "untitledPost": "Post sans titre",
+    "untitledPost": "Publication sans titre",
     "openOnGoogle": "Ouvrir sur Google",
     "viewOnGoogle": "Voir sur Google My Business",
     "img": "IMG"
@@ -67,36 +74,36 @@
   "labels": {
     "id": "ID : {{id}}",
     "zip": "Code postal : {{zipcode}}",
-    "state": "Ville : {{city}}",
+    "state": "État : {{city}}",
     "visibility": "Visibilité",
     "search": "Recherche",
     "maps": "Cartes",
     "total": "Total",
-    "customerActions": "Actions Clients",
+    "customerActions": "Actions des clients",
     "clicks": "Clics",
     "directions": "Itinéraires",
     "calls": "Appels",
     "messages": "Messages",
-    "reviewStats": "Statistiques des Avis",
+    "reviewStats": "Statistiques des avis",
     "reviewsReplies": "Avis / Réponses",
-    "autoReply": "Réponse Automatique",
-    "reviewSentiment": "Sentiment des Avis",
+    "autoReply": "Réponse automatique",
+    "reviewSentiment": "Sentiment des avis",
     "positive": "Positif",
     "neutral": "Neutre",
     "negative": "Négatif",
     "address": "Adresse",
     "phone": "Téléphone",
     "photos": "Photos",
-    "rating": "Note",
-    "website": "Site Web",
+    "rating": "Évaluation",
+    "website": "Site web",
     "map": "Carte",
-    "lastPosts": "Derniers Posts",
+    "lastPosts": "Dernières publications",
     "upcoming": "À venir",
-    "lastPost": "Dernier Post",
-    "upcomingPost": "À venir",
+    "lastPost": "Dernière publication",
+    "upcomingPost": "Prochaine publication",
     "zipLabel": "Code postal :",
     "na": "N/A",
-    "totalView": "Nombre total de vues",
+    "totalView": "Vues totales",
     "stateLabel": "État",
     "reviewLabel": "Avis",
     "zipcodeLabel": "Code postal"

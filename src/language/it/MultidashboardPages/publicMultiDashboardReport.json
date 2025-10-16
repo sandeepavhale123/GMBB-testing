@@ -1,21 +1,28 @@
 {
   "loading": {
-    "config": "Caricamento configurazione del rapporto...",
-    "dashboard": "Caricamento dati del dashboard..."
+    "config": "Caricamento configurazione report...",
+    "dashboard": "Caricamento dati dashboard..."
   },
   "error": {
-    "config": "Impossibile caricare la configurazione del rapporto",
-    "dashboard": "Impossibile caricare i dati del dashboard",
+    "config": "Impossibile caricare la configurazione del report",
+    "dashboard": "Impossibile caricare i dati della dashboard",
     "retry": "Riprova"
+  },
+  "dashboardTypes": {
+    "default": "Predefinita",
+    "insight": "Insight",
+    "review": "Recensioni",
+    "location": "Località",
+    "post": "Post"
   },
   "metrics": {
     "totalListings": {
-      "title": "Totale Annunci",
-      "subtitle": "Posizioni attive"
+      "title": "Totale Inserzioni",
+      "subtitle": "Località attive"
     },
     "avgRating": {
       "title": "Valutazione Media",
-      "subtitle": "Su tutti gli annunci"
+      "subtitle": "Su tutte le inserzioni"
     },
     "totalPosts": {
       "title": "Totale Post",
@@ -26,59 +33,61 @@
       "subtitle": "Feedback dei clienti"
     }
   },
+  "listing":"Dashboard GMB Listing – {{name}}",
+  "allcategories":"Tutte le categorie",
   "filters": {
-    "dashboardSelector": "Seleziona Tipo di Dashboard",
+    "dashboardSelector": "Seleziona tipo di dashboard",
     "default": "Dashboard Predefinita",
-    "insight": "Dashboard di Analisi",
+    "insight": "Dashboard Insight",
     "review": "Dashboard Recensioni",
-    "location": "Dashboard Posizioni",
+    "location": "Dashboard Località",
     "post": "Dashboard Post",
-    "searchPlaceholder": "Cerca per nome dell'annuncio o codice postale.",
-    "categories": "Tutte le Categorie",
-    "locations": "Tutte le Posizioni",
+    "searchPlaceholder": "Cerca per nome inserzione o CAP.",
+    "categories": "Tutte le categorie",
+    "locations": "Tutte le località",
     "reviews": {
-      "all": "Tutte le Recensioni",
-      "unresponded": "Recensione Non Risposta",
-      "unrespondedARE": "Recensione ARE Non Risposta",
-      "unrespondedDNR": "Recensione DNR Non Risposta",
-      "excludeARE": "Escludi Recensione ARE",
-      "excludeDNR": "Escludi Recensione DNR",
-      "excludeBoth": "Escludi Recensione ARE/DNR"
+      "all": "Tutte le recensioni",
+      "unresponded": "Recensione senza risposta",
+      "unrespondedARE": "Recensione ARE senza risposta",
+      "unrespondedDNR": "Recensione DNR senza risposta",
+      "excludeARE": "Escludi recensione ARE",
+      "excludeDNR": "Escludi recensione DNR",
+      "excludeBoth": "Escludi recensioni ARE/DNR"
     },
     "posts": {
-      "status": "Stato del Post",
-      "all": "Tutti gli Stati",
-      "live": "In Diretta",
-      "scheduled": "Pianificato",
-      "failed": "Fallito"
+      "status": "Stato del post",
+      "all": "Tutti gli stati",
+      "live": "Pubblicato",
+      "scheduled": "Programmato",
+      "failed": "Non riuscito"
     }
   },
   "content": {
     "showing": "Mostrando {{count}} di {{total}} {{type}}",
     "noData": "Nessun dato disponibile",
     "imageNotAvailable": "Immagine non disponibile",
-    "untitledPost": "Post Senza Titolo",
+    "untitledPost": "Post senza titolo",
     "openOnGoogle": "Apri su Google",
-    "viewOnGoogle": "Visualizza su Google My Business",
-    "img": "IMG"
+    "viewOnGoogle":"Visualizza su Google My Business",
+    "img":"IMG"
   },
   "labels": {
-    "id": "ID: {{id}}",
-    "zip": "CAP: {{zipcode}}",
-    "state": "Stato: {{city}}",
+    "id":"ID: {{id}}",
+    "zip":"CAP: {{zipcode}}",
+    "state":"Città: {{city}}",
     "visibility": "Visibilità",
     "search": "Cerca",
     "maps": "Mappe",
     "total": "Totale",
-    "customerActions": "Azioni Cliente",
+    "customerActions": "Azioni dei clienti",
     "clicks": "Click",
     "directions": "Indicazioni",
     "calls": "Chiamate",
     "messages": "Messaggi",
-    "reviewStats": "Statistiche Recensioni",
+    "reviewStats": "Statistiche recensioni",
     "reviewsReplies": "Recensioni / Risposte",
-    "autoReply": "Risposta Automatica",
-    "reviewSentiment": "Sentimento Recensioni",
+    "autoReply": "Risposta automatica",
+    "reviewSentiment": "Sentiment recensioni",
     "positive": "Positivo",
     "neutral": "Neutro",
     "negative": "Negativo",
@@ -86,22 +95,22 @@
     "phone": "Telefono",
     "photos": "Foto",
     "rating": "Valutazione",
-    "website": "Sito Web",
+    "website": "Sito web",
     "map": "Mappa",
-    "lastPosts": "Ultimi Post",
+    "lastPosts": "Ultimi post",
     "upcoming": "Prossimi",
-    "lastPost": "Ultimo Post",
-    "upcomingPost": "Prossimo",
-    "zipLabel": "CAP:",
-    "na": "N/D",
-    "totalView": "Visualizzazioni Totali",
-    "stateLabel": "Stato",
-    "reviewLabel": "Recensioni",
-    "zipcodeLabel": "Codice Postale"
+    "lastPost": "Ultimo post",
+    "upcomingPost": "Prossimo post",
+    "zipLabel":"CAP:",
+    "na":"N/D",
+    "totalView":"Visualizzazioni totali",
+    "stateLabel":"Stato",
+    "reviewLabel":"Recensioni",
+    "zipcodeLabel":"CAP"
   },
   "pagination": {
     "pageOf": "Pagina {{current}} di {{total}}",
     "previous": "Precedente",
-    "next": "Successivo"
+    "next": "Successiva"
   }
 }

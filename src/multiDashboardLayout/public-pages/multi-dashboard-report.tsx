@@ -339,8 +339,11 @@ export const PublicMultiDashboardReport: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
               <h3 className="text-lg font-semibold mb-2">
                 {t("listing", {
-                  name: getDashboardDisplayName(activeDashboardType),
+                  name: getDashboardDisplayName(activeDashboardType, t),
                 })}
+                {/* {t("listing", {
+                  name: getDashboardDisplayName(activeDashboardType),
+                })} */}
                 {/*  GMB Listing – {getDashboardDisplayName(activeDashboardType)}{" "}
                  dashboard */}
               </h3>

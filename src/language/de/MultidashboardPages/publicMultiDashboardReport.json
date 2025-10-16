@@ -8,39 +8,48 @@
     "dashboard": "Fehler beim Laden der Dashboard-Daten",
     "retry": "Erneut versuchen"
   },
+  "dashboardTypes": {
+    "default": "Standard",
+    "insight": "Einblick",
+    "review": "Bewertung",
+    "location": "Standort",
+    "post": "Beitrag"
+  },
   "metrics": {
     "totalListings": {
-      "title": "Gesamte Standorte",
+      "title": "Gesamtanzahl der Einträge",
       "subtitle": "Aktive Standorte"
     },
     "avgRating": {
-      "title": "Durchschn. Bewertung",
-      "subtitle": "Über alle Standorte"
+      "title": "Durchschnittliche Bewertung",
+      "subtitle": "Über alle Einträge hinweg"
     },
     "totalPosts": {
-      "title": "Gesamtbeiträge",
+      "title": "Gesamtanzahl der Beiträge",
       "subtitle": "Veröffentlichte Inhalte"
     },
     "totalReviews": {
-      "title": "Gesamtbewertungen",
+      "title": "Gesamtanzahl der Bewertungen",
       "subtitle": "Kundenfeedback"
     }
   },
+  "listing": "GMB-Eintrag – {{name}} Dashboard",
+  "allcategories": "Alle Kategorien",
   "filters": {
     "dashboardSelector": "Dashboard-Typ auswählen",
     "default": "Standard-Dashboard",
-    "insight": "Insight-Dashboard",
-    "review": "Review-Dashboard",
+    "insight": "Einblick-Dashboard",
+    "review": "Bewertungs-Dashboard",
     "location": "Standort-Dashboard",
-    "post": "Post-Dashboard",
-    "searchPlaceholder": "Suche nach Standortname oder Postleitzahl.",
+    "post": "Beitrags-Dashboard",
+    "searchPlaceholder": "Nach Eintragsname oder Postleitzahl suchen.",
     "categories": "Alle Kategorien",
     "locations": "Alle Standorte",
     "reviews": {
       "all": "Alle Bewertungen",
-      "unresponded": "Nicht beantwortete Bewertung",
-      "unrespondedARE": "Nicht beantwortete ARE",
-      "unrespondedDNR": "Nicht beantwortete DNR",
+      "unresponded": "Unbeantwortete Bewertung",
+      "unrespondedARE": "Unbeantwortete ARE",
+      "unrespondedDNR": "Unbeantwortete DNR",
       "excludeARE": "ARE-Bewertung ausschließen",
       "excludeDNR": "DNR-Bewertung ausschließen",
       "excludeBoth": "ARE/DNR-Bewertungen ausschließen"
@@ -59,7 +68,7 @@
     "imageNotAvailable": "Bild nicht verfügbar",
     "untitledPost": "Unbenannter Beitrag",
     "openOnGoogle": "Auf Google öffnen",
-    "viewOnGoogle": "In Google My Business ansehen",
+    "viewOnGoogle": "Auf Google My Business ansehen",
     "img": "IMG"
   },
   "labels": {
@@ -72,7 +81,7 @@
     "total": "Gesamt",
     "customerActions": "Kundenaktionen",
     "clicks": "Klicks",
-    "directions": "Wegbeschreibung",
+    "directions": "Wegbeschreibungen",
     "calls": "Anrufe",
     "messages": "Nachrichten",
     "reviewStats": "Bewertungsstatistiken",
@@ -93,8 +102,8 @@
     "lastPost": "Letzter Beitrag",
     "upcomingPost": "Bevorstehend",
     "zipLabel": "PLZ:",
-    "na": "k.A.",
-    "totalView": "Gesamtansichten",
+    "na": "N/V",
+    "totalView": "Gesamtaufrufe",
     "stateLabel": "Bundesland",
     "reviewLabel": "Bewertungen",
     "zipcodeLabel": "Postleitzahl"
