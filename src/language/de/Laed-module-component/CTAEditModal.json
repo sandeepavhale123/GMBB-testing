@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Call-CTA-instellingen bewerken",
+    "editTitleAppointment": "Appointment-CTA-instellingen bewerken",
+    "editDescription": "Pas uw call-to-action kop, beschrijving, knoptekst en link aan.",
+    "visibilityLabel": "CTA tonen in rapporten",
+    "visibilityHelp": "Schakel om deze CTA-sectie in gegenereerde rapporten te tonen of te verbergen.",
+    "headerLabel": "CTA-kop",
+    "headerPlaceholder": "Voer CTA-koptekst in",
+    "descriptionLabel": "CTA-beschrijving",
+    "descriptionPlaceholder": "Voer CTA-beschrijving in",
+    "buttonLabel": "Knoplabel",
+    "buttonPlaceholder": "Voer knoptekst in",
+    "buttonLinkLabel": "Knoplink",
+    "buttonLinkPlaceholder": "https://voorbeeld.com of #contact",
+    "buttonLinkHelp": "Voer een volledige URL in (https://...) of laat leeg voor geen link.",
+    "cancel": "Annuleren",
+    "save": "Wijzigingen opslaan",
+    "saving": "Bezig met opslaan...",
+    "toast": {
+      "validationTitle": "Validatiefout",
+      "validationDescription": "Corrigeer de fouten voordat u opslaat.",
+      "saveSuccessTitle": "CTA-instellingen opgeslagen",
+      "saveSuccessDescription": "Uw call-to-action is succesvol bijgewerkt.",
+      "saveFailTitle": "Opslaan mislukt",
+      "saveFailDescription": "Het opslaan van CTA-instellingen is mislukt. Probeer het opnieuw."
+    },
+    "default":{
+      "header":"BOOST UW GBP-SCORE &&& Verhoog uw oproepen",
+      "description":"Leer hoe u uw werknemers een maandloon kunt betalen door eenvoudig te repareren wat kapot is. Ontvang uw gratis blueprint om uw concurrentie te overtreffen!",
+      "buttonLabel":"BOEK EEN BELAFSPRAAK",
+      "buttonLinkLabel":"#contact"
+    }
+  }
+}

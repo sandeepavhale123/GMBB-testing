@@ -1,0 +1,15 @@
+{
+  "geoReport": {
+    "title": "GEO Ranking Rapport",
+    "loading": "GEO Ranking Rapport laden...",
+    "error": {
+      "main": "Fout bij het laden van rapportgegevens",
+      "sub": "Probeer het later opnieuw"
+    },
+    "area": "Gebied",
+    "priority": {
+      "high": "Hoog",
+      "medium": "Gemiddeld"
+    }
+  }
+}

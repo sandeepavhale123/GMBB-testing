@@ -1,0 +1,18 @@
+{
+  "leadGooglePlacesInput": {
+    "placeholders": {
+      "default": "Zoek naar een bedrijf...",
+      "loading": "Google Places wordt geladen..."
+    },
+    "errors": {
+      "apiKeyMissing": {
+        "title": "API-sleutel ontbreekt",
+        "description": "Google Places API-sleutel is niet geconfigureerd."
+      },
+      "initializationFailed": {
+        "title": "Initialisatie mislukt",
+        "description": "Het initialiseren van de Google Places API is mislukt."
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "E-mailsjablonen",
+  "subtitle": "Maak en beheer uw e-mailsjablonen",
+  "newTemplate": "Nieuw sjabloon",
+
+  "templateList": {
+    "title": "Sjablonen",
+    "description": "Beheer uw e-mailsjablonen"
+  },
+
+  "editor": {
+    "title": "Sjablooneditor",
+    "description": "Bewerk de inhoud van uw e-mailsjabloon",
+    "nameLabel": "Sjabloonnaam",
+    "namePlaceholder": "Voer sjabloonnaam in",
+    "subjectLabel": "Onderwerpregel",
+    "subjectPlaceholder": "Voer e-mailonderwerp in",
+    "contentLabel": "E-mailinhoud",
+    "contentPlaceholder": "Voer hier uw e-mailinhoud in...",
+    "variablesTitle": "Beschikbare variabelen"
+  },
+
+  "buttons": {
+    "preview": "Voorbeeld",
+    "saveDraft": "Opslaan als concept",
+    "saveActivate": "Opslaan & Activeren"
+  },
+
+  "statuses": {
+    "Active": "Actief",
+    "Draft": "Concept",
+    "Inactive": "Inactief"
+  },
+  "template": {
+    "welcome": "Welkomstmail",
+    "welcomeMod": "2 dagen geleden",
+    "follow": "Follow-upreeks",
+    "followMod": "1 week geleden",
+    "news": "Nieuwsbrievensjabloon",
+    "newsMod": "3 dagen geleden",
+    "promo": "Promotieaanbieding",
+    "promoMod": "2 weken geleden"
+  },
+  "input": {
+    "email": "Welkomstmail",
+    "subject": "Welkom bij onze service!",
+    "emailContent": "Hallo {{firstName}},\n\nWelkom bij onze service! We zijn blij dat je erbij bent.\n\nDit kun je verwachten:\n- Gepersonaliseerd leadbeheer\n- Geavanceerde analyses en rapportage\n- 24/7 klantenondersteuning\n\nAls je vragen hebt, neem gerust contact met ons op.\n\nMet vriendelijke groet,\nHet team"
+  }
+}

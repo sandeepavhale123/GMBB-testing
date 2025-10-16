@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "GEO Ranking-rapport genereren",
+    "description": "Voer zoekwoorden in en configureer de instellingen om een uitgebreid GEO ranking-rapport te genereren.",
+    "form": {
+      "keywords": "Zoekwoorden *",
+      "keywordsPlaceholder": "Voer zoekwoorden in, gescheiden door komma's (max. 3)",
+      "gridSize": "Rastergrootte *",
+      "gridSizePlaceholder": "Selecteer rastergrootte",
+      "distanceUnit": "Afstandseenheid *",
+      "meters": "Meters",
+      "miles": "Mijlen",
+      "distanceValue": "Afstandswaarde *",
+      "distanceValuePlaceholder": "Selecteer afstand"
+    },
+    "buttons": {
+      "cancel": "Annuleren",
+      "generate": "Rapport genereren",
+      "generating": "Bezig met genereren..."
+    },
+    "errors": {
+      "failed": "Het genereren van het GEO ranking-rapport is mislukt."
+    },
+    "validation": {
+      "keywordsMin": "Zoekwoorden zijn verplicht.",
+      "maxKeyword": "Maximaal 3 zoekwoorden toegestaan.",
+      "keywords": "Minstens 1 zoekwoord is verplicht.",
+      "grid": "Rastergrootte moet 3 of 5 zijn.",
+      "distance": "Afstandswaarde is verplicht."
+    }
+  }
+}

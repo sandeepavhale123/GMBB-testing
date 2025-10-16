@@ -1,0 +1,45 @@
+{
+  "citationAudit": {
+    "title": "Citation Audit Rapport",
+    "listingName": "Bedrijfsnaam",
+    "loading": "Citation Audit Rapport laden...",
+    "loadError": "Het laden van het citation audit-rapport is mislukt",
+    "retry": "Opnieuw proberen",
+
+    "metrics": {
+      "total": "Totaal gevonden citaties",
+      "accuracy": "Nauwkeurigheidsscore",
+      "missing": "Ontbrekende citaties",
+      "duplicates": "Dubbele vermeldingen"
+    },
+
+    "atAGlance": {
+      "title": "Uw citationrapport in één oogopslag",
+      "foundTitle": "Gevonden citaties",
+      "foundDesc": "Citaties die momenteel aanwezig zijn",
+      "missingTitle": "Ontbrekende citaties",
+      "missingDesc": "Citaties die moeten worden toegevoegd"
+    },
+
+    "localPageScore": {
+      "title": "Score lokale pagina & directory",
+      "description": "Uw lokale pagina- en directoryscore is gebaseerd op het aantal plaatsen waar uw vermelding aanwezig is, gedeeld door het aantal lokale pagina's en directories dat we hebben gecontroleerd."
+    },
+
+    "tabs": {
+      "citation": "Citation Audit",
+      "existing": "Bestaande citaties",
+      "possible": "Mogelijke citaties"
+    },
+
+    "table": {
+      "siteName": "Site-naam",
+      "businessName": "Bedrijfsnaam",
+      "phone": "Telefoon",
+      "action": "Actie",
+      "notMatching": "Komt niet overeen",
+      "view": "Bekijken",
+      "add": "Vermelding toevoegen"
+    }
+  }
+}

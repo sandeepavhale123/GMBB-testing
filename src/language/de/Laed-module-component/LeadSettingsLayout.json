@@ -1,0 +1,16 @@
+{
+  "leadSettingsLayout": {
+    "navItems": {
+      "themeCustomization": "Thema-aanpassing",
+      "reportBranding": "Rapportbranding",
+      "integrations": "Integraties",
+      "ctaCustomization": "CTA-aanpassing"
+    },
+    "titles": {
+      "settings": "Instellingen"
+    },
+    "descriptions": {
+      "manageSettings": "Beheer uw instellingen voor de leadmodule."
+    }
+  }
+}
