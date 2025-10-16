@@ -122,7 +122,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                         : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                     }`}
                   >
-                    {project.status}
+                    {t(`status.${project.status.toLowerCase()}`)}
                   </span>
                 </TableCell>
                 <TableCell>

@@ -338,8 +338,11 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
               <h3 className="text-lg font-semibold mb-2">
-                GMB Listing – {getDashboardDisplayName(activeDashboardType)}{" "}
-                dashboard
+                {t("listing", {
+                  name: getDashboardDisplayName(activeDashboardType),
+                })}
+                {/*  GMB Listing – {getDashboardDisplayName(activeDashboardType)}{" "}
+                 dashboard */}
               </h3>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Select
@@ -402,7 +405,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   }
                 >
                   <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="All Categories" />
+                    <SelectValue placeholder={t("allcategories")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">

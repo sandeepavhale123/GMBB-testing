@@ -1,30 +1,30 @@
 {
   "importPostCSVWizard": {
-    "title": "CSV-Beiträge importieren",
+    "title": "CSV-Post importieren",
     "steps": {
-      "1": "Standorte auswählen",
+      "1": "Einträge auswählen",
       "2": "Datei hochladen",
       "3": "Qualitätskontrolle",
       "4": "Absenden"
     },
     "stepCount": "Schritt {{currentStep}} von 4",
     "selectListings": {
-      "heading": "Standorte auswählen",
-      "description": "Wählen Sie die Standorte und den Beitragstyp für Ihren Massenimport aus.",
-      "postTypeLabel": "Beitragstyp",
+      "heading": "Einträge auswählen",
+      "description": "Wählen Sie die Einträge und den Post-Typ für Ihren Bulk-Import.",
+      "postTypeLabel": "Post-Typ",
       "postTypePlaceholder": "Dateityp auswählen",
       "postTypeOptions": {
         "0": "Dateityp auswählen",
-        "1": "Reguläre Beitragsdatei",
-        "2": "Event-Beitragsdatei",
-        "3": "Angebots-Beitragsdatei"
+        "1": "Reguläre Post-Datei",
+        "2": "Event-Post-Datei",
+        "3": "Angebots-Post-Datei"
       },
       "next": "Weiter",
-      "generatingCSV": "CSV wird erstellt..."
+      "generatingCSV": "CSV wird generiert..."
     },
     "uploadFile": {
       "heading": "Datei hochladen",
-      "description": "Laden Sie Ihre CSV-Datei für den Massenimport von Beiträgen hoch.",
+      "description": "Laden Sie Ihre CSV-Datei für den Bulk-Post-Import hoch.",
       "downloadSample": "Generierte CSV-Datei herunterladen",
       "previous": "Zurück",
       "next": "Weiter",
@@ -34,12 +34,12 @@
       "heading": "Qualitätskontrolle",
       "description": "Überprüfen Sie die Validierungsergebnisse Ihrer hochgeladenen Datei.",
       "uploadSummary": "Upload-Zusammenfassung",
-      "validationErrorsTitle": "Validierungsfehler gefunden – bitte korrigieren und erneut hochladen",
+      "validationErrorsTitle": "Validierungsfehler gefunden – Bitte korrigieren und erneut hochladen",
       "reuploadFile": "Datei erneut hochladen",
       "allRowsValid": "Alle Zeilen erfolgreich validiert!",
       "processedRows": "✓ {{count}} Zeilen verarbeitet",
       "noErrors": "✓ Keine Validierungsfehler gefunden",
-      "readyForSubmission": "✓ Bereit zur Übermittlung",
+      "readyForSubmission": "✓ Bereit zur Einreichung",
       "notesLabel": "Notizen (optional)",
       "notesPlaceholder": "Fügen Sie Notizen zu diesem Import hinzu...",
       "submit": "Import absenden",
@@ -48,31 +48,33 @@
     },
     "submit": {
       "heading": "Glückwunsch!",
-      "description": "Alle Ihre Beiträge wurden erfolgreich im Bulk importiert.",
+      "description": "Alle Ihre Posts wurden erfolgreich im Bulk importiert.",
       "goToDashboard": "Zum Haupt-Dashboard",
-      "viewPostDetails": "Beitragsdetails anzeigen"
+      "viewPostDetails": "Postdetails anzeigen"
     },
+    "row":"Zeile",
+    "error":"Fehler",
     "errors": {
-      "title": "Fehler",
-      "selectListing": "Bitte wählen Sie mindestens einen Standort aus.",
-      "selectPostType": "Bitte wählen Sie einen gültigen Beitragstyp aus.",
+      "title":"Fehler",
+      "selectListing": "Bitte wählen Sie mindestens einen Eintrag aus.",
+      "selectPostType": "Bitte wählen Sie einen gültigen Post-Typ aus.",
       "selectFile": "Bitte wählen Sie eine Datei zum Hochladen aus.",
       "noUploadedFile": "Keine hochgeladene Datei gefunden. Bitte laden Sie zuerst eine Datei hoch.",
       "sampleNotAvailable": "Beispiel-CSV-Datei ist nicht verfügbar. Bitte gehen Sie zurück zu Schritt 1.",
-      "csvGenerateFailed": "CSV-Datei konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+      "csvGenerateFailed": "CSV-Datei konnte nicht generiert werden. Bitte versuchen Sie es erneut.",
       "uploadFailed": "Datei konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut.",
-      "saveFailed": "Massenblatt konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
-      "authFailed": "Authentifizierung fehlgeschlagen. Bitte erneut einloggen.",
-      "permissionDenied": "Sie haben keine Berechtigung, diese Aktion auszuführen.",
-      "serverError": "Serverfehler. Bitte versuchen Sie es später erneut."
+      "saveFailed": "Bulk-Tabelle konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+      "authFailed": "Authentifizierung fehlgeschlagen. Bitte melden Sie sich erneut an.",
+      "permissionDenied": "Sie haben keine Berechtigung, diese Aktion durchzuführen.",
+      "serverError": "Serverfehler aufgetreten. Bitte versuchen Sie es später erneut."
     },
     "success": {
-      "title": "Erfolg",
-      "titleUpload": "Upload abgeschlossen",
-      "csvGenerated": "CSV-Datei erfolgreich erstellt",
+      "title":"Erfolg",
+      "titleUpload":"Upload abgeschlossen",
+      "csvGenerated": "CSV-Datei erfolgreich generiert",
       "uploadSuccess": "Datei erfolgreich hochgeladen und validiert",
-      "uploadWithErrors": "Datei hochgeladen mit {{count}} Validierungsfehlern. Bitte überprüfen.",
-      "bulkSaveSuccess": "{{count}} Beiträge erfolgreich importiert"
+      "uploadWithErrors": "Datei mit {{count}} Validierungsfehlern hochgeladen. Bitte überprüfen.",
+      "bulkSaveSuccess": "{{count}} Posts erfolgreich importiert"
     }
   }
 }

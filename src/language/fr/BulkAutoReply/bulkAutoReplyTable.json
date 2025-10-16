@@ -1,16 +1,20 @@
 {
   "tableHeaders": {
     "projectName": "Nom du projet",
-    "locations": "Nombre de sites",
+    "locations": "Nbre d’emplacements",
     "status": "Statut",
     "responseType": "Type de réponse",
     "createdDate": "Date de création",
     "actions": "Actions"
   },
+  "status": {
+    "active": "Actif",
+    "draft": "Brouillon"
+  },
   "loading": "Chargement des projets...",
   "noProjects": "Aucun projet de réponse automatique trouvé.",
-  "location": "site",
-  "locations": "sites",
+  "location": "emplacement",
+  "locations": "emplacements",
   "deleteTitle": "Supprimer le projet de réponse automatique",
   "deleteDescription": "Êtes-vous sûr de vouloir supprimer « {{projectName}} » ? Cette action est irréversible.",
   "cancel": "Annuler",

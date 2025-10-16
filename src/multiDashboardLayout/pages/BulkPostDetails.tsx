@@ -43,9 +43,11 @@ import { useBulkPostSummary } from "@/hooks/useBulkPostSummary";
 import { useDebounce } from "@/hooks/useDebounce";
 import { format } from "date-fns";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { t } from "i18next";
 
 // Memoized Post Preview Component - Stable, doesn't re-render on search
 const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
+  const { t } = useI18nNamespace("MultidashboardPages/bulkPostDetails");
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -100,7 +102,8 @@ const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
         {/* Date */}
         {bulkPost?.publishDate && (
           <div className="text-sm text-muted-foreground">
-            Posted on: {formatDateTime(bulkPost.publishDate)}
+            {t("bulkPostDetails.postPreview.postedOn")}{" "}
+            {formatDateTime(bulkPost.publishDate)}
           </div>
         )}
       </CardContent>
@@ -578,7 +581,7 @@ const FilterSection = memo(
     return (
       <div className="flex gap-4">
         <Input
-          placeholder="Search by listing name."
+          placeholder={t("bulkPostDetails.filter.searchPlaceholder")}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="flex-1"

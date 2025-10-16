@@ -1,78 +1,80 @@
 {
   "importPostCSVWizard": {
-    "title": "Importer un CSV de publications",
+    "title": "Importer CSV de Post",
     "steps": {
-      "1": "Sélectionner les emplacements",
-      "2": "Téléverser le fichier",
-      "3": "Contrôle qualité",
+      "1": "Sélectionner les Annonces",
+      "2": "Télécharger le Fichier",
+      "3": "Contrôle de Qualité",
       "4": "Soumettre"
     },
     "stepCount": "Étape {{currentStep}} sur 4",
     "selectListings": {
-      "heading": "Sélectionner les emplacements",
-      "description": "Choisissez les emplacements et le type de publication pour votre importation en masse.",
-      "postTypeLabel": "Type de publication",
-      "postTypePlaceholder": "Sélectionner le type de fichier",
+      "heading": "Sélectionner les Annonces",
+      "description": "Choisissez les annonces et le type de post pour votre importation en masse.",
+      "postTypeLabel": "Type de Post",
+      "postTypePlaceholder": "Sélectionnez le type de fichier",
       "postTypeOptions": {
-        "0": "Sélectionner le type de fichier",
-        "1": "Fichier de publication standard",
-        "2": "Fichier de publication d'événement",
-        "3": "Fichier de publication d'offre"
+        "0": "Sélectionnez le type de fichier",
+        "1": "Fichier de post régulier",
+        "2": "Fichier de post événement",
+        "3": "Fichier de post offre"
       },
       "next": "Suivant",
       "generatingCSV": "Génération du CSV..."
     },
     "uploadFile": {
-      "heading": "Téléverser le fichier",
-      "description": "Téléversez votre fichier CSV pour l'importation en masse de publications.",
+      "heading": "Télécharger le Fichier",
+      "description": "Téléchargez votre fichier CSV pour l'importation en masse de posts.",
       "downloadSample": "Télécharger le fichier CSV généré",
       "previous": "Précédent",
       "next": "Suivant",
-      "uploading": "Téléversement en cours..."
+      "uploading": "Téléchargement en cours..."
     },
     "qualityControl": {
-      "heading": "Contrôle qualité",
-      "description": "Vérifiez les résultats de validation de votre fichier téléversé.",
-      "uploadSummary": "Résumé du téléversement",
-      "validationErrorsTitle": "Erreurs de validation détectées - Veuillez corriger et téléverser à nouveau",
-      "reuploadFile": "Téléverser à nouveau le fichier",
+      "heading": "Contrôle de Qualité",
+      "description": "Vérifiez les résultats de validation de votre fichier téléchargé.",
+      "uploadSummary": "Résumé du Téléchargement",
+      "validationErrorsTitle": "Erreurs de validation trouvées - Veuillez corriger et re-télécharger",
+      "reuploadFile": "Re-télécharger le Fichier",
       "allRowsValid": "Toutes les lignes validées avec succès !",
       "processedRows": "✓ {{count}} lignes traitées",
-      "noErrors": "✓ Aucune erreur de validation détectée",
+      "noErrors": "✓ Aucune erreur de validation trouvée",
       "readyForSubmission": "✓ Prêt pour la soumission",
       "notesLabel": "Notes (Optionnel)",
-      "notesPlaceholder": "Ajouter des notes concernant cet import...",
-      "submit": "Soumettre l'importation",
+      "notesPlaceholder": "Ajoutez des notes concernant cet import...",
+      "submit": "Soumettre l'Importation",
       "saving": "Enregistrement en cours...",
-      "fixErrors": "Corriger les erreurs pour continuer"
+      "fixErrors": "Corrigez les erreurs pour continuer"
     },
     "submit": {
       "heading": "Félicitations !",
-      "description": "Toutes vos publications ont été importées en masse avec succès.",
-      "goToDashboard": "Aller au tableau de bord principal",
-      "viewPostDetails": "Voir les détails de la publication"
+      "description": "Tous vos posts ont été importés avec succès en masse.",
+      "goToDashboard": "Aller au Tableau de Bord Principal",
+      "viewPostDetails": "Voir les Détails du Post"
     },
+    "row": "Ligne",
+    "error": "erreur(s)",
     "errors": {
       "title": "Erreur",
-      "selectListing": "Veuillez sélectionner au moins un emplacement.",
-      "selectPostType": "Veuillez sélectionner un type de publication valide.",
-      "selectFile": "Veuillez sélectionner un fichier à téléverser.",
-      "noUploadedFile": "Aucun fichier téléversé trouvé. Veuillez téléverser un fichier d'abord.",
+      "selectListing": "Veuillez sélectionner au moins une annonce.",
+      "selectPostType": "Veuillez sélectionner un type de post valide.",
+      "selectFile": "Veuillez sélectionner un fichier à télécharger.",
+      "noUploadedFile": "Aucun fichier téléchargé trouvé. Veuillez d'abord télécharger un fichier.",
       "sampleNotAvailable": "Le fichier CSV d'exemple n'est pas disponible. Veuillez revenir à l'étape 1.",
-      "csvGenerateFailed": "Échec de la génération du fichier CSV. Veuillez réessayer.",
-      "uploadFailed": "Échec du téléversement du fichier. Veuillez réessayer.",
-      "saveFailed": "Échec de l'enregistrement de la feuille en masse. Veuillez réessayer.",
+      "csvGenerateFailed": "Impossible de générer le fichier CSV. Veuillez réessayer.",
+      "uploadFailed": "Impossible de télécharger le fichier. Veuillez réessayer.",
+      "saveFailed": "Impossible de sauvegarder la feuille en masse. Veuillez réessayer.",
       "authFailed": "Échec de l'authentification. Veuillez vous reconnecter.",
       "permissionDenied": "Vous n'avez pas la permission d'effectuer cette action.",
       "serverError": "Une erreur serveur est survenue. Veuillez réessayer plus tard."
     },
     "success": {
       "title": "Succès",
-      "titleUpload": "Téléversement terminé",
+      "titleUpload": "Téléversement Complet",
       "csvGenerated": "Fichier CSV généré avec succès",
-      "uploadSuccess": "Fichier téléversé et validé avec succès",
-      "uploadWithErrors": "Fichier téléversé avec {{count}} erreurs de validation. Veuillez vérifier.",
-      "bulkSaveSuccess": "{{count}} publications importées avec succès"
+      "uploadSuccess": "Fichier téléchargé et validé avec succès",
+      "uploadWithErrors": "Fichier téléchargé avec {{count}} erreurs de validation. Veuillez vérifier.",
+      "bulkSaveSuccess": "{{count}} posts importés avec succès"
     }
   }
 }

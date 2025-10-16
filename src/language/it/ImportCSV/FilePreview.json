@@ -1,0 +1,21 @@
+{
+  "filePreview": {
+    "processingFile": "Elaborazione del file...",
+    "fileEmpty": "Il file sembra essere vuoto",
+    "parseError": "Impossibile analizzare il file CSV. Controlla il formato del file.",
+    "title": "Anteprima File",
+    "file": "File",
+    "size": "Dimensione",
+    "type": "Tipo",
+    "rowsPreview": "Mostrando {{preview}} di {{total}} righe • {{columns}} colonne",
+    "actions": "Azioni",
+    "viewPost": "Visualizza Post",
+    "noDataRows": "Nessuna riga di dati trovata nel file CSV",
+    "postPreview": "Anteprima Post",
+    "description": "Descrizione",
+    "noDescription": "Nessuna descrizione",
+    "callToAction": "Invito all'Azione",
+    "scheduledFor": "Programmato per:",
+    "rowId": "ID Riga"
+  }
+}

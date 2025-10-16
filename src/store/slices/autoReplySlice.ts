@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axiosInstance from '@/api/axiosInstance';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axiosInstance from "@/api/axiosInstance";
 
 // Types
 export interface AutoReplyProject {
   id: string;
   project_name: string;
-  status: 'Active' | 'Draft';
+  status: "Active" | "Draft";
   setting_type: string;
   listing_count: number;
   created_at: string;
@@ -26,7 +26,7 @@ export interface AutoReplyState {
 export interface CreateAutoReplyRequest {
   projectName: string;
   listings: string[];
-  replyType: 'AI' | 'Custom';
+  replyType: "AI" | "Custom";
   aiSettings?: {
     tone: string;
     responseLength: string;
@@ -40,16 +40,24 @@ export interface CreateAutoReplyRequest {
 
 // API call to fetch auto reply projects
 export const fetchAutoReplyProjects = createAsyncThunk(
-  'autoReply/fetchProjects',
-  async (params: { page: number; limit: number; search?: string; filter?: string }) => {
+  "autoReply/fetchProjects",
+  async (params: {
+    page: number;
+    limit: number;
+    search?: string;
+    filter?: string;
+  }) => {
     try {
-      const response = await axiosInstance.post('/get-bulk-auto-reply-details', params);
+      const response = await axiosInstance.post(
+        "/get-bulk-auto-reply-details",
+        params
+      );
       const result = response.data;
-      
+
       if (result.code === 200) {
         // Use API-provided pagination data
         const { pagination, projects } = result.data;
-        
+
         return {
           projects: projects,
           pagination: {
@@ -57,54 +65,54 @@ export const fetchAutoReplyProjects = createAsyncThunk(
             totalPages: pagination.pages,
             totalItems: pagination.total,
             hasNext: pagination.has_next,
-            hasPrev: pagination.page > 1
-          }
+            hasPrev: pagination.page > 1,
+          },
         };
       } else {
-        throw new Error(result.message || 'Failed to fetch projects');
+        throw new Error(result.message || "Failed to fetch projects");
       }
     } catch (error) {
-      throw new Error('Failed to fetch auto reply projects');
+      throw new Error("Failed to fetch auto reply projects");
     }
   }
 );
 
 export const createAutoReplyProject = createAsyncThunk(
-  'autoReply/createProject',
+  "autoReply/createProject",
   async (data: CreateAutoReplyRequest) => {
     // Mock API call - replace with actual endpoint
     const newProject: AutoReplyProject = {
       id: Date.now().toString(),
       project_name: data.projectName,
-      status: 'Draft' as const,
-      setting_type: data.replyType === 'AI' ? 'AI Setting' : 'Custom Setting',
+      status: "Draft" as const,
+      setting_type: data.replyType === "AI" ? "AI Setting" : "Custom Setting",
       listing_count: data.listings.length,
-      created_at: new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      })
+      created_at: new Date().toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
     };
-    
+
     return newProject;
   }
 );
 
 export const deleteAutoReplyProject = createAsyncThunk(
-  'autoReply/deleteProject',
+  "autoReply/deleteProject",
   async (projectId: string) => {
     try {
-      const response = await axiosInstance.post('/delete-auto-reply-project', {
-        projectId: projectId
+      const response = await axiosInstance.post("/delete-auto-reply-project", {
+        projectId: projectId,
       });
-      
+
       if (response.data.code === 200) {
         return projectId;
       } else {
-        throw new Error(response.data.message || 'Failed to delete project');
+        throw new Error(response.data.message || "Failed to delete project");
       }
     } catch (error) {
-      throw new Error('Failed to delete project');
+      throw new Error("Failed to delete project");
     }
   }
 );
@@ -113,16 +121,16 @@ const initialState: AutoReplyState = {
   projects: [],
   loading: false,
   error: null,
-  searchQuery: '',
-  selectedFilter: 'all',
+  searchQuery: "",
+  selectedFilter: "all",
   currentPage: 1,
   pageSize: 10,
   totalPages: 0,
-  totalItems: 0
+  totalItems: 0,
 };
 
 const autoReplySlice = createSlice({
-  name: 'autoReply',
+  name: "autoReply",
   initialState,
   reducers: {
     setSearchQuery: (state, action: PayloadAction<string>) => {
@@ -138,7 +146,7 @@ const autoReplySlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -155,7 +163,7 @@ const autoReplySlice = createSlice({
       })
       .addCase(fetchAutoReplyProjects.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch projects';
+        state.error = action.error.message || "Failed to fetch projects";
       })
       // Create project
       .addCase(createAutoReplyProject.pending, (state) => {
@@ -169,7 +177,7 @@ const autoReplySlice = createSlice({
       })
       .addCase(createAutoReplyProject.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to create project';
+        state.error = action.error.message || "Failed to create project";
       })
       // Delete project
       .addCase(deleteAutoReplyProject.pending, (state) => {
@@ -178,15 +186,16 @@ const autoReplySlice = createSlice({
       })
       .addCase(deleteAutoReplyProject.fulfilled, (state, action) => {
         state.loading = false;
-        state.projects = state.projects.filter(p => p.id !== action.payload);
+        state.projects = state.projects.filter((p) => p.id !== action.payload);
         state.totalItems -= 1;
       })
       .addCase(deleteAutoReplyProject.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to delete project';
+        state.error = action.error.message || "Failed to delete project";
       });
-  }
+  },
 });
 
-export const { setSearchQuery, setSelectedFilter, setCurrentPage, clearError } = autoReplySlice.actions;
+export const { setSearchQuery, setSelectedFilter, setCurrentPage, clearError } =
+  autoReplySlice.actions;
 export default autoReplySlice.reducer;

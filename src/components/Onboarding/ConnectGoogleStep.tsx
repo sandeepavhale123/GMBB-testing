@@ -15,7 +15,7 @@ const ConnectGoogleStep = () => {
   const permissions = t("connectGoogleStep.permissions", {
     returnObjects: true,
   });
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const permissionsArray = Array.isArray(permissions) ? permissions : [];
 
   const localdomain = window.location.host;
@@ -62,9 +62,7 @@ const ConnectGoogleStep = () => {
         </div>
 
         <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-          <a
-            href={`https://api.gmbbriefcase.com/api/v1/google-auth?domain=${localdomain}/onboarding`}
-          >
+          <a href={`${BASE_URL}/google-auth?domain=${localdomain}/onboarding`}>
             <Button
               variant="outline"
               className="w-full h-10 text-sm sm:text-base"

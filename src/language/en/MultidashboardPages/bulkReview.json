@@ -7,6 +7,7 @@
     "loading": "Loading reviews...",
     "noReviews": "No reviews found matching your criteria."
   },
+  "export":"Export CSV",
   "toast": {
     "successTitle":"Success",
     "replySuccess": "Reply sent successfully",

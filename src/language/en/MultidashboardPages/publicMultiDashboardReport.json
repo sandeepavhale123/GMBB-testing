@@ -26,6 +26,8 @@
       "subtitle": "Customer feedback"
     }
   },
+  "listing":"GMB Listing – {{name}}  dashboard",
+  "allcategories":"All Categories",
   "filters": {
     "dashboardSelector": "Select Dashboard Type",
     "default": "Default Dashboard",

@@ -21,6 +21,13 @@
       "export": "Export CSV",
       "exporting": "Exporting..."
     },
+    "rating":{
+      "rating1":"1 Star",
+      "rating2":"2 Star",
+      "rating3":"3 Star",
+      "rating4":"4 Star",
+      "rating5":"5 Star"
+    },
     "toast": {
       "validation": {
         "title": "Validation Error",

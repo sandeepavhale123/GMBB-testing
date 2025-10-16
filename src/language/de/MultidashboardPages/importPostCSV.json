@@ -1,18 +1,19 @@
 {
   "importPostCSV": {
-    "title": "Massenbeitragsverwaltung",
+    "title": "Massenpost-Verwaltung",
     "importButton": "CSV-Datei importieren",
     "searchPlaceholder": "Nach Dateiname oder Notiz suchen...",
-    "noRecordsFound": "Keine Datensätze für Ihre Suche gefunden.",
-    "noCSVFound": "Keine CSV-Importe gefunden. Klicken Sie auf „Importieren“, um zu beginnen.",
+    "noRecordsFound": "Keine Einträge für Ihre Suche gefunden.",
+    "noCSVFound": "Keine CSV-Importe gefunden. Klicken Sie auf \"Importieren\", um zu starten.",
     "tableHeaders": {
       "filename": "Dateiname",
       "note": "Notiz",
       "date": "Datum",
-      "totalPosts": "Gesamtanzahl der Beiträge",
-      "listingsApplied": "Angewendete Einträge",
+      "totalPosts": "Gesamtbeiträge",
+      "listingsApplied": "Angewandte Einträge",
       "status": "Status",
-      "action": "Aktion"
+      "action": "Aktion",
+      "listing": "Einträge"
     },
     "status": {
       "completed": "abgeschlossen",
@@ -21,17 +22,17 @@
     },
     "deleteDialog": {
       "title": "CSV-Import löschen",
-      "description": "Sind Sie sicher, dass Sie den Importdatensatz für „{{filename}}“ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "description": "Möchten Sie den Importeintrag für \"{{filename}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "cancel": "Abbrechen",
       "delete": "Löschen",
-      "deleting": "Wird gelöscht..."
+      "deleting": "Löschen..."
     },
     "toast": {
       "successTitle": "Erfolg",
-      "successMessage": "Datensatz erfolgreich gelöscht",
+      "successMessage": "Eintrag erfolgreich gelöscht",
       "errorTitle": "Fehler",
-      "errorMessage": "Datensatz konnte nicht gelöscht werden"
+      "errorMessage": "Löschen des Eintrags fehlgeschlagen"
     },
-    "paginationInfo": "Zeige {{start}} bis {{end}} von {{total}} Einträgen"
+    "paginationInfo": "Anzeige von {{start}} bis {{end}} von {{total}} Einträgen"
   }
 }

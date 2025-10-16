@@ -1,0 +1,15 @@
+{
+  "listings": {
+    "fetchError": "Fehler beim Abrufen der Einträge",
+    "noListingsFound": "Keine Einträge für diese History-ID gefunden."
+  },
+  "posts": {
+    "fetchError": "Fehler beim Abrufen der Beiträge",
+    "deleteError": "Fehler beim Löschen des Beitrags",
+    "deleteSuccess": "Beitrag erfolgreich gelöscht"
+  },
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler"
+  }
+}

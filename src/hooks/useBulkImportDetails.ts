@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import { csvApi, type BulkListing, type BulkImportPost } from '@/api/csvApi';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect, useCallback } from "react";
+import { csvApi, type BulkListing, type BulkImportPost } from "@/api/csvApi";
+import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface UseBulkImportDetailsResult {
   // Listings data
@@ -13,7 +14,7 @@ interface UseBulkImportDetailsResult {
     limit: number;
     total: number;
   };
-  
+
   // Posts data
   posts: BulkImportPost[];
   postsLoading: boolean;
@@ -26,12 +27,12 @@ interface UseBulkImportDetailsResult {
     hasNext: boolean;
     hasPrev: boolean;
   };
-  
+
   // Search and filters
   listingSearch: string;
   postSearch: string;
   selectedListingId: string | null;
-  
+
   // Actions
   setListingSearch: (search: string) => void;
   setPostSearch: (search: string) => void;
@@ -44,7 +45,10 @@ interface UseBulkImportDetailsResult {
   isDeletingPost: boolean;
 }
 
-export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsResult => {
+export const useBulkImportDetails = (
+  historyId: number
+): UseBulkImportDetailsResult => {
+  const { t } = useI18nNamespace("hooks/useBulkImportDetails");
   const { toast } = useToast();
   // Listings state
   const [listings, setListings] = useState<BulkListing[]>([]);
@@ -54,9 +58,9 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
   const [listingsPagination, setListingsPagination] = useState({
     page: 1,
     limit: 10,
-    total: 0
+    total: 0,
   });
-  const [listingSearch, setListingSearch] = useState('');
+  const [listingSearch, setListingSearch] = useState("");
 
   // Posts state
   const [posts, setPosts] = useState<BulkImportPost[]>([]);
@@ -65,44 +69,50 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
   const [postsPagination, setPostsPagination] = useState({
     page: 1,
     limit: 10,
-    total: 0
+    total: 0,
   });
-  const [postSearch, setPostSearch] = useState('');
-  const [selectedListingId, setSelectedListingId] = useState<string | null>(null);
+  const [postSearch, setPostSearch] = useState("");
+  const [selectedListingId, setSelectedListingId] = useState<string | null>(
+    null
+  );
   const [isDeletingPost, setIsDeletingPost] = useState(false);
 
   // Fetch listings
   const fetchListings = useCallback(async () => {
     if (!historyId) return;
-    
+
     setListingsLoading(true);
     setListingsError(null);
     setNoListingsFound(false);
-    
+
     try {
       const response = await csvApi.getBulkCSVListing({
         historyId,
         page: listingsPagination.page,
         limit: listingsPagination.limit,
-        search: listingSearch
+        search: listingSearch,
       });
-      
+
       setListings(response.data.listings);
-      setListingsPagination(prev => ({
+      setListingsPagination((prev) => ({
         ...prev,
-        total: response.data.pagination.total
+        total: response.data.pagination.total,
       }));
-      
+
       // Auto-select first listing if none selected
       if (!selectedListingId && response.data.listings.length > 0) {
         setSelectedListingId(response.data.listings[0].id);
       }
     } catch (error: any) {
-      console.error('Failed to fetch listings:', error);
-      const errorMessage = error?.response?.data?.message || 'Failed to fetch listings';
-      
+      console.error("Failed to fetch listings:", error);
+      const errorMessage =
+        error?.response?.data?.message || t("listings.fetchError");
+
       // Check if this is the specific "No listings found" error
-      if (error?.response?.status === 401 && errorMessage === 'No listings found for this history ID.') {
+      if (
+        error?.response?.status === 401 &&
+        errorMessage === t("listings.noListingsFound")
+      ) {
         setNoListingsFound(true);
         setListings([]);
       } else {
@@ -111,7 +121,13 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     } finally {
       setListingsLoading(false);
     }
-  }, [historyId, listingsPagination.page, listingsPagination.limit, listingSearch, selectedListingId]);
+  }, [
+    historyId,
+    listingsPagination.page,
+    listingsPagination.limit,
+    listingSearch,
+    selectedListingId,
+  ]);
 
   // Fetch posts for selected listing
   const fetchPosts = useCallback(async () => {
@@ -119,31 +135,37 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
       setPosts([]);
       return;
     }
-    
+
     setPostsLoading(true);
     setPostsError(null);
-    
+
     try {
       const response = await csvApi.getListingPostDetails({
         historyId,
         listingId: selectedListingId,
         page: postsPagination.page,
         limit: postsPagination.limit,
-        search: postSearch
+        search: postSearch,
       });
-      
+
       setPosts(response.data.posts);
-      setPostsPagination(prev => ({
+      setPostsPagination((prev) => ({
         ...prev,
-        total: response.data.pagination.total
+        total: response.data.pagination.total,
       }));
     } catch (error: any) {
-      console.error('Failed to fetch posts:', error);
-      setPostsError(error?.response?.data?.message || 'Failed to fetch posts');
+      console.error("Failed to fetch posts:", error);
+      setPostsError(error?.response?.data?.message || t("posts.fetchError"));
     } finally {
       setPostsLoading(false);
     }
-  }, [historyId, selectedListingId, postsPagination.page, postsPagination.limit, postSearch]);
+  }, [
+    historyId,
+    selectedListingId,
+    postsPagination.page,
+    postsPagination.limit,
+    postSearch,
+  ]);
 
   // Effects
   useEffect(() => {
@@ -157,56 +179,59 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
   // Actions
   const handleSetListingSearch = useCallback((search: string) => {
     setListingSearch(search);
-    setListingsPagination(prev => ({ ...prev, page: 1 }));
+    setListingsPagination((prev) => ({ ...prev, page: 1 }));
   }, []);
 
   const handleSetPostSearch = useCallback((search: string) => {
     setPostSearch(search);
-    setPostsPagination(prev => ({ ...prev, page: 1 }));
+    setPostsPagination((prev) => ({ ...prev, page: 1 }));
   }, []);
 
   const handleSetSelectedListingId = useCallback((id: string) => {
     setSelectedListingId(id);
-    setPostsPagination(prev => ({ ...prev, page: 1 }));
+    setPostsPagination((prev) => ({ ...prev, page: 1 }));
   }, []);
 
   const handleSetListingsPage = useCallback((page: number) => {
-    setListingsPagination(prev => ({ ...prev, page }));
+    setListingsPagination((prev) => ({ ...prev, page }));
   }, []);
 
   const handleSetPostsPage = useCallback((page: number) => {
-    setPostsPagination(prev => ({ ...prev, page }));
+    setPostsPagination((prev) => ({ ...prev, page }));
   }, []);
 
   // Delete post function
-  const deletePost = useCallback(async (postId: string) => {
-    setIsDeletingPost(true);
-    
-    try {
-      const response = await csvApi.deleteBulkListingPosts({
-        historyId,
-        postIds: [parseInt(postId)],
-        isDelete: 'confirm'
-      });
+  const deletePost = useCallback(
+    async (postId: string) => {
+      setIsDeletingPost(true);
 
-      // Re-fetch posts from server to get updated list
-      await fetchPosts();
-      
-      toast({
-        title: "Success",
-        description: response.message,
-      });
-    } catch (error: any) {
-      console.error('Failed to delete post:', error);
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || 'Failed to delete post',
-        variant: "destructive",
-      });
-    } finally {
-      setIsDeletingPost(false);
-    }
-  }, [historyId, toast, fetchPosts]);
+      try {
+        const response = await csvApi.deleteBulkListingPosts({
+          historyId,
+          postIds: [parseInt(postId)],
+          isDelete: "confirm",
+        });
+
+        // Re-fetch posts from server to get updated list
+        await fetchPosts();
+
+        toast({
+          title: t("toast.success"),
+          description: response.message,
+        });
+      } catch (error: any) {
+        console.error("Failed to delete post:", error);
+        toast({
+          title: t("toast.error"),
+          description: error?.response?.data?.message || t("posts.deleteError"),
+          variant: "destructive",
+        });
+      } finally {
+        setIsDeletingPost(false);
+      }
+    },
+    [historyId, toast, fetchPosts]
+  );
 
   const postsTotal = postsPagination.total;
   const postsTotalPages = Math.ceil(postsTotal / postsPagination.limit);
@@ -218,7 +243,7 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     listingsError,
     noListingsFound,
     listingsPagination,
-    
+
     // Posts data
     posts,
     postsLoading,
@@ -227,14 +252,14 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
       ...postsPagination,
       totalPages: postsTotalPages,
       hasNext: postsPagination.page < postsTotalPages,
-      hasPrev: postsPagination.page > 1
+      hasPrev: postsPagination.page > 1,
     },
-    
+
     // Search and filters
     listingSearch,
     postSearch,
     selectedListingId,
-    
+
     // Actions
     setListingSearch: handleSetListingSearch,
     setPostSearch: handleSetPostSearch,
@@ -244,6 +269,6 @@ export const useBulkImportDetails = (historyId: number): UseBulkImportDetailsRes
     refreshListings: fetchListings,
     refreshPosts: fetchPosts,
     deletePost,
-    isDeletingPost
+    isDeletingPost,
   };
 };

@@ -1,0 +1,15 @@
+{
+  "csvDropzone": {
+    "dropPrompt": "Trascina e rilascia il tuo file CSV",
+    "dropHere": "Rilascia qui il tuo file CSV",
+    "reupload": "Ricarica il file",
+    "or": "o",
+    "chooseFile": "scegli un file dal computer",
+    "fileInfo": "Solo file CSV • Max 5MB",
+    "supported": "Supportato: .csv",
+    "errors": {
+      "invalidType": "Sono consentiti solo file CSV",
+      "maxSize": "La dimensione del file deve essere inferiore a 5MB"
+    }
+  }
+}

@@ -181,7 +181,9 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
     locationOptions.every((option) => selectedListings.includes(option.id));
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-medium">{label}</Label>
+      <Label className="text-sm font-medium">
+        {t("multiListingSelector.label")}
+      </Label>
 
       {/* Selected items display */}
       {selectedListings.length > 0 && (
@@ -213,13 +215,22 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             disabled={isLoading}
             onClick={() => setOpen(!open)}
           >
-            {selectedListings.length === 0
-              ? isLoading
-                ? t("multiListingSelector.loading")
-                : t("multiListingSelector.placeholder")
-              : `${selectedListings.length} item${
-                  selectedListings.length === 1 ? "" : "s"
-                } selected`}
+            {
+              selectedListings.length === 0
+                ? isLoading
+                  ? t("multiListingSelector.loading")
+                  : t("multiListingSelector.placeholder")
+                : selectedListings.length === 1
+                ? t("multiListingSelector.selectedCount", {
+                    count: selectedListings.length,
+                  })
+                : t("multiListingSelector.selectedCount_plural", {
+                    count: selectedListings.length,
+                  })
+              // `${
+              //   selectedListings.length
+              // } item${selectedListings.length === 1 ? "" : "s"} selected`
+            }
             <ChevronDown
               className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${
                 open ? "rotate-180" : ""

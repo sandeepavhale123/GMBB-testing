@@ -1,18 +1,19 @@
 {
   "importPostCSV": {
-    "title": "Gestión masiva de publicaciones",
+    "title": "Gestión de Publicaciones Masivas",
     "importButton": "Importar archivo CSV",
     "searchPlaceholder": "Buscar por nombre de archivo o nota...",
-    "noRecordsFound": "No se encontraron registros para tu búsqueda.",
-    "noCSVFound": "No se encontraron importaciones CSV. Haz clic en \"Importar\" para comenzar.",
+    "noRecordsFound": "No se encontraron registros para su búsqueda.",
+    "noCSVFound": "No se encontraron importaciones CSV. Haga clic en \"Importar\" para comenzar.",
     "tableHeaders": {
-      "filename": "Nombre del archivo",
+      "filename": "Nombre de archivo",
       "note": "Nota",
       "date": "Fecha",
       "totalPosts": "Total de publicaciones",
       "listingsApplied": "Listados aplicados",
       "status": "Estado",
-      "action": "Acción"
+      "action": "Acción",
+      "listing": "Listados"
     },
     "status": {
       "completed": "completado",
@@ -21,16 +22,16 @@
     },
     "deleteDialog": {
       "title": "Eliminar importación CSV",
-      "description": "¿Estás seguro de que deseas eliminar el registro de importación de \"{{filename}}\"? Esta acción no se puede deshacer.",
+      "description": "¿Está seguro de que desea eliminar el registro de importación de \"{{filename}}\"? Esta acción no se puede deshacer.",
       "cancel": "Cancelar",
       "delete": "Eliminar",
       "deleting": "Eliminando..."
     },
     "toast": {
       "successTitle": "Éxito",
-      "successMessage": "Registro eliminado correctamente",
+      "successMessage": "Registro eliminado con éxito",
       "errorTitle": "Error",
-      "errorMessage": "Error al eliminar el registro"
+      "errorMessage": "No se pudo eliminar el registro"
     },
     "paginationInfo": "Mostrando {{start}} a {{end}} de {{total}} entradas"
   }

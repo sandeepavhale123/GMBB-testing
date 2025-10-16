@@ -1,24 +1,26 @@
 {
-  "label": "Seleziona sedi",
+  "label": "Seleziona Posizioni",
   "placeholders": {
-    "search": "Cerca sedi..."
+    "search": "Cerca posizioni..."
   },
+  "item": "{{count}} elemento selezionato",
+  "items": "{{count}} elementi selezionati",
   "sections": {
     "groups": "Gruppi",
-    "locations": "Sedi"
+    "locations": "Posizioni"
   },
   "actions": {
     "selectAll": "Seleziona tutto",
     "deselectAll": "Deseleziona tutto"
   },
   "status": {
-    "locations": "Sedi"
+    "locations": "Posizioni"
   },
   "messages": {
     "loading": "Caricamento in corso...",
-    "noResults": "Nessuna sede trovata.",
-    "selectAtLeastOne": "Seleziona almeno una sede per continuare.",
-    "error": "Impossibile recuperare i dettagli della risposta in blocco",
+    "noResults": "Nessuna posizione trovata.",
+    "selectAtLeastOne": "Seleziona almeno una posizione per continuare.",
+    "error": "Impossibile recuperare i dettagli della risposta multipla",
     "errorTitle": "Errore"
   }
 }

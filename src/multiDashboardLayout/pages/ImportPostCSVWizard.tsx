@@ -31,12 +31,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { count } from "console";
-const postTypeOptions = [
-  { label: "Select file type", value: "0" },
-  { label: "Regular post file", value: "1" },
-  { label: "Event post file", value: "2" },
-  { label: "Offer post file", value: "3" },
-];
 
 interface WizardFormData {
   selectedListings: string[];
@@ -76,6 +70,26 @@ export const ImportPostCSVWizard: React.FC = () => {
     uploadedFileName: null,
     saveResponse: null,
   });
+
+  const postTypeOptions = [
+    {
+      label: t("importPostCSVWizard.selectListings.postTypeOptions.0"),
+      value: "0",
+    },
+    {
+      label: t("importPostCSVWizard.selectListings.postTypeOptions.1"),
+      value: "1",
+    },
+    {
+      label: t("importPostCSVWizard.selectListings.postTypeOptions.2"),
+      value: "2",
+    },
+    {
+      label: t("importPostCSVWizard.selectListings.postTypeOptions.3"),
+      value: "3",
+    },
+  ];
+
   const steps = [
     {
       number: 1,
@@ -726,10 +740,12 @@ export const ImportPostCSVWizard: React.FC = () => {
                         >
                           <div className="flex justify-between items-start mb-2">
                             <span className="font-medium text-red-700">
-                              Row {row.row} - {row.data.business_name}
+                              {t("importPostCSVWizard.row")} {row.row} -{" "}
+                              {row.data.business_name}
                             </span>
                             <span className="text-xs text-red-600">
-                              {row.errors.length} error(s)
+                              {row.errors.length}{" "}
+                              {t("importPostCSVWizard.error")}
                             </span>
                           </div>
                           <div className="space-y-1">

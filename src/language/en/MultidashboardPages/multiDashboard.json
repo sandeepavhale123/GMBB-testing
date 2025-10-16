@@ -60,6 +60,7 @@
       "failedPost": "Failed Post"
     }
   },
+  "export":"Export CSV",
   "status": {
     "loading": "Loading...",
     "error": "Error loading data",
@@ -67,6 +68,11 @@
     "showingListings": "Showing {{count}} of {{total}} listings",
     "previous": "Previous",
     "next": "Next"
+  },
+  "rating":{
+    "excellent":"Excellent",
+    "good":"Good",
+    "poor":"Poor"
   },
   "listing": {
     "listingid":"ID: {{id}}",

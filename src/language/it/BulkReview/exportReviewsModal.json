@@ -1,31 +1,38 @@
 {
   "exportReviewsModal": {
-    "title": "Esporta Dati Recensioni",
-    "selectListingsLabel": "Seleziona Inserzioni",
-    "selectListingsPlaceholder": "Seleziona inserzioni...",
-    "exportTypeLabel": "Scegli Tipo di Esportazione",
-    "exportPlaceholder": "Seleziona tipo di esportazione",
+    "title": "Esporta dati delle recensioni",
+    "selectListingsLabel": "Seleziona le sedi",
+    "selectListingsPlaceholder": "Seleziona le sedi...",
+    "exportTypeLabel": "Scegli il tipo di esportazione",
+    "exportPlaceholder": "Seleziona il tipo di esportazione",
     "exportTypeOptions": {
-      "1": "Rapporto Riepilogativo - Solo Conteggio (Senza Intervallo di Date)",
-      "2": "Rapporto Riepilogativo Personalizzato - Recensione per Recensione (Con Intervallo di Date)",
-      "3": "Rapporto Riepilogativo Personalizzato - Solo Conteggio (Con Intervallo di Date)"
+      "1": "Report riepilogativo - Solo conteggio (nessun intervallo di date)",
+      "2": "Report riepilogativo personalizzato - Recensione per recensione (con intervallo di date)",
+      "3": "Report riepilogativo personalizzato - Solo conteggio (con intervallo di date)"
     },
-    "starRatingsLabel": "Seleziona Valutazioni a Stelle",
-    "selectAll": "Seleziona Tutte",
-    "deselectAll": "Deseleziona Tutte",
-    "starsSelected": "{{selected}} di {{total}} valutazioni a stelle selezionate",
-    "dateRangeLabel": "Seleziona Intervallo di Date",
-    "dateRangePlaceholder": "Seleziona intervallo di date per le recensioni",
+    "starRatingsLabel": "Seleziona le valutazioni con stelle",
+    "selectAll": "Seleziona tutto",
+    "deselectAll": "Deseleziona tutto",
+    "starsSelected": "{{selected}} su {{total}} valutazioni con stelle selezionate",
+    "dateRangeLabel": "Seleziona un intervallo di date",
+    "dateRangePlaceholder": "Seleziona un intervallo di date per le recensioni",
     "buttons": {
       "cancel": "Annulla",
       "export": "Esporta CSV",
       "exporting": "Esportazione in corso..."
     },
+    "rating": {
+      "rating1": "1 stella",
+      "rating2": "2 stelle",
+      "rating3": "3 stelle",
+      "rating4": "4 stelle",
+      "rating5": "5 stelle"
+    },
     "toast": {
       "validation": {
-        "title": "Errore di Validazione",
-        "noListing": "Seleziona almeno una inserzione",
-        "noStar": "Seleziona almeno una valutazione a stelle",
+        "title": "Errore di validazione",
+        "noListing": "Seleziona almeno una sede",
+        "noStar": "Seleziona almeno una valutazione con stelle",
         "noDateRange": "Seleziona un intervallo di date"
       },
       "success": {
@@ -33,8 +40,8 @@
         "description": "File CSV generato e download avviato"
       },
       "error": {
-        "title": "Esportazione Fallita",
-        "description": "Si è verificato un errore durante l'esportazione"
+        "title": "Errore di esportazione",
+        "description": "Si è verificato un errore durante l’esportazione"
       }
     }
   }

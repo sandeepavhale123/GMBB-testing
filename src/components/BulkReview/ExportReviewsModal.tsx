@@ -51,11 +51,23 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
   ];
 
   const STAR_RATINGS = [
-    { id: "ONE", label: "1 Star", value: "ONE" },
-    { id: "TWO", label: "2 Star", value: "TWO" },
-    { id: "THREE", label: "3 Star", value: "THREE" },
-    { id: "FOUR", label: "4 Star", value: "FOUR" },
-    { id: "FIVE", label: "5 Star", value: "FIVE" },
+    { id: "ONE", label: t("exportReviewsModal.rating.rating1"), value: "ONE" },
+    { id: "TWO", label: t("exportReviewsModal.rating.rating2"), value: "TWO" },
+    {
+      id: "THREE",
+      label: t("exportReviewsModal.rating.rating3"),
+      value: "THREE",
+    },
+    {
+      id: "FOUR",
+      label: t("exportReviewsModal.rating.rating4"),
+      value: "FOUR",
+    },
+    {
+      id: "FIVE",
+      label: t("exportReviewsModal.rating.rating5"),
+      value: "FIVE",
+    },
   ];
 
   const { toast } = useToast();
@@ -185,7 +197,7 @@ export const ExportReviewsModal: React.FC<ExportReviewsModalProps> = ({
             onListingsChange={setSelectedListings}
             error={
               selectedListings.length === 0
-                ? "Please select at least one listing"
+                ? t("exportReviewsModal.toast.validation.noListing")
                 : undefined
             }
             label={t("exportReviewsModal.selectListingsLabel")}

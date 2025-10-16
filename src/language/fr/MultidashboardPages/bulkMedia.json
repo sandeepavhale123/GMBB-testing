@@ -1,7 +1,7 @@
 {
   "header": {
-    "title": "Gestion des médias en masse",
-    "subtitle": "Téléversez et organisez les médias sur plusieurs annonces."
+    "title": "Gestion de médias en masse",
+    "subtitle": "Téléchargez et organisez des médias sur plusieurs fiches."
   },
   "buttons": {
     "upload": "Téléverser des médias",
@@ -13,23 +13,24 @@
   "messages": {
     "errorLoading": "Erreur lors du chargement des médias en masse : {{error}}",
     "noMediaTitle": "Aucun média en masse pour le moment",
-    "noMediaDescription": "Téléversez votre premier média en masse pour commencer",
+    "noMediaDescription": "Téléchargez votre premier média en masse pour commencer",
     "noImage": "Aucune image",
     "noActivePosts": "Aucune publication active",
-    "postedOn": "Publié sur {{count}} annonces",
-    "failedOn": "Échec sur {{count}} annonces",
-    "scheduledOn": "Planifié sur {{count}} annonces"
+    "postedOn": "Publié sur {{count}} fiches",
+    "failedOn": "Échec sur {{count}} fiches",
+    "scheduledOn": "Planifié sur {{count}} fiches"
   },
   "mediaTypes": {
     "video": "Vidéo",
     "photo": "Photo"
   },
+  "location": "total des emplacements",
   "pagination": {
     "showing": "Affichage de {{from}} à {{to}} sur {{total}} médias"
   },
   "deleteDialog": {
     "title": "Supprimer le média",
-    "description": "Êtes-vous sûr(e) de vouloir supprimer \"{{title}}\" ? Cette action est irréversible et supprimera le média de toutes les annonces associées.",
+    "description": "Êtes-vous sûr de vouloir supprimer \"{{title}}\" ? Cette action est irréversible et supprimera le média de toutes les fiches associées.",
     "cancel": "Annuler",
     "confirm": "Supprimer"
   },

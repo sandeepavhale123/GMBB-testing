@@ -12,7 +12,8 @@
       "totalPosts": "Total Posts",
       "listingsApplied": "Listings Applied",
       "status": "Status",
-      "action": "Action"
+      "action": "Action",
+      "listing":"Listings"
     },
     "status":{
       "completed": "completed",

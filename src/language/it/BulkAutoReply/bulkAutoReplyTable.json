@@ -1,13 +1,17 @@
 {
   "tableHeaders": {
     "projectName": "Nome del progetto",
-    "locations": "Numero di sedi",
+    "locations": "N. di sedi",
     "status": "Stato",
     "responseType": "Tipo di risposta",
     "createdDate": "Data di creazione",
     "actions": "Azioni"
   },
-  "loading": "Caricamento progetti...",
+  "status": {
+    "active": "Attivo",
+    "draft": "Bozza"
+  },
+  "loading": "Caricamento dei progetti...",
   "noProjects": "Nessun progetto di risposta automatica trovato.",
   "location": "sede",
   "locations": "sedi",
@@ -16,5 +20,5 @@
   "cancel": "Annulla",
   "error": "Errore",
   "delete": "Elimina",
-  "paginationInfo": "Mostrati {{start}} a {{end}} di {{total}} progetti"
+  "paginationInfo": "Visualizzazione da {{start}} a {{end}} di {{total}} progetti"
 }

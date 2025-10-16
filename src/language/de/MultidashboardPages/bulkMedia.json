@@ -1,14 +1,14 @@
 {
   "header": {
-    "title": "Massenmedienverwaltung",
-    "subtitle": "Medien hochladen und über mehrere Einträge organisieren."
+    "title": "Massen-Medienverwaltung",
+    "subtitle": "Medien auf mehreren Einträgen hochladen und organisieren."
   },
   "buttons": {
     "upload": "Medien hochladen",
     "tryAgain": "Erneut versuchen",
-    "viewDetails": "Details anzeigen",
+    "viewDetails": "Details ansehen",
     "delete": "Löschen",
-    "deleting": "Lösche..."
+    "deleting": "Wird gelöscht..."
   },
   "messages": {
     "errorLoading": "Fehler beim Laden der Massenmedien: {{error}}",
@@ -24,12 +24,13 @@
     "video": "Video",
     "photo": "Foto"
   },
+  "location": "Gesamtanzahl der Standorte",
   "pagination": {
     "showing": "Zeige {{from}} bis {{to}} von {{total}} Medien"
   },
   "deleteDialog": {
     "title": "Medien löschen",
-    "description": "Möchten Sie \"{{title}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden und entfernt die Medien aus allen zugehörigen Einträgen.",
+    "description": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt das Medium aus allen zugehörigen Einträgen.",
     "cancel": "Abbrechen",
     "confirm": "Löschen"
   },

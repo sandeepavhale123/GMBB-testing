@@ -250,7 +250,8 @@ export const ImportPostCSV: React.FC = () => {
                       {record.total_posts}
                     </TableCell>
                     <TableCell className="text-foreground">
-                      {record.listing_count} Listings
+                      {record.listing_count}{" "}
+                      {t("importPostCSV.tableHeaders.listing")}
                     </TableCell>
                     <TableCell>
                       <Badge

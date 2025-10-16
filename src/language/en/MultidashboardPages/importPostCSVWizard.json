@@ -52,6 +52,8 @@
       "goToDashboard": "Go to Main Dashboard",
       "viewPostDetails": "View Post Details"
     },
+    "row":"Row",
+    "error":"error(s)",
     "errors": {
         "title":"Error",
       "selectListing": "Please select at least one listing.",

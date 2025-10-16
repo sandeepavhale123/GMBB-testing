@@ -1,0 +1,15 @@
+{
+  "listings": {
+    "fetchError": "Échec de la récupération des annonces",
+    "noListingsFound": "Aucune annonce trouvée pour cet ID d'historique."
+  },
+  "posts": {
+    "fetchError": "Échec de la récupération des publications",
+    "deleteError": "Échec de la suppression de la publication",
+    "deleteSuccess": "Publication supprimée avec succès"
+  },
+  "toast": {
+    "success": "Succès",
+    "error": "Erreur"
+  }
+}

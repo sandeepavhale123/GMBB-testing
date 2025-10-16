@@ -1,24 +1,26 @@
 {
-  "label": "Sélectionner des sites",
+  "label": "Sélectionner des emplacements",
   "placeholders": {
-    "search": "Rechercher des sites..."
+    "search": "Rechercher des emplacements..."
   },
+  "item": "{{count}} élément sélectionné",
+  "items": "{{count}} éléments sélectionnés",
   "sections": {
     "groups": "Groupes",
-    "locations": "Sites"
+    "locations": "Emplacements"
   },
   "actions": {
     "selectAll": "Tout sélectionner",
     "deselectAll": "Tout désélectionner"
   },
   "status": {
-    "locations": "Sites"
+    "locations": "Emplacements"
   },
   "messages": {
     "loading": "Chargement...",
-    "noResults": "Aucun site trouvé.",
-    "selectAtLeastOne": "Sélectionnez au moins un site pour continuer.",
-    "error": "Échec de récupération des détails de la réponse en masse",
+    "noResults": "Aucun emplacement trouvé.",
+    "selectAtLeastOne": "Sélectionnez au moins un emplacement pour continuer.",
+    "error": "Échec de la récupération des détails de réponse en masse",
     "errorTitle": "Erreur"
   }
 }

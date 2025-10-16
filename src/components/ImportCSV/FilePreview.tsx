@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { FileText, Eye, AlertCircle, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface ValidationRow {
   row: number;
   errors: string[];
@@ -21,7 +28,11 @@ interface CSVRow {
   [key: string]: string;
 }
 
-export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = [] }) => {
+export const FilePreview: React.FC<FilePreviewProps> = ({
+  file,
+  validatedRows = [],
+}) => {
+  const { t } = useI18nNamespace("ImportCSV/FilePreview");
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [totalRows, setTotalRows] = useState<number>(0);
@@ -40,24 +51,24 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
   const parseCSV = async (file: File) => {
     setIsLoading(true);
     setParseError(null);
-    
+
     try {
       let text = await file.text();
-      
+
       // Remove BOM if present
-      if (text.charCodeAt(0) === 0xFEFF) {
+      if (text.charCodeAt(0) === 0xfeff) {
         text = text.slice(1);
       }
-      
+
       if (!text.trim()) {
-        setParseError("File appears to be empty");
+        setParseError(t("filePreview.fileEmpty"));
         return;
       }
 
       // Parse entire CSV with proper quote handling
       const rows: string[][] = [];
       let currentRow: string[] = [];
-      let currentField = '';
+      let currentField = "";
       let inQuotes = false;
 
       for (let i = 0; i < text.length; i++) {
@@ -73,26 +84,26 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
             // Toggle quote state
             inQuotes = !inQuotes;
           }
-        } else if (char === ',' && !inQuotes) {
+        } else if (char === "," && !inQuotes) {
           // Field separator
-          currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
-          currentField = '';
-        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          currentRow.push(currentField.trim().replace(/[\r\n]+/g, " "));
+          currentField = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
           // Row separator
-          if (char === '\r' && nextChar === '\n') {
+          if (char === "\r" && nextChar === "\n") {
             i++; // Skip \n in \r\n
           }
-          
+
           // Push current field and row
-          currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
-          
+          currentRow.push(currentField.trim().replace(/[\r\n]+/g, " "));
+
           // Only add non-empty rows
-          if (currentRow.some(field => field.length > 0)) {
+          if (currentRow.some((field) => field.length > 0)) {
             rows.push(currentRow);
           }
-          
+
           currentRow = [];
-          currentField = '';
+          currentField = "";
         } else {
           currentField += char;
         }
@@ -100,14 +111,14 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
 
       // Push last field and row
       if (currentField || currentRow.length > 0) {
-        currentRow.push(currentField.trim().replace(/[\r\n]+/g, ' '));
-        if (currentRow.some(field => field.length > 0)) {
+        currentRow.push(currentField.trim().replace(/[\r\n]+/g, " "));
+        if (currentRow.some((field) => field.length > 0)) {
           rows.push(currentRow);
         }
       }
 
       if (rows.length === 0) {
-        setParseError("File appears to be empty");
+        setParseError(t("filePreview.fileEmpty"));
         return;
       }
 
@@ -122,17 +133,17 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
       // Parse data rows (limit to first 10 for preview)
       const parsedData: CSVRow[] = dataRows.slice(0, 10).map((rowValues) => {
         const row: CSVRow = {};
-        
+
         parsedHeaders.forEach((header, i) => {
-          row[header] = rowValues[i] || '';
+          row[header] = rowValues[i] || "";
         });
-        
+
         return row;
       });
 
       setCsvData(parsedData);
     } catch (error) {
-      setParseError("Failed to parse CSV file. Please check the file format.");
+      setParseError(t("filePreview.parseError"));
     } finally {
       setIsLoading(false);
     }
@@ -140,12 +151,12 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
 
   const parseCSVLine = (line: string): string[] => {
     const result: string[] = [];
-    let current = '';
+    let current = "";
     let inQuotes = false;
-    
+
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
-      
+
       if (char === '"') {
         if (inQuotes && line[i + 1] === '"') {
           current += '"';
@@ -153,20 +164,20 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
         } else {
           inQuotes = !inQuotes;
         }
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim().replace(/[\r\n]+/g, ' '));
-        current = '';
+      } else if (char === "," && !inQuotes) {
+        result.push(current.trim().replace(/[\r\n]+/g, " "));
+        current = "";
       } else {
         current += char;
       }
     }
-    
-    result.push(current.trim().replace(/[\r\n]+/g, ' '));
+
+    result.push(current.trim().replace(/[\r\n]+/g, " "));
     return result;
   };
 
   const hasErrors = (rowIndex: number) => {
-    const validationRow = validatedRows.find(v => v.row === rowIndex + 2); // +2 because row 1 is header
+    const validationRow = validatedRows.find((v) => v.row === rowIndex + 2); // +2 because row 1 is header
     return validationRow && validationRow.errors.length > 0;
   };
 
@@ -182,7 +193,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
         <CardContent className="p-6">
           <div className="flex items-center gap-2 text-muted-foreground">
             <FileText className="w-5 h-5 animate-pulse" />
-            <span>Processing file...</span>
+            <span>{t("filePreview.processingFile")}</span>
           </div>
         </CardContent>
       </Card>
@@ -207,23 +218,31 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Eye className="w-5 h-5" />
-          File Preview
+          {t("filePreview.title")}
         </CardTitle>
-        
+
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
           <div>
-            <span className="font-medium">File:</span> {file.name}
+            <span className="font-medium">{t("filePreview.file")}:</span>{" "}
+            {file.name}
           </div>
           <div>
-            <span className="font-medium">Size:</span> {(file.size / 1024).toFixed(1)} KB
+            <span className="font-medium">{t("filePreview.size")}:</span>{" "}
+            {(file.size / 1024).toFixed(1)} KB
           </div>
           <div>
-            <span className="font-medium">Type:</span> CSV
+            <span className="font-medium">{t("filePreview.type")}:</span> CSV
           </div>
         </div>
-        
+
         <div className="mt-2 text-sm text-muted-foreground">
-          Showing {Math.min(10, csvData.length)} of {totalRows} rows • {headers.length} columns
+          {t("filePreview.rowsPreview", {
+            preview: Math.min(10, csvData.length),
+            total: totalRows,
+            columns: headers.length,
+          })}
+          {/* Showing {Math.min(10, csvData.length)} of {totalRows} rows •{" "}
+          {headers.length} columns */}
         </div>
       </CardHeader>
       <CardContent>
@@ -236,7 +255,9 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
                     {header}
                   </TableHead>
                 ))}
-                <TableHead className="whitespace-nowrap">Actions</TableHead>
+                <TableHead className="whitespace-nowrap">
+                  {t("filePreview.actions")}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -245,7 +266,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
                   {headers.map((header, cellIndex) => (
                     <TableCell key={cellIndex} className="whitespace-nowrap">
                       <div className="max-w-32 truncate" title={row[header]}>
-                        {row[header] || '-'}
+                        {row[header] || "-"}
                       </div>
                     </TableCell>
                   ))}
@@ -257,7 +278,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
                         onClick={() => handleViewPost(row, rowIndex)}
                       >
                         <Eye className="w-4 h-4 mr-1" />
-                        View Post
+                        {t("filePreview.viewPost")}
                       </Button>
                     )}
                   </TableCell>
@@ -266,10 +287,10 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
             </TableBody>
           </Table>
         </ScrollArea>
-        
+
         {csvData.length === 0 && (
           <div className="text-center py-4 text-muted-foreground">
-            No data rows found in the CSV file
+            {t("filePreview.noDataRows")}
           </div>
         )}
       </CardContent>
@@ -278,7 +299,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
         <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <div className="flex justify-between items-center">
-              <DialogTitle>Post Preview</DialogTitle>
+              <DialogTitle>{t("filePreview.postPreview")}</DialogTitle>
               <Button
                 variant="ghost"
                 size="sm"
@@ -300,8 +321,8 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
                     alt="Post"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.src = '';
-                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.src = "";
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
@@ -309,19 +330,23 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
 
               {/* Post Content */}
               <div>
-                <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {t("filePreview.description")}
+                </h3>
                 <p className="text-gray-600 text-sm leading-relaxed max-h-40 overflow-y-auto">
-                  {selectedPost.text || 'No description'}
+                  {selectedPost.text || t("filePreview.noDescription")}
                 </p>
               </div>
 
               {/* CTA Button */}
               {selectedPost.action_type && selectedPost.cta_url && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Call to Action</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {t("filePreview.callToAction")}
+                  </h3>
                   <Button
                     className="w-full"
-                    onClick={() => window.open(selectedPost.cta_url, '_blank')}
+                    onClick={() => window.open(selectedPost.cta_url, "_blank")}
                   >
                     {selectedPost.action_type}
                   </Button>
@@ -331,13 +356,16 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, validatedRows = 
               {/* Schedule Date */}
               {selectedPost.schedule_date && (
                 <div className="text-sm text-gray-600">
-                  <span className="font-medium">Scheduled for:</span> {selectedPost.schedule_date}
+                  <span className="font-medium">
+                    {t("filePreview.scheduledFor")}
+                  </span>{" "}
+                  {selectedPost.schedule_date}
                 </div>
               )}
 
               {/* Row ID */}
               <div className="text-xs text-gray-500 border-t pt-3">
-                Row ID: {selectedRowIndex + 2}
+                {t("filePreview.rowId")}: {selectedRowIndex + 2}
               </div>
             </div>
           )}

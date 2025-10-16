@@ -1,0 +1,15 @@
+{
+  "csvDropzone": {
+    "dropPrompt": "Drag & drop your CSV file",
+    "dropHere": "Drop your CSV file here",
+    "reupload": "Re-upload file",
+    "or":"or",
+    "chooseFile": "choose file from computer",
+    "fileInfo": "CSV files only • Max 5MB",
+    "supported": "Supported: .csv",
+    "errors": {
+      "invalidType": "Only CSV files are allowed",
+      "maxSize": "File size must be less than 5MB"
+    }
+  }
+}

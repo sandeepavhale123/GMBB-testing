@@ -7,6 +7,10 @@
     "createdDate": "Created Date",
     "actions": "Actions"
   },
+   "status": {
+    "active": "Active",
+    "draft": "Draft"
+  },
   "loading": "Loading projects...",
   "noProjects": "No auto reply projects found.",
   "location": "location",

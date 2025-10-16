@@ -7,23 +7,25 @@
     "createNew": "Neuen Beitrag erstellen",
     "createBulkPost": "Massenbeitrag erstellen",
     "tryAgain": "Erneut versuchen",
-    "viewDetails": "Details anzeigen",
+    "viewDetails": "Details ansehen",
     "delete": "Löschen",
     "deleting": "Löschen...",
     "cancel": "Abbrechen",
-    "confirmDelete": "Löschen"
+    "confirmDelete": "Löschen",
+    "import":"CSV importieren"
   },
   "messages": {
     "errorLoading": "Fehler beim Laden der Massenbeiträge: {{error}}",
     "noPostsTitle": "Noch keine Massenbeiträge",
-    "noPostsDescription": "Erstellen Sie Ihren ersten Massenbeitrag, um zu starten",
+    "noPostsDescription": "Erstellen Sie Ihren ersten Massenbeitrag, um zu beginnen",
     "postedOn": "Veröffentlicht auf {{count}} Einträgen",
-    "failedOn": "Fehlgeschlagen auf {{count}} Einträgen",
-    "scheduledOn": "Geplant auf {{count}} Einträgen",
+    "failedOn": "Fehlgeschlagen bei {{count}} Einträgen",
+    "scheduledOn": "Geplant für {{count}} Einträge",
     "noActivePosts": "Keine aktiven Beiträge",
-    "untitledPost": "Unbenannter Beitrag",
+    "untitledPost": "Beitrag ohne Titel",
     "noDescription": "Keine Beschreibung verfügbar",
-    "noImage": "Kein Bild"
+    "noImage": "Kein Bild",
+    "location":" gesamt Standorte"
   },
   "pagination": {
     "showing": "Zeige {{start}} bis {{end}} von {{total}} Beiträgen"

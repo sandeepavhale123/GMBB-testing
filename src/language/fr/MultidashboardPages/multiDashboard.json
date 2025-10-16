@@ -1,85 +1,91 @@
 {
   "metrics": {
     "totalListings": {
-      "title": "Total des annonces",
+      "title": "Nombre total de fiches",
       "subtitle": "Emplacements actifs",
       "trend": "+2 ce mois-ci"
     },
     "avgRating": {
       "title": "Note moyenne",
-      "subtitle": "Toutes les annonces",
+      "subtitle": "Sur l'ensemble des fiches",
       "trend": "↑ 0,3 points"
     },
     "totalReviews": {
-      "title": "Total des avis",
+      "title": "Nombre total d'avis",
       "subtitle": "Commentaires des clients",
       "trend": "En amélioration"
     },
     "totalPosts": {
-      "title": "Total des publications",
+      "title": "Nombre total de publications",
       "subtitle": "Publiées ce mois-ci",
       "trend": "+12 cette semaine"
     }
   },
   "errors": {
-    "metricsLoad": "Échec du chargement des indicateurs. Veuillez réessayer.",
-    "listingsLoad": "Échec du chargement des annonces. Veuillez réessayer.",
+    "metricsLoad": "Échec du chargement des statistiques. Veuillez réessayer.",
+    "listingsLoad": "Échec du chargement des fiches. Veuillez réessayer.",
     "postsLoad": "Échec du chargement des publications. Veuillez réessayer."
   },
   "dashboard": {
-    "title": "Annonce GMB – tableau de bord {{type}}",
+    "title": "Tableau de bord GMB – {{type}}",
     "types": {
       "default": "Tableau de bord par défaut",
-      "insight": "Tableau de bord Insight",
-      "review": "Tableau de bord des avis",
-      "location": "Tableau de bord de localisation",
-      "post": "Tableau de bord des publications"
+      "insight": "Tableau de bord Insights",
+      "review": "Tableau de bord Avis",
+      "location": "Tableau de bord Emplacement",
+      "post": "Tableau de bord Publications"
     },
     "review": "Avis",
-    "insight": "Insight",
-    "location": "Localisation",
+    "insight": "Insights",
+    "location": "Emplacement",
     "post": "Publication",
     "default": "Par défaut",
     "shareReport": "Partager le rapport",
-    "searchPlaceholder": "Rechercher par nom d'annonce ou code postal",
+    "searchPlaceholder": "Rechercher par nom de fiche ou code postal",
     "filters": {
       "allCategories": "Toutes les catégories",
-      "allStates": "Tous les états",
-      "reviewFilter": "Filtre des avis",
+      "allStates": "Tous les États",
+      "reviewFilter": "Filtre d'avis",
       "allReviews": "Tous les avis",
-      "unrespondedReview": "Avis non répondu",
-      "unrespondedARE": "ARE non répondu",
-      "unrespondedDNR": "DNR non répondu",
+      "unrespondedReview": "Avis sans réponse",
+      "unrespondedARE": "ARE sans réponse",
+      "unrespondedDNR": "DNR sans réponse",
       "excludeARE": "Exclure les avis ARE",
       "excludeDNR": "Exclure les avis DNR",
       "excludeARE_DNR": "Exclure les avis ARE/DNR",
-      "postStatus": "Statut des publications",
+      "postStatus": "Statut de la publication",
       "allPosts": "Toutes les publications",
-      "scheduledPost": "Publication programmée",
-      "livePost": "Publication en direct",
+      "scheduledPost": "Publication planifiée",
+      "livePost": "Publication en ligne",
       "failedPost": "Publication échouée"
     }
   },
+  "export": "Exporter en CSV",
   "status": {
     "loading": "Chargement...",
     "error": "Erreur lors du chargement des données",
     "showingPosts": "Affichage de {{count}} sur {{total}} publications",
-    "showingListings": "Affichage de {{count}} sur {{total}} annonces",
+    "showingListings": "Affichage de {{count}} sur {{total}} fiches",
     "previous": "Précédent",
     "next": "Suivant"
+  },
+  "rating": {
+    "excellent": "Excellent",
+    "good": "Bon",
+    "poor": "Mauvais"
   },
   "listing": {
     "listingid": "ID : {{id}}",
     "zipcode": "Code postal : {{zipcode}}",
     "state": "État : {{city}}",
-    "fetchingData": "Récupération des données de l'annonce...",
+    "fetchingData": "Récupération des données de la fiche...",
     "visibility": "Visibilité",
     "Search": "Recherche",
     "Maps": "Cartes",
     "Total": "Total",
     "customerActions": "Actions des clients",
     "clicks": "Clics",
-    "directions": "Itinéraire",
+    "directions": "Itinéraires",
     "calls": "Appels",
     "messages": "Messages",
     "reviewStats": "Statistiques des avis",
@@ -89,16 +95,16 @@
     "positive": "Positif",
     "neutral": "Neutre",
     "negative": "Négatif",
-    "listingStatus": "Statut de l'annonce",
+    "listingStatus": "Statut de la fiche",
     "visibilityLabel": "Visibilité :",
     "completeLabel": "Complété :",
     "lastUpdated": "Dernière mise à jour :",
     "photos": "Photos",
-    "rating": "Note",
+    "rating": "Évaluation",
     "website": "Site web",
     "maps": "Cartes",
     "avgRating": "Note moyenne",
-    "starRating": "Notation par étoiles",
+    "starRating": "Évaluation par étoiles",
     "reviewsVsReplies": "Avis vs Réponses",
     "lastPost": "Dernière publication",
     "upcoming": "À venir",
@@ -111,7 +117,7 @@
   "pagination": {
     "showing": {
       "posts": "Affichage de {{from}} à {{to}} sur {{total}} publications",
-      "listings": "Affichage de {{from}} à {{to}} sur {{total}} annonces"
+      "listings": "Affichage de {{from}} à {{to}} sur {{total}} fiches"
     },
     "previous": "Précédent",
     "next": "Suivant",

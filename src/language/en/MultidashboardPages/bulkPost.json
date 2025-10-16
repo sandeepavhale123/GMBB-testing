@@ -11,7 +11,8 @@
     "delete": "Delete",
     "deleting": "Deleting...",
     "cancel": "Cancel",
-    "confirmDelete": "Delete"
+    "confirmDelete": "Delete",
+    "import":" Import CSV"
   },
   "messages": {
     "errorLoading": "Error loading bulk posts: {{error}}",
@@ -23,7 +24,8 @@
     "noActivePosts": "No active posts",
     "untitledPost": "Untitled Post",
     "noDescription": "No description available",
-    "noImage": "No image"
+    "noImage": "No image",
+    "location":" total locations"
   },
   "pagination": {
     "showing": "Showing {{start}} to {{end}} of {{total}} posts"

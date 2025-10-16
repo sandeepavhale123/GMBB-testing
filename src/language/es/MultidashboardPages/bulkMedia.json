@@ -13,7 +13,7 @@
   "messages": {
     "errorLoading": "Error al cargar medios masivos: {{error}}",
     "noMediaTitle": "Aún no hay medios masivos",
-    "noMediaDescription": "Sube tu primer medio masivo para comenzar",
+    "noMediaDescription": "Sube tus primeros medios masivos para empezar",
     "noImage": "Sin imagen",
     "noActivePosts": "No hay publicaciones activas",
     "postedOn": "Publicado en {{count}} listados",
@@ -24,23 +24,24 @@
     "video": "Video",
     "photo": "Foto"
   },
+  "location": "ubicaciones totales",
   "pagination": {
     "showing": "Mostrando {{from}} a {{to}} de {{total}} medios"
   },
   "deleteDialog": {
-    "title": "Eliminar Medios",
-    "description": "¿Está seguro de que desea eliminar \"{{title}}\"? Esta acción no se puede deshacer y eliminará el medio de todos los listados asociados.",
+    "title": "Eliminar Medio",
+    "description": "¿Estás seguro de que deseas eliminar \"{{title}}\"? Esta acción no se puede deshacer y eliminará el medio de todos los listados asociados.",
     "cancel": "Cancelar",
     "confirm": "Eliminar"
   },
   "toast": {
     "success": {
       "title": "Éxito",
-      "description": "Medios eliminados correctamente"
+      "description": "Medio eliminado con éxito"
     },
     "error": {
       "title": "Error",
-      "description": "No se pudo eliminar el medio. Por favor, inténtelo de nuevo."
+      "description": "No se pudo eliminar el medio. Por favor, inténtalo de nuevo."
     }
   }
 }

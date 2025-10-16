@@ -163,7 +163,7 @@ export const SubNavbar: React.FC = () => {
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t("back")}
             </button>
           </div>
         </div>
@@ -182,7 +182,7 @@ export const SubNavbar: React.FC = () => {
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t("back")}
             </button>
           </div>
         </div>
@@ -201,7 +201,7 @@ export const SubNavbar: React.FC = () => {
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t("back")}
             </button>
           </div>
         </div>
@@ -260,7 +260,7 @@ export const SubNavbar: React.FC = () => {
       icon: BarChart3,
     },
     {
-      label: "Gallery",
+      label: t("gallery"),
       path: "/main-dashboard/gallery",
       icon: Images,
     },

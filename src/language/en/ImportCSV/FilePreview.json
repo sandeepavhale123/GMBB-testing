@@ -1,0 +1,21 @@
+{
+  "filePreview": {
+    "processingFile": "Processing file...",
+    "fileEmpty": "File appears to be empty",
+    "parseError": "Failed to parse CSV file. Please check the file format.",
+    "title":"File Preview",
+    "file": "File",
+    "size": "Size",
+    "type": "Type",
+    "rowsPreview": "Showing {{preview}} of {{total}} rows • {{columns}} columns",
+    "actions": "Actions",
+    "viewPost": "View Post",
+    "noDataRows": "No data rows found in the CSV file",
+    "postPreview": "Post Preview",
+    "description": "Description",
+    "noDescription": "No description",
+    "callToAction": "Call to Action",
+    "scheduledFor": "Scheduled for:",
+    "rowId": "Row ID"
+  }
+}

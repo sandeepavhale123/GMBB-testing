@@ -258,13 +258,18 @@ export const BulkReplyListingSelector: React.FC<
             disabled={isLoading}
             onClick={() => setOpen(!open)}
           >
-            {selectedListings.length === 0
-              ? isLoading
-                ? t("messages.loading")
-                : t("placeholders.search")
-              : `${selectedListings.length} item${
-                  selectedListings.length === 1 ? "" : "s"
-                } selected`}
+            {
+              selectedListings.length === 0
+                ? isLoading
+                  ? t("messages.loading")
+                  : t("placeholders.search")
+                : selectedListings.length === 1
+                ? t("item", { count: selectedListings.length })
+                : t("items", { count: selectedListings.length })
+              // `${selectedListings.length} item${
+              //     selectedListings.length === 1 ? "" : "s"
+              //   } selected`
+            }
             <ChevronDown
               className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${
                 open ? "rotate-180" : ""

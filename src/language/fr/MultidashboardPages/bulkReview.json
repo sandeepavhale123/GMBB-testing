@@ -1,12 +1,13 @@
 {
-  "title": "Gestion des avis en masse",
+  "title": "Gestion des Avis en Masse",
   "subtitle": "Gérez les avis sur toutes vos annonces.",
-  "configureAutoReply": "Configurer la réponse automatique",
+  "configureAutoReply": "Configurer la Réponse Automatique",
   "summary": {
-    "reviews": "Avis clients",
+    "reviews": "Avis Clients",
     "loading": "Chargement des avis...",
-    "noReviews": "Aucun avis ne correspond à vos critères."
+    "noReviews": "Aucun avis trouvé correspondant à vos critères."
   },
+  "export": "Exporter CSV",
   "toast": {
     "successTitle": "Succès",
     "replySuccess": "Réponse envoyée avec succès",

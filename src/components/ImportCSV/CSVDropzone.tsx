@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Upload, FileText, AlertCircle, X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CSVDropzoneProps {
   onFileUploaded: (file: File) => void;
@@ -11,15 +12,16 @@ interface CSVDropzoneProps {
 export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
   onFileUploaded,
   uploadedFile,
-  isReupload = false
+  isReupload = false,
 }) => {
+  const { t } = useI18nNamespace("ImportCSV/CSVDropzone");
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const formatFileSize = (bytes: number): string => {
     const kb = bytes / 1024;
     const mb = kb / 1024;
-    
+
     if (mb >= 1) {
       return `${mb.toFixed(2)} MB`;
     } else {
@@ -30,9 +32,9 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
   const validateFile = (file: File): boolean => {
     const maxSize = 5 * 1024 * 1024; // 5MB
     const allowedTypes = ["text/csv", "application/vnd.ms-excel"];
-    const fileExtension = file.name.toLowerCase().split('.').pop();
+    const fileExtension = file.name.toLowerCase().split(".").pop();
 
-    if (!allowedTypes.includes(file.type) && fileExtension !== 'csv') {
+    if (!allowedTypes.includes(file.type) && fileExtension !== "csv") {
       setError("Only CSV files are allowed");
       return false;
     }
@@ -46,22 +48,25 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
     return true;
   };
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    const firstFile = droppedFiles[0];
-    
-    if (firstFile && validateFile(firstFile)) {
-      onFileUploaded(firstFile);
-    }
-  }, [onFileUploaded]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setIsDragging(false);
+
+      const droppedFiles = Array.from(e.dataTransfer.files);
+      const firstFile = droppedFiles[0];
+
+      if (firstFile && validateFile(firstFile)) {
+        onFileUploaded(firstFile);
+      }
+    },
+    [onFileUploaded]
+  );
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     const firstFile = selectedFiles[0];
-    
+
     if (firstFile && validateFile(firstFile)) {
       onFileUploaded(firstFile);
     }
@@ -119,9 +124,10 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
         onDragLeave={handleDragLeave}
         className={`
           relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer
-          ${isDragging 
-            ? "border-primary bg-primary/5 scale-[1.02]" 
-            : "border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/25"
+          ${
+            isDragging
+              ? "border-primary bg-primary/5 scale-[1.02]"
+              : "border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/25"
           }
           ${isReupload ? "max-w-md mx-auto" : ""}
         `}
@@ -135,34 +141,43 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({
 
         <div className="space-y-4">
           <div className="flex justify-center">
-            <div className={`
+            <div
+              className={`
               p-4 rounded-full transition-colors duration-200
               ${isDragging ? "bg-primary/10" : "bg-muted/50"}
-            `}>
-              <Upload className={`
+            `}
+            >
+              <Upload
+                className={`
                 w-8 h-8 transition-colors duration-200
                 ${isDragging ? "text-primary" : "text-muted-foreground"}
-              `} />
+              `}
+              />
             </div>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold mb-2">
-              {isDragging ? "Drop your CSV file here" : 
-               isReupload ? "Re-upload file" : "Drag & drop your CSV file"}
+              {isDragging
+                ? t("csvDropzone.dropHere")
+                : isReupload
+                ? t("csvDropzone.reupload")
+                : t("csvDropzone.dropPrompt")}
             </h3>
             <p className="text-muted-foreground mb-4">
-              or{" "}
+              {t("csvDropzone.or")}{" "}
               <span className="text-primary font-medium cursor-pointer underline">
-                choose file from computer
+                {t("csvDropzone.chooseFile")}
               </span>
             </p>
-            <p className="text-sm text-muted-foreground">CSV files only • Max 5MB</p>
+            <p className="text-sm text-muted-foreground">
+              {t("csvDropzone.fileInfo")}
+            </p>
           </div>
 
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <FileText className="w-4 h-4" />
-            <span>Supported: .csv</span>
+            <span>{t("csvDropzone.supported")}</span>
           </div>
         </div>
       </div>

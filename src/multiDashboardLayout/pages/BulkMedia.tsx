@@ -278,7 +278,7 @@ export const BulkMedia: React.FC = () => {
 
                       {/* Meta Information */}
                       <div className="text-sm text-muted-foreground mb-4">
-                        {media.location_count} total locations •{" "}
+                        {media.location_count} {t("location")} •{" "}
                         {formatPublishDate(media.publishDate)}
                       </div>
 

@@ -507,9 +507,9 @@ export const MultiDashboard: React.FC = () => {
   // Helper function to get status text based on rating
   const getStatusText = (rating: string) => {
     const numRating = parseFloat(rating);
-    if (numRating >= 4.0) return "Excellent";
-    if (numRating >= 3.0) return "Good";
-    return "Poor";
+    if (numRating >= 4.0) return t("rating.excellent");
+    if (numRating >= 3.0) return t("rating.good");
+    return t("rating.poor");
   };
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
@@ -695,7 +695,7 @@ export const MultiDashboard: React.FC = () => {
                     onClick={() => setShowExportModal(true)}
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">Export CSV</span>
+                    <span className="hidden sm:inline">{t("export")}</span>
                   </Button>
                 )}
 
@@ -736,7 +736,9 @@ export const MultiDashboard: React.FC = () => {
                   <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
-                        categoryStateLoading ? "Loading..." : "All Categories"
+                        categoryStateLoading
+                          ? t("status.loading")
+                          : t("dashboard.filters.allCategories")
                       }
                     />
                   </SelectTrigger>
@@ -763,7 +765,9 @@ export const MultiDashboard: React.FC = () => {
                   <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
-                        categoryStateLoading ? "Loading..." : "All States"
+                        categoryStateLoading
+                          ? t("status.loading")
+                          : t("dashboard.filters.allStates")
                       }
                     />
                   </SelectTrigger>

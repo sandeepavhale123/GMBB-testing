@@ -1,6 +1,6 @@
 {
   "importPostCSVWizard": {
-    "title": "Importa Post CSV",
+    "title": "Importa CSV di Post",
     "steps": {
       "1": "Seleziona Annunci",
       "2": "Carica File",
@@ -10,69 +10,71 @@
     "stepCount": "Passo {{currentStep}} di 4",
     "selectListings": {
       "heading": "Seleziona Annunci",
-      "description": "Scegli gli annunci e il tipo di post per il tuo import in massa.",
+      "description": "Scegli gli annunci e il tipo di post per l'importazione massiva.",
       "postTypeLabel": "Tipo di Post",
-      "postTypePlaceholder": "Seleziona tipo file",
+      "postTypePlaceholder": "Seleziona tipo di file",
       "postTypeOptions": {
-        "0": "Seleziona tipo file",
-        "1": "File post regolare",
-        "2": "File post evento",
-        "3": "File post offerta"
+        "0": "Seleziona tipo di file",
+        "1": "File di post normale",
+        "2": "File di post evento",
+        "3": "File di post offerta"
       },
       "next": "Avanti",
       "generatingCSV": "Generazione CSV..."
     },
     "uploadFile": {
       "heading": "Carica File",
-      "description": "Carica il tuo file CSV per l'importazione dei post in massa.",
+      "description": "Carica il tuo file CSV per l'importazione massiva dei post.",
       "downloadSample": "Scarica file CSV generato",
-      "previous": "Precedente",
+      "previous": "Indietro",
       "next": "Avanti",
       "uploading": "Caricamento in corso..."
     },
     "qualityControl": {
       "heading": "Controllo Qualità",
       "description": "Rivedi i risultati della validazione del file caricato.",
-      "uploadSummary": "Sommario Caricamento",
-      "validationErrorsTitle": "Errori di Validazione Trovati - Correggi e ricarica",
+      "uploadSummary": "Riepilogo Caricamento",
+      "validationErrorsTitle": "Errori di validazione trovati - Correggi e ricarica",
       "reuploadFile": "Ricarica File",
       "allRowsValid": "Tutte le righe validate con successo!",
       "processedRows": "✓ {{count}} righe elaborate",
       "noErrors": "✓ Nessun errore di validazione trovato",
       "readyForSubmission": "✓ Pronto per l'invio",
       "notesLabel": "Note (Opzionale)",
-      "notesPlaceholder": "Aggiungi eventuali note su questo import...",
+      "notesPlaceholder": "Aggiungi eventuali note su questa importazione...",
       "submit": "Invia Importazione",
       "saving": "Salvataggio in corso...",
       "fixErrors": "Correggi gli errori per continuare"
     },
     "submit": {
       "heading": "Congratulazioni!",
-      "description": "Tutti i tuoi post sono stati importati con successo in massa.",
-      "goToDashboard": "Vai alla Dashboard Principale",
-      "viewPostDetails": "Visualizza Dettagli Post"
+      "description": "Tutti i tuoi post sono stati importati con successo in blocco.",
+      "goToDashboard": "Vai al Pannello Principale",
+      "viewPostDetails": "Visualizza dettagli del post"
     },
+    "row": "Riga",
+    "error": "errore(i)",
     "errors": {
       "title": "Errore",
       "selectListing": "Seleziona almeno un annuncio.",
       "selectPostType": "Seleziona un tipo di post valido.",
       "selectFile": "Seleziona un file da caricare.",
-      "noUploadedFile": "Nessun file caricato trovato. Per favore, carica un file prima.",
-      "sampleNotAvailable": "File di esempio CSV non disponibile. Torna al passo 1.",
+      "noUploadedFile": "Nessun file caricato trovato. Carica prima un file.",
+      "sampleNotAvailable": "Il file CSV di esempio non è disponibile. Torna al passo 1.",
       "csvGenerateFailed": "Impossibile generare il file CSV. Riprova.",
-      "uploadFailed": "Caricamento file fallito. Riprova.",
-      "saveFailed": "Impossibile salvare il foglio in massa. Riprova.",
-      "authFailed": "Autenticazione fallita. Effettua di nuovo il login.",
+      "uploadFailed": "Impossibile caricare il file. Riprova.",
+      "saveFailed": "Impossibile salvare il foglio massivo. Riprova.",
+      "authFailed": "Autenticazione fallita. Effettua nuovamente il login.",
       "permissionDenied": "Non hai il permesso di eseguire questa azione.",
       "serverError": "Si è verificato un errore del server. Riprova più tardi."
     },
     "success": {
       "title": "Successo",
-      "titleUpload": "Caricamento Completato",
+      "titleUpload": "Caricamento Completo",
       "csvGenerated": "File CSV generato con successo",
       "uploadSuccess": "File caricato e validato con successo",
-      "uploadWithErrors": "File caricato con {{count}} errori di validazione. Per favore, rivedi.",
-      "bulkSaveSuccess": "Importati con successo {{count}} post"
+      "uploadWithErrors": "File caricato con {{count}} errori di validazione. Per favore rivedi.",
+      "bulkSaveSuccess": "{{count}} post importati con successo"
     }
   }
 }

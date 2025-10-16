@@ -7,14 +7,18 @@
     "createdDate": "Erstellungsdatum",
     "actions": "Aktionen"
   },
+  "status": {
+    "active": "Aktiv",
+    "draft": "Entwurf"
+  },
   "loading": "Projekte werden geladen...",
-  "noProjects": "Keine automatischen Antwortprojekte gefunden.",
+  "noProjects": "Keine Auto-Reply-Projekte gefunden.",
   "location": "Standort",
   "locations": "Standorte",
-  "deleteTitle": "Automatisches Antwortprojekt löschen",
+  "deleteTitle": "Auto-Reply-Projekt löschen",
   "deleteDescription": "Sind Sie sicher, dass Sie \"{{projectName}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
   "cancel": "Abbrechen",
   "error": "Fehler",
   "delete": "Löschen",
-  "paginationInfo": "Zeige {{start}} bis {{end}} von {{total}} Projekten"
+  "paginationInfo": "Anzeige von {{start}} bis {{end}} von {{total}} Projekten"
 }

@@ -205,7 +205,7 @@ export const BulkReview: React.FC = () => {
             className="self-start sm:self-auto"
           >
             <Download className="w-4 h-4 mr-1" />
-            Export CSV
+            {t("export")}
           </Button>
           <Button
             onClick={() => navigate("/main-dashboard/bulk-auto-reply")}

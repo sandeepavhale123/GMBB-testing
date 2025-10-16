@@ -1,9 +1,10 @@
 {
   "back": "Indietro",
-  "dashboard": "Cruscotto",
-  "bulkPosts": "Post Massivi",
-  "bulkMedia": "Media Massivi",
-  "bulkReview": "Revisione Massiva",
+  "dashboard": "Dashboard",
+  "bulkPosts": "Post in blocco",
+  "bulkMedia": "Media in blocco",
+  "bulkReview": "Recensioni in blocco",
   "reports": "Report",
-  "settings": "Impostazioni"
+  "settings": "Impostazioni",
+  "gallery": "Galleria"
 }

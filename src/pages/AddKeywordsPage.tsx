@@ -13,8 +13,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../hooks/use-toast";
 import { addSearchKeyword } from "../api/geoRankingApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const AddKeywordsPage = () => {
+  const { t } = useI18nNamespace("pages/addKeywordsPage");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAddingKeywords, setIsAddingKeywords] = useState(false);
@@ -25,8 +27,8 @@ const AddKeywordsPage = () => {
   const handleAddKeywords = async (keywords: string[], settings: any) => {
     if (!selectedListing?.id) {
       toast({
-        title: "Error",
-        description: "No listing selected. Please select a listing first.",
+        title: t("addKeywordsPage.toast.errorTitle"),
+        description: t("addKeywordsPage.toast.noListing"),
         variant: "destructive",
       });
       return;
@@ -44,21 +46,26 @@ const AddKeywordsPage = () => {
 
       if (response.code === 200) {
         toast({
-          title: "Keywords Added",
+          title: t("addKeywordsPage.toast.keywordsAddedTitle"),
           description:
             response.message ||
-            `Successfully added ${keywords.length} keyword(s) to queue.`,
+            t("addKeywordsPage.toast.keywordsAddedDescription", {
+              count: keywords.length,
+            }),
+          // `Successfully added ${keywords.length} keyword(s) to queue.`,
         });
 
         // Navigate to keywords page
         navigate(`/keywords/${selectedListing.id}`);
       } else {
-        throw new Error(response.message || "Failed to add keywords.");
+        throw new Error(
+          response.message || t("addKeywordsPage.toast.keywordsAddFailed")
+        );
       }
     } catch (error) {
       console.error("Error adding keywords:", error);
       toast({
-        title: "Error",
+        title: t("addKeywordsPage.toast.errorTitle"),
         description: error.response.data.message,
         variant: "destructive",
       });
@@ -116,7 +123,7 @@ const AddKeywordsPage = () => {
               />
 
               {/* Page Content */}
-              <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto" >
+              <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
                 <NoListingSelected pageType="Add Keywords" />
               </main>
             </div>

@@ -1,0 +1,21 @@
+{
+  "filePreview": {
+    "processingFile": "Datei wird verarbeitet...",
+    "fileEmpty": "Die Datei scheint leer zu sein",
+    "parseError": "CSV-Datei konnte nicht gelesen werden. Bitte überprüfen Sie das Dateiformat.",
+    "title": "Dateivorschau",
+    "file": "Datei",
+    "size": "Größe",
+    "type": "Typ",
+    "rowsPreview": "Zeige {{preview}} von {{total}} Zeilen • {{columns}} Spalten",
+    "actions": "Aktionen",
+    "viewPost": "Beitrag anzeigen",
+    "noDataRows": "Keine Datenzeilen in der CSV-Datei gefunden",
+    "postPreview": "Beitragsvorschau",
+    "description": "Beschreibung",
+    "noDescription": "Keine Beschreibung",
+    "callToAction": "Handlungsaufruf",
+    "scheduledFor": "Geplant für:",
+    "rowId": "Zeilen-ID"
+  }
+}

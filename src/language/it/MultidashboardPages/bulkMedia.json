@@ -1,6 +1,6 @@
 {
   "header": {
-    "title": "Gestione Media Massivi",
+    "title": "Gestione dei Media in Massa",
     "subtitle": "Carica e organizza i media su più inserzioni."
   },
   "buttons": {
@@ -8,24 +8,25 @@
     "tryAgain": "Riprova",
     "viewDetails": "Visualizza Dettagli",
     "delete": "Elimina",
-    "deleting": "Eliminando..."
+    "deleting": "Eliminazione in corso..."
   },
   "messages": {
-    "errorLoading": "Errore nel caricamento dei media massivi: {{error}}",
-    "noMediaTitle": "Nessun media massivo ancora",
-    "noMediaDescription": "Carica il tuo primo media massivo per iniziare",
+    "errorLoading": "Errore nel caricamento dei media in massa: {{error}}",
+    "noMediaTitle": "Nessun media in massa presente",
+    "noMediaDescription": "Carica i tuoi primi media in massa per iniziare",
     "noImage": "Nessuna immagine",
     "noActivePosts": "Nessun post attivo",
     "postedOn": "Pubblicato su {{count}} inserzioni",
     "failedOn": "Fallito su {{count}} inserzioni",
-    "scheduledOn": "Programmata su {{count}} inserzioni"
+    "scheduledOn": "Programmato su {{count}} inserzioni"
   },
   "mediaTypes": {
     "video": "Video",
     "photo": "Foto"
   },
+  "location": "totale inserzioni",
   "pagination": {
-    "showing": "Mostrando da {{from}} a {{to}} di {{total}} media"
+    "showing": "Mostrando {{from}} a {{to}} di {{total}} media"
   },
   "deleteDialog": {
     "title": "Elimina Media",
@@ -40,7 +41,7 @@
     },
     "error": {
       "title": "Errore",
-      "description": "Impossibile eliminare il media. Per favore riprova."
+      "description": "Impossibile eliminare il media. Per favore, riprova."
     }
   }
 }

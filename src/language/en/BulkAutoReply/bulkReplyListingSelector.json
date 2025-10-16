@@ -3,6 +3,8 @@
   "placeholders": {
     "search": "Search locations..."
   },
+  "item":"{{count}} item selected",
+  "items":"{{count}} items selected",
   "sections": {
     "groups": "Groups",
     "locations": "Locations"

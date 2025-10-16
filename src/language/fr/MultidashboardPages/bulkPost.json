@@ -11,7 +11,8 @@
     "delete": "Supprimer",
     "deleting": "Suppression...",
     "cancel": "Annuler",
-    "confirmDelete": "Supprimer"
+    "confirmDelete": "Supprimer",
+    "import":"Importer CSV"
   },
   "messages": {
     "errorLoading": "Erreur lors du chargement des publications en masse : {{error}}",
@@ -23,19 +24,20 @@
     "noActivePosts": "Aucune publication active",
     "untitledPost": "Publication sans titre",
     "noDescription": "Aucune description disponible",
-    "noImage": "Aucune image"
+    "noImage": "Aucune image",
+    "location":" emplacements au total"
   },
   "pagination": {
     "showing": "Affichage de {{start}} à {{end}} sur {{total}} publications"
   },
   "dialog": {
-    "title": "Êtes-vous sûr(e) ?",
+    "title": "Êtes-vous sûr ?",
     "description": "Cette action est irréversible. Cela supprimera définitivement la publication en masse et toutes les données associées."
   },
   "toast": {
     "deleteSuccess": {
       "title": "Succès",
-      "description": "Publication en masse supprimée avec succès"
+      "description": "La publication en masse a été supprimée avec succès"
     },
     "deleteError": {
       "title": "Erreur",
