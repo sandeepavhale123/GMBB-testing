@@ -838,7 +838,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex flex-row space-x-6"
+                        className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6"
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="one-time" id="one-time" />
