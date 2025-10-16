@@ -25,48 +25,50 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-white border-b border-gray-200">
       {/* Main header content */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
-        <div className="flex items-start justify-between gap-2 sm:gap-4">
-          {/* Left section - Page Title and Menu */}
-          <div className="flex items-start gap-4 min-w-0 flex-1">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+          {/* Row 1: Menu toggle + Action buttons - Mobile only */}
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            {/* Menu button - left side */}
             <Button
               variant="ghost"
               size="sm"
               onClick={onToggleSidebar}
-              className="hover:bg-gray-100 p-1.5 sm:p-2 shrink-0 mt-1"
+              className="hover:bg-gray-100 p-1.5 sm:p-2 shrink-0"
             >
               <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
             </Button>
 
-            <div className="min-w-0 flex-1 overflow-hidden">
-              <PageTitle />
-              <div className="mt-2">
-                <PageBreadcrumb />
-              </div>
+            {/* Right section - Action buttons */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {isAllowedDomain() && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() =>
+                    (window.location.href = "https://old.gmbbriefcase.com/login")
+                  }
+                  className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
+                >
+                  <span className="hidden md:block ml-1">
+                    {t("header.backToOldVersion")}{" "}
+                  </span>
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              )}
+              <BusinessListingSelector />
+              <MobileBusinessSelector />
+              <HeaderModulesMegaMenu />
+              <HeaderNotificationsMegaMenu />
+              <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
             </div>
           </div>
 
-          {/* Right section */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {isAllowedDomain() && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() =>
-                  (window.location.href = "https://old.gmbbriefcase.com/login")
-                }
-                className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
-              >
-                <span className="hidden md:block ml-1">
-                  {t("header.backToOldVersion")}{" "}
-                </span>
-                <ExternalLink className="w-4 h-4" />
-              </Button>
-            )}
-            <BusinessListingSelector />
-            <MobileBusinessSelector />
-            <HeaderModulesMegaMenu />
-            <HeaderNotificationsMegaMenu />
-            <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
+          {/* Row 2: Page Title + Breadcrumbs - Full width on mobile */}
+          <div className="w-full min-w-0 sm:flex-1 sm:ml-4 overflow-hidden">
+            <PageTitle />
+            <div className="mt-2">
+              <PageBreadcrumb />
+            </div>
           </div>
         </div>
       </div>
