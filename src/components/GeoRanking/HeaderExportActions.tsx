@@ -29,7 +29,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
   const { t } = useI18nNamespace("GeoRanking/headerExportActions");
   return (
     <div className="flex justify-end items-center mb-4">
-      <div className="flex gap-1 sm:gap-2 items-center">
+      <div className="flex gap-1 sm:gap-2 items-center overflow-x-auto scrollbar-hide">
         {/* Credits Badge */}
         {credits && (
           <Badge
