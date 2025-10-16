@@ -80,7 +80,7 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
   return (
     <Card className="overflow-hidden">
       <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <CardTitle className="text-lg font-semibold text-gray-700">
             {t("mediaLibraryCard.title")}
           </CardTitle>
