@@ -73,7 +73,7 @@ export const PaginationPrevious = ({
       {...props}
     >
       <ChevronLeft className="h-4 w-4" />
-      <span>{t("pagination.previous")}</span>
+      <span className="hidden sm:inline">{t("pagination.previous")}</span>
     </PaginationLink>
   );
 };
@@ -91,7 +91,7 @@ export const PaginationNext = ({
       className={cn("gap-1 pr-2.5", className)}
       {...props}
     >
-      <span>{t("pagination.next")}</span>
+      <span className="hidden sm:inline">{t("pagination.next")}</span>
       <ChevronRight className="h-4 w-4" />
     </PaginationLink>
   );
