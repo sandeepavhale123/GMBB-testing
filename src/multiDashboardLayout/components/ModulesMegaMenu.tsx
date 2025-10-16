@@ -43,6 +43,7 @@ export const ModulesMegaMenu: React.FC = () => {
       description: "Automatically detect and fix SEO issues on websites",
       icon: Search,
       href: "/module/live-seo-fixer",
+      beta: true,
     },
     {
       name: t("modules.reputation.name"),
@@ -91,6 +92,7 @@ export const ModulesMegaMenu: React.FC = () => {
         href:
           dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
         comingSoon: false,
+        beta: false,
       };
       return [gmbModule, ...baseModules];
     }
@@ -185,6 +187,14 @@ export const ModulesMegaMenu: React.FC = () => {
                             className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
                           >
                             {t("comingSoon")}
+                          </Badge>
+                        )}
+                        {module.beta && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gradient-to-r from-blue-400 to-indigo-500 text-blue-900 border-0 text-[8px]"
+                          >
+                            Beta
                           </Badge>
                         )}
                       </div>
