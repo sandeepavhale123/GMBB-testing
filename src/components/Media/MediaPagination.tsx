@@ -77,20 +77,7 @@ export const MediaPagination: React.FC<MediaPaginationProps> = ({
               </Button>
             )
           ))}
-          {currentPage > 3 && currentPage < totalPages && (
-            <>
-              <span className="text-sm text-gray-600 px-2">...</span>
-              <Button
-                variant="default"
-                size="sm"
-                onClick={() => onPageChange(currentPage)}
-                className="w-8 h-8 p-0"
-              >
-                {currentPage}
-              </Button>
-            </>
-          )}
-          {totalPages > 3 && currentPage !== totalPages && (
+          {totalPages > 4 && (
             <span className="text-sm text-gray-600 px-2">...</span>
           )}
           {totalPages > 3 && (
