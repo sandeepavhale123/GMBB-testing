@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Générer un rapport d’audit des citations",
+    "description": "Remplissez les informations de l’entreprise pour générer un rapport d’audit des citations complet.",
+    "form": {
+      "businessName": "Nom de l’entreprise *",
+      "businessNamePlaceholder": "Saisir le nom de l’entreprise",
+      "phone": "Numéro de téléphone *",
+      "phonePlaceholder": "Saisir le numéro de téléphone",
+      "keyword": "Mot-clé *",
+      "keywordPlaceholder": "Saisir le mot-clé cible",
+      "city": "Ville *",
+      "cityPlaceholder": "Rechercher une ville"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "generate": "Générer le rapport",
+      "generating": "Génération en cours..."
+    },
+    "errors": {
+      "cityRequired": "Veuillez sélectionner une ville valide",
+      "generateFailed": "Échec de la création du rapport d’audit des citations"
+    },
+    "validation": {
+      "business": "Le nom de l’entreprise est requis.",
+      "phone": "Le numéro de téléphone est requis.",
+      "keyword": "Le mot-clé est requis.",
+      "city": "La ville est requise."
+    }
+  }
+}

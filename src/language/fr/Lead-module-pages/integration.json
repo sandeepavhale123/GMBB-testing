@@ -1,0 +1,61 @@
+{
+  "title": "Intégrations",
+  "subtitle": "Connectez votre gestion des prospects avec d’autres outils",
+  "availableIntegrations": {
+    "title": "Intégrations disponibles",
+    "description": "Connectez-vous à vos outils et services préférés"
+  },
+  "statuses": {
+    "Connected": "Connecté",
+    "Available": "Disponible",
+    "Success": "Succès",
+    "Error": "Erreur"
+  },
+  "buttons": {
+    "configure": "Configurer",
+    "connect": "Connecter",
+    "saveApiSettings": "Enregistrer les paramètres API"
+  },
+  "apiSettings": {
+    "title": "Paramètres API",
+    "description": "Gérez votre accès API et vos webhooks",
+    "apiKeyLabel": "Clé API",
+    "webhookUrlLabel": "URL du webhook",
+    "webhooksPlaceholder": "https://votreapp.com/webhook",
+    "webhookToggleLabel": "Activer les webhooks",
+    "webhookToggleDescription": "Envoyer des données en temps réel vers votre endpoint",
+    "usageTitle": "Utilisation de l’API",
+    "requests": "Requêtes ce mois-ci",
+    "rateLimit": "Limite de requêtes"
+  },
+  "activity": {
+    "title": "Activité des intégrations",
+    "description": "Événements récents de synchronisation et d’intégration"
+  },
+  "integration": {
+    "sales": "Salesforce",
+    "slaesDesc": "Synchronisez les prospects avec votre CRM Salesforce",
+    "salesSync": "Il y a 2 heures",
+    "salesAct": "12 nouveaux prospects synchronisés",
+    "hub": "HubSpot",
+    "hubDesc": "Importez des contacts et suivez les interactions",
+    "hubAct": "Échec de la connexion - délai d’API dépassé",
+    "hubTime": "Il y a 6 heures",
+    "email": "Mailchimp",
+    "emailDesc": "Ajoutez des prospects aux campagnes d’e-mailing",
+    "emailSync": "Il y a 1 heure",
+    "emailAct": "5 contacts ajoutés à la campagne",
+    "emailTime": "Il y a 3 heures",
+    "slack": "Slack",
+    "slackDesc": "Recevez des notifications pour les nouveaux prospects dans Slack",
+    "slackSync": "Il y a 30 minutes",
+    "slackAct": "Notification de nouveau prospect envoyée",
+    "slackTime": "Il y a 4 heures",
+    "zapier": "Zapier",
+    "zapierDesc": "Connectez-vous à plus de 5000 applications via Zapier",
+    "google": "Google Sheets",
+    "googleDesc": "Exportez automatiquement les prospects vers Google Sheets",
+    "googleAct": "25 prospects exportés vers le tableur",
+    "googleTime": "Il y a 1 jour"
+  }
+}

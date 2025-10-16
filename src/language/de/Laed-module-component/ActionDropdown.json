@@ -1,0 +1,15 @@
+{
+  "actionDropdown": {
+    "openMenu": "Menu openen",
+    "viewGmbHealthReport": "Bekijk GMB Health-rapport",
+    "generateGmbHealthReport": "Genereer GMB Health-rapport",
+    "viewCitationAuditReport": "Bekijk Citation Audit-rapport",
+    "generateCitationAuditReport": "Genereer Citation Audit-rapport",
+    "viewGeoRankingReport": "Bekijk GEO Ranking-rapport",
+    "generateGeoRankingReport": "Genereer GEO Ranking-rapport",
+    "viewGmbProspectReport": "Bekijk GMB Prospect-rapport",
+    "generateGmbProspectReport": "Genereer GMB Prospect-rapport",
+    "leadClassifier": "Leadclassificatie",
+    "delete": "Verwijderen"
+  }
+}

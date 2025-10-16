@@ -1,0 +1,18 @@
+{
+  "leadGooglePlacesInput": {
+    "placeholders": {
+      "default": "Rechercher une entreprise...",
+      "loading": "Chargement de Google Places..."
+    },
+    "errors": {
+      "apiKeyMissing": {
+        "title": "Clé API manquante",
+        "description": "La clé API Google Places n’est pas configurée."
+      },
+      "initializationFailed": {
+        "title": "Échec de l’initialisation",
+        "description": "Échec de l’initialisation de l’API Google Places."
+      }
+    }
+  }
+}

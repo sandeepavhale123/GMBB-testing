@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Citation Audit-rapport genereren",
+    "description": "Vul de bedrijfsgegevens in om een uitgebreid citation audit-rapport te genereren.",
+    "form": {
+      "businessName": "Bedrijfsnaam *",
+      "businessNamePlaceholder": "Voer bedrijfsnaam in",
+      "phone": "Telefoonnummer *",
+      "phonePlaceholder": "Voer telefoonnummer in",
+      "keyword": "Zoekwoord *",
+      "keywordPlaceholder": "Voer doelzoekwoord in",
+      "city": "Stad *",
+      "cityPlaceholder": "Zoek naar stad"
+    },
+    "buttons": {
+      "cancel": "Annuleren",
+      "generate": "Rapport genereren",
+      "generating": "Bezig met genereren..."
+    },
+    "errors": {
+      "cityRequired": "Selecteer een geldige stad",
+      "generateFailed": "Het genereren van het citation audit-rapport is mislukt"
+    },
+    "validation":{
+      "business":"Bedrijfsnaam is verplicht.",
+      "phone":"Telefoonnummer is verplicht.",
+      "keyword":"Zoekwoord is verplicht.",
+      "city":"Stad is verplicht."
+    }
+  }
+}

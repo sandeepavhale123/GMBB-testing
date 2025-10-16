@@ -1,0 +1,16 @@
+{
+  "leadSettingsLayout": {
+    "navItems": {
+      "themeCustomization": "Personnalisation du thème",
+      "reportBranding": "Branding des rapports",
+      "integrations": "Intégrations",
+      "ctaCustomization": "Personnalisation du CTA"
+    },
+    "titles": {
+      "settings": "Paramètres"
+    },
+    "descriptions": {
+      "manageSettings": "Gérez les paramètres de votre module de prospects."
+    }
+  }
+}

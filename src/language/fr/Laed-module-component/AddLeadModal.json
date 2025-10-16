@@ -1,0 +1,52 @@
+{
+  "addLead": {
+    "title": "Ajouter un nouveau prospect",
+    "button": "Ajouter un prospect",
+    "cancel": "Annuler",
+    "adding": "Ajout du prospect...",
+    "inputMethod": {
+      "label": "Comment souhaitez-vous ajouter les informations de l’entreprise ?",
+      "name": "Suggestion automatique Google",
+      "url": "URL Google Maps",
+      "cid": "CID de l’annonce"
+    },
+    "fields": {
+      "businessName": "Rechercher par nom d’entreprise",
+      "businessPlaceholder": "Rechercher un nom d’entreprise...",
+      "mapUrl": "URL Google Maps",
+      "mapUrlPlaceholder": "Saisir l’URL Google Maps",
+      "cid": "CID de l’annonce",
+      "cidPlaceholder": "Saisir le CID",
+      "email": "E-mail",
+      "emailPlaceholder": "Saisir l’adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "phonePlaceholder": "Saisir le numéro de téléphone",
+      "location": "Latitude, Longitude ou Ville",
+      "locationPlaceholder": "Saisir la latitude, la longitude ou la ville",
+      "keyword": "Mot-clé personnalisé",
+      "keywordPlaceholder": "Saisir un mot-clé personnalisé",
+      "optionalDetails": "Ajouter des détails optionnels"
+    },
+    "validation": {
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+      "businessNameRequired": "Veuillez sélectionner une entreprise.",
+      "cidInvalid": "Impossible de résoudre le CID. Veuillez sélectionner à nouveau une suggestion ou utiliser l’URL/CID de la carte.",
+      "mapUrlRequired": "L’URL Google Maps est requise.",
+      "cidNumeric": "Veuillez saisir un CID numérique valide."
+    },
+    "success": {
+      "title": "Succès",
+      "description": "Prospect ajouté avec succès"
+    },
+    "error": {
+      "validationTitle": "Erreur de validation",
+      "validationDesc": "Veuillez corriger les erreurs et réessayer.",
+      "addFailedTitle": "Échec de l’ajout du prospect",
+      "addFailedDesc": "Veuillez réessayer."
+    },
+    "notes": {
+      "latitudeLongitude": "La latitude et la longitude doivent être saisies comme suit : lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "Le texte libre doit être saisi comme suit : Ville, État, Pays"
+    }
+  }
+}

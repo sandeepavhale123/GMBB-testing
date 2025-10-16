@@ -1,0 +1,52 @@
+{
+  "addLead": {
+    "title": "Nieuwe lead toevoegen",
+    "button": "Lead toevoegen",
+    "cancel": "Annuleren",
+    "adding": "Lead wordt toegevoegd...",
+    "inputMethod": {
+      "label": "Hoe wilt u de bedrijfsgegevens toevoegen?",
+      "name": "Google automatische suggestie",
+      "url": "Google Maps URL",
+      "cid": "Listing CID"
+    },
+    "fields": {
+      "businessName": "Zoek op bedrijfsnaam",
+      "businessPlaceholder": "Zoek naar bedrijfsnaam...",
+      "mapUrl": "Google Maps URL",
+      "mapUrlPlaceholder": "Voer Google Maps URL in",
+      "cid": "Listing CID",
+      "cidPlaceholder": "Voer CID in",
+      "email": "E-mail",
+      "emailPlaceholder": "Voer e-mailadres in",
+      "phone": "Telefoonnummer",
+      "phonePlaceholder": "Voer telefoonnummer in",
+      "location": "Breedtegraad, lengtegraad of stad",
+      "locationPlaceholder": "Voer locatie in: breedtegraad, lengtegraad of stad",
+      "keyword": "Aangepaste zoekterm",
+      "keywordPlaceholder": "Voer aangepaste zoekterm in",
+      "optionalDetails": "Voeg optionele gegevens toe"
+    },
+    "validation": {
+      "emailInvalid": "Voer een geldig e-mailadres in",
+      "businessNameRequired": "Selecteer een bedrijf.",
+      "cidInvalid": "CID kon niet worden opgelost. Selecteer de suggestie opnieuw of gebruik Map URL/CID.",
+      "mapUrlRequired": "Google Maps URL is vereist.",
+      "cidNumeric": "Voer een geldig numeriek CID in."
+    },
+    "success": {
+      "title": "Succes",
+      "description": "Lead succesvol toegevoegd"
+    },
+    "error": {
+      "validationTitle": "Validatiefout",
+      "validationDesc": "Corrigeer de fouten en probeer het opnieuw.",
+      "addFailedTitle": "Toevoegen van lead mislukt",
+      "addFailedDesc": "Probeer het alstublieft opnieuw."
+    },
+    "notes": {
+      "latitudeLongitude": "Breedte- en lengtegraad moeten als volgt worden ingevoerd: lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "De vrije tekst moet als volgt worden ingevoerd: Stad, Staat, Land"
+    }
+  }
+}

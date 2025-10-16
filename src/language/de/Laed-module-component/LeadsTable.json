@@ -1,0 +1,26 @@
+{
+  "leadsTable": {
+    "headers": {
+      "businessName": "Bedrijfsnaam",
+      "email": "E-mail",
+      "date": "Datum",
+      "category": "Categorie",
+      "reports": "Rapporten",
+      "actions": "Acties"
+    },
+    "reportLabels": {
+      "gmbHealthReport": "GMB Health-rapport",
+      "citationAudit": "Citation Audit",
+      "geoRanking": "GEO Ranking",
+      "gmbProspect": "GMB Prospect",
+      "onPageReport": "On-Page Rapport",
+      "noReports": "Geen rapporten"
+    },
+    "fallbacks": {
+      "na": "N/B"
+    },
+    "empty": {
+      "noLeads": "Geen leads gevonden. Voeg uw eerste lead toe om te beginnen."
+    }
+  }
+}

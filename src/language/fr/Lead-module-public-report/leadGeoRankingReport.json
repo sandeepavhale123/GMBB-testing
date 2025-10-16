@@ -1,0 +1,15 @@
+{
+  "geoReport": {
+    "title": "Rapport de classement GEO",
+    "loading": "Chargement du rapport de classement GEO...",
+    "error": {
+      "main": "Erreur lors du chargement des données du rapport",
+      "sub": "Veuillez réessayer plus tard"
+    },
+    "area": "Zone",
+    "priority": {
+      "high": "Élevée",
+      "medium": "Moyenne"
+    }
+  }
+}

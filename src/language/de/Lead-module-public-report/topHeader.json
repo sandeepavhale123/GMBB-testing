@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Rapport Ranking",
+    "defaultSubtitle": "Professionele Bedrijfsrapporten",
+    "navigation": {
+      "overall": "Algemeen",
+      "presence": "Aanwezigheid",
+      "posts": "Berichten",
+      "competitors": "Concurrenten",
+      "reviews": "Reviews"
+    },
+    "menu": {
+      "toggle": "Navigatiemenu wisselen"
+    }
+  }
+}

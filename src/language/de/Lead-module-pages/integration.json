@@ -1,0 +1,61 @@
+{
+  "title": "Integraties",
+  "subtitle": "Verbind uw leadbeheer met andere tools",
+  "availableIntegrations": {
+    "title": "Beschikbare integraties",
+    "description": "Verbind met uw favoriete tools en diensten"
+  },
+  "statuses": {
+    "Connected": "Verbonden",
+    "Available": "Beschikbaar",
+    "Success": "Succes",
+    "Error": "Fout"
+  },
+  "buttons": {
+    "configure": "Configureren",
+    "connect": "Verbinden",
+    "saveApiSettings": "API-instellingen opslaan"
+  },
+  "apiSettings": {
+    "title": "API-instellingen",
+    "description": "Beheer uw API-toegang en webhooks",
+    "apiKeyLabel": "API-sleutel",
+    "webhookUrlLabel": "Webhook-URL",
+    "webhooksPlaceholder":"https://uwapp.com/webhook",
+    "webhookToggleLabel": "Webhooks inschakelen",
+    "webhookToggleDescription": "Verzend realtime gegevens naar uw endpoint",
+    "usageTitle": "API-gebruik",
+    "requests": "Verzoeken deze maand",
+    "rateLimit": "Snelheidslimiet"
+  },
+  "activity": {
+    "title": "Integratieactiviteit",
+    "description": "Recente synchronisatie- en integratiegebeurtenissen"
+  },
+  "integration": {
+    "sales": "Salesforce",
+    "slaesDesc": "Synchroniseer leads met uw Salesforce CRM",
+    "salesSync": "2 uur geleden",
+    "salesAct": "12 nieuwe leads gesynchroniseerd",
+    "hub": "HubSpot",
+    "hubDesc": "Importeer contacten en volg interacties",
+    "hubAct": "Verbinding mislukt - API-timeout",
+    "hubTime": "6 uur geleden",
+    "email": "Mailchimp",
+    "emailDesc": "Voeg leads toe aan e-mailmarketingcampagnes",
+    "emailSync": "1 uur geleden",
+    "emailAct": "5 contacten toegevoegd aan campagne",
+    "emailTime": "3 uur geleden",
+    "slack": "Slack",
+    "slackDesc": "Ontvang meldingen van nieuwe leads in Slack",
+    "slackSync": "30 minuten geleden",
+    "slackAct": "Nieuwe leadmelding verzonden",
+    "slackTime": "4 uur geleden",
+    "zapier": "Zapier",
+    "zapierDesc": "Verbind met 5000+ apps via Zapier",
+    "google": "Google Sheets",
+    "googleDesc": "Exporteer leads automatisch naar Google Sheets",
+    "googleAct": "25 leads geëxporteerd naar spreadsheet",
+    "googleTime": "1 dag geleden"
+  }
+}

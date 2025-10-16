@@ -1,0 +1,21 @@
+{
+  "title": "Lead Dashboard",
+  "description": "Beheer en volg uw leads effectief.",
+  "convertedLeads": "Omgezette leads",
+  "totalLeads": "Totale leads",
+  "remainingCredits": "Resterende credits",
+  "addLead": "Lead toevoegen",
+  "leads": "Leads",
+  "manageLeads": "Beheer uw leaddatabase en volg interacties",
+  "showingPage": "Pagina {{currentPage}} van {{totalPages}} ({{leadCount}} leads)",
+  "deleteLeadTitle": "Lead verwijderen",
+  "deleteLeadDescription": "Weet u zeker dat u de lead voor ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": "? Deze actie kan niet ongedaan worden gemaakt.",
+  "cancel": "Annuleren",
+  "delete": "Verwijderen",
+  "deleting": "Bezig met verwijderen...",
+  "reportIDMissing": "Rapport-ID niet gevonden voor deze lead",
+  "noReportID": "Geen rapport-ID gevonden voor deze lead",
+  "fetchError": "Leads ophalen is mislukt. Probeer het opnieuw."
+}

@@ -1,0 +1,51 @@
+{
+  "title": "Modèles d’e-mails",
+  "subtitle": "Créez et gérez vos modèles d’e-mails",
+  "newTemplate": "Nouveau modèle",
+
+  "templateList": {
+    "title": "Modèles",
+    "description": "Gérez vos modèles d’e-mails"
+  },
+
+  "editor": {
+    "title": "Éditeur de modèle",
+    "description": "Modifiez le contenu de votre modèle d’e-mail",
+    "nameLabel": "Nom du modèle",
+    "namePlaceholder": "Saisir le nom du modèle",
+    "subjectLabel": "Objet",
+    "subjectPlaceholder": "Saisir l’objet de l’e-mail",
+    "contentLabel": "Contenu de l’e-mail",
+    "contentPlaceholder": "Saisir le contenu de votre e-mail ici...",
+    "variablesTitle": "Variables disponibles"
+  },
+
+  "buttons": {
+    "preview": "Aperçu",
+    "saveDraft": "Enregistrer en tant que brouillon",
+    "saveActivate": "Enregistrer et activer"
+  },
+
+  "statuses": {
+    "Active": "Actif",
+    "Draft": "Brouillon",
+    "Inactive": "Inactif"
+  },
+
+  "template": {
+    "welcome": "E-mail de bienvenue",
+    "welcomeMod": "Il y a 2 jours",
+    "follow": "Séquence de suivi",
+    "followMod": "Il y a 1 semaine",
+    "news": "Modèle de newsletter",
+    "newsMod": "Il y a 3 jours",
+    "promo": "Offre promotionnelle",
+    "promoMod": "Il y a 2 semaines"
+  },
+
+  "input": {
+    "email": "E-mail de bienvenue",
+    "subject": "Bienvenue dans notre service !",
+    "emailContent": "Bonjour {{firstName}},\n\nBienvenue dans notre service ! Nous sommes ravis de vous compter parmi nous.\n\nVoici ce à quoi vous pouvez vous attendre :\n- Gestion personnalisée des prospects\n- Analyses et rapports avancés\n- Support client 24/7\n\nSi vous avez des questions, n’hésitez pas à nous contacter.\n\nCordialement,\nL’équipe"
+  }
+}

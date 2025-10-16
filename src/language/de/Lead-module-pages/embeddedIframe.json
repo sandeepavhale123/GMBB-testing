@@ -1,0 +1,56 @@
+{
+  "title": "Ingesloten Iframe",
+  "subtitle": "Genereer en beheer insluitbare leadformulieren",
+
+  "configuration": {
+    "title": "Iframe-configuratie",
+    "description": "Pas uw insluitformuliersettings aan",
+    "formTitleLabel": "Formulier Titel",
+    "formTitlePlaceholder": "Voer formulier titel in",
+    "widthLabel": "Breedte",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Hoogte",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Bedrijfslogo weergeven",
+    "showLogoDescription": "Toon uw logo in het formulier",
+    "darkModeLabel": "Donkere modus inschakelen",
+    "darkModeDescription": "Laat gebruikers schakelen naar een donker thema",
+    "autoResizeLabel": "Automatisch aanpassen",
+    "autoResizeDescription": "Pas automatisch de iframe-hoogte aan",
+    "successMessageLabel": "Succesbericht",
+    "successMessagePlaceholder": "Bericht weergegeven na formulierinzending"
+  },
+
+  "embedCode": {
+    "title": "Insluitcode",
+    "description": "Kopieer deze code om het formulier op uw website in te sluiten",
+    "copied": "Gekopieerd!",
+    "copy": "Kopiëren",
+    "preview": "Voorbeeld",
+    "test": "Formulier testen",
+    "tipsTitle": "Integratietips:",
+    "tips1": "Voeg het iframe toe aan elke HTML-pagina of CMS",
+    "tips2": "Het formulier past automatisch bij het thema van uw site",
+    "tips3": "Alle inzendingen worden vastgelegd in uw leaddashboard",
+    "tips4": "HTTPS is vereist voor iframe-insluiting"
+  },
+
+  "activeEmbeds": {
+    "title": "Actieve insluitingen",
+    "description": "Beheer uw geïmplementeerde iframe-formulieren",
+    "submissions": "Inzendingen"
+  },
+
+  "statuses": {
+    "Active": "Actief",
+    "Inactive": "Inactief"
+  },
+  "name": {
+    "home": "Contactformulier Startpagina",
+    "homeDom": "jouwsite.com",
+    "landing": "Formulier Landingspagina",
+    "landingDom": "landing.jouwsite.com",
+    "blog": "Formulier Blog Sidebar",
+    "blogDom": "blog.jouwsite.com"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Creditsgeschiedenis",
+  "pageDescription": "Volg uw creditgebruik en aankopen.",
+  "buyCredits": "Credits kopen",
+
+  "currentCredits": "Huidige credits",
+  "currentCreditsSub": "Beschikbaar voor gebruik",
+  "creditsUsed": "Gebruikte credits",
+  "creditsUsedSub": "Verbruikte credits",
+  "totalAllocated": "Totaal toegewezen",
+  "totalAllocatedSub": "Totale credits",
+
+  "creditUsageTitle": "Creditgebruik",
+  "creditUsageDescription": "Uw huidige creditverbruik.",
+  "usedLabel": "Gebruikt: {{used}} credits",
+  "availableLabel": "Beschikbaar: {{available}} credits",
+  "loadingUsage": "Kan creditgebruiksgegevens niet laden",
+
+  "historyTitle": "Creditsgeschiedenis",
+  "searchPlaceholder": "Zoek op bedrijfsnaam...",
+
+  "table": {
+    "businessName": "Bedrijfsnaam",
+    "reportType": "Rapporttype",
+    "credit": "Credit",
+    "date": "Datum"
+  },
+
+  "noHistoryTitle": "Geen creditsgeschiedenis gevonden",
+  "noHistoryDescription": "Uw creditgebruik wordt hier weergegeven",
+  "noSearchResults": "Probeer uw zoekopdracht aan te passen",
+
+  "loadErrorTitle": "Kan creditsgeschiedenis niet laden",
+  "loadErrorDescription": "Probeer het later opnieuw"
+}
