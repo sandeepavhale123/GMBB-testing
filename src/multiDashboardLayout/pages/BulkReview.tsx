@@ -198,7 +198,7 @@ export const BulkReview: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <Button
             variant="outline"
             onClick={() => setExportModalOpen(true)}
