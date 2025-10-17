@@ -8,6 +8,7 @@ import GB from "country-flag-icons/react/3x2/GB";
 import ES from "country-flag-icons/react/3x2/ES";
 import DE from "country-flag-icons/react/3x2/DE";
 import IT from "country-flag-icons/react/3x2/IT";
+import FR from "country-flag-icons/react/3x2/FR";
 
 interface Language {
   code: string;
@@ -21,6 +22,7 @@ const languages: Language[] = [
   { code: "es", name: "Spanish", flag: "🇪🇸", FlagComponent: ES },
   { code: "de", name: "German", flag: "🇩🇪", FlagComponent: DE },
   { code: "it", name: "Italian", flag: "🇮🇹", FlagComponent: IT },
+  { code: "fr", name: "French", flag: "🇫🇷", FlagComponent: FR },
 ];
 
 interface LanguageSwitcherProps {
