@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
-import { getSearchKeywords } from "@/api/geoRankingApi";
+import { getSearchKeywords, deleteKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -100,24 +100,52 @@ export const ViewKeywords: React.FC = () => {
   };
 
   const handleDeleteSelected = async () => {
-    setDeleting(true);
-    try {
-      // TODO: Implement API call to delete keywords
-      // await deleteKeywords(Array.from(selectedKeywords));
-      
-      // Remove deleted keywords from state
-      setKeywords(keywords.filter(k => !selectedKeywords.has(k.id)));
-      setSelectedKeywords(new Set());
-      setShowDeleteDialog(false);
-      
-      toast({
-        title: "Success",
-        description: `${selectedKeywords.size} keyword${selectedKeywords.size > 1 ? 's' : ''} deleted successfully`,
-      });
-    } catch (error) {
+    if (!projectId) {
       toast({
         title: "Error",
-        description: "Failed to delete keywords",
+        description: "Project ID is missing",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      // Convert keyword IDs from string to number
+      const keywordIds = Array.from(selectedKeywords).map(id => parseInt(id, 10));
+      
+      // Call the API to delete keywords using projectId (for GEO Ranking Module)
+      const response = await deleteKeywords({
+        projectId: parseInt(projectId, 10),
+        keywordIds,
+        isDelete: "delete"
+      });
+
+      if (response.code === 200) {
+        // Remove deleted keywords from local state
+        setKeywords(keywords.filter(k => !selectedKeywords.has(k.id)));
+        setSelectedKeywords(new Set());
+        setShowDeleteDialog(false);
+        
+        // Refresh keywords list to get updated data from server
+        await fetchKeywords();
+        
+        toast({
+          title: "Success",
+          description: response.message || `${keywordIds.length} keyword${keywordIds.length > 1 ? 's' : ''} deleted successfully`,
+        });
+      } else {
+        throw new Error(response.message || "Failed to delete keywords");
+      }
+    } catch (error: any) {
+      // Extract the actual API error message (same pattern as team member deletion)
+      const apiErrorMessage = error?.response?.data?.message || 
+                              error?.message || 
+                              "Failed to delete keywords";
+      
+      toast({
+        title: "Error",
+        description: apiErrorMessage,
         variant: "destructive",
       });
     } finally {

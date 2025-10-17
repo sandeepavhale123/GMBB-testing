@@ -20,7 +20,8 @@ import type {
 
 // Types for API requests and responses
 export interface DeleteKeywordRequest {
-  listingId: number;
+  listingId?: number;    // Optional - used by Keywords Page
+  projectId?: number;    // Optional - used by GEO Ranking Module
   keywordIds: number[];
   isDelete: string;
 }
