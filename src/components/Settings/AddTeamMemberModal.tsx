@@ -140,7 +140,8 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       };
 
       const result = await addTeamMember(requestData);
-      // console.log("result of add team member", result);
+      
+      // Handle successful addition
       if (result.meta.requestStatus === "fulfilled") {
         toast({
           title: t("addTeamMemberModal.messages.success.title"),
@@ -148,19 +149,34 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
             firstName: formData.firstName,
             lastName: formData.lastName,
           }),
-          //  `${formData.firstName} ${formData.lastName} has been added successfully.`
           variant: "success",
         });
 
         resetForm();
         onOpenChange(false);
         onSuccess?.();
+      } 
+      // Handle rejected state (API returned error)
+      else if (result.meta.requestStatus === "rejected") {
+        // Extract error message from Redux rejected action
+        const apiErrorMessage = 
+          (result.payload as any)?.message ||  // For structured API errors from rejectWithValue
+          t("addTeamMemberModal.messages.error.default");
+        
+        toast({
+          title: t("addTeamMemberModal.messages.error.title"),
+          description: apiErrorMessage,
+          variant: "destructive",
+        });
       }
     } catch (error: any) {
-      // console.error("Failed to add team member:", error);
-      const apiErrorMessage = error?.response?.data?.message || 
-                              error?.message || 
-                              t("addTeamMemberModal.messages.error.default");
+      // Fallback catch for any unexpected errors
+      console.error("Unexpected error in add team member:", error);
+      
+      const apiErrorMessage = 
+        error?.response?.data?.message || 
+        error?.message || 
+        t("addTeamMemberModal.messages.error.default");
       
       toast({
         title: t("addTeamMemberModal.messages.error.title"),
