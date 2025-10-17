@@ -91,7 +91,7 @@ export const useListingManagement = ({
 
   const handleViewListing = useCallback(
     (listingId: string) => {
-      navigate(`/main-dashboard/${listingId}`);
+      navigate(`/business-info/${listingId}`);
       const listing = listings.find((l) => l.id === listingId);
       if (listing) {
         toast({
