@@ -79,12 +79,12 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         ref={buttonRef}
         variant={buttonVariant}
         size="icon"
-        className="flex items-center justify-center hover:bg-transparent p-0 w-7 h-7 border border-white"
+        className="flex items-center justify-center hover:bg-transparent p-0 w-7 h-7 "
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <div className="rounded-full overflow-hidden flex items-center justify-center w-7 h-7">
+        <div className="rounded-full overflow-hidden flex items-center justify-center w-7 h-7 border border-white">
           <currentLanguage.FlagComponent className="w-full h-full scale-[2.5]" />
         </div>
       </Button>
