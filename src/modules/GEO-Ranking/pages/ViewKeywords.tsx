@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { getSearchKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
@@ -112,11 +100,7 @@ export const ViewKeywords: React.FC = () => {
       return <Badge variant="secondary">Pending</Badge>;
     } else if (statusLower === "failed") {
       return <Badge variant="destructive">Failed</Badge>;
-    } else if (
-      statusLower === "running" ||
-      statusLower === "processing" ||
-      statusLower === "in progress"
-    ) {
+    } else if (statusLower === "running" || statusLower === "processing" || statusLower === "in progress") {
       return (
         <Badge variant="secondary" className="flex items-center gap-1">
           <Loader2 className="h-3 w-3 animate-spin" />
@@ -131,21 +115,21 @@ export const ViewKeywords: React.FC = () => {
     if (totalPages <= 1) return null;
 
     const pages: (number | string)[] = [];
-    
+
     // Always show first 3 pages
     for (let i = 1; i <= Math.min(3, totalPages); i++) {
       pages.push(i);
     }
-    
+
     // Show current page if it's beyond the first 3
     if (currentPage > 3 && currentPage < totalPages) {
-      if (currentPage > 4) pages.push('...');
+      if (currentPage > 4) pages.push("...");
       pages.push(currentPage);
     }
-    
+
     // Show ellipsis and last page if needed
     if (totalPages > 3) {
-      if (currentPage < totalPages - 1) pages.push('...');
+      if (currentPage < totalPages - 1) pages.push("...");
       pages.push(totalPages);
     }
 
@@ -153,11 +137,11 @@ export const ViewKeywords: React.FC = () => {
     const endIndex = Math.min(startIndex + perPage, totalKeywords);
 
     return (
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 py-4">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-2">
         <div className="text-sm text-muted-foreground">
           Showing {startIndex + 1} to {endIndex} of {totalKeywords} keywords
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -171,8 +155,8 @@ export const ViewKeywords: React.FC = () => {
           </Button>
 
           <div className="flex items-center gap-1">
-            {pages.map((page, index) => (
-              page === '...' ? (
+            {pages.map((page, index) =>
+              page === "..." ? (
                 <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
                   ...
                 </span>
@@ -187,8 +171,8 @@ export const ViewKeywords: React.FC = () => {
                 >
                   {page}
                 </Button>
-              )
-            ))}
+              ),
+            )}
           </div>
 
           <Button
@@ -239,12 +223,8 @@ export const ViewKeywords: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">
-              Project Keywords
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Manage and view all keywords for project #{projectId}
-            </p>
+            <h1 className="text-3xl font-bold text-foreground">Project Keywords</h1>
+            <p className="text-muted-foreground mt-1">Manage and view all keywords for project #{projectId}</p>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-sm text-muted-foreground">
@@ -270,9 +250,7 @@ export const ViewKeywords: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-foreground">
-                  No keywords found
-                </h3>
+                <h3 className="text-lg font-semibold text-foreground">No keywords found</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Start tracking your rankings by adding keywords to this project.
                 </p>
@@ -346,9 +324,7 @@ export const ViewKeywords: React.FC = () => {
               <TableBody>
                 {keywords.map((keyword, index) => (
                   <TableRow key={keyword.id}>
-                    <TableCell className="font-medium">
-                      {(currentPage - 1) * perPage + index + 1}
-                    </TableCell>
+                    <TableCell className="font-medium">{(currentPage - 1) * perPage + index + 1}</TableCell>
                     <TableCell className="font-medium">
                       <button
                         onClick={() => handleViewReport(keyword.id)}
@@ -361,9 +337,7 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">
-                              {keyword.atr || "N/A"}
-                            </span>
+                            <span className="cursor-help">{keyword.atr || "N/A"}</span>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Average Rank Position</p>
@@ -375,9 +349,7 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">
-                              {keyword.atrp || "N/A"}
-                            </span>
+                            <span className="cursor-help">{keyword.atrp || "N/A"}</span>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Average Top Rank Position</p>
@@ -389,9 +361,7 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">
-                              {keyword.solv || "N/A"}
-                            </span>
+                            <span className="cursor-help">{keyword.solv || "N/A"}</span>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Share of Local Visibility</p>
@@ -399,19 +369,10 @@ export const ViewKeywords: React.FC = () => {
                         </Tooltip>
                       </TooltipProvider>
                     </TableCell>
+                    <TableCell className="text-center">{formatDate(keyword.date)}</TableCell>
+                    <TableCell className="text-center">{getStatusBadge(keyword.status)}</TableCell>
                     <TableCell className="text-center">
-                      {formatDate(keyword.date)}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {getStatusBadge(keyword.status)}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleViewReport(keyword.id)}
-                        className="h-8"
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleViewReport(keyword.id)} className="h-8">
                         <Eye className="h-4 w-4 mr-1" />
                         View
                       </Button>
