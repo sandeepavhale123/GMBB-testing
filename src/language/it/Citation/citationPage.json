@@ -1,11 +1,11 @@
 {
   "citationPage": {
-    "loading": "Caricamento pagina citazioni...",
+    "loading": "Caricamento della pagina delle citazioni...",
     "searchForm": {
-      "title": "Rapporto Audit Citazioni",
-      "description": "Inserisci i dati della tua attività per avviare l'audit delle citazioni",
-      "businessNameLabel": "Nome Azienda",
-      "businessNamePlaceholder": "Inserisci il nome dell'azienda",
+      "title": "Rapporto di Revisione delle Citazioni",
+      "description": "Inserisci i dettagli della tua attività per avviare la revisione delle citazioni",
+      "businessNameLabel": "Nome dell'attività",
+      "businessNamePlaceholder": "Inserisci il nome dell'attività",
       "phoneLabel": "Telefono",
       "phonePlaceholder": "Inserisci il numero di telefono",
       "cityLabel": "Città",
@@ -21,29 +21,30 @@
       "newSearch": "Nuova Ricerca"
     },
     "trackerCard": {
-      "title": "Tracciatore Citazioni",
-      "listed": "Elencato",
-      "notListed": "Non Elencato",
-      "listedPercent": "Elencato"
+      "title": "Tracciatore di Citazioni",
+      "listed": "Elencate",
+      "notListed": "Non Elencate",
+      "listedPercent": "Elencate"
     },
     "localPagesCard": {
-      "title": "Pagine Locali e Directory",
-      "description": "Il punteggio delle tue pagine locali e directory si basa sul numero di posti in cui la tua inserzione è presente, diviso per il numero di pagine locali e directory che abbiamo verificato."
+      "title": "Pagine Locali & Directory",
+      "description": "Il punteggio delle tue pagine locali e directory si basa sul numero di luoghi in cui la tua scheda è presente, diviso per il numero di pagine locali e directory che abbiamo verificato."
     },
     "auditCard": {
-      "title": "Audit Citazioni",
+      "title": "Revisione delle Citazioni",
       "orderButton": "Effettua Ordine",
       "existingTab": "Citazione Esistente",
       "possibleTab": "Citazione Possibile",
       "table": {
         "website": "Sito Web",
-        "businessName": "Nome Azienda",
+        "businessName": "Nome dell'attività",
         "phone": "Telefono",
         "action": "Azione",
-        "siteName": "Nome Sito",
+        "siteName": "Nome del Sito",
         "view": "Visualizza",
         "fixNow": "Correggi Ora"
       }
-    }
+    },
+    "noPhoneProvided": "Non Corrisponde"
   }
 }
