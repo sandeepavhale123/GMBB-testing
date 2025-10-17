@@ -115,7 +115,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     aria-current={isActive ? "true" : undefined}
                   >
                     <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
-                      <language.FlagComponent className="w-full h-full scale-[2]" />
+                      <language.FlagComponent className="w-full h-full scale-[1.5]" />
                     </div>
 
                     <span className={cn("text-sm flex-1", isActive ? "font-semibold" : "font-normal")}>
