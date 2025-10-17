@@ -79,23 +79,17 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       <Button
         ref={buttonRef}
         variant={buttonVariant}
-        size={showLabel ? "sm" : "icon"}
-        className={cn(
-          "flex items-center gap-2",
-          buttonVariant === "ghost" && "hover:bg-accent"
-        )}
+        size="icon"
+        className="flex items-center justify-center hover:bg-transparent p-0 w-10 h-10"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <currentLanguage.FlagComponent 
-          className="w-5 h-4 rounded-sm" 
-        />
-        {showLabel && (
-          <span className="hidden md:inline text-sm">
-            {currentLanguage.name}
-          </span>
-        )}
+        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center border-2 border-border">
+          <currentLanguage.FlagComponent 
+            className="w-full h-full object-cover" 
+          />
+        </div>
       </Button>
 
       {isOpen && (
@@ -129,12 +123,11 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     )}
                     aria-current={isActive ? "true" : undefined}
                   >
-                    <span
-                      className="text-xl flex-shrink-0"
-                      aria-hidden="true"
-                    >
-                      {language.flag}
-                    </span>
+                    <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-border flex-shrink-0">
+                      <language.FlagComponent 
+                        className="w-full h-full object-cover" 
+                      />
+                    </div>
 
                     <span
                       className={cn(
