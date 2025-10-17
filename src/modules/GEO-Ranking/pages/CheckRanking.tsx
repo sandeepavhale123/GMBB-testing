@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 import { GeoRankingReportForm } from "../components/GeoRankingReportForm";
@@ -12,6 +12,8 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export function CheckRanking() {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/CheckRanking");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const urlProjectId = searchParams.get('projectId');
   const [selectedBusiness, setSelectedBusiness] =
     useState<BusinessLocationLite | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(
@@ -185,6 +187,7 @@ export function CheckRanking() {
             onBusinessSelect={handleBusinessSelect}
             onProjectSelect={handleProjectSelect}
             onAddKeywordsSubmit={handleAddKeywordsSubmit}
+            urlProjectId={urlProjectId}
           />
         </div>
       </div>
