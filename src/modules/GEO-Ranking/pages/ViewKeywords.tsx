@@ -218,7 +218,7 @@ export const ViewKeywords: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-[120px] px-4">
+    <div className="min-h-screen bg-background  p-4">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
