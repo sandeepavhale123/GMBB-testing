@@ -87,7 +87,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
             className="hidden sm:flex items-center gap-2"
           >
             <Download className="h-4 w-4" />
-            Export Reviews
+            {t("reviewsSubHeader.export")}
           </Button>
 
           {/* Mobile Export Button */}

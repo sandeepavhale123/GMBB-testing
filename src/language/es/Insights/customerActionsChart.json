@@ -1,15 +1,19 @@
 {
   "customerActionsChart": {
-    "title": "Acciones de Clientes",
-    "description": "Acciones realizadas por los clientes en su perfil.",
+    "title": "Acciones de los clientes",
+    "description": "Acciones realizadas por los clientes en tu perfil.",
     "metrics": {
-      "website": "Sitio Web",
+      "website": "Sitio web",
+      "direction": "Direcciones",
       "messages": "Mensajes",
-      "directions": "Indicaciones",
       "calls": "Llamadas"
     },
     "chart": {
       "barLabel": "Acciones"
+    },
+    "tooltips": {
+      "hide": "Ocultar {{metric}}",
+      "show": "Mostrar {{metric}}"
     }
   }
 }

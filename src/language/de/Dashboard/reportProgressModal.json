@@ -1,0 +1,24 @@
+{
+  "loadingTitle": "Bericht wird erstellt",
+  "successTitle": "Bericht erstellt",
+  "errorTitle": "Erstellung fehlgeschlagen",
+  
+  "loadingMessage": {
+    "gmb-health": "GMB-Gesundheitsbericht wird erstellt...",
+    "citation-audit": "Zitations-Audit-Bericht wird erstellt...",
+    "geo-ranking": "GEO-Ranking-Bericht wird erstellt...",
+    "gmb-prospect": "GMB-Prospektbericht wird erstellt..."
+  },
+  
+  "successMessage": {
+    "gmb-health": "GMB-Gesundheitsbericht erfolgreich erstellt!",
+    "citation-audit": "Zitations-Audit-Bericht erfolgreich erstellt!",
+    "geo-ranking": "GEO-Ranking-Bericht erfolgreich erstellt!",
+    "gmb-prospect": "GMB-Prospektbericht erfolgreich erstellt!"
+  },
+  
+  "failReport": "Bericht konnte nicht erstellt werden",
+  "loadingSubText": "Bitte warten Sie, während wir Ihren Bericht erstellen...",
+  "successSubText": "Weiterleitung zu den Berichtdetails...",
+  "errorSubText": "Bitte versuchen Sie es erneut oder kontaktieren Sie den Support, falls das Problem weiterhin besteht."
+}

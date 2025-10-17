@@ -1,0 +1,23 @@
+{
+  "loadingTitle": "Generating Report",
+  "successTitle": "Report Generated",
+  "errorTitle": "Generation Failed",
+  
+  "loadingMessage": {
+    "gmb-health": "Generating GMB Health Report...",
+    "citation-audit": "Generating Citation Audit Report...",
+    "geo-ranking": "Generating GEO Ranking Report...",
+    "gmb-prospect": "Generating GMB Prospect Report..."
+  },
+  
+  "successMessage": {
+    "gmb-health": "GMB Health Report Generated Successfully!",
+    "citation-audit": "Citation Audit Report Generated Successfully!",
+    "geo-ranking": "GEO Ranking Report Generated Successfully!",
+    "gmb-prospect": "GMB Prospect Report Generated Successfully!"
+  },
+  "failReport":" Failed to Generate Report",
+  "loadingSubText": "Please wait while we generate your report...",
+  "successSubText": "Redirecting to report details...",
+  "errorSubText": "Please try again or contact support if the problem persists."
+}

@@ -1,7 +1,7 @@
 {
   "keywordSelector": {
     "labels": {
-      "keyword": "Parola Chiave"
+      "keyword": "Parola chiave"
     },
     "placeholders": {
       "keyword": {
@@ -17,6 +17,7 @@
     "messages": {
       "loading": "Caricamento...",
       "noKeywords": "Nessuna parola chiave trovata"
-    }
+    },
+    "all": " Tutti"
   }
 }

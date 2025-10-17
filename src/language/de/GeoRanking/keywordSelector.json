@@ -17,6 +17,7 @@
     "messages": {
       "loading": "Wird geladen...",
       "noKeywords": "Keine Schlüsselwörter gefunden"
-    }
+    },
+    "all": " Alle"
   }
 }

@@ -3,5 +3,6 @@
   "livePosts": "Publicaciones Activas",
   "failedPosts": "Publicaciones Fallidas",
   "successPosts": "{{count}} publicaciones exitosas",
-  "failedCountPosts": "{{count}} publicaciones fallidas"
+  "failedCountPosts": "{{count}} publicaciones fallidas",
+  "view": "Ver Todo"
 }

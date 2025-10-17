@@ -65,7 +65,7 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
           </div>
           <Button variant="outline" className="w-full mt-4" asChild>
             <Link to={`/posts/${selectedListing?.id || "default"}`}>
-              View All
+              {t("view")}
             </Link>
           </Button>
         </div>

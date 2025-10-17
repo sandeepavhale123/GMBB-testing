@@ -1,0 +1,24 @@
+{
+  "loadingTitle": "Generando informe",
+  "successTitle": "Informe generado",
+  "errorTitle": "Error en la generación",
+  
+  "loadingMessage": {
+    "gmb-health": "Generando informe de salud de GMB...",
+    "citation-audit": "Generando informe de auditoría de citas...",
+    "geo-ranking": "Generando informe de clasificación GEO...",
+    "gmb-prospect": "Generando informe de prospectos de GMB..."
+  },
+  
+  "successMessage": {
+    "gmb-health": "¡Informe de salud de GMB generado con éxito!",
+    "citation-audit": "¡Informe de auditoría de citas generado con éxito!",
+    "geo-ranking": "¡Informe de clasificación GEO generado con éxito!",
+    "gmb-prospect": "¡Informe de prospectos de GMB generado con éxito!"
+  },
+  
+  "failReport": "Error al generar el informe",
+  "loadingSubText": "Espere mientras generamos su informe...",
+  "successSubText": "Redirigiendo a los detalles del informe...",
+  "errorSubText": "Inténtelo de nuevo o contacte al soporte si el problema persiste."
+}

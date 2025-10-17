@@ -9,6 +9,7 @@
       "AI": "Respuesta AI",
       "CUSTOM": "Plantilla Personalizada",
       "DNR": "No Responder"
-    }
+    },
+    "export": "Exportar Reseñas"
   }
 }

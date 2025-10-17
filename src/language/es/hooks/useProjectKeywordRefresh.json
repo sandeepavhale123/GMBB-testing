@@ -1,0 +1,18 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStartedTitle": "Actualización iniciada",
+      "refreshStartedDescription": "El proceso de actualización de palabras clave ha comenzado.",
+      "refreshCompleteTitle": "Actualización completada",
+      "refreshCompleteDescription": "Los datos de palabras clave se han actualizado correctamente.",
+      "refreshTimeoutTitle": "Tiempo de actualización agotado",
+      "refreshTimeoutDescription": "La actualización está tardando más de lo esperado. Por favor, inténtalo de nuevo.",
+      "refreshFailedTitle": "Error en la actualización",
+      "refreshFailedDescription": "No se pudo actualizar la palabra clave."
+    },
+    "error": {
+      "refreshTimeout": "Tiempo de actualización agotado - por favor, inténtalo de nuevo",
+      "refreshFailed": "No se pudo actualizar la palabra clave"
+    }
+  }
+}

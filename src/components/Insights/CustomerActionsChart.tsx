@@ -114,7 +114,14 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     !visibleBars.website ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.website}
-                  title={`${visibleBars.website ? "Hide" : "Show"} Website`}
+                  title={t(
+                    `customerActionsChart.tooltips.${
+                      visibleBars.website ? "hide" : "show"
+                    }`,
+                    {
+                      metric: t("customerActionsChart.metrics.website"),
+                    }
+                  )}
                 >
                   <div
                     className="w-3 h-3 rounded"
@@ -130,7 +137,14 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     !visibleBars.direction ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.direction}
-                  title={`${visibleBars.direction ? "Hide" : "Show"} Direction`}
+                  title={t(
+                    `customerActionsChart.tooltips.${
+                      visibleBars.website ? "hide" : "show"
+                    }`,
+                    {
+                      metric: t("customerActionsChart.metrics.direction"),
+                    }
+                  )}
                 >
                   <div
                     className="w-3 h-3 rounded"
@@ -139,7 +153,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   <span
                     className={!visibleBars.direction ? "line-through" : ""}
                   >
-                    Direction
+                    {t("customerActionsChart.metrics.direction")}
                   </span>
                 </button>
                 <button
@@ -148,14 +162,21 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     !visibleBars.messages ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.messages}
-                  title={`${visibleBars.messages ? "Hide" : "Show"} Messages`}
+                  title={t(
+                    `customerActionsChart.tooltips.${
+                      visibleBars.website ? "hide" : "show"
+                    }`,
+                    {
+                      metric: t("customerActionsChart.metrics.messages"),
+                    }
+                  )}
                 >
                   <div
                     className="w-3 h-3 rounded"
                     style={{ backgroundColor: "#3b82f6" }}
                   ></div>
                   <span className={!visibleBars.messages ? "line-through" : ""}>
-                    Messages
+                    {t("customerActionsChart.metrics.messages")}
                   </span>
                 </button>
                 <button
@@ -164,14 +185,21 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                     !visibleBars.calls ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.calls}
-                  title={`${visibleBars.calls ? "Hide" : "Show"} Calls`}
+                  title={t(
+                    `customerActionsChart.tooltips.${
+                      visibleBars.website ? "hide" : "show"
+                    }`,
+                    {
+                      metric: t("customerActionsChart.metrics.calls"),
+                    }
+                  )}
                 >
                   <div
                     className="w-3 h-3 rounded"
                     style={{ backgroundColor: "#a855f7" }}
                   ></div>
                   <span className={!visibleBars.calls ? "line-through" : ""}>
-                    Calls
+                    {t("customerActionsChart.metrics.calls")}
                   </span>
                 </button>
               </div>

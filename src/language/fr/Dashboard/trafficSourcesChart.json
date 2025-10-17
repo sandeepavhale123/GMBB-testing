@@ -1,7 +1,8 @@
 {
-  "title": "Résumé de l'activité",
-  "livePosts": "Articles en ligne",
-  "failedPosts": "Articles échoués",
-  "successPosts": "{{count}} articles réussis",
-  "failedCountPosts": "{{count}} articles échoués"
+  "title": "Résumé d'activité",
+  "livePosts": "Publications en direct",
+  "failedPosts": "Publications échouées",
+  "successPosts": "{{count}} publications réussies",
+  "failedCountPosts": "{{count}} publications échouées",
+  "view": "Voir tout"
 }

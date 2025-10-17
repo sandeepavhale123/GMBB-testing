@@ -1,0 +1,38 @@
+{
+  "allKeywordsModal": {
+    "title": "Toutes les mots-clés",
+    "searchPlaceholder": "Rechercher des mots-clés...",
+    "bulkActions": {
+      "selectedCount": "{{count}} mot(s)-clé(s) sélectionné(s)",
+      "deleteSelected": "Supprimer la sélection"
+    },
+    "table": {
+      "srNo": "N°",
+      "keyword": "Mot-clé",
+      "actions": "Actions",
+      "loading": "Chargement des mots-clés...",
+      "noKeywords": {
+        "search": "Aucun mot-clé ne correspond à votre recherche",
+        "default": "Aucun mot-clé disponible"
+      }
+    },
+    "buttons": {
+      "close": "Fermer",
+      "viewKeyword": "Voir les détails du mot-clé",
+      "deleteKeyword": "Supprimer le mot-clé",
+      "delete": "Supprimer",
+      "deleting": "Suppression...",
+      "cancel": "Annuler"
+    },
+    "deleteDialog": {
+      "title": "Êtes-vous sûr ?",
+      "description": "Cela supprimera définitivement {{count}} mot(s)-clé(s). Cette action est irréversible."
+    },
+    "toast": {
+      "successTitle": "Succès",
+      "successDescription": "{{count}} mot(s)-clé(s) supprimé(s) avec succès",
+      "errorTitle": "Erreur",
+      "errorDescription": "Échec de la suppression des mots-clés"
+    }
+  }
+}

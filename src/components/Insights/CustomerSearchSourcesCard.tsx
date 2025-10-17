@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface CustomerSearchSourcesCardProps {
   summary: any;
   isLoadingSummary: boolean;
@@ -11,6 +11,7 @@ interface CustomerSearchSourcesCardProps {
 export const CustomerSearchSourcesCard: React.FC<
   CustomerSearchSourcesCardProps
 > = ({ summary, isLoadingSummary }) => {
+  const { t } = useI18nNamespace("Insights/customerSearchSources");
   const [hoveredSegment, setHoveredSegment] = useState<{
     name: string;
     value: number;
@@ -24,22 +25,22 @@ export const CustomerSearchSourcesCard: React.FC<
 
   const chartData = [
     {
-      name: "Desktop search",
+      name: t("customerSearchSources.segments.desktopSearch"),
       value: summary?.customer_actions?.desktop_search?.value || 0,
       color: "#22c55e",
     },
     {
-      name: "Desktop map",
+      name: t("customerSearchSources.segments.desktopMap"),
       value: summary?.customer_actions?.desktop_map?.value || 0,
       color: "#3b82f6",
     },
     {
-      name: "Mobile search",
+      name: t("customerSearchSources.segments.mobileSearch"),
       value: summary?.customer_actions?.mobile_search?.value || 0,
       color: "#a855f7",
     },
     {
-      name: "Mobile map",
+      name: t("customerSearchSources.segments.mobileMap"),
       value: summary?.customer_actions?.mobile_map?.value || 0,
       color: "#f97316",
     },
@@ -74,21 +75,17 @@ export const CustomerSearchSourcesCard: React.FC<
       <CardContent className="p-6">
         {!hasData ? (
           <div className="flex items-center justify-center h-40 text-sm text-muted-foreground">
-            No data available
+            {t("customerSearchSources.noData")}
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Column 1: Title and Description */}
             <div className="flex flex-col justify-center space-y-2 md:space-y-3 lg:w-[65%]">
               <h3 className="text-base md:text-lg font-semibold text-foreground">
-                How Customers Search For Your Business
+                {t("customerSearchSources.title")}
               </h3>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                Understanding how customers discover your business helps
-                optimize your online presence. This breakdown shows whether
-                customers find you through search results or map views, and
-                whether they're using desktop or mobile devices to access your
-                information.
+                {t("customerSearchSources.description")}
               </p>
             </div>
 
@@ -126,7 +123,9 @@ export const CustomerSearchSourcesCard: React.FC<
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {hoveredSegment ? hoveredSegment.name : "Total Searches"}
+                    {hoveredSegment
+                      ? hoveredSegment.name
+                      : t("customerSearchSources.totalSearches")}
                   </span>
                 </div>
               </div>

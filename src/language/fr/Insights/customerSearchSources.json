@@ -1,0 +1,14 @@
+{
+  "customerSearchSources": {
+    "title": "Comment les clients recherchent votre entreprise",
+    "description": "Comprendre comment les clients découvrent votre entreprise aide à optimiser votre présence en ligne. Cette répartition montre si les clients vous trouvent via les résultats de recherche ou les vues sur la carte, et s'ils utilisent des appareils de bureau ou mobiles pour accéder à vos informations.",
+    "totalSearches": "Recherches totales",
+    "noData": "Aucune donnée disponible",
+    "segments": {
+      "desktopSearch": "Recherche sur ordinateur",
+      "desktopMap": "Carte sur ordinateur",
+      "mobileSearch": "Recherche sur mobile",
+      "mobileMap": "Carte sur mobile"
+    }
+  }
+}

@@ -17,6 +17,7 @@
     "messages": {
       "loading": "Chargement...",
       "noKeywords": "Aucun mot-clé trouvé"
-    }
+    },
+    "all": " Tous"
   }
 }
