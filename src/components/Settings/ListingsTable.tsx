@@ -151,7 +151,10 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
             return (
               <TableRow key={listing.id} className="hover:bg-gray-50">
                 <TableCell>
-                  <div className="flex items-center space-x-3">
+                  <div 
+                    className="flex items-center space-x-3 cursor-pointer group"
+                    onClick={() => onViewListing?.(listing.id)}
+                  >
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={listing.profile_image} />
                       <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold text-sm">
@@ -163,7 +166,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                         truncateAddress(listing.name) &&
                         truncateAddress(listing.name) !== "null" &&
                         !truncateAddress(listing.name).includes("null") && (
-                          <p className="font-medium text-gray-900 truncate">
+                          <p className="font-medium text-gray-900 group-hover:text-blue-600 truncate transition-colors">
                             {truncateAddress(listing.name)}
                           </p>
                         )}
@@ -172,7 +175,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                         truncateAddress(listing.address) &&
                         truncateAddress(listing.address) !== "null" &&
                         !truncateAddress(listing.address).includes("null") && (
-                          <p className="text-sm text-gray-500 truncate">
+                          <p className="text-sm text-gray-500 group-hover:text-blue-600 truncate transition-colors">
                             {truncateAddress(listing.address)}
                           </p>
                         )}

@@ -10,8 +10,18 @@ export const fetchTeamMembers = createAsyncThunk(
 
 export const addTeamMemberThunk = createAsyncThunk(
   'team/addTeamMember',
-  async (params: AddTeamMemberRequest) => {
-    return await addTeamMember(params);
+  async (params: AddTeamMemberRequest, { rejectWithValue }) => {
+    try {
+      return await addTeamMember(params);
+    } catch (error: any) {
+      // Extract the API error message from axios error
+      const errorMessage = error?.response?.data?.message || 
+                          error?.message || 
+                          'Failed to add team member';
+      
+      // Return the error in a serializable format
+      return rejectWithValue({ message: errorMessage });
+    }
   }
 );
 

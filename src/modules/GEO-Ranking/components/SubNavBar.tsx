@@ -43,18 +43,38 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if we're on the view project details page
+  // Check if we're on the view project details or keywords page
   const isViewProjectDetails = location.pathname.includes(
     "/module/geo-ranking/view-project-details/"
   );
-  if (isViewProjectDetails) {
+  const isViewProjectKeywords = location.pathname.includes(
+    "/module/geo-ranking/view-project-keywords/"
+  );
+
+  // Determine back navigation path
+  const getBackNavigationPath = () => {
+    if (isViewProjectDetails) {
+      // Extract projectId from path like: /module/geo-ranking/view-project-details/1186
+      const match = location.pathname.match(/view-project-details\/(\d+)/);
+      const projectId = match ? match[1] : null;
+      
+      if (projectId) {
+        return `/module/geo-ranking/view-project-keywords/${projectId}`;
+      }
+    }
+    
+    // Default: go back to dashboard
+    return "/module/geo-ranking";
+  };
+
+  if (isViewProjectDetails || isViewProjectKeywords) {
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-[403] w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-start gap-4 py-4">
             <Button
               variant="ghost"
-              onClick={() => navigate("/module/geo-ranking")}
+              onClick={() => navigate(getBackNavigationPath())}
               className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft size={18} />

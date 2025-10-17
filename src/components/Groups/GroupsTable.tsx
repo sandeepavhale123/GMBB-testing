@@ -251,7 +251,16 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                     aria-label={`Select ${group.groupName}`}
                   />
                 </TableCell>
-                <TableCell className="font-medium">{group.groupName}</TableCell>
+                <TableCell 
+                  className="font-medium text-primary cursor-pointer hover:underline"
+                  onClick={() =>
+                    navigate(
+                      `/main-dashboard/settings/manage-groups/${group.id}`
+                    )
+                  }
+                >
+                  {group.groupName}
+                </TableCell>
                 <TableCell>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
                     {group.locCount}

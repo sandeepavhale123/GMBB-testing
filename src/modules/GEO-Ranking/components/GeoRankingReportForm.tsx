@@ -64,6 +64,7 @@ interface GeoRankingReportFormProps {
   onProjectSelect?: (project: ProjectLite | null) => void;
   disabled?: boolean;
   onAddKeywordsSubmit?: (e: React.FormEvent) => void;
+  urlProjectId?: string | null;
 }
 export function GeoRankingReportForm({
   formData,
@@ -81,6 +82,7 @@ export function GeoRankingReportForm({
   onProjectSelect,
   disabled = false,
   onAddKeywordsSubmit,
+  urlProjectId,
 }: GeoRankingReportFormProps) {
   const { t } = useI18nNamespace(
     "Geo-Ranking-module-component/GeoRankingReportForm"
@@ -317,6 +319,17 @@ export function GeoRankingReportForm({
     };
     fetchProjects();
   }, []);
+
+  // Auto-select project from URL parameter
+  useEffect(() => {
+    if (urlProjectId && projects.length > 0 && !selectedProject) {
+      const projectToSelect = projects.find((p) => p.id === urlProjectId);
+      if (projectToSelect) {
+        setSelectedProject(projectToSelect);
+        onProjectSelect?.(projectToSelect);
+      }
+    }
+  }, [urlProjectId, projects, selectedProject, onProjectSelect]);
 
   // Debouncing for CID and Map URL searches
   useEffect(() => {

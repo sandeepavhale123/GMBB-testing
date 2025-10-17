@@ -20,7 +20,8 @@ import type {
 
 // Types for API requests and responses
 export interface DeleteKeywordRequest {
-  listingId: number;
+  listingId?: number;    // Optional - used by Keywords Page
+  projectId?: number;    // Optional - used by GEO Ranking Module
   keywordIds: number[];
   isDelete: string;
 }
@@ -28,6 +29,15 @@ export interface DeleteKeywordRequest {
 export interface DeleteKeywordResponse {
   code: number;
   message: string;
+  data?: {
+    deleted_keywords: string[];
+  };
+}
+
+// Response type for GEO Ranking Module delete
+export interface DeleteGeoKeywordResponse {
+  code: number;
+  message: boolean | string;
   data?: {
     deleted_keywords: string[];
   };
@@ -432,7 +442,8 @@ export const addSearchKeyword = async (
 
 // Get Search Keywords API
 export interface SearchKeywordRequest {
-  listingId: number;
+  listingId?: number;
+  projectId?: number;
   page: number;
   limit: number;
 }
@@ -477,6 +488,21 @@ export const deleteKeywords = async (
     return response.data;
   } catch (error) {
     // console.error("Error deleting keywords:", error);
+    throw error;
+  }
+};
+
+// Delete keywords specifically for GEO Ranking Module (uses /geomodule/delete-keyword endpoint)
+export const deleteGeoKeywords = async (
+  requestData: DeleteKeywordRequest
+): Promise<DeleteGeoKeywordResponse> => {
+  try {
+    const response = await axiosInstance.post(
+      "/geomodule/delete-keyword",
+      requestData
+    );
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
