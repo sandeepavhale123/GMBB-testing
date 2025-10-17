@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
-import { getSearchKeywords, deleteKeywords } from "@/api/geoRankingApi";
+import { getSearchKeywords, deleteGeoKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -115,7 +115,7 @@ export const ViewKeywords: React.FC = () => {
       const keywordIds = Array.from(selectedKeywords).map(id => parseInt(id, 10));
       
       // Call the API to delete keywords using projectId (for GEO Ranking Module)
-      const response = await deleteKeywords({
+      const response = await deleteGeoKeywords({
         projectId: parseInt(projectId, 10),
         keywordIds,
         isDelete: "delete"
@@ -130,12 +130,13 @@ export const ViewKeywords: React.FC = () => {
         // Refresh keywords list to get updated data from server
         await fetchKeywords();
         
+        const deletedCount = response.data?.deleted_keywords?.length || keywordIds.length;
         toast({
           title: "Success",
-          description: response.message || `${keywordIds.length} keyword${keywordIds.length > 1 ? 's' : ''} deleted successfully`,
+          description: `${deletedCount} keyword${deletedCount > 1 ? 's' : ''} deleted successfully`,
         });
       } else {
-        throw new Error(response.message || "Failed to delete keywords");
+        throw new Error(typeof response.message === 'string' ? response.message : "Failed to delete keywords");
       }
     } catch (error: any) {
       // Extract the actual API error message (same pattern as team member deletion)

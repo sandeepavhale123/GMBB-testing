@@ -34,6 +34,15 @@ export interface DeleteKeywordResponse {
   };
 }
 
+// Response type for GEO Ranking Module delete
+export interface DeleteGeoKeywordResponse {
+  code: number;
+  message: boolean | string;
+  data?: {
+    deleted_keywords: string[];
+  };
+}
+
 export interface ShareableKeywordsRequest {
   reportId: string;
 }
@@ -479,6 +488,21 @@ export const deleteKeywords = async (
     return response.data;
   } catch (error) {
     // console.error("Error deleting keywords:", error);
+    throw error;
+  }
+};
+
+// Delete keywords specifically for GEO Ranking Module (uses /geomodule/delete-keyword endpoint)
+export const deleteGeoKeywords = async (
+  requestData: DeleteKeywordRequest
+): Promise<DeleteGeoKeywordResponse> => {
+  try {
+    const response = await axiosInstance.post(
+      "/geomodule/delete-keyword",
+      requestData
+    );
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
