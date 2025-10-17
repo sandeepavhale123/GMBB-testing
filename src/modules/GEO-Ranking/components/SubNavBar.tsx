@@ -43,11 +43,14 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if we're on the view project details page
+  // Check if we're on the view project details or keywords page
   const isViewProjectDetails = location.pathname.includes(
     "/module/geo-ranking/view-project-details/"
   );
-  if (isViewProjectDetails) {
+  const isViewProjectKeywords = location.pathname.includes(
+    "/module/geo-ranking/view-project-keywords/"
+  );
+  if (isViewProjectDetails || isViewProjectKeywords) {
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-[403] w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">

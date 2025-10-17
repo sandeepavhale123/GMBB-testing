@@ -457,7 +457,7 @@ export const Dashboard: React.FC = () => {
                             className="font-medium text-primary cursor-pointer hover:text-primary/80 transition-colors"
                             onClick={() =>
                               navigate(
-                                `/module/geo-ranking/view-project-details/${project.id}`
+                                `/module/geo-ranking/view-project-keywords/${project.id}`
                               )
                             }
                           >
