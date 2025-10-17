@@ -156,14 +156,15 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         onOpenChange(false);
         onSuccess?.();
       }
-    } catch (error) {
+    } catch (error: any) {
       // console.error("Failed to add team member:", error);
+      const apiErrorMessage = error?.response?.data?.message || 
+                              error?.message || 
+                              t("addTeamMemberModal.messages.error.default");
+      
       toast({
         title: t("addTeamMemberModal.messages.error.title"),
-        description:
-          error?.response?.data?.message ||
-          error.message ||
-          t("addTeamMemberModal.messages.error.default"),
+        description: apiErrorMessage,
         variant: "destructive",
       });
     }
