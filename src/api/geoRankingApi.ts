@@ -432,7 +432,8 @@ export const addSearchKeyword = async (
 
 // Get Search Keywords API
 export interface SearchKeywordRequest {
-  listingId: number;
+  listingId?: number;
+  projectId?: number;
   page: number;
   limit: number;
 }

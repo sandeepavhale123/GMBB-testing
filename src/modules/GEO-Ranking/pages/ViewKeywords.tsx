@@ -46,7 +46,7 @@ export const ViewKeywords: React.FC = () => {
 
     try {
       const response = await getSearchKeywords({
-        listingId: Number(projectId),
+        projectId: Number(projectId),
         page: currentPage,
         limit: perPage,
       });
