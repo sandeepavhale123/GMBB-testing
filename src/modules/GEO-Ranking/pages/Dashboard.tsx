@@ -454,7 +454,7 @@ export const Dashboard: React.FC = () => {
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-2">
                           <span
-                            className="font-medium text-muted-foreground cursor-pointer hover:text-primary transition-colors"
+                            className="font-medium text-primary cursor-pointer hover:text-primary/80 transition-colors"
                             onClick={() =>
                               navigate(
                                 `/module/geo-ranking/view-project-details/${project.id}`
