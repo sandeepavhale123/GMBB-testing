@@ -4,7 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { getSearchKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +31,9 @@ export const ViewKeywords: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalKeywords, setTotalKeywords] = useState(0);
+  const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const perPage = 10;
 
   useEffect(() => {
@@ -65,6 +79,50 @@ export const ViewKeywords: React.FC = () => {
 
   const handleViewReport = (keywordId: string) => {
     navigate(`/module/geo-ranking/view-project-details/${projectId}?keyword=${keywordId}`);
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedKeywords(new Set(keywords.map(k => k.id)));
+    } else {
+      setSelectedKeywords(new Set());
+    }
+  };
+
+  const handleSelectKeyword = (keywordId: string, checked: boolean) => {
+    const newSelected = new Set(selectedKeywords);
+    if (checked) {
+      newSelected.add(keywordId);
+    } else {
+      newSelected.delete(keywordId);
+    }
+    setSelectedKeywords(newSelected);
+  };
+
+  const handleDeleteSelected = async () => {
+    setDeleting(true);
+    try {
+      // TODO: Implement API call to delete keywords
+      // await deleteKeywords(Array.from(selectedKeywords));
+      
+      // Remove deleted keywords from state
+      setKeywords(keywords.filter(k => !selectedKeywords.has(k.id)));
+      setSelectedKeywords(new Set());
+      setShowDeleteDialog(false);
+      
+      toast({
+        title: "Success",
+        description: `${selectedKeywords.size} keyword${selectedKeywords.size > 1 ? 's' : ''} deleted successfully`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete keywords",
+        variant: "destructive",
+      });
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -240,6 +298,32 @@ export const ViewKeywords: React.FC = () => {
           </div>
         </div>
 
+        {/* Bulk Actions Bar */}
+        {selectedKeywords.size > 0 && (
+          <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">
+                {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''} selected
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedKeywords(new Set())}
+              >
+                Clear Selection
+              </Button>
+            </div>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setShowDeleteDialog(true)}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete Selected
+            </Button>
+          </div>
+        )}
+
         {/* Table */}
         {keywords.length === 0 ? (
           <div className="text-center py-12 bg-card rounded-lg border">
@@ -269,6 +353,13 @@ export const ViewKeywords: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={selectedKeywords.size === keywords.length && keywords.length > 0}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all keywords"
+                    />
+                  </TableHead>
                   <TableHead className="w-16">Sr No</TableHead>
                   <TableHead>Keyword</TableHead>
                   <TableHead className="text-center">
@@ -318,12 +409,19 @@ export const ViewKeywords: React.FC = () => {
                   </TableHead>
                   <TableHead className="text-center">Added On</TableHead>
                   <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center w-24">Action</TableHead>
+                  <TableHead className="text-center w-32">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {keywords.map((keyword, index) => (
                   <TableRow key={keyword.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedKeywords.has(keyword.id)}
+                        onCheckedChange={(checked) => handleSelectKeyword(keyword.id, checked as boolean)}
+                        aria-label={`Select keyword ${keyword.keyword}`}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium">{(currentPage - 1) * perPage + index + 1}</TableCell>
                     <TableCell className="font-medium">
                       <button
@@ -372,10 +470,29 @@ export const ViewKeywords: React.FC = () => {
                     <TableCell className="text-center">{formatDate(keyword.date)}</TableCell>
                     <TableCell className="text-center">{getStatusBadge(keyword.status)}</TableCell>
                     <TableCell className="text-center">
-                      <Button variant="ghost" size="sm" onClick={() => handleViewReport(keyword.id)} className="h-8">
-                        <Eye className="h-4 w-4 mr-1" />
-                        View
-                      </Button>
+                      <div className="flex items-center justify-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleViewReport(keyword.id)}
+                          title="View Report"
+                          className="h-8 w-8"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            setSelectedKeywords(new Set([keyword.id]));
+                            setShowDeleteDialog(true);
+                          }}
+                          title="Delete"
+                          className="h-8 w-8"
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -386,6 +503,29 @@ export const ViewKeywords: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''}? 
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteSelected}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
