@@ -1,21 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Globe, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import i18n, { loadAllNamespaces } from "@/i18n";
 import { useIsMobile } from "@/hooks/use-mobile";
+import GB from "country-flag-icons/react/3x2/GB";
+import ES from "country-flag-icons/react/3x2/ES";
+import DE from "country-flag-icons/react/3x2/DE";
+import IT from "country-flag-icons/react/3x2/IT";
 
 interface Language {
   code: string;
   name: string;
   flag: string;
+  FlagComponent: React.ComponentType<any>;
 }
 
 const languages: Language[] = [
-  { code: "en", name: "English", flag: "🇬🇧" },
-  { code: "es", name: "Spanish", flag: "🇪🇸" },
-  { code: "de", name: "German", flag: "🇩🇪" },
-  { code: "it", name: "Italian", flag: "🇮🇹" },
+  { code: "en", name: "English", flag: "🇬🇧", FlagComponent: GB },
+  { code: "es", name: "Spanish", flag: "🇪🇸", FlagComponent: ES },
+  { code: "de", name: "German", flag: "🇩🇪", FlagComponent: DE },
+  { code: "it", name: "Italian", flag: "🇮🇹", FlagComponent: IT },
 ];
 
 interface LanguageSwitcherProps {
@@ -83,10 +88,12 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <Globe className="w-4 h-4" />
+        <currentLanguage.FlagComponent 
+          className="w-5 h-4 rounded-sm" 
+        />
         {showLabel && (
           <span className="hidden md:inline text-sm">
-            {currentLanguage.flag} {currentLanguage.name}
+            {currentLanguage.name}
           </span>
         )}
       </Button>
