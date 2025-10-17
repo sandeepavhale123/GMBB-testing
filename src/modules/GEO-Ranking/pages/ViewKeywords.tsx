@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
-import { getSearchKeywords } from "@/api/geoRankingApi";
+import { getSearchKeywords, deleteGeoKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -34,7 +34,7 @@ export const ViewKeywords: React.FC = () => {
   const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const perPage = 2;
+  const perPage = 10;
 
   useEffect(() => {
     fetchKeywords();
@@ -83,7 +83,7 @@ export const ViewKeywords: React.FC = () => {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedKeywords(new Set(keywords.map((k) => k.id)));
+      setSelectedKeywords(new Set(keywords.map(k => k.id)));
     } else {
       setSelectedKeywords(new Set());
     }
@@ -100,24 +100,53 @@ export const ViewKeywords: React.FC = () => {
   };
 
   const handleDeleteSelected = async () => {
-    setDeleting(true);
-    try {
-      // TODO: Implement API call to delete keywords
-      // await deleteKeywords(Array.from(selectedKeywords));
-
-      // Remove deleted keywords from state
-      setKeywords(keywords.filter((k) => !selectedKeywords.has(k.id)));
-      setSelectedKeywords(new Set());
-      setShowDeleteDialog(false);
-
-      toast({
-        title: "Success",
-        description: `${selectedKeywords.size} keyword${selectedKeywords.size > 1 ? "s" : ""} deleted successfully`,
-      });
-    } catch (error) {
+    if (!projectId) {
       toast({
         title: "Error",
-        description: "Failed to delete keywords",
+        description: "Project ID is missing",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      // Convert keyword IDs from string to number
+      const keywordIds = Array.from(selectedKeywords).map(id => parseInt(id, 10));
+      
+      // Call the API to delete keywords using projectId (for GEO Ranking Module)
+      const response = await deleteGeoKeywords({
+        projectId: parseInt(projectId, 10),
+        keywordIds,
+        isDelete: "delete"
+      });
+
+      if (response.code === 200) {
+        // Remove deleted keywords from local state
+        setKeywords(keywords.filter(k => !selectedKeywords.has(k.id)));
+        setSelectedKeywords(new Set());
+        setShowDeleteDialog(false);
+        
+        // Refresh keywords list to get updated data from server
+        await fetchKeywords();
+        
+        const deletedCount = response.data?.deleted_keywords?.length || keywordIds.length;
+        toast({
+          title: "Success",
+          description: `${deletedCount} keyword${deletedCount > 1 ? 's' : ''} deleted successfully`,
+        });
+      } else {
+        throw new Error(typeof response.message === 'string' ? response.message : "Failed to delete keywords");
+      }
+    } catch (error: any) {
+      // Extract the actual API error message (same pattern as team member deletion)
+      const apiErrorMessage = error?.response?.data?.message || 
+                              error?.message || 
+                              "Failed to delete keywords";
+      
+      toast({
+        title: "Error",
+        description: apiErrorMessage,
         variant: "destructive",
       });
     } finally {
@@ -303,13 +332,21 @@ export const ViewKeywords: React.FC = () => {
           <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium">
-                {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? "s" : ""} selected
+                {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''} selected
               </span>
-              <Button variant="ghost" size="sm" onClick={() => setSelectedKeywords(new Set())}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedKeywords(new Set())}
+              >
                 Clear Selection
               </Button>
             </div>
-            <Button variant="destructive" size="sm" onClick={() => setShowDeleteDialog(true)}>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setShowDeleteDialog(true)}
+            >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete Selected
             </Button>
@@ -331,13 +368,15 @@ export const ViewKeywords: React.FC = () => {
                   Start tracking your rankings by adding keywords to this project.
                 </p>
               </div>
-              <Button
-                onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
-                className="flex items-center gap-2"
-              >
-                <Plus className="w-4 h-4" />
-                Add Your First Keyword
-              </Button>
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Your First Keyword
+                </Button>
+              </div>
             </div>
           </div>
         ) : (
@@ -502,7 +541,7 @@ export const ViewKeywords: React.FC = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? "s" : ""}?
+              Are you sure you want to delete {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''}? 
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
