@@ -368,13 +368,15 @@ export const ViewKeywords: React.FC = () => {
                   Start tracking your rankings by adding keywords to this project.
                 </p>
               </div>
-              <Button
-                onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
-                className="flex items-center gap-2"
-              >
-                <Plus className="w-4 h-4" />
-                Add Your First Keyword
-              </Button>
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Your First Keyword
+                </Button>
+              </div>
             </div>
           </div>
         ) : (
