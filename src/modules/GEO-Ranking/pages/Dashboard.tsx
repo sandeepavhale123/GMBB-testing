@@ -491,7 +491,7 @@ export const Dashboard: React.FC = () => {
                             <DropdownMenuItem
                               onClick={() =>
                                 navigate(
-                                  `/module/geo-ranking/view-project-details/${project.id}`
+                                  `/module/geo-ranking/view-project-keywords/${project.id}`
                                 )
                               }
                             >
