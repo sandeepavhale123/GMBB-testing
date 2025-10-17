@@ -91,7 +91,7 @@ export const useListingManagement = ({
 
   const handleViewListing = useCallback(
     (listingId: string) => {
-      navigate(`/main-dashboard/${listingId}`);
+      navigate(`/location-dashboard/${listingId}`);
       const listing = listings.find((l) => l.id === listingId);
       if (listing) {
         toast({
@@ -101,7 +101,7 @@ export const useListingManagement = ({
       }
       // console.log(`Navigating to listing page for listing ${listingId}`);
     },
-    [navigate, listings, toast]
+    [navigate, listings, toast],
   );
 
   // const handleToggleListing = useCallback(
@@ -129,54 +129,36 @@ export const useListingManagement = ({
   const handleToggleListing = useCallback(
     async (listingId: string, isActive: boolean) => {
       try {
-        await toggleListingStatus(
-          listingId,
-          parseInt(accountId),
-          isActive,
-          async (data) => {
-            // MAKE THIS ASYNC
-            // Refetch both filtered data and summary statistics
-            await refetch();
-            await refetchSummary();
+        await toggleListingStatus(listingId, parseInt(accountId), isActive, async (data) => {
+          // MAKE THIS ASYNC
+          // Refetch both filtered data and summary statistics
+          await refetch();
+          await refetchSummary();
 
-            // Trigger business listings refresh for dropdown sync
-            if (onListingStatusChange) {
-              try {
-                await onListingStatusChange();
-                console.log(
-                  "🔄 ListingManagement: Business listings refreshed after status change"
-                );
-              } catch (error) {
-                console.error(
-                  "🔄 ListingManagement: Failed to refresh business listings:",
-                  error
-                );
-              }
+          // Trigger business listings refresh for dropdown sync
+          if (onListingStatusChange) {
+            try {
+              await onListingStatusChange();
+              console.log("🔄 ListingManagement: Business listings refreshed after status change");
+            } catch (error) {
+              console.error("🔄 ListingManagement: Failed to refresh business listings:", error);
             }
-
-            // console.log('Updated active listings count:', data.activeListings);
-            // ✅ Invalidate all dashboards so they refetch
-            Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
-              queryClient.invalidateQueries({
-                predicate: (query) =>
-                  Array.isArray(query.queryKey) && query.queryKey[0] === key,
-              });
-            });
           }
-        );
+
+          // console.log('Updated active listings count:', data.activeListings);
+          // ✅ Invalidate all dashboards so they refetch
+          Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
+            queryClient.invalidateQueries({
+              predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === key,
+            });
+          });
+        });
       } catch (error) {
         // Error handling is done in the hook
         console.error("Failed to toggle listing:", error);
       }
     },
-    [
-      toggleListingStatus,
-      accountId,
-      refetch,
-      refetchSummary,
-      onListingStatusChange,
-      queryClient,
-    ]
+    [toggleListingStatus, accountId, refetch, refetchSummary, onListingStatusChange, queryClient],
   );
 
   return {
