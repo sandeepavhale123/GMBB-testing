@@ -1,0 +1,17 @@
+{
+  "geoProjects": {
+    "toast": {
+      "createSuccess": "Projet créé avec succès",
+      "createError": "Échec de la création du projet",
+      "updateSuccess": "Projet mis à jour avec succès",
+      "updateError": "Échec de la mise à jour du projet",
+      "deleteSuccess": "Projet et toutes les données associées supprimés avec succès",
+      "deleteError": "Échec de la suppression du projet"
+    },
+    "fallback": {
+      "noEmailProvided": "Aucun e-mail fourni",
+      "fetchProjectsError": "Erreur lors de la récupération des projets GEO",
+      "fetchOverviewError": "Erreur lors de la récupération de la vue d'ensemble GEO"
+    }
+  }
+}

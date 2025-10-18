@@ -10,12 +10,14 @@ import {
   getLeadReportBranding,
   GetLeadReportBrandingRequest,
 } from "@/api/leadApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Query keys
 export const reportBrandingKeys = {
   all: ["reportBranding"] as const,
   details: () => [...reportBrandingKeys.all, "details"] as const,
-  leadReport: (reportId: string) => [...reportBrandingKeys.all, "leadReport", reportId] as const,
+  leadReport: (reportId: string) =>
+    [...reportBrandingKeys.all, "leadReport", reportId] as const,
 };
 
 // Get Report Branding hook
@@ -31,23 +33,23 @@ export const useGetReportBranding = () => {
 export const useUpdateReportBranding = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useReportBranding");
   return useMutation({
     mutationFn: updateReportBranding,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: reportBrandingKeys.all });
       toast({
-        title: "Success",
-        description: data?.message || "Report branding updated successfully",
+        title: t("reportBranding.toast.titleSuccess"),
+        description: data?.message || t("reportBranding.success.update"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to update report branding. Please try again.";
+        t("reportBranding.error.update");
       toast({
-        title: "Error",
+        title: t("reportBranding.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -59,23 +61,23 @@ export const useUpdateReportBranding = () => {
 export const useDeleteReportBranding = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useReportBranding");
   return useMutation({
     mutationFn: deleteReportBranding,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: reportBrandingKeys.all });
       toast({
-        title: "Success",
-        description: data?.message || "Report branding deleted successfully",
+        title: t("reportBranding.toast.titleSuccess"),
+        description: data?.message || t("reportBranding.success.delete"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to delete report branding. Please try again.";
+        t("reportBranding.error.delete");
       toast({
-        title: "Error",
+        title: t("reportBranding.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });

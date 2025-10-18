@@ -17,6 +17,7 @@
     "messages": {
       "loading": "Cargando...",
       "noKeywords": "No se encontraron palabras clave"
-    }
+    },
+    "all": " Todas"
   }
 }

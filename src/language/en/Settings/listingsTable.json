@@ -9,6 +9,12 @@
       "state": "State",
       "actions": "Actions"
     },
-    "noListings": "No listings found matching your criteria."
+     "status": {
+      "verified": "Verified",
+      "pending": "Pending",
+      "suspended": "Suspended"
+    },
+    "noListings": "No listings found matching your criteria.",
+    "tootltip":"Toggle the switch to activate or deactivate your listings"
   }
 }

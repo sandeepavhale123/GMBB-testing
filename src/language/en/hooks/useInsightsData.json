@@ -1,0 +1,10 @@
+{
+  "insights": {
+    "toast": {
+      "dataRefreshedTitle": "Data Refreshed",
+      "dataRefreshedDescription": "Your insights have been updated with the latest data from Google Business Profile.",
+      "refreshFailedTitle": "Refresh Failed",
+      "refreshFailedDescription": "Failed to refresh data. Please try again."
+    }
+  }
+}

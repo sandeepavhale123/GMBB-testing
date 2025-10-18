@@ -24,6 +24,7 @@ import {
 import { Search, Eye, Trash2, X } from "lucide-react";
 import { KeywordData } from "../../api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface AllKeywordsModalProps {
   open: boolean;
@@ -44,6 +45,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
   onDeleteSuccess,
   loading = false,
 }) => {
+  const { t } = useI18nNamespace("GeoRanking/allKeywordsModal");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -106,8 +108,11 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       });
 
       toast({
-        title: "Success",
-        description: `${keywordToDelete.length} keyword(s) deleted successfully`,
+        title: t("allKeywordsModal.toast.successTitle"),
+        description: t("allKeywordsModal.toast.successDescription", {
+          count: keywordToDelete.length,
+        }),
+        // `${keywordToDelete.length} keyword(s) deleted successfully`,
       });
 
       // Clear selections
@@ -121,8 +126,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       }
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to delete keywords",
+        title: t("allKeywordsModal.toast.errorTitle"),
+        description:
+          error.message || t("allKeywordsModal.toast.errorDescription"),
         variant: "destructive",
       });
     } finally {
@@ -146,7 +152,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
           }}
         >
           <DialogHeader className="flex flex-row items-center justify-between pr-6">
-            <DialogTitle>All Keywords</DialogTitle>
+            <DialogTitle>{t("allKeywordsModal.title")}</DialogTitle>
             <Button
               variant="ghost"
               size="sm"
@@ -164,7 +170,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search keywords..."
+                  placeholder={t("allKeywordsModal.searchPlaceholder")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDownCapture={(e) => {
@@ -184,7 +190,10 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             {selectedKeywords.length > 0 && (
               <div className="mb-4 p-3 bg-muted rounded-md flex items-center justify-between">
                 <span className="text-sm font-medium">
-                  {selectedKeywords.length} keyword(s) selected
+                  {t("allKeywordsModal.bulkActions.selectedCount", {
+                    count: selectedKeywords.length,
+                  })}
+                  {/* {selectedKeywords.length} keyword(s) selected */}
                 </span>
                 <Button
                   variant="destructive"
@@ -193,7 +202,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   disabled={isDeleting}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
-                  Delete Selected
+                  {t("allKeywordsModal.bulkActions.deleteSelected")}
                 </Button>
               </div>
             )}
@@ -210,10 +219,14 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                         disabled={filteredKeywords.length === 0}
                       />
                     </TableHead>
-                    <TableHead className="w-20 py-2">Sr. No.</TableHead>
-                    <TableHead className="py-2">Keyword</TableHead>
+                    <TableHead className="w-20 py-2">
+                      {t("allKeywordsModal.table.srNo")}
+                    </TableHead>
+                    <TableHead className="py-2">
+                      {t("allKeywordsModal.table.keyword")}
+                    </TableHead>
                     <TableHead className="w-32 text-right py-2">
-                      Actions
+                      {t("allKeywordsModal.table.actions")}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -221,7 +234,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                   {loading ? (
                     <TableRow>
                       <TableCell colSpan={4} className="text-center py-8">
-                        Loading keywords...
+                        {t("allKeywordsModal.table.loading")}
                       </TableCell>
                     </TableRow>
                   ) : filteredKeywords.length === 0 ? (
@@ -231,8 +244,8 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                         className="text-center py-8 text-muted-foreground"
                       >
                         {searchTerm
-                          ? "No keywords found matching your search"
-                          : "No keywords available"}
+                          ? t("allKeywordsModal.table.noKeywords.search")
+                          : t("allKeywordsModal.table.noKeywords.default")}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -256,7 +269,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                               variant="ghost"
                               size="sm"
                               onClick={() => handleView(keyword.id)}
-                              title="View keyword details"
+                              title={t("allKeywordsModal.buttons.viewKeyword")}
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -264,7 +277,9 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
                               variant="ghost"
                               size="sm"
                               onClick={() => handleDeleteClick([keyword.id])}
-                              title="Delete keyword"
+                              title={t(
+                                "allKeywordsModal.buttons.deleteKeyword"
+                              )}
                               disabled={isDeleting}
                             >
                               <Trash2 className="w-4 h-4 text-destructive" />
@@ -281,7 +296,7 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
             {/* Footer */}
             <div className="flex justify-end pt-4 border-t">
               <Button variant="outline" onClick={() => onOpenChange(false)}>
-                Close
+                {t("allKeywordsModal.buttons.close")}
               </Button>
             </div>
           </div>
@@ -292,20 +307,29 @@ export const AllKeywordsModal: React.FC<AllKeywordsModalProps> = ({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("allKeywordsModal.deleteDialog.title")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete {keywordToDelete.length} keyword(s).
-              This action cannot be undone.
+              {t("allKeywordsModal.deleteDialog.description", {
+                count: keywordToDelete.length,
+              })}
+              {/* This will permanently delete {keywordToDelete.length} keyword(s).
+              This action cannot be undone. */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>
+              {t("allKeywordsModal.buttons.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting
+                ? t("allKeywordsModal.buttons.deleting")
+                : t("allKeywordsModal.buttons.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

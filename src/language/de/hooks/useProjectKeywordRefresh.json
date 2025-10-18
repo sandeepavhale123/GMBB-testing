@@ -1,0 +1,18 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStartedTitle": "Aktualisierung gestartet",
+      "refreshStartedDescription": "Der Aktualisierungsprozess für das Schlüsselwort hat begonnen.",
+      "refreshCompleteTitle": "Aktualisierung abgeschlossen",
+      "refreshCompleteDescription": "Die Schlüsselwortdaten wurden erfolgreich aktualisiert.",
+      "refreshTimeoutTitle": "Aktualisierungszeit überschritten",
+      "refreshTimeoutDescription": "Die Aktualisierung dauert länger als erwartet. Bitte versuchen Sie es erneut.",
+      "refreshFailedTitle": "Aktualisierung fehlgeschlagen",
+      "refreshFailedDescription": "Schlüsselwort konnte nicht aktualisiert werden."
+    },
+    "error": {
+      "refreshTimeout": "Aktualisierungszeit überschritten - bitte erneut versuchen",
+      "refreshFailed": "Schlüsselwort konnte nicht aktualisiert werden"
+    }
+  }
+}

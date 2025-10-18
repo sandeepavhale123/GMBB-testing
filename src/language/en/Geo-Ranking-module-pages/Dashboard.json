@@ -45,7 +45,8 @@
       "deleteConfirmationDescription": "This action cannot be undone. This will permanently delete the project \"{name}\" and all its related data including keywords and map points.",
       "typeDeleteToConfirm": "Type \"delete\" to confirm",
       "placeholderDelete": "delete",
-      "shareablelink" : "Shareable Link"
+      "shareablelink" : "Shareable Link",
+      "noEmailProvided": "No email provided"
     },
     "pagination": {
       "showing": "Showing {{from}} to {{to}} of {{total}} projects",

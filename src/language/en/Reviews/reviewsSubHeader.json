@@ -9,6 +9,7 @@
       "AI": "AI Reply",
       "CUSTOM": "Custom Template",
       "DNR": "Do Not Respond"
-    }
+    },
+    "export":"Export Reviews"
   }
 }

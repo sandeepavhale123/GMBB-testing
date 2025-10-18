@@ -45,7 +45,7 @@
         },
         "uploaded": {
           "title": "Logo del rapporto caricato",
-          "description": "{fileName} pronto per l'uso"
+          "description": "{{fileName}} pronto per l'uso"
         },
         "removed": {
           "title": "Logo del rapporto rimosso",
@@ -55,7 +55,7 @@
         "requirements": "PNG, JPG, SVG fino a 2MB. Consigliato: 200 x 200px",
         "ready": "✓ Pronto",
         "current": "✓ Logo attuale caricato",
-        "selected": "Selezionato: {fileName}"
+        "selected": "Selezionato: {{fileName}}"
       }
     },
     "saveChanges": {

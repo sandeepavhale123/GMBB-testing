@@ -86,6 +86,11 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   onEdit,
 }) => {
   const { t } = useI18nNamespace("BusinessManagement/editableBusinessHours");
+
+  const dayTranslationKey = (day: string) => {
+    return t(`editableBusinessHours.days.${day.toLowerCase()}`);
+  };
+
   const [hoursState, setHoursState] =
     useState<TransformedWorkingHour[]>(initialWorkingHours);
 
@@ -164,7 +169,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
               >
                 <div className="flex items-center gap-3">
                   <Clock className="h-4 w-4 text-gray-500" />
-                  <span className="font-medium w-20">{schedule.day}</span>
+                  <span className="font-medium w-20">
+                    {dayTranslationKey(schedule.day)}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span
@@ -213,7 +220,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
               >
                 <div className="flex items-center gap-3 min-w-[120px]">
                   <Clock className="h-4 w-4 text-gray-500" />
-                  <span className="font-medium w-20">{schedule.day}</span>
+                  <span className="font-medium w-20">
+                    {dayTranslationKey(schedule.day)}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <label className="flex items-center gap-2 cursor-pointer">

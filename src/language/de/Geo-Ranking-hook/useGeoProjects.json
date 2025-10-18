@@ -1,0 +1,17 @@
+{
+  "geoProjects": {
+    "toast": {
+      "createSuccess": "Projekt erfolgreich erstellt",
+      "createError": "Projekt konnte nicht erstellt werden",
+      "updateSuccess": "Projekt erfolgreich aktualisiert",
+      "updateError": "Projekt konnte nicht aktualisiert werden",
+      "deleteSuccess": "Projekt und alle zugehörigen Daten wurden erfolgreich gelöscht",
+      "deleteError": "Projekt konnte nicht gelöscht werden"
+    },
+    "fallback": {
+      "noEmailProvided": "Keine E-Mail angegeben",
+      "fetchProjectsError": "Fehler beim Abrufen der GEO-Projekte",
+      "fetchOverviewError": "Fehler beim Abrufen der GEO-Übersicht"
+    }
+  }
+}

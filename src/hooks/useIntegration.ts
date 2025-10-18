@@ -13,12 +13,13 @@ import {
   deleteSubdomainDetails,
   SmtpPayload,
 } from "@/api/integrationApi";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 // Query keys
 export const integrationKeys = {
   mapApiKey: ["mapApiKey"] as const,
   subdomainStatus: ["subdomainStatus"] as const,
-  smtpDetails: (listingId: number | string) => ["smtpDetails", listingId] as const,
+  smtpDetails: (listingId: number | string) =>
+    ["smtpDetails", listingId] as const,
 };
 
 // Map API Key hooks
@@ -33,23 +34,24 @@ export const useGetMapApiKey = () => {
 export const useUpdateMapApiKey = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t } = useI18nNamespace("hooks/useIntegration");
 
   return useMutation({
     mutationFn: updateMapApiKey,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: integrationKeys.mapApiKey });
       toast({
-        title: "Success",
-        description: data?.message || "API key updated successfully",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.mapApiKey.success.update"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to save API key. Please try again.";
+        t("integration.mapApiKey.error.update");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -60,23 +62,23 @@ export const useUpdateMapApiKey = () => {
 export const useDeleteMapApiKey = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: deleteMapApiKey,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: integrationKeys.mapApiKey });
       toast({
-        title: "Success",
-        description: data?.message || "API key disconnected successfully",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.mapApiKey.success.delete"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to disconnect API key. Please try again.";
+        t("integration.mapApiKey.error.delete");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -96,7 +98,7 @@ export const useGetSubdomainStatus = () => {
 export const useUpdateSubdomain = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: updateSubdomain,
     onSuccess: (data) => {
@@ -104,18 +106,17 @@ export const useUpdateSubdomain = () => {
         queryKey: integrationKeys.subdomainStatus,
       });
       toast({
-        title: "Success",
-        description:
-          data?.message || "Subdomain configuration saved successfully",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.subdomain.success.update"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to save subdomain configuration. Please try again.";
+        t("integration.subdomain.error.update");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -127,7 +128,11 @@ export const useUpdateSubdomain = () => {
 export const useGetSmtpDetails = (listingId: number | string) => {
   return useQuery({
     queryKey: integrationKeys.smtpDetails(listingId),
-    queryFn: () => getSmtpDetails({ listingId: typeof listingId === 'string' ? parseInt(listingId, 10) : listingId }),
+    queryFn: () =>
+      getSmtpDetails({
+        listingId:
+          typeof listingId === "string" ? parseInt(listingId, 10) : listingId,
+      }),
     retry: false,
   });
 };
@@ -135,23 +140,23 @@ export const useGetSmtpDetails = (listingId: number | string) => {
 export const useUpdateSmtpDetails = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: updateSmtpDetails,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["smtpDetails"] });
       toast({
-        title: "Success",
-        description: data?.message || "SMTP settings saved successfully",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.smtp.success.update"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to save SMTP settings. Please try again.";
+        t("integration.smtp.error.update");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -161,22 +166,22 @@ export const useUpdateSmtpDetails = () => {
 
 export const useTestSmtpDetails = () => {
   const { toast } = useToast();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: testSmtpDetails,
     onSuccess: (data) => {
       toast({
-        title: "Test Email Sent",
-        description: data?.message || "SMTP test email sent successfully",
+        title: t("integration.toast.titleTestSuccess"),
+        description: data?.message || t("integration.smtp.success.testEmail"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to send test email. Please check your settings.";
+        t("integration.smtp.error.testEmail");
       toast({
-        title: "Test Failed",
+        title: t("integration.toast.titleTestError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -187,23 +192,23 @@ export const useTestSmtpDetails = () => {
 export const useDeleteSmtpDetails = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: deleteSmtpDetails,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["smtpDetails"] });
       toast({
-        title: "Success",
-        description: data?.message || "SMTP settings deleted successfully",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.smtp.success.delete"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to delete SMTP settings. Please try again.";
+        t("integration.smtp.error.delete");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -213,23 +218,23 @@ export const useDeleteSmtpDetails = () => {
 export const useSubdomainDetails = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("hooks/useIntegration");
   return useMutation({
     mutationFn: deleteSubdomainDetails,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["subdomainStatus"] });
       toast({
-        title: "Success",
-        description: data?.message || "Subdomain is deleted successfully.",
+        title: t("integration.toast.titleSuccess"),
+        description: data?.message || t("integration.subdomain.success.delete"),
       });
     },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to delete Subdomain. Please try again.";
+        t("integration.subdomain.error.delete");
       toast({
-        title: "Error",
+        title: t("integration.toast.titleError"),
         description: errorMessage,
         variant: "destructive",
       });

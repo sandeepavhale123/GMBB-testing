@@ -6,9 +6,10 @@
     },
     "replySettingBadge": {
       "prefix": "Aktivierte automatische Antwort-Einstellung: ",
-      "AI": "KI-Antwort",
+      "AI": "AI-Antwort",
       "CUSTOM": "Benutzerdefinierte Vorlage",
-      "DNR": "Nicht antworten"
-    }
+      "DNR": "Nicht Antworten"
+    },
+    "export": "Bewertungen Exportieren"
   }
 }

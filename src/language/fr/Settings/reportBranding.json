@@ -45,7 +45,7 @@
         },
         "uploaded": {
           "title": "Logo du rapport téléchargé",
-          "description": "{fileName} prêt à l'utilisation"
+          "description": "{{fileName}} prêt à l'utilisation"
         },
         "removed": {
           "title": "Logo du rapport supprimé",
@@ -55,7 +55,7 @@
         "requirements": "PNG, JPG, SVG jusqu'à 2 Mo. Recommandé : 200 x 200px",
         "ready": "✓ Prêt",
         "current": "✓ Logo actuel téléchargé",
-        "selected": "Sélectionné : {fileName}"
+        "selected": "Sélectionné : {{fileName}}"
       }
     },
     "saveChanges": {

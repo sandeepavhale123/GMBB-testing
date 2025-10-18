@@ -1,5 +1,4 @@
-
-import axiosInstance from './axiosInstance';
+import axiosInstance from "./axiosInstance";
 
 export interface AccountListingPagination {
   page: number;
@@ -13,11 +12,11 @@ export interface AccountListingPagination {
 
 export interface AccountListingFilters {
   search: string;
-  status: 'all' | 'active' | 'inactive' | 'verified' | 'unverified';
+  status: "all" | "active" | "inactive" | "verified" | "unverified";
 }
 
 export interface AccountListingSorting {
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
 }
 
 export interface AccountListingRequest {
@@ -54,12 +53,15 @@ export interface AccountListingResponse {
 }
 
 export const accountListingsApi = {
-  getAccountListings: async (params: AccountListingRequest): Promise<AccountListingResponse> => {
+  getAccountListings: async (
+    params: AccountListingRequest
+  ): Promise<AccountListingResponse> => {
     const response = await axiosInstance({
-      url: '/get-account-listings',
-      method: 'POST',
+      url: "/get-account-listings",
+      method: "POST",
       data: params,
     });
+    console.log("listing data", response.data);
     return response.data;
   },
 };

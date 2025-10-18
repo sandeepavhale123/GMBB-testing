@@ -4,7 +4,7 @@ import {
   refreshKeywordForProject,
 } from "../api/geoRankingApi";
 import { useToast } from "./use-toast";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface UseProjectKeywordRefreshProps {
   projectId: number;
   selectedKeyword: string;
@@ -20,6 +20,7 @@ export const useProjectKeywordRefresh = ({
   fetchKeywordDetailsManually,
   onDateSelect,
 }: UseProjectKeywordRefreshProps) => {
+  const { t } = useI18nNamespace("hooks/useProjectKeywordRefresh");
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
   const [isPollingActive, setIsPollingActive] = useState(false);
@@ -44,7 +45,7 @@ export const useProjectKeywordRefresh = ({
         const newKeywordId = refreshResponse.data.keywordId.toString();
 
         toast({
-          title: "Refresh Started",
+          title: t("keywordRefresh.toast.refreshStartedTitle"),
           description: refreshResponse.message,
         });
 
@@ -95,8 +96,10 @@ export const useProjectKeywordRefresh = ({
               }
 
               toast({
-                title: "Refresh Complete",
-                description: "Keyword data has been refreshed successfully",
+                title: t("keywordRefresh.toast.refreshCompleteTitle"),
+                description: t(
+                  "keywordRefresh.toast.refreshCompleteDescription"
+                ),
               });
 
               setTimeout(() => {
@@ -118,9 +121,8 @@ export const useProjectKeywordRefresh = ({
             setRefreshError("Refresh timeout - please try again");
             setRefreshing(false);
             toast({
-              title: "Refresh Timeout",
-              description:
-                "The refresh is taking longer than expected. Please try again.",
+              title: t("keywordRefresh.toast.refreshTimeoutTitle"),
+              description: t("keywordRefresh.toast.refreshTimeoutDescription"),
               variant: "destructive",
             });
           }
@@ -128,16 +130,20 @@ export const useProjectKeywordRefresh = ({
 
         setTimeout(pollForNewData, 2000);
       } else {
-        throw new Error(refreshResponse.message || "Failed to refresh keyword");
+        throw new Error(
+          refreshResponse.message || t("keywordRefresh.error.refreshFailed")
+        );
       }
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : "Failed to refresh keyword";
+        err instanceof Error
+          ? err.message
+          : t("keywordRefresh.error.refreshFailed");
       setRefreshError(errorMessage);
       setRefreshing(false);
       setIsPollingActive(false);
       toast({
-        title: "Refresh Failed",
+        title: t("keywordRefresh.toast.refreshFailedTitle"),
         description: errorMessage,
         variant: "destructive",
       });

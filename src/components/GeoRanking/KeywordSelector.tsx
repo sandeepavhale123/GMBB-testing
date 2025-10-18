@@ -98,7 +98,7 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(
               onClick={() => setShowAllModal(true)}
               className="text-sm text-primary hover:underline font-medium h-auto p-0"
             >
-              All
+              {t("keywordSelector.all")}
             </Button>
           )}
         </div>

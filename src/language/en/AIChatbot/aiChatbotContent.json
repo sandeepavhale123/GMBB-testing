@@ -6,10 +6,10 @@
       "showHistory": "Show History",
       "hideHistory": "Hide History",
       "loadingHistory": "Loading chat history...",
-      "noHistory": "No chat history yet"
+      "noHistory": "No chat history yet."
     },
     "mainChat": {
-      "title":"AI Genie Assistance",
+      "title": "AI Genie Assistance",
       "welcomeTitle": "Welcome to AI Genie Assistance",
       "welcomeDescription": "Ask me questions about your business performance, SEO optimization, geo-ranking insights, and more. Try the suggested questions to get started!",
       "loadingMessages": "Loading chat messages...",

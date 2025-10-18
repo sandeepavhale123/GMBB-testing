@@ -4,15 +4,22 @@
     "selected_plural": "{{count}} médias sélectionnés",
     "deleteSelected": "Supprimer la sélection"
   },
+  "status": {
+    "live": "En direct",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "scheduled": "Planifié",
+    "failed": "Échec"
+  },
   "table": {
-    "listingName": "Nom de la fiche",
+    "listingName": "Nom de l'annonce",
     "zipCode": "Code postal",
     "status": "Statut",
     "action": "Action",
-    "noListings": "Aucune fiche trouvée.",
+    "noListings": "Aucune annonce trouvée.",
     "unknown": "Inconnu",
     "na": "N/A",
-    "selectAll": "Tout sélectionner"
+    "selectAll": "Sélectionner tous les médias"
   },
   "pagination": {
     "showing": "Affichage de {{from}} à {{to}} sur {{total}} entrées",

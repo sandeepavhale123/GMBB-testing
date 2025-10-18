@@ -1,0 +1,24 @@
+{
+  "loadingTitle": "Génération du rapport",
+  "successTitle": "Rapport généré",
+  "errorTitle": "Échec de la génération",
+  
+  "loadingMessage": {
+    "gmb-health": "Génération du rapport de santé GMB...",
+    "citation-audit": "Génération du rapport d'audit des citations...",
+    "geo-ranking": "Génération du rapport de classement GEO...",
+    "gmb-prospect": "Génération du rapport de prospects GMB..."
+  },
+  
+  "successMessage": {
+    "gmb-health": "Rapport de santé GMB généré avec succès !",
+    "citation-audit": "Rapport d'audit des citations généré avec succès !",
+    "geo-ranking": "Rapport de classement GEO généré avec succès !",
+    "gmb-prospect": "Rapport de prospects GMB généré avec succès !"
+  },
+  
+  "failReport": "Échec de la génération du rapport",
+  "loadingSubText": "Veuillez patienter pendant la génération de votre rapport...",
+  "successSubText": "Redirection vers les détails du rapport...",
+  "errorSubText": "Veuillez réessayer ou contacter le support si le problème persiste."
+}

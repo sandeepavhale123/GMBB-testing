@@ -1,0 +1,38 @@
+{
+  "allKeywordsModal": {
+    "title": "Todas las palabras clave",
+    "searchPlaceholder": "Buscar palabras clave...",
+    "bulkActions": {
+      "selectedCount": "{{count}} palabra(s) clave seleccionada(s)",
+      "deleteSelected": "Eliminar seleccionadas"
+    },
+    "table": {
+      "srNo": "N.º",
+      "keyword": "Palabra clave",
+      "actions": "Acciones",
+      "loading": "Cargando palabras clave...",
+      "noKeywords": {
+        "search": "No se encontraron palabras clave que coincidan con tu búsqueda",
+        "default": "No hay palabras clave disponibles"
+      }
+    },
+    "buttons": {
+      "close": "Cerrar",
+      "viewKeyword": "Ver detalles de la palabra clave",
+      "deleteKeyword": "Eliminar palabra clave",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "cancel": "Cancelar"
+    },
+    "deleteDialog": {
+      "title": "¿Estás seguro?",
+      "description": "Esto eliminará permanentemente {{count}} palabra(s) clave. Esta acción no se puede deshacer."
+    },
+    "toast": {
+      "successTitle": "Éxito",
+      "successDescription": "{{count}} palabra(s) clave eliminada(s) correctamente",
+      "errorTitle": "Error",
+      "errorDescription": "Error al eliminar las palabras clave"
+    }
+  }
+}

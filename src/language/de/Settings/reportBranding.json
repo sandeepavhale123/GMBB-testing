@@ -45,7 +45,7 @@
         },
         "uploaded": {
           "title": "Berichtslogo hochgeladen",
-          "description": "{fileName} bereit zur Verwendung"
+          "description": "{{fileName}} bereit zur Verwendung"
         },
         "removed": {
           "title": "Berichtslogo entfernt",
@@ -55,7 +55,7 @@
         "requirements": "PNG, JPG, SVG bis zu 2MB. Empfohlen: 200 x 200px",
         "ready": "✓ Bereit",
         "current": "✓ Aktuelles Logo hochgeladen",
-        "selected": "Ausgewählt: {fileName}"
+        "selected": "Ausgewählt: {{fileName}}"
       }
     },
     "saveChanges": {

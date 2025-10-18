@@ -45,7 +45,8 @@
       "deleteConfirmationDescription": "Esta acción no se puede deshacer. Esto eliminará permanentemente el proyecto \"{name}\" y todos sus datos relacionados, incluyendo palabras clave y puntos en el mapa.",
       "typeDeleteToConfirm": "Escribe \"delete\" para confirmar",
       "placeholderDelete": "delete",
-      "shareablelink": "Enlace Compartible"
+      "shareablelink": "Enlace Compartible",
+      "noEmailProvided": "No se proporcionó correo electrónico"
     },
     "pagination": {
       "showing": "Mostrando {{from}} a {{to}} de {{total}} proyectos",

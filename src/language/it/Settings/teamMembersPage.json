@@ -1,11 +1,11 @@
 {
   "teamMembersPage": {
-    "title": "Membri del Team",
+    "title": "Membri del team",
     "description": "Gestisci i membri del tuo team e i loro permessi di accesso.",
-    "addMember": "Aggiungi Membro",
+    "addMember": "Aggiungi membro",
     "add": "Aggiungi",
     "searchPlaceholder": "Cerca membri per nome o email",
-    "allRoles": "Tutti i Ruoli",
+    "allRoles": "Tutti i ruoli",
     "staff": "Staff",
     "client": "Cliente",
     "moderator": "Moderatore",
@@ -16,14 +16,14 @@
     },
     "empty": {
       "title": "Nessun membro del team trovato",
-      "searchAdjust": "Prova a modificare i criteri di ricerca o i filtri",
+      "searchAdjust": "Prova ad aggiustare i criteri di ricerca o i filtri",
       "addFirst": "Inizia aggiungendo il tuo primo membro del team"
     },
     "table": {
       "member": "Membro",
       "email": "Email",
       "password": "Password",
-      "listings": "Inserzioni",
+      "listings": "Annunci",
       "status": "Stato",
       "actions": "Azioni"
     },
@@ -44,8 +44,16 @@
     "grid": {
       "password": "Password:",
       "role": "Ruolo:",
-      "listings": "Inserzioni:",
+      "listings": "Annunci:",
       "status": "Stato:"
+    },
+    "roles": {
+      "Admin": "Amministratore",
+      "Editor": "Editor",
+      "Viewer": "Visualizzatore",
+      "Staff": "Staff",
+      "Client": "Cliente",
+      "Moderator": "Moderatore"
     }
   }
 }

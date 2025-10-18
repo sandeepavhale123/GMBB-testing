@@ -1,0 +1,14 @@
+{
+  "customerSearchSources": {
+    "title": "Come i clienti cercano la tua attività",
+    "description": "Comprendere come i clienti scoprono la tua attività aiuta a ottimizzare la tua presenza online. Questa suddivisione mostra se i clienti ti trovano tramite i risultati di ricerca o tramite la mappa, e se utilizzano dispositivi desktop o mobili per accedere alle tue informazioni.",
+    "totalSearches": "Ricerche totali",
+    "noData": "Nessun dato disponibile",
+    "segments": {
+      "desktopSearch": "Ricerca desktop",
+      "desktopMap": "Mappa desktop",
+      "mobileSearch": "Ricerca mobile",
+      "mobileMap": "Mappa mobile"
+    }
+  }
+}

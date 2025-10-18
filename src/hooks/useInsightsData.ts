@@ -10,8 +10,10 @@ import {
   refreshInsights,
 } from "../store/slices/insightsSlice";
 import { useListingContext } from "../context/ListingContext";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const useInsightsData = () => {
+  const { t } = useI18nNamespace("hooks/useInsightsData");
   const [dateRange, setDateRange] = useState("30");
   const [customDateRange, setCustomDateRange] = useState<
     DateRange | undefined
@@ -103,19 +105,18 @@ export const useInsightsData = () => {
       await fetchData();
 
       toast({
-        title: "Data Refreshed",
-        description:
-          "Your insights have been updated with the latest data from Google Business Profile.",
+        title: t("insights.toast.dataRefreshedTitle"),
+        description: t("insights.toast.dataRefreshedDescription"),
       });
     } catch (error) {
       // console.error("Error refreshing insights:", error);
       toast({
-        title: "Refresh Failed",
+        title: t("insights.toast.refreshFailedTitle"),
         description:
           refreshError ||
           error.message ||
           error?.response?.data?.message ||
-          "Failed to refresh data. Please try again.",
+          t("insights.toast.refreshFailedDescription"),
         variant: "destructive",
       });
     }

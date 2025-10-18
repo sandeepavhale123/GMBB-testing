@@ -2,7 +2,14 @@
   "bulkActions": {
     "selected": "{{count}} Medium ausgewählt",
     "selected_plural": "{{count}} Medien ausgewählt",
-    "deleteSelected": "Ausgewählte löschen"
+    "deleteSelected": "Auswahl löschen"
+  },
+  "status": {
+    "live": "Live",
+    "published": "Veröffentlicht",
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "failed": "Fehlgeschlagen"
   },
   "table": {
     "listingName": "Eintragsname",
@@ -11,7 +18,7 @@
     "action": "Aktion",
     "noListings": "Keine Einträge gefunden.",
     "unknown": "Unbekannt",
-    "na": "k.A.",
+    "na": "N/V",
     "selectAll": "Alle Medien auswählen"
   },
   "pagination": {
@@ -22,8 +29,8 @@
   },
   "bulkDeleteDialog": {
     "title": "Mehrere Medien löschen",
-    "description": "Möchten Sie wirklich {{count}} ausgewählte Medien löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
-    "description_plural": "Möchten Sie wirklich {{count}} ausgewählte Medien löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "description": "Sind Sie sicher, dass Sie {{count}} ausgewähltes Medium löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "description_plural": "Sind Sie sicher, dass Sie {{count}} ausgewählte Medien löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
     "cancel": "Abbrechen",
     "confirm": "Alle löschen"
   },
@@ -39,7 +46,7 @@
     "successDelete": "Medium erfolgreich gelöscht",
     "successBulkDelete": "{{count}} Medien erfolgreich gelöscht",
     "errorTitle": "Fehler",
-    "errorDelete": "Fehler beim Löschen des Mediums",
-    "errorBulkDelete": "Fehler beim Löschen einiger Medien"
+    "errorDelete": "Löschen des Mediums fehlgeschlagen",
+    "errorBulkDelete": "Löschen einiger Medien fehlgeschlagen"
   }
 }

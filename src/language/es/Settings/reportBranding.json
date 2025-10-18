@@ -45,7 +45,7 @@
         },
         "uploaded": {
           "title": "Logo del reporte subido",
-          "description": "{fileName} listo para usar"
+          "description": "{{fileName}} listo para usar"
         },
         "removed": {
           "title": "Logo del reporte eliminado",
@@ -55,7 +55,7 @@
         "requirements": "PNG, JPG, SVG hasta 2MB. Recomendado: 200 x 200px",
         "ready": "✓ Listo",
         "current": "✓ Logo actual subido",
-        "selected": "Seleccionado: {fileName}"
+        "selected": "Seleccionado: {{fileName}}"
       }
     },
     "saveChanges": {

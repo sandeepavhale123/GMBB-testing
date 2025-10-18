@@ -45,7 +45,8 @@
       "deleteConfirmationDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Projekt \"{name}\" und alle zugehörigen Daten, einschließlich Schlüsselwörter und Kartendaten, werden dauerhaft gelöscht.",
       "typeDeleteToConfirm": "Geben Sie \"löschen\" ein, um zu bestätigen",
       "placeholderDelete": "löschen",
-      "shareablelink": "Freigabelink"
+      "shareablelink": "Freigabelink",
+       "noEmailProvided": "Keine E-Mail angegeben"
     },
     "pagination": {
       "showing": "Zeige {{from}} bis {{to}} von insgesamt {{total}} Projekten",

@@ -4,12 +4,17 @@
     "description": "Actions taken by customers on your profile.",
     "metrics": {
       "website": "Website",
+      "direction": "Direction",
       "messages": "Messages",
-      "directions": "Directions",
       "calls": "Calls"
     },
     "chart": {
       "barLabel": "Actions"
+    },
+    "tooltips": {
+      "hide": "Hide {{metric}}",
+      "show": "Show {{metric}}"
     }
+    
   }
 }

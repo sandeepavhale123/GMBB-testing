@@ -1,0 +1,16 @@
+{
+  "reportBranding": {
+    "success": {
+      "update": "Branding del informe actualizado correctamente",
+      "delete": "Branding del informe eliminado correctamente"
+    },
+    "error": {
+      "update": "No se pudo actualizar el branding del informe. Por favor, inténtalo de nuevo.",
+      "delete": "No se pudo eliminar el branding del informe. Por favor, inténtalo de nuevo."
+    },
+    "toast": {
+      "titleSuccess": "Éxito",
+      "titleError": "Error"
+    }
+  }
+}

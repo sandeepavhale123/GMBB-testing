@@ -1,8 +1,7 @@
 {
-  "listingManagementLoading": {
+  "listingManagementPage": {
     "pageTitle": "Gérer les fiches",
-    "statisticsLoading": "Chargement des statistiques...",
-    "searchLoading": "Chargement de la recherche et des filtres...",
-    "tableLoading": "Chargement du tableau..."
+    "backButton": "Retour",
+    "loadingListings": "Chargement des fiches..."
   }
 }

@@ -349,7 +349,7 @@ const TeamMembersPage: React.FC = () => {
                                     className={getRoleBadgeClass(member.role)}
                                     variant="secondary"
                                   >
-                                    {member.role}
+                                    {t(`teamMembersPage.roles.${member.role}`)}
                                   </Badge>
                                 </div>
                               </div>

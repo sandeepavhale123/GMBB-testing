@@ -1,0 +1,14 @@
+{
+  "customerSearchSources": {
+    "title": "Cómo los clientes buscan su empresa",
+    "description": "Comprender cómo los clientes descubren su empresa ayuda a optimizar su presencia en línea. Esta desglosada muestra si los clientes lo encuentran a través de los resultados de búsqueda o de la vista del mapa, y si están utilizando dispositivos de escritorio o móviles para acceder a su información.",
+    "totalSearches": "Búsquedas totales",
+    "noData": "No hay datos disponibles",
+    "segments": {
+      "desktopSearch": "Búsqueda en escritorio",
+      "desktopMap": "Mapa en escritorio",
+      "mobileSearch": "Búsqueda en móvil",
+      "mobileMap": "Mapa en móvil"
+    }
+  }
+}

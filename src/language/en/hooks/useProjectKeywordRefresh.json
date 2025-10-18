@@ -1,0 +1,18 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStartedTitle": "Refresh Started",
+      "refreshStartedDescription": "Keyword refresh process has started.",
+      "refreshCompleteTitle": "Refresh Complete",
+      "refreshCompleteDescription": "Keyword data has been refreshed successfully.",
+      "refreshTimeoutTitle": "Refresh Timeout",
+      "refreshTimeoutDescription": "The refresh is taking longer than expected. Please try again.",
+      "refreshFailedTitle": "Refresh Failed",
+      "refreshFailedDescription": "Failed to refresh keyword."
+    },
+    "error": {
+      "refreshTimeout": "Refresh timeout - please try again",
+      "refreshFailed": "Failed to refresh keyword"
+    }
+  }
+}
