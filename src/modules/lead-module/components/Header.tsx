@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { isAllowedDomain } from "@/lib/utils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export const Header: React.FC = () => {
   const { t } = useI18nNamespace("Laed-module-component/Header");
@@ -61,6 +62,7 @@ export const Header: React.FC = () => {
             </Button>
           )}
 
+          <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
