@@ -13,6 +13,7 @@ import { isAllowedDomain } from "@/lib/utils";
 import { HeaderModulesMegaMenu } from "./HeaderModulesMegaMenu";
 import { HeaderNotificationsMegaMenu } from "./HeaderNotificationsMegaMenu";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
   showFilters,
@@ -65,6 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
               )}
               <BusinessListingSelector />
               <MobileBusinessSelector />
+              <LanguageSwitcher />
               <HeaderModulesMegaMenu />
               <HeaderNotificationsMegaMenu />
               <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
@@ -98,6 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
             <BusinessListingSelector />
             <MobileBusinessSelector />
+            <LanguageSwitcher />
             <HeaderModulesMegaMenu />
             <HeaderNotificationsMegaMenu />
             <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />

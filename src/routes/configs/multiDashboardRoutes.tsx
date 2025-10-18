@@ -48,10 +48,6 @@ export const multiDashboardRoutes: RouteConfig[] = [
         element: <MultiDashboard />,
       },
       {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
         path: "bulk-post",
         element: <BulkPost />,
       },
@@ -160,6 +156,22 @@ export const multiDashboardRoutes: RouteConfig[] = [
             element: <ListingManagementWrapper />,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "/main",
+    element: (
+      <ProtectedRoute>
+        <DashboardTypeGuard allowedDashboardTypes={[1]}>
+          <StandaloneLayout />
+        </DashboardTypeGuard>
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },

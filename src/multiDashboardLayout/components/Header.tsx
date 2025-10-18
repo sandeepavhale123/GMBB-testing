@@ -12,6 +12,7 @@ import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { isAllowedDomain } from "@/lib/utils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export const Header: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/header");
@@ -91,6 +92,8 @@ export const Header: React.FC = () => {
                 <ExternalLink className="w-4 h-4" />
               </Button>
             )}
+
+            <LanguageSwitcher />
 
             <ModulesMegaMenu />
 

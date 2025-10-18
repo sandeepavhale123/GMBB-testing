@@ -53,6 +53,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "country-flag-icons": "^1.5.21",
     "crisp-sdk-web": "^1.0.3",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
@@ -98,10 +99,10 @@
     "globals": "^15.9.0",
     "lovable-tagger": "^1.1.7",
     "postcss": "^8.4.47",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.11",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1",
-    "rimraf": "^6.0.1"
+    "vite": "^5.4.1"
   }
 }
