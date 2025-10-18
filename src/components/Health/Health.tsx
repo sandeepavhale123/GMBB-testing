@@ -849,7 +849,8 @@ export const Health: React.FC = () => {
 
                         <Tooltip
                           formatter={(value) => [
-                            `${value} citations`,
+                            t("healthPage.tooltip", { value }),
+                            // `${value} citations`,
                             t("healthPage.citationAnalysis.chart.tooltip"),
                           ]}
                           labelFormatter={(label) => {

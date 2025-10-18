@@ -1,16 +1,16 @@
 {
   "AITaskManagerPage": {
     "summaryCards": {
-      "pending": "Tareas Pendientes",
-      "completed": "Tareas Completadas",
-      "oneTime": "Tareas Únicas",
-      "recurring": "Tareas Recurrentes"
+      "pending": "Tareas pendientes",
+      "completed": "Tareas completadas",
+      "oneTime": "Tareas únicas",
+      "recurring": "Tareas recurrentes"
     },
 
     "tabs": {
       "pending": "Pendientes ({{count}})",
       "completed": "Completadas ({{count}})",
-      "all": "Todas las Tareas ({{count}})",
+      "all": "Todas las tareas ({{count}})",
       "recurring": "Recurrentes ({{count}})"
     },
 
@@ -20,30 +20,31 @@
         "pending": "pendiente",
         "inProgress": "en progreso",
         "completed": "completada",
-        "due": "vencida"
+        "due": "vencida",
+        "oneTime": "única"
       },
       "type": {
-        "oneTime": "única",
+        "one-time": "única",
         "recurring": "recurrente"
       },
       "priority": {
-        "high": "Alta Prioridad"
+        "high": "Alta prioridad"
       },
       "actions": {
         "fix": "Corregir",
-        "inProgress": "En Progreso",
-        "markCompleted": "Marcar como Completada",
+        "inProgress": "En progreso",
+        "markCompleted": "Marcar como completada",
         "revert": "Revertir"
       }
     },
 
     "loading": {
-      "title": "Cargando Tareas de IA",
-      "description": "Obteniendo tus tareas más recientes..."
+      "title": "Cargando tareas AI",
+      "description": "Recuperando tus últimas tareas..."
     },
 
     "noListing": {
-      "message": "No se seleccionó ninguna ficha. Por favor selecciona una ficha para ver las tareas de IA."
+      "message": "No se ha seleccionado ninguna ficha. Por favor, selecciona una ficha para ver las tareas AI."
     },
 
     "emptyState": {
@@ -62,7 +63,7 @@
       },
       "reverted": {
         "title": "Revertida",
-        "message": "La tarea fue revertida a pendiente."
+        "message": "Tarea revertida a pendiente."
       }
     }
   }

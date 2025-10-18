@@ -2,6 +2,7 @@
   "modulesMenu": {
     "title": "Moduli",
     "comingSoon": "Prossimamente",
+    "beta": "Beta",
     "gmbListing": {
       "single": {
         "name": "Gestisci scheda GMB",
@@ -14,7 +15,7 @@
     },
     "geoRanking": {
       "name": "Classifica GEO",
-      "description": "Monitora e ottimizza le tue classifiche di ricerca locale"
+      "description": "Monitora e ottimizza il posizionamento nelle ricerche locali"
     },
     "leadManagement": {
       "name": "Gestione lead",
@@ -23,6 +24,10 @@
     "reputation": {
       "name": "Reputazione",
       "description": "Monitora e gestisci la tua reputazione online"
+    },
+    "seo": {
+      "name": "Correttore SEO",
+      "description": "Rileva e correggi automaticamente i problemi SEO sui siti web"
     }
   }
 }

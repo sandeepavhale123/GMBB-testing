@@ -2,6 +2,7 @@
   "modulesMenu": {
     "title": "Modules",
     "comingSoon": "Bientôt disponible",
+    "beta": "Bêta",
     "gmbListing": {
       "single": {
         "name": "Gérer la fiche GMB",
@@ -17,12 +18,16 @@
       "description": "Suivez et optimisez vos classements dans les recherches locales"
     },
     "leadManagement": {
-      "name": "Gestion des leads",
-      "description": "Gérez et suivez efficacement vos leads."
+      "name": "Gestion des prospects",
+      "description": "Gérez et suivez vos prospects efficacement."
     },
     "reputation": {
       "name": "Réputation",
       "description": "Surveillez et gérez votre réputation en ligne"
+    },
+    "seo": {
+      "name": "Correcteur SEO",
+      "description": "Détectez et corrigez automatiquement les problèmes SEO sur les sites web"
     }
   }
 }

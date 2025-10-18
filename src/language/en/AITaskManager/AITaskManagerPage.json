@@ -20,10 +20,11 @@
         "pending": "pending",
         "inProgress": "in progress",
         "completed": "completed",
-        "due": "due"
+        "due": "due",
+        "oneTime": "one-time"
       },
       "type": {
-        "oneTime": "one-time",
+        "one-time": "one-time",
         "recurring": "recurring"
       },
       "priority": {
