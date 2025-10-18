@@ -12,6 +12,7 @@ import { NotificationDrawer } from "@/components/Notifications/NotificationDrawe
 import { useNotifications } from "@/context/NotificationContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { isAllowedDomain } from "@/lib/utils";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export const Header: React.FC = () => {
   const { t } = useI18nNamespace("Geo-Ranking-module-component/Header");
@@ -67,6 +68,7 @@ export const Header: React.FC = () => {
             </Button>
           )}
 
+          <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />

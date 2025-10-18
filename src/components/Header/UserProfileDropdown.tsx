@@ -39,11 +39,12 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
   const handleViewProfile = () => {
     const isDashboardType2 = profileData?.dashboardType === 2;
     const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
+    const isInModule = location.pathname.startsWith("/module/");
 
     if (isDashboardType2) {
       navigate("/geo-ranking-dashboard/profile");
-    } else if (isInMainDashboard) {
-      navigate("/main-dashboard/profile");
+    } else if (isInMainDashboard || isInModule) {
+      navigate("/main/profile");
     } else {
       navigate("/profile");
     }
@@ -53,7 +54,22 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
   const shouldHideAccountSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
     const isDashboardType2 = profileData?.dashboardType === 2;
-    return userRole === "staff" || userRole === "client" || isDashboardType2;
+    
+    // Check if user is in multi-dashboard or any module
+    const isInMultiDashboard = location.pathname.startsWith("/main-dashboard");
+    const isInGeoRankingModule = location.pathname.startsWith("/module/geo-ranking");
+    const isInLeadModule = location.pathname.startsWith("/module/lead");
+    const isInSeoFixerModule = location.pathname.startsWith("/module/live-seo-fixer");
+    
+    return (
+      userRole === "staff" || 
+      userRole === "client" || 
+      isDashboardType2 ||
+      isInMultiDashboard ||
+      isInGeoRankingModule ||
+      isInLeadModule ||
+      isInSeoFixerModule
+    );
   };
 
   // Get user info from profile data
@@ -77,7 +93,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className={`p-0 rounded-full  ${className || ""}`}
+            className={`p-0 rounded-full hover:bg-transparent ${className || ""}`}
           >
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
               <AvatarImage src={userProfilePic} />
