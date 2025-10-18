@@ -93,7 +93,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className={`p-0 rounded-full  ${className || ""}`}
+            className={`p-0 rounded-full hover:bg-transparent ${className || ""}`}
           >
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
               <AvatarImage src={userProfilePic} />
