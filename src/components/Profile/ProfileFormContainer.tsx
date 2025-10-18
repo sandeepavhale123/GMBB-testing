@@ -174,6 +174,7 @@ export const ProfileFormContainer: React.FC = () => {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Info Section */}
       <ProfileBasicInfoForm
+        key={formData.language}
         formData={{
           firstName: formData.firstName || "",
           lastName: formData.lastName || "",
