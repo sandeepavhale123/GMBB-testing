@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import i18n, { loadAllNamespaces } from "@/i18n";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { shouldSkipProfileAPI } from "@/utils/routeUtils";
+import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
+import { languageService, getLanguageName } from "@/services/languageService";
+import { toast } from "@/hooks/use-toast";
 import GB from "country-flag-icons/react/3x2/GB";
 import ES from "country-flag-icons/react/3x2/ES";
 import DE from "country-flag-icons/react/3x2/DE";
@@ -40,6 +44,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isMobile = useIsMobile();
+  const { isAuthenticated } = useAuthRedux();
 
   const currentLangCode = i18n.language || "en";
   const currentLanguage = languages.find((lang) => lang.code === currentLangCode) || languages[0];
@@ -67,11 +72,30 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
 
   const handleLanguageChange = async (langCode: string) => {
     try {
+      // Always update i18n immediately for responsive UI
       loadAllNamespaces(langCode);
       await i18n.changeLanguage(langCode);
       setIsOpen(false);
+
+      // Only call backend API if:
+      // 1. User is authenticated
+      // 2. Not on a public report route
+      const isPublicRoute = shouldSkipProfileAPI();
+      const shouldUpdateBackend = isAuthenticated && !isPublicRoute;
+
+      if (shouldUpdateBackend) {
+        // Call API in background (don't await to keep UI responsive)
+        languageService.updateLanguage(getLanguageName(langCode)).catch((error) => {
+          console.error("Failed to sync language with backend:", error);
+        });
+      }
     } catch (error) {
       console.error("Failed to change language:", error);
+      toast({
+        title: "Error",
+        description: "Failed to change language. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
