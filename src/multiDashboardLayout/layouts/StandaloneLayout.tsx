@@ -1,13 +1,10 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface StandaloneLayoutProps {
-  children: React.ReactNode;
-}
-
-export const StandaloneLayout: React.FC<StandaloneLayoutProps> = ({ children }) => {
+export const StandaloneLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
-      {children}
+      <Outlet />
     </div>
   );
 };
