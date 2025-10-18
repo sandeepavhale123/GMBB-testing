@@ -54,7 +54,22 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
   const shouldHideAccountSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
     const isDashboardType2 = profileData?.dashboardType === 2;
-    return userRole === "staff" || userRole === "client" || isDashboardType2;
+    
+    // Check if user is in multi-dashboard or any module
+    const isInMultiDashboard = location.pathname.startsWith("/main-dashboard");
+    const isInGeoRankingModule = location.pathname.startsWith("/module/geo-ranking");
+    const isInLeadModule = location.pathname.startsWith("/module/lead");
+    const isInSeoFixerModule = location.pathname.startsWith("/module/live-seo-fixer");
+    
+    return (
+      userRole === "staff" || 
+      userRole === "client" || 
+      isDashboardType2 ||
+      isInMultiDashboard ||
+      isInGeoRankingModule ||
+      isInLeadModule ||
+      isInSeoFixerModule
+    );
   };
 
   // Get user info from profile data
