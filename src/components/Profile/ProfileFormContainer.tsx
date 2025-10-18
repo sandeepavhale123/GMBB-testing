@@ -11,6 +11,7 @@ import { profileSchema, ProfileFormData } from "../../schemas/authSchemas";
 import i18n, { loadNamespace } from "@/i18n";
 import { languageMap } from "@/lib/languageMap"; // optional mapping
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { getLanguageName } from "@/services/languageService";
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
@@ -71,6 +72,15 @@ export const ProfileFormContainer: React.FC = () => {
       })();
     }
   }, [profileData]);
+
+  // Update form language field when i18n language changes
+  useEffect(() => {
+    const handler = (lng: string) => {
+      setFormData(prev => ({ ...prev, language: getLanguageName(lng) }));
+    };
+    i18n.on("languageChanged", handler);
+    return () => i18n.off("languageChanged", handler);
+  }, []);
 
   useEffect(() => {
     if (updateError) {

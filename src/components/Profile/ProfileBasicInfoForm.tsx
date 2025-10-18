@@ -127,7 +127,7 @@ export const ProfileBasicInfoForm: React.FC<ProfileBasicInfoFormProps> = ({
             onValueChange={(value) => onInputChange("language", value)}
           >
             <SelectTrigger className="mt-1 h-10">
-              <SelectValue />
+              <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="english">English</SelectItem>
