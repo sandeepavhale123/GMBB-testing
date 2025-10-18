@@ -1,5 +1,7 @@
 import axiosInstance from "@/api/axiosInstance";
 import { profileService } from "./profileService";
+import { store } from "@/store/store";
+import { fetchUserProfile } from "@/store/slices/profileSlice";
 
 export interface UpdateLanguageRequest {
   language: string;
@@ -31,7 +33,9 @@ export const languageService = {
     
     // 2. Refresh profile cache and Redux state
     try {
-      await profileService.refreshUserProfile();
+      await profileService.refreshUserProfile(); // clear cache and fetch fresh
+      // Dispatch Redux thunk to update store so subscribers get the new language
+      store.dispatch(fetchUserProfile());
     } catch (error) {
       // Log but don't fail - language was already updated successfully
       console.error("Failed to refresh profile after language update:", error);
