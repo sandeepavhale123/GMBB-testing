@@ -216,7 +216,7 @@ export const SubNavbar: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-start py-3">
             <button
-              onClick={() => navigate("/main-dashboard")}
+              onClick={() => navigate(-1)}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
