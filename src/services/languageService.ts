@@ -1,4 +1,5 @@
 import axiosInstance from "@/api/axiosInstance";
+import { profileService } from "./profileService";
 
 export interface UpdateLanguageRequest {
   language: string;
@@ -25,7 +26,17 @@ export const getLanguageName = (code: string): string => {
 
 export const languageService = {
   updateLanguage: async (language: string): Promise<UpdateLanguageResponse> => {
+    // 1. Update language on backend
     const response = await axiosInstance.post("/update-language", { language });
+    
+    // 2. Refresh profile cache and Redux state
+    try {
+      await profileService.refreshUserProfile();
+    } catch (error) {
+      // Log but don't fail - language was already updated successfully
+      console.error("Failed to refresh profile after language update:", error);
+    }
+    
     return response.data;
   },
 };
