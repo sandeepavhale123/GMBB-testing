@@ -6,8 +6,7 @@ import { useProfile } from '@/hooks/useProfile';
 import { NotificationsMegaMenu } from '@/multiDashboardLayout/components/NotificationsMegaMenu';
 import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 import { ModulesMegaMenu } from '@/multiDashboardLayout/components/ModulesMegaMenu';
-import { Button } from '@/components/ui/button';
-import { ExternalLink } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 export const Header: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
@@ -38,16 +37,7 @@ export const Header: React.FC = () => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-3">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => (window.location.href = "https://old.gmbbriefcase.com/login")}
-            className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
-          >
-            <span className="hidden md:block mr-2">Back to old version</span>
-            <ExternalLink className="w-4 h-4" />
-          </Button>
-          
+          <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
