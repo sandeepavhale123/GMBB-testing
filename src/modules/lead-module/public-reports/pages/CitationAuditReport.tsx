@@ -26,6 +26,20 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { useGetCitationAuditReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
+import i18n from "@/i18n";
+
+interface Language {
+  code: string;
+  name: string;
+}
+
+const languages: Language[] = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Spanish" },
+  { code: "de", name: "German" },
+  { code: "it", name: "Italian" },
+  { code: "fr", name: "French" },
+];
 
 export const namespaces = ["Lead-module-public-report/citationAuditReport"];
 export const CitationAuditReport: React.FC = () => {
@@ -33,12 +47,23 @@ export const CitationAuditReport: React.FC = () => {
   const { reportId } = useParams<{
     reportId: string;
   }>();
+
+  const currentLang = i18n.language || "en";
+
+  // Find the full name
+  const currentLangName = languages.find(
+    (lang) => lang.code === currentLang
+  )?.name;
+
   const {
     data: apiResponse,
     isLoading,
     error,
-  } = useGetCitationAuditReport(reportId || "");
-  const { data: brandingResponse } = useGetLeadReportBranding(reportId || "");
+  } = useGetCitationAuditReport(reportId || "", currentLangName);
+  const { data: brandingResponse } = useGetLeadReportBranding(
+    reportId || "",
+    currentLangName
+  );
   if (isLoading || !loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">

@@ -32,6 +32,7 @@ import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { object } from "zod";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const namespaces = ["PublicReports/publicReportDashboardLayout"];
 
@@ -64,11 +65,14 @@ export const PublicReportDashboardLayout: React.FC<
   date,
   compareDate, // ✅ optional
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t, languageFullName } = usePublicI18n(namespaces);
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
+  const { data: brandingData, isLoading } = usePerformanceBrandingReport(
+    token,
+    languageFullName
+  );
   const branding = brandingData?.data || null;
   const { lightLogo, darkLogo } = useThemeLogo();
   // console.log("use theme logo", lightLogo);
@@ -82,55 +86,57 @@ export const PublicReportDashboardLayout: React.FC<
     : true; // default to true or false based on your UX need
 
   console.log("All fields empty except logo:", allEmptyExceptLogo);
+  const ln = localStorage.getItem("i18nextLng");
+
   const allSidebarItems = [
     {
       id: "gmb-health",
       label: t("publicReportDashboard.sidebar.gmbHealth"),
       name: "gmb-health",
       icon: Heart,
-      path: `/gmb-health/${token}?lang=en`,
+      path: `/gmb-health/${token}?lang=${ln}`,
     },
     {
       id: "insights",
       label: t("publicReportDashboard.sidebar.businessInsights"),
       name: "gmb-insight",
       icon: BarChart3,
-      path: `/gmb-insight/${token}?lang=en`,
+      path: `/gmb-insight/${token}?lang=${ln}`,
     },
     {
       id: "reviews",
       label: t("publicReportDashboard.sidebar.reviews"),
       name: "gmb-review",
       icon: Star,
-      path: `/gmb-review/${token}?lang=en`,
+      path: `/gmb-review/${token}?lang=${ln}`,
     },
     {
       id: "posts",
       label: t("publicReportDashboard.sidebar.postPerformance"),
       name: "gmb-post",
       icon: FileText,
-      path: `/gmb-post/${token}?lang=en`,
+      path: `/gmb-post/${token}?lang=${ln}`,
     },
     {
       id: "media",
       label: t("publicReportDashboard.sidebar.mediaPerformance"),
       name: "gmb-media",
       icon: Image,
-      path: `/gmb-media/${token}?lang=en`,
+      path: `/gmb-media/${token}?lang=${ln}`,
     },
     {
       id: "geo-ranking",
       label: t("publicReportDashboard.sidebar.geoRanking"),
       name: "gmb-ranking",
       icon: MapPin,
-      path: `/gmb-ranking/${token}?lang=en`,
+      path: `/gmb-ranking/${token}?lang=${ln}`,
     },
     {
       id: "citation",
       label: t("publicReportDashboard.sidebar.citationPerformance"),
       name: "gmb-citation",
       icon: BookOpen,
-      path: `/gmb-citation/${token}?lang=en`,
+      path: `/gmb-citation/${token}?lang=${ln}`,
     },
   ];
   // Filter sidebar items based on visible sections using the `name` field
@@ -249,7 +255,9 @@ export const PublicReportDashboardLayout: React.FC<
             ) : (
               ""
             )}
-
+            <div className="absolute right-12 top-2 px-3 py-2">
+              <LanguageSwitcher reportId={token} />
+            </div>
             <h2
               className="text-xl sm:text-2xl lg:text-3xl  font-bold text-white"
               style={{
@@ -317,21 +325,23 @@ export const PublicReportDashboardLayout: React.FC<
               {!isMobile && <div className="flex-1 text-center"></div>}
 
               {/* Right: Report Date */}
-              <div
-                className={` ${compareDate ? "min-w-56" : ""} ${
-                  isMobile ? "text-center" : "text-right"
-                }`}
-              >
-                <p className="text-sm text-white">
-                  {t("publicReportDashboard.header.reportDate")}
-                </p>
-                <p
-                  className={`text-white min-w-max ${
-                    isMobile ? "text-base" : "text-lg"
+              <div className="flex gap-4 items-center ">
+                <div
+                  className={` ${compareDate ? "min-w-56" : ""} ${
+                    isMobile ? "text-center" : "text-right"
                   }`}
                 >
-                  {date}
-                </p>
+                  <p className="text-sm text-white">
+                    {t("publicReportDashboard.header.reportDate")}
+                  </p>
+                  <p
+                    className={`text-white min-w-max ${
+                      isMobile ? "text-base" : "text-lg"
+                    }`}
+                  >
+                    {date}
+                  </p>
+                </div>
               </div>
             </div>
           </header>

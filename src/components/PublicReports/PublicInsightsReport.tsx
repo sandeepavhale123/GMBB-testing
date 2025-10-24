@@ -43,7 +43,7 @@ export const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const isMobile = useIsMobile(1281);
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
 
   // State for donut chart visibility
   const [visibleDonutSegments, setVisibleDonutSegments] = useState<
@@ -91,7 +91,7 @@ export const PublicInsightsReport: React.FC = () => {
     data: insightData,
     isLoading,
     error,
-  } = usePerformanceInsightsReport(reportId);
+  } = usePerformanceInsightsReport(reportId, languageFullName);
   // const { token } = useParams();
   const reportType = insightData?.data?.reportType.toLowerCase();
   // console.log("reportType is", reportType);

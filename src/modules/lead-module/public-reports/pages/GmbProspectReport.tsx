@@ -28,6 +28,20 @@ import { SingleCTASection } from "../components/SingleCTASection";
 import { useGetGmbProspectReport, getLeadReportBranding } from "@/api/leadApi";
 import { InsightsErrorState } from "@/components/Insights/InsightsErrorState";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
+import i18n from "@/i18n";
+
+interface Language {
+  code: string;
+  name: string;
+}
+
+const languages: Language[] = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Spanish" },
+  { code: "de", name: "German" },
+  { code: "it", name: "Italian" },
+  { code: "fr", name: "French" },
+];
 
 export const namespaces = ["Lead-module-public-report/gmbProspectReport"];
 
@@ -35,13 +49,18 @@ export const GmbProspectReport: React.FC = () => {
   const { t, loaded } = usePublicI18n(namespaces);
   const { reportId } = useParams<{ reportId: string }>();
 
+  const currentLang = i18n.language || "en";
+
+  // Find the full name
+  const language = languages.find((lang) => lang.code === currentLang)?.name;
+
   // Fetch prospect report data
   const {
     data: reportResponse,
     isLoading: reportLoading,
     error: reportError,
     refetch: refetchReport,
-  } = useGetGmbProspectReport(reportId || "");
+  } = useGetGmbProspectReport(reportId || "", language);
 
   // Fetch branding data
   const [brandingData, setBrandingData] = React.useState(null);
@@ -49,12 +68,12 @@ export const GmbProspectReport: React.FC = () => {
 
   React.useEffect(() => {
     if (reportId) {
-      getLeadReportBranding({ reportId })
+      getLeadReportBranding({ reportId, language })
         .then((response) => setBrandingData(response.data))
         .catch(() => setBrandingData(null))
         .finally(() => setBrandingLoading(false));
     }
-  }, [reportId]);
+  }, [reportId, language]);
 
   if (reportLoading || brandingLoading || !loaded) {
     return (

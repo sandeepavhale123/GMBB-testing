@@ -54,6 +54,9 @@
     },
     "row":"Row",
     "error":"error(s)",
+    "file":"File",
+    "totalRows":"Total Rows",
+    "err":"Errors",
     "errors": {
         "title":"Error",
       "selectListing": "Please select at least one listing.",

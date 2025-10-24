@@ -13,6 +13,7 @@ import ES from "country-flag-icons/react/3x2/ES";
 import DE from "country-flag-icons/react/3x2/DE";
 import IT from "country-flag-icons/react/3x2/IT";
 import FR from "country-flag-icons/react/3x2/FR";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Language {
   code: string;
@@ -33,19 +34,22 @@ interface LanguageSwitcherProps {
   className?: string;
   buttonVariant?: "default" | "ghost" | "outline";
   showLabel?: boolean;
+  reportId: string;
 }
 
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   className,
   buttonVariant = "ghost",
   showLabel = false,
+  reportId,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isMobile = useIsMobile();
   const { isAuthenticated } = useAuthRedux();
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const currentLangCode = i18n.language || "en";
   const currentLanguage =
     languages.find((lang) => lang.code === currentLangCode) || languages[0];
@@ -77,6 +81,13 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       loadAllNamespaces(langCode);
       await i18n.changeLanguage(langCode);
       setIsOpen(false);
+      console.log("Inside handle click");
+      // 2️⃣ Update URL query param (?lang=xx)
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set("lang", langCode);
+      navigate(`${location.pathname}?${searchParams.toString()}`, {
+        replace: true,
+      });
 
       // Only call backend API if:
       // 1. User is authenticated
@@ -103,7 +114,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative z-[100]", className)}>
       <Button
         ref={buttonRef}
         variant={buttonVariant}

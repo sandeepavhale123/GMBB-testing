@@ -100,6 +100,9 @@ export const PageTitle: React.FC = () => {
       title: t("editTeamMember.title"),
       subtitle: t("editTeamMember.subtitle"),
     },
+    "/gallery": {
+      title: t("gallery.title"),
+    },
   };
 
   // Extract the base route from the pathname (handle routes with listing IDs)
@@ -135,7 +138,9 @@ export const PageTitle: React.FC = () => {
 
   return (
     <div className="min-w-0">
-      <h5 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base truncate">{pageInfo.title}</h5>
+      <h5 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base truncate">
+        {pageInfo.title}
+      </h5>
     </div>
   );
 };

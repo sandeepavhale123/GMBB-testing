@@ -1,4 +1,4 @@
-import { publicAxiosInstance } from './publicAxiosInstance';
+import { publicAxiosInstance } from "./publicAxiosInstance";
 
 // Common interfaces
 export interface ShareableReportRequest {
@@ -15,6 +15,7 @@ export interface ShareableReportRequest {
   };
   postStatus?: string;
   review?: string;
+  language?: string;
 }
 
 export interface ShareablePagination {
@@ -88,7 +89,7 @@ export interface ShareableInsightResponse {
   };
 }
 
-// Review Dashboard  
+// Review Dashboard
 export interface ShareableReviewListing {
   id: string;
   profilePhoto: string;
@@ -167,6 +168,7 @@ export interface ShareablePostResponse {
 // Category and State API
 export interface ShareableCategoryAndStateRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface ShareableCategoryAndStateResponse {
@@ -181,6 +183,7 @@ export interface ShareableCategoryAndStateResponse {
 // Report Configuration API
 export interface ShareableReportConfigRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface ShareableReportStats {
@@ -204,38 +207,73 @@ export interface ShareableReportConfigResponse {
 }
 
 // API Functions
-export const getShareableReport = async (request: ShareableReportConfigRequest): Promise<ShareableReportConfigResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-report', request);
+export const getShareableReport = async (
+  request: ShareableReportConfigRequest
+): Promise<ShareableReportConfigResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-report",
+    request
+  );
   return response.data;
 };
 
-export const getShareableCategoryAndState = async (request: ShareableCategoryAndStateRequest): Promise<ShareableCategoryAndStateResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-categoryandstate', request);
+export const getShareableCategoryAndState = async (
+  request: ShareableCategoryAndStateRequest
+): Promise<ShareableCategoryAndStateResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-categoryandstate",
+    request
+  );
   return response.data;
 };
 
 // Dashboard-specific API Functions
-export const getShareableDefaultData = async (request: ShareableReportRequest): Promise<ShareableDefaultResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-default-data', request);
+export const getShareableDefaultData = async (
+  request: ShareableReportRequest
+): Promise<ShareableDefaultResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-default-data",
+    request
+  );
   return response.data;
 };
 
-export const getShareableInsightData = async (request: ShareableReportRequest): Promise<ShareableInsightResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-insight-data', request);
+export const getShareableInsightData = async (
+  request: ShareableReportRequest
+): Promise<ShareableInsightResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-insight-data",
+    request
+  );
   return response.data;
 };
 
-export const getShareableReviewData = async (request: ShareableReportRequest): Promise<ShareableReviewResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-review-data', request);
+export const getShareableReviewData = async (
+  request: ShareableReportRequest
+): Promise<ShareableReviewResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-review-data",
+    request
+  );
   return response.data;
 };
 
-export const getShareableLocationData = async (request: ShareableReportRequest): Promise<ShareableLocationResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-location-data', request);
+export const getShareableLocationData = async (
+  request: ShareableReportRequest
+): Promise<ShareableLocationResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-location-data",
+    request
+  );
   return response.data;
 };
 
-export const getShareablePostsData = async (request: ShareableReportRequest): Promise<ShareablePostResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-posts-data', request);
+export const getShareablePostsData = async (
+  request: ShareableReportRequest
+): Promise<ShareablePostResponse> => {
+  const response = await publicAxiosInstance.post(
+    "/get-shareable-posts-data",
+    request
+  );
   return response.data;
 };

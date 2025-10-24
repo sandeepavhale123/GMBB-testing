@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import i18n, { loadAllNamespaces } from "@/i18n";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { shouldSkipProfileAPI } from "@/utils/routeUtils";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
@@ -13,6 +14,7 @@ import ES from "country-flag-icons/react/3x2/ES";
 import DE from "country-flag-icons/react/3x2/DE";
 import IT from "country-flag-icons/react/3x2/IT";
 import FR from "country-flag-icons/react/3x2/FR";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Language {
   code: string;
@@ -40,6 +42,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   buttonVariant = "ghost",
   showLabel = false,
 }) => {
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -77,6 +80,9 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       loadAllNamespaces(langCode);
       await i18n.changeLanguage(langCode);
       setIsOpen(false);
+
+      // 🔥 Invalidate ALL queries tied to language
+      queryClient.invalidateQueries();
 
       // Only call backend API if:
       // 1. User is authenticated
@@ -117,7 +123,6 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           <currentLanguage.FlagComponent className="w-full h-full scale-[2.5]" />
         </div>
       </Button>
-
       {isOpen && (
         <div
           ref={menuRef}
@@ -155,7 +160,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
 
                     <span
                       className={cn(
-                        "text-sm flex-1 text-black",
+                        "text-sm flex-1",
                         isActive ? "font-semibold" : "font-normal"
                       )}
                     >

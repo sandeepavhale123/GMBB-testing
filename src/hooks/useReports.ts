@@ -51,10 +51,13 @@ export const useReport = (reportId: string) => {
 };
 
 // NEW: Hook for Performance Health Report
-export const usePerformanceHealthReport = (reportId: string) => {
+export const usePerformanceHealthReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-health-report", reportId],
-    queryFn: () => reportsApi.getPerformanceHealthReport(reportId),
+    queryKey: ["performance-health-report", reportId, language],
+    queryFn: () => reportsApi.getPerformanceHealthReport(reportId, language),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // optional: prevents auto-refetching for 5 mins
     refetchOnWindowFocus: false, // prevents refetching when window regains focus
@@ -62,10 +65,13 @@ export const usePerformanceHealthReport = (reportId: string) => {
 };
 
 // Hook: usePerformanceInsightsReport
-export const usePerformanceInsightsReport = (reportId: string) => {
+export const usePerformanceInsightsReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-insights-report", reportId],
-    queryFn: () => reportsApi.getPerformanceInsightsReport(reportId),
+    queryKey: ["performance-insights-report", reportId, language],
+    queryFn: () => reportsApi.getPerformanceInsightsReport(reportId, language),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -73,10 +79,13 @@ export const usePerformanceInsightsReport = (reportId: string) => {
 };
 
 // get Review Report
-export const usePerformanceReviewReport = (reportId: string) => {
+export const usePerformanceReviewReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-review-report", reportId],
-    queryFn: () => reportsApi.getPerformanceReviewReport(reportId),
+    queryKey: ["performance-review-report", reportId, language],
+    queryFn: () => reportsApi.getPerformanceReviewReport(reportId, language),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -84,12 +93,18 @@ export const usePerformanceReviewReport = (reportId: string) => {
 };
 
 // get post report
-export const usePerformancePostsReport = (reportId: string) => {
+export const usePerformancePostsReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-posts-report", reportId],
+    queryKey: ["performance-posts-report", reportId, language],
     queryFn: async () => {
       try {
-        const data = await reportsApi.getPerformancePostsReport(reportId);
+        const data = await reportsApi.getPerformancePostsReport(
+          reportId,
+          language
+        );
         return data;
       } catch (error: any) {
         toast({
@@ -110,12 +125,18 @@ export const usePerformancePostsReport = (reportId: string) => {
 };
 
 // header and footer data
-export const usePerformanceBrandingReport = (reportId: string) => {
+export const usePerformanceBrandingReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-branding-report", reportId],
+    queryKey: ["performance-branding-report", reportId, language],
     queryFn: async () => {
       try {
-        const data = await reportsApi.getPerformanceBrandingReport(reportId);
+        const data = await reportsApi.getPerformanceBrandingReport(
+          reportId,
+          language
+        );
         return data;
       } catch (error: any) {
         toast({
@@ -136,12 +157,18 @@ export const usePerformanceBrandingReport = (reportId: string) => {
 };
 
 // Media Report
-export const usePerformanceMediaReport = (reportId: string) => {
+export const usePerformanceMediaReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-media-report", reportId],
+    queryKey: ["performance-media-report", reportId, language],
     queryFn: async () => {
       try {
-        const data = await reportsApi.getPerformanceMediaReport(reportId);
+        const data = await reportsApi.getPerformanceMediaReport(
+          reportId,
+          language
+        );
         return data;
       } catch (error: any) {
         toast({
@@ -162,12 +189,18 @@ export const usePerformanceMediaReport = (reportId: string) => {
 };
 
 // data for keywords in geo ranking
-export const usePerformanceGeoKeywords = (reportId: string) => {
+export const usePerformanceGeoKeywords = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-geo-keywords", reportId],
+    queryKey: ["performance-geo-keywords", reportId, language],
     queryFn: async () => {
       try {
-        const data = await reportsApi.getPerformanceGeoKeywords(reportId);
+        const data = await reportsApi.getPerformanceGeoKeywords(
+          reportId,
+          language
+        );
         return data;
       } catch (error: any) {
         toast({
@@ -221,15 +254,17 @@ export const usePerformanceGeoRankingReport = (
 // Public version with no caching for fresh data on re-selection
 export const usePublicGeoRankingReport = (
   reportId: string,
-  keywordId: number
+  keywordId: number,
+  language?: string
 ) => {
   return useQuery({
-    queryKey: ["public-geo-ranking", reportId, keywordId],
+    queryKey: ["public-geo-ranking", reportId, keywordId, language],
     queryFn: async () => {
       try {
         const data = await reportsApi.getPerformanceGeoRankingReport(
           reportId,
-          keywordId
+          keywordId,
+          language
         );
         return data;
       } catch (error: any) {
@@ -265,12 +300,18 @@ export const useAllReports = (
   });
 };
 
-export const usePerformanceCitationReport = (reportId: string) => {
+export const usePerformanceCitationReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ["performance-citation-report", reportId],
+    queryKey: ["performance-citation-report", reportId, language],
     queryFn: async () => {
       try {
-        const data = await reportsApi.getPerformanceCitationReport(reportId);
+        const data = await reportsApi.getPerformanceCitationReport(
+          reportId,
+          language
+        );
         return data;
       } catch (error: any) {
         toast({

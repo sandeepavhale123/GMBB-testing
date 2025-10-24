@@ -90,5 +90,8 @@
   "welcomeDashboard": {
     "title": "Dashboard",
     "subtitle": "Welcome back to your business dashboard"
+  },
+  "gallery":{
+    "title":"Gallery"
   }
 }

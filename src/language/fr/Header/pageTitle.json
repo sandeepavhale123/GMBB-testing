@@ -4,36 +4,36 @@
     "subtitle": "Surveillez les performances de votre entreprise sur toutes les plateformes"
   },
   "aiTasks": {
-    "title": "Tâches IA",
-    "subtitle": "Gérez et suivez les tâches d’optimisation propulsées par l’IA"
+    "title": "Tâches d'IA",
+    "subtitle": "Gérez et suivez les tâches d'optimisation alimentées par l'IA"
   },
   "profile": {
     "title": "Profil",
-    "subtitle": "Gérez les informations et préférences de votre compte"
+    "subtitle": "Gérez les informations et les préférences de votre compte"
   },
   "posts": {
     "title": "Publications",
-    "subtitle": "Créez et gérez le contenu pour tous vos sites d’entreprise"
+    "subtitle": "Créez et gérez le contenu pour tous vos établissements"
   },
   "mediaLibrary": {
-    "title": "Médiathèque",
-    "subtitle": "Organisez et gérez vos images et vidéos d’entreprise sur toutes les plateformes"
+    "title": "Bibliothèque multimédia",
+    "subtitle": "Organisez et gérez les images et vidéos de votre entreprise sur toutes les plateformes"
   },
   "reviews": {
     "title": "Avis",
-    "subtitle": "Surveillez et répondez aux retours clients sur tous les sites"
+    "subtitle": "Surveillez et répondez aux commentaires des clients sur tous les sites"
   },
   "qa": {
-    "title": "Questions/Réponses",
+    "title": "Questions & Réponses",
     "subtitle": "Gérez les questions des clients et fournissez des réponses utiles"
   },
   "businessInfo": {
     "title": "Gestion",
-    "subtitle": "Gérez vos fiches d’entreprise et les informations des emplacements"
+    "subtitle": "Gérez vos fiches d'entreprise et les informations de localisation"
   },
   "settings": {
     "title": "Paramètres",
-    "subtitle": "Configurez les préférences de votre compte et les intégrations"
+    "subtitle": "Configurez les préférences et les intégrations de votre compte"
   },
   "manageListings": {
     "title": "Gérer les fiches",
@@ -41,35 +41,35 @@
   },
   "insights": {
     "title": "Analyses",
-    "subtitle": "Consultez les performances pour améliorer votre visibilité locale"
+    "subtitle": "Examinez les données de performance pour améliorer votre visibilité locale"
   },
   "keywords": {
     "title": "Mots-clés",
-    "subtitle": "Suivez le classement des mots-clés par localisation géographique"
+    "subtitle": "Suivez le classement des mots-clés par zone géographique"
   },
   "searchKeyword": {
-    "title": "Recherche de mot-clé",
+    "title": "Recherche de mots-clés",
     "subtitle": "Mots-clés"
   },
   "geoRanking": {
     "title": "Classement GEO",
-    "subtitle": "Suivez le classement des mots-clés par localisation géographique"
+    "subtitle": "Suivez le classement des mots-clés par emplacement géographique"
   },
   "geoRankingReport": {
     "title": "Rapport de classement GEO",
-    "subtitle": "Analyse détaillée de vos performances de recherche locales"
+    "subtitle": "Analyse détaillée de vos performances dans la recherche locale"
   },
   "citationManagement": {
     "title": "Gestion des citations",
-    "subtitle": "Surveillez et gérez les citations de votre entreprise sur les annuaires"
+    "subtitle": "Surveillez et gérez les citations de votre entreprise dans les annuaires"
   },
   "analytics": {
     "title": "Analytique",
-    "subtitle": "Métriques complètes et données de performance pour votre entreprise"
+    "subtitle": "Indicateurs complets et données de performance pour votre entreprise"
   },
   "team": {
     "title": "Équipe",
-    "subtitle": "Gérez les membres de l’équipe et leurs droits d’accès"
+    "subtitle": "Gérez les membres de l'équipe et leurs autorisations d'accès"
   },
   "notifications": {
     "title": "Notifications",
@@ -80,15 +80,18 @@
     "subtitle": "Consultez et générez des rapports de performance"
   },
   "aiChatbot": {
-    "title": "Assistance AI Genie",
-    "subtitle": "Obtenez une assistance propulsée par l’IA pour l’optimisation de votre classement GEO"
+    "title": "Assistance IA Genie",
+    "subtitle": "Obtenez une assistance alimentée par l'IA pour l’optimisation de votre classement GEO"
   },
   "editTeamMember": {
-    "title": "Modifier un membre de l’équipe",
-    "subtitle": "Gérez le profil, l’accès aux fiches et les permissions des fonctionnalités"
+    "title": "Modifier le membre de l'équipe",
+    "subtitle": "Gérez le profil, l'accès et les autorisations des membres de l'équipe"
   },
   "welcomeDashboard": {
     "title": "Tableau de bord",
-    "subtitle": "Bienvenue à nouveau sur votre tableau de bord entreprise"
+    "subtitle": "Bienvenue à nouveau sur votre tableau de bord professionnel"
+  },
+  "gallery": {
+    "title": "Galerie"
   }
 }

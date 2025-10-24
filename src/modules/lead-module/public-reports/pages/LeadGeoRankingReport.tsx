@@ -9,8 +9,21 @@ import { useLeadGeoRanking } from "@/hooks/useLeadGeoRanking";
 import { useLeadKeywordPositionDetails } from "@/hooks/useLeadKeywordPositionDetails";
 import { useGetLeadReportBranding } from "@/api/leadApi";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
-
+import i18n from "@/i18n";
 export const namespaces = ["Lead-module-public-report/leadGeoRankingReport"];
+
+interface Language {
+  code: string;
+  name: string;
+}
+
+const languages: Language[] = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Spanish" },
+  { code: "de", name: "German" },
+  { code: "it", name: "Italian" },
+  { code: "fr", name: "French" },
+];
 interface ModalData {
   isOpen: boolean;
   gpsCoordinates: string;
@@ -29,6 +42,13 @@ export const LeadGeoRankingReport: React.FC = () => {
   const { t, loaded } = usePublicI18n(namespaces);
   const { reportId } = useParams<{ reportId: string }>();
 
+  const currentLang = i18n.language || "en";
+
+  // Find the full name
+  const currentLangName = languages.find(
+    (lang) => lang.code === currentLang
+  )?.name;
+
   // Use the lead geo ranking hook for real data
   const {
     keywords,
@@ -42,10 +62,13 @@ export const LeadGeoRankingReport: React.FC = () => {
     handleKeywordChange,
     handleDateChange,
     setSelectedKeyword,
-  } = useLeadGeoRanking(reportId || "");
+  } = useLeadGeoRanking(reportId || "", currentLangName);
 
   // Get branding data
-  const { data: brandingData } = useGetLeadReportBranding(reportId || "");
+  const { data: brandingData } = useGetLeadReportBranding(
+    reportId || "",
+    currentLangName
+  );
 
   // Position details hook for modal
   const {

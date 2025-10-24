@@ -3,6 +3,8 @@ import { TopHeader } from "./TopHeader";
 import { Header } from "./Header";
 import { MainBody } from "./MainBody";
 import { Footer } from "./Footer";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 interface PublicReportLayoutProps {
   children: React.ReactNode;
@@ -21,7 +23,7 @@ interface PublicReportLayoutProps {
     company_address?: string;
   } | null;
   reportId?: string;
-  reportType?: 'gmb-health' | 'citation' | 'prospect' | 'geo-ranking';
+  reportType?: "gmb-health" | "citation" | "prospect" | "geo-ranking";
 }
 
 export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
@@ -38,13 +40,17 @@ export const PublicReportLayout: React.FC<PublicReportLayoutProps> = ({
 }) => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <TopHeader 
+      {/* ✅ Add a small top bar with language switcher */}
+      <div className="flex justify-end px-4 py-2 border-b bg-gray-50">
+        <LanguageSwitcher />
+      </div>
+      <TopHeader
         reportId={reportId}
         brandingData={brandingData}
         reportType={reportType}
         reportTitle={title}
       />
-      
+
       <div className="flex-1 flex flex-col w-full">
         <Header
           title={title}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BarChart3, Menu, X } from "lucide-react";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const namespaces = ["Lead-module-public-report/topHeader"];
 
@@ -82,6 +83,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 {displaySubtitle}
               </p>
             </div>
+            <LanguageSwitcher />
           </div>
         </div>
 
@@ -100,7 +102,6 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 </button>
               ))}
             </nav>
-
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
