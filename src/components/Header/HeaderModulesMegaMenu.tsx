@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, Search } from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, Search, Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -8,11 +8,15 @@ import { useListingContext } from "@/context/ListingContext";
 import { useLocation, Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
+import { Separator } from "@/components/ui/separator";
+
 export const HeaderModulesMegaMenu: React.FC = () => {
   const {
     t
   } = useI18nNamespace("Header/headerModulesMegaMenu");
   const [isOpen, setIsOpen] = useState(false);
+  const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
@@ -113,7 +117,39 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                   </Link>;
           })}
             </div>
+
+            <Separator className="my-3" />
+
+            <div className="space-y-1">
+              <h4 className="text-xs font-medium text-muted-foreground mb-2 px-3">
+                {t("modulesMenu.utilities.title")}
+              </h4>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsUtmModalOpen(true);
+                }}
+                className="w-full flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-secondary"
+              >
+                <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-purple-100 group-hover:bg-purple-200">
+                  <LinkIcon className="w-4 h-4 text-purple-600" />
+                </div>
+                <div className="min-w-0 flex-1 text-left">
+                  <div className="text-sm font-medium text-foreground">
+                    {t("modulesMenu.utilities.utmBuilder.name")}
+                  </div>
+                  <div className="text-xs mt-1 text-muted-foreground">
+                    {t("modulesMenu.utilities.utmBuilder.description")}
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>}
+
+      <UtmTrackingBuilderModal 
+        isOpen={isUtmModalOpen} 
+        onClose={() => setIsUtmModalOpen(false)} 
+      />
     </div>;
 };

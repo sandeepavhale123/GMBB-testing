@@ -1,6 +1,13 @@
 {
   "title": "Moduli",
   "comingSoon": "In Arrivo",
+  "utilities": {
+    "title": "Utilità",
+    "utmBuilder": {
+      "name": "Generatore di tracciamento UTM",
+      "description": "Crea URL di campagna tracciabili"
+    }
+  },
   "modules": {
     "manageGmb": {
       "name": "Gestisci Inserzione GMB",

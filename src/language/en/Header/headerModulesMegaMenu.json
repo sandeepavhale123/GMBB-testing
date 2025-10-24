@@ -2,6 +2,13 @@
   "modulesMenu": {
     "title": "Modules",
     "comingSoon": "Coming Soon",
+    "utilities": {
+      "title": "Utilities",
+      "utmBuilder": {
+        "name": "UTM Tracking Builder",
+        "description": "Create trackable campaign URLs"
+      }
+    },
     "gmbListing": {
       "single": {
         "name": "Manage GMB Listing",

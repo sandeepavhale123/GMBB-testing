@@ -1,6 +1,13 @@
 {
   "title": "Module",
   "comingSoon": "Demnächst verfügbar",
+  "utilities": {
+    "title": "Dienstprogramme",
+    "utmBuilder": {
+      "name": "UTM-Tracking-Generator",
+      "description": "Erstellen Sie nachverfolgbare Kampagnen-URLs"
+    }
+  },
   "modules": {
     "manageGmb": {
       "name": "GMB-Eintrag verwalten",

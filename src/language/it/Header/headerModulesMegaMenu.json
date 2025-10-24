@@ -2,6 +2,13 @@
   "modulesMenu": {
     "title": "Moduli",
     "comingSoon": "Prossimamente",
+    "utilities": {
+      "title": "Utilità",
+      "utmBuilder": {
+        "name": "Generatore di tracciamento UTM",
+        "description": "Crea URL di campagna tracciabili"
+      }
+    },
     "gmbListing": {
       "single": {
         "name": "Gestisci scheda GMB",

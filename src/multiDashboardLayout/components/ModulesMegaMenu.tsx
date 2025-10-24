@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, ChevronDown, Search } from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, ChevronDown, Search, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { profileService } from "@/services/profileService";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
+import { Separator } from "@/components/ui/separator";
+
 export const ModulesMegaMenu: React.FC = () => {
   const {
     t
@@ -43,6 +46,7 @@ export const ModulesMegaMenu: React.FC = () => {
     comingSoon: true
   }];
   const [isOpen, setIsOpen] = useState(false);
+  const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
   const [dashboardType, setDashboardType] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -105,7 +109,7 @@ export const ModulesMegaMenu: React.FC = () => {
               {getFilteredModules().map(module => {
             const IconComponent = module.icon;
             const isActive = isModuleActive(module.href);
-            return <Link key={module.name} to={module.href} className={cn("flex items-start gap-3 p-3 rounded-md transition-colors group", isActive ? "bg-primary text-primary-foreground" : "hover:bg-primary hover:text-primary-foreground")} onClick={() => setIsOpen(false)}>
+            return <RouterLink key={module.name} to={module.href} className={cn("flex items-start gap-3 p-3 rounded-md transition-colors group", isActive ? "bg-primary text-primary-foreground" : "hover:bg-primary hover:text-primary-foreground")} onClick={() => setIsOpen(false)}>
                     <div className={cn("flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center", isActive ? "bg-primary-foreground/20" : "bg-primary/10 group-hover:bg-primary-foreground/20")}>
                       <IconComponent className={cn("w-4 h-4", isActive ? "text-primary-foreground" : "text-primary group-hover:text-primary-foreground")} />
                     </div>
@@ -123,10 +127,42 @@ export const ModulesMegaMenu: React.FC = () => {
                         {module.description}
                       </div>
                     </div>
-                  </Link>;
+                  </RouterLink>;
           })}
+            </div>
+
+            <Separator className="my-3" />
+
+            <div className="space-y-1">
+              <h4 className="text-xs font-medium text-muted-foreground mb-2 px-3">
+                {t("utilities.title")}
+              </h4>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsUtmModalOpen(true);
+                }}
+                className="w-full flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-secondary"
+              >
+                <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-purple-100 group-hover:bg-purple-200">
+                  <Link className="w-4 h-4 text-purple-600" />
+                </div>
+                <div className="min-w-0 flex-1 text-left">
+                  <div className="text-sm font-medium text-foreground">
+                    {t("utilities.utmBuilder.name")}
+                  </div>
+                  <div className="text-xs mt-1 text-muted-foreground">
+                    {t("utilities.utmBuilder.description")}
+                  </div>
+                </div>
+              </button>
             </div>
           </div>
         </div>}
+
+      <UtmTrackingBuilderModal 
+        isOpen={isUtmModalOpen} 
+        onClose={() => setIsUtmModalOpen(false)} 
+      />
     </div>;
 };

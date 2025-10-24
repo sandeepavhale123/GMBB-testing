@@ -1,0 +1,53 @@
+{
+  "modal": {
+    "title": "Generador de seguimiento UTM",
+    "info": {
+      "title": "¿Qué es el seguimiento UTM?",
+      "description": "Los parámetros UTM son etiquetas que agregas a las URL para rastrear campañas de marketing en herramientas de análisis como Google Analytics. Te ayudan a entender qué campañas están generando tráfico y conversiones.",
+      "example": {
+        "title": "Ejemplo de URL UTM:",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=rebajas_verano"
+      },
+      "benefits": {
+        "title": "Beneficios:",
+        "list": [
+          "Seguir el rendimiento de las campañas con precisión",
+          "Identificar tus mejores fuentes de tráfico",
+          "Medir el ROI del gasto en marketing",
+          "Optimizar tu estrategia de marketing"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "URL del sitio web",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Nombre de la campaña",
+        "placeholder": "rebajas_verano_2025"
+      },
+      "campaignSource": {
+        "label": "Fuente de la campaña",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Medio de la campaña",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Término de la campaña",
+        "placeholder": "zapatillas+running"
+      },
+      "campaignContent": {
+        "label": "Contenido de la campaña",
+        "placeholder": "banner_anuncio, enlace_texto"
+      },
+      "optional": "opcional",
+      "generatedUrl": "URL UTM generada",
+      "copyUrl": "Copiar URL",
+      "copySuccess": "¡URL UTM copiada al portapapeles!",
+      "clearForm": "Limpiar formulario"
+    }
+  }
+}
