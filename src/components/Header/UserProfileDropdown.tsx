@@ -122,15 +122,15 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
             <User className="w-4 h-4 mr-1" />
             {t("userProfileDropdown.viewProfile")}
           </DropdownMenuItem>
-          {!shouldHideAccountSettings() && (
-            <DropdownMenuItem
-              onClick={handleAccountSettings}
-              className="cursor-pointer"
-            >
-              <Settings className="w-4 h-4 mr-1" />
-              {t("userProfileDropdown.accountSettings")}
-            </DropdownMenuItem>
-          )}
+           {!shouldHideAccountSettings() && (
+            // <DropdownMenuItem
+            //   onClick={handleAccountSettings}
+            //   className="cursor-pointer"
+            // >
+            //   <Settings className="w-4 h-4 mr-1" />
+            //   {t("userProfileDropdown.accountSettings")}
+            // </DropdownMenuItem>
+          )} 
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
