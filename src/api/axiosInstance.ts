@@ -4,7 +4,6 @@ import { RootState } from "@/store/store";
 import { clearExpiredTokens, clearExpiredTokensAndRefresh, logout } from "@/store/slices/auth/authSlice";
 import { resetStore } from "@/store/actions/globalActions";
 import { toast } from "@/hooks/use-toast";
-import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -197,7 +196,6 @@ axiosInstance.interceptors.response.use(
       } else {
         // For other 401 errors, show specific toast messages based on the error
         // console.log("⚠️ 401 error with message:", errorMessage);
-        // const { t } = useI18nNamespace("api/axiosInstance");
         // Skip toast for specific "no listings found" error as it's handled in components
         if (errorMessage === "No listings found for this history ID.") {
           return Promise.reject(error);
