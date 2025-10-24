@@ -18,18 +18,21 @@ export const ModulesMegaMenu: React.FC = () => {
   {
     name: t("modules.geoRanking.name"),
     icon: Globe,
+    iconSrc: "/icons/geo-ranking.svg", // Add your icon path here
     bgColor: "#E8F5E9",
     iconColor: "#388E3C",
     href: "/module/geo-ranking"
   }, {
     name: t("modules.leadManagement.name"),
     icon: Users,
+    iconSrc: "/icons/lead-management.svg", // Add your icon path here
     bgColor: "#E3F2FD",
     iconColor: "#1976D2",
     href: "/module/lead"
   }, {
     name: "SEO Fixer",
     icon: Search,
+    iconSrc: "/icons/seo-fixer.svg", // Add your icon path here
     bgColor: "#FFF9C4",
     iconColor: "#F57F17",
     href: "/module/live-seo-fixer",
@@ -37,6 +40,7 @@ export const ModulesMegaMenu: React.FC = () => {
   }, {
     name: t("modules.reputation.name"),
     icon: Star,
+    iconSrc: "/icons/reputation.svg", // Add your icon path here
     bgColor: "#FFE0B2",
     iconColor: "#E65100",
     href: "#",
@@ -71,6 +75,7 @@ export const ModulesMegaMenu: React.FC = () => {
       const gmbModule = {
         name: t("modules.manageGmb.name"),
         icon: Store,
+        iconSrc: "/icons/gmb-listing.svg", // Add your icon path here
         bgColor: "#E3F2FD",
         iconColor: "#1976D2",
         href: dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
@@ -121,10 +126,18 @@ export const ModulesMegaMenu: React.FC = () => {
                       className="w-16 h-16 rounded-lg flex items-center justify-center mb-3" 
                       style={{ backgroundColor: module.bgColor }}
                     >
-                      <IconComponent 
-                        className="w-8 h-8" 
-                        style={{ color: module.iconColor }} 
-                      />
+                      {module.iconSrc ? (
+                        <img 
+                          src={module.iconSrc} 
+                          alt={module.name}
+                          className="w-8 h-8 object-contain"
+                        />
+                      ) : (
+                        <IconComponent 
+                          className="w-8 h-8" 
+                          style={{ color: module.iconColor }} 
+                        />
+                      )}
                     </div>
                     <div className="text-sm font-medium text-center text-foreground">
                       {module.name}
@@ -166,7 +179,15 @@ export const ModulesMegaMenu: React.FC = () => {
                   className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
                   style={{ backgroundColor: "#F3E5F5" }}
                 >
-                  <Link className="w-8 h-8" style={{ color: "#7B1FA2" }} />
+                  <img 
+                    src="/icons/utm-builder.svg"
+                    alt="UTM Builder"
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement!.innerHTML = '<svg class="w-8 h-8" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+                    }}
+                  />
                 </div>
                 <div className="text-sm font-medium text-center text-foreground">
                   {t("utilities.utmBuilder.name")}
