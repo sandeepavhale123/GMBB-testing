@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, ChevronDown, Search, Link } from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, Search, Link, Store, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -15,33 +15,30 @@ export const ModulesMegaMenu: React.FC = () => {
     t
   } = useI18nNamespace("MultidashboardComponent/modulesMegaMenu");
   const modules = [
-  // {
-  //   name: t("modules.manageGmb.name"),
-  //   description: t("modules.manageGmb.description"),
-  //   icon: Grid3X3,
-  //   href: "/main-dashboard",
-  // },
   {
     name: t("modules.geoRanking.name"),
-    description: t("modules.geoRanking.description"),
-    icon: TrendingUp,
+    icon: Globe,
+    bgColor: "#E8F5E9",
+    iconColor: "#388E3C",
     href: "/module/geo-ranking"
   }, {
     name: t("modules.leadManagement.name"),
-    description: t("modules.leadManagement.description"),
     icon: Users,
+    bgColor: "#E3F2FD",
+    iconColor: "#1976D2",
     href: "/module/lead"
-    // comingSoon: true,
   }, {
     name: "SEO Fixer",
-    description: "Automatically detect and fix SEO issues on websites",
     icon: Search,
+    bgColor: "#FFF9C4",
+    iconColor: "#F57F17",
     href: "/module/live-seo-fixer",
     beta: true
   }, {
     name: t("modules.reputation.name"),
-    description: t("modules.reputation.description"),
     icon: Star,
+    bgColor: "#FFE0B2",
+    iconColor: "#E65100",
     href: "#",
     comingSoon: true
   }];
@@ -73,8 +70,9 @@ export const ModulesMegaMenu: React.FC = () => {
     if (dashboardType === 0 || dashboardType === 1) {
       const gmbModule = {
         name: t("modules.manageGmb.name"),
-        description: t("modules.manageGmb.description"),
-        icon: Grid3X3,
+        icon: Store,
+        bgColor: "#E3F2FD",
+        iconColor: "#1976D2",
         href: dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
         comingSoon: false,
         beta: false
@@ -97,44 +95,64 @@ export const ModulesMegaMenu: React.FC = () => {
         <Grid3X3 className="w-4 h-4" />
       </Button>
 
-      {isOpen && <div ref={menuRef} className={cn("absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50", isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-80")}>
+      {isOpen && <div ref={menuRef} className={cn("absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50", isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[600px]")}>
           <div className={cn("p-4", isMobile && "p-3")}>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium text-foreground">
-                {" "}
                 {t("title")}
               </h3>
             </div>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {getFilteredModules().map(module => {
             const IconComponent = module.icon;
             const isActive = isModuleActive(module.href);
-            return <RouterLink key={module.name} to={module.href} className={cn("flex items-start gap-3 p-3 rounded-md transition-colors group", isActive ? "bg-primary text-primary-foreground" : "hover:bg-primary hover:text-primary-foreground")} onClick={() => setIsOpen(false)}>
-                    <div className={cn("flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center", isActive ? "bg-primary-foreground/20" : "bg-primary/10 group-hover:bg-primary-foreground/20")}>
-                      <IconComponent className={cn("w-4 h-4", isActive ? "text-primary-foreground" : "text-primary group-hover:text-primary-foreground")} />
+            return <RouterLink 
+                    key={module.name} 
+                    to={module.href} 
+                    className={cn(
+                      "relative flex flex-col items-center p-4 rounded-lg border transition-colors group",
+                      isActive 
+                        ? "border-primary bg-primary/5" 
+                        : "border-border bg-card hover:bg-accent hover:border-accent"
+                    )} 
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div 
+                      className="w-16 h-16 rounded-lg flex items-center justify-center mb-3" 
+                      style={{ backgroundColor: module.bgColor }}
+                    >
+                      <IconComponent 
+                        className="w-8 h-8" 
+                        style={{ color: module.iconColor }} 
+                      />
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm font-medium">{module.name}</div>
-                        {module.comingSoon && <Badge variant="secondary" className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]">
-                            {t("comingSoon")}
-                          </Badge>}
-                        {module.beta && <Badge variant="secondary" className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white \n text-[8px]">
-                            Beta
-                          </Badge>}
-                      </div>
-                      <div className={cn("text-xs mt-1", isActive ? "text-primary-foreground/80" : "text-muted-foreground group-hover:text-primary-foreground/80")}>
-                        {module.description}
-                      </div>
+                    <div className="text-sm font-medium text-center text-foreground">
+                      {module.name}
                     </div>
+                    {module.comingSoon && (
+                      <Badge 
+                        variant="secondary" 
+                        className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px] px-1.5 py-0.5"
+                      >
+                        {t("comingSoon")}
+                      </Badge>
+                    )}
+                    {module.beta && (
+                      <Badge 
+                        variant="secondary" 
+                        className="absolute top-2 right-2 bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px] px-1.5 py-0.5"
+                      >
+                        Beta
+                      </Badge>
+                    )}
                   </RouterLink>;
           })}
             </div>
 
-            <Separator className="my-3" />
+            <Separator className="my-4" />
 
-            <div className="space-y-1">
-              <h4 className="text-xs font-medium text-muted-foreground mb-2 px-3">
+            <div>
+              <h4 className="text-sm font-medium text-foreground mb-3">
                 {t("utilities.title")}
               </h4>
               <button
@@ -142,18 +160,16 @@ export const ModulesMegaMenu: React.FC = () => {
                   setIsOpen(false);
                   setIsUtmModalOpen(true);
                 }}
-                className="w-full flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-secondary"
+                className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
               >
-                <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-purple-100 group-hover:bg-purple-200">
-                  <Link className="w-4 h-4 text-purple-600" />
+                <div 
+                  className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
+                  style={{ backgroundColor: "#F3E5F5" }}
+                >
+                  <Link className="w-8 h-8" style={{ color: "#7B1FA2" }} />
                 </div>
-                <div className="min-w-0 flex-1 text-left">
-                  <div className="text-sm font-medium text-foreground">
-                    {t("utilities.utmBuilder.name")}
-                  </div>
-                  <div className="text-xs mt-1 text-muted-foreground">
-                    {t("utilities.utmBuilder.description")}
-                  </div>
+                <div className="text-sm font-medium text-center text-foreground">
+                  {t("utilities.utmBuilder.name")}
                 </div>
               </button>
             </div>
