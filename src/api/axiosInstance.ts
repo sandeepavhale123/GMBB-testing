@@ -1,11 +1,7 @@
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
-import {
-  clearExpiredTokens,
-  clearExpiredTokensAndRefresh,
-  logout,
-} from "@/store/slices/auth/authSlice";
+import { clearExpiredTokens, clearExpiredTokensAndRefresh, logout } from "@/store/slices/auth/authSlice";
 import { resetStore } from "@/store/actions/globalActions";
 import { toast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -19,11 +15,7 @@ let getAccessToken: (() => string | null) | null = null;
 let refreshToken: (() => Promise<boolean>) | null = null;
 let handleLogout: (() => void) | null = null;
 
-export const setAuthHelpers = (
-  getToken: () => string | null,
-  logout: () => void,
-  refresh: () => Promise<boolean>
-) => {
+export const setAuthHelpers = (getToken: () => string | null, logout: () => void, refresh: () => Promise<boolean>) => {
   getAccessToken = getToken;
   handleLogout = logout;
   refreshToken = refresh;
@@ -102,9 +94,7 @@ const handleAuthFailure = async (shouldForceLogout: boolean = false) => {
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken?.();
-    const isAuthRoute = skipAuthRoutes.some((route) =>
-      config.url?.includes(route)
-    );
+    const isAuthRoute = skipAuthRoutes.some((route) => config.url?.includes(route));
 
     if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -123,7 +113,7 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Enhanced response interceptor with better token refresh handling
@@ -131,16 +121,10 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const isAuthRoute = skipAuthRoutes.some((route) =>
-      originalRequest.url?.includes(route)
-    );
+    const isAuthRoute = skipAuthRoutes.some((route) => originalRequest.url?.includes(route));
 
     // Only handle 401 errors on non-auth routes
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !isAuthRoute
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthRoute) {
       // console.log("❌ 401 error detected for:", originalRequest.url);
       const errorMessage = error.response?.data?.message;
       // Only perform token refresh/logout for "Invalid token." message
@@ -196,16 +180,11 @@ axiosInstance.interceptors.response.use(
           processQueue(refreshError, null);
 
           // Check if we've already attempted refresh recently to prevent loops
-          const lastRefreshAttempt = localStorage.getItem(
-            "last_refresh_attempt"
-          );
+          const lastRefreshAttempt = localStorage.getItem("last_refresh_attempt");
           const now = Date.now();
           const fiveMinutesAgo = now - 5 * 60 * 1000;
 
-          if (
-            lastRefreshAttempt &&
-            parseInt(lastRefreshAttempt) > fiveMinutesAgo
-          ) {
+          if (lastRefreshAttempt && parseInt(lastRefreshAttempt) > fiveMinutesAgo) {
             // console.log("🔒 Recent refresh attempts failed, forcing logout");
             await handleAuthFailure(true);
           } else {
@@ -218,7 +197,7 @@ axiosInstance.interceptors.response.use(
       } else {
         // For other 401 errors, show specific toast messages based on the error
         // console.log("⚠️ 401 error with message:", errorMessage);
-        const { t } = useI18nNamespace("api/axiosInstance");
+        // const { t } = useI18nNamespace("api/axiosInstance");
         // Skip toast for specific "no listings found" error as it's handled in components
         if (errorMessage === "No listings found for this history ID.") {
           return Promise.reject(error);
@@ -228,9 +207,7 @@ axiosInstance.interceptors.response.use(
         const skipGlobalToast = originalRequest.skipGlobalErrorToast;
 
         // Skip authentication toasts for notification endpoints as they handle 401s gracefully
-        const isNotificationEndpoint = originalRequest.url?.includes(
-          "/get-beamer-notification"
-        );
+        const isNotificationEndpoint = originalRequest.url?.includes("/get-beamer-notification");
         if (isNotificationEndpoint) {
           return Promise.reject(error);
         }
@@ -261,12 +238,10 @@ axiosInstance.interceptors.response.use(
           description = "Your session has expired. Please log in again.";
         } else if (errorMessage?.toLowerCase().includes("insufficient")) {
           title = "Insufficient Permissions";
-          description =
-            "You don't have the required permissions for this action.";
+          description = "You don't have the required permissions for this action.";
         } else if (errorMessage?.toLowerCase().includes("token")) {
           title = "Authentication Error";
-          description =
-            "There was an issue with your authentication. Please try logging in again.";
+          description = "There was an issue with your authentication. Please try logging in again.";
         } else if (errorMessage) {
           description = errorMessage;
         }
@@ -281,7 +256,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;
