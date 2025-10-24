@@ -12,52 +12,51 @@ import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderMo
 import { Separator } from "@/components/ui/separator";
 
 export const HeaderModulesMegaMenu: React.FC = () => {
-  const {
-    t
-  } = useI18nNamespace("Header/headerModulesMegaMenu");
+  const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
   const [isOpen, setIsOpen] = useState(false);
   const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const isMobile = useIsMobile();
-  const {
-    profileData
-  } = useProfile();
-  const {
-    selectedListing
-  } = useListingContext();
-  const baseModules = [{
-    name: t("modulesMenu.geoRanking.name"),
-    icon: Globe,
-    iconSrc: "/icons/geo-ranking.svg", // Add your icon path here
-    bgColor: "#E8F5E9",
-    iconColor: "#388E3C",
-    href: "/module/geo-ranking"
-  }, {
-    name: t("modulesMenu.leadManagement.name"),
-    icon: Users,
-    iconSrc: "/icons/lead-management.svg", // Add your icon path here
-    bgColor: "#E3F2FD",
-    iconColor: "#1976D2",
-    href: "/module/lead"
-  }, {
-    name: "SEO Fixer",
-    icon: Search,
-    iconSrc: "/icons/seo-fixer.svg", // Add your icon path here
-    bgColor: "#FFF9C4",
-    iconColor: "#F57F17",
-    href: "/module/live-seo-fixer",
-    beta: true
-  }, {
-    name: t("modulesMenu.reputation.name"),
-    icon: Star,
-    iconSrc: "/icons/reputation.svg", // Add your icon path here
-    bgColor: "#FFE0B2",
-    iconColor: "#E65100",
-    href: "#",
-    comingSoon: true
-  }];
+  const { profileData } = useProfile();
+  const { selectedListing } = useListingContext();
+  const baseModules = [
+    {
+      name: t("modulesMenu.geoRanking.name"),
+      icon: Globe,
+      iconSrc: "/icons/geo-ranking.png", // Add your icon path here
+      bgColor: "#E8F5E9",
+      iconColor: "#388E3C",
+      href: "/module/geo-ranking",
+    },
+    {
+      name: t("modulesMenu.leadManagement.name"),
+      icon: Users,
+      iconSrc: "/icons/lead-management.png", // Add your icon path here
+      bgColor: "#E3F2FD",
+      iconColor: "#1976D2",
+      href: "/module/lead",
+    },
+    {
+      name: "SEO Fixer",
+      icon: Search,
+      iconSrc: "/icons/seo-fixer.png", // Add your icon path here
+      bgColor: "#FFF9C4",
+      iconColor: "#F57F17",
+      href: "/module/live-seo-fixer",
+      beta: true,
+    },
+    {
+      name: t("modulesMenu.reputation.name"),
+      icon: Star,
+      iconSrc: "/icons/reputation.png", // Add your icon path here
+      bgColor: "#FFE0B2",
+      iconColor: "#E65100",
+      href: "#",
+      comingSoon: true,
+    },
+  ];
   const isModuleActive = (moduleHref: string) => {
     return location.pathname.startsWith(moduleHref);
   };
@@ -68,14 +67,17 @@ export const HeaderModulesMegaMenu: React.FC = () => {
     if (dashboardType === 0 || dashboardType === 1) {
       const isInSingleListingContext = selectedListing && location.pathname.includes("/");
       const gmbModule = {
-        name: isInSingleListingContext ? t("modulesMenu.gmbListing.single.name") : t("modulesMenu.gmbListing.multiple.name"),
+        name: isInSingleListingContext
+          ? t("modulesMenu.gmbListing.single.name")
+          : t("modulesMenu.gmbListing.multiple.name"),
         icon: Store,
-        iconSrc: "/icons/gmb-listing.svg", // Add your icon path here
+        iconSrc: "/icons/gmb-listing.png", // Add your icon path here
         bgColor: "#E3F2FD",
         iconColor: "#1976D2",
-        href: isInSingleListingContext && selectedListing ? `/location-dashboard/${selectedListing.id}` : "/main-dashboard",
+        href:
+          isInSingleListingContext && selectedListing ? `/location-dashboard/${selectedListing.id}` : "/main-dashboard",
         comingSoon: false,
-        beta: false
+        beta: false,
       };
       return [gmbModule, ...baseModules];
     }
@@ -83,86 +85,94 @@ export const HeaderModulesMegaMenu: React.FC = () => {
   };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && buttonRef.current && !menuRef.current.contains(event.target as Node) && !buttonRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        buttonRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  return <div className="relative">
-      <Button ref={buttonRef} variant="ghost" size="sm" className="hover:bg-gray-100 p-2 shrink-0" onClick={() => setIsOpen(!isOpen)}>
+  return (
+    <div className="relative">
+      <Button
+        ref={buttonRef}
+        variant="ghost"
+        size="sm"
+        className="hover:bg-gray-100 p-2 shrink-0"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <Grid3X3 className="w-4 h-4 text-gray-600" />
       </Button>
 
-      {isOpen && <div ref={menuRef} className={cn("absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50", isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[600px]")}>
+      {isOpen && (
+        <div
+          ref={menuRef}
+          className={cn(
+            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
+            isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[600px]",
+          )}
+        >
           <div className={cn("p-4", isMobile && "p-3")}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-medium text-foreground">
-                {t("modulesMenu.title")}
-              </h3>
+              <h3 className="text-sm font-medium text-foreground">{t("modulesMenu.title")}</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {getFilteredModules().map(module => {
-            const IconComponent = module.icon;
-            const isActive = isModuleActive(module.href);
-            return <Link 
-                    key={module.name} 
-                    to={module.href} 
+              {getFilteredModules().map((module) => {
+                const IconComponent = module.icon;
+                const isActive = isModuleActive(module.href);
+                return (
+                  <Link
+                    key={module.name}
+                    to={module.href}
                     className={cn(
                       "relative flex flex-col items-center p-4 rounded-lg border transition-colors group",
-                      isActive 
-                        ? "border-primary bg-primary/5" 
-                        : "border-border bg-card hover:bg-accent hover:border-accent"
-                    )} 
+                      isActive
+                        ? "border-primary bg-primary/5"
+                        : "border-border bg-card hover:bg-accent hover:border-accent",
+                    )}
                     onClick={() => setIsOpen(false)}
                   >
-                    <div 
-                      className="w-16 h-16 rounded-lg flex items-center justify-center mb-3" 
+                    <div
+                      className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
                       style={{ backgroundColor: module.bgColor }}
                     >
                       {module.iconSrc ? (
-                        <img 
-                          src={module.iconSrc} 
-                          alt={module.name}
-                          className="w-8 h-8 object-contain"
-                        />
+                        <img src={module.iconSrc} alt={module.name} className="w-8 h-8 object-contain" />
                       ) : (
-                        <IconComponent 
-                          className="w-8 h-8" 
-                          style={{ color: module.iconColor }} 
-                        />
+                        <IconComponent className="w-8 h-8" style={{ color: module.iconColor }} />
                       )}
                     </div>
-                    <div className="text-sm font-medium text-center text-foreground">
-                      {module.name}
-                    </div>
+                    <div className="text-sm font-medium text-center text-foreground">{module.name}</div>
                     {module.comingSoon && (
-                      <Badge 
-                        variant="secondary" 
+                      <Badge
+                        variant="secondary"
                         className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px] px-1.5 py-0.5"
                       >
                         {t("modulesMenu.comingSoon")}
                       </Badge>
                     )}
                     {module.beta && (
-                      <Badge 
-                        variant="secondary" 
+                      <Badge
+                        variant="secondary"
                         className="absolute top-2 right-2 bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px] px-1.5 py-0.5"
                       >
                         Beta
                       </Badge>
                     )}
-                  </Link>;
-          })}
+                  </Link>
+                );
+              })}
             </div>
 
             <Separator className="my-4" />
 
             <div>
-              <h4 className="text-sm font-medium text-foreground mb-3">
-                {t("modulesMenu.utilities.title")}
-              </h4>
+              <h4 className="text-sm font-medium text-foreground mb-3">{t("modulesMenu.utilities.title")}</h4>
               <button
                 onClick={() => {
                   setIsOpen(false);
@@ -170,17 +180,18 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                 }}
                 className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
               >
-                <div 
+                <div
                   className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
                   style={{ backgroundColor: "#F3E5F5" }}
                 >
-                  <img 
-                    src="/icons/utm-builder.svg"
+                  <img
+                    src="/icons/utm-builder.png"
                     alt="UTM Builder"
                     className="w-8 h-8 object-contain"
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement!.innerHTML = '<svg class="w-8 h-8" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+                      e.currentTarget.style.display = "none";
+                      e.currentTarget.parentElement!.innerHTML =
+                        '<svg class="w-8 h-8" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
                     }}
                   />
                 </div>
@@ -190,11 +201,10 @@ export const HeaderModulesMegaMenu: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>}
+        </div>
+      )}
 
-      <UtmTrackingBuilderModal 
-        isOpen={isUtmModalOpen} 
-        onClose={() => setIsUtmModalOpen(false)} 
-      />
-    </div>;
+      <UtmTrackingBuilderModal isOpen={isUtmModalOpen} onClose={() => setIsUtmModalOpen(false)} />
+    </div>
+  );
 };
