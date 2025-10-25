@@ -9,7 +9,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 export const ModulesMegaMenu: React.FC = () => {
   const {
     t
@@ -119,16 +118,7 @@ export const ModulesMegaMenu: React.FC = () => {
                   color: module.iconColor
                 }} />}
                     </div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">{module.name}</div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{module.name}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <div className="text-sm font-medium text-center text-foreground">{module.name}</div>
                     {module.comingSoon && <Badge variant="secondary" className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px] px-1.5 py-0.5">
                         {t("comingSoon")}
                       </Badge>}
@@ -154,16 +144,7 @@ export const ModulesMegaMenu: React.FC = () => {
                   e.currentTarget.parentElement!.innerHTML = '<svg class="w-16 h-16" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
                 }} className="w-12 h-12 object-contain" />
                   </div>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">{t("utilities.utmBuilder.name")}</div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("utilities.utmBuilder.name")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <div className="text-sm font-medium text-center text-foreground">{t("utilities.utmBuilder.name")}</div>
                 </button>
               </div>
             </div>
