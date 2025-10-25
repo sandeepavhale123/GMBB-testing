@@ -116,7 +116,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Connected Channels - Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-6">
         {/* Left: Channels List */}
         <Card>
           <CardHeader>
@@ -131,23 +131,13 @@ export const Dashboard: React.FC = () => {
                   className="flex items-center justify-between py-3"
                 >
                   <div className="flex items-center gap-3">
-                    {/* Channel Icon */}
-                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                      {channel.name === "Google Business Profile" && (
-                        <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
-                          <span className="text-xs font-bold text-blue-600">G</span>
-                        </div>
-                      )}
-                      {channel.name === "Facebook" && (
-                        <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                          <span className="text-xs font-bold text-white">f</span>
-                        </div>
-                      )}
-                      {channel.name === "Yelp" && (
-                        <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center">
-                          <Star className="w-3 h-3 text-white fill-white" />
-                        </div>
-                      )}
+                    {/* Channel Icon - Placeholder for actual icons */}
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                      <img 
+                        src="https://via.placeholder.com/32" 
+                        alt={channel.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
 
                     {/* Channel Info */}
