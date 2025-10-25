@@ -132,7 +132,7 @@ export const ModulesMegaMenu: React.FC = () => {
             <Separator className="my-4" />
 
             <div>
-              <h4 className="text-sm font-medium text-foreground mb-3">{t("utilities.title")}</h4>
+              <h4 className="text-md font-normal text-foreground ">{t("utilities.title")}</h4>
               <div className="grid grid-cols-3 gap-4">
                 <button onClick={() => {
               setIsOpen(false);
