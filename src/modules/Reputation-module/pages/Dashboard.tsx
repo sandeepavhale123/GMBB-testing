@@ -133,65 +133,69 @@ export const Dashboard: React.FC = () => {
             <p className="text-sm text-muted-foreground">Manage channels</p>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {mockConnectedChannels.map((channel) => (
-                <div
-                  key={channel.name}
-                  className="flex items-center justify-between py-3"
-                >
-                  <div className="flex items-center gap-3">
-                    {/* Channel Icon - Placeholder for actual icons */}
-                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-                      <img 
-                        src="https://via.placeholder.com/32" 
-                        alt={channel.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+            <div className="space-y-0">
+              {mockConnectedChannels.map((channel, index) => (
+                <React.Fragment key={channel.name}>
+                  <div className="py-4 px-2 hover:bg-accent/50 rounded-lg transition-colors cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      {/* Channel Icon - Placeholder for actual icons */}
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                        <img 
+                          src="https://via.placeholder.com/40" 
+                          alt={channel.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
 
-                    {/* Channel Info */}
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-foreground text-sm">
+                      {/* Channel Info - Single Column */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-foreground text-sm mb-1.5 truncate">
                           {channel.name}
-                        </span>
-                        {channel.status === "connected" && (
-                          <div className="flex items-center">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-3 h-3 ${
-                                  i < 4
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "fill-gray-300 text-gray-300"
-                                }`}
-                              />
-                            ))}
-                            <span className="text-xs text-muted-foreground ml-1">
-                              (4.5)
+                        </h4>
+                        
+                        {channel.status === "connected" ? (
+                          <div className="space-y-2">
+                            {/* Star Rating */}
+                            <div className="flex items-center gap-1.5">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`w-3.5 h-3.5 ${
+                                    i < 4
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : "fill-muted text-muted"
+                                  }`}
+                                />
+                              ))}
+                              <span className="text-xs font-medium text-foreground ml-0.5">
+                                4.5
+                              </span>
+                            </div>
+                            
+                            {/* Status Badge */}
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                              Connected
                             </span>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <span className="text-xs text-muted-foreground block">
+                              Not connected
+                            </span>
+                            <Button variant="outline" size="sm" className="h-7 text-xs">
+                              Connect
+                            </Button>
                           </div>
                         )}
                       </div>
-                      {channel.status === "disconnected" && (
-                        <span className="text-xs text-muted-foreground">
-                          Not connected
-                        </span>
-                      )}
                     </div>
                   </div>
-
-                  {/* Status/Action */}
-                  {channel.status === "connected" ? (
-                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                      Connected
-                    </span>
-                  ) : (
-                    <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                      Connect
-                    </Button>
+                  
+                  {/* Divider - Don't show after last item */}
+                  {index < mockConnectedChannels.length - 1 && (
+                    <div className="border-b border-border/60" />
                   )}
-                </div>
+                </React.Fragment>
               ))}
             </div>
           </CardContent>
