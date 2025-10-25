@@ -13,6 +13,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { BuyCreditsModal } from "@/components/credits_modal";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -89,6 +90,7 @@ export const Dashboard: React.FC = () => {
     name: "",
     notificationEmail: "",
   });
+  const [showBuyCreditsModal, setShowBuyCreditsModal] = useState(false);
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -247,22 +249,36 @@ export const Dashboard: React.FC = () => {
             {t("dashboard.header.description")}
           </p>
         </div>
-        <Dialog
-          open={showCreateModal}
-          onOpenChange={(open) => {
-            if (!open) {
-              handleCloseModal();
-            } else {
-              setShowCreateModal(true);
-            }
-          }}
-        >
-          <DialogTrigger asChild>
-            <Button onClick={() => setShowCreateModal(true)} className="w-full sm:w-auto">
-              <Plus className="w-4 h-4 mr-1" />
-              {t("dashboard.buttons.createProject")}
-            </Button>
-          </DialogTrigger>
+        
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          {/* Buy Credits Button */}
+          <Button
+            onClick={() => setShowBuyCreditsModal(true)}
+            variant="outline"
+            className="w-full sm:w-auto border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-950"
+          >
+            <CreditCard className="w-4 h-4 mr-1" />
+            Buy Credits
+          </Button>
+
+          {/* Create New Project Dialog */}
+          <Dialog
+            open={showCreateModal}
+            onOpenChange={(open) => {
+              if (!open) {
+                handleCloseModal();
+              } else {
+                setShowCreateModal(true);
+              }
+            }}
+          >
+            <DialogTrigger asChild>
+              <Button onClick={() => setShowCreateModal(true)} className="w-full sm:w-auto">
+                <Plus className="w-4 h-4 mr-1" />
+                {t("dashboard.buttons.createProject")}
+              </Button>
+            </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
@@ -337,6 +353,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -695,6 +712,12 @@ export const Dashboard: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Buy Credits Modal */}
+      <BuyCreditsModal
+        open={showBuyCreditsModal}
+        onOpenChange={setShowBuyCreditsModal}
+      />
     </div>
   );
 };
