@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   Star, 
   MessageSquare, 
@@ -71,6 +78,8 @@ const mockConnectedChannels = [
 ];
 
 export const Dashboard: React.FC = () => {
+  const [selectedChannel, setSelectedChannel] = useState("google");
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -193,12 +202,23 @@ export const Dashboard: React.FC = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-lg">Google Review Tracking</CardTitle>
+                <CardTitle className="text-lg">
+                  {selectedChannel === "google" && "Google Review Tracking"}
+                  {selectedChannel === "facebook" && "Facebook Review Tracking"}
+                  {selectedChannel === "yelp" && "Yelp Review Tracking"}
+                </CardTitle>
                 <p className="text-sm text-muted-foreground">Last 7 days</p>
               </div>
-              <Button variant="outline" size="sm" className="text-sm">
-                Google
-              </Button>
+              <Select value={selectedChannel} onValueChange={setSelectedChannel}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="Select channel" />
+                </SelectTrigger>
+                <SelectContent className="z-50 bg-background">
+                  <SelectItem value="google">Google</SelectItem>
+                  <SelectItem value="facebook">Facebook</SelectItem>
+                  <SelectItem value="yelp">Yelp</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardHeader>
           <CardContent>
