@@ -124,7 +124,7 @@ export const ModulesMegaMenu: React.FC = () => {
           ref={menuRef}
           className={cn(
             "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
-            isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[550px]",
+            isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[500px]",
           )}
         >
           <div className={cn("p-4", isMobile && "p-3")}>
