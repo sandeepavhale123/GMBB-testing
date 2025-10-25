@@ -1,0 +1,9 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "review": "Reviews",
+    "request": "Requests",
+    "setting": "Settings"
+  },
+  "back": "Back"
+}
