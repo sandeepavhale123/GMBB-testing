@@ -152,7 +152,7 @@ export const ModulesMegaMenu: React.FC = () => {
                         <img src={module.iconSrc} alt={module.name} className="w-12 h-12 object-contain" />
                       ) : (
                         <IconComponent
-                          className="w-16 h-16"
+                          className="w-12 h-12"
                           style={{
                             color: module.iconColor,
                           }}
@@ -196,7 +196,7 @@ export const ModulesMegaMenu: React.FC = () => {
 
             <div>
               <h4 className="text-md font-normal text-foreground mb-4 ">{t("utilities.title")}</h4>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3  gap-4">
                 <button
                   onClick={() => {
                     setIsOpen(false);

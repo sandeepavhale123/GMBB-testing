@@ -4,7 +4,7 @@
   "utilities": {
     "title": "Utilities",
     "utmBuilder": {
-      "name": "UTM Tracking Builder",
+      "name": "UTM URL Generator",
       "description": "Create trackable campaign URLs"
     }
   },

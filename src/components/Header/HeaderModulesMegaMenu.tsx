@@ -9,6 +9,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 
 export const HeaderModulesMegaMenu: React.FC = () => {
@@ -114,12 +115,12 @@ export const HeaderModulesMegaMenu: React.FC = () => {
           ref={menuRef}
           className={cn(
             "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
-            isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[600px]",
+            isMobile ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]" : "right-0 w-[500px]",
           )}
         >
           <div className={cn("p-4", isMobile && "p-3")}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-medium text-foreground">{t("modulesMenu.title")}</h3>
+              <h3 className="text-md font-normal text-foreground">{t("modulesMenu.title")}</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {getFilteredModules().map((module) => {
@@ -138,16 +139,27 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     onClick={() => setIsOpen(false)}
                   >
                     <div
-                      className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
-                      style={{ backgroundColor: module.bgColor }}
+                      className="w-12 h-12 rounded-lg flex items-center justify-center mb-3"
                     >
                       {module.iconSrc ? (
-                        <img src={module.iconSrc} alt={module.name} className="w-8 h-8 object-contain" />
+                        <img src={module.iconSrc} alt={module.name} className="w-12 h-12 object-contain" />
                       ) : (
-                        <IconComponent className="w-8 h-8" style={{ color: module.iconColor }} />
+                        <IconComponent className="w-12 h-12" style={{ color: module.iconColor }} />
                       )}
                     </div>
-                    <div className="text-sm font-medium text-center text-foreground">{module.name}</div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
+                            {module.name}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{module.name}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+
                     {module.comingSoon && (
                       <Badge
                         variant="secondary"
@@ -172,33 +184,44 @@ export const HeaderModulesMegaMenu: React.FC = () => {
             <Separator className="my-4" />
 
             <div>
-              <h4 className="text-sm font-medium text-foreground mb-3">{t("modulesMenu.utilities.title")}</h4>
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  setIsUtmModalOpen(true);
-                }}
-                className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
-              >
-                <div
-                  className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
-                  style={{ backgroundColor: "#F3E5F5" }}
+              <h4 className="text-md font-normal text-foreground mb-3">{t("modulesMenu.utilities.title")}</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3  gap-4">
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsUtmModalOpen(true);
+                  }}
+                  className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
                 >
-                  <img
-                    src="/icons/utm-builder.png"
-                    alt="UTM Builder"
-                    className="w-8 h-8 object-contain"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      e.currentTarget.parentElement!.innerHTML =
-                        '<svg class="w-8 h-8" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
-                    }}
-                  />
-                </div>
-                <div className="text-sm font-medium text-center text-foreground">
-                  {t("modulesMenu.utilities.utmBuilder.name")}
-                </div>
-              </button>
+                  <div
+                    className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
+                  >
+                    <img
+                      src="/icons/utm-builder.png"
+                      alt="UTM Builder"
+                      className="w-12 h-12 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget.parentElement!.innerHTML =
+                          '<svg class="w-12 h-12" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+                      }}
+                    />
+                  </div>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
+                          {t("modulesMenu.utilities.utmBuilder.name")}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{t("modulesMenu.utilities.utmBuilder.name")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </button>
+              </div>
             </div>
           </div>
         </div>

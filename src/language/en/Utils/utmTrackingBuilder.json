@@ -1,6 +1,6 @@
 {
   "modal": {
-    "title": "UTM Tracking Builder",
+    "title": "UTM URL Generator",
     "info": {
       "title": "What is UTM Tracking?",
       "description": "UTM parameters are tags you add to URLs to track marketing campaigns in analytics tools like Google Analytics. They help you understand which campaigns are driving traffic and conversions.",
