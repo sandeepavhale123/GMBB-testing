@@ -8,13 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
-  Star, 
-  MessageSquare, 
-  TrendingUp, 
+import {
+  Star,
+  MessageSquare,
+  TrendingUp,
   BarChart3,
   Plus,
-  ExternalLink 
+  ExternalLink
 } from "lucide-react";
 
 // TODO: Replace with real API call when backend is ready
@@ -57,21 +57,24 @@ const mockSummaryCards = [
 // TODO: Replace with real API call when backend is ready
 // Example: const { data: channels, isLoading } = useConnectedChannels();
 const mockConnectedChannels = [
-  { 
-    name: "Google Business Profile", 
-    status: "connected", 
+  {
+    name: "Google Business Profile",
+    status: "connected",
+    icon:"/lovable-uploads/social-icons/google.png",
     reviewCount: 856,
     lastSync: "2 hours ago"
   },
-  { 
-    name: "Facebook", 
-    status: "connected", 
+  {
+    name: "Facebook",
+    status: "connected",
+    icon:"/lovable-uploads/social-icons/facebook.png",
     reviewCount: 234,
     lastSync: "1 day ago"
   },
-  { 
-    name: "Yelp", 
-    status: "disconnected", 
+  {
+    name: "Yelp",
+    status: "disconnected",
+    icon:"/lovable-uploads/social-icons/yelp.png",
     reviewCount: 0,
     lastSync: "Never"
   },
@@ -137,11 +140,11 @@ export const Dashboard: React.FC = () => {
               {mockConnectedChannels.map((channel, index) => (
                 <React.Fragment key={channel.name}>
                   <div className="py-4 px-2 hover:bg-accent/50 rounded-lg transition-colors cursor-pointer">
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-center gap-3">
                       {/* Channel Icon - Placeholder for actual icons */}
-                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                        <img 
-                          src="https://via.placeholder.com/40" 
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                        <img
+                          src={channel.icon}
                           alt={channel.name}
                           className="w-full h-full object-cover"
                         />
@@ -149,48 +152,52 @@ export const Dashboard: React.FC = () => {
 
                       {/* Channel Info - Single Column */}
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-foreground text-sm mb-1.5 truncate">
+                        <h4 className="font-semibold text-foreground text-sm mb-1 truncate">
                           {channel.name}
                         </h4>
-                        
                         {channel.status === "connected" ? (
                           <div className="space-y-2">
                             {/* Star Rating */}
-                            <div className="flex items-center gap-1.5">
+                            <div className="flex items-center gap-1">
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`w-3.5 h-3.5 ${
-                                    i < 4
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "fill-muted text-muted"
-                                  }`}
+                                  className={`w-3.5 h-3.5 ${i < 4
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "fill-muted text-muted"
+                                    }`}
                                 />
                               ))}
                               <span className="text-xs font-medium text-foreground ml-0.5">
                                 4.5
                               </span>
                             </div>
-                            
-                            {/* Status Badge */}
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                              Connected
-                            </span>
+
+
                           </div>
                         ) : (
                           <div className="space-y-2">
                             <span className="text-xs text-muted-foreground block">
                               Not connected
                             </span>
-                            <Button variant="outline" size="sm" className="h-7 text-xs">
-                              Connect
-                            </Button>
+
                           </div>
                         )}
                       </div>
+                      {channel.status === "connected" ? (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                          Connected
+                        </span>
+                      ) : (
+                        <Button variant="outline" size="sm" className="h-7 text-xs">
+                          Connect
+                        </Button>
+                      )}
+
+
                     </div>
                   </div>
-                  
+
                   {/* Divider - Don't show after last item */}
                   {index < mockConnectedChannels.length - 1 && (
                     <div className="border-b border-border/60" />
@@ -235,7 +242,7 @@ export const Dashboard: React.FC = () => {
                   <line x1="0" y1="112" x2="400" y2="112" stroke="hsl(var(--border))" strokeWidth="1" opacity="0.2" />
                   <line x1="0" y1="168" x2="400" y2="168" stroke="hsl(var(--border))" strokeWidth="1" opacity="0.2" />
                   <line x1="0" y1="224" x2="400" y2="224" stroke="hsl(var(--border))" strokeWidth="1" opacity="0.2" />
-                  
+
                   {/* Area gradient */}
                   <defs>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -243,13 +250,13 @@ export const Dashboard: React.FC = () => {
                       <stop offset="100%" stopColor="rgb(59, 130, 246)" stopOpacity="0.05" />
                     </linearGradient>
                   </defs>
-                  
+
                   {/* Area fill */}
                   <path
                     d="M 0 240 L 0 220 C 50 210, 100 180, 150 160 C 200 140, 250 120, 300 100 C 350 80, 380 60, 400 50 L 400 240 Z"
                     fill="url(#areaGradient)"
                   />
-                  
+
                   {/* Line */}
                   <path
                     d="M 0 220 C 50 210, 100 180, 150 160 C 200 140, 250 120, 300 100 C 350 80, 380 60, 400 50"
@@ -258,7 +265,7 @@ export const Dashboard: React.FC = () => {
                     strokeWidth="3"
                   />
                 </svg>
-                
+
                 {/* Y-axis labels */}
                 <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-muted-foreground py-2">
                   <span>25</span>
@@ -267,7 +274,7 @@ export const Dashboard: React.FC = () => {
                   <span>10</span>
                   <span>5</span>
                 </div>
-                
+
                 {/* X-axis labels */}
                 <div className="absolute bottom-0 left-0 right-0 flex justify-between text-xs text-muted-foreground px-8 pb-2">
                   <span>Jun '24</span>
