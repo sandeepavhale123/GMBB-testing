@@ -133,18 +133,20 @@ export const ModulesMegaMenu: React.FC = () => {
 
             <div>
               <h4 className="text-sm font-medium text-foreground mb-3">{t("utilities.title")}</h4>
-              <button onClick={() => {
-            setIsOpen(false);
-            setIsUtmModalOpen(true);
-          }} className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full">
-                <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
-                  <img src="/icons/utm-builder.png" alt="UTM Builder" onError={e => {
-                e.currentTarget.style.display = "none";
-                e.currentTarget.parentElement!.innerHTML = '<svg class="w-16 h-16" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
-              }} className="w-12 h-12 object-contain" />
-                </div>
-                <div className="text-sm font-medium text-center text-foreground">{t("utilities.utmBuilder.name")}</div>
-              </button>
+              <div className="grid grid-cols-3 gap-4">
+                <button onClick={() => {
+              setIsOpen(false);
+              setIsUtmModalOpen(true);
+            }} className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
+                    <img src="/icons/utm-builder.png" alt="UTM Builder" onError={e => {
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.parentElement!.innerHTML = '<svg class="w-16 h-16" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+                }} className="w-12 h-12 object-contain" />
+                  </div>
+                  <div className="text-sm font-medium text-center text-foreground">{t("utilities.utmBuilder.name")}</div>
+                </button>
+              </div>
             </div>
           </div>
         </div>}
