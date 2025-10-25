@@ -142,14 +142,11 @@ export const ModulesMegaMenu: React.FC = () => {
                     )}
                     onClick={() => setIsOpen(false)}
                   >
-                    <div
-                      className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
-                      style={{ backgroundColor: module.bgColor }}
-                    >
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
                       {module.iconSrc ? (
-                        <img src={module.iconSrc} alt={module.name} className="w-8 h-8 object-contain" />
+                        <img src={module.iconSrc} alt={module.name} className="w-16 h-16 object-contain" />
                       ) : (
-                        <IconComponent className="w-8 h-8" style={{ color: module.iconColor }} />
+                        <IconComponent className="w-16 h-16" style={{ color: module.iconColor }} />
                       )}
                     </div>
                     <div className="text-sm font-medium text-center text-foreground">{module.name}</div>
@@ -185,18 +182,15 @@ export const ModulesMegaMenu: React.FC = () => {
                 }}
                 className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
               >
-                <div
-                  className="w-16 h-16 rounded-lg flex items-center justify-center mb-3"
-                  style={{ backgroundColor: "#F3E5F5" }}
-                >
+                <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
                   <img
                     src="/icons/utm-builder.png"
                     alt="UTM Builder"
-                    className="w-8 h-8 object-contain"
+                    className="w-16 h-16 object-contain"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                       e.currentTarget.parentElement!.innerHTML =
-                        '<svg class="w-8 h-8" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+                        '<svg class="w-16 h-16" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
                     }}
                   />
                 </div>
