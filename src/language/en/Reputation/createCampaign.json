@@ -16,7 +16,10 @@
     "contactList": "Contact list",
     "namePlaceholder": "Enter name",
     "phonePlaceholder": "Enter Phone no.",
-    "addButton": "Add"
+    "emailPlaceholder": "Enter email",
+    "addButton": "Add",
+    "editButton": "Edit",
+    "removeButton": "Remove"
   },
   "template": {
     "title": "Select Template",

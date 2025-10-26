@@ -16,7 +16,10 @@
     "contactList": "Lista de contactos",
     "namePlaceholder": "Ingrese el nombre",
     "phonePlaceholder": "Ingrese el número de teléfono",
-    "addButton": "Agregar"
+    "emailPlaceholder": "Ingrese el correo electrónico",
+    "addButton": "Agregar",
+    "editButton": "Editar",
+    "removeButton": "Eliminar"
   },
   "template": {
     "title": "Seleccionar Plantilla",

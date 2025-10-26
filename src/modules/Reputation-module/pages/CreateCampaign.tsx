@@ -81,12 +81,13 @@ export const CreateCampaign: React.FC = () => {
     if (!newContactName.trim() || !newContactPhone.trim()) {
       toast({
         title: "Error",
-        description: "Please enter both name and phone number",
+        description: channel === "email" ? "Please enter both name and email" : "Please enter both name and phone number",
         variant: "destructive",
       });
       return;
     }
-    if (!/^\d{10,15}$/.test(newContactPhone)) {
+    
+    if (channel !== "email" && !/^\d{10,15}$/.test(newContactPhone)) {
       toast({
         title: "Error",
         description: t("validation.invalidPhone"),
@@ -94,6 +95,7 @@ export const CreateCampaign: React.FC = () => {
       });
       return;
     }
+    
     setContacts([
       ...contacts,
       {
@@ -103,6 +105,17 @@ export const CreateCampaign: React.FC = () => {
     ]);
     setNewContactName("");
     setNewContactPhone("");
+  };
+
+  const handleRemoveContact = (index: number) => {
+    setContacts(contacts.filter((_, i) => i !== index));
+  };
+
+  const handleEditContact = (index: number) => {
+    const contact = contacts[index];
+    setNewContactName(contact.name);
+    setNewContactPhone(contact.phone);
+    handleRemoveContact(index);
   };
   const handleSubmit = async () => {
     try {
@@ -193,41 +206,58 @@ export const CreateCampaign: React.FC = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] gap-4 items-end">
               <Input
                 placeholder={t("contacts.namePlaceholder")}
                 value={newContactName}
                 onChange={(e) => setNewContactName(e.target.value)}
               />
               <Input
-                placeholder={t("contacts.phonePlaceholder")}
+                type={channel === "email" ? "email" : "tel"}
+                placeholder={channel === "email" ? t("contacts.emailPlaceholder") : t("contacts.phonePlaceholder")}
                 value={newContactPhone}
                 onChange={(e) => setNewContactPhone(e.target.value)}
               />
+              <Button
+                onClick={handleAddContact}
+                className="bg-black hover:bg-black/90 text-white"
+                style={{ width: "138px" }}
+              >
+                {t("contacts.addButton")}
+              </Button>
             </div>
-            <Button onClick={handleAddContact} className="bg-black hover:bg-black/90 text-white w-[138px]">
-              {t("contacts.addButton")}
-            </Button>
+
+            {/* Display added contacts */}
             {contacts.length > 0 && (
               <div className="mt-4 space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Added Contacts ({contacts.length})</p>
-                <div className="space-y-2">
-                  {contacts.map((contact, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-md">
-                      <span className="text-sm">
-                        {contact.name} - {contact.phone}
-                      </span>
+                {contacts.map((contact, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200"
+                  >
+                    <div className="flex-1">
+                      <p className="font-medium">{contact.name}</p>
+                      <p className="text-sm text-gray-600">{contact.phone}</p>
+                    </div>
+                    <div className="flex gap-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
-                        onClick={() => setContacts(contacts.filter((_, i) => i !== index))}
-                        className="text-destructive hover:text-destructive"
+                        onClick={() => handleEditContact(index)}
                       >
-                        Remove
+                        {t("contacts.editButton")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleRemoveContact(index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        {t("contacts.removeButton")}
                       </Button>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             )}
           </CardContent>
