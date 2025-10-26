@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Mail, MessageSquare, Send, Eye, Inbox, Menu } from "lucide-react";
+import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -131,11 +131,10 @@ export const Request: React.FC = () => {
           {/* Campaign Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-              <p className="text-muted-foreground">{t("subtitle")}</p>
+              <h1 className="text-2xl font-bold text-foreground">Campaign</h1>
             </div>
             <Button onClick={handleCreateCampaign}>
-              <Send className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4 mr-2" />
               {t("createButton")}
             </Button>
           </div>
