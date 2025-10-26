@@ -6,10 +6,7 @@ interface PhonePreviewProps {
   content: string;
 }
 
-export const PhonePreview: React.FC<PhonePreviewProps> = ({
-  channel,
-  content,
-}) => {
+export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) => {
   return (
     <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 280, height: 560 }}>
       {/* Phone frame */}
@@ -20,11 +17,6 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({
         {/* Status bar */}
         <div className="absolute top-2 left-4 right-4 flex justify-between items-center text-xs z-10">
           <span className="text-black">9:41</span>
-          <div className="flex gap-1 items-center">
-            <div className="w-4 h-3 border border-black rounded-sm" />
-            <div className="w-4 h-3 border border-black rounded-sm" />
-            <div className="w-4 h-3 border border-black rounded-sm" />
-          </div>
         </div>
 
         {/* Content area */}
@@ -36,8 +28,8 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({
                 channel === "sms"
                   ? "bg-blue-500 text-white ml-auto rounded-tr-sm"
                   : channel === "whatsapp"
-                  ? "bg-green-100 text-black ml-auto rounded-tr-sm"
-                  : "bg-white border border-gray-200 text-black rounded-tl-sm"
+                    ? "bg-green-100 text-black ml-auto rounded-tr-sm"
+                    : "bg-white border border-gray-200 text-black rounded-tl-sm",
               )}
             >
               <div className="text-sm whitespace-pre-wrap break-words">
@@ -48,11 +40,7 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({
                       <span
                         className={cn(
                           "underline font-medium cursor-pointer",
-                          channel === "sms"
-                            ? "text-white"
-                            : channel === "whatsapp"
-                            ? "text-blue-600"
-                            : "text-blue-600"
+                          channel === "sms" ? "text-white" : channel === "whatsapp" ? "text-blue-600" : "text-blue-600",
                         )}
                       >
                         Review Link
