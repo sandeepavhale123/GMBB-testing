@@ -39,12 +39,12 @@ export const CreateCampaign: React.FC = () => {
     toast
   } = useToast();
   const [campaignName, setCampaignName] = useState("");
-  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("sms");
+  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [newContactName, setNewContactName] = useState("");
   const [newContactPhone, setNewContactPhone] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("default");
-  const [templateContent, setTemplateContent] = useState(DEFAULT_SMS_TEMPLATE);
+  const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -148,14 +148,14 @@ export const CreateCampaign: React.FC = () => {
         {/* Channel Toggle */}
         <div className="space-y-2">
           <ToggleGroup type="single" value={channel} onValueChange={handleChannelChange} className="justify-start w-full">
+            <ToggleGroupItem value="whatsapp" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+              {t("channel.whatsapp")}
+            </ToggleGroupItem>
             <ToggleGroupItem value="sms" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
               {t("channel.sms")}
             </ToggleGroupItem>
             <ToggleGroupItem value="email" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
               {t("channel.email")}
-            </ToggleGroupItem>
-            <ToggleGroupItem value="whatsapp" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
-              {t("channel.whatsapp")}
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
