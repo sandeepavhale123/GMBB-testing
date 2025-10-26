@@ -39,6 +39,14 @@ interface Template {
   content?: string;
 }
 
+interface Contact {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  addedOn: string;
+}
+
 const mockCampaigns: Campaign[] = [
   {
     id: "1",
@@ -111,6 +119,37 @@ const mockTemplates: Template[] = [
   },
 ];
 
+const mockContacts: Contact[] = [
+  {
+    id: "1",
+    name: "Winter Revi",
+    phone: "+39 02 3742964",
+    email: "winter.revi@example.com",
+    addedOn: "25/08/2025",
+  },
+  {
+    id: "2",
+    name: "Holiday Fee",
+    phone: "+39 0471 10586",
+    email: "holiday.fee@example.com",
+    addedOn: "25/08/2025",
+  },
+  {
+    id: "3",
+    name: "Q1 Custome",
+    phone: "+39 0471 10586",
+    email: "q1.custome@example.com",
+    addedOn: "25/08/2025",
+  },
+  {
+    id: "4",
+    name: "Spring Rev",
+    phone: "+39 010 437091",
+    email: "spring.rev@example.com",
+    addedOn: "25/08/2025",
+  },
+];
+
 export const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
   const navigate = useNavigate();
@@ -120,6 +159,9 @@ export const Request: React.FC = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [deleteTemplateId, setDeleteTemplateId] = useState<string | null>(null);
   const [deleteTemplateName, setDeleteTemplateName] = useState<string>("");
+  const [contactViewType, setContactViewType] = useState<"phone" | "email">("phone");
+  const [deleteContactId, setDeleteContactId] = useState<string | null>(null);
+  const [deleteContactName, setDeleteContactName] = useState<string>("");
 
   // Handle tab query parameter on mount
   useEffect(() => {
@@ -173,6 +215,22 @@ export const Request: React.FC = () => {
       setDeleteTemplateId(null);
       setDeleteTemplateName("");
     }
+  };
+
+  const handleViewContact = (contactName: string) => {
+    toast.info(`Contact details view coming soon for "${contactName}"`);
+  };
+
+  const handleDeleteContact = () => {
+    if (deleteContactId) {
+      toast.success(`Contact deleted: "${deleteContactName}"`);
+      setDeleteContactId(null);
+      setDeleteContactName("");
+    }
+  };
+
+  const handleAddContact = () => {
+    toast.info("Add contact functionality coming soon");
   };
 
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
@@ -395,19 +453,93 @@ export const Request: React.FC = () => {
       );
     }
 
-    // Contacts tab - Coming Soon
+    // Contacts tab
     return (
-      <Card>
-        <CardContent className="pt-12 pb-12">
-          <div className="text-center space-y-4">
-            <div className="flex justify-center">
-              <Mail className="w-16 h-16 text-muted-foreground" />
+      <div className="space-y-6">
+        {/* Header with Toggle and Add Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-2xl font-semibold text-foreground">Contacts</h2>
+          <div className="flex items-center gap-3">
+            {/* Toggle Buttons */}
+            <div className="inline-flex rounded-lg border border-border bg-background p-1">
+              <Button
+                variant={contactViewType === "phone" ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setContactViewType("phone")}
+                className="rounded-md px-4"
+              >
+                Contact No
+              </Button>
+              <Button
+                variant={contactViewType === "email" ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setContactViewType("email")}
+                className="rounded-md px-4"
+              >
+                Email
+              </Button>
             </div>
-            <h3 className="text-xl font-semibold text-foreground">{t("comingSoon.title")}</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">{t("comingSoon.description")}</p>
+            {/* Add Button */}
+            <Button onClick={handleAddContact} className="bg-blue-500 hover:bg-blue-600">
+              Add
+            </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Contacts Table */}
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="font-semibold">Name</TableHead>
+                    <TableHead className="font-semibold">
+                      {contactViewType === "phone" ? "Phone" : "Email"}
+                    </TableHead>
+                    <TableHead className="font-semibold">Added on</TableHead>
+                    <TableHead className="text-right font-semibold">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockContacts.map((contact) => (
+                    <TableRow key={contact.id}>
+                      <TableCell className="font-medium">{contact.name}</TableCell>
+                      <TableCell>
+                        {contactViewType === "phone" ? contact.phone : contact.email}
+                      </TableCell>
+                      <TableCell>{contact.addedOn}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleViewContact(contact.name)}
+                            className="text-foreground hover:text-foreground"
+                          >
+                            View
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setDeleteContactId(contact.id);
+                              setDeleteContactName(contact.name);
+                            }}
+                            className="text-foreground hover:text-foreground"
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   };
 
@@ -429,6 +561,27 @@ export const Request: React.FC = () => {
             <AlertDialogCancel>{t("templates.deleteDialog.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteTemplate} className="bg-destructive hover:bg-destructive/90">
               {t("templates.deleteDialog.confirm")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Contact Confirmation Dialog */}
+      <AlertDialog open={deleteContactId !== null} onOpenChange={() => {
+        setDeleteContactId(null);
+        setDeleteContactName("");
+      }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Contact</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{deleteContactName}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteContact} className="bg-destructive hover:bg-destructive/90">
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
