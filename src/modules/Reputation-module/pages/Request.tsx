@@ -16,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { AddContactModal } from "@/modules/Reputation-module/components/AddContactModal";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -162,6 +163,8 @@ export const Request: React.FC = () => {
   const [contactViewType, setContactViewType] = useState<"phone" | "email">("phone");
   const [deleteContactId, setDeleteContactId] = useState<string | null>(null);
   const [deleteContactName, setDeleteContactName] = useState<string>("");
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
+  const [contacts, setContacts] = useState<Contact[]>(mockContacts);
 
   // Handle tab query parameter on mount
   useEffect(() => {
@@ -223,6 +226,7 @@ export const Request: React.FC = () => {
 
   const handleDeleteContact = () => {
     if (deleteContactId) {
+      setContacts((prev) => prev.filter((contact) => contact.id !== deleteContactId));
       toast.success(`Contact deleted: "${deleteContactName}"`);
       setDeleteContactId(null);
       setDeleteContactName("");
@@ -230,7 +234,18 @@ export const Request: React.FC = () => {
   };
 
   const handleAddContact = () => {
-    toast.info("Add contact functionality coming soon");
+    setIsAddContactModalOpen(true);
+  };
+
+  const handleContactAdded = (newContact: { name: string; countryCode: string; phoneNumber: string }) => {
+    const contact: Contact = {
+      id: String(contacts.length + 1),
+      name: newContact.name,
+      phone: `${newContact.countryCode} ${newContact.phoneNumber}`,
+      email: undefined,
+      addedOn: new Date().toLocaleDateString("en-GB"),
+    };
+    setContacts((prev) => [...prev, contact]);
   };
 
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
@@ -502,7 +517,7 @@ export const Request: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockContacts.map((contact) => (
+                  {contacts.map((contact) => (
                     <TableRow key={contact.id}>
                       <TableCell className="font-medium">{contact.name}</TableCell>
                       <TableCell>
@@ -622,6 +637,13 @@ export const Request: React.FC = () => {
         {/* Content Area */}
         <div className="flex-1 bg-white rounded-lg">{renderTabContent()}</div>
       </div>
+
+      {/* Add Contact Modal */}
+      <AddContactModal
+        open={isAddContactModalOpen}
+        onOpenChange={setIsAddContactModalOpen}
+        onContactAdded={handleContactAdded}
+      />
     </div>
   );
 };
