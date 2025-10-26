@@ -272,9 +272,13 @@ export const Request: React.FC = () => {
                             {calculateDelivered(campaign.delivered, campaign.contacts)}
                           </TableCell>
                           <TableCell className="text-center">
-                            <Button variant="ghost" size="sm" onClick={() => handleViewCampaign(campaign.name)}>
-                              <Eye className="w-4 h-4 mr-1" />
-                              {t("actions.view")}
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={() => handleViewCampaign(campaign.name)}
+                              aria-label={t("actions.view")}
+                            >
+                              <Eye className="w-4 h-4" />
                             </Button>
                           </TableCell>
                         </TableRow>
