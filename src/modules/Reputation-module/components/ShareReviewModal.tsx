@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, ThumbsUp, MessageSquare, Share2, X } from "lucide-react";
@@ -41,7 +41,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const reviewAvatar = review.profile_image_url || review.avatar;
   const authorInitial = authorName && authorName.length > 0 ? authorName.charAt(0).toUpperCase() : "A";
   
-  const [selectedChannels, setSelectedChannels] = useState<string>("google");
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(["google"]);
   const [themeColor, setThemeColor] = useState("#6b7280");
   const [description, setDescription] = useState(reviewContent);
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
@@ -63,7 +63,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden p-0">
+      <DialogContent className="max-w-[56rem] max-h-[90vh] overflow-hidden p-0">
         <div className="grid grid-cols-1 md:grid-cols-[40%_60%] h-full max-h-[85vh]">
           {/* Left Panel - Form Controls */}
           <div className="p-6 pr-6 border-r border-border overflow-y-auto">
@@ -77,13 +77,19 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                 <Label className="text-sm font-semibold text-foreground">
                   Select the channels
                 </Label>
-                <RadioGroup
-                  value={selectedChannels}
-                  onValueChange={setSelectedChannels}
-                  className="space-y-3"
-                >
-                  <div className="flex items-center space-x-3 border-2 border-dashed border-border rounded-lg p-3 hover:border-primary transition-colors cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5">
-                    <RadioGroupItem value="google" id="google" />
+                <div className="flex gap-3">
+                  <div className="flex items-center space-x-3 border-2 border-dashed border-border rounded-lg p-3 hover:border-primary transition-colors cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 flex-1">
+                    <Checkbox 
+                      id="google" 
+                      checked={selectedChannels.includes("google")}
+                      onCheckedChange={(checked) => {
+                        setSelectedChannels(prev => 
+                          checked 
+                            ? [...prev, "google"]
+                            : prev.filter(c => c !== "google")
+                        );
+                      }}
+                    />
                     <Label htmlFor="google" className="flex items-center gap-2 cursor-pointer flex-1">
                       <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">
                         G
@@ -92,8 +98,18 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                     </Label>
                   </div>
 
-                  <div className="flex items-center space-x-3 border-2 border-dashed border-border rounded-lg p-3 hover:border-primary transition-colors cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5">
-                    <RadioGroupItem value="facebook" id="facebook" />
+                  <div className="flex items-center space-x-3 border-2 border-dashed border-border rounded-lg p-3 hover:border-primary transition-colors cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 flex-1">
+                    <Checkbox 
+                      id="facebook" 
+                      checked={selectedChannels.includes("facebook")}
+                      onCheckedChange={(checked) => {
+                        setSelectedChannels(prev => 
+                          checked 
+                            ? [...prev, "facebook"]
+                            : prev.filter(c => c !== "facebook")
+                        );
+                      }}
+                    />
                     <Label htmlFor="facebook" className="flex items-center gap-2 cursor-pointer flex-1">
                       <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
                         f
@@ -101,7 +117,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                       <span className="text-sm font-medium">Facebook</span>
                     </Label>
                   </div>
-                </RadioGroup>
+                </div>
               </div>
 
               {/* Theme Color */}
@@ -236,19 +252,22 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                   </div>
                 </div>
 
-                {/* Channel Logo */}
-                <div className="flex justify-center">
-                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
-                    {selectedChannels === "google" ? (
+                {/* Channel Logos */}
+                <div className="flex justify-center gap-3">
+                  {selectedChannels.includes("google") && (
+                    <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
                       <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
                         G
                       </div>
-                    ) : (
+                    </div>
+                  )}
+                  {selectedChannels.includes("facebook") && (
+                    <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
                       <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
                         f
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
