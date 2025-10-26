@@ -9,7 +9,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Download, Star, MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Search, Download, Star, MessageSquare, Share2 } from "lucide-react";
+import { ShareReviewModal } from "../components/ShareReviewModal";
+
+// Channel logo mapping
+const channelLogos: Record<string, string> = {
+  "Google Business Profile": "G",
+  "Facebook": "f",
+  "Yelp": "Y"
+};
+
+const channelColors: Record<string, string> = {
+  "Google Business Profile": "bg-blue-500",
+  "Facebook": "bg-blue-600",
+  "Yelp": "bg-red-600"
+};
 
 // TODO: Replace with real API call when backend is ready
 // Example: const { data: reviews, isLoading } = useReviews({ channel, sentiment, search });
@@ -23,6 +38,7 @@ const mockReviews = [
     sentiment: "positive",
     date: "2024-01-15",
     replied: true,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
   },
   {
     id: 2,
@@ -33,6 +49,7 @@ const mockReviews = [
     sentiment: "positive",
     date: "2024-01-14",
     replied: false,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
   },
   {
     id: 3,
@@ -43,6 +60,7 @@ const mockReviews = [
     sentiment: "negative",
     date: "2024-01-13",
     replied: true,
+    avatar: undefined,
   },
   {
     id: 4,
@@ -53,6 +71,7 @@ const mockReviews = [
     sentiment: "positive",
     date: "2024-01-12",
     replied: false,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
   },
   {
     id: 5,
@@ -63,6 +82,7 @@ const mockReviews = [
     sentiment: "neutral",
     date: "2024-01-11",
     replied: false,
+    avatar: undefined,
   },
   {
     id: 6,
@@ -73,6 +93,7 @@ const mockReviews = [
     sentiment: "positive",
     date: "2024-01-10",
     replied: true,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Diana",
   },
   {
     id: 7,
@@ -83,6 +104,7 @@ const mockReviews = [
     sentiment: "negative",
     date: "2024-01-09",
     replied: true,
+    avatar: undefined,
   },
   {
     id: 8,
@@ -93,6 +115,7 @@ const mockReviews = [
     sentiment: "positive",
     date: "2024-01-08",
     replied: false,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fiona",
   },
 ];
 
@@ -100,6 +123,8 @@ export const Review: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("all");
   const [selectedSentiment, setSelectedSentiment] = useState("all");
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<typeof mockReviews[0] | null>(null);
 
   // Filter reviews based on search and filters
   const filteredReviews = mockReviews.filter((review) => {
@@ -120,6 +145,11 @@ export const Review: React.FC = () => {
       filters: { searchTerm, selectedChannel, selectedSentiment }
     });
     // Future: Generate CSV/PDF export
+  };
+
+  const handleShareClick = (review: typeof mockReviews[0]) => {
+    setSelectedReview(review);
+    setIsShareModalOpen(true);
   };
 
   return (
@@ -202,31 +232,47 @@ export const Review: React.FC = () => {
           filteredReviews.map((review) => (
             <Card key={review.id}>
               <CardContent className="pt-6">
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {/* Review Header */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="font-semibold text-foreground">{review.author}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {review.channel} • {review.date}
-                      </p>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3 flex-1">
+                      {/* User Avatar */}
+                      <Avatar className="w-10 h-10 border-2 border-border">
+                        <AvatarImage src={review.avatar} />
+                        <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
+                          {review.author.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+
+                      {/* Author Info */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-foreground">{review.author}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {review.channel} • {review.date}
+                        </p>
+                        <div className="flex items-center gap-1 mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < review.rating
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-muted"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < review.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-muted"
-                          }`}
-                        />
-                      ))}
+
+                    {/* Channel Logo */}
+                    <div className={`w-8 h-8 rounded-full ${channelColors[review.channel]} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
+                      {channelLogos[review.channel]}
                     </div>
                   </div>
 
                   {/* Review Content */}
-                  <p className="text-foreground">{review.content}</p>
+                  <p className="text-foreground leading-relaxed">{review.content}</p>
 
                   {/* Sentiment Badge */}
                   <div className="flex items-center gap-2">
@@ -256,6 +302,14 @@ export const Review: React.FC = () => {
                     <Button variant="ghost" size="sm">
                       View Details
                     </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleShareClick(review)}
+                    >
+                      <Share2 className="w-4 h-4 mr-1" />
+                      Share
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -263,6 +317,18 @@ export const Review: React.FC = () => {
           ))
         )}
       </div>
+
+      {/* Share Review Modal */}
+      {selectedReview && (
+        <ShareReviewModal
+          isOpen={isShareModalOpen}
+          onClose={() => {
+            setIsShareModalOpen(false);
+            setSelectedReview(null);
+          }}
+          review={selectedReview}
+        />
+      )}
     </div>
   );
 };
