@@ -243,9 +243,9 @@ export const CreateCampaign: React.FC = () => {
         </Card>
 
         {/* Template Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded">
           {/* Left: Template Editor */}
-          <Card>
+          <Card className="border-0">
             <CardHeader>
               <h3 className="text-lg font-semibold">{t("template.title")}</h3>
             </CardHeader>
