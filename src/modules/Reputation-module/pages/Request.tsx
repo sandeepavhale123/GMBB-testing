@@ -513,22 +513,23 @@ export const Request: React.FC = () => {
                         <div className="flex items-center justify-end gap-2">
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon"
                             onClick={() => handleViewContact(contact.name)}
-                            className="text-foreground hover:text-foreground"
+                            aria-label="View contact"
                           >
-                            View
+                            <Eye className="w-4 h-4" />
                           </Button>
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon"
                             onClick={() => {
                               setDeleteContactId(contact.id);
                               setDeleteContactName(contact.name);
                             }}
-                            className="text-foreground hover:text-foreground"
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                            aria-label="Delete contact"
                           >
-                            Delete
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
                       </TableCell>
