@@ -8,6 +8,7 @@ import {
   Link as LinkIcon,
   Store,
   Globe,
+  Coins,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +19,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
+import { BuyCreditsModal } from "@/components/credits_modal";
 import {
   Tooltip,
   TooltipContent,
@@ -30,6 +32,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
   const [isOpen, setIsOpen] = useState(false);
   const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
+  const [isBuyCreditsModalOpen, setIsBuyCreditsModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
@@ -131,7 +134,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         <div
           ref={menuRef}
           className={cn(
-            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
+            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-[500]",
             isMobile
               ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]"
               : "right-0 w-[500px]"
@@ -247,6 +250,31 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     </Tooltip>
                   </TooltipProvider>
                 </button>
+
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsBuyCreditsModalOpen(true);
+                  }}
+                  className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
+                >
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
+                    <Coins className="w-12 h-12 text-[#F57F17]" />
+                  </div>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
+                          {t("modulesMenu.utilities.buyCredits.name")}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{t("modulesMenu.utilities.buyCredits.name")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </button>
               </div>
             </div>
           </div>
@@ -256,6 +284,11 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       <UtmTrackingBuilderModal
         isOpen={isUtmModalOpen}
         onClose={() => setIsUtmModalOpen(false)}
+      />
+
+      <BuyCreditsModal
+        open={isBuyCreditsModalOpen}
+        onOpenChange={setIsBuyCreditsModalOpen}
       />
     </div>
   );
