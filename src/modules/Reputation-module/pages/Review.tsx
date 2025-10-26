@@ -9,113 +9,165 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search, Download, Star, MessageSquare, Share2 } from "lucide-react";
+import { Search, Download, MessageSquare } from "lucide-react";
 import { ShareReviewModal } from "../components/ShareReviewModal";
-
-// Channel logo mapping
-const channelLogos: Record<string, string> = {
-  "Google Business Profile": "G",
-  "Facebook": "f",
-  "Yelp": "Y"
-};
-
-const channelColors: Record<string, string> = {
-  "Google Business Profile": "bg-blue-500",
-  "Facebook": "bg-blue-600",
-  "Yelp": "bg-red-600"
-};
+import { ReputationReviewCard } from "../components/ReputationReviewCard";
+import { Review as ReviewType } from "@/services/reviewService";
 
 // TODO: Replace with real API call when backend is ready
 // Example: const { data: reviews, isLoading } = useReviews({ channel, sentiment, search });
-const mockReviews = [
+const mockReviews: ReviewType[] = [
   {
-    id: 1,
-    author: "John Doe",
+    id: "1",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "John Doe",
     rating: 5,
-    content: "Excellent service! The team was professional and delivered beyond expectations. Highly recommend their services to anyone looking for quality work.",
-    channel: "Google Business Profile",
-    sentiment: "positive",
+    comment: "Excellent service! The team was professional and delivered beyond expectations. Highly recommend their services to anyone looking for quality work.",
+    platform: "Google Business Profile",
     date: "2024-01-15",
     replied: true,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+    reply_text: "Thank you so much for your wonderful feedback! We're thrilled to hear you had such a positive experience.",
+    reply_date: "2024-01-16",
+    profile_image_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+    locationName: "Downtown Location",
+    zipcode: "10001",
+    is_new: false,
+    reply_type: "manual",
+    reply_setting: null,
   },
   {
-    id: 2,
-    author: "Jane Smith",
+    id: "2",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Jane Smith",
     rating: 4,
-    content: "Good experience overall. The service was prompt and the staff was friendly. Minor issues with communication, but they were resolved quickly.",
-    channel: "Facebook",
-    sentiment: "positive",
+    comment: "Good experience overall. The service was prompt and the staff was friendly. Minor issues with communication, but they were resolved quickly.",
+    platform: "Facebook",
     date: "2024-01-14",
     replied: false,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+    reply_text: "",
+    reply_date: "",
+    profile_image_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+    locationName: "Midtown Office",
+    zipcode: "10002",
+    is_new: false,
+    reply_type: "",
+    reply_setting: null,
   },
   {
-    id: 3,
-    author: "Bob Johnson",
+    id: "3",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Bob Johnson",
     rating: 2,
-    content: "Not satisfied with the service. Expected better quality for the price. The response time was slow and the results were disappointing.",
-    channel: "Google Business Profile",
-    sentiment: "negative",
+    comment: "Not satisfied with the service. Expected better quality for the price. The response time was slow and the results were disappointing.",
+    platform: "Google Business Profile",
     date: "2024-01-13",
     replied: true,
-    avatar: undefined,
+    reply_text: "We apologize for not meeting your expectations. We'd love to discuss this further and make things right. Please contact us directly.",
+    reply_date: "2024-01-14",
+    profile_image_url: "",
+    locationName: "Downtown Location",
+    zipcode: "10001",
+    is_new: false,
+    reply_type: "manual",
+    reply_setting: null,
   },
   {
-    id: 4,
-    author: "Alice Williams",
+    id: "4",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Alice Williams",
     rating: 5,
-    content: "Outstanding experience! The team went above and beyond to ensure everything was perfect. Will definitely be returning for future projects.",
-    channel: "Yelp",
-    sentiment: "positive",
+    comment: "Outstanding experience! The team went above and beyond to ensure everything was perfect. Will definitely be returning for future projects.",
+    platform: "Yelp",
     date: "2024-01-12",
     replied: false,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
+    reply_text: "",
+    reply_date: "",
+    profile_image_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
+    locationName: "Uptown Branch",
+    zipcode: "10003",
+    is_new: false,
+    reply_type: "",
+    reply_setting: null,
   },
   {
-    id: 5,
-    author: "Charlie Brown",
+    id: "5",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Charlie Brown",
     rating: 3,
-    content: "Average service. It was okay but nothing exceptional. Met basic expectations but didn't exceed them in any particular way.",
-    channel: "Facebook",
-    sentiment: "neutral",
+    comment: "Average service. It was okay but nothing exceptional. Met basic expectations but didn't exceed them in any particular way.",
+    platform: "Facebook",
     date: "2024-01-11",
     replied: false,
-    avatar: undefined,
+    reply_text: "",
+    reply_date: "",
+    profile_image_url: "",
+    locationName: "Midtown Office",
+    zipcode: "10002",
+    is_new: false,
+    reply_type: "",
+    reply_setting: null,
   },
   {
-    id: 6,
-    author: "Diana Prince",
+    id: "6",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Diana Prince",
     rating: 5,
-    content: "Absolutely fantastic! The attention to detail and customer service was impeccable. This is how business should be done.",
-    channel: "Google Business Profile",
-    sentiment: "positive",
+    comment: "Absolutely fantastic! The attention to detail and customer service was impeccable. This is how business should be done.",
+    platform: "Google Business Profile",
     date: "2024-01-10",
     replied: true,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Diana",
+    reply_text: "Thank you Diana! It's customers like you that make what we do so rewarding. We appreciate your business!",
+    reply_date: "2024-01-11",
+    profile_image_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Diana",
+    locationName: "Downtown Location",
+    zipcode: "10001",
+    is_new: false,
+    reply_type: "AI",
+    reply_setting: null,
   },
   {
-    id: 7,
-    author: "Edward Norton",
+    id: "7",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Edward Norton",
     rating: 1,
-    content: "Very disappointing. The service did not match what was promised. Poor communication and subpar results. Would not recommend.",
-    channel: "Yelp",
-    sentiment: "negative",
+    comment: "Very disappointing. The service did not match what was promised. Poor communication and subpar results. Would not recommend.",
+    platform: "Yelp",
     date: "2024-01-09",
     replied: true,
-    avatar: undefined,
+    reply_text: "We're very sorry to hear about your experience. This is not up to our standards. Please reach out so we can address your concerns.",
+    reply_date: "2024-01-10",
+    profile_image_url: "",
+    locationName: "Uptown Branch",
+    zipcode: "10003",
+    is_new: false,
+    reply_type: "manual",
+    reply_setting: null,
   },
   {
-    id: 8,
-    author: "Fiona Green",
+    id: "8",
+    listingId: "1",
+    accountId: "1",
+    customer_name: "Fiona Green",
     rating: 4,
-    content: "Great service with minor room for improvement. The team was responsive and professional. A few small hiccups but overall very satisfied.",
-    channel: "Facebook",
-    sentiment: "positive",
+    comment: "Great service with minor room for improvement. The team was responsive and professional. A few small hiccups but overall very satisfied.",
+    platform: "Facebook",
     date: "2024-01-08",
     replied: false,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fiona",
+    reply_text: "",
+    reply_date: "",
+    profile_image_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fiona",
+    locationName: "Midtown Office",
+    zipcode: "10002",
+    is_new: false,
+    reply_type: "",
+    reply_setting: null,
   },
 ];
 
@@ -124,16 +176,30 @@ export const Review: React.FC = () => {
   const [selectedChannel, setSelectedChannel] = useState("all");
   const [selectedSentiment, setSelectedSentiment] = useState("all");
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<typeof mockReviews[0] | null>(null);
+  const [selectedReview, setSelectedReview] = useState<ReviewType | null>(null);
+  
+  // Reply management state
+  const [editingReply, setEditingReply] = useState<string | null>(null);
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
+  const [replyLoading, setReplyLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Calculate sentiment from rating
+  const getSentiment = (rating: number): string => {
+    if (rating >= 4) return "positive";
+    if (rating >= 3) return "neutral";
+    return "negative";
+  };
 
   // Filter reviews based on search and filters
   const filteredReviews = mockReviews.filter((review) => {
-    const matchesSearch = review.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         review.author.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = review.comment.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         review.customer_name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesChannel = selectedChannel === "all" || 
-                          review.channel.toLowerCase().includes(selectedChannel.toLowerCase());
+                          review.platform.toLowerCase().includes(selectedChannel.toLowerCase());
+    const sentiment = getSentiment(review.rating);
     const matchesSentiment = selectedSentiment === "all" || 
-                            review.sentiment === selectedSentiment;
+                            sentiment === selectedSentiment;
     
     return matchesSearch && matchesChannel && matchesSentiment;
   });
@@ -147,9 +213,53 @@ export const Review: React.FC = () => {
     // Future: Generate CSV/PDF export
   };
 
-  const handleShareClick = (review: typeof mockReviews[0]) => {
+  const handleShareClick = (review: ReviewType) => {
     setSelectedReview(review);
     setIsShareModalOpen(true);
+  };
+
+  // Reply handlers
+  const handleGenerateReply = (reviewId: string) => {
+    setShowingAIGenerator(reviewId);
+    setEditingReply(null);
+  };
+
+  const handleManualReply = (reviewId: string) => {
+    setEditingReply(reviewId);
+    setShowingAIGenerator(null);
+  };
+
+  const handleSaveReply = async (reviewId: string, reply?: string) => {
+    // TODO: Implement API call to save reply
+    setReplyLoading(true);
+    console.log("Saving reply for review:", reviewId, "Reply:", reply);
+    // Simulate API call
+    setTimeout(() => {
+      setReplyLoading(false);
+      setEditingReply(null);
+      setShowingAIGenerator(null);
+      // TODO: Update review in state or refetch reviews
+    }, 1000);
+  };
+
+  const handleDeleteReply = async (reviewId: string) => {
+    // TODO: Implement API call to delete reply
+    setDeleteLoading(true);
+    console.log("Deleting reply for review:", reviewId);
+    setTimeout(() => {
+      setDeleteLoading(false);
+      // TODO: Update review in state or refetch reviews
+    }, 1000);
+  };
+
+  const handleCancelAIGenerator = () => {
+    setEditingReply(null);
+    setShowingAIGenerator(null);
+  };
+
+  const handleViewDetails = (review: ReviewType) => {
+    // TODO: Open review details modal or navigate to detail page
+    console.log("View details for review:", review.id);
   };
 
   return (
@@ -230,90 +340,21 @@ export const Review: React.FC = () => {
           </Card>
         ) : (
           filteredReviews.map((review) => (
-            <Card key={review.id}>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  {/* Review Header */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3 flex-1">
-                      {/* User Avatar */}
-                      <Avatar className="w-10 h-10 border-2 border-border">
-                        <AvatarImage src={review.avatar} />
-                        <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
-                          {review.author.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-
-                      {/* Author Info */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-foreground">{review.author}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {review.channel} • {review.date}
-                        </p>
-                        <div className="flex items-center gap-1 mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < review.rating
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-muted"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Channel Logo */}
-                    <div className={`w-8 h-8 rounded-full ${channelColors[review.channel]} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
-                      {channelLogos[review.channel]}
-                    </div>
-                  </div>
-
-                  {/* Review Content */}
-                  <p className="text-foreground leading-relaxed">{review.content}</p>
-
-                  {/* Sentiment Badge */}
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        review.sentiment === "positive"
-                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                          : review.sentiment === "negative"
-                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                          : "bg-secondary text-secondary-foreground"
-                      }`}
-                    >
-                      {review.sentiment}
-                    </span>
-                    {review.replied && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                        Replied
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="outline" size="sm">
-                      {review.replied ? "View Reply" : "Reply"}
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      View Details
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => handleShareClick(review)}
-                    >
-                      <Share2 className="w-4 h-4 mr-1" />
-                      Share
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <ReputationReviewCard
+              key={review.id}
+              review={review}
+              editingReply={editingReply}
+              showingAIGenerator={showingAIGenerator}
+              replyLoading={replyLoading}
+              deleteLoading={deleteLoading}
+              onGenerateReply={handleGenerateReply}
+              onManualReply={handleManualReply}
+              onSaveReply={handleSaveReply}
+              onDeleteReply={handleDeleteReply}
+              onCancelAIGenerator={handleCancelAIGenerator}
+              onShare={handleShareClick}
+              onViewDetails={handleViewDetails}
+            />
           ))
         )}
       </div>

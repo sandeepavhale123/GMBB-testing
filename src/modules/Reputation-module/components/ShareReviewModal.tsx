@@ -17,11 +17,15 @@ interface ShareReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   review: {
-    author: string;
+    customer_name?: string;
+    author?: string;
     rating: number;
-    content: string;
-    channel: string;
+    comment?: string;
+    content?: string;
+    platform?: string;
+    channel?: string;
     date: string;
+    profile_image_url?: string;
     avatar?: string;
   };
 }
@@ -31,9 +35,14 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   onClose,
   review,
 }) => {
+  // Handle both old and new review formats
+  const authorName = review.customer_name || review.author || "Anonymous";
+  const reviewContent = review.comment || review.content || "";
+  const reviewAvatar = review.profile_image_url || review.avatar;
+  
   const [selectedChannels, setSelectedChannels] = useState<string>("google");
   const [themeColor, setThemeColor] = useState("#6b7280");
-  const [description, setDescription] = useState(review.content);
+  const [description, setDescription] = useState(reviewContent);
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -195,13 +204,13 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                 {/* Avatar & Author */}
                 <div className="flex flex-col items-center">
                   <Avatar className="w-24 h-24 border-4 border-border">
-                    <AvatarImage src={review.avatar} />
+                    <AvatarImage src={reviewAvatar} />
                     <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
-                      {review.author.charAt(0)}
+                      {authorName.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                   <h3 className="text-lg font-semibold mt-3 text-foreground">
-                    {review.author}
+                    {authorName}
                   </h3>
                 </div>
 
