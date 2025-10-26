@@ -39,19 +39,11 @@ export const CreateTemplate: React.FC = () => {
   const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
   const [selectedTemplate, setSelectedTemplate] = useState("default");
   const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
-  const [scheduleEnabled, setScheduleEnabled] = useState(false);
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [scheduleTime, setScheduleTime] = useState("");
 
   const templateSchema = z.object({
     templateName: z.string().min(1, t("validation.nameRequired")).max(100, "Template name must be less than 100 characters"),
     channel: z.enum(["sms", "email", "whatsapp"]),
     template: z.string().min(1, "Template cannot be empty"),
-    schedule: z.object({
-      enabled: z.boolean(),
-      date: z.string().optional(),
-      time: z.string().optional()
-    })
   });
 
   const handleChannelChange = (value: string) => {
@@ -73,11 +65,6 @@ export const CreateTemplate: React.FC = () => {
         templateName,
         channel,
         template: templateContent,
-        schedule: {
-          enabled: scheduleEnabled,
-          date: scheduleDate,
-          time: scheduleTime
-        }
       });
 
       toast({
@@ -172,31 +159,6 @@ export const CreateTemplate: React.FC = () => {
           <div className="hidden md:flex items-center justify-center pt-[100px] pb-0 bg-blue-100">
             <PhonePreview channel={channel} content={templateContent} />
           </div>
-        </div>
-
-        {/* Schedule Section */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <Switch checked={scheduleEnabled} onCheckedChange={setScheduleEnabled} />
-            <label className="text-sm font-medium text-foreground">{t("schedule.label")}</label>
-          </div>
-
-          {scheduleEnabled && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                type="date"
-                placeholder={t("schedule.date")}
-                value={scheduleDate}
-                onChange={(e) => setScheduleDate(e.target.value)}
-              />
-              <Input
-                type="time"
-                placeholder={t("schedule.time")}
-                value={scheduleTime}
-                onChange={(e) => setScheduleTime(e.target.value)}
-              />
-            </div>
-          )}
         </div>
 
         {/* Submit Button */}
