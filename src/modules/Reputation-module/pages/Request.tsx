@@ -350,23 +350,23 @@ export const Request: React.FC = () => {
                             <div className="flex items-center justify-end gap-2">
                               <Button 
                                 variant="ghost" 
-                                size="sm" 
+                                size="icon" 
                                 onClick={() => handleViewTemplate(template.name)}
+                                aria-label={t("templates.actions.view")}
                               >
-                                <Eye className="w-4 h-4 mr-1" />
-                                {t("templates.actions.view")}
+                                <Eye className="w-4 h-4" />
                               </Button>
                               <Button 
                                 variant="ghost" 
-                                size="sm" 
+                                size="icon" 
                                 onClick={() => {
                                   setDeleteTemplateId(template.id);
                                   setDeleteTemplateName(template.name);
                                 }}
                                 className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                aria-label={t("templates.actions.delete")}
                               >
-                                <Trash2 className="w-4 h-4 mr-1" />
-                                {t("templates.actions.delete")}
+                                <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
                           </TableCell>
