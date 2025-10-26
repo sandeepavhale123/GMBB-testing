@@ -203,7 +203,7 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
                 {t("manual.countryCodeLabel")} & {t("manual.phoneLabel")} <span className="text-destructive">*</span>
               </Label>
               <div className="flex gap-2">
-                <Popover open={countryCodeOpen} onOpenChange={setCountryCodeOpen} modal={true}>
+                <Popover open={countryCodeOpen} onOpenChange={setCountryCodeOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
@@ -222,10 +222,23 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] p-0 z-[100]" align="start">
-                    <Command>
+                  <PopoverContent 
+                    className="w-[300px] p-0 z-[9999]" 
+                    align="start"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                    onInteractOutside={(e) => e.preventDefault()}
+                    onPointerDownOutside={(e) => e.stopPropagation()}
+                  >
+                    <Command 
+                      shouldFilter={true}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Escape') {
+                          e.stopPropagation();
+                        }
+                      }}
+                    >
                       <CommandInput placeholder="Search country..." />
-                      <CommandList>
+                      <CommandList className="max-h-[200px] overflow-y-auto overscroll-contain">
                         <CommandEmpty>No country found.</CommandEmpty>
                         <CommandGroup>
                           {countryCodes.map((country) => (
