@@ -1,0 +1,40 @@
+{
+  "title": "Richieste di Recensioni",
+  "subtitle": "Invia richieste di recensioni ai tuoi clienti",
+  "createButton": "Crea",
+  "tabs": {
+    "campaign": "Campagna",
+    "templates": "Modelli",
+    "contacts": "Contatti"
+  },
+  "table": {
+    "name": "Nome",
+    "channel": "Canale",
+    "status": "Stato",
+    "date": "Data",
+    "contacts": "Contatti",
+    "delivered": "Consegnato",
+    "action": "Azione"
+  },
+  "status": {
+    "sent": "Inviato",
+    "pending": "In attesa",
+    "scheduled": "Programmato"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email"
+  },
+  "actions": {
+    "view": "Visualizza"
+  },
+  "empty": {
+    "title": "Nessuna campagna ancora",
+    "description": "Crea la tua prima campagna di richiesta recensioni per iniziare",
+    "button": "Crea Campagna"
+  },
+  "comingSoon": {
+    "title": "Prossimamente",
+    "description": "Questa funzionalità è in fase di sviluppo"
+  }
+}

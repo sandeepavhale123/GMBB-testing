@@ -1,0 +1,40 @@
+{
+  "title": "Bewertungsanfragen",
+  "subtitle": "Senden Sie Bewertungsanfragen an Ihre Kunden",
+  "createButton": "Erstellen",
+  "tabs": {
+    "campaign": "Kampagne",
+    "templates": "Vorlagen",
+    "contacts": "Kontakte"
+  },
+  "table": {
+    "name": "Name",
+    "channel": "Kanal",
+    "status": "Status",
+    "date": "Datum",
+    "contacts": "Kontakte",
+    "delivered": "Zugestellt",
+    "action": "Aktion"
+  },
+  "status": {
+    "sent": "Gesendet",
+    "pending": "Ausstehend",
+    "scheduled": "Geplant"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "E-Mail"
+  },
+  "actions": {
+    "view": "Ansehen"
+  },
+  "empty": {
+    "title": "Noch keine Kampagnen",
+    "description": "Erstellen Sie Ihre erste Bewertungsanfrage-Kampagne, um zu beginnen",
+    "button": "Kampagne Erstellen"
+  },
+  "comingSoon": {
+    "title": "Demnächst",
+    "description": "Diese Funktion befindet sich in der Entwicklung"
+  }
+}

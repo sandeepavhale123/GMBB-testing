@@ -1,0 +1,40 @@
+{
+  "title": "Review Requests",
+  "subtitle": "Send review requests to your customers",
+  "createButton": "Create",
+  "tabs": {
+    "campaign": "Campaign",
+    "templates": "Templates",
+    "contacts": "Contacts"
+  },
+  "table": {
+    "name": "Name",
+    "channel": "Channel",
+    "status": "Status",
+    "date": "Date",
+    "contacts": "Contacts",
+    "delivered": "Delivered",
+    "action": "Action"
+  },
+  "status": {
+    "sent": "Sent",
+    "pending": "Pending",
+    "scheduled": "Scheduled"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email"
+  },
+  "actions": {
+    "view": "View"
+  },
+  "empty": {
+    "title": "No campaigns yet",
+    "description": "Create your first review request campaign to get started",
+    "button": "Create Campaign"
+  },
+  "comingSoon": {
+    "title": "Coming Soon",
+    "description": "This feature is under development"
+  }
+}

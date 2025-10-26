@@ -1,0 +1,40 @@
+{
+  "title": "Solicitudes de Reseñas",
+  "subtitle": "Envía solicitudes de reseñas a tus clientes",
+  "createButton": "Crear",
+  "tabs": {
+    "campaign": "Campaña",
+    "templates": "Plantillas",
+    "contacts": "Contactos"
+  },
+  "table": {
+    "name": "Nombre",
+    "channel": "Canal",
+    "status": "Estado",
+    "date": "Fecha",
+    "contacts": "Contactos",
+    "delivered": "Entregado",
+    "action": "Acción"
+  },
+  "status": {
+    "sent": "Enviado",
+    "pending": "Pendiente",
+    "scheduled": "Programado"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Correo"
+  },
+  "actions": {
+    "view": "Ver"
+  },
+  "empty": {
+    "title": "Aún no hay campañas",
+    "description": "Crea tu primera campaña de solicitud de reseñas para comenzar",
+    "button": "Crear Campaña"
+  },
+  "comingSoon": {
+    "title": "Próximamente",
+    "description": "Esta función está en desarrollo"
+  }
+}

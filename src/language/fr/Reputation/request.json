@@ -1,0 +1,40 @@
+{
+  "title": "Demandes d'Avis",
+  "subtitle": "Envoyez des demandes d'avis à vos clients",
+  "createButton": "Créer",
+  "tabs": {
+    "campaign": "Campagne",
+    "templates": "Modèles",
+    "contacts": "Contacts"
+  },
+  "table": {
+    "name": "Nom",
+    "channel": "Canal",
+    "status": "Statut",
+    "date": "Date",
+    "contacts": "Contacts",
+    "delivered": "Livré",
+    "action": "Action"
+  },
+  "status": {
+    "sent": "Envoyé",
+    "pending": "En attente",
+    "scheduled": "Programmé"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email"
+  },
+  "actions": {
+    "view": "Voir"
+  },
+  "empty": {
+    "title": "Aucune campagne pour le moment",
+    "description": "Créez votre première campagne de demande d'avis pour commencer",
+    "button": "Créer une Campagne"
+  },
+  "comingSoon": {
+    "title": "Bientôt disponible",
+    "description": "Cette fonctionnalité est en cours de développement"
+  }
+}
