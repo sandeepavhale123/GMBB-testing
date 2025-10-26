@@ -260,7 +260,7 @@ export const CreateCampaign: React.FC = () => {
           </Card>
 
           {/* Right: Phone Preview */}
-          <div className="flex items-center justify-center  pt-4 pb-0 bg-blue-100 ">
+          <div className="flex items-center justify-center  pt-[100px] pb-0 bg-blue-100 ">
             <PhonePreview channel={channel} content={templateContent} />
           </div>
         </div>

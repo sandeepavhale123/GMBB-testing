@@ -8,10 +8,10 @@ interface PhonePreviewProps {
 
 export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) => {
   return (
-    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 460 }}>
+    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 360 }}>
       {/* Phone frame */}
       <div
-        className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden  "
+        className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden   "
         style={{ borderBottom: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
       >
         {/* Notch */}
