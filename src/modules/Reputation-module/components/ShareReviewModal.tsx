@@ -39,6 +39,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const authorName = review.customer_name || review.author || "Anonymous";
   const reviewContent = review.comment || review.content || "";
   const reviewAvatar = review.profile_image_url || review.avatar;
+  const authorInitial = authorName && authorName.length > 0 ? authorName.charAt(0).toUpperCase() : "A";
   
   const [selectedChannels, setSelectedChannels] = useState<string>("google");
   const [themeColor, setThemeColor] = useState("#6b7280");
@@ -206,7 +207,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                   <Avatar className="w-24 h-24 border-4 border-border">
                     <AvatarImage src={reviewAvatar} />
                     <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
-                      {authorName.charAt(0)}
+                      {authorInitial}
                     </AvatarFallback>
                   </Avatar>
                   <h3 className="text-lg font-semibold mt-3 text-foreground">
