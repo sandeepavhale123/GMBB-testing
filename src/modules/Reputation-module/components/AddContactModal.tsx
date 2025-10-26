@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -160,13 +159,29 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
           <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "manual" | "csv")}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="manual">{t("tabs.manual")}</TabsTrigger>
-            <TabsTrigger value="csv">{t("tabs.csv")}</TabsTrigger>
-          </TabsList>
+        {/* Tab Toggle Buttons */}
+        <div className="inline-flex rounded-lg border border-border bg-background p-1 w-full">
+          <Button
+            variant={activeTab === "manual" ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => setActiveTab("manual")}
+            className="rounded-md px-4 flex-1"
+          >
+            {t("tabs.manual")}
+          </Button>
+          <Button
+            variant={activeTab === "csv" ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => setActiveTab("csv")}
+            className="rounded-md px-4 flex-1"
+          >
+            {t("tabs.csv")}
+          </Button>
+        </div>
 
-          <TabsContent value="manual" className="space-y-4 mt-4">
+        {/* Manual Entry Content */}
+        {activeTab === "manual" && (
+          <div className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="name">
                 {t("manual.nameLabel")} <span className="text-destructive">*</span>
@@ -188,24 +203,26 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
                 {t("manual.countryCodeLabel")} & {t("manual.phoneLabel")} <span className="text-destructive">*</span>
               </Label>
               <div className="flex gap-2">
-                <Popover open={countryCodeOpen} onOpenChange={setCountryCodeOpen}>
+                <Popover open={countryCodeOpen} onOpenChange={setCountryCodeOpen} modal={true}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       role="combobox"
                       aria-expanded={countryCodeOpen}
                       className={cn(
-                        "w-[180px] justify-between",
+                        "w-[180px] justify-between text-left",
                         hasFieldError("countryCode") && "border-destructive"
                       )}
                     >
-                      {formData.countryCode
-                        ? countryCodes.find((country) => country.code === formData.countryCode)?.label
-                        : t("manual.countryCodePlaceholder")}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      <span className="truncate">
+                        {formData.countryCode
+                          ? countryCodes.find((country) => country.code === formData.countryCode)?.label
+                          : t("manual.countryCodePlaceholder")}
+                      </span>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] p-0">
+                  <PopoverContent className="w-[300px] p-0 z-[100]" align="start">
                     <Command>
                       <CommandInput placeholder="Search country..." />
                       <CommandList>
@@ -258,9 +275,12 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
                 {t("manual.submitButton")}
               </Button>
             </div>
-          </TabsContent>
+          </div>
+        )}
 
-          <TabsContent value="csv" className="space-y-4 mt-4">
+        {/* CSV Import Content */}
+        {activeTab === "csv" && (
+          <div className="space-y-4 mt-4">
             <div className="space-y-2">
               <h4 className="font-medium">{t("csv.title")}</h4>
               <p className="text-sm text-muted-foreground">{t("csv.description")}</p>
@@ -289,8 +309,8 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
                 {t("csv.importButton")}
               </Button>
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
