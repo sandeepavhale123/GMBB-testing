@@ -11,7 +11,7 @@ export const Request: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Review Requests</h1>
           <p className="text-muted-foreground">
-            Send review requests to your customers
+            Send review requests to your customers.
           </p>
         </div>
         <Button>
