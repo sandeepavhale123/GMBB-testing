@@ -126,7 +126,21 @@ export const Request: React.FC = () => {
 
   const renderTabContent = () => {
     if (activeTab === "campaign") {
-      return mockCampaigns.length === 0 ? (
+      return (
+        <div className="p-6">
+          {/* Campaign Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+              <p className="text-muted-foreground">{t("subtitle")}</p>
+            </div>
+            <Button onClick={handleCreateCampaign}>
+              <Send className="w-4 h-4 mr-2" />
+              {t("createButton")}
+            </Button>
+          </div>
+
+          {mockCampaigns.length === 0 ? (
         <Card>
           <CardContent className="pt-12 pb-12">
             <div className="text-center space-y-4">
@@ -188,6 +202,8 @@ export const Request: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+      )}
+        </div>
       );
     }
 
@@ -209,18 +225,6 @@ export const Request: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
-        </div>
-        <Button onClick={handleCreateCampaign}>
-          <Send className="w-4 h-4 mr-2" />
-          {t("createButton")}
-        </Button>
-      </div>
-
       {/* Main Layout */}
       <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
         {/* Mobile Menu Button */}
