@@ -234,7 +234,7 @@ export const CreateCampaign: React.FC = () => {
         </Card>
 
         {/* Template Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded-md">
           {/* Left: Template Editor */}
           <Card className="border-0">
             <CardHeader>
