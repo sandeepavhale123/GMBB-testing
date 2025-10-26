@@ -2,14 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Mail, MessageSquare, Send, Eye, Inbox, Menu } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -72,11 +65,7 @@ export const Request: React.FC = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const getChannelIcon = (channel: "SMS" | "Email") => {
-    return channel === "SMS" ? (
-      <MessageSquare className="w-4 h-4" />
-    ) : (
-      <Mail className="w-4 h-4" />
-    );
+    return channel === "SMS" ? <MessageSquare className="w-4 h-4" /> : <Mail className="w-4 h-4" />;
   };
 
   const getStatusBadgeClass = (status: Campaign["status"]) => {
@@ -144,15 +133,9 @@ export const Request: React.FC = () => {
               <div className="flex justify-center">
                 <Inbox className="w-16 h-16 text-muted-foreground" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground">
-                {t("empty.title")}
-              </h3>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                {t("empty.description")}
-              </p>
-              <Button onClick={handleCreateCampaign}>
-                {t("empty.button")}
-              </Button>
+              <h3 className="text-xl font-semibold text-foreground">{t("empty.title")}</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">{t("empty.description")}</p>
+              <Button onClick={handleCreateCampaign}>{t("empty.button")}</Button>
             </div>
           </CardContent>
         </Card>
@@ -163,38 +146,19 @@ export const Request: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
-                    <TableHead className="font-medium">
-                      {t("table.name")}
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      {t("table.channel")}
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      {t("table.status")}
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      {t("table.date")}
-                    </TableHead>
-                    <TableHead className="text-right font-medium">
-                      {t("table.contacts")}
-                    </TableHead>
-                    <TableHead className="text-right font-medium">
-                      {t("table.delivered")}
-                    </TableHead>
-                    <TableHead className="text-center font-medium">
-                      {t("table.action")}
-                    </TableHead>
+                    <TableHead className="font-medium">{t("table.name")}</TableHead>
+                    <TableHead className="font-medium">{t("table.channel")}</TableHead>
+                    <TableHead className="font-medium">{t("table.status")}</TableHead>
+                    <TableHead className="font-medium">{t("table.date")}</TableHead>
+                    <TableHead className="text-right font-medium">{t("table.contacts")}</TableHead>
+                    <TableHead className="text-right font-medium">{t("table.delivered")}</TableHead>
+                    <TableHead className="text-center font-medium">{t("table.action")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {mockCampaigns.map((campaign) => (
-                    <TableRow
-                      key={campaign.id}
-                      className="hover:bg-muted/50 transition-colors"
-                    >
-                      <TableCell className="font-medium">
-                        {campaign.name}
-                      </TableCell>
+                    <TableRow key={campaign.id} className="hover:bg-muted/50 transition-colors">
+                      <TableCell className="font-medium">{campaign.name}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           {getChannelIcon(campaign.channel)}
@@ -202,29 +166,17 @@ export const Request: React.FC = () => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={getStatusBadgeClass(campaign.status)}
-                        >
+                        <Badge variant="outline" className={getStatusBadgeClass(campaign.status)}>
                           {t(`status.${campaign.status}`)}
                         </Badge>
                       </TableCell>
                       <TableCell>{campaign.date}</TableCell>
+                      <TableCell className="text-right">{campaign.contacts}</TableCell>
                       <TableCell className="text-right">
-                        {campaign.contacts}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {calculateDelivered(
-                          campaign.delivered,
-                          campaign.contacts
-                        )}
+                        {calculateDelivered(campaign.delivered, campaign.contacts)}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleViewCampaign(campaign.name)}
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => handleViewCampaign(campaign.name)}>
                           <Eye className="w-4 h-4 mr-1" />
                           {t("actions.view")}
                         </Button>
@@ -247,12 +199,8 @@ export const Request: React.FC = () => {
             <div className="flex justify-center">
               <Mail className="w-16 h-16 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground">
-              {t("comingSoon.title")}
-            </h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              {t("comingSoon.description")}
-            </p>
+            <h3 className="text-xl font-semibold text-foreground">{t("comingSoon.title")}</h3>
+            <p className="text-muted-foreground max-w-md mx-auto">{t("comingSoon.description")}</p>
           </div>
         </CardContent>
       </Card>
@@ -279,9 +227,7 @@ export const Request: React.FC = () => {
         {isMobile && (
           <div className="flex items-center justify-between p-4 bg-white border border-border rounded-lg lg:hidden">
             <div>
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("title")}
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">{t("title")}</h3>
             </div>
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
@@ -291,9 +237,7 @@ export const Request: React.FC = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-64">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {t("title")}
-                  </h3>
+                  <h3 className="text-lg font-semibold text-foreground">{t("title")}</h3>
                 </div>
                 <TabNavigation />
               </SheetContent>
@@ -303,18 +247,13 @@ export const Request: React.FC = () => {
 
         {/* Desktop Sidebar */}
         {!isMobile && (
-          <div
-            className="w-48 bg-white border border-border rounded-lg p-4"
-            style={{ minWidth: "192px" }}
-          >
+          <div className="w-48 bg-white border border-border rounded-lg p-4" style={{ minWidth: "192px" }}>
             <TabNavigation />
           </div>
         )}
 
         {/* Content Area */}
-        <div className="flex-1 bg-white border border-border rounded-lg p-6">
-          {renderTabContent()}
-        </div>
+        <div className="flex-1 bg-white rounded-lg">{renderTabContent()}</div>
       </div>
     </div>
   );
