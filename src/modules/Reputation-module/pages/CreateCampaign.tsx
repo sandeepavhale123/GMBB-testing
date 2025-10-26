@@ -81,12 +81,13 @@ export const CreateCampaign: React.FC = () => {
     if (!newContactName.trim() || !newContactPhone.trim()) {
       toast({
         title: "Error",
-        description: channel === "email" ? "Please enter both name and email" : "Please enter both name and phone number",
+        description:
+          channel === "email" ? "Please enter both name and email" : "Please enter both name and phone number",
         variant: "destructive",
       });
       return;
     }
-    
+
     if (channel !== "email" && !/^\d{10,15}$/.test(newContactPhone)) {
       toast({
         title: "Error",
@@ -95,7 +96,7 @@ export const CreateCampaign: React.FC = () => {
       });
       return;
     }
-    
+
     setContacts([
       ...contacts,
       {
@@ -229,7 +230,7 @@ export const CreateCampaign: React.FC = () => {
 
             {/* Display added contacts */}
             {contacts.length > 0 && (
-              <div className="mt-4">
+              <div className="mt-4 border border-grey-200 rounded-md">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b border-gray-200">
