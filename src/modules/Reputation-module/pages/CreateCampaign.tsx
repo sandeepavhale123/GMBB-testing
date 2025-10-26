@@ -130,8 +130,8 @@ export const CreateCampaign: React.FC = () => {
   };
 
   return (
-    <div className="pb-8  min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="pb-8 pt-4  min-h-screen bg-background">
+      <div className="mx-auto space-y-6">
         {/* Page Title */}
         <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
 
