@@ -1,0 +1,42 @@
+{
+  "title": "Kampagne Erstellen",
+  "campaignName": {
+    "label": "Kampagnenname",
+    "placeholder": "Kampagnennamen eingeben"
+  },
+  "channel": {
+    "label": "Kanal Auswählen",
+    "sms": "SMS",
+    "email": "E-Mail"
+  },
+  "contacts": {
+    "title": "Kontakte hinzufügen",
+    "importCSV": "CSV Importieren",
+    "contactList": "Kontaktliste",
+    "namePlaceholder": "Namen eingeben",
+    "phonePlaceholder": "Telefonnummer eingeben",
+    "addButton": "Hinzufügen"
+  },
+  "template": {
+    "title": "Vorlage Auswählen",
+    "defaultTemplate": "Standardvorlage",
+    "greeting": "Hallo Name!",
+    "defaultMessage": "👋 Wir hoffen, dass Ihnen Ihre letzte Erfahrung mit uns gefallen hat. Könnten Sie sich einen Moment Zeit nehmen, um uns eine Bewertung zu hinterlassen? ⭐",
+    "reviewLink": "Bewertungslink"
+  },
+  "schedule": {
+    "label": "Kampagne planen (optional)",
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+  "submit": "Absenden",
+  "validation": {
+    "nameRequired": "Kampagnenname ist erforderlich",
+    "contactRequired": "Mindestens ein Kontakt ist erforderlich",
+    "invalidPhone": "Ungültige Telefonnummer (10-15 Ziffern erforderlich)"
+  },
+  "success": {
+    "title": "Kampagne Erstellt",
+    "description": "Ihre Kampagne wurde erfolgreich erstellt"
+  }
+}

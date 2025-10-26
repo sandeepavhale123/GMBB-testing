@@ -1,0 +1,42 @@
+{
+  "title": "Crea Campagna",
+  "campaignName": {
+    "label": "Nome della Campagna",
+    "placeholder": "Inserisci il nome della campagna"
+  },
+  "channel": {
+    "label": "Seleziona Canale",
+    "sms": "SMS",
+    "email": "Email"
+  },
+  "contacts": {
+    "title": "Aggiungi contatti",
+    "importCSV": "Importa CSV",
+    "contactList": "Lista contatti",
+    "namePlaceholder": "Inserisci il nome",
+    "phonePlaceholder": "Inserisci il numero di telefono",
+    "addButton": "Aggiungi"
+  },
+  "template": {
+    "title": "Seleziona Modello",
+    "defaultTemplate": "Modello predefinito",
+    "greeting": "Ciao Nome!",
+    "defaultMessage": "👋 Speriamo che tu abbia apprezzato la tua recente esperienza con noi. Potresti dedicare un momento per lasciarci una recensione? ⭐",
+    "reviewLink": "Link Recensione"
+  },
+  "schedule": {
+    "label": "Programma la campagna (opzionale)",
+    "date": "Data",
+    "time": "Ora"
+  },
+  "submit": "Invia",
+  "validation": {
+    "nameRequired": "Il nome della campagna è obbligatorio",
+    "contactRequired": "È richiesto almeno un contatto",
+    "invalidPhone": "Numero di telefono non valido (richiesti 10-15 cifre)"
+  },
+  "success": {
+    "title": "Campagna Creata",
+    "description": "La tua campagna è stata creata con successo"
+  }
+}

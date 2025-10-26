@@ -1,7 +1,8 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, MessageSquare, Send, Settings } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Send, Settings, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const navItems = [
@@ -34,6 +35,29 @@ const navItems = [
 export const SubNavBar: React.FC = () => {
   const { t } = useI18nNamespace("Reputation-module-component/SubNavBar");
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Show back button only on create-campaign page
+  const isCreateCampaignPage = location.pathname === "/module/reputation/create-campaign";
+
+  if (isCreateCampaignPage) {
+    return (
+      <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center gap-2 py-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/module/reputation/request")}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft size={18} />
+              <span>{t("back")}</span>
+            </Button>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">

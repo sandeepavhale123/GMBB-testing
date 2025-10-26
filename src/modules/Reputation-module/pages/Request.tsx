@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -60,6 +61,7 @@ const mockCampaigns: Campaign[] = [
 
 export const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("campaign");
   const isMobile = useIsMobile(1024);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -87,7 +89,7 @@ export const Request: React.FC = () => {
   };
 
   const handleCreateCampaign = () => {
-    toast.info("Campaign creation coming soon");
+    navigate("/module/reputation/create-campaign");
   };
 
   const handleViewCampaign = (campaignName: string) => {

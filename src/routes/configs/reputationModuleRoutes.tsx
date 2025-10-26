@@ -4,6 +4,7 @@ import { ReputationLayout } from "@/modules/Reputation-module/components/PageLay
 import { Dashboard } from "@/modules/Reputation-module/pages/Dashboard";
 import { Review } from "@/modules/Reputation-module/pages/Review";
 import { Request } from "@/modules/Reputation-module/pages/Request";
+import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import type { RouteConfig } from "../routeConfig";
 
@@ -29,6 +30,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "request",
         element: <Request />,
+      },
+      {
+        path: "create-campaign",
+        element: <CreateCampaign />,
       },
       {
         path: "setting",
