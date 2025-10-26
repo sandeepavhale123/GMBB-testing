@@ -4,14 +4,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { manualContactSchema, type ManualContactFormData } from "@/schemas/contactSchema";
 import { countryCodes } from "@/data/countryCodes";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { toast } from "@/hooks/use-toast";
-import { Download } from "lucide-react";
+import { Download, Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AddContactModalProps {
   open: boolean;
@@ -24,6 +26,7 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
   const [activeTab, setActiveTab] = useState<"manual" | "csv">("manual");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [countryCodeOpen, setCountryCodeOpen] = useState(false);
 
   // Manual form state
   const [formData, setFormData] = useState<ManualContactFormData>({
@@ -181,39 +184,69 @@ export const AddContactModal = ({ open, onOpenChange, onContactAdded }: AddConta
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="countryCode">
-                {t("manual.countryCodeLabel")} <span className="text-destructive">*</span>
+              <Label>
+                {t("manual.countryCodeLabel")} & {t("manual.phoneLabel")} <span className="text-destructive">*</span>
               </Label>
-              <Select value={formData.countryCode} onValueChange={(value) => handleInputChange("countryCode", value)}>
-                <SelectTrigger id="countryCode" className={hasFieldError("countryCode") ? "border-destructive" : ""}>
-                  <SelectValue placeholder={t("manual.countryCodePlaceholder")} />
-                </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
-                  {countryCodes.map((country) => (
-                    <SelectItem key={country.code} value={country.code}>
-                      {country.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {hasFieldError("countryCode") && (
-                <p className="text-sm text-destructive">{t(getFieldError("countryCode"))}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber">
-                {t("manual.phoneLabel")} <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="phoneNumber"
-                placeholder={t("manual.phonePlaceholder")}
-                value={formData.phoneNumber}
-                onChange={(e) => handleInputChange("phoneNumber", e.target.value.replace(/\D/g, ""))}
-                className={hasFieldError("phoneNumber") ? "border-destructive" : ""}
-              />
-              {hasFieldError("phoneNumber") && (
-                <p className="text-sm text-destructive">{t(getFieldError("phoneNumber"))}</p>
+              <div className="flex gap-2">
+                <Popover open={countryCodeOpen} onOpenChange={setCountryCodeOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={countryCodeOpen}
+                      className={cn(
+                        "w-[180px] justify-between",
+                        hasFieldError("countryCode") && "border-destructive"
+                      )}
+                    >
+                      {formData.countryCode
+                        ? countryCodes.find((country) => country.code === formData.countryCode)?.label
+                        : t("manual.countryCodePlaceholder")}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[300px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search country..." />
+                      <CommandList>
+                        <CommandEmpty>No country found.</CommandEmpty>
+                        <CommandGroup>
+                          {countryCodes.map((country) => (
+                            <CommandItem
+                              key={country.code}
+                              value={country.label}
+                              onSelect={() => {
+                                handleInputChange("countryCode", country.code);
+                                setCountryCodeOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  formData.countryCode === country.code ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {country.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                
+                <Input
+                  id="phoneNumber"
+                  placeholder={t("manual.phonePlaceholder")}
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleInputChange("phoneNumber", e.target.value.replace(/\D/g, ""))}
+                  className={cn("flex-1", hasFieldError("phoneNumber") && "border-destructive")}
+                />
+              </div>
+              {(hasFieldError("countryCode") || hasFieldError("phoneNumber")) && (
+                <p className="text-sm text-destructive">
+                  {hasFieldError("countryCode") ? t(getFieldError("countryCode")) : t(getFieldError("phoneNumber"))}
+                </p>
               )}
             </div>
 
