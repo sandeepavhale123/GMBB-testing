@@ -8,9 +8,9 @@ interface PhonePreviewProps {
 
 export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) => {
   return (
-    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 660 }}>
+    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 460 }}>
       {/* Phone frame */}
-      <div className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden shadow-2xl">
+      <div className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden shadow-2xl border-bottom-0 ">
         {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-3xl z-10" />
 
@@ -54,7 +54,7 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) 
         </div>
 
         {/* Home indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-black rounded-full" />
+        {/* <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-black rounded-full" /> */}
       </div>
     </div>
   );
