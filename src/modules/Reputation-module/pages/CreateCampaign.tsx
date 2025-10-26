@@ -7,9 +7,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PhonePreview } from "@/modules/Reputation-module/components/PhonePreview";
+import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useToast } from "@/hooks/use-toast";
+import { Download } from "lucide-react";
 import { z } from "zod";
 interface Contact {
   name: string;
@@ -48,6 +51,8 @@ export const CreateCampaign: React.FC = () => {
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [uploadedCSVFile, setUploadedCSVFile] = useState<File | null>(null);
   const campaignSchema = z.object({
     campaignName: z.string().min(1, t("validation.nameRequired")).max(100, "Campaign name must be less than 100 characters"),
     channel: z.enum(["sms", "email", "whatsapp"]),
@@ -107,6 +112,103 @@ export const CreateCampaign: React.FC = () => {
     setNewContactPhone(contact.phone);
     handleRemoveContact(index);
   };
+  const handleDownloadSample = () => {
+    const headers = channel === "email" ? "name,email" : "name,phone";
+    const sampleRow = channel === "email" ? "John Doe,john@example.com" : "John Doe,1234567890";
+    const csvContent = `${headers}\n${sampleRow}`;
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "sample_contacts.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleCSVUpload = (file: File) => {
+    setUploadedCSVFile(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      const lines = text.split("\n").filter(line => line.trim());
+      
+      if (lines.length < 2) {
+        toast({
+          title: "Error",
+          description: "CSV file is empty or invalid",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const headers = lines[0].toLowerCase().split(",").map(h => h.trim());
+      const nameIndex = headers.indexOf("name");
+      const phoneIndex = headers.indexOf("phone");
+      const emailIndex = headers.indexOf("email");
+
+      if (nameIndex === -1) {
+        toast({
+          title: "Error",
+          description: "CSV must contain 'name' column",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (channel === "email" && emailIndex === -1) {
+        toast({
+          title: "Error",
+          description: "CSV must contain 'email' column for email campaigns",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if ((channel === "sms" || channel === "whatsapp") && phoneIndex === -1) {
+        toast({
+          title: "Error",
+          description: "CSV must contain 'phone' column for SMS/WhatsApp campaigns",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const newContacts: Contact[] = [];
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(",").map(v => v.trim());
+        const name = values[nameIndex];
+        const contactValue = channel === "email" ? values[emailIndex] : values[phoneIndex];
+
+        if (name && contactValue) {
+          if (channel !== "email" && !/^\d{10,15}$/.test(contactValue)) {
+            continue;
+          }
+          newContacts.push({ name, phone: contactValue });
+        }
+      }
+
+      if (newContacts.length === 0) {
+        toast({
+          title: "Error",
+          description: "No valid contacts found in CSV",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      setContacts([...contacts, ...newContacts]);
+      toast({
+        title: "Success",
+        description: `${newContacts.length} contacts imported successfully`
+      });
+      setIsImportModalOpen(false);
+      setUploadedCSVFile(null);
+    };
+    reader.readAsText(file);
+  };
+
   const handleSubmit = async () => {
     try {
       const validatedData = campaignSchema.parse({
@@ -166,7 +268,7 @@ export const CreateCampaign: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h3 className="text-lg font-semibold">{t("contacts.title")}</h3>
               <div className="flex gap-4">
-                <Button variant="link" className="text-primary p-0 h-auto">
+                <Button variant="link" className="text-primary p-0 h-auto" onClick={() => setIsImportModalOpen(true)}>
                   {t("contacts.importCSV")}
                 </Button>
                 <Button variant="link" className="text-primary p-0 h-auto">
@@ -268,5 +370,23 @@ export const CreateCampaign: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      {/* Import CSV Modal */}
+      <Dialog open={isImportModalOpen} onOpenChange={setIsImportModalOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle>{t("importModal.title")}</DialogTitle>
+              <Button variant="link" className="text-primary p-0 h-auto flex items-center gap-2" onClick={handleDownloadSample}>
+                <Download className="h-4 w-4" />
+                {t("importModal.downloadSample")}
+              </Button>
+            </div>
+          </DialogHeader>
+          <div className="mt-4">
+            <CSVDropzone onFileUploaded={handleCSVUpload} uploadedFile={uploadedCSVFile} isReupload={false} />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>;
 };

@@ -42,5 +42,9 @@
   "success": {
     "title": "Kampagne Erstellt",
     "description": "Ihre Kampagne wurde erfolgreich erstellt"
+  },
+  "importModal": {
+    "title": "Datei Importieren",
+    "downloadSample": "Beispieldatei Herunterladen"
   }
 }

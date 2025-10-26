@@ -42,5 +42,9 @@
   "success": {
     "title": "Campaign Created",
     "description": "Your campaign has been created successfully"
+  },
+  "importModal": {
+    "title": "Import File",
+    "downloadSample": "Download Sample File"
   }
 }
