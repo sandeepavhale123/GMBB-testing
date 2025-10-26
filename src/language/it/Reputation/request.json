@@ -36,5 +36,35 @@
   "comingSoon": {
     "title": "Prossimamente",
     "description": "Questa funzionalità è in fase di sviluppo"
+  },
+  "templates": {
+    "title": "Modello",
+    "createButton": "Crea",
+    "table": {
+      "name": "Nome",
+      "channel": "Canale",
+      "status": "Stato",
+      "date": "Data",
+      "action": "Azione"
+    },
+    "status": {
+      "active": "Attivo",
+      "draft": "Bozza"
+    },
+    "actions": {
+      "view": "Visualizza",
+      "delete": "Elimina"
+    },
+    "empty": {
+      "title": "Nessun modello ancora",
+      "description": "Crea il tuo primo modello di richiesta recensioni per iniziare",
+      "button": "Crea Modello"
+    },
+    "deleteDialog": {
+      "title": "Elimina Modello",
+      "description": "Sei sicuro di voler eliminare questo modello? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    }
   }
 }

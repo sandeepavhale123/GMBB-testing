@@ -36,5 +36,35 @@
   "comingSoon": {
     "title": "Bientôt disponible",
     "description": "Cette fonctionnalité est en cours de développement"
+  },
+  "templates": {
+    "title": "Modèle",
+    "createButton": "Créer",
+    "table": {
+      "name": "Nom",
+      "channel": "Canal",
+      "status": "Statut",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Actif",
+      "draft": "Brouillon"
+    },
+    "actions": {
+      "view": "Voir",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun modèle pour le moment",
+      "description": "Créez votre premier modèle de demande d'avis pour commencer",
+      "button": "Créer un Modèle"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le Modèle",
+      "description": "Êtes-vous sûr de vouloir supprimer ce modèle? Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    }
   }
 }

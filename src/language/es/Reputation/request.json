@@ -36,5 +36,35 @@
   "comingSoon": {
     "title": "Próximamente",
     "description": "Esta función está en desarrollo"
+  },
+  "templates": {
+    "title": "Plantilla",
+    "createButton": "Crear",
+    "table": {
+      "name": "Nombre",
+      "channel": "Canal",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción"
+    },
+    "status": {
+      "active": "Activo",
+      "draft": "Borrador"
+    },
+    "actions": {
+      "view": "Ver",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay plantillas",
+      "description": "Crea tu primera plantilla de solicitud de reseñas para comenzar",
+      "button": "Crear Plantilla"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Plantilla",
+      "description": "¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    }
   }
 }

@@ -36,5 +36,35 @@
   "comingSoon": {
     "title": "Demnächst",
     "description": "Diese Funktion befindet sich in der Entwicklung"
+  },
+  "templates": {
+    "title": "Vorlage",
+    "createButton": "Erstellen",
+    "table": {
+      "name": "Name",
+      "channel": "Kanal",
+      "status": "Status",
+      "date": "Datum",
+      "action": "Aktion"
+    },
+    "status": {
+      "active": "Aktiv",
+      "draft": "Entwurf"
+    },
+    "actions": {
+      "view": "Ansehen",
+      "delete": "Löschen"
+    },
+    "empty": {
+      "title": "Noch keine Vorlagen",
+      "description": "Erstellen Sie Ihre erste Bewertungsanfrage-Vorlage, um zu beginnen",
+      "button": "Vorlage Erstellen"
+    },
+    "deleteDialog": {
+      "title": "Vorlage Löschen",
+      "description": "Sind Sie sicher, dass Sie diese Vorlage löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
+    }
   }
 }

@@ -36,5 +36,35 @@
   "comingSoon": {
     "title": "Coming Soon",
     "description": "This feature is under development"
+  },
+  "templates": {
+    "title": "Template",
+    "createButton": "Create",
+    "table": {
+      "name": "Name",
+      "channel": "Channel",
+      "status": "Status",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Active",
+      "draft": "Draft"
+    },
+    "actions": {
+      "view": "View",
+      "delete": "Delete"
+    },
+    "empty": {
+      "title": "No templates yet",
+      "description": "Create your first review request template to get started",
+      "button": "Create Template"
+    },
+    "deleteDialog": {
+      "title": "Delete Template",
+      "description": "Are you sure you want to delete this template? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
   }
 }

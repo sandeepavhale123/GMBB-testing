@@ -5,7 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus } from "lucide-react";
+import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -18,6 +28,15 @@ interface Campaign {
   date: string;
   contacts: number;
   delivered: number | null;
+}
+
+interface Template {
+  id: string;
+  name: string;
+  channel: "SMS" | "Email";
+  status: "active" | "draft";
+  date: string;
+  content?: string;
 }
 
 const mockCampaigns: Campaign[] = [
@@ -59,12 +78,47 @@ const mockCampaigns: Campaign[] = [
   },
 ];
 
+const mockTemplates: Template[] = [
+  {
+    id: "1",
+    name: "Simple Review Request",
+    channel: "SMS",
+    status: "active",
+    date: "25/08/2025",
+    content: "Hi {customer_name}, thank you for choosing us! Please share your experience...",
+  },
+  {
+    id: "2",
+    name: "Friendly Follow-up",
+    channel: "Email",
+    status: "draft",
+    date: "25/08/2025",
+    content: "Dear {customer_name}, we'd love to hear your feedback...",
+  },
+  {
+    id: "3",
+    name: "Professional Request",
+    channel: "SMS",
+    status: "active",
+    date: "25/08/2025",
+  },
+  {
+    id: "4",
+    name: "Casual & Fun",
+    channel: "SMS",
+    status: "draft",
+    date: "25/08/2025",
+  },
+];
+
 export const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("campaign");
   const isMobile = useIsMobile(1024);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [deleteTemplateId, setDeleteTemplateId] = useState<string | null>(null);
+  const [deleteTemplateName, setDeleteTemplateName] = useState<string>("");
 
   const getChannelIcon = (channel: "SMS" | "Email") => {
     return channel === "SMS" ? <MessageSquare className="w-4 h-4" /> : <Mail className="w-4 h-4" />;
@@ -94,6 +148,33 @@ export const Request: React.FC = () => {
 
   const handleViewCampaign = (campaignName: string) => {
     toast.info(`Campaign details view coming soon for "${campaignName}"`);
+  };
+
+  const handleCreateTemplate = () => {
+    toast.info(t("templates.empty.button"));
+  };
+
+  const handleViewTemplate = (templateName: string) => {
+    toast.info(`${t("templates.actions.view")}: "${templateName}"`);
+  };
+
+  const handleDeleteTemplate = () => {
+    if (deleteTemplateId) {
+      toast.success(`${t("templates.deleteDialog.title")}: "${deleteTemplateName}"`);
+      setDeleteTemplateId(null);
+      setDeleteTemplateName("");
+    }
+  };
+
+  const getTemplateStatusBadgeClass = (status: Template["status"]) => {
+    switch (status) {
+      case "active":
+        return "bg-green-100 text-green-700 border-green-300";
+      case "draft":
+        return "bg-yellow-100 text-yellow-700 border-yellow-300";
+      default:
+        return "";
+    }
   };
 
   const tabItems = [
@@ -208,7 +289,100 @@ export const Request: React.FC = () => {
       );
     }
 
-    // Templates and Contacts tabs - Coming Soon
+    if (activeTab === "templates") {
+      return (
+        <div className="p-6">
+          {/* Template Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{t("templates.title")}</h1>
+            </div>
+            <Button onClick={handleCreateTemplate}>
+              <Plus className="w-4 h-4 mr-1" />
+              {t("templates.createButton")}
+            </Button>
+          </div>
+
+          {mockTemplates.length === 0 ? (
+            <Card>
+              <CardContent className="pt-12 pb-12">
+                <div className="text-center space-y-4">
+                  <div className="flex justify-center">
+                    <Inbox className="w-16 h-16 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">{t("templates.empty.title")}</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">{t("templates.empty.description")}</p>
+                  <Button onClick={handleCreateTemplate}>{t("templates.empty.button")}</Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-muted/50">
+                        <TableHead className="font-medium">{t("templates.table.name")}</TableHead>
+                        <TableHead className="font-medium">{t("templates.table.channel")}</TableHead>
+                        <TableHead className="font-medium">{t("templates.table.status")}</TableHead>
+                        <TableHead className="font-medium">{t("templates.table.date")}</TableHead>
+                        <TableHead className="text-right font-medium">{t("templates.table.action")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {mockTemplates.map((template) => (
+                        <TableRow key={template.id} className="hover:bg-muted/50 transition-colors">
+                          <TableCell className="font-medium">{template.name}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              {getChannelIcon(template.channel)}
+                              <span>{t(`channel.${template.channel.toLowerCase()}`)}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={getTemplateStatusBadgeClass(template.status)}>
+                              {t(`templates.status.${template.status}`)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{template.date}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => handleViewTemplate(template.name)}
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                {t("templates.actions.view")}
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => {
+                                  setDeleteTemplateId(template.id);
+                                  setDeleteTemplateName(template.name);
+                                }}
+                                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                              >
+                                <Trash2 className="w-4 h-4 mr-1" />
+                                {t("templates.actions.delete")}
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      );
+    }
+
+    // Contacts tab - Coming Soon
     return (
       <Card>
         <CardContent className="pt-12 pb-12">
@@ -226,6 +400,27 @@ export const Request: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Delete Template Confirmation Dialog */}
+      <AlertDialog open={deleteTemplateId !== null} onOpenChange={() => {
+        setDeleteTemplateId(null);
+        setDeleteTemplateName("");
+      }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("templates.deleteDialog.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("templates.deleteDialog.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("templates.deleteDialog.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteTemplate} className="bg-destructive hover:bg-destructive/90">
+              {t("templates.deleteDialog.confirm")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Main Layout */}
       <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
         {/* Mobile Menu Button */}
