@@ -229,35 +229,48 @@ export const CreateCampaign: React.FC = () => {
 
             {/* Display added contacts */}
             {contacts.length > 0 && (
-              <div className="mt-4 space-y-2">
-                {contacts.map((contact, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200"
-                  >
-                    <div className="flex-1">
-                      <p className="font-medium">{contact.name}</p>
-                      <p className="text-sm text-gray-600">{contact.phone}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditContact(index)}
-                      >
-                        {t("contacts.editButton")}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleRemoveContact(index)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        {t("contacts.removeButton")}
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+              <div className="mt-4">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">Sr.No</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">Name</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">
+                        {channel === "email" ? "Email" : "Contact No."}
+                      </th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contacts.map((contact, index) => (
+                      <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                        <td className="py-3 px-4 text-sm">{index + 1}</td>
+                        <td className="py-3 px-4 text-sm font-medium">{contact.name}</td>
+                        <td className="py-3 px-4 text-sm text-gray-600">{contact.phone}</td>
+                        <td className="py-3 px-4">
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEditContact(index)}
+                              className="h-8 px-2"
+                            >
+                              {t("contacts.editButton")}
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveContact(index)}
+                              className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                            >
+                              {t("contacts.removeButton")}
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </CardContent>
