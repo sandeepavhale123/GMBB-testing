@@ -131,77 +131,77 @@ export const Request: React.FC = () => {
           {/* Campaign Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Campaign </h1>
+              <h1 className="text-2xl font-bold text-foreground">Campaign</h1>
             </div>
             <Button onClick={handleCreateCampaign}>
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4 mr-1" />
               {t("createButton")}
             </Button>
           </div>
 
           {mockCampaigns.length === 0 ? (
-        <Card>
-          <CardContent className="pt-12 pb-12">
-            <div className="text-center space-y-4">
-              <div className="flex justify-center">
-                <Inbox className="w-16 h-16 text-muted-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">{t("empty.title")}</h3>
-              <p className="text-muted-foreground max-w-md mx-auto">{t("empty.description")}</p>
-              <Button onClick={handleCreateCampaign}>{t("empty.button")}</Button>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead className="font-medium">{t("table.name")}</TableHead>
-                    <TableHead className="font-medium">{t("table.channel")}</TableHead>
-                    <TableHead className="font-medium">{t("table.status")}</TableHead>
-                    <TableHead className="font-medium">{t("table.date")}</TableHead>
-                    <TableHead className="text-right font-medium">{t("table.contacts")}</TableHead>
-                    <TableHead className="text-right font-medium">{t("table.delivered")}</TableHead>
-                    <TableHead className="text-center font-medium">{t("table.action")}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {mockCampaigns.map((campaign) => (
-                    <TableRow key={campaign.id} className="hover:bg-muted/50 transition-colors">
-                      <TableCell className="font-medium">{campaign.name}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          {getChannelIcon(campaign.channel)}
-                          <span>{t(`channel.${campaign.channel.toLowerCase()}`)}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className={getStatusBadgeClass(campaign.status)}>
-                          {t(`status.${campaign.status}`)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{campaign.date}</TableCell>
-                      <TableCell className="text-right">{campaign.contacts}</TableCell>
-                      <TableCell className="text-right">
-                        {calculateDelivered(campaign.delivered, campaign.contacts)}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Button variant="ghost" size="sm" onClick={() => handleViewCampaign(campaign.name)}>
-                          <Eye className="w-4 h-4 mr-1" />
-                          {t("actions.view")}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+            <Card>
+              <CardContent className="pt-12 pb-12">
+                <div className="text-center space-y-4">
+                  <div className="flex justify-center">
+                    <Inbox className="w-16 h-16 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">{t("empty.title")}</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">{t("empty.description")}</p>
+                  <Button onClick={handleCreateCampaign}>{t("empty.button")}</Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-muted/50">
+                        <TableHead className="font-medium">{t("table.name")}</TableHead>
+                        <TableHead className="font-medium">{t("table.channel")}</TableHead>
+                        <TableHead className="font-medium">{t("table.status")}</TableHead>
+                        <TableHead className="font-medium">{t("table.date")}</TableHead>
+                        <TableHead className="text-right font-medium">{t("table.contacts")}</TableHead>
+                        <TableHead className="text-right font-medium">{t("table.delivered")}</TableHead>
+                        <TableHead className="text-center font-medium">{t("table.action")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {mockCampaigns.map((campaign) => (
+                        <TableRow key={campaign.id} className="hover:bg-muted/50 transition-colors">
+                          <TableCell className="font-medium">{campaign.name}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              {getChannelIcon(campaign.channel)}
+                              <span>{t(`channel.${campaign.channel.toLowerCase()}`)}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={getStatusBadgeClass(campaign.status)}>
+                              {t(`status.${campaign.status}`)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{campaign.date}</TableCell>
+                          <TableCell className="text-right">{campaign.contacts}</TableCell>
+                          <TableCell className="text-right">
+                            {calculateDelivered(campaign.delivered, campaign.contacts)}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Button variant="ghost" size="sm" onClick={() => handleViewCampaign(campaign.name)}>
+                              <Eye className="w-4 h-4 mr-1" />
+                              {t("actions.view")}
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       );
     }
