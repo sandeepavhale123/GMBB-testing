@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   AlertDialog,
@@ -15,12 +27,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Loader2, Eye, Info, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
+import {
+  Loader2,
+  Eye,
+  Info,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { getSearchKeywords, deleteGeoKeywords } from "@/api/geoRankingApi";
 import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ViewKeywords: React.FC = () => {
+  const { t } = useI18nNamespace("Geo-Ranking-module-pages/viewKeywords");
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -31,7 +53,9 @@ export const ViewKeywords: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalKeywords, setTotalKeywords] = useState(0);
-  const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
+  const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(
+    new Set()
+  );
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const perPage = 10;
@@ -58,13 +82,14 @@ export const ViewKeywords: React.FC = () => {
         setTotalKeywords(response.data.noOfKeyword);
         setTotalPages(response.data.totalPages);
       } else {
-        throw new Error(response.message || "Failed to fetch keywords");
+        throw new Error(response.message || t("errors.fetch"));
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch keywords";
+      const errorMessage =
+        err instanceof Error ? err.message : t("errors.fetch");
       setError(errorMessage);
       toast({
-        title: "Error",
+        title: t("errors.title"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -78,12 +103,14 @@ export const ViewKeywords: React.FC = () => {
   };
 
   const handleViewReport = (keywordId: string) => {
-    navigate(`/module/geo-ranking/view-project-details/${projectId}?keyword=${keywordId}`);
+    navigate(
+      `/module/geo-ranking/view-project-details/${projectId}?keyword=${keywordId}`
+    );
   };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedKeywords(new Set(keywords.map(k => k.id)));
+      setSelectedKeywords(new Set(keywords.map((k) => k.id)));
     } else {
       setSelectedKeywords(new Set());
     }
@@ -102,8 +129,8 @@ export const ViewKeywords: React.FC = () => {
   const handleDeleteSelected = async () => {
     if (!projectId) {
       toast({
-        title: "Error",
-        description: "Project ID is missing",
+        title: t("errors.title"),
+        description: t("errors.missingProjectId"),
         variant: "destructive",
       });
       return;
@@ -112,40 +139,52 @@ export const ViewKeywords: React.FC = () => {
     setDeleting(true);
     try {
       // Convert keyword IDs from string to number
-      const keywordIds = Array.from(selectedKeywords).map(id => parseInt(id, 10));
-      
+      const keywordIds = Array.from(selectedKeywords).map((id) =>
+        parseInt(id, 10)
+      );
+
       // Call the API to delete keywords using projectId (for GEO Ranking Module)
       const response = await deleteGeoKeywords({
         projectId: parseInt(projectId, 10),
         keywordIds,
-        isDelete: "delete"
+        isDelete: "delete",
       });
 
       if (response.code === 200) {
         // Remove deleted keywords from local state
-        setKeywords(keywords.filter(k => !selectedKeywords.has(k.id)));
+        setKeywords(keywords.filter((k) => !selectedKeywords.has(k.id)));
         setSelectedKeywords(new Set());
         setShowDeleteDialog(false);
-        
+
         // Refresh keywords list to get updated data from server
         await fetchKeywords();
-        
-        const deletedCount = response.data?.deleted_keywords?.length || keywordIds.length;
+
+        const deletedCount =
+          response.data?.deleted_keywords?.length || keywordIds.length;
         toast({
-          title: "Success",
-          description: `${deletedCount} keyword${deletedCount > 1 ? 's' : ''} deleted successfully`,
+          title: t("success.title"),
+          description:
+            deletedCount > 1
+              ? t("success.delete2", { count: deletedCount })
+              : t("success.delete1", { count: deletedCount }),
+          // `${deletedCount} keyword${
+          //     deletedCount > 1 ? "s" : ""
+          //   } deleted successfully`,
         });
       } else {
-        throw new Error(typeof response.message === 'string' ? response.message : "Failed to delete keywords");
+        throw new Error(
+          typeof response.message === "string"
+            ? response.message
+            : t("errors.delete")
+        );
       }
     } catch (error: any) {
       // Extract the actual API error message (same pattern as team member deletion)
-      const apiErrorMessage = error?.response?.data?.message || 
-                              error?.message || 
-                              "Failed to delete keywords";
-      
+      const apiErrorMessage =
+        error?.response?.data?.message || error?.message || t("errors.delete");
+
       toast({
-        title: "Error",
+        title: t("errors.title"),
         description: apiErrorMessage,
         variant: "destructive",
       });
@@ -155,7 +194,7 @@ export const ViewKeywords: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return t("n/a");
 
     const parts = dateString.split("-");
     if (parts.length === 3) {
@@ -172,7 +211,7 @@ export const ViewKeywords: React.FC = () => {
     }
 
     const date = new Date(dateString);
-    return !isNaN(date.getTime()) ? date.toLocaleDateString() : "Invalid Date";
+    return !isNaN(date.getTime()) ? date.toLocaleDateString() : t("invalid");
   };
 
   const getStatusBadge = (status: string) => {
@@ -180,18 +219,22 @@ export const ViewKeywords: React.FC = () => {
     if (statusLower === "active" || statusLower === "completed") {
       return (
         <Badge variant="default" className="bg-green-100 text-green-800">
-          Completed
+          {t("statuses.completed")}
         </Badge>
       );
     } else if (statusLower === "pending") {
-      return <Badge variant="secondary">Pending</Badge>;
+      return <Badge variant="secondary">{t("statuses.pending")}</Badge>;
     } else if (statusLower === "failed") {
-      return <Badge variant="destructive">Failed</Badge>;
-    } else if (statusLower === "running" || statusLower === "processing" || statusLower === "in progress") {
+      return <Badge variant="destructive">{t("statuses.failed")}</Badge>;
+    } else if (
+      statusLower === "running" ||
+      statusLower === "processing" ||
+      statusLower === "in progress"
+    ) {
       return (
         <Badge variant="secondary" className="flex items-center gap-1">
           <Loader2 className="h-3 w-3 animate-spin" />
-          Processing
+          {t("statuses.processing")}
         </Badge>
       );
     }
@@ -226,7 +269,12 @@ export const ViewKeywords: React.FC = () => {
     return (
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-2">
         <div className="text-sm text-muted-foreground">
-          Showing {startIndex + 1} to {endIndex} of {totalKeywords} keywords
+          {t("pagination.showing", {
+            start: startIndex + 1,
+            end: endIndex,
+            total: totalKeywords,
+          })}
+          {/* Showing {startIndex + 1} to {endIndex} of {totalKeywords} keywords */}
         </div>
 
         <div className="flex items-center gap-2">
@@ -238,13 +286,16 @@ export const ViewKeywords: React.FC = () => {
             className="h-9"
           >
             <ChevronLeft className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Previous</span>
+            <span className="hidden sm:inline">{t("pagination.previous")}</span>
           </Button>
 
           <div className="flex items-center gap-1">
             {pages.map((page, index) =>
               page === "..." ? (
-                <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
+                <span
+                  key={`ellipsis-${index}`}
+                  className="px-2 text-muted-foreground"
+                >
                   ...
                 </span>
               ) : (
@@ -258,7 +309,7 @@ export const ViewKeywords: React.FC = () => {
                 >
                   {page}
                 </Button>
-              ),
+              )
             )}
           </div>
 
@@ -269,7 +320,7 @@ export const ViewKeywords: React.FC = () => {
             disabled={currentPage === totalPages || loading}
             className="h-9"
           >
-            <span className="hidden sm:inline">Next</span>
+            <span className="hidden sm:inline">{t("pagination.next")}</span>
             <ChevronRight className="h-4 w-4 sm:ml-2" />
           </Button>
         </div>
@@ -296,7 +347,7 @@ export const ViewKeywords: React.FC = () => {
           <div className="text-center py-12">
             <div className="text-destructive mb-4">{error}</div>
             <Button onClick={fetchKeywords} variant="outline">
-              Try Again
+              {t("tryAgain")}
             </Button>
           </div>
         </div>
@@ -310,19 +361,30 @@ export const ViewKeywords: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Project Keywords</h1>
-            <p className="text-muted-foreground mt-1">Manage and view all keywords for project #{projectId}</p>
+            <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
+            <p className="text-muted-foreground mt-1">
+              {t("subtitle", { projectId })}
+              {/* Manage and view all keywords for project #{projectId} */}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-sm text-muted-foreground">
-              Total: <span className="font-semibold text-foreground">{totalKeywords}</span> keywords
+              {t("total")}{" "}
+              <span className="font-semibold text-foreground">
+                {totalKeywords}
+              </span>{" "}
+              {t("keyword")}
             </div>
             <Button
-              onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
+              onClick={() =>
+                navigate(
+                  `/module/geo-ranking/check-rank?projectId=${projectId}`
+                )
+              }
               className="flex items-center gap-2"
             >
               <Plus className="h-4 w-4" />
-              Add Keywords
+              {t("addKeywords")}
             </Button>
           </div>
         </div>
@@ -332,14 +394,18 @@ export const ViewKeywords: React.FC = () => {
           <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium">
-                {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''} selected
+                {selectedKeywords.size > 1
+                  ? t("bulk.selectedPlural", { count: selectedKeywords.size })
+                  : t("bulk.selected", { count: selectedKeywords.size })}
+                {/* {selectedKeywords.size} keyword
+                {selectedKeywords.size > 1 ? "s" : ""} selected */}
               </span>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedKeywords(new Set())}
               >
-                Clear Selection
+                {t("bulk.clearSelection")}
               </Button>
             </div>
             <Button
@@ -348,7 +414,7 @@ export const ViewKeywords: React.FC = () => {
               onClick={() => setShowDeleteDialog(true)}
             >
               <Trash2 className="mr-2 h-4 w-4" />
-              Delete Selected
+              {t("bulk.deleteSelected")}
             </Button>
           </div>
         )}
@@ -363,18 +429,24 @@ export const ViewKeywords: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-foreground">No keywords found</h3>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("empty.title")}
+                </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Start tracking your rankings by adding keywords to this project.
+                  {t("empty.description")}
                 </p>
               </div>
               <div className="flex justify-center">
                 <Button
-                  onClick={() => navigate(`/module/geo-ranking/check-rank?projectId=${projectId}`)}
+                  onClick={() =>
+                    navigate(
+                      `/module/geo-ranking/check-rank?projectId=${projectId}`
+                    )
+                  }
                   className="flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
-                  Add Your First Keyword
+                  {t("empty.button")}
                 </Button>
               </div>
             </div>
@@ -386,13 +458,16 @@ export const ViewKeywords: React.FC = () => {
                 <TableRow>
                   <TableHead className="w-12">
                     <Checkbox
-                      checked={selectedKeywords.size === keywords.length && keywords.length > 0}
+                      checked={
+                        selectedKeywords.size === keywords.length &&
+                        keywords.length > 0
+                      }
                       onCheckedChange={handleSelectAll}
-                      aria-label="Select all keywords"
+                      aria-label={t("table.selectAll")}
                     />
                   </TableHead>
-                  <TableHead className="w-16">Sr No</TableHead>
-                  <TableHead>Keyword</TableHead>
+                  <TableHead className="w-16">{t("table.srNo")}</TableHead>
+                  <TableHead>{t("table.keyword")}</TableHead>
                   <TableHead className="text-center">
                     <div className="flex items-center justify-center gap-1">
                       <span>ARP</span>
@@ -402,7 +477,7 @@ export const ViewKeywords: React.FC = () => {
                             <Info className="h-3 w-3 text-muted-foreground" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Average Rank Position</p>
+                            <p>{t("table.arpTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -417,7 +492,7 @@ export const ViewKeywords: React.FC = () => {
                             <Info className="h-3 w-3 text-muted-foreground" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Average Top Rank Position</p>
+                            <p>{t("table.atrpTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -432,15 +507,21 @@ export const ViewKeywords: React.FC = () => {
                             <Info className="h-3 w-3 text-muted-foreground" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Share of Local Visibility</p>
+                            <p>{t("table.solvTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </div>
                   </TableHead>
-                  <TableHead className="text-center">Added On</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center w-32">Actions</TableHead>
+                  <TableHead className="text-center">
+                    {t("table.addedOn")}
+                  </TableHead>
+                  <TableHead className="text-center">
+                    {t("table.status")}
+                  </TableHead>
+                  <TableHead className="text-center w-32">
+                    {t("table.actions")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -449,11 +530,15 @@ export const ViewKeywords: React.FC = () => {
                     <TableCell>
                       <Checkbox
                         checked={selectedKeywords.has(keyword.id)}
-                        onCheckedChange={(checked) => handleSelectKeyword(keyword.id, checked as boolean)}
+                        onCheckedChange={(checked) =>
+                          handleSelectKeyword(keyword.id, checked as boolean)
+                        }
                         aria-label={`Select keyword ${keyword.keyword}`}
                       />
                     </TableCell>
-                    <TableCell className="font-medium">{(currentPage - 1) * perPage + index + 1}</TableCell>
+                    <TableCell className="font-medium">
+                      {(currentPage - 1) * perPage + index + 1}
+                    </TableCell>
                     <TableCell className="font-medium">
                       <button
                         onClick={() => handleViewReport(keyword.id)}
@@ -466,10 +551,12 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">{keyword.atr || "N/A"}</span>
+                            <span className="cursor-help">
+                              {keyword.atr || t("n/a")}
+                            </span>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Average Rank Position</p>
+                            <p>{t("table.arpTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -478,10 +565,12 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">{keyword.atrp || "N/A"}</span>
+                            <span className="cursor-help">
+                              {keyword.atrp || t("n/a")}
+                            </span>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Average Top Rank Position</p>
+                            <p>{t("table.atrpTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -490,23 +579,29 @@ export const ViewKeywords: React.FC = () => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="cursor-help">{keyword.solv || "N/A"}</span>
+                            <span className="cursor-help">
+                              {keyword.solv || t("n/a")}
+                            </span>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Share of Local Visibility</p>
+                            <p>{t("table.solvTooltip")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </TableCell>
-                    <TableCell className="text-center">{formatDate(keyword.date)}</TableCell>
-                    <TableCell className="text-center">{getStatusBadge(keyword.status)}</TableCell>
+                    <TableCell className="text-center">
+                      {formatDate(keyword.date)}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {getStatusBadge(keyword.status)}
+                    </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-2">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleViewReport(keyword.id)}
-                          title="View Report"
+                          title={t("table.viewReport")}
                           className="h-8 w-8"
                         >
                           <Eye className="h-4 w-4" />
@@ -518,7 +613,7 @@ export const ViewKeywords: React.FC = () => {
                             setSelectedKeywords(new Set([keyword.id]));
                             setShowDeleteDialog(true);
                           }}
-                          title="Delete"
+                          title={t("table.delete")}
                           className="h-8 w-8"
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
@@ -539,20 +634,29 @@ export const ViewKeywords: React.FC = () => {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {selectedKeywords.size} keyword{selectedKeywords.size > 1 ? 's' : ''}? 
-              This action cannot be undone.
+              {t("deleteDialog.description", {
+                count: selectedKeywords.size,
+                plural: selectedKeywords.size > 1 ? "s" : "",
+              })}
+              {/* Are you sure you want to delete {selectedKeywords.size} keyword
+              {selectedKeywords.size > 1 ? "s" : ""}? This action cannot be
+              undone. */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={deleting}>
+              {t("deleteDialog.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteSelected}
               disabled={deleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleting ? "Deleting..." : "Delete"}
+              {deleting
+                ? t("deleteDialog.deleting")
+                : t("deleteDialog.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

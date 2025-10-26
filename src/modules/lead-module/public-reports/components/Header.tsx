@@ -3,7 +3,7 @@ import { MapPin } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePublicI18n } from "@/hooks/usePublicI18n";
 
-export const namespaces = ["Lead-module-public-report/footer"];
+export const namespaces = ["Lead-module-public-report/header"];
 interface HeaderProps {
   title: string;
   listingName: string;

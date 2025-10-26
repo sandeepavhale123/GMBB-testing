@@ -20,10 +20,11 @@
         "pending": "ausstehend",
         "inProgress": "in Bearbeitung",
         "completed": "abgeschlossen",
-        "due": "fällig"
+        "due": "fällig",
+        "oneTime": "einmalig"
       },
       "type": {
-        "oneTime": "einmalig",
+        "one-time": "einmalig",
         "recurring": "wiederkehrend"
       },
       "priority": {
@@ -38,17 +39,17 @@
     },
 
     "loading": {
-      "title": "Lade KI-Aufgaben",
-      "description": "Hole die neuesten Aufgaben..."
+      "title": "AI-Aufgaben werden geladen",
+      "description": "Die neuesten Aufgaben werden abgerufen..."
     },
 
     "noListing": {
-      "message": "Keine Auflistung ausgewählt. Bitte wählen Sie eine Auflistung, um KI-Aufgaben anzuzeigen."
+      "message": "Keine Listung ausgewählt. Bitte wählen Sie eine Listung, um AI-Aufgaben anzuzeigen."
     },
 
     "emptyState": {
       "title": "Keine Aufgaben gefunden",
-      "completedMessage": "Großartige Arbeit! Schließen Sie einige Aufgaben ab, um sie hier zu sehen.",
+      "completedMessage": "Gut gemacht! Erledigen Sie einige Aufgaben, um sie hier zu sehen.",
       "defaultMessage": "Keine Aufgaben entsprechen dem aktuellen Filter."
     },
 
@@ -62,7 +63,7 @@
       },
       "reverted": {
         "title": "Zurückgesetzt",
-        "message": "Aufgabe wurde auf ausstehend zurückgesetzt."
+        "message": "Aufgabe auf ausstehend zurückgesetzt."
       }
     }
   }

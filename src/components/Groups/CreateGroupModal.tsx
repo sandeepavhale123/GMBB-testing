@@ -20,16 +20,6 @@ import { z } from "zod";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { X } from "lucide-react";
 
-const createGroupSchema = z.object({
-  groupName: z
-    .string()
-    .min(2, "Group name must be at least 2 characters")
-    .max(50, "Group name must be less than 50 characters"),
-  selectedListings: z
-    .array(z.string())
-    .min(1, "Please select at least one listing"),
-});
-
 interface CreateGroupModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -44,6 +34,17 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   editingGroup,
 }) => {
   const { t } = useI18nNamespace("Groups/createGroupModal");
+
+  const createGroupSchema = z.object({
+    groupName: z
+      .string()
+      .min(2, t("form.validation.groupNameMin"))
+      .max(50, t("form.validation.groupNameMax")),
+    selectedListings: z
+      .array(z.string())
+      .min(1, t("form.validation.selectListing")),
+  });
+
   const [groupName, setGroupName] = useState("");
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
 

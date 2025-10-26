@@ -134,6 +134,7 @@ const Onboarding = () => {
               {t("onboarding.setup")}
             </h3>
             <p className="text-sm text-white/80">
+              current step {currentStep}
               {t("onboarding.progress", { currentStep, totalSteps })}
               {/* Step {currentStep} of {totalSteps} */}
             </p>

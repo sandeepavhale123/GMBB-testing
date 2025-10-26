@@ -47,7 +47,8 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const { isAuthenticated } = useAuthRedux();
 
   const currentLangCode = i18n.language || "en";
-  const currentLanguage = languages.find((lang) => lang.code === currentLangCode) || languages[0];
+  const currentLanguage =
+    languages.find((lang) => lang.code === currentLangCode) || languages[0];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -85,9 +86,11 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
 
       if (shouldUpdateBackend) {
         // Call API in background (don't await to keep UI responsive)
-        languageService.updateLanguage(getLanguageName(langCode)).catch((error) => {
-          console.error("Failed to sync language with backend:", error);
-        });
+        languageService
+          .updateLanguage(getLanguageName(langCode))
+          .catch((error) => {
+            console.error("Failed to sync language with backend:", error);
+          });
       }
     } catch (error) {
       console.error("Failed to change language:", error);
@@ -120,11 +123,15 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           ref={menuRef}
           className={cn(
             "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
-            isMobile ? "left-1/2 transform -translate-x-1/2 w-64 max-w-[calc(100vw-2rem)]" : "right-0 w-64",
+            isMobile
+              ? "left-1/2 transform -translate-x-1/2 w-64 max-w-[calc(100vw-2rem)]"
+              : "right-0 w-64"
           )}
         >
           <div className="p-3">
-            <h3 className="text-sm font-semibold text-foreground mb-2 px-2">Language</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-2 px-2">
+              Language
+            </h3>
 
             <div className="space-y-1">
               {languages.map((language) => {
@@ -136,7 +143,9 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     onClick={() => handleLanguageChange(language.code)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-left",
-                      isActive ? "bg-primary text-primary-foreground" : "hover:bg-accent hover:text-accent-foreground",
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-accent hover:text-accent-foreground"
                     )}
                     aria-current={isActive ? "true" : undefined}
                   >
@@ -144,11 +153,21 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                       <language.FlagComponent className="w-full h-full scale-[1.5]" />
                     </div>
 
-                    <span className={cn("text-sm flex-1", isActive ? "font-semibold" : "font-normal")}>
+                    <span
+                      className={cn(
+                        "text-sm flex-1 text-black",
+                        isActive ? "font-semibold" : "font-normal"
+                      )}
+                    >
                       {language.name}
                     </span>
 
-                    {isActive && <Check className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
+                    {isActive && (
+                      <Check
+                        className="w-4 h-4 flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    )}
                   </button>
                 );
               })}

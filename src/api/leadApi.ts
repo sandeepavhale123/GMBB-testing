@@ -1,6 +1,8 @@
-import apiClient from '@/api/axiosInstance';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { languageMap } from "./../lib/languageMap";
+import apiClient from "@/api/axiosInstance";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // API Response interfaces
 export interface ApiLead {
@@ -101,8 +103,13 @@ export interface GetLeadsResponse {
 }
 
 // API function
-export const getLeads = async (params: GetLeadsRequest): Promise<GetLeadsResponse> => {
-  const response = await apiClient.post<GetLeadsResponse>('/lead/get-dashboard-leads', params);
+export const getLeads = async (
+  params: GetLeadsRequest
+): Promise<GetLeadsResponse> => {
+  const response = await apiClient.post<GetLeadsResponse>(
+    "/lead/get-dashboard-leads",
+    params
+  );
   return response.data;
 };
 
@@ -136,8 +143,13 @@ export interface GetCreditHistoryResponse {
 }
 
 // API functions
-export const getCreditHistory = async (params: GetCreditHistoryRequest): Promise<GetCreditHistoryResponse> => {
-  const response = await apiClient.post<GetCreditHistoryResponse>('/lead/get-lead-credit-history', params);
+export const getCreditHistory = async (
+  params: GetCreditHistoryRequest
+): Promise<GetCreditHistoryResponse> => {
+  const response = await apiClient.post<GetCreditHistoryResponse>(
+    "/lead/get-lead-credit-history",
+    params
+  );
   return response.data;
 };
 
@@ -153,14 +165,17 @@ export interface GetCreditsResponse {
 
 // API functions
 export const getLeadCredits = async (): Promise<GetCreditsResponse> => {
-  const response = await apiClient.post<GetCreditsResponse>('/lead/get-lead-credits', {});
+  const response = await apiClient.post<GetCreditsResponse>(
+    "/lead/get-lead-credits",
+    {}
+  );
   return response.data;
 };
 
 // React Query hooks
 export const useLeads = (params: GetLeadsRequest) => {
   return useQuery({
-    queryKey: ['leads', params.page, params.limit, params.search],
+    queryKey: ["leads", params.page, params.limit, params.search],
     queryFn: () => getLeads(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
@@ -169,7 +184,7 @@ export const useLeads = (params: GetLeadsRequest) => {
 
 export const useCreditHistory = (params: GetCreditHistoryRequest) => {
   return useQuery({
-    queryKey: ['creditHistory', params.page, params.limit, params.search],
+    queryKey: ["creditHistory", params.page, params.limit, params.search],
     queryFn: () => getCreditHistory(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
@@ -179,7 +194,7 @@ export const useCreditHistory = (params: GetCreditHistoryRequest) => {
 
 export const useLeadCredits = () => {
   return useQuery({
-    queryKey: ['leadCredits'],
+    queryKey: ["leadCredits"],
     queryFn: () => getLeadCredits(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
@@ -203,14 +218,17 @@ export interface GetLeadSummaryResponse {
 
 // Lead Summary API function
 export const getLeadSummary = async (): Promise<GetLeadSummaryResponse> => {
-  const response = await apiClient.post<GetLeadSummaryResponse>('/lead/get-lead-summary', {});
+  const response = await apiClient.post<GetLeadSummaryResponse>(
+    "/lead/get-lead-summary",
+    {}
+  );
   return response.data;
 };
 
 // Lead Summary React Query hook
 export const useLeadSummary = () => {
   return useQuery({
-    queryKey: ['leadSummary'],
+    queryKey: ["leadSummary"],
     queryFn: () => getLeadSummary(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
@@ -236,8 +254,13 @@ export interface AddLeadResponse {
 }
 
 // Add Lead API function
-export const addLead = async (params: AddLeadRequest): Promise<AddLeadResponse> => {
-  const response = await apiClient.post<AddLeadResponse>('/lead/add-lead', params);
+export const addLead = async (
+  params: AddLeadRequest
+): Promise<AddLeadResponse> => {
+  const response = await apiClient.post<AddLeadResponse>(
+    "/lead/add-lead",
+    params
+  );
   return response.data;
 };
 
@@ -256,20 +279,28 @@ export interface CreateGmbHealthReportResponse {
 }
 
 // GMB Health Report API function
-export const createGmbHealthReport = async (params: CreateGmbHealthReportRequest): Promise<CreateGmbHealthReportResponse> => {
-  const response = await apiClient.post<CreateGmbHealthReportResponse>('/lead/create-gbp-report', params);
+export const createGmbHealthReport = async (
+  params: CreateGmbHealthReportRequest
+): Promise<CreateGmbHealthReportResponse> => {
+  const response = await apiClient.post<CreateGmbHealthReportResponse>(
+    "/lead/create-gbp-report",
+    params
+  );
   return response.data;
 };
 
 // GMB Health Report React Query hook
 export const useCreateGmbHealthReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGmbHealthReport,
     onSuccess: (data) => {
-      toast.success('GMB Health report created successfully!');
+      toast.success(t("toasts.createGmbHealthReportSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || 'Failed to create GMB Health report');
+      toast.error(
+        error?.response?.data?.message || t("toasts.createGmbHealthReportError")
+      );
     },
   });
 };
@@ -292,20 +323,28 @@ export interface CreateGeoReportResponse {
 }
 
 // GEO Report API function
-export const createGeoReport = async (params: CreateGeoReportRequest): Promise<CreateGeoReportResponse> => {
-  const response = await apiClient.post<CreateGeoReportResponse>('/lead/create-geo-report', params);
+export const createGeoReport = async (
+  params: CreateGeoReportRequest
+): Promise<CreateGeoReportResponse> => {
+  const response = await apiClient.post<CreateGeoReportResponse>(
+    "/lead/create-geo-report",
+    params
+  );
   return response.data;
 };
 
 // GEO Report React Query hook
 export const useCreateGeoReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGeoReport,
     onSuccess: (data) => {
-      toast.success('GEO Ranking report created successfully!');
+      toast.success(t("toasts.createGeoReportSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || 'Failed to create GEO ranking report');
+      toast.error(
+        error?.response?.data?.message || t("toasts.createGeoReportError")
+      );
     },
   });
 };
@@ -313,6 +352,7 @@ export const useCreateGeoReport = () => {
 // Get GMB Health Report API interfaces
 export interface GetGmbHealthReportRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetGmbHealthReportResponse {
@@ -440,16 +480,21 @@ export interface GetGmbHealthReportResponse {
 }
 
 // Get GMB Health Report API function
-export const getGmbHealthReport = async (params: GetGmbHealthReportRequest): Promise<GetGmbHealthReportResponse> => {
-  const response = await apiClient.post<GetGmbHealthReportResponse>('/lead/get-gbp-report', params);
+export const getGmbHealthReport = async (
+  params: GetGmbHealthReportRequest
+): Promise<GetGmbHealthReportResponse> => {
+  const response = await apiClient.post<GetGmbHealthReportResponse>(
+    "/lead/get-gbp-report",
+    params
+  );
   return response.data;
 };
 
 // Get GMB Health Report React Query hook
-export const useGetGmbHealthReport = (reportId: string) => {
+export const useGetGmbHealthReport = (reportId: string, language?: string) => {
   return useQuery({
-    queryKey: ['gmbHealthReport', reportId],
-    queryFn: () => getGmbHealthReport({ reportId }),
+    queryKey: ["gmbHealthReport", reportId, language],
+    queryFn: () => getGmbHealthReport({ reportId, language }),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
     enabled: !!reportId,
@@ -478,20 +523,28 @@ export interface CreateLeadCitationReportResponse {
 }
 
 // Lead Citation Report API function
-export const createLeadCitationReport = async (params: CreateLeadCitationReportRequest): Promise<CreateLeadCitationReportResponse> => {
-  const response = await apiClient.post<CreateLeadCitationReportResponse>('/lead/create-citation-report', params);
+export const createLeadCitationReport = async (
+  params: CreateLeadCitationReportRequest
+): Promise<CreateLeadCitationReportResponse> => {
+  const response = await apiClient.post<CreateLeadCitationReportResponse>(
+    "/lead/create-citation-report",
+    params
+  );
   return response.data;
 };
 
 // Lead Citation Report React Query hook
 export const useCreateLeadCitationReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createLeadCitationReport,
     onSuccess: (data) => {
-      toast.success('Citation audit report created successfully!');
+      toast.success(t("toasts.createCitationReportSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || 'Failed to create citation audit report');
+      toast.error(
+        error?.response?.data?.message || t("toasts.createCitationReportError")
+      );
     },
   });
 };
@@ -499,6 +552,7 @@ export const useCreateLeadCitationReport = () => {
 // Get Citation Audit Report API interfaces
 export interface GetCitationAuditReportRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetCitationAuditReportResponse {
@@ -540,14 +594,20 @@ export interface GetCitationAuditReportResponse {
 }
 
 // Get Citation Audit Report API function
-export const getCitationAuditReport = async (params: GetCitationAuditReportRequest): Promise<GetCitationAuditReportResponse> => {
-  const response = await apiClient.post<GetCitationAuditReportResponse>('/lead/get-citation-report', params);
+export const getCitationAuditReport = async (
+  params: GetCitationAuditReportRequest
+): Promise<GetCitationAuditReportResponse> => {
+  const response = await apiClient.post<GetCitationAuditReportResponse>(
+    "/lead/get-citation-report",
+    params
+  );
   return response.data;
 };
 
 // Lead Report Branding interfaces
 export interface GetLeadReportBrandingRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetLeadReportBrandingResponse {
@@ -572,10 +632,13 @@ export const getLeadReportBranding = async (
 };
 
 // Get Lead Report Branding React Query hook
-export const useGetLeadReportBranding = (reportId: string) => {
+export const useGetLeadReportBranding = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ['leadReportBranding', reportId],
-    queryFn: () => getLeadReportBranding({ reportId }),
+    queryKey: ["leadReportBranding", reportId, language],
+    queryFn: () => getLeadReportBranding({ reportId, language }),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
     enabled: !!reportId,
@@ -583,10 +646,13 @@ export const useGetLeadReportBranding = (reportId: string) => {
 };
 
 // Get Citation Audit Report React Query hook
-export const useGetCitationAuditReport = (reportId: string) => {
+export const useGetCitationAuditReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ['citationAuditReport', reportId],
-    queryFn: () => getCitationAuditReport({ reportId }),
+    queryKey: ["citationAuditReport", reportId, language],
+    queryFn: () => getCitationAuditReport({ reportId, language }),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
     enabled: !!reportId,
@@ -609,6 +675,7 @@ export interface CreateGmbProspectReportResponse {
 
 export interface GetGmbProspectReportRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetGmbProspectReportResponse {
@@ -682,33 +749,49 @@ export interface GetGmbProspectReportResponse {
 }
 
 // GMB Prospect Report API functions
-export const createGmbProspectReport = async (params: CreateGmbProspectReportRequest): Promise<CreateGmbProspectReportResponse> => {
-  const response = await apiClient.post<CreateGmbProspectReportResponse>('/lead/create-prospect-report', params);
+export const createGmbProspectReport = async (
+  params: CreateGmbProspectReportRequest
+): Promise<CreateGmbProspectReportResponse> => {
+  const response = await apiClient.post<CreateGmbProspectReportResponse>(
+    "/lead/create-prospect-report",
+    params
+  );
   return response.data;
 };
 
-export const getGmbProspectReport = async (params: GetGmbProspectReportRequest): Promise<GetGmbProspectReportResponse> => {
-  const response = await apiClient.post<GetGmbProspectReportResponse>('/lead/get-prospect-report', params);
+export const getGmbProspectReport = async (
+  params: GetGmbProspectReportRequest
+): Promise<GetGmbProspectReportResponse> => {
+  const response = await apiClient.post<GetGmbProspectReportResponse>(
+    "/lead/get-prospect-report",
+    params
+  );
   return response.data;
 };
 
 // GMB Prospect Report React Query hooks
 export const useCreateGmbProspectReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGmbProspectReport,
     onSuccess: (data) => {
-      toast.success('GMB Prospect report created successfully!');
+      toast.success(t("toasts.createProspectReportSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || 'Failed to create GMB Prospect report');
+      toast.error(
+        error?.response?.data?.message || t("toasts.createProspectReportError")
+      );
     },
   });
 };
 
-export const useGetGmbProspectReport = (reportId: string) => {
+export const useGetGmbProspectReport = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ['lead-prospect-report', reportId],
-    queryFn: () => getGmbProspectReport({ reportId }),
+    queryKey: ["lead-prospect-report", reportId, language],
+    queryFn: () => getGmbProspectReport({ reportId, language }),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -751,6 +834,7 @@ export interface GetLeadGeoReportResponse {
 // GEO Keywords API interfaces
 export interface GetLeadGeoKeywordsRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetLeadGeoKeywordsResponse {
@@ -779,6 +863,7 @@ export interface GetLeadGeoKeywordsResponse {
 export interface GetLeadKeywordDetailsRequest {
   reportId: string;
   keywordId: string;
+  language?: string;
 }
 
 export interface GetLeadKeywordDetailsResponse {
@@ -811,43 +896,66 @@ export interface GetLeadKeywordDetailsResponse {
 }
 
 // GEO Report API functions
-export const createLeadGeoReport = async (params: CreateLeadGeoReportRequest): Promise<CreateLeadGeoReportResponse> => {
-  const response = await apiClient.post<CreateLeadGeoReportResponse>('/lead/create-geo-report', params);
+export const createLeadGeoReport = async (
+  params: CreateLeadGeoReportRequest
+): Promise<CreateLeadGeoReportResponse> => {
+  const response = await apiClient.post<CreateLeadGeoReportResponse>(
+    "/lead/create-geo-report",
+    params
+  );
   return response.data;
 };
 
-export const getLeadGeoReport = async (params: GetLeadGeoReportRequest): Promise<GetLeadGeoReportResponse> => {
-  const response = await apiClient.post<GetLeadGeoReportResponse>('/lead/get-geo-report', params);
+export const getLeadGeoReport = async (
+  params: GetLeadGeoReportRequest
+): Promise<GetLeadGeoReportResponse> => {
+  const response = await apiClient.post<GetLeadGeoReportResponse>(
+    "/lead/get-geo-report",
+    params
+  );
   return response.data;
 };
 
 // GEO Keywords API functions
-export const getLeadGeoKeywords = async (params: GetLeadGeoKeywordsRequest): Promise<GetLeadGeoKeywordsResponse> => {
-  const response = await apiClient.post<GetLeadGeoKeywordsResponse>('/lead/get-geo-keywords', params);
+export const getLeadGeoKeywords = async (
+  params: GetLeadGeoKeywordsRequest
+): Promise<GetLeadGeoKeywordsResponse> => {
+  const response = await apiClient.post<GetLeadGeoKeywordsResponse>(
+    "/lead/get-geo-keywords",
+    params
+  );
   return response.data;
 };
 
-export const getLeadKeywordDetails = async (params: GetLeadKeywordDetailsRequest): Promise<GetLeadKeywordDetailsResponse> => {
-  const response = await apiClient.post<GetLeadKeywordDetailsResponse>('/lead/get-keyword-details', params);
+export const getLeadKeywordDetails = async (
+  params: GetLeadKeywordDetailsRequest
+): Promise<GetLeadKeywordDetailsResponse> => {
+  const response = await apiClient.post<GetLeadKeywordDetailsResponse>(
+    "/lead/get-keyword-details",
+    params
+  );
   return response.data;
 };
 
 // GEO Report React Query hooks
 export const useCreateLeadGeoReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createLeadGeoReport,
     onSuccess: (data) => {
-      toast.success('GEO Ranking report created successfully!');
+      toast.success(t("toasts.createGeoReportSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || 'Failed to create GEO Ranking report');
+      toast.error(
+        error?.response?.data?.message || t("toasts.createGeoReportError")
+      );
     },
   });
 };
 
 export const useGetLeadGeoReport = (reportId: string) => {
   return useQuery({
-    queryKey: ['lead-geo-report', reportId],
+    queryKey: ["lead-geo-report", reportId],
     queryFn: () => getLeadGeoReport({ reportId }),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -855,20 +963,24 @@ export const useGetLeadGeoReport = (reportId: string) => {
   });
 };
 
-export const useGetLeadGeoKeywords = (reportId: string) => {
+export const useGetLeadGeoKeywords = (reportId: string, language?: string) => {
   return useQuery({
-    queryKey: ['lead-geo-keywords', reportId],
-    queryFn: () => getLeadGeoKeywords({ reportId }),
+    queryKey: ["lead-geo-keywords", reportId, language],
+    queryFn: () => getLeadGeoKeywords({ reportId, language }),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });
 };
 
-export const useGetLeadKeywordDetails = (reportId: string, keywordId: string) => {
+export const useGetLeadKeywordDetails = (
+  reportId: string,
+  keywordId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: ['lead-keyword-details', reportId, keywordId],
-    queryFn: () => getLeadKeywordDetails({ reportId, keywordId }),
+    queryKey: ["lead-keyword-details", reportId, keywordId, language],
+    queryFn: () => getLeadKeywordDetails({ reportId, keywordId, language }),
     enabled: !!reportId && !!keywordId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -897,15 +1009,20 @@ export interface GetKeywordPositionDetailsResponse {
 }
 
 // Keyword Position Details API function
-export const getKeywordPositionDetails = async (params: GetKeywordPositionDetailsRequest): Promise<GetKeywordPositionDetailsResponse> => {
-  const response = await apiClient.post<GetKeywordPositionDetailsResponse>('/lead/get-keyword-position-details', params);
+export const getKeywordPositionDetails = async (
+  params: GetKeywordPositionDetailsRequest
+): Promise<GetKeywordPositionDetailsResponse> => {
+  const response = await apiClient.post<GetKeywordPositionDetailsResponse>(
+    "/lead/get-keyword-position-details",
+    params
+  );
   return response.data;
 };
 
 // Keyword Position Details React Query hook
 export const useGetKeywordPositionDetails = (positionId: number | null) => {
   return useQuery({
-    queryKey: ['lead-keyword-position-details', positionId],
+    queryKey: ["lead-keyword-position-details", positionId],
     queryFn: () => getKeywordPositionDetails({ positionId: positionId! }),
     enabled: !!positionId,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -914,18 +1031,22 @@ export const useGetKeywordPositionDetails = (positionId: number | null) => {
 };
 
 // Lead Classifier API Functions
-export const getLeadClassifierDetails = async (params: GetLeadClassifierDetailsRequest): Promise<GetLeadClassifierDetailsResponse> => {
-  const { data } = await apiClient.post('/lead/get-leadclassifer-details', {
-    leadId: params.leadId
+export const getLeadClassifierDetails = async (
+  params: GetLeadClassifierDetailsRequest
+): Promise<GetLeadClassifierDetailsResponse> => {
+  const { data } = await apiClient.post("/lead/get-leadclassifer-details", {
+    leadId: params.leadId,
   });
   return data;
 };
 
-export const updateLeadClassifierDetails = async (params: UpdateLeadClassifierDetailsRequest): Promise<UpdateLeadClassifierDetailsResponse> => {
-  const { data } = await apiClient.post('/lead/update-leadclassifer-details', {
+export const updateLeadClassifierDetails = async (
+  params: UpdateLeadClassifierDetailsRequest
+): Promise<UpdateLeadClassifierDetailsResponse> => {
+  const { data } = await apiClient.post("/lead/update-leadclassifer-details", {
     leadId: params.leadId,
     leadCategoryValue: params.leadCategoryValue,
-    leadNote: params.leadNote
+    leadNote: params.leadNote,
   });
   return data;
 };
@@ -933,7 +1054,7 @@ export const updateLeadClassifierDetails = async (params: UpdateLeadClassifierDe
 // Lead Classifier React Query hooks
 export const useGetLeadClassifierDetails = (leadId: number | null) => {
   return useQuery({
-    queryKey: ['lead-classifier-details', leadId],
+    queryKey: ["lead-classifier-details", leadId],
     queryFn: () => getLeadClassifierDetails({ leadId: leadId! }),
     enabled: !!leadId,
     retry: 2,
@@ -942,17 +1063,17 @@ export const useGetLeadClassifierDetails = (leadId: number | null) => {
 
 export const useUpdateLeadClassifierDetails = () => {
   const queryClient = useQueryClient();
-  
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: updateLeadClassifierDetails,
     onSuccess: () => {
-      toast.success('Lead classification updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['leads'] });
-      queryClient.invalidateQueries({ queryKey: ['leadSummary'] });
-      queryClient.invalidateQueries({ queryKey: ['lead-classifier-details'] });
+      toast.success(t("toasts.updateLeadClassifierSuccess"));
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      queryClient.invalidateQueries({ queryKey: ["leadSummary"] });
+      queryClient.invalidateQueries({ queryKey: ["lead-classifier-details"] });
     },
     onError: () => {
-      toast.error('Failed to update lead classification');
+      toast.error(t("toasts.updateLeadClassifierError"));
     },
   });
 };
@@ -977,6 +1098,7 @@ export interface GetCTADetailsResponse {
 
 export interface GetCTAWithoutLoginRequest {
   reportId: string;
+  language?: string;
 }
 
 export interface GetCTAWithoutLoginResponse {
@@ -989,7 +1111,7 @@ export interface GetCTAWithoutLoginResponse {
 }
 
 export interface SaveCTACustomizerRequest {
-  ctaType: 'callCTA' | 'appointmentCTA';
+  ctaType: "callCTA" | "appointmentCTA";
   header: string;
   description: string;
   buttonLabel: string;
@@ -1002,7 +1124,7 @@ export interface SaveCTACustomizerResponse {
   message: string;
   data: {
     ctaId: string;
-    ctaType: 'callCTA' | 'appointmentCTA';
+    ctaType: "callCTA" | "appointmentCTA";
     header: string;
     description: string;
     buttonLabel: string;
@@ -1012,7 +1134,7 @@ export interface SaveCTACustomizerResponse {
 }
 
 export interface ResetCTACustomizerRequest {
-  ctaType: 'callCTA' | 'appointmentCTA';
+  ctaType: "callCTA" | "appointmentCTA";
 }
 
 export interface ResetCTACustomizerResponse {
@@ -1025,39 +1147,57 @@ export interface ResetCTACustomizerResponse {
 
 // CTA API Functions
 export const getCTADetails = async (): Promise<GetCTADetailsResponse> => {
-  const response = await apiClient.post<GetCTADetailsResponse>('/lead/get-cta-details', {});
+  const response = await apiClient.post<GetCTADetailsResponse>(
+    "/lead/get-cta-details",
+    {}
+  );
   return response.data;
 };
 
-export const getCTAWithoutLogin = async (params: GetCTAWithoutLoginRequest): Promise<GetCTAWithoutLoginResponse> => {
-  const response = await apiClient.post<GetCTAWithoutLoginResponse>('/lead/get-cta-withoutlogin', params);
+export const getCTAWithoutLogin = async (
+  params: GetCTAWithoutLoginRequest
+): Promise<GetCTAWithoutLoginResponse> => {
+  const response = await apiClient.post<GetCTAWithoutLoginResponse>(
+    "/lead/get-cta-withoutlogin",
+    params
+  );
   return response.data;
 };
 
-export const saveCTACustomizer = async (params: SaveCTACustomizerRequest): Promise<SaveCTACustomizerResponse> => {
-  const response = await apiClient.post<SaveCTACustomizerResponse>('/lead/save-cta-customizer', params);
+export const saveCTACustomizer = async (
+  params: SaveCTACustomizerRequest
+): Promise<SaveCTACustomizerResponse> => {
+  const response = await apiClient.post<SaveCTACustomizerResponse>(
+    "/lead/save-cta-customizer",
+    params
+  );
   return response.data;
 };
 
-export const resetCTACustomizer = async (params: ResetCTACustomizerRequest): Promise<ResetCTACustomizerResponse> => {
-  const response = await apiClient.post<ResetCTACustomizerResponse>('/lead/reset-cta-customizer', params);
+export const resetCTACustomizer = async (
+  params: ResetCTACustomizerRequest
+): Promise<ResetCTACustomizerResponse> => {
+  const response = await apiClient.post<ResetCTACustomizerResponse>(
+    "/lead/reset-cta-customizer",
+    params
+  );
   return response.data;
 };
 
 // CTA React Query Hooks
 export const useGetCTADetails = () => {
   return useQuery({
-    queryKey: ['cta-details'],
+    queryKey: ["cta-details"],
     queryFn: getCTADetails,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });
 };
 
-export const useGetCTAWithoutLogin = (reportId: string) => {
+export const useGetCTAWithoutLogin = (reportId: string, language) => {
   return useQuery({
-    queryKey: ['cta-without-login', reportId],
-    queryFn: () => getCTAWithoutLogin({ reportId }),
+    queryKey: ["cta-without-login", reportId, language],
+    queryFn: () => getCTAWithoutLogin({ reportId, language }),
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -1066,51 +1206,56 @@ export const useGetCTAWithoutLogin = (reportId: string) => {
 
 export const useSaveCTACustomizer = () => {
   const queryClient = useQueryClient();
-  
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: saveCTACustomizer,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cta-details'] });
+      queryClient.invalidateQueries({ queryKey: ["cta-details"] });
     },
     onError: () => {
-      toast.error('Failed to save CTA settings');
+      toast.error(t("toasts.failedCTA"));
     },
   });
 };
 
 export const useResetCTACustomizer = () => {
   const queryClient = useQueryClient();
-  
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: resetCTACustomizer,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cta-details'] });
+      queryClient.invalidateQueries({ queryKey: ["cta-details"] });
     },
     onError: () => {
-      toast.error('Failed to reset CTA settings');
+      toast.error(t("toasts.resetCTA"));
     },
   });
 };
 
 // Delete Lead API Function
-export const deleteLead = async (params: DeleteLeadRequest): Promise<DeleteLeadResponse> => {
-  const response = await apiClient.post<DeleteLeadResponse>('/lead/delete-lead', params);
+export const deleteLead = async (
+  params: DeleteLeadRequest
+): Promise<DeleteLeadResponse> => {
+  const response = await apiClient.post<DeleteLeadResponse>(
+    "/lead/delete-lead",
+    params
+  );
   return response.data;
 };
 
 // Delete Lead React Query Hook
 export const useDeleteLead = () => {
   const queryClient = useQueryClient();
-  
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: deleteLead,
     onSuccess: () => {
-      toast.success('Lead deleted successfully!');
-      queryClient.invalidateQueries({ queryKey: ['leads'] });
-      queryClient.invalidateQueries({ queryKey: ['leadSummary'] });
+      toast.success(t("toasts.leadSuccess"));
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      queryClient.invalidateQueries({ queryKey: ["leadSummary"] });
     },
     onError: () => {
-      toast.error('Failed to delete lead');
+      toast.error(t("toasts.leadFail"));
     },
   });
 };

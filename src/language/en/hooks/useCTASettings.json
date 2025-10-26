@@ -1,0 +1,34 @@
+{
+  "ctaSettings": {
+    "default": {
+      "callCTA": {
+        "header": "BOOST YOUR GBP SCORE &&& Increase your calls",
+        "description": "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+        "buttonLabel": "BOOK A CALL",
+        "buttonLink": "#contact"
+      },
+      "appointmentCTA": {
+        "header": "BOOST YOUR GBP SCORE &&& Increase your calls",
+        "description": "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+        "buttonLabel": "BOOK A CALL",
+        "buttonLink": "#contact"
+      }
+    },
+    "toast": {
+      "errorTitle": "Error loading CTA settings.",
+      "errorDesc":" Using default settings. Please refresh to try again.",
+      "ctaTitle":"CTA Reset",
+      "resetSuccess": "CTA settings have been reset to defaults."
+    },
+    "validation": {
+      "headerRequired": "Header is required.",
+      "headerMax": "Header must be less than 100 characters.",
+      "descriptionRequired": "Description is required.",
+      "descriptionMax": "Description must be less than 500 characters.",
+      "buttonLabelRequired": "Button label is required.",
+      "buttonLabelMax": "Button label must be less than 50 characters.",
+      "buttonLinkInvalid": "Please enter a valid URL.",
+      "hash": "Hash links must start with #"
+    }
+  }
+}

@@ -212,10 +212,12 @@ export const AITaskManagerPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <Badge className={statusColors[task.status]} variant="outline">
                 <StatusIcon className="w-3 h-3 mr-1" />
-                {task.status.replace("-", " ")}
+                {t(`AITaskManagerPage.task.status.${task.status}`)}
+                {/* {task.status.replace("-", " ")} */}
               </Badge>
               <Badge className={typeColors[task.type]} variant="outline">
-                {task.type}
+                {t(`AITaskManagerPage.task.type.${task.type}`)}
+                {/* {task.type}... */}
               </Badge>
               {task.priority === "high" && (
                 <Badge variant="destructive" className="text-xs">
@@ -234,7 +236,9 @@ export const AITaskManagerPage: React.FC = () => {
                     disabled={task.status === "in-progress"}
                   >
                     <Zap className="w-4 h-4 mr-1" />
-                    {task.status === "in-progress" ? "In Progress" : "Fix"}
+                    {task.status === "in-progress"
+                      ? t("AITaskManagerPage.task.actions.inProgress")
+                      : t("AITaskManagerPage.task.actions.fix")}
                   </Button>
                   <Button
                     size="sm"

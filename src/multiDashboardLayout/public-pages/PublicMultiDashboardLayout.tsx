@@ -4,6 +4,7 @@ import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 interface PublicMultiDashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -35,14 +36,17 @@ export const PublicMultiDashboardLayout: React.FC<
             alt={t("alt.logo")}
             className="h-10 w-auto"
           />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLoginClick}
-            className="ml-4"
-          >
-            {t("header.login")}
-          </Button>
+          <div className="flex gap-4 items-center">
+            <LanguageSwitcher />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLoginClick}
+              className="ml-4"
+            >
+              {t("header.login")}
+            </Button>
+          </div>
         </div>
       </header>
 

@@ -4,6 +4,7 @@
       "fallback": "Performance Trends",
       "comparison": "6-Month Performance Comparison"
     },
+    "view":"View All",
     "description": {
       "fallback": "Historical trends for key metrics based on available data",
       "comparison": "Historical trends for key metrics over the last 6 months"

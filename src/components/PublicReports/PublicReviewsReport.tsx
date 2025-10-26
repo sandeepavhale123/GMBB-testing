@@ -46,7 +46,7 @@ export const namespaces = ["PublicReports/publicReviewsReport"];
 export const PublicReviewsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -57,7 +57,7 @@ export const PublicReviewsReport: React.FC = () => {
     data: reviewsData,
     isLoading,
     error,
-  } = usePerformanceReviewReport(reportId);
+  } = usePerformanceReviewReport(reportId, languageFullName);
 
   const reportType = reviewsData?.data?.reportType.toLowerCase();
 

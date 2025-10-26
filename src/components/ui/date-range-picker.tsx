@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface DateRangePickerProps {
   date?: DateRange;
@@ -22,9 +23,10 @@ interface DateRangePickerProps {
 export function DateRangePicker({
   date,
   onDateChange,
-  placeholder = "Pick a date range",
+  placeholder,
   className,
 }: DateRangePickerProps) {
+  const { t } = useI18nNamespace("UI/dateRangePicker");
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -48,7 +50,7 @@ export function DateRangePicker({
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>{placeholder}</span>
+              <span>{placeholder || t("placeholder")}</span>
             )}
           </Button>
         </PopoverTrigger>

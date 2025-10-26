@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import {
   getShareableDefaultData,
   getShareableInsightData,
@@ -11,8 +11,11 @@ import {
   ShareableReviewResponse,
   ShareableLocationResponse,
   ShareablePostResponse,
-} from '@/api/publicDashboardApi';
-import { getDashboardType, getDashboardFilterType } from '@/utils/dashboardMappings';
+} from "@/api/publicDashboardApi";
+import {
+  getDashboardType,
+  getDashboardFilterType,
+} from "@/utils/dashboardMappings";
 
 interface UsePublicDashboardDataParams {
   reportId: string;
@@ -28,17 +31,19 @@ interface UsePublicDashboardDataParams {
   };
   postStatus?: string;
   reviewFilter?: string;
+  language?: string;
 }
 
-type ShareableResponse = 
-  | ShareableDefaultResponse 
-  | ShareableInsightResponse 
-  | ShareableReviewResponse 
-  | ShareableLocationResponse 
+type ShareableResponse =
+  | ShareableDefaultResponse
+  | ShareableInsightResponse
+  | ShareableReviewResponse
+  | ShareableLocationResponse
   | ShareablePostResponse;
 
-
-export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
+export const usePublicDashboardData = (
+  params: UsePublicDashboardDataParams
+): UseQueryResult<ShareableResponse> => {
   const {
     reportId,
     dashboardFilterType,
@@ -50,6 +55,7 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     dateRange,
     postStatus,
     reviewFilter,
+    language,
   } = params;
 
   const request: ShareableReportRequest = {
@@ -63,24 +69,38 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     ...(dateRange && { dateRange }),
     ...(postStatus && { postStatus }),
     ...(reviewFilter && { review: reviewFilter }),
+    language,
   };
 
   // Get dashboard type for API routing
   const dashboardType = getDashboardType(dashboardFilterType);
 
   return useQuery({
-    queryKey: ['publicDashboard', reportId, dashboardFilterType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
+    queryKey: [
+      "publicDashboard",
+      reportId,
+      dashboardFilterType,
+      page,
+      limit,
+      search,
+      category,
+      city,
+      dateRange,
+      postStatus,
+      reviewFilter,
+      language,
+    ],
     queryFn: async (): Promise<ShareableResponse> => {
       switch (dashboardType) {
-        case 'insight':
+        case "insight":
           return await getShareableInsightData(request);
-        case 'review':
+        case "review":
           return await getShareableReviewData(request);
-        case 'location':
+        case "location":
           return await getShareableLocationData(request);
-        case 'post':
+        case "post":
           return await getShareablePostsData(request);
-        case 'default':
+        case "default":
         default:
           return await getShareableDefaultData(request);
       }
@@ -92,26 +112,36 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
 };
 
 // Helper hook for getting metrics/stats data
-export const usePublicDashboardStats = (reportId: string, dashboardFilterType?: number) => {
+export const usePublicDashboardStats = (
+  reportId: string,
+  dashboardFilterType?: number,
+  language?: string
+) => {
   const { data, isLoading, error } = usePublicDashboardData({
     reportId,
     dashboardFilterType: dashboardFilterType || 1, // Default to 1 if not provided
     page: 1,
     limit: 1,
-    search: '',
-    category: '',
-    city: '',
+    search: "",
+    category: "",
+    city: "",
+    language,
   });
 
   // Extract stats from the response
-  const stats = data?.data ? {
-    totalListings: 'pagination' in data.data 
-      ? ('totalResults' in data.data.pagination ? data.data.pagination.totalResults : data.data.pagination.totalPosts)
-      : 0,
-    avgRating: '4.3', // This would need to be calculated from API response
-    totalPosts: 0, // This would come from a separate endpoint
-    totalReviews: 0, // This would come from a separate endpoint
-  } : null;
+  const stats = data?.data
+    ? {
+        totalListings:
+          "pagination" in data.data
+            ? "totalResults" in data.data.pagination
+              ? data.data.pagination.totalResults
+              : data.data.pagination.totalPosts
+            : 0,
+        avgRating: "4.3", // This would need to be calculated from API response
+        totalPosts: 0, // This would come from a separate endpoint
+        totalReviews: 0, // This would come from a separate endpoint
+      }
+    : null;
 
   return {
     data: stats ? { data: { stats } } : null,

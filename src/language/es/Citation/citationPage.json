@@ -1,10 +1,10 @@
 {
   "citationPage": {
-    "loading": "Cargando página de citas...",
+    "loading": "Cargando la página de citas...",
     "searchForm": {
       "title": "Informe de Auditoría de Citas",
-      "description": "Ingrese los detalles de su negocio para iniciar la auditoría de citas",
-      "businessNameLabel": "Nombre del Negocio",
+      "description": "Ingrese los datos de su empresa para iniciar la auditoría de citas",
+      "businessNameLabel": "Nombre del negocio",
       "businessNamePlaceholder": "Ingrese el nombre del negocio",
       "phoneLabel": "Teléfono",
       "phonePlaceholder": "Ingrese el número de teléfono",
@@ -15,20 +15,20 @@
     },
     "management": {
       "title": "Gestión de Citas",
-      "description": "Monitoree y gestione las citas de su negocio en diferentes directorios",
-      "refresh": "Actualizar Cita",
+      "description": "Supervise y gestione las citas de su negocio en los directorios",
+      "refresh": "Actualizar cita",
       "refreshing": "Actualizando...",
-      "newSearch": "Nueva Búsqueda"
+      "newSearch": "Nueva búsqueda"
     },
     "trackerCard": {
       "title": "Rastreador de Citas",
-      "listed": "Listado",
-      "notListed": "No Listado",
-      "listedPercent": "Listado"
+      "listed": "Listadas",
+      "notListed": "No Listadas",
+      "listedPercent": "Listadas"
     },
     "localPagesCard": {
-      "title": "Páginas y Directorios Locales",
-      "description": "Su puntuación en páginas y directorios locales se basa en el número de lugares en los que su listado está presente, dividido por el número de páginas y directorios locales que hemos revisado."
+      "title": "Páginas Locales y Directorios",
+      "description": "Su puntuación en páginas locales y directorios se basa en el número de lugares en los que su anuncio está presente, dividido por el número de páginas locales y directorios que hemos revisado."
     },
     "auditCard": {
       "title": "Auditoría de Citas",
@@ -36,14 +36,15 @@
       "existingTab": "Cita Existente",
       "possibleTab": "Cita Posible",
       "table": {
-        "website": "Sitio Web",
-        "businessName": "Nombre del Negocio",
+        "website": "Sitio web",
+        "businessName": "Nombre del negocio",
         "phone": "Teléfono",
         "action": "Acción",
-        "siteName": "Nombre del Sitio",
+        "siteName": "Nombre del sitio",
         "view": "Ver",
         "fixNow": "Corregir Ahora"
       }
-    }
+    },
+    "noPhoneProvided": "No Coincide"
   }
 }

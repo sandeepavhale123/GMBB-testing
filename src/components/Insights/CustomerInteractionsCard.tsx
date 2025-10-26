@@ -130,7 +130,7 @@ export const CustomerInteractionsCard: React.FC<
               to={`/insights/${selectedListing?.id || "default"}`}
               className="text-sm text-primary hover:underline"
             >
-              View All
+              {t("view")}
             </Link>
           )}
         </div>

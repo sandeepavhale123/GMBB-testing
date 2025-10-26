@@ -4,9 +4,10 @@
       "fallback": "Tendances de performance",
       "comparison": "Comparaison des performances sur 6 mois"
     },
+    "view": "Voir tout",
     "description": {
-      "fallback": "Tendances historiques des principales métriques selon les données disponibles",
-      "comparison": "Tendances historiques des principales métriques au cours des 6 derniers mois"
+      "fallback": "Tendances historiques des indicateurs clés basées sur les données disponibles",
+      "comparison": "Tendances historiques des indicateurs clés au cours des 6 derniers mois"
     },
     "error": {
       "title": "Comparaison des performances",
@@ -16,15 +17,15 @@
       "title": "Chargement des données de comparaison..."
     },
     "metrics": {
-      "searchViews": "Vues dans Google Search",
-      "mapsViews": "Vues dans Google Maps",
+      "searchViews": "Vues de la recherche Google",
+      "mapsViews": "Vues sur Google Maps",
       "websiteClicks": "Clics sur le site web",
       "phoneCalls": "Appels téléphoniques"
     },
     "mobileLegend": {
-      "searchViews": "Vues Search",
-      "mapsViews": "Vues Maps",
-      "websiteClicks": "Clics site web",
+      "searchViews": "Vues de recherche",
+      "mapsViews": "Vues de cartes",
+      "websiteClicks": "Clics sur le site web",
       "phoneCalls": "Appels téléphoniques"
     }
   }

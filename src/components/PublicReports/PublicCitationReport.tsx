@@ -28,9 +28,12 @@ export const namespaces = ["PublicReports/publicCitationReport"];
 export const PublicCitationReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
 
-  const { data, isLoading, error } = usePerformanceCitationReport(reportId);
+  const { data, isLoading, error } = usePerformanceCitationReport(
+    reportId,
+    languageFullName
+  );
   const citationData = data?.data;
   console.log("citation data", citationData);
 

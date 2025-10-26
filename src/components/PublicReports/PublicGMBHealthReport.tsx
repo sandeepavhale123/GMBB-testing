@@ -37,11 +37,12 @@ import {
 } from "lucide-react";
 import { usePerformanceHealthReport } from "@/hooks/useReports";
 import { applyStoredTheme } from "@/utils/themeUtils";
+import i18n from "@/i18n";
 
 export const namespaces = ["PublicReports/publicGMBHealthReport"];
 
 export const PublicGMBHealthReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   const { token } = useParams();
   const location = useLocation();
   const params = useParams();
@@ -58,7 +59,7 @@ export const PublicGMBHealthReport: React.FC = () => {
     isLoading,
     error,
     refetch,
-  } = usePerformanceHealthReport(reportId || "");
+  } = usePerformanceHealthReport(reportId || "", languageFullName);
 
   const [breakdownSort, setBreakdownSort] = useState<
     "default" | "failed-first" | "passed-first"

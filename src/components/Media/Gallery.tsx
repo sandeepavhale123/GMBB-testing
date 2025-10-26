@@ -1457,7 +1457,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   size="sm"
                                   variant="secondary"
                                   className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                                  title="More Actions"
+                                  title={t("gallery.more")}
                                 >
                                   <MoreVertical className="h-4 w-4 text-gray-700" />
                                 </Button>

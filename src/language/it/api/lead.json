@@ -1,0 +1,18 @@
+{
+  "toasts": {
+    "createGmbHealthReportSuccess": "Rapporto sulla salute GMB creato con successo!",
+    "createGmbHealthReportError": "Impossibile creare il rapporto sulla salute GMB",
+    "createGeoReportSuccess": "Rapporto di classifica GEO creato con successo!",
+    "createGeoReportError": "Impossibile creare il rapporto di classifica GEO",
+    "createCitationReportSuccess": "Rapporto di audit delle citazioni creato con successo!",
+    "createCitationReportError": "Impossibile creare il rapporto di audit delle citazioni",
+    "createProspectReportSuccess": "Rapporto prospect GMB creato con successo!",
+    "createProspectReportError": "Impossibile creare il rapporto prospect GMB",
+    "updateLeadClassifierSuccess": "Classificazione del lead aggiornata con successo!",
+    "updateLeadClassifierError": "Impossibile aggiornare la classificazione del lead",
+    "failedCTA": "Impossibile salvare le impostazioni del CTA",
+    "resetCTA": "Impossibile reimpostare le impostazioni del CTA",
+    "leadSuccess": "Lead eliminato con successo!",
+    "leadFail": "Impossibile eliminare il lead"
+  }
+}

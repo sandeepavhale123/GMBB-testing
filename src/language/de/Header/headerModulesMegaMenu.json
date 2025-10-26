@@ -21,7 +21,7 @@
     },
     "geoRanking": {
       "name": "GEO-Ranking",
-      "description": "Verfolgen und optimieren Sie Ihre lokalen Suchrankings"
+      "description": "Verfolgen und optimieren Sie Ihr lokales Suchranking"
     },
     "leadManagement": {
       "name": "Lead-Management",
@@ -30,6 +30,10 @@
     "reputation": {
       "name": "Reputation",
       "description": "Überwachen und verwalten Sie Ihren Online-Ruf"
+    },
+    "seo": {
+      "name": "SEO-Korrektor",
+      "description": "Erkennen und beheben Sie automatisch SEO-Probleme auf Websites"
     }
   }
 }

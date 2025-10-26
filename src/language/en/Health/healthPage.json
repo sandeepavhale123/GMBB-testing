@@ -134,6 +134,7 @@
         "Less Than 5 Photos. Enhance Photo."
       ]
     },
+    "tooltip":"{{value}} citations",
     "loading": "Loading health data...",
     "error": "Error",
     "noData": "No data found"

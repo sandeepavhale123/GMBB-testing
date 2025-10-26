@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n, { loadNamespace } from "@/i18n";
+import { languageMap } from "@/lib/languageMap";
 
 /**
  * useI18nNamespace ensures the requested namespace(s) are loaded for:
@@ -13,7 +14,9 @@ import i18n, { loadNamespace } from "@/i18n";
  *   2) English
  *   3) opts.defaultValue
  *   4) raw key
- *
+ *  - loaded (boolean)
+ *  - lang (current code, e.g. "en")
+ *  - languageFullName (e.g. "English")
  * Usage:
  *   const { t } = useI18nNamespace("Profile/profileHeader");
  */
@@ -69,6 +72,17 @@ export function useI18nNamespace(ns: string | string[]) {
     // Last resort: raw key (helps spot missing translations)
     return key;
   };
+  // 🔄 Reverse languageMap (convert code → name)
+  // Current languageMap is: { english: "en", spanish: "es", ... }
+  const codeToNameMap = Object.fromEntries(
+    Object.entries(languageMap).map(([name, code]) => [
+      code,
+      name.charAt(0).toUpperCase() + name.slice(1),
+    ])
+  );
 
-  return { t: safeT, i18n, loaded };
+  const lang = i18n.language || "en";
+  const languageFullName = codeToNameMap[lang] || "English";
+
+  return { t: safeT, i18n, loaded, languageFullName };
 }

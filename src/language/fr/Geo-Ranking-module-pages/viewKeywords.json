@@ -1,0 +1,67 @@
+{
+  "title": "Mots-clés du projet",
+  "subtitle": "Gérez et affichez tous les mots-clés pour le projet #{{projectId}}",
+  "total": "Total :",
+  "keyword": "mots-clés",
+  "addKeywords": "Ajouter des mots-clés",
+  "n/a": "N/D",
+  "invalid": "Date invalide",
+  "bulk": {
+    "selected": "{{count}} mot-clé sélectionné",
+    "selectedPlural": "{{count}} mots-clés sélectionnés",
+    "clearSelection": "Effacer la sélection",
+    "deleteSelected": "Supprimer la sélection"
+  },
+  "table": {
+    "selectAll": "Sélectionner tous les mots-clés",
+    "srNo": "N°",
+    "keyword": "Mot-clé",
+    "arp": "ARP",
+    "arpTooltip": "Position moyenne du classement",
+    "atrp": "ATRP",
+    "atrpTooltip": "Position moyenne du meilleur classement",
+    "solv": "SoLV",
+    "solvTooltip": "Part de visibilité locale",
+    "addedOn": "Ajouté le",
+    "status": "Statut",
+    "actions": "Actions",
+    "viewReport": "Voir le rapport",
+    "delete": "Supprimer"
+  },
+  "pagination": {
+    "showing": "Affichage de {{start}} à {{end}} sur {{total}} mots-clés",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "empty": {
+    "title": "Aucun mot-clé trouvé",
+    "description": "Commencez à suivre vos classements en ajoutant des mots-clés à ce projet.",
+    "button": "Ajoutez votre premier mot-clé"
+  },
+  "deleteDialog": {
+    "title": "Confirmer la suppression",
+    "description": "Êtes-vous sûr de vouloir supprimer {{count}} mot-clé{{plural}} ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer",
+    "deleting": "Suppression..."
+  },
+  "statuses": {
+    "completed": "Terminé",
+    "pending": "En attente",
+    "failed": "Échoué",
+    "processing": "En cours"
+  },
+  "errors": {
+    "title": "Erreur",
+    "fetch": "Échec du chargement des mots-clés",
+    "delete": "Échec de la suppression des mots-clés",
+    "missingProjectId": "L'identifiant du projet est manquant"
+  },
+  "success": {
+    "title": "Succès",
+    "delete1": "{{count}} mot-clé supprimé avec succès",
+    "delete2": "{{count}} mots-clés supprimés avec succès"
+  },
+  "loading": "Chargement...",
+  "tryAgain": "Réessayer"
+}

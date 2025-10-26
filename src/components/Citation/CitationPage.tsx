@@ -305,11 +305,11 @@ export const CitationPage: React.FC = () => {
           : "";
 
         setReportUrl(shareableUrl);
-        
+
         // Check if we're on a citation viewing route
         const isCitationViewRoute = /^\/citation\/\d+/.test(location.pathname);
         setShouldShowCopyModal(!isCitationViewRoute);
-        
+
         setHasSearched(true);
         refetch();
       },
@@ -336,7 +336,7 @@ export const CitationPage: React.FC = () => {
   const handleReportProgressSuccess = () => {
     setReportProgressOpen(false);
     setReportStatus(null);
-    
+
     // Only show copy URL modal if we decided to show it during report creation
     if (shouldShowCopyModal) {
       setCopyUrlModalOpen(true);
@@ -650,14 +650,21 @@ export const CitationPage: React.FC = () => {
                                       </span>
                                     </div>
                                     <div className="sm:hidden text-xs text-muted-foreground mt-1">
-                                      {row.businessName} • {row.phone}
+                                      {row.businessName} •{" "}
+                                      {row.phone &&
+                                      /^[\d+\-().\s]+$/.test(row.phone)
+                                        ? row.phone
+                                        : t("citationPage.noPhoneProvided")}
                                     </div>
                                   </TableCell>
                                   <TableCell className="hidden sm:table-cell text-xs sm:text-sm">
                                     {row.businessName}
                                   </TableCell>
                                   <TableCell className="hidden md:table-cell text-xs sm:text-sm">
-                                    {row.phone}
+                                    {row.phone &&
+                                    /^[\d+\-().\s]+$/.test(row.phone)
+                                      ? row.phone
+                                      : t("citationPage.noPhoneProvided")}
                                   </TableCell>
                                   <TableCell>
                                     <a

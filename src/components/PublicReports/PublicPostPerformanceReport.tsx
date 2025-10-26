@@ -37,7 +37,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -48,7 +48,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
     data: postData,
     isLoading,
     error,
-  } = usePerformancePostsReport(reportId);
+  } = usePerformancePostsReport(reportId, languageFullName);
   const reportType = postData?.data?.reportType.toLowerCase();
 
   // Extract visible sections from API response

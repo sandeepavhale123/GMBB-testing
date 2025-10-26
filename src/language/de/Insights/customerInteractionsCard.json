@@ -1,9 +1,9 @@
 {
   "customerInteractionsTitle": "Kundeninteraktionen",
-
+  "view": "Alle ansehen",
   "callsLabel": "Anrufe",
-  "websiteLabel": "Website",
-  "directionLabel": "Route",
+  "websiteLabel": "Webseite",
+  "directionLabel": "Wegbeschreibung",
   "messagesLabel": "Nachrichten",
   "desktopSearchLabel": "Desktop-Suche",
   "desktopMapLabel": "Desktop-Karte",

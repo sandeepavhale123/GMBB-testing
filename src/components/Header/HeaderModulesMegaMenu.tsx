@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 
 export const HeaderModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
+  const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
   const [isOpen, setIsOpen] = useState(false);
   const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -66,7 +67,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
 
     // Only show GMB listing if dashboardType is 0 or 1
     if (dashboardType === 0 || dashboardType === 1) {
-      const isInSingleListingContext = selectedListing && location.pathname.includes("/");
+      const isInSingleListingContext =
+        selectedListing && location.pathname.includes("/");
       const gmbModule = {
         name: isInSingleListingContext
           ? t("modulesMenu.gmbListing.single.name")
@@ -78,6 +80,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         href:
           isInSingleListingContext && selectedListing ? `/location-dashboard/${selectedListing.id}` : "/main-dashboard",
         comingSoon: false,
+        beta: false,
         beta: false,
       };
       return [gmbModule, ...baseModules];
@@ -92,12 +95,27 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         !menuRef.current.contains(event.target as Node) &&
         !buttonRef.current.contains(event.target as Node)
       ) {
+      if (
+        menuRef.current &&
+        buttonRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  return (
+    <div className="relative">
+      <Button
+        ref={buttonRef}
+        variant="ghost"
+        size="sm"
+        className="hover:bg-gray-100 p-2 shrink-0"
+        onClick={() => setIsOpen(!isOpen)}
+      >
   return (
     <div className="relative">
       <Button
@@ -231,3 +249,4 @@ export const HeaderModulesMegaMenu: React.FC = () => {
     </div>
   );
 };
+

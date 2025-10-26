@@ -9,7 +9,7 @@ interface ListingManagementSummaryProps {
 export const ListingManagementSummary: React.FC<
   ListingManagementSummaryProps
 > = ({ listingsCount, totalListings }) => {
-  const { t } = useI18nNamespace("Settings/listingManagementSearchError");
+  const { t } = useI18nNamespace("Settings/listingManagementSummary");
   return (
     <div className="mt-4 text-sm text-gray-600">
       {t("listingManagementSummary.showingListings", {
