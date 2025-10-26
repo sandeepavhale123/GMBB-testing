@@ -11,7 +11,7 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) 
     <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 460 }}>
       {/* Phone frame */}
       <div
-        className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden shadow-2xl border-bottom-0 "
+        className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden  "
         style={{ borderBottom: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
       >
         {/* Notch */}
