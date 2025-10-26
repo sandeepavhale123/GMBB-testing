@@ -8,7 +8,7 @@ interface PhonePreviewProps {
 
 export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) => {
   return (
-    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 280, height: 560 }}>
+    <div className="relative mx-auto scale-90 sm:scale-100" style={{ width: 380, height: 660 }}>
       {/* Phone frame */}
       <div className="absolute inset-0 border-[12px] border-black rounded-[40px] bg-white overflow-hidden shadow-2xl">
         {/* Notch */}
@@ -26,9 +26,9 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({ channel, content }) 
               className={cn(
                 "p-4 rounded-2xl max-w-[85%] shadow-sm",
                 channel === "sms"
-                  ? "bg-blue-500 text-white ml-auto rounded-tr-sm"
+                  ? "bg-blue-500 text-white  rounded-tr-sm"
                   : channel === "whatsapp"
-                    ? "bg-green-100 text-black ml-auto rounded-tr-sm"
+                    ? "bg-green-100 text-black  rounded-tr-sm"
                     : "bg-white border border-gray-200 text-black rounded-tl-sm",
               )}
             >
