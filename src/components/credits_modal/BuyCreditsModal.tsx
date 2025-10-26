@@ -1,25 +1,82 @@
 import React, { useState } from "react";
 import { X, Minus, Plus, Lock } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { loadStripe } from "@stripe/stripe-js";
+import axiosInstance from "@/api/axiosInstance";
+
+// ⚠️ Load Stripe publishable key from .env
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+);
 
 interface BuyCreditsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({ open, onOpenChange }) => {
+export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
+  open,
+  onOpenChange,
+}) => {
   const [credits, setCredits] = useState(1000);
+  const [loading, setLoading] = useState(false);
   const PRICE_PER_CREDIT = 0.005; // $0.005 per credit
 
   const handleIncrement = () => setCredits((prev) => prev + 1000);
-  const handleDecrement = () => setCredits((prev) => Math.max(1000, prev - 1000));
+  const handleDecrement = () =>
+    setCredits((prev) => Math.max(1000, prev - 1000));
   const totalPrice = (credits * PRICE_PER_CREDIT).toFixed(2);
 
-  const handleBuyNow = () => {
-    // TODO: Integrate with payment system
-    console.log(`Purchasing ${credits} credits for $${totalPrice}`);
-    onOpenChange(false);
+  const handleBuyNow = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_BASE_URL}/purchase-topup-credits`,
+        {
+          quantity: credits,
+          successUrl: `${window.location.origin}/verify-topup-credits`,
+          cancelUrl: `${window.location.origin}/module/geo-ranking`,
+        }
+      );
+
+      // ✅ Expecting backend to return Stripe Checkout URL
+      const data = response.data;
+      console.log("response from the backend", response.data);
+
+      if (data.id) {
+        // Get Stripe instance and redirect to checkout
+        const stripe = await stripePromise;
+        console.log("stripe key", stripe);
+
+        if (!stripe) {
+          throw new Error("Stripe failed to initialize");
+        }
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.id,
+        });
+        if (error) {
+          throw new Error(error.message);
+        }
+      } else if (data.url) {
+        // Fallback: Direct redirect to Stripe Checkout URL
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout session or URL received");
+      }
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+      alert(
+        error.response?.data?.message || "Payment failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -38,12 +95,16 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({ open, onOpenCh
         <div className="p-6 space-y-6">
           {/* Title */}
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center text-foreground">Buy Top-Up Credits</DialogTitle>
+            <DialogTitle className="text-2xl font-bold text-center text-foreground">
+              Buy Top-Up Credits
+            </DialogTitle>
           </DialogHeader>
 
           {/* Credits Input Section */}
           <div className="space-y-3">
-            <label className="text-sm font-medium text-muted-foreground">Credits</label>
+            <label className="text-sm font-medium text-muted-foreground">
+              Credits
+            </label>
             <div className="flex items-center justify-between bg-background border border-border rounded-lg px-4 py-3">
               <button
                 onClick={handleDecrement}
@@ -52,7 +113,9 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({ open, onOpenCh
               >
                 <Minus className="h-5 w-5" />
               </button>
-              <span className="text-2xl font-semibold text-foreground">{credits}</span>
+              <span className="text-2xl font-semibold text-foreground">
+                {credits}
+              </span>
               <button
                 onClick={handleIncrement}
                 className="text-muted-foreground hover:text-foreground focus:outline-none transition-colors"

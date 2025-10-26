@@ -17,6 +17,7 @@ import { VerifyPayment } from "@/pages/VerifyPayment";
 import GMBHealthPage from "@/pages/GMBHealthPage";
 import { ListingProvider } from "@/context/ListingContext";
 import ReportsPage from "@/pages/ReportsPage";
+import { VerifyTopUp } from "@/pages/VerifyTopUp";
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -222,6 +223,14 @@ export const generalRoutes: RouteConfig[] = [
     element: (
       <ProtectedRoute>
         <VerifyPayment />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/verify-topup-credits",
+    element: (
+      <ProtectedRoute>
+        <VerifyTopUp />
       </ProtectedRoute>
     ),
   },
