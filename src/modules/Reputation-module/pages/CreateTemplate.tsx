@@ -1,0 +1,211 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PhonePreview } from "@/modules/Reputation-module/components/PhonePreview";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const DEFAULT_SMS_TEMPLATE = `Hi Name!
+
+👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
+
+Review Link`;
+
+const DEFAULT_EMAIL_TEMPLATE = `Hi Name!
+
+👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
+
+Review Link`;
+
+const DEFAULT_WHATSAPP_TEMPLATE = `Hi Name!
+
+👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
+
+Review Link`;
+
+export const CreateTemplate: React.FC = () => {
+  const { t } = useI18nNamespace("Reputation/createTemplate");
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const [templateName, setTemplateName] = useState("");
+  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
+  const [selectedTemplate, setSelectedTemplate] = useState("default");
+  const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
+  const [scheduleEnabled, setScheduleEnabled] = useState(false);
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
+
+  const templateSchema = z.object({
+    templateName: z.string().min(1, t("validation.nameRequired")).max(100, "Template name must be less than 100 characters"),
+    channel: z.enum(["sms", "email", "whatsapp"]),
+    template: z.string().min(1, "Template cannot be empty"),
+    schedule: z.object({
+      enabled: z.boolean(),
+      date: z.string().optional(),
+      time: z.string().optional()
+    })
+  });
+
+  const handleChannelChange = (value: string) => {
+    if (value === "sms" || value === "email" || value === "whatsapp") {
+      setChannel(value);
+      if (value === "sms") {
+        setTemplateContent(DEFAULT_SMS_TEMPLATE);
+      } else if (value === "email") {
+        setTemplateContent(DEFAULT_EMAIL_TEMPLATE);
+      } else {
+        setTemplateContent(DEFAULT_WHATSAPP_TEMPLATE);
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const validatedData = templateSchema.parse({
+        templateName,
+        channel,
+        template: templateContent,
+        schedule: {
+          enabled: scheduleEnabled,
+          date: scheduleDate,
+          time: scheduleTime
+        }
+      });
+
+      toast({
+        title: t("success.title"),
+        description: t("success.description")
+      });
+
+      navigate("/module/reputation/request?tab=templates");
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Validation Error",
+          description: error.errors[0]?.message || "Please check your inputs",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
+  return (
+    <div className="pb-8 pt-4 min-h-screen bg-background">
+      <div className="mx-auto space-y-6">
+        {/* Page Title */}
+        <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
+
+        {/* Template Name Input */}
+        <div className="space-y-2">
+          <Input
+            placeholder={t("templateName.placeholder")}
+            value={templateName}
+            onChange={(e) => setTemplateName(e.target.value)}
+            className="w-full text-base"
+          />
+        </div>
+
+        {/* Channel Toggle */}
+        <div className="space-y-2">
+          <ToggleGroup
+            type="single"
+            value={channel}
+            onValueChange={handleChannelChange}
+            className="justify-start w-full"
+          >
+            <ToggleGroupItem
+              value="whatsapp"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
+              {t("channel.whatsapp")}
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="sms"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
+              {t("channel.sms")}
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="email"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
+              {t("channel.email")}
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+
+        {/* Template Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded-md">
+          {/* Left: Template Editor */}
+          <Card className="border-0">
+            <CardHeader>
+              <h3 className="text-lg font-semibold">{t("template.title")}</h3>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t("template.defaultTemplate")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Textarea
+                rows={10}
+                value={templateContent}
+                onChange={(e) => setTemplateContent(e.target.value)}
+                className="resize-none"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Right: Phone Preview */}
+          <div className="hidden md:flex items-center justify-center pt-[100px] pb-0 bg-blue-100">
+            <PhonePreview channel={channel} content={templateContent} />
+          </div>
+        </div>
+
+        {/* Schedule Section */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Switch checked={scheduleEnabled} onCheckedChange={setScheduleEnabled} />
+            <label className="text-sm font-medium text-foreground">{t("schedule.label")}</label>
+          </div>
+
+          {scheduleEnabled && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                type="date"
+                placeholder={t("schedule.date")}
+                value={scheduleDate}
+                onChange={(e) => setScheduleDate(e.target.value)}
+              />
+              <Input
+                type="time"
+                placeholder={t("schedule.time")}
+                value={scheduleTime}
+                onChange={(e) => setScheduleTime(e.target.value)}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-end pt-4">
+          <Button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-600 text-white px-8">
+            {t("submit")}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};

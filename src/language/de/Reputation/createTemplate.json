@@ -1,0 +1,33 @@
+{
+  "title": "Vorlage Erstellen",
+  "templateName": {
+    "label": "Vorlagenname",
+    "placeholder": "Vorlagennamen eingeben"
+  },
+  "channel": {
+    "label": "Kanal Auswählen",
+    "sms": "SMS",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Vorlage Auswählen",
+    "defaultTemplate": "Standardvorlage",
+    "greeting": "Hallo Name!",
+    "defaultMessage": "👋 Wir hoffen, dass Ihnen Ihre letzte Erfahrung mit uns gefallen hat. Könnten Sie sich einen Moment Zeit nehmen, um uns eine Bewertung zu hinterlassen? ⭐",
+    "reviewLink": "Bewertungslink"
+  },
+  "schedule": {
+    "label": "Vorlage planen (optional)",
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+  "submit": "Vorlage Speichern",
+  "validation": {
+    "nameRequired": "Vorlagenname ist erforderlich"
+  },
+  "success": {
+    "title": "Vorlage Erstellt",
+    "description": "Ihre Vorlage wurde erfolgreich erstellt"
+  }
+}

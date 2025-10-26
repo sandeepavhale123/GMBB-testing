@@ -5,6 +5,7 @@ import { Dashboard } from "@/modules/Reputation-module/pages/Dashboard";
 import { Review } from "@/modules/Reputation-module/pages/Review";
 import { Request } from "@/modules/Reputation-module/pages/Request";
 import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
+import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import type { RouteConfig } from "../routeConfig";
 
@@ -34,6 +35,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "create-campaign",
         element: <CreateCampaign />,
+      },
+      {
+        path: "create-template",
+        element: <CreateTemplate />,
       },
       {
         path: "setting",

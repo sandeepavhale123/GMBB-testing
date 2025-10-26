@@ -37,17 +37,27 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Show back button only on create-campaign page
+  // Show back button on create-campaign and create-template pages
   const isCreateCampaignPage = location.pathname === "/module/reputation/create-campaign";
+  const isCreateTemplatePage = location.pathname === "/module/reputation/create-template";
+  const isCreatePage = isCreateCampaignPage || isCreateTemplatePage;
 
-  if (isCreateCampaignPage) {
+  const handleBackClick = () => {
+    if (isCreateTemplatePage) {
+      navigate("/module/reputation/request?tab=templates");
+    } else {
+      navigate("/module/reputation/request");
+    }
+  };
+
+  if (isCreatePage) {
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 py-4">
             <Button
               variant="ghost"
-              onClick={() => navigate("/module/reputation/request")}
+              onClick={handleBackClick}
               className="flex items-center gap-2"
             >
               <ArrowLeft size={18} />

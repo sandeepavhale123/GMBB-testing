@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -114,11 +114,20 @@ const mockTemplates: Template[] = [
 export const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("campaign");
   const isMobile = useIsMobile(1024);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [deleteTemplateId, setDeleteTemplateId] = useState<string | null>(null);
   const [deleteTemplateName, setDeleteTemplateName] = useState<string>("");
+
+  // Handle tab query parameter on mount
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (tabParam === "templates") {
+      setActiveTab("templates");
+    }
+  }, [searchParams]);
 
   const getChannelIcon = (channel: "SMS" | "Email") => {
     return channel === "SMS" ? <MessageSquare className="w-4 h-4" /> : <Mail className="w-4 h-4" />;
@@ -151,7 +160,7 @@ export const Request: React.FC = () => {
   };
 
   const handleCreateTemplate = () => {
-    toast.info(t("templates.empty.button"));
+    navigate("/module/reputation/create-template");
   };
 
   const handleViewTemplate = (templateName: string) => {
