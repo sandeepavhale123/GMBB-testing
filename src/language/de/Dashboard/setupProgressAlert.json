@@ -10,7 +10,7 @@
       "description": "Import von Bewertungsdaten und Analysen"
     },
     "insightData": {
-      "label": "Insights",
+      "label": "Einblicke",
       "description": "Verarbeitung von Leistungsdaten"
     },
     "qaData": {

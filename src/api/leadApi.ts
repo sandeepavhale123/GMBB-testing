@@ -2,6 +2,7 @@ import { languageMap } from "./../lib/languageMap";
 import apiClient from "@/api/axiosInstance";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // API Response interfaces
 export interface ApiLead {
@@ -290,14 +291,15 @@ export const createGmbHealthReport = async (
 
 // GMB Health Report React Query hook
 export const useCreateGmbHealthReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGmbHealthReport,
     onSuccess: (data) => {
-      toast.success("GMB Health report created successfully!");
+      toast.success(t("toasts.createGmbHealthReportSuccess"));
     },
     onError: (error: any) => {
       toast.error(
-        error?.response?.data?.message || "Failed to create GMB Health report"
+        error?.response?.data?.message || t("toasts.createGmbHealthReportError")
       );
     },
   });
@@ -333,14 +335,15 @@ export const createGeoReport = async (
 
 // GEO Report React Query hook
 export const useCreateGeoReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGeoReport,
     onSuccess: (data) => {
-      toast.success("GEO Ranking report created successfully!");
+      toast.success(t("toasts.createGeoReportSuccess"));
     },
     onError: (error: any) => {
       toast.error(
-        error?.response?.data?.message || "Failed to create GEO ranking report"
+        error?.response?.data?.message || t("toasts.createGeoReportError")
       );
     },
   });
@@ -532,15 +535,15 @@ export const createLeadCitationReport = async (
 
 // Lead Citation Report React Query hook
 export const useCreateLeadCitationReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createLeadCitationReport,
     onSuccess: (data) => {
-      toast.success("Citation audit report created successfully!");
+      toast.success(t("toasts.createCitationReportSuccess"));
     },
     onError: (error: any) => {
       toast.error(
-        error?.response?.data?.message ||
-          "Failed to create citation audit report"
+        error?.response?.data?.message || t("toasts.createCitationReportError")
       );
     },
   });
@@ -768,14 +771,15 @@ export const getGmbProspectReport = async (
 
 // GMB Prospect Report React Query hooks
 export const useCreateGmbProspectReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createGmbProspectReport,
     onSuccess: (data) => {
-      toast.success("GMB Prospect report created successfully!");
+      toast.success(t("toasts.createProspectReportSuccess"));
     },
     onError: (error: any) => {
       toast.error(
-        error?.response?.data?.message || "Failed to create GMB Prospect report"
+        error?.response?.data?.message || t("toasts.createProspectReportError")
       );
     },
   });
@@ -935,14 +939,15 @@ export const getLeadKeywordDetails = async (
 
 // GEO Report React Query hooks
 export const useCreateLeadGeoReport = () => {
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: createLeadGeoReport,
     onSuccess: (data) => {
-      toast.success("GEO Ranking report created successfully!");
+      toast.success(t("toasts.createGeoReportSuccess"));
     },
     onError: (error: any) => {
       toast.error(
-        error?.response?.data?.message || "Failed to create GEO Ranking report"
+        error?.response?.data?.message || t("toasts.createGeoReportError")
       );
     },
   });
@@ -1058,17 +1063,17 @@ export const useGetLeadClassifierDetails = (leadId: number | null) => {
 
 export const useUpdateLeadClassifierDetails = () => {
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: updateLeadClassifierDetails,
     onSuccess: () => {
-      toast.success("Lead classification updated successfully!");
+      toast.success(t("toasts.updateLeadClassifierSuccess"));
       queryClient.invalidateQueries({ queryKey: ["leads"] });
       queryClient.invalidateQueries({ queryKey: ["leadSummary"] });
       queryClient.invalidateQueries({ queryKey: ["lead-classifier-details"] });
     },
     onError: () => {
-      toast.error("Failed to update lead classification");
+      toast.error(t("toasts.updateLeadClassifierError"));
     },
   });
 };
@@ -1201,28 +1206,28 @@ export const useGetCTAWithoutLogin = (reportId: string, language) => {
 
 export const useSaveCTACustomizer = () => {
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: saveCTACustomizer,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cta-details"] });
     },
     onError: () => {
-      toast.error("Failed to save CTA settings");
+      toast.error(t("toasts.failedCTA"));
     },
   });
 };
 
 export const useResetCTACustomizer = () => {
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: resetCTACustomizer,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cta-details"] });
     },
     onError: () => {
-      toast.error("Failed to reset CTA settings");
+      toast.error(t("toasts.resetCTA"));
     },
   });
 };
@@ -1241,16 +1246,16 @@ export const deleteLead = async (
 // Delete Lead React Query Hook
 export const useDeleteLead = () => {
   const queryClient = useQueryClient();
-
+  const { t } = useI18nNamespace("api/lead");
   return useMutation({
     mutationFn: deleteLead,
     onSuccess: () => {
-      toast.success("Lead deleted successfully!");
+      toast.success(t("toasts.leadSuccess"));
       queryClient.invalidateQueries({ queryKey: ["leads"] });
       queryClient.invalidateQueries({ queryKey: ["leadSummary"] });
     },
     onError: () => {
-      toast.error("Failed to delete lead");
+      toast.error(t("toasts.leadFail"));
     },
   });
 };

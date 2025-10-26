@@ -1,0 +1,34 @@
+{
+  "ctaSettings": {
+    "default": {
+      "callCTA": {
+        "header": "MIGLIORA IL TUO PUNTEGGIO GBP &&& Aumenta le tue chiamate",
+        "description": "Scopri come pagare ai tuoi dipendenti uno stipendio mensile semplicemente correggendo ciò che non funziona. Ottieni il tuo piano gratuito per superare la concorrenza!",
+        "buttonLabel": "PRENOTA UNA CHIAMATA",
+        "buttonLink": "#contact"
+      },
+      "appointmentCTA": {
+        "header": "MIGLIORA IL TUO PUNTEGGIO GBP &&& Aumenta le tue chiamate",
+        "description": "Scopri come pagare ai tuoi dipendenti uno stipendio mensile semplicemente correggendo ciò che non funziona. Ottieni il tuo piano gratuito per superare la concorrenza!",
+        "buttonLabel": "PRENOTA UNA CHIAMATA",
+        "buttonLink": "#contact"
+      }
+    },
+    "toast": {
+      "errorTitle": "Errore durante il caricamento delle impostazioni CTA.",
+      "errorDesc": "Utilizzo delle impostazioni predefinite. Aggiorna per riprovare.",
+      "ctaTitle": "Ripristino CTA",
+      "resetSuccess": "Le impostazioni CTA sono state ripristinate ai valori predefiniti."
+    },
+    "validation": {
+      "headerRequired": "L'intestazione è obbligatoria.",
+      "headerMax": "L'intestazione deve contenere meno di 100 caratteri.",
+      "descriptionRequired": "La descrizione è obbligatoria.",
+      "descriptionMax": "La descrizione deve contenere meno di 500 caratteri.",
+      "buttonLabelRequired": "L'etichetta del pulsante è obbligatoria.",
+      "buttonLabelMax": "L'etichetta del pulsante deve contenere meno di 50 caratteri.",
+      "buttonLinkInvalid": "Inserisci un URL valido.",
+      "hash": "I collegamenti con hash devono iniziare con #"
+    }
+  }
+}

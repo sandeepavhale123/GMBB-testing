@@ -281,7 +281,9 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
                                 className="text-xs"
                                 variant={isSelected ? "default" : "outline"}
                               >
-                                {isSelected ? "Selected" : "Select"}
+                                {isSelected
+                                  ? t("buttons.selected")
+                                  : t("buttons.select")}
                               </Button>
                             </div>
                           </div>

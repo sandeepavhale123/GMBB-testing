@@ -61,7 +61,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
               to={`/insights/${selectedListing?.id || "default"}`}
               className="text-sm text-primary hover:underline"
             >
-              View All
+              {t("view")}
             </Link>
           )}
         </div>
