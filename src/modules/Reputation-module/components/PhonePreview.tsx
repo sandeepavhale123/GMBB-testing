@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface PhonePreviewProps {
-  channel: "sms" | "email";
+  channel: "sms" | "email" | "whatsapp";
   content: string;
 }
 
@@ -35,6 +35,8 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({
                 "p-4 rounded-2xl max-w-[85%] shadow-sm",
                 channel === "sms"
                   ? "bg-blue-500 text-white ml-auto rounded-tr-sm"
+                  : channel === "whatsapp"
+                  ? "bg-green-100 text-black ml-auto rounded-tr-sm"
                   : "bg-white border border-gray-200 text-black rounded-tl-sm"
               )}
             >
@@ -46,7 +48,11 @@ export const PhonePreview: React.FC<PhonePreviewProps> = ({
                       <span
                         className={cn(
                           "underline font-medium cursor-pointer",
-                          channel === "sms" ? "text-white" : "text-blue-600"
+                          channel === "sms"
+                            ? "text-white"
+                            : channel === "whatsapp"
+                            ? "text-blue-600"
+                            : "text-blue-600"
                         )}
                       >
                         Review Link

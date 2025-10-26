@@ -7,7 +7,8 @@
   "channel": {
     "label": "Kanal Auswählen",
     "sms": "SMS",
-    "email": "E-Mail"
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
   },
   "contacts": {
     "title": "Kontakte hinzufügen",

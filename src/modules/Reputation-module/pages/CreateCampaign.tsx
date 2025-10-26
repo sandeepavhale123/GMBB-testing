@@ -29,13 +29,19 @@ const DEFAULT_EMAIL_TEMPLATE = `Hi Name!
 
 Review Link`;
 
+const DEFAULT_WHATSAPP_TEMPLATE = `Hi Name!
+
+👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
+
+Review Link`;
+
 export const CreateCampaign: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/createCampaign");
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const [campaignName, setCampaignName] = useState("");
-  const [channel, setChannel] = useState<"sms" | "email">("sms");
+  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("sms");
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [newContactName, setNewContactName] = useState("");
   const [newContactPhone, setNewContactPhone] = useState("");
@@ -50,7 +56,7 @@ export const CreateCampaign: React.FC = () => {
       .string()
       .min(1, t("validation.nameRequired"))
       .max(100, "Campaign name must be less than 100 characters"),
-    channel: z.enum(["sms", "email"]),
+    channel: z.enum(["sms", "email", "whatsapp"]),
     contacts: z
       .array(
         z.object({
@@ -68,9 +74,15 @@ export const CreateCampaign: React.FC = () => {
   });
 
   const handleChannelChange = (value: string) => {
-    if (value === "sms" || value === "email") {
+    if (value === "sms" || value === "email" || value === "whatsapp") {
       setChannel(value);
-      setTemplateContent(value === "sms" ? DEFAULT_SMS_TEMPLATE : DEFAULT_EMAIL_TEMPLATE);
+      if (value === "sms") {
+        setTemplateContent(DEFAULT_SMS_TEMPLATE);
+      } else if (value === "email") {
+        setTemplateContent(DEFAULT_EMAIL_TEMPLATE);
+      } else {
+        setTemplateContent(DEFAULT_WHATSAPP_TEMPLATE);
+      }
     }
   };
 
@@ -164,6 +176,12 @@ export const CreateCampaign: React.FC = () => {
               className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
             >
               {t("channel.email")}
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="whatsapp"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
+              {t("channel.whatsapp")}
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
