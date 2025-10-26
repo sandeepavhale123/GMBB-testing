@@ -206,7 +206,7 @@ export const CreateCampaign: React.FC = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] gap-4 items-end">
+            <div className="grid grid-cols-[1fr,1fr,auto] gap-4 items-end">
               <Input
                 placeholder={t("contacts.namePlaceholder")}
                 value={newContactName}
@@ -220,7 +220,7 @@ export const CreateCampaign: React.FC = () => {
               />
               <Button
                 onClick={handleAddContact}
-                className="bg-black hover:bg-black/90 text-white"
+                className="bg-black hover:bg-black/90 text-white whitespace-nowrap"
                 style={{ width: "138px" }}
               >
                 {t("contacts.addButton")}
