@@ -272,24 +272,18 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-around pt-4 border-t border-border">
-                  <button className="flex flex-col items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
-                      <ThumbsUp className="w-4 h-4 text-white" />
-                    </div>
+                  <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+                    <ThumbsUp className="w-5 h-5 text-orange-500" />
                     <span className="text-xs font-medium">Like</span>
                   </button>
 
-                  <button className="flex flex-col items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center">
-                      <MessageSquare className="w-4 h-4 text-white" />
-                    </div>
+                  <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+                    <MessageSquare className="w-5 h-5 text-gray-500" />
                     <span className="text-xs font-medium">Comment</span>
                   </button>
 
-                  <button className="flex flex-col items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </div>
+                  <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+                    <Share2 className="w-5 h-5 text-blue-500" />
                     <span className="text-xs font-medium">Share</span>
                   </button>
                 </div>
