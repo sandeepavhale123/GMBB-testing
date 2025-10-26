@@ -176,7 +176,7 @@ export const CreateCampaign: React.FC = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-[1fr,1fr,auto] gap-4 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] gap-4 items-end">
               <Input placeholder={t("contacts.namePlaceholder")} value={newContactName} onChange={e => setNewContactName(e.target.value)} />
               <Input type={channel === "email" ? "email" : "tel"} placeholder={channel === "email" ? t("contacts.emailPlaceholder") : t("contacts.phonePlaceholder")} value={newContactPhone} onChange={e => setNewContactPhone(e.target.value)} />
               <Button onClick={handleAddContact} className="bg-black hover:bg-black/90 text-white whitespace-nowrap" style={{
