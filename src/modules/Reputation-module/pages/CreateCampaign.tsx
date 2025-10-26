@@ -6,13 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PhonePreview } from "@/modules/Reputation-module/components/PhonePreview";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useToast } from "@/hooks/use-toast";
@@ -61,10 +55,8 @@ export const CreateCampaign: React.FC = () => {
       .array(
         z.object({
           name: z.string().min(1),
-          phone: z
-            .string()
-            .regex(/^\d{10,15}$/, t("validation.invalidPhone")),
-        })
+          phone: z.string().regex(/^\d{10,15}$/, t("validation.invalidPhone")),
+        }),
       )
       .min(1, t("validation.contactRequired")),
     template: z.string().min(1, "Template cannot be empty"),
@@ -78,9 +70,7 @@ export const CreateCampaign: React.FC = () => {
   const handleChannelChange = (value: string) => {
     if (value === "sms" || value === "email") {
       setChannel(value);
-      setTemplateContent(
-        value === "sms" ? DEFAULT_SMS_TEMPLATE : DEFAULT_EMAIL_TEMPLATE
-      );
+      setTemplateContent(value === "sms" ? DEFAULT_SMS_TEMPLATE : DEFAULT_EMAIL_TEMPLATE);
     }
   };
 
@@ -140,7 +130,7 @@ export const CreateCampaign: React.FC = () => {
   };
 
   return (
-    <div className="pt-[120px] pb-8 px-4 min-h-screen bg-background">
+    <div className="pb-8  min-h-screen bg-background">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Page Title */}
         <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
@@ -206,32 +196,22 @@ export const CreateCampaign: React.FC = () => {
                 onChange={(e) => setNewContactPhone(e.target.value)}
               />
             </div>
-            <Button
-              onClick={handleAddContact}
-              className="bg-black hover:bg-black/90 text-white w-[138px]"
-            >
+            <Button onClick={handleAddContact} className="bg-black hover:bg-black/90 text-white w-[138px]">
               {t("contacts.addButton")}
             </Button>
             {contacts.length > 0 && (
               <div className="mt-4 space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">
-                  Added Contacts ({contacts.length})
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Added Contacts ({contacts.length})</p>
                 <div className="space-y-2">
                   {contacts.map((contact, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-3 bg-muted rounded-md"
-                    >
+                    <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-md">
                       <span className="text-sm">
                         {contact.name} - {contact.phone}
                       </span>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          setContacts(contacts.filter((_, i) => i !== index))
-                        }
+                        onClick={() => setContacts(contacts.filter((_, i) => i !== index))}
                         className="text-destructive hover:text-destructive"
                       >
                         Remove
@@ -257,9 +237,7 @@ export const CreateCampaign: React.FC = () => {
                   <SelectValue placeholder={t("template.defaultTemplate")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="default">
-                    {t("template.defaultTemplate")}
-                  </SelectItem>
+                  <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -281,13 +259,8 @@ export const CreateCampaign: React.FC = () => {
         {/* Schedule Section */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <Switch
-              checked={scheduleEnabled}
-              onCheckedChange={setScheduleEnabled}
-            />
-            <label className="text-sm font-medium text-foreground">
-              {t("schedule.label")}
-            </label>
+            <Switch checked={scheduleEnabled} onCheckedChange={setScheduleEnabled} />
+            <label className="text-sm font-medium text-foreground">{t("schedule.label")}</label>
           </div>
 
           {scheduleEnabled && (
@@ -310,10 +283,7 @@ export const CreateCampaign: React.FC = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end pt-4">
-          <Button
-            onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-8"
-          >
+          <Button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-600 text-white px-8">
             {t("submit")}
           </Button>
         </div>
