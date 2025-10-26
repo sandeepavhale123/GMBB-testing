@@ -131,7 +131,7 @@ export const Request: React.FC = () => {
           {/* Campaign Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Campaign</h1>
+              <h1 className="text-2xl font-bold text-foreground">Campaign </h1>
             </div>
             <Button onClick={handleCreateCampaign}>
               <Plus className="w-4 h-4 mr-2" />
