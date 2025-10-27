@@ -1,6 +1,6 @@
 {
   "dashboard": {
-    "title": "Dashboard",
+    "title": "Cruscotto",
     "subtitle": "Monitora le prestazioni della tua attività su tutte le piattaforme"
   },
   "aiTasks": {
@@ -40,7 +40,7 @@
     "subtitle": "Monitora e gestisci le tue schede di Google Business Profile"
   },
   "insights": {
-    "title": "Analisi",
+    "title": "Approfondimenti",
     "subtitle": "Esamina le informazioni sulle prestazioni per migliorare la tua visibilità locale"
   },
   "keywords": {

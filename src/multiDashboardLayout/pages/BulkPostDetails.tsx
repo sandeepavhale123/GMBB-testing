@@ -611,7 +611,7 @@ const FilterSection = memo(
             </SelectItem>
             <SelectItem value="failed">
               {" "}
-              {t("bulkPostDetails.filter.postStatus")}
+              {t("bulkPostDetails.filter.failed")}
             </SelectItem>
           </SelectContent>
         </Select>

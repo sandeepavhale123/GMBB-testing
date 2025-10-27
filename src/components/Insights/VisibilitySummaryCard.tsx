@@ -167,11 +167,15 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                       <Bar
                         dataKey="search"
                         fill="hsl(var(--primary))"
-                        name="Search"
+                        name={t("searchBarName")}
                       />
                     )}
                     {visibleBars.maps && (
-                      <Bar dataKey="maps" fill="#ef4444" name="Maps" />
+                      <Bar
+                        dataKey="maps"
+                        fill="#ef4444"
+                        name={t("mapsBarName")}
+                      />
                     )}
                   </BarChart>
                 </ResponsiveContainer>
