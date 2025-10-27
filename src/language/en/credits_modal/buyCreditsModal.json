@@ -1,0 +1,22 @@
+{
+  "buyCreditsModal": {
+    "title": "Buy Top-Up Credits",
+    "creditsLabel": "Credits",
+    "priceLabel": "Price:",
+    "buyNowButton": "Buy Now",
+    "cancelButton": "Cancel",
+    "securePayment": "Secure payment processed by Stripe",
+    "alert": {
+      "paymentFailed": "Payment failed. Please try again.",
+      "stripeInitFailed": "Stripe failed to initialize",
+      "noSessionUrl": "No checkout session or URL received"
+    },
+    "placeholder": {
+      "close": "Close"
+    },
+    "log": {
+      "backendResponse": "Response from the backend",
+      "stripeKey": "Stripe key"
+    }
+  }
+}

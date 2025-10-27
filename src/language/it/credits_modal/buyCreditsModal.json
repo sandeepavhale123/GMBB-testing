@@ -1,0 +1,22 @@
+{
+  "buyCreditsModal": {
+    "title": "Acquista Crediti di Ricarica",
+    "creditsLabel": "Crediti",
+    "priceLabel": "Prezzo:",
+    "buyNowButton": "Acquista Ora",
+    "cancelButton": "Annulla",
+    "securePayment": "Pagamento sicuro elaborato da Stripe",
+    "alert": {
+      "paymentFailed": "Pagamento non riuscito. Riprova.",
+      "stripeInitFailed": "Impossibile inizializzare Stripe",
+      "noSessionUrl": "Nessuna sessione di pagamento o URL ricevuto"
+    },
+    "placeholder": {
+      "close": "Chiudi"
+    },
+    "log": {
+      "backendResponse": "Risposta dal backend",
+      "stripeKey": "Chiave Stripe"
+    }
+  }
+}
