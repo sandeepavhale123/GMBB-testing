@@ -16,27 +16,33 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-const utmSchema = z.object({
-  websiteUrl: z.string().url({ message: "Must be a valid URL" }),
-  campaignName: z.string().min(1, { message: "Campaign name is required" }),
-  campaignSource: z.string().min(1, { message: "Campaign source is required" }),
-  campaignMedium: z.string().min(1, { message: "Campaign medium is required" }),
-  campaignTerm: z.string().optional(),
-  campaignContent: z.string().optional(),
-});
-
-type UtmFormData = z.infer<typeof utmSchema>;
-
 interface UtmTrackingBuilderModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = ({
-  isOpen,
-  onClose,
-}) => {
+export const UtmTrackingBuilderModal: React.FC<
+  UtmTrackingBuilderModalProps
+> = ({ isOpen, onClose }) => {
   const { t } = useI18nNamespace("Utils/utmTrackingBuilder");
+
+  const utmSchema = z.object({
+    websiteUrl: z.string().url({ message: t("modal.validation.url") }),
+    campaignName: z
+      .string()
+      .min(1, { message: t("modal.validation.campaign") }),
+    campaignSource: z
+      .string()
+      .min(1, { message: t("modal.validation.Source") }),
+    campaignMedium: z
+      .string()
+      .min(1, { message: t("modal.validation.Medium") }),
+    campaignTerm: z.string().optional(),
+    campaignContent: z.string().optional(),
+  });
+
+  type UtmFormData = z.infer<typeof utmSchema>;
+
   const [generatedUrl, setGeneratedUrl] = useState("");
 
   const {
@@ -54,7 +60,12 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
 
   useEffect(() => {
     try {
-      if (formValues.websiteUrl && formValues.campaignName && formValues.campaignSource && formValues.campaignMedium) {
+      if (
+        formValues.websiteUrl &&
+        formValues.campaignName &&
+        formValues.campaignSource &&
+        formValues.campaignMedium
+      ) {
         const url = new URL(formValues.websiteUrl);
         url.searchParams.set("utm_campaign", formValues.campaignName);
         url.searchParams.set("utm_source", formValues.campaignSource);
@@ -98,7 +109,7 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
 
         <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
           <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
+          <span className="sr-only">{t("modal.form.close")}</span>
         </DialogClose>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-4">
@@ -117,7 +128,9 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium text-sm">{t("modal.info.example.title")}</h4>
+              <h4 className="font-medium text-sm">
+                {t("modal.info.example.title")}
+              </h4>
               <div className="bg-background p-3 rounded border border-border">
                 <code className="text-xs break-all text-muted-foreground">
                   {t("modal.info.example.url")}
@@ -126,10 +139,19 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium text-sm">{t("modal.info.benefits.title")}</h4>
+              <h4 className="font-medium text-sm">
+                {t("modal.info.benefits.title")}
+              </h4>
               <ul className="space-y-2">
-                {(t("modal.info.benefits.list", { returnObjects: true }) as string[]).map((benefit, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                {(
+                  t("modal.info.benefits.list", {
+                    returnObjects: true,
+                  }) as string[]
+                ).map((benefit, index) => (
+                  <li
+                    key={index}
+                    className="flex items-start gap-2 text-sm text-muted-foreground"
+                  >
                     <span className="text-primary mt-0.5">•</span>
                     <span>{benefit}</span>
                   </li>
@@ -143,7 +165,8 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
             <form className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="websiteUrl">
-                  {t("modal.form.websiteUrl.label")} <span className="text-destructive">*</span>
+                  {t("modal.form.websiteUrl.label")}{" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="websiteUrl"
@@ -152,13 +175,16 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
                   {...register("websiteUrl")}
                 />
                 {errors.websiteUrl && (
-                  <p className="text-xs text-destructive">{errors.websiteUrl.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.websiteUrl.message}
+                  </p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="campaignName">
-                  {t("modal.form.campaignName.label")} <span className="text-destructive">*</span>
+                  {t("modal.form.campaignName.label")}{" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="campaignName"
@@ -166,14 +192,17 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
                   {...register("campaignName")}
                 />
                 {errors.campaignName && (
-                  <p className="text-xs text-destructive">{errors.campaignName.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.campaignName.message}
+                  </p>
                 )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="campaignSource">
-                    {t("modal.form.campaignSource.label")} <span className="text-destructive">*</span>
+                    {t("modal.form.campaignSource.label")}{" "}
+                    <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="campaignSource"
@@ -181,13 +210,16 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
                     {...register("campaignSource")}
                   />
                   {errors.campaignSource && (
-                    <p className="text-xs text-destructive">{errors.campaignSource.message}</p>
+                    <p className="text-xs text-destructive">
+                      {errors.campaignSource.message}
+                    </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="campaignMedium">
-                    {t("modal.form.campaignMedium.label")} <span className="text-destructive">*</span>
+                    {t("modal.form.campaignMedium.label")}{" "}
+                    <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="campaignMedium"
@@ -195,7 +227,9 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
                     {...register("campaignMedium")}
                   />
                   {errors.campaignMedium && (
-                    <p className="text-xs text-destructive">{errors.campaignMedium.message}</p>
+                    <p className="text-xs text-destructive">
+                      {errors.campaignMedium.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -203,7 +237,10 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="campaignTerm">
-                    {t("modal.form.campaignTerm.label")} <span className="text-muted-foreground text-xs">({t("modal.form.optional")})</span>
+                    {t("modal.form.campaignTerm.label")}{" "}
+                    <span className="text-muted-foreground text-xs">
+                      ({t("modal.form.optional")})
+                    </span>
                   </Label>
                   <Input
                     id="campaignTerm"
@@ -214,7 +251,10 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
 
                 <div className="space-y-2">
                   <Label htmlFor="campaignContent">
-                    {t("modal.form.campaignContent.label")} <span className="text-muted-foreground text-xs">({t("modal.form.optional")})</span>
+                    {t("modal.form.campaignContent.label")}{" "}
+                    <span className="text-muted-foreground text-xs">
+                      ({t("modal.form.optional")})
+                    </span>
                   </Label>
                   <Input
                     id="campaignContent"
@@ -230,7 +270,9 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
                 <Label>{t("modal.form.generatedUrl")}</Label>
                 <div className="flex gap-2">
                   <div className="flex-1 bg-muted p-3 rounded border border-border">
-                    <p className="text-sm break-all text-foreground">{generatedUrl}</p>
+                    <p className="text-sm break-all text-foreground">
+                      {generatedUrl}
+                    </p>
                   </div>
                   <Button
                     type="button"
@@ -246,11 +288,7 @@ export const UtmTrackingBuilderModal: React.FC<UtmTrackingBuilderModalProps> = (
             )}
 
             <div className="flex justify-end gap-2 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleClearForm}
-              >
+              <Button type="button" variant="outline" onClick={handleClearForm}>
                 <RotateCcw className="w-4 h-4 mr-2" />
                 {t("modal.form.clearForm")}
               </Button>

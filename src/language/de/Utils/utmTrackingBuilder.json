@@ -1,12 +1,12 @@
 {
   "modal": {
-    "title": "UTM-Tracking-Generator",
+    "title": "UTM-URL-Generator",
     "info": {
       "title": "Was ist UTM-Tracking?",
-      "description": "UTM-Parameter sind Tags, die Sie URLs hinzufügen, um Marketingkampagnen in Analysetools wie Google Analytics zu verfolgen. Sie helfen Ihnen zu verstehen, welche Kampagnen Traffic und Conversions generieren.",
+      "description": "UTM-Parameter sind Tags, die Sie zu URLs hinzufügen, um Marketingkampagnen in Analysetools wie Google Analytics zu verfolgen. Sie helfen Ihnen zu verstehen, welche Kampagnen den Traffic und die Conversions antreiben.",
       "example": {
         "title": "Beispiel-UTM-URL:",
-        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=sommer_sale"
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=summer_sale"
       },
       "benefits": {
         "title": "Vorteile:",
@@ -25,7 +25,7 @@
       },
       "campaignName": {
         "label": "Kampagnenname",
-        "placeholder": "sommer_sale_2025"
+        "placeholder": "summer_sale_2025"
       },
       "campaignSource": {
         "label": "Kampagnenquelle",
@@ -37,17 +37,24 @@
       },
       "campaignTerm": {
         "label": "Kampagnenbegriff",
-        "placeholder": "laufschuhe"
+        "placeholder": "running+shoes"
       },
       "campaignContent": {
         "label": "Kampagneninhalt",
-        "placeholder": "banner_anzeige, text_link"
+        "placeholder": "banner_ad, text_link"
       },
       "optional": "optional",
       "generatedUrl": "Generierte UTM-URL",
       "copyUrl": "URL kopieren",
-      "copySuccess": "UTM-URL in die Zwischenablage kopiert!",
-      "clearForm": "Formular löschen"
+      "copySuccess": "UTM-URL wurde in die Zwischenablage kopiert!",
+      "clearForm": "Formular löschen",
+      "close": "Schließen"
+    },
+    "validation": {
+      "url": "Muss eine gültige URL sein",
+      "campaign": "Kampagnenname ist erforderlich",
+      "Source": "Kampagnenquelle ist erforderlich",
+      "Medium": "Kampagnenmedium ist erforderlich"
     }
   }
 }

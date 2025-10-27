@@ -47,7 +47,14 @@
       "generatedUrl": "Generated UTM URL",
       "copyUrl": "Copy URL",
       "copySuccess": "UTM URL copied to clipboard!",
-      "clearForm": "Clear Form"
+      "clearForm": "Clear Form",
+      "close":"Close"
+    },
+    "validation":{
+      "url":"Must be a valid URL",
+      "campaign":"Campaign name is required",
+      "Source":"Campaign source is required",
+      "Medium":"Campaign medium is required"
     }
   }
 }

@@ -1,9 +1,9 @@
 {
   "modal": {
-    "title": "Générateur de suivi UTM",
+    "title": "Générateur d'URL UTM",
     "info": {
       "title": "Qu'est-ce que le suivi UTM ?",
-      "description": "Les paramètres UTM sont des balises que vous ajoutez aux URL pour suivre les campagnes marketing dans des outils d'analyse comme Google Analytics. Ils vous aident à comprendre quelles campagnes génèrent du trafic et des conversions.",
+      "description": "Les paramètres UTM sont des balises que vous ajoutez aux URL pour suivre vos campagnes marketing dans des outils d'analyse comme Google Analytics. Ils vous permettent de comprendre quelles campagnes génèrent du trafic et des conversions.",
       "example": {
         "title": "Exemple d'URL UTM :",
         "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=soldes_ete"
@@ -11,10 +11,10 @@
       "benefits": {
         "title": "Avantages :",
         "list": [
-          "Suivre précisément les performances des campagnes",
-          "Identifier vos meilleures sources de trafic",
-          "Mesurer le ROI des dépenses marketing",
-          "Optimiser votre stratégie marketing"
+          "Suivez avec précision les performances de vos campagnes",
+          "Identifiez vos meilleures sources de trafic",
+          "Mesurez le retour sur investissement (ROI) de vos dépenses marketing",
+          "Optimisez votre stratégie marketing"
         ]
       }
     },
@@ -47,7 +47,14 @@
       "generatedUrl": "URL UTM générée",
       "copyUrl": "Copier l'URL",
       "copySuccess": "URL UTM copiée dans le presse-papiers !",
-      "clearForm": "Effacer le formulaire"
+      "clearForm": "Effacer le formulaire",
+      "close": "Fermer"
+    },
+    "validation": {
+      "url": "Doit être une URL valide",
+      "campaign": "Le nom de la campagne est requis",
+      "Source": "La source de la campagne est requise",
+      "Medium": "Le support de la campagne est requis"
     }
   }
 }
