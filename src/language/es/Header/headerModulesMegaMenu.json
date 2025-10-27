@@ -7,6 +7,10 @@
       "utmBuilder": {
         "name": "Generador de seguimiento UTM",
         "description": "Crea URL de campaña rastreables"
+      },
+      "buyCredits": {
+        "name": "Comprar créditos",
+        "description": "Compra créditos para tu cuenta"
       }
     },
     "gmbListing": {

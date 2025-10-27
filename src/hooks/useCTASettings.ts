@@ -71,6 +71,11 @@ export const singleCTASettingsSchema = z.object({
 
 export type SingleCTASettings = z.infer<typeof singleCTASettingsSchema>;
 
+export type CTASettings = {
+  callCTA: SingleCTASettings;
+  appointmentCTA: SingleCTASettings;
+};
+
 export const useCTASettings = () => {
   const { t } = useI18nNamespace("hooks/useCTASettings");
 
@@ -80,8 +85,6 @@ export const useCTASettings = () => {
     callCTA: dynamicSchema,
     appointmentCTA: dynamicSchema,
   });
-
-  type CTASettings = z.infer<typeof ctaSettingsSchema>;
 
   const DEFAULT_CTA_SETTINGS: CTASettings = {
     callCTA: {

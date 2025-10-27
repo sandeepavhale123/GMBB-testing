@@ -7,6 +7,10 @@
       "utmBuilder": {
         "name": "UTM-Tracking-Generator",
         "description": "Erstellen Sie nachverfolgbare Kampagnen-URLs"
+      },
+      "buyCredits": {
+        "name": "Guthaben kaufen",
+        "description": "Guthaben für Ihr Konto kaufen"
       }
     },
     "gmbListing": {

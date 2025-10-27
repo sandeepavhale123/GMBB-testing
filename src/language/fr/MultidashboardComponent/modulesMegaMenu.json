@@ -6,6 +6,10 @@
     "utmBuilder": {
       "name": "Générateur de suivi UTM",
       "description": "Créez des URL de campagne traçables"
+    },
+    "buyCredits": {
+      "name": "Acheter des crédits",
+      "description": "Achetez des crédits pour votre compte"
     }
   },
   "modules": {
