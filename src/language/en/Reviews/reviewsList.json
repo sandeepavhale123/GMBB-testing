@@ -2,6 +2,7 @@
   "reviewsList": {
     "title": "Customer Reviews",
     "errors": {
+      "title":"Error",
       "reviewsError": "Something went wrong while fetching reviews.",
       "replyError": "Error Sending Reply",
       "deleteReplyError": "Error Deleting Reply",
@@ -9,6 +10,8 @@
       "emptyReply": "Please enter a reply message"
     },
     "success": {
+      "title":"Success",
+      "replyTitle":"Reply Deleted",
       "replySent": "Reply sent successfully",
       "replyDeleted": "The reply has been deleted successfully",
       "refresh": "Review data refreshed successfully"

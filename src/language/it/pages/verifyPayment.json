@@ -1,21 +1,21 @@
 {
   "verifyPayment": {
     "loading": {
-      "title": "Verifica del pagamento",
+      "title": "Verifica del pagamento in corso",
       "description": "Attendere mentre verifichiamo il tuo pagamento..."
     },
     "success": {
       "title": "Pagamento verificato con successo!",
-      "description": "La tua iscrizione è stata attivata con successo. Ora puoi accedere a tutte le funzionalità premium.",
-      "button": "Continua al Dashboard"
+      "description": "Il tuo abbonamento è stato attivato con successo. Ora puoi accedere a tutte le funzionalità premium.",
+      "button": "Continua"
     },
     "error": {
-      "title": "Verifica del pagamento fallita",
+      "title": "Verifica del pagamento non riuscita",
       "buttonTryAgain": "Riprova",
-      "buttonBackHome": "Torna alla Home",
+      "buttonBackHome": "Torna alla home",
       "messages": {
         "invalidParams": "Parametri di verifica non validi",
-        "verificationFailed": "Verifica del pagamento fallita. Per favore riprova."
+        "verificationFailed": "Verifica del pagamento non riuscita. Per favore, riprova."
       }
     }
   }

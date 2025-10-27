@@ -43,11 +43,11 @@ import { useBulkPostSummary } from "@/hooks/useBulkPostSummary";
 import { useDebounce } from "@/hooks/useDebounce";
 import { format } from "date-fns";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-import { t } from "i18next";
 
 // Memoized Post Preview Component - Stable, doesn't re-render on search
 const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
   const { t } = useI18nNamespace("MultidashboardPages/bulkPostDetails");
+
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -131,6 +131,11 @@ const PostsTable = memo(
     onDeleteClick: (postId: string) => void;
   }) => {
     const { t } = useI18nNamespace("MultidashboardPages/bulkPostDetails");
+    const getTranslatedStatus = (status: string) => {
+      if (!status) return status;
+      // Convert status to lowercase to match JSON keys
+      return t(`bulkPostDetails.status.${status.toLowerCase()}`);
+    };
     const getStatusVariant = (status: string | null | undefined) => {
       if (!status) return "secondary";
       switch (status.toLowerCase()) {
@@ -211,7 +216,8 @@ const PostsTable = memo(
                     </TableCell>
                     <TableCell>
                       <Badge variant={getStatusVariant(post.status)}>
-                        {post.status}
+                        {getTranslatedStatus(post.status)}
+                        {/* {post.status} */}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -221,7 +227,7 @@ const PostsTable = memo(
                           <button
                             onClick={() => onViewPost(post)}
                             className="text-primary hover:bg-primary/10 p-1 rounded transition-colors"
-                            title="View Post"
+                            title={t("bulkPostDetails.postPreview.viewPost")}
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -229,7 +235,7 @@ const PostsTable = memo(
                         <button
                           onClick={() => onDeleteClick(post.id)}
                           className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
-                          title="Delete Post"
+                          title={t("bulkPostDetails.postPreview.deletePost")}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
