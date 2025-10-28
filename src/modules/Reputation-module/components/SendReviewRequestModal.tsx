@@ -62,10 +62,9 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
   // Determine available channels based on contact info
   const hasEmail = contact?.email && contact.email.trim() !== "";
   const hasPhone = contact?.phone && contact.phone.trim() !== "";
-  const availableChannels = {
-    email: hasEmail,
-    sms: hasPhone
-  };
+  
+  // Show tabs only if contact has both email and phone
+  const showTabs = hasEmail && hasPhone;
 
   const filteredTemplates = templates.filter(t => t.channel === selectedChannel);
   const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
@@ -127,8 +126,8 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Channel Selection - Only show if both channels are available */}
-          {availableChannels.email && availableChannels.sms && (
+          {/* Channel Selection - Only show if contact has both email and phone */}
+          {showTabs && (
             <ToggleGroup type="single" value={selectedChannel} onValueChange={(value) => value && setSelectedChannel(value as "SMS" | "Email")} className="grid w-full grid-cols-2">
               <ToggleGroupItem value="SMS" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
                 <MessageSquare className="w-4 h-4 mr-2" />
