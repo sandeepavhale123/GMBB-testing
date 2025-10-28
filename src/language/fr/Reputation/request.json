@@ -26,7 +26,8 @@
     "email": "Email"
   },
   "actions": {
-    "view": "Voir"
+    "view": "Voir",
+    "send": "Envoyer"
   },
   "empty": {
     "title": "Aucune campagne pour le moment",
@@ -65,6 +66,24 @@
       "description": "Êtes-vous sûr de vouloir supprimer ce modèle? Cette action ne peut pas être annulée.",
       "cancel": "Annuler",
       "confirm": "Supprimer"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Envoyer une Demande d'Avis",
+    "selectTemplate": "Sélectionnez un Modèle",
+    "noTemplatesAvailable": "Aucun modèle actif disponible",
+    "createTemplateFirst": "Veuillez d'abord créer un modèle",
+    "templatePreview": "Aperçu",
+    "cancel": "Annuler",
+    "send": "Envoyer",
+    "sending": "Envoi en cours...",
+    "success": {
+      "title": "Demande d'Avis Envoyée",
+      "description": "Votre demande d'avis a été envoyée avec succès à {{contactName}}"
+    },
+    "error": {
+      "title": "Échec de l'Envoi",
+      "description": "Impossible d'envoyer la demande d'avis. Veuillez réessayer."
     }
   }
 }

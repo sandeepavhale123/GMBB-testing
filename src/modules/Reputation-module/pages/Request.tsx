@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { AddContactModal } from "@/modules/Reputation-module/components/AddContactModal";
+import { SendReviewRequestModal } from "@/modules/Reputation-module/components/SendReviewRequestModal";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -165,6 +166,8 @@ export const Request: React.FC = () => {
   const [deleteContactName, setDeleteContactName] = useState<string>("");
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
+  const [sendModalOpen, setSendModalOpen] = useState(false);
+  const [selectedContactForSend, setSelectedContactForSend] = useState<Contact | null>(null);
 
   // Handle tab query parameter on mount
   useEffect(() => {
@@ -246,6 +249,46 @@ export const Request: React.FC = () => {
       addedOn: new Date().toLocaleDateString("en-GB"),
     };
     setContacts((prev) => [...prev, contact]);
+  };
+
+  const handleSendReviewRequest = async (contactId: string, templateId: string) => {
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const contact = contacts.find(c => c.id === contactId);
+    const template = mockTemplates.find(t => t.id === templateId);
+    
+    // Show success toast
+    toast.success(
+      t("sendReviewRequest.success.title"),
+      {
+        description: t("sendReviewRequest.success.description", { 
+          contactName: contact?.name 
+        })
+      }
+    );
+    
+    // Close modal
+    setSendModalOpen(false);
+    setSelectedContactForSend(null);
+  };
+
+  const handleOpenSendModal = (contact: Contact) => {
+    // Check if there are active templates
+    const activeTemplates = mockTemplates.filter(t => t.status === "active");
+    
+    if (activeTemplates.length === 0) {
+      toast.error(
+        t("sendReviewRequest.title"),
+        {
+          description: t("sendReviewRequest.createTemplateFirst")
+        }
+      );
+      return;
+    }
+    
+    setSelectedContactForSend(contact);
+    setSendModalOpen(true);
   };
 
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
@@ -530,6 +573,15 @@ export const Request: React.FC = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            onClick={() => handleOpenSendModal(contact)}
+                            aria-label={t("actions.send")}
+                            className="text-primary hover:text-primary hover:bg-primary/10"
+                          >
+                            <Send className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             onClick={() => handleViewContact(contact.name)}
                             aria-label="View contact"
                           >
@@ -644,6 +696,15 @@ export const Request: React.FC = () => {
         open={isAddContactModalOpen}
         onOpenChange={setIsAddContactModalOpen}
         onContactAdded={handleContactAdded}
+      />
+
+      {/* Send Review Request Modal */}
+      <SendReviewRequestModal
+        open={sendModalOpen}
+        onOpenChange={setSendModalOpen}
+        contact={selectedContactForSend}
+        templates={mockTemplates.filter(t => t.status === "active")}
+        onSend={handleSendReviewRequest}
       />
     </div>
   );

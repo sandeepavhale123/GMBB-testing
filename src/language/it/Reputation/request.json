@@ -26,7 +26,8 @@
     "email": "Email"
   },
   "actions": {
-    "view": "Visualizza"
+    "view": "Visualizza",
+    "send": "Invia"
   },
   "empty": {
     "title": "Nessuna campagna ancora",
@@ -65,6 +66,24 @@
       "description": "Sei sicuro di voler eliminare questo modello? Questa azione non può essere annullata.",
       "cancel": "Annulla",
       "confirm": "Elimina"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Invia Richiesta di Recensione",
+    "selectTemplate": "Seleziona un Modello",
+    "noTemplatesAvailable": "Nessun modello attivo disponibile",
+    "createTemplateFirst": "Si prega di creare prima un modello",
+    "templatePreview": "Anteprima",
+    "cancel": "Annulla",
+    "send": "Invia",
+    "sending": "Invio in corso...",
+    "success": {
+      "title": "Richiesta di Recensione Inviata",
+      "description": "La tua richiesta di recensione è stata inviata con successo a {{contactName}}"
+    },
+    "error": {
+      "title": "Invio Fallito",
+      "description": "Impossibile inviare la richiesta di recensione. Riprova."
     }
   }
 }

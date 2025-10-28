@@ -157,7 +157,7 @@ export const ModulesMegaMenu: React.FC = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <div className="text-sm font-medium">{module.name}</div>
-                        {module.comingSoon && (
+                        {'comingSoon' in module && module.comingSoon && (
                           <Badge
                             variant="secondary"
                             className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
@@ -165,7 +165,7 @@ export const ModulesMegaMenu: React.FC = () => {
                             {t("comingSoon")}
                           </Badge>
                         )}
-                        {module.beta && (
+                        {'beta' in module && module.beta && (
                           <Badge
                             variant="secondary"
                             className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px]"

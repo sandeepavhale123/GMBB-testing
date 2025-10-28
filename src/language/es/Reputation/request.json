@@ -26,7 +26,8 @@
     "email": "Correo"
   },
   "actions": {
-    "view": "Ver"
+    "view": "Ver",
+    "send": "Enviar"
   },
   "empty": {
     "title": "Aún no hay campañas",
@@ -65,6 +66,24 @@
       "description": "¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.",
       "cancel": "Cancelar",
       "confirm": "Eliminar"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Enviar Solicitud de Reseña",
+    "selectTemplate": "Selecciona una Plantilla",
+    "noTemplatesAvailable": "No hay plantillas activas disponibles",
+    "createTemplateFirst": "Por favor, crea una plantilla primero",
+    "templatePreview": "Vista previa",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "success": {
+      "title": "Solicitud de Reseña Enviada",
+      "description": "Tu solicitud de reseña ha sido enviada exitosamente a {{contactName}}"
+    },
+    "error": {
+      "title": "Error al Enviar",
+      "description": "No se pudo enviar la solicitud de reseña. Por favor, inténtalo de nuevo."
     }
   }
 }
