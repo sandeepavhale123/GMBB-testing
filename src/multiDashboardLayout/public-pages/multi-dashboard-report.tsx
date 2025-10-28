@@ -1042,7 +1042,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {t("labels.lastPost")}:
                                     </span>
                                     <span className="text-foreground font-medium">
-                                      {listing.lastPost}
+                                      {listing.lastPost?.includes("No post")
+                                        ? t("labels.nopost")
+                                        : listing.lastPost}
                                     </span>
                                   </div>
                                   <div className="flex justify-between items-center text-sm">
@@ -1050,7 +1052,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {t("labels.autoReply")}:
                                     </span>
                                     <span className="text-foreground font-medium">
-                                      {listing.upcomingPost}
+                                      {listing.upcomingPost?.includes("No post")
+                                        ? t("labels.nopost")
+                                        : listing.upcomingPost}
                                     </span>
                                   </div>
                                 </div>

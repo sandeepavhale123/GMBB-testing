@@ -22,23 +22,23 @@
     },
     "avgRating": {
       "title": "Note moyenne",
-      "subtitle": "Sur l'ensemble des fiches"
+      "subtitle": "Sur toutes les fiches"
     },
     "totalPosts": {
       "title": "Nombre total de publications",
       "subtitle": "Contenu publié"
     },
     "totalReviews": {
-      "title": "Nombre total d'avis",
+      "title": "Nombre total d’avis",
       "subtitle": "Commentaires des clients"
     }
   },
-  "listing": "Tableau de bord GMB – {{name}}",
+  "listing": "Fiche GMB – tableau de bord {{name}}",
   "allcategories": "Toutes les catégories",
   "filters": {
     "dashboardSelector": "Sélectionner le type de tableau de bord",
     "default": "Tableau de bord par défaut",
-    "insight": "Tableau de bord des aperçus",
+    "insight": "Tableau de bord Insight",
     "review": "Tableau de bord des avis",
     "location": "Tableau de bord des emplacements",
     "post": "Tableau de bord des publications",
@@ -47,9 +47,9 @@
     "locations": "Tous les emplacements",
     "reviews": {
       "all": "Tous les avis",
-      "unresponded": "Avis non répondu",
-      "unrespondedARE": "Avis ARE non répondu",
-      "unrespondedDNR": "Avis DNR non répondu",
+      "unresponded": "Avis sans réponse",
+      "unrespondedARE": "ARE sans réponse",
+      "unrespondedDNR": "DNR sans réponse",
       "excludeARE": "Exclure les avis ARE",
       "excludeDNR": "Exclure les avis DNR",
       "excludeBoth": "Exclure les avis ARE/DNR"
@@ -95,18 +95,19 @@
     "phone": "Téléphone",
     "photos": "Photos",
     "rating": "Évaluation",
-    "website": "Site web",
+    "website": "Site Web",
     "map": "Carte",
     "lastPosts": "Dernières publications",
     "upcoming": "À venir",
     "lastPost": "Dernière publication",
-    "upcomingPost": "Prochaine publication",
+    "upcomingPost": "À venir",
     "zipLabel": "Code postal :",
     "na": "N/A",
-    "totalView": "Vues totales",
+    "totalView": "Nombre total de vues",
     "stateLabel": "État",
     "reviewLabel": "Avis",
-    "zipcodeLabel": "Code postal"
+    "zipcodeLabel": "Code postal",
+    "nopost": "Aucune publication"
   },
   "pagination": {
     "pageOf": "Page {{current}} sur {{total}}",

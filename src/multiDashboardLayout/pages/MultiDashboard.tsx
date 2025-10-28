@@ -1378,7 +1378,9 @@ export const MultiDashboard: React.FC = () => {
                               {t("listing.lastPost")}:
                             </span>
                             <span className="text-foreground font-medium">
-                              {listing.lastPost}
+                              {listing.lastPost?.includes("No post")
+                                ? t("listing.nopost")
+                                : listing.lastPost}
                             </span>
                           </div>
                           <div className="flex justify-between items-center text-sm">
@@ -1386,7 +1388,9 @@ export const MultiDashboard: React.FC = () => {
                               {t("listing.upcoming")}:
                             </span>
                             <span className="text-foreground font-medium">
-                              {listing.upcomingPost}
+                              {listing.upcomingPost?.includes("No post")
+                                ? t("listing.nopost")
+                                : listing.upcomingPost}
                             </span>
                           </div>
                         </div>

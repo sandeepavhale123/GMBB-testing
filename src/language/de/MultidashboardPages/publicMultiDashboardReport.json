@@ -4,8 +4,8 @@
     "dashboard": "Lade Dashboard-Daten..."
   },
   "error": {
-    "config": "Fehler beim Laden der Berichtskonfiguration",
-    "dashboard": "Fehler beim Laden der Dashboard-Daten",
+    "config": "Berichtskonfiguration konnte nicht geladen werden",
+    "dashboard": "Dashboard-Daten konnten nicht geladen werden",
     "retry": "Erneut versuchen"
   },
   "dashboardTypes": {
@@ -47,11 +47,11 @@
     "locations": "Alle Standorte",
     "reviews": {
       "all": "Alle Bewertungen",
-      "unresponded": "Unbeantwortete Bewertung",
-      "unrespondedARE": "Unbeantwortete ARE",
-      "unrespondedDNR": "Unbeantwortete DNR",
-      "excludeARE": "ARE-Bewertung ausschließen",
-      "excludeDNR": "DNR-Bewertung ausschließen",
+      "unresponded": "Nicht beantwortete Bewertung",
+      "unrespondedARE": "Nicht beantwortete ARE",
+      "unrespondedDNR": "Nicht beantwortete DNR",
+      "excludeARE": "ARE-Bewertungen ausschließen",
+      "excludeDNR": "DNR-Bewertungen ausschließen",
       "excludeBoth": "ARE/DNR-Bewertungen ausschließen"
     },
     "posts": {
@@ -66,10 +66,10 @@
     "showing": "Zeige {{count}} von {{total}} {{type}}",
     "noData": "Keine Daten verfügbar",
     "imageNotAvailable": "Bild nicht verfügbar",
-    "untitledPost": "Unbenannter Beitrag",
+    "untitledPost": "Beitrag ohne Titel",
     "openOnGoogle": "Auf Google öffnen",
     "viewOnGoogle": "Auf Google My Business ansehen",
-    "img": "IMG"
+    "img": "BILD"
   },
   "labels": {
     "id": "ID: {{id}}",
@@ -87,7 +87,7 @@
     "reviewStats": "Bewertungsstatistiken",
     "reviewsReplies": "Bewertungen / Antworten",
     "autoReply": "Automatische Antwort",
-    "reviewSentiment": "Bewertungsstimmung",
+    "reviewSentiment": "Bewertungssentiment",
     "positive": "Positiv",
     "neutral": "Neutral",
     "negative": "Negativ",
@@ -103,10 +103,11 @@
     "upcomingPost": "Bevorstehend",
     "zipLabel": "PLZ:",
     "na": "N/V",
-    "totalView": "Gesamtaufrufe",
+    "totalView": "Gesamtansichten",
     "stateLabel": "Bundesland",
     "reviewLabel": "Bewertungen",
-    "zipcodeLabel": "Postleitzahl"
+    "zipcodeLabel": "Postleitzahl",
+    "nopost": "Kein Beitrag"
   },
   "pagination": {
     "pageOf": "Seite {{current}} von {{total}}",
