@@ -292,7 +292,7 @@ export const Request: React.FC = () => {
   const renderTabContent = () => {
     if (activeTab === "campaign") {
       return (
-        <div className="p-6">
+        <div className="lg:p-5">
           {/* Campaign Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
@@ -378,7 +378,7 @@ export const Request: React.FC = () => {
 
     if (activeTab === "templates") {
       return (
-        <div className="p-6">
+        <div className="lg:p-5">
           {/* Template Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
@@ -471,10 +471,10 @@ export const Request: React.FC = () => {
 
     // Contacts tab
     return (
-      <div className="space-y-6">
+      <div className="lg:p-5">
         {/* Header with Toggle and Add Button */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-2xl font-semibold text-foreground">Contacts</h2>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h2 className="text-2xl font-bold text-foreground">Contacts</h2>
           <div className="flex items-center gap-3">
             {/* Toggle Buttons */}
             <div className="inline-flex rounded-lg border border-border bg-background p-1">
