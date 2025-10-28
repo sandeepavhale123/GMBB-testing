@@ -1,15 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Grid3X3,
-  TrendingUp,
-  Users,
-  Star,
-  Search,
-  Link as LinkIcon,
-  Store,
-  Globe,
-  Coins,
-} from "lucide-react";
+import { Grid3X3, TrendingUp, Users, Star, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -18,21 +8,10 @@ import { useListingContext } from "@/context/ListingContext";
 import { useLocation, Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
-import { BuyCreditsModal } from "@/components/credits_modal";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Separator } from "@/components/ui/separator";
 
 export const HeaderModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
   const [isOpen, setIsOpen] = useState(false);
-  const [isUtmModalOpen, setIsUtmModalOpen] = useState(false);
-  const [isBuyCreditsModalOpen, setIsBuyCreditsModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
@@ -42,35 +21,27 @@ export const HeaderModulesMegaMenu: React.FC = () => {
   const baseModules = [
     {
       name: t("modulesMenu.geoRanking.name"),
-      icon: Globe,
-      iconSrc: "/icons/geo-ranking.png", // Add your icon path here
-      bgColor: "#E8F5E9",
-      iconColor: "#388E3C",
+      description: t("modulesMenu.geoRanking.description"),
+      icon: TrendingUp,
       href: "/module/geo-ranking",
     },
     {
       name: t("modulesMenu.leadManagement.name"),
+      description: t("modulesMenu.leadManagement.description"),
       icon: Users,
-      iconSrc: "/icons/lead-management.png", // Add your icon path here
-      bgColor: "#E3F2FD",
-      iconColor: "#1976D2",
       href: "/module/lead",
     },
     {
-      name: "SEO Fixer",
+      name: t("modulesMenu.seo.name"),
+      description: t("modulesMenu.seo.description"),
       icon: Search,
-      iconSrc: "/icons/seo-fixer.png", // Add your icon path here
-      bgColor: "#FFF9C4",
-      iconColor: "#F57F17",
       href: "/module/live-seo-fixer",
       beta: true,
     },
     {
       name: t("modulesMenu.reputation.name"),
+      description: t("modulesMenu.reputation.description"),
       icon: Star,
-      iconSrc: "/icons/reputation.png", // Add your icon path here
-      bgColor: "#FFE0B2",
-      iconColor: "#E65100",
       href: "#",
       comingSoon: true,
     },
@@ -89,10 +60,10 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         name: isInSingleListingContext
           ? t("modulesMenu.gmbListing.single.name")
           : t("modulesMenu.gmbListing.multiple.name"),
-        icon: Store,
-        iconSrc: "/icons/gmb-listing.png", // Add your icon path here
-        bgColor: "#E3F2FD",
-        iconColor: "#1976D2",
+        description: isInSingleListingContext
+          ? t("modulesMenu.gmbListing.single.description")
+          : t("modulesMenu.gmbListing.multiple.description"),
+        icon: Grid3X3,
         href:
           isInSingleListingContext && selectedListing
             ? `/location-dashboard/${selectedListing.id}`
@@ -134,19 +105,19 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         <div
           ref={menuRef}
           className={cn(
-            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-[500]",
+            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
             isMobile
               ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]"
-              : "right-0 w-[500px]"
+              : "right-0 w-80"
           )}
         >
           <div className={cn("p-4", isMobile && "p-3")}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-md font-normal text-foreground">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-foreground">
                 {t("modulesMenu.title")}
               </h3>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
               {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
@@ -155,141 +126,68 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     key={module.name}
                     to={module.href}
                     className={cn(
-                      "relative flex flex-col items-center p-4 rounded-lg border transition-colors group",
+                      "flex items-start gap-3 p-3 rounded-md transition-colors group",
                       isActive
-                        ? "border-primary bg-primary/5"
-                        : "border-border bg-card hover:bg-accent hover:border-accent"
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-primary hover:text-primary-foreground"
                     )}
                     onClick={() => setIsOpen(false)}
                   >
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3">
-                      {module.iconSrc ? (
-                        <img
-                          src={module.iconSrc}
-                          alt={module.name}
-                          className="w-12 h-12 object-contain"
-                        />
-                      ) : (
-                        <IconComponent
-                          className="w-12 h-12"
-                          style={{ color: module.iconColor }}
-                        />
+                    <div
+                      className={cn(
+                        "flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center",
+                        isActive
+                          ? "bg-primary-foreground/20"
+                          : "bg-primary/10 group-hover:bg-primary-foreground/20"
                       )}
+                    >
+                      <IconComponent
+                        className={cn(
+                          "w-4 h-4",
+                          isActive
+                            ? "text-primary-foreground"
+                            : "text-primary group-hover:text-primary-foreground"
+                        )}
+                      />
                     </div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
-                            {module.name}
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{module.name}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    {module.comingSoon && (
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px] px-1.5 py-0.5"
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm font-medium">{module.name}</div>
+                        {module.comingSoon && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
+                          >
+                            {t("modulesMenu.comingSoon")}
+                          </Badge>
+                        )}
+                        {module.beta && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px]"
+                          >
+                            Beta
+                          </Badge>
+                        )}
+                      </div>
+                      <div
+                        className={cn(
+                          "text-xs mt-1",
+                          isActive
+                            ? "text-primary-foreground/80"
+                            : "text-muted-foreground group-hover:text-primary-foreground/80"
+                        )}
                       >
-                        {t("modulesMenu.comingSoon")}
-                      </Badge>
-                    )}
-                    {module.beta && (
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-2 right-2 bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px] px-1.5 py-0.5"
-                      >
-                        Beta
-                      </Badge>
-                    )}
+                        {module.description}
+                      </div>
+                    </div>
                   </Link>
                 );
               })}
             </div>
-
-            <Separator className="my-4" />
-
-            <div>
-              <h4 className="text-md font-normal text-foreground mb-3">
-                {t("modulesMenu.utilities.title")}
-              </h4>
-              <div className="grid grid-cols-2 md:grid-cols-3  gap-4">
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    setIsUtmModalOpen(true);
-                  }}
-                  className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
-                >
-                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
-                    <img
-                      src="/icons/utm-builder.png"
-                      alt="UTM Builder"
-                      className="w-12 h-12 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                        e.currentTarget.parentElement!.innerHTML =
-                          '<svg class="w-12 h-12" style="color: #7B1FA2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
-                      }}
-                    />
-                  </div>
-
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
-                          {t("modulesMenu.utilities.utmBuilder.name")}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("modulesMenu.utilities.utmBuilder.name")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    setIsBuyCreditsModalOpen(true);
-                  }}
-                  className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent transition-colors group w-full"
-                >
-                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mb-3">
-                    <Coins className="w-12 h-12 text-[#F57F17]" />
-                  </div>
-
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-sm font-medium text-center text-foreground truncate max-w-[12ch]">
-                          {t("modulesMenu.utilities.buyCredits.name")}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("modulesMenu.utilities.buyCredits.name")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}
-
-      <UtmTrackingBuilderModal
-        isOpen={isUtmModalOpen}
-        onClose={() => setIsUtmModalOpen(false)}
-      />
-
-      <BuyCreditsModal
-        open={isBuyCreditsModalOpen}
-        onOpenChange={setIsBuyCreditsModalOpen}
-      />
     </div>
   );
 };
