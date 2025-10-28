@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Select,
   SelectContent,
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Inbox, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Inbox, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
@@ -54,17 +55,17 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
   onSend,
 }) => {
   const { t } = useTranslation("Reputation/request");
+  const [selectedChannel, setSelectedChannel] = useState<"SMS" | "Email">("SMS");
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
   const [isSending, setIsSending] = useState(false);
 
-  // Filter templates based on contact's available information
-  const availableTemplates = templates.filter(template => {
-    if (template.channel === "Email" && contact?.email) return true;
-    if (template.channel === "SMS" && contact?.phone) return true;
-    return false;
-  });
-
+  const filteredTemplates = templates.filter(t => t.channel === selectedChannel);
   const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
+
+  // Reset template selection when channel changes
+  useEffect(() => {
+    setSelectedTemplateId("");
+  }, [selectedChannel]);
 
   const handleSend = async () => {
     if (!contact || !selectedTemplateId) return;
@@ -86,6 +87,7 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
       onOpenChange(newOpen);
       if (!newOpen) {
         setSelectedTemplateId("");
+        setSelectedChannel("SMS");
       }
     }
   };
@@ -103,7 +105,19 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {availableTemplates.length === 0 ? (
+          {/* Channel Selection */}
+          <ToggleGroup type="single" value={selectedChannel} onValueChange={(value) => value && setSelectedChannel(value as "SMS" | "Email")} className="grid w-full grid-cols-2">
+            <ToggleGroupItem value="SMS" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              <span>WhatsApp</span>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="Email" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+              <Mail className="w-4 h-4 mr-2" />
+              <span>SMS</span>
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          {filteredTemplates.length === 0 ? (
             <div className="py-8 text-center space-y-4">
               <div className="flex justify-center">
                 <Inbox className="w-12 h-12 text-muted-foreground" />
@@ -129,7 +143,7 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
                     <SelectValue placeholder={t("sendReviewRequest.selectTemplatePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {availableTemplates.map((template) => (
+                    {filteredTemplates.map((template) => (
                       <SelectItem key={template.id} value={template.id}>
                         {template.name}
                       </SelectItem>
