@@ -33,11 +33,22 @@ export const UtmTrackingBuilderModal: React.FC<
       .transform((val) => {
         const trimmed = val.trim();
         if (!trimmed) return trimmed;
-        // Auto-add https:// if no protocol present
-        if (!/^https?:\/\//i.test(trimmed)) {
-          return `https://${trimmed}`;
+        
+        // Check if user is trying to add a protocol (contains ://)
+        if (trimmed.includes('://')) {
+          // User has attempted a protocol, check if it's valid
+          if (/^https?:\/\//i.test(trimmed)) {
+            // Valid http/https protocol, return as-is
+            return trimmed;
+          } else {
+            // Invalid protocol detected (like h://, htt://, etc.)
+            // Return as-is and let URL validation fail with proper error
+            return trimmed;
+          }
         }
-        return trimmed;
+        
+        // No protocol attempt detected, auto-add https://
+        return `https://${trimmed}`;
       })
       .pipe(z.string().url({ message: t("modal.validation.url") })),
     campaignName: z
