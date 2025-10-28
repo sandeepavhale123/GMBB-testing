@@ -27,18 +27,41 @@ export const UtmTrackingBuilderModal: React.FC<
   const { t } = useI18nNamespace("Utils/utmTrackingBuilder");
 
   const utmSchema = z.object({
-    websiteUrl: z.string().url({ message: t("modal.validation.url") }),
+    websiteUrl: z
+      .string()
+      .min(1, { message: t("modal.validation.url") })
+      .transform((val) => {
+        const trimmed = val.trim();
+        if (!trimmed) return trimmed;
+        // Auto-add https:// if no protocol present
+        if (!/^https?:\/\//i.test(trimmed)) {
+          return `https://${trimmed}`;
+        }
+        return trimmed;
+      })
+      .pipe(z.string().url({ message: t("modal.validation.url") })),
     campaignName: z
       .string()
+      .trim()
       .min(1, { message: t("modal.validation.campaign") }),
     campaignSource: z
       .string()
+      .trim()
       .min(1, { message: t("modal.validation.Source") }),
     campaignMedium: z
       .string()
+      .trim()
       .min(1, { message: t("modal.validation.Medium") }),
-    campaignTerm: z.string().optional(),
-    campaignContent: z.string().optional(),
+    campaignTerm: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional(),
+    campaignContent: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional(),
   });
 
   type UtmFormData = z.infer<typeof utmSchema>;
@@ -67,15 +90,20 @@ export const UtmTrackingBuilderModal: React.FC<
         formValues.campaignMedium
       ) {
         const url = new URL(formValues.websiteUrl);
-        url.searchParams.set("utm_campaign", formValues.campaignName);
-        url.searchParams.set("utm_source", formValues.campaignSource);
-        url.searchParams.set("utm_medium", formValues.campaignMedium);
-        if (formValues.campaignTerm) {
-          url.searchParams.set("utm_term", formValues.campaignTerm);
-        }
-        if (formValues.campaignContent) {
-          url.searchParams.set("utm_content", formValues.campaignContent);
-        }
+        
+        // Helper function to add params only if they have valid values
+        const addParam = (key: string, value: string | undefined) => {
+          if (value && value.trim()) {
+            url.searchParams.set(key, value.trim());
+          }
+        };
+
+        addParam("utm_campaign", formValues.campaignName);
+        addParam("utm_source", formValues.campaignSource);
+        addParam("utm_medium", formValues.campaignMedium);
+        addParam("utm_term", formValues.campaignTerm);
+        addParam("utm_content", formValues.campaignContent);
+        
         setGeneratedUrl(url.toString());
       } else {
         setGeneratedUrl("");
