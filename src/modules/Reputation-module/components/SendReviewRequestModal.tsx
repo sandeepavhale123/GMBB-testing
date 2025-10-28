@@ -45,7 +45,6 @@ interface SendReviewRequestModalProps {
   contact: Contact | null;
   templates: Template[];
   onSend: (contactId: string, templateId: string) => Promise<void>;
-  preferredChannel?: "SMS" | "Email";
 }
 
 export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
@@ -54,7 +53,6 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
   contact,
   templates,
   onSend,
-  preferredChannel,
 }) => {
   const { t } = useTranslation("Reputation/request");
   const [selectedChannel, setSelectedChannel] = useState<"SMS" | "Email">("SMS");
@@ -65,19 +63,16 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
   const hasEmail = contact?.email && contact.email.trim() !== "";
   const hasPhone = contact?.phone && contact.phone.trim() !== "";
   
-  // Show tabs only if no preferred channel and contact has both email and phone
-  const showTabs = !preferredChannel && hasEmail && hasPhone;
+  // Show tabs only if contact has both email and phone
+  const showTabs = hasEmail && hasPhone;
 
   const filteredTemplates = templates.filter(t => t.channel === selectedChannel);
   const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
 
-  // Auto-select channel based on preferred channel or contact info
+  // Auto-select channel based on contact info
   useEffect(() => {
     if (contact) {
-      if (preferredChannel) {
-        // Use preferred channel if provided
-        setSelectedChannel(preferredChannel);
-      } else if (hasEmail && !hasPhone) {
+      if (hasEmail && !hasPhone) {
         setSelectedChannel("Email");
       } else if (hasPhone && !hasEmail) {
         setSelectedChannel("SMS");
@@ -86,7 +81,7 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
         setSelectedChannel("Email");
       }
     }
-  }, [contact, hasEmail, hasPhone, preferredChannel]);
+  }, [contact, hasEmail, hasPhone]);
 
   // Reset template selection when channel changes
   useEffect(() => {
@@ -136,11 +131,11 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
             <ToggleGroup type="single" value={selectedChannel} onValueChange={(value) => value && setSelectedChannel(value as "SMS" | "Email")} className="grid w-full grid-cols-2">
               <ToggleGroupItem value="SMS" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
                 <MessageSquare className="w-4 h-4 mr-2" />
-                <span>SMS</span>
+                <span>WhatsApp</span>
               </ToggleGroupItem>
               <ToggleGroupItem value="Email" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
                 <Mail className="w-4 h-4 mr-2" />
-                <span>Email</span>
+                <span>SMS</span>
               </ToggleGroupItem>
             </ToggleGroup>
           )}
