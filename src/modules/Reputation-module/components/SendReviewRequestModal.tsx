@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Select,
   SelectContent,
@@ -105,19 +105,17 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Channel Tabs */}
-          <Tabs value={selectedChannel} onValueChange={(value) => setSelectedChannel(value as "SMS" | "Email")}>
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="SMS" className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp</span>
-              </TabsTrigger>
-              <TabsTrigger value="Email" className="flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                <span>SMS</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          {/* Channel Selection */}
+          <ToggleGroup type="single" value={selectedChannel} onValueChange={(value) => value && setSelectedChannel(value as "SMS" | "Email")} className="grid w-full grid-cols-2">
+            <ToggleGroupItem value="SMS" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              <span>WhatsApp</span>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="Email" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+              <Mail className="w-4 h-4 mr-2" />
+              <span>SMS</span>
+            </ToggleGroupItem>
+          </ToggleGroup>
 
           {filteredTemplates.length === 0 ? (
             <div className="py-8 text-center space-y-4">
