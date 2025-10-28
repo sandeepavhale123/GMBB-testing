@@ -197,45 +197,47 @@ export const HeaderModulesMegaMenu: React.FC = () => {
               <h4 className="text-xs font-medium text-muted-foreground mb-2">
                 {t("modulesMenu.utilities.title")}
               </h4>
-              <button
-                onClick={() => {
-                  setIsUtmModalOpen(true);
-                  setIsOpen(false);
-                }}
-                className="flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-primary hover:text-primary-foreground w-full"
-              >
-                <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-primary/10 group-hover:bg-primary-foreground/20">
-                  <LinkIcon className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
-                </div>
-                <div className="min-w-0 flex-1 text-left">
-                  <div className="text-sm font-medium">
-                    {t("modulesMenu.utilities.utmBuilder.name")}
+              <div className={cn(isMobile ? "space-y-1" : "grid grid-cols-2 gap-2")}>
+                <button
+                  onClick={() => {
+                    setIsUtmModalOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-primary hover:text-primary-foreground w-full"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-primary/10 group-hover:bg-primary-foreground/20">
+                    <LinkIcon className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
                   </div>
-                  <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
-                    {t("modulesMenu.utilities.utmBuilder.description")}
+                  <div className="min-w-0 flex-1 text-left">
+                    <div className="text-sm font-medium">
+                      {t("modulesMenu.utilities.utmBuilder.name")}
+                    </div>
+                    <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
+                      {t("modulesMenu.utilities.utmBuilder.description")}
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
 
-              <button
-                onClick={() => {
-                  setIsBuyCreditsModalOpen(true);
-                  setIsOpen(false);
-                }}
-                className="flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-primary hover:text-primary-foreground w-full"
-              >
-                <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-primary/10 group-hover:bg-primary-foreground/20">
-                  <Coins className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
-                </div>
-                <div className="min-w-0 flex-1 text-left">
-                  <div className="text-sm font-medium">
-                    {t("modulesMenu.utilities.buyCredits.name")}
+                <button
+                  onClick={() => {
+                    setIsBuyCreditsModalOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-primary hover:text-primary-foreground w-full"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-primary/10 group-hover:bg-primary-foreground/20">
+                    <Coins className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
                   </div>
-                  <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
-                    {t("modulesMenu.utilities.buyCredits.description")}
+                  <div className="min-w-0 flex-1 text-left">
+                    <div className="text-sm font-medium">
+                      {t("modulesMenu.utilities.buyCredits.name")}
+                    </div>
+                    <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
+                      {t("modulesMenu.utilities.buyCredits.description")}
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
             </div>
           </div>
         </div>
