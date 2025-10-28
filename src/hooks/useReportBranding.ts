@@ -16,7 +16,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export const reportBrandingKeys = {
   all: ["reportBranding"] as const,
   details: () => [...reportBrandingKeys.all, "details"] as const,
-  leadReport: (reportId: string) =>
+  leadReport: (reportId: string, language: string) =>
     [...reportBrandingKeys.all, "leadReport", reportId] as const,
 };
 
@@ -86,10 +86,13 @@ export const useDeleteReportBranding = () => {
 };
 
 // Get Lead Report Branding hook
-export const useGetLeadReportBranding = (reportId: string) => {
+export const useGetLeadReportBranding = (
+  reportId: string,
+  language?: string
+) => {
   return useQuery({
-    queryKey: reportBrandingKeys.leadReport(reportId),
-    queryFn: () => getLeadReportBranding({ reportId }),
+    queryKey: reportBrandingKeys.leadReport(reportId, language),
+    queryFn: () => getLeadReportBranding({ reportId, language }),
     enabled: !!reportId,
     retry: false, // Don't retry on 404 - means no branding exists
   });

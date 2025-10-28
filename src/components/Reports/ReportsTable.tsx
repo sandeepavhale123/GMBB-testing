@@ -122,9 +122,9 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
       media: "/gmb-media",
       "geo-ranking": "/gmb-ranking",
     };
-
+    const ln = localStorage.getItem("i18nextLng");
     const basePath = sectionRouteMap[section] || "/gmb-health";
-    return `${basePath}/${reportId}?lang=en`;
+    return `${basePath}/${reportId}?lang=${ln}`;
   };
 
   const handleViewReport = (reportId: string, sections_visible: string[]) => {

@@ -1,6 +1,7 @@
 {
   "visibilitySummaryTitle": "Visibility Summary",
   "visibilitySummarySubtitle": "Total views from Google Search and Maps.",
+  "view":"View All",
   
   "googleSearchViews": "Google Search Views",
   "googleMapsViews": "Google Maps Views",

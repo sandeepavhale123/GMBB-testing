@@ -2,7 +2,7 @@
   "dashboard": {
     "header": {
       "title": "Gestione Progetti",
-      "description": "Gestisci i tuoi progetti di ranking GEO."
+      "description": "Gestisci i tuoi progetti di posizionamento GEO."
     },
     "buttons": {
       "createProject": "Crea Progetto",
@@ -11,14 +11,15 @@
       "cancel": "Annulla",
       "deleteProject": "Elimina Progetto",
       "view": "Visualizza",
-      "edit": "Modifica"
+      "edit": "Modifica",
+      "buy": "Acquista Crediti"
     },
     "dialog": {
       "createNew": "Crea Nuovo Progetto",
       "edit": "Modifica Progetto",
-      "descCreate": "Inserisci i dettagli per il tuo nuovo progetto di ranking GEO.",
-      "descEdit": "Aggiorna i dettagli del tuo progetto di ranking GEO.",
-      "projectName": "Nome Progetto",
+      "descCreate": "Inserisci i dettagli del tuo nuovo progetto di posizionamento GEO.",
+      "descEdit": "Aggiorna i dettagli del tuo progetto di posizionamento GEO.",
+      "projectName": "Nome del Progetto",
       "notificationEmail": "Email di Notifica",
       "placeholder": {
         "enterProjectName": "Inserisci il nome del progetto",
@@ -34,7 +35,7 @@
     },
     "table": {
       "searchPlaceholder": "Cerca progetti...",
-      "projectName": "Nome Progetto",
+      "projectName": "Nome del Progetto",
       "noOfKeywords": "Numero di Parole Chiave",
       "date": "Data",
       "notificationEmail": "Email di Notifica",
@@ -42,14 +43,14 @@
       "loadingProjects": "Caricamento progetti...",
       "noProjectsFound": "Nessun progetto trovato",
       "deleteConfirmationTitle": "Elimina Progetto",
-      "deleteConfirmationDescription": "Questa azione non può essere annullata. Verrà eliminato permanentemente il progetto \"{name}\" e tutti i dati correlati, incluse le parole chiave e i punti sulla mappa.",
-      "typeDeleteToConfirm": "Digita \"elimina\" per confermare",
-      "placeholderDelete": "elimina",
+      "deleteConfirmationDescription": "Questa azione non può essere annullata. Eliminerà definitivamente il progetto \"{name}\" e tutti i suoi dati correlati, inclusi parole chiave e punti mappa.",
+      "typeDeleteToConfirm": "Digita \"delete\" per confermare",
+      "placeholderDelete": "delete",
       "shareablelink": "Link Condivisibile",
       "noEmailProvided": "Nessuna email fornita"
     },
     "pagination": {
-      "showing": "Mostrati {{from}} - {{to}} di {{total}} progetti",
+      "showing": "Mostrando da {{from}} a {{to}} di {{total}} progetti",
       "previous": "Precedente",
       "next": "Successivo"
     },

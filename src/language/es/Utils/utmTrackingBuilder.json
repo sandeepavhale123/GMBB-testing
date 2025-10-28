@@ -1,0 +1,60 @@
+{
+  "modal": {
+    "title": "Generador de URL UTM",
+    "info": {
+      "title": "¿Qué es el seguimiento UTM?",
+      "description": "Los parámetros UTM son etiquetas que se agregan a las URL para rastrear campañas de marketing en herramientas de análisis como Google Analytics. Te ayudan a entender qué campañas generan tráfico y conversiones.",
+      "example": {
+        "title": "Ejemplo de URL UTM:",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=summer_sale"
+      },
+      "benefits": {
+        "title": "Beneficios:",
+        "list": [
+          "Rastrea el rendimiento de las campañas con precisión",
+          "Identifica tus mejores fuentes de tráfico",
+          "Mide el ROI del gasto en marketing",
+          "Optimiza tu estrategia de marketing"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "URL del sitio web",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Nombre de la campaña",
+        "placeholder": "summer_sale_2025"
+      },
+      "campaignSource": {
+        "label": "Fuente de la campaña",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Medio de la campaña",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Término de la campaña",
+        "placeholder": "running+shoes"
+      },
+      "campaignContent": {
+        "label": "Contenido de la campaña",
+        "placeholder": "banner_ad, text_link"
+      },
+      "optional": "opcional",
+      "generatedUrl": "URL UTM generada",
+      "copyUrl": "Copiar URL",
+      "copySuccess": "¡URL UTM copiada al portapapeles!",
+      "clearForm": "Limpiar formulario",
+      "close": "Cerrar"
+    },
+    "validation": {
+      "url": "Debe ser una URL válida",
+      "campaign": "El nombre de la campaña es obligatorio",
+      "Source": "La fuente de la campaña es obligatoria",
+      "Medium": "El medio de la campaña es obligatorio"
+    }
+  }
+}

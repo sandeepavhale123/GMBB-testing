@@ -53,7 +53,7 @@ import { Input } from "@/components/ui/input";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const PublicMultiDashboardReport: React.FC = () => {
-  const { t } = useI18nNamespace(
+  const { t, languageFullName: language } = useI18nNamespace(
     "MultidashboardPages/publicMultiDashboardReport"
   );
   const { token } = useParams<{ token: string }>();
@@ -83,7 +83,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
     data: reportConfig,
     isLoading: configLoading,
     error: configError,
-  } = usePublicReportConfig(token || "");
+  } = usePublicReportConfig(token || "", language);
 
   // Set initial dashboard type from API config, but allow user override
   const configDashboardFilterType = reportConfig?.data?.report
@@ -121,11 +121,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
     dateRange: dateRange.startDate && dateRange.endDate ? dateRange : undefined,
     postStatus: postStatus || undefined,
     reviewFilter,
+    language,
   });
 
   // Fetch categories and states for filters
   const { data: categoryStateData, isLoading: categoryStateLoading } =
-    usePublicCategoryAndState(token || "");
+    usePublicCategoryAndState(token || "", language);
 
   const availableCategories = categoryStateData?.data?.categories || [];
   const availableStates = categoryStateData?.data?.states || [];
@@ -1041,7 +1042,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {t("labels.lastPost")}:
                                     </span>
                                     <span className="text-foreground font-medium">
-                                      {listing.lastPost}
+                                      {listing.lastPost?.includes("No post")
+                                        ? t("labels.nopost")
+                                        : listing.lastPost}
                                     </span>
                                   </div>
                                   <div className="flex justify-between items-center text-sm">
@@ -1049,7 +1052,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {t("labels.autoReply")}:
                                     </span>
                                     <span className="text-foreground font-medium">
-                                      {listing.upcomingPost}
+                                      {listing.upcomingPost?.includes("No post")
+                                        ? t("labels.nopost")
+                                        : listing.upcomingPost}
                                     </span>
                                   </div>
                                 </div>

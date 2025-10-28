@@ -11,7 +11,8 @@
       "cancel": "Cancel",
       "deleteProject": "Delete Project",
       "view":"View",
-      "edit": "Edit"
+      "edit": "Edit",
+      "buy":"Buy Credits"
     },
     "dialog": {
       "createNew": "Create New Project",

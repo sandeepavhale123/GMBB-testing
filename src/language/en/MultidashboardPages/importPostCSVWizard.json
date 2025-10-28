@@ -7,6 +7,7 @@
       "3": "Quality Control",
       "4": "Submit"
     },
+    "uploadError":"Upload Error",
     "stepCount": "Step {{currentStep}} of 4",
     "selectListings": {
       "heading": "Select Listings",
@@ -54,6 +55,9 @@
     },
     "row":"Row",
     "error":"error(s)",
+    "file":"File",
+    "totalRows":"Total Rows",
+    "err":"Errors",
     "errors": {
         "title":"Error",
       "selectListing": "Please select at least one listing.",

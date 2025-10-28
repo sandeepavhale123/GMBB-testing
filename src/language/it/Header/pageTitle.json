@@ -4,8 +4,8 @@
     "subtitle": "Monitora le prestazioni della tua attività su tutte le piattaforme"
   },
   "aiTasks": {
-    "title": "Attività AI",
-    "subtitle": "Gestisci e traccia le attività di ottimizzazione con intelligenza artificiale"
+    "title": "Attività IA",
+    "subtitle": "Gestisci e monitora le attività di ottimizzazione basate sull'intelligenza artificiale"
   },
   "profile": {
     "title": "Profilo",
@@ -16,8 +16,8 @@
     "subtitle": "Crea e gestisci contenuti per tutte le sedi della tua attività"
   },
   "mediaLibrary": {
-    "title": "Libreria Media",
-    "subtitle": "Organizza e gestisci immagini e video della tua attività per tutte le piattaforme"
+    "title": "Libreria multimediale",
+    "subtitle": "Organizza e gestisci le immagini e i video della tua attività su tutte le piattaforme"
   },
   "reviews": {
     "title": "Recensioni",
@@ -29,43 +29,43 @@
   },
   "businessInfo": {
     "title": "Gestione",
-    "subtitle": "Gestisci le schede della tua attività e le informazioni sulle sedi"
+    "subtitle": "Gestisci le schede della tua attività e le informazioni sulla posizione"
   },
   "settings": {
     "title": "Impostazioni",
-    "subtitle": "Configura le preferenze del tuo account e le integrazioni"
+    "subtitle": "Configura le preferenze e le integrazioni del tuo account"
   },
   "manageListings": {
-    "title": "Gestisci Schede",
-    "subtitle": "Monitora e gestisci le schede del tuo Google Business Profile"
+    "title": "Gestisci schede",
+    "subtitle": "Monitora e gestisci le tue schede di Google Business Profile"
   },
   "insights": {
-    "title": "Insight",
-    "subtitle": "Analizza i dati per migliorare la tua visibilità locale"
+    "title": "Approfondimenti",
+    "subtitle": "Esamina le informazioni sulle prestazioni per migliorare la tua visibilità locale"
   },
   "keywords": {
-    "title": "Parole Chiave",
-    "subtitle": "Monitora il posizionamento delle parole chiave per località geografica"
+    "title": "Parole chiave",
+    "subtitle": "Monitora il posizionamento delle parole chiave per area geografica"
   },
   "searchKeyword": {
-    "title": "Cerca Parola Chiave",
-    "subtitle": "Parole Chiave"
+    "title": "Cerca parola chiave",
+    "subtitle": "Parole chiave"
   },
   "geoRanking": {
     "title": "Classifica GEO",
-    "subtitle": "Monitora il posizionamento delle parole chiave per località geografica"
+    "subtitle": "Monitora il posizionamento delle parole chiave per area geografica"
   },
   "geoRankingReport": {
-    "title": "Report Classifica GEO",
-    "subtitle": "Analisi dettagliata delle prestazioni nella ricerca locale"
+    "title": "Rapporto sulla classifica GEO",
+    "subtitle": "Analisi dettagliata delle prestazioni della tua ricerca locale"
   },
   "citationManagement": {
-    "title": "Gestione Citazioni",
-    "subtitle": "Monitora e gestisci le citazioni della tua attività nelle directory"
+    "title": "Gestione citazioni",
+    "subtitle": "Monitora e gestisci le citazioni della tua attività su vari elenchi"
   },
   "analytics": {
-    "title": "Analisi",
-    "subtitle": "Metriche complete e dati di performance per la tua attività"
+    "title": "Analitica",
+    "subtitle": "Metriche complete e dati sulle prestazioni della tua attività"
   },
   "team": {
     "title": "Team",
@@ -73,22 +73,25 @@
   },
   "notifications": {
     "title": "Notifiche",
-    "subtitle": "Rimani aggiornato con avvisi e notifiche importanti"
+    "subtitle": "Rimani aggiornato con avvisi e aggiornamenti importanti"
   },
   "reports": {
     "title": "Report",
-    "subtitle": "Visualizza e genera report di performance"
+    "subtitle": "Visualizza e genera report sulle prestazioni"
   },
   "aiChatbot": {
-    "title": "Assistenza AI Genie",
-    "subtitle": "Ricevi assistenza con intelligenza artificiale per l’ottimizzazione del ranking GEO"
+    "title": "Assistenza IA Genie",
+    "subtitle": "Ottieni assistenza basata sull'intelligenza artificiale per l'ottimizzazione del tuo posizionamento GEO"
   },
   "editTeamMember": {
-    "title": "Modifica Membro del Team",
-    "subtitle": "Gestisci il profilo, l’accesso alle schede e i permessi delle funzionalità"
+    "title": "Modifica membro del team",
+    "subtitle": "Gestisci il profilo, l'accesso e le autorizzazioni dei membri del team"
   },
   "welcomeDashboard": {
-    "title": "Cruscotto",
-    "subtitle": "Bentornato nel cruscotto della tua attività"
+    "title": "Dashboard",
+    "subtitle": "Bentornato nella dashboard della tua attività"
+  },
+  "gallery": {
+    "title": "Galleria"
   }
 }

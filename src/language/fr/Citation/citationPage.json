@@ -1,9 +1,9 @@
 {
   "citationPage": {
-    "loading": "Chargement de la page de citations...",
+    "loading": "Chargement de la page de citation...",
     "searchForm": {
       "title": "Rapport d'audit des citations",
-      "description": "Entrez les détails de votre entreprise pour lancer l'audit des citations",
+      "description": "Entrez les informations de votre entreprise pour démarrer l'audit des citations",
       "businessNameLabel": "Nom de l'entreprise",
       "businessNamePlaceholder": "Entrez le nom de l'entreprise",
       "phoneLabel": "Téléphone",
@@ -16,8 +16,8 @@
     "management": {
       "title": "Gestion des citations",
       "description": "Surveillez et gérez vos citations d'entreprise dans les annuaires",
-      "refresh": "Rafraîchir les citations",
-      "refreshing": "Rafraîchissement...",
+      "refresh": "Actualiser la citation",
+      "refreshing": "Actualisation en cours...",
       "newSearch": "Nouvelle recherche"
     },
     "trackerCard": {
@@ -27,14 +27,14 @@
       "listedPercent": "Répertorié"
     },
     "localPagesCard": {
-      "title": "Pages locales et annuaires",
-      "description": "Votre score de pages locales et d'annuaires est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages locales et d'annuaires que nous avons vérifiés."
+      "title": "Pages et annuaires locaux",
+      "description": "Le score de vos pages et annuaires locaux est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages et annuaires locaux que nous avons vérifiés."
     },
     "auditCard": {
       "title": "Audit des citations",
-      "orderButton": "Passer commande",
-      "existingTab": "Citations existantes",
-      "possibleTab": "Citations possibles",
+      "orderButton": "Passer la commande",
+      "existingTab": "Citation existante",
+      "possibleTab": "Citation possible",
       "table": {
         "website": "Site web",
         "businessName": "Nom de l'entreprise",
@@ -44,6 +44,7 @@
         "view": "Voir",
         "fixNow": "Corriger maintenant"
       }
-    }
+    },
+    "noPhoneProvided": "Non correspondant"
   }
 }

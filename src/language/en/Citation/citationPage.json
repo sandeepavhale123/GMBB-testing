@@ -3,7 +3,7 @@
     "loading": "Loading citation page...",
     "searchForm": {
       "title": "Citation Audit Report",
-      "description": "Enter your business details to start the citation audit",
+      "description": "Enter your business details to start the citation audit.",
       "businessNameLabel": "Business Name",
       "businessNamePlaceholder": "Enter business name",
       "phoneLabel": "Phone",
@@ -44,6 +44,7 @@
         "view": "View",
         "fixNow": "Fix Now"
       }
-    }
+    },
+    "noPhoneProvided": "Not Matching"
   }
 }

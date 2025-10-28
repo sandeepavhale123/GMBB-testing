@@ -2,16 +2,19 @@
   "reviewsList": {
     "title": "Reseñas de Clientes",
     "errors": {
+      "title": "Error",
       "reviewsError": "Ocurrió un error al obtener las reseñas.",
       "replyError": "Error al enviar la respuesta",
       "deleteReplyError": "Error al eliminar la respuesta",
       "refreshError": "Error al actualizar los datos",
-      "emptyReply": "Por favor, ingresa un mensaje de respuesta"
+      "emptyReply": "Por favor, ingrese un mensaje de respuesta"
     },
     "success": {
-      "replySent": "Respuesta enviada correctamente",
-      "replyDeleted": "La respuesta ha sido eliminada correctamente",
-      "refresh": "Datos de reseñas actualizados correctamente"
+      "title": "Éxito",
+      "replyTitle": "Respuesta eliminada",
+      "replySent": "Respuesta enviada con éxito",
+      "replyDeleted": "La respuesta se ha eliminado correctamente",
+      "refresh": "Datos de reseñas actualizados con éxito"
     },
     "buttons": {
       "tryAgain": "Intentar de nuevo",
@@ -27,7 +30,7 @@
     "emptyState": {
       "noReviews": "Aún no hay reseñas",
       "noFilteredReviews": "Ninguna reseña coincide con tus filtros",
-      "noReviewsMessage": "Las reseñas aparecerán aquí una vez que los clientes dejen comentarios sobre tus listados de negocios.",
+      "noReviewsMessage": "Las reseñas aparecerán aquí una vez que los clientes dejen comentarios sobre tus negocios.",
       "noFilteredReviewsMessage": "Intenta ajustar tus criterios de búsqueda o filtros para ver más resultados."
     }
   }

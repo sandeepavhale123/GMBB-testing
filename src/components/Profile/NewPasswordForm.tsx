@@ -4,29 +4,6 @@ import { PasswordInput } from "./PasswordInput";
 import { useFormValidation } from "../../hooks/useFormValidation";
 import { z } from "zod";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-
-const passwordSchema = z
-  .string()
-  .trim()
-  .min(8, "Password must be at least 8 characters long")
-  .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-  .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-  .regex(/[0-9]/, "Password must contain at least one number")
-  .regex(
-    /[^A-Za-z0-9]/,
-    "Password must contain at least one special character"
-  );
-
-const confirmPasswordSchema = z
-  .object({
-    newPassword: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
 interface NewPasswordFormProps {
   newPassword: string;
   setNewPassword: (password: string) => void;
@@ -55,6 +32,26 @@ export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
   isUpdating,
 }) => {
   const { t } = useI18nNamespace("Profile/newPasswordForm");
+
+  const passwordSchema = z
+    .string()
+    .trim()
+    .min(8, t("validation.min"))
+    .regex(/[A-Z]/, t("validation.uppercase"))
+    .regex(/[a-z]/, t("validation.lowercase"))
+    .regex(/[0-9]/, t("validation.number"))
+    .regex(/[^A-Za-z0-9]/, t("validation.character"));
+
+  const confirmPasswordSchema = z
+    .object({
+      newPassword: passwordSchema,
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: t("validation.message"),
+      path: ["confirmPassword"],
+    });
+
   const { validate, getFieldError, hasFieldError, clearFieldError } =
     useFormValidation(confirmPasswordSchema);
 

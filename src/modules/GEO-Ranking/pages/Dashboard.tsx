@@ -13,6 +13,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { BuyCreditsModal } from "@/components/credits_modal";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -89,6 +90,7 @@ export const Dashboard: React.FC = () => {
     name: "",
     notificationEmail: "",
   });
+  const [showBuyCreditsModal, setShowBuyCreditsModal] = useState(false);
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -247,96 +249,114 @@ export const Dashboard: React.FC = () => {
             {t("dashboard.header.description")}
           </p>
         </div>
-        <Dialog
-          open={showCreateModal}
-          onOpenChange={(open) => {
-            if (!open) {
-              handleCloseModal();
-            } else {
-              setShowCreateModal(true);
-            }
-          }}
-        >
-          <DialogTrigger asChild>
-            <Button onClick={() => setShowCreateModal(true)} className="w-full sm:w-auto">
-              <Plus className="w-4 h-4 mr-1" />
-              {t("dashboard.buttons.createProject")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {isEditMode
-                  ? t("dashboard.dialog.edit")
-                  : t("dashboard.dialog.createNew")}
-              </DialogTitle>
-              <DialogDescription>
-                {isEditMode
-                  ? t("dashboard.dialog.descEdit")
-                  : t("dashboard.dialog.descCreate")}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="project-name">
-                  {t("dashboard.dialog.projectName")}
-                </Label>
-                <Input
-                  id="project-name"
-                  value={newProject.name}
-                  onChange={(e) =>
-                    setNewProject({
-                      ...newProject,
-                      name: e.target.value,
-                    })
-                  }
-                  placeholder={t(
-                    "dashboard.dialog.placeholder.enterProjectName"
-                  )}
-                />
-              </div>
-              <div>
-                <Label htmlFor="notification-email">
-                  {" "}
-                  {t("dashboard.dialog.notificationEmail")}
-                </Label>
-                <Input
-                  id="notification-email"
-                  type="email"
-                  value={newProject.notificationEmail}
-                  onChange={(e) =>
-                    setNewProject({
-                      ...newProject,
-                      notificationEmail: e.target.value,
-                    })
-                  }
-                  placeholder={t("dashboard.dialog.placeholder.enterEmails")}
-                />
-              </div>
-              <DialogFooter className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={handleCloseModal}>
-                  {t("dashboard.buttons.cancel")}
-                </Button>
-                <Button
-                  onClick={handleCreateProject}
-                  disabled={
-                    !newProject.name ||
-                    !newProject.notificationEmail ||
-                    isCreating ||
-                    isUpdating
-                  }
-                >
-                  {(isCreating || isUpdating) && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          {/* Buy Credits Button */}
+          <Button
+            onClick={() => setShowBuyCreditsModal(true)}
+            variant="outline"
+            className="w-full sm:w-auto border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-950"
+          >
+            <CreditCard className="w-4 h-4 mr-1" />
+            {t("dashboard.buttons.buy")}
+          </Button>
+
+          {/* Create New Project Dialog */}
+          <Dialog
+            open={showCreateModal}
+            onOpenChange={(open) => {
+              if (!open) {
+                handleCloseModal();
+              } else {
+                setShowCreateModal(true);
+              }
+            }}
+          >
+            <DialogTrigger asChild>
+              <Button
+                onClick={() => setShowCreateModal(true)}
+                className="w-full sm:w-auto"
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                {t("dashboard.buttons.createProject")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
                   {isEditMode
-                    ? t("dashboard.buttons.updateProject")
-                    : t("dashboard.buttons.createProject")}
-                </Button>
-              </DialogFooter>
-            </div>
-          </DialogContent>
-        </Dialog>
+                    ? t("dashboard.dialog.edit")
+                    : t("dashboard.dialog.createNew")}
+                </DialogTitle>
+                <DialogDescription>
+                  {isEditMode
+                    ? t("dashboard.dialog.descEdit")
+                    : t("dashboard.dialog.descCreate")}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="project-name">
+                    {t("dashboard.dialog.projectName")}
+                  </Label>
+                  <Input
+                    id="project-name"
+                    value={newProject.name}
+                    onChange={(e) =>
+                      setNewProject({
+                        ...newProject,
+                        name: e.target.value,
+                      })
+                    }
+                    placeholder={t(
+                      "dashboard.dialog.placeholder.enterProjectName"
+                    )}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="notification-email">
+                    {" "}
+                    {t("dashboard.dialog.notificationEmail")}
+                  </Label>
+                  <Input
+                    id="notification-email"
+                    type="email"
+                    value={newProject.notificationEmail}
+                    onChange={(e) =>
+                      setNewProject({
+                        ...newProject,
+                        notificationEmail: e.target.value,
+                      })
+                    }
+                    placeholder={t("dashboard.dialog.placeholder.enterEmails")}
+                  />
+                </div>
+                <DialogFooter className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={handleCloseModal}>
+                    {t("dashboard.buttons.cancel")}
+                  </Button>
+                  <Button
+                    onClick={handleCreateProject}
+                    disabled={
+                      !newProject.name ||
+                      !newProject.notificationEmail ||
+                      isCreating ||
+                      isUpdating
+                    }
+                  >
+                    {(isCreating || isUpdating) && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {isEditMode
+                      ? t("dashboard.buttons.updateProject")
+                      : t("dashboard.buttons.createProject")}
+                  </Button>
+                </DialogFooter>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -695,6 +715,12 @@ export const Dashboard: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Buy Credits Modal */}
+      <BuyCreditsModal
+        open={showBuyCreditsModal}
+        onOpenChange={setShowBuyCreditsModal}
+      />
     </div>
   );
 };

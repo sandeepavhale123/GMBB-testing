@@ -75,7 +75,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                       dataKey="website"
                       fill="#10b981"
                       radius={[4, 4, 0, 0]}
-                      name="Website"
+                      name={t("customerActionsChart.metrics.website")}
                     />
                   )}
                   {visibleBars.direction && (
@@ -83,7 +83,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                       dataKey="direction"
                       fill="#f97316"
                       radius={[4, 4, 0, 0]}
-                      name="Direction"
+                      name={t("customerActionsChart.metrics.direction")}
                     />
                   )}
                   {visibleBars.messages && (
@@ -91,7 +91,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                       dataKey="messages"
                       fill="#3b82f6"
                       radius={[4, 4, 0, 0]}
-                      name="Messages"
+                      name={t("customerActionsChart.metrics.messages")}
                     />
                   )}
                   {visibleBars.calls && (
@@ -99,7 +99,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                       dataKey="calls"
                       fill="#a855f7"
                       radius={[4, 4, 0, 0]}
-                      name="Calls"
+                      name={t("customerActionsChart.metrics.calls")}
                     />
                   )}
                 </BarChart>

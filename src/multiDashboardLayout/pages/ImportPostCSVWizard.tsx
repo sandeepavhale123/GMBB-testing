@@ -314,7 +314,7 @@ export const ImportPostCSVWizard: React.FC = () => {
 
         // If there's a backend message, always show it for CSV-related errors
         if (backendMessage) {
-          errorTitle = "Upload Error";
+          errorTitle = t("importPostCSVWizard.uploadError");
           errorMessage = backendMessage;
         } else {
           // Only default to auth error if no message provided
@@ -665,8 +665,9 @@ export const ImportPostCSVWizard: React.FC = () => {
                     {t("importPostCSVWizard.qualityControl.uploadSummary")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    File: {formData.uploadedFileName} | Total Rows:{" "}
-                    {formData.totalRows} | Errors: {formData.errorCount}
+                    {t("importPostCSVWizard.file")}: {formData.uploadedFileName}{" "}
+                    | {t("importPostCSVWizard.totalRows")}: {formData.totalRows}{" "}
+                    |{t("importPostCSVWizard.err")}: {formData.errorCount}
                   </p>
                 </div>
                 {formData.errorCount === 0 ? (

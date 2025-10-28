@@ -1,0 +1,60 @@
+{
+  "modal": {
+    "title": "UTM URL Generator",
+    "info": {
+      "title": "What is UTM Tracking?",
+      "description": "UTM parameters are tags you add to URLs to track marketing campaigns in analytics tools like Google Analytics. They help you understand which campaigns are driving traffic and conversions.",
+      "example": {
+        "title": "Example UTM URL:",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=summer_sale"
+      },
+      "benefits": {
+        "title": "Benefits:",
+        "list": [
+          "Track campaign performance accurately",
+          "Identify your best traffic sources",
+          "Measure ROI on marketing spend",
+          "Optimize your marketing strategy"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "Website URL",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Campaign Name",
+        "placeholder": "summer_sale_2025"
+      },
+      "campaignSource": {
+        "label": "Campaign Source",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Campaign Medium",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Campaign Term",
+        "placeholder": "running+shoes"
+      },
+      "campaignContent": {
+        "label": "Campaign Content",
+        "placeholder": "banner_ad, text_link"
+      },
+      "optional": "optional",
+      "generatedUrl": "Generated UTM URL",
+      "copyUrl": "Copy URL",
+      "copySuccess": "UTM URL copied to clipboard!",
+      "clearForm": "Clear Form",
+      "close":"Close"
+    },
+    "validation":{
+      "url":"Must be a valid URL",
+      "campaign":"Campaign name is required",
+      "Source":"Campaign source is required",
+      "Medium":"Campaign medium is required"
+    }
+  }
+}

@@ -3,20 +3,20 @@
     "title": "Favicon",
     "uploadLabel": "Favicon hochladen",
     "uploadButton": "Favicon auswählen",
-    "fileRequirements": "PNG, JPG bis zu 1MB. Empfohlen: 32x32px oder 16x16px",
+    "fileRequirements": "PNG, JPG bis zu 1 MB. Empfohlen: 32x32px oder 16x16px",
     "selectedFile": "Ausgewählt: {{fileName}}",
-    "applied": "✓ Angewendet",
+    "applied": "✓ Übernommen",
     "currentLoaded": "✓ Aktuelles Favicon geladen",
-    "dropHere": "Favicon hier ablegen, um hochzuladen",
+    "dropHere": "Favicon hier ablegen, um es hochzuladen",
 
     "toast": {
       "fileTooLarge": {
         "title": "Datei zu groß",
-        "description": "Die Favicon-Datei muss kleiner als 1MB sein"
+        "description": "Die Favicon-Datei muss kleiner als 1 MB sein"
       },
       "invalidFileType": {
         "title": "Ungültiger Dateityp",
-        "description": "Bitte laden Sie eine Bilddatei hoch (PNG, JPG)"
+        "description": "Bitte eine Bilddatei hochladen (PNG, JPG)"
       },
       "uploaded": {
         "title": "Favicon hochgeladen",

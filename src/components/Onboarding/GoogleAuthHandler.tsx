@@ -11,7 +11,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 const GoogleAuthHandler = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { t } = useI18nNamespace("Onboarding/connectGoogleStep");
+  const { t } = useI18nNamespace("Onboarding/googleAuthHandler");
   const {
     oauthParams,
     clearOauthParameters,

@@ -1,20 +1,20 @@
 {
   "verifyPayment": {
     "loading": {
-      "title": "Zahlung wird überprüft",
+      "title": "Ihre Zahlung wird überprüft",
       "description": "Bitte warten Sie, während wir Ihre Zahlung überprüfen..."
     },
     "success": {
       "title": "Zahlung erfolgreich verifiziert!",
-      "description": "Ihr Abonnement wurde erfolgreich aktiviert. Sie können jetzt alle Premium-Funktionen nutzen.",
-      "button": "Weiter zum Dashboard"
+      "description": "Ihr Abonnement wurde erfolgreich aktiviert. Sie haben nun Zugriff auf alle Premiumfunktionen.",
+      "button": "Weiter"
     },
     "error": {
       "title": "Zahlungsüberprüfung fehlgeschlagen",
       "buttonTryAgain": "Erneut versuchen",
-      "buttonBackHome": "Zur Startseite",
+      "buttonBackHome": "Zurück zur Startseite",
       "messages": {
-        "invalidParams": "Ungültige Verifizierungsparameter",
+        "invalidParams": "Ungültige Überprüfungsparameter",
         "verificationFailed": "Zahlungsüberprüfung fehlgeschlagen. Bitte versuchen Sie es erneut."
       }
     }

@@ -36,7 +36,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export const PublicGeoRankingReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   const [selectedKeywordId, setSelectedKeywordId] = useState<number | null>(
     null
   );
@@ -55,11 +55,15 @@ export const PublicGeoRankingReport: React.FC = () => {
   }, []);
 
   const { data: keywordData, isLoading: isKeywordLoading } =
-    usePerformanceGeoKeywords(reportId);
+    usePerformanceGeoKeywords(reportId, languageFullName);
   // console.log("georanking keywords data....", keywordData);
 
   const { data: geoRankingData, isLoading: isGeoLoading } =
-    usePublicGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
+    usePublicGeoRankingReport(
+      reportId,
+      Number(selectedKeywordId) || 0,
+      languageFullName
+    );
   // console.log("geo ranking report data", geoRankingData);
 
   const reportType = geoRankingData?.data.reportType.toLowerCase();

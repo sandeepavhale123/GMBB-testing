@@ -1,6 +1,17 @@
 {
   "title": "Modules",
   "comingSoon": "Coming Soon",
+  "utilities": {
+    "title": "Utilities",
+    "utmBuilder": {
+      "name": "UTM URL Generator",
+      "description": "Create trackable campaign URLs"
+    },
+    "buyCredits": {
+      "name": "Buy Top-Up Credits",
+      "description": "Purchase credits for your account"
+    }
+  },
   "modules": {
     "manageGmb": {
       "name": "Manage GMB listing",

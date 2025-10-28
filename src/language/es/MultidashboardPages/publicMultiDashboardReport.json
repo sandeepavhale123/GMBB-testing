@@ -4,8 +4,8 @@
     "dashboard": "Cargando datos del panel..."
   },
   "error": {
-    "config": "Error al cargar la configuración del informe",
-    "dashboard": "Error al cargar los datos del panel",
+    "config": "No se pudo cargar la configuración del informe",
+    "dashboard": "No se pudieron cargar los datos del panel",
     "retry": "Intentar de nuevo"
   },
   "dashboardTypes": {
@@ -17,49 +17,49 @@
   },
   "metrics": {
     "totalListings": {
-      "title": "Total de Listados",
+      "title": "Total de listados",
       "subtitle": "Ubicaciones activas"
     },
     "avgRating": {
-      "title": "Calificación Promedio",
+      "title": "Calificación promedio",
       "subtitle": "En todos los listados"
     },
     "totalPosts": {
-      "title": "Total de Publicaciones",
+      "title": "Total de publicaciones",
       "subtitle": "Contenido publicado"
     },
     "totalReviews": {
-      "title": "Total de Reseñas",
+      "title": "Total de reseñas",
       "subtitle": "Comentarios de clientes"
     }
   },
-  "listing": "Listado GMB – {{name}} panel",
-  "allcategories": "Todas las Categorías",
+  "listing": "Listado GMB – Panel de {{name}}",
+  "allcategories": "Todas las categorías",
   "filters": {
     "dashboardSelector": "Seleccionar tipo de panel",
-    "default": "Panel Predeterminado",
-    "insight": "Panel de Perspectiva",
-    "review": "Panel de Reseñas",
-    "location": "Panel de Ubicación",
-    "post": "Panel de Publicaciones",
+    "default": "Panel predeterminado",
+    "insight": "Panel de perspectivas",
+    "review": "Panel de reseñas",
+    "location": "Panel de ubicación",
+    "post": "Panel de publicaciones",
     "searchPlaceholder": "Buscar por nombre del listado o código postal.",
-    "categories": "Todas las Categorías",
-    "locations": "Todas las Ubicaciones",
+    "categories": "Todas las categorías",
+    "locations": "Todas las ubicaciones",
     "reviews": {
-      "all": "Todas las Reseñas",
-      "unresponded": "Reseñas sin respuesta",
-      "unrespondedARE": "ARE sin respuesta",
-      "unrespondedDNR": "DNR sin respuesta",
+      "all": "Todas las reseñas",
+      "unresponded": "Reseñas no respondidas",
+      "unrespondedARE": "ARE no respondidas",
+      "unrespondedDNR": "DNR no respondidas",
       "excludeARE": "Excluir reseñas ARE",
       "excludeDNR": "Excluir reseñas DNR",
       "excludeBoth": "Excluir reseñas ARE/DNR"
     },
     "posts": {
-      "status": "Estado de la Publicación",
-      "all": "Todos los Estados",
-      "live": "Activo",
-      "scheduled": "Programado",
-      "failed": "Fallido"
+      "status": "Estado de la publicación",
+      "all": "Todos los estados",
+      "live": "En vivo",
+      "scheduled": "Programada",
+      "failed": "Fallida"
     }
   },
   "content": {
@@ -73,21 +73,21 @@
   },
   "labels": {
     "id": "ID: {{id}}",
-    "zip": "Código Postal: {{zipcode}}",
+    "zip": "Código postal: {{zipcode}}",
     "state": "Estado: {{city}}",
     "visibility": "Visibilidad",
     "search": "Buscar",
     "maps": "Mapas",
     "total": "Total",
-    "customerActions": "Acciones del Cliente",
+    "customerActions": "Acciones del cliente",
     "clicks": "Clics",
     "directions": "Indicaciones",
     "calls": "Llamadas",
     "messages": "Mensajes",
-    "reviewStats": "Estadísticas de Reseñas",
+    "reviewStats": "Estadísticas de reseñas",
     "reviewsReplies": "Reseñas / Respuestas",
-    "autoReply": "Respuesta Automática",
-    "reviewSentiment": "Sentimiento de Reseñas",
+    "autoReply": "Respuesta automática",
+    "reviewSentiment": "Sentimiento de reseñas",
     "positive": "Positivo",
     "neutral": "Neutral",
     "negative": "Negativo",
@@ -95,18 +95,19 @@
     "phone": "Teléfono",
     "photos": "Fotos",
     "rating": "Calificación",
-    "website": "Sitio Web",
+    "website": "Sitio web",
     "map": "Mapa",
-    "lastPosts": "Últimas Publicaciones",
+    "lastPosts": "Últimas publicaciones",
     "upcoming": "Próximas",
-    "lastPost": "Última Publicación",
+    "lastPost": "Última publicación",
     "upcomingPost": "Próxima",
-    "zipLabel": "Código Postal:",
+    "zipLabel": "Código postal:",
     "na": "N/D",
-    "totalView": "Vistas Totales",
+    "totalView": "Vistas totales",
     "stateLabel": "Estado",
     "reviewLabel": "Reseñas",
-    "zipcodeLabel": "Código Postal"
+    "zipcodeLabel": "Código postal",
+    "nopost": "Sin publicaciones"
   },
   "pagination": {
     "pageOf": "Página {{current}} de {{total}}",

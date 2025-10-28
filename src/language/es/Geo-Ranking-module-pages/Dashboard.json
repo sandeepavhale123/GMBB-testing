@@ -2,7 +2,7 @@
   "dashboard": {
     "header": {
       "title": "Gestión de Proyectos",
-      "description": "Gestiona tus proyectos de clasificación GEO."
+      "description": "Administra tus proyectos de clasificación GEO."
     },
     "buttons": {
       "createProject": "Crear Proyecto",
@@ -11,7 +11,8 @@
       "cancel": "Cancelar",
       "deleteProject": "Eliminar Proyecto",
       "view": "Ver",
-      "edit": "Editar"
+      "edit": "Editar",
+      "buy": "Comprar Créditos"
     },
     "dialog": {
       "createNew": "Crear Nuevo Proyecto",
@@ -22,7 +23,7 @@
       "notificationEmail": "Correo de Notificación",
       "placeholder": {
         "enterProjectName": "Introduce el nombre del proyecto",
-        "enterEmails": "Introduce los correos separados por comas"
+        "enterEmails": "Introduce correos separados por comas"
       }
     },
     "summary": {
@@ -30,7 +31,7 @@
       "noOfKeywords": "Número de Palabras Clave",
       "noOfScheduledScan": "Número de Escaneos Programados",
       "availableCredits": "Créditos Disponibles",
-      "creditsRemaining": "{{remaining}} restantes de {{total}} totales"
+      "creditsRemaining": "{{remaining}} restantes de {{total}} en total"
     },
     "table": {
       "searchPlaceholder": "Buscar proyectos...",
@@ -42,7 +43,7 @@
       "loadingProjects": "Cargando proyectos...",
       "noProjectsFound": "No se encontraron proyectos",
       "deleteConfirmationTitle": "Eliminar Proyecto",
-      "deleteConfirmationDescription": "Esta acción no se puede deshacer. Esto eliminará permanentemente el proyecto \"{name}\" y todos sus datos relacionados, incluyendo palabras clave y puntos en el mapa.",
+      "deleteConfirmationDescription": "Esta acción no se puede deshacer. Esto eliminará permanentemente el proyecto \"{name}\" y todos sus datos relacionados, incluidos palabras clave y puntos en el mapa.",
       "typeDeleteToConfirm": "Escribe \"delete\" para confirmar",
       "placeholderDelete": "delete",
       "shareablelink": "Enlace Compartible",

@@ -1,7 +1,7 @@
 {
   "dashboard": {
     "header": {
-      "title": "Projektverwaltung",
+      "title": "Projektmanagement",
       "description": "Verwalten Sie Ihre GEO-Ranking-Projekte."
     },
     "buttons": {
@@ -10,8 +10,9 @@
       "updateProject": "Projekt aktualisieren",
       "cancel": "Abbrechen",
       "deleteProject": "Projekt löschen",
-      "view": "Anzeigen",
-      "edit": "Bearbeiten"
+      "view": "Ansehen",
+      "edit": "Bearbeiten",
+      "buy": "Credits kaufen"
     },
     "dialog": {
       "createNew": "Neues Projekt erstellen",
@@ -21,35 +22,35 @@
       "projectName": "Projektname",
       "notificationEmail": "Benachrichtigungs-E-Mail",
       "placeholder": {
-        "enterProjectName": "Projektname eingeben",
+        "enterProjectName": "Projektnamen eingeben",
         "enterEmails": "E-Mails durch Kommas getrennt eingeben"
       }
     },
     "summary": {
       "noOfProject": "Anzahl der Projekte",
-      "noOfKeywords": "Anzahl der Schlüsselwörter",
+      "noOfKeywords": "Anzahl der Keywords",
       "noOfScheduledScan": "Anzahl der geplanten Scans",
-      "availableCredits": "Verfügbare Guthaben",
+      "availableCredits": "Verfügbare Credits",
       "creditsRemaining": "{{remaining}} verbleibend von insgesamt {{total}}"
     },
     "table": {
       "searchPlaceholder": "Projekte suchen...",
       "projectName": "Projektname",
-      "noOfKeywords": "Anzahl der Schlüsselwörter",
+      "noOfKeywords": "Anzahl der Keywords",
       "date": "Datum",
       "notificationEmail": "Benachrichtigungs-E-Mail",
       "action": "Aktion",
       "loadingProjects": "Projekte werden geladen...",
       "noProjectsFound": "Keine Projekte gefunden",
       "deleteConfirmationTitle": "Projekt löschen",
-      "deleteConfirmationDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Projekt \"{name}\" und alle zugehörigen Daten, einschließlich Schlüsselwörter und Kartendaten, werden dauerhaft gelöscht.",
-      "typeDeleteToConfirm": "Geben Sie \"löschen\" ein, um zu bestätigen",
-      "placeholderDelete": "löschen",
-      "shareablelink": "Freigabelink",
-       "noEmailProvided": "Keine E-Mail angegeben"
+      "deleteConfirmationDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Dies löscht dauerhaft das Projekt „{name}“ und alle zugehörigen Daten, einschließlich Keywords und Kartenpunkte.",
+      "typeDeleteToConfirm": "Geben Sie \"delete\" ein, um zu bestätigen",
+      "placeholderDelete": "delete",
+      "shareablelink": "Teilbarer Link",
+      "noEmailProvided": "Keine E-Mail angegeben"
     },
     "pagination": {
-      "showing": "Zeige {{from}} bis {{to}} von insgesamt {{total}} Projekten",
+      "showing": "Zeige {{from}} bis {{to}} von {{total}} Projekten",
       "previous": "Zurück",
       "next": "Weiter"
     },

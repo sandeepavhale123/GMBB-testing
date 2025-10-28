@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import i18n, { loadNamespace } from "@/i18n";
+import { languageMap } from "@/lib/languageMap";
 
 /**
  * usePublicI18n ensures the requested namespace(s) are loaded for:
@@ -15,6 +16,7 @@ import i18n, { loadNamespace } from "@/i18n";
  *   3) opts.defaultValue
  *   4) raw key
  *
+ *   Additionally returns the full language name (e.g. "English")
  * Usage:
  *   const { t, loaded } = usePublicI18n("PublicReport/header");
  */
@@ -80,5 +82,15 @@ export function usePublicI18n(ns: string | string[]) {
     return key;
   };
 
-  return { t: safeT, i18n, loaded, lang: urlLang };
+  // 🔄 Reverse map: convert language code → full name
+  const codeToNameMap = Object.fromEntries(
+    Object.entries(languageMap).map(([name, code]) => [
+      code,
+      name.charAt(0).toUpperCase() + name.slice(1),
+    ])
+  );
+
+  const languageFullName = codeToNameMap[urlLang] || "English";
+
+  return { t: safeT, i18n, loaded, lang: urlLang, languageFullName };
 }

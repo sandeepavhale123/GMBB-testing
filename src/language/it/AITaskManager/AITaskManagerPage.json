@@ -20,10 +20,11 @@
         "pending": "in sospeso",
         "inProgress": "in corso",
         "completed": "completata",
-        "due": "scaduta"
+        "due": "scaduta",
+        "oneTime": "una tantum"
       },
       "type": {
-        "oneTime": "una tantum",
+        "one-time": "una tantum",
         "recurring": "ricorrente"
       },
       "priority": {
@@ -33,13 +34,13 @@
         "fix": "Correggi",
         "inProgress": "In corso",
         "markCompleted": "Segna come completata",
-        "revert": "Ripristina"
+        "revert": "Annulla"
       }
     },
 
     "loading": {
       "title": "Caricamento attività AI",
-      "description": "Recupero delle attività più recenti..."
+      "description": "Recupero delle tue ultime attività..."
     },
 
     "noListing": {
@@ -49,20 +50,20 @@
     "emptyState": {
       "title": "Nessuna attività trovata",
       "completedMessage": "Ottimo lavoro! Completa alcune attività per vederle qui.",
-      "defaultMessage": "Nessuna attività corrisponde al filtro attuale."
+      "defaultMessage": "Nessuna attività corrisponde al filtro corrente."
     },
 
     "toasts": {
       "error": {
         "title": "Errore",
-        "default": "Impossibile ripristinare l’attività."
+        "default": "Impossibile annullare l'attività."
       },
       "success": {
         "title": "Successo"
       },
       "reverted": {
-        "title": "Ripristinata",
-        "message": "Attività riportata allo stato in sospeso."
+        "title": "Annullata",
+        "message": "Attività riportata in sospeso."
       }
     }
   }

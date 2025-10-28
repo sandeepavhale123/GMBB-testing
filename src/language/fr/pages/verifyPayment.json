@@ -6,8 +6,8 @@
     },
     "success": {
       "title": "Paiement vérifié avec succès !",
-      "description": "Votre abonnement a été activé avec succès. Vous pouvez désormais accéder à toutes les fonctionnalités premium.",
-      "button": "Continuer vers le tableau de bord"
+      "description": "Votre abonnement a été activé avec succès. Vous pouvez maintenant accéder à toutes les fonctionnalités premium.",
+      "button": "Continuer"
     },
     "error": {
       "title": "Échec de la vérification du paiement",

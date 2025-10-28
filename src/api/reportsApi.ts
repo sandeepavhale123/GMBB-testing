@@ -6,7 +6,14 @@ import {
   PerformanceHealthReportData,
   GetAllReportsResponse,
 } from "../types/reportTypes";
-import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse, CreateBulkReportRequest, CreateBulkReportResponse } from "../types/bulkReportTypes";
+import {
+  GetAllBulkReportsRequest,
+  GetAllBulkReportsResponse,
+  ViewReportDetailsRequest,
+  ViewReportDetailsResponse,
+  CreateBulkReportRequest,
+  CreateBulkReportResponse,
+} from "../types/bulkReportTypes";
 
 // Helper function to convert frontend data to API payload format
 const createReportPayload = (
@@ -111,15 +118,17 @@ export const reportsApi = {
 
   // NEW: Get Performance Health Report API
   getPerformanceHealthReport: async (
-    reportId: string
+    reportId: string,
+    language?: string
   ): Promise<PerformanceHealthReportData> => {
     try {
       // console.log("Fetching performance health report for ID:", reportId);
       const payload = isNaN(Number(reportId))
-        ? { reportId: reportId }
+        ? { reportId: reportId, language }
         : { listingId: reportId };
       const response = await axiosInstance.post("/get-performance-health", {
         reportId: reportId,
+        language,
       });
       // console.log("Performance health report data:", response.data);
       return response.data;
@@ -130,11 +139,15 @@ export const reportsApi = {
   },
 
   // NEW: Get Performance Insights Report API
-  getPerformanceInsightsReport: async (reportId: string): Promise<any> => {
+  getPerformanceInsightsReport: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       // console.log("Fetching performance insights report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-insight", {
         reportId: reportId || "KsP1pDlvqA1QcOF",
+        language,
       });
       // console.log("Performance insights report data:", response.data);
       return response.data;
@@ -145,11 +158,12 @@ export const reportsApi = {
   },
 
   // Get Review Report Api
-  getPerformanceReviewReport: async (reportId: string) => {
+  getPerformanceReviewReport: async (reportId: string, language?: string) => {
     try {
       // console.log("Fetching performance review report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-review", {
         reportId,
+        language,
       });
       // console.log("Performance review report data:", response.data);
       return response.data;
@@ -159,11 +173,15 @@ export const reportsApi = {
     }
   },
   //Get Post Report Api
-  getPerformancePostsReport: async (reportId: string): Promise<any> => {
+  getPerformancePostsReport: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       // console.log("Fetching performance posts report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-post", {
         reportId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -179,10 +197,14 @@ export const reportsApi = {
   },
 
   // Get media report data
-  getPerformanceMediaReport: async (reportId: string): Promise<any> => {
+  getPerformanceMediaReport: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       const response = await axiosInstance.post("/get-performance-media", {
         reportId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -200,10 +222,14 @@ export const reportsApi = {
   },
 
   // For footer data
-  getPerformanceBrandingReport: async (reportId: string): Promise<any> => {
+  getPerformanceBrandingReport: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       const response = await axiosInstance.post("/get-performance-report", {
         reportId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -221,10 +247,14 @@ export const reportsApi = {
   },
 
   // get keywords for georanking
-  getPerformanceGeoKeywords: async (reportId: string): Promise<any> => {
+  getPerformanceGeoKeywords: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       const response = await axiosInstance.post("/get-performance-keywords", {
         reportId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -244,7 +274,8 @@ export const reportsApi = {
   // geo ranking report api
   getPerformanceGeoRankingReport: async (
     reportId: string,
-    keywordId: number
+    keywordId: number,
+    language?: string
   ): Promise<any> => {
     try {
       // console.log(
@@ -256,6 +287,7 @@ export const reportsApi = {
       const response = await axiosInstance.post("/get-performance-ranking", {
         reportId,
         keywordId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -299,10 +331,14 @@ export const reportsApi = {
     }
   },
   // Get Performance Citation Report API
-  getPerformanceCitationReport: async (reportId: string): Promise<any> => {
+  getPerformanceCitationReport: async (
+    reportId: string,
+    language?: string
+  ): Promise<any> => {
     try {
       const response = await axiosInstance.post("/get-performance-citation", {
         reportId,
+        language,
       });
 
       if (response.data?.code === 200) {
@@ -323,10 +359,13 @@ export const reportsApi = {
     page: number;
     limit: number;
     search: string;
-    report_type: 'all' | 'onetime' | 'monthly' | 'weekly';
+    report_type: "all" | "onetime" | "monthly" | "weekly";
   }): Promise<any> => {
     try {
-      const response = await axiosInstance.post("/get-all-bulk-reports", params);
+      const response = await axiosInstance.post(
+        "/get-all-bulk-reports",
+        params
+      );
 
       if (response.data?.code === 200) {
         return response.data;
@@ -346,15 +385,13 @@ export const reportsApi = {
     try {
       const response = await axiosInstance.post("/delete-bulk-report", {
         reportId,
-        confirm: "delete"
+        confirm: "delete",
       });
 
       if (response.data?.code === 200) {
         return response.data;
       } else {
-        throw new Error(
-          response.data?.message || "Failed to delete report"
-        );
+        throw new Error(response.data?.message || "Failed to delete report");
       }
     } catch (error) {
       // console.error("POST /delete-bulk-report failed:", error);
@@ -363,7 +400,9 @@ export const reportsApi = {
   },
 
   // Create bulk report
-  createBulkReport: async (data: CreateBulkReportRequest): Promise<CreateBulkReportResponse> => {
+  createBulkReport: async (
+    data: CreateBulkReportRequest
+  ): Promise<CreateBulkReportResponse> => {
     try {
       const response = await axiosInstance.post("/create-bulk-report", data);
 
@@ -381,7 +420,9 @@ export const reportsApi = {
   },
 
   // Get bulk report details
-  getViewReportDetails: async (params: ViewReportDetailsRequest): Promise<ViewReportDetailsResponse> => {
+  getViewReportDetails: async (
+    params: ViewReportDetailsRequest
+  ): Promise<ViewReportDetailsResponse> => {
     try {
       const response = await axiosInstance.post("/view-report-details", params);
 

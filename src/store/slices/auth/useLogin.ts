@@ -13,6 +13,7 @@ import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { getTheme } from "@/api/themeApi";
 import { loadThemeFromAPI } from "../themeSlice";
 import { languageMap } from "@/lib/languageMap";
+import i18n from "@/i18n";
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -41,7 +42,7 @@ export const useLogin = () => {
       // set language as soon user login
       const lang = languageMap[data?.data?.profile.language];
       localStorage.setItem("i18nextLng", lang);
-
+      i18n.changeLanguage(lang);
       // Check if subscription is expired based on planExpDate in profile
       const planExpDate = data.data.profile.planExpDate;
       const subscriptionExpired = isSubscriptionExpired(planExpDate);

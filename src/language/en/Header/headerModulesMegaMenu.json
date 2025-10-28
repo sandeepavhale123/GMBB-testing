@@ -2,6 +2,17 @@
   "modulesMenu": {
     "title": "Modules",
     "comingSoon": "Coming Soon",
+    "utilities": {
+      "title": "Utilities",
+      "utmBuilder": {
+        "name": "UTM URL Generator",
+        "description": "Create trackable campaign URLs"
+      },
+      "buyCredits": {
+        "name": "Buy Top-Up Credits",
+        "description": "Purchase credits for your account"
+      }
+    },
     "gmbListing": {
       "single": {
         "name": "Manage GMB Listing",
@@ -23,6 +34,10 @@
     "reputation": {
       "name": "Reputation",
       "description": "Monitor and manage your online reputation"
+    },
+    "seo":{
+      "name":"SEO Fixer",
+      "description":"Automatically detect and fix SEO issues on websites"
     }
   }
 }

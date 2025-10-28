@@ -1,6 +1,17 @@
 {
   "title": "Module",
   "comingSoon": "Demnächst verfügbar",
+  "utilities": {
+    "title": "Dienstprogramme",
+    "utmBuilder": {
+      "name": "UTM-Tracking-Generator",
+      "description": "Erstellen Sie nachverfolgbare Kampagnen-URLs"
+    },
+    "buyCredits": {
+      "name": "Guthaben kaufen",
+      "description": "Guthaben für Ihr Konto kaufen"
+    }
+  },
   "modules": {
     "manageGmb": {
       "name": "GMB-Eintrag verwalten",

@@ -1,31 +1,32 @@
 {
   "insightsComparisonChart": {
     "title": {
-      "fallback": "Andamento delle Prestazioni",
-      "comparison": "Confronto delle Prestazioni negli Ultimi 6 Mesi"
+      "fallback": "Tendenze delle prestazioni",
+      "comparison": "Confronto delle prestazioni degli ultimi 6 mesi"
     },
+    "view": "Vedi tutto",
     "description": {
-      "fallback": "Andamenti storici delle metriche chiave basati sui dati disponibili",
-      "comparison": "Andamenti storici delle metriche chiave negli ultimi 6 mesi"
+      "fallback": "Andamenti storici delle metriche principali basati sui dati disponibili",
+      "comparison": "Andamenti storici delle metriche principali negli ultimi 6 mesi"
     },
     "error": {
-      "title": "Confronto delle Prestazioni",
-      "failed": "Impossibile caricare i dati del confronto"
+      "title": "Confronto delle prestazioni",
+      "failed": "Caricamento dei dati di confronto non riuscito"
     },
     "loading": {
-      "title": "Caricamento dei dati del confronto..."
+      "title": "Caricamento dei dati di confronto..."
     },
     "metrics": {
-      "searchViews": "Visualizzazioni su Google Search",
+      "searchViews": "Visualizzazioni nella Ricerca Google",
       "mapsViews": "Visualizzazioni su Google Maps",
-      "websiteClicks": "Click sul Sito Web",
-      "phoneCalls": "Chiamate Telefoniche"
+      "websiteClicks": "Clic sul sito web",
+      "phoneCalls": "Chiamate telefoniche"
     },
     "mobileLegend": {
-      "searchViews": "Visualizzazioni Ricerca",
-      "mapsViews": "Visualizzazioni Maps",
-      "websiteClicks": "Click sul Sito Web",
-      "phoneCalls": "Chiamate Telefoniche"
+      "searchViews": "Visualizzazioni di ricerca",
+      "mapsViews": "Visualizzazioni delle mappe",
+      "websiteClicks": "Clic sul sito web",
+      "phoneCalls": "Chiamate telefoniche"
     }
   }
 }

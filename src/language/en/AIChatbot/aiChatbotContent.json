@@ -10,7 +10,7 @@
     },
     "mainChat": {
       "title": "AI Genie Assistance",
-      "welcomeTitle": "Welcome to AI Genie Assistance",
+      "welcomeTitle": "Welcome to AI Genie Assistance.",
       "welcomeDescription": "Ask me questions about your business performance, SEO optimization, geo-ranking insights, and more. Try the suggested questions to get started!",
       "loadingMessages": "Loading chat messages...",
       "aiThinking": "AI is thinking..."

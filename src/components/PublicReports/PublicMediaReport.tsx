@@ -22,7 +22,7 @@ export const namespaces = ["PublicReports/publicMediaReport"];
 export const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   // Load theme for public report
   React.useEffect(() => {
     applyStoredTheme();
@@ -32,7 +32,7 @@ export const PublicMediaReport: React.FC = () => {
     data: mediaReport,
     isLoading,
     isError,
-  } = usePerformanceMediaReport(reportId);
+  } = usePerformanceMediaReport(reportId, languageFullName);
   // Handle loading state
   if (isLoading || !loaded) {
     return (

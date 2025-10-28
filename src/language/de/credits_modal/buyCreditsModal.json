@@ -1,0 +1,22 @@
+{
+  "buyCreditsModal": {
+    "title": "Guthaben aufladen",
+    "creditsLabel": "Credits",
+    "priceLabel": "Preis:",
+    "buyNowButton": "Jetzt kaufen",
+    "cancelButton": "Abbrechen",
+    "securePayment": "Sichere Zahlung über Stripe verarbeitet",
+    "alert": {
+      "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "stripeInitFailed": "Stripe konnte nicht initialisiert werden",
+      "noSessionUrl": "Keine Checkout-Sitzung oder URL erhalten"
+    },
+    "placeholder": {
+      "close": "Schließen"
+    },
+    "log": {
+      "backendResponse": "Antwort vom Backend",
+      "stripeKey": "Stripe-Schlüssel"
+    }
+  }
+}

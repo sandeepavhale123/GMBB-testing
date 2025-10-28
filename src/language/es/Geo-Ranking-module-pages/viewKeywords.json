@@ -1,0 +1,67 @@
+{
+  "title": "Palabras clave del proyecto",
+  "subtitle": "Administra y visualiza todas las palabras clave del proyecto #{{projectId}}",
+  "total": "Total:",
+  "keyword": "palabras clave",
+  "addKeywords": "Agregar palabras clave",
+  "n/a": "N/D",
+  "invalid": "Fecha inválida",
+  "bulk": {
+    "selected": "{{count}} palabra clave seleccionada",
+    "selectedPlural": "{{count}} palabras clave seleccionadas",
+    "clearSelection": "Borrar selección",
+    "deleteSelected": "Eliminar seleccionadas"
+  },
+  "table": {
+    "selectAll": "Seleccionar todas las palabras clave",
+    "srNo": "N.º",
+    "keyword": "Palabra clave",
+    "arp": "ARP",
+    "arpTooltip": "Posición media en el ranking",
+    "atrp": "ATRP",
+    "atrpTooltip": "Posición media en el ranking superior",
+    "solv": "SoLV",
+    "solvTooltip": "Cuota de visibilidad local",
+    "addedOn": "Añadido el",
+    "status": "Estado",
+    "actions": "Acciones",
+    "viewReport": "Ver informe",
+    "delete": "Eliminar"
+  },
+  "pagination": {
+    "showing": "Mostrando de {{start}} a {{end}} de {{total}} palabras clave",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "empty": {
+    "title": "No se encontraron palabras clave",
+    "description": "Comienza a seguir tus clasificaciones agregando palabras clave a este proyecto.",
+    "button": "Agrega tu primera palabra clave"
+  },
+  "deleteDialog": {
+    "title": "Confirmar eliminación",
+    "description": "¿Estás seguro de que deseas eliminar {{count}} palabra clave{{plural}}? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar",
+    "deleting": "Eliminando..."
+  },
+  "statuses": {
+    "completed": "Completado",
+    "pending": "Pendiente",
+    "failed": "Fallido",
+    "processing": "Procesando"
+  },
+  "errors": {
+    "title": "Error",
+    "fetch": "Error al obtener las palabras clave",
+    "delete": "Error al eliminar las palabras clave",
+    "missingProjectId": "Falta el ID del proyecto"
+  },
+  "success": {
+    "title": "Éxito",
+    "delete1": "{{count}} palabra clave eliminada con éxito",
+    "delete2": "{{count}} palabras clave eliminadas con éxito"
+  },
+  "loading": "Cargando...",
+  "tryAgain": "Intentar de nuevo"
+}

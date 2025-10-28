@@ -1,0 +1,22 @@
+{
+  "buyCreditsModal": {
+    "title": "Comprar Créditos de Recarga",
+    "creditsLabel": "Créditos",
+    "priceLabel": "Precio:",
+    "buyNowButton": "Comprar Ahora",
+    "cancelButton": "Cancelar",
+    "securePayment": "Pago seguro procesado por Stripe",
+    "alert": {
+      "paymentFailed": "El pago ha fallado. Por favor, inténtalo de nuevo.",
+      "stripeInitFailed": "Stripe no se pudo inicializar",
+      "noSessionUrl": "No se recibió ninguna sesión de pago ni URL"
+    },
+    "placeholder": {
+      "close": "Cerrar"
+    },
+    "log": {
+      "backendResponse": "Respuesta del backend",
+      "stripeKey": "Clave de Stripe"
+    }
+  }
+}
