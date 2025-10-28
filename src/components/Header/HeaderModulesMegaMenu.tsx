@@ -47,8 +47,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       name: t("modulesMenu.reputation.name"),
       description: t("modulesMenu.reputation.description"),
       icon: Star,
-      href: "#",
-      comingSoon: true,
+      href: "/module/reputation",
+      beta: true,
     },
   ];
   const isModuleActive = (moduleHref: string) => {

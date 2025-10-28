@@ -36,8 +36,8 @@ export const ModulesMegaMenu: React.FC = () => {
       name: t("modules.reputation.name"),
       description: t("modules.reputation.description"),
       icon: Star,
-      href: "#",
-      comingSoon: true,
+      href: "/module/reputation",
+      beta: true,
     },
   ];
   const [isOpen, setIsOpen] = useState(false);
