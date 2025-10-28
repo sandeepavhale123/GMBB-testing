@@ -168,6 +168,7 @@ export const Request: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
   const [sendModalOpen, setSendModalOpen] = useState(false);
   const [selectedContactForSend, setSelectedContactForSend] = useState<Contact | null>(null);
+  const [preferredChannelForSend, setPreferredChannelForSend] = useState<"SMS" | "Email" | null>(null);
 
   // Handle tab query parameter on mount
   useEffect(() => {
@@ -285,6 +286,13 @@ export const Request: React.FC = () => {
         }
       );
       return;
+    }
+    
+    // Set preferred channel based on current contact view type
+    if (contactViewType === "email") {
+      setPreferredChannelForSend("Email");
+    } else if (contactViewType === "phone") {
+      setPreferredChannelForSend("SMS");
     }
     
     setSelectedContactForSend(contact);
@@ -701,10 +709,16 @@ export const Request: React.FC = () => {
       {/* Send Review Request Modal */}
       <SendReviewRequestModal
         open={sendModalOpen}
-        onOpenChange={setSendModalOpen}
+        onOpenChange={(open) => {
+          setSendModalOpen(open);
+          if (!open) {
+            setPreferredChannelForSend(null);
+          }
+        }}
         contact={selectedContactForSend}
         templates={mockTemplates.filter(t => t.status === "active")}
         onSend={handleSendReviewRequest}
+        preferredChannel={preferredChannelForSend || undefined}
       />
     </div>
   );
