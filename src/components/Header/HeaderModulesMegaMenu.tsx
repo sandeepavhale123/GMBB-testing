@@ -113,7 +113,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
             "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
             isMobile
               ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]"
-              : "right-0 w-80"
+              : "right-0 w-[600px]"
           )}
         >
           <div className={cn("p-4", isMobile && "p-3")}>
@@ -122,7 +122,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                 {t("modulesMenu.title")}
               </h3>
             </div>
-            <div className="space-y-2">
+            <div className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}>
               {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
