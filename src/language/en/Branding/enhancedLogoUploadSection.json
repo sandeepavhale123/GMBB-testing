@@ -1,53 +1,53 @@
 {
   "enhancedLogoUploadSection": {
-    "heading": "Application Logos",
+    "heading": "Anwendungslogos",
     "lightLogo": {
-      "label": "Light Mode Logo",
-      "uploadButton": "Choose Light Logo",
-      "dropText": "Drop logo here or click to upload",
-      "fileInfo": "Selected: {{fileName}}",
-      "currentLoaded": "✓ Current logo loaded",
+      "label": "Logo für hellen Modus",
+      "uploadButton": "Helles Logo auswählen",
+      "dropText": "Logo hier ablegen oder klicken, um hochzuladen",
+      "fileInfo": "Ausgewählt: {{fileName}}",
+      "currentLoaded": "✓ Aktuelles Logo geladen",
       "fileTooLarge": {
-        "title": "File too large",
-        "description": "Logo file must be less than 2MB"
+        "title": "Datei zu groß",
+        "description": "Die Logodatei muss kleiner als 2 MB sein"
       },
       "invalidFileType": {
-        "title": "Invalid file type",
-        "description": "Please upload an image file (PNG, JPG, SVG)"
+        "title": "Ungültiger Dateityp",
+        "description": "Bitte eine Bilddatei hochladen (PNG, JPG, SVG)"
       },
       "uploaded": {
-        "title": "Light logo uploaded",
-        "description": "{{fileName}} ready for use"
+        "title": "Helles Logo hochgeladen",
+        "description": "{{fileName}} ist einsatzbereit"
       },
       "removed": {
-        "title": "Light logo removed",
-        "description": "Logo has been removed successfully"
+        "title": "Helles Logo entfernt",
+        "description": "Logo wurde erfolgreich entfernt"
       },
-      "instructions": "PNG, JPG, SVG up to 2MB. Recommended: 200x60px"
+      "instructions": "PNG, JPG, SVG bis zu 2 MB. Empfohlen: 200x60px"
     },
     "darkLogo": {
-      "label": "Dark Mode Logo",
-      "uploadButton": "Choose Dark Logo",
-      "dropText": "Drop logo here or click to upload",
-      "fileInfo": "Selected: {{fileName}}",
-      "currentLoaded": "✓ Current logo loaded",
+      "label": "Logo für dunklen Modus",
+      "uploadButton": "Dunkles Logo auswählen",
+      "dropText": "Logo hier ablegen oder klicken, um hochzuladen",
+      "fileInfo": "Ausgewählt: {{fileName}}",
+      "currentLoaded": "✓ Aktuelles Logo geladen",
       "fileTooLarge": {
-        "title": "File too large",
-        "description": "Logo file must be less than 2MB"
+        "title": "Datei zu groß",
+        "description": "Die Logodatei muss kleiner als 2 MB sein"
       },
       "invalidFileType": {
-        "title": "Invalid file type",
-        "description": "Please upload an image file (PNG, JPG, SVG)"
+        "title": "Ungültiger Dateityp",
+        "description": "Bitte eine Bilddatei hochladen (PNG, JPG, SVG)"
       },
       "uploaded": {
-        "title": "Dark logo uploaded",
-        "description": "{{fileName}} ready for use"
+        "title": "Dunkles Logo hochgeladen",
+        "description": "{{fileName}} ist einsatzbereit"
       },
       "removed": {
-        "title": "Dark logo removed",
-        "description": "Logo has been removed successfully"
+        "title": "Dunkles Logo entfernt",
+        "description": "Logo wurde erfolgreich entfernt"
       },
-      "instructions": "PNG, JPG, SVG up to 2MB. Recommended: 200x60px"
+      "instructions": "PNG, JPG, SVG bis zu 2 MB. Empfohlen: 200x60px"
     }
   }
 }

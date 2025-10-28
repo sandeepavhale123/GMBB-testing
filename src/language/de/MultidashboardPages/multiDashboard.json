@@ -3,15 +3,15 @@
     "totalListings": {
       "title": "Gesamtanzahl der Einträge",
       "subtitle": "Aktive Standorte",
-      "trend": "+2 diesen Monat"
+      "trend": "+2 in diesem Monat"
     },
     "avgRating": {
-      "title": "Durchschnittliche Bewertung",
+      "title": "Durchschn. Bewertung",
       "subtitle": "Über alle Einträge hinweg",
       "trend": "↑ 0,3 Punkte"
     },
     "totalReviews": {
-      "title": "Gesamtanzahl der Bewertungen",
+      "title": "Gesamtbewertungen",
       "subtitle": "Kundenfeedback",
       "trend": "Verbessert sich"
     },
@@ -22,9 +22,9 @@
     }
   },
   "errors": {
-    "metricsLoad": "Fehler beim Laden der Metriken. Bitte versuche es erneut.",
-    "listingsLoad": "Fehler beim Laden der Einträge. Bitte versuche es erneut.",
-    "postsLoad": "Fehler beim Laden der Beiträge. Bitte versuche es erneut."
+    "metricsLoad": "Fehler beim Laden der Metriken. Bitte versuchen Sie es erneut.",
+    "listingsLoad": "Fehler beim Laden der Einträge. Bitte versuchen Sie es erneut.",
+    "postsLoad": "Fehler beim Laden der Beiträge. Bitte versuchen Sie es erneut."
   },
   "dashboard": {
     "title": "GMB-Eintrag – {{type}} Dashboard",
@@ -41,7 +41,7 @@
     "post": "Beitrag",
     "default": "Standard",
     "shareReport": "Bericht teilen",
-    "searchPlaceholder": "Nach Eintragsname oder Postleitzahl suchen",
+    "searchPlaceholder": "Nach Eintragsnamen oder Postleitzahl suchen",
     "filters": {
       "allCategories": "Alle Kategorien",
       "allStates": "Alle Bundesländer",
@@ -50,8 +50,8 @@
       "unrespondedReview": "Nicht beantwortete Bewertung",
       "unrespondedARE": "Nicht beantwortete ARE",
       "unrespondedDNR": "Nicht beantwortete DNR",
-      "excludeARE": "ARE-Bewertung ausschließen",
-      "excludeDNR": "DNR-Bewertung ausschließen",
+      "excludeARE": "ARE-Bewertungen ausschließen",
+      "excludeDNR": "DNR-Bewertungen ausschließen",
       "excludeARE_DNR": "ARE/DNR-Bewertungen ausschließen",
       "postStatus": "Beitragsstatus",
       "allPosts": "Alle Beiträge",
@@ -64,8 +64,8 @@
   "status": {
     "loading": "Wird geladen...",
     "error": "Fehler beim Laden der Daten",
-    "showingPosts": "Zeige {{count}} von {{total}} Beiträgen",
-    "showingListings": "Zeige {{count}} von {{total}} Einträgen",
+    "showingPosts": "{{count}} von {{total}} Beiträgen werden angezeigt",
+    "showingListings": "{{count}} von {{total}} Einträgen werden angezeigt",
     "previous": "Zurück",
     "next": "Weiter"
   },
@@ -85,7 +85,7 @@
     "Total": "Gesamt",
     "customerActions": "Kundenaktionen",
     "clicks": "Klicks",
-    "directions": "Wegbeschreibungen",
+    "directions": "Routen",
     "calls": "Anrufe",
     "messages": "Nachrichten",
     "reviewStats": "Bewertungsstatistiken",
@@ -103,21 +103,22 @@
     "rating": "Bewertung",
     "website": "Webseite",
     "maps": "Karten",
-    "avgRating": "Durchschnittliche Bewertung",
+    "avgRating": "Durchschn. Bewertung",
     "starRating": "Sternebewertung",
-    "reviewsVsReplies": "Bewertungen vs Antworten",
+    "reviewsVsReplies": "Bewertungen vs. Antworten",
     "lastPost": "Letzter Beitrag",
     "upcoming": "Bevorstehend",
     "viewDetails": "Details anzeigen",
-    "totalViews": "Gesamtanzahl der Aufrufe",
+    "totalViews": "Gesamtansichten",
     "phone": "Telefon",
     "na": "N/V",
-    "stateLabel": "Bundesland"
+    "stateLabel": "Bundesland",
+    "nopost": "Kein Beitrag"
   },
   "pagination": {
     "showing": {
-      "posts": "Zeige {{from}} bis {{to}} von {{total}} Beiträgen",
-      "listings": "Zeige {{from}} bis {{to}} von {{total}} Einträgen"
+      "posts": "Zeigt {{from}} bis {{to}} von {{total}} Beiträgen",
+      "listings": "Zeigt {{from}} bis {{to}} von {{total}} Einträgen"
     },
     "previous": "Zurück",
     "next": "Weiter",

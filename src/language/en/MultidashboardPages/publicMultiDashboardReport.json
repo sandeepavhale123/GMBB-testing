@@ -106,7 +106,8 @@
     "totalView":"Total Views",
     "stateLabel":"State",
     "reviewLabel":"Reviews",
-    "zipcodeLabel":"Zip Code"
+    "zipcodeLabel":"Zip Code",
+    "nopost":"No post"
   },
   "pagination": {
     "pageOf": "Page {{current}} of {{total}}",

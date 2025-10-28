@@ -1,21 +1,21 @@
 {
   "verifyPayment": {
     "loading": {
-      "title": "Verificando su pago",
-      "description": "Por favor, espere mientras verificamos su pago..."
+      "title": "Verificando tu pago",
+      "description": "Por favor espera mientras verificamos tu pago..."
     },
     "success": {
       "title": "¡Pago verificado con éxito!",
-      "description": "Su suscripción ha sido activada correctamente. Ahora puede acceder a todas las funciones premium.",
-      "button": "Continuar al Panel"
+      "description": "Tu suscripción ha sido activada correctamente. Ahora puedes acceder a todas las funciones premium.",
+      "button": "Continuar"
     },
     "error": {
       "title": "Error en la verificación del pago",
       "buttonTryAgain": "Intentar de nuevo",
       "buttonBackHome": "Volver al inicio",
       "messages": {
-        "invalidParams": "Parámetros de verificación inválidos",
-        "verificationFailed": "La verificación del pago falló. Por favor, inténtelo de nuevo."
+        "invalidParams": "Parámetros de verificación no válidos",
+        "verificationFailed": "La verificación del pago falló. Por favor, inténtalo de nuevo."
       }
     }
   }

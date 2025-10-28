@@ -48,8 +48,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "File too large",
-        description: "Please select an image smaller than 5MB.",
+        title: t("fileTooLarge"),
+        description: t("fileTooLargeDesc"),
         variant: "destructive",
       });
       return;
@@ -75,17 +75,15 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           });
 
           toast({
-            title: "Profile picture updated",
-            description: "Your profile picture has been successfully updated.",
+            title: t("profilePicUpdated"),
+            description: t("profileUpdated"),
           });
         }
       } catch (error) {
         toast({
-          title: "Upload failed",
+          title: t("uploadFailed"),
           description:
-            error?.response?.data?.message ||
-            error.message ||
-            "Failed to update profile picture. Please try again.",
+            error?.response?.data?.message || error.message || t("uploadDesc"),
           variant: "destructive",
         });
       } finally {

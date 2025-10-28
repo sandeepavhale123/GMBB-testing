@@ -7,7 +7,7 @@
     "success": {
       "title": "Payment Verified Successfully!",
       "description": "Your subscription has been activated successfully. You can now access all premium features.",
-      "button": "Continue to Dashboard"
+      "button": "Continue"
     },
     "error": {
       "title": "Payment Verification Failed",

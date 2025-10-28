@@ -1,52 +1,52 @@
 {
   "metrics": {
     "totalListings": {
-      "title": "Annunci Totali",
+      "title": "Totale inserzioni",
       "subtitle": "Sedi attive",
       "trend": "+2 questo mese"
     },
     "avgRating": {
-      "title": "Valutazione Media",
-      "subtitle": "Tra tutti gli annunci",
+      "title": "Valutazione media",
+      "subtitle": "Su tutte le inserzioni",
       "trend": "↑ 0,3 punti"
     },
     "totalReviews": {
-      "title": "Recensioni Totali",
+      "title": "Totale recensioni",
       "subtitle": "Feedback dei clienti",
       "trend": "In miglioramento"
     },
     "totalPosts": {
-      "title": "Post Totali",
+      "title": "Totale post",
       "subtitle": "Pubblicati questo mese",
       "trend": "+12 questa settimana"
     }
   },
   "errors": {
-    "metricsLoad": "Impossibile caricare le metriche. Riprova.",
-    "listingsLoad": "Impossibile caricare gli annunci. Riprova.",
-    "postsLoad": "Impossibile caricare i post. Riprova."
+    "metricsLoad": "Caricamento delle metriche non riuscito. Riprova.",
+    "listingsLoad": "Caricamento delle inserzioni non riuscito. Riprova.",
+    "postsLoad": "Caricamento dei post non riuscito. Riprova."
   },
   "dashboard": {
-    "title": "Elenco GMB – dashboard {{type}}",
+    "title": "GMB Listing – Dashboard {{type}}",
     "types": {
-      "default": "Dashboard Predefinita",
-      "insight": "Dashboard Approfondimenti",
-      "review": "Dashboard Recensioni",
-      "location": "Dashboard Località",
-      "post": "Dashboard Post"
+      "default": "Dashboard predefinita",
+      "insight": "Dashboard approfondimenti",
+      "review": "Dashboard recensioni",
+      "location": "Dashboard sedi",
+      "post": "Dashboard post"
     },
-    "review": "Recensione",
-    "insight": "Approfondimento",
-    "location": "Località",
+    "review": "Recensioni",
+    "insight": "Approfondimenti",
+    "location": "Sede",
     "post": "Post",
     "default": "Predefinito",
-    "shareReport": "Condividi Rapporto",
-    "searchPlaceholder": "Cerca per nome dell’annuncio o CAP",
+    "shareReport": "Condividi rapporto",
+    "searchPlaceholder": "Cerca per nome inserzione o CAP",
     "filters": {
-      "allCategories": "Tutte le Categorie",
-      "allStates": "Tutti gli Stati",
-      "reviewFilter": "Filtro Recensioni",
-      "allReviews": "Tutte le Recensioni",
+      "allCategories": "Tutte le categorie",
+      "allStates": "Tutti gli stati",
+      "reviewFilter": "Filtro recensioni",
+      "allReviews": "Tutte le recensioni",
       "unrespondedReview": "Recensioni non risposte",
       "unrespondedARE": "ARE non risposte",
       "unrespondedDNR": "DNR non risposte",
@@ -54,18 +54,18 @@
       "excludeDNR": "Escludi recensioni DNR",
       "excludeARE_DNR": "Escludi recensioni ARE/DNR",
       "postStatus": "Stato del post",
-      "allPosts": "Tutti i Post",
-      "scheduledPost": "Post Programmato",
-      "livePost": "Post Attivo",
-      "failedPost": "Post Fallito"
+      "allPosts": "Tutti i post",
+      "scheduledPost": "Post programmati",
+      "livePost": "Post attivi",
+      "failedPost": "Post non riusciti"
     }
   },
   "export": "Esporta CSV",
   "status": {
     "loading": "Caricamento...",
     "error": "Errore nel caricamento dei dati",
-    "showingPosts": "Mostrando {{count}} di {{total}} post",
-    "showingListings": "Mostrando {{count}} di {{total}} annunci",
+    "showingPosts": "Visualizzazione di {{count}} su {{total}} post",
+    "showingListings": "Visualizzazione di {{count}} su {{total}} inserzioni",
     "previous": "Precedente",
     "next": "Successivo"
   },
@@ -78,46 +78,47 @@
     "listingid": "ID: {{id}}",
     "zipcode": "CAP: {{zipcode}}",
     "state": "Stato: {{city}}",
-    "fetchingData": "Recupero dei dati dell’annuncio...",
+    "fetchingData": "Recupero dati inserzione...",
     "visibility": "Visibilità",
     "Search": "Ricerca",
     "Maps": "Mappe",
     "Total": "Totale",
-    "customerActions": "Azioni dei Clienti",
+    "customerActions": "Azioni dei clienti",
     "clicks": "Clic",
     "directions": "Indicazioni",
     "calls": "Chiamate",
     "messages": "Messaggi",
-    "reviewStats": "Statistiche Recensioni",
+    "reviewStats": "Statistiche recensioni",
     "reviewsReplies": "Recensioni / Risposte",
-    "autoReply": "Risposta Automatica",
-    "reviewSentiment": "Sentimento delle Recensioni",
+    "autoReply": "Risposta automatica",
+    "reviewSentiment": "Sentimento recensioni",
     "positive": "Positivo",
     "neutral": "Neutro",
     "negative": "Negativo",
-    "listingStatus": "Stato dell’Annuncio",
+    "listingStatus": "Stato inserzione",
     "visibilityLabel": "Visibilità:",
     "completeLabel": "Completato:",
-    "lastUpdated": "Ultimo Aggiornamento:",
+    "lastUpdated": "Ultimo aggiornamento:",
     "photos": "Foto",
     "rating": "Valutazione",
-    "website": "Sito Web",
+    "website": "Sito web",
     "maps": "Mappe",
-    "avgRating": "Valutazione Media",
-    "starRating": "Valutazione a Stelle",
+    "avgRating": "Valutazione media",
+    "starRating": "Valutazione a stelle",
     "reviewsVsReplies": "Recensioni vs Risposte",
-    "lastPost": "Ultimo Post",
-    "upcoming": "Prossimi",
-    "viewDetails": "Visualizza Dettagli",
-    "totalViews": "Visualizzazioni Totali",
+    "lastPost": "Ultimo post",
+    "upcoming": "Prossimo",
+    "viewDetails": "Visualizza dettagli",
+    "totalViews": "Visualizzazioni totali",
     "phone": "Telefono",
     "na": "N/D",
-    "stateLabel": "Stato"
+    "stateLabel": "Stato",
+    "nopost": "Nessun post"
   },
   "pagination": {
     "showing": {
-      "posts": "Mostrando da {{from}} a {{to}} di {{total}} post",
-      "listings": "Mostrando da {{from}} a {{to}} di {{total}} annunci"
+      "posts": "Visualizzazione da {{from}} a {{to}} di {{total}} post",
+      "listings": "Visualizzazione da {{from}} a {{to}} di {{total}} inserzioni"
     },
     "previous": "Precedente",
     "next": "Successivo",

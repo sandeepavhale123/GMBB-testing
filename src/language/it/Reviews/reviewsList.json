@@ -2,33 +2,36 @@
   "reviewsList": {
     "title": "Recensioni dei Clienti",
     "errors": {
-      "reviewsError": "Qualcosa è andato storto durante il recupero delle recensioni.",
-      "replyError": "Errore nell'invio della risposta",
-      "deleteReplyError": "Errore nell'eliminazione della risposta",
-      "refreshError": "Errore nel ricaricamento dei dati",
-      "emptyReply": "Per favore, inserisci un messaggio di risposta"
+      "title": "Errore",
+      "reviewsError": "Si è verificato un errore durante il recupero delle recensioni.",
+      "replyError": "Errore durante l'invio della risposta",
+      "deleteReplyError": "Errore durante l'eliminazione della risposta",
+      "refreshError": "Errore durante l'aggiornamento dei dati",
+      "emptyReply": "Per favore inserisci un messaggio di risposta"
     },
     "success": {
+      "title": "Successo",
+      "replyTitle": "Risposta eliminata",
       "replySent": "Risposta inviata con successo",
       "replyDeleted": "La risposta è stata eliminata con successo",
-      "refresh": "Dati delle recensioni aggiornati con successo"
+      "refresh": "I dati delle recensioni sono stati aggiornati con successo"
     },
     "buttons": {
       "tryAgain": "Riprova",
-      "saveReply": "Salva Risposta",
+      "saveReply": "Salva risposta",
       "cancel": "Annulla",
-      "deleteReply": "Elimina Risposta"
+      "deleteReply": "Elimina risposta"
     },
     "loading": {
-      "reviews": "Caricamento recensioni...",
-      "reply": "Invio risposta...",
-      "deleting": "Eliminazione risposta..."
+      "reviews": "Caricamento delle recensioni...",
+      "reply": "Invio della risposta...",
+      "deleting": "Eliminazione della risposta..."
     },
     "emptyState": {
-      "noReviews": "Nessuna recensione ancora",
+      "noReviews": "Nessuna recensione al momento",
       "noFilteredReviews": "Nessuna recensione corrisponde ai tuoi filtri",
-      "noReviewsMessage": "Le recensioni appariranno qui una volta che i clienti lasceranno un feedback sulle tue inserzioni aziendali.",
-      "noFilteredReviewsMessage": "Prova ad aggiustare i tuoi criteri di ricerca o i filtri per vedere più risultati."
+      "noReviewsMessage": "Le recensioni appariranno qui non appena i clienti lasceranno un feedback sulle tue attività.",
+      "noFilteredReviewsMessage": "Prova a modificare i criteri di ricerca o i filtri per visualizzare più risultati."
     }
   }
 }

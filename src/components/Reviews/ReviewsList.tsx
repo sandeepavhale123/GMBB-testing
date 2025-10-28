@@ -192,7 +192,7 @@ export const ReviewsList: React.FC = () => {
       ).unwrap();
 
       toast({
-        title: "Success",
+        title: t("reviewsList.success.title"),
         description: t("reviewsList.success.refresh"),
       });
     } catch (error) {
@@ -270,7 +270,7 @@ export const ReviewsList: React.FC = () => {
 
     if (!finalReplyText?.trim()) {
       toast({
-        title: "Error",
+        title: t("reviewsList.errors.title"),
         description: t("reviewsList.errors.emptyReply"),
         variant: "destructive",
       });
@@ -293,7 +293,7 @@ export const ReviewsList: React.FC = () => {
       setShowingAIGenerator(null);
 
       toast({
-        title: "Success",
+        title: t("reviewsList.success.title"),
         description: t("reviewsList.success.replySent"),
       });
     } catch (error) {
@@ -314,7 +314,7 @@ export const ReviewsList: React.FC = () => {
       ).unwrap();
 
       toast({
-        title: "Reply Deleted",
+        title: t("reviewsList.success.replyTitle"),
         description: t("reviewsList.success.replyDeleted"),
       });
     } catch (error) {

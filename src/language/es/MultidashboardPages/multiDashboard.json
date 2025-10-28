@@ -1,53 +1,53 @@
 {
   "metrics": {
     "totalListings": {
-      "title": "Total de fichas",
+      "title": "Total de Listados",
       "subtitle": "Ubicaciones activas",
       "trend": "+2 este mes"
     },
     "avgRating": {
       "title": "Calificación promedio",
-      "subtitle": "En todas las fichas",
+      "subtitle": "En todos los listados",
       "trend": "↑ 0.3 puntos"
     },
     "totalReviews": {
-      "title": "Total de reseñas",
-      "subtitle": "Opiniones de clientes",
+      "title": "Total de Reseñas",
+      "subtitle": "Comentarios de clientes",
       "trend": "Mejorando"
     },
     "totalPosts": {
-      "title": "Total de publicaciones",
+      "title": "Total de Publicaciones",
       "subtitle": "Publicadas este mes",
       "trend": "+12 esta semana"
     }
   },
   "errors": {
-    "metricsLoad": "Error al cargar las métricas. Por favor, inténtalo de nuevo.",
-    "listingsLoad": "Error al cargar las fichas. Por favor, inténtalo de nuevo.",
-    "postsLoad": "Error al cargar las publicaciones. Por favor, inténtalo de nuevo."
+    "metricsLoad": "No se pudieron cargar las métricas. Por favor, inténtelo de nuevo.",
+    "listingsLoad": "No se pudieron cargar los listados. Por favor, inténtelo de nuevo.",
+    "postsLoad": "No se pudieron cargar las publicaciones. Por favor, inténtelo de nuevo."
   },
   "dashboard": {
-    "title": "Panel de GMB – {{type}}",
+    "title": "GMB Listing – Panel de {{type}}",
     "types": {
-      "default": "Panel predeterminado",
-      "insight": "Panel de información",
-      "review": "Panel de reseñas",
-      "location": "Panel de ubicación",
-      "post": "Panel de publicaciones"
+      "default": "Panel Predeterminado",
+      "insight": "Panel de Perspectivas",
+      "review": "Panel de Reseñas",
+      "location": "Panel de Ubicación",
+      "post": "Panel de Publicaciones"
     },
-    "review": "Reseña",
-    "insight": "Información",
+    "review": "Reseñas",
+    "insight": "Perspectiva",
     "location": "Ubicación",
     "post": "Publicación",
     "default": "Predeterminado",
-    "shareReport": "Compartir informe",
-    "searchPlaceholder": "Buscar por nombre de ficha o código postal",
+    "shareReport": "Compartir Informe",
+    "searchPlaceholder": "Buscar por nombre del listado o código postal",
     "filters": {
       "allCategories": "Todas las categorías",
       "allStates": "Todos los estados",
       "reviewFilter": "Filtro de reseñas",
       "allReviews": "Todas las reseñas",
-      "unrespondedReview": "Reseña sin respuesta",
+      "unrespondedReview": "Reseñas sin respuesta",
       "unrespondedARE": "ARE sin respuesta",
       "unrespondedDNR": "DNR sin respuesta",
       "excludeARE": "Excluir reseñas ARE",
@@ -65,20 +65,20 @@
     "loading": "Cargando...",
     "error": "Error al cargar los datos",
     "showingPosts": "Mostrando {{count}} de {{total}} publicaciones",
-    "showingListings": "Mostrando {{count}} de {{total}} fichas",
+    "showingListings": "Mostrando {{count}} de {{total}} listados",
     "previous": "Anterior",
     "next": "Siguiente"
   },
   "rating": {
     "excellent": "Excelente",
     "good": "Bueno",
-    "poor": "Malo"
+    "poor": "Deficiente"
   },
   "listing": {
     "listingid": "ID: {{id}}",
     "zipcode": "Código postal: {{zipcode}}",
     "state": "Estado: {{city}}",
-    "fetchingData": "Obteniendo datos de la ficha...",
+    "fetchingData": "Obteniendo datos del listado...",
     "visibility": "Visibilidad",
     "Search": "Buscar",
     "Maps": "Mapas",
@@ -91,11 +91,11 @@
     "reviewStats": "Estadísticas de reseñas",
     "reviewsReplies": "Reseñas / Respuestas",
     "autoReply": "Respuesta automática",
-    "reviewSentiment": "Sentimiento de las reseñas",
-    "positive": "Positivo",
-    "neutral": "Neutral",
-    "negative": "Negativo",
-    "listingStatus": "Estado de la ficha",
+    "reviewSentiment": "Sentimiento de reseñas",
+    "positive": "Positivas",
+    "neutral": "Neutras",
+    "negative": "Negativas",
+    "listingStatus": "Estado del listado",
     "visibilityLabel": "Visibilidad:",
     "completeLabel": "Completado:",
     "lastUpdated": "Última actualización:",
@@ -107,17 +107,18 @@
     "starRating": "Calificación por estrellas",
     "reviewsVsReplies": "Reseñas vs Respuestas",
     "lastPost": "Última publicación",
-    "upcoming": "Próximamente",
+    "upcoming": "Próximas",
     "viewDetails": "Ver detalles",
-    "totalViews": "Total de vistas",
+    "totalViews": "Vistas totales",
     "phone": "Teléfono",
     "na": "N/D",
-    "stateLabel": "Estado"
+    "stateLabel": "Estado",
+    "nopost": "Sin publicaciones"
   },
   "pagination": {
     "showing": {
       "posts": "Mostrando {{from}} a {{to}} de {{total}} publicaciones",
-      "listings": "Mostrando {{from}} a {{to}} de {{total}} fichas"
+      "listings": "Mostrando {{from}} a {{to}} de {{total}} listados"
     },
     "previous": "Anterior",
     "next": "Siguiente",

@@ -112,7 +112,8 @@
     "totalViews":"Total Views",
     "phone":"Phone",
     "na":"N/A",
-    "stateLabel":"State"
+    "stateLabel":"State",
+    "nopost":"No post"
   },
   "pagination":{
   "showing": {

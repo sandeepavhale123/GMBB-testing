@@ -6,7 +6,7 @@ import { useQueryParams } from "@/hooks/useQueryParams";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const VerifySignupPage = () => {
-  const { t } = useI18nNamespace("pages/verifyPayment");
+  const { t } = useI18nNamespace("pages/verifySignupPage");
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
