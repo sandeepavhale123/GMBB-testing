@@ -41,16 +41,20 @@ interface ReputationReviewCardProps {
 
 // Channel logo mapping
 const channelLogos: Record<string, string> = {
-  "Google Business Profile": "G",
-  "Facebook": "f",
-  "Yelp": "Y"
+  "Google Business Profile": "google.png",
+  "Facebook": "facebook.png",
+  "Yelp": "yelp.png",
+  "OpenTable":"OpenTable.png",
+  "Foursquare":"foursquare.png",
+  "Yellow Page":"yellowPage.png",
+  "Trustpilot":"trustpilot.png",
 };
 
-const channelColors: Record<string, string> = {
-  "Google Business Profile": "bg-blue-500",
-  "Facebook": "bg-blue-600",
-  "Yelp": "bg-red-600"
-};
+// const channelColors: Record<string, string> = {
+//   "Google Business Profile": "bg-blue-500",
+//   "Facebook": "bg-blue-600",
+//   "Yelp": "bg-red-600"
+// };
 
 const renderStars = (rating: number): JSX.Element => {
   return (
@@ -176,9 +180,9 @@ export const ReputationReviewCard: React.FC<ReputationReviewCardProps> = ({
         
         {/* Channel Logo & Date */}
         <div className="flex flex-col items-end gap-2">
-          <div className={`w-8 h-8 rounded-full ${channelColors[review.platform]} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
-            {channelLogos[review.platform]}
-          </div>
+          <img src={`/lovable-uploads/social-icons/${channelLogos[review.platform]}`} className={`w-8 h-8 rounded-full  flex items-center justify-center text-white font-bold text-sm shadow-sm`} />
+           
+        
           <span className="text-sm text-muted-foreground">
             {formatDate(review.date)}
           </span>
