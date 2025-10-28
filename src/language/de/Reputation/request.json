@@ -71,6 +71,8 @@
   "sendReviewRequest": {
     "title": "Bewertungsanfrage Senden",
     "selectTemplate": "Wählen Sie eine Vorlage",
+    "selectTemplatePlaceholder": "Vorlage auswählen...",
+    "templateContent": "Nachrichteninhalt",
     "noTemplatesAvailable": "Keine aktiven Vorlagen verfügbar",
     "createTemplateFirst": "Bitte erstellen Sie zuerst eine Vorlage",
     "templatePreview": "Vorschau",

@@ -71,6 +71,8 @@
   "sendReviewRequest": {
     "title": "Enviar Solicitud de Reseña",
     "selectTemplate": "Selecciona una Plantilla",
+    "selectTemplatePlaceholder": "Elige una plantilla...",
+    "templateContent": "Contenido del Mensaje",
     "noTemplatesAvailable": "No hay plantillas activas disponibles",
     "createTemplateFirst": "Por favor, crea una plantilla primero",
     "templatePreview": "Vista previa",

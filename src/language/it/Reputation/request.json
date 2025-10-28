@@ -71,6 +71,8 @@
   "sendReviewRequest": {
     "title": "Invia Richiesta di Recensione",
     "selectTemplate": "Seleziona un Modello",
+    "selectTemplatePlaceholder": "Scegli un modello...",
+    "templateContent": "Contenuto del Messaggio",
     "noTemplatesAvailable": "Nessun modello attivo disponibile",
     "createTemplateFirst": "Si prega di creare prima un modello",
     "templatePreview": "Anteprima",

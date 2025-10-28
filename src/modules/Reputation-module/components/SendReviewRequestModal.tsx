@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,10 +8,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Mail, MessageSquare, Inbox, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
@@ -49,8 +55,17 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
   onSend,
 }) => {
   const { t } = useTranslation("Reputation/request");
+  const [selectedChannel, setSelectedChannel] = useState<"SMS" | "Email">("SMS");
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
   const [isSending, setIsSending] = useState(false);
+
+  const filteredTemplates = templates.filter(t => t.channel === selectedChannel);
+  const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
+
+  // Reset template selection when channel changes
+  useEffect(() => {
+    setSelectedTemplateId("");
+  }, [selectedChannel]);
 
   const handleSend = async () => {
     if (!contact || !selectedTemplateId) return;
@@ -72,25 +87,9 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
       onOpenChange(newOpen);
       if (!newOpen) {
         setSelectedTemplateId("");
+        setSelectedChannel("SMS");
       }
     }
-  };
-
-  const getChannelIcon = (channel: "SMS" | "Email") => {
-    return channel === "SMS" ? (
-      <MessageSquare className="w-4 h-4" />
-    ) : (
-      <Mail className="w-4 h-4" />
-    );
-  };
-
-  const getContentPreview = (template: Template) => {
-    if (template.content) {
-      return template.content.length > 80
-        ? `${template.content.substring(0, 80)}...`
-        : template.content;
-    }
-    return "Default template content...";
   };
 
   return (
@@ -105,70 +104,73 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        {templates.length === 0 ? (
-          <div className="py-8 text-center space-y-4">
-            <div className="flex justify-center">
-              <Inbox className="w-12 h-12 text-muted-foreground" />
+        <div className="space-y-4">
+          {/* Channel Tabs */}
+          <Tabs value={selectedChannel} onValueChange={(value) => setSelectedChannel(value as "SMS" | "Email")}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="SMS" className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                <span>WhatsApp</span>
+              </TabsTrigger>
+              <TabsTrigger value="Email" className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                <span>SMS</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          {filteredTemplates.length === 0 ? (
+            <div className="py-8 text-center space-y-4">
+              <div className="flex justify-center">
+                <Inbox className="w-12 h-12 text-muted-foreground" />
+              </div>
+              <div>
+                <h3 className="font-medium text-foreground">
+                  {t("sendReviewRequest.noTemplatesAvailable")}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t("sendReviewRequest.createTemplateFirst")}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-medium text-foreground">
-                {t("sendReviewRequest.noTemplatesAvailable")}
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                {t("sendReviewRequest.createTemplateFirst")}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-            <RadioGroup
-              value={selectedTemplateId}
-              onValueChange={setSelectedTemplateId}
-            >
-              {templates.map((template) => (
-                <div key={template.id}>
-                  <Label
-                    htmlFor={`template-${template.id}`}
-                    className="cursor-pointer"
-                  >
-                    <Card
-                      className={cn(
-                        "p-4 transition-all hover:border-primary",
-                        selectedTemplateId === template.id &&
-                          "border-primary bg-primary/5"
-                      )}
-                    >
-                      <div className="flex items-start gap-3">
-                        <RadioGroupItem
-                          value={template.id}
-                          id={`template-${template.id}`}
-                          className="mt-1"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2 mb-2">
-                            <h4 className="font-medium text-foreground">
-                              {template.name}
-                            </h4>
-                            <Badge
-                              variant="outline"
-                              className="flex items-center gap-1 shrink-0"
-                            >
-                              {getChannelIcon(template.channel)}
-                              <span>{template.channel}</span>
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {getContentPreview(template)}
-                          </p>
-                        </div>
-                      </div>
-                    </Card>
+          ) : (
+            <>
+              {/* Template Dropdown */}
+              <div className="space-y-2">
+                <Label htmlFor="template-select">
+                  {t("sendReviewRequest.selectTemplate")}
+                </Label>
+                <Select value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
+                  <SelectTrigger id="template-select">
+                    <SelectValue placeholder={t("sendReviewRequest.selectTemplatePlaceholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filteredTemplates.map((template) => (
+                      <SelectItem key={template.id} value={template.id}>
+                        {template.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Template Content Textarea */}
+              {selectedTemplate && (
+                <div className="space-y-2">
+                  <Label htmlFor="template-content">
+                    {t("sendReviewRequest.templateContent")}
                   </Label>
+                  <Textarea
+                    id="template-content"
+                    value={selectedTemplate.content || "Default template content..."}
+                    readOnly
+                    className="min-h-[120px] resize-none"
+                  />
                 </div>
-              ))}
-            </RadioGroup>
-          </div>
-        )}
+              )}
+            </>
+          )}
+        </div>
 
         <DialogFooter>
           <Button

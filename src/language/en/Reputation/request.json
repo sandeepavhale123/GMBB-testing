@@ -71,6 +71,8 @@
   "sendReviewRequest": {
     "title": "Send Review Request",
     "selectTemplate": "Select a Template",
+    "selectTemplatePlaceholder": "Choose a template...",
+    "templateContent": "Message Content",
     "noTemplatesAvailable": "No active templates available",
     "createTemplateFirst": "Please create a template first",
     "templatePreview": "Preview",

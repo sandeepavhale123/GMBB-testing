@@ -71,6 +71,8 @@
   "sendReviewRequest": {
     "title": "Envoyer une Demande d'Avis",
     "selectTemplate": "Sélectionnez un Modèle",
+    "selectTemplatePlaceholder": "Choisissez un modèle...",
+    "templateContent": "Contenu du Message",
     "noTemplatesAvailable": "Aucun modèle actif disponible",
     "createTemplateFirst": "Veuillez d'abord créer un modèle",
     "templatePreview": "Aperçu",
