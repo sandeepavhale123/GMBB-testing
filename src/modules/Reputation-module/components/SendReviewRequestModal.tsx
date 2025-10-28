@@ -108,13 +108,13 @@ export const SendReviewRequestModal: React.FC<SendReviewRequestModalProps> = ({
           {/* Channel Tabs */}
           <Tabs value={selectedChannel} onValueChange={(value) => setSelectedChannel(value as "SMS" | "Email")}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="SMS" className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp</span>
+              <TabsTrigger value="SMS">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                WhatsApp
               </TabsTrigger>
-              <TabsTrigger value="Email" className="flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                <span>SMS</span>
+              <TabsTrigger value="Email">
+                <Mail className="w-4 h-4 mr-2" />
+                SMS
               </TabsTrigger>
             </TabsList>
           </Tabs>
