@@ -50,7 +50,17 @@ export const UtmTrackingBuilderModal: React.FC<
         // No protocol attempt detected, auto-add https://
         return `https://${trimmed}`;
       })
-      .pipe(z.string().url({ message: t("modal.validation.url") })),
+      .refine(
+        (val) => {
+          try {
+            const url = new URL(val);
+            return url.protocol === 'http:' || url.protocol === 'https:';
+          } catch {
+            return false;
+          }
+        },
+        { message: t("modal.validation.url") }
+      ),
     campaignName: z
       .string()
       .trim()
