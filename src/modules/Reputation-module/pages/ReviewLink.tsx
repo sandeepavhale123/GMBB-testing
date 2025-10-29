@@ -33,6 +33,11 @@ export const ReviewLink: React.FC = () => {
     "We'd love to hear from you! Share your experience by leaving us a review."
   );
   const [selectedReviewSites, setSelectedReviewSites] = useState<string[]>(["google", "facebook"]);
+  const [feedbackFormTitle, setFeedbackFormTitle] = useState(
+    "We'd love your private feedback to help us improve. Leave your phone number so we can reach out and resolve any issue if needed."
+  );
+  const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
+  const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,14 +59,14 @@ export const ReviewLink: React.FC = () => {
   };
 
   const handleNext = () => {
-    if (currentStep === 1) {
-      setCurrentStep(2);
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePrevious = () => {
-    if (currentStep === 2) {
-      setCurrentStep(1);
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -72,10 +77,14 @@ export const ReviewLink: React.FC = () => {
           {/* Left Panel - Form Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6">
             <h1 className="text-2xl font-bold text-foreground">
-              {currentStep === 1 ? "Review Link" : "Review Link - Positive Feedback"}
+              {currentStep === 1 && "Review Link"}
+              {currentStep === 2 && "Review Link - Positive Feedback"}
+              {currentStep === 3 && "Review Link - Feedback Form"}
+              {currentStep === 4 && "Review Link - Success Message"}
             </h1>
 
-            {currentStep === 1 ? (
+            {/* Step 1: Initial Review Request */}
+            {currentStep === 1 && (
               <>
                 {/* Logo Upload */}
                 <div className="space-y-2">
@@ -143,7 +152,10 @@ export const ReviewLink: React.FC = () => {
                   Next
                 </Button>
               </>
-            ) : (
+            )}
+
+            {/* Step 2: Positive Feedback */}
+            {currentStep === 2 && (
               <>
                 {/* Positive Feedback Title */}
                 <div className="space-y-2">
@@ -212,6 +224,117 @@ export const ReviewLink: React.FC = () => {
                 </div>
               </>
             )}
+
+            {/* Step 3: Feedback Form Configuration */}
+            {currentStep === 3 && (
+              <>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Feedback form</h3>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="feedbackFormTitle" className="text-sm font-medium">
+                    Title
+                  </Label>
+                  <Textarea
+                    id="feedbackFormTitle"
+                    value={feedbackFormTitle}
+                    onChange={(e) => setFeedbackFormTitle(e.target.value)}
+                    className="min-h-[100px] resize-none"
+                    placeholder="Enter feedback form title"
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <Label className="text-sm font-medium">Form</Label>
+                  <div className="space-y-3 p-4 border rounded-lg bg-muted/30">
+                    <div className="space-y-2">
+                      <Label className="text-sm">Name field</Label>
+                      <Input placeholder="Enter name" disabled />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-sm">Email/Phone field</Label>
+                      <Input placeholder="Enter email or phone no." disabled />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-sm">Comment field</Label>
+                      <Textarea placeholder="Comment" disabled className="min-h-[80px] resize-none" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
+                    size="lg"
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    size="lg"
+                  >
+                    Next
+                  </Button>
+                </div>
+              </>
+            )}
+
+            {/* Step 4: Success Message Configuration */}
+            {currentStep === 4 && (
+              <>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Feedback Submission</h3>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="successTitle" className="text-sm font-medium">
+                    Title
+                  </Label>
+                  <Textarea
+                    id="successTitle"
+                    value={successTitle}
+                    onChange={(e) => setSuccessTitle(e.target.value)}
+                    className="min-h-[80px] resize-none"
+                    placeholder="Enter success message title"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="successSubtitle" className="text-sm font-medium">
+                    Sub title
+                  </Label>
+                  <Textarea
+                    id="successSubtitle"
+                    value={successSubtitle}
+                    onChange={(e) => setSuccessSubtitle(e.target.value)}
+                    className="min-h-[60px] resize-none"
+                    placeholder="Enter success message subtitle"
+                  />
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
+                    size="lg"
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    size="lg"
+                  >
+                    Next
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right Panel - Preview Section */}
@@ -228,7 +351,8 @@ export const ReviewLink: React.FC = () => {
                 )}
               </div>
 
-              {currentStep === 1 ? (
+              {/* Step 1 Preview */}
+              {currentStep === 1 && (
                 <>
                   {/* Title Display */}
                   <div className="text-center">
@@ -253,7 +377,10 @@ export const ReviewLink: React.FC = () => {
                     ))}
                   </div>
                 </>
-              ) : (
+              )}
+
+              {/* Step 2 Preview */}
+              {currentStep === 2 && (
                 <>
                   {/* Positive Feedback Title */}
                   <div className="text-center">
@@ -284,6 +411,59 @@ export const ReviewLink: React.FC = () => {
                       })}
                   </div>
                 </>
+              )}
+
+              {/* Step 3 Preview - Feedback Form */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground px-2">
+                      {feedbackFormTitle}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <Input 
+                      placeholder="Enter name" 
+                      className="w-full"
+                    />
+                    <Input 
+                      placeholder="Enter email or phone no." 
+                      className="w-full"
+                    />
+                    <Textarea 
+                      placeholder="Comment" 
+                      className="w-full min-h-[100px] resize-none"
+                    />
+                    
+                    <div className="flex gap-3 pt-2">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1"
+                      >
+                        Clear
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-blue-600 hover:bg-blue-700"
+                      >
+                        Send
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4 Preview - Success Message */}
+              {currentStep === 4 && (
+                <div className="text-center space-y-4 py-8">
+                  <h2 className="text-2xl font-bold text-foreground">
+                    {successTitle}
+                  </h2>
+                  
+                  <p className="text-base text-muted-foreground">
+                    {successSubtitle}
+                  </p>
+                </div>
               )}
 
               {/* Footer */}
