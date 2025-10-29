@@ -6,16 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, ExternalLink, CheckCircle2 } from "lucide-react";
+import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 export const ReviewFeedback: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Get rating from URL params or location state
   const searchParams = new URLSearchParams(location.search);
   const rating = Number(searchParams.get('rating')) || location.state?.rating || 0;
-  
+
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -39,15 +40,16 @@ export const ReviewFeedback: React.FC = () => {
   if (localRating === 0) {
     return (
       <PublicReputationLayout>
-        <Card className="mt-8">
+        <Card className="border-0">
           <CardContent className="p-8">
             <div className="text-center space-y-6">
+              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
               <div>
                 <h1 className="text-2xl font-bold text-foreground mb-2">
-                  Rate Your Experience
+                  How would you rate your overall experience with us?
                 </h1>
                 <p className="text-muted-foreground">
-                  How would you rate your overall experience with us?
+                  Please click below to review your experience.
                 </p>
               </div>
 
@@ -77,17 +79,19 @@ export const ReviewFeedback: React.FC = () => {
   if (submitted) {
     return (
       <PublicReputationLayout>
-        <Card className="mt-8">
+        <Card className=" border-0">
           <CardContent className="p-8 text-center">
             <div className="flex flex-col items-center space-y-4">
-              <CheckCircle2 className="w-16 h-16 text-green-500" />
-              <h2 className="text-2xl font-bold text-foreground">Thank You!</h2>
+              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto mb-4" alt="logo"  />
+             
+              <h2 className="text-2xl font-bold text-foreground">Thanks, your feedback has been submitted!</h2>
               <p className="text-muted-foreground">
-                Your feedback has been submitted successfully.
+                We really appreciate your comments.
               </p>
-              <Button onClick={() => navigate("/")} className="mt-4">
+               <CheckCircle2 className="w-16 h-16 text-green-500" />
+              {/* <Button onClick={() => navigate("/")} className="mt-4">
                 Return to Home
-              </Button>
+              </Button> */}
             </div>
           </CardContent>
         </Card>
@@ -99,15 +103,16 @@ export const ReviewFeedback: React.FC = () => {
   if (localRating > 3) {
     return (
       <PublicReputationLayout>
-        <Card className="mt-8">
+        <Card className="border-0">
           <CardContent className="p-8">
             <div className="space-y-6">
               {/* Header with stars */}
               <div className="text-center space-y-4">
+                <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
                 <h2 className="text-2xl font-bold text-foreground">
                   Share Your Positive Experience
                 </h2>
-                
+
                 {/* Display selected rating */}
                 <div className="flex justify-center gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -131,51 +136,64 @@ export const ReviewFeedback: React.FC = () => {
 
               {/* Review Site Buttons */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="lg"
-                  className="h-auto py-6 flex flex-col gap-2"
-                  onClick={() => window.open('https://google.com/maps', '_blank')}
+                  className="h-auto py-6 flex flex-row justify-between gap-2 "
+                  onClick={() => window.open('https://google.com', '_blank')}
                 >
+                  <div className="flex gap-2 items-center ">
+                    <FaGoogle className="text-[#4285F4]" />
+                    <span className="font-semibold text-[18px]">Google</span>
+                  </div>
                   <ExternalLink className="w-5 h-5" />
-                  <span className="font-semibold">Google Reviews</span>
                 </Button>
 
-                <Button 
-                  variant="outline" 
+               <Button
+                  variant="outline"
                   size="lg"
-                  className="h-auto py-6 flex flex-col gap-2"
-                  onClick={() => window.open('https://facebook.com', '_blank')}
+                  className="h-auto py-6 flex flex-row justify-between gap-2 "
+                  onClick={() => window.open('https://google.com', '_blank')}
                 >
+                  <div className="flex gap-2 items-center ">
+                    <FaFacebook className="text-[#1877F2]" />
+                    <span className="font-semibold text-[18px]">Facebook</span>
+                  </div>
                   <ExternalLink className="w-5 h-5" />
-                  <span className="font-semibold">Facebook</span>
                 </Button>
 
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="lg"
-                  className="h-auto py-6 flex flex-col gap-2"
-                  onClick={() => window.open('https://yelp.com', '_blank')}
+                  className="h-auto py-6 flex flex-row justify-between gap-2 "
+                  onClick={() => window.open('https://tripadvisor.com', '_blank')}
                 >
+                  <div className="flex gap-2 items-center ">
+                    <FaTripadvisor className="text-[#00AF87] text-2xl w-6 h-6" />
+                    <span className="font-semibold text-[18px]">Tripadvisor</span>
+                  </div>
+
                   <ExternalLink className="w-5 h-5" />
-                  <span className="font-semibold">Yelp</span>
                 </Button>
 
-                <Button 
-                  variant="outline" 
+               <Button
+                  variant="outline"
                   size="lg"
-                  className="h-auto py-6 flex flex-col gap-2"
-                  onClick={() => window.open('https://trustpilot.com', '_blank')}
+                  className="h-auto py-6 flex flex-row justify-between gap-2 "
+                  onClick={() => window.open('https://airbnb.com', '_blank')}
                 >
+                  <div className="flex gap-2 items-center ">
+                    <FaAirbnb className="text-[#FF385C] " size={40} />
+                    <span className="font-semibold text-[18px]">Airbnb</span>
+                  </div>
                   <ExternalLink className="w-5 h-5" />
-                  <span className="font-semibold">Trustpilot</span>
                 </Button>
               </div>
 
               {/* Back button */}
               <div className="flex justify-center mt-6">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   onClick={() => handleRatingSelect(0)}
                 >
                   Change Rating
@@ -191,15 +209,16 @@ export const ReviewFeedback: React.FC = () => {
   // Low rating (1-3 stars) - Show feedback form (Step 3)
   return (
     <PublicReputationLayout>
-      <Card className="mt-8">
+      <Card className=" border-0">
         <CardContent className="p-8">
           <div className="space-y-6">
             {/* Header with stars */}
             <div className="text-center space-y-4">
+              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
               <h2 className="text-2xl font-bold text-foreground">
                 We'd Like to Hear From You
               </h2>
-              
+
               {/* Display selected rating */}
               <div className="flex justify-center gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -231,7 +250,7 @@ export const ReviewFeedback: React.FC = () => {
                   id="name"
                   placeholder="Your Name"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                 />
               </div>
@@ -244,7 +263,7 @@ export const ReviewFeedback: React.FC = () => {
                   id="contact"
                   placeholder="Email or Phone"
                   value={formData.emailPhone}
-                  onChange={(e) => setFormData({...formData, emailPhone: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, emailPhone: e.target.value })}
                   required
                 />
               </div>
@@ -257,23 +276,23 @@ export const ReviewFeedback: React.FC = () => {
                   id="comment"
                   placeholder="Tell us what went wrong and how we can improve..."
                   value={formData.comment}
-                  onChange={(e) => setFormData({...formData, comment: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
                   rows={6}
                   required
                 />
               </div>
 
               <div className="flex gap-4">
-                <Button 
+                <Button
                   type="button"
-                  variant="outline" 
+                  variant="outline"
                   onClick={() => handleRatingSelect(0)}
                   className="flex-1"
                 >
                   Change Rating
                 </Button>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="flex-1 bg-blue-600 hover:bg-blue-700"
                 >
                   Submit Feedback

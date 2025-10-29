@@ -21,44 +21,13 @@ export const PublicReputationLayout: React.FC<PublicReputationLayoutProps> = ({ 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
-      <header
-        className="w-full px-4 py-3 border-b border-border"
-        style={{
-          backgroundColor: theme.bg_color || "hsl(var(--background))",
-        }}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <img
-            src={logoData.darkLogo}
-            alt={t("alt.logo")}
-            className="h-10 w-auto"
-          />
-          <div className="flex gap-4 items-center">
-            <LanguageSwitcher />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLoginClick}
-            >
-              {t("header.login")}
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-1 p-4">
-        <div className="max-w-4xl mx-auto">{children}</div>
+    <div className="min-h-screen flex flex-col bg-background grid grid-cols-1  lg:grid-cols-2 p-4 h-[100vh]">
+      <div className="bg-dark-100  rounded-md max-h-100 flex items-center hidden lg:block " style={{background:"linear-gradient(to bottom right, #6313f5, #7d15c3)"}}>
+       <img src="/lovable-uploads/bg-img/review-illustration.png" className="mx-auto" alt="" style={{width:"90%"}} />
+      </div>
+      <main className="flex-1 p-4 flex justify-center items-center h-100">
+        <div className="w-[80%] mx-auto border-0 ">{children}</div>
       </main>
-
-      {/* Footer */}
-      <footer className="py-4 border-t border-border">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
-          {/* Footer content */}
-        </div>
-      </footer>
     </div>
   );
 };
