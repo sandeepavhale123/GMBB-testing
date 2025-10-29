@@ -27,6 +27,7 @@ const reviewSites: ReviewSite[] = [
 
 export const ReviewLink: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedRating, setSelectedRating] = useState<number>(0);
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How would you rate your overall experience with us?");
   const [subtitle, setSubtitle] = useState("Please click below to review your experience.");
@@ -59,14 +60,42 @@ export const ReviewLink: React.FC = () => {
   };
 
   const handleNext = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
+    if (currentStep === 1) {
+      // From Step 1, check rating to determine next step
+      if (selectedRating > 0) {
+        if (selectedRating <= 3) {
+          // Low rating: go to feedback form (Step 3)
+          setCurrentStep(3);
+        } else {
+          // High rating: go to positive feedback (Step 2)
+          setCurrentStep(2);
+        }
+      }
+    } else if (currentStep === 2) {
+      // From Step 2, go to Step 4 (success)
+      setCurrentStep(4);
+    } else if (currentStep === 3) {
+      // From Step 3, go to Step 4 (success)
+      setCurrentStep(4);
     }
   };
 
   const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+    if (currentStep === 4) {
+      // From Step 4, check where we came from based on rating
+      if (selectedRating <= 3) {
+        // Came from feedback form (Step 3)
+        setCurrentStep(3);
+      } else {
+        // Came from positive feedback (Step 2)
+        setCurrentStep(2);
+      }
+    } else if (currentStep === 3) {
+      // From Step 3, go back to Step 1
+      setCurrentStep(1);
+    } else if (currentStep === 2) {
+      // From Step 2, go back to Step 1
+      setCurrentStep(1);
     }
   };
 
@@ -145,7 +174,12 @@ export const ReviewLink: React.FC = () => {
                   </div>
 
                   {/* Next Button */}
-                  <Button onClick={handleNext} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
+                  <Button 
+                    onClick={handleNext} 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                    size="lg"
+                    disabled={selectedRating === 0}
+                  >
                     Next
                   </Button>
                 </>
@@ -350,7 +384,17 @@ export const ReviewLink: React.FC = () => {
                     {/* Star Rating */}
                     <div className="flex justify-center gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} className="w-8 h-8 text-orange-400" strokeWidth={1.5} />
+                        <Star 
+                          key={star} 
+                          className={cn(
+                            "w-8 h-8 cursor-pointer transition-all hover:scale-110",
+                            selectedRating >= star 
+                              ? "text-orange-400 fill-orange-400" 
+                              : "text-gray-300"
+                          )}
+                          strokeWidth={1.5}
+                          onClick={() => setSelectedRating(star)}
+                        />
                       ))}
                     </div>
                   </>
