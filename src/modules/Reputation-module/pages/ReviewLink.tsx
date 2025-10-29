@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, Upload, Check } from "lucide-react";
+import { Star, Upload, Check, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
 import { SiTrustpilot } from "react-icons/si";
@@ -74,23 +75,24 @@ export const ReviewLink: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Left Panel - Form Section */}
-          <div className="bg-card rounded-lg border p-8 space-y-6">
-            <h1 className="text-2xl font-bold text-foreground">
-              {currentStep === 1 && "Review Link"}
-              {currentStep === 2 && "Review Link - Positive Feedback"}
-              {currentStep === 3 && "Review Link - Feedback Form"}
-              {currentStep === 4 && "Review Link - Success Message"}
-            </h1>
+    <TooltipProvider>
+      <div className="min-h-screen bg-background">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Left Panel - Form Section */}
+            <div className="bg-card rounded-lg border p-8 space-y-6">
+              <h1 className="text-2xl font-bold text-foreground">
+                {currentStep === 1 && "Review Link"}
+                {currentStep === 2 && "Review Link - Positive Feedback"}
+                {currentStep === 3 && "Review Link - Feedback Form"}
+                {currentStep === 4 && "Review Link - Success Message"}
+              </h1>
 
-            {/* Step 1: Initial Review Request */}
-            {currentStep === 1 && (
-              <>
-                {/* Logo Upload */}
-                <div className="space-y-2">
+              {/* Step 1: Initial Review Request */}
+              {currentStep === 1 && (
+                <>
+                  {/* Logo Upload */}
+                  <div className="space-y-2">
                   <Label htmlFor="logo-upload" className="text-sm font-medium">
                     Logo
                   </Label>
@@ -249,7 +251,17 @@ export const ReviewLink: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-sm font-medium">Form</Label>
+                  <div className="flex items-center gap-2">
+                    <Label className="text-sm font-medium">Form</Label>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Edit the form field placeholders below to customize how they appear in your review form</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
                   <div className="space-y-3 p-4 border rounded-lg bg-muted/30">
                     <div className="space-y-2">
                       <Label className="text-sm">Name field</Label>
@@ -490,6 +502,6 @@ export const ReviewLink: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
