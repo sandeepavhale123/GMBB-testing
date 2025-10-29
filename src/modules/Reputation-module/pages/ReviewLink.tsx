@@ -67,7 +67,7 @@ export const ReviewLink: React.FC = () => {
       setCurrentStep(2);
     } else if (currentStep === 2) {
       // From Step 2, go to Step 4 (success)
-      setCurrentStep(4);
+      setCurrentStep(3);
     } else if (currentStep === 3) {
       // From Step 3, go to Step 4 (success)
       setCurrentStep(4);
