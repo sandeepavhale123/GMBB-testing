@@ -63,16 +63,8 @@ export const ReviewLink: React.FC = () => {
 
   const handleNext = () => {
     if (currentStep === 1) {
-      // From Step 1, check rating to determine next step
-      if (selectedRating > 0) {
-        if (selectedRating <= 3) {
-          // Low rating: go to feedback form (Step 3)
-          setCurrentStep(3);
-        } else {
-          // High rating: go to positive feedback (Step 2)
-          setCurrentStep(2);
-        }
-      }
+      // From Step 1, always go to Step 2
+      setCurrentStep(2);
     } else if (currentStep === 2) {
       // From Step 2, go to Step 4 (success)
       setCurrentStep(4);
