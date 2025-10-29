@@ -6,6 +6,7 @@ import { Review } from "@/modules/Reputation-module/pages/Review";
 import { Request } from "@/modules/Reputation-module/pages/Request";
 import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
 import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate";
+import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import type { RouteConfig } from "../routeConfig";
 
@@ -39,6 +40,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "create-template",
         element: <CreateTemplate />,
+      },
+      {
+        path: "review-link",
+        element: <ReviewLink />,
       },
       {
         path: "setting",

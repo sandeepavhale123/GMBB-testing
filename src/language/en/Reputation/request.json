@@ -5,7 +5,8 @@
   "tabs": {
     "campaign": "Campaign",
     "templates": "Templates",
-    "contacts": "Contacts"
+    "contacts": "Contacts",
+    "reviewLink": "Review Link"
   },
   "table": {
     "name": "Name",

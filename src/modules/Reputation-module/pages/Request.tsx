@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus, Trash2 } from "lucide-react";
+import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus, Trash2, Link } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -306,6 +306,7 @@ export const Request: React.FC = () => {
     { value: "campaign", label: t("tabs.campaign") },
     { value: "templates", label: t("tabs.templates") },
     { value: "contacts", label: t("tabs.contacts") },
+    { value: "reviewLink", label: t("tabs.reviewLink"), isNavigation: true },
   ];
 
   const TabNavigation = () => (
@@ -316,8 +317,13 @@ export const Request: React.FC = () => {
           <button
             key={item.value}
             onClick={() => {
-              setActiveTab(item.value);
-              if (isMobile) setIsSheetOpen(false);
+              if (item.isNavigation) {
+                navigate("/module/reputation/review-link");
+                if (isMobile) setIsSheetOpen(false);
+              } else {
+                setActiveTab(item.value);
+                if (isMobile) setIsSheetOpen(false);
+              }
             }}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full justify-start ${
               isActive
