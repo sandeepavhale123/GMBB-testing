@@ -3,13 +3,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, Upload } from "lucide-react";
+import { Star, Upload, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
+import { SiTrustpilot } from "react-icons/si";
+
+type ReviewSite = {
+  id: string;
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  textColor: string;
+};
+
+const reviewSites: ReviewSite[] = [
+  { id: "google", name: "Google", icon: FaGoogle, color: "#4285F4", textColor: "#fff" },
+  { id: "facebook", name: "Facebook", icon: FaFacebook, color: "#1877F2", textColor: "#fff" },
+  { id: "tripadvisor", name: "Tripadvisor", icon: FaTripadvisor, color: "#00AF87", textColor: "#fff" },
+  { id: "trustpilot", name: "Trustpilot", icon: SiTrustpilot, color: "#00B67A", textColor: "#fff" },
+  { id: "airbnb", name: "Airbnb", icon: FaAirbnb, color: "#FF385C", textColor: "#fff" },
+];
 
 export const ReviewLink: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How would you rate your overall experience with us?");
   const [subtitle, setSubtitle] = useState("Please click below to review your experience.");
+  const [positiveFeedbackTitle, setPositiveFeedbackTitle] = useState(
+    "We'd love to hear from you! Share your experience by leaving us a review."
+  );
+  const [selectedReviewSites, setSelectedReviewSites] = useState<string[]>(["google", "facebook"]);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -22,75 +45,173 @@ export const ReviewLink: React.FC = () => {
     }
   };
 
+  const toggleReviewSite = (siteId: string) => {
+    setSelectedReviewSites((prev) =>
+      prev.includes(siteId)
+        ? prev.filter((id) => id !== siteId)
+        : [...prev, siteId]
+    );
+  };
+
+  const handleNext = () => {
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep === 2) {
+      setCurrentStep(1);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Left Panel - Form Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6">
-            <h1 className="text-2xl font-bold text-foreground">Review Link</h1>
+            <h1 className="text-2xl font-bold text-foreground">
+              {currentStep === 1 ? "Review Link" : "Review Link - Positive Feedback"}
+            </h1>
 
-            {/* Logo Upload */}
-            <div className="space-y-2">
-              <Label htmlFor="logo-upload" className="text-sm font-medium">
-                Logo
-              </Label>
-              <div className="relative">
-                <input
-                  id="logo-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="logo-upload"
-                  className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors"
+            {currentStep === 1 ? (
+              <>
+                {/* Logo Upload */}
+                <div className="space-y-2">
+                  <Label htmlFor="logo-upload" className="text-sm font-medium">
+                    Logo
+                  </Label>
+                  <div className="relative">
+                    <input
+                      id="logo-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="logo-upload"
+                      className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors"
+                    >
+                      {logo ? (
+                        <img src={logo} alt="Logo" className="h-full object-contain" />
+                      ) : (
+                        <div className="text-center">
+                          <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">Logo</span>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                {/* Title Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="title" className="text-sm font-medium">
+                    Title
+                  </Label>
+                  <Textarea
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="min-h-[80px] resize-none"
+                    placeholder="Enter title..."
+                  />
+                </div>
+
+                {/* Subtitle Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="subtitle" className="text-sm font-medium">
+                    Subtitle
+                  </Label>
+                  <Textarea
+                    id="subtitle"
+                    value={subtitle}
+                    onChange={(e) => setSubtitle(e.target.value)}
+                    className="min-h-[80px] resize-none"
+                    placeholder="Enter subtitle..."
+                  />
+                </div>
+
+                {/* Next Button */}
+                <Button
+                  onClick={handleNext}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
                 >
-                  {logo ? (
-                    <img src={logo} alt="Logo" className="h-full object-contain" />
-                  ) : (
-                    <div className="text-center">
-                      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Logo</span>
-                    </div>
-                  )}
-                </label>
-              </div>
-            </div>
+                  Next
+                </Button>
+              </>
+            ) : (
+              <>
+                {/* Positive Feedback Title */}
+                <div className="space-y-2">
+                  <Label htmlFor="positive-title" className="text-sm font-medium">
+                    Title
+                  </Label>
+                  <Textarea
+                    id="positive-title"
+                    value={positiveFeedbackTitle}
+                    onChange={(e) => setPositiveFeedbackTitle(e.target.value)}
+                    className="min-h-[80px] resize-none"
+                    placeholder="Enter positive feedback title..."
+                  />
+                </div>
 
-            {/* Title Input */}
-            <div className="space-y-2">
-              <Label htmlFor="title" className="text-sm font-medium">
-                Title
-              </Label>
-              <Textarea
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="min-h-[80px] resize-none"
-                placeholder="Enter title..."
-              />
-            </div>
+                {/* Review Sites Selection */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Review Sites</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {reviewSites.map((site) => {
+                      const IconComponent = site.icon;
+                      const isSelected = selectedReviewSites.includes(site.id);
+                      return (
+                        <button
+                          key={site.id}
+                          onClick={() => toggleReviewSite(site.id)}
+                          className={cn(
+                            "relative flex items-center gap-3 p-4 rounded-lg border-2 transition-all",
+                            isSelected
+                              ? "border-blue-500 bg-blue-50"
+                              : "border-border bg-background hover:bg-muted/50"
+                          )}
+                        >
+                          <span style={{ color: site.color }}>
+                            <IconComponent className="w-6 h-6" />
+                          </span>
+                          <span className="text-sm font-medium text-foreground">
+                            {site.name}
+                          </span>
+                          {isSelected && (
+                            <Check className="w-5 h-5 text-blue-600 absolute top-2 right-2" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            {/* Subtitle Input */}
-            <div className="space-y-2">
-              <Label htmlFor="subtitle" className="text-sm font-medium">
-                Subtitle
-              </Label>
-              <Textarea
-                id="subtitle"
-                value={subtitle}
-                onChange={(e) => setSubtitle(e.target.value)}
-                className="min-h-[80px] resize-none"
-                placeholder="Enter subtitle..."
-              />
-            </div>
-
-            {/* Next Button */}
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
-              Next
-            </Button>
+                {/* Navigation Buttons */}
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
+                    size="lg"
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    size="lg"
+                  >
+                    Next
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right Panel - Preview Section */}
@@ -107,26 +228,63 @@ export const ReviewLink: React.FC = () => {
                 )}
               </div>
 
-              {/* Title Display */}
-              <div className="text-center">
-                <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-              </div>
+              {currentStep === 1 ? (
+                <>
+                  {/* Title Display */}
+                  <div className="text-center">
+                    <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+                  </div>
 
-              {/* Subtitle Display */}
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground">{subtitle}</p>
-              </div>
+                  {/* Subtitle Display */}
+                  {subtitle && (
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">{subtitle}</p>
+                    </div>
+                  )}
 
-              {/* Star Rating */}
-              <div className="flex justify-center gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className="w-8 h-8 text-orange-400"
-                    strokeWidth={1.5}
-                  />
-                ))}
-              </div>
+                  {/* Star Rating */}
+                  <div className="flex justify-center gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className="w-8 h-8 text-orange-400"
+                        strokeWidth={1.5}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Positive Feedback Title */}
+                  <div className="text-center">
+                    <h2 className="text-lg font-medium text-foreground">
+                      {positiveFeedbackTitle}
+                    </h2>
+                  </div>
+
+                  {/* Selected Review Site Buttons */}
+                  <div className="flex flex-col gap-3">
+                    {reviewSites
+                      .filter((site) => selectedReviewSites.includes(site.id))
+                      .map((site) => {
+                        const IconComponent = site.icon;
+                        return (
+                          <button
+                            key={site.id}
+                            className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-opacity hover:opacity-90"
+                            style={{
+                              backgroundColor: site.color,
+                              color: site.textColor,
+                            }}
+                          >
+                            <IconComponent className="w-5 h-5" />
+                            <span>Review on {site.name}</span>
+                          </button>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
 
               {/* Footer */}
               <div className="text-center pt-4 border-t">
