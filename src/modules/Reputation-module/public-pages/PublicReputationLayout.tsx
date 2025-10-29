@@ -22,7 +22,7 @@ export const PublicReputationLayout: React.FC<PublicReputationLayoutProps> = ({ 
 
   return (
     <div className="min-h-screen flex flex-col bg-background grid grid-cols-1  lg:grid-cols-2 p-4 h-[100vh]">
-      <div className="bg-dark-100  rounded-md max-h-100 flex items-center hidden lg:block " style={{background:"linear-gradient(to bottom right, #6313f5, #7d15c3)"}}>
+      <div className="bg-dark-100  rounded-md max-h-100 lg:flex lg:items-center hidden lg:block " style={{background:"linear-gradient(to bottom right, #6313f5, #7d15c3)"}}>
        <img src="/lovable-uploads/bg-img/review-illustration.png" className="mx-auto" alt="" style={{width:"90%"}} />
       </div>
       <main className="flex-1 p-4 flex justify-center items-center h-100">
