@@ -36,6 +36,9 @@ export const ReviewLink: React.FC = () => {
   const [feedbackFormTitle, setFeedbackFormTitle] = useState(
     "We'd love your private feedback to help us improve. Leave your phone number so we can reach out and resolve any issue if needed."
   );
+  const [namePlaceholder, setNamePlaceholder] = useState("Enter name");
+  const [emailPhonePlaceholder, setEmailPhonePlaceholder] = useState("Enter email or phone no.");
+  const [commentPlaceholder, setCommentPlaceholder] = useState("Comment");
   const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
   const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
 
@@ -250,15 +253,28 @@ export const ReviewLink: React.FC = () => {
                   <div className="space-y-3 p-4 border rounded-lg bg-muted/30">
                     <div className="space-y-2">
                       <Label className="text-sm">Name field</Label>
-                      <Input placeholder="Enter name" disabled />
+                      <Input 
+                        value={namePlaceholder}
+                        onChange={(e) => setNamePlaceholder(e.target.value)}
+                        placeholder="Enter name placeholder" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-sm">Email/Phone field</Label>
-                      <Input placeholder="Enter email or phone no." disabled />
+                      <Input 
+                        value={emailPhonePlaceholder}
+                        onChange={(e) => setEmailPhonePlaceholder(e.target.value)}
+                        placeholder="Enter email/phone placeholder" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-sm">Comment field</Label>
-                      <Textarea placeholder="Comment" disabled className="min-h-[80px] resize-none" />
+                      <Textarea 
+                        value={commentPlaceholder}
+                        onChange={(e) => setCommentPlaceholder(e.target.value)}
+                        placeholder="Enter comment placeholder" 
+                        className="min-h-[80px] resize-none" 
+                      />
                     </div>
                   </div>
                 </div>
@@ -424,15 +440,15 @@ export const ReviewLink: React.FC = () => {
 
                   <div className="space-y-4">
                     <Input 
-                      placeholder="Enter name" 
+                      placeholder={namePlaceholder} 
                       className="w-full"
                     />
                     <Input 
-                      placeholder="Enter email or phone no." 
+                      placeholder={emailPhonePlaceholder} 
                       className="w-full"
                     />
                     <Textarea 
-                      placeholder="Comment" 
+                      placeholder={commentPlaceholder} 
                       className="w-full min-h-[100px] resize-none"
                     />
                     
