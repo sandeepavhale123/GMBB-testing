@@ -502,6 +502,7 @@ export const ReviewLink: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
     </TooltipProvider>
   );
 };
