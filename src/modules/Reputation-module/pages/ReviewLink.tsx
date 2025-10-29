@@ -180,7 +180,6 @@ export const ReviewLink: React.FC = () => {
                     onClick={handleNext} 
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                     size="lg"
-                    disabled={selectedRating === 0}
                   >
                     Next
                   </Button>
