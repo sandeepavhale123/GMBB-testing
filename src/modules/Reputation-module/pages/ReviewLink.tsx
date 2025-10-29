@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, Upload, Check, Info } from "lucide-react";
+import { Star, Upload, Check, Info, Eye } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
@@ -26,6 +27,7 @@ const reviewSites: ReviewSite[] = [
 ];
 
 export const ReviewLink: React.FC = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [logo, setLogo] = useState<string | null>(null);
@@ -353,8 +355,21 @@ export const ReviewLink: React.FC = () => {
             </div>
 
             {/* Right Panel - Preview Section */}
-            <div className="bg-muted rounded-lg p-8 flex items-center justify-center">
-              <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
+            <div className="bg-card rounded-lg border p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-foreground">Preview</h3>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)}
+                  title="View Public Page"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <div className="bg-muted rounded-lg p-8 flex items-center justify-center">
+                <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
                 {/* Logo Display */}
                 <div className="flex justify-center">
                   {logo ? (
@@ -468,6 +483,7 @@ export const ReviewLink: React.FC = () => {
                   <p className="text-xs text-muted-foreground">Powered by My Agency</p>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
