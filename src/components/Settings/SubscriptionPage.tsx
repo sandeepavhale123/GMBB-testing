@@ -117,6 +117,15 @@ export const SubscriptionPage: React.FC = () => {
       popular: false,
     },
   ];
+
+  // Map plan IDs to their corresponding feature keys
+  const planIdToFeatureKey: Record<string, keyof PlanFeature> = {
+    "52": "business",
+    "53": "pro", 
+    "54": "agency",
+    "55": "enterprise"
+  };
+
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
@@ -487,9 +496,7 @@ export const SubscriptionPage: React.FC = () => {
                         </span>
                         <div className="ml-3">
                           {renderFeatureValue(
-                            feature[
-                              plan.name.toLowerCase() as keyof PlanFeature
-                            ]
+                            feature[planIdToFeatureKey[plan.id]]
                           )}
                         </div>
                       </div>
