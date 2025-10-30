@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Copy, X, Star, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Competitor {
   position: number;
@@ -40,6 +41,7 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile(640);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!modalRef.current) return;
@@ -139,18 +141,30 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
         className="pointer-events-auto shadow-xl border bg-white"
         style={{
           position: "fixed",
-          left: position.x,
-          top: position.y,
-          cursor: isDragging ? "grabbing" : "grab",
-          zIndex: 2147483647, // Maximum z-index value
-          width: "384px",
+          ...(isMobile
+            ? {
+                // Mobile: centered and full-width with margins
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "calc(100% - 2rem)",
+                maxWidth: "384px",
+              }
+            : {
+                // Desktop: draggable positioning
+                left: position.x,
+                top: position.y,
+                cursor: isDragging ? "grabbing" : "grab",
+                width: "384px",
+              }),
+          zIndex: 2147483647,
           maxHeight: "500px",
         }}
       >
         {/* Header - Draggable area */}
         <div
-          className="p-4 border-b bg-white rounded-t-lg cursor-grab active:cursor-grabbing"
-          onMouseDown={handleMouseDown}
+          className={`p-4 border-b bg-white rounded-t-lg ${!isMobile ? 'cursor-grab active:cursor-grabbing' : ''}`}
+          onMouseDown={!isMobile ? handleMouseDown : undefined}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 flex-1">

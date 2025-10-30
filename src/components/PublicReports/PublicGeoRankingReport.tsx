@@ -160,7 +160,6 @@ export const PublicGeoRankingReport: React.FC = () => {
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
           <strong>Rank: ${detail.rank === 0 ? "20+" : detail.rank}</strong><br>
-          // <small>Position ${detail?.positionId}</small>
         </div>
       `);
 
@@ -639,7 +638,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                   </h3>
 
                   <p className="text-sm text-muted-foreground">
-                    Visibility:{" "}
+                     {t("publicGeoRankingReport.comparison.visibility")}:{" "}
                     {geoRankingData?.data?.periodOne?.summary?.visibility || 0}%
                   </p>
                 </div>
@@ -704,7 +703,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                       )})`}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {t("publicGeoRankingReport.comparison.visibility")}
+                    {t("publicGeoRankingReport.comparison.visibility")}:{" "}
                     {geoRankingData?.data?.periodTwo?.summary?.visibility || 0}%
                   </p>
                 </div>

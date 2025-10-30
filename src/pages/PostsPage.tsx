@@ -31,6 +31,7 @@ const PostsPage = () => {
                   onToggleCollapse={() =>
                     setSidebarCollapsed(!sidebarCollapsed)
                   }
+                  onNavigate={() => setMobileMenuOpen(false)}
                 />
               </SheetContent>
             </Sheet>
@@ -83,12 +84,13 @@ const PostsPage = () => {
           {/* Mobile Navigation Sheet */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetContent side="left" className="p-0 w-64">
-              <Sidebar
-                activeTab="posts"
-                onTabChange={() => {}}
-                collapsed={false}
-                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-              />
+            <Sidebar
+              activeTab="posts"
+              onTabChange={() => {}}
+              collapsed={false}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+              onNavigate={() => setMobileMenuOpen(false)}
+            />
             </SheetContent>
           </Sheet>
 
