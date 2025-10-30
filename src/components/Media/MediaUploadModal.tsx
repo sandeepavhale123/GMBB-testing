@@ -889,6 +889,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         variant="outline"
                         onClick={handleClose}
                         disabled={isUploading}
+                        className="hidden sm:inline-flex"
                       >
                         {t("mediaUploadModal.cancel")}
                       </Button>
