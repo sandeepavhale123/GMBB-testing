@@ -8,9 +8,7 @@ interface CustomerSearchSourcesCardProps {
   isLoadingSummary: boolean;
 }
 
-export const CustomerSearchSourcesCard: React.FC<
-  CustomerSearchSourcesCardProps
-> = ({ summary, isLoadingSummary }) => {
+export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps> = ({ summary, isLoadingSummary }) => {
   const { t } = useI18nNamespace("Insights/customerSearchSources");
   const [hoveredSegment, setHoveredSegment] = useState<{
     name: string;
@@ -81,9 +79,7 @@ export const CustomerSearchSourcesCard: React.FC<
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Column 1: Title and Description */}
             <div className="flex flex-col justify-center space-y-2 md:space-y-3 lg:w-[65%]">
-              <h3 className="text-base md:text-lg font-semibold text-foreground">
-                {t("customerSearchSources.title")}
-              </h3>
+              <h3 className="text-base md:text-lg font-semibold text-foreground">{t("customerSearchSources.title")}</h3>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                 {t("customerSearchSources.description")}
               </p>
@@ -105,7 +101,6 @@ export const CustomerSearchSourcesCard: React.FC<
                       dataKey="value"
                       onMouseEnter={(data) =>
                         setHoveredSegment({
-                          name: data.name,
                           value: data.value,
                         })
                       }
@@ -123,9 +118,7 @@ export const CustomerSearchSourcesCard: React.FC<
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {hoveredSegment
-                      ? hoveredSegment.name
-                      : t("customerSearchSources.totalSearches")}
+                    {hoveredSegment ? hoveredSegment.name : t("customerSearchSources.totalSearches")}
                   </span>
                 </div>
               </div>
@@ -134,20 +127,12 @@ export const CustomerSearchSourcesCard: React.FC<
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 md:gap-3 w-full">
                 {chartData.map((item, index) => {
                   return (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 min-w-0"
-                    >
-                      <div
-                        className="w-3 h-3 rounded-full shrink-0"
-                        style={{ backgroundColor: item.color }}
-                      />
+                    <div key={index} className="flex items-center gap-2 min-w-0">
+                      <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
                       <span className="text-xs md:text-sm font-medium text-foreground flex-1 truncate">
                         {item.name}
                       </span>
-                      <span className="text-xs md:text-sm text-muted-foreground">
-                        {item.value}
-                      </span>
+                      <span className="text-xs md:text-sm text-muted-foreground">{item.value}</span>
                     </div>
                   );
                 })}
