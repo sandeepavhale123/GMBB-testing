@@ -157,7 +157,7 @@ export const SidebarCustomizationSection: React.FC<
 
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-[95vw] sm:max-w-md lg:max-w-lg">
+        <DialogContent className="max-w-[95vw] sm:max-w-md lg:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
               <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
