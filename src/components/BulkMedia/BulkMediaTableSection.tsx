@@ -21,6 +21,12 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -40,6 +46,7 @@ interface Media {
   zipcode: string;
   searchUrl: string;
   image: string;
+  reason?: string;
 }
 interface Pagination {
   page: number;
@@ -265,9 +272,27 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(
                         </span>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={getStatusVariant(media.status)}>
-                          {getTranslatedStatus(media.status)}
-                        </Badge>
+                        {media.status?.toLowerCase() === "failed" && media.reason ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Badge 
+                                  variant={getStatusVariant(media.status)} 
+                                  className="cursor-help"
+                                >
+                                  {getTranslatedStatus(media.status)}
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent side="bottom" className="max-w-xs">
+                                <p className="text-xs">{media.reason}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <Badge variant={getStatusVariant(media.status)}>
+                            {getTranslatedStatus(media.status)}
+                          </Badge>
+                        )}
                       </TableCell>
                       <TableCell className="flex justify-end ">
                         <div className="flex items-center gap-2">

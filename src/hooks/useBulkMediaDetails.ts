@@ -88,7 +88,8 @@ export const useBulkMediaDetails = (bulkId: string) => {
       status: media.state,
       zipcode: media.zipCode,
       searchUrl: '',
-      image: media.image
+      image: media.image,
+      reason: media.reason
     })) || []
   , [bulkMediaDetails?.bulkMediaDetails]);
 

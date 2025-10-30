@@ -542,6 +542,7 @@ export interface BulkMediaDetailsResponse {
       image: string;
       locationName: string;
       zipCode: string;
+      reason?: string;
     }>;
     pagination: {
       total: number;
