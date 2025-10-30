@@ -23,26 +23,22 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
 
   const chartData = [
     {
-      //name: t("customerSearchSources.segments.desktopSearch"),
-      name: "",
+      name: t("customerSearchSources.segments.desktopSearch"),
       value: summary?.customer_actions?.desktop_search?.value || 0,
       color: "#22c55e",
     },
     {
-      //name: t("customerSearchSources.segments.desktopMap"),
-      name: "",
+      name: t("customerSearchSources.segments.desktopMap"),
       value: summary?.customer_actions?.desktop_map?.value || 0,
       color: "#3b82f6",
     },
     {
-      //name: t("customerSearchSources.segments.mobileSearch"),
-      name: "",
+      name: t("customerSearchSources.segments.mobileSearch"),
       value: summary?.customer_actions?.mobile_search?.value || 0,
       color: "#a855f7",
     },
     {
-      //name: t("customerSearchSources.segments.mobileMap"),
-      name: "",
+      name: t("customerSearchSources.segments.mobileMap"),
       value: summary?.customer_actions?.mobile_map?.value || 0,
       color: "#f97316",
     },
@@ -122,9 +118,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                   <span className="text-2xl md:text-3xl font-bold text-foreground">
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
-                  <span className="text-xs text-muted-foreground">
-                    {hoveredSegment ? hoveredSegment.name : t("customerSearchSources.totalSearches")}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{hoveredSegment ? hoveredSegment.name : ""}</span>
                 </div>
               </div>
 
