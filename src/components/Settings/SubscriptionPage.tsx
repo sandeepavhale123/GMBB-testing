@@ -482,7 +482,7 @@ export const SubscriptionPage: React.FC = () => {
                         key={index}
                         className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0"
                       >
-                        <span className="text-sm font-medium text-gray-700 flex-1">
+                        <span className="text-sm font-medium text-gray-700 max-w-[40%] lg:flex-1">
                           {feature.name}
                         </span>
                         <div className="ml-3">
