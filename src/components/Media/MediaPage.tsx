@@ -24,6 +24,7 @@ interface MediaItem {
   status: "Live" | "Schedule" | "Failed";
   category: string;
   isScheduled: boolean;
+  reason?: string;
 }
 export const MediaPage: React.FC = () => {
   const {
@@ -76,7 +77,8 @@ export const MediaPage: React.FC = () => {
       // API doesn't provide size, using placeholder
       status: apiItem.status === "Live" ? "Live" : apiItem.status === "Schedule" ? "Schedule" : "Failed",
       category: apiItem.category.toLowerCase(),
-      isScheduled: apiItem.status === "Schedule"
+      isScheduled: apiItem.status === "Schedule",
+      reason: apiItem.reason
     };
   };
 

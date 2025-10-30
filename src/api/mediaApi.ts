@@ -62,6 +62,7 @@ export interface MediaListItem {
   publishDate: string;
   status: string;
   media_type: string;
+  reason?: string;
 }
 
 export interface MediaListResponse {
