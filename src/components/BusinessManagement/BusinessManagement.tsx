@@ -134,7 +134,7 @@ export const BusinessManagement: React.FC = () => {
             ) : transformedBusinessInfo ? (
               <div className="space-y-6">
                 {/* Business Details */}
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">
                       {t("businessManagement.fields.name")}
