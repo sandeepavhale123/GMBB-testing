@@ -7,15 +7,19 @@ import { useAppSelector } from "../../hooks/useRedux";
 import { ProfileBasicInfoForm } from "./ProfileBasicInfoForm";
 import { ProfilePreferencesForm } from "./ProfilePreferencesForm";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import { profileSchema, ProfileFormData } from "../../schemas/authSchemas";
 import i18n, { loadNamespace } from "@/i18n";
 import { languageMap } from "@/lib/languageMap"; // optional mapping
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { getLanguageName } from "@/services/languageService";
+import { z } from "zod";
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useI18nNamespace([
+    "Profile/profileFormContainer",
+    "Validation/validation",
+  ]);
   const {
     profileData,
     timezones,
@@ -25,6 +29,35 @@ export const ProfileFormContainer: React.FC = () => {
     clearProfileErrors,
   } = useProfile();
   const { user } = useAppSelector((state) => state.auth); // Get user from auth state
+
+  const profileSchema = z.object({
+    firstName: z
+      .string()
+      .min(2, t("name.minLength"))
+      .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("name.minAlphabetic")
+      ),
+    lastName: z
+      .string()
+      .min(2, t("name.minLength"))
+      .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("name.minAlphabetic")
+      ),
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    timezone: z.string().min(1, t("timezone.required")),
+    language: z.string().min(1, t("language.required")),
+    dashboardType: z.string().min(1, t("dashboardType.required")),
+  });
+
+  type ProfileFormData = z.infer<typeof profileSchema>;
 
   const [formData, setFormData] = useState<ProfileFormData>({
     firstName: "",
@@ -76,7 +109,7 @@ export const ProfileFormContainer: React.FC = () => {
   // Update form language field when i18n language changes
   useEffect(() => {
     const handler = (lng: string) => {
-      setFormData(prev => ({ ...prev, language: getLanguageName(lng) }));
+      setFormData((prev) => ({ ...prev, language: getLanguageName(lng) }));
     };
     i18n.on("languageChanged", handler);
     return () => i18n.off("languageChanged", handler);
@@ -92,7 +125,6 @@ export const ProfileFormContainer: React.FC = () => {
       clearProfileErrors();
     }
   }, [updateError, toast, clearProfileErrors]);
-  const { t } = useI18nNamespace("Profile/profileFormContainer");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,7 +164,8 @@ export const ProfileFormContainer: React.FC = () => {
       });
 
       // Only navigate if dashboard type actually changed
-      const dashboardTypeChanged = initialDashboardType !== formData.dashboardType;
+      const dashboardTypeChanged =
+        initialDashboardType !== formData.dashboardType;
 
       if (dashboardTypeChanged) {
         // Redirect based on new dashboard type

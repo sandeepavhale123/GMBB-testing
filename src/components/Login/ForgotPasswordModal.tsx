@@ -16,6 +16,7 @@ import {
 } from "@/schemas/authSchemas"; // adjust path as needed
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -26,7 +27,19 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { t } = useI18nNamespace("Login/forgotPasswordModal");
+  const { t } = useI18nNamespace([
+    "Login/forgotPasswordModal",
+    "Validation/validation",
+  ]);
+
+  const forgotPasswordSchema = z.object({
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+  });
+
   const [formData, setFormData] = useState<ForgotPasswordFormData>({
     email: "",
   });

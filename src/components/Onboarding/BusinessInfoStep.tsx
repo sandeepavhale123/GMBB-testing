@@ -34,6 +34,7 @@ import {
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { businessInfoSchema } from "@/schemas/authSchemas";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 interface BusinessInfoStepProps {
   formData: any;
@@ -46,9 +47,35 @@ const BusinessInfoStep = ({
   updateFormData,
   onNext,
 }: BusinessInfoStepProps) => {
-  const { t } = useI18nNamespace("Onboarding/businessInfoStep");
+  const { t } = useI18nNamespace(["Onboarding/businessInfoStep", e]);
   const dispatch = useDispatch<AppDispatch>();
+  const businessInfoSchema = z.object({
+    businessName: z
+      .string()
+      .min(1, t("business.nameRequired"))
+      .min(2, t("business.nameMin")),
+    website: z
+      .string()
+      .optional()
+      .refine(
+        (val: string) =>
+          !val ||
+          val.trim() === "" ||
+          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
 
+        t("business.urlInvalid")
+      ),
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    timezone: z.string().min(1, t("business.timezoneRequired")),
+    businessType: z.string().min(1, t("business.typeRequired")),
+    locationCount: z.string().optional(),
+  });
+
+  type BusinessInfoFormData = z.infer<typeof businessInfoSchema>;
   // Initialize form validation
   const { validate, getFieldError, hasFieldError, clearFieldError } =
     useFormValidation(businessInfoSchema);

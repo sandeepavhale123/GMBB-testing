@@ -1,0 +1,22 @@
+{
+  "toast": {
+    "validationError": {
+      "title": "Validierungsfehler",
+      "description": "Bitte überprüfe deine Formulardaten und versuche es erneut."
+    },
+    "signupFailed": {
+      "title": "Registrierung fehlgeschlagen"
+    }
+  },
+  "errors": {
+    "network": "Netzwerkfehler. Bitte überprüfe deine Verbindung.",
+    "accountExists": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+    "invalidData": "Ungültige Registrierungsdaten. Bitte überprüfe deine Angaben.",
+    "failed": "Kontoerstellung fehlgeschlagen. Bitte versuche es erneut.",
+    "stripeInit": "Stripe konnte nicht initialisiert werden.",
+    "noSessionUrl": "Keine Checkout-Sitzung oder URL erhalten."
+  },
+  "success": {
+    "redirecting": "Weiterleitung zur Zahlung..."
+  }
+}

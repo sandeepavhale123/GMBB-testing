@@ -103,6 +103,9 @@ export const PageTitle: React.FC = () => {
     "/gallery": {
       title: t("gallery.title"),
     },
+    "/bulk-reports": {
+      title: t("bulkReport.title"),
+    },
   };
 
   // Extract the base route from the pathname (handle routes with listing IDs)

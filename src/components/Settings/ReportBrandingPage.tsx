@@ -22,17 +22,65 @@ import {
   useDeleteReportBranding,
 } from "@/hooks/useReportBranding";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import {
-  reportBrandingSchema,
-  type ReportBrandingFormData,
-} from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 export const ReportBrandingPage: React.FC = () => {
   const { toast } = useToast();
-  const { t } = useI18nNamespace("Settings/reportBranding");
+  const { t } = useI18nNamespace([
+    "Settings/reportBranding",
+    "Validation/validation",
+  ]);
+
+  const reportBrandingSchema = z.object({
+    companyName: z
+      .string()
+      .trim()
+      .min(1, t("branding.nameRequired"))
+      .min(2, t("branding.nameMin"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("branding.nameAlpha")
+      ),
+    companyEmail: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    companyWebsite: z
+      .string()
+      .trim()
+      .refine(
+        (val) =>
+          !val ||
+          val === "" ||
+          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
+        t("branding.url")
+      ),
+    companyPhone: z
+      .string()
+      .trim()
+      .min(10, t("branding.phone.minLength"))
+      .refine(
+        (val) =>
+          !val ||
+          val === "" ||
+          /^[\+]?[1-9][\d]{0,15}$/.test(val.replace(/[\s\-\(\)]/g, "")),
+        t("branding.phone.invalid")
+      ),
+    companyAddress: z
+      .string()
+      .trim()
+      .min(10, t("branding.address.minLength"))
+      .refine(
+        (val) => !val || val === "" || val.length >= 10,
+        t("branding.address.minLength")
+      ),
+  });
+
+  type ReportBrandingFormData = z.infer<typeof reportBrandingSchema>;
   // API hooks
   const { data: brandingData, isLoading: isFetchingBranding } =
     useGetReportBranding();

@@ -1,0 +1,22 @@
+{
+  "toast": {
+    "validationError": {
+      "title": "Errore di convalida",
+      "description": "Controlla i dati del modulo e riprova."
+    },
+    "signupFailed": {
+      "title": "Registrazione non riuscita"
+    }
+  },
+  "errors": {
+    "network": "Errore di rete. Controlla la tua connessione.",
+    "accountExists": "Esiste già un account con questa email.",
+    "invalidData": "Dati di registrazione non validi. Controlla le tue informazioni.",
+    "failed": "Creazione dell'account non riuscita. Riprova.",
+    "stripeInit": "Inizializzazione di Stripe non riuscita.",
+    "noSessionUrl": "Nessuna sessione o URL di checkout ricevuto."
+  },
+  "success": {
+    "redirecting": "Reindirizzamento al pagamento..."
+  }
+}

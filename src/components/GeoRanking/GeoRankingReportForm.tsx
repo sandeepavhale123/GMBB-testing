@@ -21,8 +21,8 @@ import { Info, RotateCcw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import { keywordsSchema } from "@/schemas/authSchemas";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 interface GeoReportFormData {
   searchBusinessType: string;
@@ -64,7 +64,32 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   onClearManualCoordinates,
   hasResults = false,
 }) => {
-  const { t } = useI18nNamespace("GeoRanking/geoRankingReportForm");
+  const { t } = useI18nNamespace([
+    "GeoRanking/geoRankingReportForm",
+    "Validation/validation",
+  ]);
+
+  const keywordsSchema = z.object({
+    keywords: z
+      .string()
+      .refine((val) => {
+        if (!val.trim()) return false; // Keywords are required
+        const keywordArray = val
+          .split(",")
+          .map((k) => k.trim())
+          .filter((k) => k.length > 0);
+        return keywordArray.length <= 5;
+      }, t("keywords.max"))
+      .refine((val) => {
+        const keywordArray = val
+          .split(",")
+          .map((k) => k.trim())
+          .filter((k) => k.length > 0);
+        return keywordArray.length > 0;
+      }, t("keywords.min")),
+  });
+
+  type KeywordsFormData = z.infer<typeof keywordsSchema>;
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 

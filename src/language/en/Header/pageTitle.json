@@ -93,5 +93,8 @@
   },
   "gallery":{
     "title":"Gallery"
+  },
+  "bulkReport":{
+    "title":"Bulk Report"
   }
 }

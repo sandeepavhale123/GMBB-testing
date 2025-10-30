@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { signupSchema, SignupFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { loadStripe } from "@stripe/stripe-js";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
@@ -22,6 +23,46 @@ export const useSignup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const { t } = useI18nNamespace(["hooks/useSignUp", "Validation/validation"]);
+
+  const nameSchema = z
+    .string()
+    .min(2, t("name.minLength"))
+    .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+    .refine(
+      (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+      t("name.minAlphabetic")
+    );
+
+  const signupSchema = z.object({
+    firstName: nameSchema,
+    lastName: nameSchema,
+    agencyName: z
+      .string()
+      .min(3, t("agency.minLength"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("agency.minAlphabetic")
+      ),
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    password: z
+      .string()
+      .trim()
+      .min(8, t("password.minLength"))
+      .regex(/[A-Z]/, t("password.uppercase"))
+      .regex(/[a-z]/, t("password.lowercase"))
+      .regex(/[0-9]/, t("password.number"))
+      .regex(/[^A-Za-z0-9]/, t("password.specialChar")),
+    plan: z.string().refine((val) => val !== "0", t("plan.required")),
+  });
+
+  type SignupFormData = z.infer<typeof signupSchema>;
+
   const { validate } = useFormValidation(signupSchema);
 
   const signup = async (signupData: SignupFormData): Promise<boolean> => {
@@ -32,8 +73,8 @@ export const useSignup = () => {
     if (!validation.isValid) {
       setIsLoading(false);
       toast({
-        title: "Validation Error",
-        description: "Please check your form data and try again.",
+        title: t("toast.validationError.title"),
+        description: t("toast.validationError.description"),
         variant: "destructive",
       });
       return false;
@@ -79,7 +120,7 @@ export const useSignup = () => {
 
       if (data.id) {
         const stripe = await stripePromise;
-        if (!stripe) throw new Error("Stripe failed to initialize");
+        if (!stripe) throw new Error(t("errors.stripeInit"));
 
         const { error } = await stripe.redirectToCheckout({
           sessionId: data.id,
@@ -91,25 +132,25 @@ export const useSignup = () => {
         window.location.href = data.url;
         return true;
       } else {
-        throw new Error("No checkout session or URL received");
+        throw new Error(t("errors.noSessionUrl"));
       }
     } catch (error: any) {
       console.error("❌ Signup failed:", error);
 
-      let errorMessage = "Failed to create account. Please try again.";
+      let errorMessage = t("errors.failed");
       if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error.response?.status === 400) {
-        errorMessage = "Invalid signup data. Please check your information.";
+        errorMessage = t("errors.invalidData");
       } else if (error.response?.status === 409) {
-        errorMessage = "An account with this email already exists.";
+        errorMessage = t("errors.accountExists");
       } else if (error.message === "Network Error") {
-        errorMessage = "Network error. Please check your connection.";
+        errorMessage = t("errors.network");
       }
 
       setError(errorMessage);
       toast({
-        title: "Signup Failed",
+        title: t("toast.signupFailed.title"),
         description: errorMessage,
         variant: "destructive",
       });

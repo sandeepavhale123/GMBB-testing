@@ -14,12 +14,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTeam } from "../../hooks/useTeam";
 import { toast } from "../../hooks/use-toast";
-import {
-  addTeamMemberSchema,
-  AddTeamMemberFormData,
-} from "../../schemas/authSchemas"; // <-- adjust path
 import { useFormValidation } from "../../hooks/useFormValidation";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 interface AddTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -31,7 +28,40 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   onOpenChange,
   onSuccess,
 }) => {
-  const { t } = useI18nNamespace("Settings/addTeamMemberModal");
+  const { t } = useI18nNamespace([
+    "Settings/addTeamMemberModal",
+    "Validation/validation",
+  ]);
+
+  const nameSchema = z
+    .string()
+    .min(2, t("name.minLength"))
+    .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+    .refine(
+      (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+      t("name.minAlphabetic")
+    );
+
+  const addTeamMemberSchema = z.object({
+    firstName: nameSchema,
+    lastName: nameSchema,
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    password: z
+      .string()
+      .trim()
+      .min(8, t("password.minLength"))
+      .regex(/[A-Z]/, t("password.uppercase"))
+      .regex(/[a-z]/, t("password.lowercase"))
+      .regex(/[0-9]/, t("password.number"))
+      .regex(/[^A-Za-z0-9]/, t("password.specialChar")),
+    role: z.string().min(1, t("team.roleRequired")),
+    profilePicture: z.string().optional(),
+  });
+  type AddTeamMemberFormData = z.infer<typeof addTeamMemberSchema>;
   const { addTeamMember, isAdding, addError, clearTeamAddError } = useTeam();
   const [formData, setFormData] = useState<AddTeamMemberFormData>({
     firstName: "",
@@ -140,7 +170,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       };
 
       const result = await addTeamMember(requestData);
-      
+
       // Handle successful addition
       if (result.meta.requestStatus === "fulfilled") {
         toast({
@@ -155,14 +185,14 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         resetForm();
         onOpenChange(false);
         onSuccess?.();
-      } 
+      }
       // Handle rejected state (API returned error)
       else if (result.meta.requestStatus === "rejected") {
         // Extract error message from Redux rejected action
-        const apiErrorMessage = 
-          (result.payload as any)?.message ||  // For structured API errors from rejectWithValue
+        const apiErrorMessage =
+          (result.payload as any)?.message || // For structured API errors from rejectWithValue
           t("addTeamMemberModal.messages.error.default");
-        
+
         toast({
           title: t("addTeamMemberModal.messages.error.title"),
           description: apiErrorMessage,
@@ -172,12 +202,12 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     } catch (error: any) {
       // Fallback catch for any unexpected errors
       console.error("Unexpected error in add team member:", error);
-      
-      const apiErrorMessage = 
-        error?.response?.data?.message || 
-        error?.message || 
+
+      const apiErrorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
         t("addTeamMemberModal.messages.error.default");
-      
+
       toast({
         title: t("addTeamMemberModal.messages.error.title"),
         description: apiErrorMessage,

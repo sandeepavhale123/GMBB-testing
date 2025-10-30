@@ -21,7 +21,6 @@ import { Info, RotateCcw, MapPin, RefreshCw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import { keywordsSchema } from "@/schemas/authSchemas";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
 import {
   getBusinessDetailsFromCID,
@@ -30,6 +29,7 @@ import {
 } from "@/api/businessSearchApi";
 import { BusinessLocationLite, ProjectLite } from "@/types/business";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 interface GeoRankingFormData {
   searchBusinessType: string;
   searchBusiness: string;
@@ -84,9 +84,32 @@ export function GeoRankingReportForm({
   onAddKeywordsSubmit,
   urlProjectId,
 }: GeoRankingReportFormProps) {
-  const { t } = useI18nNamespace(
-    "Geo-Ranking-module-component/GeoRankingReportForm"
-  );
+  const { t } = useI18nNamespace([
+    "Geo-Ranking-module-component/GeoRankingReportForm",
+    "Validation/validation",
+  ]);
+
+  const keywordsSchema = z.object({
+    keywords: z
+      .string()
+      .refine((val) => {
+        if (!val.trim()) return false; // Keywords are required
+        const keywordArray = val
+          .split(",")
+          .map((k) => k.trim())
+          .filter((k) => k.length > 0);
+        return keywordArray.length <= 5;
+      }, t("keywords.max"))
+      .refine((val) => {
+        const keywordArray = val
+          .split(",")
+          .map((k) => k.trim())
+          .filter((k) => k.length > 0);
+        return keywordArray.length > 0;
+      }, t("keywords.min")),
+  });
+
+  type KeywordsFormData = z.infer<typeof keywordsSchema>;
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 

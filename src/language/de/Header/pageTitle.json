@@ -13,7 +13,7 @@
   },
   "posts": {
     "title": "Beiträge",
-    "subtitle": "Erstellen und verwalten Sie Inhalte für alle Ihre Geschäftsstandorte"
+    "subtitle": "Erstellen und verwalten Sie Inhalte für alle Ihre Unternehmensstandorte"
   },
   "mediaLibrary": {
     "title": "Medienbibliothek",
@@ -44,24 +44,24 @@
     "subtitle": "Analysieren Sie Leistungskennzahlen, um Ihre lokale Sichtbarkeit zu verbessern"
   },
   "keywords": {
-    "title": "Keywords",
-    "subtitle": "Verfolgen Sie Keyword-Rankings nach geografischem Standort"
+    "title": "Schlüsselwörter",
+    "subtitle": "Verfolgen Sie die Keyword-Rankings nach geografischem Standort"
   },
   "searchKeyword": {
-    "title": "Keyword-Suche",
+    "title": "Suchbegriff",
     "subtitle": "Schlüsselwörter"
   },
   "geoRanking": {
     "title": "GEO-Ranking",
-    "subtitle": "Verfolgen Sie Keyword-Rankings nach geografischem Standort"
+    "subtitle": "Verfolgen Sie die Keyword-Rankings nach geografischem Standort"
   },
   "geoRankingReport": {
     "title": "GEO-Ranking-Bericht",
     "subtitle": "Detaillierte Analyse Ihrer lokalen Suchleistung"
   },
   "citationManagement": {
-    "title": "Verzeichnisverwaltung",
-    "subtitle": "Überwachen und verwalten Sie Ihre Unternehmenseinträge in verschiedenen Verzeichnissen"
+    "title": "Zitationsverwaltung",
+    "subtitle": "Überwachen und verwalten Sie Ihre Unternehmenseinträge in Verzeichnissen"
   },
   "analytics": {
     "title": "Analysen",
@@ -73,19 +73,19 @@
   },
   "notifications": {
     "title": "Benachrichtigungen",
-    "subtitle": "Bleiben Sie über wichtige Warnungen und Updates informiert"
+    "subtitle": "Bleiben Sie mit wichtigen Warnungen und Updates auf dem Laufenden"
   },
   "reports": {
     "title": "Berichte",
     "subtitle": "Anzeigen und Erstellen von Leistungsberichten"
   },
   "aiChatbot": {
-    "title": "KI-Assistent Genie",
+    "title": "KI-Genie-Assistent",
     "subtitle": "Erhalten Sie KI-gestützte Unterstützung zur Optimierung Ihres GEO-Rankings"
   },
   "editTeamMember": {
     "title": "Teammitglied bearbeiten",
-    "subtitle": "Verwalten Sie das Profil, den Zugriff und die Berechtigungen des Teammitglieds"
+    "subtitle": "Verwalten Sie das Profil, den Eintragszugriff und die Funktionsberechtigungen von Teammitgliedern"
   },
   "welcomeDashboard": {
     "title": "Dashboard",
@@ -93,5 +93,8 @@
   },
   "gallery": {
     "title": "Galerie"
+  },
+  "bulkReport": {
+    "title": "Sammelbericht"
   }
 }
