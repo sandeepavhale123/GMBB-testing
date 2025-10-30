@@ -107,10 +107,10 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
             </div>
 
             <div className="flex justify-center mt-4">
-              <div className="flex gap-4 text-sm">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 text-xs sm:text-sm">
                 <button
                   onClick={() => toggleBar("website")}
-                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
                     !visibleBars.website ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.website}
@@ -124,7 +124,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   )}
                 >
                   <div
-                    className="w-3 h-3 rounded"
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded"
                     style={{ backgroundColor: "#10b981" }}
                   ></div>
                   <span className={!visibleBars.website ? "line-through" : ""}>
@@ -133,7 +133,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                 </button>
                 <button
                   onClick={() => toggleBar("direction")}
-                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
                     !visibleBars.direction ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.direction}
@@ -147,7 +147,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   )}
                 >
                   <div
-                    className="w-3 h-3 rounded"
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded"
                     style={{ backgroundColor: "#f97316" }}
                   ></div>
                   <span
@@ -158,7 +158,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                 </button>
                 <button
                   onClick={() => toggleBar("messages")}
-                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
                     !visibleBars.messages ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.messages}
@@ -172,7 +172,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   )}
                 >
                   <div
-                    className="w-3 h-3 rounded"
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded"
                     style={{ backgroundColor: "#3b82f6" }}
                   ></div>
                   <span className={!visibleBars.messages ? "line-through" : ""}>
@@ -181,7 +181,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                 </button>
                 <button
                   onClick={() => toggleBar("calls")}
-                  className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
                     !visibleBars.calls ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.calls}
@@ -195,7 +195,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   )}
                 >
                   <div
-                    className="w-3 h-3 rounded"
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded"
                     style={{ backgroundColor: "#a855f7" }}
                   ></div>
                   <span className={!visibleBars.calls ? "line-through" : ""}>

@@ -101,6 +101,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                       dataKey="value"
                       onMouseEnter={(data) =>
                         setHoveredSegment({
+                          name: '',
                           value: data.value,
                         })
                       }
