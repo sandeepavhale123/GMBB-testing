@@ -136,6 +136,7 @@ const Index = () => {
               onTabChange={() => {}} // Navigation is handled by the sidebar itself now
               collapsed={false}
               onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+              onNavigate={() => setMobileMenuOpen(false)}
             />
           </SheetContent>
         </Sheet>
