@@ -344,7 +344,7 @@ export const LeadClassifierModal: React.FC<LeadClassifierModalProps> = ({
                       className="flex flex-col items-center gap-1 text-xs py-3 px-2 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all min-h-[60px]"
                     >
                       <IconComponent className="h-4 w-4 flex-shrink-0" />
-                      <span className="text-center leading-tight">
+                      <span className="hidden sm:inline text-center leading-tight">
                         {category.label}
                       </span>
                     </TabsTrigger>
