@@ -1135,7 +1135,7 @@ export const IntegrationsPage: React.FC = () => {
                 {t("integrations.buttons.reset")}
               </Button>
 
-              <div className="flex gap-2 order-1 sm:order-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full order-1 sm:order-2">
                 <Button
                   variant="outline"
                   onClick={handleSmtpTest}
@@ -1143,7 +1143,7 @@ export const IntegrationsPage: React.FC = () => {
                     updateSmtpDetailsMutation.isPending ||
                     testSmtpDetailsMutation.isPending
                   }
-                  className="flex-1 sm:flex-none"
+                  className="w-full sm:w-auto"
                 >
                   {testSmtpDetailsMutation.isPending ? (
                     <>
@@ -1160,7 +1160,7 @@ export const IntegrationsPage: React.FC = () => {
                     updateSmtpDetailsMutation.isPending ||
                     testSmtpDetailsMutation.isPending
                   }
-                  className="flex-1 sm:flex-none"
+                  className="w-full sm:w-auto"
                 >
                   {updateSmtpDetailsMutation.isPending ? (
                     <>
