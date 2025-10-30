@@ -350,14 +350,14 @@ export function GeoRankingReportForm({
   return (
     <Card className="shadow-lg">
       <CardHeader className="pb-3 lg:pb-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <CardTitle className="flex items-center gap-2 text-lg lg:text-xl font-semibold text-gray-900">
             <MapPin className="h-5 w-5" />
             {t("title")}
           </CardTitle>
 
           {/* Search Data Engine */}
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-col sm:items-end gap-2 w-full sm:w-auto">
             <Label className="text-sm font-medium text-gray-700">
               {t("searchDataEngine")}
             </Label>
