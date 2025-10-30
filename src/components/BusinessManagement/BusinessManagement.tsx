@@ -135,103 +135,103 @@ export const BusinessManagement: React.FC = () => {
               <div className="space-y-6">
                 {/* Business Details */}
                 <div className="space-y-5">
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.name")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.name)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.address")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.address)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.phone")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.phone)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.website")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3  break-all">
+                    <span className="text-sm text-gray-900 sm:w-2/3 break-all">
                       {formatFieldValue(transformedBusinessInfo.website)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.storeCode")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.storeCode)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.category")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.category)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.additionalCategory")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(
                         transformedBusinessInfo.additionalCategory
                       )}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.labels")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.labels)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.appointmentUrl")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3  break-all">
+                    <span className="text-sm text-gray-900 sm:w-2/3 break-all">
                       {formatFieldValue(transformedBusinessInfo.appointmentUrl)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 border-b border-gray-100 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.mapUrl")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3  break-all">
+                    <span className="text-sm text-gray-900 sm:w-2/3 break-all">
                       {formatFieldValue(transformedBusinessInfo.mapUrl)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-start py-4">
-                    <span className="text-sm font-medium text-gray-700 w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start py-4 gap-1 sm:gap-0">
+                    <span className="text-sm font-medium text-gray-700 sm:w-1/3">
                       {t("businessManagement.fields.description")}
                     </span>
-                    <span className="text-sm text-gray-900 w-2/3 ">
+                    <span className="text-sm text-gray-900 sm:w-2/3">
                       {formatFieldValue(transformedBusinessInfo.description)}
                     </span>
                   </div>
