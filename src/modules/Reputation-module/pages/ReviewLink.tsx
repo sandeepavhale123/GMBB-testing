@@ -168,9 +168,9 @@ export const ReviewLink: React.FC = () => {
                   </div>
 
                   {/* Next Button */}
-                  <Button 
-                    onClick={handleNext} 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                  <Button
+                    onClick={handleNext}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                     size="lg"
                   >
                     Next
@@ -337,8 +337,12 @@ export const ReviewLink: React.FC = () => {
                     <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
                       Previous
                     </Button>
-                    <Button onClick={handleNext} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" size="lg">
-                      Next
+                    <Button onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" size="lg">
+                     Save
+                    </Button>
+
+                    <Button onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)} className="" variant="outline" size="lg">
+                      Preview
                     </Button>
                   </div>
                 </>
@@ -346,135 +350,135 @@ export const ReviewLink: React.FC = () => {
             </div>
 
             {/* Right Panel - Preview Section */}
-            <div className="bg-card rounded-lg border p-8 space-y-6">
+            <div className="bg-card rounded-lg border p-8 space-y-6 hidden lg:block">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-foreground">Preview</h3>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)}
                   title="View Public Page"
                 >
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
-              
+
               <div className="bg-muted rounded-lg p-8 flex items-center justify-center">
                 <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
-                {/* Logo Display */}
-                <div className="flex justify-center">
-                  {logo ? (
-                    <img src={logo} alt="Logo Preview" className="h-20 object-contain" />
-                  ) : (
-                    <div className="bg-yellow-400 px-8 py-6 rounded text-center">
-                      <span className="text-lg font-bold text-black">LOGO</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Step 1 Preview */}
-                {currentStep === 1 && (
-                  <>
-                    {/* Title Display */}
-                    <div className="text-center">
-                      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-                    </div>
-
-                    {/* Subtitle Display */}
-                    {subtitle && (
-                      <div className="text-center">
-                        <p className="text-sm text-muted-foreground">{subtitle}</p>
+                  {/* Logo Display */}
+                  <div className="flex justify-center">
+                    {logo ? (
+                      <img src={logo} alt="Logo Preview" className="h-20 object-contain" />
+                    ) : (
+                      <div className="bg-yellow-400 px-8 py-6 rounded text-center">
+                        <span className="text-lg font-bold text-black">LOGO</span>
                       </div>
                     )}
+                  </div>
 
-                    {/* Star Rating */}
-                    <div className="flex justify-center gap-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star 
-                          key={star} 
-                          className={cn(
-                            "w-8 h-8 cursor-pointer transition-all hover:scale-110",
-                            selectedRating >= star 
-                              ? "text-orange-400 fill-orange-400" 
-                              : "text-gray-300"
-                          )}
-                          strokeWidth={1.5}
-                          onClick={() => setSelectedRating(star)}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
+                  {/* Step 1 Preview */}
+                  {currentStep === 1 && (
+                    <>
+                      {/* Title Display */}
+                      <div className="text-center">
+                        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+                      </div>
 
-                {/* Step 2 Preview */}
-                {currentStep === 2 && (
-                  <>
-                    {/* Positive Feedback Title */}
-                    <div className="text-center">
-                      <h2 className="text-lg font-medium text-foreground">{positiveFeedbackTitle}</h2>
-                    </div>
+                      {/* Subtitle Display */}
+                      {subtitle && (
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground">{subtitle}</p>
+                        </div>
+                      )}
 
-                    {/* Selected Review Site Buttons */}
-                    <div className="flex flex-col gap-3">
-                      {reviewSites
-                        .filter((site) => selectedReviewSites.includes(site.id))
-                        .map((site) => {
-                          const IconComponent = site.icon;
-                          return (
-                            <button
-                              key={site.id}
-                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-opacity hover:opacity-90"
-                              style={{
-                                backgroundColor: site.color,
-                                color: site.textColor,
-                              }}
-                            >
-                              <IconComponent className="w-5 h-5" />
-                              <span>Review on {site.name}</span>
-                            </button>
-                          );
-                        })}
-                    </div>
-                  </>
-                )}
+                      {/* Star Rating */}
+                      <div className="flex justify-center gap-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={cn(
+                              "w-8 h-8 cursor-pointer transition-all hover:scale-110",
+                              selectedRating >= star
+                                ? "text-orange-400 fill-orange-400"
+                                : "text-gray-300"
+                            )}
+                            strokeWidth={1.5}
+                            onClick={() => setSelectedRating(star)}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
 
-                {/* Step 3 Preview - Feedback Form */}
-                {currentStep === 3 && (
-                  <div className="space-y-6">
-                    <div className="text-center">
-                      <p className="text-sm text-muted-foreground px-2">{feedbackFormTitle}</p>
-                    </div>
+                  {/* Step 2 Preview */}
+                  {currentStep === 2 && (
+                    <>
+                      {/* Positive Feedback Title */}
+                      <div className="text-center">
+                        <h2 className="text-lg font-medium text-foreground">{positiveFeedbackTitle}</h2>
+                      </div>
 
-                    <div className="space-y-4">
-                      <Input placeholder={namePlaceholder} className="w-full" />
-                      <Input placeholder={emailPhonePlaceholder} className="w-full" />
-                      <Textarea placeholder={commentPlaceholder} className="w-full min-h-[100px] resize-none" />
+                      {/* Selected Review Site Buttons */}
+                      <div className="flex flex-col gap-3">
+                        {reviewSites
+                          .filter((site) => selectedReviewSites.includes(site.id))
+                          .map((site) => {
+                            const IconComponent = site.icon;
+                            return (
+                              <button
+                                key={site.id}
+                                className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-opacity hover:opacity-90"
+                                style={{
+                                  backgroundColor: site.color,
+                                  color: site.textColor,
+                                }}
+                              >
+                                <IconComponent className="w-5 h-5" />
+                                <span>Review on {site.name}</span>
+                              </button>
+                            );
+                          })}
+                      </div>
+                    </>
+                  )}
 
-                      <div className="flex gap-3 pt-2">
-                        <Button variant="outline" className="flex-1">
-                          Clear
-                        </Button>
-                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700">Send</Button>
+                  {/* Step 3 Preview - Feedback Form */}
+                  {currentStep === 3 && (
+                    <div className="space-y-6">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground px-2">{feedbackFormTitle}</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <Input placeholder={namePlaceholder} className="w-full" />
+                        <Input placeholder={emailPhonePlaceholder} className="w-full" />
+                        <Textarea placeholder={commentPlaceholder} className="w-full min-h-[100px] resize-none" />
+
+                        <div className="flex gap-3 pt-2">
+                          <Button variant="outline" className="flex-1">
+                            Clear
+                          </Button>
+                          <Button className="flex-1 bg-blue-600 hover:bg-blue-700">Send</Button>
+                        </div>
                       </div>
                     </div>
+                  )}
+
+                  {/* Step 4 Preview - Success Message */}
+                  {currentStep === 4 && (
+                    <div className="text-center space-y-4 py-8">
+                      <h2 className="text-2xl font-bold text-foreground">{successTitle}</h2>
+
+                      <p className="text-base text-muted-foreground">{successSubtitle}</p>
+                    </div>
+                  )}
+
+                  {/* Footer */}
+                  <div className="text-center pt-4 border-t">
+                    <p className="text-xs text-muted-foreground">Powered by My Agency</p>
                   </div>
-                )}
-
-                {/* Step 4 Preview - Success Message */}
-                {currentStep === 4 && (
-                  <div className="text-center space-y-4 py-8">
-                    <h2 className="text-2xl font-bold text-foreground">{successTitle}</h2>
-
-                    <p className="text-base text-muted-foreground">{successSubtitle}</p>
-                  </div>
-                )}
-
-                {/* Footer */}
-                <div className="text-center pt-4 border-t">
-                  <p className="text-xs text-muted-foreground">Powered by My Agency</p>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </div>

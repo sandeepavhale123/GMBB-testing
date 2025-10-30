@@ -21,12 +21,13 @@ export const PublicReputationLayout: React.FC<PublicReputationLayoutProps> = ({ 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background grid grid-cols-1  lg:grid-cols-2 p-4 h-[100vh]">
+    <div className="min-h-screen flex flex-col bg-background grid grid-cols-1  lg:grid-cols-2 md:p-4 h-[100vh]">
       <div className="bg-dark-100  rounded-md max-h-100 lg:flex lg:items-center hidden lg:block " style={{background:"linear-gradient(to bottom right, #6313f5, #7d15c3)"}}>
        <img src="/lovable-uploads/bg-img/review-illustration.png" className="mx-auto" alt="" style={{width:"90%"}} />
       </div>
-      <main className="flex-1 p-4 flex justify-center items-center h-100">
-        <div className="w-[80%] mx-auto border-0 ">{children}</div>
+      <main className="flex-1 flex-col md:p-4 flex justify-center items-center h-100 gap-4">
+        <div className="md:w-[80%] mx-auto border-0 ">{children}</div>
+        Powered by My Agency
       </main>
     </div>
   );
