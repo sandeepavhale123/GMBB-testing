@@ -43,6 +43,7 @@ interface SidebarProps {
   isMobile?: boolean;
   sidebarOpen?: boolean;
   isTablet?: boolean;
+  onNavigate?: () => void;
 }
 
 interface MenuItem {
@@ -59,6 +60,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isMobile = false,
   sidebarOpen = false,
   isTablet = false,
+  onNavigate,
 }) => {
   const { t } = useI18nNamespace("Components/sidebar");
 
@@ -367,6 +369,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       // For non-listing routes (settings), navigate normally
       navigate(basePath);
     }
+    
+    // Call onNavigate callback if provided (for mobile menu close)
+    onNavigate?.();
   };
   React.useEffect(() => {
     if (isAdmin) {

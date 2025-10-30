@@ -17,6 +17,7 @@ interface MediaItem {
   status: "Live" | "Schedule" | "Failed";
   category: string;
   isScheduled: boolean;
+  reason?: string;
 }
 
 interface MediaLibraryCardProps {
@@ -126,6 +127,7 @@ export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
                   status={item.status}
                   views={item.views}
                   isScheduled={item.isScheduled}
+                  reason={item.reason}
                   onView={() => onViewImage(item)}
                   onEdit={() => onEditMedia(item.id)}
                   onDelete={() => onDeleteImage(item.id)}

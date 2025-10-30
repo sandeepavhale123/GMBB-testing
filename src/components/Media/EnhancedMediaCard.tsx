@@ -10,6 +10,12 @@ import {
 import { Badge } from "../ui/badge";
 import { Loader } from "../ui/loader";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import {
   MoreVertical,
   Eye,
   Edit,
@@ -32,6 +38,7 @@ interface MediaCardProps {
   status: "Live" | "Schedule" | "Failed";
   views: string;
   isScheduled?: boolean;
+  reason?: string;
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -53,6 +60,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   status,
   views,
   isScheduled = false,
+  reason,
   onView,
   onEdit,
   onDelete,
@@ -127,9 +135,24 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         {/* Status badge */}
         {!imageLoading && (
           <div className="absolute top-2 right-2">
-            <Badge className={`text-xs ${statusColors[status]}`}>
-              {getStatusLabel(status)}
-            </Badge>
+            {status === "Failed" && reason ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge className={`text-xs ${statusColors[status]} cursor-help`}>
+                      {getStatusLabel(status)}
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="max-w-xs">
+                    <p className="text-xs">{reason}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Badge className={`text-xs ${statusColors[status]}`}>
+                {getStatusLabel(status)}
+              </Badge>
+            )}
           </div>
         )}
 

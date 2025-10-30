@@ -192,10 +192,15 @@ export const UtmTrackingBuilderModal: React.FC<
                 {t("modal.info.benefits.title")}
               </h4>
               <ul className="space-y-2">
-                {(
+                {(Array.isArray(
                   t("modal.info.benefits.list", {
                     returnObjects: true,
-                  }) as string[]
+                  })
+                )
+                  ? (t("modal.info.benefits.list", {
+                      returnObjects: true,
+                    }) as string[])
+                  : []
                 ).map((benefit, index) => (
                   <li
                     key={index}

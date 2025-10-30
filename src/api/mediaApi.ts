@@ -62,6 +62,7 @@ export interface MediaListItem {
   publishDate: string;
   status: string;
   media_type: string;
+  reason?: string;
 }
 
 export interface MediaListResponse {
@@ -541,6 +542,7 @@ export interface BulkMediaDetailsResponse {
       image: string;
       locationName: string;
       zipCode: string;
+      reason?: string;
     }>;
     pagination: {
       total: number;

@@ -249,15 +249,13 @@ export const PublicReportDashboardLayout: React.FC<
               </button>
             )}
             {compareDate ? (
-              <div className="absolute right-1 top-2 bg-black rounded-2xl px-3 py-2">
+              <div className="absolute right-[100px] top-4 bg-black rounded-2xl px-3 py-2">
                 <p className={`text-white  text-[10px]`}>{compareDate}</p>
               </div>
             ) : (
               ""
             )}
-            <div className="absolute right-12 top-2 px-3 py-2">
-              <LanguageSwitcher reportId={token} />
-            </div>
+            
             <h2
               className="text-xl sm:text-2xl lg:text-3xl  font-bold text-white"
               style={{
@@ -345,6 +343,9 @@ export const PublicReportDashboardLayout: React.FC<
               </div>
             </div>
           </header>
+          <div className="absolute right-12 top-2 px-3 py-2">
+              <LanguageSwitcher reportId={token} />
+            </div>
 
           {/* Main Content */}
           <main

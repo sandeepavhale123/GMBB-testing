@@ -154,7 +154,7 @@ export function CheckRanking() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-12 gap-4">
         {/* Geo Ranking Map */}
-        <div className="col-span-12 md:col-span-7">
+        <div className="col-span-12 lg:col-span-7">
           <GeoRankingReportMap
             defaultCoordinates={effectiveCoordinates}
             gridCoordinates={gridCoordinates}
@@ -170,7 +170,7 @@ export function CheckRanking() {
             onClearManualCoordinates={clearManualCoordinates}
           />
         </div>
-        <div className="col-span-12 md:col-span-5">
+        <div className="col-span-12 lg:col-span-5">
           {/* Report Configuration Form with Business Search */}
           <GeoRankingReportForm
             formData={formData}

@@ -660,7 +660,7 @@ export const IntegrationsPage: React.FC = () => {
 
       {/* Configure Modal */}
       <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
-        <DialogContent className="sm:max-w-3xl">
+        <DialogContent className="max-w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {" "}
@@ -668,7 +668,7 @@ export const IntegrationsPage: React.FC = () => {
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 p-2 sm:p-0">
             <div className="space-y-3">
               <Label htmlFor="apiKey" className="text-sm font-medium">
                 {t("integrations.mapApi.label")}
@@ -728,8 +728,8 @@ export const IntegrationsPage: React.FC = () => {
                   disabled={updateMapApiKeyMutation.isPending}
                 >
                   <span className="flex items-center gap-2">
-                    <Map className="w-4 h-4" />
-                    {t("integrations.mapApi.howToTitle")}
+                    <Map className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate max-w-[25ch] sm:max-w-none">{t("integrations.mapApi.howToTitle")}</span>
                   </span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
@@ -739,7 +739,7 @@ export const IntegrationsPage: React.FC = () => {
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="mt-4 bg-primary/5 p-4 rounded-lg">
+                <div className="mt-4 bg-primary/5 p-3 sm:p-4 rounded-lg">
                   <div className="space-y-2 text-sm text-foreground">
                     <div className="flex items-start gap-2">
                       <span className="font-medium min-w-[20px]">1.</span>
@@ -794,7 +794,7 @@ export const IntegrationsPage: React.FC = () => {
               </CollapsibleContent>
             </Collapsible>
 
-            <div className="flex justify-end gap-2 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4 border-t">
               <Button
                 variant="outline"
                 onClick={() => {
@@ -805,6 +805,7 @@ export const IntegrationsPage: React.FC = () => {
                   apiKeyValidation.clearErrors();
                 }}
                 disabled={updateMapApiKeyMutation.isPending}
+                className="w-full sm:w-auto"
               >
                 {t("integrations.buttons.cancel")}
               </Button>
@@ -813,6 +814,7 @@ export const IntegrationsPage: React.FC = () => {
                 disabled={
                   updateMapApiKeyMutation.isPending || !mapApiKey?.trim()
                 }
+                className="w-full sm:w-auto"
               >
                 {updateMapApiKeyMutation.isPending ? (
                   <>
@@ -833,14 +835,14 @@ export const IntegrationsPage: React.FC = () => {
         open={showDisconnectDialog}
         onOpenChange={setShowDisconnectDialog}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="max-w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {t("integrations.disconnectDialog.title")}
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4 p-2 sm:p-0">
             <p className="text-sm text-muted-foreground">
               {t("integrations.disconnectDialog.message")}
             </p>
@@ -878,7 +880,7 @@ export const IntegrationsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4 border-t">
             <Button
               variant="outline"
               onClick={() => {
@@ -891,6 +893,7 @@ export const IntegrationsPage: React.FC = () => {
                 deleteMapApiKeyMutation.isPending ||
                 deleteSmtpDetailsMutation.isPending
               }
+              className="w-full sm:w-auto"
             >
               {t("integrations.buttons.cancel")}
             </Button>
@@ -902,6 +905,7 @@ export const IntegrationsPage: React.FC = () => {
                 deleteSmtpDetailsMutation.isPending ||
                 confirmationText.toLowerCase() !== "delete"
               }
+              className="w-full sm:w-auto"
             >
               {deleteMapApiKeyMutation.isPending ||
               deleteSmtpDetailsMutation.isPending ? (
@@ -919,13 +923,13 @@ export const IntegrationsPage: React.FC = () => {
 
       {/* SMTP Configuration Modal */}
       <Dialog open={isConfiguringSmtp} onOpenChange={setIsConfiguringSmtp}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t("integrations.smtp.configureTitle")}</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3 sm:space-y-4 p-2 sm:p-0">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fromName" className="text-sm font-medium">
                   {t("integrations.smtp.labels.fromName")}
@@ -1163,7 +1167,7 @@ export const IntegrationsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-between gap-2 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t">
               <Button
                 variant="outline"
                 onClick={handleSmtpReset}
@@ -1171,11 +1175,12 @@ export const IntegrationsPage: React.FC = () => {
                   updateSmtpDetailsMutation.isPending ||
                   testSmtpDetailsMutation.isPending
                 }
+                className="w-full sm:w-auto order-2 sm:order-1"
               >
                 {t("integrations.buttons.reset")}
               </Button>
 
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full order-1 sm:order-2">
                 <Button
                   variant="outline"
                   onClick={handleSmtpTest}
@@ -1183,6 +1188,7 @@ export const IntegrationsPage: React.FC = () => {
                     updateSmtpDetailsMutation.isPending ||
                     testSmtpDetailsMutation.isPending
                   }
+                  className="w-full sm:w-auto"
                 >
                   {testSmtpDetailsMutation.isPending ? (
                     <>
@@ -1199,6 +1205,7 @@ export const IntegrationsPage: React.FC = () => {
                     updateSmtpDetailsMutation.isPending ||
                     testSmtpDetailsMutation.isPending
                   }
+                  className="w-full sm:w-auto"
                 >
                   {updateSmtpDetailsMutation.isPending ? (
                     <>
@@ -1220,12 +1227,12 @@ export const IntegrationsPage: React.FC = () => {
         open={isConfiguringSubdomain}
         onOpenChange={setIsConfiguringSubdomain}
       >
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t("integrations.subdomain.name")}</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 p-2 sm:p-0">
             <div className="space-y-3">
               <Label htmlFor="subdomain" className="text-sm font-medium">
                 {t("integrations.subdomain.label")}
@@ -1243,7 +1250,7 @@ export const IntegrationsPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-muted/30 p-4 rounded-lg">
+            <div className="bg-muted/30 p-3 sm:p-4 rounded-lg">
               <h4 className="font-medium text-foreground mb-3">
                 {t("integrations.subdomain.follow")}
               </h4>
@@ -1291,7 +1298,7 @@ export const IntegrationsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4 border-t">
               <Button
                 variant="outline"
                 onClick={() => {
@@ -1299,6 +1306,7 @@ export const IntegrationsPage: React.FC = () => {
                   setSubdomain("");
                 }}
                 disabled={updateSubdomainMutation.isPending}
+                className="w-full sm:w-auto"
               >
                 {t("integrations.buttons.cancel")}
               </Button>
@@ -1307,6 +1315,7 @@ export const IntegrationsPage: React.FC = () => {
                 disabled={
                   updateSubdomainMutation.isPending || !subdomain.trim()
                 }
+                className="w-full sm:w-auto"
               >
                 {updateSubdomainMutation.isPending ? (
                   <>
