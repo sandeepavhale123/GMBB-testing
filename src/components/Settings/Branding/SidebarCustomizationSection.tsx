@@ -157,17 +157,17 @@ export const SidebarCustomizationSection: React.FC<
 
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-[95vw] sm:max-w-md lg:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5" />
+            <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
               {t("sidebarCustomization.customModal.title")}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-6 p-4">
+          <div className="space-y-6 p-2 sm:p-4">
             {/* Preview */}
             <div className="border rounded-lg overflow-hidden">
-              <div className="h-32 p-4" style={{ backgroundColor: bgColor }}>
+              <div className="h-32 sm:h-36 p-3 sm:p-4" style={{ backgroundColor: bgColor }}>
                 <div
                   className="text-xs font-semibold mb-3"
                   style={{ color: labelColor }}
@@ -207,18 +207,18 @@ export const SidebarCustomizationSection: React.FC<
             </div>
 
             {/* Color Inputs */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
                 <Label htmlFor="bgColor">
                   {t("sidebarCustomization.customModal.labels.background")}
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     id="bgColor"
                     type="color"
                     value={bgColor}
                     onChange={(e) => setBgColor(e.target.value)}
-                    className="w-12 h-10 p-1 rounded"
+                    className="w-full sm:w-12 h-10 p-1 rounded"
                   />
                   <Input
                     value={bgColor}
@@ -233,13 +233,13 @@ export const SidebarCustomizationSection: React.FC<
                 <Label htmlFor="labelColor">
                   {t("sidebarCustomization.customModal.labels.text")}
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     id="labelColor"
                     type="color"
                     value={labelColor}
                     onChange={(e) => setLabelColor(e.target.value)}
-                    className="w-12 h-10 p-1 rounded"
+                    className="w-full sm:w-12 h-10 p-1 rounded"
                   />
                   <Input
                     value={labelColor}
@@ -256,13 +256,13 @@ export const SidebarCustomizationSection: React.FC<
                     "sidebarCustomization.customModal.labels.activeBackground"
                   )}
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     id="activeMenuBgColor"
                     type="color"
                     value={activeMenuBgColor}
                     onChange={(e) => setActiveMenuBgColor(e.target.value)}
-                    className="w-12 h-10 p-1 rounded"
+                    className="w-full sm:w-12 h-10 p-1 rounded"
                   />
                   <Input
                     value={activeMenuBgColor}
@@ -277,13 +277,13 @@ export const SidebarCustomizationSection: React.FC<
                 <Label htmlFor="activeMenuLabelColor">
                   {t("sidebarCustomization.customModal.labels.activeText")}
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     id="activeMenuLabelColor"
                     type="color"
                     value={activeMenuLabelColor}
                     onChange={(e) => setActiveMenuLabelColor(e.target.value)}
-                    className="w-12 h-10 p-1 rounded"
+                    className="w-full sm:w-12 h-10 p-1 rounded"
                   />
                   <Input
                     value={activeMenuLabelColor}
@@ -296,16 +296,15 @@ export const SidebarCustomizationSection: React.FC<
             </div>
 
             {/* Actions */}
-            <div className="flex justify-between pt-4">
-              <Button variant="outline" onClick={handleReset}>
+            <div className="flex flex-col sm:flex-row justify-between gap-3 pt-4">
+              <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
                 {t("sidebarCustomization.customModal.buttons.reset")}
               </Button>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={onClose}>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <Button variant="outline" onClick={onClose} className="flex-1 sm:flex-none">
                   {t("sidebarCustomization.customModal.buttons.cancel")}
                 </Button>
-                <Button onClick={handleApply}>
-                  {" "}
+                <Button onClick={handleApply} className="flex-1 sm:flex-none">
                   {t("sidebarCustomization.customModal.buttons.apply")}
                 </Button>
               </div>
