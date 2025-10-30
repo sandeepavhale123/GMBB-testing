@@ -683,8 +683,8 @@ export const IntegrationsPage: React.FC = () => {
                   disabled={updateMapApiKeyMutation.isPending}
                 >
                   <span className="flex items-center gap-2">
-                    <Map className="w-4 h-4" />
-                    {t("integrations.mapApi.howToTitle")}
+                    <Map className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate max-w-[25ch] sm:max-w-none">{t("integrations.mapApi.howToTitle")}</span>
                   </span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
