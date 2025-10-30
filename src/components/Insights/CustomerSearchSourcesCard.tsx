@@ -142,7 +142,7 @@ export const CustomerSearchSourcesCard: React.FC<
                         className="w-3 h-3 rounded-full shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-[7px] md:text-[9px] font-medium text-foreground flex-1 truncate">
+                      <span className="text-xs md:text-sm font-medium text-foreground flex-1 truncate">
                         {item.name}
                       </span>
                       <span className="text-xs md:text-sm text-muted-foreground">
