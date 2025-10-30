@@ -117,9 +117,7 @@ export const CustomerSearchSourcesCard: React.FC<CustomerSearchSourcesCardProps>
                   <span className="text-2xl md:text-3xl font-bold text-foreground">
                     {hoveredSegment ? hoveredSegment.value : totalSearches}
                   </span>
-                  <span className="text-xs text-muted-foreground">
-                    {hoveredSegment ? hoveredSegment.name : t("customerSearchSources.totalSearches")}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{hoveredSegment ? hoveredSegment.name : ""}</span>
                 </div>
               </div>
 
