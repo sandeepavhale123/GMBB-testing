@@ -682,9 +682,9 @@ export const IntegrationsPage: React.FC = () => {
                   className="w-full flex items-center justify-between"
                   disabled={updateMapApiKeyMutation.isPending}
                 >
-                  <span className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-                    <Map className="w-4 h-4 flex-shrink-0" />
-                    <span className="text-left">{t("integrations.mapApi.howToTitle")}</span>
+                  <span className="flex items-center gap-2">
+                    <Map className="w-4 h-4" />
+                    {t("integrations.mapApi.howToTitle")}
                   </span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
