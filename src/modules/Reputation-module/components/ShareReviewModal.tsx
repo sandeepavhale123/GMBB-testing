@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,9 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, ThumbsUp, MessageSquare, Share2, X } from "lucide-react";
+import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { captureSquareImage, downloadImageBlob } from "@/utils/socialMediaImageCapture";
 
 interface ShareReviewModalProps {
   isOpen: boolean;
@@ -47,18 +49,53 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
+  const [isCapturing, setIsCapturing] = useState(false);
+  
+  const canvasRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = () => {
-    // TODO: API call to create social media post
-    console.log("Submitting post:", {
-      channels: selectedChannels,
-      themeColor,
-      description,
-      scheduleEnabled,
-      scheduleDate,
-      scheduleTime,
-    });
-    onClose();
+  const handleSubmit = async () => {
+    setIsCapturing(true);
+    
+    try {
+      // Capture the canvas as square image
+      if (canvasRef.current) {
+        const imageBlob = await captureSquareImage(canvasRef.current, {
+          size: 1080,
+          format: 'png',
+          quality: 1.0,
+        });
+        
+        // Download the image locally
+        const fileName = `review-post-${authorName.replace(/\s+/g, '-')}-${Date.now()}.png`;
+        downloadImageBlob(imageBlob, fileName);
+        
+        toast({
+          title: "Image Downloaded",
+          description: "Your review post image has been saved successfully.",
+        });
+        
+        // TODO: API call to create social media post
+        console.log("Submitting post:", {
+          channels: selectedChannels,
+          themeColor,
+          description,
+          scheduleEnabled,
+          scheduleDate,
+          scheduleTime,
+          imageBlob,
+        });
+      }
+    } catch (error) {
+      console.error('Error capturing image:', error);
+      toast({
+        title: "Image Capture Failed",
+        description: "Failed to create post image. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCapturing(false);
+      onClose();
+    }
   };
 
   const svgCode = `<svg width="646" height="646" viewBox="0 0 646 646" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -233,10 +270,17 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
               {/* Action Buttons */}
               <div className="flex items-center gap-3 pt-4">
-                <Button onClick={handleSubmit} className="flex-1">
-                  Submit
+                <Button onClick={handleSubmit} disabled={isCapturing} className="flex-1">
+                  {isCapturing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Capturing...
+                    </>
+                  ) : (
+                    'Submit'
+                  )}
                 </Button>
-                <Button onClick={onClose} variant="outline" className="flex-1">
+                <Button onClick={onClose} variant="outline" disabled={isCapturing} className="flex-1">
                   Close
                 </Button>
               </div>
@@ -261,9 +305,9 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                         {authorInitial}
                       </AvatarFallback>
                      </Avatar>
-                </div> */}
+                 </div> */}
                 {/* canvas  */}
-                <div className="px-8 py-4" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",}}>
+                <div ref={canvasRef} className="px-8 py-4" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",}}>
                   {/* Avatar & Author */}
                   <div className="flex flex-col items-center bg-white p-3 rounded-t-lg mt-[50px] ">
                     <Avatar className="w-24 h-24 border-[5px] border-border border-white mt-[-55px] mb-3">
