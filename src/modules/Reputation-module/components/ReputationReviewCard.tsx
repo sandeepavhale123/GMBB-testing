@@ -44,10 +44,13 @@ const channelLogos: Record<string, string> = {
   "Google Business Profile": "google.png",
   "Facebook": "facebook.png",
   "Yelp": "yelp.png",
-  "OpenTable":"OpenTable.png",
-  "Foursquare":"foursquare.png",
-  "Yellow Page":"yellowPage.png",
-  "Trustpilot":"trustpilot.png",
+  "OpenTable": "OpenTable.png",
+  "Foursquare": "foursquare.png",
+  "Yellow Page": "yellowPage.png",
+  "Trustpilot": "trustpilot.png",
+  "Airbnb": "air-bnb.png",
+  "Air-bnb": "air-bnb.png",
+  "TripAdvisor": "tripadvisor.png",
 };
 
 // const channelColors: Record<string, string> = {

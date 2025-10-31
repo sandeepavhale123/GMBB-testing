@@ -132,9 +132,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       }}
                     />
                     <Label htmlFor="google" className="flex items-center gap-2 cursor-pointer flex-1">
-                      <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">
-                        G
-                      </div>
+                      <img src="/lovable-uploads/social-icons/google.png" alt="Google" className="w-5 h-5" />
                       <span className="text-sm font-medium">Google</span>
                     </Label>
                   </div>
@@ -152,9 +150,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       }}
                     />
                     <Label htmlFor="facebook" className="flex items-center gap-2 cursor-pointer flex-1">
-                      <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-                        f
-                      </div>
+                      <img src="/lovable-uploads/social-icons/facebook.png" alt="Facebook" className="w-5 h-5" />
                       <span className="text-sm font-medium">Facebook</span>
                     </Label>
                   </div>
@@ -309,30 +305,26 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                   <div className="flex justify-center">
                     <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
                       {(() => {
-                        const platform = (review.platform || review.channel || '').toLowerCase();
+                        const getPlatformIcon = (platform: string): string => {
+                          const platformLower = platform.toLowerCase();
+                          
+                          if (platformLower.includes('google')) return '/lovable-uploads/social-icons/google.png';
+                          if (platformLower.includes('facebook')) return '/lovable-uploads/social-icons/facebook.png';
+                          if (platformLower.includes('yelp')) return '/lovable-uploads/social-icons/yelp.png';
+                          if (platformLower.includes('foursquare')) return '/lovable-uploads/social-icons/foursquare.png';
+                          if (platformLower.includes('airbnb') || platformLower.includes('air-bnb')) return '/lovable-uploads/social-icons/air-bnb.png';
+                          if (platformLower.includes('tripadvisor')) return '/lovable-uploads/social-icons/tripadvisor.png';
+                          if (platformLower.includes('trustpilot')) return '/lovable-uploads/social-icons/trustpilot.png';
+                          if (platformLower.includes('yellow')) return '/lovable-uploads/social-icons/yellowPage.png';
+                          if (platformLower.includes('opentable')) return '/lovable-uploads/social-icons/OpenTable.png';
+                          
+                          return '/lovable-uploads/social-icons/google.png'; // Default fallback
+                        };
                         
-                        if (platform.includes('google')) {
-                          return <img src="/lovable-uploads/social-icons/google.png" alt="Google" className="w-8 h-8" />;
-                        }
+                        const platform = review.platform || review.channel || '';
+                        const iconSrc = getPlatformIcon(platform);
                         
-                        if (platform.includes('facebook')) {
-                          return (
-                            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
-                              f
-                            </div>
-                          );
-                        }
-                        
-                        if (platform.includes('yelp')) {
-                          return (
-                            <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold">
-                              Y
-                            </div>
-                          );
-                        }
-                        
-                        // Default fallback icon
-                        return <Star className="w-6 h-6 text-yellow-500" />;
+                        return <img src={iconSrc} alt={platform} className="w-8 h-8 object-contain" />;
                       })()}
                     </div>
                   </div>
