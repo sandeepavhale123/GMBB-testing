@@ -300,19 +300,12 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
             <div className="max-w-sm mx-auto">
               {/* Preview Card */}
-              <div className="bg-background  rounded-2xl shadow-2xl"  >
-                {/* <div>
-                     <Avatar className="w-10 h-10 border-[5px] border-border border-white mt-[-55px] mb-3">
-                      <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
-                        {authorInitial}
-                      </AvatarFallback>
-                     </Avatar>
-                 </div> */}
+              <div className="bg-background  rounded-2xl shadow-2xl w-[380px]">
                 {/* canvas  */}
-                <div ref={canvasRef} className="px-8 py-4" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",}}>
+                <div ref={canvasRef} className="px-8 py-4 mx-auto" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",height:"380px",width:"380px"}}>
                   {/* Avatar & Author */}
                   <div className="flex flex-col items-center bg-white p-3 rounded-t-lg mt-[50px] ">
-                    <Avatar className="w-24 h-24 border-[5px] border-border border-white mt-[-55px] mb-3">
+                    <Avatar className="w-24 h-24 border-[5px] border-border border-white mt-[-55px] mb-1">
                       <AvatarImage
                       //  src={reviewAvatar}
                       src="/lovable-uploads/avatar-01.jpg"
@@ -321,11 +314,11 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                         {authorInitial}
                       </AvatarFallback>
                     </Avatar>
-                    <h3 className="text-lg font-semibold mb-3 text-foreground">
+                    <h3 className="text-lg font-semibold mb-1 text-foreground">
                       {authorName}
                     </h3>
                     {/* Review Text */}
-                    <p className="text-sm text-muted-foreground text-center leading-relaxed mb-3">
+                    <p className="text-sm text-muted-foreground text-center leading-[1.5]" >
                       {description.length > 200 ? `${description.slice(0, 200)}...` : description}
                     </p>
                   </div>
@@ -333,7 +326,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
 
                   {/* Rating Section */}
-                  <div className="bg-gray-900 dark:bg-gray-950 rounded-b-lg py-4 px-6 mb-3">
+                  <div className="bg-gray-900 dark:bg-gray-950 rounded-b-lg py-2 px-6 mb-3">
                     <div className="flex justify-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
@@ -349,7 +342,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
                   {/* Review Source Icon */}
                   <div className="flex justify-center">
-                    <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
                       {(() => {
                         const getPlatformIcon = (platform: string): string => {
                           const platformLower = platform.toLowerCase();
@@ -370,7 +363,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                         const platform = review.platform || review.channel || '';
                         const iconSrc = getPlatformIcon(platform);
                         
-                        return <img src={iconSrc} alt={platform} className="w-8 h-8 object-contain" />;
+                        return <img src={iconSrc} alt={platform} className="w-6 h-6 object-contain" />;
                       })()}
                     </div>
                   </div>
