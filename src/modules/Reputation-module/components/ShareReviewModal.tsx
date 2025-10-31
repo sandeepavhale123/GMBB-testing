@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2 } from "lucide-react";
+import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2, Eye } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { captureSquareImage, downloadImageBlob } from "@/utils/socialMediaImageCapture";
 
@@ -50,6 +50,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
   const [isCapturing, setIsCapturing] = useState(false);
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
   
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -282,6 +283,14 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                     'Submit'
                   )}
                 </Button>
+                <Button 
+                  onClick={() => setShowMobilePreview(true)} 
+                  variant="outline"
+                  className="lg:hidden flex-1"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Preview
+                </Button>
                 <Button onClick={onClose} variant="outline" disabled={isCapturing} className="flex-1">
                   Close
                 </Button>
@@ -290,7 +299,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
           </div>
 
           {/* Right Panel - Preview */}
-          <div className="relative p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto">
+          <div className="hidden lg:block relative p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto">
             <button
               onClick={onClose}
               className="absolute top-4 right-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
@@ -392,6 +401,79 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
           </div>
         </div>
       </DialogContent>
+
+      {/* Mobile Preview Dialog */}
+      <Dialog open={showMobilePreview} onOpenChange={setShowMobilePreview}>
+        <DialogContent className="max-w-[95vw] max-h-[90vh] p-0">
+          <DialogHeader className="p-4 border-b">
+            <DialogTitle>Preview</DialogTitle>
+          </DialogHeader>
+          
+          <div className="p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto max-h-[70vh]">
+            <div className="max-w-sm mx-auto">
+              <div className="bg-background rounded-2xl shadow-2xl w-[380px] max-w-full">
+                <div className="px-8 py-4 mx-auto" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",height:"380px",width:"380px"}}>
+                  <div className="flex flex-col items-center bg-white p-3 rounded-t-lg mt-[50px]">
+                    <Avatar className="w-24 h-24 border-[5px] border-border border-white mt-[-55px] mb-1">
+                      <AvatarImage src="/lovable-uploads/avatar-01.jpg" alt={authorName} />
+                      <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
+                        {authorInitial}
+                      </AvatarFallback>
+                    </Avatar>
+                    <h3 className="text-lg font-semibold mb-1 text-foreground">
+                      {authorName}
+                    </h3>
+                    <p className="text-sm text-muted-foreground text-center leading-[1.5]">
+                      {description.length > 200 ? `${description.slice(0, 200)}...` : description}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-900 dark:bg-gray-950 rounded-b-lg py-2 px-6 mb-3">
+                    <div className="flex justify-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-6 h-6 ${i < (review?.rating || 0) ? "fill-yellow-400 text-yellow-400" : "text-gray-600"}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
+                      {(() => {
+                        const getPlatformIcon = (platform: string): string => {
+                          const platformLower = platform.toLowerCase();
+                          if (platformLower.includes('google')) return '/lovable-uploads/google-icon.png';
+                          if (platformLower.includes('facebook')) return '/lovable-uploads/facebook-icon.png';
+                          if (platformLower.includes('yelp')) return '/lovable-uploads/yelp-icon.png';
+                          if (platformLower.includes('tripadvisor')) return '/lovable-uploads/tripadvisor-icon.png';
+                          if (platformLower.includes('trustpilot')) return '/lovable-uploads/trustpilot-icon.png';
+                          if (platformLower.includes('amazon')) return '/lovable-uploads/amazon-icon.png';
+                          if (platformLower.includes('booking')) return '/lovable-uploads/booking-icon.png';
+                          if (platformLower.includes('airbnb')) return '/lovable-uploads/airbnb-icon.png';
+                          return '/lovable-uploads/google-icon.png';
+                        };
+                        
+                        const platform = review.platform || review.channel || '';
+                        const iconSrc = getPlatformIcon(platform);
+                        
+                        return <img src={iconSrc} alt={platform} className="w-6 h-6 object-contain" />;
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="p-4 border-t">
+            <Button onClick={() => setShowMobilePreview(false)} className="w-full">
+              Close Preview
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 };
