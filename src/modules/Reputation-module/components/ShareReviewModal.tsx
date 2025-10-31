@@ -145,14 +145,14 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[56rem] max-h-[90vh] overflow-hidden p-0">
-        <div className="relative grid grid-cols-1 md:grid-cols-[40%_60%] h-full max-h-[85vh] overflow-hidden">
+      <DialogContent className="max-w-[95vw] sm:max-w-[56rem] max-h-[90vh] overflow-hidden p-0">
+        <div className="relative h-full max-h-[85vh] overflow-hidden md:grid md:grid-cols-[40%_60%]">
           {/* Left Panel - Form Controls */}
           <div className={cn(
-            "p-6 pr-6 border-r border-border overflow-y-auto",
-            "md:relative md:translate-x-0",
-            "absolute inset-0 transition-transform duration-300 ease-in-out",
-            showPreview ? "-translate-x-full" : "translate-x-0"
+            "p-6 pr-6 overflow-y-auto",
+            "absolute inset-0 transition-transform duration-300 ease-in-out bg-background",
+            showPreview ? "-translate-x-full" : "translate-x-0",
+            "md:relative md:translate-x-0 md:border-r md:border-border"
           )}>
             <DialogHeader className="mb-6">
               <DialogTitle className="text-xl font-bold">Share Review</DialogTitle>
@@ -306,10 +306,10 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
           {/* Right Panel - Preview */}
           <div className={cn(
-            "relative p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
-            "md:relative md:translate-x-0",
+            "p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
             "absolute inset-0 transition-transform duration-300 ease-in-out",
-            showPreview ? "translate-x-0" : "translate-x-full"
+            showPreview ? "translate-x-0" : "translate-x-full",
+            "md:relative md:translate-x-0"
           )}>
             {/* Mobile back button */}
             <button
