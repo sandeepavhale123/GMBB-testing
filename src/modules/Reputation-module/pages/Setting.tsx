@@ -43,7 +43,7 @@ export const Setting: React.FC = () => {
     {
       id: "airbnb",
       name: t("integration.channels.airbnb"),
-      icon: "/lovable-uploads/social-icons/airbnb.png",
+      icon: "/lovable-uploads/social-icons/air-bnb.png",
       status: "not-connected" as const,
     },
     {
@@ -61,7 +61,7 @@ export const Setting: React.FC = () => {
     {
       id: "yellowPages",
       name: t("integration.channels.yellowPages"),
-      icon: "/lovable-uploads/social-icons/yellowpages.png",
+      icon: "/lovable-uploads/social-icons/yellowPage.png",
       status: "not-connected" as const,
     },
     {
