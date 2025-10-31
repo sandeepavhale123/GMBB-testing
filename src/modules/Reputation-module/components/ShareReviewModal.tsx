@@ -327,7 +327,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
               <X className="w-4 h-4" />
             </button>
 
-            <div className="max-w-sm mx-auto">
+            <div className="max-w-sm mx-auto scale-[0.85] md:scale-100 origin-top transition-transform">
               {/* Preview Card */}
               <div className="bg-background  rounded-2xl shadow-2xl w-[380px]">
                 {/* canvas  */}
