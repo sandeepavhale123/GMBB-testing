@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -30,15 +30,69 @@ const DEFAULT_WHATSAPP_TEMPLATE = `Hi {name}!
 
 Review Link:{reviewLink}`;
 
+// Mock template data - would be replaced with actual API call
+const mockTemplatesData: Record<string, { name: string; channel: "sms" | "email" | "whatsapp"; content: string }> = {
+  "1": {
+    name: "Simple Review Request",
+    channel: "sms",
+    content: `Hi {name}!
+
+👋 Thank you for choosing us! Please share your experience...
+
+Review Link:{reviewLink}`,
+  },
+  "2": {
+    name: "Friendly Follow-up",
+    channel: "email",
+    content: `Dear {name}!
+
+👋 We'd love to hear your feedback...
+
+Review Link:{reviewLink}`,
+  },
+  "3": {
+    name: "Professional Request",
+    channel: "sms",
+    content: `Hello {name}!
+
+👋 We value your opinion...
+
+Review Link:{reviewLink}`,
+  },
+  "4": {
+    name: "Casual & Fun",
+    channel: "sms",
+    content: `Hey {name}! 👋
+
+How was your experience?
+
+Review Link:{reviewLink}`,
+  },
+};
+
 export const CreateTemplate: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/createTemplate");
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { templateId } = useParams<{ templateId?: string }>();
+  const isEditMode = !!templateId;
 
   const [templateName, setTemplateName] = useState("");
   const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
   const [selectedTemplate, setSelectedTemplate] = useState("default");
   const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
+
+  // Auto-fill template data when in edit mode
+  useEffect(() => {
+    if (isEditMode && templateId) {
+      const templateData = mockTemplatesData[templateId];
+      if (templateData) {
+        setTemplateName(templateData.name);
+        setChannel(templateData.channel);
+        setTemplateContent(templateData.content);
+      }
+    }
+  }, [templateId, isEditMode]);
 
   const templateSchema = z.object({
     templateName: z
@@ -71,8 +125,8 @@ export const CreateTemplate: React.FC = () => {
       });
 
       toast({
-        title: t("success.title"),
-        description: t("success.description"),
+        title: isEditMode ? "Template Updated" : t("success.title"),
+        description: isEditMode ? "Your template has been updated successfully" : t("success.description"),
       });
 
       navigate("/module/reputation/request?tab=templates");
@@ -91,7 +145,9 @@ export const CreateTemplate: React.FC = () => {
     <div className="pb-8 pt-4 min-h-screen bg-background">
       <div className="mx-auto space-y-6">
         {/* Page Title */}
-        <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isEditMode ? "Edit Template" : t("title")}
+        </h1>
 
         {/* Template Name Input */}
         <div className="space-y-2">
@@ -171,7 +227,7 @@ export const CreateTemplate: React.FC = () => {
         {/* Submit Button */}
         <div className="flex justify-end pt-4">
           <Button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-600 text-white px-8">
-            {t("submit")}
+            {isEditMode ? "Update Template" : t("submit")}
           </Button>
         </div>
       </div>

@@ -42,6 +42,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
         element: <CreateTemplate />,
       },
       {
+        path: "edit-template/:templateId",
+        element: <CreateTemplate />,
+      },
+      {
         path: "review-link",
         element: <ReviewLink />,
       },

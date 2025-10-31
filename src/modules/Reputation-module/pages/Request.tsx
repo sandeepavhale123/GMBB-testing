@@ -211,8 +211,8 @@ export const Request: React.FC = () => {
     navigate("/module/reputation/create-template");
   };
 
-  const handleViewTemplate = (templateName: string) => {
-    toast.info(`${t("templates.actions.view")}: "${templateName}"`);
+  const handleViewTemplate = (templateId: string) => {
+    navigate(`/module/reputation/edit-template/${templateId}`);
   };
 
   const handleDeleteTemplate = () => {
@@ -487,7 +487,7 @@ export const Request: React.FC = () => {
                               <Button 
                                 variant="ghost" 
                                 size="icon" 
-                                onClick={() => handleViewTemplate(template.name)}
+                                onClick={() => handleViewTemplate(template.id)}
                                 aria-label={t("templates.actions.view")}
                               >
                                 <Eye className="w-4 h-4" />
