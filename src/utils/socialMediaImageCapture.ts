@@ -4,7 +4,21 @@ interface CaptureOptions {
   size?: number;
   format?: 'png' | 'jpeg';
   quality?: number;
+  backgroundColor?: string;
+  pixelRatio?: number;
 }
+
+/**
+ * Load an image from a data URL
+ */
+const loadImage = (dataUrl: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = dataUrl;
+  });
+};
 
 /**
  * Wait for all images within an element to load
@@ -23,40 +37,79 @@ const waitForImagesToLoad = async (element: HTMLElement): Promise<void> => {
 };
 
 /**
- * Capture a DOM element as an image exactly as it appears on screen
+ * Capture a DOM element as a square image with centered content
  * @param element - The DOM element to capture
- * @param options - Capture options (size, format, quality)
+ * @param options - Capture options (size, format, quality, backgroundColor, pixelRatio)
  * @returns A Blob containing the captured image
  */
 export const captureSquareImage = async (
   element: HTMLElement,
   options: CaptureOptions = {}
 ): Promise<Blob> => {
-  const { size = 1080, format = 'png', quality = 1.0 } = options;
+  const { 
+    size = 600, 
+    format = 'png', 
+    quality = 1.0,
+    backgroundColor = '#ffffff',
+    pixelRatio = 2
+  } = options;
 
   // Wait for all images to load
   await waitForImagesToLoad(element);
 
   try {
-    // Get current dimensions to calculate proper scaled height
-    const rect = element.getBoundingClientRect();
-    const scale = size / rect.width;
-    const scaledHeight = Math.round(rect.height * scale);
-
     // Wait for any pending renders
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    // Capture the element as-is with scaled dimensions
+    // Capture the element at its natural size
     const dataUrl = await htmlToImage.toPng(element, {
-      width: size,
-      height: scaledHeight,
-      pixelRatio: 2,
+      pixelRatio,
       cacheBust: true,
     });
 
-    // Convert data URL to Blob
-    const response = await fetch(dataUrl);
-    const blob = await response.blob();
+    // Load the captured image
+    const img = await loadImage(dataUrl);
+
+    // Create canvas with target size
+    const canvas = document.createElement('canvas');
+    canvas.width = size * pixelRatio;
+    canvas.height = size * pixelRatio;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Failed to get canvas context');
+
+    // Fill with background color
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Calculate scaling to fit image in square (contain mode)
+    const scale = Math.min(
+      canvas.width / img.width,
+      canvas.height / img.height
+    );
+
+    // Calculate centered position
+    const drawWidth = img.width * scale;
+    const drawHeight = img.height * scale;
+    const dx = (canvas.width - drawWidth) / 2;
+    const dy = (canvas.height - drawHeight) / 2;
+
+    // Draw the image centered
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, dx, dy, drawWidth, drawHeight);
+
+    // Convert to Blob
+    const mimeType = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Failed to create blob'));
+        },
+        mimeType,
+        quality
+      );
+    });
 
     return blob;
   } catch (error) {

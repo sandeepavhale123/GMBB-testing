@@ -60,9 +60,11 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
       // Capture the canvas as square image
       if (canvasRef.current) {
         const imageBlob = await captureSquareImage(canvasRef.current, {
-          size: 1080,
+          size: 600,
           format: 'png',
           quality: 1.0,
+          backgroundColor: '#ffffff',
+          pixelRatio: 2,
         });
         
         // Download the image locally
