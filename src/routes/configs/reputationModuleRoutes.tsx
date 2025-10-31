@@ -4,6 +4,7 @@ import { ReputationLayout } from "@/modules/Reputation-module/components/PageLay
 import { Dashboard } from "@/modules/Reputation-module/pages/Dashboard";
 import { Review } from "@/modules/Reputation-module/pages/Review";
 import { Request } from "@/modules/Reputation-module/pages/Request";
+import { Feedback } from "@/modules/Reputation-module/pages/Feedback";
 import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
 import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate";
 import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
@@ -32,6 +33,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "request",
         element: <Request />,
+      },
+      {
+        path: "feedback",
+        element: <Feedback />,
       },
       {
         path: "create-campaign",

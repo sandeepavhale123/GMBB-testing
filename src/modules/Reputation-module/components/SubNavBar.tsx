@@ -1,36 +1,42 @@
 import React from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, MessageSquare, Send, Settings, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Send, Settings, ArrowLeft, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-const navItems = [
-  {
-    label: "dashboard",
-    path: "/module/reputation",
-    icon: LayoutDashboard,
-    type: "link",
-  },
-  {
-    label: "review",
-    path: "/module/reputation/review",
-    icon: MessageSquare,
-    type: "link",
-  },
-  {
-    label: "request",
-    path: "/module/reputation/request",
-    icon: Send,
-    type: "link",
-  },
-  {
-    label: "setting",
-    path: "/module/reputation/setting",
-    icon: Settings,
-    type: "link",
-  },
-];
+  const navItems = [
+    {
+      label: "dashboard",
+      path: "/module/reputation",
+      icon: LayoutDashboard,
+      type: "link",
+    },
+    {
+      label: "review",
+      path: "/module/reputation/review",
+      icon: MessageSquare,
+      type: "link",
+    },
+    {
+      label: "request",
+      path: "/module/reputation/request",
+      icon: Send,
+      type: "link",
+    },
+    {
+      label: "feedback",
+      path: "/module/reputation/feedback",
+      icon: MessageCircle,
+      type: "link",
+    },
+    {
+      label: "setting",
+      path: "/module/reputation/setting",
+      icon: Settings,
+      type: "link",
+    },
+  ];
 
 export const SubNavBar: React.FC = () => {
   const { t } = useI18nNamespace("Reputation-module-component/SubNavBar");
