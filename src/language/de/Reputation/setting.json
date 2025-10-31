@@ -33,9 +33,15 @@
   "qrCode": {
     "title": "Bewertungs-QR-Code",
     "description": "Generieren und laden Sie QR-Codes für Ihre Bewertungsanfragen herunter",
-    "downloadButton": "QR-Code Herunterladen",
-    "instructions": "Kunden können diesen QR-Code scannen, um eine Bewertung für Ihr Unternehmen abzugeben.",
-    "format": "Download-Format",
-    "size": "QR-Code-Größe"
+    "simpleCard": {
+      "title": "Einfacher QR-Code",
+      "description": "Laden Sie einen einfachen QR-Code herunter, der direkt zu Ihrer Bewertungsseite führt. Perfekt zum schnellen Teilen und Drucken.",
+      "downloadButton": "QR-Code Herunterladen"
+    },
+    "posterCard": {
+      "title": "Individuelles QR-Poster",
+      "description": "Erstellen Sie ein gebrandetes Poster mit Ihrem QR-Code, Logo und individuellen Nachrichten. Ideal für die Anzeige in Ihrem Geschäft.",
+      "customizeButton": "Poster Anpassen"
+    }
   }
 }

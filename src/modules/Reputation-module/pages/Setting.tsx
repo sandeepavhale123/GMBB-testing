@@ -168,8 +168,16 @@ export const Setting: React.FC = () => {
           <QRCodeSection
             title={t("qrCode.title")}
             description={t("qrCode.description")}
-            downloadButton={t("qrCode.downloadButton")}
-            instructions={t("qrCode.instructions")}
+            simpleCard={{
+              title: t("qrCode.simpleCard.title"),
+              description: t("qrCode.simpleCard.description"),
+              downloadButton: t("qrCode.simpleCard.downloadButton"),
+            }}
+            posterCard={{
+              title: t("qrCode.posterCard.title"),
+              description: t("qrCode.posterCard.description"),
+              customizeButton: t("qrCode.posterCard.customizeButton"),
+            }}
           />
         </div>
       );

@@ -33,9 +33,15 @@
   "qrCode": {
     "title": "Code QR d'Avis",
     "description": "Générez et téléchargez des codes QR pour vos demandes d'avis",
-    "downloadButton": "Télécharger le Code QR",
-    "instructions": "Les clients peuvent scanner ce code QR pour laisser un avis sur votre entreprise.",
-    "format": "Format de Téléchargement",
-    "size": "Taille du Code QR"
+    "simpleCard": {
+      "title": "Code QR Simple",
+      "description": "Téléchargez un code QR de base qui mène directement à votre page d'avis. Parfait pour un partage et une impression rapides.",
+      "downloadButton": "Télécharger le Code QR"
+    },
+    "posterCard": {
+      "title": "Poster QR Personnalisé",
+      "description": "Créez une affiche avec votre marque incluant votre code QR, logo et messages personnalisés. Idéal pour l'affichage dans votre établissement.",
+      "customizeButton": "Personnaliser le Poster"
+    }
   }
 }

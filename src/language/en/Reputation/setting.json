@@ -33,9 +33,15 @@
   "qrCode": {
     "title": "Review QR Code",
     "description": "Generate and download QR codes for your review requests",
-    "downloadButton": "Download QR Code",
-    "instructions": "Customers can scan this QR code to leave a review for your business.",
-    "format": "Download Format",
-    "size": "QR Code Size"
+    "simpleCard": {
+      "title": "Simple QR Code",
+      "description": "Download a basic QR code that links directly to your review page. Perfect for quick sharing and printing.",
+      "downloadButton": "Download QR Code"
+    },
+    "posterCard": {
+      "title": "Custom QR Poster",
+      "description": "Create a branded poster with your QR code, logo, and custom messaging. Ideal for display in your business location.",
+      "customizeButton": "Customize Poster"
+    }
   }
 }

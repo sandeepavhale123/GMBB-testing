@@ -33,9 +33,15 @@
   "qrCode": {
     "title": "Código QR de Reseñas",
     "description": "Genera y descarga códigos QR para tus solicitudes de reseñas",
-    "downloadButton": "Descargar Código QR",
-    "instructions": "Los clientes pueden escanear este código QR para dejar una reseña de tu negocio.",
-    "format": "Formato de Descarga",
-    "size": "Tamaño del Código QR"
+    "simpleCard": {
+      "title": "Código QR Simple",
+      "description": "Descarga un código QR básico que enlaza directamente a tu página de reseñas. Perfecto para compartir e imprimir rápidamente.",
+      "downloadButton": "Descargar Código QR"
+    },
+    "posterCard": {
+      "title": "Póster QR Personalizado",
+      "description": "Crea un póster con tu marca que incluya tu código QR, logo y mensajes personalizados. Ideal para mostrar en tu negocio.",
+      "customizeButton": "Personalizar Póster"
+    }
   }
 }
