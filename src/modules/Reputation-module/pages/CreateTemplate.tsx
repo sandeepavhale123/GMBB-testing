@@ -12,23 +12,23 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
-const DEFAULT_SMS_TEMPLATE = `Hi Name!
+const DEFAULT_SMS_TEMPLATE = `Hi {name}!
 
 👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
 
-Review Link`;
+Review Link:{reviewLink}`;
 
-const DEFAULT_EMAIL_TEMPLATE = `Hi Name!
-
-👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
-
-Review Link`;
-
-const DEFAULT_WHATSAPP_TEMPLATE = `Hi Name!
+const DEFAULT_EMAIL_TEMPLATE = `Hi {name}!
 
 👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
 
-Review Link`;
+Review Link:{reviewLink}`;
+
+const DEFAULT_WHATSAPP_TEMPLATE = `Hi {name}!
+
+👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
+
+Review Link:{reviewLink}`;
 
 export const CreateTemplate: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/createTemplate");
