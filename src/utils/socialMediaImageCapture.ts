@@ -23,7 +23,7 @@ const waitForImagesToLoad = async (element: HTMLElement): Promise<void> => {
 };
 
 /**
- * Capture a DOM element as a square image suitable for social media
+ * Capture a DOM element as an image exactly as it appears on screen
  * @param element - The DOM element to capture
  * @param options - Capture options (size, format, quality)
  * @returns A Blob containing the captured image
@@ -37,52 +37,29 @@ export const captureSquareImage = async (
   // Wait for all images to load
   await waitForImagesToLoad(element);
 
-  // Save original styles
-  const originalStyles = {
-    width: element.style.width,
-    height: element.style.height,
-    minHeight: element.style.minHeight,
-    maxHeight: element.style.maxHeight,
-    display: element.style.display,
-    flexDirection: element.style.flexDirection,
-    justifyContent: element.style.justifyContent,
-  };
-
   try {
-    // Apply square dimensions temporarily
-    element.style.width = `${size}px`;
-    element.style.height = `${size}px`;
-    element.style.minHeight = `${size}px`;
-    element.style.maxHeight = `${size}px`;
-    element.style.display = 'flex';
-    element.style.flexDirection = 'column';
-    element.style.justifyContent = 'space-between';
+    // Get current dimensions to calculate proper scaled height
+    const rect = element.getBoundingClientRect();
+    const scale = size / rect.width;
+    const scaledHeight = Math.round(rect.height * scale);
 
-    // Wait a bit for styles to apply
+    // Wait for any pending renders
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    // Capture the element
+    // Capture the element as-is with scaled dimensions
     const dataUrl = await htmlToImage.toPng(element, {
       width: size,
-      height: size,
+      height: scaledHeight,
       pixelRatio: 2,
       cacheBust: true,
-      style: {
-        transform: 'none',
-      },
     });
 
     // Convert data URL to Blob
     const response = await fetch(dataUrl);
     const blob = await response.blob();
 
-    // Restore original styles
-    Object.assign(element.style, originalStyles);
-
     return blob;
   } catch (error) {
-    // Restore original styles even on error
-    Object.assign(element.style, originalStyles);
     throw error;
   }
 };
