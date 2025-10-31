@@ -305,20 +305,36 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                     </div>
                   </div>
 
-                  {/* Channel Logos */}
-                  <div className="flex justify-center gap-3">
-                    {selectedChannels.includes("google") && (
-                      <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
-                        <img src="/lovable-uploads/social-icons/google.png" alt="" className="w-8 h-8" />
-                      </div>
-                    )}
-                    {selectedChannels.includes("facebook") && (
-                      <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
-                        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
-                          f
-                        </div>
-                      </div>
-                    )}
+                  {/* Review Source Icon */}
+                  <div className="flex justify-center">
+                    <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center">
+                      {(() => {
+                        const platform = (review.platform || review.channel || '').toLowerCase();
+                        
+                        if (platform.includes('google')) {
+                          return <img src="/lovable-uploads/social-icons/google.png" alt="Google" className="w-8 h-8" />;
+                        }
+                        
+                        if (platform.includes('facebook')) {
+                          return (
+                            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+                              f
+                            </div>
+                          );
+                        }
+                        
+                        if (platform.includes('yelp')) {
+                          return (
+                            <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold">
+                              Y
+                            </div>
+                          );
+                        }
+                        
+                        // Default fallback icon
+                        return <Star className="w-6 h-6 text-yellow-500" />;
+                      })()}
+                    </div>
                   </div>
                 </div>
                 {/* canvas  */}
