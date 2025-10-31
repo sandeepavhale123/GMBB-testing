@@ -306,7 +306,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
           {/* Right Panel - Preview */}
           <div className={cn(
-            "p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
+            "p-2 md:p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
             "absolute inset-0 transition-transform duration-300 ease-in-out",
             showPreview ? "translate-x-0" : "translate-x-full",
             "md:relative md:translate-x-0",
