@@ -11,9 +11,10 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2 } from "lucide-react";
+import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2, Eye, ChevronLeft } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { captureSquareImage, downloadImageBlob } from "@/utils/socialMediaImageCapture";
+import { cn } from "@/lib/utils";
 
 interface ShareReviewModalProps {
   isOpen: boolean;
@@ -50,6 +51,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
   const [isCapturing, setIsCapturing] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -144,9 +146,14 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[56rem] max-h-[90vh] overflow-hidden p-0">
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] h-full max-h-[85vh]">
+        <div className="relative grid grid-cols-1 md:grid-cols-[40%_60%] h-full max-h-[85vh] overflow-hidden">
           {/* Left Panel - Form Controls */}
-          <div className="p-6 pr-6 border-r border-border overflow-y-auto">
+          <div className={cn(
+            "p-6 pr-6 border-r border-border overflow-y-auto",
+            "md:relative md:translate-x-0",
+            "absolute inset-0 transition-transform duration-300 ease-in-out",
+            showPreview ? "-translate-x-full" : "translate-x-0"
+          )}>
             <DialogHeader className="mb-6">
               <DialogTitle className="text-xl font-bold">Share Review</DialogTitle>
             </DialogHeader>
@@ -272,6 +279,14 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
               {/* Action Buttons */}
               <div className="flex items-center gap-3 pt-4">
+                <Button 
+                  onClick={() => setShowPreview(true)} 
+                  variant="outline"
+                  className="md:hidden flex-1"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Preview
+                </Button>
                 <Button onClick={handleSubmit} disabled={isCapturing} className="flex-1">
                   {isCapturing ? (
                     <>
@@ -290,10 +305,24 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
           </div>
 
           {/* Right Panel - Preview */}
-          <div className="relative p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto">
+          <div className={cn(
+            "relative p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
+            "md:relative md:translate-x-0",
+            "absolute inset-0 transition-transform duration-300 ease-in-out",
+            showPreview ? "translate-x-0" : "translate-x-full"
+          )}>
+            {/* Mobile back button */}
+            <button
+              onClick={() => setShowPreview(false)}
+              className="md:hidden absolute top-4 left-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {/* Desktop close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
+              className="hidden md:block absolute top-4 right-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
