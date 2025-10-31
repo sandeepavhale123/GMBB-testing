@@ -37,14 +37,15 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Show back button on create-campaign, create-template, and review-link pages
+  // Show back button on create-campaign, create-template, edit-template, and review-link pages
   const isCreateCampaignPage = location.pathname === "/module/reputation/create-campaign";
   const isCreateTemplatePage = location.pathname === "/module/reputation/create-template";
+  const isEditTemplatePage = location.pathname.startsWith("/module/reputation/edit-template");
   const isReviewLinkPage = location.pathname === "/module/reputation/review-link";
-  const isCreatePage = isCreateCampaignPage || isCreateTemplatePage || isReviewLinkPage;
+  const isCreatePage = isCreateCampaignPage || isCreateTemplatePage || isEditTemplatePage || isReviewLinkPage;
 
   const handleBackClick = () => {
-    if (isCreateTemplatePage) {
+    if (isCreateTemplatePage || isEditTemplatePage) {
       navigate("/module/reputation/request?tab=templates");
     } else {
       navigate("/module/reputation/request");
