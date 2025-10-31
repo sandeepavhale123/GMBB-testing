@@ -148,8 +148,10 @@ export const CreateTemplate: React.FC = () => {
                   <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
                 </SelectContent>
               </Select>
-              <div className="bg-blue-100 p-2 text-sm">
-                <pre>Short code : {"{name}"} </pre>
+              <div className="bg-blue-100 p-2 text-sm rounded-lg">
+                <pre>
+                  Short code : {"{name}"} , {"{reviewLink}"}{" "}
+                </pre>
               </div>
               <Textarea
                 rows={10}
