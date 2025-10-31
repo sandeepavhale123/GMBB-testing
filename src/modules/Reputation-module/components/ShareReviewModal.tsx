@@ -47,6 +47,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const [selectedChannels, setSelectedChannels] = useState<string[]>(["google"]);
   const [themeColor, setThemeColor] = useState("#dbd7cf");
   const [description, setDescription] = useState(reviewContent);
+  const [postDescription, setPostDescription] = useState("");
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -220,16 +221,16 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                 </div>
               </div>
 
-              {/* Description */}
+              {/* Post Caption */}
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-sm font-semibold text-foreground">
-                  Description
+                <Label htmlFor="postDescription" className="text-sm font-semibold text-foreground">
+                  Post Caption (optional)
                 </Label>
                 <Textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter post description..."
+                  id="postDescription"
+                  value={postDescription}
+                  onChange={(e) => setPostDescription(e.target.value)}
+                  placeholder="Add a caption for your post... (e.g., 'Check out this amazing review!')"
                   className="min-h-[120px] resize-none"
                 />
               </div>
@@ -349,7 +350,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                     </h3>
                     {/* Review Text */}
                     <p className="text-sm text-muted-foreground text-center leading-[1.5]" >
-                      {description.length > 200 ? `${description.slice(0, 200)}...` : description}
+                      {reviewContent.length > 200 ? `${reviewContent.slice(0, 200)}...` : reviewContent}
                     </p>
                   </div>
 
