@@ -41,7 +41,10 @@ export const CreateTemplate: React.FC = () => {
   const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
 
   const templateSchema = z.object({
-    templateName: z.string().min(1, t("validation.nameRequired")).max(100, "Template name must be less than 100 characters"),
+    templateName: z
+      .string()
+      .min(1, t("validation.nameRequired"))
+      .max(100, "Template name must be less than 100 characters"),
     channel: z.enum(["sms", "email", "whatsapp"]),
     template: z.string().min(1, "Template cannot be empty"),
   });
@@ -69,7 +72,7 @@ export const CreateTemplate: React.FC = () => {
 
       toast({
         title: t("success.title"),
-        description: t("success.description")
+        description: t("success.description"),
       });
 
       navigate("/module/reputation/request?tab=templates");
@@ -78,7 +81,7 @@ export const CreateTemplate: React.FC = () => {
         toast({
           title: "Validation Error",
           description: error.errors[0]?.message || "Please check your inputs",
-          variant: "destructive"
+          variant: "destructive",
         });
       }
     }
@@ -145,7 +148,9 @@ export const CreateTemplate: React.FC = () => {
                   <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
                 </SelectContent>
               </Select>
-
+              <div className="bg-blue-100 p-2">
+                <p>short code Name : {name} </p>
+              </div>
               <Textarea
                 rows={10}
                 value={templateContent}
