@@ -16,7 +16,9 @@
       "tripadvisor": "TripAdvisor",
       "trustpilot": "Trustpilot",
       "yellowPages": "Páginas Amarillas",
-      "opentable": "OpenTable"
+      "opentable": "OpenTable",
+      "twilio": "Twilio SMS",
+      "mailgun": "Mailgun"
     },
     "status": {
       "connected": "Conectado",
