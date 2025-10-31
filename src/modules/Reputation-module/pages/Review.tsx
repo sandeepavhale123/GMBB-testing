@@ -269,7 +269,7 @@ export const Review: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Reviews</h1>
           <p className="text-muted-foreground">
-            View and manage customer reviews from all connected channels
+            View and manage customer reviews from all connected channels 
           </p>
         </div>
         <Button onClick={handleExport}>

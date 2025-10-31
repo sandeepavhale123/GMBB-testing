@@ -26,10 +26,10 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { 
-  Search, 
-  Download, 
-  Star, 
+import {
+  Search,
+  Download,
+  Star,
   ChevronLeft,
   ChevronRight,
   MessageCircle,
@@ -222,7 +222,7 @@ const mockFeedbackData: Feedback[] = [
 
 export const Feedback: React.FC = () => {
   const { t } = useTranslation("Reputation/feedback");
-  
+
   const [feedbackData, setFeedbackData] = useState<Feedback[]>(mockFeedbackData);
   const [selectedFeedback, setSelectedFeedback] = useState<Feedback | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -233,7 +233,7 @@ export const Feedback: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [modalStatus, setModalStatus] = useState<string>("");
   const [modalNotes, setModalNotes] = useState<string>("");
-  
+
   const itemsPerPage = 10;
 
   const totalFeedback = feedbackData.length;
@@ -242,10 +242,10 @@ export const Feedback: React.FC = () => {
   const resolvedCount = feedbackData.filter(f => f.status === "resolved").length;
 
   const filteredData = feedbackData.filter(feedback => {
-    const matchesSearch = 
+    const matchesSearch =
       feedback.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       feedback.message.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesRating = filterRating === "all" || feedback.rating === parseInt(filterRating);
     const matchesChannel = filterChannel === "all" || feedback.channel === filterChannel;
     const matchesStatus = filterStatus === "all" || feedback.status === filterStatus;
@@ -282,11 +282,11 @@ export const Feedback: React.FC = () => {
     const headers = ["Customer Name", "Rating", "Message", "Channel", "Submitted Date", "Status"];
     const csvContent = [
       headers.join(","),
-      ...filteredData.map(f => 
+      ...filteredData.map(f =>
         [f.customerName, f.rating, `"${f.message}"`, f.channel, f.submittedDate, f.status].join(",")
       )
     ].join("\n");
-    
+
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -294,7 +294,7 @@ export const Feedback: React.FC = () => {
     a.download = `feedback-export-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
-    
+
     toast.success(t("toast.exportSuccess"));
   };
 
@@ -317,9 +317,8 @@ export const Feedback: React.FC = () => {
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            className={`w-4 h-4 ${
-              i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-            }`}
+            className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+              }`}
           />
         ))}
       </div>
@@ -327,11 +326,20 @@ export const Feedback: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-foreground">{t("pageTitle")}</h1>
-        <p className="text-muted-foreground">{t("pageDescription")}</p>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">{t("pageTitle")}</h1>
+          <p className="text-muted-foreground">{t("pageDescription")}</p>
+        </div>
+
+         <Button  onClick={handleExportCSV}>
+              <Download className="w-4 h-4 mr-2" />
+              {t("filters.exportCSV")}
+            </Button>
+
       </div>
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
@@ -436,12 +444,7 @@ export const Feedback: React.FC = () => {
             </Select>
           </div>
 
-          <div className="mt-4 flex justify-end">
-            <Button variant="outline" onClick={handleExportCSV}>
-              <Download className="w-4 h-4 mr-2" />
-              {t("filters.exportCSV")}
-            </Button>
-          </div>
+        
         </CardContent>
       </Card>
 
