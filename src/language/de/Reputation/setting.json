@@ -1,0 +1,39 @@
+{
+  "title": "Einstellungen",
+  "tabs": {
+    "integration": "Integration",
+    "qrCode": "QR-Code"
+  },
+  "integration": {
+    "title": "Kanal-Integration",
+    "description": "Verbinden und verwalten Sie Ihre Bewertungsplattform-Integrationen",
+    "channels": {
+      "google": "Google Unternehmensprofil",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Gelbe Seiten",
+      "opentable": "OpenTable"
+    },
+    "status": {
+      "connected": "Verbunden",
+      "notConnected": "Nicht Verbunden"
+    },
+    "button": {
+      "connect": "Verbinden",
+      "disconnect": "Trennen",
+      "configure": "Konfigurieren"
+    }
+  },
+  "qrCode": {
+    "title": "Bewertungs-QR-Code",
+    "description": "Generieren und laden Sie QR-Codes für Ihre Bewertungsanfragen herunter",
+    "downloadButton": "QR-Code Herunterladen",
+    "instructions": "Kunden können diesen QR-Code scannen, um eine Bewertung für Ihr Unternehmen abzugeben.",
+    "format": "Download-Format",
+    "size": "QR-Code-Größe"
+  }
+}

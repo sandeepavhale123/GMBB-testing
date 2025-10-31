@@ -1,0 +1,39 @@
+{
+  "title": "Settings",
+  "tabs": {
+    "integration": "Integration",
+    "qrCode": "QR Code"
+  },
+  "integration": {
+    "title": "Channel Integration",
+    "description": "Connect and manage your review platform integrations",
+    "channels": {
+      "google": "Google Business Profile",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Yellow Pages",
+      "opentable": "OpenTable"
+    },
+    "status": {
+      "connected": "Connected",
+      "notConnected": "Not Connected"
+    },
+    "button": {
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "configure": "Configure"
+    }
+  },
+  "qrCode": {
+    "title": "Review QR Code",
+    "description": "Generate and download QR codes for your review requests",
+    "downloadButton": "Download QR Code",
+    "instructions": "Customers can scan this QR code to leave a review for your business.",
+    "format": "Download Format",
+    "size": "QR Code Size"
+  }
+}

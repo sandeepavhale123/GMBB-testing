@@ -1,0 +1,39 @@
+{
+  "title": "Configuración",
+  "tabs": {
+    "integration": "Integración",
+    "qrCode": "Código QR"
+  },
+  "integration": {
+    "title": "Integración de Canales",
+    "description": "Conecta y gestiona tus integraciones de plataformas de reseñas",
+    "channels": {
+      "google": "Perfil de Negocio de Google",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Páginas Amarillas",
+      "opentable": "OpenTable"
+    },
+    "status": {
+      "connected": "Conectado",
+      "notConnected": "No Conectado"
+    },
+    "button": {
+      "connect": "Conectar",
+      "disconnect": "Desconectar",
+      "configure": "Configurar"
+    }
+  },
+  "qrCode": {
+    "title": "Código QR de Reseñas",
+    "description": "Genera y descarga códigos QR para tus solicitudes de reseñas",
+    "downloadButton": "Descargar Código QR",
+    "instructions": "Los clientes pueden escanear este código QR para dejar una reseña de tu negocio.",
+    "format": "Formato de Descarga",
+    "size": "Tamaño del Código QR"
+  }
+}
