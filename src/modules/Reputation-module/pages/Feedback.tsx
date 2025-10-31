@@ -457,7 +457,6 @@ export const Feedback: React.FC = () => {
                   <TableHead>{t("table.customerName")}</TableHead>
                   <TableHead>{t("table.rating")}</TableHead>
                   <TableHead className="max-w-xs">{t("table.message")}</TableHead>
-                  <TableHead>{t("table.channel")}</TableHead>
                   <TableHead>{t("table.submittedDate")}</TableHead>
                   <TableHead>{t("table.status")}</TableHead>
                   <TableHead className="text-center">{t("table.actions")}</TableHead>
@@ -466,7 +465,7 @@ export const Feedback: React.FC = () => {
               <TableBody>
                 {paginatedData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-12">
+                    <TableCell colSpan={6} className="text-center py-12">
                       <div className="flex flex-col items-center gap-2">
                         <MessageCircle className="h-12 w-12 text-muted-foreground" />
                         <p className="text-muted-foreground">{t("empty.title")}</p>
@@ -490,7 +489,6 @@ export const Feedback: React.FC = () => {
                       <TableCell className="max-w-xs">
                         <p className="truncate">{feedback.message}</p>
                       </TableCell>
-                      <TableCell className="capitalize">{feedback.channel}</TableCell>
                       <TableCell>{feedback.submittedDate}</TableCell>
                       <TableCell>
                         <Badge
