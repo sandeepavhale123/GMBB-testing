@@ -309,12 +309,13 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
             "p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
             "absolute inset-0 transition-transform duration-300 ease-in-out",
             showPreview ? "translate-x-0" : "translate-x-full",
-            "md:relative md:translate-x-0"
+            "md:relative md:translate-x-0",
+            "flex flex-col items-center gap-4"
           )}>
             {/* Mobile back button */}
             <button
               onClick={() => setShowPreview(false)}
-              className="md:hidden absolute top-4 left-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
+              className="md:hidden self-start p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -322,7 +323,7 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
             {/* Desktop close button */}
             <button
               onClick={onClose}
-              className="hidden md:block absolute top-4 right-4 z-10 p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
+              className="hidden md:block self-end p-1.5 rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
