@@ -72,9 +72,9 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
             <div className="w-full lg:w-[30%] flex-shrink-0">
               <div
                 ref={simpleQrRef}
-                className="bg-white p-6 rounded-lg border-2 border-border shadow-sm aspect-square flex items-center justify-center"
+                className="bg-white p-6 rounded-lg border-2 border-border shadow-sm  flex items-center justify-center"
               >
-                <QrCode className="w-full h-full max-w-[200px] max-h-[200px] text-primary/30" />
+                <QrCode className="w-full h-full max-w-[100px] max-h-[100px] text-primary/30" />
               </div>
             </div>
 
@@ -111,22 +111,14 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
             <div className="w-full lg:w-[30%] flex-shrink-0">
               <div
                 ref={posterQrRef}
-                className="bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 p-6 rounded-lg border-2 border-border shadow-sm aspect-square flex flex-col items-center justify-center gap-3"
+                className="rounded-lg border-2 border-border shadow-sm  flex flex-col items-center justify-center gap-3"
               >
                 {/* Mock Poster Design */}
-                <div className="text-center">
-                  <p className="text-xs font-semibold text-primary/60 mb-2">
-                    ⭐ Leave a Review ⭐
-                  </p>
-                </div>
                 <div className="bg-white p-4 rounded-lg">
-                  <QrCode className="w-24 h-24 text-primary/40" />
+                  {/* <QrCode className="w-24 h-24 max-w-[100px] max-h-[100px] text-primary/40" /> */}
+                  <img src="/lovable-uploads/review-stand.png" alt="" className="w-auto h-[150px] max-w-auto max-h-[150px] rounded-sm" />
                 </div>
-                <div className="text-center">
-                  <p className="text-[10px] text-muted-foreground">
-                    Scan to share your experience
-                  </p>
-                </div>
+                
               </div>
             </div>
 

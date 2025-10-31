@@ -17,6 +17,18 @@ export const Setting: React.FC = () => {
   // Mock channel data - replace with actual API integration later
   const channels = [
     {
+      id: "twilio",
+      name: t("integration.channels.twilio"),
+      icon: "/lovable-uploads/social-icons/twilio.png",
+      status: "not-connected" as const,
+    },
+    {
+      id: "mailgun",
+      name: t("integration.channels.mailgun"),
+      icon: "/lovable-uploads/social-icons/mailgun.png",
+      status: "not-connected" as const,
+    },
+    {
       id: "google",
       name: t("integration.channels.google"),
       icon: "/lovable-uploads/social-icons/google.png",
@@ -70,18 +82,7 @@ export const Setting: React.FC = () => {
       icon: "/lovable-uploads/social-icons/opentable.png",
       status: "not-connected" as const,
     },
-    {
-      id: "twilio",
-      name: t("integration.channels.twilio"),
-      icon: "/lovable-uploads/social-icons/twilio.png",
-      status: "not-connected" as const,
-    },
-    {
-      id: "mailgun",
-      name: t("integration.channels.mailgun"),
-      icon: "/lovable-uploads/social-icons/mailgun.png",
-      status: "not-connected" as const,
-    },
+    
   ];
 
   const handleConnect = (channelName: string) => {
