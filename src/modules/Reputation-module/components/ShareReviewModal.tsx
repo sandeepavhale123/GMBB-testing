@@ -145,8 +145,8 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95vw] sm:max-w-[56rem] max-h-[90vh] overflow-hidden p-0">
-        <div className="relative h-full max-h-[85vh] overflow-hidden md:grid md:grid-cols-[40%_60%]">
+      <DialogContent className="max-w-[95vw] sm:max-w-[56rem] h-[90vh] md:h-auto md:max-h-[90vh] overflow-hidden p-0">
+        <div className="relative h-full overflow-hidden md:grid md:grid-cols-[40%_60%]">
           {/* Left Panel - Form Controls */}
           <div className={cn(
             "p-6 pr-6 overflow-y-auto",
