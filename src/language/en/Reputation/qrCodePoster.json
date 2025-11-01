@@ -1,0 +1,49 @@
+{
+  "title": "Customize QR Code Poster",
+  "description": "Create a branded poster for your business location",
+  "leftPanel": {
+    "logo": {
+      "title": "Upload Logo",
+      "dragDrop": "Drag and drop your logo here",
+      "browse": "Browse Files",
+      "remove": "Remove Logo",
+      "position": "Logo Position"
+    },
+    "business": {
+      "title": "Business Information",
+      "nameLabel": "Business Name",
+      "namePlaceholder": "Enter your business name",
+      "keywordsLabel": "Tagline / Call to Action",
+      "keywordsPlaceholder": "e.g., Scan to leave us a review!"
+    },
+    "colors": {
+      "title": "Color Scheme",
+      "background": "Background Color",
+      "text": "Text Color",
+      "accent": "Accent Color",
+      "presets": "Color Presets"
+    },
+    "qrCode": {
+      "title": "QR Code Settings",
+      "urlLabel": "Review Link URL",
+      "sizeLabel": "QR Code Size",
+      "showScanText": "Show 'Scan Me' text"
+    },
+    "actions": {
+      "download": "Download Poster",
+      "reset": "Reset to Default",
+      "save": "Save Template"
+    }
+  },
+  "rightPanel": {
+    "title": "Preview",
+    "subtitle": "18\" × 24\" Standard Poster Size"
+  },
+  "toast": {
+    "logoTooLarge": "Logo file is too large. Maximum size is 5MB",
+    "invalidFormat": "Invalid file format. Please upload PNG, JPG, or SVG",
+    "downloadSuccess": "Poster downloaded successfully!",
+    "downloadError": "Failed to download poster",
+    "resetSuccess": "Reset to default settings"
+  }
+}

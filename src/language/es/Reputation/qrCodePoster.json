@@ -1,0 +1,49 @@
+{
+  "title": "Personalizar Póster Código QR",
+  "description": "Crea un póster de marca para tu negocio",
+  "leftPanel": {
+    "logo": {
+      "title": "Subir Logo",
+      "dragDrop": "Arrastra y suelta tu logo aquí",
+      "browse": "Examinar Archivos",
+      "remove": "Eliminar Logo",
+      "position": "Posición del Logo"
+    },
+    "business": {
+      "title": "Información del Negocio",
+      "nameLabel": "Nombre del Negocio",
+      "namePlaceholder": "Ingresa el nombre de tu negocio",
+      "keywordsLabel": "Eslogan / Llamada a la Acción",
+      "keywordsPlaceholder": "ej: ¡Escanea para dejarnos una reseña!"
+    },
+    "colors": {
+      "title": "Esquema de Colores",
+      "background": "Color de Fondo",
+      "text": "Color de Texto",
+      "accent": "Color de Acento",
+      "presets": "Preajustes de Colores"
+    },
+    "qrCode": {
+      "title": "Configuración del Código QR",
+      "urlLabel": "URL del Enlace de Reseñas",
+      "sizeLabel": "Tamaño del Código QR",
+      "showScanText": "Mostrar texto 'Escanéame'"
+    },
+    "actions": {
+      "download": "Descargar Póster",
+      "reset": "Restablecer Predeterminado",
+      "save": "Guardar Plantilla"
+    }
+  },
+  "rightPanel": {
+    "title": "Vista Previa",
+    "subtitle": "Tamaño de Póster Estándar 18\" × 24\""
+  },
+  "toast": {
+    "logoTooLarge": "El archivo del logo es demasiado grande. Tamaño máximo: 5 MB",
+    "invalidFormat": "Formato de archivo inválido. Por favor sube PNG, JPG o SVG",
+    "downloadSuccess": "¡Póster descargado exitosamente!",
+    "downloadError": "Error al descargar el póster",
+    "resetSuccess": "Restablecido a configuración predeterminada"
+  }
+}

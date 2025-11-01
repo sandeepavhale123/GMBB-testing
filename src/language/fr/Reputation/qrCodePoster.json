@@ -1,0 +1,49 @@
+{
+  "title": "Personnaliser l'Affiche QR Code",
+  "description": "Créez une affiche de marque pour votre établissement",
+  "leftPanel": {
+    "logo": {
+      "title": "Télécharger le Logo",
+      "dragDrop": "Glissez-déposez votre logo ici",
+      "browse": "Parcourir les Fichiers",
+      "remove": "Supprimer le Logo",
+      "position": "Position du Logo"
+    },
+    "business": {
+      "title": "Informations de l'Entreprise",
+      "nameLabel": "Nom de l'Entreprise",
+      "namePlaceholder": "Entrez le nom de votre entreprise",
+      "keywordsLabel": "Slogan / Appel à l'Action",
+      "keywordsPlaceholder": "ex: Scannez pour nous laisser un avis!"
+    },
+    "colors": {
+      "title": "Palette de Couleurs",
+      "background": "Couleur de Fond",
+      "text": "Couleur du Texte",
+      "accent": "Couleur d'Accent",
+      "presets": "Préréglages de Couleurs"
+    },
+    "qrCode": {
+      "title": "Paramètres du QR Code",
+      "urlLabel": "URL du Lien d'Avis",
+      "sizeLabel": "Taille du QR Code",
+      "showScanText": "Afficher le texte 'Scannez-moi'"
+    },
+    "actions": {
+      "download": "Télécharger l'Affiche",
+      "reset": "Réinitialiser par Défaut",
+      "save": "Sauvegarder le Modèle"
+    }
+  },
+  "rightPanel": {
+    "title": "Aperçu",
+    "subtitle": "Taille d'Affiche Standard 18\" × 24\""
+  },
+  "toast": {
+    "logoTooLarge": "Le fichier du logo est trop volumineux. Taille maximale: 5 Mo",
+    "invalidFormat": "Format de fichier invalide. Veuillez télécharger PNG, JPG ou SVG",
+    "downloadSuccess": "Affiche téléchargée avec succès!",
+    "downloadError": "Échec du téléchargement de l'affiche",
+    "resetSuccess": "Réinitialisé aux paramètres par défaut"
+  }
+}

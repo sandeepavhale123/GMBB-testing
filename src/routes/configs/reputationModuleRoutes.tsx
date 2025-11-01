@@ -10,6 +10,7 @@ import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate
 import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
 import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeedbackForm";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
+import { QRCodePoster } from "@/modules/Reputation-module/pages/QRCodePoster";
 import type { RouteConfig } from "../routeConfig";
 
 export const reputationModuleRoutes: RouteConfig[] = [
@@ -66,6 +67,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "setting",
         element: <Setting />,
+      },
+      {
+        path: "qr-code-poster",
+        element: <QRCodePoster />,
       },
     ],
   },

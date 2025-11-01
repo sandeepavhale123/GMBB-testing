@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, QrCode, Palette } from "lucide-react";
@@ -26,6 +27,7 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
   simpleCard,
   posterCard,
 }) => {
+  const navigate = useNavigate();
   const simpleQrRef = useRef<HTMLDivElement>(null);
   const posterQrRef = useRef<HTMLDivElement>(null);
 
@@ -51,9 +53,7 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
   };
 
   const handleCustomizePoster = () => {
-    toast.info("Poster customization feature coming soon!", {
-      description: "You'll be able to add your logo, customize colors, and add custom text.",
-    });
+    navigate("/module/reputation/qr-code-poster");
   };
 
   return (
