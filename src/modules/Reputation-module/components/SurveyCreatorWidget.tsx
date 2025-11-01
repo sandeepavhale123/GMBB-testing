@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import { ICreatorOptions } from "survey-creator-core";
-import "survey-core/survey.css";
+import "survey-core/survey-core.css";
 import "survey-creator-core/survey-creator-core.css";
 
 interface SurveyCreatorWidgetProps {
@@ -15,7 +15,7 @@ export const SurveyCreatorWidget: React.FC<SurveyCreatorWidgetProps> = ({
   onSave,
   readOnly = false,
 }) => {
-  const creatorRef = useRef<SurveyCreator | null>(null);
+  const [creator, setCreator] = useState<SurveyCreator | null>(null);
 
   useEffect(() => {
     const creatorOptions: ICreatorOptions = {
@@ -29,41 +29,39 @@ export const SurveyCreatorWidget: React.FC<SurveyCreatorWidgetProps> = ({
       readOnly: readOnly,
     };
 
-    const creator = new SurveyCreator(creatorOptions);
-    
+    const instance = new SurveyCreator(creatorOptions);
+
     // Load initial JSON if provided
     if (initialJSON) {
-      creator.JSON = initialJSON;
+      instance.JSON = initialJSON;
     } else {
       // Default empty survey
-      creator.JSON = {
+      instance.JSON = {
         pages: [
-          {
-            name: "page1",
-            elements: [],
-          },
+          { name: "page1", elements: [] },
         ],
       };
     }
 
     // Listen for changes
-    creator.onModified.add(() => {
+    instance.onModified.add(() => {
       if (!readOnly) {
-        onSave(creator.JSON);
+        onSave(instance.JSON);
       }
     });
 
-    creatorRef.current = creator;
+    setCreator(instance);
 
     return () => {
-      creator.dispose();
+      instance.dispose();
+      setCreator(null);
     };
   }, [initialJSON, onSave, readOnly]);
 
   return (
     <div className="survey-creator-container">
-      {creatorRef.current && (
-        <SurveyCreatorComponent creator={creatorRef.current} />
+      {creator && (
+        <SurveyCreatorComponent creator={creator} />
       )}
     </div>
   );
