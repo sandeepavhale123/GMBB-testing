@@ -4,7 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Download, X, RotateCcw } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Download, Upload, X, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import * as htmlToImage from "html-to-image";
 import jsPDF from "jspdf";
@@ -21,20 +23,27 @@ const DEFAULT_SETTINGS = {
   showScanText: true,
 };
 
+const COLOR_PRESETS = [
+  { name: "Professional", bg: "#FFFFFF", text: "#1F2937", accent: "#3B82F6" },
+  { name: "Modern", bg: "#F9FAFB", text: "#111827", accent: "#8B5CF6" },
+  { name: "Vibrant", bg: "#FEF3C7", text: "#92400E", accent: "#F59E0B" },
+  { name: "Minimal", bg: "#F3F4F6", text: "#374151", accent: "#6B7280" },
+];
+
 export const QRCodePoster: React.FC = () => {
   const { t } = useTranslation();
   const posterRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [logo, setLogo] = useState<string | null>(null);
-  const [qrCodeUrl, setQrCodeUrl] = useState(DEFAULT_SETTINGS.qrCodeUrl);
+  const [businessName, setBusinessName] = useState(DEFAULT_SETTINGS.businessName);
+  const [keywords, setKeywords] = useState(DEFAULT_SETTINGS.keywords);
   const [backgroundColor, setBackgroundColor] = useState(DEFAULT_SETTINGS.backgroundColor);
-  const [fontColor, setFontColor] = useState("#000000");
-  const [customColor, setCustomColor] = useState("#000000");
-  const [title, setTitle] = useState("");
-  const [posterText, setPosterText] = useState(DEFAULT_SETTINGS.keywords);
-  const [prominentWords, setProminentWords] = useState<string[]>([]);
-  const [newWord, setNewWord] = useState("");
+  const [textColor, setTextColor] = useState(DEFAULT_SETTINGS.textColor);
+  const [accentColor, setAccentColor] = useState(DEFAULT_SETTINGS.accentColor);
+  const [qrCodeUrl, setQrCodeUrl] = useState(DEFAULT_SETTINGS.qrCodeUrl);
+  const [qrCodeSize, setQrCodeSize] = useState([DEFAULT_SETTINGS.qrCodeSize]);
+  const [showScanText, setShowScanText] = useState(DEFAULT_SETTINGS.showScanText);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -107,44 +116,25 @@ export const QRCodePoster: React.FC = () => {
 
   const handleReset = () => {
     setLogo(null);
-    setPosterText(DEFAULT_SETTINGS.keywords);
+    setBusinessName(DEFAULT_SETTINGS.businessName);
+    setKeywords(DEFAULT_SETTINGS.keywords);
     setBackgroundColor(DEFAULT_SETTINGS.backgroundColor);
-    setFontColor("#000000");
-    setCustomColor("#000000");
-    setTitle("");
+    setTextColor(DEFAULT_SETTINGS.textColor);
+    setAccentColor(DEFAULT_SETTINGS.accentColor);
     setQrCodeUrl(DEFAULT_SETTINGS.qrCodeUrl);
-    setProminentWords([]);
-    setNewWord("");
+    setQrCodeSize([DEFAULT_SETTINGS.qrCodeSize]);
+    setShowScanText(DEFAULT_SETTINGS.showScanText);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
     toast.success(t("Reputation.qrCodePoster.toast.resetSuccess"));
   };
 
-  const handleAddWord = () => {
-    if (newWord.trim() && !prominentWords.includes(newWord.trim())) {
-      setProminentWords([...prominentWords, newWord.trim()]);
-      setNewWord("");
-    }
+  const applyPreset = (preset: typeof COLOR_PRESETS[0]) => {
+    setBackgroundColor(preset.bg);
+    setTextColor(preset.text);
+    setAccentColor(preset.accent);
   };
-
-  const handleRemoveWord = (word: string) => {
-    setProminentWords(prominentWords.filter(w => w !== word));
-  };
-
-  const FONT_COLORS = [
-    "#000000", // Black
-    "#FFFFFF", // White
-    "#EF4444", // Red
-    "#3B82F6", // Blue
-    "#10B981", // Green
-    "#F59E0B", // Amber
-    "#8B5CF6", // Purple
-    "#EC4899", // Pink
-    "#06B6D4", // Cyan
-    "#84CC16", // Lime
-    "custom", // Custom option
-  ];
 
   return (
     <div className="space-y-6">
@@ -162,224 +152,234 @@ export const QRCodePoster: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Left Panel - Customization Options (40%) */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Add Logo & Review URL */}
+          {/* Logo Upload */}
           <Card>
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">
-                Add Logo & Review URL
+                {t("Reputation.qrCodePoster.leftPanel.logo.title")}
+              </h3>
+
+              <div className="space-y-3">
+                {logo ? (
+                  <div className="relative">
+                    <img
+                      src={logo}
+                      alt="Logo preview"
+                      className="w-full h-32 object-contain border-2 border-border rounded-lg p-2 bg-muted"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-2 right-2"
+                      onClick={handleRemoveLogo}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div
+                    className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      {t("Reputation.qrCodePoster.leftPanel.logo.dragDrop")}
+                    </p>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      {t("Reputation.qrCodePoster.leftPanel.logo.browse")}
+                    </Button>
+                  </div>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/svg+xml"
+                  className="hidden"
+                  onChange={handleLogoUpload}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Business Information */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                {t("Reputation.qrCodePoster.leftPanel.business.title")}
               </h3>
 
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="qrCodeUrl" className="text-sm">
-                    Review URL <span className="text-red-500">*</span>
+                  <Label htmlFor="businessName">
+                    {t("Reputation.qrCodePoster.leftPanel.business.nameLabel")}
+                  </Label>
+                  <Input
+                    id="businessName"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    maxLength={50}
+                    placeholder={t("Reputation.qrCodePoster.leftPanel.business.namePlaceholder")}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="keywords">
+                    {t("Reputation.qrCodePoster.leftPanel.business.keywordsLabel")}
+                  </Label>
+                  <Input
+                    id="keywords"
+                    value={keywords}
+                    onChange={(e) => setKeywords(e.target.value)}
+                    maxLength={100}
+                    placeholder={t("Reputation.qrCodePoster.leftPanel.business.keywordsPlaceholder")}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Color Customization */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                {t("Reputation.qrCodePoster.leftPanel.colors.title")}
+              </h3>
+
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="backgroundColor">
+                    {t("Reputation.qrCodePoster.leftPanel.colors.background")}
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="backgroundColor"
+                      type="color"
+                      value={backgroundColor}
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={backgroundColor}
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="textColor">
+                    {t("Reputation.qrCodePoster.leftPanel.colors.text")}
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="textColor"
+                      type="color"
+                      value={textColor}
+                      onChange={(e) => setTextColor(e.target.value)}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={textColor}
+                      onChange={(e) => setTextColor(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="accentColor">
+                    {t("Reputation.qrCodePoster.leftPanel.colors.accent")}
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="accentColor"
+                      type="color"
+                      value={accentColor}
+                      onChange={(e) => setAccentColor(e.target.value)}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={accentColor}
+                      onChange={(e) => setAccentColor(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label>{t("Reputation.qrCodePoster.leftPanel.colors.presets")}</Label>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    {COLOR_PRESETS.map((preset) => (
+                      <Button
+                        key={preset.name}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => applyPreset(preset)}
+                        className="justify-start"
+                      >
+                        <div className="flex gap-1 mr-2">
+                          <div
+                            className="w-4 h-4 rounded border"
+                            style={{ backgroundColor: preset.bg }}
+                          />
+                          <div
+                            className="w-4 h-4 rounded border"
+                            style={{ backgroundColor: preset.accent }}
+                          />
+                        </div>
+                        {preset.name}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* QR Code Settings */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                {t("Reputation.qrCodePoster.leftPanel.qrCode.title")}
+              </h3>
+
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="qrCodeUrl">
+                    {t("Reputation.qrCodePoster.leftPanel.qrCode.urlLabel")}
                   </Label>
                   <Input
                     id="qrCodeUrl"
                     value={qrCodeUrl}
                     onChange={(e) => setQrCodeUrl(e.target.value)}
-                    placeholder="Review URL"
-                    className="mt-1"
                   />
                 </div>
 
                 <div>
-                  <Label className="text-sm">Upload Logo</Label>
-                  <div className="mt-1">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/png,image/jpeg,image/jpg,image/svg+xml"
-                      onChange={handleLogoUpload}
-                      className="w-full text-sm"
-                    />
-                  </div>
-                  {logo && (
-                    <div className="relative mt-2">
-                      <img
-                        src={logo}
-                        alt="Logo preview"
-                        className="w-full h-24 object-contain border border-border rounded p-2 bg-muted"
-                      />
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-1 right-1 h-6 w-6"
-                        onClick={handleRemoveLogo}
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Title Field */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Poster Title
-              </h3>
-
-              <div>
-                <Label htmlFor="title" className="text-sm">
-                  Title
-                </Label>
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter poster title"
-                  className="mt-1"
-                  maxLength={100}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Select Font Color */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Select Font Color
-              </h3>
-
-              <div className="space-y-2">
-                <Label className="text-sm">Select color</Label>
-                <div className="flex gap-2 flex-wrap items-center">
-                  {FONT_COLORS.map((color) => (
-                    color === "custom" ? (
-                      <div key="custom" className="relative">
-                        <input
-                          type="color"
-                          value={customColor}
-                          onChange={(e) => {
-                            setCustomColor(e.target.value);
-                            setFontColor(e.target.value);
-                          }}
-                          className={`w-10 h-10 rounded-full border-2 cursor-pointer ${
-                            fontColor === customColor && !FONT_COLORS.slice(0, -1).includes(fontColor)
-                              ? "border-foreground scale-110"
-                              : "border-border hover:scale-105"
-                          }`}
-                          title="Custom color"
-                        />
-                      </div>
-                    ) : (
-                      <button
-                        key={color}
-                        onClick={() => setFontColor(color)}
-                        className={`w-10 h-10 rounded-full border-2 transition-all ${
-                          fontColor === color
-                            ? "border-foreground scale-110"
-                            : "border-border hover:scale-105"
-                        }`}
-                        style={{ backgroundColor: color }}
-                        aria-label={`Select ${color} font color`}
-                      />
-                    )
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Select Poster Color for Background */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Select Poster Color for Background
-              </h3>
-
-              <div className="space-y-2">
-                <Label className="text-sm">Background Color</Label>
-                <Input
-                  type="color"
-                  value={backgroundColor}
-                  onChange={(e) => setBackgroundColor(e.target.value)}
-                  className="w-full h-12"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Customize Poster Text */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Customize Poster Text
-              </h3>
-
-              <div>
-                <Label htmlFor="posterText" className="text-sm">
-                  Customize Poster Text
-                </Label>
-                <Input
-                  id="posterText"
-                  value={posterText}
-                  onChange={(e) => setPosterText(e.target.value)}
-                  className="mt-1"
-                  maxLength={200}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Suggest prominent words */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Suggest prominent words
-              </h3>
-
-              <div className="space-y-3">
-                <div className="flex gap-2">
-                  <div className="flex-1">
-                    <Label htmlFor="newWord" className="text-sm">
-                      Enter Word
-                    </Label>
-                    <Input
-                      id="newWord"
-                      value={newWord}
-                      onChange={(e) => setNewWord(e.target.value)}
-                      placeholder="Enter Word"
-                      className="mt-1"
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          handleAddWord();
-                        }
-                      }}
-                    />
-                  </div>
-                  <Button
-                    onClick={handleAddWord}
-                    className="mt-6"
-                    disabled={!newWord.trim()}
-                  >
-                    Add word
-                  </Button>
+                  <Label htmlFor="qrCodeSize">
+                    {t("Reputation.qrCodePoster.leftPanel.qrCode.sizeLabel")}: {qrCodeSize[0]}px
+                  </Label>
+                  <Slider
+                    id="qrCodeSize"
+                    value={qrCodeSize}
+                    onValueChange={setQrCodeSize}
+                    min={150}
+                    max={300}
+                    step={10}
+                    className="mt-2"
+                  />
                 </div>
 
-                {prominentWords.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {prominentWords.map((word) => (
-                      <div
-                        key={word}
-                        className="flex items-center gap-1 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm"
-                      >
-                        <span>{word}</span>
-                        <button
-                          onClick={() => handleRemoveWord(word)}
-                          className="hover:text-destructive"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="showScanText">
+                    {t("Reputation.qrCodePoster.leftPanel.qrCode.showScanText")}
+                  </Label>
+                  <Switch
+                    id="showScanText"
+                    checked={showScanText}
+                    onCheckedChange={setShowScanText}
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -428,6 +428,7 @@ export const QRCodePoster: React.FC = () => {
                   className="w-full h-full flex flex-col items-center justify-center p-12 space-y-8"
                   style={{
                     backgroundColor,
+                    color: textColor,
                   }}
                 >
                   {/* Logo */}
@@ -441,53 +442,43 @@ export const QRCodePoster: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Title */}
-                  {title && (
-                    <h1 
-                      className="text-4xl font-bold text-center px-4"
-                      style={{ color: fontColor }}
-                    >
-                      {title}
-                    </h1>
-                  )}
+                  {/* Business Name */}
+                  <h2
+                    className="text-4xl font-bold text-center"
+                    style={{ color: textColor }}
+                  >
+                    {businessName}
+                  </h2>
 
                   {/* QR Code */}
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <QRCodeSVG
                       value={qrCodeUrl}
-                      size={200}
+                      size={qrCodeSize[0]}
                       level="H"
                       includeMargin={false}
                     />
                   </div>
 
-                  {/* Poster Text */}
-                  {posterText && (
-                    <p 
-                      className="text-2xl font-semibold text-center px-4"
-                      style={{ color: fontColor }}
-                    >
-                      {posterText}
+                  {/* Scan Text */}
+                  {showScanText && (
+                    <p className="text-xl font-medium text-center" style={{ color: textColor }}>
+                      {keywords}
                     </p>
                   )}
 
-                  {/* Prominent Words */}
-                  {prominentWords.length > 0 && (
-                    <div className="flex flex-wrap gap-3 justify-center">
-                      {prominentWords.map((word) => (
-                        <span
-                          key={word}
-                          className="text-lg font-bold px-4 py-2 rounded-lg border-2"
-                          style={{ 
-                            borderColor: fontColor,
-                            color: fontColor
-                          }}
-                        >
-                          {word}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {/* Decorative Stars */}
+                  <div className="flex gap-2">
+                    {[...Array(5)].map((_, i) => (
+                      <span
+                        key={i}
+                        className="text-3xl"
+                        style={{ color: accentColor }}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>
