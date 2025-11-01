@@ -31,7 +31,7 @@ const COLOR_PRESETS = [
 ];
 
 export const QRCodePoster: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("Reputation/qrCodePoster");
   const posterRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -51,13 +51,13 @@ export const QRCodePoster: React.FC = () => {
 
     // Validate file size (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error(t("Reputation.qrCodePoster.toast.logoTooLarge"));
+      toast.error(t("toast.logoTooLarge"));
       return;
     }
 
     // Validate file type
     if (!["image/png", "image/jpeg", "image/jpg", "image/svg+xml"].includes(file.type)) {
-      toast.error(t("Reputation.qrCodePoster.toast.invalidFormat"));
+      toast.error(t("toast.invalidFormat"));
       return;
     }
 
@@ -107,10 +107,10 @@ export const QRCodePoster: React.FC = () => {
         pdf.save(`qr-poster-${Date.now()}.pdf`);
       }
 
-      toast.success(t("Reputation.qrCodePoster.toast.downloadSuccess"));
+      toast.success(t("toast.downloadSuccess"));
     } catch (error) {
       console.error("Download error:", error);
-      toast.error(t("Reputation.qrCodePoster.toast.downloadError"));
+      toast.error(t("toast.downloadError"));
     }
   };
 
@@ -127,7 +127,7 @@ export const QRCodePoster: React.FC = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    toast.success(t("Reputation.qrCodePoster.toast.resetSuccess"));
+    toast.success(t("toast.resetSuccess"));
   };
 
   const applyPreset = (preset: typeof COLOR_PRESETS[0]) => {
@@ -141,10 +141,10 @@ export const QRCodePoster: React.FC = () => {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">
-          {t("Reputation.qrCodePoster.title")}
+          {t("title")}
         </h1>
         <p className="text-muted-foreground mt-2">
-          {t("Reputation.qrCodePoster.description")}
+          {t("description")}
         </p>
       </div>
 
@@ -156,7 +156,7 @@ export const QRCodePoster: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">
-                {t("Reputation.qrCodePoster.leftPanel.logo.title")}
+                {t("leftPanel.logo.title")}
               </h3>
 
               <div className="space-y-3">
@@ -183,10 +183,10 @@ export const QRCodePoster: React.FC = () => {
                   >
                     <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">
-                      {t("Reputation.qrCodePoster.leftPanel.logo.dragDrop")}
+                      {t("leftPanel.logo.dragDrop")}
                     </p>
                     <Button variant="outline" size="sm" className="mt-2">
-                      {t("Reputation.qrCodePoster.leftPanel.logo.browse")}
+                      {t("leftPanel.logo.browse")}
                     </Button>
                   </div>
                 )}
@@ -205,33 +205,33 @@ export const QRCodePoster: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">
-                {t("Reputation.qrCodePoster.leftPanel.business.title")}
+                {t("leftPanel.business.title")}
               </h3>
 
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="businessName">
-                    {t("Reputation.qrCodePoster.leftPanel.business.nameLabel")}
+                    {t("leftPanel.business.nameLabel")}
                   </Label>
                   <Input
                     id="businessName"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     maxLength={50}
-                    placeholder={t("Reputation.qrCodePoster.leftPanel.business.namePlaceholder")}
+                    placeholder={t("leftPanel.business.namePlaceholder")}
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="keywords">
-                    {t("Reputation.qrCodePoster.leftPanel.business.keywordsLabel")}
+                    {t("leftPanel.business.keywordsLabel")}
                   </Label>
                   <Input
                     id="keywords"
                     value={keywords}
                     onChange={(e) => setKeywords(e.target.value)}
                     maxLength={100}
-                    placeholder={t("Reputation.qrCodePoster.leftPanel.business.keywordsPlaceholder")}
+                    placeholder={t("leftPanel.business.keywordsPlaceholder")}
                   />
                 </div>
               </div>
@@ -242,13 +242,13 @@ export const QRCodePoster: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">
-                {t("Reputation.qrCodePoster.leftPanel.colors.title")}
+                {t("leftPanel.colors.title")}
               </h3>
 
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="backgroundColor">
-                    {t("Reputation.qrCodePoster.leftPanel.colors.background")}
+                    {t("leftPanel.colors.background")}
                   </Label>
                   <div className="flex gap-2">
                     <Input
@@ -268,7 +268,7 @@ export const QRCodePoster: React.FC = () => {
 
                 <div>
                   <Label htmlFor="textColor">
-                    {t("Reputation.qrCodePoster.leftPanel.colors.text")}
+                    {t("leftPanel.colors.text")}
                   </Label>
                   <div className="flex gap-2">
                     <Input
@@ -288,7 +288,7 @@ export const QRCodePoster: React.FC = () => {
 
                 <div>
                   <Label htmlFor="accentColor">
-                    {t("Reputation.qrCodePoster.leftPanel.colors.accent")}
+                    {t("leftPanel.colors.accent")}
                   </Label>
                   <div className="flex gap-2">
                     <Input
@@ -307,7 +307,7 @@ export const QRCodePoster: React.FC = () => {
                 </div>
 
                 <div>
-                  <Label>{t("Reputation.qrCodePoster.leftPanel.colors.presets")}</Label>
+                  <Label>{t("leftPanel.colors.presets")}</Label>
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     {COLOR_PRESETS.map((preset) => (
                       <Button
@@ -340,13 +340,13 @@ export const QRCodePoster: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">
-                {t("Reputation.qrCodePoster.leftPanel.qrCode.title")}
+                {t("leftPanel.qrCode.title")}
               </h3>
 
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="qrCodeUrl">
-                    {t("Reputation.qrCodePoster.leftPanel.qrCode.urlLabel")}
+                    {t("leftPanel.qrCode.urlLabel")}
                   </Label>
                   <Input
                     id="qrCodeUrl"
@@ -357,7 +357,7 @@ export const QRCodePoster: React.FC = () => {
 
                 <div>
                   <Label htmlFor="qrCodeSize">
-                    {t("Reputation.qrCodePoster.leftPanel.qrCode.sizeLabel")}: {qrCodeSize[0]}px
+                    {t("leftPanel.qrCode.sizeLabel")}: {qrCodeSize[0]}px
                   </Label>
                   <Slider
                     id="qrCodeSize"
@@ -372,7 +372,7 @@ export const QRCodePoster: React.FC = () => {
 
                 <div className="flex items-center justify-between">
                   <Label htmlFor="showScanText">
-                    {t("Reputation.qrCodePoster.leftPanel.qrCode.showScanText")}
+                    {t("leftPanel.qrCode.showScanText")}
                   </Label>
                   <Switch
                     id="showScanText"
@@ -389,7 +389,7 @@ export const QRCodePoster: React.FC = () => {
             <CardContent className="p-6 space-y-3">
               <Button onClick={() => handleDownload("png")} className="w-full" size="lg">
                 <Download className="w-4 h-4 mr-2" />
-                {t("Reputation.qrCodePoster.leftPanel.actions.download")} (PNG)
+                {t("leftPanel.actions.download")} (PNG)
               </Button>
               <Button
                 onClick={() => handleDownload("pdf")}
@@ -398,11 +398,11 @@ export const QRCodePoster: React.FC = () => {
                 size="lg"
               >
                 <Download className="w-4 h-4 mr-2" />
-                {t("Reputation.qrCodePoster.leftPanel.actions.download")} (PDF)
+                {t("leftPanel.actions.download")} (PDF)
               </Button>
               <Button onClick={handleReset} variant="outline" className="w-full">
                 <RotateCcw className="w-4 h-4 mr-2" />
-                {t("Reputation.qrCodePoster.leftPanel.actions.reset")}
+                {t("leftPanel.actions.reset")}
               </Button>
             </CardContent>
           </Card>
@@ -414,10 +414,10 @@ export const QRCodePoster: React.FC = () => {
             <CardContent className="p-6">
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-foreground">
-                  {t("Reputation.qrCodePoster.rightPanel.title")}
+                  {t("rightPanel.title")}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  {t("Reputation.qrCodePoster.rightPanel.subtitle")}
+                  {t("rightPanel.subtitle")}
                 </p>
               </div>
 
