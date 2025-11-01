@@ -15,9 +15,9 @@ import { QRCodeSVG } from "qrcode.react";
 const DEFAULT_SETTINGS = {
   businessName: "Your Business Name",
   keywords: "Scan to leave us a review!",
-  backgroundColor: "#FFFFFF",
-  textColor: "#1F2937",
-  accentColor: "#3B82F6",
+  backgroundColor: "#FEF3C7",
+  textColor: "#92400E",
+  accentColor: "#F59E0B",
   qrCodeUrl: window.location.origin + "/review-feedback",
   qrCodeSize: 200,
   showScanText: true,
