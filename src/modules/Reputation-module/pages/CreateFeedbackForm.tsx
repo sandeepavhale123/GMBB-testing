@@ -110,7 +110,7 @@ export const CreateFeedbackForm: React.FC = () => {
             Drag and drop elements to create your custom feedback form
           </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-visible">
           <div className="create-form-builder-wrapper min-h-[600px] rounded-lg overflow-visible">
             <ReactFormBuilder
               onPost={(data: any) => {
