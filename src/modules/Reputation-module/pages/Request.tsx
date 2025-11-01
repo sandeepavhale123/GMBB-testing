@@ -49,6 +49,13 @@ interface Contact {
   addedOn: string;
 }
 
+interface FeedbackForm {
+  id: string;
+  name: string;
+  createdAt: string;
+  formData?: any;
+}
+
 const mockCampaigns: Campaign[] = [
   {
     id: "1",
@@ -152,6 +159,24 @@ const mockContacts: Contact[] = [
   },
 ];
 
+const mockFeedbackForms: FeedbackForm[] = [
+  {
+    id: "1",
+    name: "Customer Satisfaction Survey",
+    createdAt: "2025-10-20",
+  },
+  {
+    id: "2",
+    name: "Service Quality Feedback",
+    createdAt: "2025-10-18",
+  },
+  {
+    id: "3",
+    name: "Product Feedback Form",
+    createdAt: "2025-10-15",
+  },
+];
+
 export const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
   const navigate = useNavigate();
@@ -168,12 +193,17 @@ export const Request: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
   const [sendModalOpen, setSendModalOpen] = useState(false);
   const [selectedContactForSend, setSelectedContactForSend] = useState<Contact | null>(null);
+  const [feedbackForms, setFeedbackForms] = useState<FeedbackForm[]>(mockFeedbackForms);
+  const [deleteFeedbackFormId, setDeleteFeedbackFormId] = useState<string | null>(null);
+  const [deleteFeedbackFormName, setDeleteFeedbackFormName] = useState<string>("");
 
   // Handle tab query parameter on mount
   useEffect(() => {
     const tabParam = searchParams.get("tab");
     if (tabParam === "templates") {
       setActiveTab("templates");
+    } else if (tabParam === "feedbackForms") {
+      setActiveTab("feedbackForms");
     }
   }, [searchParams]);
 
@@ -291,6 +321,27 @@ export const Request: React.FC = () => {
     setSendModalOpen(true);
   };
 
+  const handleDeleteFeedbackForm = () => {
+    if (deleteFeedbackFormId) {
+      setFeedbackForms((prev) => prev.filter((form) => form.id !== deleteFeedbackFormId));
+      toast.success(`Feedback form deleted: "${deleteFeedbackFormName}"`);
+      setDeleteFeedbackFormId(null);
+      setDeleteFeedbackFormName("");
+    }
+  };
+
+  const handleCreateFeedbackForm = () => {
+    navigate("/module/reputation/create-feedback-form");
+  };
+
+  const handleEditFeedbackForm = (formId: string) => {
+    navigate(`/module/reputation/edit-feedback-form/${formId}`);
+  };
+
+  const handleViewFeedbackForm = (formName: string) => {
+    toast.info(`Form preview coming soon for "${formName}"`);
+  };
+
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
     switch (status) {
       case "active":
@@ -307,6 +358,7 @@ export const Request: React.FC = () => {
     { value: "templates", label: t("tabs.templates") },
     { value: "contacts", label: t("tabs.contacts") },
     { value: "reviewLink", label: t("tabs.reviewLink"), isNavigation: true },
+    { value: "feedbackForms", label: t("tabs.feedbackForms") },
   ];
 
   const TabNavigation = () => (
@@ -519,101 +571,192 @@ export const Request: React.FC = () => {
     }
 
     // Contacts tab
+    if (activeTab === "contacts") {
+      return (
+        <div className="lg:p-5">
+          {/* Header with Toggle and Add Button */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 className="text-2xl font-bold text-foreground">Contacts</h2>
+            <div className="flex items-center gap-3">
+              {/* Toggle Buttons */}
+              <div className="inline-flex rounded-lg border border-border bg-background p-1">
+                <Button
+                  variant={contactViewType === "phone" ? "secondary" : "ghost"}
+                  size="sm"
+                  onClick={() => setContactViewType("phone")}
+                  className="rounded-md px-4"
+                >
+                  Contact No
+                </Button>
+                <Button
+                  variant={contactViewType === "email" ? "secondary" : "ghost"}
+                  size="sm"
+                  onClick={() => setContactViewType("email")}
+                  className="rounded-md px-4"
+                >
+                  Email
+                </Button>
+              </div>
+              {/* Add Button */}
+              <Button onClick={handleAddContact} className="bg-blue-500 hover:bg-blue-600">
+                Add
+              </Button>
+            </div>
+          </div>
+
+          {/* Contacts Table */}
+          <Card>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="font-semibold">Name</TableHead>
+                      <TableHead className="font-semibold">
+                        {contactViewType === "phone" ? "Phone" : "Email"}
+                      </TableHead>
+                      <TableHead className="font-semibold">Added on</TableHead>
+                      <TableHead className="text-right font-semibold">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {contacts.map((contact) => (
+                      <TableRow key={contact.id}>
+                        <TableCell className="font-medium">{contact.name}</TableCell>
+                        <TableCell>
+                          {contactViewType === "phone" ? contact.phone : contact.email}
+                        </TableCell>
+                        <TableCell>{contact.addedOn}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleOpenSendModal(contact)}
+                              aria-label={t("actions.send")}
+                              className="text-primary hover:text-primary hover:bg-primary/10"
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleViewContact(contact.name)}
+                              aria-label="View contact"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                setDeleteContactId(contact.id);
+                                setDeleteContactName(contact.name);
+                              }}
+                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                              aria-label="Delete contact"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
+
+    // Feedback Forms tab
     return (
       <div className="lg:p-5">
-        {/* Header with Toggle and Add Button */}
+        {/* Feedback Forms Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-2xl font-bold text-foreground">Contacts</h2>
-          <div className="flex items-center gap-3">
-            {/* Toggle Buttons */}
-            <div className="inline-flex rounded-lg border border-border bg-background p-1">
-              <Button
-                variant={contactViewType === "phone" ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setContactViewType("phone")}
-                className="rounded-md px-4"
-              >
-                Contact No
-              </Button>
-              <Button
-                variant={contactViewType === "email" ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setContactViewType("email")}
-                className="rounded-md px-4"
-              >
-                Email
-              </Button>
-            </div>
-            {/* Add Button */}
-            <Button onClick={handleAddContact} className="bg-blue-500 hover:bg-blue-600">
-              Add
-            </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">{t("feedbackForms.title")}</h1>
+            <p className="text-muted-foreground mt-1">{t("feedbackForms.description")}</p>
           </div>
+          <Button onClick={handleCreateFeedbackForm}>
+            <Plus className="w-4 h-4 mr-1" />
+            {t("feedbackForms.createButton")}
+          </Button>
         </div>
 
-        {/* Contacts Table */}
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="font-semibold">Name</TableHead>
-                    <TableHead className="font-semibold">
-                      {contactViewType === "phone" ? "Phone" : "Email"}
-                    </TableHead>
-                    <TableHead className="font-semibold">Added on</TableHead>
-                    <TableHead className="text-right font-semibold">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {contacts.map((contact) => (
-                    <TableRow key={contact.id}>
-                      <TableCell className="font-medium">{contact.name}</TableCell>
-                      <TableCell>
-                        {contactViewType === "phone" ? contact.phone : contact.email}
-                      </TableCell>
-                      <TableCell>{contact.addedOn}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleOpenSendModal(contact)}
-                            aria-label={t("actions.send")}
-                            className="text-primary hover:text-primary hover:bg-primary/10"
-                          >
-                            <Send className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleViewContact(contact.name)}
-                            aria-label="View contact"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => {
-                              setDeleteContactId(contact.id);
-                              setDeleteContactName(contact.name);
-                            }}
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                            aria-label="Delete contact"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+        {feedbackForms.length === 0 ? (
+          <Card>
+            <CardContent className="pt-12 pb-12">
+              <div className="text-center space-y-4">
+                <div className="flex justify-center">
+                  <Inbox className="w-16 h-16 text-muted-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground">{t("feedbackForms.empty.title")}</h3>
+                <p className="text-muted-foreground max-w-md mx-auto">{t("feedbackForms.empty.description")}</p>
+                <Button onClick={handleCreateFeedbackForm}>{t("feedbackForms.empty.button")}</Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="font-medium">{t("feedbackForms.table.name")}</TableHead>
+                      <TableHead className="font-medium">{t("feedbackForms.table.createdAt")}</TableHead>
+                      <TableHead className="text-right font-medium">{t("feedbackForms.table.action")}</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {feedbackForms.map((form) => (
+                      <TableRow key={form.id} className="hover:bg-muted/50 transition-colors">
+                        <TableCell className="font-medium">{form.name}</TableCell>
+                        <TableCell>{form.createdAt}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={() => handleViewFeedbackForm(form.name)}
+                              aria-label={t("feedbackForms.actions.view")}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={() => handleEditFeedbackForm(form.id)}
+                              aria-label={t("feedbackForms.actions.edit")}
+                              className="text-primary hover:text-primary hover:bg-primary/10"
+                            >
+                              <Link className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={() => {
+                                setDeleteFeedbackFormId(form.id);
+                                setDeleteFeedbackFormName(form.name);
+                              }}
+                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                              aria-label={t("feedbackForms.actions.delete")}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     );
   };
@@ -657,6 +800,27 @@ export const Request: React.FC = () => {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteContact} className="bg-destructive hover:bg-destructive/90">
               Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Feedback Form Confirmation Dialog */}
+      <AlertDialog open={deleteFeedbackFormId !== null} onOpenChange={() => {
+        setDeleteFeedbackFormId(null);
+        setDeleteFeedbackFormName("");
+      }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("feedbackForms.deleteDialog.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("feedbackForms.deleteDialog.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("feedbackForms.deleteDialog.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteFeedbackForm} className="bg-destructive hover:bg-destructive/90">
+              {t("feedbackForms.deleteDialog.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

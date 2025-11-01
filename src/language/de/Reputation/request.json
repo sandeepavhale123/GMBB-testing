@@ -6,7 +6,8 @@
     "campaign": "Kampagne",
     "templates": "Vorlagen",
     "contacts": "Kontakte",
-    "reviewLink": "Bewertungslink"
+    "reviewLink": "Bewertungslink",
+    "feedbackForms": "Feedback-Formulare"
   },
   "table": {
     "name": "Name",
@@ -87,6 +88,32 @@
     "error": {
       "title": "Fehler beim Senden",
       "description": "Die Bewertungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    }
+  },
+  "feedbackForms": {
+    "title": "Feedback-Formulare",
+    "description": "Erstellen und verwalten Sie benutzerdefinierte Feedback-Formulare für Ihre Kunden",
+    "createButton": "Formular Erstellen",
+    "table": {
+      "name": "Name",
+      "createdAt": "Erstellt am",
+      "action": "Aktion"
+    },
+    "actions": {
+      "view": "Ansehen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "empty": {
+      "title": "Noch keine Formulare",
+      "description": "Erstellen Sie Ihr erstes benutzerdefiniertes Formular, um strukturiertes Feedback zu sammeln",
+      "button": "Feedback-Formular Erstellen"
+    },
+    "deleteDialog": {
+      "title": "Formular Löschen",
+      "description": "Sind Sie sicher, dass Sie dieses Formular löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
     }
   }
 }

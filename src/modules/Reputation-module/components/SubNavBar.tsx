@@ -43,16 +43,20 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Show back button on create-campaign, create-template, edit-template, and review-link pages
+  // Show back button on create-campaign, create-template, edit-template, create-feedback-form, edit-feedback-form, and review-link pages
   const isCreateCampaignPage = location.pathname === "/module/reputation/create-campaign";
   const isCreateTemplatePage = location.pathname === "/module/reputation/create-template";
   const isEditTemplatePage = location.pathname.startsWith("/module/reputation/edit-template");
+  const isCreateFeedbackFormPage = location.pathname === "/module/reputation/create-feedback-form";
+  const isEditFeedbackFormPage = location.pathname.startsWith("/module/reputation/edit-feedback-form");
   const isReviewLinkPage = location.pathname === "/module/reputation/review-link";
-  const isCreatePage = isCreateCampaignPage || isCreateTemplatePage || isEditTemplatePage || isReviewLinkPage;
+  const isCreatePage = isCreateCampaignPage || isCreateTemplatePage || isEditTemplatePage || isCreateFeedbackFormPage || isEditFeedbackFormPage || isReviewLinkPage;
 
   const handleBackClick = () => {
     if (isCreateTemplatePage || isEditTemplatePage) {
       navigate("/module/reputation/request?tab=templates");
+    } else if (isCreateFeedbackFormPage || isEditFeedbackFormPage) {
+      navigate("/module/reputation/request?tab=feedbackForms");
     } else {
       navigate("/module/reputation/request");
     }

@@ -5,7 +5,9 @@
   "tabs": {
     "campaign": "Campagne",
     "templates": "Modèles",
-    "contacts": "Contacts"
+    "contacts": "Contacts",
+    "reviewLink": "Lien d'Avis",
+    "feedbackForms": "Formulaires de Feedback"
   },
   "table": {
     "name": "Nom",
@@ -86,6 +88,32 @@
     "error": {
       "title": "Échec de l'Envoi",
       "description": "Impossible d'envoyer la demande d'avis. Veuillez réessayer."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formulaires de Feedback",
+    "description": "Créez et gérez des formulaires de feedback personnalisés pour vos clients",
+    "createButton": "Créer un Formulaire",
+    "table": {
+      "name": "Nom",
+      "createdAt": "Créé le",
+      "action": "Action"
+    },
+    "actions": {
+      "view": "Voir",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun formulaire pour le moment",
+      "description": "Créez votre premier formulaire personnalisé pour collecter des retours structurés",
+      "button": "Créer un Formulaire de Feedback"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le Formulaire",
+      "description": "Êtes-vous sûr de vouloir supprimer ce formulaire? Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
     }
   }
 }

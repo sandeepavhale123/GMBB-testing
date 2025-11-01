@@ -8,6 +8,7 @@ import { Feedback } from "@/modules/Reputation-module/pages/Feedback";
 import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
 import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate";
 import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
+import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeedbackForm";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import type { RouteConfig } from "../routeConfig";
 
@@ -49,6 +50,14 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "edit-template/:templateId",
         element: <CreateTemplate />,
+      },
+      {
+        path: "create-feedback-form",
+        element: <CreateFeedbackForm />,
+      },
+      {
+        path: "edit-feedback-form/:formId",
+        element: <CreateFeedbackForm />,
       },
       {
         path: "review-link",

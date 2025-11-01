@@ -5,7 +5,9 @@
   "tabs": {
     "campaign": "Campaña",
     "templates": "Plantillas",
-    "contacts": "Contactos"
+    "contacts": "Contactos",
+    "reviewLink": "Enlace de Reseña",
+    "feedbackForms": "Formularios de Retroalimentación"
   },
   "table": {
     "name": "Nombre",
@@ -86,6 +88,32 @@
     "error": {
       "title": "Error al Enviar",
       "description": "No se pudo enviar la solicitud de reseña. Por favor, inténtalo de nuevo."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formularios de Retroalimentación",
+    "description": "Crea y gestiona formularios personalizados de retroalimentación para tus clientes",
+    "createButton": "Crear Formulario",
+    "table": {
+      "name": "Nombre",
+      "createdAt": "Creado el",
+      "action": "Acción"
+    },
+    "actions": {
+      "view": "Ver",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay formularios",
+      "description": "Crea tu primer formulario personalizado para recopilar comentarios estructurados",
+      "button": "Crear Formulario de Retroalimentación"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Formulario",
+      "description": "¿Estás seguro de que deseas eliminar este formulario? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
     }
   }
 }
