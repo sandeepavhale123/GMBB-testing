@@ -21,6 +21,7 @@ import { SendReviewRequestModal } from "@/modules/Reputation-module/components/S
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { getAllFormsFromLocalStorage, clearFormFromLocalStorage } from "../utils/formBuilder.utils";
 
 interface Campaign {
   id: string;
@@ -193,9 +194,21 @@ export const Request: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
   const [sendModalOpen, setSendModalOpen] = useState(false);
   const [selectedContactForSend, setSelectedContactForSend] = useState<Contact | null>(null);
-  const [feedbackForms, setFeedbackForms] = useState<FeedbackForm[]>(mockFeedbackForms);
+  const [feedbackForms, setFeedbackForms] = useState<FeedbackForm[]>([]);
   const [deleteFeedbackFormId, setDeleteFeedbackFormId] = useState<string | null>(null);
   const [deleteFeedbackFormName, setDeleteFeedbackFormName] = useState<string>("");
+
+  // Load feedback forms from localStorage on mount
+  useEffect(() => {
+    const loadedForms = getAllFormsFromLocalStorage();
+    const formattedForms: FeedbackForm[] = loadedForms.map(form => ({
+      id: form.id || '',
+      name: form.name,
+      createdAt: form.createdAt ? new Date(form.createdAt).toLocaleDateString('en-GB') : new Date().toLocaleDateString('en-GB'),
+      formData: form,
+    }));
+    setFeedbackForms(formattedForms);
+  }, []);
 
   // Handle tab query parameter on mount
   useEffect(() => {
@@ -323,6 +336,10 @@ export const Request: React.FC = () => {
 
   const handleDeleteFeedbackForm = () => {
     if (deleteFeedbackFormId) {
+      // Remove from localStorage
+      clearFormFromLocalStorage(deleteFeedbackFormId);
+      
+      // Update state
       setFeedbackForms((prev) => prev.filter((form) => form.id !== deleteFeedbackFormId));
       toast.success(`Feedback form deleted: "${deleteFeedbackFormName}"`);
       setDeleteFeedbackFormId(null);

@@ -128,7 +128,23 @@ export const CreateFeedbackForm: React.FC = () => {
 
     setTemplateName(name);
 
-    // TODO: Save to backend
+    // Generate unique ID for new forms
+    const savedFormId = formId || `form_${Date.now()}`;
+    const savedSchema = {
+      id: savedFormId,
+      name,
+      fields,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Save to localStorage
+    saveFormToLocalStorage(savedFormId, savedSchema);
+    
+    // Clear draft
+    if (!formId) {
+      localStorage.removeItem('feedback_form_draft');
+    }
+
     toast.success(isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully");
 
     navigate("/module/reputation/request?tab=feedbackForms");

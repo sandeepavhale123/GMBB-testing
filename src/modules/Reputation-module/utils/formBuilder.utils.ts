@@ -188,6 +188,29 @@ export const clearFormFromLocalStorage = (formId: string): void => {
   }
 };
 
+export const getAllFormsFromLocalStorage = (): FormSchema[] => {
+  try {
+    const forms: FormSchema[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(STORAGE_PREFIX) && key !== `${STORAGE_PREFIX}draft`) {
+        const data = localStorage.getItem(key);
+        if (data) {
+          forms.push(JSON.parse(data));
+        }
+      }
+    }
+    return forms.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
+      return dateB - dateA; // Sort by newest first
+    });
+  } catch (error) {
+    console.error('Failed to load forms from localStorage:', error);
+    return [];
+  }
+};
+
 // Reorder fields
 export const reorderFields = (fields: FormField[], startIndex: number, endIndex: number): FormField[] => {
   const result = Array.from(fields);
