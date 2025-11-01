@@ -16,5 +16,6 @@ export { FieldCard } from './FormBuilder/FieldCard';
 export { FieldPreview } from './FormBuilder/FieldPreview';
 export { OptionsEditor } from './FormBuilder/OptionsEditor';
 export { JsonPreviewDialog } from './FormBuilder/JsonPreviewDialog';
+export { SaveFormDialog } from './FormBuilder/SaveFormDialog';
 export { EmptyCanvas } from './FormBuilder/EmptyCanvas';
 export { FormPreview } from './FormBuilder/FormPreview';

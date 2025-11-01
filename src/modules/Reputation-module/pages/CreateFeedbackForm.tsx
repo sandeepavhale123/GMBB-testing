@@ -8,6 +8,7 @@ import { FieldTypeSidebar } from "../components/FormBuilder/FieldTypeSidebar";
 import { FormCanvas } from "../components/FormBuilder/FormCanvas";
 import { PropertyEditorPanel } from "../components/FormBuilder/PropertyEditorPanel";
 import { JsonPreviewDialog } from "../components/FormBuilder/JsonPreviewDialog";
+import { SaveFormDialog } from "../components/FormBuilder/SaveFormDialog";
 import {
   createDefaultField,
   validateFormSchema,
@@ -28,6 +29,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const [fields, setFields] = useState<FormField[]>([]);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [showJsonDialog, setShowJsonDialog] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   // Load form from localStorage on mount
   useEffect(() => {
@@ -99,7 +101,11 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleSave = () => {
-    const schema = { name: templateName, fields };
+    setShowSaveDialog(true);
+  };
+
+  const handleConfirmSave = (name: string) => {
+    const schema = { name, fields };
     const validation = validateFormSchema(schema);
 
     if (!validation.valid) {
@@ -107,6 +113,8 @@ export const CreateFeedbackForm: React.FC = () => {
       return;
     }
 
+    setTemplateName(name);
+    
     // TODO: Save to backend
     toast.success(
       isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully"
@@ -149,13 +157,6 @@ export const CreateFeedbackForm: React.FC = () => {
             </Button>
           </div>
         </div>
-
-        <Input
-          placeholder="Enter form template name..."
-          value={templateName}
-          onChange={(e) => setTemplateName(e.target.value)}
-          className="max-w-md"
-        />
       </div>
 
       {/* Three-column layout */}
@@ -184,6 +185,15 @@ export const CreateFeedbackForm: React.FC = () => {
         open={showJsonDialog}
         onOpenChange={setShowJsonDialog}
         schema={{ name: templateName, fields }}
+      />
+
+      {/* Save Form Dialog */}
+      <SaveFormDialog
+        open={showSaveDialog}
+        onOpenChange={setShowSaveDialog}
+        onSave={handleConfirmSave}
+        defaultName={templateName}
+        isEditMode={isEditMode}
       />
     </div>
   );
