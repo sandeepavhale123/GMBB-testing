@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Save } from "lucide-react";
+import { Save, Code } from "lucide-react";
 import { toast } from "sonner";
-import { ReactFormBuilder } from "react-form-builder2";
-import "react-form-builder2/dist/app.css";
-import "./CreateFeedbackForm.css";
+import { FieldTypeSidebar } from "../components/FormBuilder/FieldTypeSidebar";
+import { FormCanvas } from "../components/FormBuilder/FormCanvas";
+import { PropertyEditorPanel } from "../components/FormBuilder/PropertyEditorPanel";
+import { JsonPreviewDialog } from "../components/FormBuilder/JsonPreviewDialog";
+import {
+  createDefaultField,
+  validateFormSchema,
+  saveFormToLocalStorage,
+  loadFormFromLocalStorage,
+  reorderFields,
+  duplicateField,
+} from "../utils/formBuilder.utils";
+import type { FormField, FieldType } from "../types/formBuilder.types";
 
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
@@ -16,43 +24,86 @@ export const CreateFeedbackForm: React.FC = () => {
   const isEditMode = Boolean(formId);
 
   const [templateName, setTemplateName] = useState("");
-  const [formData, setFormData] = useState<any[]>([]);
+  const [fields, setFields] = useState<FormField[]>([]);
+  const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
+  const [showJsonDialog, setShowJsonDialog] = useState(false);
 
+  // Load form from localStorage on mount
   useEffect(() => {
-    // In edit mode, load existing form data
     if (isEditMode && formId) {
-      // Mock data for edit mode
-      setTemplateName(`Feedback Form ${formId}`);
-      // Load saved form schema from backend/storage
+      const savedForm = loadFormFromLocalStorage(formId);
+      if (savedForm) {
+        setTemplateName(savedForm.name);
+        setFields(savedForm.fields);
+      }
     }
   }, [isEditMode, formId]);
 
+  // Auto-save to localStorage
+  useEffect(() => {
+    if (fields.length > 0 || templateName) {
+      const schema = {
+        id: formId,
+        name: templateName,
+        fields: fields,
+      };
+      saveFormToLocalStorage(formId || 'draft', schema);
+    }
+  }, [fields, templateName, formId]);
+
+  // Handlers
+  const handleAddField = (fieldType: FieldType) => {
+    const newField = createDefaultField(fieldType);
+    newField.order = fields.length;
+    setFields([...fields, newField]);
+    setSelectedFieldId(newField.id);
+    toast.success(`${fieldType} field added`);
+  };
+
+  const handleUpdateField = (fieldId: string, updates: Partial<FormField>) => {
+    setFields(fields.map(field =>
+      field.id === fieldId ? { ...field, ...updates } : field
+    ));
+  };
+
+  const handleDeleteField = (fieldId: string) => {
+    setFields(fields.filter(field => field.id !== fieldId));
+    if (selectedFieldId === fieldId) {
+      setSelectedFieldId(null);
+    }
+    toast.success('Field deleted');
+  };
+
+  const handleDuplicateField = (fieldId: string) => {
+    const field = fields.find(f => f.id === fieldId);
+    if (field) {
+      const duplicated = duplicateField(field);
+      duplicated.order = fields.length;
+      setFields([...fields, duplicated]);
+      setSelectedFieldId(duplicated.id);
+      toast.success('Field duplicated');
+    }
+  };
+
+  const handleReorderFields = (startIndex: number, endIndex: number) => {
+    const reordered = reorderFields(fields, startIndex, endIndex);
+    setFields(reordered);
+  };
+
   const handleSave = () => {
-    if (!templateName.trim()) {
-      toast.error("Template name is required");
+    const schema = { name: templateName, fields };
+    const validation = validateFormSchema(schema);
+
+    if (!validation.valid) {
+      validation.errors.forEach(err => toast.error(err));
       return;
     }
 
-    if (formData.length === 0) {
-      toast.error("Please add at least one form field");
-      return;
-    }
-
-    // Check if form has at least one required field (optional validation)
-    const requiredFieldsCount = formData.filter(f => f.required).length;
-    
-    // Log form structure for debugging
-    console.log("Saving form:", {
-      name: templateName,
-      formData: formData,
-      requiredFields: requiredFieldsCount
-    });
-
+    // TODO: Save to backend
     toast.success(
       isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully"
     );
 
-    // Navigate back to request page with feedbackForms tab
     navigate("/module/reputation/request?tab=feedbackForms");
   };
 
@@ -60,72 +111,72 @@ export const CreateFeedbackForm: React.FC = () => {
     navigate("/module/reputation/request?tab=feedbackForms");
   };
 
+  const selectedField = fields.find(f => f.id === selectedFieldId);
+
   return (
-    <div className="space-y-6 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {isEditMode ? "Edit Feedback Form" : "Create Feedback Form"}
+    <div className="flex flex-col h-screen">
+      {/* Top Header */}
+      <div className="border-b p-4 bg-card">
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-2xl font-bold">
+            {isEditMode ? "Edit" : "Create"} Feedback Form
           </h1>
-          <p className="text-muted-foreground mt-1">
-            Design a custom feedback form using drag-and-drop builder
-          </p>
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowJsonDialog(true)}
+              disabled={fields.length === 0}
+            >
+              <Code className="h-4 w-4 mr-2" />
+              View JSON
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button size="sm" onClick={handleSave}>
+              <Save className="h-4 w-4 mr-2" />
+              Save Form
+            </Button>
+          </div>
         </div>
-        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
-          <Save className="w-4 h-4 mr-2" />
-          Save Form
-        </Button>
+
+        <Input
+          placeholder="Enter form template name..."
+          value={templateName}
+          onChange={(e) => setTemplateName(e.target.value)}
+          className="max-w-md"
+        />
       </div>
 
-      {/* Template Name Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Form Details</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <Label htmlFor="templateName">Template Name *</Label>
-            <Input
-              id="templateName"
-              placeholder="Enter form template name..."
-              value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
-              className="max-w-md"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      {/* Three-column layout */}
+      <div className="flex flex-1 overflow-hidden">
+        <FieldTypeSidebar onAddField={handleAddField} />
 
-      {/* Form Builder Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Form Builder</CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">
-            Drag and drop elements to create your custom feedback form
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className="min-h-[600px] rounded-lg overflow-hidden">
-            <ReactFormBuilder
-              onPost={(data: any) => {
-                setFormData(data.task_data);
-              }}
-            />
-          </div>
-        </CardContent>
-      </Card>
+        <FormCanvas
+          fields={fields}
+          selectedFieldId={selectedFieldId}
+          onSelectField={setSelectedFieldId}
+          onUpdateField={handleUpdateField}
+          onDeleteField={handleDeleteField}
+          onDuplicateField={handleDuplicateField}
+          onReorderFields={handleReorderFields}
+          onDropNewField={handleAddField}
+        />
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-end gap-3 pt-6 border-t">
-        <Button variant="outline" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
-          <Save className="w-4 h-4 mr-2" />
-          {isEditMode ? "Update Form" : "Create Form"}
-        </Button>
+        <PropertyEditorPanel
+          selectedField={selectedField}
+          onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+        />
       </div>
+
+      {/* JSON Preview Dialog */}
+      <JsonPreviewDialog
+        open={showJsonDialog}
+        onOpenChange={setShowJsonDialog}
+        schema={{ name: templateName, fields }}
+      />
     </div>
   );
 };
