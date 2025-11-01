@@ -7,7 +7,12 @@ import { toast } from "sonner";
 import { useDeviceBreakpoints } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { FieldTypeSidebar } from "../components/FormBuilder/FieldTypeSidebar";
 import { FormCanvas } from "../components/FormBuilder/FormCanvas";
 import { PropertyEditorPanel } from "../components/FormBuilder/PropertyEditorPanel";
@@ -34,7 +39,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [showJsonDialog, setShowJsonDialog] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
-  const [mobileTab, setMobileTab] = useState<'fields' | 'canvas' | 'properties'>('canvas');
+  const [mobileTab, setMobileTab] = useState<"fields" | "canvas" | "properties">("canvas");
   const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
 
   // Load form from localStorage on mount
@@ -56,7 +61,7 @@ export const CreateFeedbackForm: React.FC = () => {
         name: templateName,
         fields: fields,
       };
-      saveFormToLocalStorage(formId || 'draft', schema);
+      saveFormToLocalStorage(formId || "draft", schema);
     }
   }, [fields, templateName, formId]);
 
@@ -70,34 +75,36 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleUpdateField = (fieldId: string, updates: Partial<FormField>) => {
-    setFields(fields.map(field => {
-      if (field.id === fieldId) {
-        // Auto-generate name if label is being updated
-        if (updates.label !== undefined) {
-          return { ...field, ...updates, name: generateFieldName(updates.label) };
+    setFields(
+      fields.map((field) => {
+        if (field.id === fieldId) {
+          // Auto-generate name if label is being updated
+          if (updates.label !== undefined) {
+            return { ...field, ...updates, name: generateFieldName(updates.label) };
+          }
+          return { ...field, ...updates };
         }
-        return { ...field, ...updates };
-      }
-      return field;
-    }));
+        return field;
+      }),
+    );
   };
 
   const handleDeleteField = (fieldId: string) => {
-    setFields(fields.filter(field => field.id !== fieldId));
+    setFields(fields.filter((field) => field.id !== fieldId));
     if (selectedFieldId === fieldId) {
       setSelectedFieldId(null);
     }
-    toast.success('Field deleted');
+    toast.success("Field deleted");
   };
 
   const handleDuplicateField = (fieldId: string) => {
-    const field = fields.find(f => f.id === fieldId);
+    const field = fields.find((f) => f.id === fieldId);
     if (field) {
       const duplicated = duplicateField(field);
       duplicated.order = fields.length;
       setFields([...fields, duplicated]);
       setSelectedFieldId(duplicated.id);
-      toast.success('Field duplicated');
+      toast.success("Field duplicated");
     }
   };
 
@@ -115,16 +122,14 @@ export const CreateFeedbackForm: React.FC = () => {
     const validation = validateFormSchema(schema);
 
     if (!validation.valid) {
-      validation.errors.forEach(err => toast.error(err));
+      validation.errors.forEach((err) => toast.error(err));
       return;
     }
 
     setTemplateName(name);
-    
+
     // TODO: Save to backend
-    toast.success(
-      isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully"
-    );
+    toast.success(isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully");
 
     navigate("/module/reputation/request?tab=feedbackForms");
   };
@@ -133,16 +138,14 @@ export const CreateFeedbackForm: React.FC = () => {
     navigate("/module/reputation/request?tab=feedbackForms");
   };
 
-  const selectedField = fields.find(f => f.id === selectedFieldId);
+  const selectedField = fields.find((f) => f.id === selectedFieldId);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen border border-gray-100">
       {/* Top Header */}
       <div className="border-b p-3 md:p-4 bg-card">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <h1 className="text-xl md:text-2xl font-bold">
-            {isEditMode ? "Edit" : "Create"} Feedback Form
-          </h1>
+          <h1 className="text-xl md:text-2xl font-bold">{isEditMode ? "Edit" : "Create"} Feedback Form</h1>
 
           {/* Desktop buttons */}
           {isDesktop && (
@@ -176,19 +179,14 @@ export const CreateFeedbackForm: React.FC = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem 
-                    onClick={() => setShowJsonDialog(true)}
-                    disabled={fields.length === 0}
-                  >
+                  <DropdownMenuItem onClick={() => setShowJsonDialog(true)} disabled={fields.length === 0}>
                     <Code className="h-4 w-4 mr-2" />
                     View JSON
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleCancel}>
-                    Cancel
-                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleCancel}>Cancel</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              
+
               <Button size="sm" onClick={handleSave}>
                 <Save className="h-4 w-4 mr-2" />
                 Save
@@ -222,9 +220,9 @@ export const CreateFeedbackForm: React.FC = () => {
         </div>
       ) : isMobile ? (
         // Mobile: Tab-based navigation
-        <Tabs 
-          value={mobileTab} 
-          onValueChange={(v) => setMobileTab(v as 'fields' | 'canvas' | 'properties')} 
+        <Tabs
+          value={mobileTab}
+          onValueChange={(v) => setMobileTab(v as "fields" | "canvas" | "properties")}
           className="flex-1 flex flex-col"
         >
           <TabsList className="w-full justify-start border-b rounded-none h-12 px-3">
@@ -232,23 +230,23 @@ export const CreateFeedbackForm: React.FC = () => {
             <TabsTrigger value="canvas">Canvas</TabsTrigger>
             {selectedFieldId && <TabsTrigger value="properties">Properties</TabsTrigger>}
           </TabsList>
-          
+
           <TabsContent value="fields" className="flex-1 overflow-hidden mt-0">
-            <FieldTypeSidebar 
+            <FieldTypeSidebar
               onAddField={(type) => {
                 handleAddField(type);
-                setMobileTab('canvas');
-              }} 
+                setMobileTab("canvas");
+              }}
             />
           </TabsContent>
-          
+
           <TabsContent value="canvas" className="flex-1 overflow-hidden mt-0">
             <FormCanvas
               fields={fields}
               selectedFieldId={selectedFieldId}
               onSelectField={(id) => {
                 setSelectedFieldId(id);
-                if (id) setMobileTab('properties');
+                if (id) setMobileTab("properties");
               }}
               onUpdateField={handleUpdateField}
               onDeleteField={handleDeleteField}
@@ -257,7 +255,7 @@ export const CreateFeedbackForm: React.FC = () => {
               onDropNewField={handleAddField}
             />
           </TabsContent>
-          
+
           {selectedFieldId && (
             <TabsContent value="properties" className="flex-1 overflow-hidden mt-0">
               <PropertyEditorPanel
