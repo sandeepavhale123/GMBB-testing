@@ -29,6 +29,9 @@ export const QRCodePoster: React.FC = () => {
   const [logo, setLogo] = useState<string | null>(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(DEFAULT_SETTINGS.qrCodeUrl);
   const [backgroundColor, setBackgroundColor] = useState(DEFAULT_SETTINGS.backgroundColor);
+  const [fontColor, setFontColor] = useState("#000000");
+  const [customColor, setCustomColor] = useState("#000000");
+  const [title, setTitle] = useState("");
   const [posterText, setPosterText] = useState(DEFAULT_SETTINGS.keywords);
   const [prominentWords, setProminentWords] = useState<string[]>([]);
   const [newWord, setNewWord] = useState("");
@@ -106,6 +109,9 @@ export const QRCodePoster: React.FC = () => {
     setLogo(null);
     setPosterText(DEFAULT_SETTINGS.keywords);
     setBackgroundColor(DEFAULT_SETTINGS.backgroundColor);
+    setFontColor("#000000");
+    setCustomColor("#000000");
+    setTitle("");
     setQrCodeUrl(DEFAULT_SETTINGS.qrCodeUrl);
     setProminentWords([]);
     setNewWord("");
@@ -126,18 +132,18 @@ export const QRCodePoster: React.FC = () => {
     setProminentWords(prominentWords.filter(w => w !== word));
   };
 
-  const BACKGROUND_COLORS = [
+  const FONT_COLORS = [
+    "#000000", // Black
+    "#FFFFFF", // White
+    "#EF4444", // Red
     "#3B82F6", // Blue
+    "#10B981", // Green
+    "#F59E0B", // Amber
     "#8B5CF6", // Purple
     "#EC4899", // Pink
-    "#EF4444", // Red
-    "#F97316", // Orange
-    "#FB923C", // Light Orange
-    "#84CC16", // Lime
-    "#10B981", // Green
     "#06B6D4", // Cyan
-    "#EAB308", // Yellow
-    "#000000", // Black
+    "#84CC16", // Lime
+    "custom", // Custom option
   ];
 
   return (
@@ -210,6 +216,76 @@ export const QRCodePoster: React.FC = () => {
             </CardContent>
           </Card>
 
+          {/* Title Field */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                Poster Title
+              </h3>
+
+              <div>
+                <Label htmlFor="title" className="text-sm">
+                  Title
+                </Label>
+                <Input
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Enter poster title"
+                  className="mt-1"
+                  maxLength={100}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Select Font Color */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                Select Font Color
+              </h3>
+
+              <div className="space-y-2">
+                <Label className="text-sm">Select color</Label>
+                <div className="flex gap-2 flex-wrap items-center">
+                  {FONT_COLORS.map((color) => (
+                    color === "custom" ? (
+                      <div key="custom" className="relative">
+                        <input
+                          type="color"
+                          value={customColor}
+                          onChange={(e) => {
+                            setCustomColor(e.target.value);
+                            setFontColor(e.target.value);
+                          }}
+                          className={`w-10 h-10 rounded-full border-2 cursor-pointer ${
+                            fontColor === customColor && !FONT_COLORS.slice(0, -1).includes(fontColor)
+                              ? "border-foreground scale-110"
+                              : "border-border hover:scale-105"
+                          }`}
+                          title="Custom color"
+                        />
+                      </div>
+                    ) : (
+                      <button
+                        key={color}
+                        onClick={() => setFontColor(color)}
+                        className={`w-10 h-10 rounded-full border-2 transition-all ${
+                          fontColor === color
+                            ? "border-foreground scale-110"
+                            : "border-border hover:scale-105"
+                        }`}
+                        style={{ backgroundColor: color }}
+                        aria-label={`Select ${color} font color`}
+                      />
+                    )
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Select Poster Color for Background */}
           <Card>
             <CardContent className="p-6 space-y-4">
@@ -218,22 +294,13 @@ export const QRCodePoster: React.FC = () => {
               </h3>
 
               <div className="space-y-2">
-                <Label className="text-sm">Select color</Label>
-                <div className="flex gap-2 flex-wrap">
-                  {BACKGROUND_COLORS.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setBackgroundColor(color)}
-                      className={`w-10 h-10 rounded-full border-2 transition-all ${
-                        backgroundColor === color
-                          ? "border-foreground scale-110"
-                          : "border-transparent hover:scale-105"
-                      }`}
-                      style={{ backgroundColor: color }}
-                      aria-label={`Select ${color} background`}
-                    />
-                  ))}
-                </div>
+                <Label className="text-sm">Background Color</Label>
+                <Input
+                  type="color"
+                  value={backgroundColor}
+                  onChange={(e) => setBackgroundColor(e.target.value)}
+                  className="w-full h-12"
+                />
               </div>
             </CardContent>
           </Card>
@@ -374,6 +441,16 @@ export const QRCodePoster: React.FC = () => {
                     </div>
                   )}
 
+                  {/* Title */}
+                  {title && (
+                    <h1 
+                      className="text-4xl font-bold text-center px-4"
+                      style={{ color: fontColor }}
+                    >
+                      {title}
+                    </h1>
+                  )}
+
                   {/* QR Code */}
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <QRCodeSVG
@@ -388,9 +465,7 @@ export const QRCodePoster: React.FC = () => {
                   {posterText && (
                     <p 
                       className="text-2xl font-semibold text-center px-4"
-                      style={{ 
-                        color: backgroundColor === "#000000" ? "#FFFFFF" : "#000000" 
-                      }}
+                      style={{ color: fontColor }}
                     >
                       {posterText}
                     </p>
@@ -402,10 +477,10 @@ export const QRCodePoster: React.FC = () => {
                       {prominentWords.map((word) => (
                         <span
                           key={word}
-                          className="text-lg font-bold px-4 py-2 rounded-lg"
+                          className="text-lg font-bold px-4 py-2 rounded-lg border-2"
                           style={{ 
-                            backgroundColor: backgroundColor === "#000000" ? "#FFFFFF" : "#000000",
-                            color: backgroundColor === "#000000" ? "#000000" : "#FFFFFF" 
+                            borderColor: fontColor,
+                            color: fontColor
                           }}
                         >
                           {word}
