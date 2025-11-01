@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import React from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Type, Mail, AlignLeft, Hash, ChevronDown, Circle, CheckSquare, Upload, Calendar } from 'lucide-react';
 import type { FieldType, FieldTypeDefinition } from '../../types/formBuilder.types';
@@ -21,14 +20,8 @@ const fieldTypes: FieldTypeDefinition[] = [
 ];
 
 export const FieldTypeSidebar: React.FC<FieldTypeSidebarProps> = ({ onAddField }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredFields = fieldTypes.filter(field =>
-    field.label.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const basicFields = filteredFields.filter(f => f.category === 'basic');
-  const advancedFields = filteredFields.filter(f => f.category === 'advanced');
+  const basicFields = fieldTypes.filter(f => f.category === 'basic');
+  const advancedFields = fieldTypes.filter(f => f.category === 'advanced');
 
   const handleDragStart = (e: React.DragEvent, fieldType: FieldType) => {
     e.dataTransfer.setData('fieldType', fieldType);
@@ -55,13 +48,7 @@ export const FieldTypeSidebar: React.FC<FieldTypeSidebarProps> = ({ onAddField }
   return (
     <div className="w-64 border-r bg-card overflow-y-auto">
       <div className="p-4 border-b sticky top-0 bg-card z-10">
-        <h3 className="font-semibold mb-3">Form Elements</h3>
-        <Input
-          placeholder="Search elements..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="h-9"
-        />
+        <h3 className="font-semibold">Form Elements</h3>
       </div>
 
       <div className="p-4">
