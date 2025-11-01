@@ -8,6 +8,7 @@ import { Save, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
+import "./CreateFeedbackForm.css";
 
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
@@ -37,10 +38,14 @@ export const CreateFeedbackForm: React.FC = () => {
       return;
     }
 
-    // Save to backend/state management
+    // Check if form has at least one required field (optional validation)
+    const requiredFieldsCount = formData.filter(f => f.required).length;
+    
+    // Log form structure for debugging
     console.log("Saving form:", {
       name: templateName,
       formData: formData,
+      requiredFields: requiredFieldsCount
     });
 
     toast.success(
@@ -106,7 +111,7 @@ export const CreateFeedbackForm: React.FC = () => {
           </p>
         </CardHeader>
         <CardContent>
-          <div className="min-h-[500px] border border-border rounded-lg p-4 bg-white">
+          <div className="min-h-[600px] rounded-lg overflow-hidden">
             <ReactFormBuilder
               onPost={(data: any) => {
                 setFormData(data.task_data);
