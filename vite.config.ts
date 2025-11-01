@@ -23,7 +23,5 @@ export default defineConfig(({ mode }) => ({
   define: {
     // 🧩 Inject build version for cache-busting and debugging
     __BUILD_VERSION__: JSON.stringify(buildVersion),
-    // 🔧 Polyfill Node.js global for browser compatibility (required by react-form-builder2)
-    global: 'globalThis',
   },
 }));
