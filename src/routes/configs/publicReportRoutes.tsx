@@ -14,6 +14,7 @@ import { GmbProspectReport } from "@/modules/lead-module/public-reports/pages/Gm
 import { CitationAuditReport } from "@/modules/lead-module/public-reports/pages/CitationAuditReport";
 import { LeadGeoRankingReport } from "@/modules/lead-module/public-reports/pages/LeadGeoRankingReport";
 import { ReviewFeedback } from "@/modules/Reputation-module/public-pages/ReviewFeedback";
+import { PublicFeedbackForm } from "@/modules/Reputation-module/public-pages/PublicFeedbackForm";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -127,5 +128,9 @@ export const publicReportRoutes: RouteConfig[] = [
         <ReviewFeedback />
       </ThemePreloader>
     ),
+  },
+  {
+    path: "/feedback/form/:formId",
+    element: <PublicFeedbackForm />,
   },
 ];

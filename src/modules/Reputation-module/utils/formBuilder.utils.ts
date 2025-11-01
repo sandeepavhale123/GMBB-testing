@@ -230,3 +230,103 @@ export const duplicateField = (field: FormField): FormField => {
     label: `${field.label} (Copy)`,
   };
 };
+
+// Get a specific form by ID (alias for existing function)
+export const getFormFromLocalStorage = loadFormFromLocalStorage;
+
+// Save form submission to localStorage
+export const saveFormSubmission = (formId: string, data: any): void => {
+  try {
+    const timestamp = Date.now();
+    const key = `feedback_submission_${formId}_${timestamp}`;
+    const submission = {
+      formId,
+      timestamp: new Date(timestamp).toISOString(),
+      data,
+    };
+    localStorage.setItem(key, JSON.stringify(submission));
+  } catch (error) {
+    console.error('Failed to save form submission:', error);
+  }
+};
+
+// Generate dynamic Zod validation schema from form fields
+export const generateValidationSchema = (fields: FormField[]) => {
+  const schemaShape: Record<string, z.ZodTypeAny> = {};
+
+  fields.forEach((field) => {
+    let fieldSchema: z.ZodTypeAny;
+
+    switch (field.type) {
+      case 'text':
+      case 'textarea': {
+        let stringSchema = z.string().trim();
+        if (field.validation?.min) {
+          stringSchema = stringSchema.min(field.validation.min, field.validation.message || `Minimum ${field.validation.min} characters`);
+        }
+        if (field.validation?.max) {
+          stringSchema = stringSchema.max(field.validation.max, field.validation.message || `Maximum ${field.validation.max} characters`);
+        }
+        if (field.validation?.pattern) {
+          stringSchema = stringSchema.regex(new RegExp(field.validation.pattern), field.validation.message || 'Invalid format');
+        }
+        fieldSchema = stringSchema;
+        break;
+      }
+
+      case 'email':
+        fieldSchema = z.string().trim().email('Invalid email address');
+        break;
+
+      case 'number': {
+        let numberSchema = z.coerce.number();
+        if (field.validation?.min !== undefined) {
+          numberSchema = numberSchema.min(field.validation.min, field.validation.message || `Minimum value is ${field.validation.min}`);
+        }
+        if (field.validation?.max !== undefined) {
+          numberSchema = numberSchema.max(field.validation.max, field.validation.message || `Maximum value is ${field.validation.max}`);
+        }
+        fieldSchema = numberSchema;
+        break;
+      }
+
+      case 'select':
+      case 'radio':
+        if (field.options && field.options.length > 0) {
+          fieldSchema = z.enum([field.options[0].value, ...field.options.slice(1).map(o => o.value)] as [string, ...string[]]);
+        } else {
+          fieldSchema = z.string();
+        }
+        break;
+
+      case 'checkbox-group':
+        fieldSchema = z.array(z.string()).min(1, 'Select at least one option');
+        break;
+
+      case 'file':
+        fieldSchema = z.any();
+        break;
+
+      case 'date':
+        fieldSchema = z.string().min(1, 'Date is required');
+        break;
+
+      default:
+        fieldSchema = z.string();
+    }
+
+    // Make optional if not required
+    if (!field.required) {
+      fieldSchema = fieldSchema.optional();
+    } else {
+      // Add required message for required fields
+      if (field.type !== 'email' && field.type !== 'number') {
+        fieldSchema = (fieldSchema as z.ZodString).min(1, `${field.label} is required`);
+      }
+    }
+
+    schemaShape[field.name] = fieldSchema;
+  });
+
+  return z.object(schemaShape);
+};
