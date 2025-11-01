@@ -41,7 +41,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
     >
       <CardContent className="p-4">
         {/* Field content */}
-        <div className="pr-32">
+        <div className="pr-20 md:pr-32">
           <div className="flex items-center gap-2 mb-2">
             <Label className="text-base font-medium">
               {field.label}
@@ -66,7 +66,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
                 e.stopPropagation();
                 onMoveUp();
               }}
-              className="h-8 w-8"
+              className="h-7 w-7 md:h-8 md:w-8"
             >
               <ChevronUp className="h-4 w-4" />
             </Button>
@@ -79,7 +79,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
                 e.stopPropagation();
                 onMoveDown();
               }}
-              className="h-8 w-8"
+              className="h-7 w-7 md:h-8 md:w-8"
             >
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -91,7 +91,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
               e.stopPropagation();
               onDuplicate();
             }}
-            className="h-8 w-8"
+            className="h-7 w-7 md:h-8 md:w-8"
           >
             <Copy className="h-4 w-4" />
           </Button>
@@ -102,7 +102,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
               e.stopPropagation();
               onDelete();
             }}
-            className="h-8 w-8 hover:text-destructive"
+            className="h-7 w-7 md:h-8 md:w-8 hover:text-destructive"
           >
             <Trash2 className="h-4 w-4" />
           </Button>

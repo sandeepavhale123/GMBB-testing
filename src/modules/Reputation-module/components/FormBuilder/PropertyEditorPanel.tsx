@@ -18,7 +18,7 @@ export const PropertyEditorPanel: React.FC<PropertyEditorPanelProps> = ({
 }) => {
   if (!selectedField) {
     return (
-      <div className="w-80 border-l bg-card overflow-y-auto">
+      <div className="w-full md:w-80 border-l bg-card overflow-y-auto">
         <div className="p-6 text-center text-muted-foreground">
           <Settings className="mx-auto h-12 w-12 mb-3 opacity-50" />
           <p className="text-sm font-medium mb-1">No Field Selected</p>
@@ -32,8 +32,8 @@ export const PropertyEditorPanel: React.FC<PropertyEditorPanelProps> = ({
   const isFileField = selectedField.type === 'file';
 
   return (
-    <div className="w-80 border-l bg-card overflow-y-auto">
-      <div className="p-4 border-b sticky top-0 bg-card z-10">
+    <div className="w-full md:w-80 border-l bg-card overflow-y-auto">
+      <div className="p-3 md:p-4 border-b sticky top-0 bg-card z-10">
         <div className="flex items-center justify-between mb-1">
           <h3 className="font-semibold">Field Properties</h3>
           <Badge variant="secondary" className="text-xs">
@@ -43,7 +43,7 @@ export const PropertyEditorPanel: React.FC<PropertyEditorPanelProps> = ({
         <p className="text-xs text-muted-foreground">Configure field settings</p>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-3 md:p-4 space-y-4">
         {/* Label */}
         <div className="space-y-2">
           <Label htmlFor="field-label" className="text-sm font-medium">

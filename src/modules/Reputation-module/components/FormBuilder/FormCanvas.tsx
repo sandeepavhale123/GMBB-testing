@@ -38,14 +38,14 @@ export const FormCanvas: React.FC<FormCanvasProps> = ({
 
   return (
     <div
-      className="flex-1 p-6 overflow-y-auto bg-muted/20"
+      className="flex-1 p-3 md:p-6 overflow-y-auto bg-muted/20"
       onDrop={handleCanvasDrop}
       onDragOver={handleCanvasDragOver}
     >
       {fields.length === 0 ? (
         <EmptyCanvas />
       ) : (
-        <div className="max-w-3xl mx-auto space-y-3">
+        <div className="max-w-full md:max-w-3xl mx-auto space-y-3 px-2 md:px-0">
           {fields.map((field, index) => (
             <FieldCard
               key={field.id}

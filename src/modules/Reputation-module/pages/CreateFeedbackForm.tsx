@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Save, Code } from "lucide-react";
+import { Save, Code, Menu, Settings as SettingsIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useDeviceBreakpoints } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { FieldTypeSidebar } from "../components/FormBuilder/FieldTypeSidebar";
 import { FormCanvas } from "../components/FormBuilder/FormCanvas";
 import { PropertyEditorPanel } from "../components/FormBuilder/PropertyEditorPanel";
@@ -30,6 +34,8 @@ export const CreateFeedbackForm: React.FC = () => {
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [showJsonDialog, setShowJsonDialog] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'fields' | 'canvas' | 'properties'>('canvas');
+  const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
 
   // Load form from localStorage on mount
   useEffect(() => {
@@ -132,53 +138,177 @@ export const CreateFeedbackForm: React.FC = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Top Header */}
-      <div className="border-b p-4 bg-card">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold">
+      <div className="border-b p-3 md:p-4 bg-card">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <h1 className="text-xl md:text-2xl font-bold">
             {isEditMode ? "Edit" : "Create"} Feedback Form
           </h1>
 
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowJsonDialog(true)}
-              disabled={fields.length === 0}
-            >
-              <Code className="h-4 w-4 mr-2" />
-              View JSON
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button size="sm" onClick={handleSave}>
-              <Save className="h-4 w-4 mr-2" />
-              Save Form
-            </Button>
-          </div>
+          {/* Desktop buttons */}
+          {isDesktop && (
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowJsonDialog(true)}
+                disabled={fields.length === 0}
+              >
+                <Code className="h-4 w-4 mr-2" />
+                View JSON
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button size="sm" onClick={handleSave}>
+                <Save className="h-4 w-4 mr-2" />
+                Save Form
+              </Button>
+            </div>
+          )}
+
+          {/* Mobile/Tablet buttons */}
+          {!isDesktop && (
+            <div className="flex gap-2 justify-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem 
+                    onClick={() => setShowJsonDialog(true)}
+                    disabled={fields.length === 0}
+                  >
+                    <Code className="h-4 w-4 mr-2" />
+                    View JSON
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleCancel}>
+                    Cancel
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <Button size="sm" onClick={handleSave}>
+                <Save className="h-4 w-4 mr-2" />
+                Save
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Three-column layout */}
-      <div className="flex flex-1 overflow-hidden">
-        <FieldTypeSidebar onAddField={handleAddField} />
+      {/* Responsive layout */}
+      {isDesktop ? (
+        // Desktop: Three-column layout
+        <div className="flex flex-1 overflow-hidden">
+          <FieldTypeSidebar onAddField={handleAddField} />
 
-        <FormCanvas
-          fields={fields}
-          selectedFieldId={selectedFieldId}
-          onSelectField={setSelectedFieldId}
-          onUpdateField={handleUpdateField}
-          onDeleteField={handleDeleteField}
-          onDuplicateField={handleDuplicateField}
-          onReorderFields={handleReorderFields}
-          onDropNewField={handleAddField}
-        />
+          <FormCanvas
+            fields={fields}
+            selectedFieldId={selectedFieldId}
+            onSelectField={setSelectedFieldId}
+            onUpdateField={handleUpdateField}
+            onDeleteField={handleDeleteField}
+            onDuplicateField={handleDuplicateField}
+            onReorderFields={handleReorderFields}
+            onDropNewField={handleAddField}
+          />
 
-        <PropertyEditorPanel
-          selectedField={selectedField}
-          onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
-        />
-      </div>
+          <PropertyEditorPanel
+            selectedField={selectedField}
+            onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+          />
+        </div>
+      ) : isMobile ? (
+        // Mobile: Tab-based navigation
+        <Tabs 
+          value={mobileTab} 
+          onValueChange={(v) => setMobileTab(v as 'fields' | 'canvas' | 'properties')} 
+          className="flex-1 flex flex-col"
+        >
+          <TabsList className="w-full justify-start border-b rounded-none h-12 px-3">
+            <TabsTrigger value="fields">Fields</TabsTrigger>
+            <TabsTrigger value="canvas">Canvas</TabsTrigger>
+            {selectedFieldId && <TabsTrigger value="properties">Properties</TabsTrigger>}
+          </TabsList>
+          
+          <TabsContent value="fields" className="flex-1 overflow-hidden mt-0">
+            <FieldTypeSidebar 
+              onAddField={(type) => {
+                handleAddField(type);
+                setMobileTab('canvas');
+              }} 
+            />
+          </TabsContent>
+          
+          <TabsContent value="canvas" className="flex-1 overflow-hidden mt-0">
+            <FormCanvas
+              fields={fields}
+              selectedFieldId={selectedFieldId}
+              onSelectField={(id) => {
+                setSelectedFieldId(id);
+                if (id) setMobileTab('properties');
+              }}
+              onUpdateField={handleUpdateField}
+              onDeleteField={handleDeleteField}
+              onDuplicateField={handleDuplicateField}
+              onReorderFields={handleReorderFields}
+              onDropNewField={handleAddField}
+            />
+          </TabsContent>
+          
+          {selectedFieldId && (
+            <TabsContent value="properties" className="flex-1 overflow-hidden mt-0">
+              <PropertyEditorPanel
+                selectedField={selectedField}
+                onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+              />
+            </TabsContent>
+          )}
+        </Tabs>
+      ) : (
+        // Tablet: Canvas + Sheet sidebars
+        <div className="flex flex-1 overflow-hidden relative">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="absolute left-4 top-4 z-10">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] p-0">
+              <FieldTypeSidebar onAddField={handleAddField} />
+            </SheetContent>
+          </Sheet>
+
+          <FormCanvas
+            fields={fields}
+            selectedFieldId={selectedFieldId}
+            onSelectField={setSelectedFieldId}
+            onUpdateField={handleUpdateField}
+            onDeleteField={handleDeleteField}
+            onDuplicateField={handleDuplicateField}
+            onReorderFields={handleReorderFields}
+            onDropNewField={handleAddField}
+          />
+
+          {selectedFieldId && (
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="absolute right-4 top-4 z-10">
+                  <SettingsIcon className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] p-0">
+                <PropertyEditorPanel
+                  selectedField={selectedField}
+                  onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+                />
+              </SheetContent>
+            </Sheet>
+          )}
+        </div>
+      )}
 
       {/* JSON Preview Dialog */}
       <JsonPreviewDialog

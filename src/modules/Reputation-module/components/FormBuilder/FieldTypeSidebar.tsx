@@ -46,12 +46,12 @@ export const FieldTypeSidebar: React.FC<FieldTypeSidebarProps> = ({ onAddField }
   };
 
   return (
-    <div className="w-64 border-r bg-card overflow-y-auto">
-      <div className="p-4 border-b sticky top-0 bg-card z-10">
+    <div className="w-full md:w-64 border-r bg-card overflow-y-auto">
+      <div className="p-3 md:p-4 border-b sticky top-0 bg-card z-10">
         <h3 className="font-semibold">Form Elements</h3>
       </div>
 
-      <div className="p-4">
+      <div className="p-3 md:p-4">
         <Accordion type="multiple" defaultValue={['basic', 'advanced']} className="space-y-2">
           <AccordionItem value="basic" className="border-none">
             <AccordionTrigger className="py-2 hover:no-underline">
