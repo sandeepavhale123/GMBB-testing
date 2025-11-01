@@ -17,6 +17,18 @@ export const generateFieldName = (label: string): string => {
     || 'field';                     // Fallback if empty
 };
 
+// Auto-generate option value from label
+export const generateOptionValue = (label: string, index: number): string => {
+  const generated = label
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^[0-9]/, '_$&')
+    .replace(/^_+|_+$/g, '');
+  
+  return generated || `option_${index + 1}`;
+};
+
 // Create default field configuration
 export const createDefaultField = (type: FieldType): FormField => {
   const baseField = {

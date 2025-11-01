@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Plus, X } from 'lucide-react';
 import type { FieldOption } from '../../types/formBuilder.types';
+import { generateOptionValue } from '../../utils/formBuilder.utils';
 
 interface OptionsEditorProps {
   options: FieldOption[];
@@ -23,14 +24,13 @@ export const OptionsEditor: React.FC<OptionsEditorProps> = ({ options, onChange 
     onChange(options.filter((_, i) => i !== index));
   };
 
-  const handleOptionChange = (index: number, field: 'label' | 'value', value: string) => {
+  const handleOptionChange = (index: number, value: string) => {
     const newOptions = [...options];
-    // Ensure value is never empty - use a placeholder if cleared
-    if (field === 'value' && value.trim() === '') {
-      newOptions[index] = { ...newOptions[index], [field]: `option_${index + 1}` };
-    } else {
-      newOptions[index] = { ...newOptions[index], [field]: value };
-    }
+    // Auto-generate value from label
+    newOptions[index] = { 
+      label: value, 
+      value: generateOptionValue(value, index)
+    };
     onChange(newOptions);
   };
 
@@ -39,29 +39,22 @@ export const OptionsEditor: React.FC<OptionsEditorProps> = ({ options, onChange 
       <Label className="text-sm font-medium">Options</Label>
       <div className="space-y-2">
         {options.map((option, index) => (
-          <div key={index} className="flex gap-2">
+          <div key={index} className="flex gap-2 items-start">
             <div className="flex-1 space-y-1">
               <Input
-                placeholder="Label"
+                placeholder="Option label"
                 value={option.label}
-                onChange={(e) => handleOptionChange(index, 'label', e.target.value)}
+                onChange={(e) => handleOptionChange(index, e.target.value)}
                 className="h-9 text-sm"
               />
-            </div>
-            <div className="flex-1 space-y-1">
-              <Input
-                placeholder="Value"
-                value={option.value}
-                onChange={(e) => handleOptionChange(index, 'value', e.target.value)}
-                className="h-9 text-sm"
-              />
+              <p className="text-xs text-muted-foreground">Value: {option.value}</p>
             </div>
             <Button
               size="icon"
               variant="ghost"
               onClick={() => handleRemoveOption(index)}
               disabled={options.length <= 1}
-              className="h-9 w-9"
+              className="h-9 w-9 shrink-0"
             >
               <X className="h-4 w-4" />
             </Button>
