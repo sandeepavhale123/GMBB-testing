@@ -34,6 +34,11 @@
     "defaultMessage": "👋 Speriamo che tu abbia apprezzato la tua recente esperienza con noi. Potresti dedicare un momento per lasciarci una recensione? ⭐",
     "reviewLink": "Link Recensione"
   },
+  "feedbackForm": {
+    "label": "Seleziona Modulo Feedback",
+    "placeholder": "Scegli un modulo",
+    "noFormsAvailable": "Nessun modulo disponibile. Creane uno prima."
+  },
   "schedule": {
     "label": "Programma la campagna (opzionale)",
     "date": "Data",

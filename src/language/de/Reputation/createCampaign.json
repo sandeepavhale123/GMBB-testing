@@ -34,6 +34,11 @@
     "defaultMessage": "👋 Wir hoffen, dass Ihnen Ihre letzte Erfahrung mit uns gefallen hat. Könnten Sie sich einen Moment Zeit nehmen, um uns eine Bewertung zu hinterlassen? ⭐",
     "reviewLink": "Bewertungslink"
   },
+  "feedbackForm": {
+    "label": "Feedback-Formular Auswählen",
+    "placeholder": "Formular auswählen",
+    "noFormsAvailable": "Keine Formulare verfügbar. Erstellen Sie zuerst eines."
+  },
   "schedule": {
     "label": "Kampagne planen (optional)",
     "date": "Datum",

@@ -4,6 +4,12 @@
     "label": "Nombre de la Campaña",
     "placeholder": "Ingrese el nombre de la campaña"
   },
+  "campaignType": {
+    "label": "Tipo de Campaña",
+    "placeholder": "Seleccionar tipo de campaña",
+    "review": "Campaña de Reseñas",
+    "survey": "Campaña de Encuesta"
+  },
   "channel": {
     "label": "Seleccionar Canal",
     "sms": "SMS",
@@ -27,6 +33,11 @@
     "greeting": "¡Hola Nombre!",
     "defaultMessage": "👋 Esperamos que hayas disfrutado tu experiencia reciente con nosotros. ¿Podrías tomarte un momento para dejarnos una reseña? ⭐",
     "reviewLink": "Enlace de Reseña"
+  },
+  "feedbackForm": {
+    "label": "Seleccionar Formulario de Comentarios",
+    "placeholder": "Elegir un formulario",
+    "noFormsAvailable": "No hay formularios disponibles. Crea uno primero."
   },
   "schedule": {
     "label": "Programar la campaña (opcional)",

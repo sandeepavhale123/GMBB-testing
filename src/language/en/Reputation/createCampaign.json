@@ -34,6 +34,11 @@
     "defaultMessage": "👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐",
     "reviewLink": "Review Link"
   },
+  "feedbackForm": {
+    "label": "Select Feedback Form",
+    "placeholder": "Choose a feedback form",
+    "noFormsAvailable": "No feedback forms available. Create one first."
+  },
   "schedule": {
     "label": "Schedule the campaign (optional)",
     "date": "Date",

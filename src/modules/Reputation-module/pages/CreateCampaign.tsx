@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,9 +14,18 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useToast } from "@/hooks/use-toast";
 import { Download } from "lucide-react";
 import { z } from "zod";
+import { getAllFormsFromLocalStorage } from "../utils/formBuilder.utils";
+
 interface Contact {
   name: string;
   phone: string;
+}
+
+interface FeedbackForm {
+  id?: string;
+  name: string;
+  createdAt?: string;
+  fields?: any[];
 }
 const DEFAULT_SMS_TEMPLATE = `Hi Name!
 
@@ -54,6 +63,45 @@ export const CreateCampaign: React.FC = () => {
   const [scheduleTime, setScheduleTime] = useState("");
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [uploadedCSVFile, setUploadedCSVFile] = useState<File | null>(null);
+  const [feedbackForms, setFeedbackForms] = useState<FeedbackForm[]>([]);
+  const [selectedFeedbackForm, setSelectedFeedbackForm] = useState<string>("");
+  // Load feedback forms on mount
+  useEffect(() => {
+    const forms = getAllFormsFromLocalStorage();
+    setFeedbackForms(forms);
+  }, []);
+
+  // Handle campaign type switch - clear feedback form when switching to review
+  useEffect(() => {
+    if (campaignType === "review") {
+      setSelectedFeedbackForm("");
+      // Remove feedback form URL from template content
+      setTemplateContent(prev => 
+        prev.replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, '').trim()
+      );
+    }
+  }, [campaignType]);
+
+  // Auto-insert feedback form URL when selected
+  useEffect(() => {
+    if (campaignType === "survey" && selectedFeedbackForm) {
+      const formUrl = `${window.location.origin}/feedback/form/${selectedFeedbackForm}`;
+      
+      // Check if URL already exists to avoid duplicates
+      if (!templateContent.includes(formUrl)) {
+        setTemplateContent(prev => {
+          // Remove any existing feedback form URLs first
+          const cleaned = prev.replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, '').trim();
+          
+          if (cleaned) {
+            return `${cleaned}\n\n📋 Survey Form: ${formUrl}`;
+          }
+          return `📋 Please take a moment to complete our survey:\n${formUrl}`;
+        });
+      }
+    }
+  }, [selectedFeedbackForm, campaignType]);
+
   const campaignSchema = z.object({
     campaignName: z.string().min(1, t("validation.nameRequired")).max(100, "Campaign name must be less than 100 characters"),
     channel: z.enum(["sms", "email", "whatsapp"]),
@@ -364,6 +412,36 @@ export const CreateCampaign: React.FC = () => {
                   <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
                 </SelectContent>
               </Select>
+
+              {/* Feedback Form Selector - Only for Survey Campaigns */}
+              {campaignType === "survey" && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">
+                    {t("feedbackForm.label")}
+                  </label>
+                  <Select 
+                    value={selectedFeedbackForm} 
+                    onValueChange={setSelectedFeedbackForm}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("feedbackForm.placeholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {feedbackForms.length === 0 ? (
+                        <SelectItem value="none" disabled>
+                          {t("feedbackForm.noFormsAvailable")}
+                        </SelectItem>
+                      ) : (
+                        feedbackForms.map(form => (
+                          <SelectItem key={form.id} value={form.id || ""}>
+                            {form.name}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <Textarea rows={10} value={templateContent} onChange={e => setTemplateContent(e.target.value)} className="resize-none" />
             </CardContent>

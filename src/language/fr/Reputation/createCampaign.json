@@ -34,6 +34,11 @@
     "defaultMessage": "👋 Nous espérons que vous avez apprécié votre récente expérience avec nous. Pourriez-vous prendre un moment pour nous laisser un avis? ⭐",
     "reviewLink": "Lien d'Avis"
   },
+  "feedbackForm": {
+    "label": "Sélectionner le Formulaire de Retour",
+    "placeholder": "Choisissez un formulaire",
+    "noFormsAvailable": "Aucun formulaire disponible. Créez-en un d'abord."
+  },
   "schedule": {
     "label": "Planifier la campagne (optionnel)",
     "date": "Date",
