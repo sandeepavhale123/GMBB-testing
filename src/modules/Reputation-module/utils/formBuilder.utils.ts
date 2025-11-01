@@ -6,6 +6,17 @@ export const generateFieldId = (): string => {
   return `field_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
 
+// Auto-generate field name from label
+export const generateFieldName = (label: string): string => {
+  return label
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')  // Replace non-alphanumeric with underscore
+    .replace(/^[0-9]/, '_$&')      // Prefix with underscore if starts with number
+    .replace(/^_+|_+$/g, '')       // Remove leading/trailing underscores
+    || 'field';                     // Fallback if empty
+};
+
 // Create default field configuration
 export const createDefaultField = (type: FieldType): FormField => {
   const baseField = {

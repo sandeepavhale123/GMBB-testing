@@ -15,6 +15,7 @@ import {
   loadFormFromLocalStorage,
   reorderFields,
   duplicateField,
+  generateFieldName,
 } from "../utils/formBuilder.utils";
 import type { FormField, FieldType } from "../types/formBuilder.types";
 
@@ -61,9 +62,16 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleUpdateField = (fieldId: string, updates: Partial<FormField>) => {
-    setFields(fields.map(field =>
-      field.id === fieldId ? { ...field, ...updates } : field
-    ));
+    setFields(fields.map(field => {
+      if (field.id === fieldId) {
+        // Auto-generate name if label is being updated
+        if (updates.label !== undefined) {
+          return { ...field, ...updates, name: generateFieldName(updates.label) };
+        }
+        return { ...field, ...updates };
+      }
+      return field;
+    }));
   };
 
   const handleDeleteField = (fieldId: string) => {

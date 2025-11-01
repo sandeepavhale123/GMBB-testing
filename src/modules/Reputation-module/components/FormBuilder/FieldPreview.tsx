@@ -21,6 +21,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
         <Input
           type={field.type}
           placeholder={field.placeholder}
+          defaultValue={field.defaultValue}
           disabled
           className="bg-muted/50"
         />
@@ -31,6 +32,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
         <Input
           type="number"
           placeholder={field.placeholder}
+          defaultValue={field.defaultValue}
           disabled
           className="bg-muted/50"
         />
@@ -40,6 +42,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
       return (
         <Textarea
           placeholder={field.placeholder}
+          defaultValue={field.defaultValue}
           disabled
           className="bg-muted/50 min-h-[100px]"
         />
@@ -47,7 +50,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
 
     case 'select':
       return (
-        <Select disabled>
+        <Select disabled defaultValue={field.defaultValue}>
           <SelectTrigger className="bg-muted/50">
             <SelectValue placeholder="Select an option" />
           </SelectTrigger>
@@ -63,7 +66,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
 
     case 'radio':
       return (
-        <RadioGroup disabled className="space-y-2">
+        <RadioGroup disabled className="space-y-2" defaultValue={field.defaultValue}>
           {field.options?.map(opt => (
             <div key={opt.value} className="flex items-center gap-2">
               <RadioGroupItem value={opt.value} id={`${field.id}-${opt.value}`} />
@@ -80,7 +83,11 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
         <div className="space-y-2">
           {field.options?.map(opt => (
             <div key={opt.value} className="flex items-center gap-2">
-              <Checkbox id={`${field.id}-${opt.value}`} disabled />
+              <Checkbox 
+                id={`${field.id}-${opt.value}`} 
+                disabled 
+                defaultChecked={Array.isArray(field.defaultValue) && field.defaultValue.includes(opt.value)}
+              />
               <Label htmlFor={`${field.id}-${opt.value}`} className="cursor-pointer">
                 {opt.label}
               </Label>

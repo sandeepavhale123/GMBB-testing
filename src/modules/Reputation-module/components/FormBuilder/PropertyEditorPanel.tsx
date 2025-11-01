@@ -57,21 +57,7 @@ export const PropertyEditorPanel: React.FC<PropertyEditorPanelProps> = ({
             placeholder="Enter field label"
             className="h-9"
           />
-        </div>
-
-        {/* Field Name */}
-        <div className="space-y-2">
-          <Label htmlFor="field-name" className="text-sm font-medium">
-            Field Name <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="field-name"
-            value={selectedField.name}
-            onChange={(e) => onUpdateField({ name: e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '_') })}
-            placeholder="field_name"
-            className="h-9 font-mono text-sm"
-          />
-          <p className="text-xs text-muted-foreground">Lowercase, numbers, and underscores only</p>
+          <p className="text-xs text-muted-foreground">Field name: {selectedField.name}</p>
         </div>
 
         {/* Placeholder */}

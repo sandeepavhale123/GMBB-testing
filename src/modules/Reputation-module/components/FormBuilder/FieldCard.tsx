@@ -39,8 +39,6 @@ export const FieldCard: React.FC<FieldCardProps> = ({
 }) => {
   return (
     <Card
-      draggable
-      onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
       onClick={onSelect}
@@ -51,7 +49,15 @@ export const FieldCard: React.FC<FieldCardProps> = ({
     >
       <CardContent className="p-4">
         {/* Drag handle */}
-        <div className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-move">
+        <div 
+          draggable
+          onDragStart={(e) => {
+            e.stopPropagation();
+            onDragStart(e);
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+        >
           <GripVertical className="h-5 w-5 text-muted-foreground" />
         </div>
 

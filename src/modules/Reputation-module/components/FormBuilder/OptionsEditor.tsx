@@ -14,7 +14,7 @@ export const OptionsEditor: React.FC<OptionsEditorProps> = ({ options, onChange 
   const handleAddOption = () => {
     onChange([
       ...options,
-      { label: `Option ${options.length + 1}`, value: `option${options.length + 1}` },
+      { label: `Option ${options.length + 1}`, value: `option_${options.length + 1}` },
     ]);
   };
 
