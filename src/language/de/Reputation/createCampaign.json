@@ -4,6 +4,12 @@
     "label": "Kampagnenname",
     "placeholder": "Kampagnennamen eingeben"
   },
+  "campaignType": {
+    "label": "Kampagnentyp",
+    "placeholder": "Kampagnentyp auswählen",
+    "review": "Bewertungskampagne",
+    "survey": "Umfragekampagne"
+  },
   "channel": {
     "label": "Kanal Auswählen",
     "sms": "SMS",

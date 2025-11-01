@@ -42,6 +42,7 @@ export const CreateCampaign: React.FC = () => {
     toast
   } = useToast();
   const [campaignName, setCampaignName] = useState("");
+  const [campaignType, setCampaignType] = useState<"review" | "survey">("review");
   const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [newContactName, setNewContactName] = useState("");
@@ -242,9 +243,33 @@ export const CreateCampaign: React.FC = () => {
         {/* Page Title */}
         <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
 
-        {/* Campaign Name Input */}
-        <div className="space-y-2">
-          <Input placeholder={t("campaignName.placeholder")} value={campaignName} onChange={e => setCampaignName(e.target.value)} className="w-full text-base" />
+        {/* Campaign Name and Type */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              {t("campaignName.label")}
+            </label>
+            <Input 
+              placeholder={t("campaignName.placeholder")} 
+              value={campaignName} 
+              onChange={e => setCampaignName(e.target.value)} 
+              className="w-full text-base" 
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              {t("campaignType.label")}
+            </label>
+            <Select value={campaignType} onValueChange={(value: "review" | "survey") => setCampaignType(value)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={t("campaignType.placeholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="review">{t("campaignType.review")}</SelectItem>
+                <SelectItem value="survey">{t("campaignType.survey")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Channel Toggle */}
