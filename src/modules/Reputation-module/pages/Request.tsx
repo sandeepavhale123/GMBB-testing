@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus, Trash2, Link } from "lucide-react";
+import { Mail, MessageSquare, Send, Eye, Inbox, Menu, Plus, Trash2, Link, Pencil } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -201,10 +201,12 @@ export const Request: React.FC = () => {
   // Load feedback forms from localStorage on mount
   useEffect(() => {
     const loadedForms = getAllFormsFromLocalStorage();
-    const formattedForms: FeedbackForm[] = loadedForms.map(form => ({
-      id: form.id || '',
+    const formattedForms: FeedbackForm[] = loadedForms.map((form) => ({
+      id: form.id || "",
       name: form.name,
-      createdAt: form.createdAt ? new Date(form.createdAt).toLocaleDateString('en-GB') : new Date().toLocaleDateString('en-GB'),
+      createdAt: form.createdAt
+        ? new Date(form.createdAt).toLocaleDateString("en-GB")
+        : new Date().toLocaleDateString("en-GB"),
       formData: form,
     }));
     setFeedbackForms(formattedForms);
@@ -296,21 +298,18 @@ export const Request: React.FC = () => {
 
   const handleSendReviewRequest = async (contactId: string, templateId: string) => {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const contact = contacts.find(c => c.id === contactId);
-    const template = mockTemplates.find(t => t.id === templateId);
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    const contact = contacts.find((c) => c.id === contactId);
+    const template = mockTemplates.find((t) => t.id === templateId);
+
     // Show success toast
-    toast.success(
-      t("sendReviewRequest.success.title"),
-      {
-        description: t("sendReviewRequest.success.description", { 
-          contactName: contact?.name 
-        })
-      }
-    );
-    
+    toast.success(t("sendReviewRequest.success.title"), {
+      description: t("sendReviewRequest.success.description", {
+        contactName: contact?.name,
+      }),
+    });
+
     // Close modal
     setSendModalOpen(false);
     setSelectedContactForSend(null);
@@ -318,18 +317,15 @@ export const Request: React.FC = () => {
 
   const handleOpenSendModal = (contact: Contact) => {
     // Check if there are active templates
-    const activeTemplates = mockTemplates.filter(t => t.status === "active");
-    
+    const activeTemplates = mockTemplates.filter((t) => t.status === "active");
+
     if (activeTemplates.length === 0) {
-      toast.error(
-        t("sendReviewRequest.title"),
-        {
-          description: t("sendReviewRequest.createTemplateFirst")
-        }
-      );
+      toast.error(t("sendReviewRequest.title"), {
+        description: t("sendReviewRequest.createTemplateFirst"),
+      });
       return;
     }
-    
+
     setSelectedContactForSend(contact);
     setSendModalOpen(true);
   };
@@ -338,7 +334,7 @@ export const Request: React.FC = () => {
     if (deleteFeedbackFormId) {
       // Remove from localStorage
       clearFormFromLocalStorage(deleteFeedbackFormId);
-      
+
       // Update state
       setFeedbackForms((prev) => prev.filter((form) => form.id !== deleteFeedbackFormId));
       toast.success(`Feedback form deleted: "${deleteFeedbackFormName}"`);
@@ -355,8 +351,8 @@ export const Request: React.FC = () => {
     navigate(`/module/reputation/edit-feedback-form/${formId}`);
   };
 
-  const handleViewFeedbackForm = (formId: string) => {
-    window.open(`/feedback/form/${formId}`, '_blank');
+  const handleViewFeedbackForm = (formName: string) => {
+    toast.info(`Form preview coming soon for "${formName}"`);
   };
 
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
@@ -473,9 +469,9 @@ export const Request: React.FC = () => {
                             {calculateDelivered(campaign.delivered, campaign.contacts)}
                           </TableCell>
                           <TableCell className="text-center">
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => handleViewCampaign(campaign.name)}
                               aria-label={t("actions.view")}
                             >
@@ -553,17 +549,17 @@ export const Request: React.FC = () => {
                           <TableCell>{template.date}</TableCell>
                           <TableCell className="text-right">
                             <div className="flex items-center justify-end gap-2">
-                              <Button 
-                                variant="ghost" 
-                                size="icon" 
+                              <Button
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => handleViewTemplate(template.id)}
                                 aria-label={t("templates.actions.view")}
                               >
                                 <Eye className="w-4 h-4" />
                               </Button>
-                              <Button 
-                                variant="ghost" 
-                                size="icon" 
+                              <Button
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => {
                                   setDeleteTemplateId(template.id);
                                   setDeleteTemplateName(template.name);
@@ -629,9 +625,7 @@ export const Request: React.FC = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="font-semibold">Name</TableHead>
-                      <TableHead className="font-semibold">
-                        {contactViewType === "phone" ? "Phone" : "Email"}
-                      </TableHead>
+                      <TableHead className="font-semibold">{contactViewType === "phone" ? "Phone" : "Email"}</TableHead>
                       <TableHead className="font-semibold">Added on</TableHead>
                       <TableHead className="text-right font-semibold">Action</TableHead>
                     </TableRow>
@@ -640,9 +634,7 @@ export const Request: React.FC = () => {
                     {contacts.map((contact) => (
                       <TableRow key={contact.id}>
                         <TableCell className="font-medium">{contact.name}</TableCell>
-                        <TableCell>
-                          {contactViewType === "phone" ? contact.phone : contact.email}
-                        </TableCell>
+                        <TableCell>{contactViewType === "phone" ? contact.phone : contact.email}</TableCell>
                         <TableCell>{contact.addedOn}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -735,26 +727,26 @@ export const Request: React.FC = () => {
                         <TableCell>{form.createdAt}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              onClick={() => handleViewFeedbackForm(form.id)}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleViewFeedbackForm(form.name)}
                               aria-label={t("feedbackForms.actions.view")}
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => handleEditFeedbackForm(form.id)}
                               aria-label={t("feedbackForms.actions.edit")}
                               className="text-primary hover:text-primary hover:bg-primary/10"
                             >
-                              <Link className="w-4 h-4" />
+                              <Pencil className="w-4 h-4" />
                             </Button>
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => {
                                 setDeleteFeedbackFormId(form.id);
                                 setDeleteFeedbackFormName(form.name);
@@ -781,16 +773,17 @@ export const Request: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Delete Template Confirmation Dialog */}
-      <AlertDialog open={deleteTemplateId !== null} onOpenChange={() => {
-        setDeleteTemplateId(null);
-        setDeleteTemplateName("");
-      }}>
+      <AlertDialog
+        open={deleteTemplateId !== null}
+        onOpenChange={() => {
+          setDeleteTemplateId(null);
+          setDeleteTemplateName("");
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("templates.deleteDialog.title")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("templates.deleteDialog.description")}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{t("templates.deleteDialog.description")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("templates.deleteDialog.cancel")}</AlertDialogCancel>
@@ -802,10 +795,13 @@ export const Request: React.FC = () => {
       </AlertDialog>
 
       {/* Delete Contact Confirmation Dialog */}
-      <AlertDialog open={deleteContactId !== null} onOpenChange={() => {
-        setDeleteContactId(null);
-        setDeleteContactName("");
-      }}>
+      <AlertDialog
+        open={deleteContactId !== null}
+        onOpenChange={() => {
+          setDeleteContactId(null);
+          setDeleteContactName("");
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Contact</AlertDialogTitle>
@@ -823,16 +819,17 @@ export const Request: React.FC = () => {
       </AlertDialog>
 
       {/* Delete Feedback Form Confirmation Dialog */}
-      <AlertDialog open={deleteFeedbackFormId !== null} onOpenChange={() => {
-        setDeleteFeedbackFormId(null);
-        setDeleteFeedbackFormName("");
-      }}>
+      <AlertDialog
+        open={deleteFeedbackFormId !== null}
+        onOpenChange={() => {
+          setDeleteFeedbackFormId(null);
+          setDeleteFeedbackFormName("");
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("feedbackForms.deleteDialog.title")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("feedbackForms.deleteDialog.description")}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{t("feedbackForms.deleteDialog.description")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("feedbackForms.deleteDialog.cancel")}</AlertDialogCancel>
@@ -890,7 +887,7 @@ export const Request: React.FC = () => {
         open={sendModalOpen}
         onOpenChange={setSendModalOpen}
         contact={selectedContactForSend}
-        templates={mockTemplates.filter(t => t.status === "active")}
+        templates={mockTemplates.filter((t) => t.status === "active")}
         onSend={handleSendReviewRequest}
       />
     </div>
