@@ -355,8 +355,8 @@ export const Request: React.FC = () => {
     navigate(`/module/reputation/edit-feedback-form/${formId}`);
   };
 
-  const handleViewFeedbackForm = (formName: string) => {
-    toast.info(`Form preview coming soon for "${formName}"`);
+  const handleViewFeedbackForm = (formId: string) => {
+    window.open(`/feedback/form/${formId}`, '_blank');
   };
 
   const getTemplateStatusBadgeClass = (status: Template["status"]) => {
@@ -738,7 +738,7 @@ export const Request: React.FC = () => {
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              onClick={() => handleViewFeedbackForm(form.name)}
+                              onClick={() => handleViewFeedbackForm(form.id)}
                               aria-label={t("feedbackForms.actions.view")}
                             >
                               <Eye className="w-4 h-4" />
