@@ -60,7 +60,7 @@ export const FormPreview: React.FC<FormPreviewProps> = ({ schema }) => {
                     <SelectValue placeholder="Select an option" />
                   </SelectTrigger>
                   <SelectContent>
-                    {field.options?.map((opt) => (
+                    {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((opt) => (
                       <SelectItem key={opt.value} value={opt.value}>
                         {opt.label}
                       </SelectItem>

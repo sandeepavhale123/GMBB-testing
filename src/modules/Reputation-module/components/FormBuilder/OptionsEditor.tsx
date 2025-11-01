@@ -25,7 +25,12 @@ export const OptionsEditor: React.FC<OptionsEditorProps> = ({ options, onChange 
 
   const handleOptionChange = (index: number, field: 'label' | 'value', value: string) => {
     const newOptions = [...options];
-    newOptions[index] = { ...newOptions[index], [field]: value };
+    // Ensure value is never empty - use a placeholder if cleared
+    if (field === 'value' && value.trim() === '') {
+      newOptions[index] = { ...newOptions[index], [field]: `option_${index + 1}` };
+    } else {
+      newOptions[index] = { ...newOptions[index], [field]: value };
+    }
     onChange(newOptions);
   };
 
