@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, ArrowLeft } from "lucide-react";
+import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
@@ -64,18 +64,13 @@ export const CreateFeedbackForm: React.FC = () => {
     <div className="space-y-6 p-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={handleCancel}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">
-              {isEditMode ? "Edit Feedback Form" : "Create Feedback Form"}
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Design a custom feedback form using drag-and-drop builder
-            </p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">
+            {isEditMode ? "Edit Feedback Form" : "Create Feedback Form"}
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Design a custom feedback form using drag-and-drop builder
+          </p>
         </div>
         <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
           <Save className="w-4 h-4 mr-2" />
