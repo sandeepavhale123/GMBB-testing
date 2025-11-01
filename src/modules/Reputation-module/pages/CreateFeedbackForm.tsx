@@ -39,18 +39,16 @@ export const CreateFeedbackForm: React.FC = () => {
     }
 
     // Check if form has at least one required field (optional validation)
-    const requiredFieldsCount = formData.filter(f => f.required).length;
-    
+    const requiredFieldsCount = formData.filter((f) => f.required).length;
+
     // Log form structure for debugging
     console.log("Saving form:", {
       name: templateName,
       formData: formData,
-      requiredFields: requiredFieldsCount
+      requiredFields: requiredFieldsCount,
     });
 
-    toast.success(
-      isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully"
-    );
+    toast.success(isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully");
 
     // Navigate back to request page with feedbackForms tab
     navigate("/module/reputation/request?tab=feedbackForms");
@@ -72,9 +70,7 @@ export const CreateFeedbackForm: React.FC = () => {
             <h1 className="text-3xl font-bold text-foreground">
               {isEditMode ? "Edit Feedback Form" : "Create Feedback Form"}
             </h1>
-            <p className="text-muted-foreground mt-1">
-              Design a custom feedback form using drag-and-drop builder
-            </p>
+            <p className="text-muted-foreground mt-1">Design a custom feedback form using drag-and-drop builder</p>
           </div>
         </div>
         <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
@@ -110,8 +106,8 @@ export const CreateFeedbackForm: React.FC = () => {
             Drag and drop elements to create your custom feedback form
           </p>
         </CardHeader>
-        <CardContent className="overflow-visible">
-          <div className="create-form-builder-wrapper min-h-[600px] rounded-lg overflow-visible">
+        <CardContent>
+          <div className="min-h-[600px] rounded-lg overflow-hidden border-red-100">
             <ReactFormBuilder
               onPost={(data: any) => {
                 setFormData(data.task_data);
