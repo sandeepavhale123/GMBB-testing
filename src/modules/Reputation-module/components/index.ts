@@ -7,4 +7,3 @@ export { PhonePreview } from './PhonePreview';
 export { SendReviewRequestModal } from './SendReviewRequestModal';
 export { ChannelCard } from './ChannelCard';
 export { QRCodeSection } from './QRCodeSection';
-export { SurveyCreatorWidget } from './SurveyCreatorWidget';

@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Save, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
-import { SurveyCreatorWidget } from "../components/SurveyCreatorWidget";
-import { validateSurveyJSON } from "../utils/surveyValidation";
+import { ReactFormBuilder } from "react-form-builder2";
+import "react-form-builder2/dist/app.css";
+import "./CreateFeedbackForm.css";
 
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
@@ -15,15 +16,14 @@ export const CreateFeedbackForm: React.FC = () => {
   const isEditMode = Boolean(formId);
 
   const [templateName, setTemplateName] = useState("");
-  const [surveyJSON, setSurveyJSON] = useState<any>(null);
+  const [formData, setFormData] = useState<any[]>([]);
 
   useEffect(() => {
     // In edit mode, load existing form data
     if (isEditMode && formId) {
       // Mock data for edit mode
       setTemplateName(`Feedback Form ${formId}`);
-      // Load saved survey JSON from backend/storage
-      // setSurveyJSON(loadedSurveyJSON);
+      // Load saved form schema from backend/storage
     }
   }, [isEditMode, formId]);
 
@@ -33,22 +33,24 @@ export const CreateFeedbackForm: React.FC = () => {
       return;
     }
 
-    // Validate survey JSON
-    const validation = validateSurveyJSON(surveyJSON);
-    
-    if (!validation.isValid) {
-      toast.error(validation.errors[0] || "Please add at least one question to the form");
+    if (formData.length === 0) {
+      toast.error("Please add at least one form field");
       return;
     }
 
+    // Check if form has at least one required field (optional validation)
+    const requiredFieldsCount = formData.filter(f => f.required).length;
+    
     // Log form structure for debugging
     console.log("Saving form:", {
       name: templateName,
-      surveyJSON: surveyJSON,
-      stats: validation.stats,
+      formData: formData,
+      requiredFields: requiredFieldsCount
     });
 
-    toast.success(isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully");
+    toast.success(
+      isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully"
+    );
 
     // Navigate back to request page with feedbackForms tab
     navigate("/module/reputation/request?tab=feedbackForms");
@@ -70,7 +72,9 @@ export const CreateFeedbackForm: React.FC = () => {
             <h1 className="text-3xl font-bold text-foreground">
               {isEditMode ? "Edit Feedback Form" : "Create Feedback Form"}
             </h1>
-            <p className="text-muted-foreground mt-1">Design a custom feedback form using drag-and-drop builder</p>
+            <p className="text-muted-foreground mt-1">
+              Design a custom feedback form using drag-and-drop builder
+            </p>
           </div>
         </div>
         <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
@@ -106,11 +110,12 @@ export const CreateFeedbackForm: React.FC = () => {
             Drag and drop elements to create your custom feedback form
           </p>
         </CardHeader>
-        <CardContent className="overflow-visible p-0">
-          <div className="min-h-[600px]">
-            <SurveyCreatorWidget
-              initialJSON={surveyJSON}
-              onSave={(json) => setSurveyJSON(json)}
+        <CardContent>
+          <div className="min-h-[600px] rounded-lg overflow-hidden">
+            <ReactFormBuilder
+              onPost={(data: any) => {
+                setFormData(data.task_data);
+              }}
             />
           </div>
         </CardContent>
