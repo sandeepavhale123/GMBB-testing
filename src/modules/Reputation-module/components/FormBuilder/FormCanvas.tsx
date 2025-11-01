@@ -23,39 +23,6 @@ export const FormCanvas: React.FC<FormCanvasProps> = ({
   onReorderFields,
   onDropNewField,
 }) => {
-  const [draggedIndex, setDraggedIndex] = React.useState<number | null>(null);
-
-  const handleDragStart = (e: React.DragEvent, index: number) => {
-    setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('fieldIndex', index.toString());
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-  };
-
-  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const fieldType = e.dataTransfer.getData('fieldType');
-    if (fieldType) {
-      // New field from sidebar
-      onDropNewField(fieldType as FieldType);
-      return;
-    }
-
-    const dragIndex = e.dataTransfer.getData('fieldIndex');
-    if (dragIndex && draggedIndex !== null) {
-      // Reordering existing field
-      onReorderFields(draggedIndex, dropIndex);
-    }
-
-    setDraggedIndex(null);
-  };
-
   const handleCanvasDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const fieldType = e.dataTransfer.getData('fieldType');
@@ -91,9 +58,6 @@ export const FormCanvas: React.FC<FormCanvasProps> = ({
               onDelete={() => onDeleteField(field.id)}
               onMoveUp={() => onReorderFields(index, index - 1)}
               onMoveDown={() => onReorderFields(index, index + 1)}
-              onDragStart={(e) => handleDragStart(e, index)}
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, index)}
             />
           ))}
         </div>

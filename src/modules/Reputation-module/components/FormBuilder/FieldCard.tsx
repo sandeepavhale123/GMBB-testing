@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { GripVertical, Copy, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
+import { Copy, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import { FieldPreview } from './FieldPreview';
 import { cn } from '@/lib/utils';
 import type { FormField } from '../../types/formBuilder.types';
@@ -18,9 +18,6 @@ interface FieldCardProps {
   onDelete: () => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
-  onDragStart: (e: React.DragEvent) => void;
-  onDragOver: (e: React.DragEvent) => void;
-  onDrop: (e: React.DragEvent) => void;
 }
 
 export const FieldCard: React.FC<FieldCardProps> = ({
@@ -33,14 +30,9 @@ export const FieldCard: React.FC<FieldCardProps> = ({
   onDelete,
   onMoveUp,
   onMoveDown,
-  onDragStart,
-  onDragOver,
-  onDrop,
 }) => {
   return (
     <Card
-      onDragOver={onDragOver}
-      onDrop={onDrop}
       onClick={onSelect}
       className={cn(
         'relative group cursor-pointer transition-all hover:shadow-md',
@@ -48,21 +40,8 @@ export const FieldCard: React.FC<FieldCardProps> = ({
       )}
     >
       <CardContent className="p-4">
-        {/* Drag handle */}
-        <div 
-          draggable
-          onDragStart={(e) => {
-            e.stopPropagation();
-            onDragStart(e);
-          }}
-          onClick={(e) => e.stopPropagation()}
-          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
-        >
-          <GripVertical className="h-5 w-5 text-muted-foreground" />
-        </div>
-
         {/* Field content */}
-        <div className="pl-8 pr-32">
+        <div className="pr-32">
           <div className="flex items-center gap-2 mb-2">
             <Label className="text-base font-medium">
               {field.label}
