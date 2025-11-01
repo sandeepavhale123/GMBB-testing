@@ -8,7 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Download, Upload, X, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
-import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
 import jsPDF from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -79,26 +79,31 @@ export const QRCodePoster: React.FC = () => {
     if (!posterRef.current) return;
 
     try {
-      const canvas = await html2canvas(posterRef.current, {
+      // Capture at actual display size using html-to-image
+      const dataUrl = await htmlToImage.toPng(posterRef.current, {
         backgroundColor: backgroundColor,
-        scale: 3,
-        width: 1800,
-        height: 2400,
+        pixelRatio: 2,
+        cacheBust: true,
       });
 
       if (format === "png") {
         const link = document.createElement("a");
         link.download = `qr-poster-${Date.now()}.png`;
-        link.href = canvas.toDataURL("image/png");
+        link.href = dataUrl;
         link.click();
       } else if (format === "pdf") {
+        // Get the actual dimensions of the poster element
+        const rect = posterRef.current.getBoundingClientRect();
+        const widthInInches = rect.width / 96; // Convert px to inches (96 DPI)
+        const heightInInches = rect.height / 96;
+        
         const pdf = new jsPDF({
           orientation: "portrait",
           unit: "in",
-          format: [18, 24],
+          format: [widthInInches, heightInInches],
         });
-        const imgData = canvas.toDataURL("image/png");
-        pdf.addImage(imgData, "PNG", 0, 0, 18, 24);
+        const imgData = dataUrl;
+        pdf.addImage(imgData, "PNG", 0, 0, widthInInches, heightInInches);
         pdf.save(`qr-poster-${Date.now()}.pdf`);
       }
 
