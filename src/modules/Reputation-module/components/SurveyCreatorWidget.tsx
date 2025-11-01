@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { SurveyCreator, SurveyCreatorComponent } from "survey-creator-react";
 import { ICreatorOptions } from "survey-creator-core";
-import "survey-core/defaultV2.css";
+import "survey-core/survey.css";
 import "survey-creator-core/survey-creator-core.css";
 
 interface SurveyCreatorWidgetProps {
