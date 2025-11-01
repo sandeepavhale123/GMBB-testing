@@ -111,7 +111,7 @@ export const CreateFeedbackForm: React.FC = () => {
           </p>
         </CardHeader>
         <CardContent>
-          <div className="min-h-[600px] rounded-lg overflow-hidden">
+          <div className="create-form-builder-wrapper min-h-[600px] rounded-lg overflow-visible">
             <ReactFormBuilder
               onPost={(data: any) => {
                 setFormData(data.task_data);

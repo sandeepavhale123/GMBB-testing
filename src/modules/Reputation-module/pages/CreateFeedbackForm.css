@@ -1,42 +1,61 @@
-/* Side-by-side layout for toolbox and form preview */
-.react-form-builder {
+/* Force container to use flexbox */
+.create-form-builder-wrapper {
   display: flex !important;
-  gap: 1rem;
+  flex-direction: row !important;
+  gap: 1.5rem;
   min-height: 600px;
+  width: 100%;
 }
 
-.react-form-builder .react-form-builder-toolbar {
-  flex: 0 0 250px;
-  max-width: 250px;
+/* Target first child (likely toolbox) */
+.create-form-builder-wrapper > div:first-child {
+  flex: 0 0 280px;
+  min-width: 280px;
+  max-width: 280px;
   border-right: 1px solid hsl(var(--border));
   padding-right: 1rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.react-form-builder .react-form-builder-preview {
+/* Target second child (likely preview/form area) */
+.create-form-builder-wrapper > div:nth-child(2) {
   flex: 1;
-  padding-left: 1rem;
+  min-width: 0;
   overflow-y: auto;
 }
 
-/* Ensure field settings panel is visible */
-.react-form-builder .edit-form {
+/* Target any edit/settings panels */
+.create-form-builder-wrapper [class*="edit"],
+.create-form-builder-wrapper [class*="properties"],
+.create-form-builder-wrapper [class*="settings"] {
   background: hsl(var(--background));
   padding: 1rem;
   border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
   margin-top: 1rem;
+  position: relative !important;
+  z-index: 10;
 }
 
-/* Style for required checkbox */
-.react-form-builder .form-check-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Make sure forms/inputs are visible */
+.create-form-builder-wrapper input,
+.create-form-builder-wrapper textarea,
+.create-form-builder-wrapper select,
+.create-form-builder-wrapper label {
+  color: hsl(var(--foreground)) !important;
+  display: block !important;
+}
+
+/* Style checkboxes including required checkbox */
+.create-form-builder-wrapper input[type="checkbox"] {
+  width: auto !important;
+  height: auto !important;
+  margin-right: 0.5rem;
 }
 
 /* Style form builder elements */
-.react-form-builder .rfb-item {
+.create-form-builder-wrapper .rfb-item {
   margin-bottom: 1rem;
   padding: 0.75rem;
   border: 1px solid hsl(var(--border));
@@ -44,6 +63,25 @@
   background: hsl(var(--background));
 }
 
-.react-form-builder .rfb-item:hover {
+.create-form-builder-wrapper .rfb-item:hover {
   border-color: hsl(var(--primary));
+}
+
+/* Global fallback - target any direct children */
+.create-form-builder-wrapper > * {
+  display: block !important;
+}
+
+/* Ensure toolbox items are visible */
+.create-form-builder-wrapper [draggable="true"] {
+  cursor: move;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.25rem;
+  background: hsl(var(--card));
+}
+
+.create-form-builder-wrapper [draggable="true"]:hover {
+  background: hsl(var(--accent));
 }
