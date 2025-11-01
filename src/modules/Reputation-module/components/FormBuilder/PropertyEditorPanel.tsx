@@ -5,7 +5,6 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Settings } from 'lucide-react';
 import { OptionsEditor } from './OptionsEditor';
-import { ValidationEditor } from './ValidationEditor';
 import type { FormField } from '../../types/formBuilder.types';
 
 interface PropertyEditorPanelProps {
@@ -126,15 +125,6 @@ export const PropertyEditorPanel: React.FC<PropertyEditorPanelProps> = ({
             </div>
           </div>
         )}
-
-        {/* Validation Rules */}
-        <div className="pt-2 border-t">
-          <ValidationEditor
-            validation={selectedField.validation}
-            fieldType={selectedField.type}
-            onChange={(validation) => onUpdateField({ validation })}
-          />
-        </div>
 
         {/* Default Value */}
         {selectedField.type !== 'file' && (
