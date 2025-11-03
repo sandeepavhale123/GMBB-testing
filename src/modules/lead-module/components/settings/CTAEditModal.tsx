@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,9 @@ import { useFormValidation } from "@/hooks/useFormValidation";
 import {
   SingleCTASettings,
   singleCTASettingsSchema,
+  createSingleCTASettingsSchema,
 } from "@/hooks/useCTASettings";
+
 import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface CTAEditModalProps {
@@ -36,6 +38,7 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
   ctaType,
 }) => {
   const { t } = useI18nNamespace("Laed-module-component/CTAEditModal");
+  const { t: tValidation } = useI18nNamespace("hooks/useCTASettings");
   const [formData, setFormData] = useState<SingleCTASettings>(() => {
     // Initialize with safe defaults to prevent undefined errors
     return (
@@ -48,8 +51,17 @@ export const CTAEditModal: React.FC<CTAEditModalProps> = ({
       }
     );
   });
+  // const { validate, getFieldError, hasFieldError, clearErrors } =
+  //   useFormValidation(singleCTASettingsSchema);
+
+  // ✅ Create schema with validation translator
+  const dynamicSchema = useMemo(
+    () => createSingleCTASettingsSchema(tValidation),
+    [tValidation]
+  );
   const { validate, getFieldError, hasFieldError, clearErrors } =
-    useFormValidation(singleCTASettingsSchema);
+    useFormValidation(dynamicSchema);
+
   const { toast } = useToast();
 
   // Reset form when modal opens only
