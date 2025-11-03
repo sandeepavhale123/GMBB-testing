@@ -6,7 +6,6 @@ import {
   Check,
   RefreshCw,
   Loader2,
-  Plus,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -143,8 +142,11 @@ export const MobileBusinessSelector: React.FC = () => {
                         {business.name}
                       </p>
                       <div className="flex items-center gap-2">
+                        <p className="text-xs text-gray-500 truncate">
+                          {business.address}
+                        </p>
                         <Badge variant="secondary" className="shrink-0 text-xs">
-                          {business.zipcode}
+                          {business.type}
                         </Badge>
                       </div>
                     </div>
@@ -161,20 +163,6 @@ export const MobileBusinessSelector: React.FC = () => {
                 ))}
               </CommandGroup>
             </CommandList>
-            <div className="border-t border-border p-2">
-              <Button
-                variant="outline"
-                className="w-full justify-start gap-2 text-sm font-medium hover:bg-accent"
-                onClick={() => {
-                  setMobileListingOpen(false);
-                  // Add your navigation or modal logic here
-                  console.log("Add New Listing clicked");
-                }}
-              >
-                <Plus className="w-4 h-4" />
-                Add New Listing
-              </Button>
-            </div>
           </Command>
         </PopoverContent>
       </Popover>

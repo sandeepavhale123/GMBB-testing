@@ -12,7 +12,6 @@ import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeed
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import { QRCodePoster } from "@/modules/Reputation-module/pages/QRCodePoster";
 import { ReputationOnboarding } from "@/modules/Reputation-module/pages/ReputationOnboarding";
-import { ReputationListingProvider } from "@/modules/Reputation-module/context/ReputationListingContext";
 import type { RouteConfig } from "../routeConfig";
 
 export const reputationModuleRoutes: RouteConfig[] = [
@@ -21,9 +20,7 @@ export const reputationModuleRoutes: RouteConfig[] = [
     element: (
       <ProtectedRoute>
         <DashboardTypeGuard allowedDashboardTypes={[0, 1, 2]}>
-          <ReputationListingProvider>
-            <ReputationLayout />
-          </ReputationListingProvider>
+          <ReputationLayout />
         </DashboardTypeGuard>
       </ProtectedRoute>
     ),

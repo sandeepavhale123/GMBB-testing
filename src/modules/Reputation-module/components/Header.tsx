@@ -8,8 +8,6 @@ import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 import { ModulesMegaMenu } from '@/multiDashboardLayout/components/ModulesMegaMenu';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useI18nNamespace } from '@/hooks/useI18nNamespace';
-import { BusinessListingSelector } from '@/components/Header/BusinessListingSelector';
-import { MobileBusinessSelector } from '@/components/Header/MobileBusinessSelector';
 
 export const Header: React.FC = () => {
   const { t } = useI18nNamespace("Reputation-module-component/Header");
@@ -46,8 +44,6 @@ export const Header: React.FC = () => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-3">
-          <BusinessListingSelector />
-          <MobileBusinessSelector />
           <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />

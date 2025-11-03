@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, MapPin, Check, Loader2, Plus } from "lucide-react";
+import { ChevronDown, MapPin, Check, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { useNavigate } from "react-router-dom";
@@ -104,12 +104,17 @@ export const BusinessListingSelector: React.FC = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-medium text-gray-700 block leading-tight">
-                  {currentBusiness.name}
+                  {currentBusiness.name.length > 30
+                    ? currentBusiness.name.slice(0, 30) + "..."
+                    : currentBusiness.name}
                 </span>
-                <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 truncate">
+                    {currentBusiness.address}
+                  </span>
                   <Badge
                     variant="secondary"
-                    className="shrink-0 text-xs"
+                    className="shrink-0 text-xs ml-auto"
                   >
                     {currentBusiness.zipcode}
                   </Badge>
@@ -164,12 +169,17 @@ export const BusinessListingSelector: React.FC = () => {
                     <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">
-                        {business.name}
+                        {business.name.length > 30
+                          ? business.name.slice(0, 30) + "..."
+                          : business.name}
                       </p>
                       <div className="flex items-center gap-2">
+                        <p className="text-xs text-gray-500 truncate">
+                          {business.address}
+                        </p>
                         <Badge
                           variant="secondary"
-                          className="shrink-0 text-xs"
+                          className="shrink-0 text-xs ml-auto"
                         >
                           {business.zipcode}
                         </Badge>
@@ -188,20 +198,6 @@ export const BusinessListingSelector: React.FC = () => {
                 ))}
               </CommandGroup>
             </CommandList>
-            <div className="border-t border-border p-2">
-              <Button
-                variant="outline"
-                className="w-full justify-start gap-2 text-sm font-medium hover:bg-accent"
-                onClick={() => {
-                  setOpen(false);
-                  // Add your navigation or modal logic here
-                  console.log("Add New Listing clicked");
-                }}
-              >
-                <Plus className="w-4 h-4" />
-                Add New Listing
-              </Button>
-            </div>
           </Command>
         </PopoverContent>
       </Popover>
