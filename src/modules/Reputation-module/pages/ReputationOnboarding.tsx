@@ -98,31 +98,26 @@ export const ReputationOnboarding: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {t("importListings.select")}
-                  </span>
-                  <div className="flex items-center gap-3 flex-1 max-w-md">
-                    <div className="relative flex-1">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="text"
-                        placeholder="Search listings..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9"
-                      />
-                    </div>
-                    <button
-                      onClick={handleSelectAll}
-                      className="text-sm text-primary hover:underline font-medium whitespace-nowrap"
-                    >
-                      {t("importListings.selectAll")}
-                    </button>
+                <div className="flex items-center justify-end gap-3 mb-4">
+                  <div className="relative flex-1 max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Search listings..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-9"
+                    />
                   </div>
+                  <button
+                    onClick={handleSelectAll}
+                    className="text-sm text-primary hover:underline font-medium whitespace-nowrap"
+                  >
+                    {t("importListings.selectAll")}
+                  </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {filteredListings.map((listing) => (
                     <div
                       key={listing.id}
