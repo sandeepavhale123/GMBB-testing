@@ -70,39 +70,34 @@ export const ReputationOnboarding: React.FC = () => {
   );
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: theme.bg_color || "hsl(var(--background))" }}
-    >
+    <div>
       {/* Header Section */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 rounded-lg mt-5">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 items-center">
             <div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              <h1 className="text-2xl md:text-3xl  font-bold mb-2">
                 {t("header.title")}
               </h1>
-              <p className="text-blue-50 text-base md:text-lg leading-relaxed">
+              <p className="text-blue-50 text-base md:text-md leading-relaxed">
                 {t("header.description")}
               </p>
             </div>
-            <div className="hidden lg:flex justify-center">
+            <div className="hidden lg:block mt-[-50px]">
               <img
-                src="/lovable-uploads/bg-img/review-illustration.png"
+                src="/lovable-uploads/6.png"
                 alt="Reputation Management"
-                className="w-full max-w-md"
+                className="w-[250px]"
               />
             </div>
           </div>
-        </div>
       </div>
 
       {/* Content Section */}
       <div className="flex-1 py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
             {/* Import Existing Listings Card */}
-            <Card className="border-border">
+            <Card className="border-border lg:col-span-7 ">
               <CardHeader>
                 <CardTitle className="text-xl md:text-2xl">
                   {t("importListings.title")}
@@ -111,8 +106,8 @@ export const ReputationOnboarding: React.FC = () => {
                   {t("importListings.description")}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-end gap-3 mb-4">
+              <CardContent className="gap-4">
+                <div className="flex items-center justify-between gap-3 mb-4">
                   <div className="relative flex-1 max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -131,7 +126,7 @@ export const ReputationOnboarding: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+                <div className="space-y-2 max-h-[250px] overflow-y-auto pr-2">
                   {filteredListings.map((listing) => (
                     <div
                       key={listing.id}
@@ -155,7 +150,7 @@ export const ReputationOnboarding: React.FC = () => {
                 <Button
                   onClick={handleImportListings}
                   disabled={selectedListings.length === 0}
-                  className="w-full mt-6"
+                  className=" mt-6"
                   size="lg"
                 >
                   {t("importListings.importButton")}
@@ -164,34 +159,26 @@ export const ReputationOnboarding: React.FC = () => {
             </Card>
 
             {/* Add New Listing Card */}
-            <Card className="border-border">
+            <Card className="border-border lg:col-span-5 bg-gray-50">
               <CardHeader>
                 <CardTitle className="text-xl md:text-2xl">
                   {t("addListing.title")}
                 </CardTitle>
                 <CardDescription className="text-base">
-                  {t("addListing.subtitle")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4 py-8">
-                  <h3 className="text-2xl font-semibold text-foreground">
-                    {t("addListing.noWorries")}
-                  </h3>
-                  <p className="text-muted-foreground text-base leading-relaxed">
-                    {t("addListing.description")}
+                   <p className="text-muted-foreground text-base leading-relaxed mb-4">
+                    Click the button below to add your Google My Business (GMB) listing and start managing your reviews, ratings, and reputation all in one place
                   </p>
-                </div>
-
-                <Button
+                    <Button
                   onClick={handleAddGoogleAccount}
-                  className="w-full"
+                  className=""
                   size="lg"
                   variant="default"
                 >
                   {t("addListing.button")}
                 </Button>
-              </CardContent>
+                </CardDescription>
+              </CardHeader>
+              
             </Card>
           </div>
         </div>
