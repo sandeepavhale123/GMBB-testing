@@ -4,28 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import {
   Search,
   Download,
@@ -35,7 +16,7 @@ import {
   MessageCircle,
   Clock,
   CheckCircle,
-  Eye
+  Eye,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -238,10 +219,10 @@ export const Feedback: React.FC = () => {
 
   const totalFeedback = feedbackData.length;
   const averageRating = (feedbackData.reduce((sum, f) => sum + f.rating, 0) / totalFeedback).toFixed(1);
-  const pendingCount = feedbackData.filter(f => f.status === "pending").length;
-  const resolvedCount = feedbackData.filter(f => f.status === "resolved").length;
+  const pendingCount = feedbackData.filter((f) => f.status === "pending").length;
+  const resolvedCount = feedbackData.filter((f) => f.status === "resolved").length;
 
-  const filteredData = feedbackData.filter(feedback => {
+  const filteredData = feedbackData.filter((feedback) => {
     const matchesSearch =
       feedback.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       feedback.message.toLowerCase().includes(searchQuery.toLowerCase());
@@ -266,12 +247,10 @@ export const Feedback: React.FC = () => {
 
   const handleSaveChanges = () => {
     if (selectedFeedback) {
-      setFeedbackData(prev =>
-        prev.map(f =>
-          f.id === selectedFeedback.id
-            ? { ...f, status: modalStatus as any, adminNotes: modalNotes }
-            : f
-        )
+      setFeedbackData((prev) =>
+        prev.map((f) =>
+          f.id === selectedFeedback.id ? { ...f, status: modalStatus as any, adminNotes: modalNotes } : f,
+        ),
       );
       toast.success(t("toast.updateSuccess"));
       setIsModalOpen(false);
@@ -282,16 +261,16 @@ export const Feedback: React.FC = () => {
     const headers = ["Customer Name", "Rating", "Message", "Channel", "Submitted Date", "Status"];
     const csvContent = [
       headers.join(","),
-      ...filteredData.map(f =>
-        [f.customerName, f.rating, `"${f.message}"`, f.channel, f.submittedDate, f.status].join(",")
-      )
+      ...filteredData.map((f) =>
+        [f.customerName, f.rating, `"${f.message}"`, f.channel, f.submittedDate, f.status].join(","),
+      ),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `feedback-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `feedback-export-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
 
@@ -315,11 +294,7 @@ export const Feedback: React.FC = () => {
     return (
       <div className="flex items-center gap-0.5">
         {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-              }`}
-          />
+          <Star key={i} className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
         ))}
       </div>
     );
@@ -333,20 +308,16 @@ export const Feedback: React.FC = () => {
           <p className="text-muted-foreground">{t("pageDescription")}</p>
         </div>
 
-         <Button  onClick={handleExportCSV}>
-              <Download className="w-4 h-4 mr-2" />
-              {t("filters.exportCSV")}
-            </Button>
-
+        <Button onClick={handleExportCSV}>
+          <Download className="w-4 h-4 mr-2" />
+          {t("filters.exportCSV")}
+        </Button>
       </div>
-
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("summary.totalFeedback")}
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.totalFeedback")}</CardTitle>
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -356,9 +327,7 @@ export const Feedback: React.FC = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("summary.averageRating")}
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.averageRating")}</CardTitle>
             <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -368,9 +337,7 @@ export const Feedback: React.FC = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("summary.pendingCount")}
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.pendingCount")}</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -380,9 +347,7 @@ export const Feedback: React.FC = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("summary.resolvedCount")}
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.resolvedCount")}</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -443,8 +408,6 @@ export const Feedback: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
-
-        
         </CardContent>
       </Card>
 
@@ -475,15 +438,11 @@ export const Feedback: React.FC = () => {
                 ) : (
                   paginatedData.map((feedback) => (
                     <TableRow key={feedback.id} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">
-                        {feedback.customerName}
-                      </TableCell>
+                      <TableCell className="font-medium">{feedback.customerName}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           {renderStars(feedback.rating)}
-                          <span className="text-sm text-muted-foreground">
-                            ({feedback.rating})
-                          </span>
+                          <span className="text-sm text-muted-foreground">({feedback.rating})</span>
                         </div>
                       </TableCell>
                       <TableCell className="max-w-xs">
@@ -491,19 +450,12 @@ export const Feedback: React.FC = () => {
                       </TableCell>
                       <TableCell>{feedback.submittedDate}</TableCell>
                       <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={getStatusBadgeClass(feedback.status)}
-                        >
+                        <Badge variant="outline" className={getStatusBadgeClass(feedback.status)}>
                           {t(`status.${feedback.status}`)}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleViewDetails(feedback)}
-                        >
+                        <Button variant="ghost" size="icon" onClick={() => handleViewDetails(feedback)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                       </TableCell>
@@ -515,7 +467,7 @@ export const Feedback: React.FC = () => {
           </div>
 
           {filteredData.length > 0 && (
-            <div className="flex items-center justify-between px-6 py-4 border-t">
+            <div className="flex items-center flex-col md:flex-row justify-between px-6 py-4 border-t">
               <p className="text-sm text-muted-foreground">
                 {t("pagination.showing", {
                   from: startIndex + 1,
@@ -527,7 +479,7 @@ export const Feedback: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
@@ -539,7 +491,7 @@ export const Feedback: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
                 >
                   {t("pagination.next")}
@@ -562,15 +514,26 @@ export const Feedback: React.FC = () => {
               <div>
                 <h3 className="font-semibold mb-3">{t("modal.customerInfo")}</h3>
                 <div className="bg-muted/50 p-4 rounded-lg space-y-2">
-                  <p><strong>{t("modal.customerName")}:</strong> {selectedFeedback.customerName}</p>
+                  <p>
+                    <strong>{t("modal.customerName")}:</strong> {selectedFeedback.customerName}
+                  </p>
                   {selectedFeedback.customerEmail && (
-                    <p><strong>{t("modal.customerEmail")}:</strong> {selectedFeedback.customerEmail}</p>
+                    <p>
+                      <strong>{t("modal.customerEmail")}:</strong> {selectedFeedback.customerEmail}
+                    </p>
                   )}
                   {selectedFeedback.customerPhone && (
-                    <p><strong>{t("modal.customerPhone")}:</strong> {selectedFeedback.customerPhone}</p>
+                    <p>
+                      <strong>{t("modal.customerPhone")}:</strong> {selectedFeedback.customerPhone}
+                    </p>
                   )}
-                  <p><strong>{t("modal.channel")}:</strong> <span className="capitalize">{selectedFeedback.channel}</span></p>
-                  <p><strong>{t("modal.submittedOn")}:</strong> {selectedFeedback.submittedDate}</p>
+                  <p>
+                    <strong>{t("modal.channel")}:</strong>{" "}
+                    <span className="capitalize">{selectedFeedback.channel}</span>
+                  </p>
+                  <p>
+                    <strong>{t("modal.submittedOn")}:</strong> {selectedFeedback.submittedDate}
+                  </p>
                 </div>
               </div>
 
@@ -587,9 +550,7 @@ export const Feedback: React.FC = () => {
               </div>
 
               <div>
-                <label className="font-semibold block mb-2">
-                  {t("modal.currentStatus")}
-                </label>
+                <label className="font-semibold block mb-2">{t("modal.currentStatus")}</label>
                 <Select value={modalStatus} onValueChange={setModalStatus}>
                   <SelectTrigger>
                     <SelectValue />
@@ -603,9 +564,7 @@ export const Feedback: React.FC = () => {
               </div>
 
               <div>
-                <label className="font-semibold block mb-2">
-                  {t("modal.adminNotes")}
-                </label>
+                <label className="font-semibold block mb-2">{t("modal.adminNotes")}</label>
                 <Textarea
                   placeholder={t("modal.adminNotesPlaceholder")}
                   value={modalNotes}
@@ -620,9 +579,7 @@ export const Feedback: React.FC = () => {
             <Button variant="outline" onClick={() => setIsModalOpen(false)}>
               {t("modal.closeButton")}
             </Button>
-            <Button onClick={handleSaveChanges}>
-              {t("modal.saveButton")}
-            </Button>
+            <Button onClick={handleSaveChanges}>{t("modal.saveButton")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
