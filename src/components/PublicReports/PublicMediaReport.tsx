@@ -286,7 +286,12 @@ export const PublicMediaReport: React.FC = () => {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium capitalize">
-                        {media.media_type || "media"}
+                        {t(
+                          `publicMediaReport.mediaType.${
+                            media.media_type || "default"
+                          }`
+                        )}
+                        {/* {media.media_type || "media"} */}
                       </h4>
                       <div className="text-sm text-muted-foreground mt-1">
                         {t("publicMediaReport.recentMedia.publishedOn", {

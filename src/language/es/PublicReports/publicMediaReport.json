@@ -1,6 +1,6 @@
 {
   "publicMediaReport": {
-    "title": "Informe de Rendimiento de Medios",
+    "title": "Informe de rendimiento de medios",
     "loading": {
       "message": "Cargando informe de medios..."
     },
@@ -10,9 +10,9 @@
       "retry": "Intentar de nuevo"
     },
     "overviewStats": {
-      "totalMedia": "Medios Totales",
-      "totalPhotos": "Fotos Totales",
-      "totalVideos": "Videos Totales",
+      "totalMedia": "Medios totales",
+      "totalPhotos": "Fotos totales",
+      "totalVideos": "Videos totales",
       "compareText": "{{value}}% vs anterior"
     },
     "charts": {
@@ -28,6 +28,11 @@
       "noImage": "Sin imagen",
       "publishedOn": "Publicado el {{date}}",
       "view": "Ver"
+    },
+    "mediaType": {
+      "image": "Imagen",
+      "video": "Video",
+      "default": "Medio"
     }
   }
 }

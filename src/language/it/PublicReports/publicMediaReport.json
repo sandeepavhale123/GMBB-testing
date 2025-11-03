@@ -1,33 +1,38 @@
 {
   "publicMediaReport": {
-    "title": "Rapporto sulle Prestazioni dei Media",
+    "title": "Rapporto sulle prestazioni dei media",
     "loading": {
       "message": "Caricamento del rapporto sui media..."
     },
     "error": {
-      "title": "Errore nel Caricare il Rapporto",
+      "title": "Errore durante il caricamento del rapporto",
       "description": "Impossibile caricare il rapporto sulle prestazioni dei media. Riprova più tardi.",
       "retry": "Riprova"
     },
     "overviewStats": {
-      "totalMedia": "Totale Media",
-      "totalPhotos": "Totale Foto",
-      "totalVideos": "Totale Video",
-      "compareText": "{{value}}% vs precedente"
+      "totalMedia": "Totale media",
+      "totalPhotos": "Totale foto",
+      "totalVideos": "Totale video",
+      "compareText": "{{value}}% rispetto al precedente"
     },
     "charts": {
-      "mediaPerformance": "Prestazioni dei Post sui Media nel Tempo"
+      "mediaPerformance": "Prestazioni dei post multimediali nel tempo"
     },
     "chartLabels": {
-      "currentUploads": "Caricamenti del Periodo Attuale",
-      "previousUploads": "Caricamenti del Periodo Precedente"
+      "currentUploads": "Caricamenti del periodo corrente",
+      "previousUploads": "Caricamenti del periodo precedente"
     },
     "recentMedia": {
       "title": "Media",
       "noData": "Nessun dato disponibile",
-      "noImage": "Nessuna Immagine",
+      "noImage": "Nessuna immagine",
       "publishedOn": "Pubblicato il {{date}}",
       "view": "Visualizza"
+    },
+    "mediaType": {
+      "image": "Immagine",
+      "video": "Video",
+      "default": "Media"
     }
   }
 }

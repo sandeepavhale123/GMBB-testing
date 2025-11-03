@@ -271,10 +271,14 @@ export const PublicCitationReport: React.FC = () => {
                             </div>
                           </TableCell>
                           <TableCell className="hidden sm:table-cell text-xs sm:text-sm">
-                            {row.businessName}
+                            {row.businessName?.includes("Not Matching")
+                              ? t("publicCitationReport.notmatch")
+                              : row.businessName}
                           </TableCell>
                           <TableCell className="hidden md:table-cell text-xs sm:text-sm">
-                            {row.phone}
+                            {row.phone?.includes("Not Matching")
+                              ? t("publicCitationReport.notmatch")
+                              : row.phone}
                           </TableCell>
                           <TableCell>
                             <a
@@ -304,10 +308,10 @@ export const PublicCitationReport: React.FC = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="text-xs sm:text-sm">
-                          {t("publicCitationReport.possible.siteName")}
+                          {t("publicCitationReport.table.possible.siteName")}
                         </TableHead>
                         <TableHead className="text-xs sm:text-sm text-right">
-                          {t("publicCitationReport.possible.action")}
+                          {t("publicCitationReport.table.possible.action")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -349,7 +353,7 @@ export const PublicCitationReport: React.FC = () => {
                                 }
                               }}
                             >
-                              {t("publicCitationReport.possible.fixNow")}
+                              {t("publicCitationReport.table.possible.fixNow")}
                             </Button>
                           </TableCell>
                         </TableRow>

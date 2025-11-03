@@ -1,35 +1,43 @@
 {
-  "title": "Rapport d'avis",
-  "loading": "Chargement du rapport d'avis...",
-  "error": "Erreur lors du chargement du rapport d'avis",
+  "title": "Rapport des avis",
+  "loading": "Chargement du rapport des avis...",
+  "error": "Erreur lors du chargement du rapport des avis",
   "overview": {
     "averageRating": "Note moyenne",
-    "totalReviews": "Nombre total d'avis",
+    "totalReviews": "Nombre total d’avis",
     "manualReply": "Réponse manuelle",
     "aiReply": "Réponse IA"
   },
   "sections": {
-    "ratingSummary": "Résumé du nombre de notes",
-    "sentimentAnalysis": "Analyse de sentiment",
-    "reviewTrends": "Tendances des avis dans le temps",
-    "reviewDataSummary": "Résumé des données d'avis",
+    "ratingSummary": "Résumé des notes",
+    "sentimentAnalysis": "Analyse des sentiments",
+    "reviewTrends": "Tendances des avis au fil du temps",
+    "reviewDataSummary": "Résumé des données d’avis",
     "recentReviews": "Avis récents",
     "reviews": "Avis"
+  },
+  "chart": {
+    "totalReviews": "Nombre total d’avis",
+    "star5": "5 étoiles",
+    "star4": "4 étoiles",
+    "star3": "3 étoiles",
+    "star2": "2 étoiles",
+    "star1": "1 étoile"
   },
   "labels": {
     "star": "Étoile",
     "reviews": "avis",
-    "reviewDate": "Date de l'avis",
-    "totalReview": "Nombre total d'avis",
-    "fiveStar": "Note 5 étoiles",
-    "fourStar": "Note 4 étoiles",
-    "threeStar": "Note 3 étoiles",
-    "twoStar": "Note 2 étoiles",
-    "oneStar": "Note 1 étoile",
+    "reviewDate": "Date de l’avis",
+    "totalReview": "Avis total",
+    "fiveStar": "Évaluation 5 étoiles",
+    "fourStar": "Évaluation 4 étoiles",
+    "threeStar": "Évaluation 3 étoiles",
+    "twoStar": "Évaluation 2 étoiles",
+    "oneStar": "Évaluation 1 étoile",
     "positive": "Positif",
     "neutral": "Neutre",
     "negative": "Négatif",
     "noData": "Aucune donnée disponible",
-    "vsPrevious": "vs précédent"
+    "vsPrevious": "par rapport au précédent"
   }
 }

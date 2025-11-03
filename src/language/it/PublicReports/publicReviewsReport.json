@@ -1,35 +1,43 @@
 {
-  "title": "Rapporto Recensioni",
-  "loading": "Caricamento del rapporto recensioni...",
-  "error": "Errore nel caricamento del rapporto recensioni",
+  "title": "Rapporto delle recensioni",
+  "loading": "Caricamento del rapporto delle recensioni...",
+  "error": "Errore durante il caricamento del rapporto delle recensioni",
   "overview": {
-    "averageRating": "Valutazione Media",
-    "totalReviews": "Totale Recensioni",
-    "manualReply": "Risposta Manuale",
-    "aiReply": "Risposta AI"
+    "averageRating": "Valutazione media",
+    "totalReviews": "Recensioni totali",
+    "manualReply": "Risposta manuale",
+    "aiReply": "Risposta IA"
   },
   "sections": {
-    "ratingSummary": "Sommario delle Valutazioni",
-    "sentimentAnalysis": "Analisi del Sentimento",
-    "reviewTrends": "Andamento delle Recensioni nel Tempo",
-    "reviewDataSummary": "Sommario Dati Recensioni",
-    "recentReviews": "Recensioni Recenti",
+    "ratingSummary": "Riepilogo delle valutazioni",
+    "sentimentAnalysis": "Analisi del sentiment",
+    "reviewTrends": "Andamento delle recensioni nel tempo",
+    "reviewDataSummary": "Riepilogo dei dati delle recensioni",
+    "recentReviews": "Recensioni recenti",
     "reviews": "Recensioni"
+  },
+  "chart": {
+    "totalReviews": "Recensioni totali",
+    "star5": "5 stelle",
+    "star4": "4 stelle",
+    "star3": "3 stelle",
+    "star2": "2 stelle",
+    "star1": "1 stella"
   },
   "labels": {
     "star": "Stella",
     "reviews": "recensioni",
-    "reviewDate": "Data della Recensione",
-    "totalReview": "Recensione Totale",
-    "fiveStar": "Valutazione 5 Stelle",
-    "fourStar": "Valutazione 4 Stelle",
-    "threeStar": "Valutazione 3 Stelle",
-    "twoStar": "Valutazione 2 Stelle",
-    "oneStar": "Valutazione 1 Stella",
-    "positive": "Positiva",
-    "neutral": "Neutrale",
-    "negative": "Negativa",
+    "reviewDate": "Data della recensione",
+    "totalReview": "Recensione totale",
+    "fiveStar": "Valutazione 5 stelle",
+    "fourStar": "Valutazione 4 stelle",
+    "threeStar": "Valutazione 3 stelle",
+    "twoStar": "Valutazione 2 stelle",
+    "oneStar": "Valutazione 1 stella",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
     "noData": "Nessun dato disponibile",
-    "vsPrevious": "vs precedente"
+    "vsPrevious": "rispetto al precedente"
   }
 }

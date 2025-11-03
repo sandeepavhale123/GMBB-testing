@@ -4,32 +4,33 @@
     "tracker": {
       "cardTitle": "Tracciatore di Citazioni",
       "listed": "Elencato",
-      "notListed": "Non Elencato"
+      "notListed": "Non elencato"
     },
     "localPages": {
-      "title": "Pagine Locali e Directory",
-      "description": "Il punteggio delle tue pagine locali e directory si basa sul numero di luoghi in cui la tua attività è presente, diviso per il numero di pagine locali e directory che abbiamo controllato."
+      "title": "Pagine e Directory Locali",
+      "description": "Il punteggio delle tue pagine e directory locali si basa sul numero di luoghi in cui la tua scheda è presente, diviso per il numero di pagine e directory locali che abbiamo verificato."
     },
+    "notmatch": "Non corrisponde",
     "audit": {
-      "title": "Audit delle Citazioni",
+      "title": "Verifica delle Citazioni",
       "placeOrder": "Effettua Ordine",
       "tabs": {
-        "existing": "Citazione Esistente",
-        "possible": "Citazione Possibile"
+        "existing": "Citazioni Esistenti",
+        "possible": "Citazioni Possibili"
       }
     },
     "table": {
       "existing": {
-        "website": "Sito Web",
-        "businessName": "Nome Azienda",
+        "website": "Sito web",
+        "businessName": "Nome dell'attività",
         "phone": "Telefono",
         "action": "Azione",
         "view": "Visualizza"
       },
       "possible": {
-        "siteName": "Nome Sito",
+        "siteName": "Nome del sito",
         "action": "Azione",
-        "fixNow": "Correggi Ora"
+        "fixNow": "Correggi ora"
       }
     }
   }

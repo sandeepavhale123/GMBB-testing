@@ -205,6 +205,12 @@ export const PublicInsightsReport: React.FC = () => {
     "Mobile Map": "hsl(280 100% 60%)",
   };
 
+  const donutLabelTranslation = {
+    "Desktop Search": t("publicInsightsReport.donutLabels.desktopSearch"),
+    "Mobile Search": t("publicInsightsReport.donutLabels.mobileSearch"),
+    "Desktop Map": t("publicInsightsReport.donutLabels.desktopMap"),
+    "Mobile Map": t("publicInsightsReport.donutLabels.mobileMap"),
+  };
   const prepareDonutChartData = (
     donutChart: { label: string; value: number }[]
   ) => {
@@ -219,26 +225,95 @@ export const PublicInsightsReport: React.FC = () => {
       }));
   };
 
+  // const renderCustomDonutLegend = () => {
+  //   const segments = [
+  //     {
+  //       name: t("publicInsightsReport.donutLabels.desktopSearch"),
+  //       color: "hsl(220 100% 60%)",
+  //     },
+  //     {
+  //       name: t("publicInsightsReport.donutLabels.mobileSearch"),
+  //       color: "hsl(142 76% 60%)",
+  //     },
+  //     {
+  //       name: t("publicInsightsReport.donutLabels.desktopMap"),
+  //       color: "hsl(47 96% 60%)",
+  //     },
+  //     {
+  //       name: t("publicInsightsReport.donutLabels.mobileMap"),
+  //       color: "hsl(280 100% 60%)",
+  //     },
+  //   ];
+
+  //   return (
+  //     <div className="flex justify-center flex-wrap gap-4 pt-4">
+  //       {segments.map((segment) => (
+  //         <button
+  //           key={segment.name}
+  //           onClick={() => toggleDonutSegment(segment.name)}
+  //           className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
+  //             !visibleDonutSegments[segment.name] ? "opacity-50" : ""
+  //           }`}
+  //           aria-pressed={visibleDonutSegments[segment.name]}
+  //           title={`${visibleDonutSegments[segment.name] ? "Hide" : "Show"} ${
+  //             segment.name
+  //           }`}
+  //           style={{ fontSize: isMobile ? "12px" : "14px" }}
+  //         >
+  //           <div
+  //             className="w-3 h-3 rounded"
+  //             style={{ backgroundColor: segment.color }}
+  //           />
+  //           <span
+  //             className={
+  //               visibleDonutSegments[segment.name] ? "" : "line-through"
+  //             }
+  //             style={{ color: segment.color }}
+  //           >
+  //             {segment.name}
+  //           </span>
+  //         </button>
+  //       ))}
+  //     </div>
+  //   );
+  // };
+
   const renderCustomDonutLegend = () => {
     const segments = [
-      { name: "Desktop Search", color: "hsl(220 100% 60%)" },
-      { name: "Mobile Search", color: "hsl(142 76% 60%)" },
-      { name: "Desktop Map", color: "hsl(47 96% 60%)" },
-      { name: "Mobile Map", color: "hsl(280 100% 60%)" },
+      {
+        key: "Desktop Search",
+        label: t("publicInsightsReport.donutLabels.desktopSearch"),
+        color: "hsl(220 100% 60%)",
+      },
+      {
+        key: "Mobile Search",
+        label: t("publicInsightsReport.donutLabels.mobileSearch"),
+        color: "hsl(142 76% 60%)",
+      },
+      {
+        key: "Desktop Map",
+        label: t("publicInsightsReport.donutLabels.desktopMap"),
+        color: "hsl(47 96% 60%)",
+      },
+      {
+        key: "Mobile Map",
+        label: t("publicInsightsReport.donutLabels.mobileMap"),
+        color: "hsl(280 100% 60%)",
+      },
     ];
 
     return (
       <div className="flex justify-center flex-wrap gap-4 pt-4">
         {segments.map((segment) => (
           <button
-            key={segment.name}
-            onClick={() => toggleDonutSegment(segment.name)}
+            key={segment.key}
+            onClick={() => toggleDonutSegment(segment.key)}
             className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${
-              !visibleDonutSegments[segment.name] ? "opacity-50" : ""
+              !visibleDonutSegments[segment.key] ? "opacity-50" : ""
             }`}
-            aria-pressed={visibleDonutSegments[segment.name]}
-            title={`${visibleDonutSegments[segment.name] ? "Hide" : "Show"} ${
-              segment.name
+            aria-pressed={visibleDonutSegments[segment.key]}
+            title={`${visibleDonutSegments[segment.key] ? "Hide" : "Show"} ${
+              segment.label
             }`}
             style={{ fontSize: isMobile ? "12px" : "14px" }}
           >
@@ -248,11 +323,11 @@ export const PublicInsightsReport: React.FC = () => {
             />
             <span
               className={
-                visibleDonutSegments[segment.name] ? "" : "line-through"
+                visibleDonutSegments[segment.key] ? "" : "line-through"
               }
               style={{ color: segment.color }}
             >
-              {segment.name}
+              {segment.label}
             </span>
           </button>
         ))}
@@ -262,12 +337,36 @@ export const PublicInsightsReport: React.FC = () => {
 
   const renderCustomBarLegend = () => {
     const segments = [
-      { key: "search", label: "Search", color: "hsl(210 100% 55%)" },
-      { key: "map", label: "Map", color: "hsl(160 85% 50%)" },
-      { key: "website", label: "Website", color: "hsl(25 95% 55%)" },
-      { key: "direction", label: "Direction", color: "hsl(340 100% 55%)" },
-      { key: "call", label: "Call", color: "hsl(260 85% 55%)" },
-      { key: "message", label: "Message", color: "hsl(195 90% 50%)" },
+      {
+        key: "search",
+        label: t("publicInsightsReport.chartLabels.search"),
+        color: "hsl(210 100% 55%)",
+      },
+      {
+        key: "map",
+        label: t("publicInsightsReport.chartLabels.map"),
+        color: "hsl(160 85% 50%)",
+      },
+      {
+        key: "website",
+        label: t("publicInsightsReport.chartLabels.website"),
+        color: "hsl(25 95% 55%)",
+      },
+      {
+        key: "direction",
+        label: t("publicInsightsReport.chartLabels.direction"),
+        color: "hsl(340 100% 55%)",
+      },
+      {
+        key: "call",
+        label: t("publicInsightsReport.chartLabels.call"),
+        color: "hsl(260 85% 55%)",
+      },
+      {
+        key: "message",
+        label: t("publicInsightsReport.chartLabels.message"),
+        color: "hsl(195 90% 50%)",
+      },
     ];
 
     return (
@@ -303,7 +402,7 @@ export const PublicInsightsReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="Business Insights Report"
+      title={t("publicInsightsReport.title")}
       listingName={insightData?.data.locationName}
       logo={insightData?.data.companyLogo}
       address={insightData?.data.address}
@@ -458,7 +557,8 @@ export const PublicInsightsReport: React.FC = () => {
                                       style={{ backgroundColor: data.fill }}
                                     />
                                     <span className="font-medium">
-                                      {data.name}
+                                      {donutLabelTranslation[data.name] ||
+                                        data.name}
                                     </span>
                                   </div>
                                   <div className="text-sm text-muted-foreground">
@@ -471,7 +571,7 @@ export const PublicInsightsReport: React.FC = () => {
                             return null;
                           }}
                         />
-                        <Legend
+                        {/* <Legend
                           verticalAlign="bottom"
                           align="center"
                           wrapperStyle={{
@@ -486,10 +586,11 @@ export const PublicInsightsReport: React.FC = () => {
                           formatter={(value, entry) => (
                             <span style={{ color: entry.color }}>{value}</span>
                           )}
-                        />
+                        /> */}
                       </PieChart>
                     </ResponsiveContainer>
                   </ChartContainer>
+                  {renderCustomDonutLegend()}
                 </CardContent>
               </Card>
 
@@ -547,7 +648,8 @@ export const PublicInsightsReport: React.FC = () => {
                                       style={{ backgroundColor: data.fill }}
                                     />
                                     <span className="font-medium">
-                                      {data.name}
+                                      {donutLabelTranslation[data.name] ||
+                                        data.name}
                                     </span>
                                   </div>
                                   <div className="text-sm text-muted-foreground">
@@ -612,7 +714,8 @@ export const PublicInsightsReport: React.FC = () => {
                                     style={{ backgroundColor: data.fill }}
                                   />
                                   <span className="font-medium">
-                                    {data.name}
+                                    {donutLabelTranslation[data.name] ||
+                                      data.name}
                                   </span>
                                 </div>
                                 <div className="text-sm text-muted-foreground">

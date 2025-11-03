@@ -219,6 +219,29 @@ export const PublicReviewsReport: React.FC = () => {
         return 0;
     }
   };
+
+  const renderCustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="rounded-lg border bg-background p-2 shadow-sm">
+          <p className="font-medium mb-1">{formatToDayMonthYear(label)}</p>
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center gap-2 text-sm">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: entry.color }}
+              ></div>
+              <span>
+                {t(`chart.${entry.dataKey}`)}: {entry.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   // condition for checking piechart data is present or not
   const sentiment1 = reviewsData?.data?.periodOne?.summary?.sentiment;
   const sentiment2 = reviewsData?.data?.periodTwo?.summary?.sentiment;
@@ -244,7 +267,7 @@ export const PublicReviewsReport: React.FC = () => {
   const recentReviews2 = reviewsData?.data?.periodTwo?.recent_reviews || [];
   return (
     <PublicReportDashboardLayout
-      title="Reviews Report"
+      title={t("title")}
       listingName={reviewsData?.data.locationName}
       address={reviewsData?.data.address}
       date={reviewsData?.data?.reportDate}
@@ -846,7 +869,7 @@ export const PublicReviewsReport: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip content={renderCustomTooltip} />
                         <Line
                           type="monotone"
                           dataKey="totalReviews"
@@ -927,7 +950,7 @@ export const PublicReviewsReport: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip content={renderCustomTooltip} />
                         <Line
                           type="monotone"
                           dataKey="totalReviews"
@@ -1000,7 +1023,7 @@ export const PublicReviewsReport: React.FC = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip content={renderCustomTooltip} />
                     <Line
                       type="monotone"
                       dataKey="totalReviews"

@@ -3,11 +3,18 @@
     "report": "Loading Health report...",
     "translations": "Loading translations..."
   },
+  "header":"GMB Health Report",
   "error": {
     "title": "Error Loading Report",
     "message": "Unable to load the GMB health report with ID: {{token}}",
     "retry": "Retry",
     "goBack": "Go Back"
+  },
+  "order":{
+    "placeholder":"Sort by...",
+    "default":"Default Order",
+    "failed":"Failed First",
+    "passed":"Passed First"
   },
   "notFound": {
     "title": "Report Not Found",
@@ -103,12 +110,16 @@
     "avgRating": "Average Rating",
     "reviewCount": "Review Count",
     "message1":" Standing out among competitors increases the chance of attracting more customers",
-    "analyze":"Analyze competitor profile and focus on areas where they excel such as better rating or more details description"
+    "analyze":"Analyze competitor profile and focus on areas where they excel such as better rating or more details description",
+    "empty":"No Competitor Data Found",
+    "emptyDesc":" We couldn't find any competitor information for this location at this time. Please check back later or contact support if  you believe this is an error."
+   
   },
   "competitorTable":{
     "business":" Business Name",
     "avg":"Avg. Rating",
-    "review":"Review Count"
+    "review":"Review Count",
+    "you":"YOU"
   },
   "citationAnalysis": {
     "title": "Citation Analysis",
@@ -118,7 +129,10 @@
     "recommendation":" Identify citation gaps by auditing competitor profiles Submit your business to directories like Yelp,Yellow pages and other niche-specific sites.",
     "chartTitle": "Citation Analysis",
     "chartDescription": "Compare local citation counts across competitors",
-    "citationCount": "Citation Count"
+    "citationCount": "Citation Count",
+    "empty":"No Citation Data Found",
+    "emptyDesc":" We couldn't find any citation information for this location at this time. Citations will be analyzed once competitor data becomes available.",
+     "citation":"citations"
   },
   "citationTable":{
     "business":"Business Name",
@@ -132,5 +146,10 @@
       "item4": "The logo is present and professional.",
       "item5": "Update your business hours.",
       "item6": "Less Than 5 Photos. Enhance Photo"
+  },
+  "chart":{
+    "rating":"Rating",
+    "reviewTitle":"Reviews",
+    "reviw":" reviews"
   }
 }

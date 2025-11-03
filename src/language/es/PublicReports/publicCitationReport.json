@@ -4,32 +4,33 @@
     "tracker": {
       "cardTitle": "Rastreador de Citaciones",
       "listed": "Listado",
-      "notListed": "No Listado"
+      "notListed": "No listado"
     },
     "localPages": {
       "title": "Páginas y Directorios Locales",
-      "description": "Tu puntuación en páginas y directorios locales se basa en el número de lugares donde tu ficha está presente, dividido por el número de páginas y directorios locales que hemos verificado."
+      "description": "Tu puntuación de páginas y directorios locales se basa en el número de lugares en los que aparece tu listado, dividido por el número de páginas y directorios locales que hemos verificado."
     },
+    "notmatch": "No coincide",
     "audit": {
       "title": "Auditoría de Citaciones",
-      "placeOrder": "Realizar Pedido",
+      "placeOrder": "Realizar pedido",
       "tabs": {
-        "existing": "Citación Existente",
-        "possible": "Citación Posible"
+        "existing": "Citaciones Existentes",
+        "possible": "Citaciones Posibles"
       }
     },
     "table": {
       "existing": {
-        "website": "Sitio Web",
-        "businessName": "Nombre del Negocio",
+        "website": "Sitio web",
+        "businessName": "Nombre del negocio",
         "phone": "Teléfono",
         "action": "Acción",
         "view": "Ver"
       },
       "possible": {
-        "siteName": "Nombre del Sitio",
+        "siteName": "Nombre del sitio",
         "action": "Acción",
-        "fixNow": "Corregir Ahora"
+        "fixNow": "Corregir ahora"
       }
     }
   }
