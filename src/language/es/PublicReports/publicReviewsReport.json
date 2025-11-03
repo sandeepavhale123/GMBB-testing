@@ -5,12 +5,12 @@
   "overview": {
     "averageRating": "Calificación Promedio",
     "totalReviews": "Total de Reseñas",
-    "manualReply": "Respuesta Manual",
-    "aiReply": "Respuesta por IA"
+    "manualReply": "Responder Manualmente",
+    "aiReply": "Respuesta con IA"
   },
   "sections": {
-    "ratingSummary": "Resumen de Calificaciones",
-    "sentimentAnalysis": "Análisis de Sentimientos",
+    "ratingSummary": "Resumen de Conteo de Calificaciones",
+    "sentimentAnalysis": "Análisis de Sentimiento",
     "reviewTrends": "Tendencias de Reseñas a lo Largo del Tiempo",
     "reviewDataSummary": "Resumen de Datos de Reseñas",
     "recentReviews": "Reseñas Recientes",
@@ -27,17 +27,18 @@
   "labels": {
     "star": "Estrella",
     "reviews": "reseñas",
-    "reviewDate": "Fecha de la Reseña",
+    "reviewDate": "Fecha de Reseña",
     "totalReview": "Reseña Total",
     "fiveStar": "Calificación de 5 Estrellas",
     "fourStar": "Calificación de 4 Estrellas",
     "threeStar": "Calificación de 3 Estrellas",
     "twoStar": "Calificación de 2 Estrellas",
     "oneStar": "Calificación de 1 Estrella",
-    "positive": "Positivo",
-    "neutral": "Neutral",
-    "negative": "Negativo",
+    "positive": "Positivas",
+    "neutral": "Neutras",
+    "negative": "Negativas",
     "noData": "No hay datos disponibles",
-    "vsPrevious": "vs anterior"
-  }
+    "vsPrevious": "vs período anterior"
+  },
+  "noresponse": "Sin respuesta"
 }

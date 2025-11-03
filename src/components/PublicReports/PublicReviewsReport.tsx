@@ -1305,7 +1305,11 @@ export const PublicReviewsReport: React.FC = () => {
                                     : "secondary"
                                 }
                               >
-                                {review.response_status_label}
+                                {review.response_status_label?.includes(
+                                  "No Response"
+                                )
+                                  ? t("noresponse")
+                                  : review.response_status_label}
                               </Badge>
                             </div>
                           </div>
@@ -1363,7 +1367,11 @@ export const PublicReviewsReport: React.FC = () => {
                                     : "secondary"
                                 }
                               >
-                                {review.response_status_label}
+                                {review.response_status_label?.includes(
+                                  "No Response"
+                                )
+                                  ? t("noresponse")
+                                  : review.response_status_label}
                               </Badge>
                             </div>
                           </div>
@@ -1436,7 +1444,11 @@ export const PublicReviewsReport: React.FC = () => {
                                     : "secondary"
                                 }
                               >
-                                {review.response_status_label}
+                                {review.response_status_label?.includes(
+                                  "No Response"
+                                )
+                                  ? t("noresponse")
+                                  : review.response_status_label}
                               </Badge>
                             </div>
                           </div>

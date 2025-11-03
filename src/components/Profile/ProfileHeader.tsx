@@ -128,7 +128,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     : "User";
 
   const handleManageSubscription = () => {
-    navigate("/settings/subscription");
+    if (location.pathname.startsWith("/main")) {
+      navigate(`/main-dashboard/settings/subscription`);
+    } else {
+      navigate("/settings/subscription");
+    }
   };
 
   // Format plan expiry date

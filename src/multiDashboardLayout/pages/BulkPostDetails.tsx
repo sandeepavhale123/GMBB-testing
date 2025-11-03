@@ -222,7 +222,7 @@ const PostsTable = memo(
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2 justify-end">
-                        {post.status?.toLowerCase() ===
+                        {getTranslatedStatus(post.status) ===
                           t("bulkPostDetails.status.live") && (
                           <button
                             onClick={() => onViewPost(post)}

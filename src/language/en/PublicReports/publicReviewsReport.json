@@ -39,5 +39,6 @@
     "negative": "Negative",
     "noData": "No data available",
     "vsPrevious": "vs previous"
-  }
+  },
+  "noresponse":"No Response"
 }

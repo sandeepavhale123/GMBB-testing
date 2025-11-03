@@ -9,9 +9,9 @@
     "aiReply": "KI-Antwort"
   },
   "sections": {
-    "ratingSummary": "Bewertungsübersicht",
+    "ratingSummary": "Zusammenfassung der Bewertungsanzahl",
     "sentimentAnalysis": "Stimmungsanalyse",
-    "reviewTrends": "Bewertungstrends im Zeitverlauf",
+    "reviewTrends": "Bewertungstrends im Laufe der Zeit",
     "reviewDataSummary": "Zusammenfassung der Bewertungsdaten",
     "recentReviews": "Neueste Bewertungen",
     "reviews": "Bewertungen"
@@ -39,5 +39,6 @@
     "negative": "Negativ",
     "noData": "Keine Daten verfügbar",
     "vsPrevious": "im Vergleich zum vorherigen"
-  }
+  },
+  "noresponse": "Keine Antwort"
 }
