@@ -22,6 +22,8 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 interface Feedback {
   id: string;
+  campaignType: string;
+  campaignName: string;
   customerName: string;
   customerEmail?: string;
   customerPhone?: string;
@@ -35,6 +37,8 @@ interface Feedback {
 const mockFeedbackData: Feedback[] = [
   {
     id: "1",
+    campaignType: "Review Campaign",
+    campaignName: "Summer sale 2025",
     customerName: "John Doe",
     customerEmail: "john.doe@example.com",
     customerPhone: "+1 (555) 123-4567",
@@ -46,6 +50,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "2",
+    campaignType: "Survey Campaign",
+    campaignName: "Citation service",
     customerName: "Maria Garcia",
     customerEmail: "maria.g@example.com",
     rating: 1,
@@ -57,6 +63,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "3",
+    campaignType: "Survey Campaign",
+    campaignName: "Web 20 service",
     customerName: "David Chen",
     customerEmail: "david.chen@example.com",
     customerPhone: "+1 (555) 234-5678",
@@ -69,6 +77,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "4",
+    campaignType: "Review Campaign",
+    campaignName: "common review",
     customerName: "Sarah Johnson",
     customerEmail: "sarah.j@example.com",
     rating: 1,
@@ -79,6 +89,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "5",
+    campaignType: "Survey Campaign",
+    campaignName: "web 20 service",
     customerName: "Michael Brown",
     customerEmail: "m.brown@example.com",
     customerPhone: "+1 (555) 345-6789",
@@ -91,6 +103,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "6",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Emma Wilson",
     customerEmail: "emma.wilson@example.com",
     rating: 1,
@@ -102,6 +116,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "7",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "James Martinez",
     customerEmail: "j.martinez@example.com",
     rating: 2,
@@ -112,6 +128,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "8",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Olivia Taylor",
     customerEmail: "olivia.t@example.com",
     customerPhone: "+1 (555) 456-7890",
@@ -124,6 +142,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "9",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "William Anderson",
     customerEmail: "w.anderson@example.com",
     rating: 2,
@@ -134,6 +154,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "10",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Sophia Thomas",
     customerEmail: "sophia.thomas@example.com",
     rating: 1,
@@ -145,6 +167,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "11",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Daniel Jackson",
     customerEmail: "d.jackson@example.com",
     customerPhone: "+1 (555) 567-8901",
@@ -156,6 +180,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "12",
+    campaignType: "Survey Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Isabella White",
     customerEmail: "isabella.w@example.com",
     rating: 1,
@@ -167,6 +193,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "13",
+    campaignType: "Review Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Ethan Harris",
     customerEmail: "ethan.h@example.com",
     rating: 2,
@@ -177,6 +205,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "14",
+    campaignType: "Survey Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Mia Martin",
     customerEmail: "mia.martin@example.com",
     customerPhone: "+1 (555) 678-9012",
@@ -189,6 +219,8 @@ const mockFeedbackData: Feedback[] = [
   },
   {
     id: "15",
+    campaignType: "Survey Campaign",
+    campaignName: "Diwali sale 2025",
     customerName: "Alexander Lee",
     customerEmail: "alex.lee@example.com",
     rating: 2,
@@ -239,10 +271,10 @@ export const Feedback: React.FC = () => {
         prev.map((f) =>
           f.id === selectedFeedback.id
             ? {
-                ...f,
-                status: modalStatus as any,
-                adminNotes: modalNotes,
-              }
+              ...f,
+              status: modalStatus as any,
+              adminNotes: modalNotes,
+            }
             : f,
         ),
       );
@@ -408,8 +440,8 @@ export const Feedback: React.FC = () => {
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   <TableHead>{t("table.customerName")}</TableHead>
-                  <TableHead>{t("table.rating")}</TableHead>
-                  <TableHead className="max-w-xs">{t("table.message")}</TableHead>
+                  <TableHead>Campaign Type</TableHead>
+                  <TableHead className="max-w-xs">{t("table.review")}</TableHead>
                   <TableHead>{t("table.submittedDate")}</TableHead>
                   <TableHead>{t("table.status")}</TableHead>
                   <TableHead className="text-center">{t("table.actions")}</TableHead>
@@ -429,15 +461,17 @@ export const Feedback: React.FC = () => {
                   paginatedData.map((feedback) => (
                     <TableRow key={feedback.id} className="hover:bg-muted/50">
                       <TableCell className="font-medium">{feedback.customerName}</TableCell>
+                      <TableCell className="max-w-xs">
+                        <p>{feedback.campaignType}</p>
+                        <p className="truncate">{feedback.campaignName}</p>
+                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           {renderStars(feedback.rating)}
                           <span className="text-sm text-muted-foreground">({feedback.rating})</span>
                         </div>
                       </TableCell>
-                      <TableCell className="max-w-xs">
-                        <p className="truncate">{feedback.message}</p>
-                      </TableCell>
+                      
                       <TableCell>{feedback.submittedDate}</TableCell>
                       <TableCell>
                         <Badge variant="outline" className={getStatusBadgeClass(feedback.status)}>

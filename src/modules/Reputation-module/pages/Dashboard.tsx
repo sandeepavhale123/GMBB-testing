@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -82,6 +83,8 @@ const mockConnectedChannels = [
 
 export const Dashboard: React.FC = () => {
   const [selectedChannel, setSelectedChannel] = useState("google");
+
+  const navigate = useNavigate()
 
   return (
     <div className="space-y-6">
@@ -288,6 +291,11 @@ export const Dashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <hr />
+      <div className="flex justify-end">
+        <p onClick={()=>navigate('/module/reputation/onboarding')}>Onboarding Step</p>
       </div>
     </div>
   );
