@@ -168,11 +168,7 @@ export const ReviewLink: React.FC = () => {
                   </div>
 
                   {/* Next Button */}
-                  <Button
-                    onClick={handleNext}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                    size="lg"
-                  >
+                  <Button onClick={handleNext} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
                     Next
                   </Button>
                 </>
@@ -198,7 +194,7 @@ export const ReviewLink: React.FC = () => {
                   {/* Review Sites Selection */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">Review Sites</Label>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {reviewSites.map((site) => {
                         const IconComponent = site.icon;
                         const isSelected = selectedReviewSites.includes(site.id);
@@ -337,11 +333,20 @@ export const ReviewLink: React.FC = () => {
                     <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
                       Previous
                     </Button>
-                    <Button onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" size="lg">
-                     Save
+                    <Button
+                      onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)}
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                      size="lg"
+                    >
+                      Save
                     </Button>
 
-                    <Button onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)} className="" variant="outline" size="lg">
+                    <Button
+                      onClick={() => navigate(`/review-feedback?rating=${selectedRating}`)}
+                      className=""
+                      variant="outline"
+                      size="lg"
+                    >
                       Preview
                     </Button>
                   </div>
@@ -398,9 +403,7 @@ export const ReviewLink: React.FC = () => {
                             key={star}
                             className={cn(
                               "w-8 h-8 cursor-pointer transition-all hover:scale-110",
-                              selectedRating >= star
-                                ? "text-orange-400 fill-orange-400"
-                                : "text-gray-300"
+                              selectedRating >= star ? "text-orange-400 fill-orange-400" : "text-gray-300",
                             )}
                             strokeWidth={1.5}
                             onClick={() => setSelectedRating(star)}
