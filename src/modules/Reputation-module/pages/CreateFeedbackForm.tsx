@@ -161,7 +161,7 @@ export const CreateFeedbackForm: React.FC = () => {
       {/* Top Header */}
       <div className="border-b p-3 md:p-4 bg-card">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <h1 className="text-xl md:text-2xl font-bold">{isEditMode ? "Edit" : "Create"} Feedback Form</h1>
+          <h1 className="text-xl md:text-2xl font-bold">{isEditMode ? "Edit" : "Create"} Survey Form</h1>
 
           {/* Desktop buttons */}
           {isDesktop && (

@@ -35,9 +35,9 @@
     "reviewLink": "Review Link"
   },
   "feedbackForm": {
-    "label": "Select Feedback Form",
-    "placeholder": "Choose a feedback form",
-    "noFormsAvailable": "No feedback forms available. Create one first."
+    "label": "Select Survey Form",
+    "placeholder": "Choose a survey form",
+    "noFormsAvailable": "No survey forms available. Create one first."
   },
   "schedule": {
     "label": "Schedule the campaign (optional)",

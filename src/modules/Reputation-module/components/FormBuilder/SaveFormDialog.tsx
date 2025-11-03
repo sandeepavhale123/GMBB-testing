@@ -46,10 +46,10 @@ export const SaveFormDialog: React.FC<SaveFormDialogProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? "Update" : "Save"} Feedback Form
+            {isEditMode ? "Update" : "Save"} Survey Form
           </DialogTitle>
           <DialogDescription>
-            Enter a name for your feedback form template
+            Enter a name for your survey form template
           </DialogDescription>
         </DialogHeader>
 
