@@ -19,6 +19,20 @@ const mockListings: Listing[] = [
   { id: 2, name: "Citationbuilderpro", zipCode: "431100" },
   { id: 3, name: "Aj tiffin service", zipCode: "431105" },
   { id: 4, name: "Aj tiffin service", zipCode: "431120" },
+  { id: 5, name: "The Coffee House", zipCode: "431110" },
+  { id: 6, name: "Green Valley Restaurant", zipCode: "431115" },
+  { id: 7, name: "Tech Solutions Inc", zipCode: "431102" },
+  { id: 8, name: "Sunshine Bakery", zipCode: "431108" },
+  { id: 9, name: "Prime Fitness Center", zipCode: "431112" },
+  { id: 10, name: "Beauty Salon & Spa", zipCode: "431118" },
+  { id: 11, name: "Quick Auto Repair", zipCode: "431103" },
+  { id: 12, name: "Fresh Market Grocery", zipCode: "431125" },
+  { id: 13, name: "Digital Marketing Hub", zipCode: "431107" },
+  { id: 14, name: "Pet Care Clinic", zipCode: "431130" },
+  { id: 15, name: "Urban Fashion Boutique", zipCode: "431113" },
+  { id: 16, name: "Home Decor Studio", zipCode: "431122" },
+  { id: 17, name: "Elite Dental Care", zipCode: "431109" },
+  { id: 18, name: "Mountain View Hotel", zipCode: "431135" },
 ];
 
 export const ReputationOnboarding: React.FC = () => {
@@ -117,7 +131,7 @@ export const ReputationOnboarding: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
                   {filteredListings.map((listing) => (
                     <div
                       key={listing.id}
