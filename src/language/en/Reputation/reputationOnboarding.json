@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Manage Your Reputation in One Place",
+    "description": "Send review requests to your customers, handle negative feedback with care, create quick survey campaigns to collect opinions, and share your best reviews on social media — all from one easy-to-use dashboard."
+  },
+  "importListings": {
+    "title": "Import Existing Listings",
+    "description": "Easily import and review all your current listings with one click. Stay organized and ensure your business information is always up to date.",
+    "select": "Select",
+    "selectAll": "Select All",
+    "importButton": "Import Selected Listings"
+  },
+  "addListing": {
+    "title": "Add a New Listing",
+    "subtitle": "Didn't find your business in the listings?",
+    "noWorries": "No worries",
+    "description": "— Add a new one in seconds and start tracking reviews, ratings, and reputation performance instantly.",
+    "button": "Add Google Account"
+  }
+}

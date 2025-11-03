@@ -11,6 +11,7 @@ import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
 import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeedbackForm";
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import { QRCodePoster } from "@/modules/Reputation-module/pages/QRCodePoster";
+import { ReputationOnboarding } from "@/modules/Reputation-module/pages/ReputationOnboarding";
 import type { RouteConfig } from "../routeConfig";
 
 export const reputationModuleRoutes: RouteConfig[] = [
@@ -71,6 +72,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "qr-code-poster",
         element: <QRCodePoster />,
+      },
+      {
+        path: "onboarding",
+        element: <ReputationOnboarding />,
       },
     ],
   },
