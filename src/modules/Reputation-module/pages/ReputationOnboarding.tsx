@@ -5,6 +5,8 @@ import { useAppSelector } from "@/hooks/useRedux";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 interface Listing {
   id: number;
@@ -24,6 +26,7 @@ export const ReputationOnboarding: React.FC = () => {
   const navigate = useNavigate();
   const theme = useAppSelector((state) => state.theme);
   const [selectedListings, setSelectedListings] = useState<number[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSelectAll = () => {
     if (selectedListings.length === mockListings.length) {
@@ -46,6 +49,11 @@ export const ReputationOnboarding: React.FC = () => {
   const handleAddGoogleAccount = () => {
     navigate("/module/reputation");
   };
+
+  const filteredListings = mockListings.filter((listing) =>
+    listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    listing.zipCode.includes(searchQuery)
+  );
 
   return (
     <div
@@ -90,20 +98,32 @@ export const ReputationOnboarding: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
                   <span className="text-sm font-medium text-muted-foreground">
                     {t("importListings.select")}
                   </span>
-                  <button
-                    onClick={handleSelectAll}
-                    className="text-sm text-primary hover:underline font-medium"
-                  >
-                    {t("importListings.selectAll")}
-                  </button>
+                  <div className="flex items-center gap-3 flex-1 max-w-md">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        placeholder="Search listings..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-9"
+                      />
+                    </div>
+                    <button
+                      onClick={handleSelectAll}
+                      className="text-sm text-primary hover:underline font-medium whitespace-nowrap"
+                    >
+                      {t("importListings.selectAll")}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="space-y-3">
-                  {mockListings.map((listing) => (
+                  {filteredListings.map((listing) => (
                     <div
                       key={listing.id}
                       className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent transition-colors"
