@@ -485,6 +485,7 @@ export const Feedback: React.FC = () => {
                   disabled={currentPage === totalPages}
                 >
                   <ChevronRight className="h-4 w-4 ml-1" />
+                  <span className="hidden md:block">{t("pagination.next")}</span>
                 </Button>
               </div>
             </div>
