@@ -18,6 +18,7 @@ interface FixSuccessModalProps {
   projectId: string;
   appliedCount: number;
   jsSnippet?: string;
+  wordPressConnected?: boolean;
 }
 
 export const FixSuccessModal: React.FC<FixSuccessModalProps> = ({
@@ -25,7 +26,8 @@ export const FixSuccessModal: React.FC<FixSuccessModalProps> = ({
   onClose,
   projectId,
   appliedCount,
-  jsSnippet
+  jsSnippet,
+  wordPressConnected = false
 }) => {
   const navigate = useNavigate();
   const [copied, setCopied] = React.useState(false);
@@ -73,8 +75,23 @@ export const FixSuccessModal: React.FC<FixSuccessModalProps> = ({
             </div>
           </div>
 
+          {/* WordPress Sync Info */}
+          {wordPressConnected && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-green-900 mb-1">WordPress Integration Active</h4>
+                  <p className="text-sm text-green-700">
+                    Your approved SEO fixes have been automatically sent to your WordPress website and will be applied automatically. No additional steps required!
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* JS Snippet Section */}
-          {jsSnippet && (
+          {jsSnippet && !wordPressConnected && (
             <div className="space-y-4">
               <div>
                 <h3 className="text-lg font-semibold mb-2">Next Step: Install JavaScript Snippet</h3>

@@ -44,10 +44,10 @@ export const EditFixModal: React.FC<EditFixModalProps> = ({
   optimalMax,
   recommendedDescription,
 }) => {
-  const [editedValue, setEditedValue] = React.useState(suggestedFix);
+  const [editedValue, setEditedValue] = React.useState(suggestedFix || '');
 
   React.useEffect(() => {
-    setEditedValue(suggestedFix);
+    setEditedValue(suggestedFix || '');
   }, [suggestedFix, open]);
 
   const handleSave = () => {

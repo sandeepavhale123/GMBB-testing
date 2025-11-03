@@ -27,6 +27,10 @@ import {
   Link2,
   Share2,
   Eye,
+  Bot,
+  MapPin,
+  AlertCircle,
+  GitBranch,
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -48,6 +52,7 @@ import { EditFixModal } from "../components/EditFixModal";
 import { AIContentModal } from "../components/AIContentModal";
 import { SchemaViewModal } from "../components/SchemaViewModal";
 import { useToast } from "@/hooks/use-toast";
+import { syncFixToWordPress, syncBulkFixesToWordPress } from "@/services/liveSeoFixer/wordpressService";
 
 export const AuditResultsGrouped: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -189,6 +194,12 @@ export const AuditResultsGrouped: React.FC = () => {
     schema: Code,
     h1: Heading1,
     miscellaneous: Settings,
+    robots: Bot,
+    nap: MapPin,
+    "broken-link": AlertCircle,
+    "redirect-chain": GitBranch,
+    "keyword-placement": Hash,
+    "semantic-entities": Globe,
   };
 
   const categoryLabels: Record<string, string> = {
@@ -206,6 +217,12 @@ export const AuditResultsGrouped: React.FC = () => {
     schema: "Schema Markup",
     h1: "H1 Tags",
     miscellaneous: "Miscellaneous",
+    robots: "Robots Meta",
+    nap: "NAP Consistency",
+    "broken-link": "Broken Links",
+    "redirect-chain": "Redirect Chain",
+    "keyword-placement": "Keyword Placement",
+    "semantic-entities": "Semantic Entities",
   };
 
   // Use API data for issues and pagination
@@ -244,9 +261,36 @@ export const AuditResultsGrouped: React.FC = () => {
         approved: !currentState,
       });
 
+      // Sync to WordPress if connected
+      if (project?.wordpress_connected && projectId && auditId) {
+        try {
+          await syncFixToWordPress({
+            projectId: projectId,
+            auditId: auditId,
+            issue: {
+              issue_id: issueId,
+              page_url: issue.page?.url || "",
+              issue_type: issue.type,
+              fix_content: fixValue,
+              element: issue.element || "",
+              approved: !currentState,
+            },
+          });
+        } catch (wpError) {
+          console.error("WordPress sync failed:", wpError);
+          // Don't fail the whole operation if WP sync fails
+        }
+      }
+
       toastHook({
         title: currentState ? "Fix Disapproved" : "Fix Approved",
-        description: currentState ? "The fix has been disapproved." : "The fix has been approved for deployment.",
+        description: currentState 
+          ? project?.wordpress_connected 
+            ? "The fix has been disapproved and removed from WordPress." 
+            : "The fix has been disapproved."
+          : project?.wordpress_connected
+            ? "The fix has been approved and synced to WordPress."
+            : "The fix has been approved for deployment.",
       });
     } catch (error: any) {
       toastHook({
@@ -266,9 +310,25 @@ export const AuditResultsGrouped: React.FC = () => {
         approved: true,
       });
 
+      // Sync all to WordPress if connected
+      if (project?.wordpress_connected && projectId && auditId) {
+        try {
+          await syncBulkFixesToWordPress({
+            projectId: projectId,
+            auditId: auditId,
+            categoryType: selectedCategory,
+          });
+        } catch (wpError) {
+          console.error("WordPress bulk sync failed:", wpError);
+          // Don't fail the whole operation if WP sync fails
+        }
+      }
+
       toastHook({
         title: "All Fixes Approved",
-        description: `All fixes in this category have been approved.`,
+        description: project?.wordpress_connected
+          ? `All fixes in this category have been approved and synced to WordPress.`
+          : `All fixes in this category have been approved.`,
       });
     } catch (error: any) {
       toastHook({
@@ -310,8 +370,8 @@ export const AuditResultsGrouped: React.FC = () => {
   };
 
   const handleEditIssue = (issue: any) => {
-    // For schema issues, navigate to schema editor instead of opening modal
-    if (issue.type === "schema") {
+    // For schema and semantic-entities issues, navigate to schema editor instead of opening modal
+    if (issue.type === "schema" || issue.type === "semantic-entities") {
       navigate(`/module/live-seo-fixer/projects/${projectId}/audits/${auditId}/schema-editor`, {
         state: {
           schemaData: issue.fix?.content || issue.suggested_value || issue.current_value,
@@ -723,7 +783,7 @@ export const AuditResultsGrouped: React.FC = () => {
 
                             <TableCell>
                               <div className="space-y-2">
-                                {issue.type === "schema" ? (
+                                {(issue.type === "schema" || issue.type === "semantic-entities") ? (
                                   originalTitle !== "Missing" ? (
                                     <div className="flex items-center gap-2">
                                       <div className="text-[11px] text-muted-foreground flex-1">Schema present</div>
@@ -770,7 +830,7 @@ export const AuditResultsGrouped: React.FC = () => {
                             </TableCell>
                             <TableCell>
                               <div className="space-y-2">
-                                {issue.type === "schema" ? (
+                                {(issue.type === "schema" || issue.type === "semantic-entities") ? (
                                   suggestedTitle !== "No suggestion" ? (
                                     <div className="flex items-center gap-2">
                                       <div className="font-semibold text-[11px] flex-1">Schema suggested</div>
@@ -920,6 +980,7 @@ export const AuditResultsGrouped: React.FC = () => {
         onOpenChange={setShowSuccessModal}
         successMode={true}
         appliedCount={appliedCount}
+        wordPressConnected={project?.wordpress_connection?.connected || false}
       />
 
       {/* Edit Fix Modal */}
