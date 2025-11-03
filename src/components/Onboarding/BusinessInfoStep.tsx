@@ -47,7 +47,7 @@ const BusinessInfoStep = ({
   updateFormData,
   onNext,
 }: BusinessInfoStepProps) => {
-  const { t } = useI18nNamespace(["Onboarding/businessInfoStep", e]);
+  const { t } = useI18nNamespace("Onboarding/businessInfoStep");
   const dispatch = useDispatch<AppDispatch>();
   const businessInfoSchema = z.object({
     businessName: z
