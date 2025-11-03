@@ -16,7 +16,7 @@
       "description": "Something went wrong while fetching business info."
     },
     "emptyState": {
-      "businessInfo": "No business information available"
+      "businessInfo": "No business information available."
     },
     "fields": {
       "name": "Name",
