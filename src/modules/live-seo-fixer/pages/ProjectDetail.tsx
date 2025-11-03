@@ -637,7 +637,7 @@ export const ProjectDetail: React.FC = () => {
                       </p>
                       <Button variant="outline" size="sm" asChild>
                         <a
-                          href="https://member.gmbbriefcase.com/wp-plugin/seo-fixer.zip"
+                          href="https://old.gmbbriefcase.com/wp-plugin/seo-fixer.zip"
                           download
                           className="inline-flex items-center gap-2"
                         >
