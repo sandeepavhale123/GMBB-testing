@@ -34,20 +34,14 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-6">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start flex-col sm:flex-row justify-between gap-4">
           {/* Left: Icon and Name */}
           <div className="flex items-center gap-4 flex-1">
             <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-              <img
-                src={icon}
-                alt={name}
-                className="w-8 h-8 object-contain"
-              />
+              <img src={icon} alt={name} className="w-8 h-8 object-contain" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-foreground text-base truncate">
-                {name}
-              </h3>
+              <h3 className="font-semibold text-foreground text-base truncate">{name}</h3>
               <Badge
                 variant="outline"
                 className={
