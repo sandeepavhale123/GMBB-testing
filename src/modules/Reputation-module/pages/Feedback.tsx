@@ -484,8 +484,8 @@ export const Feedback: React.FC = () => {
                   onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
                 >
-                  <ChevronRight className="h-4 w-4 ml-1" />
                   <span className="hidden md:block">{t("pagination.next")}</span>
+                  <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
             </div>
