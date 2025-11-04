@@ -1,56 +1,47 @@
-import { Link } from "react-router-dom";
-import { Menu } from "lucide-react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ModulesMegaMenu } from "@/multiDashboardLayout/components/ModulesMegaMenu";
 import { NotificationsMegaMenu } from "@/multiDashboardLayout/components/NotificationsMegaMenu";
 import { UserProfileDropdown } from "@/components/Header/UserProfileDropdown";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAppSelector } from "@/hooks/useRedux";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const MapCreatorHeader = () => {
+  const { t } = useI18nNamespace("utility/mapCreator");
+  const theme = useAppSelector((state) => state.theme);
+  const logoData = useThemeLogo();
+
   return (
-    <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center px-4 md:px-6">
-        {/* Left: Logo and Title */}
-        <div className="flex items-center gap-4">
-          <Link to="/main-dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">MC</span>
+    <header
+      className="fixed top-0 left-0 right-0 z-[50] w-full px-4 py-3 border-b border-border"
+      style={{ backgroundColor: theme.bg_color || "hsl(var(--background))" }}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Left section - Logo and Title */}
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
+            <img
+              src={logoData.darkLogo}
+              alt="Company Logo"
+              className="h-8 w-auto object-contain"
+            />
+            <div className="border-l border-border/30 pl-3 hidden md:block">
+              <h1 className="text-md font-semibold text-white mb-0 p-0">
+                {t("mapCreator.title")}
+              </h1>
+              <p className="text-sm text-white mt-0 p-0">
+                {t("mapCreator.subtitle")}
+              </p>
             </div>
-            <span className="hidden md:inline-block font-semibold text-lg">
-              Map Creator
-            </span>
-          </Link>
+          </div>
         </div>
 
-        {/* Right: Actions */}
-        <div className="ml-auto flex items-center gap-2">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            <LanguageSwitcher />
-            <ModulesMegaMenu />
-            <NotificationsMegaMenu />
-            <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
-          </div>
-
-          {/* Mobile Navigation */}
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <div className="flex flex-col gap-4 mt-8">
-                  <LanguageSwitcher />
-                  <ModulesMegaMenu />
-                  <NotificationsMegaMenu />
-                  <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+        {/* Right section - Actions */}
+        <div className="flex items-center space-x-3">
+          <LanguageSwitcher />
+          <ModulesMegaMenu />
+          <NotificationsMegaMenu />
+          <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
         </div>
       </div>
     </header>
