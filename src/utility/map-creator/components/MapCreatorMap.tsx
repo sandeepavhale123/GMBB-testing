@@ -106,11 +106,14 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
     });
     
     circleCoordinates.forEach(coord => {
-      const marker = L.marker([coord.lat, coord.lng], {
-        icon: redCircleIcon,
-      }).addTo(mapInstanceRef.current!);
-      
-      circleMarkersRef.current.push(marker);
+      // Validate coordinates are valid numbers
+      if (!isNaN(coord.lat) && !isNaN(coord.lng) && isFinite(coord.lat) && isFinite(coord.lng)) {
+        const marker = L.marker([coord.lat, coord.lng], {
+          icon: redCircleIcon,
+        }).addTo(mapInstanceRef.current!);
+        
+        circleMarkersRef.current.push(marker);
+      }
     });
     
     if (coordinates && circleCoordinates.length > 0) {

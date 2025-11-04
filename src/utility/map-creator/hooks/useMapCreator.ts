@@ -104,10 +104,12 @@ export const useMapCreator = () => {
       );
       
       if (response.code === 200) {
-        const coords = response.data.coordinates.map(coordStr => {
-          const [lat, lng] = coordStr.split(',').map(parseFloat);
-          return { lat, lng };
-        });
+        const coords = response.data.coordinates
+          .map(coordStr => {
+            const [lat, lng] = coordStr.split(',').map(parseFloat);
+            return { lat, lng };
+          })
+          .filter(coord => !isNaN(coord.lat) && !isNaN(coord.lng) && isFinite(coord.lat) && isFinite(coord.lng));
         setCircleCoordinates(coords);
         
         toast({
