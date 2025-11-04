@@ -80,11 +80,22 @@ export const useMapCreator = () => {
     setCircleCoordinates([]);
     
     const radiusValue = parseInt(radius);
-    if (radiusValue > 0) {
-      const filtered = distanceOptions.filter((opt) => {
-        const distValue = parseInt(opt.value);
-        return distValue === 0 || distValue < radiusValue;
-      });
+    
+    // Define explicit distance options for each radius
+    const radiusToDistanceMap: { [key: string]: string[] } = {
+      "500": ["100", "200", "300"],
+      "1000": ["200", "300", "500"],
+      "2500": ["300", "500", "1000"],
+      "5000": ["500", "1000", "2500"],
+      "10000": ["1000", "2500", "5000"],
+      "25000": ["2500", "5000", "10000"],
+    };
+    
+    if (radiusValue > 0 && radiusToDistanceMap[radius]) {
+      const allowedValues = ["0", ...radiusToDistanceMap[radius]];
+      const filtered = distanceOptions.filter((opt) => 
+        allowedValues.includes(opt.value)
+      );
       setAvailableDistances(filtered);
     } else {
       setAvailableDistances(distanceOptions);
