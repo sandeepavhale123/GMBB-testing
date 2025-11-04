@@ -44,6 +44,9 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
 
   useEffect(() => {
     if (!mapInstanceRef.current || !coordinates) return;
+    
+    // Validate coordinates before using them
+    if (isNaN(coordinates.lat) || isNaN(coordinates.lng)) return;
 
     // Remove existing marker and circle
     if (markerRef.current) {

@@ -42,14 +42,20 @@ export const useMapCreator = () => {
       
       if (response.code === 200) {
         const [lat, lng] = response.data.latlong.split(',').map(parseFloat);
-        setCoordinates({ lat, lng });
-        setBusinessName(response.data.bname);
-        setCircleCoordinates([]);
         
-        toast({
-          title: "Success",
-          description: `Coordinates found for ${response.data.bname}`,
-        });
+        // Validate coordinates are valid numbers
+        if (!isNaN(lat) && !isNaN(lng) && isFinite(lat) && isFinite(lng)) {
+          setCoordinates({ lat, lng });
+          setBusinessName(response.data.bname);
+          setCircleCoordinates([]);
+          
+          toast({
+            title: "Success",
+            description: `Coordinates found for ${response.data.bname}`,
+          });
+        } else {
+          throw new Error("Invalid coordinates received from API");
+        }
       } else {
         throw new Error(response.message);
       }
