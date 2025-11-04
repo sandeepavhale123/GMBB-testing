@@ -67,128 +67,121 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Form Grid - 3 columns on desktop */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Column 1 */}
-        <div className="space-y-4">
-          <FormField
-            label="Map URL"
-            tooltip="Enter a Google Maps URL containing the business location"
-          >
-            <Input
-              type="text"
-              placeholder="https://www.google.com/maps/place/..."
-              value={formData.mapUrl}
-              onChange={(e) => onMapUrlChange(e.target.value)}
-            />
-          </FormField>
+      {/* Row 1: Map URL, Keyword, Radius, Distance */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <FormField
+          label="Map URL"
+          tooltip="Enter a Google Maps URL containing the business location"
+        >
+          <Input
+            type="text"
+            placeholder="https://www.google.com/maps/place/..."
+            value={formData.mapUrl}
+            onChange={(e) => onMapUrlChange(e.target.value)}
+          />
+        </FormField>
 
-          <FormField
-            label="Keywords"
-            tooltip="Enter keywords separated by commas (e.g., pizza, italian restaurant)"
-          >
-            <Input
-              type="text"
-              placeholder="pizza, italian restaurant, pasta"
-              value={formData.keywords}
-              onChange={(e) => onInputChange("keywords", e.target.value)}
-            />
-          </FormField>
+        <FormField
+          label="Keywords"
+          tooltip="Enter keywords separated by commas (e.g., pizza, italian restaurant)"
+        >
+          <Input
+            type="text"
+            placeholder="pizza, italian restaurant, pasta"
+            value={formData.keywords}
+            onChange={(e) => onInputChange("keywords", e.target.value)}
+          />
+        </FormField>
 
-          <FormField
-            label="Radius"
-            tooltip="Select the search radius around the business location"
-          >
-            <Select value={formData.radius} onValueChange={onRadiusChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select radius" />
-              </SelectTrigger>
-              <SelectContent>
-                {radiusOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
-        </div>
+        <FormField
+          label="Radius"
+          tooltip="Select the search radius around the business location"
+        >
+          <Select value={formData.radius} onValueChange={onRadiusChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select radius" />
+            </SelectTrigger>
+            <SelectContent>
+              {radiusOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormField>
 
-        {/* Column 2 */}
-        <div className="space-y-4">
-          <FormField
-            label="Distance"
-            tooltip="Select a distance value less than the radius"
+        <FormField
+          label="Distance"
+          tooltip="Select a distance value less than the radius"
+        >
+          <Select
+            value={formData.distance}
+            onValueChange={(value) => onInputChange("distance", value)}
+            disabled={formData.radius === "0"}
           >
-            <Select
-              value={formData.distance}
-              onValueChange={(value) => onInputChange("distance", value)}
-              disabled={formData.radius === "0"}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select distance" />
-              </SelectTrigger>
-              <SelectContent>
-                {availableDistances.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
-
-          <FormField
-            label="Description (Spin text allowed)"
-            tooltip="Enter a description. Spin text syntax is supported: {option1|option2|option3}"
-          >
-            <Textarea
-              placeholder="Best {pizza|italian food|pasta} in town"
-              rows={4}
-              value={formData.description}
-              onChange={(e) => onInputChange("description", e.target.value)}
-            />
-          </FormField>
-        </div>
-
-        {/* Column 3 */}
-        <div className="space-y-4">
-          <FormField
-            label="URLs"
-            tooltip="Enter URLs separated by commas"
-          >
-            <Textarea
-              placeholder="https://example.com, https://example2.com"
-              rows={3}
-              value={formData.urls}
-              onChange={(e) => onInputChange("urls", e.target.value)}
-            />
-          </FormField>
-
-          <FormField
-            label="Related Searches"
-            tooltip="Enter related search terms separated by commas"
-          >
-            <Textarea
-              placeholder="pizza near me, best pizza"
-              rows={3}
-              value={formData.relatedSearches}
-              onChange={(e) => onInputChange("relatedSearches", e.target.value)}
-            />
-          </FormField>
-        </div>
+            <SelectTrigger>
+              <SelectValue placeholder="Select distance" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableDistances.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormField>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-between pt-4 border-t">
-        <Button variant="outline" onClick={onReset}>
-          <RotateCcw className="w-4 h-4 mr-2" />
-          Reset
-        </Button>
-        <Button onClick={onGenerateCSV}>
-          <Download className="w-4 h-4 mr-2" />
-          Generate CSV
-        </Button>
+      {/* Row 2: Description, URLs, Related Searches, Generate Button */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+        <FormField
+          label="Description (Spin text allowed)"
+          tooltip="Enter a description. Spin text syntax is supported: {option1|option2|option3}"
+        >
+          <Textarea
+            placeholder="Best {pizza|italian food|pasta} in town"
+            rows={3}
+            value={formData.description}
+            onChange={(e) => onInputChange("description", e.target.value)}
+          />
+        </FormField>
+
+        <FormField
+          label="URLs"
+          tooltip="Enter URLs separated by commas"
+        >
+          <Textarea
+            placeholder="https://example.com, https://example2.com"
+            rows={3}
+            value={formData.urls}
+            onChange={(e) => onInputChange("urls", e.target.value)}
+          />
+        </FormField>
+
+        <FormField
+          label="Related Searches"
+          tooltip="Enter related search terms separated by commas"
+        >
+          <Textarea
+            placeholder="pizza near me, best pizza"
+            rows={3}
+            value={formData.relatedSearches}
+            onChange={(e) => onInputChange("relatedSearches", e.target.value)}
+          />
+        </FormField>
+
+        <div className="flex flex-col gap-2">
+          <Button onClick={onGenerateCSV} className="w-full">
+            <Download className="w-4 h-4 mr-2" />
+            Generate CSV
+          </Button>
+          <Button variant="outline" onClick={onReset} className="w-full">
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );
