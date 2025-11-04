@@ -49,11 +49,6 @@ export const useMapCreator = () => {
           setCoordinates({ lat, lng });
           setBusinessName(response.data.bname);
           setCircleCoordinates([]);
-          
-          toast({
-            title: "Success",
-            description: `Coordinates found for ${response.data.bname}`,
-          });
         } else {
           throw new Error("Invalid coordinates received from API");
         }
@@ -129,11 +124,6 @@ export const useMapCreator = () => {
           })
           .filter(coord => !isNaN(coord.lat) && !isNaN(coord.lng) && isFinite(coord.lat) && isFinite(coord.lng));
         setCircleCoordinates(coords);
-        
-        toast({
-          title: "Success",
-          description: `${coords.length} coordinates generated`,
-        });
       } else {
         throw new Error(response.message);
       }
@@ -212,11 +202,6 @@ export const useMapCreator = () => {
       if (response.code === 200) {
         // Download the file using the utility function
         downloadFileFromUrl(response.data.fileUrl);
-        
-        toast({
-          title: "Success!",
-          description: "CSV file has been generated and downloaded.",
-        });
       } else {
         throw new Error(response.message);
       }
