@@ -68,6 +68,7 @@ export const MapCreatorPage = () => {
             coordinates={coordinates} 
             radius={formData.radius}
             circleCoordinates={circleCoordinates}
+            isLoadingCircle={isLoadingCircle}
           />
         </CardContent>
       </Card>

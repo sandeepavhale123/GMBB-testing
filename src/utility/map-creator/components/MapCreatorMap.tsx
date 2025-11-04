@@ -1,18 +1,21 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { Loader2 } from "lucide-react";
 import { MapCoordinates, CircleCoordinate } from "../types/mapCreator.types";
 
 interface MapCreatorMapProps {
   coordinates: MapCoordinates | null;
   radius: string;
   circleCoordinates: CircleCoordinate[];
+  isLoadingCircle?: boolean;
 }
 
 export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
   coordinates,
   radius,
   circleCoordinates,
+  isLoadingCircle = false,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -136,6 +139,14 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
           <p className="text-muted-foreground text-sm">
             Enter a Map URL to see the location
           </p>
+        </div>
+      )}
+      {isLoadingCircle && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground text-sm">Loading coordinates...</p>
+          </div>
         </div>
       )}
     </div>
