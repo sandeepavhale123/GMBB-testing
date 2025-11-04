@@ -230,8 +230,13 @@ export const ManageGoogleAccountPage: React.FC = () => {
       try {
         const response = await deleteAccount(accountToDelete.id);
         toast({
-          title: "Account Deleted",
-          description: `The Google account "${accountToDelete.name}" has been successfully deleted.`,
+          title: t(
+            "manageGoogleAccountPage.modals.deleteAccount.deleteSuccess"
+          ),
+          description: t(
+            "manageGoogleAccountPage.modals.deleteAccount.successDesc",
+            { name: accountToDelete.name }
+          ),
         });
         setAccountToDelete(null);
         setShowDeleteModal(false);
@@ -243,11 +248,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
       } catch (error) {
         console.error("Error deleting account:", error);
         toast({
-          title: t("manageGoogleAccountPage.modals.refreshAccount.deleteTitle"),
+          title: t("manageGoogleAccountPage.modals.deleteAccount.deleteTitle"),
           description:
             error instanceof Error
               ? error.message
-              : t("manageGoogleAccountPage.modals.refreshAccount.deleteFailed"),
+              : t("manageGoogleAccountPage.modals.deleteAccount.deleteFailed"),
           variant: "destructive",
         });
       }
