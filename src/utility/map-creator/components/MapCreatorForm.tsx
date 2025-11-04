@@ -165,7 +165,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
           tooltip="Enter a description. Spin text syntax is supported: {option1|option2|option3}"
         >
           <Textarea
-            placeholder="Best {pizza|italian food|pasta} in town"
+            placeholder="Enter description"
             rows={3}
             value={formData.description}
             onChange={(e) => onInputChange("description", e.target.value)}
@@ -177,7 +177,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
           tooltip="Enter business details in format: Business Name - URL"
         >
           <Textarea
-            placeholder="Bajaj Finserv - https://example.com"
+            placeholder="Enter business details"
             rows={3}
             value={formData.businessDetails}
             onChange={(e) => onInputChange("businessDetails", e.target.value)}
@@ -189,7 +189,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
           tooltip="Enter related search terms separated by commas"
         >
           <Textarea
-            placeholder="pizza near me, best pizza"
+            placeholder="Enter related searches"
             rows={3}
             value={formData.relatedSearches}
             onChange={(e) => onInputChange("relatedSearches", e.target.value)}

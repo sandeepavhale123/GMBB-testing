@@ -34,7 +34,6 @@ export const MapCreatorPage = () => {
       {/* Form Card */}
       <Card>
         <CardHeader>
-          <CardTitle>Input Data</CardTitle>
           {businessName && (
             <p className="text-sm text-muted-foreground mt-1">
               Business: {businessName}
@@ -59,10 +58,7 @@ export const MapCreatorPage = () => {
       </Card>
 
       {/* Map Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Map Visualization</CardTitle>
-        </CardHeader>
+      <Card className="pt-5">
         <CardContent>
           <MapCreatorMap 
             coordinates={coordinates} 
