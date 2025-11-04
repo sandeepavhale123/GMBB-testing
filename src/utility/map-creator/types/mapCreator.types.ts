@@ -28,3 +28,8 @@ export interface SelectOption {
   value: string;
   label: string;
 }
+
+export interface CircleCoordinate {
+  lat: number;
+  lng: number;
+}

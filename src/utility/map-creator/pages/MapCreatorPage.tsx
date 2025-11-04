@@ -7,9 +7,14 @@ export const MapCreatorPage = () => {
   const {
     formData,
     coordinates,
+    businessName,
+    circleCoordinates,
     availableDistances,
+    isLoadingCoordinates,
+    isLoadingCircle,
     handleMapUrlChange,
     handleRadiusChange,
+    handleDistanceChange,
     handleInputChange,
     handleReset,
     handleGenerateCSV,
@@ -29,13 +34,21 @@ export const MapCreatorPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Input Data</CardTitle>
+          {businessName && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Business: {businessName}
+            </p>
+          )}
         </CardHeader>
         <CardContent>
           <MapCreatorForm
             formData={formData}
             availableDistances={availableDistances}
+            isLoadingCoordinates={isLoadingCoordinates}
+            isLoadingCircle={isLoadingCircle}
             onMapUrlChange={handleMapUrlChange}
             onRadiusChange={handleRadiusChange}
+            onDistanceChange={handleDistanceChange}
             onInputChange={handleInputChange}
             onReset={handleReset}
             onGenerateCSV={handleGenerateCSV}
@@ -49,7 +62,11 @@ export const MapCreatorPage = () => {
           <CardTitle>Map Visualization</CardTitle>
         </CardHeader>
         <CardContent>
-          <MapCreatorMap coordinates={coordinates} radius={formData.radius} />
+          <MapCreatorMap 
+            coordinates={coordinates} 
+            radius={formData.radius}
+            circleCoordinates={circleCoordinates}
+          />
         </CardContent>
       </Card>
     </div>

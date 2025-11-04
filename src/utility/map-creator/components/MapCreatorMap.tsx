@@ -1,21 +1,24 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapCoordinates } from "../types/mapCreator.types";
+import { MapCoordinates, CircleCoordinate } from "../types/mapCreator.types";
 
 interface MapCreatorMapProps {
   coordinates: MapCoordinates | null;
   radius: string;
+  circleCoordinates: CircleCoordinate[];
 }
 
 export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
   coordinates,
   radius,
+  circleCoordinates,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
   const circleRef = useRef<L.Circle | null>(null);
+  const circleMarkersRef = useRef<L.Marker[]>([]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -31,6 +34,8 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
 
     return () => {
       if (mapInstanceRef.current) {
+        circleMarkersRef.current.forEach(marker => marker.remove());
+        circleMarkersRef.current = [];
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
@@ -81,6 +86,41 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
       mapInstanceRef.current.setView([coordinates.lat, coordinates.lng], 13);
     }
   }, [coordinates, radius]);
+
+  // Handle circle coordinates (distance-based red markers)
+  useEffect(() => {
+    if (!mapInstanceRef.current || circleCoordinates.length === 0) {
+      circleMarkersRef.current.forEach(marker => marker.remove());
+      circleMarkersRef.current = [];
+      return;
+    }
+    
+    circleMarkersRef.current.forEach(marker => marker.remove());
+    circleMarkersRef.current = [];
+    
+    const redCircleIcon = L.divIcon({
+      html: '<div style="background: #dc2626; width: 12px; height: 12px; border-radius: 50%; border: 1px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
+      className: "circle-marker",
+      iconSize: [12, 12],
+      iconAnchor: [6, 6],
+    });
+    
+    circleCoordinates.forEach(coord => {
+      const marker = L.marker([coord.lat, coord.lng], {
+        icon: redCircleIcon,
+      }).addTo(mapInstanceRef.current!);
+      
+      circleMarkersRef.current.push(marker);
+    });
+    
+    if (coordinates && circleCoordinates.length > 0) {
+      const bounds = L.latLngBounds(
+        circleCoordinates.map(c => L.latLng(c.lat, c.lng))
+      );
+      bounds.extend(L.latLng(coordinates.lat, coordinates.lng));
+      mapInstanceRef.current!.fitBounds(bounds, { padding: [50, 50] });
+    }
+  }, [circleCoordinates, coordinates]);
 
   return (
     <div className="relative w-full h-[500px] rounded-lg overflow-hidden border">

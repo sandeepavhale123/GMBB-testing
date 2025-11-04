@@ -22,8 +22,11 @@ import { radiusOptions } from "../data/formOptions";
 interface MapCreatorFormProps {
   formData: MapCreatorFormData;
   availableDistances: SelectOption[];
+  isLoadingCoordinates: boolean;
+  isLoadingCircle: boolean;
   onMapUrlChange: (url: string) => void;
   onRadiusChange: (radius: string) => void;
+  onDistanceChange: (distance: string) => void;
   onInputChange: (field: keyof MapCreatorFormData, value: string) => void;
   onReset: () => void;
   onGenerateCSV: () => void;
@@ -32,8 +35,11 @@ interface MapCreatorFormProps {
 export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
   formData,
   availableDistances,
+  isLoadingCoordinates,
+  isLoadingCircle,
   onMapUrlChange,
   onRadiusChange,
+  onDistanceChange,
   onInputChange,
   onReset,
   onGenerateCSV,
@@ -73,12 +79,20 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
           label="Map URL"
           tooltip="Enter a Google Maps URL containing the business location"
         >
-          <Input
-            type="text"
-            placeholder="https://www.google.com/maps/place/..."
-            value={formData.mapUrl}
-            onChange={(e) => onMapUrlChange(e.target.value)}
-          />
+          <div className="space-y-1">
+            <Input
+              type="text"
+              placeholder="https://www.google.com/maps/place/..."
+              value={formData.mapUrl}
+              onChange={(e) => onMapUrlChange(e.target.value)}
+              disabled={isLoadingCoordinates}
+            />
+            {isLoadingCoordinates && (
+              <p className="text-xs text-muted-foreground">
+                Fetching coordinates...
+              </p>
+            )}
+          </div>
         </FormField>
 
         <FormField
@@ -115,22 +129,29 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
           label="Distance"
           tooltip="Select a distance value less than the radius"
         >
-          <Select
-            value={formData.distance}
-            onValueChange={(value) => onInputChange("distance", value)}
-            disabled={formData.radius === "0"}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select distance" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableDistances.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="space-y-1">
+            <Select
+              value={formData.distance}
+              onValueChange={onDistanceChange}
+              disabled={formData.radius === "0" || isLoadingCircle}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select distance" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableDistances.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {isLoadingCircle && (
+              <p className="text-xs text-muted-foreground">
+                Generating coordinates...
+              </p>
+            )}
+          </div>
         </FormField>
       </div>
 
