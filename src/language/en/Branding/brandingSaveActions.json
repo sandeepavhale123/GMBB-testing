@@ -3,7 +3,7 @@
     "toast": {
       "success": {
         "title": "Branding updated successfully",
-        "description": "Your white-label branding changes have been saved"
+        "description": "Your white-label branding changes have been saved."
       },
       "errorSave": {
         "title": "Error saving changes",
