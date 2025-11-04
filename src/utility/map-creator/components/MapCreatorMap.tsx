@@ -1,0 +1,97 @@
+import { useEffect, useRef } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { MapCoordinates } from "../types/mapCreator.types";
+
+interface MapCreatorMapProps {
+  coordinates: MapCoordinates | null;
+  radius: string;
+}
+
+export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
+  coordinates,
+  radius,
+}) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+  const circleRef = useRef<L.Circle | null>(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    // Initialize map only once
+    if (!mapInstanceRef.current) {
+      mapInstanceRef.current = L.map(mapRef.current).setView([51.505, -0.09], 13);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '© OpenStreetMap contributors',
+      }).addTo(mapInstanceRef.current);
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mapInstanceRef.current || !coordinates) return;
+
+    // Remove existing marker and circle
+    if (markerRef.current) {
+      markerRef.current.remove();
+      markerRef.current = null;
+    }
+    if (circleRef.current) {
+      circleRef.current.remove();
+      circleRef.current = null;
+    }
+
+    // Add red marker for business location
+    const redIcon = L.divIcon({
+      html: '<div style="background: #dc2626; width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+      className: "custom-marker",
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+
+    markerRef.current = L.marker([coordinates.lat, coordinates.lng], {
+      icon: redIcon,
+    }).addTo(mapInstanceRef.current);
+
+    // Add green circle for radius if radius > 0
+    const radiusValue = parseInt(radius);
+    if (radiusValue > 0) {
+      circleRef.current = L.circle([coordinates.lat, coordinates.lng], {
+        radius: radiusValue,
+        color: "#22c55e",
+        fillColor: "#22c55e",
+        fillOpacity: 0.2,
+        weight: 2,
+      }).addTo(mapInstanceRef.current);
+
+      // Fit bounds to show the entire circle
+      const bounds = circleRef.current.getBounds();
+      mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50] });
+    } else {
+      // Just center on marker
+      mapInstanceRef.current.setView([coordinates.lat, coordinates.lng], 13);
+    }
+  }, [coordinates, radius]);
+
+  return (
+    <div className="relative w-full h-[500px] rounded-lg overflow-hidden border">
+      <div ref={mapRef} className="w-full h-full" />
+      {!coordinates && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
+          <p className="text-muted-foreground text-sm">
+            Enter a Map URL to see the location
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};

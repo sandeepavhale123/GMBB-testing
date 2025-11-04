@@ -1,0 +1,53 @@
+{
+  "mapCreator": {
+    "title": "Creatore di Mappe",
+    "subtitle": "Crea e scarica dati di classificazione delle parole chiave",
+    "form": {
+      "mapUrl": {
+        "label": "URL della Mappa",
+        "placeholder": "https://www.google.com/maps/place/...",
+        "tooltip": "Inserisci un URL di Google Maps contenente la posizione dell'attività"
+      },
+      "keywords": {
+        "label": "Parole Chiave",
+        "placeholder": "pizza, ristorante italiano, pasta",
+        "tooltip": "Inserisci parole chiave separate da virgole"
+      },
+      "radius": {
+        "label": "Raggio",
+        "tooltip": "Seleziona il raggio di ricerca intorno alla posizione dell'attività"
+      },
+      "distance": {
+        "label": "Distanza",
+        "tooltip": "Seleziona un valore di distanza inferiore al raggio"
+      },
+      "description": {
+        "label": "Descrizione (Testo spin consentito)",
+        "placeholder": "Migliore {pizza|cibo italiano|pasta} della città",
+        "tooltip": "Sintassi del testo spin: {opzione1|opzione2|opzione3}"
+      },
+      "urls": {
+        "label": "URL",
+        "placeholder": "https://esempio.com, https://esempio2.com",
+        "tooltip": "Inserisci URL separati da virgole"
+      },
+      "relatedSearches": {
+        "label": "Ricerche Correlate",
+        "placeholder": "pizza vicino a me, migliore pizza",
+        "tooltip": "Inserisci termini di ricerca correlati separati da virgole"
+      },
+      "reset": "Ripristina",
+      "generateCSV": "Genera CSV"
+    },
+    "map": {
+      "title": "Visualizzazione Mappa",
+      "noCoordinates": "Inserisci un URL della mappa per vedere la posizione"
+    },
+    "toast": {
+      "invalidUrl": "Inserisci un URL di Google Maps valido",
+      "noKeywords": "Inserisci almeno una parola chiave",
+      "success": "CSV generato con successo!",
+      "error": "Errore nella generazione del CSV"
+    }
+  }
+}

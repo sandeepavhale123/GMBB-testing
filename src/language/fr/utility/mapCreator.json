@@ -1,0 +1,53 @@
+{
+  "mapCreator": {
+    "title": "Créateur de Cartes",
+    "subtitle": "Créer et télécharger des données de classement de mots-clés",
+    "form": {
+      "mapUrl": {
+        "label": "URL de la Carte",
+        "placeholder": "https://www.google.com/maps/place/...",
+        "tooltip": "Entrez une URL Google Maps contenant l'emplacement de l'entreprise"
+      },
+      "keywords": {
+        "label": "Mots-clés",
+        "placeholder": "pizza, restaurant italien, pâtes",
+        "tooltip": "Entrez des mots-clés séparés par des virgules"
+      },
+      "radius": {
+        "label": "Rayon",
+        "tooltip": "Sélectionnez le rayon de recherche autour de l'emplacement de l'entreprise"
+      },
+      "distance": {
+        "label": "Distance",
+        "tooltip": "Sélectionnez une valeur de distance inférieure au rayon"
+      },
+      "description": {
+        "label": "Description (Texte tournant autorisé)",
+        "placeholder": "Meilleure {pizza|cuisine italienne|pâtes} de la ville",
+        "tooltip": "Syntaxe du texte tournant : {option1|option2|option3}"
+      },
+      "urls": {
+        "label": "URLs",
+        "placeholder": "https://exemple.com, https://exemple2.com",
+        "tooltip": "Entrez des URLs séparées par des virgules"
+      },
+      "relatedSearches": {
+        "label": "Recherches Associées",
+        "placeholder": "pizza près de moi, meilleure pizza",
+        "tooltip": "Entrez des termes de recherche associés séparés par des virgules"
+      },
+      "reset": "Réinitialiser",
+      "generateCSV": "Générer CSV"
+    },
+    "map": {
+      "title": "Visualisation de la Carte",
+      "noCoordinates": "Entrez une URL de carte pour voir l'emplacement"
+    },
+    "toast": {
+      "invalidUrl": "Veuillez entrer une URL Google Maps valide",
+      "noKeywords": "Veuillez entrer au moins un mot-clé",
+      "success": "CSV généré avec succès !",
+      "error": "Échec de la génération du CSV"
+    }
+  }
+}
