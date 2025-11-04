@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { MapCreatorFormData, MapCoordinates, SelectOption, CircleCoordinate } from "../types/mapCreator.types";
 import { distanceOptions } from "../data/formOptions";
-import { generateCSV, downloadCSV } from "../utils/csvGenerator";
 import { toast } from "@/hooks/use-toast";
-import { getDefaultCoordinates, getCircleCoordinates } from "@/api/utilityApi";
+import { getDefaultCoordinates, getCircleCoordinates, downloadMapCreatorCSV } from "@/api/utilityApi";
+import { downloadFileFromUrl } from "@/utils/downloadUtils";
 
 const initialFormData: MapCreatorFormData = {
   mapUrl: "",
@@ -11,7 +11,7 @@ const initialFormData: MapCreatorFormData = {
   radius: "0",
   distance: "0",
   description: "",
-  urls: "",
+  businessDetails: "",
   relatedSearches: "",
 };
 
@@ -23,6 +23,7 @@ export const useMapCreator = () => {
   const [availableDistances, setAvailableDistances] = useState<SelectOption[]>(distanceOptions);
   const [isLoadingCoordinates, setIsLoadingCoordinates] = useState(false);
   const [isLoadingCircle, setIsLoadingCircle] = useState(false);
+  const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
 
   // Handle map URL change and fetch coordinates from API
   const handleMapUrlChange = async (url: string) => {
@@ -152,7 +153,8 @@ export const useMapCreator = () => {
   };
 
   // Generate and download CSV
-  const handleGenerateCSV = () => {
+  const handleGenerateCSV = async () => {
+    // Validation
     if (!coordinates) {
       toast({
         title: "Missing Map URL",
@@ -171,21 +173,50 @@ export const useMapCreator = () => {
       return;
     }
 
-    try {
-      const csv = generateCSV(formData, coordinates);
-      const timestamp = new Date().toISOString().split("T")[0];
-      downloadCSV(csv, `keyword-ranking-${timestamp}.csv`);
-      
+    if (circleCoordinates.length === 0) {
       toast({
-        title: "Success!",
-        description: "CSV file has been generated and downloaded.",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to generate CSV. Please try again.",
+        title: "Missing Coordinates",
+        description: "Please select a distance to generate coordinates.",
         variant: "destructive",
       });
+      return;
+    }
+
+    setIsGeneratingCSV(true);
+
+    try {
+      // Prepare request data
+      const requestData = {
+        businessName: businessName || "Unknown Business",
+        keywords: formData.keywords,
+        centerLatlong: `${coordinates.lat},${coordinates.lng}`,
+        description: formData.description,
+        businessDetails: formData.businessDetails,
+        relSearch: formData.relatedSearches,
+        coordinates: circleCoordinates.map(coord => `${coord.lat},${coord.lng}`)
+      };
+
+      const response = await downloadMapCreatorCSV(requestData);
+
+      if (response.code === 200) {
+        // Download the file using the utility function
+        downloadFileFromUrl(response.data.fileUrl);
+        
+        toast({
+          title: "Success!",
+          description: "CSV file has been generated and downloaded.",
+        });
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Failed to generate CSV. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingCSV(false);
     }
   };
 
@@ -197,6 +228,7 @@ export const useMapCreator = () => {
     availableDistances,
     isLoadingCoordinates,
     isLoadingCircle,
+    isGeneratingCSV,
     handleMapUrlChange,
     handleRadiusChange,
     handleDistanceChange,

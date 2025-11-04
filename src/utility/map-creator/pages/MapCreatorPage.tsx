@@ -12,6 +12,7 @@ export const MapCreatorPage = () => {
     availableDistances,
     isLoadingCoordinates,
     isLoadingCircle,
+    isGeneratingCSV,
     handleMapUrlChange,
     handleRadiusChange,
     handleDistanceChange,
@@ -46,6 +47,7 @@ export const MapCreatorPage = () => {
             availableDistances={availableDistances}
             isLoadingCoordinates={isLoadingCoordinates}
             isLoadingCircle={isLoadingCircle}
+            isGeneratingCSV={isGeneratingCSV}
             onMapUrlChange={handleMapUrlChange}
             onRadiusChange={handleRadiusChange}
             onDistanceChange={handleDistanceChange}

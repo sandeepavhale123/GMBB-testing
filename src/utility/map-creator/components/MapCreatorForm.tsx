@@ -1,4 +1,4 @@
-import { Info, RotateCcw, Download } from "lucide-react";
+import { Info, RotateCcw, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +24,7 @@ interface MapCreatorFormProps {
   availableDistances: SelectOption[];
   isLoadingCoordinates: boolean;
   isLoadingCircle: boolean;
+  isGeneratingCSV: boolean;
   onMapUrlChange: (url: string) => void;
   onRadiusChange: (radius: string) => void;
   onDistanceChange: (distance: string) => void;
@@ -37,6 +38,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
   availableDistances,
   isLoadingCoordinates,
   isLoadingCircle,
+  isGeneratingCSV,
   onMapUrlChange,
   onRadiusChange,
   onDistanceChange,
@@ -170,14 +172,14 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <FormField
-          label="URLs"
-          tooltip="Enter URLs separated by commas"
+          label="Business Details"
+          tooltip="Enter business details in format: Business Name - URL"
         >
           <Textarea
-            placeholder="https://example.com, https://example2.com"
+            placeholder="Bajaj Finserv - https://example.com"
             rows={3}
-            value={formData.urls}
-            onChange={(e) => onInputChange("urls", e.target.value)}
+            value={formData.businessDetails}
+            onChange={(e) => onInputChange("businessDetails", e.target.value)}
           />
         </FormField>
 
@@ -194,9 +196,22 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <div className="flex flex-col gap-2">
-          <Button onClick={onGenerateCSV} className="w-full">
-            <Download className="w-4 h-4 mr-2" />
-            Generate CSV
+          <Button 
+            onClick={onGenerateCSV} 
+            className="w-full"
+            disabled={isGeneratingCSV}
+          >
+            {isGeneratingCSV ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 mr-2" />
+                Generate CSV
+              </>
+            )}
           </Button>
           <Button variant="outline" onClick={onReset} className="w-full">
             <RotateCcw className="w-4 h-4 mr-2" />

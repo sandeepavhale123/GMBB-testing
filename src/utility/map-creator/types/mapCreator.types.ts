@@ -4,7 +4,7 @@ export interface MapCreatorFormData {
   radius: string;
   distance: string;
   description: string;
-  urls: string;
+  businessDetails: string;
   relatedSearches: string;
 }
 

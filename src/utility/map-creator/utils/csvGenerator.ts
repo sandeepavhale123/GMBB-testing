@@ -30,7 +30,7 @@ export const generateCSV = (
     .split(",")
     .map((k) => k.trim())
     .filter((k) => k);
-  const urls = formData.urls
+  const urls = formData.businessDetails
     .split(",")
     .map((u) => u.trim())
     .filter((u) => u);

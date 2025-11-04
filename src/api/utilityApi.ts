@@ -69,3 +69,32 @@ export const getCircleCoordinates = async (
   );
   return response.data;
 };
+
+// API 3: Download Map Creator CSV
+export interface DownloadMapCreatorCSVRequest {
+  businessName: string;
+  keywords: string;
+  centerLatlong: string;
+  description: string;
+  businessDetails: string;
+  relSearch: string;
+  coordinates: string[];
+}
+
+export interface DownloadMapCreatorCSVResponse {
+  code: number;
+  message: string;
+  data: {
+    fileUrl: string;
+  };
+}
+
+export const downloadMapCreatorCSV = async (
+  requestData: DownloadMapCreatorCSVRequest
+): Promise<DownloadMapCreatorCSVResponse> => {
+  const response = await axiosInstance.post(
+    '/utility/download-mapcreater-csv',
+    requestData
+  );
+  return response.data;
+};
