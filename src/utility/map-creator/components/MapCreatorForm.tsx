@@ -33,6 +33,33 @@ interface MapCreatorFormProps {
   onGenerateCSV: () => void;
 }
 
+const FormField = ({
+  label,
+  tooltip,
+  children,
+}: {
+  label: string;
+  tooltip: string;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-2">
+    <Label className="flex items-center gap-2">
+      {label}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            <p>{tooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </Label>
+    {children}
+  </div>
+);
+
 export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
   formData,
   availableDistances,
@@ -46,32 +73,6 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
   onReset,
   onGenerateCSV,
 }) => {
-  const FormField = ({
-    label,
-    tooltip,
-    children,
-  }: {
-    label: string;
-    tooltip: string;
-    children: React.ReactNode;
-  }) => (
-    <div className="space-y-2">
-      <Label className="flex items-center gap-2">
-        {label}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-            </TooltipTrigger>
-            <TooltipContent className="max-w-xs">
-              <p>{tooltip}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </Label>
-      {children}
-    </div>
-  );
 
   return (
     <div className="space-y-6">
