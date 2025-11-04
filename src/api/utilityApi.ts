@@ -45,7 +45,7 @@ export const getDefaultCoordinates = async (
   };
   
   const response = await axiosInstance.post(
-    '/utility/get-circle-coordinates', 
+    '/geomodule/get-default-coordinates', 
     requestData
   );
   return response.data;
