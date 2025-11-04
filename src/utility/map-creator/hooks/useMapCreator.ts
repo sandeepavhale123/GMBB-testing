@@ -95,7 +95,7 @@ export const useMapCreator = () => {
   const handleDistanceChange = async (distance: string) => {
     setFormData((prev) => ({ ...prev, distance }));
     
-    if (!coordinates || formData.radius === "0" || distance === "0") {
+    if (!coordinates || distance === "0") {
       setCircleCoordinates([]);
       return;
     }

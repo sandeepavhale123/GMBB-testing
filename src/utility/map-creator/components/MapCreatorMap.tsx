@@ -142,7 +142,7 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
         </div>
       )}
       {isLoadingCircle && (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
+        <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm z-20">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="text-muted-foreground text-sm">Loading coordinates...</p>
