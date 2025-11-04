@@ -102,10 +102,10 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
     circleMarkersRef.current = [];
     
     const redCircleIcon = L.divIcon({
-      html: '<div style="background: #dc2626; width: 12px; height: 12px; border-radius: 50%; border: 1px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
+      html: '<div style="background: #dc2626; width: 30px; height: 30px; border-radius: 50%; border: 1px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
       className: "circle-marker",
-      iconSize: [12, 12],
-      iconAnchor: [6, 6],
+      iconSize: [30, 30],
+      iconAnchor: [15,15],
     });
     
     circleCoordinates.forEach(coord => {
@@ -129,7 +129,7 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
   }, [circleCoordinates, coordinates]);
 
   return (
-    <div className="relative w-full h-[500px] rounded-lg overflow-hidden border">
+    <div className="relative w-full h-[500px] rounded-lg overflow-hidden border z-[10]">
       <div ref={mapRef} className="w-full h-full" />
       {!coordinates && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
