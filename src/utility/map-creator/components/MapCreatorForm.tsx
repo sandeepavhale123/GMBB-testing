@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import { MapCreatorFormData, SelectOption } from "../types/mapCreator.types";
 import { radiusOptions } from "../data/formOptions";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface MapCreatorFormProps {
   formData: MapCreatorFormData;
@@ -73,50 +74,50 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
   onReset,
   onGenerateCSV,
 }) => {
-
+  const { t } = useI18nNamespace("mapCreator-components/mapCreatorForm");
   return (
     <div className="space-y-6">
       {/* Row 1: Map URL, Keyword, Radius, Distance */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <FormField
-          label="Map URL"
-          tooltip="Enter a Google Maps URL containing the business location"
+          label={t("fields.mapUrl.label")}
+          tooltip={t("fields.mapUrl.tooltip")}
         >
           <div className="space-y-1">
             <Input
               type="text"
-              placeholder="https://www.google.com/maps/place/..."
+              placeholder={t("fields.mapUrl.placeholder")}
               value={formData.mapUrl}
               onChange={(e) => onMapUrlChange(e.target.value)}
               disabled={isLoadingCoordinates}
             />
             {isLoadingCoordinates && (
               <p className="text-xs text-muted-foreground">
-                Fetching coordinates...
+                {t("fields.mapUrl.loading")}
               </p>
             )}
           </div>
         </FormField>
 
         <FormField
-          label="Keywords"
-          tooltip="Enter keywords separated by commas (e.g., pizza, italian restaurant)"
+          label={t("fields.keywords.label")}
+          tooltip={t("fields.keywords.tooltip")}
         >
           <Input
             type="text"
-            placeholder="pizza, italian restaurant, pasta"
+            placeholder={t("fields.keywords.placeholder")}
             value={formData.keywords}
             onChange={(e) => onInputChange("keywords", e.target.value)}
           />
         </FormField>
 
         <FormField
-          label="Radius"
-          tooltip="Select the search radius around the business location"
+          label={t("fields.radius.label")}
+          tooltip={t("fields.radius.tooltip")}
         >
           <Select value={formData.radius} onValueChange={onRadiusChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Select radius" />
+              <SelectValue placeholder={t("fields.radius.placeholder")} />
             </SelectTrigger>
             <SelectContent>
               {radiusOptions.map((option) => (
@@ -129,8 +130,8 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <FormField
-          label="Distance"
-          tooltip="Select a distance value less than the radius"
+          label={t("fields.distance.label")}
+          tooltip={t("fields.distance.tooltip")}
         >
           <div className="space-y-1">
             <Select
@@ -139,7 +140,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
               disabled={formData.radius === "0" || isLoadingCircle}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select distance" />
+                <SelectValue placeholder={t("fields.distance.placeholder")} />
               </SelectTrigger>
               <SelectContent>
                 {availableDistances.map((option) => (
@@ -151,7 +152,7 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
             </Select>
             {isLoadingCircle && (
               <p className="text-xs text-muted-foreground">
-                Generating coordinates...
+                {t("fields.distance.loading")}
               </p>
             )}
           </div>
@@ -161,11 +162,11 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
       {/* Row 2: Description, URLs, Related Searches, Generate Button */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
         <FormField
-          label="Description (Spin text allowed)"
-          tooltip="Enter a description. Spin text syntax is supported: {option1|option2|option3}"
+          label={t("fields.description.label")}
+          tooltip={t("fields.description.tooltip")}
         >
           <Textarea
-            placeholder="Enter description"
+            placeholder={t("fields.description.placeholder")}
             rows={3}
             value={formData.description}
             onChange={(e) => onInputChange("description", e.target.value)}
@@ -173,11 +174,11 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <FormField
-          label="Business Details"
-          tooltip="Enter business details in format: Business Name - URL"
+          label={t("fields.businessDetails.label")}
+          tooltip={t("fields.businessDetails.tooltip")}
         >
           <Textarea
-            placeholder="Enter business details"
+            placeholder={t("fields.businessDetails.placeholder")}
             rows={3}
             value={formData.businessDetails}
             onChange={(e) => onInputChange("businessDetails", e.target.value)}
@@ -185,11 +186,11 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <FormField
-          label="Related Searches"
-          tooltip="Enter related search terms separated by commas"
+          label={t("fields.relatedSearches.label")}
+          tooltip={t("fields.relatedSearches.tooltip")}
         >
           <Textarea
-            placeholder="Enter related searches"
+            placeholder={t("fields.relatedSearches.placeholder")}
             rows={3}
             value={formData.relatedSearches}
             onChange={(e) => onInputChange("relatedSearches", e.target.value)}
@@ -197,26 +198,26 @@ export const MapCreatorForm: React.FC<MapCreatorFormProps> = ({
         </FormField>
 
         <div className="flex flex-col gap-2">
-          <Button 
-            onClick={onGenerateCSV} 
+          <Button
+            onClick={onGenerateCSV}
             className="w-full"
             disabled={isGeneratingCSV}
           >
             {isGeneratingCSV ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Generating...
+                {t("actions.generating")}
               </>
             ) : (
               <>
                 <Download className="w-4 h-4 mr-2" />
-                Generate CSV
+                {t("actions.generate")}
               </>
             )}
           </Button>
           <Button variant="outline" onClick={onReset} className="w-full">
             <RotateCcw className="w-4 h-4 mr-2" />
-            Reset
+            {t("actions.reset")}
           </Button>
         </div>
       </div>

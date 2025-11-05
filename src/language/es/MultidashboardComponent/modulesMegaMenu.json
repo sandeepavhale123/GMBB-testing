@@ -6,33 +6,37 @@
     "title": "Utilidades",
     "utmBuilder": {
       "name": "Generador de URL UTM",
-      "description": "Crea URLs rastreables para campañas"
+      "description": "Crea URLs de campaña rastreables"
     },
     "buyCredits": {
       "name": "Comprar Créditos",
       "description": "Compra créditos para tu cuenta"
+    },
+    "mapCreator": {
+      "name": "Creador de Mapas",
+      "description": "Crea datos de ranking de palabras clave con coordenadas de mapa"
     }
   },
   "modules": {
     "manageGmb": {
-      "name": "Gestionar ficha GMB",
-      "description": "Administra tus fichas de Google My Business"
+      "name": "Administrar listado GMB",
+      "description": "Administra tus listados de Google My Business"
     },
     "geoRanking": {
       "name": "Ranking GEO",
-      "description": "Realiza seguimiento y optimiza tus posiciones en búsquedas locales"
+      "description": "Rastrea y optimiza tus rankings de búsqueda local"
     },
     "leadManagement": {
       "name": "Gestión de Leads",
-      "description": "Gestiona y sigue tus leads de forma efectiva"
+      "description": "Administra y rastrea tus leads de manera efectiva"
     },
     "reputation": {
       "name": "Reputación",
-      "description": "Monitorea y administra tu reputación en línea"
+      "description": "Monitorea y gestiona tu reputación en línea"
     },
     "seo": {
-     "name": "Corrector SEO",
-      "description": "Detecta y corrige automáticamente problemas SEO en sitios web"
+      "name": "SEO Fixer",
+      "description": "Detecta y corrige automáticamente problemas de SEO en sitios web"
     }
   }
 }

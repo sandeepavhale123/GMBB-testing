@@ -1,0 +1,46 @@
+{
+  "fields": {
+    "mapUrl": {
+      "label": "Map URL",
+      "tooltip": "Enter a Google Maps URL containing the business location",
+      "placeholder": "https://www.google.com/maps/place/...",
+      "loading": "Fetching coordinates..."
+    },
+    "keywords": {
+      "label": "Keywords",
+      "tooltip": "Enter keywords separated by commas (e.g., pizza, italian restaurant)",
+      "placeholder": "pizza, italian restaurant, pasta"
+    },
+    "radius": {
+      "label": "Radius",
+      "tooltip": "Select the search radius around the business location",
+      "placeholder": "Select radius"
+    },
+    "distance": {
+      "label": "Distance",
+      "tooltip": "Select a distance value less than the radius",
+      "placeholder": "Select distance",
+      "loading": "Generating coordinates..."
+    },
+    "description": {
+      "label": "Description (Spin text allowed)",
+      "tooltip": "Enter a description. Spin text syntax is supported: {option1|option2|option3}",
+      "placeholder": "Enter description"
+    },
+    "businessDetails": {
+      "label": "Business Details",
+      "tooltip": "Enter business details in format: Business Name - URL",
+      "placeholder": "Enter business details"
+    },
+    "relatedSearches": {
+      "label": "Related Searches",
+      "tooltip": "Enter related search terms separated by commas",
+      "placeholder": "Enter related searches"
+    }
+  },
+  "actions": {
+    "generate": "Generate CSV",
+    "generating": "Generating...",
+    "reset": "Reset"
+  }
+}

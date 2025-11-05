@@ -1,0 +1,5 @@
+{
+  "title": "Karten-Generator",
+  "subtitle": "Erstelle und lade Keyword-Ranking-Daten im CSV-Format herunter",
+  "businessLabel": "Unternehmen: {{business}}"
+}

@@ -1,22 +1,26 @@
 {
   "title": "Module",
-  "comingSoon": "Bald verfügbar",
+  "comingSoon": "Demnächst verfügbar",
   "beta": "Beta",
   "utilities": {
     "title": "Dienstprogramme",
     "utmBuilder": {
-      "name": "UTM-URL-Generator",
+      "name": "UTM-URL Generator",
       "description": "Erstelle verfolgbaren Kampagnen-URLs"
     },
     "buyCredits": {
       "name": "Guthaben kaufen",
       "description": "Kaufe Guthaben für dein Konto"
+    },
+    "mapCreator": {
+      "name": "Karten-Generator",
+      "description": "Erstelle Keyword-Ranking-Daten mit Kartenkoordinaten"
     }
   },
   "modules": {
     "manageGmb": {
-      "name": "GMB-Einträge verwalten",
-      "description": "Verwalte deine Google My Business-Einträge"
+      "name": "GMB-Eintrag verwalten",
+      "description": "Verwalte deine Google My Business Einträge"
     },
     "geoRanking": {
       "name": "GEO-Ranking",
@@ -31,8 +35,8 @@
       "description": "Überwache und verwalte deinen Online-Ruf"
     },
     "seo": {
-      "name": "SEO Fixer",
-      "description": "Erkenne und behebe SEO-Probleme automatisch auf Websites"
+      "name": "SEO-Fixer",
+      "description": "Erkennt und behebt automatisch SEO-Probleme auf Websites"
     }
   }
 }

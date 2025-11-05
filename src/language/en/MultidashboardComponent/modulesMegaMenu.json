@@ -11,6 +11,10 @@
     "buyCredits": {
       "name": "Buy Top-Up Credits",
       "description": "Purchase credits for your account"
+    },
+    "mapCreator": {
+      "name":"Map Creator",
+      "description": "Create keyword ranking data with map coordinates"
     }
   },
   "modules": {

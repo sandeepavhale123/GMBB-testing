@@ -1,0 +1,46 @@
+{
+  "fields": {
+    "mapUrl": {
+      "label": "URL del Mapa",
+      "tooltip": "Ingresa una URL de Google Maps que contenga la ubicación del negocio",
+      "placeholder": "https://www.google.com/maps/place/...",
+      "loading": "Obteniendo coordenadas..."
+    },
+    "keywords": {
+      "label": "Palabras clave",
+      "tooltip": "Ingresa palabras clave separadas por comas (ej: pizza, restaurante italiano)",
+      "placeholder": "pizza, restaurante italiano, pasta"
+    },
+    "radius": {
+      "label": "Radio",
+      "tooltip": "Selecciona el radio de búsqueda alrededor de la ubicación del negocio",
+      "placeholder": "Selecciona el radio"
+    },
+    "distance": {
+      "label": "Distancia",
+      "tooltip": "Selecciona un valor de distancia menor que el radio",
+      "placeholder": "Selecciona la distancia",
+      "loading": "Generando coordenadas..."
+    },
+    "description": {
+      "label": "Descripción (Spin text permitido)",
+      "tooltip": "Ingresa una descripción. El spin text es compatible: {opción1|opción2|opción3}",
+      "placeholder": "Ingresa descripción"
+    },
+    "businessDetails": {
+      "label": "Detalles del negocio",
+      "tooltip": "Ingresa los detalles del negocio en formato: Nombre - URL",
+      "placeholder": "Ingresa detalles del negocio"
+    },
+    "relatedSearches": {
+      "label": "Búsquedas relacionadas",
+      "tooltip": "Ingresa búsquedas relacionadas separadas por comas",
+      "placeholder": "Ingresa búsquedas relacionadas"
+    }
+  },
+  "actions": {
+    "generate": "Generar CSV",
+    "generating": "Generando...",
+    "reset": "Restablecer"
+  }
+}

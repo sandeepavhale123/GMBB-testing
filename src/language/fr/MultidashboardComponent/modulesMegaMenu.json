@@ -1,16 +1,20 @@
 {
   "title": "Modules",
-  "comingSoon": "Bientôt disponible",
+  "comingSoon": "Prochainement",
   "beta": "Bêta",
   "utilities": {
-    "title": "Utilitaires",
+    "title": "Outils",
     "utmBuilder": {
       "name": "Générateur d’URL UTM",
-      "description": "Créez des URL de campagne traçables"
+      "description": "Créer des URLs de campagne traçables"
     },
     "buyCredits": {
-      "name": "Acheter des crédits de recharge",
-      "description": "Achetez des crédits pour votre compte"
+      "name": "Acheter des Crédits",
+      "description": "Acheter des crédits pour votre compte"
+    },
+    "mapCreator": {
+      "name": "Créateur de Cartes",
+      "description": "Créer des données de classement de mots-clés avec des coordonnées de carte"
     }
   },
   "modules": {
@@ -20,19 +24,19 @@
     },
     "geoRanking": {
       "name": "Classement GEO",
-      "description": "Suivez et optimisez votre classement local"
+      "description": "Suivre et optimiser votre classement de recherche locale"
     },
     "leadManagement": {
-      "name": "Gestion des prospects",
-      "description": "Gérez et suivez vos prospects efficacement"
+      "name": "Gestion des Leads",
+      "description": "Gérer et suivre vos leads efficacement"
     },
     "reputation": {
       "name": "Réputation",
-      "description": "Surveillez et gérez votre réputation en ligne"
+      "description": "Surveiller et gérer votre réputation en ligne"
     },
     "seo": {
-    "name": "Correcteur SEO",
-      "description": "Détecte et corrige automatiquement les problèmes SEO sur les sites web"
+      "name": "SEO Fixer",
+      "description": "Détecter et corriger automatiquement les problèmes SEO sur les sites web"
     }
   }
 }

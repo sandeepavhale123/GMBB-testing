@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, Search, Link as LinkIcon, Coins, Map } from "lucide-react";
+import {
+  Grid3X3,
+  TrendingUp,
+  Users,
+  Star,
+  Search,
+  Link as LinkIcon,
+  Coins,
+  Map,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -201,7 +210,11 @@ export const ModulesMegaMenu: React.FC = () => {
               <h4 className="text-xs font-medium text-muted-foreground mb-2">
                 {t("utilities.title")}
               </h4>
-              <div className={cn(isMobile ? "space-y-1" : "grid grid-cols-2 gap-2")}>
+              <div
+                className={cn(
+                  isMobile ? "space-y-1" : "grid grid-cols-2 gap-2"
+                )}
+              >
                 <Link
                   to="/utility/map-creator"
                   onClick={() => setIsOpen(false)}
@@ -212,10 +225,10 @@ export const ModulesMegaMenu: React.FC = () => {
                   </div>
                   <div className="min-w-0 flex-1 text-left">
                     <div className="text-sm font-medium">
-                      Map Creator
+                      {t("utilities.mapCreator.name")}
                     </div>
                     <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
-                      Create keyword ranking data with map coordinates
+                      {t("utilities.mapCreator.description")}
                     </div>
                   </div>
                 </Link>

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapCreatorForm } from "../components/MapCreatorForm";
 import { MapCreatorMap } from "../components/MapCreatorMap";
 import { useMapCreator } from "../hooks/useMapCreator";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const MapCreatorPage = () => {
   const {
@@ -20,15 +21,13 @@ export const MapCreatorPage = () => {
     handleReset,
     handleGenerateCSV,
   } = useMapCreator();
-
+  const { t } = useI18nNamespace("mapCreator-pages/MapCreatorPage");
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold">Map Creator</h1>
-        <p className="text-muted-foreground mt-2">
-          Create and download keyword ranking data in CSV format
-        </p>
+        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <p className="text-muted-foreground mt-2">{t("subtitle")}</p>
       </div>
 
       {/* Form Card */}
@@ -36,7 +35,7 @@ export const MapCreatorPage = () => {
         <CardHeader>
           {businessName && (
             <p className="text-sm text-muted-foreground mt-1">
-              Business: {businessName}
+              {t("businessLabel", { business: businessName })}
             </p>
           )}
         </CardHeader>
@@ -60,8 +59,8 @@ export const MapCreatorPage = () => {
       {/* Map Card */}
       <Card className="pt-5">
         <CardContent>
-          <MapCreatorMap 
-            coordinates={coordinates} 
+          <MapCreatorMap
+            coordinates={coordinates}
             radius={formData.radius}
             circleCoordinates={circleCoordinates}
             isLoadingCircle={isLoadingCircle}
