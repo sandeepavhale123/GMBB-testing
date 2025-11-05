@@ -1274,7 +1274,7 @@ export const MultiDashboard: React.FC = () => {
                               <div className="flex items-center gap-3">
                                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                                 <span className="text-sm text-foreground font-medium">
-                                  {listing.phone}
+                                  {listing.phone || t("listing.na")}
                                 </span>
                               </div>
                               <span className="text-xs text-muted-foreground font-medium bg-muted/50 px-2 py-1 rounded">
@@ -1641,7 +1641,7 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
-                                {listing.phone || "N/A"}
+                                {listing.phone || t("listing.na")}
                               </div>
                               <div className="text-muted-foreground">
                                 {t("listing.phone")}
@@ -1722,7 +1722,9 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
-                                {listing.lastPost}
+                                {listing.lastPost?.includes("No post")
+                                  ? t("listing.nopost")
+                                  : listing.lastPost}
                               </div>
                               <div className="text-muted-foreground">
                                 {t("listing.lastPost")}
@@ -1730,7 +1732,9 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
-                                {listing.upcomingPost}
+                                {listing.upcomingPost?.includes("No post")
+                                  ? t("listing.nopost")
+                                  : listing.upcomingPost}
                               </div>
                               <div className="text-muted-foreground">
                                 {t("listing.upcoming")}

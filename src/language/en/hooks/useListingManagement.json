@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "Search listings",
+  "filterAll": "All",
+  "filterActive": "Active",
+  "filterInactive": "Inactive",
+  "viewListingSuccessTitle": "Opening Listing",
+  "viewListingSuccessDesc": "Opening {{name}} listing page.",
+  "toggleSuccess": "Listing status updated successfully",
+  "toggleFailed": "Failed to update listing status",
+  "bulkStatusRefresh": "Refreshing business listings...",
+  "paginationNext": "Next",
+  "paginationPrev": "Previous"
+}

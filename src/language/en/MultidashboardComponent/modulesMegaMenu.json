@@ -1,6 +1,7 @@
 {
   "title": "Modules",
   "comingSoon": "Coming Soon",
+  "beta":"Beta",
   "utilities": {
     "title": "Utilities",
     "utmBuilder": {
@@ -28,6 +29,10 @@
     "reputation": {
       "name": "Reputation",
       "description": "Monitor and manage your online reputation"
+    },
+    "seo":{
+      "name":"SEO Fixer",
+      "description":"Automatically detect and fix SEO issues on websites"
     }
   }
 }

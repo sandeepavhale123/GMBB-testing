@@ -26,8 +26,8 @@ export const ModulesMegaMenu: React.FC = () => {
       href: "/module/lead",
     },
     {
-      name: "SEO Fixer",
-      description: "Automatically detect and fix SEO issues on websites",
+      name: t("modules.seo.name"),
+      description: t("modules.seo.description"),
       icon: Search,
       href: "/module/live-seo-fixer",
       beta: true,
@@ -63,7 +63,9 @@ export const ModulesMegaMenu: React.FC = () => {
     fetchProfile();
   }, []);
   const getFilteredModules = () => {
-    const baseModules = modules.filter((module) => module.name !== "Manage GMB listing");
+    const baseModules = modules.filter(
+      (module) => module.name !== "Manage GMB listing"
+    );
 
     // Only show GMB listing if dashboardType is 0 or 1
     if (dashboardType === 0 || dashboardType === 1) {
@@ -71,7 +73,8 @@ export const ModulesMegaMenu: React.FC = () => {
         name: t("modules.manageGmb.name"),
         description: t("modules.manageGmb.description"),
         icon: Grid3X3,
-        href: dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
+        href:
+          dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
         comingSoon: false,
         beta: false,
       };
@@ -121,7 +124,9 @@ export const ModulesMegaMenu: React.FC = () => {
                 {t("title")}
               </h3>
             </div>
-            <div className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}>
+            <div
+              className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}
+            >
               {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
@@ -170,7 +175,7 @@ export const ModulesMegaMenu: React.FC = () => {
                             variant="secondary"
                             className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px]"
                           >
-                            Beta
+                            {t("beta")}
                           </Badge>
                         )}
                       </div>
