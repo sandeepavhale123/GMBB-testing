@@ -29,9 +29,9 @@ export const MapCreatorHeader = () => {
               <h1 className="text-md font-semibold text-white mb-0 p-0">
                 {t("mapCreator.title")}
               </h1>
-              <p className="text-sm text-white mt-0 p-0">
+              {/* <p className="text-sm text-white mt-0 p-0">
                 {t("mapCreator.subtitle")}
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
