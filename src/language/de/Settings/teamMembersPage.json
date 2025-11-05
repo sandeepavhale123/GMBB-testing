@@ -1,7 +1,7 @@
 {
   "teamMembersPage": {
     "title": "Teammitglieder",
-    "description": "Verwalten Sie Ihre Teammitglieder und deren Zugriffsrechte.",
+    "description": "Verwalten Sie Ihre Teammitglieder und deren Zugriffsberechtigungen.",
     "addMember": "Mitglied hinzufügen",
     "add": "Hinzufügen",
     "searchPlaceholder": "Mitglieder nach Name oder E-Mail suchen",
@@ -17,7 +17,7 @@
     "empty": {
       "title": "Keine Teammitglieder gefunden",
       "searchAdjust": "Versuchen Sie, Ihre Suchkriterien oder Filter anzupassen",
-      "addFirst": "Beginnen Sie, indem Sie Ihr erstes Teammitglied hinzufügen"
+      "addFirst": "Fügen Sie Ihr erstes Teammitglied hinzu, um zu beginnen"
     },
     "table": {
       "member": "Mitglied",
@@ -28,14 +28,15 @@
       "actions": "Aktionen"
     },
     "copy": {
+      "tooltip":"E-Mail kopieren",
       "successTitle": "E-Mail kopiert",
-      "successDesc": "Die E-Mail-Adresse wurde in die Zwischenablage kopiert.",
+      "successDesc": "E-Mail-Adresse wurde in die Zwischenablage kopiert.",
       "errorTitle": "Kopieren fehlgeschlagen",
-      "errorDesc": "Die E-Mail konnte nicht in die Zwischenablage kopiert werden."
+      "errorDesc": "Konnte die E-Mail nicht in die Zwischenablage kopieren."
     },
     "password": {
       "show": "Passwort anzeigen",
-      "hide": "Passwort verbergen"
+      "hide": "Passwort ausblenden"
     },
     "dropdown": {
       "edit": "Bearbeiten",
@@ -48,8 +49,8 @@
       "status": "Status:"
     },
     "roles": {
-      "Admin": "Administrator",
-      "Editor": "Redakteur",
+      "Admin": "Admin",
+      "Editor": "Editor",
       "Viewer": "Betrachter",
       "Staff": "Mitarbeiter",
       "Client": "Kunde",

@@ -1,11 +1,11 @@
 {
   "teamMembersPage": {
-    "title": "Membri del team",
+    "title": "Membri del Team",
     "description": "Gestisci i membri del tuo team e i loro permessi di accesso.",
-    "addMember": "Aggiungi membro",
+    "addMember": "Aggiungi Membro",
     "add": "Aggiungi",
     "searchPlaceholder": "Cerca membri per nome o email",
-    "allRoles": "Tutti i ruoli",
+    "allRoles": "Tutti i Ruoli",
     "staff": "Staff",
     "client": "Cliente",
     "moderator": "Moderatore",
@@ -15,23 +15,24 @@
       "tryAgain": "Riprova"
     },
     "empty": {
-      "title": "Nessun membro del team trovato",
-      "searchAdjust": "Prova ad aggiustare i criteri di ricerca o i filtri",
+      "title": "Nessun membro trovato",
+      "searchAdjust": "Prova a modificare i criteri di ricerca o i filtri",
       "addFirst": "Inizia aggiungendo il tuo primo membro del team"
     },
     "table": {
       "member": "Membro",
       "email": "Email",
       "password": "Password",
-      "listings": "Annunci",
+      "listings": "Listing",
       "status": "Stato",
       "actions": "Azioni"
     },
     "copy": {
+      "tooltip":"Copia email",
       "successTitle": "Email copiata",
       "successDesc": "L'indirizzo email è stato copiato negli appunti.",
       "errorTitle": "Copia fallita",
-      "errorDesc": "Impossibile copiare l'email negli appunti."
+      "errorDesc": "Impossibile copiare l'indirizzo email negli appunti."
     },
     "password": {
       "show": "Mostra password",
@@ -44,11 +45,11 @@
     "grid": {
       "password": "Password:",
       "role": "Ruolo:",
-      "listings": "Annunci:",
+      "listings": "Listing:",
       "status": "Stato:"
     },
     "roles": {
-      "Admin": "Amministratore",
+      "Admin": "Admin",
       "Editor": "Editor",
       "Viewer": "Visualizzatore",
       "Staff": "Staff",

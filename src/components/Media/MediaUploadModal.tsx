@@ -910,7 +910,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                             : t("mediaUploadModal.uploadingSingle")
                           : isBulkUpload
                           ? t("mediaUploadModal.uploadButtonBulk")
-                          : files.length > 0
+                          : files.length > 1
                           ? t("mediaUploadModal.uploadBulkItem", {
                               count: files.length,
                             })
@@ -944,10 +944,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                           <Settings2 className="h-5 w-5 text-primary" />
                           <h3 className="text-2xl font-bold text-foreground">
                             {t("mediaUploadModal.editExif")}
-                            {files.length > 0 &&
-                              ` (${
-                                files.filter((f) => f.type === "image").length
-                              } ${t("mediaUploadModal.images")})`}
+                            {files.length > 1
+                              ? ` (${
+                                  files.filter((f) => f.type === "image").length
+                                } ${t("mediaUploadModal.images")})`
+                              : ` (${
+                                  files.filter((f) => f.type === "image").length
+                                } ${t("mediaUploadModal.image")})`}
                           </h3>
                         </div>
                         <Button

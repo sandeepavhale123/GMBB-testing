@@ -1,18 +1,18 @@
 {
   "teamMembersPage": {
-    "title": "Miembros del equipo",
+    "title": "Miembros del Equipo",
     "description": "Administra a los miembros de tu equipo y sus permisos de acceso.",
-    "addMember": "Agregar miembro",
+    "addMember": "Agregar Miembro",
     "add": "Agregar",
     "searchPlaceholder": "Buscar miembros por nombre o correo electrónico",
-    "allRoles": "Todos los roles",
-    "staff": "Personal",
+    "allRoles": "Todos los Roles",
+    "staff": "Staff",
     "client": "Cliente",
     "moderator": "Moderador",
     "totalMembers": "Total: {{count}}",
     "error": {
       "title": "Error al cargar los miembros del equipo",
-      "tryAgain": "Intentar de nuevo"
+      "tryAgain": "Intentar nuevamente"
     },
     "empty": {
       "title": "No se encontraron miembros del equipo",
@@ -21,13 +21,14 @@
     },
     "table": {
       "member": "Miembro",
-      "email": "Correo electrónico",
+      "email": "Correo",
       "password": "Contraseña",
-      "listings": "Listados",
+      "listings": "Listings",
       "status": "Estado",
       "actions": "Acciones"
     },
     "copy": {
+      "tooltip":"Copiar correo",
       "successTitle": "Correo copiado",
       "successDesc": "La dirección de correo ha sido copiada al portapapeles.",
       "errorTitle": "Error al copiar",
@@ -44,14 +45,14 @@
     "grid": {
       "password": "Contraseña:",
       "role": "Rol:",
-      "listings": "Listados:",
+      "listings": "Listings:",
       "status": "Estado:"
     },
     "roles": {
       "Admin": "Administrador",
       "Editor": "Editor",
-      "Viewer": "Espectador",
-      "Staff": "Personal",
+      "Viewer": "Visualizador",
+      "Staff": "Staff",
       "Client": "Cliente",
       "Moderator": "Moderador"
     }

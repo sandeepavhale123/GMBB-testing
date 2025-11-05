@@ -28,6 +28,7 @@
       "actions": "Actions"
     },
     "copy": {
+      "tooltip":"Copy email",
       "successTitle": "Email copied",
       "successDesc": "Email address has been copied to clipboard.",
       "errorTitle": "Failed to copy",

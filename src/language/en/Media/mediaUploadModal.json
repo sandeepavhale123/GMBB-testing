@@ -36,6 +36,7 @@
     "error":"Error",
     "failed":"Failed to load templates",    
     "images":"images",
+    "image":"image",
     "tempDetail":"Failed to load template details",
     "tempDelete":"Template deleted successfully",
     "tempFail":"Failed to delete template",

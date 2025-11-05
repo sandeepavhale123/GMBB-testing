@@ -29,7 +29,7 @@
     },
     "status": {
       "published": "publicado",
-      "live": "EN VIVO",
+      "live": "en vivo",
       "draft": "borrador",
       "scheduled": "programado",
       "failed": "fallido"

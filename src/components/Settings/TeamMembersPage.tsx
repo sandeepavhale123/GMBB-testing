@@ -363,7 +363,7 @@ const TeamMembersPage: React.FC = () => {
                               <button
                                 onClick={() => handleCopyEmail(member.username)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
-                                title="Copy email"
+                                title={t("teamMembersPage.copy.tooltip")}
                               >
                                 <Copy className="w-3 h-3" />
                               </button>
