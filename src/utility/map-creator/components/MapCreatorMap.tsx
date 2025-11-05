@@ -18,7 +18,7 @@ export const MapCreatorMap: React.FC<MapCreatorMapProps> = ({
   circleCoordinates,
   isLoadingCircle = false,
 }) => {
-  const { t } = useI18nNamespace("mapCreator-pages/MapCreatorMap");
+  const { t } = useI18nNamespace("mapCreator-components/MapCreatorMap");
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
