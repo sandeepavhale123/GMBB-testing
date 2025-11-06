@@ -367,7 +367,7 @@ export const QRCodePoster: React.FC = () => {
                 transformOrigin: 'center center',
                 backgroundColor,
                 color: textColor
-              }} className="flex flex-col items-center justify-center w-100">
+              }} className="flex flex-col items-center justify-center w-[100%]">
                   {/* Logo - scaled to poster dimensions */}
                   {logo && <div className="mt-[600px] mb-[400px]" style={{
                   width: '960px',
