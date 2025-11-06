@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Download, Upload, X, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import * as htmlToImage from "html-to-image";
+import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
 const DEFAULT_SETTINGS = {
@@ -112,46 +113,72 @@ export const QRCodePoster: React.FC = () => {
   };
   const handleDownload = async (format: "png" | "pdf") => {
     if (!posterRef.current) return;
+    const el = posterRef.current;
+
+    // Store ALL original styles
+    const original = {
+      transform: el.style.transform,
+      position: el.style.position,
+      left: el.style.left,
+      top: el.style.top,
+      zIndex: el.style.zIndex,
+      visibility: el.style.visibility,
+    };
+
     try {
-      // Store ALL original styles
-      const originalTransform = posterRef.current.style.transform;
-      const originalPosition = posterRef.current.style.position;
-      const originalLeft = posterRef.current.style.left;
-      const originalZIndex = posterRef.current.style.zIndex;
-      const originalTop = posterRef.current.style.top;
-      
-      // Move poster OFF-SCREEN (prevents visual flash)
-      posterRef.current.style.position = 'fixed';
-      posterRef.current.style.left = '-99999px';
-      posterRef.current.style.top = '0';
-      posterRef.current.style.zIndex = '-9999';
-      
-      // NOW remove scale (happens off-screen)
-      posterRef.current.style.transform = 'none';
-      
-      // Small delay to ensure browser applies all styles
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Move poster OFF-SCREEN (prevents visual flash) and remove scale
+      el.style.position = 'fixed';
+      el.style.left = '-99999px';
+      el.style.top = '0';
+      el.style.zIndex = '-9999';
+      el.style.transform = 'none';
 
-      // Capture at full resolution (300 DPI)
-      const dataUrl = await htmlToImage.toPng(posterRef.current, {
-        backgroundColor: backgroundColor,
-        pixelRatio: 1,
-        cacheBust: true,
-        width: POSTER_WIDTH,
-        height: POSTER_HEIGHT,
-        skipFonts: true, // Skip external fonts to avoid CORS errors
-        style: {
-          color: posterRef.current.style.color,
-          fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
-        }
-      });
+      // Wait for browser to apply styles
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Restore ALL original styles
-      posterRef.current.style.transform = originalTransform;
-      posterRef.current.style.position = originalPosition;
-      posterRef.current.style.left = originalLeft;
-      posterRef.current.style.zIndex = originalZIndex;
-      posterRef.current.style.top = originalTop;
+      // Ensure images inside are loaded
+      const images = Array.from(el.querySelectorAll('img')) as HTMLImageElement[];
+      await Promise.all(
+        images.map((img) =>
+          img.complete
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.addEventListener('load', () => resolve(), { once: true });
+                img.addEventListener('error', () => resolve(), { once: true });
+                setTimeout(() => resolve(), 3000);
+              })
+        )
+      );
+
+      let dataUrl: string | null = null;
+
+      // Try html-to-image first
+      try {
+        dataUrl = await htmlToImage.toPng(el, {
+          backgroundColor,
+          pixelRatio: 1,
+          cacheBust: true,
+          width: POSTER_WIDTH,
+          height: POSTER_HEIGHT,
+        });
+      } catch (e) {
+        console.warn('html-to-image failed, falling back to html2canvas', e);
+        // Fallback to html2canvas (better with cross-origin CSS)
+        const canvas = await html2canvas(el, {
+          backgroundColor,
+          scale: 1,
+          useCORS: true,
+          allowTaint: true,
+          foreignObjectRendering: true,
+          width: POSTER_WIDTH,
+          height: POSTER_HEIGHT,
+          windowWidth: POSTER_WIDTH,
+          windowHeight: POSTER_HEIGHT,
+        });
+        dataUrl = canvas.toDataURL('image/png');
+      }
+
+      if (!dataUrl) throw new Error('Failed to generate poster image');
 
       if (format === "png") {
         const link = document.createElement("a");
@@ -162,7 +189,7 @@ export const QRCodePoster: React.FC = () => {
         const pdf = new jsPDF({
           orientation: "portrait",
           unit: "in",
-          format: [18, 24] // Standard 18" × 24" poster size
+          format: [18, 24], // Standard 18" × 24" poster size
         });
         pdf.addImage(dataUrl, "PNG", 0, 0, 18, 24, undefined, 'FAST');
         pdf.save(`qr-poster-${Date.now()}.pdf`);
@@ -171,6 +198,14 @@ export const QRCodePoster: React.FC = () => {
     } catch (error) {
       console.error("Download error:", error);
       toast.error(t("toast.downloadError"));
+    } finally {
+      // Restore ALL original styles
+      el.style.transform = original.transform;
+      el.style.position = original.position;
+      el.style.left = original.left;
+      el.style.top = original.top;
+      el.style.zIndex = original.zIndex;
+      el.style.visibility = original.visibility;
     }
   };
   const handleReset = () => {
