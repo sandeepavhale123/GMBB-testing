@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,10 @@ const DEFAULT_SETTINGS = {
   showScanText: true,
 };
 
+// Poster actual dimensions for 18" × 24" at 300 DPI
+const POSTER_WIDTH = 5400; // 18 inches × 300 DPI
+const POSTER_HEIGHT = 7200; // 24 inches × 300 DPI
+
 const COLOR_PRESETS = [
   { name: "Professional", bg: "#FFFFFF", text: "#1F2937", accent: "#3B82F6" },
   { name: "Modern", bg: "#F9FAFB", text: "#111827", accent: "#8B5CF6" },
@@ -33,6 +37,7 @@ const COLOR_PRESETS = [
 export const QRCodePoster: React.FC = () => {
   const { t } = useTranslation("Reputation/qrCodePoster");
   const posterRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [logo, setLogo] = useState<string | null>(null);
@@ -44,6 +49,28 @@ export const QRCodePoster: React.FC = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState(DEFAULT_SETTINGS.qrCodeUrl);
   const [qrCodeSize, setQrCodeSize] = useState([DEFAULT_SETTINGS.qrCodeSize]);
   const [showScanText, setShowScanText] = useState(DEFAULT_SETTINGS.showScanText);
+  const [scale, setScale] = useState(1);
+
+  // Calculate scale factor to fit poster in container
+  useEffect(() => {
+    const updateScale = () => {
+      if (!containerRef.current) return;
+      
+      const containerWidth = containerRef.current.offsetWidth;
+      const containerHeight = containerRef.current.offsetHeight;
+      
+      // Calculate scale to fit poster in container while maintaining aspect ratio
+      const scaleX = containerWidth / POSTER_WIDTH;
+      const scaleY = containerHeight / POSTER_HEIGHT;
+      const newScale = Math.min(scaleX, scaleY, 1); // Never scale up beyond 100%
+      
+      setScale(newScale);
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -79,12 +106,21 @@ export const QRCodePoster: React.FC = () => {
     if (!posterRef.current) return;
 
     try {
-      // Capture at actual display size using html-to-image
+      // Temporarily remove scale for full-resolution capture
+      const originalTransform = posterRef.current.style.transform;
+      posterRef.current.style.transform = 'none';
+      
+      // Capture at full resolution (300 DPI)
       const dataUrl = await htmlToImage.toPng(posterRef.current, {
         backgroundColor: backgroundColor,
-        pixelRatio: 2,
+        pixelRatio: 1, // Capture at actual size
         cacheBust: true,
+        width: POSTER_WIDTH,
+        height: POSTER_HEIGHT,
       });
+      
+      // Restore scale
+      posterRef.current.style.transform = originalTransform;
 
       if (format === "png") {
         const link = document.createElement("a");
@@ -92,18 +128,13 @@ export const QRCodePoster: React.FC = () => {
         link.href = dataUrl;
         link.click();
       } else if (format === "pdf") {
-        // Get the actual dimensions of the poster element
-        const rect = posterRef.current.getBoundingClientRect();
-        const widthInInches = rect.width / 96; // Convert px to inches (96 DPI)
-        const heightInInches = rect.height / 96;
-        
         const pdf = new jsPDF({
           orientation: "portrait",
           unit: "in",
-          format: [widthInInches, heightInInches],
+          format: [18, 24], // Standard 18" × 24" poster size
         });
-        const imgData = dataUrl;
-        pdf.addImage(imgData, "PNG", 0, 0, widthInInches, heightInInches);
+        
+        pdf.addImage(dataUrl, "PNG", 0, 0, 18, 24, undefined, 'FAST');
         pdf.save(`qr-poster-${Date.now()}.pdf`);
       }
 
@@ -357,7 +388,7 @@ export const QRCodePoster: React.FC = () => {
 
                 <div>
                   <Label htmlFor="qrCodeSize">
-                    {t("leftPanel.qrCode.sizeLabel")}: {qrCodeSize[0]}px
+                    {t("leftPanel.qrCode.sizeLabel")}: {qrCodeSize[0] * 10}px
                   </Label>
                   <Slider
                     id="qrCodeSize"
@@ -421,40 +452,47 @@ export const QRCodePoster: React.FC = () => {
                 </p>
               </div>
 
-              {/* Poster Preview Container - 18x24 aspect ratio (3:4) */}
-              <div className="w-full aspect-[3/4] border-2 border-border rounded-lg shadow-lg overflow-hidden">
+              {/* Poster Preview Container - Fixed dimensions with scale transform */}
+              <div 
+                ref={containerRef}
+                className="w-full aspect-[3/4] border-2 border-border rounded-lg shadow-lg overflow-hidden flex items-center justify-center bg-muted"
+              >
                 <div
                   ref={posterRef}
-                  className="w-full h-full flex flex-col items-center justify-center p-12 space-y-8"
                   style={{
+                    width: `${POSTER_WIDTH}px`,
+                    height: `${POSTER_HEIGHT}px`,
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center',
                     backgroundColor,
                     color: textColor,
                   }}
+                  className="flex flex-col items-center justify-center"
                 >
-                  {/* Logo */}
+                  {/* Logo - scaled to poster dimensions */}
                   {logo && (
-                    <div className="w-32 h-32 flex items-center justify-center">
+                    <div className="mt-[600px] mb-[400px]" style={{ width: '960px', height: '960px' }}>
                       <img
                         src={logo}
                         alt="Business Logo"
-                        className="max-w-full max-h-full object-contain"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   )}
 
                   {/* Business Name */}
                   <h2
-                    className="text-4xl font-bold text-center"
+                    className="text-[240px] font-bold text-center mb-[300px] px-[400px] leading-tight"
                     style={{ color: textColor }}
                   >
                     {businessName}
                   </h2>
 
                   {/* QR Code */}
-                  <div className="bg-white p-6 rounded-lg shadow-md">
+                  <div className="bg-white rounded-[48px] shadow-2xl mb-[300px]" style={{ padding: '120px' }}>
                     <QRCodeSVG
                       value={qrCodeUrl}
-                      size={qrCodeSize[0]}
+                      size={qrCodeSize[0] * 10}
                       level="H"
                       includeMargin={false}
                     />
@@ -462,17 +500,20 @@ export const QRCodePoster: React.FC = () => {
 
                   {/* Scan Text */}
                   {showScanText && (
-                    <p className="text-xl font-medium text-center" style={{ color: textColor }}>
+                    <p 
+                      className="text-[160px] font-medium text-center mb-[250px] px-[400px]" 
+                      style={{ color: textColor }}
+                    >
                       {keywords}
                     </p>
                   )}
 
                   {/* Decorative Stars */}
-                  <div className="flex gap-2">
+                  <div className="flex gap-[120px]">
                     {[...Array(5)].map((_, i) => (
                       <span
                         key={i}
-                        className="text-3xl"
+                        className="text-[200px]"
                         style={{ color: accentColor }}
                       >
                         ★
