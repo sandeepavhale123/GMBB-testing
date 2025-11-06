@@ -1,0 +1,119 @@
+{
+  "title": "Solicitudes de Reseñas",
+  "subtitle": "Envía solicitudes de reseñas a tus clientes",
+  "createButton": "Crear",
+  "tabs": {
+    "campaign": "Campaña",
+    "templates": "Plantillas",
+    "contacts": "Contactos",
+    "reviewLink": "Enlace de Reseña",
+    "feedbackForms": "Formulario de Encuesta"
+  },
+  "table": {
+    "name": "Nombre",
+    "channel": "Canal",
+    "status": "Estado",
+    "date": "Fecha",
+    "contacts": "Contactos",
+    "delivered": "Entregado",
+    "action": "Acción"
+  },
+  "status": {
+    "sent": "Enviado",
+    "pending": "Pendiente",
+    "scheduled": "Programado"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Correo"
+  },
+  "actions": {
+    "view": "Ver",
+    "send": "Enviar"
+  },
+  "empty": {
+    "title": "Aún no hay campañas",
+    "description": "Crea tu primera campaña de solicitud de reseñas para comenzar",
+    "button": "Crear Campaña"
+  },
+  "comingSoon": {
+    "title": "Próximamente",
+    "description": "Esta función está en desarrollo"
+  },
+  "templates": {
+    "title": "Plantilla",
+    "createButton": "Crear",
+    "table": {
+      "name": "Nombre",
+      "channel": "Canal",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción"
+    },
+    "status": {
+      "active": "Activo",
+      "draft": "Borrador"
+    },
+    "actions": {
+      "view": "Ver",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay plantillas",
+      "description": "Crea tu primera plantilla de solicitud de reseñas para comenzar",
+      "button": "Crear Plantilla"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Plantilla",
+      "description": "¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Enviar Solicitud de Reseña",
+    "selectTemplate": "Selecciona una Plantilla",
+    "selectTemplatePlaceholder": "Elige una plantilla...",
+    "templateContent": "Contenido del Mensaje",
+    "noTemplatesAvailable": "No hay plantillas activas disponibles",
+    "createTemplateFirst": "Por favor, crea una plantilla primero",
+    "templatePreview": "Vista previa",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "success": {
+      "title": "Solicitud de Reseña Enviada",
+      "description": "Tu solicitud de reseña ha sido enviada exitosamente a {{contactName}}"
+    },
+    "error": {
+      "title": "Error al Enviar",
+      "description": "No se pudo enviar la solicitud de reseña. Por favor, inténtalo de nuevo."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formularios de Retroalimentación",
+    "description": "Crea y gestiona formularios personalizados de retroalimentación para tus clientes",
+    "createButton": "Crear Formulario",
+    "table": {
+      "name": "Nombre",
+      "createdAt": "Creado el",
+      "action": "Acción"
+    },
+    "actions": {
+      "view": "Ver",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay formularios",
+      "description": "Crea tu primer formulario personalizado para recopilar comentarios estructurados",
+      "button": "Crear Formulario de Retroalimentación"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Formulario",
+      "description": "¿Estás seguro de que deseas eliminar este formulario? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    }
+  }
+}

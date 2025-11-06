@@ -1,0 +1,49 @@
+{
+  "title": "QR-Code-Poster Anpassen",
+  "description": "Erstellen Sie ein Markenposter für Ihr Geschäft",
+  "leftPanel": {
+    "logo": {
+      "title": "Logo Hochladen",
+      "dragDrop": "Ziehen Sie Ihr Logo hierher",
+      "browse": "Dateien Durchsuchen",
+      "remove": "Logo Entfernen",
+      "position": "Logo-Position"
+    },
+    "business": {
+      "title": "Geschäftsinformationen",
+      "nameLabel": "Geschäftsname",
+      "namePlaceholder": "Geben Sie Ihren Geschäftsnamen ein",
+      "keywordsLabel": "Slogan / Handlungsaufforderung",
+      "keywordsPlaceholder": "z.B.: Scannen Sie, um uns zu bewerten!"
+    },
+    "colors": {
+      "title": "Farbschema",
+      "background": "Hintergrundfarbe",
+      "text": "Textfarbe",
+      "accent": "Akzentfarbe",
+      "presets": "Farbvorlagen"
+    },
+    "qrCode": {
+      "title": "QR-Code-Einstellungen",
+      "urlLabel": "Bewertungslink-URL",
+      "sizeLabel": "QR-Code-Größe",
+      "showScanText": "'Scannen Sie mich' Text anzeigen"
+    },
+    "actions": {
+      "download": "Poster Herunterladen",
+      "reset": "Auf Standard Zurücksetzen",
+      "save": "Vorlage Speichern"
+    }
+  },
+  "rightPanel": {
+    "title": "Vorschau",
+    "subtitle": "Standard-Postergröße 18\" × 24\""
+  },
+  "toast": {
+    "logoTooLarge": "Die Logo-Datei ist zu groß. Maximale Größe: 5 MB",
+    "invalidFormat": "Ungültiges Dateiformat. Bitte laden Sie PNG, JPG oder SVG hoch",
+    "downloadSuccess": "Poster erfolgreich heruntergeladen!",
+    "downloadError": "Fehler beim Herunterladen des Posters",
+    "resetSuccess": "Auf Standardeinstellungen zurückgesetzt"
+  }
+}

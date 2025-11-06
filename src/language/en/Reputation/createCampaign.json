@@ -1,0 +1,61 @@
+{
+  "title": "Create Campaign",
+  "campaignName": {
+    "label": "Campaign Name",
+    "placeholder": "Enter campaign name"
+  },
+  "campaignType": {
+    "label": "Campaign Type",
+    "placeholder": "Select campaign type",
+    "review": "Review Campaign",
+    "survey": "Survey Campaign"
+  },
+  "channel": {
+    "label": "Select Channel",
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "contacts": {
+    "title": "Add contacts",
+    "importCSV": "Import CSV",
+    "contactList": "Contact list",
+    "namePlaceholder": "Enter name",
+    "phonePlaceholder": "Enter Phone no.",
+    "emailPlaceholder": "Enter email",
+    "addButton": "Add",
+    "editButton": "Edit",
+    "removeButton": "Remove"
+  },
+  "template": {
+    "title": "Select Template",
+    "defaultTemplate": "Default template",
+    "greeting": "Hi Name!",
+    "defaultMessage": "👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐",
+    "reviewLink": "Review Link"
+  },
+  "feedbackForm": {
+    "label": "Select Survey Form",
+    "placeholder": "Choose a survey form",
+    "noFormsAvailable": "No survey forms available. Create one first."
+  },
+  "schedule": {
+    "label": "Schedule the campaign (optional)",
+    "date": "Date",
+    "time": "Time"
+  },
+  "submit": "Submit",
+  "validation": {
+    "nameRequired": "Campaign name is required",
+    "contactRequired": "At least one contact is required",
+    "invalidPhone": "Invalid phone number (10-15 digits required)"
+  },
+  "success": {
+    "title": "Campaign Created",
+    "description": "Your campaign has been created successfully"
+  },
+  "importModal": {
+    "title": "Import File",
+    "downloadSample": "Download Sample File"
+  }
+}

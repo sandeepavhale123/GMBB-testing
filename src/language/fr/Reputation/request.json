@@ -1,0 +1,119 @@
+{
+  "title": "Demandes d'Avis",
+  "subtitle": "Envoyez des demandes d'avis à vos clients",
+  "createButton": "Créer",
+  "tabs": {
+    "campaign": "Campagne",
+    "templates": "Modèles",
+    "contacts": "Contacts",
+    "reviewLink": "Lien d'Avis",
+    "feedbackForms": "Formulaire d'Enquête"
+  },
+  "table": {
+    "name": "Nom",
+    "channel": "Canal",
+    "status": "Statut",
+    "date": "Date",
+    "contacts": "Contacts",
+    "delivered": "Livré",
+    "action": "Action"
+  },
+  "status": {
+    "sent": "Envoyé",
+    "pending": "En attente",
+    "scheduled": "Programmé"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email"
+  },
+  "actions": {
+    "view": "Voir",
+    "send": "Envoyer"
+  },
+  "empty": {
+    "title": "Aucune campagne pour le moment",
+    "description": "Créez votre première campagne de demande d'avis pour commencer",
+    "button": "Créer une Campagne"
+  },
+  "comingSoon": {
+    "title": "Bientôt disponible",
+    "description": "Cette fonctionnalité est en cours de développement"
+  },
+  "templates": {
+    "title": "Modèle",
+    "createButton": "Créer",
+    "table": {
+      "name": "Nom",
+      "channel": "Canal",
+      "status": "Statut",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Actif",
+      "draft": "Brouillon"
+    },
+    "actions": {
+      "view": "Voir",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun modèle pour le moment",
+      "description": "Créez votre premier modèle de demande d'avis pour commencer",
+      "button": "Créer un Modèle"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le Modèle",
+      "description": "Êtes-vous sûr de vouloir supprimer ce modèle? Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Envoyer une Demande d'Avis",
+    "selectTemplate": "Sélectionnez un Modèle",
+    "selectTemplatePlaceholder": "Choisissez un modèle...",
+    "templateContent": "Contenu du Message",
+    "noTemplatesAvailable": "Aucun modèle actif disponible",
+    "createTemplateFirst": "Veuillez d'abord créer un modèle",
+    "templatePreview": "Aperçu",
+    "cancel": "Annuler",
+    "send": "Envoyer",
+    "sending": "Envoi en cours...",
+    "success": {
+      "title": "Demande d'Avis Envoyée",
+      "description": "Votre demande d'avis a été envoyée avec succès à {{contactName}}"
+    },
+    "error": {
+      "title": "Échec de l'Envoi",
+      "description": "Impossible d'envoyer la demande d'avis. Veuillez réessayer."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formulaires de Feedback",
+    "description": "Créez et gérez des formulaires de feedback personnalisés pour vos clients",
+    "createButton": "Créer un Formulaire",
+    "table": {
+      "name": "Nom",
+      "createdAt": "Créé le",
+      "action": "Action"
+    },
+    "actions": {
+      "view": "Voir",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun formulaire pour le moment",
+      "description": "Créez votre premier formulaire personnalisé pour collecter des retours structurés",
+      "button": "Créer un Formulaire de Feedback"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le Formulaire",
+      "description": "Êtes-vous sûr de vouloir supprimer ce formulaire? Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    }
+  }
+}

@@ -37,7 +37,6 @@ export interface CreateReportRequest {
   sections: string[];
   listingId: string;
   domain: string;
-  lang: string;
 }
 
 // API Payload interface that matches the backend expected format
@@ -62,7 +61,6 @@ export interface CreateReportPayload {
       };
   sections: string[];
   domain: string;
-  lang: string;
 }
 
 export interface PerformanceHealthReportData {

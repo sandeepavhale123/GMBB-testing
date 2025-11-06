@@ -1,0 +1,47 @@
+{
+  "title": "Paramètres",
+  "tabs": {
+    "integration": "Intégration",
+    "qrCode": "Code QR"
+  },
+  "integration": {
+    "title": "Intégration des Canaux",
+    "description": "Connectez et gérez vos intégrations de plateformes d'avis",
+    "channels": {
+      "google": "Profil d'Entreprise Google",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Pages Jaunes",
+      "opentable": "OpenTable",
+      "twilio": "Twilio SMS",
+      "mailgun": "Mailgun"
+    },
+    "status": {
+      "connected": "Connecté",
+      "notConnected": "Non Connecté"
+    },
+    "button": {
+      "connect": "Connecter",
+      "disconnect": "Déconnecter",
+      "configure": "Configurer"
+    }
+  },
+  "qrCode": {
+    "title": "Code QR d'Avis",
+    "description": "Générez et téléchargez des codes QR pour vos demandes d'avis",
+    "simpleCard": {
+      "title": "Code QR Simple",
+      "description": "Téléchargez un code QR de base qui mène directement à votre page d'avis. Parfait pour un partage et une impression rapides.",
+      "downloadButton": "Télécharger le Code QR"
+    },
+    "posterCard": {
+      "title": "Poster QR Personnalisé",
+      "description": "Créez une affiche avec votre marque incluant votre code QR, logo et messages personnalisés. Idéal pour l'affichage dans votre établissement.",
+      "customizeButton": "Personnaliser le Poster"
+    }
+  }
+}

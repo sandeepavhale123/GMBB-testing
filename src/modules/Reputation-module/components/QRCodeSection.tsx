@@ -1,0 +1,152 @@
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Download, QrCode, Palette } from "lucide-react";
+import { toast } from "sonner";
+import html2canvas from "html2canvas";
+
+interface QRCodeSectionProps {
+  title: string;
+  description: string;
+  simpleCard: {
+    title: string;
+    description: string;
+    downloadButton: string;
+  };
+  posterCard: {
+    title: string;
+    description: string;
+    customizeButton: string;
+  };
+}
+
+export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
+  title,
+  description,
+  simpleCard,
+  posterCard,
+}) => {
+  const navigate = useNavigate();
+  const simpleQrRef = useRef<HTMLDivElement>(null);
+  const posterQrRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadSimple = async () => {
+    if (!simpleQrRef.current) return;
+
+    try {
+      const canvas = await html2canvas(simpleQrRef.current, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+      });
+
+      const link = document.createElement("a");
+      link.download = `review-qr-code-${Date.now()}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      toast.success("QR Code downloaded successfully");
+    } catch (error) {
+      console.error("Error downloading QR code:", error);
+      toast.error("Failed to download QR code");
+    }
+  };
+
+  const handleCustomizePoster = () => {
+    navigate("/module/reputation/qr-code-poster");
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Section Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-foreground">{title}</h2>
+        <p className="text-muted-foreground mt-1">{description}</p>
+      </div>
+
+      {/* Card 1: Simple QR Code Download */}
+      <Card className="w-full">
+        <CardContent className="p-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Left Column: QR Code Preview (30% on desktop) */}
+            <div className="w-full lg:w-[30%] flex-shrink-0">
+              <div
+                ref={simpleQrRef}
+                className="bg-white p-6 rounded-lg border-2 border-border shadow-sm  flex items-center justify-center"
+              >
+                <QrCode className="w-full h-full max-w-[100px] max-h-[100px] text-primary/30" />
+              </div>
+            </div>
+
+            {/* Right Column: Content (70% on desktop) */}
+            <div className="flex-1 flex flex-col justify-center space-y-4">
+              <div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  {simpleCard.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {simpleCard.description}
+                </p>
+              </div>
+              <div>
+                <Button
+                  onClick={handleDownloadSimple}
+                  className="bg-primary hover:bg-primary/90"
+                  size="lg"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  {simpleCard.downloadButton}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Card 2: Custom QR Poster */}
+      <Card className="w-full">
+        <CardContent className="p-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Left Column: Poster Preview (30% on desktop) */}
+            <div className="w-full lg:w-[30%] flex-shrink-0">
+              <div
+                ref={posterQrRef}
+                className="rounded-lg border-2 border-border shadow-sm  flex flex-col items-center justify-center gap-3"
+              >
+                {/* Mock Poster Design */}
+                <div className="bg-white p-4 rounded-lg">
+                  {/* <QrCode className="w-24 h-24 max-w-[100px] max-h-[100px] text-primary/40" /> */}
+                  <img src="/lovable-uploads/review-stand.png" alt="" className="w-auto h-[150px] max-w-auto max-h-[150px] rounded-sm" />
+                </div>
+                
+              </div>
+            </div>
+
+            {/* Right Column: Content (70% on desktop) */}
+            <div className="flex-1 flex flex-col justify-center space-y-4">
+              <div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  {posterCard.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {posterCard.description}
+                </p>
+              </div>
+              <div>
+                <Button
+                  onClick={handleCustomizePoster}
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/10"
+                  size="lg"
+                >
+                  <Palette className="w-4 h-4 mr-2" />
+                  {posterCard.customizeButton}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};

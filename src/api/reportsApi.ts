@@ -19,7 +19,7 @@ import {
 const createReportPayload = (
   data: CreateReportRequest
 ): CreateReportPayload => {
-  const { name, type, listingId, dateRange, sections, domain, lang } = data;
+  const { name, type, listingId, dateRange, sections, domain } = data;
 
   // Convert date ranges to ISO string format
   let apiDateRange;
@@ -52,7 +52,6 @@ const createReportPayload = (
     date_range: apiDateRange,
     sections,
     domain: `${window.location.origin}/`,
-    lang,
   };
 };
 
@@ -70,7 +69,6 @@ export const reportsApi = {
     message: string;
     reportId: string;
     domain: string;
-    lang: string;
   }> => {
     const payload = createReportPayload(data);
 
@@ -105,7 +103,6 @@ export const reportsApi = {
         message: apiData.message || "Report is being generated.",
         reportId,
         domain,
-        lang: data.lang,
       };
     } catch (error) {
       console.error("POST /create-report failed:", error);

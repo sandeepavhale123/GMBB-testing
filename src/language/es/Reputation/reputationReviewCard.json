@@ -1,0 +1,32 @@
+{
+  "sentiment": {
+    "positive": "Positivo",
+    "neutral": "Neutral",
+    "negative": "Negativo"
+  },
+  "location": "{{locationName}} • {{zipcode}}",
+  "rating": "({{rating}}/5)",
+  "review": {
+    "comment": "Comentario de la reseña",
+    "repliedOn": "Respondido el {{date}}"
+  },
+  "actions": {
+    "generateAI": "Generar con Genie",
+    "replyManually": "Responder manualmente",
+    "editReply": "Editar respuesta",
+    "deleteReply": "Eliminar respuesta",
+    "share": "Compartir",
+    "viewDetails": "Ver detalles"
+  },
+  "tooltips": {
+    "dnr": "Respuesta desactivada — la configuración DNR (No Responder) está activa para esta reseña."
+  },
+  "dialogs": {
+    "deleteReply": {
+      "title": "Eliminar respuesta",
+      "description": "¿Estás seguro de que quieres eliminar esta respuesta? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    }
+  }
+}

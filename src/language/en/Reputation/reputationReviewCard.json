@@ -1,0 +1,32 @@
+{
+  "sentiment": {
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative"
+  },
+  "location": "{{locationName}} • {{zipcode}}",
+  "rating": "({{rating}}/5)",
+  "review": {
+    "comment": "Review Comment",
+    "repliedOn": "Replied on {{date}}"
+  },
+  "actions": {
+    "generateAI": "Generate using Genie",
+    "replyManually": "Reply Manually",
+    "editReply": "Edit Reply",
+    "deleteReply": "Delete Reply",
+    "share": "Share",
+    "viewDetails": "View Details"
+  },
+  "tooltips": {
+    "dnr": "Response disabled — DNR (Do Not Respond) setting is active for this review."
+  },
+  "dialogs": {
+    "deleteReply": {
+      "title": "Delete Reply",
+      "description": "Are you sure you want to delete this reply? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  }
+}

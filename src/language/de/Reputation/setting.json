@@ -1,0 +1,47 @@
+{
+  "title": "Einstellungen",
+  "tabs": {
+    "integration": "Integration",
+    "qrCode": "QR-Code"
+  },
+  "integration": {
+    "title": "Kanal-Integration",
+    "description": "Verbinden und verwalten Sie Ihre Bewertungsplattform-Integrationen",
+    "channels": {
+      "google": "Google Unternehmensprofil",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Gelbe Seiten",
+      "opentable": "OpenTable",
+      "twilio": "Twilio SMS",
+      "mailgun": "Mailgun"
+    },
+    "status": {
+      "connected": "Verbunden",
+      "notConnected": "Nicht Verbunden"
+    },
+    "button": {
+      "connect": "Verbinden",
+      "disconnect": "Trennen",
+      "configure": "Konfigurieren"
+    }
+  },
+  "qrCode": {
+    "title": "Bewertungs-QR-Code",
+    "description": "Generieren und laden Sie QR-Codes für Ihre Bewertungsanfragen herunter",
+    "simpleCard": {
+      "title": "Einfacher QR-Code",
+      "description": "Laden Sie einen einfachen QR-Code herunter, der direkt zu Ihrer Bewertungsseite führt. Perfekt zum schnellen Teilen und Drucken.",
+      "downloadButton": "QR-Code Herunterladen"
+    },
+    "posterCard": {
+      "title": "Individuelles QR-Poster",
+      "description": "Erstellen Sie ein gebrandetes Poster mit Ihrem QR-Code, Logo und individuellen Nachrichten. Ideal für die Anzeige in Ihrem Geschäft.",
+      "customizeButton": "Poster Anpassen"
+    }
+  }
+}

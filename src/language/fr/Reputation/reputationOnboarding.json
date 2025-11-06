@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Gérez Votre Réputation en un Seul Endroit",
+    "description": "Envoyez des demandes d'avis à vos clients, gérez les commentaires négatifs avec soin, créez des campagnes d'enquête rapides pour recueillir des opinions et partagez vos meilleurs avis sur les réseaux sociaux, le tout depuis un tableau de bord facile à utiliser."
+  },
+  "importListings": {
+    "title": "Importer les Annonces Existantes",
+    "description": "Importez et examinez facilement toutes vos annonces actuelles en un seul clic. Restez organisé et assurez-vous que les informations de votre entreprise sont toujours à jour.",
+    "select": "Sélectionner",
+    "selectAll": "Tout Sélectionner",
+    "importButton": "Importer les Annonces Sélectionnées"
+  },
+  "addListing": {
+    "title": "Ajouter une Nouvelle Annonce",
+    "subtitle": "Vous n'avez pas trouvé votre entreprise dans les annonces ?",
+    "noWorries": "Pas de souci",
+    "description": "— Ajoutez-en une nouvelle en quelques secondes et commencez à suivre les avis, les notes et les performances de réputation instantanément.",
+    "button": "Ajouter un Compte Google"
+  }
+}

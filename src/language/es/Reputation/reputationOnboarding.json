@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Gestiona tu Reputación en un Solo Lugar",
+    "description": "Envía solicitudes de reseñas a tus clientes, maneja comentarios negativos con cuidado, crea campañas de encuestas rápidas para recopilar opiniones y comparte tus mejores reseñas en redes sociales, todo desde un panel fácil de usar."
+  },
+  "importListings": {
+    "title": "Importar Listados Existentes",
+    "description": "Importa y revisa fácilmente todos tus listados actuales con un solo clic. Mantente organizado y asegúrate de que la información de tu negocio esté siempre actualizada.",
+    "select": "Seleccionar",
+    "selectAll": "Seleccionar Todo",
+    "importButton": "Importar Listados Seleccionados"
+  },
+  "addListing": {
+    "title": "Agregar un Nuevo Listado",
+    "subtitle": "¿No encontraste tu negocio en los listados?",
+    "noWorries": "No te preocupes",
+    "description": "— Agrega uno nuevo en segundos y comienza a rastrear reseñas, calificaciones y rendimiento de reputación al instante.",
+    "button": "Agregar Cuenta de Google"
+  }
+}

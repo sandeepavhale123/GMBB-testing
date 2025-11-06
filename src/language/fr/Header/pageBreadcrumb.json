@@ -29,7 +29,8 @@
   "generateBulkReport": "Générer un rapport en lot",
   "viewBulkReport": "Voir le rapport en lot",
   "aiGenieAssistance": "Assistance IA Genie",
-  "teamMembers": "Membres de l’équipe",
+  "teamMembers": "Membres de l'équipe",
   "gallery": "Galerie",
-  "editTeamMember": "Modifier le membre de l’équipe"
+  "editTeamMember": "Modifier le membre de l'équipe",
+  "qrCodePoster": "Affiche QR Code"
 }

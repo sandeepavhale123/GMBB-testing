@@ -54,8 +54,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const [period1Date, setPeriod1Date] = useState<DateRange | undefined>();
   const [period2Date, setPeriod2Date] = useState<DateRange | undefined>();
   const formatDateForAPI = (date: Date) => format(date, "yyyy-MM-dd");
-  const ln = localStorage.getItem("i18nextLng");
-  console.log("language from create ", ln);
+
   // Get report availability flags
   const isCitationAvailable = reportsData?.data?.isCitation === 1;
   const isGeoAvailable = reportsData?.data?.isGeo === 1;
@@ -94,9 +93,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     if (!listingId) return;
 
     if (reportType === "citation") {
-      navigate(`/citation/${listingId}?lang=${ln}`);
+      navigate(`/citation/${listingId}`);
     } else if (reportType === "geo-ranking") {
-      navigate(`/geo-ranking-report/${listingId}?lang=${ln}`);
+      navigate(`/geo-ranking-report/${listingId}`);
     }
     onOpenChange(false);
   };
@@ -184,7 +183,6 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
         domain: window.location.hostname,
         sections: selectedSections,
         listingId: selectedListing.id,
-        lang: ln,
       });
       onOpenChange(false);
       // Reset form

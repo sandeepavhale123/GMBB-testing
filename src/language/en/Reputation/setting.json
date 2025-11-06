@@ -1,0 +1,47 @@
+{
+  "title": "Settings",
+  "tabs": {
+    "integration": "Integration",
+    "qrCode": "QR Code"
+  },
+  "integration": {
+    "title": "Channel Integration",
+    "description": "Connect and manage your review platform integrations",
+    "channels": {
+      "google": "Google Business Profile",
+      "facebook": "Facebook",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "airbnb": "Airbnb",
+      "tripadvisor": "TripAdvisor",
+      "trustpilot": "Trustpilot",
+      "yellowPages": "Yellow Pages",
+      "opentable": "OpenTable",
+      "twilio": "Twilio SMS",
+      "mailgun": "Mailgun"
+    },
+    "status": {
+      "connected": "Connected",
+      "notConnected": "Not Connected"
+    },
+    "button": {
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "configure": "Configure"
+    }
+  },
+  "qrCode": {
+    "title": "Review QR Code",
+    "description": "Generate and download QR codes for your review requests",
+    "simpleCard": {
+      "title": "Simple QR Code",
+      "description": "Download a basic QR code that links directly to your review page. Perfect for quick sharing and printing.",
+      "downloadButton": "Download QR Code"
+    },
+    "posterCard": {
+      "title": "Custom QR Poster",
+      "description": "Create a branded poster with your QR code, logo, and custom messaging. Ideal for display in your business location.",
+      "customizeButton": "Customize Poster"
+    }
+  }
+}

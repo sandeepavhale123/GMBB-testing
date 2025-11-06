@@ -13,6 +13,8 @@ import { GmbHealthReport } from "@/modules/lead-module/public-reports/pages/GmbH
 import { GmbProspectReport } from "@/modules/lead-module/public-reports/pages/GmbProspectReport";
 import { CitationAuditReport } from "@/modules/lead-module/public-reports/pages/CitationAuditReport";
 import { LeadGeoRankingReport } from "@/modules/lead-module/public-reports/pages/LeadGeoRankingReport";
+import { ReviewFeedback } from "@/modules/Reputation-module/public-pages/ReviewFeedback";
+import { PublicFeedbackForm } from "@/modules/Reputation-module/public-pages/PublicFeedbackForm";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -118,5 +120,17 @@ export const publicReportRoutes: RouteConfig[] = [
         <LeadGeoRankingReport />
       </ThemePreloader>
     ),
+  },
+  {
+    path: "/review-feedback",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <ReviewFeedback />
+      </ThemePreloader>
+    ),
+  },
+  {
+    path: "/feedback/form/:formId",
+    element: <PublicFeedbackForm />,
   },
 ];
