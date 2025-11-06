@@ -113,22 +113,35 @@ export const QRCodePoster: React.FC = () => {
   const handleDownload = async (format: "png" | "pdf") => {
     if (!posterRef.current) return;
     try {
-      // Temporarily remove scale for full-resolution capture
+      // Store original styles
       const originalTransform = posterRef.current.style.transform;
+      const originalPosition = posterRef.current.style.position;
+      const originalLeft = posterRef.current.style.left;
+      const originalZIndex = posterRef.current.style.zIndex;
+      
+      // Move poster off-screen and remove scale (prevents visual flash)
+      posterRef.current.style.position = 'fixed';
+      posterRef.current.style.left = '-99999px';
+      posterRef.current.style.zIndex = '-1';
       posterRef.current.style.transform = 'none';
-
+      
+      // Small delay to ensure styles are applied
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       // Capture at full resolution (300 DPI)
       const dataUrl = await htmlToImage.toPng(posterRef.current, {
         backgroundColor: backgroundColor,
         pixelRatio: 1,
-        // Capture at actual size
         cacheBust: true,
         width: POSTER_WIDTH,
         height: POSTER_HEIGHT
       });
-
-      // Restore scale
+      
+      // Restore original styles
       posterRef.current.style.transform = originalTransform;
+      posterRef.current.style.position = originalPosition;
+      posterRef.current.style.left = originalLeft;
+      posterRef.current.style.zIndex = originalZIndex;
       if (format === "png") {
         const link = document.createElement("a");
         link.download = `qr-poster-${Date.now()}.png`;
@@ -366,10 +379,11 @@ export const QRCodePoster: React.FC = () => {
                 transform: `scale(${scale})`,
                 transformOrigin: 'center center',
                 backgroundColor,
-                color: textColor
-              }} className="flex flex-col items-center justify-center w-full">
+                color: textColor,
+                padding: '360px'
+              }} className="flex flex-col items-center">
                   {/* Logo - scaled to poster dimensions */}
-                  {logo && <div className="mt-[600px] mb-[400px]" style={{
+                  {logo && <div className="mb-[400px] mx-auto" style={{
                   width: '960px',
                   height: '960px'
                 }}>
@@ -377,7 +391,7 @@ export const QRCodePoster: React.FC = () => {
                     </div>}
 
                   {/* Business Name */}
-                  <h2 className="text-[240px] font-bold text-center mb-[300px] px-[400px] leading-tight" style={{
+                  <h2 className="text-[240px] font-bold text-center mb-[300px] w-full leading-tight" style={{
                   color: textColor
                 }}>
                     {businessName}
@@ -391,7 +405,7 @@ export const QRCodePoster: React.FC = () => {
                   </div>
 
                   {/* Scan Text */}
-                  {showScanText && <p className="text-[160px] font-medium text-center mb-[250px] px-[400px]" style={{
+                  {showScanText && <p className="text-[160px] font-medium text-center mb-[250px] w-full" style={{
                   color: textColor
                 }}>
                       {keywords}
