@@ -113,22 +113,41 @@ export const QRCodePoster: React.FC = () => {
   const handleDownload = async (format: "png" | "pdf") => {
     if (!posterRef.current) return;
     try {
-      // Temporarily remove scale for full-resolution capture
+      // Store ALL original styles
       const originalTransform = posterRef.current.style.transform;
+      const originalPosition = posterRef.current.style.position;
+      const originalLeft = posterRef.current.style.left;
+      const originalZIndex = posterRef.current.style.zIndex;
+      const originalTop = posterRef.current.style.top;
+      
+      // Move poster OFF-SCREEN (prevents visual flash)
+      posterRef.current.style.position = 'fixed';
+      posterRef.current.style.left = '-99999px';
+      posterRef.current.style.top = '0';
+      posterRef.current.style.zIndex = '-9999';
+      
+      // NOW remove scale (happens off-screen)
       posterRef.current.style.transform = 'none';
+      
+      // Small delay to ensure browser applies all styles
+      await new Promise(resolve => setTimeout(resolve, 50));
 
       // Capture at full resolution (300 DPI)
       const dataUrl = await htmlToImage.toPng(posterRef.current, {
         backgroundColor: backgroundColor,
         pixelRatio: 1,
-        // Capture at actual size
         cacheBust: true,
         width: POSTER_WIDTH,
         height: POSTER_HEIGHT
       });
 
-      // Restore scale
+      // Restore ALL original styles
       posterRef.current.style.transform = originalTransform;
+      posterRef.current.style.position = originalPosition;
+      posterRef.current.style.left = originalLeft;
+      posterRef.current.style.zIndex = originalZIndex;
+      posterRef.current.style.top = originalTop;
+
       if (format === "png") {
         const link = document.createElement("a");
         link.download = `qr-poster-${Date.now()}.png`;
