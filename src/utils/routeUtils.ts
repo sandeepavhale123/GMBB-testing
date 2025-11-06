@@ -17,7 +17,6 @@ const publicReportRoutes = [
   '/gmb-citation/',
   '/multi-dashboard-report/',
   '/sharable-GEO-ranking-report/',
-  '/review-feedback',
 ];
 
 /**

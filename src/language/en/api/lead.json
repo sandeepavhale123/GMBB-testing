@@ -10,9 +10,9 @@
     "createProspectReportError": "Failed to create GMB Prospect report",
     "updateLeadClassifierSuccess": "Lead classification updated successfully!",
     "updateLeadClassifierError": "Failed to update lead classification",
-    "failedCTA": "Failed to save CTA settings",
-    "resetCTA": "Failed to reset CTA settings.",
-    "leadSuccess": "Lead deleted successfully!",
-    "leadFail": "Failed to delete lead."
+    "failedCTA":"Failed to save CTA settings",
+    "resetCTA":"Failed to reset CTA settings",
+    "leadSuccess":"Lead deleted successfully!",
+    "leadFail":"Failed to delete lead"
   }
 }

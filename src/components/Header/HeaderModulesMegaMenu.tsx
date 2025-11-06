@@ -47,8 +47,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       name: t("modulesMenu.reputation.name"),
       description: t("modulesMenu.reputation.description"),
       icon: Star,
-      href: "/module/reputation",
-      beta: true,
+      href: "#",
+      comingSoon: true,
     },
   ];
   const isModuleActive = (moduleHref: string) => {
@@ -158,7 +158,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <div className="text-sm font-medium">{module.name}</div>
-                        {'comingSoon' in module && module.comingSoon && (
+                        {module.comingSoon && (
                           <Badge
                             variant="secondary"
                             className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
@@ -166,7 +166,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                             {t("modulesMenu.comingSoon")}
                           </Badge>
                         )}
-                        {'beta' in module && module.beta && (
+                        {module.beta && (
                           <Badge
                             variant="secondary"
                             className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px]"
