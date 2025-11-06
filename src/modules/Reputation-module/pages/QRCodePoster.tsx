@@ -54,19 +54,19 @@ const wrapText = (
   x: number,
   y: number,
   maxWidth: number,
-  lineHeight: number
+  lineHeight: number,
 ) => {
-  const words = text.split(' ');
-  let line = '';
+  const words = text.split(" ");
+  let line = "";
   let currentY = y;
 
   for (let n = 0; n < words.length; n++) {
-    const testLine = line + words[n] + ' ';
+    const testLine = line + words[n] + " ";
     const metrics = ctx.measureText(testLine);
-    
+
     if (metrics.width > maxWidth && n > 0) {
       ctx.fillText(line, x, currentY);
-      line = words[n] + ' ';
+      line = words[n] + " ";
       currentY += lineHeight;
     } else {
       line = testLine;
@@ -82,7 +82,7 @@ const roundRect = (
   y: number,
   width: number,
   height: number,
-  radius: number
+  radius: number,
 ) => {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -100,10 +100,10 @@ const roundRect = (
 // Generate QR code as canvas using ReactDOM
 const generateQRCanvas = async (url: string, size: number): Promise<HTMLCanvasElement> => {
   return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
     if (!ctx) {
-      reject(new Error('Canvas context not available'));
+      reject(new Error("Canvas context not available"));
       return;
     }
 
@@ -111,9 +111,9 @@ const generateQRCanvas = async (url: string, size: number): Promise<HTMLCanvasEl
     canvas.height = size;
 
     // Create a temporary container for the QR code SVG
-    const tempContainer = document.createElement('div');
-    tempContainer.style.position = 'absolute';
-    tempContainer.style.left = '-9999px';
+    const tempContainer = document.createElement("div");
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
     tempContainer.style.width = `${size}px`;
     tempContainer.style.height = `${size}px`;
     document.body.appendChild(tempContainer);
@@ -127,31 +127,35 @@ const generateQRCanvas = async (url: string, size: number): Promise<HTMLCanvasEl
     tempContainer.appendChild(svg);
 
     // Use qrcode.react library's rendering
-    import('qrcode').then((QRCode) => {
-      QRCode.toDataURL(url, {
-        width: size,
-        margin: 0,
-        errorCorrectionLevel: 'H',
-      }).then((dataUrl) => {
-        const img = new Image();
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0, size, size);
-          document.body.removeChild(tempContainer);
-          resolve(canvas);
-        };
-        img.onerror = () => {
-          document.body.removeChild(tempContainer);
-          reject(new Error('Failed to load QR code image'));
-        };
-        img.src = dataUrl;
-      }).catch((error) => {
+    import("qrcode")
+      .then((QRCode) => {
+        QRCode.toDataURL(url, {
+          width: size,
+          margin: 0,
+          errorCorrectionLevel: "H",
+        })
+          .then((dataUrl) => {
+            const img = new Image();
+            img.onload = () => {
+              ctx.drawImage(img, 0, 0, size, size);
+              document.body.removeChild(tempContainer);
+              resolve(canvas);
+            };
+            img.onerror = () => {
+              document.body.removeChild(tempContainer);
+              reject(new Error("Failed to load QR code image"));
+            };
+            img.src = dataUrl;
+          })
+          .catch((error) => {
+            document.body.removeChild(tempContainer);
+            reject(error);
+          });
+      })
+      .catch((error) => {
         document.body.removeChild(tempContainer);
         reject(error);
       });
-    }).catch((error) => {
-      document.body.removeChild(tempContainer);
-      reject(error);
-    });
   });
 };
 
@@ -201,12 +205,9 @@ export const QRCodePoster: React.FC = () => {
     }
   };
 
-  const renderPosterToCanvas = async (
-    canvas: HTMLCanvasElement,
-    scale: number = 1
-  ): Promise<void> => {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Canvas context not available');
+  const renderPosterToCanvas = async (canvas: HTMLCanvasElement, scale: number = 1): Promise<void> => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Canvas context not available");
 
     // Set canvas dimensions
     canvas.width = POSTER_WIDTH_PX * scale;
@@ -234,18 +235,18 @@ export const QRCodePoster: React.FC = () => {
         const logoAspect = logoImg.width / logoImg.height;
         let drawWidth = logoSize;
         let drawHeight = logoSize;
-        
+
         if (logoAspect > 1) {
           drawHeight = logoSize / logoAspect;
         } else {
           drawWidth = logoSize * logoAspect;
         }
-        
+
         const logoX = (canvas.width - drawWidth) / 2;
         ctx.drawImage(logoImg, logoX, yPosition, drawWidth, drawHeight);
         yPosition += logoSize + spacing;
       } catch (error) {
-        console.error('Error loading logo:', error);
+        console.error("Error loading logo:", error);
         yPosition += spacing;
       }
     }
@@ -253,45 +254,45 @@ export const QRCodePoster: React.FC = () => {
     // Draw business name
     ctx.fillStyle = textColor;
     ctx.font = `bold ${120 * scale}px Arial, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
     // Handle multi-line text if too long
-    const maxWidth = canvas.width - (padding * 2);
+    const maxWidth = canvas.width - padding * 2;
     wrapText(ctx, businessName, canvas.width / 2, yPosition, maxWidth, 140 * scale);
     yPosition += 200 * scale;
 
     // Draw QR code background
     const qrPadding = 60 * scale;
-    const qrBgSize = qrSize + (qrPadding * 2);
+    const qrBgSize = qrSize + qrPadding * 2;
     const qrBgX = (canvas.width - qrBgSize) / 2;
-    
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
     ctx.shadowBlur = 20 * scale;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 10 * scale;
-    
+
     roundRect(ctx, qrBgX, yPosition, qrBgSize, qrBgSize, 24 * scale);
     ctx.fill();
-    ctx.shadowColor = 'transparent';
-    
+    ctx.shadowColor = "transparent";
+
     // Draw QR code
     try {
       const qrCanvas = await generateQRCanvas(qrCodeUrl, qrSize);
       const qrX = (canvas.width - qrSize) / 2;
       ctx.drawImage(qrCanvas, qrX, yPosition + qrPadding, qrSize, qrSize);
     } catch (error) {
-      console.error('Error generating QR code:', error);
+      console.error("Error generating QR code:", error);
     }
-    
+
     yPosition += qrBgSize + spacing;
 
     // Draw scan text
     if (showScanText) {
       ctx.fillStyle = textColor;
       ctx.font = `${60 * scale}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
+      ctx.textAlign = "center";
       wrapText(ctx, keywords, canvas.width / 2, yPosition, maxWidth, 80 * scale);
       yPosition += 160 * scale;
     }
@@ -299,15 +300,15 @@ export const QRCodePoster: React.FC = () => {
     // Draw stars
     const starSize = 90 * scale;
     const starSpacing = 60 * scale;
-    const totalStarWidth = (starSize * 5) + (starSpacing * 4);
+    const totalStarWidth = starSize * 5 + starSpacing * 4;
     let starX = (canvas.width - totalStarWidth) / 2;
-    
+
     ctx.fillStyle = accentColor;
     ctx.font = `${starSize}px Arial`;
-    ctx.textBaseline = 'middle';
-    
+    ctx.textBaseline = "middle";
+
     for (let i = 0; i < 5; i++) {
-      ctx.fillText('★', starX, yPosition);
+      ctx.fillText("★", starX, yPosition);
       starX += starSize + starSpacing;
     }
   };
@@ -318,8 +319,8 @@ export const QRCodePoster: React.FC = () => {
     try {
       // Render full resolution to hidden canvas
       await renderPosterToCanvas(hiddenCanvasRef.current, 1);
-      
-      const dataUrl = hiddenCanvasRef.current.toDataURL('image/png', 1.0);
+
+      const dataUrl = hiddenCanvasRef.current.toDataURL("image/png", 1.0);
 
       if (format === "png") {
         const link = document.createElement("a");
@@ -332,18 +333,9 @@ export const QRCodePoster: React.FC = () => {
           unit: "in",
           format: [POSTER_WIDTH_INCHES, POSTER_HEIGHT_INCHES],
         });
-        
-        pdf.addImage(
-          dataUrl,
-          "PNG",
-          0,
-          0,
-          POSTER_WIDTH_INCHES,
-          POSTER_HEIGHT_INCHES,
-          undefined,
-          'FAST'
-        );
-        
+
+        pdf.addImage(dataUrl, "PNG", 0, 0, POSTER_WIDTH_INCHES, POSTER_HEIGHT_INCHES, undefined, "FAST");
+
         pdf.save(`qr-poster-${Date.now()}.pdf`);
       }
 
@@ -370,7 +362,7 @@ export const QRCodePoster: React.FC = () => {
     toast.success(t("toast.resetSuccess"));
   };
 
-  const applyPreset = (preset: typeof COLOR_PRESETS[0]) => {
+  const applyPreset = (preset: (typeof COLOR_PRESETS)[0]) => {
     setBackgroundColor(preset.bg);
     setTextColor(preset.text);
     setAccentColor(preset.accent);
@@ -383,28 +375,14 @@ export const QRCodePoster: React.FC = () => {
       const previewScale = 0.1;
       renderPosterToCanvas(previewCanvasRef.current, previewScale).catch(console.error);
     }
-  }, [
-    logo,
-    businessName,
-    keywords,
-    backgroundColor,
-    textColor,
-    accentColor,
-    qrCodeUrl,
-    qrCodeSize,
-    showScanText,
-  ]);
+  }, [logo, businessName, keywords, backgroundColor, textColor, accentColor, qrCodeUrl, qrCodeSize, showScanText]);
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          {t("description")}
-        </p>
+        <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
+        <p className="text-muted-foreground mt-2">{t("description")}</p>
       </div>
 
       {/* Main Content */}
@@ -414,9 +392,7 @@ export const QRCodePoster: React.FC = () => {
           {/* Logo Upload */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("leftPanel.logo.title")}
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">{t("leftPanel.logo.title")}</h3>
 
               <div className="space-y-3">
                 {logo ? (
@@ -441,9 +417,7 @@ export const QRCodePoster: React.FC = () => {
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">
-                      {t("leftPanel.logo.dragDrop")}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t("leftPanel.logo.dragDrop")}</p>
                     <Button variant="outline" size="sm" className="mt-2">
                       {t("leftPanel.logo.browse")}
                     </Button>
@@ -463,15 +437,11 @@ export const QRCodePoster: React.FC = () => {
           {/* Business Information */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("leftPanel.business.title")}
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">{t("leftPanel.business.title")}</h3>
 
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="businessName">
-                    {t("leftPanel.business.nameLabel")}
-                  </Label>
+                  <Label htmlFor="businessName">{t("leftPanel.business.nameLabel")}</Label>
                   <Input
                     id="businessName"
                     value={businessName}
@@ -482,9 +452,7 @@ export const QRCodePoster: React.FC = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="keywords">
-                    {t("leftPanel.business.keywordsLabel")}
-                  </Label>
+                  <Label htmlFor="keywords">{t("leftPanel.business.keywordsLabel")}</Label>
                   <Input
                     id="keywords"
                     value={keywords}
@@ -500,15 +468,11 @@ export const QRCodePoster: React.FC = () => {
           {/* Color Customization */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("leftPanel.colors.title")}
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">{t("leftPanel.colors.title")}</h3>
 
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="backgroundColor">
-                    {t("leftPanel.colors.background")}
-                  </Label>
+                  <Label htmlFor="backgroundColor">{t("leftPanel.colors.background")}</Label>
                   <div className="flex gap-2">
                     <Input
                       id="backgroundColor"
@@ -526,9 +490,7 @@ export const QRCodePoster: React.FC = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="textColor">
-                    {t("leftPanel.colors.text")}
-                  </Label>
+                  <Label htmlFor="textColor">{t("leftPanel.colors.text")}</Label>
                   <div className="flex gap-2">
                     <Input
                       id="textColor"
@@ -537,18 +499,12 @@ export const QRCodePoster: React.FC = () => {
                       onChange={(e) => setTextColor(e.target.value)}
                       className="w-20 h-10"
                     />
-                    <Input
-                      value={textColor}
-                      onChange={(e) => setTextColor(e.target.value)}
-                      className="flex-1"
-                    />
+                    <Input value={textColor} onChange={(e) => setTextColor(e.target.value)} className="flex-1" />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="accentColor">
-                    {t("leftPanel.colors.accent")}
-                  </Label>
+                  <Label htmlFor="accentColor">{t("leftPanel.colors.accent")}</Label>
                   <div className="flex gap-2">
                     <Input
                       id="accentColor"
@@ -557,11 +513,7 @@ export const QRCodePoster: React.FC = () => {
                       onChange={(e) => setAccentColor(e.target.value)}
                       className="w-20 h-10"
                     />
-                    <Input
-                      value={accentColor}
-                      onChange={(e) => setAccentColor(e.target.value)}
-                      className="flex-1"
-                    />
+                    <Input value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="flex-1" />
                   </div>
                 </div>
 
@@ -577,14 +529,8 @@ export const QRCodePoster: React.FC = () => {
                         className="justify-start"
                       >
                         <div className="flex gap-1 mr-2">
-                          <div
-                            className="w-4 h-4 rounded border"
-                            style={{ backgroundColor: preset.bg }}
-                          />
-                          <div
-                            className="w-4 h-4 rounded border"
-                            style={{ backgroundColor: preset.accent }}
-                          />
+                          <div className="w-4 h-4 rounded border" style={{ backgroundColor: preset.bg }} />
+                          <div className="w-4 h-4 rounded border" style={{ backgroundColor: preset.accent }} />
                         </div>
                         {preset.name}
                       </Button>
@@ -598,20 +544,12 @@ export const QRCodePoster: React.FC = () => {
           {/* QR Code Settings */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("leftPanel.qrCode.title")}
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">{t("leftPanel.qrCode.title")}</h3>
 
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="qrCodeUrl">
-                    {t("leftPanel.qrCode.urlLabel")}
-                  </Label>
-                  <Input
-                    id="qrCodeUrl"
-                    value={qrCodeUrl}
-                    onChange={(e) => setQrCodeUrl(e.target.value)}
-                  />
+                  <Label htmlFor="qrCodeUrl">{t("leftPanel.qrCode.urlLabel")}</Label>
+                  <Input id="qrCodeUrl" value={qrCodeUrl} onChange={(e) => setQrCodeUrl(e.target.value)} />
                 </div>
 
                 <div>
@@ -630,14 +568,8 @@ export const QRCodePoster: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="showScanText">
-                    {t("leftPanel.qrCode.showScanText")}
-                  </Label>
-                  <Switch
-                    id="showScanText"
-                    checked={showScanText}
-                    onCheckedChange={setShowScanText}
-                  />
+                  <Label htmlFor="showScanText">{t("leftPanel.qrCode.showScanText")}</Label>
+                  <Switch id="showScanText" checked={showScanText} onCheckedChange={setShowScanText} />
                 </div>
               </div>
             </CardContent>
@@ -650,12 +582,7 @@ export const QRCodePoster: React.FC = () => {
                 <Download className="w-4 h-4 mr-2" />
                 {t("leftPanel.actions.download")} (PNG)
               </Button>
-              <Button
-                onClick={() => handleDownload("pdf")}
-                variant="outline"
-                className="w-full"
-                size="lg"
-              >
+              <Button onClick={() => handleDownload("pdf")} variant="outline" className="w-full" size="lg">
                 <Download className="w-4 h-4 mr-2" />
                 {t("leftPanel.actions.download")} (PDF)
               </Button>
@@ -672,27 +599,16 @@ export const QRCodePoster: React.FC = () => {
           <Card className="sticky top-6">
             <CardContent className="p-6">
               <div className="mb-4">
-                <h3 className="text-lg font-semibold text-foreground">
-                  {t("rightPanel.title")}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {t("rightPanel.subtitle")}
-                </p>
+                <h3 className="text-lg font-semibold text-foreground">{t("rightPanel.title")}</h3>
+                <p className="text-sm text-muted-foreground">{t("rightPanel.subtitle")}</p>
               </div>
 
               {/* Poster Preview Container - 18x24 aspect ratio (3:4) */}
               <div className="w-full aspect-[3/4] border-2 border-border rounded-lg shadow-lg overflow-hidden bg-muted">
-                <canvas
-                  ref={previewCanvasRef}
-                  className="w-full h-full object-contain"
-                />
-                
+                <canvas ref={previewCanvasRef} className="w-full h-full object-contain" />
+
                 {/* Hidden full-resolution canvas */}
-                <canvas
-                  ref={hiddenCanvasRef}
-                  className="hidden"
-                  aria-hidden="true"
-                />
+                <canvas ref={hiddenCanvasRef} className="" aria-hidden="true" />
               </div>
             </CardContent>
           </Card>
