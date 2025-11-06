@@ -113,31 +113,40 @@ export const QRCodePoster: React.FC = () => {
   };
   const handleDownload = async (format: "png" | "pdf") => {
     if (!posterRef.current) return;
+    
     const el = posterRef.current;
 
-    // Store ALL original styles
-    const original = {
-      transform: el.style.transform,
-      position: el.style.position,
-      left: el.style.left,
-      top: el.style.top,
-      zIndex: el.style.zIndex,
-      visibility: el.style.visibility,
-    };
+    // Create off-screen wrapper and clone
+    const wrapper = document.createElement('div');
+    Object.assign(wrapper.style, {
+      position: 'fixed',
+      top: '0',
+      left: '-100000px',
+      width: `${POSTER_WIDTH}px`,
+      height: `${POSTER_HEIGHT}px`,
+      margin: '0',
+      padding: '0',
+      overflow: 'visible',
+      background: backgroundColor,
+      zIndex: '-1',
+    });
+
+    const clone = el.cloneNode(true) as HTMLElement;
+    Object.assign(clone.style, {
+      transform: 'none',
+      transformOrigin: 'top left',
+      width: `${POSTER_WIDTH}px`,
+      height: `${POSTER_HEIGHT}px`,
+      backgroundColor,
+      color: textColor,
+    });
+
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
 
     try {
-      // Move poster OFF-SCREEN (prevents visual flash) and remove scale
-      el.style.position = 'fixed';
-      el.style.left = '-99999px';
-      el.style.top = '0';
-      el.style.zIndex = '-9999';
-      el.style.transform = 'none';
-
-      // Wait for browser to apply styles
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      // Ensure images inside are loaded
-      const images = Array.from(el.querySelectorAll('img')) as HTMLImageElement[];
+      // Wait for images in the clone
+      const images = Array.from(wrapper.querySelectorAll('img')) as HTMLImageElement[];
       await Promise.all(
         images.map((img) =>
           img.complete
@@ -150,21 +159,28 @@ export const QRCodePoster: React.FC = () => {
         )
       );
 
-      let dataUrl: string | null = null;
+      // Small delay to ensure layout is settled
+      await new Promise((r) => setTimeout(r, 50));
 
-      // Try html-to-image first
+      // Try html-to-image
+      let dataUrl: string | null = null;
       try {
-        dataUrl = await htmlToImage.toPng(el, {
+        dataUrl = await htmlToImage.toPng(clone, {
           backgroundColor,
           pixelRatio: 1,
           cacheBust: true,
           width: POSTER_WIDTH,
           height: POSTER_HEIGHT,
+          style: {
+            transform: 'none',
+            width: `${POSTER_WIDTH}px`,
+            height: `${POSTER_HEIGHT}px`,
+          },
         });
       } catch (e) {
         console.warn('html-to-image failed, falling back to html2canvas', e);
-        // Fallback to html2canvas (better with cross-origin CSS)
-        const canvas = await html2canvas(el, {
+        // Fallback to html2canvas
+        const canvas = await html2canvas(clone, {
           backgroundColor,
           scale: 1,
           useCORS: true,
@@ -180,32 +196,24 @@ export const QRCodePoster: React.FC = () => {
 
       if (!dataUrl) throw new Error('Failed to generate poster image');
 
-      if (format === "png") {
-        const link = document.createElement("a");
-        link.download = `qr-poster-${Date.now()}.png`;
+      // Download logic
+      if (format === 'png') {
+        const link = document.createElement('a');
         link.href = dataUrl;
+        link.download = `qr-poster-${Date.now()}.png`;
         link.click();
-      } else if (format === "pdf") {
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "in",
-          format: [18, 24], // Standard 18" × 24" poster size
-        });
-        pdf.addImage(dataUrl, "PNG", 0, 0, 18, 24, undefined, 'FAST');
+      } else {
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [18, 24] });
+        pdf.addImage(dataUrl, 'PNG', 0, 0, 18, 24, undefined, 'FAST');
         pdf.save(`qr-poster-${Date.now()}.pdf`);
       }
-      toast.success(t("toast.downloadSuccess"));
-    } catch (error) {
-      console.error("Download error:", error);
-      toast.error(t("toast.downloadError"));
+      toast.success(t('toast.downloadSuccess'));
+    } catch (err) {
+      console.error('Download error:', err);
+      toast.error(t('toast.downloadError'));
     } finally {
-      // Restore ALL original styles
-      el.style.transform = original.transform;
-      el.style.position = original.position;
-      el.style.left = original.left;
-      el.style.top = original.top;
-      el.style.zIndex = original.zIndex;
-      el.style.visibility = original.visibility;
+      // Cleanup
+      document.body.removeChild(wrapper);
     }
   };
   const handleReset = () => {
