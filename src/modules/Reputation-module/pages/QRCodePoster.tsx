@@ -359,16 +359,15 @@ export const QRCodePoster: React.FC = () => {
               </div>
 
               {/* Poster Preview Container - Fixed dimensions with scale transform */}
-              <div ref={containerRef} className="w-full aspect-[3/4] border-2 border-border rounded-lg shadow-lg overflow-hidden flex items-center justify-center bg-muted">
+              <div ref={containerRef} className="w-full aspect-[3/4] border-2 border-border rounded-lg shadow-lg overflow-hidden flex items-center justify-center" style={{background: backgroundColor,}}>
                 <div ref={posterRef} style={{
                 width: `${POSTER_WIDTH}px`,
                 height: `${POSTER_HEIGHT}px`,
                 transform: `scale(${scale})`,
                 transformOrigin: 'center center',
                 backgroundColor,
-                color: textColor,
-                padding: '360px'
-              }} className="flex flex-col items-start">
+                color: textColor
+              }} className="flex flex-col items-center justify-center w-full">
                   {/* Logo - scaled to poster dimensions */}
                   {logo && <div className="mt-[600px] mb-[400px]" style={{
                   width: '960px',
@@ -379,7 +378,7 @@ export const QRCodePoster: React.FC = () => {
 
                   {/* Business Name */}
                   <h2 className="text-[240px] font-bold text-center mb-[300px] px-[400px] leading-tight" style={{
-                  color: textColor
+                  color: textColor,
                 }}>
                     {businessName}
                   </h2>
