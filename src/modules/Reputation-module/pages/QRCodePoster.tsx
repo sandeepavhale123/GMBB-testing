@@ -130,7 +130,7 @@ export const QRCodePoster: React.FC = () => {
       posterRef.current.style.transform = 'none';
       
       // Small delay to ensure browser applies all styles
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       // Capture at full resolution (300 DPI)
       const dataUrl = await htmlToImage.toPng(posterRef.current, {
@@ -138,7 +138,12 @@ export const QRCodePoster: React.FC = () => {
         pixelRatio: 1,
         cacheBust: true,
         width: POSTER_WIDTH,
-        height: POSTER_HEIGHT
+        height: POSTER_HEIGHT,
+        skipFonts: true, // Skip external fonts to avoid CORS errors
+        style: {
+          color: posterRef.current.style.color,
+          fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+        }
       });
 
       // Restore ALL original styles
