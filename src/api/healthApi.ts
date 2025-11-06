@@ -3,6 +3,7 @@ import { HealthData } from "../types/health";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const healthApi = {
   getHealthReport: async (listingId: number, refresh: string = "") => {
@@ -26,7 +27,7 @@ export const useHealthReport = (
   listingId: number | null
 ): UseHealthReportReturn => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-
+  const { t } = useI18nNamespace("api/healthApi");
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["health-report", listingId, refreshTrigger],
     queryFn: async () => {
@@ -36,7 +37,7 @@ export const useHealthReport = (
       );
       if (refreshTrigger > 0) {
         toast({
-          title: "Success",
+          title: t("health.successTitle"),
           description: res.message,
           variant: "default",
         });

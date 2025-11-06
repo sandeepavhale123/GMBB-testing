@@ -88,27 +88,14 @@ export const PublicPostPerformanceReport: React.FC = () => {
   };
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "published":
-        return (
-          <Badge variant="default" className="bg-green-100 text-green-800">
-            {t("publicPostReport.status.published")}
-          </Badge>
-        );
-      case "scheduled":
-        return (
-          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-            {t("publicPostReport.status.scheduled")}
-          </Badge>
-        );
-      case "failed":
-        return (
-          <Badge variant="destructive">
-            {" "}
-            {t("publicPostReport.status.failed")}
-          </Badge>
-        );
+      case "Published":
+        return t("publicPostReport.status.published");
+      case "Scheduled":
+        return t("publicPostReport.status.scheduled");
+      case "Failed":
+        return t("publicPostReport.status.failed");
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return status;
     }
   };
 
@@ -225,7 +212,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
 
         <div className="flex-1">
           <div className="flex justify-between items-center mb-1">
-            <h3 className="text-md font-bold">{post.status_label}</h3>
+            <h3 className="text-md font-bold">
+              {getStatusBadge(post.status_label)}
+            </h3>
             <span className="text-xs text-muted-foreground">
               {formatToDDMMYY(post.postdate)} {post.posttime}
             </span>
@@ -433,7 +422,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Posts</CardTitle>
+            <CardTitle className="text-lg">
+              {t("publicPostReport.recentPosts.title")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="">
             {reportType === "compare" ? (

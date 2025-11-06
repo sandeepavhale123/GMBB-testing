@@ -1,7 +1,7 @@
 {
   "publicGeoRankingReport": {
-    "title": "Rapport de classement GEO",
-    "loading": "Chargement du rapport de géoclassification...",
+    "title": "Rapport de Classement GEO",
+    "loading": "Chargement du rapport de classement GEO...",
     "controls": {
       "selectKeyword": "Sélectionner un mot-clé",
       "overallVisibility": "Visibilité globale",
@@ -10,6 +10,7 @@
       "individual": "Individuel",
       "comparison": "Comparaison"
     },
+    "rank": "Rang",
     "chart": {
       "rankingLegend": "Légende du classement",
       "legend": "Légende",

@@ -10,14 +10,26 @@ import { toast } from "@/hooks/use-toast";
 import { setLoading } from "@/store/slices/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
-import { loginSchema, LoginFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { useCompanyName } from "@/hooks/useCompanyName";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 export const LoginForm = () => {
-  const { t } = useI18nNamespace("Login/loginForm");
+  const { t } = useI18nNamespace(["Login/loginForm", "Validation/validation"]);
+
+  const loginSchema = z.object({
+    username: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    password: z.string().min(1, t("password.required")),
+  });
+
+  type LoginFormData = z.infer<typeof loginSchema>;
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",

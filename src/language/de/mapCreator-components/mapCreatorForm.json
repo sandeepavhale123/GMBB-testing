@@ -1,0 +1,46 @@
+{
+  "fields": {
+    "mapUrl": {
+      "label": "Karten-URL",
+      "tooltip": "Gib eine Google Maps-URL ein, die den Standort des Unternehmens enthält",
+      "placeholder": "https://www.google.com/maps/place/...",
+      "loading": "Koordinaten werden abgerufen..."
+    },
+    "keywords": {
+      "label": "Keywords",
+      "tooltip": "Gib Keywords durch Kommas getrennt ein (z. B. Pizza, italienisches Restaurant)",
+      "placeholder": "pizza, italienisches restaurant, pasta"
+    },
+    "radius": {
+      "label": "Radius",
+      "tooltip": "Wähle den Suchradius rund um den Unternehmensstandort aus",
+      "placeholder": "Radius auswählen"
+    },
+    "distance": {
+      "label": "Entfernung",
+      "tooltip": "Wähle einen Entfernungswert, der kleiner als der Radius ist",
+      "placeholder": "Entfernung auswählen",
+      "loading": "Koordinaten werden generiert..."
+    },
+    "description": {
+      "label": "Beschreibung (Spin-Text erlaubt)",
+      "tooltip": "Gib eine Beschreibung ein. Spin-Text-Syntax wird unterstützt: {option1|option2|option3}",
+      "placeholder": "Beschreibung eingeben"
+    },
+    "businessDetails": {
+      "label": "Unternehmensdetails",
+      "tooltip": "Gib Unternehmensdetails im Format ein: Firmenname - URL",
+      "placeholder": "Unternehmensdetails eingeben"
+    },
+    "relatedSearches": {
+      "label": "Ähnliche Suchanfragen",
+      "tooltip": "Gib verwandte Suchbegriffe durch Kommas getrennt ein",
+      "placeholder": "Ähnliche Suchanfragen eingeben"
+    }
+  },
+  "actions": {
+    "generate": "CSV generieren",
+    "generating": "Wird generiert...",
+    "reset": "Zurücksetzen"
+  }
+}

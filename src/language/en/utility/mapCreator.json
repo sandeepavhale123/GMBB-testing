@@ -1,0 +1,53 @@
+{
+  "mapCreator": {
+    "title": "Map Creator",
+    "subtitle": "Create and download keyword ranking data",
+    "form": {
+      "mapUrl": {
+        "label": "Map URL",
+        "placeholder": "https://www.google.com/maps/place/...",
+        "tooltip": "Enter a Google Maps URL containing the business location"
+      },
+      "keywords": {
+        "label": "Keywords",
+        "placeholder": "pizza, italian restaurant, pasta",
+        "tooltip": "Enter keywords separated by commas"
+      },
+      "radius": {
+        "label": "Radius",
+        "tooltip": "Select the search radius around the business location"
+      },
+      "distance": {
+        "label": "Distance",
+        "tooltip": "Select a distance value less than the radius"
+      },
+      "description": {
+        "label": "Description (Spin text allowed)",
+        "placeholder": "Best {pizza|italian food|pasta} in town",
+        "tooltip": "Spin text syntax: {option1|option2|option3}"
+      },
+      "urls": {
+        "label": "URLs",
+        "placeholder": "https://example.com, https://example2.com",
+        "tooltip": "Enter URLs separated by commas"
+      },
+      "relatedSearches": {
+        "label": "Related Searches",
+        "placeholder": "pizza near me, best pizza",
+        "tooltip": "Enter related search terms separated by commas"
+      },
+      "reset": "Reset",
+      "generateCSV": "Generate CSV"
+    },
+    "map": {
+      "title": "Map Visualization",
+      "noCoordinates": "Enter a Map URL to see the location"
+    },
+    "toast": {
+      "invalidUrl": "Please enter a valid Google Maps URL",
+      "noKeywords": "Please enter at least one keyword",
+      "success": "CSV generated successfully!",
+      "error": "Failed to generate CSV"
+    }
+  }
+}

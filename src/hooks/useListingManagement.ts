@@ -6,6 +6,7 @@ import { useListingStatusToggle } from "./useListingStatusToggle";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DASHBOARD_QUERY_KEYS } from "@/api/dashboardQueryKeys";
 import axiosInstance from "@/api/axiosInstance";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 type TogglePayload = { listingId: string; isActive: boolean };
 export interface UseListingManagementParams {
@@ -18,6 +19,7 @@ export const useListingManagement = ({
   onListingStatusChange, // ADD THIS PARAMETER
 }: UseListingManagementParams) => {
   const queryClient = useQueryClient();
+  const { t } = useI18nNamespace("hooks/useListingManagement");
 
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -95,13 +97,14 @@ export const useListingManagement = ({
       const listing = listings.find((l) => l.id === listingId);
       if (listing) {
         toast({
-          title: "Opening Listing",
-          description: `Opening ${listing.name} listing page.`,
+          title: t("viewListingSuccessTitle"),
+          description: t("viewListingSuccessDesc", { name: listing.name }),
+          // `Opening ${listing.name} listing page.`,
         });
       }
       // console.log(`Navigating to listing page for listing ${listingId}`);
     },
-    [navigate, listings, toast],
+    [navigate, listings, toast]
   );
 
   // const handleToggleListing = useCallback(
@@ -129,36 +132,54 @@ export const useListingManagement = ({
   const handleToggleListing = useCallback(
     async (listingId: string, isActive: boolean) => {
       try {
-        await toggleListingStatus(listingId, parseInt(accountId), isActive, async (data) => {
-          // MAKE THIS ASYNC
-          // Refetch both filtered data and summary statistics
-          await refetch();
-          await refetchSummary();
+        await toggleListingStatus(
+          listingId,
+          parseInt(accountId),
+          isActive,
+          async (data) => {
+            // MAKE THIS ASYNC
+            // Refetch both filtered data and summary statistics
+            await refetch();
+            await refetchSummary();
 
-          // Trigger business listings refresh for dropdown sync
-          if (onListingStatusChange) {
-            try {
-              await onListingStatusChange();
-              console.log("🔄 ListingManagement: Business listings refreshed after status change");
-            } catch (error) {
-              console.error("🔄 ListingManagement: Failed to refresh business listings:", error);
+            // Trigger business listings refresh for dropdown sync
+            if (onListingStatusChange) {
+              try {
+                await onListingStatusChange();
+                console.log(
+                  "🔄 ListingManagement: Business listings refreshed after status change"
+                );
+              } catch (error) {
+                console.error(
+                  "🔄 ListingManagement: Failed to refresh business listings:",
+                  error
+                );
+              }
             }
-          }
 
-          // console.log('Updated active listings count:', data.activeListings);
-          // ✅ Invalidate all dashboards so they refetch
-          Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
-            queryClient.invalidateQueries({
-              predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === key,
+            // console.log('Updated active listings count:', data.activeListings);
+            // ✅ Invalidate all dashboards so they refetch
+            Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
+              queryClient.invalidateQueries({
+                predicate: (query) =>
+                  Array.isArray(query.queryKey) && query.queryKey[0] === key,
+              });
             });
-          });
-        });
+          }
+        );
       } catch (error) {
         // Error handling is done in the hook
         console.error("Failed to toggle listing:", error);
       }
     },
-    [toggleListingStatus, accountId, refetch, refetchSummary, onListingStatusChange, queryClient],
+    [
+      toggleListingStatus,
+      accountId,
+      refetch,
+      refetchSummary,
+      onListingStatusChange,
+      queryClient,
+    ]
   );
 
   return {

@@ -12,9 +12,31 @@ import {
   ResetPasswordFormData,
 } from "@/schemas/authSchemas";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 export const NewPasswordForm = () => {
-  const { t } = useI18nNamespace("NewPassword/newPasswordForm");
+  const { t } = useI18nNamespace([
+    "NewPassword/newPasswordForm",
+    "Validation/validation",
+  ]);
+  const passwordSchema = z
+    .string()
+    .trim()
+    .min(8, t("password.minLength"))
+    .regex(/[A-Z]/, t("password.uppercase"))
+    .regex(/[a-z]/, t("password.lowercase"))
+    .regex(/[0-9]/, t("password.number"))
+    .regex(/[^A-Za-z0-9]/, t("password.specialChar"));
+
+  const resetPasswordSchema = z
+    .object({
+      newPassword: passwordSchema,
+      confirmPassword: passwordSchema,
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: t("password.mismatch"),
+      path: ["confirmPassword"],
+    });
   const [passwords, setPasswords] = useState<ResetPasswordFormData>({
     newPassword: "",
     confirmPassword: "",

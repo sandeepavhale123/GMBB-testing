@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Grid3X3, TrendingUp, Users, Star, Search, Link as LinkIcon, Coins } from "lucide-react";
+import {
+  Grid3X3,
+  TrendingUp,
+  Users,
+  Star,
+  Search,
+  Link as LinkIcon,
+  Coins,
+  Map,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -26,8 +35,8 @@ export const ModulesMegaMenu: React.FC = () => {
       href: "/module/lead",
     },
     {
-      name: "SEO Fixer",
-      description: "Automatically detect and fix SEO issues on websites",
+      name: t("modules.seo.name"),
+      description: t("modules.seo.description"),
       icon: Search,
       href: "/module/live-seo-fixer",
       beta: true,
@@ -63,7 +72,9 @@ export const ModulesMegaMenu: React.FC = () => {
     fetchProfile();
   }, []);
   const getFilteredModules = () => {
-    const baseModules = modules.filter((module) => module.name !== "Manage GMB listing");
+    const baseModules = modules.filter(
+      (module) => module.name !== "Manage GMB listing"
+    );
 
     // Only show GMB listing if dashboardType is 0 or 1
     if (dashboardType === 0 || dashboardType === 1) {
@@ -71,7 +82,8 @@ export const ModulesMegaMenu: React.FC = () => {
         name: t("modules.manageGmb.name"),
         description: t("modules.manageGmb.description"),
         icon: Grid3X3,
-        href: dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
+        href:
+          dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
         comingSoon: false,
         beta: false,
       };
@@ -121,7 +133,9 @@ export const ModulesMegaMenu: React.FC = () => {
                 {t("title")}
               </h3>
             </div>
-            <div className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}>
+            <div
+              className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}
+            >
               {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
@@ -170,7 +184,7 @@ export const ModulesMegaMenu: React.FC = () => {
                             variant="secondary"
                             className="bg-gradient-to-r from-blue-400 to-indigo-500 text-white border-0 text-[8px]"
                           >
-                            Beta
+                            {t("beta")}
                           </Badge>
                         )}
                       </div>
@@ -196,7 +210,29 @@ export const ModulesMegaMenu: React.FC = () => {
               <h4 className="text-xs font-medium text-muted-foreground mb-2">
                 {t("utilities.title")}
               </h4>
-              <div className={cn(isMobile ? "space-y-1" : "grid grid-cols-2 gap-2")}>
+              <div
+                className={cn(
+                  isMobile ? "space-y-1" : "grid grid-cols-2 gap-2"
+                )}
+              >
+                <Link
+                  to="/utility/map-creator"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-md transition-colors group hover:bg-primary hover:text-primary-foreground w-full"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-primary/10 group-hover:bg-primary-foreground/20">
+                    <Map className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
+                  </div>
+                  <div className="min-w-0 flex-1 text-left">
+                    <div className="text-sm font-medium">
+                      {t("utilities.mapCreator.name")}
+                    </div>
+                    <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
+                      {t("utilities.mapCreator.description")}
+                    </div>
+                  </div>
+                </Link>
+
                 <button
                   onClick={() => {
                     setIsUtmModalOpen(true);

@@ -93,6 +93,20 @@ export const getProjectDetails = async (
     has_active_audit: boolean;
     js_snippet_installed: boolean;
     js_snippet_code: string;
+    wordpress_connection?: {
+      connected: boolean;
+      api_key?: string;
+      wordpress_url?: string;
+      last_sync?: string | null;
+      total_fixes_synced?: number;
+      sync_status?: 'pending' | 'success' | 'error' | null;
+      errors?: string[];
+    };
+    wordpress_connected?: boolean;
+    wordpress_url?: string;
+    wordpress_last_sync?: string;
+    wordpress_sync_status?: 'pending' | 'success' | 'error';
+    wordpress_fixes_synced?: number;
   };
 }> => {
   const response = await axios.get(`/live-seo-fixer/projects/${projectId}`);

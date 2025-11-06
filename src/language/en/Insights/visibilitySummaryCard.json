@@ -13,5 +13,11 @@
   "mapsBarName": "Maps",
   
   "searchViewsLegend": "Search Views",
-  "mapsViewsLegend": "Maps Views"
+  "mapsViewsLegend": "Maps Views",
+
+  "hideTitle":"Hide Search Views",
+  "showTitle":"Show Search Views",
+
+  "hideMap":"Hide Maps Views",
+  "showMap":"Show Maps Views"
 }

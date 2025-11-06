@@ -1,21 +1,22 @@
 {
   "publicCitationReport": {
-    "title": "Rapport de performance des citations",
+    "title": "Rapport de Performance des Citations",
     "tracker": {
-      "cardTitle": "Suivi des citations",
-      "listed": "Répertorié",
-      "notListed": "Non répertorié"
+      "cardTitle": "Suivi des Citations",
+      "listed": "Listé",
+      "notListed": "Non listé"
     },
     "localPages": {
-      "title": "Pages et annuaires locaux",
-      "description": "Votre score de page et d'annuaire local est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages et annuaires locaux que nous avons vérifiés."
+      "title": "Pages et Annuaires Locaux",
+      "description": "Votre score de pages et d'annuaires locaux est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages et d'annuaires locaux que nous avons vérifiés."
     },
+    "notmatch": "Ne correspond pas",
     "audit": {
-      "title": "Audit des citations",
-      "placeOrder": "Passer commande",
+      "title": "Audit des Citations",
+      "placeOrder": "Passer une commande",
       "tabs": {
-        "existing": "Citation existante",
-        "possible": "Citation possible"
+        "existing": "Citations Existantes",
+        "possible": "Citations Possibles"
       }
     },
     "table": {

@@ -16,6 +16,14 @@
     "recentReviews": "Recent Reviews",
     "reviews": "Reviews"
   },
+  "chart": {
+    "totalReviews": "Total Reviews",
+    "star5": "5 Star",
+    "star4": "4 Star",
+    "star3": "3 Star",
+    "star2": "2 Star",
+    "star1": "1 Star"
+  },
   "labels": {
     "star": "Star",
     "reviews": "reviews",
@@ -31,5 +39,6 @@
     "negative": "Negative",
     "noData": "No data available",
     "vsPrevious": "vs previous"
-  }
+  },
+  "noresponse":"No Response"
 }

@@ -1,33 +1,42 @@
 {
   "title": "Module",
   "comingSoon": "Demnächst verfügbar",
+  "beta": "Beta",
   "utilities": {
     "title": "Dienstprogramme",
     "utmBuilder": {
-      "name": "UTM-Tracking-Generator",
-      "description": "Erstellen Sie nachverfolgbare Kampagnen-URLs"
+      "name": "UTM-URL Generator",
+      "description": "Erstelle verfolgbaren Kampagnen-URLs"
     },
     "buyCredits": {
       "name": "Guthaben kaufen",
-      "description": "Guthaben für Ihr Konto kaufen"
+      "description": "Kaufe Guthaben für dein Konto"
+    },
+    "mapCreator": {
+      "name": "Karten-Generator",
+      "description": "Erstelle Keyword-Ranking-Daten mit Kartenkoordinaten"
     }
   },
   "modules": {
     "manageGmb": {
       "name": "GMB-Eintrag verwalten",
-      "description": "Verwalten Sie Ihre Google My Business-Einträge"
+      "description": "Verwalte deine Google My Business Einträge"
     },
     "geoRanking": {
       "name": "GEO-Ranking",
-      "description": "Verfolgen und optimieren Sie Ihre lokalen Suchrankings"
+      "description": "Verfolge und optimiere deine lokalen Suchrankings"
     },
     "leadManagement": {
       "name": "Lead-Management",
-      "description": "Verwalten und verfolgen Sie Ihre Leads effektiv"
+      "description": "Verwalte und verfolge deine Leads effektiv"
     },
     "reputation": {
       "name": "Reputation",
-      "description": "Überwachen und verwalten Sie Ihre Online-Reputation"
+      "description": "Überwache und verwalte deinen Online-Ruf"
+    },
+    "seo": {
+      "name": "SEO-Fixer",
+      "description": "Erkennt und behebt automatisch SEO-Probleme auf Websites"
     }
   }
 }

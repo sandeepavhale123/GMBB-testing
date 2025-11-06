@@ -1,17 +1,18 @@
 {
   "publicGeoRankingReport": {
-    "title": "Informe de Ranking GEO",
-    "loading": "Cargando informe de georanking...",
+    "title": "Informe de Clasificación GEO",
+    "loading": "Cargando informe de clasificación GEO...",
     "controls": {
-      "selectKeyword": "Seleccionar Palabra Clave",
-      "overallVisibility": "Visibilidad General",
-      "totalKeywords": "Total de Palabras Clave",
-      "reportFrequency": "Frecuencia del Informe",
+      "selectKeyword": "Seleccionar palabra clave",
+      "overallVisibility": "Visibilidad general",
+      "totalKeywords": "Palabras clave totales",
+      "reportFrequency": "Frecuencia del informe",
       "individual": "Individual",
       "comparison": "Comparación"
     },
+    "rank": "Clasificación",
     "chart": {
-      "rankingLegend": "Leyenda de Ranking",
+      "rankingLegend": "Leyenda de clasificación",
       "legend": "Leyenda",
       "noData": "No hay datos disponibles"
     },

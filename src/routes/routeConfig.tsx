@@ -11,6 +11,7 @@ import { geoRankingModuleRoutes } from "./configs/geoRankingModuleRoutes";
 import { reputationModuleRoutes } from "./configs/reputationModuleRoutes";
 import { leadModuleRoutes } from "./configs/leadModuleRoutes";
 import { liveSeoFixerModuleRoutes } from "./configs/liveSeoFixerModuleRoutes";
+import { utilityRoutes } from "./configs/utilityRoutes";
 
 export interface RouteConfig {
   path: string;
@@ -30,5 +31,6 @@ export const routeConfigs: RouteConfig[] = [
   ...geoRankingModuleRoutes,
   ...reputationModuleRoutes,
   ...leadModuleRoutes,
-  ...liveSeoFixerModuleRoutes
+  ...liveSeoFixerModuleRoutes,
+  ...utilityRoutes
 ];

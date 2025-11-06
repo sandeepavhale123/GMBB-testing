@@ -14,9 +14,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Switch } from "../ui/switch";
 import { Upload, Eye, EyeOff } from "lucide-react";
-import { addTeamMemberSchema } from "@/schemas/authSchemas"; // adjust path as needed
 import { useFormValidation } from "@/hooks/useFormValidation"; // adjust path as needed
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 interface EditTeamMemberModalProps {
   open: boolean;
@@ -66,7 +66,42 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
   onOpenChange,
   member,
 }) => {
-  const { t } = useI18nNamespace("Settings/editTeamMemberModal");
+  const { t } = useI18nNamespace([
+    "Settings/editTeamMemberModal",
+    "Validation/validation",
+  ]);
+
+  const nameSchema = z
+    .string()
+    .min(2, t("name.minLength"))
+    .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+    .refine(
+      (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+      t("name.minAlphabetic")
+    );
+
+  const addTeamMemberSchema = z.object({
+    firstName: nameSchema,
+    lastName: nameSchema,
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    password: z
+      .string()
+      .trim()
+      .min(8, t("password.minLength"))
+      .regex(/[A-Z]/, t("password.uppercase"))
+      .regex(/[a-z]/, t("password.lowercase"))
+      .regex(/[0-9]/, t("password.number"))
+      .regex(/[^A-Za-z0-9]/, t("password.specialChar")),
+    role: z.string().min(1, t("team.roleRequired")),
+    profilePicture: z.string().optional(),
+  });
+
+  type AddTeamMemberFormData = z.infer<typeof addTeamMemberSchema>;
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",

@@ -1,0 +1,22 @@
+{
+  "toast": {
+    "validationError": {
+      "title": "Error de validación",
+      "description": "Por favor, verifica los datos del formulario e inténtalo de nuevo."
+    },
+    "signupFailed": {
+      "title": "Error al registrarse"
+    }
+  },
+  "errors": {
+    "network": "Error de red. Por favor, verifica tu conexión.",
+    "accountExists": "Ya existe una cuenta con este correo electrónico.",
+    "invalidData": "Datos de registro inválidos. Por favor, revisa tu información.",
+    "failed": "No se pudo crear la cuenta. Por favor, inténtalo de nuevo.",
+    "stripeInit": "Stripe no se pudo inicializar.",
+    "noSessionUrl": "No se recibió ninguna sesión o URL de pago."
+  },
+  "success": {
+    "redirecting": "Redirigiendo al pago..."
+  }
+}

@@ -53,6 +53,7 @@ import {
 import { SmtpPayload } from "@/api/integrationApi";
 import { useListingContext } from "@/context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 interface Integration {
   id: string;
   name: string;
@@ -64,7 +65,51 @@ interface Integration {
   configurable: boolean;
 }
 export const IntegrationsPage: React.FC = () => {
-  const { t } = useI18nNamespace("Settings/integrationsPage");
+  const { t } = useI18nNamespace([
+    "Settings/integrationsPage",
+    "Validation/validation",
+  ]);
+
+  const apiKeySchema = z.object({
+    apiKey: z.string().trim().min(1, t("apiKey.required")),
+  });
+
+  const disconnectConfirmationSchema = z.object({
+    confirmationText: z
+      .string()
+      .refine((val) => val.toLowerCase() === "delete", {
+        message: t("disconnect.confirmText"),
+      }),
+  });
+
+  const smtpSchema = z.object({
+    fromName: z
+      .string()
+      .min(1, t("smtp.fromName"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("smtp.minAlphabetic")
+      ),
+    rpyEmail: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    smtpHost: z.string().min(1, t("smtp.host")),
+    smtpPort: z
+      .string()
+      .min(1, t("smtp.port.required"))
+      .regex(/^\d+$/, t("smtp.port.number")),
+    smtpUser: z.string().min(1, t("smtp.user")),
+    smtpPass: z.string().min(1, t("smtp.password")),
+  });
+
+  type ApiKeyFormData = z.infer<typeof apiKeySchema>;
+  type DisconnectConfirmationFormData = z.infer<
+    typeof disconnectConfirmationSchema
+  >;
+  type SmtpFormData = z.infer<typeof smtpSchema>;
+
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
 

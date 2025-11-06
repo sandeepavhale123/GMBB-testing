@@ -38,10 +38,12 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
     const isDashboardType2 = profileData?.dashboardType === 2;
     const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
     const isInModule = location.pathname.startsWith("/module/");
+    const isInUtility= location.pathname.startsWith("/utility/");
+
 
     if (isDashboardType2) {
       navigate("/geo-ranking-dashboard/profile");
-    } else if (isInMainDashboard || isInModule) {
+    } else if (isInMainDashboard || isInModule || isInUtility) {
       navigate("/main/profile");
     } else {
       navigate("/profile");

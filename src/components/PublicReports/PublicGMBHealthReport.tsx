@@ -206,7 +206,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="GMB Health Report"
+      title={t("header")}
       listingName={publichealthData?.data?.locationName}
       address={publichealthData?.data?.address}
       date={publichealthData?.data?.reportDate}
@@ -409,12 +409,16 @@ export const PublicGMBHealthReport: React.FC = () => {
               }
             >
               <SelectTrigger className="w-[160px] bg-card z-50">
-                <SelectValue placeholder="Sort by..." />
+                <SelectValue placeholder={t("order.placeholder")} />
               </SelectTrigger>
               <SelectContent className="bg-popover z-50">
-                <SelectItem value="default">Default Order</SelectItem>
-                <SelectItem value="failed-first">Failed First</SelectItem>
-                <SelectItem value="passed-first">Passed First</SelectItem>
+                <SelectItem value="default">{t("order.default")}</SelectItem>
+                <SelectItem value="failed-first">
+                  {t("order.failed")}
+                </SelectItem>
+                <SelectItem value="passed-first">
+                  {t("order.passed")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </CardHeader>
@@ -593,12 +597,10 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <AlertCircle className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                  No Competitor Data Found
+                  {t("competitorAnalysis.empty")}
                 </h3>
                 <p className="text-sm text-muted-foreground text-center max-w-md">
-                  We couldn't find any competitor information for this location
-                  at this time. Please check back later or contact support if
-                  you believe this is an error.
+                  {t("competitorAnalysis.emptyDesc")}
                 </p>
               </div>
             ) : (
@@ -704,8 +706,10 @@ export const PublicGMBHealthReport: React.FC = () => {
                           formatter={(value, name) => [
                             name === "avgRating"
                               ? `${value} ⭐`
-                              : `${value} reviews`,
-                            name === "avgRating" ? "Rating" : "Reviews",
+                              : `${value} ${t("chart.reviw")}`,
+                            name === "avgRating"
+                              ? t("chart.rating")
+                              : t("chart.reviewTitle"),
                           ]}
                           labelFormatter={(label) => {
                             const business = competitorChartData.find(
@@ -769,7 +773,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                             }
                           >
                             <td className="px-4 py-3 font-medium">
-                              {isYou ? "YOU" : item.index}
+                              {isYou ? t("competitorTable.you") : item.index}
                             </td>
                             <td className="px-4 py-3">{item.displayName}</td>
                             <td className="px-4 py-3 text-center">
@@ -802,12 +806,10 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <AlertCircle className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                  No Citation Data Found
+                  {t("citationAnalysis.empty")}
                 </h3>
                 <p className="text-sm text-muted-foreground text-center max-w-md">
-                  We couldn't find any citation information for this location at
-                  this time. Citations will be analyzed once competitor data
-                  becomes available.
+                  {t("citationAnalysis.emptyDesc")}
                 </p>
               </div>
             ) : (
@@ -880,7 +882,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
                         <Tooltip
                           formatter={(value) => [
-                            `${value} citations`,
+                            `${value} ${t("citationAnalysis.citation")}`,
                             t("citationAnalysis.citationCount"),
                           ]}
                           labelFormatter={(label) => {
@@ -960,7 +962,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                             }
                           >
                             <td className="px-4 py-3 font-medium">
-                              {isYou ? "YOU" : item.index}
+                              {isYou ? t("competitorTable.you") : item.index}
                             </td>
                             <td className="px-4 py-3">{item.displayName}</td>
                             <td className="px-4 py-3 text-center">

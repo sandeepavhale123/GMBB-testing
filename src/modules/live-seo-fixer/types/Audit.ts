@@ -32,7 +32,7 @@ export interface AuditResult {
 
 export interface SEOIssue {
   id: string;
-  type: 'title' | 'meta-description' | 'h1' | 'alt-tags' | 'schema' | 'headings' | 'images';
+  type: 'title' | 'meta-description' | 'h1' | 'alt-tags' | 'schema' | 'headings' | 'images' | 'canonical' | 'robots' | 'nap' | 'broken-link' | 'redirect-chain' | 'keyword-placement' | 'semantic-entities';
   severity: 'critical' | 'warning' | 'info';
   message: string;
   suggestion: string;

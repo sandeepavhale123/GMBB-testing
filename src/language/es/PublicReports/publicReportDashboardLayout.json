@@ -1,25 +1,23 @@
 {
-  "publicReportDashboard": {
-    "sidebar": {
-      "gmbHealth": "Salud de GMB",
-      "businessInsights": "Información del Negocio",
-      "reviews": "Reseñas",
-      "postPerformance": "Rendimiento de Publicaciones",
-      "mediaPerformance": "Rendimiento de Medios",
-      "geoRanking": "Clasificación GEO",
-      "citationPerformance": "Rendimiento de Citas"
+  "publicGeoRankingReport": {
+    "title": "Informe de Clasificación GEO",
+    "loading": "Cargando informe de clasificación GEO...",
+    "controls": {
+      "selectKeyword": "Seleccionar palabra clave",
+      "overallVisibility": "Visibilidad general",
+      "totalKeywords": "Palabras clave totales",
+      "reportFrequency": "Frecuencia del informe",
+      "individual": "Individual",
+      "comparison": "Comparación"
     },
-    "header": {
-      "reportDate": "Fecha del Informe"
+    "rank": "Rango",
+    "chart": {
+      "rankingLegend": "Leyenda de clasificación",
+      "legend": "Leyenda",
+      "noData": "No hay datos disponibles"
     },
-    "branding": {
-      "defaultLogoAlt": "Logo Predeterminado",
-      "businessLogoAlt": "Logo del Negocio",
-      "companyLogoAlt": "Logo de la Compañía",
-      "companyInitial": "C",
-      "email": "Correo Electrónico",
-      "phone": "Teléfono",
-      "address": "Dirección"
+    "comparison": {
+      "visibility": "Visibilidad"
     }
   }
 }

@@ -13,13 +13,53 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { useSignup } from "@/store/slices/auth/useSignUp";
-import { signupSchema, SignupFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { z } from "zod";
 
 export const SignupForm = () => {
-  const { t } = useI18nNamespace("Signup/signupForm");
+  const { t } = useI18nNamespace([
+    "Signup/signupForm",
+    "Validation/validation",
+  ]);
+
+  const nameSchema = z
+    .string()
+    .min(2, t("name.minLength"))
+    .regex(/^[A-Za-z\s]+$/, t("name.lettersOnly"))
+    .refine(
+      (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+      t("name.minAlphabetic")
+    );
+
+  const signupSchema = z.object({
+    firstName: nameSchema,
+    lastName: nameSchema,
+    agencyName: z
+      .string()
+      .min(3, t("agency.minLength"))
+      .refine(
+        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
+        t("agency.minAlphabetic")
+      ),
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
+    password: z
+      .string()
+      .trim()
+      .min(8, t("password.minLength"))
+      .regex(/[A-Z]/, t("password.uppercase"))
+      .regex(/[a-z]/, t("password.lowercase"))
+      .regex(/[0-9]/, t("password.number"))
+      .regex(/[^A-Za-z0-9]/, t("password.specialChar")),
+    plan: z.string().refine((val) => val !== "0", t("plan.required")),
+  });
+
+  type SignupFormData = z.infer<typeof signupSchema>;
 
   const PLAN_OPTIONS = [
     { value: "0", label: t("signupForm.fields.plan.options.label1") },

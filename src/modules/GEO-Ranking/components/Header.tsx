@@ -52,22 +52,6 @@ export const Header: React.FC = () => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-3">
-          {isAllowedDomain() && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() =>
-                (window.location.href = "https://old.gmbbriefcase.com/login")
-              }
-              className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
-            >
-              <span className="hidden md:block mr-2">
-                {t("backToOldVersion")}
-              </span>
-              <ExternalLink className="w-4 h-4" />
-            </Button>
-          )}
-
           <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />

@@ -28,6 +28,11 @@
       "noImage": "No Image",
       "publishedOn": "Published on {{date}}",
       "view": "View"
-    }
+    },
+     "mediaType": {
+    "image": "Image",
+    "video": "Video",
+    "default": "Media"
+  }
   }
 }

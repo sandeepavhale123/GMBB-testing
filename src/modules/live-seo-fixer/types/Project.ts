@@ -1,3 +1,13 @@
+export interface WordPressConnection {
+  connected: boolean;
+  api_key?: string;
+  wordpress_url?: string;
+  last_sync?: string | null;
+  total_fixes_synced?: number;
+  sync_status?: 'pending' | 'success' | 'error' | null;
+  errors?: string[];
+}
+
 export interface Project {
   id: string;
   subdomain_id: string;
@@ -19,6 +29,16 @@ export interface Project {
   issues_fixed: string;
   created_date: string;
   last_updated: string;
+  
+  // WordPress Integration - nested structure (new)
+  wordpress_connection?: WordPressConnection;
+  
+  // WordPress Integration - flat structure (deprecated, for backwards compatibility)
+  wordpress_connected?: boolean;
+  wordpress_url?: string;
+  wordpress_last_sync?: string;
+  wordpress_sync_status?: 'pending' | 'success' | 'error';
+  wordpress_fixes_synced?: number;
 }
 
 export interface ProjectsResponse {

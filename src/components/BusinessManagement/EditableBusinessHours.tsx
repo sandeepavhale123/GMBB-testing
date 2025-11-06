@@ -118,6 +118,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
         ...arr[index],
         hours: `${displayOpen} - ${displayClose}`,
       };
+      console.log("arr value", arr);
       return arr;
     });
   };
@@ -179,7 +180,9 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                       schedule.isOpen ? "text-green-600" : "text-gray-500"
                     }`}
                   >
-                    {schedule.hours}
+                    {schedule.isOpen
+                      ? schedule.hours
+                      : t("editableBusinessHours.view.closed")}
                   </span>
                   <Badge variant={schedule.isOpen ? "default" : "secondary"}>
                     {schedule.isOpen

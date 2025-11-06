@@ -2,33 +2,33 @@
   "ctaSettings": {
     "default": {
       "callCTA": {
-        "header": "BOOST YOUR GBP SCORE &&& Increase your calls",
-        "description": "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
-        "buttonLabel": "BOOK A CALL",
-        "buttonLink": "#contact"
+        "header": "STEIGERN SIE IHREN GBP-SCORE &&& Erhöhen Sie Ihre Anrufe",
+        "description": "Erfahren Sie, wie Sie das Gehalt eines Monats für Ihre Mitarbeiter bezahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Leitfaden, um Ihre Konkurrenz zu übertreffen!",
+        "buttonLabel": "EIN GESPRÄCH BUCHEN",
+        "buttonLink": "#kontakt"
       },
       "appointmentCTA": {
-        "header": "BOOST YOUR GBP SCORE &&& Increase your calls",
-        "description": "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
-        "buttonLabel": "BOOK A CALL",
-        "buttonLink": "#contact"
+        "header": "STEIGERN SIE IHREN GBP-SCORE &&& Erhöhen Sie Ihre Anrufe",
+        "description": "Erfahren Sie, wie Sie das Gehalt eines Monats für Ihre Mitarbeiter bezahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Leitfaden, um Ihre Konkurrenz zu übertreffen!",
+        "buttonLabel": "EIN GESPRÄCH BUCHEN",
+        "buttonLink": "#kontakt"
       }
     },
     "toast": {
-      "errorTitle": "Error loading CTA settings.",
-      "errorDesc":" Using default settings. Please refresh to try again.",
-      "ctaTitle":"CTA Reset",
-      "resetSuccess": "CTA settings have been reset to defaults."
+      "errorTitle": "Fehler beim Laden der CTA-Einstellungen.",
+      "errorDesc": "Standardwerte werden verwendet. Bitte aktualisieren Sie, um es erneut zu versuchen.",
+      "ctaTitle": "CTA-Zurücksetzung",
+      "resetSuccess": "Die CTA-Einstellungen wurden auf die Standardwerte zurückgesetzt."
     },
     "validation": {
-      "headerRequired": "Header is required.",
-      "headerMax": "Header must be less than 100 characters.",
-      "descriptionRequired": "Description is required.",
-      "descriptionMax": "Description must be less than 500 characters.",
-      "buttonLabelRequired": "Button label is required.",
-      "buttonLabelMax": "Button label must be less than 50 characters.",
-      "buttonLinkInvalid": "Please enter a valid URL.",
-      "hash": "Hash links must start with #"
+      "headerRequired": "Überschrift ist erforderlich.",
+      "headerMax": "Die Überschrift darf nicht länger als 100 Zeichen sein.",
+      "descriptionRequired": "Beschreibung ist erforderlich.",
+      "descriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein.",
+      "buttonLabelRequired": "Schaltflächenbeschriftung ist erforderlich.",
+      "buttonLabelMax": "Die Schaltflächenbeschriftung darf nicht länger als 50 Zeichen sein.",
+      "buttonLinkInvalid": "Bitte geben Sie eine gültige URL ein.",
+      "hash": "Hash-Links müssen mit # beginnen."
     }
   }
 }

@@ -190,7 +190,9 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                     !visibleBars.search ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.search}
-                  title={`${visibleBars.search ? "Hide" : "Show"} Search Views`}
+                  title={`${
+                    visibleBars.search ? t("hideTitle") : t("showTitle")
+                  } `}
                 >
                   <div className="w-3 h-3 bg-primary rounded"></div>
                   <span className={!visibleBars.search ? "line-through" : ""}>
@@ -203,7 +205,9 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                     !visibleBars.maps ? "opacity-50" : ""
                   }`}
                   aria-pressed={visibleBars.maps}
-                  title={`${visibleBars.maps ? "Hide" : "Show"} Maps Views`}
+                  title={`${
+                    visibleBars.maps ? t("hideMap") : t("showMap")
+                  } Maps Views`}
                 >
                   <div className="w-3 h-3 bg-red-600 rounded"></div>
                   <span className={!visibleBars.maps ? "line-through" : ""}>

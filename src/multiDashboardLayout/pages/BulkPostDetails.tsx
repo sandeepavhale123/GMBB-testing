@@ -216,13 +216,14 @@ const PostsTable = memo(
                     </TableCell>
                     <TableCell>
                       <Badge variant={getStatusVariant(post.status)}>
-                        {getTranslatedStatus(post.status)}
+                        {post.status}
+                        {/* {getTranslatedStatus(post.status)} */}
                         {/* {post.status} */}
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2 justify-end">
-                        {post.status?.toLowerCase() ===
+                        {post.status.toLowerCase() ===
                           t("bulkPostDetails.status.live") && (
                           <button
                             onClick={() => onViewPost(post)}

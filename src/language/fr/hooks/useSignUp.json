@@ -1,0 +1,22 @@
+{
+  "toast": {
+    "validationError": {
+      "title": "Erreur de validation",
+      "description": "Veuillez vérifier les données du formulaire et réessayer."
+    },
+    "signupFailed": {
+      "title": "Échec de l'inscription"
+    }
+  },
+  "errors": {
+    "network": "Erreur réseau. Veuillez vérifier votre connexion.",
+    "accountExists": "Un compte avec cet e-mail existe déjà.",
+    "invalidData": "Données d'inscription invalides. Veuillez vérifier vos informations.",
+    "failed": "Échec de la création du compte. Veuillez réessayer.",
+    "stripeInit": "Échec de l'initialisation de Stripe.",
+    "noSessionUrl": "Aucune session ou URL de paiement reçue."
+  },
+  "success": {
+    "redirecting": "Redirection vers le paiement..."
+  }
+}
