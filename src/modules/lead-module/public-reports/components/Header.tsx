@@ -1,9 +1,8 @@
 import React from "react";
 import { MapPin } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const namespaces = ["Lead-module-public-report/header"];
 interface HeaderProps {
   title: string;
   listingName: string;
@@ -21,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
   date,
   compareDate,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/header");
   const isMobile = useIsMobile();
 
   return (

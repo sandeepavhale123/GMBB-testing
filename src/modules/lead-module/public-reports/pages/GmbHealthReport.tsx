@@ -37,13 +37,15 @@ import { Top20CompetitorsCard } from "../components/Top20CompetitorsCard";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { useGetGmbHealthReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
-export const namespaces = ["Lead-module-public-report/gmbHealthReport"];
+// export const namespaces = ["Lead-module-public-report/gmbHealthReport"];
 
 export const GmbHealthReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded } = useI18nNamespace(
+    "Lead-module-public-report/gmbHealthReport"
+  );
   const { reportId } = useParams<{
     reportId: string;
   }>();

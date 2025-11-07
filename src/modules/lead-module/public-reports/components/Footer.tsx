@@ -1,8 +1,6 @@
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/footer"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BrandingData {
   company_logo?: string;
@@ -18,7 +16,7 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ brandingData }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/footer");
   const isMobile = useIsMobile();
 
   // Check if all fields are empty except logo

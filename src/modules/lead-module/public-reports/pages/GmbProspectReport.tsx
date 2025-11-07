@@ -27,7 +27,7 @@ import { CTASection } from "../components/CTASection";
 import { SingleCTASection } from "../components/SingleCTASection";
 import { useGetGmbProspectReport, getLeadReportBranding } from "@/api/leadApi";
 import { InsightsErrorState } from "@/components/Insights/InsightsErrorState";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
 interface Language {
@@ -43,10 +43,10 @@ const languages: Language[] = [
   { code: "fr", name: "French" },
 ];
 
-export const namespaces = ["Lead-module-public-report/gmbProspectReport"];
-
 export const GmbProspectReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded } = useI18nNamespace(
+    "Lead-module-public-report/gmbProspectReport"
+  );
   const { reportId } = useParams<{ reportId: string }>();
 
   const currentLang = i18n.language || "en";

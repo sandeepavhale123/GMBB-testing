@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Camera } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/photoGallery"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface Photo {
   id: string;
   url: string;
@@ -20,7 +18,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
   photos,
   totalCount,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/photoGallery");
   return (
     <Card>
       <CardHeader>

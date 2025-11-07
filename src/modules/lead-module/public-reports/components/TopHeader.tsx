@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { BarChart3, Menu, X } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-
-export const namespaces = ["Lead-module-public-report/topHeader"];
 
 interface TopHeaderProps {
   reportId?: string;
@@ -24,7 +22,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   reportType = "gmb-health",
   reportTitle,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/topHeader");
 
   const navigationItems = [
     { id: "overall-section", label: t("topHeader.navigation.overall") },
@@ -62,8 +60,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
     <header className="fixed top-0 left-0 right-0 z-[405] w-full px-4 py-3 border-b border-border bg-background">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-4 w-full ">
+          <div className="flex items-center space-x-3 me-auto">
             {displayLogo ? (
               <img
                 src={displayLogo}
@@ -83,13 +81,13 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 {displaySubtitle}
               </p>
             </div>
-            <LanguageSwitcher />
           </div>
+          <LanguageSwitcher />
         </div>
 
         {/* Right section - Navigation Menu */}
         {reportType === "gmb-health" && (
-          <div className="flex items-center">
+          <div className="flex items-center ml-3">
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
               {navigationItems.map((item) => (

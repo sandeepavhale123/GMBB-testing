@@ -8,9 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/reviewsSection"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
@@ -25,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setSidebarOpen,
   brandingData,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/reviewsSection");
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();

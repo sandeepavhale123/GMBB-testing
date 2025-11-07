@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, AlertCircle } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/businessHours"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface BusinessHour {
   day: string;
@@ -16,7 +14,7 @@ interface BusinessHoursProps {
 }
 
 export const BusinessHours: React.FC<BusinessHoursProps> = ({ hours }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/businessHours");
   return (
     <Card>
       <CardHeader>

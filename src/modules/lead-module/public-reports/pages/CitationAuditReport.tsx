@@ -25,7 +25,7 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { useGetCitationAuditReport } from "@/api/leadApi";
 import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
 interface Language {
@@ -41,9 +41,10 @@ const languages: Language[] = [
   { code: "fr", name: "French" },
 ];
 
-export const namespaces = ["Lead-module-public-report/citationAuditReport"];
 export const CitationAuditReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded } = useI18nNamespace(
+    "Lead-module-public-report/citationAuditReport"
+  );
   const { reportId } = useParams<{
     reportId: string;
   }>();
