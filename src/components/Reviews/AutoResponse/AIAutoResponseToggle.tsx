@@ -12,7 +12,7 @@ import { Checkbox } from "../../ui/checkbox";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-import { Sparkles, Star, Calendar, User, Loader2 } from "lucide-react";
+import { Sparkles, Star, Calendar, User, Loader2 , } from "lucide-react";
 import {
   AutoAiSettings,
   LatestReview,
@@ -431,13 +431,13 @@ Thank you`);
                               </h4>
                               <div className="flex items-center gap-1">
                                 {[1, 2, 3, 4, 5].map((star) => (
-                                  <div
+                                  <Star
                                     key={star}
-                                    className={`w-4 h-4 rounded-full ${
+                                    className={`w-4 h-4  ${
                                       star <=
                                       parseInt(review?.star_rating || "0")
-                                        ? "bg-yellow-400"
-                                        : "bg-gray-300"
+                                        ? "text-yellow-400 fill-current"
+                                        : "text-gray-300"
                                     }`}
                                   />
                                 ))}
