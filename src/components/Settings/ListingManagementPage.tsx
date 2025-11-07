@@ -127,24 +127,20 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
 
       {/* API Error Message - appears below search box */}
       {error && !filteredDataLoading && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-4">
+        <div className="border border-gray-200 rounded-lg p-6 mb-4">
           <div className="flex items-center gap-3 mb-4">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
             <div className="flex-1">
-              <h3 className="font-semibold text-red-900">
-                {t("listingManagementPage.errorTitle")}
-              </h3>
               <p className="text-red-800 text-sm mt-1">
                 {t("listingManagementPage.errorMessage", { error })}
               </p>
             </div>
           </div>
-          <button
+          {/* <button
             onClick={refetch}
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
           >
             {t("listingManagementPage.retryButton")}
-          </button>
+          </button> */}
         </div>
       )}
 
