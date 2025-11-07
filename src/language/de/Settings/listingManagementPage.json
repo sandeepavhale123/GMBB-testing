@@ -2,6 +2,9 @@
   "listingManagementPage": {
     "pageTitle": "Einträge verwalten",
     "backButton": "Zurück",
-    "loadingListings": "Einträge werden geladen..."
+    "loadingListings": "Einträge werden geladen...",
+    "errorTitle": "Einträge können nicht geladen werden",
+    "errorMessage": "{{error}}",
+    "retryButton": "Erneut versuchen"
   }
 }

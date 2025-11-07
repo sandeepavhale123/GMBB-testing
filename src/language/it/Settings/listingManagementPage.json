@@ -2,6 +2,9 @@
   "listingManagementPage": {
     "pageTitle": "Gestisci gli Annunci",
     "backButton": "Indietro",
-    "loadingListings": "Caricamento annunci..."
+    "loadingListings": "Caricamento annunci...",
+    "errorTitle": "Impossibile caricare gli annunci",
+    "errorMessage": "{{error}}",
+    "retryButton": "Riprova"
   }
 }

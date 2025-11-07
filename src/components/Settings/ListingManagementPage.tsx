@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ListingStatisticsCards } from "./ListingStatisticsCards";
 import { ListingSearchFilters } from "./ListingSearchFilters";
@@ -77,15 +77,6 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   const handleClearSearch = () => {
     handleSearchChange("");
   };
-  if (error) {
-    return (
-      <ListingManagementError
-        error={error}
-        onRetry={refetch}
-        onClearSearch={handleClearSearch}
-      />
-    );
-  }
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -134,6 +125,29 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         />
       )}
 
+      {/* API Error Message - appears below search box */}
+      {error && !filteredDataLoading && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-4">
+          <div className="flex items-center gap-3 mb-4">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="font-semibold text-red-900">
+                {t("listingManagementPage.errorTitle")}
+              </h3>
+              <p className="text-red-800 text-sm mt-1">
+                {t("listingManagementPage.errorMessage", { error })}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={refetch}
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+          >
+            {t("listingManagementPage.retryButton")}
+          </button>
+        </div>
+      )}
+
       {/* Listings Table - show loading state for table data only */}
       {filteredDataLoading ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
@@ -142,7 +156,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
           </p>
         </div>
       ) : (
-        !showSearchError && (
+        !showSearchError && !error && (
           <ListingsTable
             listings={listings}
             onViewListing={handleViewListing}
@@ -156,7 +170,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       {pagination &&
         pagination.total_pages &&
         pagination.total_pages > 1 &&
-        !showSearchError && (
+        !showSearchError &&
+        !error && (
           <div className="mt-6">
             <AccountListingPagination
               currentPage={currentPage}
@@ -169,7 +184,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         )}
 
       {/* Results count - Show filtered results count */}
-      {!showSearchError && (searchTerm || filterStatus !== "all") && (
+      {!showSearchError && !error && (searchTerm || filterStatus !== "all") && (
         <ListingManagementSummary
           listingsCount={listings.length}
           totalListings={filteredTotalListings}
