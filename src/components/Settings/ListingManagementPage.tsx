@@ -39,6 +39,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     pagination,
     filteredDataLoading,
     summaryDataLoading,
+    profileEmail,
     error,
     handleSearchChange,
     handleFilterChange,
@@ -100,9 +101,12 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
               {t("listingManagementPage.backButton")}
             </Button>
           )}
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="flex-wrap flex justify-between items-center w-full">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
             {t("listingManagementPage.pageTitle")}
           </h2>
+          <span>{profileEmail}</span>
+          </div>
         </div>
       </div>
 

@@ -67,6 +67,7 @@ export const useListingManagement = ({
     inactiveListings: summaryInactiveListings,
     loading: summaryDataLoading,
     refetch: refetchSummary,
+    profileEmail:profileEmail,
   } = useAccountListings({
     accountId,
     page: 1,
@@ -202,6 +203,7 @@ export const useListingManagement = ({
     // Loading states - separate for filtered data and summary
     filteredDataLoading,
     summaryDataLoading,
+    profileEmail,
     error,
 
     // Handlers
