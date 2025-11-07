@@ -5,7 +5,7 @@
       "createError": "Failed to create project",
       "updateSuccess": "Project updated successfully",
       "updateError": "Failed to update project",
-      "deleteSuccess": "Project and all related data deleted successfully",
+      "deleteSuccess": "Project and all related data deleted successfully.",
       "deleteError": "Failed to delete project"
     },
     "fallback": {
