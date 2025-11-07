@@ -46,7 +46,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>([]);
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
-{responsetext}
+{responcetext}
 Thank you`);
   const [settings, setSettings] = useState({
     useReviewerName: true,
@@ -55,7 +55,7 @@ Thank you`);
     requireApproval: true,
   });
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
   const dispatch = useAppDispatch();

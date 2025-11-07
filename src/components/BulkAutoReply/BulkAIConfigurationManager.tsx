@@ -55,7 +55,7 @@ export const BulkAIConfigurationManager: React.FC<
     "5_star",
   ]);
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
-{responsetext}
+{responcetext}
 Thank you`);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -337,7 +337,7 @@ Thank you`);
                 {t("advanced.noteText2")}
                 <span className="font-medium text-white">
                   {" "}
-                  {"{responsetext}"}
+                  {"{responcetext}"}
                 </span>
                 {t("advanced.noteText3")}
               </p>
