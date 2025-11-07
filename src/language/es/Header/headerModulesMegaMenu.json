@@ -11,6 +11,10 @@
       "buyCredits": {
         "name": "Comprar créditos",
         "description": "Compra créditos para tu cuenta"
+      },
+      "mapCreator": {
+        "name": "Creador de Mapas",
+        "description": "Crea datos de ranking de palabras clave con coordenadas de mapa"
       }
     },
     "gmbListing": {

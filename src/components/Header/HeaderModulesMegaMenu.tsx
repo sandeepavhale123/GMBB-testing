@@ -208,10 +208,10 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                   </div>
                   <div className="min-w-0 flex-1 text-left">
                     <div className="text-sm font-medium">
-                      {t("utilities.mapCreator.name")}
+                      {t("modulesMenu.utilities.mapCreator.name")}
                     </div>
                     <div className="text-xs mt-1 text-muted-foreground group-hover:text-primary-foreground/80">
-                      {t("utilities.mapCreator.description")}
+                      {t("modulesMenu.utilities.mapCreator.description")}
                     </div>
                   </div>
                 </Link>
