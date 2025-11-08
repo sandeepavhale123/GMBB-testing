@@ -2,6 +2,9 @@
   "listingManagementPage": {
     "pageTitle": "Administrar Listados",
     "backButton": "Volver",
-    "loadingListings": "Cargando listados..."
+    "loadingListings": "Cargando listados...",
+    "errorTitle": "No se pueden cargar los listados",
+    "errorMessage": "{{error}}",
+    "retryButton": "Intentar de nuevo"
   }
 }
