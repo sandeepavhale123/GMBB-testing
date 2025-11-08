@@ -22,6 +22,7 @@ import {
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -251,7 +252,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                     aria-label={`Select ${group.groupName}`}
                   />
                 </TableCell>
-                <TableCell 
+                <TableCell
                   className="font-medium text-primary cursor-pointer hover:underline"
                   onClick={() =>
                     navigate(
@@ -300,7 +301,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
       {pagination && pagination.pages > 1 && (
         <div className="flex justify-center mt-4">
           <Pagination>
-            <PaginationContent>
+            {/* <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
                   onClick={() => onPageChange?.(Math.max(1, currentPage - 1))}
@@ -335,6 +336,73 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                     currentPage >= pagination.pages
                       ? "pointer-events-none opacity-50"
                       : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent> */}
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => onPageChange?.(Math.max(1, currentPage - 1))}
+                  className={
+                    currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+                  }
+                />
+              </PaginationItem>
+
+              {/* ✅ Sliding 5-page window */}
+              {(() => {
+                const total = pagination.pages;
+                const pagesToShow: number[] = [];
+
+                if (total <= 5) {
+                  // Case 1: 1-5 total pages → show all
+                  for (let p = 1; p <= total; p++) pagesToShow.push(p);
+                } else if (currentPage <= 3) {
+                  // Case 2: near start → 1,2,3,4,5
+                  pagesToShow.push(1, 2, 3, 4, 5);
+                } else if (currentPage >= total - 2) {
+                  // Case 3: near end → last-4 ... last
+                  pagesToShow.push(
+                    total - 4,
+                    total - 3,
+                    total - 2,
+                    total - 1,
+                    total
+                  );
+                } else {
+                  // Case 4: sliding middle window
+                  pagesToShow.push(
+                    currentPage - 2,
+                    currentPage - 1,
+                    currentPage,
+                    currentPage + 1,
+                    currentPage + 2
+                  );
+                }
+
+                return pagesToShow.map((pageNum) => (
+                  <PaginationItem key={pageNum}>
+                    <PaginationLink
+                      onClick={() => onPageChange?.(pageNum)}
+                      isActive={pageNum === currentPage}
+                      className="cursor-pointer"
+                    >
+                      {pageNum}
+                    </PaginationLink>
+                  </PaginationItem>
+                ));
+              })()}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() =>
+                    onPageChange?.(Math.min(pagination.pages, currentPage + 1))
+                  }
+                  className={
+                    currentPage >= pagination.pages
+                      ? "pointer-events-none opacity-50"
+                      : ""
                   }
                 />
               </PaginationItem>
