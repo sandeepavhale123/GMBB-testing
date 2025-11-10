@@ -8,10 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, Eye } from "lucide-react";
-import { toast } from "@/hooks/toast/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
+import { useCreateFeedbackForm } from "@/api/reputationApi";
+import { FormCreatedSuccessModal } from "../components/FormCreatedSuccessModal";
 
 type ReviewSite = {
   id: string;
@@ -124,9 +126,16 @@ export const CreateFeedbackForm: React.FC = () => {
     },
   ]);
 
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [createdFormUrl, setCreatedFormUrl] = useState("");
+
+  const createFormMutation = useCreateFeedbackForm();
+
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setLogoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogo(reader.result as string);
@@ -168,27 +177,54 @@ export const CreateFeedbackForm: React.FC = () => {
     }
   };
 
-  const handleSave = () => {
-    const formData = {
-      formName,
-      logo,
-      title,
-      subtitle,
-      positiveRatingThreshold,
-      positiveFeedbackTitle,
-      reviewSiteUrls,
-      successTitle,
-      successSubtitle,
-      formFields,
-    };
+  const handleSave = async () => {
+    if (!formName.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter a form name",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    console.log("Form data:", formData);
+    const hasUrlErrors = Object.keys(urlErrors).length > 0;
+    if (hasUrlErrors) {
+      toast({
+        title: "Invalid URLs",
+        description: "Please fix invalid URLs before saving",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    toast({
-      title: "Form Created",
-      description: "Your feedback form has been created successfully",
-    });
-    navigate("/module/reputation/v1/dashboard");
+    try {
+      const response = await createFormMutation.mutateAsync({
+        formName,
+        logo: logoFile,
+        formFields: JSON.stringify(formFields),
+        title,
+        subtitle,
+        positiveRatingThreshold: positiveRatingThreshold.toString(),
+        positiveFeedbackTitle,
+        reviewSiteUrls: JSON.stringify(reviewSiteUrls),
+        successTitle,
+        successSubtitle,
+      });
+
+      setCreatedFormUrl(response.data.form_url);
+      setIsSuccessModalOpen(true);
+
+      toast({
+        title: "Success!",
+        description: response.message || "Feedback form created successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Failed to create feedback form",
+        variant: "destructive",
+      });
+    }
   };
 
   const stepTitles = [
@@ -492,8 +528,13 @@ export const CreateFeedbackForm: React.FC = () => {
                   <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
                     Previous
                   </Button>
-                  <Button onClick={handleSave} className="flex-1" size="lg">
-                    Save
+                  <Button 
+                    onClick={handleSave} 
+                    className="flex-1" 
+                    size="lg"
+                    disabled={createFormMutation.isPending}
+                  >
+                    {createFormMutation.isPending ? "Saving..." : "Save"}
                   </Button>
                 </div>
               </>
@@ -684,6 +725,14 @@ export const CreateFeedbackForm: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <FormCreatedSuccessModal
+        open={isSuccessModalOpen}
+        onOpenChange={setIsSuccessModalOpen}
+        formUrl={createdFormUrl}
+        formName={formName}
+      />
     </div>
   );
 };
