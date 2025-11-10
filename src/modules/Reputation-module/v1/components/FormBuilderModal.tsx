@@ -1,0 +1,265 @@
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FormField, FieldType } from "../../types/formBuilder.types";
+import { Plus, Trash2, GripVertical } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface FormBuilderModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  fields: FormField[];
+  onSave: (fields: FormField[]) => void;
+}
+
+const fieldTypeOptions: { value: FieldType; label: string }[] = [
+  { value: "text", label: "Text" },
+  { value: "email", label: "Email" },
+  { value: "textarea", label: "Textarea" },
+  { value: "number", label: "Number" },
+  { value: "date", label: "Date" },
+  { value: "select", label: "Select" },
+  { value: "radio", label: "Radio" },
+  { value: "checkbox-group", label: "Checkbox Group" },
+  { value: "file", label: "File Upload" },
+];
+
+export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
+  open,
+  onOpenChange,
+  fields: initialFields,
+  onSave,
+}) => {
+  const [fields, setFields] = useState<FormField[]>(initialFields);
+  const [editingField, setEditingField] = useState<string | null>(null);
+
+  const addField = () => {
+    const newField: FormField = {
+      id: `field-${Date.now()}`,
+      type: "text",
+      label: "New Field",
+      name: `field_${Date.now()}`,
+      placeholder: "",
+      required: false,
+      order: fields.length,
+    };
+    setFields([...fields, newField]);
+    setEditingField(newField.id);
+  };
+
+  const updateField = (id: string, updates: Partial<FormField>) => {
+    setFields(fields.map((field) => (field.id === id ? { ...field, ...updates } : field)));
+  };
+
+  const removeField = (id: string) => {
+    setFields(fields.filter((field) => field.id !== id));
+    if (editingField === id) {
+      setEditingField(null);
+    }
+  };
+
+  const handleSave = () => {
+    onSave(fields);
+    onOpenChange(false);
+  };
+
+  const selectedField = fields.find((f) => f.id === editingField);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[90vh]">
+        <DialogHeader>
+          <DialogTitle>Form Builder</DialogTitle>
+        </DialogHeader>
+
+        <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+          {/* Left Panel - Field List */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium">Form Fields</Label>
+              <Button size="sm" onClick={addField} variant="outline">
+                <Plus className="w-4 h-4 mr-1" />
+                Add Field
+              </Button>
+            </div>
+
+            <ScrollArea className="h-[400px] border rounded-lg p-2">
+              <div className="space-y-2">
+                {fields.map((field) => (
+                  <div
+                    key={field.id}
+                    className={`flex items-center gap-2 p-3 border rounded-lg cursor-pointer transition-colors ${
+                      editingField === field.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:bg-muted/50"
+                    }`}
+                    onClick={() => setEditingField(field.id)}
+                  >
+                    <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{field.label}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {field.type} {field.required && "• Required"}
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeField(field.id);
+                      }}
+                      className="flex-shrink-0"
+                    >
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+
+          {/* Right Panel - Field Editor */}
+          <div className="space-y-4">
+            {selectedField ? (
+              <ScrollArea className="h-[400px] border rounded-lg p-4">
+                <div className="space-y-4">
+                  <h4 className="font-medium text-sm">Edit Field</h4>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="field-label" className="text-xs">
+                      Label *
+                    </Label>
+                    <Input
+                      id="field-label"
+                      value={selectedField.label}
+                      onChange={(e) => updateField(selectedField.id, { label: e.target.value })}
+                      placeholder="Field label"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="field-name" className="text-xs">
+                      Field Name *
+                    </Label>
+                    <Input
+                      id="field-name"
+                      value={selectedField.name}
+                      onChange={(e) => updateField(selectedField.id, { name: e.target.value })}
+                      placeholder="field_name"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="field-type" className="text-xs">
+                      Field Type *
+                    </Label>
+                    <Select
+                      value={selectedField.type}
+                      onValueChange={(value: FieldType) =>
+                        updateField(selectedField.id, { type: value })
+                      }
+                    >
+                      <SelectTrigger id="field-type">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {fieldTypeOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="field-placeholder" className="text-xs">
+                      Placeholder
+                    </Label>
+                    <Input
+                      id="field-placeholder"
+                      value={selectedField.placeholder || ""}
+                      onChange={(e) =>
+                        updateField(selectedField.id, { placeholder: e.target.value })
+                      }
+                      placeholder="Placeholder text"
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="field-required"
+                      checked={selectedField.required}
+                      onCheckedChange={(checked) =>
+                        updateField(selectedField.id, { required: checked === true })
+                      }
+                    />
+                    <Label htmlFor="field-required" className="text-xs cursor-pointer">
+                      Required field
+                    </Label>
+                  </div>
+
+                  {/* Options for select/radio/checkbox */}
+                  {(selectedField.type === "select" ||
+                    selectedField.type === "radio" ||
+                    selectedField.type === "checkbox-group") && (
+                    <div className="space-y-2">
+                      <Label className="text-xs">Options</Label>
+                      <Textarea
+                        value={selectedField.options?.map((opt) => opt.label).join("\n") || ""}
+                        onChange={(e) => {
+                          const options = e.target.value
+                            .split("\n")
+                            .filter((line) => line.trim())
+                            .map((line) => ({
+                              label: line.trim(),
+                              value: line.trim().toLowerCase().replace(/\s+/g, "_"),
+                            }));
+                          updateField(selectedField.id, { options });
+                        }}
+                        placeholder="Enter one option per line"
+                        className="min-h-[100px]"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Enter one option per line
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+            ) : (
+              <div className="h-[400px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+                Select a field to edit or add a new field
+              </div>
+            )}
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave}>Save Changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};

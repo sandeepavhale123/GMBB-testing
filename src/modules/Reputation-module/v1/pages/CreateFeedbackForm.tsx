@@ -9,6 +9,8 @@ import { toast } from "@/hooks/toast/use-toast";
 import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
 import { SiTrustpilot } from "react-icons/si";
 import { cn } from "@/lib/utils";
+import { FormField } from "../../types/formBuilder.types";
+import { FormBuilderModal } from "../components/FormBuilderModal";
 
 type ReviewSite = {
   id: string;
@@ -39,6 +41,36 @@ export const CreateFeedbackForm: React.FC = () => {
   const [selectedReviewSites, setSelectedReviewSites] = useState<string[]>(["google"]);
   const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
   const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
+  const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
+  const [formFields, setFormFields] = useState<FormField[]>([
+    {
+      id: "field-name",
+      type: "text",
+      label: "Name",
+      name: "name",
+      placeholder: "Enter your name",
+      required: true,
+      order: 0,
+    },
+    {
+      id: "field-email",
+      type: "email",
+      label: "Email",
+      name: "email",
+      placeholder: "Enter your email",
+      required: true,
+      order: 1,
+    },
+    {
+      id: "field-comment",
+      type: "textarea",
+      label: "Comment",
+      name: "comment",
+      placeholder: "Enter your comment",
+      required: true,
+      order: 2,
+    },
+  ]);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -138,47 +170,44 @@ export const CreateFeedbackForm: React.FC = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => toast({ title: "Form editing coming soon" })}
+                      onClick={() => setIsFormBuilderOpen(true)}
                     >
                       Edit
                     </Button>
                   </div>
                   
-                  {/* Predefined form fields preview */}
+                  {/* Form fields preview */}
                   <div className="space-y-3 bg-muted/30 p-4 rounded-md">
-                    {/* Name field */}
-                    <div className="space-y-1.5">
-                      <Label className="text-xs font-medium">Name *</Label>
-                      <Input 
-                        type="text" 
-                        placeholder="Enter your name" 
-                        disabled 
-                        className="bg-background"
-                      />
-                    </div>
-                    
-                    {/* Email field */}
-                    <div className="space-y-1.5">
-                      <Label className="text-xs font-medium">Email *</Label>
-                      <Input 
-                        type="email" 
-                        placeholder="Enter your email" 
-                        disabled 
-                        className="bg-background"
-                      />
-                    </div>
-                    
-                    {/* Comment field */}
-                    <div className="space-y-1.5">
-                      <Label className="text-xs font-medium">Comment *</Label>
-                      <Textarea 
-                        placeholder="Enter your comment" 
-                        disabled 
-                        className="bg-background min-h-[80px] resize-none"
-                      />
-                    </div>
+                    {formFields.map((field) => (
+                      <div key={field.id} className="space-y-1.5">
+                        <Label className="text-xs font-medium">
+                          {field.label} {field.required && "*"}
+                        </Label>
+                        {field.type === "textarea" ? (
+                          <Textarea 
+                            placeholder={field.placeholder || ""} 
+                            disabled 
+                            className="bg-background min-h-[80px] resize-none"
+                          />
+                        ) : (
+                          <Input 
+                            type={field.type === "text" || field.type === "email" ? field.type : "text"} 
+                            placeholder={field.placeholder || ""} 
+                            disabled 
+                            className="bg-background"
+                          />
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
+
+                <FormBuilderModal
+                  open={isFormBuilderOpen}
+                  onOpenChange={setIsFormBuilderOpen}
+                  fields={formFields}
+                  onSave={setFormFields}
+                />
 
                 <Button onClick={handleNext} className="w-full" size="lg">
                   Next
