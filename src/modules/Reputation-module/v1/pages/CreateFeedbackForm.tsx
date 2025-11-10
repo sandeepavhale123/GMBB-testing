@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, Eye } from "lucide-react";
 import { toast } from "@/hooks/toast/use-toast";
 import { cn } from "@/lib/utils";
@@ -26,11 +20,41 @@ type ReviewSite = {
 };
 
 const reviewSites: ReviewSite[] = [
-  { id: "google", name: "Google", logo: "/lovable-uploads/social-icons/google.png", color: "#4285F4", textColor: "#fff" },
-  { id: "facebook", name: "Facebook", logo: "/lovable-uploads/social-icons/facebook.png", color: "#1877F2", textColor: "#fff" },
-  { id: "tripadvisor", name: "Tripadvisor", logo: "/lovable-uploads/social-icons/tripadvisor.png", color: "#00AF87", textColor: "#fff" },
-  { id: "trustpilot", name: "Trustpilot", logo: "/lovable-uploads/social-icons/trustpilot.png", color: "#00B67A", textColor: "#fff" },
-  { id: "airbnb", name: "Airbnb", logo: "/lovable-uploads/social-icons/airbnb.png", color: "#FF385C", textColor: "#fff" },
+  {
+    id: "google",
+    name: "Google",
+    logo: "/lovable-uploads/social-icons/google.png",
+    color: "#4285F4",
+    textColor: "#fff",
+  },
+  {
+    id: "facebook",
+    name: "Facebook",
+    logo: "/lovable-uploads/social-icons/facebook.png",
+    color: "#1877F2",
+    textColor: "#fff",
+  },
+  {
+    id: "tripadvisor",
+    name: "Tripadvisor",
+    logo: "/lovable-uploads/social-icons/tripadvisor.png",
+    color: "#00AF87",
+    textColor: "#fff",
+  },
+  {
+    id: "trustpilot",
+    name: "Trustpilot",
+    logo: "/lovable-uploads/social-icons/trustpilot.png",
+    color: "#00B67A",
+    textColor: "#fff",
+  },
+  {
+    id: "airbnb",
+    name: "Airbnb",
+    logo: "/lovable-uploads/social-icons/air-bnb.png",
+    color: "#FF385C",
+    textColor: "#fff",
+  },
 ];
 
 // URL validation helper
@@ -58,13 +82,15 @@ export const CreateFeedbackForm: React.FC = () => {
   const [title, setTitle] = useState("How was your experience with us?");
   const [subtitle, setSubtitle] = useState("We value your feedback and would love to hear from you.");
   const [positiveFeedbackTitle, setPositiveFeedbackTitle] = useState(
-    "We'd love to hear from you! Share your experience by leaving us a review."
+    "We'd love to hear from you! Share your experience by leaving us a review.",
   );
   const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
   const [urlErrors, setUrlErrors] = useState<Record<string, string>>({});
   const [positiveRatingThreshold, setPositiveRatingThreshold] = useState(4);
   const [successTitle, setSuccessTitle] = useState("Thank you for your feedback!");
-  const [successSubtitle, setSuccessSubtitle] = useState("We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.");
+  const [successSubtitle, setSuccessSubtitle] = useState(
+    "We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.",
+  );
   const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
   const [formFields, setFormFields] = useState<FormField[]>([
     {
@@ -153,9 +179,9 @@ export const CreateFeedbackForm: React.FC = () => {
       successSubtitle,
       formFields,
     };
-    
+
     console.log("Form data:", formData);
-    
+
     toast({
       title: "Form Created",
       description: "Your feedback form has been created successfully",
@@ -198,9 +224,7 @@ export const CreateFeedbackForm: React.FC = () => {
                       placeholder="e.g., Restaurant Feedback Form"
                       className="w-full"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      This name is for your internal reference only
-                    </p>
+                    <p className="text-xs text-muted-foreground">This name is for your internal reference only</p>
                   </div>
 
                   <div className="space-y-2">
@@ -221,15 +245,11 @@ export const CreateFeedbackForm: React.FC = () => {
                   {/* Header with title and edit button */}
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold">Feedback form</h3>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setIsFormBuilderOpen(true)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => setIsFormBuilderOpen(true)}>
                       Edit
                     </Button>
                   </div>
-                  
+
                   {/* Form fields preview */}
                   <div className="space-y-3 bg-muted/30 p-4 rounded-md">
                     {formFields.map((field) => (
@@ -238,16 +258,16 @@ export const CreateFeedbackForm: React.FC = () => {
                           {field.label} {field.required && "*"}
                         </Label>
                         {field.type === "textarea" ? (
-                          <Textarea 
-                            placeholder={field.placeholder || ""} 
-                            disabled 
+                          <Textarea
+                            placeholder={field.placeholder || ""}
+                            disabled
                             className="bg-background min-h-[80px] resize-none"
                           />
                         ) : (
-                          <Input 
-                            type={field.type === "text" || field.type === "email" ? field.type : "text"} 
-                            placeholder={field.placeholder || ""} 
-                            disabled 
+                          <Input
+                            type={field.type === "text" || field.type === "email" ? field.type : "text"}
+                            placeholder={field.placeholder || ""}
+                            disabled
                             className="bg-background"
                           />
                         )}
@@ -272,9 +292,7 @@ export const CreateFeedbackForm: React.FC = () => {
             {/* Step 2: Customization Options (same as step 1 for now) */}
             {currentStep === 2 && (
               <>
-                <p className="text-sm text-muted-foreground">
-                  Review and adjust your form's branding elements
-                </p>
+                <p className="text-sm text-muted-foreground">Review and adjust your form's branding elements</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="title-2" className="text-sm font-medium">
@@ -354,36 +372,27 @@ export const CreateFeedbackForm: React.FC = () => {
                 <div className="space-y-4">
                   <Label className="text-sm font-medium">Review Sites</Label>
                   <p className="text-xs text-muted-foreground">
-                    Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to users.
+                    Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to
+                    users.
                   </p>
                   <div className="space-y-3">
                     {reviewSites.map((site) => {
                       return (
                         <div key={site.id} className="space-y-2">
-                          <div
-                            className="flex items-center gap-3 p-4 rounded-lg border bg-card"
-                          >
-                            <img 
-                              src={site.logo} 
-                              alt={`${site.name} logo`}
-                              className="w-6 h-6 object-contain"
-                            />
-                            <span className="text-sm font-medium text-foreground min-w-[100px]">
-                              {site.name}
-                            </span>
+                          <div className="flex items-center gap-3 p-4 rounded-lg border bg-card">
+                            <img src={site.logo} alt={`${site.name} logo`} className="w-6 h-6 object-contain" />
+                            <span className="text-sm font-medium text-foreground min-w-[100px]">{site.name}</span>
                             <Input
                               placeholder="https://example.com/review"
                               value={reviewSiteUrls[site.id] || ""}
                               onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
                               className={cn(
                                 "flex-1",
-                                urlErrors[site.id] && "border-destructive focus-visible:ring-destructive"
+                                urlErrors[site.id] && "border-destructive focus-visible:ring-destructive",
                               )}
                             />
                           </div>
-                          {urlErrors[site.id] && (
-                            <p className="text-xs text-destructive pl-4">{urlErrors[site.id]}</p>
-                          )}
+                          {urlErrors[site.id] && <p className="text-xs text-destructive pl-4">{urlErrors[site.id]}</p>}
                         </div>
                       );
                     })}
@@ -476,13 +485,10 @@ export const CreateFeedbackForm: React.FC = () => {
                             {field.label} {field.required && <span className="text-destructive">*</span>}
                           </Label>
                           {field.type === "textarea" ? (
-                            <Textarea 
-                              placeholder={field.placeholder || ""} 
-                              className="min-h-[100px] resize-none"
-                            />
+                            <Textarea placeholder={field.placeholder || ""} className="min-h-[100px] resize-none" />
                           ) : field.type === "select" ? (
                             <div className="relative">
-                              <select 
+                              <select
                                 className="w-full px-3 py-2 border border-input rounded-md bg-background text-sm"
                                 disabled
                               >
@@ -495,15 +501,24 @@ export const CreateFeedbackForm: React.FC = () => {
                               </select>
                             </div>
                           ) : (
-                            <Input 
-                              type={field.type === "text" || field.type === "email" || field.type === "number" || field.type === "date" ? field.type : "text"} 
-                              placeholder={field.placeholder || ""} 
+                            <Input
+                              type={
+                                field.type === "text" ||
+                                field.type === "email" ||
+                                field.type === "number" ||
+                                field.type === "date"
+                                  ? field.type
+                                  : "text"
+                              }
+                              placeholder={field.placeholder || ""}
                             />
                           )}
                         </div>
                       ))}
                       <div className="flex gap-3">
-                        <Button variant="outline" className="flex-1">Reset Form</Button>
+                        <Button variant="outline" className="flex-1">
+                          Reset Form
+                        </Button>
                         <Button className="flex-1">Submit Feedback</Button>
                       </div>
                     </div>
@@ -514,16 +529,11 @@ export const CreateFeedbackForm: React.FC = () => {
                   <>
                     <div className="text-center space-y-4">
                       <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-                      {subtitle && (
-                        <p className="text-sm text-muted-foreground">{subtitle}</p>
-                      )}
+                      {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
                     </div>
                     <div className="flex justify-center gap-2 py-4">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          className="transition-transform hover:scale-110"
-                        >
+                        <button key={star} className="transition-transform hover:scale-110">
                           <svg
                             className={`w-10 h-10 ${
                               star <= positiveRatingThreshold
@@ -557,11 +567,7 @@ export const CreateFeedbackForm: React.FC = () => {
                               key={site.id}
                               className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-transform hover:scale-105"
                             >
-                              <img 
-                                src={site.logo} 
-                                alt={`${site.name} logo`}
-                                className="w-5 h-5 object-contain"
-                              />
+                              <img src={site.logo} alt={`${site.name} logo`} className="w-5 h-5 object-contain" />
                               <span>Review on {site.name}</span>
                             </button>
                           );
