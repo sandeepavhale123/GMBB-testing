@@ -38,7 +38,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const [positiveFeedbackTitle, setPositiveFeedbackTitle] = useState(
     "We'd love to hear from you! Share your experience by leaving us a review."
   );
-  const [selectedReviewSites, setSelectedReviewSites] = useState<string[]>(["google"]);
+  const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
   const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
   const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
   const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
@@ -83,10 +83,11 @@ export const CreateFeedbackForm: React.FC = () => {
     }
   };
 
-  const toggleReviewSite = (siteId: string) => {
-    setSelectedReviewSites((prev) =>
-      prev.includes(siteId) ? prev.filter((id) => id !== siteId) : [...prev, siteId]
-    );
+  const handleReviewSiteUrlChange = (siteId: string, url: string) => {
+    setReviewSiteUrls((prev) => ({
+      ...prev,
+      [siteId]: url,
+    }));
   };
 
   const handleNext = () => {
@@ -273,31 +274,29 @@ export const CreateFeedbackForm: React.FC = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <Label className="text-sm font-medium">Review Sites</Label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="space-y-3">
                     {reviewSites.map((site) => {
                       const IconComponent = site.icon;
-                      const isSelected = selectedReviewSites.includes(site.id);
                       return (
-                        <button
+                        <div
                           key={site.id}
-                          onClick={() => toggleReviewSite(site.id)}
-                          className={cn(
-                            "relative flex items-center gap-3 p-4 rounded-lg border-2 transition-all",
-                            isSelected
-                              ? "border-primary bg-primary/10"
-                              : "border-border bg-background hover:bg-muted/50"
-                          )}
+                          className="flex items-center gap-3 p-4 rounded-lg border bg-card"
                         >
                           <span style={{ color: site.color }}>
                             <IconComponent className="w-6 h-6" />
                           </span>
-                          <span className="text-sm font-medium text-foreground">{site.name}</span>
-                          {isSelected && (
-                            <div className="w-4 h-4 rounded-full bg-primary absolute top-2 right-2" />
-                          )}
-                        </button>
+                          <span className="text-sm font-medium text-foreground min-w-[100px]">
+                            {site.name}
+                          </span>
+                          <Input
+                            placeholder="Enter review URL"
+                            value={reviewSiteUrls[site.id] || ""}
+                            onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
+                            className="flex-1"
+                          />
+                        </div>
                       );
                     })}
                   </div>
@@ -402,7 +401,7 @@ export const CreateFeedbackForm: React.FC = () => {
                     </div>
                     <div className="flex flex-col gap-3">
                       {reviewSites
-                        .filter((site) => selectedReviewSites.includes(site.id))
+                        .filter((site) => reviewSiteUrls[site.id])
                         .map((site) => {
                           const IconComponent = site.icon;
                           return (
