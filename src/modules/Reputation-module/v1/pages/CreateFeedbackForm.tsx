@@ -474,9 +474,6 @@ export const CreateFeedbackForm: React.FC = () => {
                         </button>
                       ))}
                     </div>
-                    <p className="text-center text-xs text-muted-foreground">
-                      Ratings of {positiveRatingThreshold} stars or above will be redirected to review sites
-                    </p>
                   </>
                 )}
 
