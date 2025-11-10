@@ -16,14 +16,6 @@ import { fetchUserProfile } from "@/store/slices/profileSlice";
 import { PaymentHistoryTable } from "./PaymentHistory/PaymentHistoryTable";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-// ⚠️ Load Stripe publishable key from .env
-const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
-);
-// console.log(
-//   "stripe promise......",
-//   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-// );
 interface PlanFeature {
   name: string;
   business: boolean | number | string;
@@ -271,8 +263,10 @@ export const SubscriptionPage: React.FC = () => {
       const data = response.data;
       // console.log("response from the backend", response.data);
       if (data.id) {
-        // Get Stripe instance and redirect to checkout
-        const stripe = await stripePromise;
+        // Lazy load Stripe only when needed
+        const stripe = await loadStripe(
+          import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+        );
         // console.log("stripe key", stripe);
         if (!stripe) {
           throw new Error("Stripe failed to initialize");

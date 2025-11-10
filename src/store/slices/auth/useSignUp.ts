@@ -6,10 +6,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { z } from "zod";
 
-const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
-);
-
 interface StripeSignupResponse {
   success: boolean;
   sessionUrl?: string;
@@ -119,7 +115,10 @@ export const useSignup = () => {
       // console.log("✅ Signup response:", data);
 
       if (data.id) {
-        const stripe = await stripePromise;
+        // Lazy load Stripe only when needed
+        const stripe = await loadStripe(
+          import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+        );
         if (!stripe) throw new Error(t("errors.stripeInit"));
 
         const { error } = await stripe.redirectToCheckout({

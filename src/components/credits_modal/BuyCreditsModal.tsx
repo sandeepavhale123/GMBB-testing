@@ -11,11 +11,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import axiosInstance from "@/api/axiosInstance";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-// ⚠️ Load Stripe publishable key from .env
-const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
-);
-
 interface BuyCreditsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -52,8 +47,10 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
       console.log("response from the backend", response.data);
 
       if (data.id) {
-        // Get Stripe instance and redirect to checkout
-        const stripe = await stripePromise;
+        // Lazy load Stripe only when needed
+        const stripe = await loadStripe(
+          import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+        );
         console.log("stripe key", stripe);
 
         if (!stripe) {
