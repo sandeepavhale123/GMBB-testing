@@ -100,6 +100,7 @@ export const FeedbackDetails: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
                   <TableHead>Star Rating</TableHead>
                   <TableHead>Submitted</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -109,6 +110,7 @@ export const FeedbackDetails: React.FC = () => {
                 {feedbackResponses.map((response) => (
                   <TableRow key={response.id}>
                     <TableCell className="font-medium">{response.name}</TableCell>
+                    <TableCell className="text-sm">{response.email_or_phone}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
