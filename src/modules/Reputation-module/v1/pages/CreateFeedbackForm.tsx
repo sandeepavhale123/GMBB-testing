@@ -571,7 +571,22 @@ export const CreateFeedbackForm: React.FC = () => {
                               ))}
                             </div>
                           ) : field.type === "file" ? (
-                            <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50">
+                            <label 
+                              htmlFor={`file-${field.id}`}
+                              className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50 cursor-pointer hover:bg-muted/70 transition-colors block"
+                            >
+                              <Input
+                                id={`file-${field.id}`}
+                                type="file"
+                                accept={field.accept}
+                                className="sr-only"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    console.log('File selected:', file.name);
+                                  }
+                                }}
+                              />
                               <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                               <p className="text-sm text-muted-foreground">
                                 Click to upload or drag and drop
@@ -581,7 +596,7 @@ export const CreateFeedbackForm: React.FC = () => {
                                   Accepted: {field.accept}
                                 </p>
                               )}
-                            </div>
+                            </label>
                           ) : (
                             <Input
                               type={
