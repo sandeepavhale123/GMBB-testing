@@ -49,6 +49,11 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 }) => {
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [editingField, setEditingField] = useState<string | null>(null);
+  // Raw textarea content for options-based fields
+  const [optionsText, setOptionsText] = useState<string>("");
+
+  const isOptionsField = (f?: FormField) =>
+    !!f && (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
 
   // Sync fields when modal opens
   useEffect(() => {
@@ -89,6 +94,15 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   };
 
   const selectedField = fields.find((f) => f.id === editingField);
+
+  // Keep textarea content in sync when switching fields or opening
+  useEffect(() => {
+    if (isOptionsField(selectedField)) {
+      setOptionsText(selectedField?.options?.map((o) => o.label).join("\n") ?? "");
+    } else {
+      setOptionsText("");
+    }
+  }, [editingField, selectedField?.id, selectedField?.type, open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -238,14 +252,17 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                     <div className="space-y-2">
                       <Label className="text-xs">Options</Label>
                       <Textarea
-                        value={selectedField.options?.map((opt) => opt.label).join("\n") || ""}
+                        value={optionsText}
                         onChange={(e) => {
-                          const options = e.target.value
-                            .split("\n")
-                            .filter((line) => line.trim())
+                          const raw = e.target.value;
+                          setOptionsText(raw);
+                          const options = raw
+                            .split(/\r?\n/)
+                            .map((line) => line.trim())
+                            .filter(Boolean)
                             .map((line) => ({
-                              label: line.trim(),
-                              value: line.trim().toLowerCase().replace(/\s+/g, "_"),
+                              label: line,
+                              value: line.toLowerCase().replace(/\s+/g, "_"),
                             }));
                           updateField(selectedField.id, { options });
                         }}
