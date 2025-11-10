@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, Eye } from "lucide-react";
 import { toast } from "@/hooks/toast/use-toast";
 import { cn } from "@/lib/utils";
@@ -263,6 +265,42 @@ export const CreateFeedbackForm: React.FC = () => {
                             disabled
                             className="bg-background min-h-[80px] resize-none"
                           />
+                        ) : field.type === "select" ? (
+                          <div className="relative">
+                            <select
+                              className="w-full px-3 py-2 border border-input rounded-md bg-background text-sm"
+                              disabled
+                            >
+                              <option>{field.placeholder || "Select an option"}</option>
+                              {field.options?.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : field.type === "radio" ? (
+                          <RadioGroup disabled className="space-y-2">
+                            {field.options?.map((opt) => (
+                              <div key={opt.value} className="flex items-center space-x-2">
+                                <RadioGroupItem value={opt.value} id={`preview-${field.id}-${opt.value}`} />
+                                <Label htmlFor={`preview-${field.id}-${opt.value}`} className="text-xs">
+                                  {opt.label}
+                                </Label>
+                              </div>
+                            ))}
+                          </RadioGroup>
+                        ) : field.type === "checkbox-group" ? (
+                          <div className="space-y-2">
+                            {field.options?.map((opt) => (
+                              <div key={opt.value} className="flex items-center space-x-2">
+                                <Checkbox id={`preview-${field.id}-${opt.value}`} disabled />
+                                <Label htmlFor={`preview-${field.id}-${opt.value}`} className="text-xs">
+                                  {opt.label}
+                                </Label>
+                              </div>
+                            ))}
+                          </div>
                         ) : (
                           <Input
                             type={field.type === "text" || field.type === "email" ? field.type : "text"}
@@ -499,6 +537,28 @@ export const CreateFeedbackForm: React.FC = () => {
                                   </option>
                                 ))}
                               </select>
+                            </div>
+                          ) : field.type === "radio" ? (
+                            <RadioGroup className="space-y-2">
+                              {field.options?.map((opt) => (
+                                <div key={opt.value} className="flex items-center space-x-2">
+                                  <RadioGroupItem value={opt.value} id={`live-${field.id}-${opt.value}`} />
+                                  <Label htmlFor={`live-${field.id}-${opt.value}`} className="text-sm">
+                                    {opt.label}
+                                  </Label>
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          ) : field.type === "checkbox-group" ? (
+                            <div className="space-y-2">
+                              {field.options?.map((opt) => (
+                                <div key={opt.value} className="flex items-center space-x-2">
+                                  <Checkbox id={`live-${field.id}-${opt.value}`} />
+                                  <Label htmlFor={`live-${field.id}-${opt.value}`} className="text-sm">
+                                    {opt.label}
+                                  </Label>
+                                </div>
+                              ))}
                             </div>
                           ) : (
                             <Input
