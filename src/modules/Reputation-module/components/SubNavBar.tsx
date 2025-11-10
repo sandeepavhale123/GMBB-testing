@@ -107,6 +107,32 @@ export const SubNavBar: React.FC = () => {
     );
   }
 
+  // V1 Routes: Show only "Manage feedbacks" menu
+  if (isV1Route && !isV1CreatePage && !isV1DetailsPage) {
+    return (
+      <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-end md:justify-end gap-1 md:gap-6 flex-wrap">
+            <NavLink
+              to="/module/reputation/v1/dashboard"
+              className={cn(
+                "flex items-center gap-2 px-3 py-4 text-sm font-medium transition-colors relative",
+                location.pathname === "/module/reputation/v1/dashboard"
+                  ? "text-primary border-b-2 border-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <LayoutDashboard size={18} />
+              <span className="hidden md:block whitespace-nowrap">
+                Manage feedbacks
+              </span>
+            </NavLink>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto px-4">
