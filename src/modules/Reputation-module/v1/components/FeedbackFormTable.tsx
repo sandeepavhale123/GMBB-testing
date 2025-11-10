@@ -37,11 +37,12 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
 
-  const handleCopyUrl = (formUrl: string, formName: string) => {
+  const handleCopyUrl = (formId: string, formName: string) => {
+    const formUrl = `${window.location.origin}/review/feedback-form/${formId}`;
     navigator.clipboard.writeText(formUrl);
     toast({
-      title: "URL Copied",
-      description: `Form URL for "${formName}" copied to clipboard`,
+      title: "Link Copied",
+      description: `Feedback form link for "${formName}" copied to clipboard`,
     });
   };
 
@@ -112,8 +113,8 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleCopyUrl(form.form_url, form.name)}
-                      title="Copy Form URL"
+                      onClick={() => handleCopyUrl(form.id, form.name)}
+                      title="Copy Form Link"
                     >
                       <Copy className="w-4 h-4" />
                     </Button>
