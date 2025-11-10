@@ -54,7 +54,7 @@ export const FieldPreview: React.FC<FieldPreviewProps> = ({ field }) => {
           <SelectTrigger className="bg-muted/50">
             <SelectValue placeholder="Select an option" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-background z-50">
             {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map(opt => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
