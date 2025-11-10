@@ -266,19 +266,18 @@ export const CreateFeedbackForm: React.FC = () => {
                             className="bg-background min-h-[80px] resize-none"
                           />
                         ) : field.type === "select" ? (
-                          <div className="relative">
-                            <select
-                              className="w-full px-3 py-2 border border-input rounded-md bg-background text-sm"
-                              disabled
-                            >
-                              <option>{field.placeholder || "Select an option"}</option>
-                              {field.options?.map((opt) => (
-                                <option key={opt.value} value={opt.value}>
+                          <Select disabled>
+                            <SelectTrigger className="bg-background">
+                              <SelectValue placeholder={field.placeholder || "Select an option"} />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background z-50">
+                              {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
                                   {opt.label}
-                                </option>
+                                </SelectItem>
                               ))}
-                            </select>
-                          </div>
+                            </SelectContent>
+                          </Select>
                         ) : field.type === "radio" ? (
                           <RadioGroup disabled className="space-y-2">
                             {field.options?.map((opt) => (
@@ -300,6 +299,18 @@ export const CreateFeedbackForm: React.FC = () => {
                                 </Label>
                               </div>
                             ))}
+                          </div>
+                        ) : field.type === "file" ? (
+                          <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50">
+                            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">
+                              Click to upload or drag and drop
+                            </p>
+                            {field.accept && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Accepted: {field.accept}
+                              </p>
+                            )}
                           </div>
                         ) : (
                           <Input
@@ -525,19 +536,18 @@ export const CreateFeedbackForm: React.FC = () => {
                           {field.type === "textarea" ? (
                             <Textarea placeholder={field.placeholder || ""} className="min-h-[100px] resize-none" />
                           ) : field.type === "select" ? (
-                            <div className="relative">
-                              <select
-                                className="w-full px-3 py-2 border border-input rounded-md bg-background text-sm"
-                                disabled
-                              >
-                                <option>{field.placeholder || "Select an option"}</option>
-                                {field.options?.map((opt) => (
-                                  <option key={opt.value} value={opt.value}>
+                            <Select>
+                              <SelectTrigger className="bg-background">
+                                <SelectValue placeholder={field.placeholder || "Select an option"} />
+                              </SelectTrigger>
+                              <SelectContent className="bg-background z-50">
+                                {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((opt) => (
+                                  <SelectItem key={opt.value} value={opt.value}>
                                     {opt.label}
-                                  </option>
+                                  </SelectItem>
                                 ))}
-                              </select>
-                            </div>
+                              </SelectContent>
+                            </Select>
                           ) : field.type === "radio" ? (
                             <RadioGroup className="space-y-2">
                               {field.options?.map((opt) => (
@@ -559,6 +569,18 @@ export const CreateFeedbackForm: React.FC = () => {
                                   </Label>
                                 </div>
                               ))}
+                            </div>
+                          ) : field.type === "file" ? (
+                            <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50">
+                              <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                              <p className="text-sm text-muted-foreground">
+                                Click to upload or drag and drop
+                              </p>
+                              {field.accept && (
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  Accepted: {field.accept}
+                                </p>
+                              )}
                             </div>
                           ) : (
                             <Input
