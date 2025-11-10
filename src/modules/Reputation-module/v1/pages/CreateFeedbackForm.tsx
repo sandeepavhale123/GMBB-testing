@@ -100,47 +100,39 @@ export const CreateFeedbackForm: React.FC = () => {
             {/* Step 1: Feedback Form Details */}
             {currentStep === 1 && (
               <>
-                <div className="space-y-2">
-                  <Label htmlFor="form-name" className="text-sm font-medium">
-                    Form Name *
-                  </Label>
-                  <Input
-                    id="form-name"
-                    value={formName}
-                    onChange={(e) => setFormName(e.target.value)}
-                    placeholder="e.g., Restaurant Feedback Form"
-                    className="w-full"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    This name is for your internal reference only
-                  </p>
-                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="form-name" className="text-sm font-medium">
+                      Form Name *
+                    </Label>
+                    <Input
+                      id="form-name"
+                      value={formName}
+                      onChange={(e) => setFormName(e.target.value)}
+                      placeholder="e.g., Restaurant Feedback Form"
+                      className="w-full"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      This name is for your internal reference only
+                    </p>
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="logo-upload" className="text-sm font-medium">
-                    Logo
-                  </Label>
-                  <div className="relative">
-                    <input
+                  <div className="space-y-2">
+                    <Label htmlFor="logo-upload" className="text-sm font-medium">
+                      Logo
+                    </Label>
+                    <Input
                       id="logo-upload"
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
-                      className="hidden"
+                      className="w-full"
                     />
-                    <label
-                      htmlFor="logo-upload"
-                      className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors"
-                    >
-                      {logo ? (
-                        <img src={logo} alt="Logo" className="h-full object-contain" />
-                      ) : (
-                        <div className="text-center">
-                          <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">Upload Logo</span>
-                        </div>
-                      )}
-                    </label>
+                    {logo && (
+                      <div className="mt-2">
+                        <img src={logo} alt="Logo preview" className="h-16 object-contain" />
+                      </div>
+                    )}
                   </div>
                 </div>
 
