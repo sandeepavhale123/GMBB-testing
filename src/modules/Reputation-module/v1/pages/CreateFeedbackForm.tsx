@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Upload, Eye } from "lucide-react";
 import { toast } from "@/hooks/toast/use-toast";
 import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
@@ -28,6 +35,12 @@ const reviewSites: ReviewSite[] = [
   { id: "airbnb", name: "Airbnb", icon: FaAirbnb, color: "#FF385C", textColor: "#fff" },
 ];
 
+const ratingThresholds = [
+  { value: 3, label: "3 stars or above" },
+  { value: 4, label: "4 stars or above" },
+  { value: 5, label: "5 stars only" },
+];
+
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -39,6 +52,7 @@ export const CreateFeedbackForm: React.FC = () => {
     "We'd love to hear from you! Share your experience by leaving us a review."
   );
   const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
+  const [positiveRatingThreshold, setPositiveRatingThreshold] = useState(4);
   const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
   const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
   const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
@@ -103,6 +117,21 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleSave = () => {
+    const formData = {
+      formName,
+      logo,
+      title,
+      subtitle,
+      positiveRatingThreshold,
+      positiveFeedbackTitle,
+      reviewSiteUrls,
+      successTitle,
+      successSubtitle,
+      formFields,
+    };
+    
+    console.log("Form data:", formData);
+    
     toast({
       title: "Form Created",
       description: "Your feedback form has been created successfully",
@@ -245,6 +274,30 @@ export const CreateFeedbackForm: React.FC = () => {
                     onChange={(e) => setSubtitle(e.target.value)}
                     className="min-h-[80px] resize-none"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="rating-threshold" className="text-sm font-medium">
+                    Positive Feedback Threshold
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    Choose the minimum star rating that you consider as positive feedback
+                  </p>
+                  <Select
+                    value={positiveRatingThreshold.toString()}
+                    onValueChange={(value) => setPositiveRatingThreshold(Number(value))}
+                  >
+                    <SelectTrigger id="rating-threshold" className="w-full">
+                      <SelectValue placeholder="Select rating threshold" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ratingThresholds.map((threshold) => (
+                        <SelectItem key={threshold.value} value={threshold.value.toString()}>
+                          {threshold.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="flex gap-3">
