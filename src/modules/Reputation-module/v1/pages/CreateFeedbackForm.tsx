@@ -438,7 +438,10 @@ export const CreateFeedbackForm: React.FC = () => {
                       <Input placeholder="Enter name" />
                       <Input placeholder="Enter email or phone" />
                       <Textarea placeholder="Your feedback..." className="min-h-[100px]" />
-                      <Button className="w-full">Send Feedback</Button>
+                      <div className="flex gap-3">
+                        <Button variant="outline" className="flex-1">Reset Form</Button>
+                        <Button className="flex-1">Submit Feedback</Button>
+                      </div>
                     </div>
                   </>
                 )}
