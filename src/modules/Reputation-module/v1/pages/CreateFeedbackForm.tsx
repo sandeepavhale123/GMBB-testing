@@ -409,7 +409,12 @@ export const CreateFeedbackForm: React.FC = () => {
 
           {/* Right Panel - Preview Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6 hidden lg:block">
-            <h3 className="text-sm font-medium text-foreground">Preview</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium text-foreground">Preview</h3>
+              {formName && (
+                <span className="text-sm font-medium text-muted-foreground">{formName}</span>
+              )}
+            </div>
 
             <div className="bg-muted rounded-lg p-8 flex items-center justify-center min-h-[500px]">
               <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
