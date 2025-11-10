@@ -127,6 +127,12 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         removeField(field.id);
                       }}
                       className="flex-shrink-0"
+                      disabled={field.name === "name" || field.type === "email"}
+                      title={
+                        field.name === "name" || field.type === "email"
+                          ? "This field cannot be removed"
+                          : "Remove field"
+                      }
                     >
                       <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
