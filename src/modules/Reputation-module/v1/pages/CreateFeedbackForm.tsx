@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/select";
 import { Upload, Eye } from "lucide-react";
 import { toast } from "@/hooks/toast/use-toast";
-import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
-import { SiTrustpilot } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
@@ -22,17 +20,17 @@ import { FormBuilderModal } from "../components/FormBuilderModal";
 type ReviewSite = {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  logo: string;
   color: string;
   textColor: string;
 };
 
 const reviewSites: ReviewSite[] = [
-  { id: "google", name: "Google", icon: FaGoogle, color: "#4285F4", textColor: "#fff" },
-  { id: "facebook", name: "Facebook", icon: FaFacebook, color: "#1877F2", textColor: "#fff" },
-  { id: "tripadvisor", name: "Tripadvisor", icon: FaTripadvisor, color: "#00AF87", textColor: "#fff" },
-  { id: "trustpilot", name: "Trustpilot", icon: SiTrustpilot, color: "#00B67A", textColor: "#fff" },
-  { id: "airbnb", name: "Airbnb", icon: FaAirbnb, color: "#FF385C", textColor: "#fff" },
+  { id: "google", name: "Google", logo: "/lovable-uploads/social-icons/google.svg", color: "#4285F4", textColor: "#fff" },
+  { id: "facebook", name: "Facebook", logo: "/lovable-uploads/social-icons/facebook.svg", color: "#1877F2", textColor: "#fff" },
+  { id: "tripadvisor", name: "Tripadvisor", logo: "/lovable-uploads/social-icons/tripadvisor.svg", color: "#00AF87", textColor: "#fff" },
+  { id: "trustpilot", name: "Trustpilot", logo: "/lovable-uploads/social-icons/trustpilot.svg", color: "#00B67A", textColor: "#fff" },
+  { id: "airbnb", name: "Airbnb", logo: "/lovable-uploads/social-icons/airbnb.svg", color: "#FF385C", textColor: "#fff" },
 ];
 
 const ratingThresholds = [
@@ -94,6 +92,16 @@ export const CreateFeedbackForm: React.FC = () => {
         setLogo(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const isValidUrl = (url: string) => {
+    if (!url) return true; // Empty is valid (optional)
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
     }
   };
 
@@ -329,26 +337,42 @@ export const CreateFeedbackForm: React.FC = () => {
 
                 <div className="space-y-4">
                   <Label className="text-sm font-medium">Review Sites</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Add review URLs for the platforms where you want to collect positive feedback
+                  </p>
                   <div className="space-y-3">
                     {reviewSites.map((site) => {
-                      const IconComponent = site.icon;
+                      const urlValue = reviewSiteUrls[site.id] || "";
+                      const hasError = urlValue && !isValidUrl(urlValue);
                       return (
-                        <div
-                          key={site.id}
-                          className="flex items-center gap-3 p-4 rounded-lg border bg-card"
-                        >
-                          <span style={{ color: site.color }}>
-                            <IconComponent className="w-6 h-6" />
-                          </span>
-                          <span className="text-sm font-medium text-foreground min-w-[100px]">
-                            {site.name}
-                          </span>
-                          <Input
-                            placeholder="Enter review URL"
-                            value={reviewSiteUrls[site.id] || ""}
-                            onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
-                            className="flex-1"
-                          />
+                        <div key={site.id} className="space-y-1">
+                          <div
+                            className={cn(
+                              "flex items-center gap-3 p-4 rounded-lg border bg-card",
+                              hasError && "border-destructive"
+                            )}
+                          >
+                            <img 
+                              src={site.logo} 
+                              alt={`${site.name} logo`}
+                              className="w-6 h-6"
+                              style={{ filter: `brightness(0) saturate(100%)`, color: site.color }}
+                            />
+                            <span className="text-sm font-medium text-foreground min-w-[100px]">
+                              {site.name}
+                            </span>
+                            <Input
+                              placeholder="https://example.com/review"
+                              value={urlValue}
+                              onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
+                              className={cn("flex-1", hasError && "border-destructive")}
+                            />
+                          </div>
+                          {hasError && (
+                            <p className="text-xs text-destructive ml-10">
+                              Please enter a valid URL (must start with http:// or https://)
+                            </p>
+                          )}
                         </div>
                       );
                     })}
@@ -515,19 +539,22 @@ export const CreateFeedbackForm: React.FC = () => {
                     </div>
                     <div className="flex flex-col gap-3">
                       {reviewSites
-                        .filter((site) => reviewSiteUrls[site.id])
+                        .filter((site) => reviewSiteUrls[site.id] && isValidUrl(reviewSiteUrls[site.id]))
                         .map((site) => {
-                          const IconComponent = site.icon;
                           return (
                             <button
                               key={site.id}
-                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium"
+                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-transform hover:scale-105"
                               style={{
                                 backgroundColor: site.color,
                                 color: site.textColor,
                               }}
                             >
-                              <IconComponent className="w-5 h-5" />
+                              <img 
+                                src={site.logo} 
+                                alt={`${site.name} logo`}
+                                className="w-5 h-5 brightness-0 invert"
+                              />
                               <span>Review on {site.name}</span>
                             </button>
                           );
