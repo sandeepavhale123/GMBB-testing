@@ -53,8 +53,8 @@ export const CreateFeedbackForm: React.FC = () => {
   );
   const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
   const [positiveRatingThreshold, setPositiveRatingThreshold] = useState(4);
-  const [successTitle, setSuccessTitle] = useState("Thanks, your feedback has been submitted!");
-  const [successSubtitle, setSuccessSubtitle] = useState("We really appreciate your comments.");
+  const [successTitle, setSuccessTitle] = useState("Thank you for your feedback!");
+  const [successSubtitle, setSuccessSubtitle] = useState("We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.");
   const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
   const [formFields, setFormFields] = useState<FormField[]>([
     {
