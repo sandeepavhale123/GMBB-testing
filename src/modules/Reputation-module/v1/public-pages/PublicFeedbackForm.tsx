@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent } from "@/components/ui/card";
 import { Star, ExternalLink, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import type { FormField } from "@/modules/Reputation-module/types/formBuilder.types";
@@ -16,7 +17,7 @@ export const PublicFeedbackForm: React.FC = () => {
   const { formId } = useParams<{ formId: string }>();
   const { data, isLoading, error } = useGetFeedbackFormPublic(formId || "");
 
-  const [currentStep, setCurrentStep] = useState<FormStep>("rating");
+  const [currentStep, setCurrentStep] = useState<FormStep>("form");
   const [starRating, setStarRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
@@ -33,7 +34,13 @@ export const PublicFeedbackForm: React.FC = () => {
 
   const handleStarClick = (rating: number) => {
     setStarRating(rating);
-    setCurrentStep("form");
+    
+    // Determine next step based on rating threshold
+    if (rating >= (data?.data?.positiveRatingThreshold || 4)) {
+      setCurrentStep("review-sites");
+    } else {
+      setCurrentStep("success");
+    }
   };
 
   const handleInputChange = (fieldName: string, value: any) => {
@@ -79,19 +86,8 @@ export const PublicFeedbackForm: React.FC = () => {
       return;
     }
 
-    setIsSubmitting(true);
-
-    // Simulate submission (replace with actual API call later)
-    setTimeout(() => {
-      setIsSubmitting(false);
-
-      // Check if rating meets threshold for review sites
-      if (starRating >= (data?.data?.positiveRatingThreshold || 4)) {
-        setCurrentStep("review-sites");
-      } else {
-        setCurrentStep("success");
-      }
-    }, 1000);
+    // After form validation, go to rating step
+    setCurrentStep("rating");
   };
 
   const renderField = (field: FormField) => {
@@ -172,192 +168,174 @@ export const PublicFeedbackForm: React.FC = () => {
   // Loading State
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </CardContent>
+      </Card>
     );
   }
 
   // Error State
   if (error || !data) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Form Not Found</h2>
-          <p className="text-muted-foreground">
-            The feedback form you're looking for doesn't exist or has been removed.
-          </p>
-        </div>
-      </div>
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="flex flex-col items-center justify-center min-h-[400px] space-y-4 p-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-foreground mb-2">Form Not Found</h2>
+            <p className="text-muted-foreground">
+              The feedback form you're looking for doesn't exist or has been removed.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   const formConfig = data.data;
 
-  // Rating Step
+  // Step 2: Star Rating (after form submission)
   if (currentStep === "rating") {
     return (
-      <div className="space-y-6">
-        {formConfig.logo && (
-          <div className="flex justify-center mb-6">
-            <img
-              src={formConfig.logo}
-              alt={formConfig.formName}
-              className="h-20 w-auto object-contain"
-            />
-          </div>
-        )}
-
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">{formConfig.title}</h1>
-          <p className="text-muted-foreground text-lg">{formConfig.subtitle}</p>
-        </div>
-
-        <div className="flex justify-center gap-2 py-8">
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <button
-              key={rating}
-              onClick={() => handleStarClick(rating)}
-              onMouseEnter={() => setHoveredStar(rating)}
-              onMouseLeave={() => setHoveredStar(0)}
-              className="transition-transform hover:scale-110 focus:outline-none"
-            >
-              <Star
-                className="h-12 w-12"
-                fill={
-                  rating <= (hoveredStar || starRating)
-                    ? "hsl(var(--chart-1))"
-                    : "none"
-                }
-                stroke={
-                  rating <= (hoveredStar || starRating)
-                    ? "hsl(var(--chart-1))"
-                    : "hsl(var(--muted-foreground))"
-                }
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="p-6 md:p-8 space-y-6">
+          {formConfig.logo && (
+            <div className="flex justify-center mb-6">
+              <img
+                src={formConfig.logo}
+                alt={formConfig.formName}
+                className="h-20 w-auto object-contain"
               />
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
+            </div>
+          )}
 
-  // Form Step
-  if (currentStep === "form") {
-    return (
-      <div className="space-y-6">
-        {formConfig.logo && (
-          <div className="flex justify-center mb-4">
-            <img
-              src={formConfig.logo}
-              alt={formConfig.formName}
-              className="h-16 w-auto object-contain"
-            />
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold text-foreground">
+              How would you rate your experience?
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Please select a rating below
+            </p>
           </div>
-        )}
 
-        <div className="text-center space-y-1 mb-6">
-          <h2 className="text-2xl font-bold text-foreground">{formConfig.title}</h2>
-          <div className="flex justify-center gap-1 mt-2">
+          <div className="flex justify-center gap-2 py-8">
             {[1, 2, 3, 4, 5].map((rating) => (
-              <Star
+              <button
                 key={rating}
-                className="h-6 w-6"
-                fill={rating <= starRating ? "hsl(var(--chart-1))" : "none"}
-                stroke={
-                  rating <= starRating
-                    ? "hsl(var(--chart-1))"
-                    : "hsl(var(--muted-foreground))"
-                }
-              />
+                onClick={() => handleStarClick(rating)}
+                onMouseEnter={() => setHoveredStar(rating)}
+                onMouseLeave={() => setHoveredStar(0)}
+                className="transition-transform hover:scale-110 focus:outline-none"
+              >
+                <Star
+                  className="h-12 w-12"
+                  fill={
+                    rating <= (hoveredStar || starRating) ? "#FFC107" : "none"
+                  }
+                  stroke={
+                    rating <= (hoveredStar || starRating) ? "#FFC107" : "#9CA3AF"
+                  }
+                />
+              </button>
             ))}
           </div>
-        </div>
-
-        <div className="space-y-4">
-          {formFields
-            .sort((a, b) => a.order - b.order)
-            .map((field) => renderField(field))}
-        </div>
-
-        <Button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className="w-full"
-          size="lg"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Submitting...
-            </>
-          ) : (
-            "Submit Feedback"
-          )}
-        </Button>
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
-  // Review Sites Step
+  // Step 1: Form Fields (initial step)
+  if (currentStep === "form") {
+    return (
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="p-6 md:p-8 space-y-6">
+          {formConfig.logo && (
+            <div className="flex justify-center mb-4">
+              <img
+                src={formConfig.logo}
+                alt={formConfig.formName}
+                className="h-16 w-auto object-contain"
+              />
+            </div>
+          )}
+
+          <div className="text-center space-y-1 mb-6">
+            <h2 className="text-2xl font-bold text-foreground">
+              {formConfig.title}
+            </h2>
+            <p className="text-muted-foreground">{formConfig.subtitle}</p>
+          </div>
+
+          <div className="space-y-4">
+            {formFields
+              .sort((a, b) => a.order - b.order)
+              .map((field) => renderField(field))}
+          </div>
+
+          <Button onClick={handleSubmit} className="w-full" size="lg">
+            Continue
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Step 3: Review Sites (for positive ratings)
   if (currentStep === "review-sites") {
     const validReviewSites = Object.entries(reviewSiteUrls).filter(
       ([_, url]) => url && url.trim() !== ""
     );
 
     return (
-      <div className="space-y-6 text-center">
-        <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="p-6 md:p-8 space-y-6 text-center">
+          <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
 
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">
-            {formConfig.positiveFeedbackTitle}
-          </h2>
-        </div>
-
-        {validReviewSites.length > 0 && (
-          <div className="space-y-3 pt-4">
-            {validReviewSites.map(([site, url]) => (
-              <Button
-                key={site}
-                onClick={() => window.open(url, "_blank")}
-                variant="outline"
-                className="w-full"
-                size="lg"
-              >
-                Leave a review on {site.charAt(0).toUpperCase() + site.slice(1)}
-                <ExternalLink className="h-4 w-4 ml-2" />
-              </Button>
-            ))}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-foreground">
+              {formConfig.positiveFeedbackTitle}
+            </h2>
           </div>
-        )}
 
-        <Button
-          onClick={() => setCurrentStep("success")}
-          variant="ghost"
-          className="w-full mt-4"
-        >
-          Skip
-        </Button>
-      </div>
+          {validReviewSites.length > 0 && (
+            <div className="space-y-3 pt-4">
+              {validReviewSites.map(([site, url]) => (
+                <Button
+                  key={site}
+                  onClick={() => window.open(url, "_blank")}
+                  variant="outline"
+                  className="w-full"
+                  size="lg"
+                >
+                  Leave a review on{" "}
+                  {site.charAt(0).toUpperCase() + site.slice(1)}
+                  <ExternalLink className="h-4 w-4 ml-2" />
+                </Button>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     );
   }
 
-  // Success Step
+  // Step 4: Success Message
   if (currentStep === "success") {
     return (
-      <div className="space-y-6 text-center py-8">
-        <CheckCircle2 className="h-20 w-20 text-green-500 mx-auto" />
+      <Card className="w-full bg-white shadow-lg">
+        <CardContent className="p-6 md:p-8 space-y-6 text-center">
+          <CheckCircle2 className="h-20 w-20 text-green-500 mx-auto" />
 
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold text-foreground">
-            {formConfig.successTitle}
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            {formConfig.successSubtitle}
-          </p>
-        </div>
-      </div>
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold text-foreground">
+              {formConfig.successTitle}
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              {formConfig.successSubtitle}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
