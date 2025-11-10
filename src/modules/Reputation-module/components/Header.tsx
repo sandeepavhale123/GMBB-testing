@@ -18,6 +18,7 @@ export const Header: React.FC = () => {
   const { profileData } = useProfile();
   const location = useLocation();
   const pathname = location.pathname;
+  const isV1Module = pathname.includes('/v1');
 
   return (
     <header 
@@ -46,8 +47,12 @@ export const Header: React.FC = () => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-3">
-          <ReputationListingSwitcher />
-          <ReputationListingSwitcherMobile />
+          {!isV1Module && (
+            <>
+              <ReputationListingSwitcher />
+              <ReputationListingSwitcherMobile />
+            </>
+          )}
           <LanguageSwitcher />
           <ModulesMegaMenu />
           <NotificationsMegaMenu />
