@@ -555,16 +555,12 @@ export const CreateFeedbackForm: React.FC = () => {
                           return (
                             <button
                               key={site.id}
-                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-transform hover:scale-105"
-                              style={{
-                                backgroundColor: site.color,
-                                color: site.textColor,
-                              }}
+                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-transform hover:scale-105"
                             >
                               <img 
                                 src={site.logo} 
                                 alt={`${site.name} logo`}
-                                className="w-5 h-5 object-contain brightness-0 invert"
+                                className="w-5 h-5 object-contain"
                               />
                               <span>Review on {site.name}</span>
                             </button>
