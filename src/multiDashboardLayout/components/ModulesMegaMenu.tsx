@@ -48,6 +48,13 @@ export const ModulesMegaMenu: React.FC = () => {
       href: "/module/reputation",
       beta: true,
     },
+    {
+      name: "Reputation v1",
+      description: "Simple feedback collection and management",
+      icon: Star,
+      href: "/module/reputation/v1/dashboard",
+      beta: true,
+    },
   ];
   const [isOpen, setIsOpen] = useState(false);
   const [dashboardType, setDashboardType] = useState<number | null>(null);

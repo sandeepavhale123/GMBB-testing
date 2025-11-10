@@ -12,6 +12,9 @@ import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeed
 import { Setting } from "@/modules/Reputation-module/pages/Setting";
 import { QRCodePoster } from "@/modules/Reputation-module/pages/QRCodePoster";
 import { ReputationOnboarding } from "@/modules/Reputation-module/pages/ReputationOnboarding";
+import { Dashboard as V1Dashboard } from "@/modules/Reputation-module/v1/pages/Dashboard";
+import { CreateFeedbackForm as V1CreateFeedbackForm } from "@/modules/Reputation-module/v1/pages/CreateFeedbackForm";
+import { FeedbackDetails as V1FeedbackDetails } from "@/modules/Reputation-module/v1/pages/FeedbackDetails";
 import type { RouteConfig } from "../routeConfig";
 
 export const reputationModuleRoutes: RouteConfig[] = [
@@ -76,6 +79,30 @@ export const reputationModuleRoutes: RouteConfig[] = [
       {
         path: "onboarding",
         element: <ReputationOnboarding />,
+      },
+    ],
+  },
+  {
+    path: "/module/reputation/v1",
+    element: (
+      <ProtectedRoute>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1, 2]}>
+          <ReputationLayout />
+        </DashboardTypeGuard>
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "dashboard",
+        element: <V1Dashboard />,
+      },
+      {
+        path: "create-feedback-form",
+        element: <V1CreateFeedbackForm />,
+      },
+      {
+        path: "feedback/:id",
+        element: <V1FeedbackDetails />,
       },
     ],
   },
