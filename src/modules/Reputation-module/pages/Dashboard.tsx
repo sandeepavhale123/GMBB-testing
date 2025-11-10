@@ -2,21 +2,8 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Star,
-  MessageSquare,
-  TrendingUp,
-  BarChart3,
-  Plus,
-  ExternalLink
-} from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Star, MessageSquare, TrendingUp, BarChart3, Plus, ExternalLink } from "lucide-react";
 
 // TODO: Replace with real API call when backend is ready
 // Example: const { data: summaryData, isLoading } = useReputationSummary();
@@ -61,42 +48,38 @@ const mockConnectedChannels = [
   {
     name: "Google Business Profile",
     status: "connected",
-    icon:"/lovable-uploads/social-icons/google.png",
+    icon: "/lovable-uploads/social-icons/google.png",
     reviewCount: 856,
-    lastSync: "2 hours ago"
+    lastSync: "2 hours ago",
   },
   {
     name: "Facebook",
     status: "connected",
-    icon:"/lovable-uploads/social-icons/facebook.png",
+    icon: "/lovable-uploads/social-icons/facebook.png",
     reviewCount: 234,
-    lastSync: "1 day ago"
+    lastSync: "1 day ago",
   },
   {
     name: "Yelp",
     status: "disconnected",
-    icon:"/lovable-uploads/social-icons/yelp.png",
+    icon: "/lovable-uploads/social-icons/yelp.png",
     reviewCount: 0,
-    lastSync: "Never"
+    lastSync: "Never",
   },
 ];
 
 export const Dashboard: React.FC = () => {
   const [selectedChannel, setSelectedChannel] = useState("google");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            Reputation Management Dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Monitor and manage your online reputation across all platforms
-          </p>
+          <h1 className="text-2xl font-bold text-foreground">Reputation Management Dashboard.</h1>
+          <p className="text-muted-foreground">Monitor and manage your online reputation across all platforms</p>
         </div>
       </div>
 
@@ -111,17 +94,11 @@ export const Dashboard: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1 space-y-1">
-                  <h3 className="text-sm font-medium text-muted-foreground">
-                    {card.title}
-                  </h3>
-                  <div className="text-3xl font-bold text-foreground">
-                    {card.value}
-                  </div>
+                  <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+                  <div className="text-3xl font-bold text-foreground">{card.value}</div>
                   <p className="text-xs text-muted-foreground">{card.subtitle}</p>
                 </div>
-                <div
-                  className={`${card.bgColor} rounded-lg p-3 flex items-center justify-center ml-4`}
-                >
+                <div className={`${card.bgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
               </div>
@@ -146,18 +123,12 @@ export const Dashboard: React.FC = () => {
                     <div className="flex items-center gap-3">
                       {/* Channel Icon - Placeholder for actual icons */}
                       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                        <img
-                          src={channel.icon}
-                          alt={channel.name}
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={channel.icon} alt={channel.name} className="w-full h-full object-cover" />
                       </div>
 
                       {/* Channel Info - Single Column */}
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-foreground text-sm mb-1 truncate">
-                          {channel.name}
-                        </h4>
+                        <h4 className="font-semibold text-foreground text-sm mb-1 truncate">{channel.name}</h4>
                         {channel.status === "connected" ? (
                           <div className="space-y-2">
                             {/* Star Rating */}
@@ -165,25 +136,17 @@ export const Dashboard: React.FC = () => {
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`w-3.5 h-3.5 ${i < 4
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "fill-muted text-muted"
-                                    }`}
+                                  className={`w-3.5 h-3.5 ${
+                                    i < 4 ? "fill-yellow-400 text-yellow-400" : "fill-muted text-muted"
+                                  }`}
                                 />
                               ))}
-                              <span className="text-xs font-medium text-foreground ml-0.5">
-                                4.5
-                              </span>
+                              <span className="text-xs font-medium text-foreground ml-0.5">4.5</span>
                             </div>
-
-
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <span className="text-xs text-muted-foreground block">
-                              Not connected
-                            </span>
-
+                            <span className="text-xs text-muted-foreground block">Not connected</span>
                           </div>
                         )}
                       </div>
@@ -196,15 +159,11 @@ export const Dashboard: React.FC = () => {
                           Connect
                         </Button>
                       )}
-
-
                     </div>
                   </div>
 
                   {/* Divider - Don't show after last item */}
-                  {index < mockConnectedChannels.length - 1 && (
-                    <div className="border-b border-border/60" />
-                  )}
+                  {index < mockConnectedChannels.length - 1 && <div className="border-b border-border/60" />}
                 </React.Fragment>
               ))}
             </div>
@@ -295,7 +254,7 @@ export const Dashboard: React.FC = () => {
 
       <hr />
       <div className="flex justify-end">
-        <p onClick={()=>navigate('/module/reputation/onboarding')}>Onboarding Step</p>
+        <p onClick={() => navigate("/module/reputation/onboarding")}>Onboarding Step</p>
       </div>
     </div>
   );
