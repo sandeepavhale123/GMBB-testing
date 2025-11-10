@@ -427,14 +427,6 @@ export const CreateFeedbackForm: React.FC = () => {
                 {/* Content based on current step */}
                 {currentStep === 1 && (
                   <>
-                    <div className="text-center">
-                      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-                    </div>
-                    {subtitle && (
-                      <div className="text-center">
-                        <p className="text-sm text-muted-foreground">{subtitle}</p>
-                      </div>
-                    )}
                     <div className="space-y-4">
                       <Input placeholder="Enter name" />
                       <Input placeholder="Enter email or phone" />
