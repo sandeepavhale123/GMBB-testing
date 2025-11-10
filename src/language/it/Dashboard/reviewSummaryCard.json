@@ -1,7 +1,8 @@
 {
-  "reviewSummaryTitle": "Riepilogo Recensioni",
+  "reviewSummaryTitle": "Riepilogo delle Recensioni",
   "tryAgainButton": "Riprova",
   "reviewsLabel": "{{count}} recensioni",
   "errorTitle": "Errore",
-  "errorDescription": "Qualcosa è andato storto. Per favore, riprova."
+  "errorDescription": "Qualcosa è andato storto. Per favore riprova.",
+  "viewAll": "Vedi tutto"
 }

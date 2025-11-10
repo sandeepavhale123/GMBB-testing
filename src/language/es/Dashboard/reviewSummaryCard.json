@@ -1,7 +1,8 @@
 {
   "reviewSummaryTitle": "Resumen de Reseñas",
-  "tryAgainButton": "Intentar de Nuevo",
+  "tryAgainButton": "Intentar de nuevo",
   "reviewsLabel": "{{count}} reseñas",
   "errorTitle": "Error",
-  "errorDescription": "Algo salió mal. Por favor, inténtalo de nuevo."
+  "errorDescription": "Algo salió mal. Por favor, inténtalo de nuevo.",
+  "viewAll": "Ver todas"
 }

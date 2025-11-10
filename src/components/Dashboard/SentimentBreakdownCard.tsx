@@ -104,7 +104,7 @@ export const SentimentBreakdownCard: React.FC = () => {
             to={`/reviews/${selectedListing?.id || "default"}`}
             className="text-sm text-primary hover:underline"
           >
-            View All
+            {t("viewAll")}
           </Link>
         </div>
       </CardHeader>
