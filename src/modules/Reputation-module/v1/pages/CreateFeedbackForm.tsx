@@ -136,30 +136,53 @@ export const CreateFeedbackForm: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-sm font-medium">
-                    Title
-                  </Label>
-                  <Textarea
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="min-h-[80px] resize-none"
-                    placeholder="Enter title..."
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="subtitle" className="text-sm font-medium">
-                    Subtitle
-                  </Label>
-                  <Textarea
-                    id="subtitle"
-                    value={subtitle}
-                    onChange={(e) => setSubtitle(e.target.value)}
-                    className="min-h-[80px] resize-none"
-                    placeholder="Enter subtitle..."
-                  />
+                <div className="border rounded-lg p-4 space-y-4">
+                  {/* Header with title and edit button */}
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold">Feedback form</h3>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => toast({ title: "Form editing coming soon" })}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                  
+                  {/* Predefined form fields preview */}
+                  <div className="space-y-3 bg-muted/30 p-4 rounded-md">
+                    {/* Name field */}
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium">Name *</Label>
+                      <Input 
+                        type="text" 
+                        placeholder="Enter your name" 
+                        disabled 
+                        className="bg-background"
+                      />
+                    </div>
+                    
+                    {/* Email field */}
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium">Email *</Label>
+                      <Input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        disabled 
+                        className="bg-background"
+                      />
+                    </div>
+                    
+                    {/* Comment field */}
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium">Comment *</Label>
+                      <Textarea 
+                        placeholder="Enter your comment" 
+                        disabled 
+                        className="bg-background min-h-[80px] resize-none"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <Button onClick={handleNext} className="w-full" size="lg">
