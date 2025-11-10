@@ -50,13 +50,13 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [editingField, setEditingField] = useState<string | null>(null);
 
-  // Sync fields when modal opens or initialFields change
+  // Sync fields when modal opens
   useEffect(() => {
     if (open) {
       setFields(initialFields);
       setEditingField(null);
     }
-  }, [open, initialFields]);
+  }, [open]);
 
   const addField = () => {
     const newField: FormField = {
