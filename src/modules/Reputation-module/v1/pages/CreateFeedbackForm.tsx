@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/select";
 import { Upload, Eye } from "lucide-react";
 import { toast } from "@/hooks/toast/use-toast";
-import { FaGoogle, FaFacebook, FaTripadvisor, FaAirbnb } from "react-icons/fa";
-import { SiTrustpilot } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
@@ -22,18 +20,29 @@ import { FormBuilderModal } from "../components/FormBuilderModal";
 type ReviewSite = {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  logo: string;
   color: string;
   textColor: string;
 };
 
 const reviewSites: ReviewSite[] = [
-  { id: "google", name: "Google", icon: FaGoogle, color: "#4285F4", textColor: "#fff" },
-  { id: "facebook", name: "Facebook", icon: FaFacebook, color: "#1877F2", textColor: "#fff" },
-  { id: "tripadvisor", name: "Tripadvisor", icon: FaTripadvisor, color: "#00AF87", textColor: "#fff" },
-  { id: "trustpilot", name: "Trustpilot", icon: SiTrustpilot, color: "#00B67A", textColor: "#fff" },
-  { id: "airbnb", name: "Airbnb", icon: FaAirbnb, color: "#FF385C", textColor: "#fff" },
+  { id: "google", name: "Google", logo: "/lovable-uploads/social-icons/google.png", color: "#4285F4", textColor: "#fff" },
+  { id: "facebook", name: "Facebook", logo: "/lovable-uploads/social-icons/facebook.png", color: "#1877F2", textColor: "#fff" },
+  { id: "tripadvisor", name: "Tripadvisor", logo: "/lovable-uploads/social-icons/tripadvisor.png", color: "#00AF87", textColor: "#fff" },
+  { id: "trustpilot", name: "Trustpilot", logo: "/lovable-uploads/social-icons/trustpilot.png", color: "#00B67A", textColor: "#fff" },
+  { id: "airbnb", name: "Airbnb", logo: "/lovable-uploads/social-icons/airbnb.png", color: "#FF385C", textColor: "#fff" },
 ];
+
+// URL validation helper
+const isValidUrl = (url: string): boolean => {
+  if (!url || url.trim() === "") return false;
+  try {
+    const urlObj = new URL(url);
+    return urlObj.protocol === "http:" || urlObj.protocol === "https:";
+  } catch {
+    return false;
+  }
+};
 
 const ratingThresholds = [
   { value: 3, label: "3 stars or above" },
@@ -52,6 +61,7 @@ export const CreateFeedbackForm: React.FC = () => {
     "We'd love to hear from you! Share your experience by leaving us a review."
   );
   const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
+  const [urlErrors, setUrlErrors] = useState<Record<string, string>>({});
   const [positiveRatingThreshold, setPositiveRatingThreshold] = useState(4);
   const [successTitle, setSuccessTitle] = useState("Thank you for your feedback!");
   const [successSubtitle, setSuccessSubtitle] = useState("We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.");
@@ -102,6 +112,20 @@ export const CreateFeedbackForm: React.FC = () => {
       ...prev,
       [siteId]: url,
     }));
+
+    // Validate URL
+    if (url && !isValidUrl(url)) {
+      setUrlErrors((prev) => ({
+        ...prev,
+        [siteId]: "Please enter a valid URL (e.g., https://example.com)",
+      }));
+    } else {
+      setUrlErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[siteId];
+        return newErrors;
+      });
+    }
   };
 
   const handleNext = () => {
@@ -329,26 +353,37 @@ export const CreateFeedbackForm: React.FC = () => {
 
                 <div className="space-y-4">
                   <Label className="text-sm font-medium">Review Sites</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to users.
+                  </p>
                   <div className="space-y-3">
                     {reviewSites.map((site) => {
-                      const IconComponent = site.icon;
                       return (
-                        <div
-                          key={site.id}
-                          className="flex items-center gap-3 p-4 rounded-lg border bg-card"
-                        >
-                          <span style={{ color: site.color }}>
-                            <IconComponent className="w-6 h-6" />
-                          </span>
-                          <span className="text-sm font-medium text-foreground min-w-[100px]">
-                            {site.name}
-                          </span>
-                          <Input
-                            placeholder="Enter review URL"
-                            value={reviewSiteUrls[site.id] || ""}
-                            onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
-                            className="flex-1"
-                          />
+                        <div key={site.id} className="space-y-2">
+                          <div
+                            className="flex items-center gap-3 p-4 rounded-lg border bg-card"
+                          >
+                            <img 
+                              src={site.logo} 
+                              alt={`${site.name} logo`}
+                              className="w-6 h-6 object-contain"
+                            />
+                            <span className="text-sm font-medium text-foreground min-w-[100px]">
+                              {site.name}
+                            </span>
+                            <Input
+                              placeholder="https://example.com/review"
+                              value={reviewSiteUrls[site.id] || ""}
+                              onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
+                              className={cn(
+                                "flex-1",
+                                urlErrors[site.id] && "border-destructive focus-visible:ring-destructive"
+                              )}
+                            />
+                          </div>
+                          {urlErrors[site.id] && (
+                            <p className="text-xs text-destructive pl-4">{urlErrors[site.id]}</p>
+                          )}
                         </div>
                       );
                     })}
@@ -515,19 +550,22 @@ export const CreateFeedbackForm: React.FC = () => {
                     </div>
                     <div className="flex flex-col gap-3">
                       {reviewSites
-                        .filter((site) => reviewSiteUrls[site.id])
+                        .filter((site) => reviewSiteUrls[site.id] && isValidUrl(reviewSiteUrls[site.id]))
                         .map((site) => {
-                          const IconComponent = site.icon;
                           return (
                             <button
                               key={site.id}
-                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium"
+                              className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium transition-transform hover:scale-105"
                               style={{
                                 backgroundColor: site.color,
                                 color: site.textColor,
                               }}
                             >
-                              <IconComponent className="w-5 h-5" />
+                              <img 
+                                src={site.logo} 
+                                alt={`${site.name} logo`}
+                                className="w-5 h-5 object-contain brightness-0 invert"
+                              />
                               <span>Review on {site.name}</span>
                             </button>
                           );
