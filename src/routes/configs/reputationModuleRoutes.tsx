@@ -15,6 +15,8 @@ import { ReputationOnboarding } from "@/modules/Reputation-module/pages/Reputati
 import { Dashboard as V1Dashboard } from "@/modules/Reputation-module/v1/pages/Dashboard";
 import { CreateFeedbackForm as V1CreateFeedbackForm } from "@/modules/Reputation-module/v1/pages/CreateFeedbackForm";
 import { FeedbackDetails as V1FeedbackDetails } from "@/modules/Reputation-module/v1/pages/FeedbackDetails";
+import { PublicFeedbackForm } from "@/modules/Reputation-module/v1/public-pages/PublicFeedbackForm";
+import { PublicReputationLayout } from "@/modules/Reputation-module/public-pages/PublicReputationLayout";
 import type { RouteConfig } from "../routeConfig";
 
 export const reputationModuleRoutes: RouteConfig[] = [
@@ -105,5 +107,13 @@ export const reputationModuleRoutes: RouteConfig[] = [
         element: <V1FeedbackDetails />,
       },
     ],
+  },
+  {
+    path: "/feedback/:formId",
+    element: (
+      <PublicReputationLayout>
+        <PublicFeedbackForm />
+      </PublicReputationLayout>
+    ),
   },
 ];

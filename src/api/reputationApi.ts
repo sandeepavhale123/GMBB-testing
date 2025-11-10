@@ -1,5 +1,6 @@
 import apiClient from "@/api/axiosInstance";
-import { useMutation } from "@tanstack/react-query";
+import { publicAxiosInstance } from "@/api/publicAxiosInstance";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 // API Request/Response Interfaces
 export interface CreateFeedbackFormRequest {
@@ -61,5 +62,44 @@ export const createFeedbackForm = async (
 export const useCreateFeedbackForm = () => {
   return useMutation({
     mutationFn: createFeedbackForm,
+  });
+};
+
+// Get Feedback Form (Public) - No authentication required
+export interface GetFeedbackFormResponse {
+  code: number;
+  message: string;
+  data: {
+    formName: string;
+    logo: string;
+    title: string;
+    subtitle: string;
+    positiveRatingThreshold: number;
+    positiveFeedbackTitle: string;
+    reviewSiteUrls: string; // JSON string
+    successTitle: string;
+    successSubtitle: string;
+    formFields: string; // JSON string
+    formId: string;
+    created_at: string;
+  };
+}
+
+export const getFeedbackFormPublic = async (
+  formId: string
+): Promise<GetFeedbackFormResponse> => {
+  const response = await publicAxiosInstance.post<GetFeedbackFormResponse>(
+    "/reputation/get-feedback-form",
+    { formId }
+  );
+  return response.data;
+};
+
+// React Query Hook for Public Feedback Form
+export const useGetFeedbackFormPublic = (formId: string) => {
+  return useQuery({
+    queryKey: ["feedbackForm", formId],
+    queryFn: () => getFeedbackFormPublic(formId),
+    enabled: !!formId,
   });
 };
