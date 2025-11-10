@@ -435,9 +435,38 @@ export const CreateFeedbackForm: React.FC = () => {
                 {currentStep === 1 && (
                   <>
                     <div className="space-y-4">
-                      <Input placeholder="Enter name" />
-                      <Input placeholder="Enter email or phone" />
-                      <Textarea placeholder="Your feedback..." className="min-h-[100px]" />
+                      {formFields.map((field) => (
+                        <div key={field.id} className="space-y-1.5">
+                          <Label className="text-sm font-medium">
+                            {field.label} {field.required && <span className="text-destructive">*</span>}
+                          </Label>
+                          {field.type === "textarea" ? (
+                            <Textarea 
+                              placeholder={field.placeholder || ""} 
+                              className="min-h-[100px] resize-none"
+                            />
+                          ) : field.type === "select" ? (
+                            <div className="relative">
+                              <select 
+                                className="w-full px-3 py-2 border border-input rounded-md bg-background text-sm"
+                                disabled
+                              >
+                                <option>{field.placeholder || "Select an option"}</option>
+                                {field.options?.map((opt) => (
+                                  <option key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : (
+                            <Input 
+                              type={field.type === "text" || field.type === "email" || field.type === "number" || field.type === "date" ? field.type : "text"} 
+                              placeholder={field.placeholder || ""} 
+                            />
+                          )}
+                        </div>
+                      ))}
                       <div className="flex gap-3">
                         <Button variant="outline" className="flex-1">Reset Form</Button>
                         <Button className="flex-1">Submit Feedback</Button>
