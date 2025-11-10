@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star, Eye } from "lucide-react";
-import { getFeedbackFormById, getFeedbackResponses } from "@/utils/feedbackStorage";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -65,18 +64,10 @@ export const FeedbackDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackResponse | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [formDetails, setFormDetails] = useState<any>(null);
-  const [feedbackResponses, setFeedbackResponses] = useState<FeedbackResponse[]>([]);
 
-  useEffect(() => {
-    if (id) {
-      const form = getFeedbackFormById(id);
-      const responses = getFeedbackResponses(id);
-
-      setFormDetails(form || mockFormDetails);
-      setFeedbackResponses(responses as any);
-    }
-  }, [id]);
+  const feedbackResponses = mockFeedbackResponses.filter(
+    (response) => response.form_id === id
+  );
 
   const handleViewDetails = (response: FeedbackResponse) => {
     setSelectedFeedback(response);
@@ -87,7 +78,7 @@ export const FeedbackDetails: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">{formDetails?.name || "Feedback Details"}</h1>
+        <h1 className="text-3xl font-bold text-foreground">{mockFormDetails.name}</h1>
         <p className="text-muted-foreground mt-1">
           View and manage feedback responses
         </p>

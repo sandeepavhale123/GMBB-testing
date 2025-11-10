@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FeedbackStatsCards } from "../components/FeedbackStatsCards";
 import { FeedbackFormTable } from "../components/FeedbackFormTable";
-import { toast } from "@/hooks/toast/use-toast";
-import { getFeedbackForms, deleteFeedbackForm } from "@/utils/feedbackStorage";
 import type { FeedbackForm } from "../types";
 
 // Mock data - replace with API call later
@@ -42,49 +40,14 @@ const mockFeedbackForms: FeedbackForm[] = [
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [forms, setForms] = useState<FeedbackForm[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Load forms from localStorage on mount
-  useEffect(() => {
-    const loadForms = () => {
-      try {
-        const storedForms = getFeedbackForms();
-        setForms(storedForms as any);
-      } catch (error) {
-        console.error("Failed to load forms:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load feedback forms",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadForms();
-  }, []);
+  const [forms, setForms] = useState<FeedbackForm[]>(mockFeedbackForms);
 
   const totalFeedback = forms.reduce((acc, form) => acc + form.feedback_count, 0);
   const thisMonthFeedback = 28; // Mock data
   const averageResponseRate = 75; // Mock data
 
   const handleDeleteForm = (id: string) => {
-    try {
-      deleteFeedbackForm(id);
-      setForms((prev) => prev.filter((form) => form.id !== id));
-      toast({
-        title: "Form Deleted",
-        description: "Feedback form has been deleted successfully",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete feedback form",
-        variant: "destructive",
-      });
-    }
+    setForms((prev) => prev.filter((form) => form.id !== id));
   };
 
   return (

@@ -12,7 +12,6 @@ import { toast } from "@/hooks/toast/use-toast";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
-import { saveFeedbackForm } from "@/utils/feedbackStorage";
 
 type ReviewSite = {
   id: string;
@@ -170,56 +169,26 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleSave = () => {
-    // Validate URLs before saving
-    const hasUrlErrors = Object.keys(urlErrors).length > 0;
-    if (hasUrlErrors) {
-      toast({
-        title: "Invalid URLs",
-        description: "Please fix invalid URLs before saving",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!formName.trim()) {
-      toast({
-        title: "Validation Error",
-        description: "Please enter a form name",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const formData = {
-      name: formName,
-      logo: logo || "",
+      formName,
+      logo,
       title,
       subtitle,
-      positive_rating_threshold: positiveRatingThreshold,
-      positive_feedback_title: positiveFeedbackTitle,
-      positive_feedback_urls: reviewSiteUrls,
-      success_title: successTitle,
-      success_subtitle: successSubtitle,
-      form_fields: formFields,
+      positiveRatingThreshold,
+      positiveFeedbackTitle,
+      reviewSiteUrls,
+      successTitle,
+      successSubtitle,
+      formFields,
     };
 
-    try {
-      const savedForm = saveFeedbackForm(formData);
+    console.log("Form data:", formData);
 
-      toast({
-        title: "Form Created",
-        description: "Your feedback form has been created successfully",
-      });
-
-      // Navigate back to dashboard
-      navigate("/module/reputation/v1/dashboard");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save feedback form",
-        variant: "destructive",
-      });
-    }
+    toast({
+      title: "Form Created",
+      description: "Your feedback form has been created successfully",
+    });
+    navigate("/module/reputation/v1/dashboard");
   };
 
   const stepTitles = [
