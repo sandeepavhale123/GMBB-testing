@@ -409,22 +409,24 @@ export const CreateFeedbackForm: React.FC = () => {
 
           {/* Right Panel - Preview Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6 hidden lg:block">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-foreground">Preview</h3>
-              {formName && (
-                <span className="text-sm font-medium text-muted-foreground">{formName}</span>
-              )}
-            </div>
+            <h3 className="text-sm font-medium text-foreground">Preview</h3>
 
             <div className="bg-muted rounded-lg p-8 flex items-center justify-center min-h-[500px]">
               <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
                 {/* Logo Display */}
-                <div className="flex justify-center">
-                  {logo ? (
-                    <img src={logo} alt="Logo Preview" className="h-20 object-contain" />
-                  ) : (
-                    <div className="bg-muted px-8 py-6 rounded text-center">
-                      <span className="text-lg font-bold text-muted-foreground">LOGO</span>
+                <div className="space-y-3">
+                  <div className="flex justify-center">
+                    {logo ? (
+                      <img src={logo} alt="Logo Preview" className="h-20 object-contain" />
+                    ) : (
+                      <div className="bg-muted px-8 py-6 rounded text-center">
+                        <span className="text-lg font-bold text-muted-foreground">LOGO</span>
+                      </div>
+                    )}
+                  </div>
+                  {formName && (
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-foreground">{formName}</p>
                     </div>
                   )}
                 </div>
