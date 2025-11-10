@@ -1,6 +1,6 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Calendar, Mail, MessageSquare, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Star, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -11,6 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { format } from "date-fns";
 import type { FeedbackResponse } from "../types";
 
@@ -22,6 +28,7 @@ const mockFeedbackResponses: FeedbackResponse[] = [
     name: "John Doe",
     email_or_phone: "john@example.com",
     comment: "Great service! The staff was very friendly and helpful.",
+    star_rating: 5,
     submitted_at: "2024-01-16T09:30:00Z",
   },
   {
@@ -30,6 +37,7 @@ const mockFeedbackResponses: FeedbackResponse[] = [
     name: "Jane Smith",
     email_or_phone: "+1234567890",
     comment: "Good experience overall. Would recommend to friends.",
+    star_rating: 4,
     submitted_at: "2024-01-17T14:20:00Z",
   },
   {
@@ -38,6 +46,7 @@ const mockFeedbackResponses: FeedbackResponse[] = [
     name: "Mike Johnson",
     email_or_phone: "mike.j@email.com",
     comment: "Excellent! Everything was perfect from start to finish.",
+    star_rating: 5,
     submitted_at: "2024-01-18T11:15:00Z",
   },
 ];
@@ -53,62 +62,33 @@ const mockFormDetails = {
 
 export const FeedbackDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackResponse | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const feedbackResponses = mockFeedbackResponses.filter(
     (response) => response.form_id === id
   );
 
+  const handleViewDetails = (response: FeedbackResponse) => {
+    setSelectedFeedback(response);
+    setDialogOpen(true);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate("/module/reputation/v1/dashboard")}
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">{mockFormDetails.name}</h1>
-          <p className="text-muted-foreground mt-1">
-            View and manage feedback responses
-          </p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">{mockFormDetails.name}</h1>
+        <p className="text-muted-foreground mt-1">
+          View and manage feedback responses
+        </p>
       </div>
-
-      {/* Form Details Card */}
-      <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Form Configuration</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm text-muted-foreground">Title</p>
-            <p className="font-medium">{mockFormDetails.title}</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Subtitle</p>
-            <p className="font-medium">{mockFormDetails.subtitle}</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Created</p>
-            <p className="font-medium">
-              {format(new Date(mockFormDetails.created_at), "MMM dd, yyyy")}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Total Responses</p>
-            <p className="font-medium">{mockFormDetails.feedback_count}</p>
-          </div>
-        </div>
-      </Card>
 
       {/* Feedback Responses */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Feedback Responses</h2>
         {feedbackResponses.length === 0 ? (
           <Card className="p-12 text-center">
-            <MessageSquare className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground text-lg">No feedback received yet</p>
             <p className="text-sm text-muted-foreground mt-2">
               Share your feedback form to start collecting responses
@@ -120,8 +100,7 @@ export const FeedbackDetails: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Comment</TableHead>
+                  <TableHead>Star Rating</TableHead>
                   <TableHead>Submitted</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -131,17 +110,18 @@ export const FeedbackDetails: React.FC = () => {
                   <TableRow key={response.id}>
                     <TableCell className="font-medium">{response.name}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2 text-sm">
-                        {response.email_or_phone.includes("@") ? (
-                          <Mail className="w-4 h-4 text-muted-foreground" />
-                        ) : (
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                        )}
-                        {response.email_or_phone}
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < response.star_rating
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-muted-foreground"
+                            }`}
+                          />
+                        ))}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <p className="max-w-md truncate text-sm">{response.comment}</p>
                     </TableCell>
                     <TableCell className="text-sm">
                       {format(new Date(response.submitted_at), "MMM dd, yyyy HH:mm")}
@@ -150,9 +130,10 @@ export const FeedbackDetails: React.FC = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-destructive hover:text-destructive"
+                        onClick={() => handleViewDetails(response)}
+                        title="View Details"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Eye className="w-4 h-4" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -162,6 +143,56 @@ export const FeedbackDetails: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Feedback Details Dialog */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Feedback Details</DialogTitle>
+          </DialogHeader>
+          {selectedFeedback && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Name</p>
+                  <p className="font-medium">{selectedFeedback.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Contact</p>
+                  <p className="font-medium">{selectedFeedback.email_or_phone}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Submitted</p>
+                  <p className="font-medium">
+                    {format(new Date(selectedFeedback.submitted_at), "MMM dd, yyyy HH:mm")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${
+                          i < selectedFeedback.star_rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-muted-foreground"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Comment</p>
+                <Card className="p-4">
+                  <p className="text-foreground">{selectedFeedback.comment}</p>
+                </Card>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

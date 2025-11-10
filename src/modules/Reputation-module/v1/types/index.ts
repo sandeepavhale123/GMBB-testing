@@ -19,5 +19,6 @@ export interface FeedbackResponse {
   name: string;
   email_or_phone: string;
   comment: string;
+  star_rating: number;
   submitted_at: string;
 }
