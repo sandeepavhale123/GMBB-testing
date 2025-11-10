@@ -128,11 +128,6 @@ export const CreateFeedbackForm: React.FC = () => {
                       onChange={handleLogoUpload}
                       className="w-full"
                     />
-                    {logo && (
-                      <div className="mt-2">
-                        <img src={logo} alt="Logo preview" className="h-16 object-contain" />
-                      </div>
-                    )}
                   </div>
                 </div>
 
