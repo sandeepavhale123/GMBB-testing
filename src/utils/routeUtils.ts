@@ -18,6 +18,7 @@ const publicReportRoutes = [
   '/multi-dashboard-report/',
   '/sharable-GEO-ranking-report/',
   '/review-feedback',
+  '/feedback/',
 ];
 
 /**
