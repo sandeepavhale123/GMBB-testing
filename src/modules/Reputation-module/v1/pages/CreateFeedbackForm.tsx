@@ -349,9 +349,6 @@ export const CreateFeedbackForm: React.FC = () => {
                   <Button onClick={handleSave} className="flex-1" size="lg">
                     Save
                   </Button>
-                  <Button variant="outline" size="lg">
-                    <Eye className="w-4 h-4" />
-                  </Button>
                 </div>
               </>
             )}
