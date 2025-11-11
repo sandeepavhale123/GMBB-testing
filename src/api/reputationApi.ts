@@ -104,6 +104,92 @@ export const useGetFeedbackFormPublic = (formId: string) => {
   });
 };
 
+// Get Feedback Form (Authenticated) - For editing
+export const getFeedbackForm = async (
+  formId: string
+): Promise<GetFeedbackFormResponse> => {
+  const response = await apiClient.post<GetFeedbackFormResponse>(
+    "/reputation/get-feedback-form",
+    { formId }
+  );
+  return response.data;
+};
+
+// React Query Hook for Authenticated Get
+export const useGetFeedbackForm = (formId: string | undefined) => {
+  return useQuery({
+    queryKey: ["feedbackForm", "authenticated", formId],
+    queryFn: () => getFeedbackForm(formId!),
+    enabled: !!formId, // Only fetch if formId exists
+  });
+};
+
+// Update Feedback Form Request Interface
+export interface UpdateFeedbackFormRequest {
+  formId: string;
+  formName: string;
+  logo: File | null;
+  formFields: string;
+  title: string;
+  subtitle: string;
+  positiveRatingThreshold: string;
+  positiveFeedbackTitle: string;
+  reviewSiteUrls: string;
+  successTitle: string;
+  successSubtitle: string;
+}
+
+// Update Feedback Form Response
+export interface UpdateFeedbackFormResponse {
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    name: string;
+    form_url: string;
+  };
+}
+
+// Update API Function
+export const updateFeedbackForm = async (
+  data: UpdateFeedbackFormRequest
+): Promise<UpdateFeedbackFormResponse> => {
+  const formData = new FormData();
+  
+  formData.append("formId", data.formId);
+  formData.append("formName", data.formName);
+  if (data.logo) {
+    formData.append("logo", data.logo);
+  }
+  formData.append("formFields", data.formFields);
+  formData.append("title", data.title);
+  formData.append("subtitle", data.subtitle);
+  formData.append("positiveRatingThreshold", data.positiveRatingThreshold);
+  formData.append("positiveFeedbackTitle", data.positiveFeedbackTitle);
+  formData.append("reviewSiteUrls", data.reviewSiteUrls);
+  formData.append("successTitle", data.successTitle);
+  formData.append("successSubtitle", data.successSubtitle);
+
+  const response = await apiClient.post<UpdateFeedbackFormResponse>(
+    "/reputation/update-feedback-form",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  
+  return response.data;
+};
+
+// React Query Hook for Update
+export const useUpdateFeedbackForm = () => {
+  return useMutation({
+    mutationFn: updateFeedbackForm,
+  });
+};
+
 // Submit Feedback Form (Public) - No authentication required
 export interface SubmitFeedbackFormRequest {
   formId: string;

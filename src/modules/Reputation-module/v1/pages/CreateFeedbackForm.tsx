@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,7 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
-import { useCreateFeedbackForm } from "@/api/reputationApi";
+import { useCreateFeedbackForm, useUpdateFeedbackForm, useGetFeedbackForm } from "@/api/reputationApi";
 import { FormCreatedSuccessModal } from "../components/FormCreatedSuccessModal";
 
 type ReviewSite = {
@@ -80,6 +80,8 @@ const ratingThresholds = [
 
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
+  const { formId } = useParams<{ formId: string }>();
+  const isEditMode = !!formId;
   const [currentStep, setCurrentStep] = useState(1);
   const [formName, setFormName] = useState("");
   const [formNameError, setFormNameError] = useState("");
@@ -132,6 +134,49 @@ export const CreateFeedbackForm: React.FC = () => {
   const [createdFormUrl, setCreatedFormUrl] = useState("");
 
   const createFormMutation = useCreateFeedbackForm();
+  const updateFormMutation = useUpdateFeedbackForm();
+  const { data: existingFormData, isLoading: isLoadingForm } = useGetFeedbackForm(formId);
+
+  // Pre-populate form fields when editing
+  React.useEffect(() => {
+    if (isEditMode && existingFormData?.data) {
+      const data = existingFormData.data;
+      
+      // Basic fields
+      setFormName(data.formName);
+      setTitle(data.title);
+      setSubtitle(data.subtitle);
+      setPositiveFeedbackTitle(data.positiveFeedbackTitle);
+      setPositiveRatingThreshold(data.positiveRatingThreshold);
+      setSuccessTitle(data.successTitle);
+      setSuccessSubtitle(data.successSubtitle);
+      
+      // Parse JSON fields
+      try {
+        if (data.formFields) {
+          const fields = JSON.parse(data.formFields);
+          setFormFields(fields);
+        }
+      } catch (error) {
+        console.error("Failed to parse form fields:", error);
+      }
+      
+      try {
+        if (data.reviewSiteUrls) {
+          const urls = JSON.parse(data.reviewSiteUrls);
+          setReviewSiteUrls(urls);
+        }
+      } catch (error) {
+        console.error("Failed to parse review site URLs:", error);
+      }
+      
+      // Set logo preview (URL from server)
+      if (data.logo) {
+        setLogo(data.logo);
+        // Note: logoFile remains null since we're not re-uploading
+      }
+    }
+  }, [isEditMode, existingFormData]);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -234,30 +279,57 @@ export const CreateFeedbackForm: React.FC = () => {
     }
 
     try {
-      const response = await createFormMutation.mutateAsync({
-        formName,
-        logo: logoFile,
-        formFields: JSON.stringify(formFields),
-        title,
-        subtitle,
-        positiveRatingThreshold: positiveRatingThreshold.toString(),
-        positiveFeedbackTitle,
-        reviewSiteUrls: JSON.stringify(reviewSiteUrls),
-        successTitle,
-        successSubtitle,
-      });
+      if (isEditMode && formId) {
+        // UPDATE MODE
+        const response = await updateFormMutation.mutateAsync({
+          formId,
+          formName,
+          logo: logoFile, // Only if new file uploaded
+          formFields: JSON.stringify(formFields),
+          title,
+          subtitle,
+          positiveRatingThreshold: positiveRatingThreshold.toString(),
+          positiveFeedbackTitle,
+          reviewSiteUrls: JSON.stringify(reviewSiteUrls),
+          successTitle,
+          successSubtitle,
+        });
 
-      setCreatedFormUrl(response.data.form_url);
-      setIsSuccessModalOpen(true);
+        toast({
+          title: "Success!",
+          description: response.message || "Feedback form updated successfully",
+        });
 
-      toast({
-        title: "Success!",
-        description: response.message || "Feedback form created successfully",
-      });
+        // Navigate back to dashboard after successful update
+        navigate("/module/reputation/v1/dashboard");
+      } else {
+        // CREATE MODE
+        const response = await createFormMutation.mutateAsync({
+          formName,
+          logo: logoFile,
+          formFields: JSON.stringify(formFields),
+          title,
+          subtitle,
+          positiveRatingThreshold: positiveRatingThreshold.toString(),
+          positiveFeedbackTitle,
+          reviewSiteUrls: JSON.stringify(reviewSiteUrls),
+          successTitle,
+          successSubtitle,
+        });
+
+        setCreatedFormUrl(response.data.form_url);
+        setIsSuccessModalOpen(true);
+
+        toast({
+          title: "Success!",
+          description: response.message || "Feedback form created successfully",
+        });
+      }
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error?.response?.data?.message || "Failed to create feedback form",
+        description: error?.response?.data?.message || 
+          `Failed to ${isEditMode ? "update" : "create"} feedback form`,
         variant: "destructive",
       });
     }
@@ -270,6 +342,18 @@ export const CreateFeedbackForm: React.FC = () => {
     "Success Message",
   ];
 
+  // Show loading state when fetching existing form data
+  if (isEditMode && isLoadingForm) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading form data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -277,9 +361,13 @@ export const CreateFeedbackForm: React.FC = () => {
           {/* Left Panel - Form Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">{stepTitles[currentStep - 1]}</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                {isEditMode ? "Edit Feedback Form" : stepTitles[currentStep - 1]}
+              </h1>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-sm text-muted-foreground">Step {currentStep} of 4</span>
+                <span className="text-sm text-muted-foreground">
+                  {isEditMode ? "Editing existing form" : `Step ${currentStep} of 4`}
+                </span>
               </div>
             </div>
 
@@ -582,9 +670,12 @@ export const CreateFeedbackForm: React.FC = () => {
                     onClick={handleSave} 
                     className="flex-1" 
                     size="lg"
-                    disabled={createFormMutation.isPending}
+                    disabled={createFormMutation.isPending || updateFormMutation.isPending}
                   >
-                    {createFormMutation.isPending ? "Saving..." : "Save"}
+                    {isEditMode 
+                      ? (updateFormMutation.isPending ? "Updating..." : "Update Form")
+                      : (createFormMutation.isPending ? "Saving..." : "Save")
+                    }
                   </Button>
                 </div>
               </>

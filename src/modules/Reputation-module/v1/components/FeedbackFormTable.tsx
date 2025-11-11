@@ -215,7 +215,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => navigate(`/module/reputation/v1/edit-feedback-form/${form.id}`)}
+                          onClick={() => navigate(`/module/reputation/v1/edit-feedback-form/${form.form_id}`)}
                           title="Edit Form"
                         >
                           <Pencil className="w-4 h-4" />

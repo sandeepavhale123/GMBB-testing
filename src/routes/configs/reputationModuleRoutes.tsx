@@ -103,6 +103,10 @@ export const reputationModuleRoutes: RouteConfig[] = [
         element: <V1CreateFeedbackForm />,
       },
       {
+        path: "edit-feedback-form/:formId",
+        element: <V1CreateFeedbackForm />,
+      },
+      {
         path: "feedback/:id",
         element: <V1FeedbackDetails />,
       },
