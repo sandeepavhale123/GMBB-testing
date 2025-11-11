@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Copy, Trash2, Eye, Search, Loader2 } from "lucide-react";
+import { Copy, Trash2, Eye, Search, Loader2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -211,6 +211,14 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                           title="View Details"
                         >
                           <Eye className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => navigate(`/module/reputation/v1/edit-feedback-form/${form.id}`)}
+                          title="Edit Form"
+                        >
+                          <Pencil className="w-4 h-4" />
                         </Button>
                         <Button
                           variant="ghost"
