@@ -251,7 +251,14 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                     <Input
                       id="field-label"
                       value={selectedField.label}
-                      onChange={(e) => updateField(selectedField.id, { label: e.target.value })}
+                      onChange={(e) => {
+                        const label = e.target.value;
+                        const generatedName = label.replace(/\s+/g, '_');
+                        updateField(selectedField.id, { 
+                          label,
+                          name: generatedName 
+                        });
+                      }}
                       placeholder="Field label"
                     />
                   </div>
