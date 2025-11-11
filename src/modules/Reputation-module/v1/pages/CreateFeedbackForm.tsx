@@ -325,6 +325,7 @@ export const CreateFeedbackForm: React.FC = () => {
                       onChange={handleLogoUpload}
                       className="w-full"
                     />
+                    <p className="text-xs text-muted-foreground">Optional - Upload your company logo</p>
                   </div>
                 </div>
 
