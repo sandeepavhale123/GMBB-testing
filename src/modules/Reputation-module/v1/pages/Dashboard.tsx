@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FeedbackStatsCards } from "../components/FeedbackStatsCards";
 import { FeedbackFormTable } from "../components/FeedbackFormTable";
-import { useGetAllFeedbackForms } from "@/api/reputationApi";
+import { useGetAllFeedbackForms, useDeleteFeedbackForm } from "@/api/reputationApi";
 import { transformFeedbackFormData } from "../utils/transformFeedbackData";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useToast } from "@/hooks/use-toast";
 import type { FeedbackForm } from "../types";
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -25,6 +27,9 @@ export const Dashboard: React.FC = () => {
     currentPage,
     itemsPerPage
   );
+
+  // Delete mutation
+  const deleteMutation = useDeleteFeedbackForm();
 
   // Reset to page 1 when search changes
   useEffect(() => {
@@ -67,10 +72,38 @@ export const Dashboard: React.FC = () => {
     };
   }, [data, forms, totalRecords]);
 
-  const handleDeleteForm = (id: string) => {
-    // TODO: Implement delete API when available
-    // For now, just refetch data
-    refetch();
+  const handleDeleteForm = async (id: string) => {
+    // Find the form to get its form_id (API identifier)
+    const formToDelete = forms.find(f => f.id === id);
+    
+    if (!formToDelete?.form_id) {
+      toast({
+        title: "Error",
+        description: "Unable to delete form. Form ID not found.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      // Call delete API with form_id (not display id)
+      const response = await deleteMutation.mutateAsync(formToDelete.form_id);
+      
+      // Refetch to update the list
+      await refetch();
+      
+      toast({
+        title: "Success",
+        description: response.message || "Feedback form deleted successfully",
+      });
+    } catch (error: any) {
+      console.error("Delete error:", error);
+      toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Failed to delete feedback form. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (isError) {
@@ -139,7 +172,7 @@ export const Dashboard: React.FC = () => {
         totalPages={totalPages}
         totalRecords={totalRecords}
         isServerPagination={true}
-        isLoading={isLoading}
+        isLoading={isLoading || deleteMutation.isPending}
       />
     </div>
   );

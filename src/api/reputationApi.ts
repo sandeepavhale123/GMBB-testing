@@ -143,7 +143,9 @@ export const useSubmitFeedbackForm = () => {
 // Get All Feedback Forms
 import type { 
   GetAllFeedbackFormsRequest, 
-  GetAllFeedbackFormsResponse 
+  GetAllFeedbackFormsResponse,
+  DeleteFeedbackFormRequest,
+  DeleteFeedbackFormResponse
 } from "@/modules/Reputation-module/v1/types";
 
 export const getAllFeedbackForms = async (
@@ -166,5 +168,23 @@ export const useGetAllFeedbackForms = (
     queryKey: ["feedbackForms", search, page, limit],
     queryFn: () => getAllFeedbackForms({ search, page, limit }),
     staleTime: 30000,
+  });
+};
+
+// Delete Feedback Form
+export const deleteFeedbackForm = async (
+  formId: string
+): Promise<DeleteFeedbackFormResponse> => {
+  const response = await apiClient.post<DeleteFeedbackFormResponse>(
+    "/reputation/delete-feedback-form",
+    { formId }
+  );
+  return response.data;
+};
+
+// React Query Hook for Delete
+export const useDeleteFeedbackForm = () => {
+  return useMutation({
+    mutationFn: deleteFeedbackForm,
   });
 };

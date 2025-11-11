@@ -59,3 +59,17 @@ export interface FeedbackResponse {
   star_rating: number;
   submitted_at: string;
 }
+
+export interface DeleteFeedbackFormRequest {
+  formId: string;
+}
+
+export interface DeleteFeedbackFormResponse {
+  code: number;
+  message: string;
+  data: {
+    formId: string;
+    responsesDeleted: number;
+    status: string;
+  };
+}
