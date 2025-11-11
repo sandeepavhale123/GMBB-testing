@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FileText, MessageSquare, Calendar, TrendingUp } from "lucide-react";
 
 interface FeedbackStatsCardsProps {
@@ -7,6 +8,7 @@ interface FeedbackStatsCardsProps {
   totalFeedback: number;
   thisMonthFeedback: number;
   averageResponseRate: number;
+  isLoading?: boolean;
 }
 
 export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
@@ -14,6 +16,7 @@ export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
   totalFeedback,
   thisMonthFeedback,
   averageResponseRate,
+  isLoading = false,
 }) => {
   const stats = [
     {
@@ -38,8 +41,9 @@ export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
       bgColor: "bg-purple-50",
     },
     {
-      title: "Avg Response Rate",
-      value: `${averageResponseRate.toFixed(2)}%`,
+      title: "Avg Rating",
+      value: averageResponseRate.toFixed(1),
+      suffix: "/5",
       icon: TrendingUp,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
@@ -55,7 +59,18 @@ export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">{stat.title}</p>
-                <p className="text-2xl font-bold mt-2">{stat.value}</p>
+                {isLoading ? (
+                  <Skeleton className="h-8 w-20 mt-2" />
+                ) : (
+                  <p className="text-2xl font-bold mt-2">
+                    {stat.value}
+                    {(stat as any).suffix && (
+                      <span className="text-lg text-muted-foreground ml-0.5">
+                        {(stat as any).suffix}
+                      </span>
+                    )}
+                  </p>
+                )}
               </div>
               <div className={`${stat.bgColor} p-3 rounded-lg`}>
                 <Icon className={`w-6 h-6 ${stat.color}`} />

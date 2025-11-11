@@ -274,3 +274,32 @@ export const useDeleteFeedbackForm = () => {
     mutationFn: deleteFeedbackForm,
   });
 };
+
+// Get Feedback Stats
+export interface GetFeedbackStatsResponse {
+  code: number;
+  message: string;
+  data: {
+    totalForms: number;
+    totalResponses: number;
+    responsesThisMonth: number;
+    avgRating: number;
+  };
+}
+
+export const getFeedbackStats = async (): Promise<GetFeedbackStatsResponse> => {
+  const response = await apiClient.post<GetFeedbackStatsResponse>(
+    "/reputation/get-feedback-stat",
+    {}
+  );
+  return response.data;
+};
+
+// React Query Hook for Stats
+export const useGetFeedbackStats = () => {
+  return useQuery({
+    queryKey: ["feedbackStats"],
+    queryFn: getFeedbackStats,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};

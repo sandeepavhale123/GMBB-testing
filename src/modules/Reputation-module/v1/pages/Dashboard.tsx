@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FeedbackStatsCards } from "../components/FeedbackStatsCards";
 import { FeedbackFormTable } from "../components/FeedbackFormTable";
-import { useGetAllFeedbackForms, useDeleteFeedbackForm } from "@/api/reputationApi";
+import { useGetAllFeedbackForms, useDeleteFeedbackForm, useGetFeedbackStats } from "@/api/reputationApi";
 import { transformFeedbackFormData } from "../utils/transformFeedbackData";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +31,12 @@ export const Dashboard: React.FC = () => {
   // Delete mutation
   const deleteMutation = useDeleteFeedbackForm();
 
+  // Fetch stats separately
+  const { 
+    data: statsData, 
+    isLoading: isLoadingStats 
+  } = useGetFeedbackStats();
+
   // Reset to page 1 when search changes
   useEffect(() => {
     setCurrentPage(1);
@@ -46,31 +52,25 @@ export const Dashboard: React.FC = () => {
   const totalRecords = data?.data?.total_records || 0;
   const totalPages = data?.data?.total_pages || 0;
 
-  // Calculate stats from API summary or fallback to forms array
-  const statsData = useMemo(() => {
-    // If API provides summary, use it
-    if (data?.data?.summary) {
+  // Use stats from dedicated API
+  const stats = useMemo(() => {
+    if (statsData?.data) {
       return {
-        totalForms: data.data.summary.total_forms,
-        totalFeedback: data.data.summary.total_feedback,
-        thisMonthFeedback: data.data.summary.total_feedback_this_month,
-        averageRating: data.data.summary.average_rating,
+        totalForms: statsData.data.totalForms,
+        totalFeedback: statsData.data.totalResponses,
+        thisMonthFeedback: statsData.data.responsesThisMonth,
+        averageRating: statsData.data.avgRating,
       };
     }
     
-    // Fallback: Calculate from current forms
-    const totalFeedback = forms.reduce((acc, form) => acc + form.feedback_count, 0);
-    const averageRating = forms.length > 0
-      ? forms.reduce((acc, form) => acc + (form.avg_rating || 0), 0) / forms.length
-      : 0;
-    
+    // Fallback to zeros if stats API fails
     return {
-      totalForms: totalRecords || forms.length,
-      totalFeedback,
+      totalForms: 0,
+      totalFeedback: 0,
       thisMonthFeedback: 0,
-      averageRating,
+      averageRating: 0,
     };
-  }, [data, forms, totalRecords]);
+  }, [statsData]);
 
   const handleDeleteForm = async (id: string) => {
     // Find the form to get its form_id (API identifier)
@@ -155,10 +155,11 @@ export const Dashboard: React.FC = () => {
 
       {/* Stats Cards */}
       <FeedbackStatsCards
-        totalForms={statsData.totalForms}
-        totalFeedback={statsData.totalFeedback}
-        thisMonthFeedback={statsData.thisMonthFeedback}
-        averageResponseRate={statsData.averageRating}
+        totalForms={stats.totalForms}
+        totalFeedback={stats.totalFeedback}
+        thisMonthFeedback={stats.thisMonthFeedback}
+        averageResponseRate={stats.averageRating}
+        isLoading={isLoadingStats}
       />
 
       {/* Forms Table */}
@@ -172,7 +173,7 @@ export const Dashboard: React.FC = () => {
         totalPages={totalPages}
         totalRecords={totalRecords}
         isServerPagination={true}
-        isLoading={isLoading || deleteMutation.isPending}
+        isLoading={isLoading || isLoadingStats || deleteMutation.isPending}
       />
     </div>
   );
