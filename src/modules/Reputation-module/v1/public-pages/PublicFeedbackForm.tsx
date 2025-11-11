@@ -27,13 +27,9 @@ export const PublicFeedbackForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Parse JSON fields
-  const formFields: FormField[] = data?.data?.formFields
-    ? JSON.parse(data.data.formFields)
-    : [];
-  const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls
-    ? JSON.parse(data.data.reviewSiteUrls)
-    : {};
+  // Data is already parsed from API
+  const formFields: FormField[] = data?.data?.formFields || [];
+  const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls || {};
 
   const handleStarClick = (rating: number) => {
     setStarRating(rating);

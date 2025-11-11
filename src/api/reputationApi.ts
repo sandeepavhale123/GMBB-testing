@@ -66,6 +66,8 @@ export const useCreateFeedbackForm = () => {
 };
 
 // Get Feedback Form (Public) - No authentication required
+import type { FormField } from "@/modules/Reputation-module/types/formBuilder.types";
+
 export interface GetFeedbackFormResponse {
   code: number;
   message: string;
@@ -76,10 +78,10 @@ export interface GetFeedbackFormResponse {
     subtitle: string;
     positiveRatingThreshold: number;
     positiveFeedbackTitle: string;
-    reviewSiteUrls: string; // JSON string
+    reviewSiteUrls: Record<string, string>;
     successTitle: string;
     successSubtitle: string;
-    formFields: string; // JSON string
+    formFields: FormField[];
     formId: string;
     created_at: string;
   };

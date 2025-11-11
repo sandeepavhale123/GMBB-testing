@@ -151,23 +151,13 @@ export const CreateFeedbackForm: React.FC = () => {
       setSuccessTitle(data.successTitle);
       setSuccessSubtitle(data.successSubtitle);
       
-      // Parse JSON fields
-      try {
-        if (data.formFields) {
-          const fields = JSON.parse(data.formFields);
-          setFormFields(fields);
-        }
-      } catch (error) {
-        console.error("Failed to parse form fields:", error);
+      // Data is already parsed from API
+      if (data.formFields) {
+        setFormFields(data.formFields);
       }
       
-      try {
-        if (data.reviewSiteUrls) {
-          const urls = JSON.parse(data.reviewSiteUrls);
-          setReviewSiteUrls(urls);
-        }
-      } catch (error) {
-        console.error("Failed to parse review site URLs:", error);
+      if (data.reviewSiteUrls) {
+        setReviewSiteUrls(data.reviewSiteUrls);
       }
       
       // Set logo preview (URL from server)
