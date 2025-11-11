@@ -103,3 +103,39 @@ export const useGetFeedbackFormPublic = (formId: string) => {
     enabled: !!formId,
   });
 };
+
+// Submit Feedback Form (Public) - No authentication required
+export interface SubmitFeedbackFormRequest {
+  formId: string;
+  starRating: number;
+  formData: Record<string, any>;
+}
+
+export interface SubmitFeedbackFormResponse {
+  code: number;
+  message: string;
+  data: {
+    formId: string;
+    email: string;
+    status: string;
+    starRating: number;
+    submittedAt: string;
+  };
+}
+
+export const submitFeedbackForm = async (
+  data: SubmitFeedbackFormRequest
+): Promise<SubmitFeedbackFormResponse> => {
+  const response = await publicAxiosInstance.post<SubmitFeedbackFormResponse>(
+    "/reputation/submit-feedback-form",
+    data
+  );
+  return response.data;
+};
+
+// React Query Hook for Submit Feedback
+export const useSubmitFeedbackForm = () => {
+  return useMutation({
+    mutationFn: submitFeedbackForm,
+  });
+};

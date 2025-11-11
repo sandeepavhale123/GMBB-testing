@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetFeedbackFormPublic } from "@/api/reputationApi";
+import { useGetFeedbackFormPublic, useSubmitFeedbackForm } from "@/api/reputationApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,7 @@ type FormStep = "rating" | "form" | "review-sites" | "success";
 export const PublicFeedbackForm: React.FC = () => {
   const { formId } = useParams<{ formId: string }>();
   const { data, isLoading, error } = useGetFeedbackFormPublic(formId || "");
+  const { mutate: submitFeedback } = useSubmitFeedbackForm();
 
   const [currentStep, setCurrentStep] = useState<FormStep>("form");
   const [starRating, setStarRating] = useState(0);
@@ -36,13 +37,38 @@ export const PublicFeedbackForm: React.FC = () => {
 
   const handleStarClick = (rating: number) => {
     setStarRating(rating);
+    setIsSubmitting(true);
     
-    // Determine next step based on rating threshold
-    if (rating >= (data?.data?.positiveRatingThreshold || 4)) {
-      setCurrentStep("review-sites");
-    } else {
-      setCurrentStep("success");
-    }
+    // Submit feedback form to API
+    submitFeedback(
+      {
+        formId: formId || "",
+        starRating: rating,
+        formData: formData,
+      },
+      {
+        onSuccess: () => {
+          setIsSubmitting(false);
+          
+          // Determine next step based on rating threshold
+          if (rating >= (data?.data?.positiveRatingThreshold || 4)) {
+            setCurrentStep("review-sites");
+          } else {
+            setCurrentStep("success");
+          }
+        },
+        onError: (error: any) => {
+          setIsSubmitting(false);
+          
+          // Show error toast only on failure
+          toast({
+            title: "Submission Failed",
+            description: error?.response?.data?.message || "Failed to submit feedback. Please try again.",
+            variant: "destructive",
+          });
+        },
+      }
+    );
   };
 
   const handleInputChange = (fieldName: string, value: any, isCheckbox = false) => {
@@ -338,6 +364,13 @@ export const PublicFeedbackForm: React.FC = () => {
             </p>
           </div>
 
+          {isSubmitting && (
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">Submitting your feedback...</span>
+            </div>
+          )}
+
           <div className="flex justify-center gap-2 py-8">
             {[1, 2, 3, 4, 5].map((rating) => (
               <button
@@ -345,7 +378,8 @@ export const PublicFeedbackForm: React.FC = () => {
                 onClick={() => handleStarClick(rating)}
                 onMouseEnter={() => setHoveredStar(rating)}
                 onMouseLeave={() => setHoveredStar(0)}
-                className="transition-transform hover:scale-110 focus:outline-none"
+                disabled={isSubmitting}
+                className="transition-transform hover:scale-110 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Star
                   className="h-12 w-12"
