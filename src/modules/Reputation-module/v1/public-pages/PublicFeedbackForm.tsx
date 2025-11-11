@@ -355,13 +355,10 @@ export const PublicFeedbackForm: React.FC = () => {
             </div>
           )}
 
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">
-              How would you rate your experience?
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              Please select a rating below
-            </p>
+          <div className="text-left mb-6">
+            <h2 className="text-2xl font-bold text-foreground">
+              {formConfig.formName}
+            </h2>
           </div>
 
           {isSubmitting && (
