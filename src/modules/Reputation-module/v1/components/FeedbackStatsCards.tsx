@@ -39,7 +39,7 @@ export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
     },
     {
       title: "Avg Response Rate",
-      value: `${averageResponseRate}%`,
+      value: `${averageResponseRate.toFixed(2)}%`,
       icon: TrendingUp,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
