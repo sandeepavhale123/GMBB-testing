@@ -51,6 +51,8 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   const [editingField, setEditingField] = useState<string | null>(null);
   // Raw textarea content for options-based fields
   const [optionsText, setOptionsText] = useState<string>("");
+  const [draggedFieldId, setDraggedFieldId] = useState<string | null>(null);
+  const [dragOverFieldId, setDragOverFieldId] = useState<string | null>(null);
 
   const isOptionsField = (f?: FormField) =>
     !!f && (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
@@ -86,6 +88,57 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
     if (editingField === id) {
       setEditingField(null);
     }
+  };
+
+  const handleDragStart = (e: React.DragEvent, fieldId: string) => {
+    setDraggedFieldId(fieldId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', fieldId);
+  };
+
+  const handleDragOver = (e: React.DragEvent, fieldId: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverFieldId(fieldId);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverFieldId(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropFieldId: string) => {
+    e.preventDefault();
+    
+    if (!draggedFieldId || draggedFieldId === dropFieldId) {
+      setDraggedFieldId(null);
+      setDragOverFieldId(null);
+      return;
+    }
+
+    const draggedIndex = fields.findIndex(f => f.id === draggedFieldId);
+    const dropIndex = fields.findIndex(f => f.id === dropFieldId);
+
+    if (draggedIndex === -1 || dropIndex === -1) return;
+
+    // Reorder fields array
+    const newFields = [...fields];
+    const [draggedField] = newFields.splice(draggedIndex, 1);
+    newFields.splice(dropIndex, 0, draggedField);
+
+    // Update order property for all fields
+    const reorderedFields = newFields.map((field, index) => ({
+      ...field,
+      order: index,
+    }));
+
+    setFields(reorderedFields);
+    setDraggedFieldId(null);
+    setDragOverFieldId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedFieldId(null);
+    setDragOverFieldId(null);
   };
 
   const handleSave = () => {
@@ -127,14 +180,34 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                 {fields.map((field) => (
                   <div
                     key={field.id}
-                    className={`flex items-center gap-2 p-3 border rounded-lg cursor-pointer transition-colors ${
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, field.id)}
+                    onDragOver={(e) => handleDragOver(e, field.id)}
+                    onDragLeave={handleDragLeave}
+                    onDrop={(e) => handleDrop(e, field.id)}
+                    onDragEnd={handleDragEnd}
+                    className={`flex items-center gap-2 p-3 border rounded-lg cursor-move transition-all ${
                       editingField === field.id
                         ? "border-primary bg-primary/5"
                         : "border-border hover:bg-muted/50"
+                    } ${
+                      draggedFieldId === field.id
+                        ? "opacity-50 scale-95"
+                        : ""
+                    } ${
+                      dragOverFieldId === field.id && draggedFieldId !== field.id
+                        ? "border-primary border-2 bg-primary/10"
+                        : ""
                     }`}
-                    onClick={() => setEditingField(field.id)}
+                    onClick={(e) => {
+                      if (draggedFieldId) {
+                        e.preventDefault();
+                        return;
+                      }
+                      setEditingField(field.id);
+                    }}
                   >
-                    <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 cursor-grab active:cursor-grabbing" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{field.label}</p>
                       <p className="text-xs text-muted-foreground">
