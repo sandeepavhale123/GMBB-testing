@@ -207,7 +207,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => navigate(`/module/reputation/v1/feedback/${form.id}`)}
+                          onClick={() => navigate(`/module/reputation/v1/feedback/${form.form_id}`)}
                           title="View Details"
                         >
                           <Eye className="w-4 h-4" />
