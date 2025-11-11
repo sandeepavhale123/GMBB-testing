@@ -27,8 +27,10 @@ export const PublicFeedbackForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Data is already parsed from API
-  const formFields: FormField[] = data?.data?.formFields || [];
+  // Data is already parsed from API - ensure formFields is always an array
+  const formFields: FormField[] = Array.isArray(data?.data?.formFields) 
+    ? data.data.formFields 
+    : [];
   const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls || {};
 
   const handleStarClick = (rating: number) => {
