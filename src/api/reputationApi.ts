@@ -231,7 +231,9 @@ import type {
   GetAllFeedbackFormsRequest, 
   GetAllFeedbackFormsResponse,
   DeleteFeedbackFormRequest,
-  DeleteFeedbackFormResponse
+  DeleteFeedbackFormResponse,
+  GetFeedbackDetailsRequest,
+  GetFeedbackDetailsResponse
 } from "@/modules/Reputation-module/v1/types";
 
 export const getAllFeedbackForms = async (
@@ -301,5 +303,25 @@ export const useGetFeedbackStats = () => {
     queryKey: ["feedbackStats"],
     queryFn: getFeedbackStats,
     staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Get Feedback Details API Function
+export const getFeedbackDetails = async (
+  request: GetFeedbackDetailsRequest
+): Promise<GetFeedbackDetailsResponse> => {
+  const response = await apiClient.post<GetFeedbackDetailsResponse>(
+    "/reputation/get-feedback-details",
+    request
+  );
+  return response.data;
+};
+
+// React Query Hook for Feedback Details
+export const useGetFeedbackDetails = (request: GetFeedbackDetailsRequest) => {
+  return useQuery({
+    queryKey: ["feedbackDetails", request],
+    queryFn: () => getFeedbackDetails(request),
+    staleTime: 2 * 60 * 1000, // 2 minutes
   });
 };

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Star, Eye, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,113 +26,137 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
-import type { FeedbackResponse } from "../types";
-
-// Mock data - replace with API call later
-const mockFeedbackResponses: FeedbackResponse[] = [
-  {
-    id: "1",
-    form_id: "1",
-    name: "John Doe",
-    email_or_phone: "john@example.com",
-    comment: "Great service! The staff was very friendly and helpful.",
-    star_rating: 5,
-    submitted_at: "2024-01-16T09:30:00Z",
-  },
-  {
-    id: "2",
-    form_id: "1",
-    name: "Jane Smith",
-    email_or_phone: "+1234567890",
-    comment: "Good experience overall. Would recommend to friends.",
-    star_rating: 4,
-    submitted_at: "2024-01-17T14:20:00Z",
-  },
-  {
-    id: "3",
-    form_id: "1",
-    name: "Mike Johnson",
-    email_or_phone: "mike.j@email.com",
-    comment: "Excellent! Everything was perfect from start to finish.",
-    star_rating: 5,
-    submitted_at: "2024-01-18T11:15:00Z",
-  },
-];
-
-const mockFormDetails = {
-  id: "1",
-  name: "Restaurant Feedback",
-  title: "How was your dining experience?",
-  subtitle: "We value your feedback",
-  created_at: "2024-01-15T10:30:00Z",
-  feedback_count: 45,
-};
+import { useToast } from "@/hooks/use-toast";
+import { useGetFeedbackDetails } from "@/api/reputationApi";
+import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
+import type { FeedbackDetailResponse, GetFeedbackDetailsRequest } from "../types";
 
 export const FeedbackDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackResponse | null>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackDetailResponse | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [starFilter, setStarFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Filter responses by form ID
-  const formResponses = mockFeedbackResponses.filter(
-    (response) => response.form_id === id
-  );
+  // Build API request
+  const apiRequest: GetFeedbackDetailsRequest = useMemo(() => ({
+    formId: id || "",
+    search: searchQuery,
+    starRating: starFilter === "all" ? "" : starFilter,
+    page: currentPage,
+    limit: itemsPerPage,
+  }), [id, searchQuery, starFilter, currentPage]);
 
-  // Apply search filter
-  const searchFiltered = useMemo(() => {
-    if (!searchQuery.trim()) return formResponses;
-    
-    const query = searchQuery.toLowerCase();
-    return formResponses.filter((response) => 
-      response.name.toLowerCase().includes(query) ||
-      response.email_or_phone.toLowerCase().includes(query) ||
-      response.comment.toLowerCase().includes(query)
-    );
-  }, [formResponses, searchQuery]);
-
-  // Apply star rating filter
-  const starFiltered = useMemo(() => {
-    if (starFilter === "all") return searchFiltered;
-    
-    const selectedRating = parseInt(starFilter);
-    return searchFiltered.filter((response) => response.star_rating === selectedRating);
-  }, [searchFiltered, starFilter]);
-
-  // Apply pagination
-  const paginatedResponses = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return starFiltered.slice(startIndex, endIndex);
-  }, [starFiltered, currentPage, itemsPerPage]);
-
-  // Calculate pagination metadata
-  const totalPages = Math.ceil(starFiltered.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, starFiltered.length);
+  // Fetch data from API
+  const { 
+    data: feedbackData, 
+    isLoading, 
+    isError, 
+    error 
+  } = useGetFeedbackDetails(apiRequest);
 
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, starFilter]);
 
-  const handleViewDetails = (response: FeedbackResponse) => {
+  // Handle share button
+  const handleShare = async () => {
+    if (!feedbackData?.data.feedbackForm.formUrl) return;
+    
+    try {
+      await navigator.clipboard.writeText(feedbackData.data.feedbackForm.formUrl);
+      toast({
+        title: "Link Copied!",
+        description: "Feedback form URL has been copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please copy the URL manually",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleViewDetails = (response: FeedbackDetailResponse) => {
     setSelectedFeedback(response);
     setDialogOpen(true);
   };
 
+  // Show loading state
+  if (isLoading && !feedbackData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading feedback details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (isError) {
+    return (
+      <Card className="p-12 text-center">
+        <p className="text-destructive text-lg font-semibold">Failed to load feedback details</p>
+        <p className="text-sm text-muted-foreground mt-2">
+          {error?.message || "Please try again later"}
+        </p>
+        <Button onClick={() => navigate("/module/reputation/v1/dashboard")} className="mt-4">
+          Back to Dashboard
+        </Button>
+      </Card>
+    );
+  }
+
+  // No data from API
+  if (!feedbackData?.data) {
+    return (
+      <Card className="p-12 text-center">
+        <p className="text-muted-foreground text-lg">Form not found</p>
+        <Button onClick={() => navigate("/module/reputation/v1/dashboard")} className="mt-4">
+          Back to Dashboard
+        </Button>
+      </Card>
+    );
+  }
+
+  const { feedbackForm, sentiment, feedbackResponses, pagination } = feedbackData.data;
+  const totalPages = pagination.total_pages;
+  const startIndex = (pagination.current_page - 1) * pagination.per_page;
+  const endIndex = Math.min(startIndex + pagination.per_page, pagination.total_records);
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{mockFormDetails.name}</h1>
-        <p className="text-muted-foreground mt-1">
-          View and manage feedback responses
-        </p>
+      {/* Header with Share Button */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">{feedbackForm.formName}</h1>
+          <p className="text-muted-foreground mt-1">
+            View and manage feedback responses
+          </p>
+        </div>
+        <Button onClick={handleShare} className="gap-2">
+          <Share2 className="w-4 h-4" />
+          Share Form
+        </Button>
       </div>
+
+      {/* Summary Cards */}
+      <FeedbackSummaryCards
+        totalResponses={feedbackForm.totalResponses}
+        avgRating={feedbackForm.avgRating}
+        positiveThreshold={feedbackForm.positiveThreshold}
+        sentiment={sentiment}
+        isLoading={isLoading}
+      />
 
       {/* Feedback Responses */}
       <div>
@@ -168,15 +192,15 @@ export const FeedbackDetails: React.FC = () => {
           </Select>
         </div>
 
-        {starFiltered.length === 0 ? (
+        {feedbackResponses.length === 0 ? (
           <Card className="p-12 text-center">
             <p className="text-muted-foreground text-lg">
-              {formResponses.length === 0 
+              {pagination.total_records === 0 
                 ? "No feedback received yet" 
                 : "No feedback matches your search criteria"}
             </p>
             <p className="text-sm text-muted-foreground mt-2">
-              {formResponses.length === 0
+              {pagination.total_records === 0
                 ? "Share your feedback form to start collecting responses"
                 : "Try adjusting your search or filters"}
             </p>
@@ -194,41 +218,46 @@ export const FeedbackDetails: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedResponses.map((response) => (
-                  <TableRow key={response.id}>
-                    <TableCell className="font-medium">{response.name}</TableCell>
-                    <TableCell className="text-sm">
-                      {response.email_or_phone.includes("@") ? response.email_or_phone : "-"}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-4 h-4 ${
-                              i < response.star_rating
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-muted-foreground"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-sm">
-                      {format(new Date(response.submitted_at), "MMM dd, yyyy HH:mm")}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleViewDetails(response)}
-                        title="View Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {feedbackResponses.map((response) => {
+                  const rating = parseInt(response.starRating);
+                  return (
+                    <TableRow key={response.id}>
+                      <TableCell className="font-medium">
+                        {response.form_data.name}
+                      </TableCell>
+                      <TableCell className="text-sm">
+                        {response.form_data.email || "-"}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < rating
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-muted-foreground"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-sm">
+                        {format(new Date(response.created_at), "MMM dd, yyyy HH:mm")}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleViewDetails(response)}
+                          title="View Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
             
@@ -236,7 +265,7 @@ export const FeedbackDetails: React.FC = () => {
             {totalPages > 1 && (
               <div className="px-4 py-4 border-t flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
-                  Showing {startIndex + 1} to {endIndex} of {starFiltered.length} results
+                  Showing {startIndex + 1} to {endIndex} of {pagination.total_records} results
                 </div>
                 
                 <div className="flex items-center gap-2">
@@ -307,16 +336,16 @@ export const FeedbackDetails: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Name</p>
-                  <p className="font-medium">{selectedFeedback.name}</p>
+                  <p className="font-medium">{selectedFeedback.form_data.name}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Contact</p>
-                  <p className="font-medium">{selectedFeedback.email_or_phone}</p>
+                  <p className="text-sm text-muted-foreground mb-1">Email</p>
+                  <p className="font-medium">{selectedFeedback.form_data.email || "-"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Submitted</p>
                   <p className="font-medium">
-                    {format(new Date(selectedFeedback.submitted_at), "MMM dd, yyyy HH:mm")}
+                    {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
                   </p>
                 </div>
                 <div>
@@ -326,7 +355,7 @@ export const FeedbackDetails: React.FC = () => {
                       <Star
                         key={i}
                         className={`w-5 h-5 ${
-                          i < selectedFeedback.star_rating
+                          i < parseInt(selectedFeedback.starRating)
                             ? "fill-yellow-400 text-yellow-400"
                             : "text-muted-foreground"
                         }`}
@@ -338,7 +367,9 @@ export const FeedbackDetails: React.FC = () => {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Comment</p>
                 <Card className="p-4">
-                  <p className="text-foreground">{selectedFeedback.comment}</p>
+                  <p className="text-foreground">
+                    {selectedFeedback.form_data.comment || "No comment provided"}
+                  </p>
                 </Card>
               </div>
             </div>

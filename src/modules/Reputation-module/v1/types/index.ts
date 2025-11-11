@@ -73,3 +73,67 @@ export interface DeleteFeedbackFormResponse {
     status: string;
   };
 }
+
+// Feedback Details API Types
+export interface GetFeedbackDetailsRequest {
+  formId: string;
+  search: string;
+  starRating: string;
+  page: number;
+  limit: number;
+}
+
+export interface FeedbackDetailResponse {
+  id: string;
+  name: string;
+  email: string;
+  starRating: string;
+  form_data: {
+    name: string;
+    email: string;
+    comment: string;
+    [key: string]: any;
+  };
+  created_at: string;
+}
+
+export interface GetFeedbackDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    pagination: {
+      current_page: number;
+      per_page: number;
+      total_records: number;
+      total_pages: number;
+    };
+    feedbackForm: {
+      id: string;
+      formName: string;
+      formId: string;
+      formUrl: string;
+      logo: string;
+      title: string;
+      subtitle: string;
+      positiveThreshold: number;
+      totalResponses: number;
+      avgRating: number;
+    };
+    sentiment: {
+      total: number;
+      positive: {
+        count: number;
+        percent: number;
+      };
+      neutral: {
+        count: number;
+        percent: number;
+      };
+      negative: {
+        count: number;
+        percent: number;
+      };
+    };
+    feedbackResponses: FeedbackDetailResponse[];
+  };
+}
