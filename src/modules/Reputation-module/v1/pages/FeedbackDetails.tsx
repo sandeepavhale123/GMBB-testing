@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Star, Eye } from "lucide-react";
+import { Star, Eye, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -64,10 +72,52 @@ export const FeedbackDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackResponse | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [starFilter, setStarFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  const feedbackResponses = mockFeedbackResponses.filter(
+  // Filter responses by form ID
+  const formResponses = mockFeedbackResponses.filter(
     (response) => response.form_id === id
   );
+
+  // Apply search filter
+  const searchFiltered = useMemo(() => {
+    if (!searchQuery.trim()) return formResponses;
+    
+    const query = searchQuery.toLowerCase();
+    return formResponses.filter((response) => 
+      response.name.toLowerCase().includes(query) ||
+      response.email_or_phone.toLowerCase().includes(query) ||
+      response.comment.toLowerCase().includes(query)
+    );
+  }, [formResponses, searchQuery]);
+
+  // Apply star rating filter
+  const starFiltered = useMemo(() => {
+    if (starFilter === "all") return searchFiltered;
+    
+    const selectedRating = parseInt(starFilter);
+    return searchFiltered.filter((response) => response.star_rating === selectedRating);
+  }, [searchFiltered, starFilter]);
+
+  // Apply pagination
+  const paginatedResponses = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return starFiltered.slice(startIndex, endIndex);
+  }, [starFiltered, currentPage, itemsPerPage]);
+
+  // Calculate pagination metadata
+  const totalPages = Math.ceil(starFiltered.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, starFiltered.length);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, starFilter]);
 
   const handleViewDetails = (response: FeedbackResponse) => {
     setSelectedFeedback(response);
@@ -87,11 +137,48 @@ export const FeedbackDetails: React.FC = () => {
       {/* Feedback Responses */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Feedback Responses</h2>
-        {feedbackResponses.length === 0 ? (
+        
+        {/* Search and Filters */}
+        <div className="mb-6 flex flex-col sm:flex-row gap-4">
+          {/* Search Input */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              type="text"
+              placeholder="Search by name, email, or comment..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          {/* Star Rating Filter */}
+          <Select value={starFilter} onValueChange={setStarFilter}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="All Ratings" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Ratings</SelectItem>
+              <SelectItem value="5">5 Stars</SelectItem>
+              <SelectItem value="4">4 Stars</SelectItem>
+              <SelectItem value="3">3 Stars</SelectItem>
+              <SelectItem value="2">2 Stars</SelectItem>
+              <SelectItem value="1">1 Star</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {starFiltered.length === 0 ? (
           <Card className="p-12 text-center">
-            <p className="text-muted-foreground text-lg">No feedback received yet</p>
+            <p className="text-muted-foreground text-lg">
+              {formResponses.length === 0 
+                ? "No feedback received yet" 
+                : "No feedback matches your search criteria"}
+            </p>
             <p className="text-sm text-muted-foreground mt-2">
-              Share your feedback form to start collecting responses
+              {formResponses.length === 0
+                ? "Share your feedback form to start collecting responses"
+                : "Try adjusting your search or filters"}
             </p>
           </Card>
         ) : (
@@ -107,7 +194,7 @@ export const FeedbackDetails: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {feedbackResponses.map((response) => (
+                {paginatedResponses.map((response) => (
                   <TableRow key={response.id}>
                     <TableCell className="font-medium">{response.name}</TableCell>
                     <TableCell className="text-sm">
@@ -144,6 +231,67 @@ export const FeedbackDetails: React.FC = () => {
                 ))}
               </TableBody>
             </Table>
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="px-4 py-4 border-t flex items-center justify-between">
+                <div className="text-sm text-muted-foreground">
+                  Showing {startIndex + 1} to {endIndex} of {starFiltered.length} results
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  {/* Previous Button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Previous
+                  </Button>
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNumber;
+                      if (totalPages <= 5) {
+                        pageNumber = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNumber = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNumber = totalPages - 4 + i;
+                      } else {
+                        pageNumber = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <Button
+                          key={pageNumber}
+                          variant={currentPage === pageNumber ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setCurrentPage(pageNumber)}
+                          className="w-9 h-9 p-0"
+                        >
+                          {pageNumber}
+                        </Button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Next Button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
