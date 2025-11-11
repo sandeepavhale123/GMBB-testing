@@ -27,11 +27,48 @@ export const PublicFeedbackForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Data is already parsed from API - ensure formFields is always an array
-  const formFields: FormField[] = Array.isArray(data?.data?.formFields) 
-    ? data.data.formFields 
-    : [];
+  // Safe parser for formFields that handles multiple data formats
+  const parseFormFields = (data: any): FormField[] => {
+    try {
+      const fields = data?.data?.formFields;
+      
+      // Case 1: Already an array
+      if (Array.isArray(fields)) {
+        return fields;
+      }
+      
+      // Case 2: String that needs parsing
+      if (typeof fields === 'string' && fields.trim()) {
+        try {
+          const parsed = JSON.parse(fields);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.error('Failed to parse formFields string:', fields);
+          return [];
+        }
+      }
+      
+      // Case 3: Invalid or missing
+      console.warn('formFields is not an array or valid string:', fields);
+      return [];
+    } catch (error) {
+      console.error('Error parsing formFields:', error);
+      return [];
+    }
+  };
+
+  const formFields: FormField[] = parseFormFields(data);
   const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls || {};
+
+  // Debug: Log actual data structure
+  console.log('Form Data:', {
+    formId,
+    hasData: !!data,
+    formFieldsType: typeof data?.data?.formFields,
+    formFieldsIsArray: Array.isArray(data?.data?.formFields),
+    formFieldsLength: formFields.length,
+    formFieldsRaw: data?.data?.formFields
+  });
 
   const handleStarClick = (rating: number) => {
     setStarRating(rating);
@@ -325,11 +362,21 @@ export const PublicFeedbackForm: React.FC = () => {
     return (
       <Card className="w-full bg-white shadow-lg">
         <CardContent className="flex flex-col items-center justify-center min-h-[400px] space-y-4 p-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground mb-2">Form Not Found</h2>
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              {error ? 'Error Loading Form' : 'Form Not Found'}
+            </h2>
             <p className="text-muted-foreground">
-              The feedback form you're looking for doesn't exist or has been removed.
+              {error 
+                ? 'There was an error loading the feedback form. Please try again later.'
+                : 'The feedback form you\'re looking for doesn\'t exist or has been removed.'}
             </p>
+            {error && (
+              <details className="text-xs text-left mt-4 p-4 bg-muted rounded">
+                <summary className="cursor-pointer font-semibold">Error Details</summary>
+                <pre className="mt-2 whitespace-pre-wrap">{JSON.stringify(error, null, 2)}</pre>
+              </details>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -417,9 +464,15 @@ export const PublicFeedbackForm: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            {formFields
-              .sort((a, b) => a.order - b.order)
-              .map((field) => renderField(field))}
+            {formFields.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>No form fields configured for this form.</p>
+              </div>
+            ) : (
+              formFields
+                .sort((a, b) => a.order - b.order)
+                .map((field) => renderField(field))
+            )}
           </div>
 
           <Button onClick={handleSubmit} className="w-full" size="lg">
