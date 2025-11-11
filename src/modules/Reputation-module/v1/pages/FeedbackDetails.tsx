@@ -414,7 +414,7 @@ export const FeedbackDetails: React.FC = () => {
           </p>
           <div className="space-y-3 pr-2">
             {Object.entries(allFormData).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-3 border-l-2 border-primary/20 pl-3">
+              <div key={key} className="flex items-start gap-3 border-b border-primary/20 pb-3">
                 <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
                   {formatFieldLabel(key)}:
                 </p>
