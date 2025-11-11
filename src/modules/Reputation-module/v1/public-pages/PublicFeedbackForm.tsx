@@ -57,8 +57,42 @@ export const PublicFeedbackForm: React.FC = () => {
     }
   };
 
+  // Safe parser for reviewSiteUrls that handles multiple data formats
+  const parseReviewSiteUrls = (data: any): Record<string, string> => {
+    try {
+      const urls = data?.data?.reviewSiteUrls;
+      
+      // Case 1: Already an object
+      if (urls && typeof urls === 'object' && !Array.isArray(urls)) {
+        return urls;
+      }
+      
+      // Case 2: String that needs parsing
+      if (typeof urls === 'string' && urls.trim()) {
+        try {
+          const parsed = JSON.parse(urls);
+          if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+            return parsed;
+          }
+          console.error('Parsed reviewSiteUrls is not an object:', parsed);
+          return {};
+        } catch {
+          console.error('Failed to parse reviewSiteUrls string:', urls);
+          return {};
+        }
+      }
+      
+      // Case 3: Invalid or missing
+      console.warn('reviewSiteUrls is not an object or valid string:', urls);
+      return {};
+    } catch (error) {
+      console.error('Error parsing reviewSiteUrls:', error);
+      return {};
+    }
+  };
+
   const formFields: FormField[] = parseFormFields(data);
-  const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls || {};
+  const reviewSiteUrls: Record<string, string> = parseReviewSiteUrls(data);
 
   // Debug: Log actual data structure
   console.log('Form Data:', {
@@ -67,7 +101,10 @@ export const PublicFeedbackForm: React.FC = () => {
     formFieldsType: typeof data?.data?.formFields,
     formFieldsIsArray: Array.isArray(data?.data?.formFields),
     formFieldsLength: formFields.length,
-    formFieldsRaw: data?.data?.formFields
+    formFieldsRaw: data?.data?.formFields,
+    reviewSiteUrlsType: typeof data?.data?.reviewSiteUrls,
+    reviewSiteUrlsRaw: data?.data?.reviewSiteUrls,
+    reviewSiteUrlsParsed: reviewSiteUrls
   });
 
   const handleStarClick = (rating: number) => {
