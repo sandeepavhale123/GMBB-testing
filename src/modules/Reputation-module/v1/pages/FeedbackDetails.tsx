@@ -435,17 +435,17 @@ export const FeedbackDetails: React.FC = () => {
                       <p className="text-sm text-muted-foreground mb-3 font-semibold">
                         Additional Fields
                       </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {Object.entries(customFields).map(([key, value]) => (
-                          <div key={key} className="border-l-2 border-primary/20 pl-3">
-                            <p className="text-sm text-muted-foreground mb-1">
-                              {formatFieldLabel(key)}
-                            </p>
-                            <p className="font-medium break-words">
-                              {formatFieldValue(value)}
-                            </p>
-                          </div>
-                        ))}
+          <div className="space-y-3">
+            {Object.entries(customFields).map(([key, value]) => (
+              <div key={key} className="flex items-start gap-3 border-l-2 border-primary/20 pl-3">
+                <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
+                  {formatFieldLabel(key)}:
+                </p>
+                <p className="font-medium break-words flex-1">
+                  {formatFieldValue(value)}
+                </p>
+              </div>
+            ))}
                       </div>
                     </div>
                   );
