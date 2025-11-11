@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
+import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -372,8 +372,16 @@ export const FeedbackDetails: React.FC = () => {
       {/* Feedback Details Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[85vh]">
-          <DialogHeader>
+          <DialogHeader className="relative">
             <DialogTitle>Feedback Details</DialogTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 top-0 h-8 w-8"
+              onClick={() => setSelectedFeedback(null)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </DialogHeader>
           <div className="overflow-y-auto max-h-[calc(85vh-120px)] pr-2">
             {selectedFeedback && (
