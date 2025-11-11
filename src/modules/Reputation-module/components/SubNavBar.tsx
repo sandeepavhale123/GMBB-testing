@@ -46,6 +46,7 @@ export const SubNavBar: React.FC = () => {
   // Check if we're on v1 routes
   const isV1Route = location.pathname.startsWith("/module/reputation/v1");
   const isV1CreatePage = location.pathname === "/module/reputation/v1/create-feedback-form";
+  const isV1EditPage = location.pathname.startsWith("/module/reputation/v1/edit-feedback-form");
   const isV1DetailsPage = location.pathname.startsWith("/module/reputation/v1/feedback/");
 
   // Show back button on create-campaign, create-template, edit-template, create-feedback-form, edit-feedback-form, and review-link pages
@@ -58,7 +59,7 @@ export const SubNavBar: React.FC = () => {
   const isCreatePage = isCreateCampaignPage || isCreateTemplatePage || isEditTemplatePage || isCreateFeedbackFormPage || isEditFeedbackFormPage || isReviewLinkPage;
 
   const handleBackClick = () => {
-    if (isV1CreatePage || isV1DetailsPage) {
+    if (isV1CreatePage || isV1EditPage || isV1DetailsPage) {
       navigate("/module/reputation/v1/dashboard");
     } else if (isCreateTemplatePage || isEditTemplatePage) {
       navigate("/module/reputation/request?tab=templates");
@@ -69,7 +70,7 @@ export const SubNavBar: React.FC = () => {
     }
   };
 
-  if (isV1CreatePage || isV1DetailsPage) {
+  if (isV1CreatePage || isV1EditPage || isV1DetailsPage) {
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">
@@ -108,7 +109,7 @@ export const SubNavBar: React.FC = () => {
   }
 
   // V1 Routes: Show only "Manage feedbacks" menu
-  if (isV1Route && !isV1CreatePage && !isV1DetailsPage) {
+  if (isV1Route && !isV1CreatePage && !isV1EditPage && !isV1DetailsPage) {
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">
