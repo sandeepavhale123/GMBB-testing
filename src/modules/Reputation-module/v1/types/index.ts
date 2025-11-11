@@ -24,6 +24,12 @@ export interface GetAllFeedbackFormsResponse {
     total_records: number;
     total_pages: number;
     data: FeedbackFormApiResponse[];
+    summary?: {
+      total_forms: number;
+      total_feedback: number;
+      total_feedback_this_month: number;
+      average_rating: number;
+    };
   };
 }
 

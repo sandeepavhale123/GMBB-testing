@@ -1,26 +1,35 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FeedbackStatsCards } from "../components/FeedbackStatsCards";
 import { FeedbackFormTable } from "../components/FeedbackFormTable";
 import { useGetAllFeedbackForms } from "@/api/reputationApi";
 import { transformFeedbackFormData } from "../utils/transformFeedbackData";
+import { useDebounce } from "@/hooks/useDebounce";
 import type { FeedbackForm } from "../types";
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
+  // Debounce search to avoid excessive API calls
+  const debouncedSearch = useDebounce(searchInput, 500);
 
-  // Fetch data using React Query
+  // Fetch data using React Query with debounced search
   const { data, isLoading, isError, error, refetch } = useGetAllFeedbackForms(
-    searchQuery,
+    debouncedSearch,
     currentPage,
     itemsPerPage
   );
+
+  // Reset to page 1 when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearch]);
 
   // Transform API data to component format
   const forms = useMemo(() => {
@@ -32,28 +41,37 @@ export const Dashboard: React.FC = () => {
   const totalRecords = data?.data?.total_records || 0;
   const totalPages = data?.data?.total_pages || 0;
 
-  const totalFeedback = forms.reduce((acc, form) => acc + form.feedback_count, 0);
-  const thisMonthFeedback = 28; // Mock data - TODO: Add API endpoint
-  const averageRating = forms.length > 0
-    ? forms.reduce((acc, form) => acc + (form.avg_rating || 0), 0) / forms.length
-    : 0;
+  // Calculate stats from API summary or fallback to forms array
+  const statsData = useMemo(() => {
+    // If API provides summary, use it
+    if (data?.data?.summary) {
+      return {
+        totalForms: data.data.summary.total_forms,
+        totalFeedback: data.data.summary.total_feedback,
+        thisMonthFeedback: data.data.summary.total_feedback_this_month,
+        averageRating: data.data.summary.average_rating,
+      };
+    }
+    
+    // Fallback: Calculate from current forms
+    const totalFeedback = forms.reduce((acc, form) => acc + form.feedback_count, 0);
+    const averageRating = forms.length > 0
+      ? forms.reduce((acc, form) => acc + (form.avg_rating || 0), 0) / forms.length
+      : 0;
+    
+    return {
+      totalForms: totalRecords || forms.length,
+      totalFeedback,
+      thisMonthFeedback: 0,
+      averageRating,
+    };
+  }, [data, forms, totalRecords]);
 
   const handleDeleteForm = (id: string) => {
     // TODO: Implement delete API when available
     // For now, just refetch data
     refetch();
   };
-
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <span className="ml-3 text-lg">Loading feedback forms...</span>
-        </div>
-      </div>
-    );
-  }
 
   if (isError) {
     return (
@@ -104,23 +122,24 @@ export const Dashboard: React.FC = () => {
 
       {/* Stats Cards */}
       <FeedbackStatsCards
-        totalForms={forms.length}
-        totalFeedback={totalFeedback}
-        thisMonthFeedback={thisMonthFeedback}
-        averageResponseRate={averageRating}
+        totalForms={statsData.totalForms}
+        totalFeedback={statsData.totalFeedback}
+        thisMonthFeedback={statsData.thisMonthFeedback}
+        averageResponseRate={statsData.averageRating}
       />
 
       {/* Forms Table */}
       <FeedbackFormTable 
         forms={forms}
         onDelete={handleDeleteForm}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        searchQuery={searchInput}
+        onSearchChange={setSearchInput}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         totalPages={totalPages}
         totalRecords={totalRecords}
         isServerPagination={true}
+        isLoading={isLoading}
       />
     </div>
   );

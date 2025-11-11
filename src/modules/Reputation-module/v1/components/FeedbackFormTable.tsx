@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Copy, Trash2, Eye, Search } from "lucide-react";
+import { Copy, Trash2, Eye, Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   AlertDialog,
@@ -28,6 +29,7 @@ interface FeedbackFormTableProps {
   totalPages?: number;
   totalRecords?: number;
   isServerPagination?: boolean;
+  isLoading?: boolean;
 }
 
 export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ 
@@ -40,6 +42,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
   totalPages: propTotalPages,
   totalRecords: propTotalRecords,
   isServerPagination = false,
+  isLoading = false,
 }) => {
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -135,8 +138,19 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
 
   return (
     <>
-      {/* Search Bar */}
-      <div className="mb-4">
+      <Card className="relative">
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">Updating...</span>
+          </div>
+        </div>
+      )}
+      
+      <div className={isLoading ? "opacity-50 pointer-events-none p-6 space-y-4" : "p-6 space-y-4"}>
+        {/* Search Bar */}
         <div className="relative max-w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -147,16 +161,15 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             className="pl-10"
           />
         </div>
-      </div>
 
-      {(isServerPagination ? forms.length === 0 : filteredForms.length === 0) ? (
-        <div className="bg-card rounded-lg border p-12 text-center">
-          <p className="text-muted-foreground text-lg">No forms found</p>
-          <p className="text-sm text-muted-foreground mt-2">Try adjusting your search query</p>
-        </div>
-      ) : (
-        <>
-          <div className="bg-card rounded-lg border overflow-hidden">
+        {(isServerPagination ? forms.length === 0 : filteredForms.length === 0) ? (
+          <div className="bg-muted/30 rounded-lg border p-12 text-center">
+            <p className="text-muted-foreground text-lg">No forms found</p>
+            <p className="text-sm text-muted-foreground mt-2">Try adjusting your search query</p>
+          </div>
+        ) : (
+          <>
+            <div className="rounded-lg border overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -222,11 +235,11 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                 ))}
               </TableBody>
             </Table>
-          </div>
+            </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-4 px-2">
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-4">
               <p className="text-sm text-muted-foreground">
                 Showing {startIndex + 1} to {Math.min(endIndex, totalRecords)} of {totalRecords} results
               </p>
@@ -251,26 +264,28 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                   Next
                 </Button>
               </div>
-            </div>
-          )}
-        </>
-      )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </Card>
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Feedback Form</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this feedback form? This action cannot be undone. All feedback responses
-              associated with this form will also be deleted.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Feedback Form</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete this feedback form? This action cannot be undone. All feedback responses
+            associated with this form will also be deleted.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteConfirm}>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </>
   );
 };
