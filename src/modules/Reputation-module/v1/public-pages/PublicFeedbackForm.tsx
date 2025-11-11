@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, ExternalLink, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
@@ -43,9 +45,20 @@ export const PublicFeedbackForm: React.FC = () => {
     }
   };
 
-  const handleInputChange = (fieldName: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
-    // Clear error when user starts typing
+  const handleInputChange = (fieldName: string, value: any, isCheckbox = false) => {
+    setFormData((prev) => {
+      if (isCheckbox) {
+        // Handle checkbox group - toggle value in array
+        const currentValues = (prev[fieldName] || []) as string[];
+        const newValues = currentValues.includes(value)
+          ? currentValues.filter(v => v !== value)
+          : [...currentValues, value];
+        return { ...prev, [fieldName]: newValues };
+      }
+      return { ...prev, [fieldName]: value };
+    });
+    
+    // Clear error when user interacts
     if (formErrors[fieldName]) {
       setFormErrors((prev) => {
         const newErrors = { ...prev };
@@ -59,15 +72,35 @@ export const PublicFeedbackForm: React.FC = () => {
     const errors: Record<string, string> = {};
 
     formFields.forEach((field) => {
-      if (field.required && !formData[field.name]) {
-        errors[field.name] = `${field.label} is required`;
+      const value = formData[field.name];
+      
+      // Required field validation
+      if (field.required) {
+        if (field.type === 'checkbox-group') {
+          if (!value || !Array.isArray(value) || value.length === 0) {
+            errors[field.name] = `${field.label} is required`;
+          }
+        } else if (field.type === 'file') {
+          if (!value) {
+            errors[field.name] = `${field.label} is required`;
+          }
+        } else if (!value) {
+          errors[field.name] = `${field.label} is required`;
+        }
       }
 
       // Email validation
-      if (field.type === "email" && formData[field.name]) {
+      if (field.type === "email" && value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData[field.name])) {
+        if (!emailRegex.test(value)) {
           errors[field.name] = "Please enter a valid email address";
+        }
+      }
+      
+      // File size validation
+      if (field.type === 'file' && value && field.maxFileSize) {
+        if (value.size > field.maxFileSize * 1024 * 1024) {
+          errors[field.name] = `File size must be less than ${field.maxFileSize}MB`;
         }
       }
     });
@@ -156,6 +189,93 @@ export const PublicFeedbackForm: React.FC = () => {
                 </div>
               ))}
             </RadioGroup>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+          </div>
+        );
+
+      case "select":
+        return (
+          <div key={field.id} className="space-y-2">
+            <Label htmlFor={field.id}>
+              {field.label}
+              {field.required && <span className="text-destructive ml-1">*</span>}
+            </Label>
+            <Select
+              value={value}
+              onValueChange={(val) => handleInputChange(field.name, val)}
+            >
+              <SelectTrigger className={error ? "border-destructive" : ""}>
+                <SelectValue placeholder="Select an option" />
+              </SelectTrigger>
+              <SelectContent className="bg-background z-50">
+                {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+          </div>
+        );
+
+      case "checkbox-group":
+        return (
+          <div key={field.id} className="space-y-2">
+            <Label>
+              {field.label}
+              {field.required && <span className="text-destructive ml-1">*</span>}
+            </Label>
+            <div className="space-y-2">
+              {field.options?.map((option) => {
+                const isChecked = Array.isArray(value) && value.includes(option.value);
+                return (
+                  <div key={option.value} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`${field.id}-${option.value}`}
+                      checked={isChecked}
+                      onCheckedChange={() => handleInputChange(field.name, option.value, true)}
+                    />
+                    <Label htmlFor={`${field.id}-${option.value}`} className="cursor-pointer">
+                      {option.label}
+                    </Label>
+                  </div>
+                );
+              })}
+            </div>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+          </div>
+        );
+
+      case "file":
+        return (
+          <div key={field.id} className="space-y-2">
+            <Label htmlFor={field.id}>
+              {field.label}
+              {field.required && <span className="text-destructive ml-1">*</span>}
+            </Label>
+            <Input
+              id={field.id}
+              type="file"
+              accept={field.accept}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleInputChange(field.name, file);
+                }
+              }}
+              className={error ? "border-destructive" : ""}
+            />
+            {field.accept && (
+              <p className="text-xs text-muted-foreground">
+                Accepted: {field.accept}
+              </p>
+            )}
+            {field.maxFileSize && (
+              <p className="text-xs text-muted-foreground">
+                Max size: {field.maxFileSize}MB
+              </p>
+            )}
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
         );
