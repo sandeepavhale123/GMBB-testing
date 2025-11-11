@@ -43,13 +43,20 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       href: "/module/live-seo-fixer",
       beta: true,
     },
-    {
-      name: t("modulesMenu.reputation.name"),
-      description: t("modulesMenu.reputation.description"),
-      icon: Star,
-      href: "/module/reputation",
-      beta: true,
-    },
+    // {
+    //   name: t("modulesMenu.reputation.name"),
+    //   description: t("modulesMenu.reputation.description"),
+    //   icon: Star,
+    //   href: "/module/reputation",
+    //   beta: true,
+    // },
+     {
+          name: "Reputation",
+          description: "Simple feedback collection and management",
+          icon: Star,
+          href: "/module/reputation/v1/dashboard",
+          beta: true,
+        },
   ];
   const isModuleActive = (moduleHref: string) => {
     return location.pathname.startsWith(moduleHref);

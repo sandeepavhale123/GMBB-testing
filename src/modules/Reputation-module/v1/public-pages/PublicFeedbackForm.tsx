@@ -27,8 +27,10 @@ export const PublicFeedbackForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Data is already parsed from API
-  const formFields: FormField[] = data?.data?.formFields || [];
+  // Data is already parsed from API - ensure formFields is always an array
+  const formFields: FormField[] = Array.isArray(data?.data?.formFields) 
+    ? data.data.formFields 
+    : [];
   const reviewSiteUrls: Record<string, string> = data?.data?.reviewSiteUrls || {};
 
   const handleStarClick = (rating: number) => {
@@ -351,11 +353,13 @@ export const PublicFeedbackForm: React.FC = () => {
             </div>
           )}
 
-          <div className="text-left mb-6">
+<div className="text-center space-y-1 mb-6">
             <h2 className="text-2xl font-bold text-foreground">
-              {formConfig.formName}
+              {formConfig.title}
             </h2>
+            <p className="text-muted-foreground">{formConfig.subtitle}</p>
           </div>
+          
 
           {isSubmitting && (
             <div className="flex items-center justify-center gap-2 text-muted-foreground">
@@ -406,11 +410,10 @@ export const PublicFeedbackForm: React.FC = () => {
             </div>
           )}
 
-          <div className="text-center space-y-1 mb-6">
+          <div className="text-left mb-6">
             <h2 className="text-2xl font-bold text-foreground">
-              {formConfig.title}
+              {formConfig.formName}
             </h2>
-            <p className="text-muted-foreground">{formConfig.subtitle}</p>
           </div>
 
           <div className="space-y-4">
@@ -454,6 +457,11 @@ export const PublicFeedbackForm: React.FC = () => {
                   className="w-full"
                   size="lg"
                 >
+                  <img 
+                  src={`/lovable-uploads/social-icons/${site}.png`}
+                  className="w-6 h-6"
+                  alt="" 
+                   />
                   Leave a review on{" "}
                   {site.charAt(0).toUpperCase() + site.slice(1)}
                   <ExternalLink className="h-4 w-4 ml-2" />
