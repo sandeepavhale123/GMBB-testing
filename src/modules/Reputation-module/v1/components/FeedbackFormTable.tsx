@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Copy, Trash2, Eye } from "lucide-react";
+import { Copy, Trash2, Eye, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -36,6 +37,32 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Filter forms based on search query
+  const filteredForms = useMemo(() => {
+    if (!searchQuery.trim()) return forms;
+    
+    const query = searchQuery.toLowerCase();
+    return forms.filter(
+      (form) =>
+        form.name.toLowerCase().includes(query) ||
+        format(new Date(form.created_at), "MMM dd, yyyy").toLowerCase().includes(query)
+    );
+  }, [forms, searchQuery]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredForms.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedForms = filteredForms.slice(startIndex, endIndex);
+
+  // Reset to page 1 when search query changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const handleCopyUrl = (formUrl: string, formName: string) => {
     navigator.clipboard.writeText(formUrl);
@@ -75,8 +102,31 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
 
   return (
     <>
-      <div className="bg-card rounded-lg border overflow-hidden">
-        <Table>
+      {/* Search Bar */}
+      <div className="mb-4">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search feedback forms..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
+      {filteredForms.length === 0 ? (
+        <div className="bg-card rounded-lg border p-12 text-center">
+          <p className="text-muted-foreground text-lg">No forms found</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Try adjusting your search query
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="bg-card rounded-lg border overflow-hidden">
+            <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-16">Sr. No.</TableHead>
@@ -87,9 +137,9 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {forms.map((form, index) => (
+            {paginatedForms.map((form, index) => (
               <TableRow key={form.id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell className="font-medium">{startIndex + index + 1}</TableCell>
                 <TableCell>{form.name}</TableCell>
                 <TableCell>
                   {format(new Date(form.created_at), "MMM dd, yyyy")}
@@ -133,6 +183,39 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-4 px-2">
+          <p className="text-sm text-muted-foreground">
+            Showing {startIndex + 1} to {Math.min(endIndex, filteredForms.length)} of{" "}
+            {filteredForms.length} results
+          </p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <span className="text-sm text-muted-foreground px-2">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
+        </>
+      )}
 
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
