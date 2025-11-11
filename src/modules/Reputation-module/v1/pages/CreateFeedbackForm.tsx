@@ -151,8 +151,8 @@ export const CreateFeedbackForm: React.FC = () => {
       setSuccessTitle(data.successTitle);
       setSuccessSubtitle(data.successSubtitle);
       
-      // Data is already parsed from API - ensure it's an array
-      if (Array.isArray(data.formFields)) {
+      // Data is already parsed from API
+      if (data.formFields) {
         setFormFields(data.formFields);
       }
       

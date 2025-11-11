@@ -41,15 +41,15 @@ export const ModulesMegaMenu: React.FC = () => {
       href: "/module/live-seo-fixer",
       beta: true,
     },
-    // {
-    //   name: t("modules.reputation.name"),
-    //   description: t("modules.reputation.description"),
-    //   icon: Star,
-    //   href: "/module/reputation",
-    //   beta: true,
-    // },
     {
-      name: "Reputation",
+      name: t("modules.reputation.name"),
+      description: t("modules.reputation.description"),
+      icon: Star,
+      href: "/module/reputation",
+      beta: true,
+    },
+    {
+      name: "Reputation v1",
       description: "Simple feedback collection and management",
       icon: Star,
       href: "/module/reputation/v1/dashboard",
