@@ -378,17 +378,9 @@ export const FeedbackDetails: React.FC = () => {
           <div className="overflow-y-auto max-h-[calc(85vh-120px)] pr-2">
             {selectedFeedback && (
               <div className="space-y-6">
-                {/* Standard Fields - Fixed Grid */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Name</p>
-                    <p className="font-medium">{selectedFeedback.form_data.name || "-"}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Email</p>
-                    <p className="font-medium">{selectedFeedback.form_data.email || "-"}</p>
-                  </div>
-                  <div>
+    {/* Standard Fields - Fixed Grid */}
+    <div className="grid grid-cols-2 gap-4">
+      <div>
                     <p className="text-sm text-muted-foreground mb-1">Submitted</p>
                     <p className="font-medium">
                       {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
