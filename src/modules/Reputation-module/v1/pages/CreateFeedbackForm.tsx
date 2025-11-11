@@ -82,6 +82,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formName, setFormName] = useState("");
+  const [formNameError, setFormNameError] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How was your experience with us?");
   const [subtitle, setSubtitle] = useState("We value your feedback and would love to hear from you.");
@@ -166,6 +167,41 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleNext = () => {
+    // Step 1 validation: Form name is required
+    if (currentStep === 1) {
+      if (!formName.trim()) {
+        setFormNameError("Form name is required");
+        return;
+      }
+    }
+
+    // Step 3 validation: At least one valid review site URL is required
+    if (currentStep === 3) {
+      const validUrls = Object.entries(reviewSiteUrls).filter(
+        ([_, url]) => url && isValidUrl(url)
+      );
+      
+      if (validUrls.length === 0) {
+        toast({
+          title: "Validation Error",
+          description: "At least one review site URL is required",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // Check if there are any URL errors
+      const hasUrlErrors = Object.keys(urlErrors).length > 0;
+      if (hasUrlErrors) {
+        toast({
+          title: "Invalid URLs",
+          description: "Please fix invalid URLs before proceeding",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
@@ -258,11 +294,24 @@ export const CreateFeedbackForm: React.FC = () => {
                     <Input
                       id="form-name"
                       value={formName}
-                      onChange={(e) => setFormName(e.target.value)}
+                      onChange={(e) => {
+                        setFormName(e.target.value);
+                        // Clear error when user types
+                        if (formNameError) {
+                          setFormNameError("");
+                        }
+                      }}
                       placeholder="e.g., Restaurant Feedback Form"
-                      className="w-full"
+                      className={cn(
+                        "w-full",
+                        formNameError && "border-destructive focus-visible:ring-destructive"
+                      )}
                     />
-                    <p className="text-xs text-muted-foreground">This name is for your internal reference only</p>
+                    {formNameError ? (
+                      <p className="text-xs text-destructive">{formNameError}</p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">This name is for your internal reference only</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -729,7 +778,12 @@ export const CreateFeedbackForm: React.FC = () => {
       {/* Success Modal */}
       <FormCreatedSuccessModal
         open={isSuccessModalOpen}
-        onOpenChange={setIsSuccessModalOpen}
+        onOpenChange={(isOpen) => {
+          setIsSuccessModalOpen(isOpen);
+          if (!isOpen) {
+            navigate("/module/reputation/v1/dashboard");
+          }
+        }}
         formUrl={createdFormUrl}
         formName={formName}
       />
