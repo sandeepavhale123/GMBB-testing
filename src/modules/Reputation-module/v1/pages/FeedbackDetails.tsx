@@ -31,6 +31,50 @@ import { useGetFeedbackDetails } from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
 import type { FeedbackDetailResponse, GetFeedbackDetailsRequest } from "../types";
 
+// Helper to format field names (field_1762855246040 -> Field 1762855246040)
+const formatFieldLabel = (fieldKey: string): string => {
+  if (fieldKey.startsWith('field_')) {
+    return fieldKey.replace('field_', 'Field ').replace(/_/g, ' ');
+  }
+  return fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1).replace(/_/g, ' ');
+};
+
+// Helper to format field values based on type
+const formatFieldValue = (value: any): string => {
+  if (value === null || value === undefined || value === '') {
+    return '-';
+  }
+  
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '-';
+    return value.join(', ');
+  }
+  
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No';
+  }
+  
+  if (typeof value === 'object') {
+    return JSON.stringify(value, null, 2);
+  }
+  
+  return String(value);
+};
+
+// Helper to extract custom fields (exclude standard fields)
+const getCustomFields = (formData: Record<string, any>): Record<string, any> => {
+  const standardFields = ['name', 'email', 'comment'];
+  const customFields: Record<string, any> = {};
+  
+  Object.keys(formData).forEach(key => {
+    if (!standardFields.includes(key)) {
+      customFields[key] = formData[key];
+    }
+  });
+  
+  return customFields;
+};
+
 export const FeedbackDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -327,53 +371,88 @@ export const FeedbackDetails: React.FC = () => {
 
       {/* Feedback Details Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>Feedback Details</DialogTitle>
           </DialogHeader>
-          {selectedFeedback && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Name</p>
-                  <p className="font-medium">{selectedFeedback.form_data.name}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Email</p>
-                  <p className="font-medium">{selectedFeedback.form_data.email || "-"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Submitted</p>
-                  <p className="font-medium">
-                    {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${
-                          i < parseInt(selectedFeedback.starRating)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-muted-foreground"
-                        }`}
-                      />
-                    ))}
+          <div className="overflow-y-auto max-h-[calc(85vh-120px)] pr-2">
+            {selectedFeedback && (
+              <div className="space-y-6">
+                {/* Standard Fields - Fixed Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Name</p>
+                    <p className="font-medium">{selectedFeedback.form_data.name || "-"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Email</p>
+                    <p className="font-medium">{selectedFeedback.form_data.email || "-"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Submitted</p>
+                    <p className="font-medium">
+                      {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-5 h-5 ${
+                            i < parseInt(selectedFeedback.starRating)
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-muted-foreground"
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+
+                {/* Comment Section */}
+                {selectedFeedback.form_data.comment && (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Comment</p>
+                    <Card className="p-4">
+                      <p className="text-foreground whitespace-pre-wrap">
+                        {selectedFeedback.form_data.comment}
+                      </p>
+                    </Card>
+                  </div>
+                )}
+
+                {/* Custom Fields Section - Dynamic */}
+                {(() => {
+                  const customFields = getCustomFields(selectedFeedback.form_data);
+                  const hasCustomFields = Object.keys(customFields).length > 0;
+                  
+                  if (!hasCustomFields) return null;
+                  
+                  return (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-3 font-semibold">
+                        Additional Fields
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Object.entries(customFields).map(([key, value]) => (
+                          <div key={key} className="border-l-2 border-primary/20 pl-3">
+                            <p className="text-sm text-muted-foreground mb-1">
+                              {formatFieldLabel(key)}
+                            </p>
+                            <p className="font-medium break-words">
+                              {formatFieldValue(value)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">Comment</p>
-                <Card className="p-4">
-                  <p className="text-foreground">
-                    {selectedFeedback.form_data.comment || "No comment provided"}
-                  </p>
-                </Card>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
