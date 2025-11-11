@@ -381,27 +381,27 @@ export const FeedbackDetails: React.FC = () => {
     {/* Standard Fields - Fixed Grid */}
     <div className="grid grid-cols-2 gap-4">
       <div>
-                    <p className="text-sm text-muted-foreground mb-1">Submitted</p>
-                    <p className="font-medium">
-                      {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
-                    <div className="flex items-center gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${
-                            i < parseInt(selectedFeedback.starRating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-muted-foreground"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
+        <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              className={`w-5 h-5 ${
+                i < parseInt(selectedFeedback.starRating)
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-muted-foreground"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="text-sm text-muted-foreground mb-1">Submitted</p>
+        <p className="font-medium">
+          {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
+        </p>
+      </div>
+    </div>
 
     {/* Form Data Section - All fields */}
     {(() => {
