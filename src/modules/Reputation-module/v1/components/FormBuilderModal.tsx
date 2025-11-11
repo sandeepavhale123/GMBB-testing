@@ -38,7 +38,6 @@ const fieldTypeOptions: { value: FieldType; label: string }[] = [
   { value: "select", label: "Select" },
   { value: "radio", label: "Radio" },
   { value: "checkbox-group", label: "Checkbox Group" },
-  { value: "file", label: "File Upload" },
 ];
 
 export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
