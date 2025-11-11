@@ -411,24 +411,17 @@ export const FeedbackDetails: React.FC = () => {
                   </div>
                 </div>
 
-    {/* All Fields Section - Dynamic (including comment) */}
+    {/* Form Data Section - All fields */}
     {(() => {
-      const customFields = getCustomFields(selectedFeedback.form_data);
-      const allFields = {
-        ...(selectedFeedback.form_data.comment && { comment: selectedFeedback.form_data.comment }),
-        ...customFields
-      };
-      const hasFields = Object.keys(allFields).length > 0;
+      const allFormData = selectedFeedback.form_data;
       
-      if (!hasFields) return null;
-                  
       return (
         <div>
           <p className="text-sm text-muted-foreground mb-3 font-semibold">
-            Additional Fields
+            Form Data
           </p>
-          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
-            {Object.entries(allFields).map(([key, value]) => (
+          <div className="space-y-3 pr-2">
+            {Object.entries(allFormData).map(([key, value]) => (
               <div key={key} className="flex items-start gap-3 border-l-2 border-primary/20 pl-3">
                 <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
                   {formatFieldLabel(key)}:
