@@ -411,32 +411,24 @@ export const FeedbackDetails: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Comment Section */}
-                {selectedFeedback.form_data.comment && (
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Comment</p>
-                    <Card className="p-4">
-                      <p className="text-foreground whitespace-pre-wrap">
-                        {selectedFeedback.form_data.comment}
-                      </p>
-                    </Card>
-                  </div>
-                )}
-
-                {/* Custom Fields Section - Dynamic */}
-                {(() => {
-                  const customFields = getCustomFields(selectedFeedback.form_data);
-                  const hasCustomFields = Object.keys(customFields).length > 0;
+    {/* All Fields Section - Dynamic (including comment) */}
+    {(() => {
+      const customFields = getCustomFields(selectedFeedback.form_data);
+      const allFields = {
+        ...(selectedFeedback.form_data.comment && { comment: selectedFeedback.form_data.comment }),
+        ...customFields
+      };
+      const hasFields = Object.keys(allFields).length > 0;
+      
+      if (!hasFields) return null;
                   
-                  if (!hasCustomFields) return null;
-                  
-                  return (
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-3 font-semibold">
-                        Additional Fields
-                      </p>
-          <div className="space-y-3">
-            {Object.entries(customFields).map(([key, value]) => (
+      return (
+        <div>
+          <p className="text-sm text-muted-foreground mb-3 font-semibold">
+            Additional Fields
+          </p>
+          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+            {Object.entries(allFields).map(([key, value]) => (
               <div key={key} className="flex items-start gap-3 border-l-2 border-primary/20 pl-3">
                 <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
                   {formatFieldLabel(key)}:
