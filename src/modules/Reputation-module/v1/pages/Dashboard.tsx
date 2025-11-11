@@ -1,54 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FeedbackStatsCards } from "../components/FeedbackStatsCards";
 import { FeedbackFormTable } from "../components/FeedbackFormTable";
+import { useGetAllFeedbackForms } from "@/api/reputationApi";
+import { transformFeedbackFormData } from "../utils/transformFeedbackData";
 import type { FeedbackForm } from "../types";
-
-// Mock data - replace with API call later
-const mockFeedbackForms: FeedbackForm[] = [
-  {
-    id: "1",
-    name: "Restaurant Feedback",
-    created_at: "2024-01-15T10:30:00Z",
-    feedback_count: 45,
-    form_url: "https://yourdomain.com/feedback/1",
-    logo: "",
-    title: "How was your dining experience?",
-    subtitle: "We value your feedback",
-    positive_feedback_url: "https://google.com/review",
-    positive_feedback_title: "Thank you! Please review us on:",
-    success_title: "Thanks for your feedback!",
-    success_subtitle: "We appreciate your time",
-  },
-  {
-    id: "2",
-    name: "Hotel Guest Feedback",
-    created_at: "2024-01-20T14:20:00Z",
-    feedback_count: 23,
-    form_url: "https://yourdomain.com/feedback/2",
-    logo: "",
-    title: "How was your stay?",
-    subtitle: "Help us improve your experience",
-    positive_feedback_url: "https://google.com/review",
-    positive_feedback_title: "We're glad you enjoyed your stay!",
-    success_title: "Thank you!",
-    success_subtitle: "Your feedback helps us improve",
-  },
-];
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [forms, setForms] = useState<FeedbackForm[]>(mockFeedbackForms);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Fetch data using React Query
+  const { data, isLoading, isError, error, refetch } = useGetAllFeedbackForms(
+    searchQuery,
+    currentPage,
+    itemsPerPage
+  );
+
+  // Transform API data to component format
+  const forms = useMemo(() => {
+    if (!data?.data?.data) return [];
+    return data.data.data.map(transformFeedbackFormData);
+  }, [data]);
+
+  // Extract pagination metadata
+  const totalRecords = data?.data?.total_records || 0;
+  const totalPages = data?.data?.total_pages || 0;
 
   const totalFeedback = forms.reduce((acc, form) => acc + form.feedback_count, 0);
-  const thisMonthFeedback = 28; // Mock data
-  const averageResponseRate = 75; // Mock data
+  const thisMonthFeedback = 28; // Mock data - TODO: Add API endpoint
+  const averageRating = forms.length > 0
+    ? forms.reduce((acc, form) => acc + (form.avg_rating || 0), 0) / forms.length
+    : 0;
 
   const handleDeleteForm = (id: string) => {
-    setForms((prev) => prev.filter((form) => form.id !== id));
+    // TODO: Implement delete API when available
+    // For now, just refetch data
+    refetch();
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <span className="ml-3 text-lg">Loading feedback forms...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Manage Feedbacks</h1>
+            <p className="text-muted-foreground mt-1">
+              Create and manage your feedback collection forms
+            </p>
+          </div>
+          <Button
+            onClick={() => navigate("/module/reputation/v1/create-feedback-form")}
+            className="flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Create Feedback Form
+          </Button>
+        </div>
+        <Alert variant="destructive">
+          <AlertDescription>
+            Failed to load feedback forms. Please try again.
+            {error instanceof Error && `: ${error.message}`}
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -74,11 +107,21 @@ export const Dashboard: React.FC = () => {
         totalForms={forms.length}
         totalFeedback={totalFeedback}
         thisMonthFeedback={thisMonthFeedback}
-        averageResponseRate={averageResponseRate}
+        averageResponseRate={averageRating}
       />
 
       {/* Forms Table */}
-      <FeedbackFormTable forms={forms} onDelete={handleDeleteForm} />
+      <FeedbackFormTable 
+        forms={forms}
+        onDelete={handleDeleteForm}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        totalPages={totalPages}
+        totalRecords={totalRecords}
+        isServerPagination={true}
+      />
     </div>
   );
 };

@@ -21,18 +21,40 @@ import type { FeedbackForm } from "../types";
 interface FeedbackFormTableProps {
   forms: FeedbackForm[];
   onDelete: (id: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
+  totalPages?: number;
+  totalRecords?: number;
+  isServerPagination?: boolean;
 }
 
-export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onDelete }) => {
+export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ 
+  forms, 
+  onDelete,
+  searchQuery: propSearchQuery,
+  onSearchChange,
+  currentPage: propCurrentPage,
+  onPageChange,
+  totalPages: propTotalPages,
+  totalRecords: propTotalRecords,
+  isServerPagination = false,
+}) => {
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const [localCurrentPage, setLocalCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Filter forms based on search query
+  // Use prop values if server pagination, otherwise use local state
+  const searchQuery = isServerPagination ? (propSearchQuery ?? "") : localSearchQuery;
+  const currentPage = isServerPagination ? (propCurrentPage ?? 1) : localCurrentPage;
+
+  // Filter forms based on search query (client-side only)
   const filteredForms = useMemo(() => {
+    if (isServerPagination) return forms;
     if (!searchQuery.trim()) return forms;
 
     const query = searchQuery.toLowerCase();
@@ -41,18 +63,23 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
         form.name.toLowerCase().includes(query) ||
         format(new Date(form.created_at), "MMM dd, yyyy").toLowerCase().includes(query),
     );
-  }, [forms, searchQuery]);
+  }, [forms, searchQuery, isServerPagination]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredForms.length / itemsPerPage);
+  // Calculate pagination (client-side only)
+  const clientTotalPages = Math.ceil(filteredForms.length / itemsPerPage);
+  const totalPages = isServerPagination ? (propTotalPages ?? 1) : clientTotalPages;
+  const totalRecords = isServerPagination ? (propTotalRecords ?? forms.length) : filteredForms.length;
+  
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedForms = filteredForms.slice(startIndex, endIndex);
+  const paginatedForms = isServerPagination ? forms : filteredForms.slice(startIndex, endIndex);
 
-  // Reset to page 1 when search query changes
+  // Reset to page 1 when search query changes (client-side only)
   React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
+    if (!isServerPagination) {
+      setLocalCurrentPage(1);
+    }
+  }, [localSearchQuery, isServerPagination]);
 
   const handleCopyUrl = (formUrl: string, formName: string) => {
     navigator.clipboard.writeText(formUrl);
@@ -79,7 +106,23 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
     setSelectedFormId(null);
   };
 
-  if (forms.length === 0) {
+  const handleSearchChange = (value: string) => {
+    if (onSearchChange) {
+      onSearchChange(value);
+    } else {
+      setLocalSearchQuery(value);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (onPageChange) {
+      onPageChange(page);
+    } else {
+      setLocalCurrentPage(page);
+    }
+  };
+
+  if (forms.length === 0 && !searchQuery) {
     return (
       <div className="bg-card rounded-lg border p-12 text-center">
         <p className="text-muted-foreground text-lg">No feedback forms created yet</p>
@@ -100,13 +143,13 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
             type="text"
             placeholder="Search feedback forms..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="pl-10"
           />
         </div>
       </div>
 
-      {filteredForms.length === 0 ? (
+      {(isServerPagination ? forms.length === 0 : filteredForms.length === 0) ? (
         <div className="bg-card rounded-lg border p-12 text-center">
           <p className="text-muted-foreground text-lg">No forms found</p>
           <p className="text-sm text-muted-foreground mt-2">Try adjusting your search query</p>
@@ -121,6 +164,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
                   <TableHead>Name</TableHead>
                   <TableHead>Created At</TableHead>
                   <TableHead className="text-center">No. of Feedback</TableHead>
+                  <TableHead className="text-center">Avg Rating</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -134,6 +178,16 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
                       <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
                         {form.feedback_count}
                       </span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {form.avg_rating ? (
+                        <div className="flex items-center justify-center gap-1">
+                          <span className="text-yellow-500">★</span>
+                          <span className="font-medium">{form.avg_rating.toFixed(1)}</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">N/A</span>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -174,13 +228,13 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-4 px-2">
               <p className="text-sm text-muted-foreground">
-                Showing {startIndex + 1} to {Math.min(endIndex, filteredForms.length)} of {filteredForms.length} results
+                Showing {startIndex + 1} to {Math.min(endIndex, totalRecords)} of {totalRecords} results
               </p>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
                 >
                   Previous
@@ -191,7 +245,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ forms, onD
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
                 >
                   Next

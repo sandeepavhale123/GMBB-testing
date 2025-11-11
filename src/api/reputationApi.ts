@@ -139,3 +139,32 @@ export const useSubmitFeedbackForm = () => {
     mutationFn: submitFeedbackForm,
   });
 };
+
+// Get All Feedback Forms
+import type { 
+  GetAllFeedbackFormsRequest, 
+  GetAllFeedbackFormsResponse 
+} from "@/modules/Reputation-module/v1/types";
+
+export const getAllFeedbackForms = async (
+  params: GetAllFeedbackFormsRequest
+): Promise<GetAllFeedbackFormsResponse> => {
+  const response = await apiClient.post<GetAllFeedbackFormsResponse>(
+    "/reputation/get-all-feedback-form",
+    params
+  );
+  return response.data;
+};
+
+// React Query Hook with pagination support
+export const useGetAllFeedbackForms = (
+  search: string,
+  page: number,
+  limit: number = 10
+) => {
+  return useQuery({
+    queryKey: ["feedbackForms", search, page, limit],
+    queryFn: () => getAllFeedbackForms({ search, page, limit }),
+    staleTime: 30000,
+  });
+};
