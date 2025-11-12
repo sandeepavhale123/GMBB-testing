@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2, X } from "lucide-react";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -83,6 +84,7 @@ export const FeedbackDetails: React.FC = () => {
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackDetailResponse | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearch = useDebounce(searchQuery, 500);
   const [starFilter, setStarFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -90,11 +92,11 @@ export const FeedbackDetails: React.FC = () => {
   // Build API request
   const apiRequest: GetFeedbackDetailsRequest = useMemo(() => ({
     formId: id || "",
-    search: searchQuery,
+    search: debouncedSearch,
     starRating: starFilter === "all" ? "" : starFilter,
     page: currentPage,
     limit: itemsPerPage,
-  }), [id, searchQuery, starFilter, currentPage]);
+  }), [id, debouncedSearch, starFilter, currentPage]);
 
   // Fetch data from API
   const { 
@@ -107,7 +109,7 @@ export const FeedbackDetails: React.FC = () => {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, starFilter]);
+  }, [debouncedSearch, starFilter]);
 
   // Handle share button
   const handleShare = async () => {
