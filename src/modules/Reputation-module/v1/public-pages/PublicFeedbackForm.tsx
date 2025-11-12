@@ -495,7 +495,7 @@ export const PublicFeedbackForm: React.FC = () => {
           )}
 
           <div className="text-left mb-6">
-            <h2 className="text-2xl font-bold text-foreground">
+            <h2 className="text-2xl font-bold text-foreground text-center">
               {formConfig.formName}
             </h2>
           </div>

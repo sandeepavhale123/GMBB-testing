@@ -115,9 +115,9 @@ export const Dashboard: React.FC = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Manage Feedbacks</h1>
+            <h1 className="text-3xl font-bold text-foreground">Manage Feedbacks and Reviews</h1>
             <p className="text-muted-foreground mt-1">
-              Create and manage your feedback collection forms
+             Automate feedback collection and review generation
             </p>
           </div>
           <Button

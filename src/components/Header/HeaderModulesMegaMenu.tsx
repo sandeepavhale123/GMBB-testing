@@ -51,8 +51,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
     //   beta: true,
     // },
      {
-          name: "Reputation",
-          description: "Simple feedback collection and management",
+          name: "Feedback & Review Generator",
+          description: "Collect feedback and automatically generate positive reviews.",
           icon: Star,
           href: "/module/reputation/v1/dashboard",
           beta: true,

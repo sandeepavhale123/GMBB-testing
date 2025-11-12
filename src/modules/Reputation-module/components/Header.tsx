@@ -36,10 +36,10 @@ export const Header: React.FC = () => {
             />
             <div className="border-l border-border/30 pl-3 hidden md:block">
               <h1 className="text-md font-semibold text-white mb-0 p-0">
-                {t("title", "Reputation Management")}
+               Feedback & Review Generator
               </h1>
               <p className="text-sm text-white mt-0 p-0">
-                {t("subtitle", "Monitor and manage your online reputation")}
+                Collect feedback and automatically generate positive reviews.
               </p>
             </div>
           </div>
