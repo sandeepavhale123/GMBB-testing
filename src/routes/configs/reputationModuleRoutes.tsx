@@ -107,13 +107,13 @@ export const reputationModuleRoutes: RouteConfig[] = [
         element: <V1CreateFeedbackForm />,
       },
       {
-        path: "feedback/:id",
+        path: "fb/:id",
         element: <V1FeedbackDetails />,
       },
     ],
   },
   {
-    path: "/feedback/:formId",
+    path: "/fb/:formId",
     element: (
       <PublicReputationLayout>
         <PublicFeedbackForm />
