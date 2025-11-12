@@ -158,7 +158,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[90vh]">
+      <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Form Builder</DialogTitle>
         </DialogHeader>
