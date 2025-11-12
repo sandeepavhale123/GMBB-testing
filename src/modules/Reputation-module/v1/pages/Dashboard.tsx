@@ -137,16 +137,16 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Manage Feedbacks</h1>
-          <p className="text-muted-foreground mt-1">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Manage Feedbacks</h1>
+          <p className="text-muted-foreground mt-1 text-sm sm:text-base">
             Create and manage your feedback collection forms
           </p>
         </div>
         <Button
           onClick={() => navigate("/module/reputation/v1/create-feedback-form")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Plus className="w-4 h-4" />
           Create Feedback Form
