@@ -322,17 +322,8 @@ export const getFeedbackDetails = async (
 // React Query Hook for Feedback Details
 export const useGetFeedbackDetails = (request: GetFeedbackDetailsRequest) => {
   return useQuery({
-    queryKey: [
-      "feedbackDetails",
-      request.formId,
-      request.page,
-      request.limit,
-      request.search,
-      request.starRating,
-    ],
+    queryKey: ["feedbackDetails", request],
     queryFn: () => getFeedbackDetails(request),
     staleTime: 2 * 60 * 1000, // 2 minutes
-    placeholderData: (prev) => prev,
-    refetchOnWindowFocus: false,
   });
 };
