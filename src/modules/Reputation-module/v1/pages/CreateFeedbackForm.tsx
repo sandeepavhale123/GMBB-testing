@@ -434,7 +434,7 @@ export const CreateFeedbackForm: React.FC = () => {
             {/* Step 1: Feedback Form Details */}
             {currentStep === 1 && (
               <>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="form-name" className="text-sm font-medium">
                       Form Name *
@@ -662,7 +662,7 @@ export const CreateFeedbackForm: React.FC = () => {
                     {reviewSites.map((site) => {
                       return (
                         <div key={site.id} className="space-y-2">
-                          <div className="flex items-center gap-3 p-4 rounded-lg border bg-card">
+                          <div className="flex flex-col items-start md:flex-row md:items-center gap-3 p-4 rounded-lg border bg-card">
                             <img src={site.logo} alt={`${site.name} logo`} className="w-6 h-6 object-contain" />
                             <span className="text-sm font-medium text-foreground min-w-[100px]">{site.name}</span>
                             <Input
