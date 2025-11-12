@@ -34,7 +34,8 @@ export const Dashboard: React.FC = () => {
   // Fetch stats separately
   const { 
     data: statsData, 
-    isLoading: isLoadingStats 
+    isLoading: isLoadingStats,
+    refetch: refetchStats
   } = useGetFeedbackStats();
 
   // Reset to page 1 when search changes
@@ -89,8 +90,11 @@ export const Dashboard: React.FC = () => {
       // Call delete API with form_id (not display id)
       const response = await deleteMutation.mutateAsync(formToDelete.form_id);
       
-      // Refetch to update the list
-      await refetch();
+      // Refetch forms list and stats to update the UI
+      await Promise.all([
+        refetch(),
+        refetchStats()
+      ]);
       
       toast({
         title: "Success",
