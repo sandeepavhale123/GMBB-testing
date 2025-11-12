@@ -89,7 +89,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
                 {isLoading ? (
                   <Skeleton className="h-8 w-16 mt-2" />
                 ) : (
-                  <p className="text-2xl font-bold mt-2">
+                  <p className="text-3xl font-bold">
                     {stat.value}
                     {stat.suffix && (
                       <span className="text-sm text-muted-foreground ml-1">
