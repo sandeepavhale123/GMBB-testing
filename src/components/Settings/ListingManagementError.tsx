@@ -33,12 +33,12 @@ export const ListingManagementError: React.FC<ListingManagementErrorProps> = ({
           {" "}
           {t("listingManagementError.errorMessage", { error })}
         </p>
-        <button
+        {/* <button
           onClick={handleTryAgain}
           className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
         >
           {t("listingManagementError.tryAgainButton")}
-        </button>
+        </button> */}
       </div>
     </div>
   );

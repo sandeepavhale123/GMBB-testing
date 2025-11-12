@@ -136,7 +136,7 @@ export const BulkPost: React.FC = () => {
             </h1>
             <p className="text-muted-foreground">{t("page.subtitle")}</p>
           </div>
-          <div>
+          <div className="flex gap-2">
             <Button
               variant="outline"
               className="self-start sm:self-auto mr-2"
@@ -285,7 +285,7 @@ export const BulkPost: React.FC = () => {
                                   `/main-dashboard/bulk-post-details/${post.id}`
                                 )
                               }
-                              className="flex-1 sm:flex-initial"
+                              className="flex-1 sm:flex-initial max-w-[30vw]"
                             >
                               {t("buttons.viewDetails")}
                             </Button>

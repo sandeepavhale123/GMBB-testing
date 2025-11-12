@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-white border-b border-gray-200">
       {/* Main header content */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+        <div className="flex flex-wrap flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
           {/* Left section - Menu + Title/Breadcrumbs (desktop) + Action buttons (mobile) */}
           <div className="flex items-center justify-between w-full sm:flex-1 sm:items-start sm:gap-4">
             {/* Menu button */}
@@ -54,7 +54,8 @@ export const Header: React.FC<HeaderProps> = ({
                   variant="secondary"
                   size="sm"
                   onClick={() =>
-                    (window.location.href = "https://old.gmbbriefcase.com/login")
+                    (window.location.href =
+                      "https://old.gmbbriefcase.com/login")
                   }
                   className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
                 >

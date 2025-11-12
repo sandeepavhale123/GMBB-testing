@@ -360,7 +360,7 @@ export const ReportNotificationsTab: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-3">
-                      <Icon className="h-5 w-5 text-muted-foreground" />
+                      <Icon className="h-10 w-16 md:h-5 md:w-5 text-muted-foreground" />
                       <div>
                         <div className="font-medium">{report.name}</div>
                         <TooltipProvider>

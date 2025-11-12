@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Phone, Globe, Clock, FileText, Tag, Camera } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const namespaces = ["Lead-module-public-report/rankingFactorsGrid"];
 interface RankingFactor {
   id: string;
   label: string;
@@ -28,7 +27,9 @@ const iconMap = {
 export const RankingFactorsGrid: React.FC<RankingFactorsGridProps> = ({
   factors,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace(
+    "Lead-module-public-report/rankingFactorsGrid"
+  );
   const getStatusBadge = (status: string) => {
     if (status === "good") {
       return (

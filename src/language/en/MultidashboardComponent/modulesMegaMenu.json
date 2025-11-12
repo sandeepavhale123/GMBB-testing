@@ -15,7 +15,7 @@
     "mapCreator": {
       "name":"Map Creator",
       "description": "Create keyword ranking data with map coordinates"
-    }
+    } 
   },
   "modules": {
     "manageGmb": {

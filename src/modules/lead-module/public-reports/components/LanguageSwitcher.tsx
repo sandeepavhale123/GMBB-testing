@@ -3,7 +3,6 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import i18n, { loadAllNamespaces } from "@/i18n";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { shouldSkipProfileAPI } from "@/utils/routeUtils";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";

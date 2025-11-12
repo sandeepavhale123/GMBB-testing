@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/postsOnGMB"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface Post {
   id: string;
   image: string;
@@ -16,7 +14,7 @@ interface PostsOnGMBProps {
 }
 
 export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/postsOnGMB");
   return (
     <Card>
       <CardHeader>

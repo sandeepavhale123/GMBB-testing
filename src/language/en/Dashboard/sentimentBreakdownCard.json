@@ -4,5 +4,6 @@
   "neutralLabel": "Neutral",
   "negativeLabel": "Negative",
   "tryAgain": "Try Again",
-  "errorMessage": "Something went wrong. Please try again."
+  "errorMessage": "Something went wrong. Please try again.",
+  "viewAll":"View All"
 }

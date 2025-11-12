@@ -614,7 +614,7 @@ export const Health: React.FC = () => {
                   </div>
 
                   {/* Enhanced Legend */}
-                  <div className="flex justify-center items-center gap-8 mb-8 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex justify-center items-center gap-2 sm:gap-8 mb-8 p-4 bg-gray-50 rounded-lg flex-wrap">
                     <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
                       <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"></div>
                       <span className="text-sm font-medium text-gray-700">
@@ -864,6 +864,8 @@ export const Health: React.FC = () => {
                             border: "1px solid #e5e7eb",
                             borderRadius: "8px",
                             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                            width: "200px", // ✅ fixed width
+                            whiteSpace: "normal",
                           }}
                         />
 

@@ -134,7 +134,9 @@ export const ModulesMegaMenu: React.FC = () => {
               : "right-0 w-[600px]"
           )}
         >
-          <div className={cn("p-4", isMobile && "p-3")}>
+          <div
+            className={cn("p-4", isMobile && "p-3", "h-[80vh] overflow-y-auto")}
+          >
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground">
                 {t("title")}

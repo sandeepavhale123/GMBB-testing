@@ -8,9 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLeadGeoRanking } from "@/hooks/useLeadGeoRanking";
 import { useLeadKeywordPositionDetails } from "@/hooks/useLeadKeywordPositionDetails";
 import { useGetLeadReportBranding } from "@/api/leadApi";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
-export const namespaces = ["Lead-module-public-report/leadGeoRankingReport"];
 
 interface Language {
   code: string;
@@ -39,7 +38,9 @@ interface ModalData {
 }
 
 export const LeadGeoRankingReport: React.FC = () => {
-  const { t, loaded } = usePublicI18n(namespaces);
+  const { t, loaded } = useI18nNamespace(
+    "Lead-module-public-report/leadGeoRankingReport"
+  );
   const { reportId } = useParams<{ reportId: string }>();
 
   const currentLang = i18n.language || "en";

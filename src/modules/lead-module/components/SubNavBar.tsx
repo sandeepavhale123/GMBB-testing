@@ -29,9 +29,17 @@ export const SubNavBar: React.FC = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const lang = localStorage.getItem("i18nextLng");
+  console.log("language", lang);
 
   return (
-    <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+    <nav
+      className={`fixed left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white ${
+        lang === "es" || lang === "de" || lang === "it" || lang === "fr"
+          ? "top-[65px] md:top-[138px] lg:top-[65px]"
+          : "top-[65px]"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-end md:justify-end gap-1 md:gap-6 flex-wrap">
           {navItems.map((item, index) => {

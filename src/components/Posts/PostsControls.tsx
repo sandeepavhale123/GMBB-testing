@@ -44,9 +44,9 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
 }) => {
   const { t } = useI18nNamespace("Post/postsControls");
   return (
-    <div className="bg-white rounded-lg border p-4">
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
+    <div className="bg-white rounded-lg border p-4 flex flex-wrap">
+      <div className="flex flex-col flex-wrap sm:flex-row items-stretch sm:items-center justify-between gap-4 w-[-webkit-fill-available]">
+        <div className="flex flex-col flex-wrap sm:flex-row items-stretch sm:items-center gap-4 flex-1">
           {/* Search */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />

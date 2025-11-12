@@ -4,5 +4,6 @@
   "neutralLabel": "Neutre",
   "negativeLabel": "Négatif",
   "tryAgain": "Réessayer",
-  "errorMessage": "Une erreur est survenue. Veuillez réessayer."
+  "errorMessage": "Une erreur s’est produite. Veuillez réessayer.",
+  "viewAll": "Tout voir"
 }

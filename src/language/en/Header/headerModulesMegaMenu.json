@@ -4,6 +4,10 @@
     "comingSoon": "Coming Soon",
     "utilities": {
       "title": "Utilities",
+        "mapCreator": {
+        "name":"Map Creator",
+        "description": "Create keyword ranking data with map coordinates"
+      },
       "utmBuilder": {
         "name": "UTM URL Generator",
         "description": "Create trackable campaign URLs"

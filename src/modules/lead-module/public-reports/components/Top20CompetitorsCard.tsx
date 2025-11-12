@@ -1,10 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Target, Star, MapPin, TrendingUp } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/top20CompetitorsCard"];
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface SearchInfo {
   searchUrl: string;
   searchKeyword: string;
@@ -54,7 +51,9 @@ export const Top20CompetitorsCard: React.FC<Top20CompetitorsCardProps> = ({
   competitorStats,
   comparisonData,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace(
+    "Lead-module-public-report/top20CompetitorsCard"
+  );
   return (
     <Card>
       <CardHeader>

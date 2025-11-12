@@ -112,7 +112,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
   return (
     <div className="bg-card border border-border rounded-lg p-6 relative ">
       {/* Review Header */}
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-4 gap-2">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
             {review.profile_image_url ? (

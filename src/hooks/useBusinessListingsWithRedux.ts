@@ -56,7 +56,7 @@ export const useBusinessListingsWithRedux =
         // });
 
         const data = await businessListingsService.getActiveListings({
-          limit: 1000,
+          limit: 5000,
         });
         // console.log(
         //   "📋🔄 useBusinessListingsWithRedux: Received",

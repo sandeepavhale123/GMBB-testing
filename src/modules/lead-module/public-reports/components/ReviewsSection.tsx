@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star, MessageSquare } from "lucide-react";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
-
-export const namespaces = ["Lead-module-public-report/reviewsSection"];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface Review {
   id: string;
   author: string;
@@ -25,7 +23,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   averageRating,
   totalReviews,
 }) => {
-  const { t } = usePublicI18n(namespaces);
+  const { t } = useI18nNamespace("Lead-module-public-report/reviewsSection");
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star

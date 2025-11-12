@@ -4,7 +4,6 @@ import { Header } from "./Header";
 import { MainBody } from "./MainBody";
 import { Footer } from "./Footer";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 interface PublicReportLayoutProps {
   children: React.ReactNode;

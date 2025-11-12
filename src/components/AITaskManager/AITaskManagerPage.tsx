@@ -226,7 +226,7 @@ export const AITaskManagerPage: React.FC = () => {
               )}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {task.status !== "completed" ? (
                 <>
                   <Button
