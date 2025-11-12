@@ -55,7 +55,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
           description: "Collect feedback and automatically generate positive reviews.",
           icon: Star,
           href: "/module/reputation/v1/dashboard",
-          beta: true,
+          // beta: true,
         },
   ];
   const isModuleActive = (moduleHref: string) => {
