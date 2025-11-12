@@ -78,6 +78,65 @@ const ratingThresholds = [
   { value: 5, label: "5 stars only" },
 ];
 
+// Safe parser for formFields that handles multiple data formats
+const parseFormFields = (fields: any): FormField[] => {
+  try {
+    // Case 1: Already an array
+    if (Array.isArray(fields)) {
+      return fields;
+    }
+    
+    // Case 2: String that needs parsing
+    if (typeof fields === 'string' && fields.trim()) {
+      try {
+        const parsed = JSON.parse(fields);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        console.error('Failed to parse formFields string:', fields);
+        return [];
+      }
+    }
+    
+    // Case 3: Invalid or missing
+    console.warn('formFields is not an array or valid string:', fields);
+    return [];
+  } catch (error) {
+    console.error('Error parsing formFields:', error);
+    return [];
+  }
+};
+
+// Safe parser for reviewSiteUrls that handles multiple data formats
+const parseReviewSiteUrls = (urls: any): Record<string, string> => {
+  try {
+    // Case 1: Already an object
+    if (urls && typeof urls === 'object' && !Array.isArray(urls)) {
+      return urls;
+    }
+    
+    // Case 2: String that needs parsing
+    if (typeof urls === 'string' && urls.trim()) {
+      try {
+        const parsed = JSON.parse(urls);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          return parsed;
+        }
+        console.error('Parsed reviewSiteUrls is not an object:', parsed);
+        return {};
+      } catch {
+        console.error('Failed to parse reviewSiteUrls string:', urls);
+        return {};
+      }
+    }
+    
+    // Case 3: Invalid or missing
+    return {};
+  } catch (error) {
+    console.error('Error parsing reviewSiteUrls:', error);
+    return {};
+  }
+};
+
 export const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
   const { formId } = useParams<{ formId: string }>();
@@ -151,22 +210,33 @@ export const CreateFeedbackForm: React.FC = () => {
       setSuccessTitle(data.successTitle);
       setSuccessSubtitle(data.successSubtitle);
       
-      // Data is already parsed from API - ensure it's an array
-      if (Array.isArray(data.formFields)) {
-        setFormFields(data.formFields);
+      // Parse formFields safely (handles both string and array)
+      const parsedFields = parseFormFields(data.formFields);
+      if (parsedFields.length > 0) {
+        setFormFields(parsedFields);
       }
       
-      if (data.reviewSiteUrls) {
-        setReviewSiteUrls(data.reviewSiteUrls);
-      }
+      // Parse reviewSiteUrls safely (handles both string and object)
+      const parsedUrls = parseReviewSiteUrls(data.reviewSiteUrls);
+      setReviewSiteUrls(parsedUrls);
       
       // Set logo preview (URL from server)
       if (data.logo) {
         setLogo(data.logo);
         // Note: logoFile remains null since we're not re-uploading
       }
+      
+      // Debug logging
+      console.log('Edit Form Data Loaded:', {
+        formId,
+        formFieldsType: typeof data.formFields,
+        formFieldsIsArray: Array.isArray(data.formFields),
+        parsedFieldsLength: parsedFields.length,
+        reviewSiteUrlsType: typeof data.reviewSiteUrls,
+        parsedUrlsKeys: Object.keys(parsedUrls)
+      });
     }
-  }, [isEditMode, existingFormData]);
+  }, [isEditMode, existingFormData, formId]);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
