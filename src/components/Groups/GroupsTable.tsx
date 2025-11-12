@@ -183,7 +183,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
     <>
       {/* Bulk Actions Bar */}
       {selectedGroups.length > 0 && (
-        <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg mb-4">
+        <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg mb-4 gap-2">
           <span className="text-sm text-muted-foreground">
             {selectedGroups.length > 1
               ? t("toast.deleteSuccess_plural", {
@@ -195,7 +195,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
             {/* {selectedGroups.length} group{selectedGroups.length > 1 ? "s" : ""}{" "}
             selected */}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
@@ -268,7 +268,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                   </span>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 ">
                     <Button
                       variant="ghost"
                       size="icon"

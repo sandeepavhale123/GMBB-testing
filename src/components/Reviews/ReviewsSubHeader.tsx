@@ -69,7 +69,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   };
   return (
     <div className="px-0   py-4">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="flex flex-col flex-wrap sm:flex-row sm:items-center gap-4">
         {/* Desktop Tabs - Button Style */}
         <ReviewTabs
           activeTab={activeTab}

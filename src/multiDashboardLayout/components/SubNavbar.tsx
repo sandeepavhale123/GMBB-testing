@@ -335,7 +335,7 @@ export const SubNavbar: React.FC = () => {
           </>
         ) : (
           /* Desktop: Horizontal Layout */
-          <div className="flex items-center justify-center md:justify-end gap-1 md:gap-6">
+          <div className="flex items-center justify-center flex-wrap md:justify-end gap-1">
             {navItems.map((item, index) => {
               const Icon = item.icon;
               return (

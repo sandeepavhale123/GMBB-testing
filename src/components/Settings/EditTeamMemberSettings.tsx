@@ -383,7 +383,7 @@ export const EditTeamMemberSettings: React.FC = () => {
       {/* Tab Section with Back Button */}
       <div className="bg-white border-b border-gray-200 mb-6">
         <div className="px-6 py-4">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 flex-wrap sm:gap-8">
             <Button
               variant="ghost"
               onClick={handleBack}

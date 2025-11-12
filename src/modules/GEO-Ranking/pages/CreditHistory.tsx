@@ -171,7 +171,7 @@ export const CreditHistory: React.FC = () => {
           {totalPages > 1 && (
             <div className="p-4 flex justify-end">
               <Pagination>
-                <PaginationContent className="ml-auto ">
+                {/* <PaginationContent className="ml-auto ">
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -207,6 +207,75 @@ export const CreditHistory: React.FC = () => {
                       onClick={() => handlePageChange(currentPage + 1)}
                       className={
                         currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : ""
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent> */}
+                <PaginationContent className="ml-auto">
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() =>
+                        handlePageChange(Math.max(1, currentPage - 1))
+                      }
+                      className={
+                        currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+                      }
+                    />
+                  </PaginationItem>
+
+                  {/* ✅ Sliding 5-page window */}
+                  {(() => {
+                    const pagesToShow: number[] = [];
+                    const total = totalPages;
+
+                    if (total <= 5) {
+                      // Case 1: show all
+                      for (let p = 1; p <= total; p++) pagesToShow.push(p);
+                    } else if (currentPage <= 3) {
+                      // Case 2: near start
+                      pagesToShow.push(1, 2, 3, 4, 5);
+                    } else if (currentPage >= total - 2) {
+                      // Case 3: near end
+                      pagesToShow.push(
+                        total - 4,
+                        total - 3,
+                        total - 2,
+                        total - 1,
+                        total
+                      );
+                    } else {
+                      // Case 4: middle sliding window
+                      pagesToShow.push(
+                        currentPage - 2,
+                        currentPage - 1,
+                        currentPage,
+                        currentPage + 1,
+                        currentPage + 2
+                      );
+                    }
+
+                    return pagesToShow.map((pageNum) => (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          onClick={() => handlePageChange(pageNum)}
+                          isActive={pageNum === currentPage}
+                          className="cursor-pointer"
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ));
+                  })()}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        handlePageChange(Math.min(totalPages, currentPage + 1))
+                      }
+                      className={
+                        currentPage >= totalPages
                           ? "pointer-events-none opacity-50"
                           : ""
                       }

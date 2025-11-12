@@ -778,7 +778,7 @@ export function GeoRankingReportForm({
           </div>
 
           {/* Updated buttons section - single row layout */}
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <Button
               type="submit"
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"

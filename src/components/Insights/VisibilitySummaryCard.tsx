@@ -47,7 +47,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
   return (
     <Card className="h-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div>
             <CardTitle className="text-lg font-semibold">
               {t("visibilitySummaryTitle")}

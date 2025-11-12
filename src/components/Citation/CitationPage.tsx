@@ -689,8 +689,10 @@ export const CitationPage: React.FC = () => {
                       )}
 
                       {citationTab === "possible" && (
-                        <div className="overflow-x-auto rounded-md border -mx-4 sm:mx-0">
-                          <Table className="min-w-full table-auto">
+                        <div className="w-full overflow-x-auto rounded-md border">
+                          <Table className="min-w-max table-auto">
+                            {/* <div className="overflow-x-auto rounded-md border -mx-4 sm:mx-0">
+                          <Table className="min-w-full table-auto"> */}
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">
