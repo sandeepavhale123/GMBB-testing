@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Star, MessageSquare, TrendingUp, Smile, Meh, Frown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 interface FeedbackSummaryCardsProps {
   totalResponses: number;
   avgRating: number;
@@ -31,6 +31,21 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
   sentiment,
   isLoading
 }) => {
+  // Custom tooltip for chart hover
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-popover border border-border rounded-lg shadow-lg p-3">
+          <p className="font-semibold text-sm">{payload[0].name}</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {payload[0].value}% ({payload[0].payload.count} responses)
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   const stats = [{
     title: "Total Responses",
     value: totalResponses,
@@ -75,9 +90,9 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
     bgColor: "bg-red-50"
   }];
   const chartData = [
-    { name: "Positive", value: sentiment.positive.percent, color: "#22c55e" },
-    { name: "Neutral", value: sentiment.neutral.percent, color: "#eab308" },
-    { name: "Negative", value: sentiment.negative.percent, color: "#ef4444" },
+    { name: "Positive", value: sentiment.positive.percent, color: "#22c55e", count: sentiment.positive.count },
+    { name: "Neutral", value: sentiment.neutral.percent, color: "#eab308", count: sentiment.neutral.count },
+    { name: "Negative", value: sentiment.negative.percent, color: "#ef4444", count: sentiment.negative.count },
   ];
 
   return (
@@ -171,14 +186,15 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
           <div className="flex flex-col  items-center gap-8">
             {/* Doughnut Chart */}
             <div className="flex-shrink-0">
-              <ResponsiveContainer width={240} height={240}>
+              <ResponsiveContainer width={190} height={190}>
                 <PieChart>
+                  <Tooltip content={<CustomTooltip />} />
                   <Pie
                     data={chartData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={70}
-                    outerRadius={100}
+                    innerRadius={55}
+                    outerRadius={80}
                     paddingAngle={2}
                     dataKey="value"
                   >
