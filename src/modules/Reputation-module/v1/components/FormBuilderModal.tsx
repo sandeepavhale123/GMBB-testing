@@ -239,11 +239,12 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
           {/* Right Panel - Field Editor */}
           <div className="space-y-4">
             {selectedField ? (
-              <ScrollArea className="h-[400px] border  p-4">
+              <ScrollArea className="h-[400px] border border-gray-5 p-4">
                 <div className="space-y-4">
                   <h4 className="font-medium text-sm">Edit Field</h4>
 
-                  <div className="space-y-2">
+                 <div className="px-1 space-y-4">
+                   <div className="space-y-2">
                     <Label htmlFor="field-label" className="text-xs">
                       Label *
                     </Label>
@@ -353,6 +354,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       </p>
                     </div>
                   )}
+                 </div>
                 </div>
               </ScrollArea>
             ) : (
