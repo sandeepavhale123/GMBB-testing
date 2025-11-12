@@ -45,8 +45,11 @@
       "recipients": "Destinatarios: {{recipients}}"
     },
     "download": {
-      "allPdf": "Descargar PDF Todo-en-Uno",
-      "pdf": "Descargar PDF"
+      "allPdf": "Descargar PDF todo en uno",
+      "pdf": "Descargar PDF",
+      "allCsv": "Descargar CSV todo en uno",
+      "csv": "Descargar CSV"
+
     },
     "table": {
       "title": "Detalles del Informe",

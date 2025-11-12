@@ -45,8 +45,10 @@
       "recipients": "Empfänger: {{recipients}}"
     },
     "download": {
-      "allPdf": "All-in-One PDF herunterladen",
-      "pdf": "PDF herunterladen"
+      "allPdf": "Alle-in-Einem-PDF herunterladen",
+      "pdf": "PDF herunterladen",
+      "allCsv": "Alle-in-Einem-CSV herunterladen",
+      "csv": "CSV herunterladen"
     },
     "table": {
       "title": "Berichtsdetails",

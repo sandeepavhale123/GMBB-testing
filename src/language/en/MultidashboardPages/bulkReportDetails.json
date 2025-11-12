@@ -22,7 +22,7 @@
         "resendEmail": "Failed to resend email",
         "bulkResend": "Failed to resend emails",
         "download": "Failed to download {{format}}",
-        "downloadAll": "Failed to download all-in-one PDF"
+        "downloadAll": "Failed to download all-in-one PDF" 
       }
     },
     "status": {
@@ -46,7 +46,9 @@
     },
     "download": {
       "allPdf": "Download All-in-One PDF",
-      "pdf": "Download PDF"
+      "pdf": "Download PDF",
+      "allCsv": "Download All-in-One CSV",
+      "csv": "Download CSV"
     },
     "table": {
       "title": "Report Details",

@@ -46,7 +46,10 @@
     },
     "download": {
       "allPdf": "Télécharger le PDF tout-en-un",
-      "pdf": "Télécharger le PDF"
+      "pdf": "Télécharger le PDF",
+      "allCsv": "Télécharger le CSV tout-en-un",
+      "csv": "Télécharger le CSV"
+
     },
     "table": {
       "title": "Détails du rapport",
