@@ -31,6 +31,7 @@ import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { useGetFeedbackDetails } from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
+import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
 import type { FeedbackDetailResponse, GetFeedbackDetailsRequest } from "../types";
 
 // Helper to format field names (field_1762855246040 -> Field 1762855246040)
@@ -210,12 +211,6 @@ export const FeedbackDetails: React.FC = () => {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold">Feedback Responses</h2>
-          {isFetching && feedbackData && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-              <span>Updating...</span>
-            </div>
-          )}
         </div>
         
         {/* Search and Filters */}
@@ -262,10 +257,7 @@ export const FeedbackDetails: React.FC = () => {
             </p>
           </Card>
         ) : (
-          <div className={cn(
-            "bg-card rounded-lg border overflow-hidden transition-opacity duration-200",
-            isFetching && "opacity-60"
-          )}>
+          <div className="bg-card rounded-lg border overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -277,46 +269,56 @@ export const FeedbackDetails: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {feedbackResponses.map((response) => {
-                  const rating = parseInt(response.starRating);
-                  return (
-                    <TableRow key={response.id}>
-                      <TableCell className="font-medium">
-                        {response.form_data.name}
-                      </TableCell>
-                      <TableCell className="text-sm">
-                        {response.form_data.email || "-"}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < rating
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-muted-foreground"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-sm">
-                        {format(new Date(response.created_at), "MMM dd, yyyy HH:mm")}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleViewDetails(response)}
-                          title="View Details"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {isFetching && feedbackData ? (
+                  // Show skeleton rows during search/filter
+                  <>
+                    {Array.from({ length: Math.min(feedbackResponses.length || 5, 10) }).map((_, index) => (
+                      <TableRowSkeleton key={`skeleton-${index}`} columns={5} />
+                    ))}
+                  </>
+                ) : (
+                  // Show actual data
+                  feedbackResponses.map((response) => {
+                    const rating = parseInt(response.starRating);
+                    return (
+                      <TableRow key={response.id}>
+                        <TableCell className="font-medium">
+                          {response.form_data.name}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {response.form_data.email || "-"}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-muted-foreground"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {format(new Date(response.created_at), "MMM dd, yyyy HH:mm")}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleViewDetails(response)}
+                            title="View Details"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
               </TableBody>
             </Table>
             
