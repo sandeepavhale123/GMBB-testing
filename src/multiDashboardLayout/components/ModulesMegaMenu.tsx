@@ -50,7 +50,7 @@ export const ModulesMegaMenu: React.FC = () => {
     // },
     {
       name: "Reputation",
-      description: "Simple feedback collection and management",
+      description: "Simple feedback collection and management", 
       icon: Star,
       href: "/module/reputation/v1/dashboard",
       beta: true,
@@ -135,7 +135,7 @@ export const ModulesMegaMenu: React.FC = () => {
           )}
         >
           <div
-            className={cn("p-4", isMobile && "p-3", "h-[80vh] overflow-y-auto")}
+            className={cn("p-4", isMobile && "p-3")}
           >
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground">

@@ -125,7 +125,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
         >
           <div className={cn("p-4", isMobile && "p-3")}>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-foreground">
+              <h3 className="text-sm font-medium text-foreground"> 
                 {t("modulesMenu.title")}
               </h3>
             </div>
