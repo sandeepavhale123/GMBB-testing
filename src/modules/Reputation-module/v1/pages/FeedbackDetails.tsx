@@ -378,7 +378,7 @@ export const FeedbackDetails: React.FC = () => {
               variant="ghost"
               size="icon"
               className="absolute right-0 top-0 h-8 w-8"
-              onClick={() => setSelectedFeedback(null)}
+              onClick={() => setDialogOpen(false)}
             >
               <X className="h-4 w-4" />
             </Button>
