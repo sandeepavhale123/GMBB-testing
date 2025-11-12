@@ -53,7 +53,7 @@ export const ModulesMegaMenu: React.FC = () => {
       description: "Collect feedback and automatically generate positive reviews.", 
       icon: Star,
       href: "/module/reputation/v1/dashboard",
-      beta: true,
+      // beta: true,
     },
   ];
   const [isOpen, setIsOpen] = useState(false);

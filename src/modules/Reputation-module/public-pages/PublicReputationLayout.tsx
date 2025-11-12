@@ -22,7 +22,7 @@ export const PublicReputationLayout: React.FC<PublicReputationLayoutProps> = ({ 
 
   return (
     <div className="min-h-screen bg-blue-100 flex flex-col justify-center items-center p-4">
-      <main className="w-full max-w-2xl mx-auto flex flex-col items-center gap-4 py-[80px]">
+      <main className="w-full max-w-[550px] mx-auto flex flex-col items-center gap-4 py-[40px]">
         {children}
         {/* <p className="text-sm text-muted-foreground mt-8">Powered by My Agency</p> */}
       </main>
