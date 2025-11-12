@@ -199,19 +199,21 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                           <span className="font-medium">{form.avg_rating.toFixed(1)}</span>
                         </div>
                       ) : (
-                        <span className="text-muted-foreground text-sm">N/A</span>
+                        <span className="text-muted-foreground text-sm">-</span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => navigate(`/module/reputation/v1/feedback/${form.form_id}`)}
-                          title="View Details"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
+                        {form.feedback_count > 0 && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => navigate(`/module/reputation/v1/feedback/${form.form_id}`)}
+                            title="View Details"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        )}
                         <Button
                           variant="ghost"
                           size="icon"
