@@ -158,12 +158,12 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh]">
+      <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[90vh]">
         <DialogHeader>
           <DialogTitle>Form Builder</DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
           {/* Left Panel - Field List */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -174,7 +174,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
               </Button>
             </div>
 
-            <ScrollArea className="h-[400px] border rounded-lg p-2">
+            <ScrollArea className="h-[300px] md:h-[400px] border rounded-lg p-2">
               <div className="space-y-2">
                 {fields.map((field) => (
                   <div
@@ -239,7 +239,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
           {/* Right Panel - Field Editor */}
           <div className="space-y-4">
             {selectedField ? (
-              <ScrollArea className="h-[440px] border border-gray-5 p-4">
+              <ScrollArea className="h-[300px] md:h-[440px] border border-gray-5 p-4">
                 <div className="space-y-4">
                   <h4 className="font-medium text-sm">Edit Field</h4>
 
@@ -365,11 +365,20 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
           </div>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <DialogFooter className="flex-col sm:flex-row gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => onOpenChange(false)}
+            className="w-full sm:w-auto"
+          >
             Cancel
           </Button>
-          <Button onClick={handleSave}>Save Changes</Button>
+          <Button 
+            onClick={handleSave}
+            className="w-full sm:w-auto"
+          >
+            Save Changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
