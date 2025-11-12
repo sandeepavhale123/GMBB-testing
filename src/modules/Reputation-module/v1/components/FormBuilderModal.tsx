@@ -239,7 +239,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
           {/* Right Panel - Field Editor */}
           <div className="space-y-4">
             {selectedField ? (
-              <ScrollArea className="h-[400px] border rounded-lg p-4">
+              <ScrollArea className="h-[400px] border  p-4">
                 <div className="space-y-4">
                   <h4 className="font-medium text-sm">Edit Field</h4>
 
