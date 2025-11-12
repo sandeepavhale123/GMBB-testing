@@ -173,8 +173,8 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16">Sr. No.</TableHead>
-                  <TableHead>Name</TableHead>
+                  <TableHead className="w-16">#</TableHead>
+                  <TableHead>Form Name</TableHead>
                   <TableHead>Created At</TableHead>
                   <TableHead className="text-center">No. of Feedback</TableHead>
                   <TableHead className="text-center">Avg Rating</TableHead>
