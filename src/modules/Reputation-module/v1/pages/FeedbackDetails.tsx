@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2, X } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -101,7 +102,8 @@ export const FeedbackDetails: React.FC = () => {
   // Fetch data from API
   const { 
     data: feedbackData, 
-    isLoading, 
+    isLoading,
+    isFetching,
     isError, 
     error 
   } = useGetFeedbackDetails(apiRequest);
@@ -201,12 +203,20 @@ export const FeedbackDetails: React.FC = () => {
         avgRating={feedbackForm.avgRating}
         positiveThreshold={feedbackForm.positiveThreshold}
         sentiment={sentiment}
-        isLoading={isLoading}
+        isLoading={isLoading && !feedbackData}
       />
 
       {/* Feedback Responses */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Feedback Responses</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Feedback Responses</h2>
+          {isFetching && feedbackData && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+              <span>Updating...</span>
+            </div>
+          )}
+        </div>
         
         {/* Search and Filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
@@ -215,7 +225,7 @@ export const FeedbackDetails: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               type="text"
-              placeholder="Search by name, email, or comment..."
+              placeholder="Search by name, email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -252,7 +262,10 @@ export const FeedbackDetails: React.FC = () => {
             </p>
           </Card>
         ) : (
-          <div className="bg-card rounded-lg border overflow-hidden">
+          <div className={cn(
+            "bg-card rounded-lg border overflow-hidden transition-opacity duration-200",
+            isFetching && "opacity-60"
+          )}>
             <Table>
               <TableHeader>
                 <TableRow>
