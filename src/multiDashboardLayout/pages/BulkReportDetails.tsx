@@ -66,6 +66,7 @@ export const BulkReportDetails: React.FC = () => {
     resendEmail,
     downloadReport,
     downloadAllInOnePdf,
+    downloadAllInOneCsv,
     bulkResendEmails,
   } = useBulkReportDetails(reportOrProjectId || "");
   const handleSearch = useCallback(
@@ -180,6 +181,24 @@ export const BulkReportDetails: React.FC = () => {
       });
     }
   }, [downloadAllInOnePdf]);
+
+  const handleDownloadAllCsv = useCallback(async () => {
+    const result = await downloadAllInOneCsv();
+    if (result.success) {
+      toast({
+        title: t("bulkReportDetails.toast.allCsvStarted.title"),
+        description: t("bulkReportDetails.toast.allCsvStarted.description"),
+      });
+    } else {
+      toast({
+        title: t("bulkReportDetails.toast.error.title"),
+        description:
+          result.error || t("bulkReportDetails.toast.error.downloadAllCsv"),
+        variant: "destructive",
+      });
+    }
+  }, [downloadAllInOneCsv]);
+
   const handleBulkResend = useCallback(async () => {
     if (selectedReports.size === 0) return;
     const result = await bulkResendEmails(Array.from(selectedReports));
@@ -331,19 +350,39 @@ export const BulkReportDetails: React.FC = () => {
             </p>
           )}
         </div>
-        {data?.allInOnePdfReport && reports.length > 0 && (
-          <Button
-            onClick={handleDownloadAllPdf}
-            className="flex items-center gap-2 self-start sm:self-auto"
-          >
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">
-              {t("bulkReportDetails.download.allPdf")}
-            </span>
-            <span className="sm:hidden">
-              {t("bulkReportDetails.download.pdf")}
-            </span>
-          </Button>
+        {(data?.allInOnePdfReport || data?.allInOneCsvReport) && reports.length > 0 && (
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            {data?.allInOnePdfReport && (
+              <Button
+                onClick={handleDownloadAllPdf}
+                variant="default"
+                className="flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">
+                  {t("bulkReportDetails.download.allPdf")}
+                </span>
+                <span className="sm:hidden">
+                  {t("bulkReportDetails.download.pdf")}
+                </span>
+              </Button>
+            )}
+            {data?.allInOneCsvReport && (
+              <Button
+                onClick={handleDownloadAllCsv}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">
+                  {t("bulkReportDetails.download.allCsv")}
+                </span>
+                <span className="sm:hidden">
+                  {t("bulkReportDetails.download.csv")}
+                </span>
+              </Button>
+            )}
+          </div>
         )}
       </div>
 

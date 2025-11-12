@@ -74,6 +74,7 @@ const transformApiResponse = (
       limit: data.pagination.limit,
     },
     allInOnePdfReport: data.allInOnePdfReport,
+    allInOneCsvReport: data.allInOneCsvReport,
   };
 };
 
@@ -218,6 +219,25 @@ export const useBulkReportDetails = (projectId: string) => {
     }
   }, [data]);
 
+  const downloadAllInOneCsv = useCallback(async () => {
+    try {
+      if (!data?.allInOneCsvReport) {
+        throw new Error("All-in-one CSV not available");
+      }
+
+      window.open(data.allInOneCsvReport, "_blank");
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        error:
+          err instanceof Error
+            ? err.message
+            : "Failed to download all-in-one CSV",
+      };
+    }
+  }, [data]);
+
   const bulkResendEmails = useCallback(async (reportIds: string[]) => {
     try {
       // Simulate API call
@@ -257,6 +277,7 @@ export const useBulkReportDetails = (projectId: string) => {
     resendEmail,
     downloadReport,
     downloadAllInOnePdf,
+    downloadAllInOneCsv,
     bulkResendEmails,
   };
 };

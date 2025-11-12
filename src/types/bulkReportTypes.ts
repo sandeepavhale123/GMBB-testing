@@ -37,6 +37,7 @@ export interface BulkReportDetailsResponse {
     limit: number;
   };
   allInOnePdfReport?: string;
+  allInOneCsvReport?: string;
 }
 
 export interface BulkReportFilters {
@@ -135,6 +136,7 @@ export interface ViewReportDetailsResponse {
   data: {
     report: ViewReportDetailsReport;
     allInOnePdfReport: string;
+    allInOneCsvReport: string;
     items: ViewReportDetailsItem[];
     pagination: {
       total: number;
