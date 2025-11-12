@@ -32,7 +32,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useGetFeedbackDetails } from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
 import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
-import type { FeedbackDetailResponse, GetFeedbackDetailsRequest } from "../types";
+import type { FeedbackDetailResponse, GetFeedbackDetailsRequest, GetFeedbackDetailsResponse } from "../types";
 
 // Helper to format field names (field_1762855246040 -> Field 1762855246040)
 const formatFieldLabel = (fieldKey: string): string => {
@@ -91,6 +91,14 @@ export const FeedbackDetails: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Summary snapshot - freeze summary during filter/search changes
+  const [summarySnapshot, setSummarySnapshot] = useState<{
+    totalResponses: number;
+    avgRating: number;
+    positiveThreshold: number;
+    sentiment: GetFeedbackDetailsResponse["data"]["sentiment"];
+  } | null>(null);
+
   // Build API request
   const apiRequest: GetFeedbackDetailsRequest = useMemo(() => ({
     formId: id || "",
@@ -113,6 +121,23 @@ export const FeedbackDetails: React.FC = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [debouncedSearch, starFilter]);
+
+  // Reset summary snapshot when formId changes
+  useEffect(() => {
+    setSummarySnapshot(null);
+  }, [id]);
+
+  // Capture summary snapshot once per form
+  useEffect(() => {
+    if (!summarySnapshot && feedbackData?.data) {
+      setSummarySnapshot({
+        totalResponses: feedbackData.data.feedbackForm.totalResponses,
+        avgRating: feedbackData.data.feedbackForm.avgRating,
+        positiveThreshold: feedbackData.data.feedbackForm.positiveThreshold,
+        sentiment: feedbackData.data.sentiment,
+      });
+    }
+  }, [summarySnapshot, feedbackData?.data]);
 
   // Handle share button
   const handleShare = async () => {
@@ -200,11 +225,16 @@ export const FeedbackDetails: React.FC = () => {
 
       {/* Summary Cards */}
       <FeedbackSummaryCards
-        totalResponses={feedbackForm.totalResponses}
-        avgRating={feedbackForm.avgRating}
-        positiveThreshold={feedbackForm.positiveThreshold}
-        sentiment={sentiment}
-        isLoading={isLoading && !feedbackData}
+        totalResponses={summarySnapshot?.totalResponses ?? 0}
+        avgRating={summarySnapshot?.avgRating ?? 0}
+        positiveThreshold={summarySnapshot?.positiveThreshold ?? 4}
+        sentiment={summarySnapshot?.sentiment ?? { 
+          total: 0, 
+          positive: { count: 0, percent: 0 }, 
+          neutral: { count: 0, percent: 0 }, 
+          negative: { count: 0, percent: 0 } 
+        }}
+        isLoading={!summarySnapshot && (isLoading && !feedbackData)}
       />
 
       {/* Feedback Responses */}
