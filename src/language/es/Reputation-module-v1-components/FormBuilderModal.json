@@ -1,0 +1,33 @@
+{
+  "title": "Creador de Formularios",
+  "formFields": "Campos del Formulario",
+  "addField": "Agregar Campo",
+  "editField": "Editar Campo",
+  "newField": "Nuevo Campo",
+  "label": "Etiqueta *",
+  "fieldName": "Nombre del Campo *",
+  "fieldType": "Tipo de Campo *",
+  "fieldlabel": "Etiqueta del campo",
+  "placeholder": "Marcador de posición",
+  "plText": "Texto del marcador de posición",
+  "fieldPlace": "nombre_campo",
+  "requiredField": "Campo obligatorio",
+  "options": "Opciones",
+  "enterOptions": "Ingrese una opción por línea",
+  "selectFieldToEdit": "Seleccione un campo para editar o agregue un nuevo campo",
+  "cancel": "Cancelar",
+  "saveChanges": "Guardar Cambios",
+  "cannotRemove": "Este campo no se puede eliminar",
+  "removeField": "Eliminar campo",
+  "requiredDot": "• Obligatorio",
+  "fieldTypes": {
+    "text": "Texto",
+    "email": "Correo electrónico",
+    "textarea": "Área de texto",
+    "number": "Número",
+    "date": "Fecha",
+    "select": "Seleccionar",
+    "radio": "Radio",
+    "checkboxGroup": "Grupo de casillas de verificación"
+  }
+}

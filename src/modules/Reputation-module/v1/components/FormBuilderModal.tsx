@@ -380,7 +380,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                 </div>
               </ScrollArea>
             ) : (
-              <div className="h-[440px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+              <div className="h-[440px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground text-center px-6">
                 {t("selectFieldToEdit")}
               </div>
             )}

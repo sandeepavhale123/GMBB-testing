@@ -37,7 +37,10 @@ import {
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { useGetFeedbackDetails, useGetFeedbackResponseStats } from "@/api/reputationApi";
+import {
+  useGetFeedbackDetails,
+  useGetFeedbackResponseStats,
+} from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
 import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
 import type {
@@ -148,9 +151,7 @@ export const FeedbackDetails: React.FC = () => {
     if (!statsData?.data.feedbackForm.formUrl) return;
 
     try {
-      await navigator.clipboard.writeText(
-        statsData.data.feedbackForm.formUrl
-      );
+      await navigator.clipboard.writeText(statsData.data.feedbackForm.formUrl);
       toast({
         title: t("linkCopied"),
         description: t("linkCopiedDescription"),
@@ -189,7 +190,9 @@ export const FeedbackDetails: React.FC = () => {
           {t("loadErrorTitle")}
         </p>
         <p className="text-sm text-muted-foreground mt-2">
-          {statsError?.message || tableError?.message || t("loadErrorDescription")}
+          {statsError?.message ||
+            tableError?.message ||
+            t("loadErrorDescription")}
         </p>
         <Button
           onClick={() => navigate("/module/reputation/v1/dashboard")}
@@ -363,7 +366,7 @@ export const FeedbackDetails: React.FC = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleViewDetails(response)}
-                            title="View Details"
+                            title={t("view")}
                           >
                             <Eye className="w-4 h-4" />
                           </Button>

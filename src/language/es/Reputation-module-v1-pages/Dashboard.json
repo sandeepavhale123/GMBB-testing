@@ -1,0 +1,23 @@
+{
+  "page": {
+    "title": "Gestionar Feedbacks",
+    "subtitle": "Crea y administra tus formularios de recopilación de feedback"
+  },
+  "error": {
+    "title": "Gestionar Feedbacks y Reseñas",
+    "description": "Automatiza la recopilación de feedback y la generación de reseñas"
+  },
+  "buttons": {
+    "createFeedbackForm": "Crear formulario de feedback"
+  },
+  "alerts": {
+    "loadError": "No se pudieron cargar los formularios de feedback. Por favor, inténtalo de nuevo.",
+    "deleteError": "No se pudo eliminar el formulario de feedback. Por favor, inténtalo de nuevo.",
+    "deleteNotFound": "No se puede eliminar el formulario. ID del formulario no encontrado."
+  },
+  "messages": {
+    "deleteSuccess": "Formulario de feedback eliminado correctamente",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}

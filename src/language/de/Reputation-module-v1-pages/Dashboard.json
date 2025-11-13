@@ -1,0 +1,23 @@
+{
+  "page": {
+    "title": "Feedbacks verwalten",
+    "subtitle": "Erstellen und verwalten Sie Ihre Feedback-Sammelformulare"
+  },
+  "error": {
+    "title": "Feedbacks und Bewertungen verwalten",
+    "description": "Automatisieren Sie die Feedback-Sammlung und Bewertungserstellung"
+  },
+  "buttons": {
+    "createFeedbackForm": "Feedback-Formular erstellen"
+  },
+  "alerts": {
+    "loadError": "Feedback-Formulare konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "deleteError": "Feedback-Formular konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    "deleteNotFound": "Formular konnte nicht gelöscht werden. Formular-ID nicht gefunden."
+  },
+  "messages": {
+    "deleteSuccess": "Feedback-Formular erfolgreich gelöscht",
+    "error": "Fehler",
+    "success": "Erfolg"
+  }
+}

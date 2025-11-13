@@ -171,7 +171,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search feedback forms..."
+              placeholder={t("searchPlaceholder")}
               disabled
               className="pl-10 opacity-50"
             />
@@ -181,11 +181,15 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-16">#</TableHead>
-                  <TableHead>Form Name</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead className="text-center">No. of Feedback</TableHead>
-                  <TableHead className="text-center">Avg Rating</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t("name")}</TableHead>
+                  <TableHead>{t("createdAt")}</TableHead>
+                  <TableHead className="text-center">
+                    {t("feedbackCount")}
+                  </TableHead>
+                  <TableHead className="text-center">
+                    {t("avgRating")}
+                  </TableHead>
+                  <TableHead className="text-right">{t("actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -209,7 +213,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search feedback forms..."
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-10"
@@ -220,9 +224,11 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
             isServerPagination ? forms.length === 0 : filteredForms.length === 0
           ) ? (
             <div className="bg-muted/30 rounded-lg border p-12 text-center">
-              <p className="text-muted-foreground text-lg">No forms found</p>
+              <p className="text-muted-foreground text-lg">
+                {t("noResultsTitle")}
+              </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Try adjusting your search query
+                {t("noResultsDescription")}
               </p>
             </div>
           ) : (
@@ -232,13 +238,17 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-16">#</TableHead>
-                      <TableHead>Form Name</TableHead>
-                      <TableHead>Created At</TableHead>
+                      <TableHead>{t("name")}</TableHead>
+                      <TableHead>{t("createdAt")}</TableHead>
                       <TableHead className="text-center">
-                        No. of Feedback
+                        {t("feedbackCount")}
                       </TableHead>
-                      <TableHead className="text-center">Avg Rating</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead className="text-center">
+                        {t("avgRating")}
+                      </TableHead>
+                      <TableHead className="text-right">
+                        {t("actions")}
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -295,7 +305,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                                       `/module/reputation/v1/feedback/${form.form_id}`
                                     )
                                   }
-                                  title="View Details"
+                                  title={t("viewDetails")}
                                 >
                                   <Eye className="w-4 h-4" />
                                 </Button>
@@ -308,7 +318,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                                     `/module/reputation/v1/edit-feedback-form/${form.form_id}`
                                   )
                                 }
-                                title="Edit Form"
+                                title={t("editForm")}
                               >
                                 <Pencil className="w-4 h-4" />
                               </Button>
@@ -318,7 +328,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                                 onClick={() =>
                                   handleCopyUrl(form.form_url, form.name)
                                 }
-                                title="Copy Form URL"
+                                title={t("copyUrl")}
                               >
                                 <Copy className="w-4 h-4" />
                               </Button>
@@ -326,7 +336,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => handleDeleteClick(form.id)}
-                                title="Delete Form"
+                                title={t("deleteForm")}
                                 className="text-destructive hover:text-destructive"
                               >
                                 <Trash2 className="w-4 h-4" />

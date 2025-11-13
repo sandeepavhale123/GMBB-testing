@@ -1,0 +1,10 @@
+{
+  "title": "🎉 ¡Formulario de Retroalimentación Creado Exitosamente!",
+  "description": "Tu formulario \"{{formName}}\" ha sido creado. Comparte el enlace a continuación con tus clientes.",
+  "formUrlLabel": "URL del Formulario",
+  "copyInfo": "Haz clic en el ícono de copiar para copiar la URL del formulario al portapapeles",
+  "copyLink": "Copiar Enlace",
+  "goToDashboard": "Ir al Panel de Control",
+  "toastTitle": "¡Enlace Copiado!",
+  "toastDescription": "La URL del formulario se ha copiado al portapapeles"
+}

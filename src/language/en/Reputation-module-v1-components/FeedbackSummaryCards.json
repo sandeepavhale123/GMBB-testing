@@ -7,5 +7,6 @@
   "sentimentAnalysis": "Sentiment Analysis",
   "positive": "Positive",
   "neutral": "Neutral",
-  "negative": "Negative"
+  "negative": "Negative",
+  "responses":"responses"
 }
