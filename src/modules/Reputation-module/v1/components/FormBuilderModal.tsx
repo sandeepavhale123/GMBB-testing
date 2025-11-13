@@ -247,9 +247,21 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                               generatedName = generatedName + "_";
                             }
 
+                            // Check for duplicate field names and make unique
+                            const existingFieldNames = fields
+                              .filter(f => f.id !== selectedField.id) // Exclude current field
+                              .map(f => f.name.toLowerCase());
+
+                            let finalName = generatedName;
+                            let counter = 1;
+                            while (existingFieldNames.includes(finalName.toLowerCase())) {
+                              finalName = `${generatedName}_${counter}`;
+                              counter++;
+                            }
+
                             updateField(selectedField.id, {
                               label,
-                              name: generatedName,
+                              name: finalName,
                             });
                           }
                         }}
