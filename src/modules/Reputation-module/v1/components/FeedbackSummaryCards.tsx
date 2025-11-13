@@ -107,7 +107,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
               {isLoading ? (
                 <Skeleton className="h-8 w-16" />
               ) : (
-                <p className="text-3xl mb:text-5xl mt-[50px]  font-bold" style={{fontSize:"40px"}}>{totalResponses}</p>
+                <p className="text-3xl mb:text-5xl mt-[30px]  font-bold" style={{fontSize:"30px"}}>{totalResponses}</p>
               )}
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
@@ -124,7 +124,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
               {isLoading ? (
                 <Skeleton className="h-8 w-20" />
               ) : (
-                <p className="text-3xl mb:text-5xl mt-[50px]  font-bold" style={{fontSize:"50px"}}>
+                <p className="text-3xl mb:text-5xl mt-[30px]  font-bold" style={{fontSize:"30px"}}>
                   {avgRating.toFixed(1)}
                   <span className="text-sm text-muted-foreground ml-1">/5</span>
                 </p>
@@ -144,7 +144,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
               {isLoading ? (
                 <Skeleton className="h-8 w-16" />
               ) : (
-                <p className="text-3xl mb:text-5xl mt-[50px]  font-bold" style={{fontSize:"50px"}}>
+                <p className="text-3xl mb:text-5xl mt-[30px]  font-bold" style={{fontSize:"30px"}}>
                   {positiveThreshold}
                   <span className="text-sm text-muted-foreground ml-1">+ stars</span>
                 </p>
@@ -164,7 +164,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
               {isLoading ? (
                 <Skeleton className="h-8 w-16" />
               ) : (
-                <p className="text-3xl mb:text-5xl mt-[50px]  font-bold" style={{fontSize:"50px"}}>{sentiment.positive.count}</p>
+                <p className="text-3xl mb:text-5xl mt-[30px]  font-bold" style={{fontSize:"30px"}}>{sentiment.positive.count}</p>
               )}
             </div>
             <div className="bg-green-50 p-3 rounded-lg">
@@ -176,14 +176,16 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
 
       {/* Right Column - Large Sentiment Analysis Card with Doughnut Chart */}
       <Card className="p-6 lg:col-span-6">
-        <h3 className="text-lg font-semibold mb-6">Sentiment Analysis</h3>
-        
+       <div className="flex flex-col lg:flex-wrap justify-between items-start mb-3 gap-2">
+         <h3 className="text-lg font-semibold ">Sentiment Analysis</h3>
+          
+       </div>
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <Skeleton className="h-48 w-48 rounded-full" />
           </div>
         ) : (
-          <div className="flex flex-col  items-center gap-8">
+          <div className="flex flex-col lg:flex-row justify-between  items-center gap-8">
             {/* Doughnut Chart */}
             <div className="flex-shrink-0">
               <ResponsiveContainer width={190} height={190}>
@@ -206,31 +208,31 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
               </ResponsiveContainer>
             </div>
 
-           
-            {/* Legend with Counts   */}
-            <div className="flex flex-col gap-2 lg:flex-row lg:gap:4">
-               <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-col gap-4  lg:gap:4">
+               <div className="flex flex-row gap-2 items-center border px-2 py-1 rounded border-green-500 border-1">
                   <div className="w-2 h-2 rounded bg-green-500 "></div>
-                  <div className="flex flex-row items-center gap-4">
+                  <div className="flex flex-row items-center gap-2">
                     <p className="font-semibold text-green-500">Positive</p>
-                    <p className="text-sm text-green-500">{sentiment.positive.count} </p>
+                    <p className="font-semibold text-sm text-green-500">{sentiment.positive.count} </p>
                   </div>
                </div>
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 items-center border px-2 py-1 rounded border-yellow-500 border-1">
                   <div className="w-2 h-2 rounded bg-yellow-500 "></div>
-                  <div className="flex flex-row items-center gap-4">
+                  <div className="flex flex-row items-center gap-2">
                     <p className="font-semibold text-yellow-500">Neutral</p>
-                    <p className="text-sm text-green-500">{sentiment.neutral.count} </p>
+                    <p className="font-semibold text-sm text-yellow-500">{sentiment.neutral.count} </p>
                   </div>
                </div>
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 items-center border px-2 py-1 rounded border-red-500 border-1">
                   <div className="w-2 h-2 rounded bg-red-500 "></div>
-                  <div className="flex flex-row items-center gap-4">
+                  <div className="flex flex-row items-center gap-2">
                     <p className="font-semibold text-red-500">Negative</p>
-                    <p className="text-sm text-red-500">{sentiment.negative.count} </p>
+                    <p className="font-semibold text-sm text-red-500">{sentiment.negative.count} </p>
                   </div>
                </div>
             </div>
+            {/* Legend with Counts   */}
+         
           </div>
         )}
       </Card>

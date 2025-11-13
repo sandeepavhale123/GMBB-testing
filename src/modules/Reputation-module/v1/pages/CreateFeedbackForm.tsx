@@ -909,7 +909,7 @@ export const CreateFeedbackForm: React.FC = () => {
                   </div>
                   {formName && currentStep === 1 && (
                     <div className="text-left">
-                      <p className="text-sm font-medium text-foreground">
+                      <p className="text-lg font-medium text-foreground text-center">
                         {formName}
                       </p>
                     </div>
