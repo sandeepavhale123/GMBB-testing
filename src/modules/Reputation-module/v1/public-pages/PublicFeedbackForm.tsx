@@ -91,6 +91,33 @@ export const PublicFeedbackForm: React.FC = () => {
     }
   };
 
+  // Helper function to reorder formData based on form field order
+  const reorderFormData = (
+    data: Record<string, any>,
+    fields: FormField[]
+  ): Record<string, any> => {
+    const orderedData: Record<string, any> = {};
+    
+    // Sort fields by order property
+    const sortedFields = [...fields].sort((a, b) => a.order - b.order);
+    
+    // Add each field's data in the correct order
+    sortedFields.forEach((field) => {
+      if (data.hasOwnProperty(field.name)) {
+        orderedData[field.name] = data[field.name];
+      }
+    });
+    
+    // Add any extra fields that aren't in formFields (edge case)
+    Object.keys(data).forEach((key) => {
+      if (!orderedData.hasOwnProperty(key)) {
+        orderedData[key] = data[key];
+      }
+    });
+    
+    return orderedData;
+  };
+
   const formFields: FormField[] = parseFormFields(data);
   const reviewSiteUrls: Record<string, string> = parseReviewSiteUrls(data);
 
@@ -111,12 +138,15 @@ export const PublicFeedbackForm: React.FC = () => {
     setStarRating(rating);
     setIsSubmitting(true);
     
+    // Reorder formData to match form field order
+    const orderedFormData = reorderFormData(formData, formFields);
+    
     // Submit feedback form to API
     submitFeedback(
       {
         formId: formId || "",
         starRating: rating,
-        formData: formData,
+        formData: orderedFormData,
       },
       {
         onSuccess: () => {
