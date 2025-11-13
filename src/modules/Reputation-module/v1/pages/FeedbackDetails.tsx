@@ -247,7 +247,7 @@ export const FeedbackDetails: React.FC = () => {
       {/* Feedback Responses */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Feedback Responses</h2>
+          <h2 className="text-xl font-semibold">{t("feedbackResponses")}</h2>
         </div>
 
         {/* Search and Filters */}

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Copy, Check, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface FormCreatedSuccessModalProps {
   open: boolean;
@@ -21,12 +22,12 @@ interface FormCreatedSuccessModalProps {
   formName: string;
 }
 
-export const FormCreatedSuccessModal: React.FC<FormCreatedSuccessModalProps> = ({
-  open,
-  onOpenChange,
-  formUrl,
-  formName,
-}) => {
+export const FormCreatedSuccessModal: React.FC<
+  FormCreatedSuccessModalProps
+> = ({ open, onOpenChange, formUrl, formName }) => {
+  const { t } = useI18nNamespace(
+    "Reputation-module-v1-components/FormCreatedSuccessModal"
+  );
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
@@ -34,10 +35,10 @@ export const FormCreatedSuccessModal: React.FC<FormCreatedSuccessModalProps> = (
     navigator.clipboard.writeText(formUrl);
     setCopied(true);
     toast({
-      title: "Link Copied!",
-      description: "Form URL has been copied to clipboard",
+      title: t("toastTitle"),
+      description: t("toastDescription"),
     });
-    
+
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -50,17 +51,15 @@ export const FormCreatedSuccessModal: React.FC<FormCreatedSuccessModalProps> = (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl">
-            🎉 Feedback Form Created Successfully!
-          </DialogTitle>
+          <DialogTitle className="text-xl">{t("title")}</DialogTitle>
           <DialogDescription>
-            Your form "{formName}" has been created. Share the link below with your customers.
+            {t("description", { formName })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="form-url">Form URL</Label>
+            <Label htmlFor="form-url">{t("formUrlLabel")}</Label>
             <div className="flex gap-2">
               <Input
                 id="form-url"
@@ -68,11 +67,7 @@ export const FormCreatedSuccessModal: React.FC<FormCreatedSuccessModalProps> = (
                 readOnly
                 className="flex-1"
               />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleCopyUrl}
-              >
+              <Button variant="outline" size="icon" onClick={handleCopyUrl}>
                 {copied ? (
                   <Check className="h-4 w-4 text-green-500" />
                 ) : (
@@ -87,26 +82,17 @@ export const FormCreatedSuccessModal: React.FC<FormCreatedSuccessModalProps> = (
                 <ExternalLink className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Click the copy icon to copy the form URL to your clipboard
-            </p>
+            <p className="text-xs text-muted-foreground">{t("copyInfo")}</p>
           </div>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button
-            variant="outline"
-            onClick={handleCopyUrl}
-            className="flex-1"
-          >
+          <Button variant="outline" onClick={handleCopyUrl} className="flex-1">
             <Copy className="h-4 w-4 mr-2" />
-            Copy Link
+            {t("copyLink")}
           </Button>
-          <Button
-            onClick={handleGoToDashboard}
-            className="flex-1"
-          >
-            Go to Dashboard
+          <Button onClick={handleGoToDashboard} className="flex-1">
+            {t("goToDashboard")}
           </Button>
         </DialogFooter>
       </DialogContent>

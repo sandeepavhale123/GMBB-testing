@@ -21,7 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormField, FieldType } from "../../types/formBuilder.types";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface FormBuilderModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -29,23 +29,26 @@ interface FormBuilderModalProps {
   onSave: (fields: FormField[]) => void;
 }
 
-const fieldTypeOptions: { value: FieldType; label: string }[] = [
-  { value: "text", label: "Text" },
-  { value: "email", label: "Email" },
-  { value: "textarea", label: "Textarea" },
-  { value: "number", label: "Number" },
-  { value: "date", label: "Date" },
-  { value: "select", label: "Select" },
-  { value: "radio", label: "Radio" },
-  { value: "checkbox-group", label: "Checkbox Group" },
-];
-
 export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   open,
   onOpenChange,
   fields: initialFields,
   onSave,
 }) => {
+  const { t } = useI18nNamespace(
+    "Reputation-module-v1-components/FormBuilderModal"
+  );
+
+  const fieldTypeOptions: { value: FieldType; label: string }[] = [
+    { value: "text", label: t("fieldTypes.text") },
+    { value: "email", label: t("fieldTypes.email") },
+    { value: "textarea", label: t("fieldTypes.textarea") },
+    { value: "number", label: t("fieldTypes.number") },
+    { value: "date", label: t("fieldTypes.date") },
+    { value: "select", label: t("fieldTypes.select") },
+    { value: "radio", label: t("fieldTypes.radio") },
+    { value: "checkbox-group", label: t("fieldTypes.checkboxGroup") },
+  ];
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [editingField, setEditingField] = useState<string | null>(null);
   // Raw textarea content for options-based fields
@@ -54,7 +57,8 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   const [dragOverFieldId, setDragOverFieldId] = useState<string | null>(null);
 
   const isOptionsField = (f?: FormField) =>
-    !!f && (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
+    !!f &&
+    (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
 
   // Sync fields when modal opens
   useEffect(() => {
@@ -68,7 +72,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
     const newField: FormField = {
       id: `field-${Date.now()}`,
       type: "text",
-      label: "New Field",
+      label: t("newField"),
       name: `field_${Date.now()}`,
       placeholder: "",
       required: false,
@@ -79,7 +83,11 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   };
 
   const updateField = (id: string, updates: Partial<FormField>) => {
-    setFields(fields.map((field) => (field.id === id ? { ...field, ...updates } : field)));
+    setFields(
+      fields.map((field) =>
+        field.id === id ? { ...field, ...updates } : field
+      )
+    );
   };
 
   const removeField = (id: string) => {
@@ -91,13 +99,13 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 
   const handleDragStart = (e: React.DragEvent, fieldId: string) => {
     setDraggedFieldId(fieldId);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', fieldId);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", fieldId);
   };
 
   const handleDragOver = (e: React.DragEvent, fieldId: string) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
     setDragOverFieldId(fieldId);
   };
 
@@ -107,15 +115,15 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 
   const handleDrop = (e: React.DragEvent, dropFieldId: string) => {
     e.preventDefault();
-    
+
     if (!draggedFieldId || draggedFieldId === dropFieldId) {
       setDraggedFieldId(null);
       setDragOverFieldId(null);
       return;
     }
 
-    const draggedIndex = fields.findIndex(f => f.id === draggedFieldId);
-    const dropIndex = fields.findIndex(f => f.id === dropFieldId);
+    const draggedIndex = fields.findIndex((f) => f.id === draggedFieldId);
+    const dropIndex = fields.findIndex((f) => f.id === dropFieldId);
 
     if (draggedIndex === -1 || dropIndex === -1) return;
 
@@ -150,7 +158,9 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   // Keep textarea content in sync when switching fields or opening
   useEffect(() => {
     if (isOptionsField(selectedField)) {
-      setOptionsText(selectedField?.options?.map((o) => o.label).join("\n") ?? "");
+      setOptionsText(
+        selectedField?.options?.map((o) => o.label).join("\n") ?? ""
+      );
     } else {
       setOptionsText("");
     }
@@ -160,17 +170,17 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Form Builder</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
           {/* Left Panel - Field List */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium">Form Fields</Label>
+              <Label className="text-sm font-medium">{t("formFields")}</Label>
               <Button size="sm" onClick={addField} variant="outline">
                 <Plus className="w-4 h-4 mr-1" />
-                Add Field
+                {t("addField")}
               </Button>
             </div>
 
@@ -190,11 +200,10 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         ? "border-primary bg-primary/5"
                         : "border-border hover:bg-muted/50"
                     } ${
-                      draggedFieldId === field.id
-                        ? "opacity-50 scale-95"
-                        : ""
+                      draggedFieldId === field.id ? "opacity-50 scale-95" : ""
                     } ${
-                      dragOverFieldId === field.id && draggedFieldId !== field.id
+                      dragOverFieldId === field.id &&
+                      draggedFieldId !== field.id
                         ? "border-primary border-2 bg-primary/10"
                         : ""
                     }`}
@@ -208,7 +217,9 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                   >
                     <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 cursor-grab active:cursor-grabbing" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{field.label}</p>
+                      <p className="text-sm font-medium truncate">
+                        {field.label}
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         {field.type} {field.required && "• Required"}
                       </p>
@@ -224,8 +235,8 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       disabled={field.name === "name" || field.type === "email"}
                       title={
                         field.name === "name" || field.type === "email"
-                          ? "This field cannot be removed"
-                          : "Remove field"
+                          ? t("cannotRemove")
+                          : t("removeField")
                       }
                     >
                       <Trash2 className="w-4 h-4 text-destructive" />
@@ -241,143 +252,151 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
             {selectedField ? (
               <ScrollArea className="h-[300px] md:h-[440px] border border-gray-5 p-4">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-sm">Edit Field</h4>
+                  <h4 className="font-medium text-sm">{t("editField")}</h4>
 
-                 <div className="px-1 space-y-4">
-                   <div className="space-y-2">
-                    <Label htmlFor="field-label" className="text-xs">
-                      Label *
-                    </Label>
-                    <Input
-                      id="field-label"
-                      value={selectedField.label}
-                      onChange={(e) => {
-                        const label = e.target.value;
-                        const generatedName = label.replace(/\s+/g, '_');
-                        updateField(selectedField.id, { 
-                          label,
-                          name: generatedName 
-                        });
-                      }}
-                      placeholder="Field label"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="field-name" className="text-xs">
-                      Field Name *
-                    </Label>
-                    <Input
-                      id="field-name"
-                      value={selectedField.name}
-                      onChange={(e) => updateField(selectedField.id, { name: e.target.value })}
-                      placeholder="field_name"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="field-type" className="text-xs">
-                      Field Type *
-                    </Label>
-                    <Select
-                      value={selectedField.type}
-                      onValueChange={(value: FieldType) =>
-                        updateField(selectedField.id, { type: value })
-                      }
-                    >
-                      <SelectTrigger id="field-type">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {fieldTypeOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="field-placeholder" className="text-xs">
-                      Placeholder
-                    </Label>
-                    <Input
-                      id="field-placeholder"
-                      value={selectedField.placeholder || ""}
-                      onChange={(e) =>
-                        updateField(selectedField.id, { placeholder: e.target.value })
-                      }
-                      placeholder="Placeholder text"
-                    />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="field-required"
-                      checked={selectedField.required}
-                      onCheckedChange={(checked) =>
-                        updateField(selectedField.id, { required: checked === true })
-                      }
-                    />
-                    <Label htmlFor="field-required" className="text-xs cursor-pointer">
-                      Required field
-                    </Label>
-                  </div>
-
-                  {/* Options for select/radio/checkbox */}
-                  {(selectedField.type === "select" ||
-                    selectedField.type === "radio" ||
-                    selectedField.type === "checkbox-group") && (
+                  <div className="px-1 space-y-4">
                     <div className="space-y-2">
-                      <Label className="text-xs">Options</Label>
-                      <Textarea
-                        value={optionsText}
+                      <Label htmlFor="field-label" className="text-xs">
+                        {t("label")}
+                      </Label>
+                      <Input
+                        id="field-label"
+                        value={selectedField.label}
                         onChange={(e) => {
-                          const raw = e.target.value;
-                          setOptionsText(raw);
-                          const options = raw
-                            .split(/\r?\n/)
-                            .map((line) => line.trim())
-                            .filter(Boolean)
-                            .map((line) => ({
-                              label: line,
-                              value: line.toLowerCase().replace(/\s+/g, "_"),
-                            }));
-                          updateField(selectedField.id, { options });
+                          const label = e.target.value;
+                          const generatedName = label.replace(/\s+/g, "_");
+                          updateField(selectedField.id, {
+                            label,
+                            name: generatedName,
+                          });
                         }}
-                        placeholder="Enter one option per line"
-                        className="min-h-[100px]"
+                        placeholder={t("fieldlabel")}
                       />
-                      <p className="text-xs text-muted-foreground">
-                        Enter one option per line
-                      </p>
                     </div>
-                  )}
-                 </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="field-name" className="text-xs">
+                        {t("fieldName")}
+                      </Label>
+                      <Input
+                        id="field-name"
+                        value={selectedField.name}
+                        onChange={(e) =>
+                          updateField(selectedField.id, {
+                            name: e.target.value,
+                          })
+                        }
+                        placeholder={t("fieldPlace")}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="field-type" className="text-xs">
+                        {t("fieldType")}
+                      </Label>
+                      <Select
+                        value={selectedField.type}
+                        onValueChange={(value: FieldType) =>
+                          updateField(selectedField.id, { type: value })
+                        }
+                      >
+                        <SelectTrigger id="field-type">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {fieldTypeOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="field-placeholder" className="text-xs">
+                        {t("placeholder")}
+                      </Label>
+                      <Input
+                        id="field-placeholder"
+                        value={selectedField.placeholder || ""}
+                        onChange={(e) =>
+                          updateField(selectedField.id, {
+                            placeholder: e.target.value,
+                          })
+                        }
+                        placeholder={t("plText")}
+                      />
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="field-required"
+                        checked={selectedField.required}
+                        onCheckedChange={(checked) =>
+                          updateField(selectedField.id, {
+                            required: checked === true,
+                          })
+                        }
+                      />
+                      <Label
+                        htmlFor="field-required"
+                        className="text-xs cursor-pointer"
+                      >
+                        {t("requiredField")}
+                      </Label>
+                    </div>
+
+                    {/* Options for select/radio/checkbox */}
+                    {(selectedField.type === "select" ||
+                      selectedField.type === "radio" ||
+                      selectedField.type === "checkbox-group") && (
+                      <div className="space-y-2">
+                        <Label className="text-xs">{t("options")}</Label>
+                        <Textarea
+                          value={optionsText}
+                          onChange={(e) => {
+                            const raw = e.target.value;
+                            setOptionsText(raw);
+                            const options = raw
+                              .split(/\r?\n/)
+                              .map((line) => line.trim())
+                              .filter(Boolean)
+                              .map((line) => ({
+                                label: line,
+                                value: line.toLowerCase().replace(/\s+/g, "_"),
+                              }));
+                            updateField(selectedField.id, { options });
+                          }}
+                          placeholder={t("enterOptions")}
+                          className="min-h-[100px]"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          {t("enterOptions")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </ScrollArea>
             ) : (
               <div className="h-[440px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground">
-                Select a field to edit or add a new field
+                {t("selectFieldToEdit")}
               </div>
             )}
           </div>
         </div>
 
         <DialogFooter className="flex-col sm:flex-row gap-2">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => onOpenChange(false)}
             className="w-full sm:w-auto"
           >
-            Cancel
+            {t("cancel")}
           </Button>
-          <Button 
-            onClick={handleSave}
-            className="w-full sm:w-auto"
-          >
-            Save Changes
+          <Button onClick={handleSave} className="w-full sm:w-auto">
+            {t("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

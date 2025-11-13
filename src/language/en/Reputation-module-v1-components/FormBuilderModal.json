@@ -10,6 +10,7 @@
   "fieldlabel":"Field label",
   "placeholder": "Placeholder",
   "plText":"Placeholder text",
+  "fieldPlace":"field_name",
   "requiredField": "Required field",
   "options": "Options",
   "enterOptions": "Enter one option per line",

@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FileText, MessageSquare, Calendar, TrendingUp } from "lucide-react";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface FeedbackStatsCardsProps {
   totalForms: number;
@@ -18,32 +19,35 @@ export const FeedbackStatsCards: React.FC<FeedbackStatsCardsProps> = ({
   averageResponseRate,
   isLoading = false,
 }) => {
+  const { t } = useI18nNamespace(
+    "Reputation-module-v1-components/FeedbackStatsCards"
+  );
   const stats = [
     {
-      title: "Total Forms",
+      title: t("totalForms"),
       value: totalForms,
       icon: FileText,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
-      title: "Total Feedback",
+      title: t("totalFeedback"),
       value: totalFeedback,
       icon: MessageSquare,
       color: "text-green-600",
       bgColor: "bg-green-50",
     },
     {
-      title: "This Month",
+      title: t("thisMonth"),
       value: thisMonthFeedback,
       icon: Calendar,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
     {
-      title: "Avg Rating",
+      title: t("avgRating"),
       value: averageResponseRate.toFixed(1),
-      suffix: "/5",
+      suffix: t("suffix"),
       icon: TrendingUp,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
