@@ -235,7 +235,9 @@ import type {
   DeleteFeedbackFormRequest,
   DeleteFeedbackFormResponse,
   GetFeedbackDetailsRequest,
-  GetFeedbackDetailsResponse
+  GetFeedbackDetailsResponse,
+  GetFeedbackResponseStatsRequest,
+  GetFeedbackResponseStatsResponse
 } from "@/modules/Reputation-module/v1/types";
 
 export const getAllFeedbackForms = async (
@@ -258,6 +260,8 @@ export const useGetAllFeedbackForms = (
     queryKey: ["feedbackForms", search, page, limit],
     queryFn: () => getAllFeedbackForms({ search, page, limit }),
     staleTime: 30000,
+    placeholderData: (previousData) => previousData,
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -308,7 +312,29 @@ export const useGetFeedbackStats = () => {
   });
 };
 
-// Get Feedback Details API Function
+// Get Feedback Response Stats API Function
+export const getFeedbackResponseStats = async (
+  request: GetFeedbackResponseStatsRequest
+): Promise<GetFeedbackResponseStatsResponse> => {
+  const response = await apiClient.post<GetFeedbackResponseStatsResponse>(
+    "/reputation/get-feedback-responce-stat",
+    request
+  );
+  return response.data;
+};
+
+// React Query Hook for Feedback Response Stats
+export const useGetFeedbackResponseStats = (formId: string) => {
+  return useQuery({
+    queryKey: ["feedbackResponseStats", formId],
+    queryFn: () => getFeedbackResponseStats({ formId }),
+    enabled: !!formId,
+    staleTime: 5 * 60 * 1000, // 5 minutes - stats don't change frequently
+    refetchOnWindowFocus: false,
+  });
+};
+
+// Get Feedback Details API Function (Table Data Only)
 export const getFeedbackDetails = async (
   request: GetFeedbackDetailsRequest
 ): Promise<GetFeedbackDetailsResponse> => {
@@ -319,11 +345,21 @@ export const getFeedbackDetails = async (
   return response.data;
 };
 
-// React Query Hook for Feedback Details
+// React Query Hook for Feedback Details (Table Data Only)
 export const useGetFeedbackDetails = (request: GetFeedbackDetailsRequest) => {
   return useQuery({
-    queryKey: ["feedbackDetails", request],
+    queryKey: [
+      "feedbackDetails",
+      request.formId,
+      request.page,
+      request.limit,
+      request.search,
+      request.starRating,
+    ],
     queryFn: () => getFeedbackDetails(request),
+    enabled: !!request.formId,
     staleTime: 2 * 60 * 1000, // 2 minutes
+    placeholderData: (previousData) => previousData, // Keep previous data during refetch
+    refetchOnWindowFocus: false,
   });
 };

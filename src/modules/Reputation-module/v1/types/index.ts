@@ -74,7 +74,46 @@ export interface DeleteFeedbackFormResponse {
   };
 }
 
-// Feedback Details API Types
+// Feedback Response Stats API Types
+export interface GetFeedbackResponseStatsRequest {
+  formId: string;
+}
+
+export interface GetFeedbackResponseStatsResponse {
+  code: number;
+  message: string;
+  data: {
+    feedbackForm: {
+      id: string;
+      formName: string;
+      formId: string;
+      formUrl: string;
+      logo: string;
+      title: string;
+      subtitle: string;
+      positiveThreshold: number;
+      totalResponses: number;
+      avgRating: number;
+    };
+    sentiment: {
+      total: number;
+      positive: {
+        count: number;
+        percent: number;
+      };
+      neutral: {
+        count: number;
+        percent: number;
+      };
+      negative: {
+        count: number;
+        percent: number;
+      };
+    };
+  };
+}
+
+// Feedback Details API Types (Table Data Only)
 export interface GetFeedbackDetailsRequest {
   formId: string;
   search: string;
@@ -106,33 +145,6 @@ export interface GetFeedbackDetailsResponse {
       per_page: number;
       total_records: number;
       total_pages: number;
-    };
-    feedbackForm: {
-      id: string;
-      formName: string;
-      formId: string;
-      formUrl: string;
-      logo: string;
-      title: string;
-      subtitle: string;
-      positiveThreshold: number;
-      totalResponses: number;
-      avgRating: number;
-    };
-    sentiment: {
-      total: number;
-      positive: {
-        count: number;
-        percent: number;
-      };
-      neutral: {
-        count: number;
-        percent: number;
-      };
-      negative: {
-        count: number;
-        percent: number;
-      };
     };
     feedbackResponses: FeedbackDetailResponse[];
   };
