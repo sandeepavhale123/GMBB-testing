@@ -264,7 +264,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         value={selectedField.label}
                         onChange={(e) => {
                           const label = e.target.value;
-                          const isProtectedField = selectedField.name === "name" || selectedField.type === "email";
+                          const isProtectedField = selectedField.name === "name" || selectedField.name === "email";
                           
                           if (isProtectedField) {
                             // For Name/Email fields: Only update label
@@ -295,7 +295,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                           })
                         }
                         placeholder={t("fieldPlace")}
-                        disabled={selectedField.name === "name" || selectedField.type === "email"}
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       />
                     </div>
 
@@ -308,9 +308,9 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         onValueChange={(value: FieldType) =>
                           updateField(selectedField.id, { type: value })
                         }
-                        disabled={selectedField.name === "name" || selectedField.type === "email"}
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       >
-                        <SelectTrigger id="field-type" disabled={selectedField.name === "name" || selectedField.type === "email"}>
+                        <SelectTrigger id="field-type" disabled={selectedField.name === "name" || selectedField.name === "email"}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -348,12 +348,12 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                             required: checked === true,
                           })
                         }
-                        disabled={selectedField.name === "name" || selectedField.type === "email"}
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       />
                       <Label
                         htmlFor="field-required"
                         className={`text-xs cursor-pointer ${
-                          selectedField.name === "name" || selectedField.type === "email" 
+                          selectedField.name === "name" || selectedField.name === "email"
                             ? "opacity-50 cursor-not-allowed" 
                             : ""
                         }`}
