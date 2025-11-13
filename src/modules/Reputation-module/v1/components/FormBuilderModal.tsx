@@ -249,8 +249,8 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
 
                             // Check for duplicate field names and make unique
                             const existingFieldNames = fields
-                              .filter(f => f.id !== selectedField.id) // Exclude current field
-                              .map(f => f.name.toLowerCase());
+                              .filter((f) => f.id !== selectedField.id) // Exclude current field
+                              .map((f) => f.name.toLowerCase());
 
                             let finalName = generatedName;
                             let counter = 1;
@@ -269,7 +269,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       />
                     </div>
 
-                    <div className="space-y-2 hidden">
+                    <div className="space-y-2">
                       <Label htmlFor="field-name" className="text-xs">
                         {t("fieldName")}
                       </Label>
