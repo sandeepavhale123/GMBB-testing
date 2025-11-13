@@ -271,7 +271,14 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                             updateField(selectedField.id, { label });
                           } else {
                             // For other fields: Update both label and name
-                            const generatedName = label.replace(/\s+/g, "_");
+                            let generatedName = label.replace(/\s+/g, "_");
+
+                            // Add underscore if generated name conflicts with built-in fields
+                            const lowerName = generatedName.toLowerCase();
+                            if (lowerName === "name" || lowerName === "email") {
+                              generatedName = generatedName + "_";
+                            }
+
                             updateField(selectedField.id, {
                               label,
                               name: generatedName,
