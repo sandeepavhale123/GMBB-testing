@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Copy, Trash2, Eye, Search, Loader2, Pencil } from "lucide-react";
+import { Copy, Trash2, Eye, Search, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +31,7 @@ interface FeedbackFormTableProps {
   totalRecords?: number;
   isServerPagination?: boolean;
   isLoading?: boolean;
+  isFetching?: boolean;
 }
 
 export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({ 
@@ -43,6 +45,7 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
   totalRecords: propTotalRecords,
   isServerPagination = false,
   isLoading = false,
+  isFetching = false,
 }) => {
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -136,20 +139,48 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
     );
   }
 
+  // Show initial loading state only (first load, no previous data)
+  if (isLoading && forms.length === 0) {
+    return (
+      <Card className="p-6">
+        <div className="space-y-4">
+          <div className="relative max-w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search feedback forms..."
+              disabled
+              className="pl-10 opacity-50"
+            />
+          </div>
+          <div className="rounded-lg border overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16">#</TableHead>
+                  <TableHead>Form Name</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead className="text-center">No. of Feedback</TableHead>
+                  <TableHead className="text-center">Avg Rating</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <TableRowSkeleton key={`skeleton-${index}`} columns={6} />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <>
       <Card className="relative">
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            <span className="text-sm text-muted-foreground">Updating...</span>
-          </div>
-        </div>
-      )}
-      
-      <div className={isLoading ? "opacity-50 pointer-events-none p-6 space-y-4" : "p-6 space-y-4"}>
+      <div className="p-6 space-y-4">
         {/* Search Bar */}
         <div className="relative max-w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -182,67 +213,77 @@ export const FeedbackFormTable: React.FC<FeedbackFormTableProps> = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedForms.map((form, index) => (
-                  <TableRow key={form.id}>
-                    <TableCell className="font-medium">{startIndex + index + 1}</TableCell>
-                    <TableCell>{form.name}</TableCell>
-                    <TableCell>{format(new Date(form.created_at), "MMM dd, yyyy")}</TableCell>
-                    <TableCell className="text-center">
-                      <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
-                        {form.feedback_count}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {form.avg_rating ? (
-                        <div className="flex items-center justify-center gap-1">
-                          <span className="text-yellow-500">★</span>
-                          <span className="font-medium">{form.avg_rating.toFixed(1)}</span>
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground text-sm">-</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        {form.feedback_count > 0 && (
+                {isFetching && forms.length > 0 ? (
+                  // Show skeleton rows during search/filter (when we have previous data)
+                  <>
+                    {Array.from({ length: Math.min(paginatedForms.length || 5, 10) }).map((_, index) => (
+                      <TableRowSkeleton key={`skeleton-${index}`} columns={6} />
+                    ))}
+                  </>
+                ) : (
+                  // Show actual data
+                  paginatedForms.map((form, index) => (
+                    <TableRow key={form.id}>
+                      <TableCell className="font-medium">{startIndex + index + 1}</TableCell>
+                      <TableCell>{form.name}</TableCell>
+                      <TableCell>{format(new Date(form.created_at), "MMM dd, yyyy")}</TableCell>
+                      <TableCell className="text-center">
+                        <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
+                          {form.feedback_count}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {form.avg_rating ? (
+                          <div className="flex items-center justify-center gap-1">
+                            <span className="text-yellow-500">★</span>
+                            <span className="font-medium">{form.avg_rating.toFixed(1)}</span>
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground text-sm">-</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          {form.feedback_count > 0 && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => navigate(`/module/reputation/v1/feedback/${form.form_id}`)}
+                              title="View Details"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          )}
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => navigate(`/module/reputation/v1/feedback/${form.form_id}`)}
-                            title="View Details"
+                            onClick={() => navigate(`/module/reputation/v1/edit-feedback-form/${form.form_id}`)}
+                            title="Edit Form"
                           >
-                            <Eye className="w-4 h-4" />
+                            <Pencil className="w-4 h-4" />
                           </Button>
-                        )}
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => navigate(`/module/reputation/v1/edit-feedback-form/${form.form_id}`)}
-                          title="Edit Form"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleCopyUrl(form.form_url, form.name)}
-                          title="Copy Form URL"
-                        >
-                          <Copy className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteClick(form.id)}
-                          title="Delete Form"
-                          className="text-destructive hover:text-destructive"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleCopyUrl(form.form_url, form.name)}
+                            title="Copy Form URL"
+                          >
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDeleteClick(form.id)}
+                            title="Delete Form"
+                            className="text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
             </div>

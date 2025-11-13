@@ -28,7 +28,7 @@ export const Dashboard: React.FC = () => {
   const debouncedSearch = useDebounce(searchInput, 500);
 
   // Fetch data using React Query with debounced search
-  const { data, isLoading, isError, error, refetch } = useGetAllFeedbackForms(
+  const { data, isLoading, isFetching, isError, error, refetch } = useGetAllFeedbackForms(
     debouncedSearch,
     currentPage,
     itemsPerPage
@@ -176,18 +176,19 @@ export const Dashboard: React.FC = () => {
       />
 
       {/* Forms Table */}
-      <FeedbackFormTable
-        forms={forms}
-        onDelete={handleDeleteForm}
-        searchQuery={searchInput}
-        onSearchChange={setSearchInput}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-        totalPages={totalPages}
-        totalRecords={totalRecords}
-        isServerPagination={true}
-        isLoading={isLoading || isLoadingStats || deleteMutation.isPending}
-      />
+        <FeedbackFormTable
+          forms={forms}
+          onDelete={handleDeleteForm}
+          searchQuery={searchInput}
+          onSearchChange={setSearchInput}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          isServerPagination={true}
+          isLoading={isLoading || isLoadingStats || deleteMutation.isPending}
+          isFetching={isFetching}
+        />
     </div>
   );
 };

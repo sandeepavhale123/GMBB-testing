@@ -260,6 +260,8 @@ export const useGetAllFeedbackForms = (
     queryKey: ["feedbackForms", search, page, limit],
     queryFn: () => getAllFeedbackForms({ search, page, limit }),
     staleTime: 30000,
+    placeholderData: (previousData) => previousData,
+    refetchOnWindowFocus: false,
   });
 };
 
