@@ -426,24 +426,27 @@ export const PublicFeedbackForm: React.FC = () => {
 
   // Error State
   if (error || !data) {
+    // Check if it's a 404 error
+    const is404Error = (error as any)?.status === 404 || (error as any)?.response?.status === 404;
+
     return (
       <Card className="w-full bg-white shadow-lg">
         <CardContent className="flex flex-col items-center justify-center min-h-[400px] space-y-4 p-8">
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-bold text-foreground mb-2">
-              {error ? 'Error Loading Form' : 'Form Not Found'}
+              {is404Error 
+                ? 'Feedback Form Not Available' 
+                : error 
+                  ? 'Error Loading Form' 
+                  : 'Form Not Found'}
             </h2>
             <p className="text-muted-foreground">
-              {error 
-                ? 'There was an error loading the feedback form. Please try again later.'
-                : 'The feedback form you\'re looking for doesn\'t exist or has been removed.'}
+              {is404Error
+                ? 'The feedback form you\'re looking for is not available or may have been removed.'
+                : error 
+                  ? 'There was an error loading the feedback form. Please try again later.'
+                  : 'The feedback form you\'re looking for doesn\'t exist or has been removed.'}
             </p>
-            {error && (
-              <details className="text-xs text-left mt-4 p-4 bg-muted rounded">
-                <summary className="cursor-pointer font-semibold">Error Details</summary>
-                <pre className="mt-2 whitespace-pre-wrap">{JSON.stringify(error, null, 2)}</pre>
-              </details>
-            )}
           </div>
         </CardContent>
       </Card>
