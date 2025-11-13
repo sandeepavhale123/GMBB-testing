@@ -28,7 +28,9 @@ import i18n from "@/i18n";
 type FormStep = "rating" | "form" | "review-sites" | "success";
 
 export const PublicFeedbackForm: React.FC = () => {
-  const { t } = useI18nNamespace("Reputation-module-v1-pages/FeedbackDetails");
+  const { t } = useI18nNamespace(
+    "Reputation-module-v1-publicpages/PublicFeedbackForm"
+  );
   const { formId } = useParams<{ formId: string }>();
   const { data, isLoading, error } = useGetFeedbackFormPublic(formId || "");
   const { mutate: submitFeedback } = useSubmitFeedbackForm();
