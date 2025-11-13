@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { useGetFeedbackDetails } from "@/api/reputationApi";
+import { useGetFeedbackDetails, useGetFeedbackResponseStats } from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
 import { TableRowSkeleton } from "@/components/ui/table-row-skeleton";
 import type {
@@ -109,8 +109,8 @@ export const FeedbackDetails: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Build API request
-  const apiRequest: GetFeedbackDetailsRequest = useMemo(
+  // Build table API request (search, filter, pagination)
+  const tableRequest: GetFeedbackDetailsRequest = useMemo(
     () => ({
       formId: id || "",
       search: debouncedSearch,
@@ -121,14 +121,22 @@ export const FeedbackDetails: React.FC = () => {
     [id, debouncedSearch, starFilter, currentPage]
   );
 
-  // Fetch data from API
+  // Fetch stats/summary data ONCE (independent of search/filter)
   const {
-    data: feedbackData,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-  } = useGetFeedbackDetails(apiRequest);
+    data: statsData,
+    isLoading: isStatsLoading,
+    isError: isStatsError,
+    error: statsError,
+  } = useGetFeedbackResponseStats(id || "");
+
+  // Fetch table data (refetches on search/filter/pagination)
+  const {
+    data: tableData,
+    isLoading: isTableLoading,
+    isFetching: isTableFetching,
+    isError: isTableError,
+    error: tableError,
+  } = useGetFeedbackDetails(tableRequest);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -137,11 +145,11 @@ export const FeedbackDetails: React.FC = () => {
 
   // Handle share button
   const handleShare = async () => {
-    if (!feedbackData?.data.feedbackForm.formUrl) return;
+    if (!statsData?.data.feedbackForm.formUrl) return;
 
     try {
       await navigator.clipboard.writeText(
-        feedbackData.data.feedbackForm.formUrl
+        statsData.data.feedbackForm.formUrl
       );
       toast({
         title: t("linkCopied"),
@@ -161,8 +169,8 @@ export const FeedbackDetails: React.FC = () => {
     setDialogOpen(true);
   };
 
-  // Show loading state
-  if (isLoading && !feedbackData) {
+  // Show loading state (only on initial load of BOTH stats and table)
+  if ((isStatsLoading || isTableLoading) && !statsData && !tableData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
@@ -174,14 +182,14 @@ export const FeedbackDetails: React.FC = () => {
   }
 
   // Show error state
-  if (isError) {
+  if (isStatsError || isTableError) {
     return (
       <Card className="p-12 text-center">
         <p className="text-destructive text-lg font-semibold">
           {t("loadErrorTitle")}
         </p>
         <p className="text-sm text-muted-foreground mt-2">
-          {error?.message || t("loadErrorDescription")}
+          {statsError?.message || tableError?.message || t("loadErrorDescription")}
         </p>
         <Button
           onClick={() => navigate("/module/reputation/v1/dashboard")}
@@ -193,8 +201,8 @@ export const FeedbackDetails: React.FC = () => {
     );
   }
 
-  // No data from API
-  if (!feedbackData?.data) {
+  // No data from APIs
+  if (!statsData?.data || !tableData?.data) {
     return (
       <Card className="p-12 text-center">
         <p className="text-muted-foreground text-lg">{t("formNotFound")}</p>
@@ -208,8 +216,11 @@ export const FeedbackDetails: React.FC = () => {
     );
   }
 
-  const { feedbackForm, sentiment, feedbackResponses, pagination } =
-    feedbackData.data;
+  // Extract stats data (never changes during search/filter)
+  const { feedbackForm, sentiment } = statsData.data;
+
+  // Extract table data (updates during search/filter)
+  const { feedbackResponses, pagination } = tableData.data;
   const totalPages = pagination.total_pages;
   const startIndex = (pagination.current_page - 1) * pagination.per_page;
   const endIndex = Math.min(
@@ -235,13 +246,13 @@ export const FeedbackDetails: React.FC = () => {
         </Button>
       </div>
 
-      {/* Summary Cards */}
+      {/* Summary Cards - Static, uses stats API */}
       <FeedbackSummaryCards
         totalResponses={feedbackForm.totalResponses}
         avgRating={feedbackForm.avgRating}
         positiveThreshold={feedbackForm.positiveThreshold}
         sentiment={sentiment}
-        isLoading={isLoading && !feedbackData}
+        isLoading={isStatsLoading && !statsData}
       />
 
       {/* Feedback Responses */}
@@ -306,7 +317,7 @@ export const FeedbackDetails: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isFetching && feedbackData ? (
+                {isTableFetching && tableData ? (
                   // Show skeleton rows during search/filter
                   <>
                     {Array.from({
