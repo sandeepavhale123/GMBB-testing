@@ -1,6 +1,14 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Star, Eye, Search, ChevronLeft, ChevronRight, Share2, X } from "lucide-react";
+import {
+  Star,
+  Eye,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Share2,
+  X,
+} from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,58 +39,68 @@ import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { useGetFeedbackDetails } from "@/api/reputationApi";
 import { FeedbackSummaryCards } from "../components/FeedbackSummaryCards";
-import type { FeedbackDetailResponse, GetFeedbackDetailsRequest } from "../types";
+import type {
+  FeedbackDetailResponse,
+  GetFeedbackDetailsRequest,
+} from "../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Helper to format field names (field_1762855246040 -> Field 1762855246040)
 const formatFieldLabel = (fieldKey: string): string => {
-  if (fieldKey.startsWith('field_')) {
-    return fieldKey.replace('field_', 'Field ').replace(/_/g, ' ');
+  if (fieldKey.startsWith("field_")) {
+    return fieldKey.replace("field_", "Field ").replace(/_/g, " ");
   }
-  return fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1).replace(/_/g, ' ');
+  return (
+    fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1).replace(/_/g, " ")
+  );
 };
 
 // Helper to format field values based on type
 const formatFieldValue = (value: any): string => {
-  if (value === null || value === undefined || value === '') {
-    return '-';
+  if (value === null || value === undefined || value === "") {
+    return "-";
   }
-  
+
   if (Array.isArray(value)) {
-    if (value.length === 0) return '-';
-    return value.join(', ');
+    if (value.length === 0) return "-";
+    return value.join(", ");
   }
-  
-  if (typeof value === 'boolean') {
-    return value ? 'Yes' : 'No';
+
+  if (typeof value === "boolean") {
+    return value ? "Yes" : "No";
   }
-  
-  if (typeof value === 'object') {
+
+  if (typeof value === "object") {
     return JSON.stringify(value, null, 2);
   }
-  
+
   return String(value);
 };
 
 // Helper to extract custom fields (exclude standard fields)
-const getCustomFields = (formData: Record<string, any>): Record<string, any> => {
-  const standardFields = ['name', 'email', 'comment'];
+const getCustomFields = (
+  formData: Record<string, any>
+): Record<string, any> => {
+  const standardFields = ["name", "email", "comment"];
   const customFields: Record<string, any> = {};
-  
-  Object.keys(formData).forEach(key => {
+
+  Object.keys(formData).forEach((key) => {
     if (!standardFields.includes(key)) {
       customFields[key] = formData[key];
     }
   });
-  
+
   return customFields;
 };
 
 export const FeedbackDetails: React.FC = () => {
+  const { t } = useI18nNamespace("Reputation-module-v1-pages/FeedbackDetails");
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
-  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackDetailResponse | null>(null);
+
+  const [selectedFeedback, setSelectedFeedback] =
+    useState<FeedbackDetailResponse | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -91,21 +109,24 @@ export const FeedbackDetails: React.FC = () => {
   const itemsPerPage = 10;
 
   // Build API request
-  const apiRequest: GetFeedbackDetailsRequest = useMemo(() => ({
-    formId: id || "",
-    search: debouncedSearch,
-    starRating: starFilter === "all" ? "" : starFilter,
-    page: currentPage,
-    limit: itemsPerPage,
-  }), [id, debouncedSearch, starFilter, currentPage]);
+  const apiRequest: GetFeedbackDetailsRequest = useMemo(
+    () => ({
+      formId: id || "",
+      search: debouncedSearch,
+      starRating: starFilter === "all" ? "" : starFilter,
+      page: currentPage,
+      limit: itemsPerPage,
+    }),
+    [id, debouncedSearch, starFilter, currentPage]
+  );
 
   // Fetch data from API
-  const { 
-    data: feedbackData, 
+  const {
+    data: feedbackData,
     isLoading,
     isFetching,
-    isError, 
-    error 
+    isError,
+    error,
   } = useGetFeedbackDetails(apiRequest);
 
   // Reset to page 1 when filters change
@@ -116,17 +137,19 @@ export const FeedbackDetails: React.FC = () => {
   // Handle share button
   const handleShare = async () => {
     if (!feedbackData?.data.feedbackForm.formUrl) return;
-    
+
     try {
-      await navigator.clipboard.writeText(feedbackData.data.feedbackForm.formUrl);
+      await navigator.clipboard.writeText(
+        feedbackData.data.feedbackForm.formUrl
+      );
       toast({
-        title: "Link Copied!",
-        description: "Feedback form URL has been copied to clipboard",
+        title: t("linkCopied"),
+        description: t("linkCopiedDescription"),
       });
     } catch (err) {
       toast({
-        title: "Failed to copy",
-        description: "Please copy the URL manually",
+        title: t("copyFailed"),
+        description: t("copyFailedDescription"),
         variant: "destructive",
       });
     }
@@ -143,7 +166,7 @@ export const FeedbackDetails: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Loading feedback details...</p>
+          <p className="text-muted-foreground">{t("loadingMessage")}</p>
         </div>
       </div>
     );
@@ -153,12 +176,17 @@ export const FeedbackDetails: React.FC = () => {
   if (isError) {
     return (
       <Card className="p-12 text-center">
-        <p className="text-destructive text-lg font-semibold">Failed to load feedback details</p>
-        <p className="text-sm text-muted-foreground mt-2">
-          {error?.message || "Please try again later"}
+        <p className="text-destructive text-lg font-semibold">
+          {t("loadErrorTitle")}
         </p>
-        <Button onClick={() => navigate("/module/reputation/v1/dashboard")} className="mt-4">
-          Back to Dashboard
+        <p className="text-sm text-muted-foreground mt-2">
+          {error?.message || t("loadErrorDescription")}
+        </p>
+        <Button
+          onClick={() => navigate("/module/reputation/v1/dashboard")}
+          className="mt-4"
+        >
+          {t("backToDashboard")}
         </Button>
       </Card>
     );
@@ -168,32 +196,41 @@ export const FeedbackDetails: React.FC = () => {
   if (!feedbackData?.data) {
     return (
       <Card className="p-12 text-center">
-        <p className="text-muted-foreground text-lg">Form not found</p>
-        <Button onClick={() => navigate("/module/reputation/v1/dashboard")} className="mt-4">
-          Back to Dashboard
+        <p className="text-muted-foreground text-lg">{t("formNotFound")}</p>
+        <Button
+          onClick={() => navigate("/module/reputation/v1/dashboard")}
+          className="mt-4"
+        >
+          {t("backToDashboard")}
         </Button>
       </Card>
     );
   }
 
-  const { feedbackForm, sentiment, feedbackResponses, pagination } = feedbackData.data;
+  const { feedbackForm, sentiment, feedbackResponses, pagination } =
+    feedbackData.data;
   const totalPages = pagination.total_pages;
   const startIndex = (pagination.current_page - 1) * pagination.per_page;
-  const endIndex = Math.min(startIndex + pagination.per_page, pagination.total_records);
+  const endIndex = Math.min(
+    startIndex + pagination.per_page,
+    pagination.total_records
+  );
 
   return (
     <div className="space-y-6">
       {/* Header with Share Button */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">{feedbackForm.formName}</h1>
+          <h1 className="text-3xl font-bold text-foreground">
+            {feedbackForm.formName}
+          </h1>
           <p className="text-muted-foreground mt-1">
-            View and manage feedback responses
+            {t("viewAndManageFeedback")}
           </p>
         </div>
         <Button onClick={handleShare} className="gap-2">
           <Share2 className="w-4 h-4" />
-          Share Form
+          {t("shareForm")}
         </Button>
       </div>
 
@@ -209,15 +246,15 @@ export const FeedbackDetails: React.FC = () => {
       {/* Feedback Responses */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Feedback Responses</h2>
+          <h2 className="text-xl font-semibold">{t("feedbackResponses")}</h2>
           {isFetching && feedbackData && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-              <span>Updating...</span>
+              <span>{t("updating")}</span>
             </div>
           )}
         </div>
-        
+
         {/* Search and Filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           {/* Search Input */}
@@ -225,7 +262,7 @@ export const FeedbackDetails: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               type="text"
-              placeholder="Search by name, email..."
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -235,15 +272,15 @@ export const FeedbackDetails: React.FC = () => {
           {/* Star Rating Filter */}
           <Select value={starFilter} onValueChange={setStarFilter}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="All Ratings" />
+              <SelectValue placeholder={t("allRatings")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Ratings</SelectItem>
-              <SelectItem value="5">5 Stars</SelectItem>
-              <SelectItem value="4">4 Stars</SelectItem>
-              <SelectItem value="3">3 Stars</SelectItem>
-              <SelectItem value="2">2 Stars</SelectItem>
-              <SelectItem value="1">1 Star</SelectItem>
+              <SelectItem value="all">{t("allRatings")}</SelectItem>
+              <SelectItem value="5">{t("five")}</SelectItem>
+              <SelectItem value="4">{t("four")}</SelectItem>
+              <SelectItem value="3">{t("three")}</SelectItem>
+              <SelectItem value="2">{t("two")}</SelectItem>
+              <SelectItem value="1">{t("one")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -251,29 +288,31 @@ export const FeedbackDetails: React.FC = () => {
         {feedbackResponses.length === 0 ? (
           <Card className="p-12 text-center">
             <p className="text-muted-foreground text-lg">
-              {pagination.total_records === 0 
-                ? "No feedback received yet" 
-                : "No feedback matches your search criteria"}
+              {pagination.total_records === 0
+                ? t("noFeedbackYet")
+                : t("noFeedbackFound")}
             </p>
             <p className="text-sm text-muted-foreground mt-2">
               {pagination.total_records === 0
-                ? "Share your feedback form to start collecting responses"
-                : "Try adjusting your search or filters"}
+                ? t("noFeedbackYetDescription")
+                : t("noFeedbackFoundDescription")}
             </p>
           </Card>
         ) : (
-          <div className={cn(
-            "bg-card rounded-lg border overflow-hidden transition-opacity duration-200",
-            isFetching && "opacity-60"
-          )}>
+          <div
+            className={cn(
+              "bg-card rounded-lg border overflow-hidden transition-opacity duration-200",
+              isFetching && "opacity-60"
+            )}
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Star Rating</TableHead>
-                  <TableHead>Submitted</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t("name")}</TableHead>
+                  <TableHead>{t("email")}</TableHead>
+                  <TableHead>{t("starRating")}</TableHead>
+                  <TableHead>{t("submitted")}</TableHead>
+                  <TableHead className="text-right">{t("actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -302,14 +341,17 @@ export const FeedbackDetails: React.FC = () => {
                         </div>
                       </TableCell>
                       <TableCell className="text-sm">
-                        {format(new Date(response.created_at), "MMM dd, yyyy HH:mm")}
+                        {format(
+                          new Date(response.created_at),
+                          "MMM dd, yyyy HH:mm"
+                        )}
                       </TableCell>
                       <TableCell className="text-right">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleViewDetails(response)}
-                          title="View Details"
+                          title={t("view")}
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
@@ -319,24 +361,32 @@ export const FeedbackDetails: React.FC = () => {
                 })}
               </TableBody>
             </Table>
-            
+
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="px-4 py-4 border-t flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
-                  Showing {startIndex + 1} to {endIndex} of {pagination.total_records} results
+                  {t("showingResults", {
+                    start: startIndex + 1,
+                    end: endIndex,
+                    total: pagination.total_records,
+                  })}
+                  {/* Showing {startIndex + 1} to {endIndex} of{" "}
+                  {pagination.total_records} results */}
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   {/* Previous Button */}
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
                     disabled={currentPage === 1}
                   >
                     <ChevronLeft className="w-4 h-4 mr-1" />
-                    Previous
+                    {t("previous")}
                   </Button>
 
                   {/* Page Numbers */}
@@ -352,11 +402,13 @@ export const FeedbackDetails: React.FC = () => {
                       } else {
                         pageNumber = currentPage - 2 + i;
                       }
-                      
+
                       return (
                         <Button
                           key={pageNumber}
-                          variant={currentPage === pageNumber ? "default" : "outline"}
+                          variant={
+                            currentPage === pageNumber ? "default" : "outline"
+                          }
                           size="sm"
                           onClick={() => setCurrentPage(pageNumber)}
                           className="w-9 h-9 p-0"
@@ -371,10 +423,12 @@ export const FeedbackDetails: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
                     disabled={currentPage === totalPages}
                   >
-                    Next
+                    {t("next")}
                     <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
                 </div>
@@ -388,7 +442,7 @@ export const FeedbackDetails: React.FC = () => {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[85vh]">
           <DialogHeader className="relative">
-            <DialogTitle>Feedback Details</DialogTitle>
+            <DialogTitle>{t("feedbackDetails")}</DialogTitle>
             <Button
               variant="ghost"
               size="icon"
@@ -401,51 +455,61 @@ export const FeedbackDetails: React.FC = () => {
           <div className="overflow-y-auto max-h-[calc(85vh-120px)] pr-2">
             {selectedFeedback && (
               <div className="space-y-6">
-    {/* Standard Fields - Fixed Grid */}
-    <div className="grid grid-cols-2 gap-4">
-      <div>
-        <p className="text-sm text-muted-foreground mb-1">Star Rating</p>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star
-              key={i}
-              className={`w-5 h-5 ${
-                i < parseInt(selectedFeedback.starRating)
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-muted-foreground"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-      <div>
-        <p className="text-sm text-muted-foreground mb-1">Submitted</p>
-        <p className="font-medium">
-          {format(new Date(selectedFeedback.created_at), "MMM dd, yyyy HH:mm")}
-        </p>
-      </div>
-    </div>
+                {/* Standard Fields - Fixed Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {t("starRating")}
+                    </p>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-5 h-5 ${
+                            i < parseInt(selectedFeedback.starRating)
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-muted-foreground"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {t("submitted")}
+                    </p>
+                    <p className="font-medium">
+                      {format(
+                        new Date(selectedFeedback.created_at),
+                        "MMM dd, yyyy HH:mm"
+                      )}
+                    </p>
+                  </div>
+                </div>
 
-    {/* Form Data Section - All fields */}
-    {(() => {
-      const allFormData = selectedFeedback.form_data;
-      
-      return (
-        <div>
-          <p className="text-sm text-muted-foreground mb-3 font-semibold">
-            Form Data
-          </p>
-          <div className="space-y-3 pr-2">
-            {Object.entries(allFormData).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-3 border-b border-primary/20 pb-3">
-                <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
-                  {formatFieldLabel(key)}:
-                </p>
-                <p className="font-medium break-words flex-1">
-                  {formatFieldValue(value)}
-                </p>
-              </div>
-            ))}
+                {/* Form Data Section - All fields */}
+                {(() => {
+                  const allFormData = selectedFeedback.form_data;
+
+                  return (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-3 font-semibold">
+                        {t("formData")}
+                      </p>
+                      <div className="space-y-3 pr-2">
+                        {Object.entries(allFormData).map(([key, value]) => (
+                          <div
+                            key={key}
+                            className="flex items-start gap-3 border-b border-primary/20 pb-3"
+                          >
+                            <p className="text-sm text-muted-foreground min-w-[180px] flex-shrink-0">
+                              {formatFieldLabel(key)}:
+                            </p>
+                            <p className="font-medium break-words flex-1">
+                              {formatFieldValue(value)}
+                            </p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   );

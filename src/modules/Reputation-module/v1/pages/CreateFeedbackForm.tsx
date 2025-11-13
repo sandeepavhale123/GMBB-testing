@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, Eye } from "lucide-react";
@@ -12,8 +18,13 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { FormField } from "../../types/formBuilder.types";
 import { FormBuilderModal } from "../components/FormBuilderModal";
-import { useCreateFeedbackForm, useUpdateFeedbackForm, useGetFeedbackForm } from "@/api/reputationApi";
+import {
+  useCreateFeedbackForm,
+  useUpdateFeedbackForm,
+  useGetFeedbackForm,
+} from "@/api/reputationApi";
 import { FormCreatedSuccessModal } from "../components/FormCreatedSuccessModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 type ReviewSite = {
   id: string;
@@ -72,12 +83,6 @@ const isValidUrl = (url: string): boolean => {
   }
 };
 
-const ratingThresholds = [
-  { value: 3, label: "3 stars or above" },
-  { value: 4, label: "4 stars or above" },
-  { value: 5, label: "5 stars only" },
-];
-
 // Safe parser for formFields that handles multiple data formats
 const parseFormFields = (fields: any): FormField[] => {
   try {
@@ -85,23 +90,23 @@ const parseFormFields = (fields: any): FormField[] => {
     if (Array.isArray(fields)) {
       return fields;
     }
-    
+
     // Case 2: String that needs parsing
-    if (typeof fields === 'string' && fields.trim()) {
+    if (typeof fields === "string" && fields.trim()) {
       try {
         const parsed = JSON.parse(fields);
         return Array.isArray(parsed) ? parsed : [];
       } catch {
-        console.error('Failed to parse formFields string:', fields);
+        console.error("Failed to parse formFields string:", fields);
         return [];
       }
     }
-    
+
     // Case 3: Invalid or missing
-    console.warn('formFields is not an array or valid string:', fields);
+    console.warn("formFields is not an array or valid string:", fields);
     return [];
   } catch (error) {
-    console.error('Error parsing formFields:', error);
+    console.error("Error parsing formFields:", error);
     return [];
   }
 };
@@ -110,34 +115,44 @@ const parseFormFields = (fields: any): FormField[] => {
 const parseReviewSiteUrls = (urls: any): Record<string, string> => {
   try {
     // Case 1: Already an object
-    if (urls && typeof urls === 'object' && !Array.isArray(urls)) {
+    if (urls && typeof urls === "object" && !Array.isArray(urls)) {
       return urls;
     }
-    
+
     // Case 2: String that needs parsing
-    if (typeof urls === 'string' && urls.trim()) {
+    if (typeof urls === "string" && urls.trim()) {
       try {
         const parsed = JSON.parse(urls);
-        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
           return parsed;
         }
-        console.error('Parsed reviewSiteUrls is not an object:', parsed);
+        console.error("Parsed reviewSiteUrls is not an object:", parsed);
         return {};
       } catch {
-        console.error('Failed to parse reviewSiteUrls string:', urls);
+        console.error("Failed to parse reviewSiteUrls string:", urls);
         return {};
       }
     }
-    
+
     // Case 3: Invalid or missing
     return {};
   } catch (error) {
-    console.error('Error parsing reviewSiteUrls:', error);
+    console.error("Error parsing reviewSiteUrls:", error);
     return {};
   }
 };
 
 export const CreateFeedbackForm: React.FC = () => {
+  const { t } = useI18nNamespace(
+    "Reputation-module-v1-pages/CreateFeedbackForm"
+  );
+
+  const ratingThresholds = [
+    { value: 3, label: t("rating.lab1") },
+    { value: 4, label: t("rating.lab2") },
+    { value: 5, label: t("rating.lab3") },
+  ];
+
   const navigate = useNavigate();
   const { formId } = useParams<{ formId: string }>();
   const isEditMode = !!formId;
@@ -146,43 +161,49 @@ export const CreateFeedbackForm: React.FC = () => {
   const [formNameError, setFormNameError] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How was your experience with us?");
-  const [subtitle, setSubtitle] = useState("We value your feedback and would love to hear from you.");
-  const [positiveFeedbackTitle, setPositiveFeedbackTitle] = useState(
-    "We'd love to hear from you! Share your experience by leaving us a review.",
+  const [subtitle, setSubtitle] = useState(
+    "We value your feedback and would love to hear from you."
   );
-  const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>({});
+  const [positiveFeedbackTitle, setPositiveFeedbackTitle] = useState(
+    "We'd love to hear from you! Share your experience by leaving us a review."
+  );
+  const [reviewSiteUrls, setReviewSiteUrls] = useState<Record<string, string>>(
+    {}
+  );
   const [urlErrors, setUrlErrors] = useState<Record<string, string>>({});
   const [positiveRatingThreshold, setPositiveRatingThreshold] = useState(4);
-  const [successTitle, setSuccessTitle] = useState("Thank you for your feedback!");
+  const [successTitle, setSuccessTitle] = useState(
+    "Thank you for your feedback!"
+  );
   const [successSubtitle, setSuccessSubtitle] = useState(
-    "We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.",
+    "We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service."
   );
   const [isFormBuilderOpen, setIsFormBuilderOpen] = useState(false);
   const [formFields, setFormFields] = useState<FormField[]>([
     {
       id: "field-name",
       type: "text",
-      label: "Name",
+      label: t("formField.label1"),
       name: "name",
-      placeholder: "Enter your name",
+      placeholder: t("formField.place1"),
       required: true,
       order: 0,
     },
     {
       id: "field-email",
       type: "email",
-      label: "Email",
+      label: t("formField.label2"),
       name: "email",
-      placeholder: "Enter your email",
+      placeholder: t("formField.place2"),
       required: true,
       order: 1,
     },
     {
       id: "field-comment",
       type: "textarea",
-      label: "Comment",
+      label: t("formField.label3"),
       name: "comment",
-      placeholder: "Enter your comment",
+      placeholder: t("formField.place3"),
       required: true,
       order: 2,
     },
@@ -194,13 +215,14 @@ export const CreateFeedbackForm: React.FC = () => {
 
   const createFormMutation = useCreateFeedbackForm();
   const updateFormMutation = useUpdateFeedbackForm();
-  const { data: existingFormData, isLoading: isLoadingForm } = useGetFeedbackForm(formId);
+  const { data: existingFormData, isLoading: isLoadingForm } =
+    useGetFeedbackForm(formId);
 
   // Pre-populate form fields when editing
   React.useEffect(() => {
     if (isEditMode && existingFormData?.data) {
       const data = existingFormData.data;
-      
+
       // Basic fields
       setFormName(data.formName);
       setTitle(data.title);
@@ -209,31 +231,31 @@ export const CreateFeedbackForm: React.FC = () => {
       setPositiveRatingThreshold(data.positiveRatingThreshold);
       setSuccessTitle(data.successTitle);
       setSuccessSubtitle(data.successSubtitle);
-      
+
       // Parse formFields safely (handles both string and array)
       const parsedFields = parseFormFields(data.formFields);
       if (parsedFields.length > 0) {
         setFormFields(parsedFields);
       }
-      
+
       // Parse reviewSiteUrls safely (handles both string and object)
       const parsedUrls = parseReviewSiteUrls(data.reviewSiteUrls);
       setReviewSiteUrls(parsedUrls);
-      
+
       // Set logo preview (URL from server)
       if (data.logo) {
         setLogo(data.logo);
         // Note: logoFile remains null since we're not re-uploading
       }
-      
+
       // Debug logging
-      console.log('Edit Form Data Loaded:', {
+      console.log("Edit Form Data Loaded:", {
         formId,
         formFieldsType: typeof data.formFields,
         formFieldsIsArray: Array.isArray(data.formFields),
         parsedFieldsLength: parsedFields.length,
         reviewSiteUrlsType: typeof data.reviewSiteUrls,
-        parsedUrlsKeys: Object.keys(parsedUrls)
+        parsedUrlsKeys: Object.keys(parsedUrls),
       });
     }
   }, [isEditMode, existingFormData, formId]);
@@ -260,7 +282,7 @@ export const CreateFeedbackForm: React.FC = () => {
     if (url && !isValidUrl(url)) {
       setUrlErrors((prev) => ({
         ...prev,
-        [siteId]: "Please enter a valid URL (e.g., https://example.com)",
+        [siteId]: t("messages.invalidUrlFormat"),
       }));
     } else {
       setUrlErrors((prev) => {
@@ -275,7 +297,7 @@ export const CreateFeedbackForm: React.FC = () => {
     // Step 1 validation: Form name is required
     if (currentStep === 1) {
       if (!formName.trim()) {
-        setFormNameError("Form name is required");
+        setFormNameError(t("messages.formNameRequired"));
         return;
       }
     }
@@ -285,22 +307,22 @@ export const CreateFeedbackForm: React.FC = () => {
       const validUrls = Object.entries(reviewSiteUrls).filter(
         ([_, url]) => url && isValidUrl(url)
       );
-      
+
       if (validUrls.length === 0) {
         toast({
-          title: "Validation Error",
-          description: "At least one review site URL is required",
+          title: t("messages.validationError"),
+          description: t("messages.validUrlRequired"),
           variant: "destructive",
         });
         return;
       }
-      
+
       // Check if there are any URL errors
       const hasUrlErrors = Object.keys(urlErrors).length > 0;
       if (hasUrlErrors) {
         toast({
-          title: "Invalid URLs",
-          description: "Please fix invalid URLs before proceeding",
+          title: t("labels.invalid"),
+          description: t("messages.invalidUrls"),
           variant: "destructive",
         });
         return;
@@ -321,8 +343,8 @@ export const CreateFeedbackForm: React.FC = () => {
   const handleSave = async () => {
     if (!formName.trim()) {
       toast({
-        title: "Validation Error",
-        description: "Please enter a form name",
+        title: t("messages.validationError"),
+        description: t("messages.validMessage"),
         variant: "destructive",
       });
       return;
@@ -331,8 +353,8 @@ export const CreateFeedbackForm: React.FC = () => {
     const hasUrlErrors = Object.keys(urlErrors).length > 0;
     if (hasUrlErrors) {
       toast({
-        title: "Invalid URLs",
-        description: "Please fix invalid URLs before saving",
+        title: t("labels.invalid"),
+        description: t("messages.invalidUrls"),
         variant: "destructive",
       });
       return;
@@ -356,8 +378,8 @@ export const CreateFeedbackForm: React.FC = () => {
         });
 
         toast({
-          title: "Success!",
-          description: response.message || "Feedback form updated successfully",
+          title: t("labels.success"),
+          description: response.message || t("messages.updated"),
         });
 
         // Navigate back to dashboard after successful update
@@ -381,25 +403,28 @@ export const CreateFeedbackForm: React.FC = () => {
         setIsSuccessModalOpen(true);
 
         toast({
-          title: "Success!",
-          description: response.message || "Feedback form created successfully",
+          title: t("labels.success"),
+          description: response.message || t("messages.saved"),
         });
       }
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error?.response?.data?.message || 
-          `Failed to ${isEditMode ? "update" : "create"} feedback form`,
+        title: t("labels.error"),
+        description:
+          error?.response?.data?.message || isEditMode
+            ? t("messages.updateError")
+            : t("messages.createError"),
+        // `Failed to ${isEditMode ? "update" : "create"} feedback form`,
         variant: "destructive",
       });
     }
   };
 
   const stepTitles = [
-    "Feedback Form Details",
-    "Customization Options",
-    "Positive Feedback Redirect",
-    "Success Message",
+    t("title.step1"),
+    t("title.step2"),
+    t("title.step3"),
+    t("title.step4"),
   ];
 
   // Show loading state when fetching existing form data
@@ -408,7 +433,7 @@ export const CreateFeedbackForm: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Loading form data...</p>
+          <p className="text-muted-foreground">{t("messages.loading")}</p>
         </div>
       </div>
     );
@@ -422,11 +447,18 @@ export const CreateFeedbackForm: React.FC = () => {
           <div className="bg-card rounded-lg border p-8 space-y-6">
             <div>
               <h1 className="text-2xl font-bold text-foreground">
-                {isEditMode ? "Edit Feedback Form" : stepTitles[currentStep - 1]}
+                {isEditMode ? t("title.edit") : stepTitles[currentStep - 1]}
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-sm text-muted-foreground">
-                  {isEditMode ? "Editing existing form" : `Step ${currentStep} of 4`}
+                  {
+                    isEditMode
+                      ? t("messages.editing")
+                      : `${t("labels.step", {
+                          currentStep,
+                        })}`
+                    //  `Step ${currentStep} of 4`
+                  }
                 </span>
               </div>
             </div>
@@ -437,7 +469,7 @@ export const CreateFeedbackForm: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="form-name" className="text-sm font-medium">
-                      Form Name *
+                      {t("labels.formName")} *
                     </Label>
                     <Input
                       id="form-name"
@@ -449,22 +481,30 @@ export const CreateFeedbackForm: React.FC = () => {
                           setFormNameError("");
                         }
                       }}
-                      placeholder="e.g., Restaurant Feedback Form"
+                      placeholder={t("placeholders.formName")}
                       className={cn(
                         "w-full",
-                        formNameError && "border-destructive focus-visible:ring-destructive"
+                        formNameError &&
+                          "border-destructive focus-visible:ring-destructive"
                       )}
                     />
                     {formNameError ? (
-                      <p className="text-xs text-destructive">{formNameError}</p>
+                      <p className="text-xs text-destructive">
+                        {formNameError}
+                      </p>
                     ) : (
-                      <p className="text-xs text-muted-foreground">This name is for your internal reference only</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t("tooltips.formNameInfo")}
+                      </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="logo-upload" className="text-sm font-medium">
-                      Logo
+                    <Label
+                      htmlFor="logo-upload"
+                      className="text-sm font-medium"
+                    >
+                      {t("labels.logo")}
                     </Label>
                     <Input
                       id="logo-upload"
@@ -473,16 +513,25 @@ export const CreateFeedbackForm: React.FC = () => {
                       onChange={handleLogoUpload}
                       className="w-full"
                     />
-                    <p className="text-xs text-muted-foreground">Optional - Upload your company logo</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("tooltips.logoInfo")}
+                    </p>
                   </div>
                 </div>
 
                 <div className="border rounded-lg p-4 space-y-4">
                   {/* Header with title and edit button */}
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold">Feedback form</h3>
-                    <Button variant="outline" size="sm" onClick={() => setIsFormBuilderOpen(true)}>
-                      Edit
+                    <h3 className="text-sm font-semibold">
+                      {" "}
+                      {t("labels.feedback")}
+                    </h3>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsFormBuilderOpen(true)}
+                    >
+                      {t("buttons.edit")}
                     </Button>
                   </div>
 
@@ -502,22 +551,39 @@ export const CreateFeedbackForm: React.FC = () => {
                         ) : field.type === "select" ? (
                           <Select disabled>
                             <SelectTrigger className="bg-background">
-                              <SelectValue placeholder={field.placeholder || "Select an option"} />
+                              <SelectValue
+                                placeholder={
+                                  field.placeholder || t("placeholders.option")
+                                }
+                              />
                             </SelectTrigger>
                             <SelectContent className="bg-background z-50">
-                              {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((opt) => (
-                                <SelectItem key={opt.value} value={opt.value}>
-                                  {opt.label}
-                                </SelectItem>
-                              ))}
+                              {field.options
+                                ?.filter(
+                                  (opt) => opt.value && opt.value.trim() !== ""
+                                )
+                                .map((opt) => (
+                                  <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                  </SelectItem>
+                                ))}
                             </SelectContent>
                           </Select>
                         ) : field.type === "radio" ? (
                           <RadioGroup disabled className="space-y-2">
                             {field.options?.map((opt) => (
-                              <div key={opt.value} className="flex items-center space-x-2">
-                                <RadioGroupItem value={opt.value} id={`preview-${field.id}-${opt.value}`} />
-                                <Label htmlFor={`preview-${field.id}-${opt.value}`} className="text-xs">
+                              <div
+                                key={opt.value}
+                                className="flex items-center space-x-2"
+                              >
+                                <RadioGroupItem
+                                  value={opt.value}
+                                  id={`preview-${field.id}-${opt.value}`}
+                                />
+                                <Label
+                                  htmlFor={`preview-${field.id}-${opt.value}`}
+                                  className="text-xs"
+                                >
                                   {opt.label}
                                 </Label>
                               </div>
@@ -526,9 +592,18 @@ export const CreateFeedbackForm: React.FC = () => {
                         ) : field.type === "checkbox-group" ? (
                           <div className="space-y-2">
                             {field.options?.map((opt) => (
-                              <div key={opt.value} className="flex items-center space-x-2">
-                                <Checkbox id={`preview-${field.id}-${opt.value}`} disabled />
-                                <Label htmlFor={`preview-${field.id}-${opt.value}`} className="text-xs">
+                              <div
+                                key={opt.value}
+                                className="flex items-center space-x-2"
+                              >
+                                <Checkbox
+                                  id={`preview-${field.id}-${opt.value}`}
+                                  disabled
+                                />
+                                <Label
+                                  htmlFor={`preview-${field.id}-${opt.value}`}
+                                  className="text-xs"
+                                >
                                   {opt.label}
                                 </Label>
                               </div>
@@ -538,17 +613,21 @@ export const CreateFeedbackForm: React.FC = () => {
                           <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50">
                             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                             <p className="text-sm text-muted-foreground">
-                              Click to upload or drag and drop
+                              {t("tooltips.uploadInfo")}
                             </p>
                             {field.accept && (
                               <p className="text-xs text-muted-foreground mt-1">
-                                Accepted: {field.accept}
+                                {t("messages.accept", { field: field.accept })}
                               </p>
                             )}
                           </div>
                         ) : (
                           <Input
-                            type={field.type === "text" || field.type === "email" ? field.type : "text"}
+                            type={
+                              field.type === "text" || field.type === "email"
+                                ? field.type
+                                : "text"
+                            }
                             placeholder={field.placeholder || ""}
                             disabled
                             className="bg-background"
@@ -567,7 +646,7 @@ export const CreateFeedbackForm: React.FC = () => {
                 />
 
                 <Button onClick={handleNext} className="w-full" size="lg">
-                  Next
+                  {t("buttons.next")}
                 </Button>
               </>
             )}
@@ -575,11 +654,13 @@ export const CreateFeedbackForm: React.FC = () => {
             {/* Step 2: Customization Options (same as step 1 for now) */}
             {currentStep === 2 && (
               <>
-                <p className="text-sm text-muted-foreground">Review and adjust your form's branding elements</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("messages.review")}
+                </p>
 
                 <div className="space-y-2">
                   <Label htmlFor="title-2" className="text-sm font-medium">
-                    Form Title
+                    {t("labels.formTitle")}
                   </Label>
                   <Textarea
                     id="title-2"
@@ -591,7 +672,7 @@ export const CreateFeedbackForm: React.FC = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="subtitle-2" className="text-sm font-medium">
-                    Form Subtitle
+                    {t("labels.formSubtitle")}
                   </Label>
                   <Textarea
                     id="subtitle-2"
@@ -602,22 +683,30 @@ export const CreateFeedbackForm: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="rating-threshold" className="text-sm font-medium">
-                    Positive Feedback Threshold
+                  <Label
+                    htmlFor="rating-threshold"
+                    className="text-sm font-medium"
+                  >
+                    {t("labels.positiveRatingThreshold")}
                   </Label>
                   <p className="text-xs text-muted-foreground">
-                    Choose the minimum star rating that you consider as positive feedback
+                    {t("tooltips.ratingInfo")}
                   </p>
                   <Select
                     value={positiveRatingThreshold.toString()}
-                    onValueChange={(value) => setPositiveRatingThreshold(Number(value))}
+                    onValueChange={(value) =>
+                      setPositiveRatingThreshold(Number(value))
+                    }
                   >
                     <SelectTrigger id="rating-threshold" className="w-full">
-                      <SelectValue placeholder="Select rating threshold" />
+                      <SelectValue placeholder={t("placeholders.rating")} />
                     </SelectTrigger>
                     <SelectContent>
                       {ratingThresholds.map((threshold) => (
-                        <SelectItem key={threshold.value} value={threshold.value.toString()}>
+                        <SelectItem
+                          key={threshold.value}
+                          value={threshold.value.toString()}
+                        >
                           {threshold.label}
                         </SelectItem>
                       ))}
@@ -626,11 +715,16 @@ export const CreateFeedbackForm: React.FC = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
-                    Previous
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
+                    size="lg"
+                  >
+                    {t("buttons.previous")}
                   </Button>
                   <Button onClick={handleNext} className="flex-1" size="lg">
-                    Next
+                    {t("buttons.next")}
                   </Button>
                 </div>
               </>
@@ -640,42 +734,65 @@ export const CreateFeedbackForm: React.FC = () => {
             {currentStep === 3 && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="positive-title" className="text-sm font-medium">
-                    Title
+                  <Label
+                    htmlFor="positive-title"
+                    className="text-sm font-medium"
+                  >
+                    {t("labels.title")}
                   </Label>
                   <Textarea
                     id="positive-title"
                     value={positiveFeedbackTitle}
                     onChange={(e) => setPositiveFeedbackTitle(e.target.value)}
                     className="min-h-[80px] resize-none"
-                    placeholder="Enter positive feedback title..."
+                    placeholder={t("placeholders.postitve")}
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-sm font-medium">Review Sites</Label>
+                  <Label className="text-sm font-medium">
+                    {" "}
+                    {t("labels.reviewSites")}
+                  </Label>
                   <p className="text-xs text-muted-foreground">
-                    Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to
-                    users.
+                    {t("tooltips.reviewSiteInfo")}
                   </p>
                   <div className="space-y-3">
                     {reviewSites.map((site) => {
                       return (
                         <div key={site.id} className="space-y-2">
                           <div className="flex flex-col items-start md:flex-row md:items-center gap-3 p-4 rounded-lg border bg-card">
-                            <img src={site.logo} alt={`${site.name} logo`} className="w-6 h-6 object-contain" />
-                            <span className="text-sm font-medium text-foreground min-w-[100px]">{site.name}</span>
+                            <img
+                              src={site.logo}
+                              alt={`${t("tooltips.imgalt", {
+                                site: site.name,
+                              })}`}
+                              className="w-6 h-6 object-contain"
+                            />
+                            <span className="text-sm font-medium text-foreground min-w-[100px]">
+                              {site.name}
+                            </span>
                             <Input
-                              placeholder="https://example.com/review"
+                              placeholder={t("placeholders.url")}
                               value={reviewSiteUrls[site.id] || ""}
-                              onChange={(e) => handleReviewSiteUrlChange(site.id, e.target.value)}
+                              onChange={(e) =>
+                                handleReviewSiteUrlChange(
+                                  site.id,
+                                  e.target.value
+                                )
+                              }
                               className={cn(
                                 "flex-1",
-                                urlErrors[site.id] && "border-destructive focus-visible:ring-destructive",
+                                urlErrors[site.id] &&
+                                  "border-destructive focus-visible:ring-destructive"
                               )}
                             />
                           </div>
-                          {urlErrors[site.id] && <p className="text-xs text-destructive pl-4">{urlErrors[site.id]}</p>}
+                          {urlErrors[site.id] && (
+                            <p className="text-xs text-destructive pl-4">
+                              {urlErrors[site.id]}
+                            </p>
+                          )}
                         </div>
                       );
                     })}
@@ -683,11 +800,16 @@ export const CreateFeedbackForm: React.FC = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
-                    Previous
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
+                    size="lg"
+                  >
+                    {t("buttons.previous")}
                   </Button>
                   <Button onClick={handleNext} className="flex-1" size="lg">
-                    Next
+                    {t("buttons.next")}
                   </Button>
                 </div>
               </>
@@ -697,45 +819,62 @@ export const CreateFeedbackForm: React.FC = () => {
             {currentStep === 4 && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="success-title" className="text-sm font-medium">
-                    Title
+                  <Label
+                    htmlFor="success-title"
+                    className="text-sm font-medium"
+                  >
+                    {t("labels.title")}
                   </Label>
                   <Textarea
                     id="success-title"
                     value={successTitle}
                     onChange={(e) => setSuccessTitle(e.target.value)}
                     className="min-h-[80px] resize-none"
-                    placeholder="Enter success message title"
+                    placeholder={t("placeholders.successTitle")}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="success-subtitle" className="text-sm font-medium">
-                    Subtitle
+                  <Label
+                    htmlFor="success-subtitle"
+                    className="text-sm font-medium"
+                  >
+                    {t("labels.subtitle")}
                   </Label>
                   <Textarea
                     id="success-subtitle"
                     value={successSubtitle}
                     onChange={(e) => setSuccessSubtitle(e.target.value)}
                     className="min-h-[60px] resize-none"
-                    placeholder="Enter success message subtitle"
+                    placeholder={t("placeholders.successSubtitle")}
                   />
                 </div>
 
                 <div className="flex gap-3">
-                  <Button onClick={handlePrevious} variant="outline" className="flex-1" size="lg">
-                    Previous
-                  </Button>
-                  <Button 
-                    onClick={handleSave} 
-                    className="flex-1" 
+                  <Button
+                    onClick={handlePrevious}
+                    variant="outline"
+                    className="flex-1"
                     size="lg"
-                    disabled={createFormMutation.isPending || updateFormMutation.isPending}
                   >
-                    {isEditMode 
-                      ? (updateFormMutation.isPending ? "Updating..." : "Update Form")
-                      : (createFormMutation.isPending ? "Saving..." : "Save")
+                    {t("buttons.previous")}
+                  </Button>
+                  <Button
+                    onClick={handleSave}
+                    className="flex-1"
+                    size="lg"
+                    disabled={
+                      createFormMutation.isPending ||
+                      updateFormMutation.isPending
                     }
+                  >
+                    {isEditMode
+                      ? updateFormMutation.isPending
+                        ? t("buttons.updating")
+                        : t("buttons.update")
+                      : createFormMutation.isPending
+                      ? t("buttons.saving")
+                      : t("buttons.save")}
                   </Button>
                 </div>
               </>
@@ -744,7 +883,10 @@ export const CreateFeedbackForm: React.FC = () => {
 
           {/* Right Panel - Preview Section */}
           <div className="bg-card rounded-lg border p-8 space-y-6 hidden lg:block">
-            <h3 className="text-sm font-medium text-foreground">Preview</h3>
+            <h3 className="text-sm font-medium text-foreground">
+              {" "}
+              {t("preview.header")}
+            </h3>
 
             <div className="bg-muted rounded-lg p-8 flex items-center justify-center min-h-[500px]">
               <div className="bg-card rounded-lg shadow-lg p-8 max-w-md w-full space-y-6">
@@ -752,16 +894,24 @@ export const CreateFeedbackForm: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex justify-center">
                     {logo ? (
-                      <img src={logo} alt="Logo Preview" className="h-20 object-contain" />
+                      <img
+                        src={logo}
+                        alt={t("preview.logoalt")}
+                        className="h-20 object-contain"
+                      />
                     ) : (
                       <div className="bg-muted px-8 py-6 rounded text-center">
-                        <span className="text-lg font-bold text-muted-foreground">LOGO</span>
+                        <span className="text-lg font-bold text-muted-foreground">
+                          {t("preview.logoPlaceholder")}
+                        </span>
                       </div>
                     )}
                   </div>
                   {formName && currentStep === 1 && (
                     <div className="text-left">
-                      <p className="text-sm font-medium text-foreground">{formName}</p>
+                      <p className="text-sm font-medium text-foreground">
+                        {formName}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -773,29 +923,57 @@ export const CreateFeedbackForm: React.FC = () => {
                       {formFields.map((field) => (
                         <div key={field.id} className="space-y-1.5">
                           <Label className="text-sm font-medium">
-                            {field.label} {field.required && <span className="text-destructive">*</span>}
+                            {field.label}{" "}
+                            {field.required && (
+                              <span className="text-destructive">*</span>
+                            )}
                           </Label>
                           {field.type === "textarea" ? (
-                            <Textarea placeholder={field.placeholder || ""} className="min-h-[100px] resize-none" />
+                            <Textarea
+                              placeholder={field.placeholder || ""}
+                              className="min-h-[100px] resize-none"
+                            />
                           ) : field.type === "select" ? (
                             <Select>
                               <SelectTrigger className="bg-background">
-                                <SelectValue placeholder={field.placeholder || "Select an option"} />
+                                <SelectValue
+                                  placeholder={
+                                    field.placeholder ||
+                                    t("placeholders.option")
+                                  }
+                                />
                               </SelectTrigger>
                               <SelectContent className="bg-background z-50">
-                                {field.options?.filter(opt => opt.value && opt.value.trim() !== '').map((opt) => (
-                                  <SelectItem key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                  </SelectItem>
-                                ))}
+                                {field.options
+                                  ?.filter(
+                                    (opt) =>
+                                      opt.value && opt.value.trim() !== ""
+                                  )
+                                  .map((opt) => (
+                                    <SelectItem
+                                      key={opt.value}
+                                      value={opt.value}
+                                    >
+                                      {opt.label}
+                                    </SelectItem>
+                                  ))}
                               </SelectContent>
                             </Select>
                           ) : field.type === "radio" ? (
                             <RadioGroup className="space-y-2">
                               {field.options?.map((opt) => (
-                                <div key={opt.value} className="flex items-center space-x-2">
-                                  <RadioGroupItem value={opt.value} id={`live-${field.id}-${opt.value}`} />
-                                  <Label htmlFor={`live-${field.id}-${opt.value}`} className="text-sm">
+                                <div
+                                  key={opt.value}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <RadioGroupItem
+                                    value={opt.value}
+                                    id={`live-${field.id}-${opt.value}`}
+                                  />
+                                  <Label
+                                    htmlFor={`live-${field.id}-${opt.value}`}
+                                    className="text-sm"
+                                  >
                                     {opt.label}
                                   </Label>
                                 </div>
@@ -804,16 +982,24 @@ export const CreateFeedbackForm: React.FC = () => {
                           ) : field.type === "checkbox-group" ? (
                             <div className="space-y-2">
                               {field.options?.map((opt) => (
-                                <div key={opt.value} className="flex items-center space-x-2">
-                                  <Checkbox id={`live-${field.id}-${opt.value}`} />
-                                  <Label htmlFor={`live-${field.id}-${opt.value}`} className="text-sm">
+                                <div
+                                  key={opt.value}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <Checkbox
+                                    id={`live-${field.id}-${opt.value}`}
+                                  />
+                                  <Label
+                                    htmlFor={`live-${field.id}-${opt.value}`}
+                                    className="text-sm"
+                                  >
                                     {opt.label}
                                   </Label>
                                 </div>
                               ))}
                             </div>
                           ) : field.type === "file" ? (
-                            <label 
+                            <label
                               htmlFor={`file-${field.id}`}
                               className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/50 cursor-pointer hover:bg-muted/70 transition-colors block"
                             >
@@ -825,17 +1011,19 @@ export const CreateFeedbackForm: React.FC = () => {
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    console.log('File selected:', file.name);
+                                    console.log("File selected:", file.name);
                                   }
                                 }}
                               />
                               <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                               <p className="text-sm text-muted-foreground">
-                                Click to upload or drag and drop
+                                {t("tooltips.uploadInfo")}
                               </p>
                               {field.accept && (
                                 <p className="text-xs text-muted-foreground mt-1">
-                                  Accepted: {field.accept}
+                                  {t("messages.accept", {
+                                    field: field.accept,
+                                  })}
                                 </p>
                               )}
                             </label>
@@ -856,9 +1044,12 @@ export const CreateFeedbackForm: React.FC = () => {
                       ))}
                       <div className="flex gap-3">
                         <Button variant="outline" className="flex-1">
-                          Reset Form
+                          {t("buttons.reset")}
                         </Button>
-                        <Button className="flex-1">Submit Feedback</Button>
+                        <Button className="flex-1">
+                          {" "}
+                          {t("buttons.submit")}
+                        </Button>
                       </div>
                     </div>
                   </>
@@ -867,12 +1058,21 @@ export const CreateFeedbackForm: React.FC = () => {
                 {currentStep === 2 && (
                   <>
                     <div className="text-center space-y-4">
-                      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-                      {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+                      <h2 className="text-xl font-semibold text-foreground">
+                        {title}
+                      </h2>
+                      {subtitle && (
+                        <p className="text-sm text-muted-foreground">
+                          {subtitle}
+                        </p>
+                      )}
                     </div>
                     <div className="flex justify-center gap-2 py-4">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <button key={star} className="transition-transform hover:scale-110">
+                        <button
+                          key={star}
+                          className="transition-transform hover:scale-110"
+                        >
                           <svg
                             className={`w-10 h-10 ${
                               star <= positiveRatingThreshold
@@ -895,19 +1095,34 @@ export const CreateFeedbackForm: React.FC = () => {
                 {currentStep === 3 && (
                   <>
                     <div className="text-center">
-                      <h2 className="text-lg font-medium text-foreground">{positiveFeedbackTitle}</h2>
+                      <h2 className="text-lg font-medium text-foreground">
+                        {positiveFeedbackTitle}
+                      </h2>
                     </div>
                     <div className="flex flex-col gap-3">
                       {reviewSites
-                        .filter((site) => reviewSiteUrls[site.id] && isValidUrl(reviewSiteUrls[site.id]))
+                        .filter(
+                          (site) =>
+                            reviewSiteUrls[site.id] &&
+                            isValidUrl(reviewSiteUrls[site.id])
+                        )
                         .map((site) => {
                           return (
                             <button
                               key={site.id}
                               className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-transform hover:scale-105"
                             >
-                              <img src={site.logo} alt={`${site.name} logo`} className="w-5 h-5 object-contain" />
-                              <span>Review on {site.name}</span>
+                              <img
+                                src={site.logo}
+                                alt={`${t("tooltips.imgalt", {
+                                  site: site.name,
+                                })}`}
+                                className="w-5 h-5 object-contain"
+                              />
+                              <span>
+                                {" "}
+                                {t("tooltips.review", { name: site.name })}
+                              </span>
                             </button>
                           );
                         })}
@@ -917,8 +1132,12 @@ export const CreateFeedbackForm: React.FC = () => {
 
                 {currentStep === 4 && (
                   <div className="text-center space-y-4 py-8">
-                    <h2 className="text-2xl font-bold text-foreground">{successTitle}</h2>
-                    <p className="text-base text-muted-foreground">{successSubtitle}</p>
+                    <h2 className="text-2xl font-bold text-foreground">
+                      {successTitle}
+                    </h2>
+                    <p className="text-base text-muted-foreground">
+                      {successSubtitle}
+                    </p>
                   </div>
                 )}
               </div>
