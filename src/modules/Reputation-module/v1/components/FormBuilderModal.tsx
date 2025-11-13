@@ -264,11 +264,19 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         value={selectedField.label}
                         onChange={(e) => {
                           const label = e.target.value;
-                          const generatedName = label.replace(/\s+/g, "_");
-                          updateField(selectedField.id, {
-                            label,
-                            name: generatedName,
-                          });
+                          const isProtectedField = selectedField.name === "name" || selectedField.type === "email";
+                          
+                          if (isProtectedField) {
+                            // For Name/Email fields: Only update label
+                            updateField(selectedField.id, { label });
+                          } else {
+                            // For other fields: Update both label and name
+                            const generatedName = label.replace(/\s+/g, "_");
+                            updateField(selectedField.id, {
+                              label,
+                              name: generatedName,
+                            });
+                          }
                         }}
                         placeholder={t("fieldlabel")}
                       />
@@ -287,6 +295,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                           })
                         }
                         placeholder={t("fieldPlace")}
+                        disabled={selectedField.name === "name" || selectedField.type === "email"}
                       />
                     </div>
 
@@ -299,8 +308,9 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         onValueChange={(value: FieldType) =>
                           updateField(selectedField.id, { type: value })
                         }
+                        disabled={selectedField.name === "name" || selectedField.type === "email"}
                       >
-                        <SelectTrigger id="field-type">
+                        <SelectTrigger id="field-type" disabled={selectedField.name === "name" || selectedField.type === "email"}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -338,10 +348,15 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                             required: checked === true,
                           })
                         }
+                        disabled={selectedField.name === "name" || selectedField.type === "email"}
                       />
                       <Label
                         htmlFor="field-required"
-                        className="text-xs cursor-pointer"
+                        className={`text-xs cursor-pointer ${
+                          selectedField.name === "name" || selectedField.type === "email" 
+                            ? "opacity-50 cursor-not-allowed" 
+                            : ""
+                        }`}
                       >
                         {t("requiredField")}
                       </Label>
