@@ -408,13 +408,17 @@ export const CreateFeedbackForm: React.FC = () => {
         });
       }
     } catch (error: any) {
+      // Extract error message from API response
+      const apiErrorMessage = error?.response?.data?.message;
+      
+      // Use API error message if available, otherwise use fallback
+      const errorDescription = apiErrorMessage || (isEditMode 
+        ? t("messages.updateError")
+        : t("messages.createError"));
+      
       toast({
         title: t("labels.error"),
-        description:
-          error?.response?.data?.message || isEditMode
-            ? t("messages.updateError")
-            : t("messages.createError"),
-        // `Failed to ${isEditMode ? "update" : "create"} feedback form`,
+        description: errorDescription,
         variant: "destructive",
       });
     }
