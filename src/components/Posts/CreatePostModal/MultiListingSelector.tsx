@@ -213,7 +213,6 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             variant="outline"
             className="w-full justify-between"
             disabled={isLoading}
-            onClick={() => setOpen(!open)}
           >
             {
               selectedListings.length === 0
