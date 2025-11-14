@@ -207,10 +207,10 @@ export const ViewBulkMapRank: React.FC = () => {
 
         {/* Summary Cards */}
         <BulkMapSummaryCards
-          searchBy="Business Name"
-          scheduledFrequency="Weekly"
+          searchBy="City"
+          scheduledFrequency="ONETIME"
           lastCheck="Nov 14, 2025"
-          nextCheck="2h"
+          nextCheck="Dec 14, 2025"
           nextCheckTime="Scheduled for 4:30 PM"
           positionSummary={{
             total: 12,

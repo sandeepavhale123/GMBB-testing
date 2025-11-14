@@ -42,22 +42,12 @@ export const CheckBulkMapRank: React.FC = () => {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div className="relative h-full min-h-[400px] lg:min-h-[600px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5">
+              <div className="relative h-full min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
                 <img
-                  src="/placeholder.svg"
+                  src="/lovable-uploads/bg-img/map-bg-image.png"
                   alt="Banner"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-background/10 backdrop-blur-sm">
-                  <div className="text-center p-6">
-                    <p className="text-2xl font-bold text-foreground mb-2">
-                      Banner Image
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Update manually with your own image
-                    </p>
-                  </div>
-                </div>
+                  className="w-full h-full object-cover "
+                /> 
               </div>
 
                 {/* Column 2: Form Section */}
