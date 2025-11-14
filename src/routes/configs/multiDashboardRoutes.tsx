@@ -31,6 +31,7 @@ import { ImportPostCSV } from "@/multiDashboardLayout/pages/ImportPostCSV";
 import { ImportPostCSVWizard } from "@/multiDashboardLayout/pages/ImportPostCSVWizard";
 import { BulkImportDetails } from "@/multiDashboardLayout/pages/BulkImportDetails";
 import { GalleryPage } from "@/multiDashboardLayout/pages/Gallery";
+import { BulkMapRanking } from "@/multiDashboardLayout/pages/BulkMapRanking";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -70,6 +71,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-review",
         element: <BulkReview />,
+      },
+      {
+        path: "bulk-map-ranking",
+        element: <BulkMapRanking />,
       },
         {
           path: "reports",
