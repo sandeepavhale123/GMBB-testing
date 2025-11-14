@@ -66,18 +66,20 @@ export const SubNavbar: React.FC = () => {
   }
 
   // Back button route configuration
-  const backButtonRoutes: Record<string, string> = {
-    "/bulk-post-details/": "/main-dashboard/bulk-post",
-    "/bulk-media-details/": "/main-dashboard/bulk-media",
-    "/bulk-auto-reply-project-details/": "/main-dashboard/bulk-auto-reply",
-    "/bulk-auto-reply": "/main-dashboard/bulk-review",
-    "/generate-bulk-report": "/main-dashboard/reports",
-    "/bulk-report-details/": "/main-dashboard/reports",
-    "/import-post-csv": "/main-dashboard/bulk-post",
-    "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
-    "/bulk-import-details/": "/main-dashboard/import-post-csv",
-    "/bulk-map-ranking": "/main-dashboard",
-  };
+const backButtonRoutes: Record<string, string> = {
+  "/bulk-post-details/": "/main-dashboard/bulk-post",
+  "/bulk-media-details/": "/main-dashboard/bulk-media",
+  "/bulk-auto-reply-project-details/": "/main-dashboard/bulk-auto-reply",
+  "/bulk-auto-reply": "/main-dashboard/bulk-review",
+  "/generate-bulk-report": "/main-dashboard/reports",
+  "/bulk-report-details/": "/main-dashboard/reports",
+  "/import-post-csv": "/main-dashboard/bulk-post",
+  "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
+  "/bulk-import-details/": "/main-dashboard/import-post-csv",
+  "/bulk-map-ranking": "/main-dashboard",
+  "/check-bulk-map-ranking": "/main-dashboard/bulk-map-ranking",
+  "/view-bulk-map-ranking/": "/main-dashboard/bulk-map-ranking",
+};
 
   const currentPath = location.pathname;
 
