@@ -11,35 +11,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 
 export const CheckBulkMapRank: React.FC = () => {
-  const [selectedBusinesses, setSelectedBusinesses] = useState<string[]>([]);
+  const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState("en");
   const [searchBy, setSearchBy] = useState("");
   const [enableSchedule, setEnableSchedule] = useState(false);
   const [scheduleFrequency, setScheduleFrequency] = useState("");
 
-  const businessOptions = [
-    { id: "1", name: "Main Street Pizza" },
-    { id: "2", name: "Downtown Coffee Shop" },
-    { id: "3", name: "Harbor Restaurant" },
-    { id: "4", name: "City Center Bakery" },
-    { id: "5", name: "Sunset Diner" },
-  ];
-
-  const handleBusinessSelect = (businessId: string) => {
-    setSelectedBusinesses((prev) =>
-      prev.includes(businessId)
-        ? prev.filter((id) => id !== businessId)
-        : [...prev, businessId]
-    );
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({
-      selectedBusinesses,
+      selectedListings,
       keywords,
       language,
       searchBy,
@@ -77,40 +62,20 @@ export const CheckBulkMapRank: React.FC = () => {
                 </div>
               </div>
 
-              {/* Column 2: Form Section */}
-              <div className="space-y-6">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Select Business Name - Multi Select */}
-                  <div className="space-y-2">
-                    <Label htmlFor="business-name">
-                      Select Business Name *
-                    </Label>
-                    <div className="border rounded-md p-4 space-y-3 max-h-[200px] overflow-y-auto bg-background">
-                      {businessOptions.map((business) => (
-                        <div
-                          key={business.id}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={`business-${business.id}`}
-                            checked={selectedBusinesses.includes(business.id)}
-                            onCheckedChange={() =>
-                              handleBusinessSelect(business.id)
-                            }
-                          />
-                          <label
-                            htmlFor={`business-${business.id}`}
-                            className="text-sm cursor-pointer"
-                          >
-                            {business.name}
-                          </label>
-                        </div>
-                      ))}
+                {/* Column 2: Form Section */}
+                <div className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Select Business Name - Multi Select */}
+                    <div className="space-y-2">
+                      <MultiListingSelector
+                        selectedListings={selectedListings}
+                        onListingsChange={setSelectedListings}
+                        label="Select Business Name *"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Select one or more businesses to check rankings
+                      </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Select one or more businesses to check rankings
-                    </p>
-                  </div>
 
                   {/* Keywords */}
                   <div className="space-y-2">
@@ -132,14 +97,91 @@ export const CheckBulkMapRank: React.FC = () => {
                     <Label htmlFor="language">Select Language (Optional)</Label>
                     <Select value={language} onValueChange={setLanguage}>
                       <SelectTrigger id="language">
-                        <SelectValue placeholder="Choose a language" />
+                        <SelectValue placeholder="Select language" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="max-h-[300px]">
+                        <SelectItem value="">Select language</SelectItem>
+                        <SelectItem value="af">Afrikaans</SelectItem>
+                        <SelectItem value="sq">Albanian</SelectItem>
+                        <SelectItem value="am">Amharic</SelectItem>
+                        <SelectItem value="ar">Arabic</SelectItem>
+                        <SelectItem value="hy">Armenian</SelectItem>
+                        <SelectItem value="az">Azerbaijani</SelectItem>
+                        <SelectItem value="eu">Basque</SelectItem>
+                        <SelectItem value="be">Belarusian</SelectItem>
+                        <SelectItem value="bn">Bengali</SelectItem>
+                        <SelectItem value="bs">Bosnian</SelectItem>
+                        <SelectItem value="bg">Bulgarian</SelectItem>
+                        <SelectItem value="my">Burmese</SelectItem>
+                        <SelectItem value="ca">Catalan</SelectItem>
+                        <SelectItem value="zh">Chinese</SelectItem>
+                        <SelectItem value="zh-CN">Chinese (Simplified)</SelectItem>
+                        <SelectItem value="zh-HK">Chinese (Hong Kong)</SelectItem>
+                        <SelectItem value="zh-TW">Chinese (Traditional)</SelectItem>
+                        <SelectItem value="hr">Croatian</SelectItem>
+                        <SelectItem value="cs">Czech</SelectItem>
+                        <SelectItem value="da">Danish</SelectItem>
+                        <SelectItem value="nl">Dutch</SelectItem>
                         <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="es">Spanish</SelectItem>
+                        <SelectItem value="en-AU">English (Australian)</SelectItem>
+                        <SelectItem value="en-GB">English (Great Britain)</SelectItem>
+                        <SelectItem value="et">Estonian</SelectItem>
+                        <SelectItem value="fa">Farsi</SelectItem>
+                        <SelectItem value="fi">Finnish</SelectItem>
+                        <SelectItem value="fil">Filipino</SelectItem>
                         <SelectItem value="fr">French</SelectItem>
+                        <SelectItem value="fr-CA">French (Canada)</SelectItem>
+                        <SelectItem value="gl">Galician</SelectItem>
+                        <SelectItem value="ka">Georgian</SelectItem>
                         <SelectItem value="de">German</SelectItem>
+                        <SelectItem value="el">Greek</SelectItem>
+                        <SelectItem value="gu">Gujarati</SelectItem>
+                        <SelectItem value="iw">Hebrew</SelectItem>
+                        <SelectItem value="hi">Hindi</SelectItem>
+                        <SelectItem value="hu">Hungarian</SelectItem>
+                        <SelectItem value="is">Icelandic</SelectItem>
+                        <SelectItem value="id">Indonesian</SelectItem>
                         <SelectItem value="it">Italian</SelectItem>
+                        <SelectItem value="ja">Japanese</SelectItem>
+                        <SelectItem value="kn">Kannada</SelectItem>
+                        <SelectItem value="kk">Kazakh</SelectItem>
+                        <SelectItem value="km">Khmer</SelectItem>
+                        <SelectItem value="ko">Korean</SelectItem>
+                        <SelectItem value="ky">Kyrgyz</SelectItem>
+                        <SelectItem value="lo">Lao</SelectItem>
+                        <SelectItem value="lv">Latvian</SelectItem>
+                        <SelectItem value="lt">Lithuanian</SelectItem>
+                        <SelectItem value="mk">Macedonian</SelectItem>
+                        <SelectItem value="ms">Malay</SelectItem>
+                        <SelectItem value="ml">Malayalam</SelectItem>
+                        <SelectItem value="mr">Marathi</SelectItem>
+                        <SelectItem value="mn">Mongolian</SelectItem>
+                        <SelectItem value="ne">Nepali</SelectItem>
+                        <SelectItem value="no">Norwegian</SelectItem>
+                        <SelectItem value="pl">Polish</SelectItem>
+                        <SelectItem value="pt">Portuguese</SelectItem>
+                        <SelectItem value="pt-BR">Portuguese (Brazil)</SelectItem>
+                        <SelectItem value="pt-PT">Portuguese (Portugal)</SelectItem>
+                        <SelectItem value="pa">Punjabi</SelectItem>
+                        <SelectItem value="ro">Romanian</SelectItem>
+                        <SelectItem value="ru">Russian</SelectItem>
+                        <SelectItem value="sr">Serbian</SelectItem>
+                        <SelectItem value="si">Sinhalese</SelectItem>
+                        <SelectItem value="sk">Slovak</SelectItem>
+                        <SelectItem value="sl">Slovenian</SelectItem>
+                        <SelectItem value="es">Spanish</SelectItem>
+                        <SelectItem value="es-419">Spanish (Latin America)</SelectItem>
+                        <SelectItem value="sw">Swahili</SelectItem>
+                        <SelectItem value="sv">Swedish</SelectItem>
+                        <SelectItem value="ta">Tamil</SelectItem>
+                        <SelectItem value="te">Telugu</SelectItem>
+                        <SelectItem value="th">Thai</SelectItem>
+                        <SelectItem value="tr">Turkish</SelectItem>
+                        <SelectItem value="uk">Ukrainian</SelectItem>
+                        <SelectItem value="ur">Urdu</SelectItem>
+                        <SelectItem value="uz">Uzbek</SelectItem>
+                        <SelectItem value="vi">Vietnamese</SelectItem>
+                        <SelectItem value="zu">Zulu</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -152,11 +194,9 @@ export const CheckBulkMapRank: React.FC = () => {
                         <SelectValue placeholder="Select search method" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="business-name">
-                          Business Name
-                        </SelectItem>
-                        <SelectItem value="cid">CID</SelectItem>
-                        <SelectItem value="map-url">Map URL</SelectItem>
+                        <SelectItem value="City">City</SelectItem>
+                        <SelectItem value="postalcode">Postal Code</SelectItem>
+                        <SelectItem value="latLong">Latitude-Longitude</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -187,7 +227,7 @@ export const CheckBulkMapRank: React.FC = () => {
                           <SelectValue placeholder="Select frequency" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="daily">Daily</SelectItem>
+                          <SelectItem value="onetime">Onetime</SelectItem>
                           <SelectItem value="weekly">Weekly</SelectItem>
                           <SelectItem value="monthly">Monthly</SelectItem>
                         </SelectContent>
