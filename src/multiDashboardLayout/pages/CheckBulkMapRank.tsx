@@ -99,9 +99,8 @@ export const CheckBulkMapRank: React.FC = () => {
                       <SelectTrigger id="language">
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[300px]">
-                        <SelectItem value="">Select language</SelectItem>
-                        <SelectItem value="af">Afrikaans</SelectItem>
+        <SelectContent className="max-h-[300px]">
+          <SelectItem value="af">Afrikaans</SelectItem>
                         <SelectItem value="sq">Albanian</SelectItem>
                         <SelectItem value="am">Amharic</SelectItem>
                         <SelectItem value="ar">Arabic</SelectItem>
