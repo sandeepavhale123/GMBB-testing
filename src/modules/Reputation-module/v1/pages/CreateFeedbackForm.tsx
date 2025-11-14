@@ -159,6 +159,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formName, setFormName] = useState("");
   const [formNameError, setFormNameError] = useState("");
+  const [logoError, setLogoError] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How was your experience with us?");
   const [subtitle, setSubtitle] = useState(
@@ -264,6 +265,10 @@ export const CreateFeedbackForm: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       setLogoFile(file);
+      // Clear logo error when user uploads
+      if (logoError) {
+        setLogoError("");
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogo(reader.result as string);
@@ -294,10 +299,21 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleNext = () => {
-    // Step 1 validation: Form name is required
+    // Step 1 validation: Form name and logo are required
     if (currentStep === 1) {
       if (!formName.trim()) {
         setFormNameError(t("messages.formNameRequired"));
+        return;
+      }
+      
+      // Validate logo upload
+      if (!logoFile && !logo) {
+        setLogoError(t("messages.logoRequired"));
+        toast({
+          title: t("messages.validationError"),
+          description: t("messages.logoRequired"),
+          variant: "destructive",
+        });
         return;
       }
     }
@@ -508,18 +524,28 @@ export const CreateFeedbackForm: React.FC = () => {
                       htmlFor="logo-upload"
                       className="text-sm font-medium"
                     >
-                      {t("labels.logo")}
+                      {t("labels.logo")} *
                     </Label>
                     <Input
                       id="logo-upload"
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
-                      className="w-full"
+                      className={cn(
+                        "w-full",
+                        logoError &&
+                          "border-destructive focus-visible:ring-destructive"
+                      )}
                     />
-                    <p className="text-xs text-muted-foreground">
-                      {t("tooltips.logoInfo")}
-                    </p>
+                    {logoError ? (
+                      <p className="text-xs text-destructive">
+                        {logoError}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">
+                        {t("tooltips.logoInfo")}
+                      </p>
+                    )}
                   </div>
                 </div>
 

@@ -42,6 +42,7 @@
     "editing":"Modification du formulaire existant",
     "validationError": "Erreur de validation",
     "formNameRequired": "Le nom du formulaire est requis",
+    "logoRequired": "Le logo est requis",
     "validUrlRequired": "Au moins une URL de site d'avis est requise",
     "validMessage":"Veuillez entrer un nom de formulaire",
     "invalidUrls": "Veuillez corriger les URLs invalides avant de continuer",
@@ -67,7 +68,7 @@
   },
   "tooltips": {
     "formNameInfo": "Ce nom est uniquement pour votre référence interne",
-    "logoInfo": "Optionnel - Téléchargez le logo de votre entreprise",
+    "logoInfo": "Requis - Téléchargez le logo de votre entreprise",
     "ratingInfo": "Choisissez la note minimale que vous considérez comme un feedback positif",
     "reviewSiteInfo": "Entrez les URLs des sites où les clients peuvent laisser leur feedback. Seules les URLs valides seront affichées aux utilisateurs.",
     "uploadInfo":"Cliquez pour télécharger ou glissez-déposez",

@@ -42,6 +42,7 @@
     "editing": "Editando formulario existente",
     "validationError": "Error de validación",
     "formNameRequired": "El nombre del formulario es obligatorio",
+    "logoRequired": "El logotipo es obligatorio",
     "validUrlRequired": "Se requiere al menos una URL de sitio de reseñas",
     "validMessage": "Por favor, ingrese un nombre de formulario",
     "invalidUrls": "Corrija las URLs inválidas antes de continuar",
@@ -67,7 +68,7 @@
   },
   "tooltips": {
     "formNameInfo": "Este nombre es solo para su referencia interna",
-    "logoInfo": "Opcional - Suba el logo de su empresa",
+    "logoInfo": "Obligatorio - Sube el logotipo de tu empresa",
     "ratingInfo": "Elija la valoración mínima que considere feedback positivo",
     "reviewSiteInfo": "Ingrese las URLs de reseñas donde los clientes pueden dejar su feedback. Solo se mostrarán URLs válidas.",
     "uploadInfo": "Haga clic para subir o arrastre y suelte",
