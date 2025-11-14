@@ -70,9 +70,6 @@ export const CheckBulkMapRank: React.FC = () => {
                         onListingsChange={setSelectedListings}
                         label="Select Business Name *"
                       />
-                      <p className="text-xs text-muted-foreground">
-                        Select one or more businesses to check rankings
-                      </p>
                     </div>
 
                   {/* Keywords */}
