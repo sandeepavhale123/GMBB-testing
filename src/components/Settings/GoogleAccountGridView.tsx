@@ -62,7 +62,7 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
 
   const handleRefresh = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // console.log("Refresh account:", account.id);
+
     onRefreshAccount?.(account.id);
   };
 
@@ -73,7 +73,7 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // console.log("Delete account:", account.id);
+
     onDeleteAccount?.(account.id, account.name, account.email);
   };
 

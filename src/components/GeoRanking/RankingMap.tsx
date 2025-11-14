@@ -131,10 +131,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     // Initialize map
     useEffect(() => {
       if (!mapRef.current || mapInstanceRef.current) return;
-
-      // console.log("🗺️ Initializing map...");
       const center = getMapCenter();
-      // console.log("🗺️ Map center:", center);
 
       const map = L.map(mapRef.current).setView([center.lat, center.lng], 13);
       mapInstanceRef.current = map;
@@ -143,8 +140,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
-
-      // console.log("🗺️ Map initialized successfully");
 
       return () => {
         if (mapInstanceRef.current) {
@@ -170,7 +165,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     useEffect(() => {
       if (!mapInstanceRef.current) return;
 
-      // console.log("🗺️ Updating markers with rankDetails:", rankDetails.length);
       if (rankDetails.length > 0) {
         addMarkers(rankDetails);
 

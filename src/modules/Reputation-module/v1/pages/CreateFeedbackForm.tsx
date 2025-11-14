@@ -247,16 +247,6 @@ export const CreateFeedbackForm: React.FC = () => {
         setLogo(data.logo);
         // Note: logoFile remains null since we're not re-uploading
       }
-
-      // Debug logging
-      console.log("Edit Form Data Loaded:", {
-        formId,
-        formFieldsType: typeof data.formFields,
-        formFieldsIsArray: Array.isArray(data.formFields),
-        parsedFieldsLength: parsedFields.length,
-        reviewSiteUrlsType: typeof data.reviewSiteUrls,
-        parsedUrlsKeys: Object.keys(parsedUrls),
-      });
     }
   }, [isEditMode, existingFormData, formId]);
 
@@ -410,12 +400,12 @@ export const CreateFeedbackForm: React.FC = () => {
     } catch (error: any) {
       // Extract error message from API response
       const apiErrorMessage = error?.response?.data?.message;
-      
+
       // Use API error message if available, otherwise use fallback
-      const errorDescription = apiErrorMessage || (isEditMode 
-        ? t("messages.updateError")
-        : t("messages.createError"));
-      
+      const errorDescription =
+        apiErrorMessage ||
+        (isEditMode ? t("messages.updateError") : t("messages.createError"));
+
       toast({
         title: t("labels.error"),
         description: errorDescription,
@@ -1015,7 +1005,7 @@ export const CreateFeedbackForm: React.FC = () => {
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    console.log("File selected:", file.name);
+                                    //
                                   }
                                 }}
                               />

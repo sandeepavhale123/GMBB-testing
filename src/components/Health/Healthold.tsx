@@ -31,7 +31,6 @@ export const Health: React.FC = () => {
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
-  // console.log("health data", healthData);
   if (loading)
     return <div className="text-center py-10">Loading health data...</div>;
   if (error)

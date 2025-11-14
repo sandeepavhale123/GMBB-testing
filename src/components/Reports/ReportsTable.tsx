@@ -34,8 +34,6 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   );
   const reports = data?.data?.reports;
   const pagination = data?.data?.pagination;
-  // console.log("report data", reports);
-  // console.log("pagination", pagination);
   if (isLoading) {
     return (
       <div className="text-center py-12">

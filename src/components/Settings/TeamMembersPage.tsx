@@ -579,7 +579,6 @@ const TeamMembersPage: React.FC = () => {
         onOpenChange={setShowAddModal}
         onSuccess={() => {
           // The team list will be automatically refreshed by the addTeamMember function
-          // console.log("Team member added successfully");
         }}
       />
 
@@ -595,7 +594,6 @@ const TeamMembersPage: React.FC = () => {
         member={selectedMember}
         onSuccess={() => {
           // The team list will be automatically refreshed by the deleteTeamMember function
-          // console.log("Team member deleted successfully");
         }}
       />
     </div>

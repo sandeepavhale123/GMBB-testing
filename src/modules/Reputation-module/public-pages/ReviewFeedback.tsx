@@ -15,19 +15,19 @@ export const ReviewFeedback: React.FC = () => {
 
   // Get rating from URL params or location state
   const searchParams = new URLSearchParams(location.search);
-  const rating = Number(searchParams.get('rating')) || location.state?.rating || 0;
+  const rating =
+    Number(searchParams.get("rating")) || location.state?.rating || 0;
 
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     emailPhone: "",
-    comment: ""
+    comment: "",
   });
   const [localRating, setLocalRating] = useState<number>(rating);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData, "Rating:", localRating);
     setSubmitted(true);
   };
 
@@ -43,7 +43,11 @@ export const ReviewFeedback: React.FC = () => {
         <Card className="border-0">
           <CardContent className="p-8">
             <div className="text-center space-y-6">
-              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
+              <img
+                src="/lovable-uploads/AgencySimplifier-logo.png"
+                className="h-10 mx-auto"
+                alt="logo"
+              />
               <div>
                 <h1 className="text-2xl font-bold text-foreground mb-2">
                   How would you rate your overall experience with us?
@@ -82,13 +86,19 @@ export const ReviewFeedback: React.FC = () => {
         <Card className=" border-0">
           <CardContent className="p-8 text-center">
             <div className="flex flex-col items-center space-y-4">
-              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto mb-4" alt="logo"  />
-             
-              <h2 className="text-2xl font-bold text-foreground">Thanks, your feedback has been submitted!</h2>
+              <img
+                src="/lovable-uploads/AgencySimplifier-logo.png"
+                className="h-10 mx-auto mb-4"
+                alt="logo"
+              />
+
+              <h2 className="text-2xl font-bold text-foreground">
+                Thanks, your feedback has been submitted!
+              </h2>
               <p className="text-muted-foreground">
                 We really appreciate your comments.
               </p>
-               <CheckCircle2 className="w-16 h-16 text-green-500" />
+              <CheckCircle2 className="w-16 h-16 text-green-500" />
               {/* <Button onClick={() => navigate("/")} className="mt-4">
                 Return to Home
               </Button> */}
@@ -108,7 +118,11 @@ export const ReviewFeedback: React.FC = () => {
             <div className="space-y-6">
               {/* Header with stars */}
               <div className="text-center space-y-4">
-                <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
+                <img
+                  src="/lovable-uploads/AgencySimplifier-logo.png"
+                  className="h-10 mx-auto"
+                  alt="logo"
+                />
                 <h2 className="text-2xl font-bold text-foreground">
                   Share Your Positive Experience
                 </h2>
@@ -130,7 +144,8 @@ export const ReviewFeedback: React.FC = () => {
                 </div>
 
                 <p className="text-muted-foreground">
-                  We're glad you had a great experience! Please choose where to leave your review:
+                  We're glad you had a great experience! Please choose where to
+                  leave your review:
                 </p>
               </div>
 
@@ -140,7 +155,7 @@ export const ReviewFeedback: React.FC = () => {
                   variant="outline"
                   size="lg"
                   className="h-auto py-6 flex flex-row justify-between gap-2 "
-                  onClick={() => window.open('https://google.com', '_blank')}
+                  onClick={() => window.open("https://google.com", "_blank")}
                 >
                   <div className="flex gap-2 items-center ">
                     <FaGoogle className="text-[#4285F4]" />
@@ -149,11 +164,11 @@ export const ReviewFeedback: React.FC = () => {
                   <ExternalLink className="w-5 h-5" />
                 </Button>
 
-               <Button
+                <Button
                   variant="outline"
                   size="lg"
                   className="h-auto py-6 flex flex-row justify-between gap-2 "
-                  onClick={() => window.open('https://google.com', '_blank')}
+                  onClick={() => window.open("https://google.com", "_blank")}
                 >
                   <div className="flex gap-2 items-center ">
                     <FaFacebook className="text-[#1877F2]" />
@@ -166,21 +181,25 @@ export const ReviewFeedback: React.FC = () => {
                   variant="outline"
                   size="lg"
                   className="h-auto py-6 flex flex-row justify-between gap-2 "
-                  onClick={() => window.open('https://tripadvisor.com', '_blank')}
+                  onClick={() =>
+                    window.open("https://tripadvisor.com", "_blank")
+                  }
                 >
                   <div className="flex gap-2 items-center ">
                     <FaTripadvisor className="text-[#00AF87] text-2xl w-6 h-6" />
-                    <span className="font-semibold text-[18px]">Tripadvisor</span>
+                    <span className="font-semibold text-[18px]">
+                      Tripadvisor
+                    </span>
                   </div>
 
                   <ExternalLink className="w-5 h-5" />
                 </Button>
 
-               <Button
+                <Button
                   variant="outline"
                   size="lg"
                   className="h-auto py-6 flex flex-row justify-between gap-2 "
-                  onClick={() => window.open('https://airbnb.com', '_blank')}
+                  onClick={() => window.open("https://airbnb.com", "_blank")}
                 >
                   <div className="flex gap-2 items-center ">
                     <FaAirbnb className="text-[#FF385C] " size={40} />
@@ -192,10 +211,7 @@ export const ReviewFeedback: React.FC = () => {
 
               {/* Back button */}
               <div className="flex justify-center mt-6">
-                <Button
-                  variant="ghost"
-                  onClick={() => handleRatingSelect(0)}
-                >
+                <Button variant="ghost" onClick={() => handleRatingSelect(0)}>
                   Change Rating
                 </Button>
               </div>
@@ -214,7 +230,11 @@ export const ReviewFeedback: React.FC = () => {
           <div className="space-y-6">
             {/* Header with stars */}
             <div className="text-center space-y-4">
-              <img src="/lovable-uploads/AgencySimplifier-logo.png" className="h-10 mx-auto" alt="logo"  />
+              <img
+                src="/lovable-uploads/AgencySimplifier-logo.png"
+                className="h-10 mx-auto"
+                alt="logo"
+              />
               <h2 className="text-2xl font-bold text-foreground">
                 We'd Like to Hear From You
               </h2>
@@ -236,47 +256,63 @@ export const ReviewFeedback: React.FC = () => {
               </div>
 
               <p className="text-muted-foreground">
-                We're sorry your experience wasn't perfect. Please share your feedback so we can improve:
+                We're sorry your experience wasn't perfect. Please share your
+                feedback so we can improve:
               </p>
             </div>
 
             {/* Feedback Form */}
             <form onSubmit={handleSubmit} className="space-y-4 mt-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Name
                 </label>
                 <Input
                   id="name"
                   placeholder="Your Name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="contact" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="contact"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Email or Phone
                 </label>
                 <Input
                   id="contact"
                   placeholder="Email or Phone"
                   value={formData.emailPhone}
-                  onChange={(e) => setFormData({ ...formData, emailPhone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, emailPhone: e.target.value })
+                  }
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="comment" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="comment"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Your Feedback
                 </label>
                 <Textarea
                   id="comment"
                   placeholder="Tell us what went wrong and how we can improve..."
                   value={formData.comment}
-                  onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, comment: e.target.value })
+                  }
                   rows={6}
                   required
                 />

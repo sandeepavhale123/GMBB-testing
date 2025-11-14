@@ -61,7 +61,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
     // Check if there's a selected media from gallery
     if (selectedMedia) {
-      // console.log("🖼️ Gallery media selected for post:", selectedMedia);
       return {
         listings: [] as string[],
         title: "",
@@ -291,12 +290,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
         };
 
-        // console.log("📤 Sending bulk post data to backend:", bulkPostData);
-        // console.log(
-        //   "🔄 Selected listings for bulk posting:",
-        //   formData.listings
-        // );
-
         response = await dispatch(createBulkPost(bulkPostData)).unwrap();
 
         // Call the bulk post created callback if provided
@@ -356,8 +349,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               ? formData.image
               : undefined,
         };
-
-        // console.log("📤 Sending single post data to backend:", createPostData);
 
         response = await dispatch(createPost(createPostData)).unwrap();
       }

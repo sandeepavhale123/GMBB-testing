@@ -66,8 +66,6 @@ export const useInsightsData = () => {
         : "",
     };
 
-    // console.log("Fetching insights data with params:", params);
-
     try {
       await Promise.all([
         dispatch(fetchInsightsSummary(params)),

@@ -70,10 +70,6 @@ export const LoginForm = () => {
       const loginResult = await login(credentials);
       // Check if subscription expired
       if (loginResult?.subscriptionExpired) {
-        // console.log(
-        //   "🚫 Login successful but subscription expired - redirecting to subscription page"
-        // );
-
         toast({
           title: t("subscriptionExpiredTitle"),
           description: t("subscriptionExpiredDescription"),

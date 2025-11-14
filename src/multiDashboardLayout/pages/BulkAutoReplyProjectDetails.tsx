@@ -37,7 +37,6 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
   };
   const handleAISettingsSave = (settings: any) => {
     // TODO: Implement AI settings save functionality
-    console.log("Saving AI settings:", settings);
   };
 
   // Get project type from the data

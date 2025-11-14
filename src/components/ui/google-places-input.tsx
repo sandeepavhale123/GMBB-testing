@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState, useImperativeHandle } from "react";
 import { Input } from "./input";
 import { cn } from "@/lib/utils";
@@ -9,7 +8,8 @@ interface PlaceResult {
   geometry?: any;
 }
 
-interface GooglePlacesInputProps extends Omit<React.ComponentProps<"input">, 'value'> {
+interface GooglePlacesInputProps
+  extends Omit<React.ComponentProps<"input">, "value"> {
   onPlaceSelect?: (formattedAddress: string) => void;
   defaultValue?: string;
 }
@@ -44,7 +44,7 @@ export const GooglePlacesInput = React.forwardRef<
     const initAutocomplete = () => {
       if (inputRef.current && (window as any).google?.maps?.places) {
         setIsGooglePlacesActive(true);
-        
+
         autocompleteRef.current = new (
           window as any
         ).google.maps.places.Autocomplete(inputRef.current, {
@@ -54,27 +54,22 @@ export const GooglePlacesInput = React.forwardRef<
 
         autocompleteRef.current.addListener("place_changed", () => {
           const place = autocompleteRef.current?.getPlace();
-          // console.log("Google Places - place_changed triggered:", place);
-          
+
           if (place && place.formatted_address) {
-            // console.log("Google Places - formatted_address:", place.formatted_address);
-            
             // Store the selected value
             lastSelectedValue.current = place.formatted_address;
-            
+
             // Update the input value directly
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
-              // console.log("Google Places - input value updated to:", inputRef.current.value);
             }
-            
+
             // Call the onPlaceSelect callback
             if (onPlaceSelect) {
-              // console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
             }
           } else {
-            // console.log("Google Places - no place or formatted_address found");
+            //
           }
         });
       }
@@ -105,7 +100,6 @@ export const GooglePlacesInput = React.forwardRef<
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only call onChange if we're not dealing with a Google Places selection
     if (onChange && e.target.value !== lastSelectedValue.current) {
-      // console.log("GooglePlacesInput - onChange called with:", e.target.value);
       onChange(e);
     }
   };

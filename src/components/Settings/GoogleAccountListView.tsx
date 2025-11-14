@@ -68,13 +68,11 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   };
   const handleRefresh = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // console.log("Refresh account:", account.id);
     onRefreshAccount?.(account.id);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // console.log("Delete account:", account.id);
     onDeleteAccount?.(account.id, account.name, account.email);
   };
 

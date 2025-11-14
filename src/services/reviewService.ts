@@ -373,7 +373,7 @@ export const reviewService = {
     payload: GenerateAIAutoReplyRequest
   ): Promise<GenerateAIAutoReplyResponse> => {
     const response = await axiosInstance.post("/generate-ai-reply", payload);
-    console.log("🔍 Full raw Axios response:", response);
+
     return response.data;
   },
 
@@ -427,7 +427,10 @@ export const reviewService = {
   exportReviews: async (
     params: ExportReviewsRequest
   ): Promise<ExportReviewsResponse> => {
-    const response = await axiosInstance.post("/download-listing-reviews", params);
+    const response = await axiosInstance.post(
+      "/download-listing-reviews",
+      params
+    );
     return response.data;
   },
 };

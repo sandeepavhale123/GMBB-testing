@@ -30,7 +30,6 @@ export const SubNavBar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const lang = localStorage.getItem("i18nextLng");
-  console.log("language", lang);
 
   return (
     <nav

@@ -51,9 +51,6 @@ export const MobileBusinessSelector: React.FC = () => {
 
   const displayListings = searchQuery ? searchResults : listings;
 
-  // console.log("📱 MobileBusinessSelector: selectedListing:", selectedListing);
-  // console.log("📱 MobileBusinessSelector: isLoading:", isLoading);
-
   if (isRefreshing) {
     return (
       <div className="lg:hidden">
@@ -119,10 +116,6 @@ export const MobileBusinessSelector: React.FC = () => {
                     key={business.id}
                     value={`${business.name}-${business.id}`}
                     onSelect={() => {
-                      // console.log(
-                      //   "📱 MobileBusinessSelector: Selected business:",
-                      //   business
-                      // );
                       switchListing(business);
                       setMobileListingOpen(false);
                       setSearchQuery("");

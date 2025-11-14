@@ -162,12 +162,6 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const addRankingMarkers = () => {
     if (!mapInstanceRef.current || !rankDetails) return;
 
-    // console.log('🎯 Adding ranking markers:', {
-    //   rankDetailsCount: rankDetails.length,
-    //   mapPoint,
-    //   rankDetails: rankDetails.map(rd => ({ coordinate: rd.coordinate, rank: rd.rank }))
-    // });
-
     rankDetails.forEach((detail) => {
       const [lat, lng] = detail.coordinate.split(",").map(Number);
       const rankColor = getRankColor(detail.rank);

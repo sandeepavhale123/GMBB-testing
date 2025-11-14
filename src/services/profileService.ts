@@ -65,7 +65,7 @@ export const profileService = {
       .then((res) => {
         cachedProfile = res.data?.data?.profileDetails || res.data; // store result
         inProgressRequest = null; // reset after completion
-        // console.log("response of profile", res);
+
         const lang = languageMap[res.data?.data?.profileDetails.language];
         localStorage.setItem("i18nextLng", lang);
         return cachedProfile;

@@ -1,5 +1,5 @@
 import axiosInstance from "./axiosInstance";
-import type { 
+import type {
   GeoOverviewResponse,
   GeoProjectsRequest,
   GeoProjectsResponse,
@@ -15,13 +15,13 @@ import type {
   UpdateApiKeyResponse,
   GetMapApiKeyResponse,
   DeleteApiKeyRequest,
-  DeleteApiKeyResponse
-} from '@/modules/GEO-Ranking/types';
+  DeleteApiKeyResponse,
+} from "@/modules/GEO-Ranking/types";
 
 // Types for API requests and responses
 export interface DeleteKeywordRequest {
-  listingId?: number;    // Optional - used by Keywords Page
-  projectId?: number;    // Optional - used by GEO Ranking Module
+  listingId?: number; // Optional - used by Keywords Page
+  projectId?: number; // Optional - used by GEO Ranking Module
   keywordIds: number[];
   isDelete: string;
 }
@@ -199,21 +199,8 @@ export const getKeywordDetails = async (
     keywordId,
     status: 0,
   };
-  
-  // console.log('🗺️ getKeywordDetails - API call:', {
-  //   listingId,
-  //   keywordId,
-  //   dateId
-  // });
-  
+
   const response = await axiosInstance.post("/get-keyword-details", payload);
-  
-  // console.log('🗺️ getKeywordDetails - API response:', {
-  //   code: response.data.code,
-  //   rankDetailsCount: response.data.data?.rankDetails?.length || 0,
-  //   datesCount: response.data.data?.dates?.length || 0
-  // });
-  
   return response.data;
 };
 
@@ -253,10 +240,13 @@ export const getDefaultCoordinatesForGeoModule = async (
   searchType: number,
   inputText: string
 ): Promise<DefaultCoordinatesResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-default-coordinates", {
-    searchType,
-    inputText,
-  });
+  const response = await axiosInstance.post(
+    "/geomodule/get-default-coordinates",
+    {
+      searchType,
+      inputText,
+    }
+  );
   return response.data;
 };
 
@@ -414,7 +404,10 @@ export interface KeywordSearchResponse {
 export const getKeywordSearchVolume = async (
   requestData: KeywordSearchRequest
 ): Promise<KeywordSearchResponse> => {
-  const response = await axiosInstance.post("/get-keyword-search-volume", requestData);
+  const response = await axiosInstance.post(
+    "/get-keyword-search-volume",
+    requestData
+  );
   return response.data;
 };
 
@@ -481,10 +474,7 @@ export const deleteKeywords = async (
   requestData: DeleteKeywordRequest
 ): Promise<DeleteKeywordResponse> => {
   try {
-    const response = await axiosInstance.post(
-      "/delete-keyword",
-      requestData
-    );
+    const response = await axiosInstance.post("/delete-keyword", requestData);
     return response.data;
   } catch (error) {
     // console.error("Error deleting keywords:", error);
@@ -515,21 +505,30 @@ export const getGeoOverview = async (): Promise<GeoOverviewResponse> => {
 export const getGeoProjects = async (
   requestData: GeoProjectsRequest
 ): Promise<GeoProjectsResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-geo-project", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/get-geo-project",
+    requestData
+  );
   return response.data;
 };
 
 export const getGeoCreditHistory = async (
   requestData: CreditHistoryRequest
 ): Promise<CreditHistoryResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-geo-credit-history", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/get-geo-credit-history",
+    requestData
+  );
   return response.data;
 };
 
 export const createGeoProject = async (
   requestData: CreateGeoProjectRequest
 ): Promise<CreateGeoProjectResponse> => {
-  const response = await axiosInstance.post("/geomodule/create-geo-project", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/create-geo-project",
+    requestData
+  );
   return response.data;
 };
 
@@ -537,14 +536,20 @@ export const createGeoProject = async (
 export const updateGeoProject = async (
   requestData: UpdateGeoProjectRequest
 ): Promise<UpdateGeoProjectResponse> => {
-  const response = await axiosInstance.post("/geomodule/update-geo-project-details", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/update-geo-project-details",
+    requestData
+  );
   return response.data;
 };
 
 export const deleteGeoProject = async (
   requestData: DeleteGeoProjectRequest
 ): Promise<DeleteGeoProjectResponse> => {
-  const response = await axiosInstance.post("/geomodule/delete-geo-project", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/delete-geo-project",
+    requestData
+  );
   return response.data;
 };
 
@@ -588,21 +593,8 @@ export const getKeywordDetailsForProject = async (
     keywordId,
     status: 0,
   };
-  
-  // console.log('🗺️ getKeywordDetailsForProject - API call:', {
-  //   projectId,
-  //   keywordId,
-  //   dateId
-  // });
-  
+
   const response = await axiosInstance.post("/get-keyword-details", payload);
-  
-  // console.log('🗺️ getKeywordDetailsForProject - API response:', {
-  //   code: response.data.code,
-  //   rankDetailsCount: response.data.data?.rankDetails?.length || 0,
-  //   datesCount: response.data.data?.dates?.length || 0
-  // });
-  
   return response.data;
 };
 
@@ -664,7 +656,10 @@ export interface AddKeywordsToProjectResponse {
 export const addKeywordsToProject = async (
   requestData: AddKeywordsToProjectRequest
 ): Promise<AddKeywordsToProjectResponse> => {
-  const response = await axiosInstance.post("/geomodule/add-keywords", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/add-keywords",
+    requestData
+  );
   return response.data;
 };
 
@@ -672,7 +667,10 @@ export const addKeywordsToProject = async (
 export const getShareableKeywords = async (
   requestData: ShareableKeywordsRequest
 ): Promise<ShareableKeywordsResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-shareable-keywords", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/get-shareable-keywords",
+    requestData
+  );
   return response.data;
 };
 
@@ -733,9 +731,12 @@ export interface ShareableKeywordDetailsResponse {
 }
 
 export const getShareableKeywordDetails = async (
-  requestData: ShareableKeywordDetailsRequest  
+  requestData: ShareableKeywordDetailsRequest
 ): Promise<ShareableKeywordDetailsResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-details", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/get-shareable-keyword-details",
+    requestData
+  );
   return response.data;
 };
 
@@ -765,6 +766,9 @@ export interface ShareableKeywordPositionDetailsResponse {
 export const getShareableKeywordPositionDetails = async (
   requestData: ShareableKeywordPositionDetailsRequest
 ): Promise<ShareableKeywordPositionDetailsResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-position-details", requestData);
+  const response = await axiosInstance.post(
+    "/geomodule/get-shareable-keyword-position-details",
+    requestData
+  );
   return response.data;
 };

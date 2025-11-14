@@ -91,8 +91,6 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     if (generatedImages.length > 0 && generatedImages[selectedImageIndex]) {
       const imageUrl = generatedImages[selectedImageIndex];
 
-      // console.log("Using AI image URL:", imageUrl);
-
       onGenerated({
         imageUrl: imageUrl,
         prompt: prompt,

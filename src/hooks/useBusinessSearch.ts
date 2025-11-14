@@ -24,8 +24,6 @@ export const useBusinessSearch = (
 
   const performLocalSearch = useCallback(
     (query: string): BusinessListing[] => {
-      // console.log('🔍 useBusinessSearch: Performing local search for:', query);
-
       const localResults = initialListings.filter((listing) => {
         const nameMatch = listing.name
           .toLowerCase()
@@ -40,7 +38,6 @@ export const useBusinessSearch = (
         return nameMatch || addressMatch || typeMatch;
       });
 
-      // console.log('🔍 useBusinessSearch: Local search results:', localResults.length);
       return localResults;
     },
     [initialListings]
@@ -48,13 +45,10 @@ export const useBusinessSearch = (
 
   const checkInitialListForExactMatch = useCallback(
     (query: string): BusinessListing[] => {
-      // console.log('🔍 useBusinessSearch: Checking initial list for exact matches:', query);
-
       const exactMatches = initialListings.filter((listing) =>
         listing.name.toLowerCase().includes(query.toLowerCase().trim())
       );
 
-      // console.log('🔍 useBusinessSearch: Found exact matches in initial list:', exactMatches.length);
       return exactMatches;
     },
     [initialListings]
@@ -63,11 +57,9 @@ export const useBusinessSearch = (
   const performApiSearch = useCallback(
     async (query: string) => {
       const trimmedQuery = query.trim();
-      // console.log('🔍 useBusinessSearch: Starting API search for query:', `"${trimmedQuery}"`);
 
       // Cancel previous request if it exists
       if (abortControllerRef.current) {
-        // console.log('🔍 useBusinessSearch: Canceling previous request');
         abortControllerRef.current.abort();
       }
 
@@ -79,7 +71,6 @@ export const useBusinessSearch = (
         setSearching(true);
         setSearchError(null);
 
-        // console.log('🔍 useBusinessSearch: Making API call for:', `"${trimmedQuery}"`);
         const apiResults = await businessListingsService.searchListings(
           trimmedQuery,
           20
@@ -90,15 +81,9 @@ export const useBusinessSearch = (
           !currentController.signal.aborted &&
           abortControllerRef.current === currentController
         ) {
-          // console.log('🔍 useBusinessSearch: API search completed successfully');
-          // console.log('🔍 useBusinessSearch: API results count:', apiResults.length);
-          // console.log('🔍 useBusinessSearch: API result names:', apiResults.map(r => r.name));
-
           if (apiResults.length > 0) {
-            // console.log('🔍 useBusinessSearch: Using API results as primary');
             setSearchResults(apiResults);
           } else {
-            // console.log('🔍 useBusinessSearch: API returned no results, using local fallback');
             const localResults = performLocalSearch(trimmedQuery);
             setSearchResults(localResults);
           }
@@ -106,7 +91,7 @@ export const useBusinessSearch = (
           // Mark this query as processed
           lastProcessedQueryRef.current = trimmedQuery;
         } else {
-          // console.log('🔍 useBusinessSearch: Request was aborted or superseded, ignoring results');
+          //
         }
       } catch (err: any) {
         // Only handle error if request wasn't aborted
@@ -118,11 +103,11 @@ export const useBusinessSearch = (
           setSearchError("Search failed");
 
           // Fallback to local search on error
-          // console.log('🔍 useBusinessSearch: Falling back to local search due to API error');
+
           const localResults = performLocalSearch(trimmedQuery);
           setSearchResults(localResults);
         } else {
-          // console.log('🔍 useBusinessSearch: Error ignored due to aborted request');
+          //
         }
       } finally {
         // Only update searching state if this is still the current request
@@ -141,23 +126,14 @@ export const useBusinessSearch = (
   const performSearch = useCallback(
     async (query: string) => {
       const trimmedQuery = query.trim();
-      // console.log(
-      //   "🔍 useBusinessSearch: performSearch called with query:",
-      //   `"${trimmedQuery}"`
-      // );
 
       // Prevent duplicate searches for the same query
       if (trimmedQuery === lastProcessedQueryRef.current) {
-        // console.log(
-        //   "🔍 useBusinessSearch: Skipping duplicate search for:",
-        //   `"${trimmedQuery}"`
-        // );
         return;
       }
 
       // Clear results and error for empty query
       if (!trimmedQuery) {
-        // console.log("🔍 useBusinessSearch: Empty query, clearing results");
         setSearchResults([]);
         setSearchError(null);
         setSearching(false);
@@ -173,9 +149,6 @@ export const useBusinessSearch = (
 
       // For very short queries (1-2 characters), use local search only
       if (trimmedQuery.length < 3) {
-        // console.log(
-        //   "🔍 useBusinessSearch: Short query, using local search only"
-        // );
         setSearching(false);
         setSearchError(null);
         const localResults = performLocalSearch(trimmedQuery);
@@ -187,9 +160,6 @@ export const useBusinessSearch = (
       // Check initial list first for exact matches
       const initialMatches = checkInitialListForExactMatch(trimmedQuery);
       if (initialMatches.length > 0) {
-        // console.log(
-        //   "🔍 useBusinessSearch: Found matches in initial list, skipping API search"
-        // );
         setSearching(false);
         setSearchError(null);
         setSearchResults(initialMatches);
@@ -205,11 +175,6 @@ export const useBusinessSearch = (
 
   // Debounced search with optimized delay
   useEffect(() => {
-    // console.log(
-    //   "🔍 useBusinessSearch: Search query changed to:",
-    //   `"${searchQuery}"`
-    // );
-
     const timeoutId = setTimeout(() => {
       performSearch(searchQuery);
     }, 500);

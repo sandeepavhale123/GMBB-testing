@@ -18,16 +18,6 @@ export const useAuthRedux = () => {
     isAuthenticating,
   } = useSelector((state: RootState) => state.auth);
 
-  // console.log("useAuthRedux state:", {
-  //   accessToken: !!accessToken,
-  //   user: !!user,
-  //   isLoading,
-  //   isRefreshing,
-  //   hasAttemptedRefresh,
-  //   isInitialized,
-  //   hasRefreshToken: !!localStorage.getItem("refresh_token"),
-  // });
-
   const dispatch: AppDispatch = useDispatch();
 
   const { login } = useLogin();
@@ -53,7 +43,6 @@ export const useAuthRedux = () => {
   // Set initialized flag on mount
   useEffect(() => {
     if (!isInitialized) {
-      // console.log("useAuthRedux - Setting initialized to true");
       dispatch(setIsInitialized(true));
     }
   }, [dispatch, isInitialized]);
@@ -67,17 +56,9 @@ export const useAuthRedux = () => {
       localStorage.getItem("refresh_token");
 
     if (shouldRefresh) {
-      // console.log("🔄 useAuthRedux: Triggering token refresh...");
       refreshAccessToken(); // now globally guarded in useTokenRefresh
     }
   }, [isInitialized, hasAttemptedRefresh, accessToken, refreshAccessToken]);
-
-  // console.log("useAuthRedux computed values:", {
-  //   isAuthenticated,
-  //   isAuthLoading,
-  //   shouldWaitForAuth,
-  //   hasRefreshToken,
-  // });
 
   return {
     accessToken,

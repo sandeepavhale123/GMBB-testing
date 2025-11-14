@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Gallery } from '@/components/Media/Gallery';
-import { CreatePostModal } from '@/components/Posts/CreatePostModal';
-import { MediaUploadModal } from '@/components/Media/MediaUploadModal';
-import { useMediaContext } from '@/context/MediaContext';
-import { isSingleListingRoute } from '@/utils/routeUtils';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Gallery } from "@/components/Media/Gallery";
+import { CreatePostModal } from "@/components/Posts/CreatePostModal";
+import { MediaUploadModal } from "@/components/Media/MediaUploadModal";
+import { useMediaContext } from "@/context/MediaContext";
+import { isSingleListingRoute } from "@/utils/routeUtils";
 
 const GalleryPage: React.FC = () => {
   const location = useLocation();
-  const { shouldOpenCreatePost, shouldOpenMediaUpload, clearSelection } = useMediaContext();
+  const { shouldOpenCreatePost, shouldOpenMediaUpload, clearSelection } =
+    useMediaContext();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [isMediaUploadOpen, setIsMediaUploadOpen] = useState(false);
-  
+
   // Single listing page: allow multi-select with limit 5
   const isSingleListing = isSingleListingRoute(location.pathname);
   const enableMultiSelect = isSingleListing;
@@ -41,17 +42,16 @@ const GalleryPage: React.FC = () => {
 
   const handleMediaUpload = (mediaItems: any[]) => {
     // Handle successful media upload
-    console.log('Media uploaded:', mediaItems);
     handleCloseMediaUpload();
   };
 
   return (
     <>
-      <Gallery 
+      <Gallery
         enableMultiSelect={enableMultiSelect}
         maxSelectionLimit={maxSelectionLimit}
       />
-      <CreatePostModal 
+      <CreatePostModal
         isOpen={isCreatePostOpen}
         onClose={handleCloseCreatePost}
       />

@@ -81,7 +81,6 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       loadAllNamespaces(langCode);
       await i18n.changeLanguage(langCode);
       setIsOpen(false);
-      console.log("Inside handle click");
       // 2️⃣ Update URL query param (?lang=xx)
       const searchParams = new URLSearchParams(location.search);
       searchParams.set("lang", langCode);

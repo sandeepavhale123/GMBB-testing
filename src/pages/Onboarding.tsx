@@ -24,7 +24,6 @@ const Onboarding = () => {
   const { t } = useI18nNamespace("pages/onboarding");
   const navigate = useNavigate();
   const localOnboardingStep = localStorage.getItem("onboarding_current_step");
-  console.log("local onboarding step", localOnboardingStep);
   if (localOnboardingStep === "6") {
     navigate("/location-dashboard/default");
   }

@@ -104,17 +104,12 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
 
   const handleSelect = (optionId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    // console.log("handleSelect called:", {
-    //   optionId,
-    //   currentSelected: selectedListings,
-    // });
 
     const isSelected = selectedListings.includes(optionId);
     const newSelections = isSelected
       ? selectedListings.filter((id) => id !== optionId)
       : [...selectedListings, optionId];
 
-    // console.log("Updating selections:", { isSelected, newSelections });
     onListingsChange(newSelections);
   };
 

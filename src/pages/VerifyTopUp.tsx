@@ -23,7 +23,6 @@ export const VerifyTopUp: React.FC = () => {
   window.history.replaceState({}, document.title, "/verify-topup-credits");
   useEffect(() => {
     const verifyPayment = async () => {
-      console.log("Inside verify", sessionId);
       if (!sessionId) {
         setStatus("error");
         setErrorMessage(t("verifyPayment.error.messages.invalidParams"));
@@ -37,8 +36,6 @@ export const VerifyTopUp: React.FC = () => {
             sessionId: sessionId,
           }
         );
-
-        console.log("Verification response:", response.data.data.redirectUrl);
 
         if (response.data && response.status === 200) {
           setStatus("success");
@@ -73,7 +70,6 @@ export const VerifyTopUp: React.FC = () => {
   };
 
   const handleContinue = () => {
-    // console.log("clicking on continue");
     // navigate(continueUrl);
     window.location.href = continueUrl;
   };

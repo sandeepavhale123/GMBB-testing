@@ -47,15 +47,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
   ];
 
   // Add debug logging
-  React.useEffect(() => {
-    // console.log("🎯 PostPreview mounted with data:", data);
-    return () => {
-      console.log("🎯 PostPreview unmounting");
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   return () => {
+  //     //
+  //   };
+  // }, []);
 
   React.useEffect(() => {
-    console.log("🎯 PostPreview data changed:", data);
+    //
   }, [data]);
 
   // Helper function to get image URL with proper cleanup
@@ -80,7 +79,6 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
 
     return () => {
       if (objectUrl) {
-        console.log("🧹 Cleaning up object URL:", objectUrl);
         URL.revokeObjectURL(objectUrl);
       }
     };
@@ -119,8 +117,6 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
     return option ? option.label : value;
   };
   const imageUrl = getImageUrl();
-
-  console.log("🎯 PostPreview rendering with imageUrl:", imageUrl);
 
   return (
     <div className="bg-white rounded-lg border shadow-sm overflow-hidden">

@@ -19,21 +19,10 @@ export const DashboardTypeGuard = ({
   useEffect(() => {
     const checkDashboardType = async () => {
       try {
-        // console.log("DashboardTypeGuard: Checking dashboard type", {
-        //   currentPath: location.pathname,
-        //   allowedDashboardTypes,
-        // });
-
         const profile = await profileService.getUserProfile();
-        // console.log("DashboardTypeGuard: User profile:", profile);
-        // console.log(
-        //   "DashboardTypeGuard: User dashboard type:",
-        //   profile.dashboardType
-        // );
 
         // Check if user's dashboard type is allowed
         if (!allowedDashboardTypes.includes(profile.dashboardType)) {
-          // console.log("DashboardTypeGuard: Dashboard type not allowed, redirecting");
           setShouldRedirect(true);
 
           if (profile.dashboardType === 1) {
@@ -44,9 +33,6 @@ export const DashboardTypeGuard = ({
             setRedirectPath("/location-dashboard/default");
           }
         } else {
-          // console.log(
-          //   "DashboardTypeGuard: Dashboard type allowed, allowing access"
-          // );
           setShouldRedirect(false);
         }
       } catch (error) {
@@ -73,7 +59,6 @@ export const DashboardTypeGuard = ({
   }
 
   if (shouldRedirect && redirectPath) {
-    // console.log("DashboardTypeGuard: Redirecting to:", redirectPath);
     return <Navigate to={redirectPath} replace />;
   }
 

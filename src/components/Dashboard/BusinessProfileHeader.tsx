@@ -21,8 +21,6 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
   const listingName = selectedListing?.name || "";
   const listingAddress = selectedListing?.address || "";
 
-  // console.log("selected listing data", selectedListing);
-
   // Get user's first name for greeting
   const userFirstName = profileData?.first_name || "User";
 
@@ -37,7 +35,6 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
   // Button click handlers
   const handleEditInfo = () => {
     if (overviewData?.placeId) {
-      // console.log("Edit Info - Place ID:", overviewData.placeId);
       window.open(
         `https://business.google.com/dashboard/l/${overviewData.placeId}`,
         "_blank"

@@ -75,12 +75,8 @@ export const reportsApi = {
     const payload = createReportPayload(data);
 
     try {
-      // console.log("Sending POST /create-report", payload);
       const response = await axiosInstance.post("/create-report", payload);
-      // console.log("Success:", response.data);
-
       const apiData = response.data;
-      // console.log("api Data in report api", apiData);
       const reportId =
         apiData.data.reportId || apiData.id || Date.now().toString();
       const domain = apiData.data.ReportUrl;
@@ -125,7 +121,6 @@ export const reportsApi = {
     language?: string
   ): Promise<PerformanceHealthReportData> => {
     try {
-      // console.log("Fetching performance health report for ID:", reportId);
       const payload = isNaN(Number(reportId))
         ? { reportId: reportId, language }
         : { listingId: reportId };
@@ -133,7 +128,6 @@ export const reportsApi = {
         reportId: reportId,
         language,
       });
-      // console.log("Performance health report data:", response.data);
       return response.data;
     } catch (error) {
       console.error("POST get-performance-health failed:", error);
@@ -147,15 +141,13 @@ export const reportsApi = {
     language?: string
   ): Promise<any> => {
     try {
-      // console.log("Fetching performance insights report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-insight", {
         reportId: reportId || "KsP1pDlvqA1QcOF",
         language,
       });
-      // console.log("Performance insights report data:", response.data);
+
       return response.data;
     } catch (error) {
-      // console.error("POST get-performance-insight failed:", error);
       throw error;
     }
   },
@@ -163,15 +155,12 @@ export const reportsApi = {
   // Get Review Report Api
   getPerformanceReviewReport: async (reportId: string, language?: string) => {
     try {
-      // console.log("Fetching performance review report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-review", {
         reportId,
         language,
       });
-      // console.log("Performance review report data:", response.data);
       return response.data;
     } catch (error) {
-      // console.error("POST get-performance-review failed:", error);
       throw error;
     }
   },
@@ -181,20 +170,17 @@ export const reportsApi = {
     language?: string
   ): Promise<any> => {
     try {
-      // console.log("Fetching performance posts report for ID:", reportId);
       const response = await axiosInstance.post("/get-performance-post", {
         reportId,
         language,
       });
 
       if (response.data?.code === 200) {
-        // console.log("Performance posts report data:", response.data);
         return response.data;
       } else {
         throw new Error(response.data?.message || "Failed to fetch report");
       }
     } catch (error) {
-      // console.error("POST get-performance-post failed:", error);
       throw error;
     }
   },
@@ -211,7 +197,6 @@ export const reportsApi = {
       });
 
       if (response.data?.code === 200) {
-        // console.log("Performance media report data:", response.data);
         return response.data;
       } else {
         throw new Error(
@@ -236,7 +221,6 @@ export const reportsApi = {
       });
 
       if (response.data?.code === 200) {
-        // console.log("Performance branding report data:", response.data);
         return response.data;
       } else {
         throw new Error(
@@ -261,7 +245,6 @@ export const reportsApi = {
       });
 
       if (response.data?.code === 200) {
-        // console.log("Performance geo keywords data:", response.data);
         return response.data;
       } else {
         throw new Error(
@@ -281,12 +264,6 @@ export const reportsApi = {
     language?: string
   ): Promise<any> => {
     try {
-      // console.log(
-      //   "Fetching performance geo ranking for ID:",
-      //   reportId,
-      //   "Keyword:",
-      //   keywordId
-      // );
       const response = await axiosInstance.post("/get-performance-ranking", {
         reportId,
         keywordId,
@@ -294,7 +271,6 @@ export const reportsApi = {
       });
 
       if (response.data?.code === 200) {
-        // console.log("Performance geo ranking data:", response.data);
         return response.data;
       } else {
         throw new Error(
@@ -321,7 +297,6 @@ export const reportsApi = {
       });
 
       if (response.data?.code === 200) {
-        // console.log("📄 All reports data:", response.data);
         return response.data;
       } else {
         throw new Error(

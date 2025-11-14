@@ -139,7 +139,7 @@ export const AITaskManagerPage: React.FC = () => {
           response.message || t("AITaskManagerPage.toasts.reverted.message"),
       });
     } catch (error) {
-      // console.log("Error occured", error);
+      //
     }
   };
 

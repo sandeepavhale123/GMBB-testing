@@ -5,10 +5,7 @@ import type {
   RefreshBusinessInfoRequest,
   RefreshBusinessInfoResponse,
 } from "../types/businessInfoTypes";
-import type {
-  EditLogRequest,
-  EditLogResponse,
-} from "../types/editLogTypes";
+import type { EditLogRequest, EditLogResponse } from "../types/editLogTypes";
 
 export interface BusinessDetails {
   companyName: string;
@@ -35,8 +32,6 @@ export const getBusinessDetails = async (): Promise<BusinessDetails | null> => {
       method: "GET",
     });
 
-    // console.log("Business API response:", result.data.data);
-
     if (result.data && result.data.data) {
       return result.data.data;
     }
@@ -57,7 +52,6 @@ export const updateBusinessDetails = async (
       data: payload,
     });
 
-    // console.log("Update business details response:", result.data.data);
     return result.data.data;
   } catch (error) {
     console.error("Failed to update business details:", error);
@@ -75,7 +69,6 @@ export const getBusinessInfo = async (
       data: payload,
     });
 
-    // console.log("Business info API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch business info:", error);
@@ -93,7 +86,6 @@ export const refreshBusinessInfo = async (
       data: payload,
     });
 
-    // console.log("Refresh business info API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to refresh business info:", error);
@@ -111,7 +103,6 @@ export const getEditLogs = async (
       data: payload,
     });
 
-    // console.log("Edit logs API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch edit logs:", error);

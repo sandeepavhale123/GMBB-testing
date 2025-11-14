@@ -182,7 +182,6 @@ export const ReviewsList: React.FC = () => {
         sortOrder: apiSortOrder,
       },
     };
-    // console.log("sorting ..........", sortBy);
     try {
       await dispatch(
         refreshReviewData({

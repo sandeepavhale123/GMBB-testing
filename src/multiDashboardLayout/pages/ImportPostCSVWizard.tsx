@@ -132,13 +132,6 @@ export const ImportPostCSVWizard: React.FC = () => {
   const generateCSVFile = async () => {
     setIsGeneratingCSV(true);
 
-    // Validation and debugging
-    console.log("🚀 Starting CSV generation with data:", {
-      postType: formData.postType,
-      selectedListings: formData.selectedListings,
-      listingCount: formData.selectedListings.length,
-    });
-
     // Validate required data
     if (!formData.selectedListings.length) {
       toast({
@@ -166,11 +159,7 @@ export const ImportPostCSVWizard: React.FC = () => {
         listingIds: formData.selectedListings,
       };
 
-      console.log("📤 Sending API request:", requestData);
-
       const response = await csvApi.generateMultiCSVFile(requestData);
-
-      console.log("📥 Received API response:", response);
 
       if (response.code === 200) {
         setFormData((prev) => ({
@@ -183,7 +172,6 @@ export const ImportPostCSVWizard: React.FC = () => {
           title: t("importPostCSVWizard.success.title"),
           description: t("importPostCSVWizard.success.csvGenerated"),
         });
-        console.log("✅ CSV generation successful");
       } else {
         console.error(
           "❌ API returned error code:",
@@ -248,17 +236,10 @@ export const ImportPostCSVWizard: React.FC = () => {
     setIsUploadingFile(true);
 
     try {
-      console.log("🚀 Starting file upload with:", {
-        postType: formData.postType,
-        fileName: formData.uploadedFile.name,
-      });
-
       const response = await csvApi.uploadBulkSheet(
         formData.postType,
         formData.uploadedFile
       );
-
-      console.log("📥 Received upload response:", response);
 
       if (response.code === 200) {
         setFormData((prev) => ({
@@ -287,8 +268,6 @@ export const ImportPostCSVWizard: React.FC = () => {
           // `File uploaded with ${response.data.errorCount} validation errors. Please review.`,
           variant: response.data.errorCount === 0 ? "default" : "destructive",
         });
-
-        console.log("✅ File upload successful");
       } else {
         console.error(
           "❌ Upload API returned error code:",
@@ -357,19 +336,11 @@ export const ImportPostCSVWizard: React.FC = () => {
     setIsSavingBulkSheet(true);
 
     try {
-      console.log("🚀 Starting bulk sheet save with:", {
-        fileType: formData.postType,
-        fileName: formData.uploadedFileName,
-        note: formData.note,
-      });
-
       const response = await csvApi.saveBulkSheet({
         fileType: formData.postType,
         fileName: formData.uploadedFileName,
         note: formData.note,
       });
-
-      console.log("📥 Received save response:", response);
 
       if (response.code === 200) {
         setFormData((prev) => ({
@@ -386,8 +357,6 @@ export const ImportPostCSVWizard: React.FC = () => {
           }),
           // `Successfully imported ${response.data.insertedCount} posts`,
         });
-
-        console.log("✅ Bulk sheet save successful");
       } else {
         console.error(
           "❌ Save API returned error code:",

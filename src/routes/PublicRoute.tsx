@@ -12,7 +12,7 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
   const resultRedirect =
     redirectTo ||
     (onboarding !== 1 ? "/location-dashboard/default" : "/onboarding");
-  // console.log("Result redirect.......", resultRedirect);
+
   const {
     isAuthenticated,
     isAuthLoading,
@@ -20,14 +20,6 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
     hasAttemptedRefresh,
     isInitialized,
   } = useAuthRedux();
-
-  // console.log("PublicRoute state:", {
-  //   isAuthenticated,
-  //   isAuthLoading,
-  //   shouldWaitForAuth,
-  //   hasAttemptedRefresh,
-  //   isInitialized,
-  // });
 
   // Show loading while checking authentication status
   if (isAuthLoading || shouldWaitForAuth) {
@@ -56,7 +48,6 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
         const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
         if (savedTimestamp > fiveMinutesAgo) {
-          // console.log("PublicRoute: Using saved path:", savedPath);
           resultRedirect = savedPath;
 
           // Clear the saved state to prevent loops
@@ -72,9 +63,6 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
             }, 100);
           }
         } else {
-          // console.log(
-          //   "PublicRoute: Saved navigation state is too old, clearing it"
-          // );
           sessionStorage.removeItem("post_refresh_path");
           sessionStorage.removeItem("scrollY");
           sessionStorage.removeItem("navigation_saved_at");
@@ -88,10 +76,6 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
       }
     }
 
-    // console.log(
-    //   "PublicRoute: Redirecting authenticated user to:",
-    //   resultRedirect
-    // );
     return <Navigate to={resultRedirect} replace />;
   }
 

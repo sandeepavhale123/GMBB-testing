@@ -21,7 +21,6 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
 
   const handleReply = () => {
     // Handle reply submission - would need another API endpoint
-    // console.log('Reply submitted:', replyText);
     setIsReplying(false);
     setReplyText("");
   };

@@ -56,7 +56,6 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   const { data: keywordData, isLoading: isKeywordLoading } =
     usePerformanceGeoKeywords(reportId, languageFullName);
-  // console.log("georanking keywords data....", keywordData);
 
   const { data: geoRankingData, isLoading: isGeoLoading } =
     usePublicGeoRankingReport(
@@ -64,7 +63,6 @@ export const PublicGeoRankingReport: React.FC = () => {
       Number(selectedKeywordId) || 0,
       languageFullName
     );
-  // console.log("geo ranking report data", geoRankingData);
 
   const reportType = geoRankingData?.data.reportType.toLowerCase();
   // Map refs for individual view
@@ -82,7 +80,6 @@ export const PublicGeoRankingReport: React.FC = () => {
   const markersRef2 = useRef<L.Marker[]>([]);
 
   const geoData = geoRankingData?.data?.periodOne?.geo_data || [];
-  // console.log("geoData for map rendering", geoData);
 
   const comparisonData = geoRankingData?.data?.periodTwo?.geo_data || [];
   // Get rank color for grid display
@@ -120,11 +117,9 @@ export const PublicGeoRankingReport: React.FC = () => {
     markers: React.RefObject<L.Marker[]>,
     data: typeof geoData
   ) => {
-    // console.log("mapinstance, data", mapInstance.current, data);
     if (!mapInstance.current || !data) return;
 
     data.forEach((detail, index) => {
-      // console.log("rank maker", detail, index + 1);
       // const [lat, lng] = detail.coordinate.split(",").map(Number);
       const lat = detail?.lat;
       const lng = detail?.lng;
@@ -240,7 +235,6 @@ export const PublicGeoRankingReport: React.FC = () => {
   ) => {
     // Check if DOM element exists and is mounted
     if (!mapRef.current) {
-      // console.log("Map container not ready or no coordinates");
       return null;
     }
 
@@ -249,7 +243,7 @@ export const PublicGeoRankingReport: React.FC = () => {
       try {
         (mapInstanceRef as any).current.remove();
       } catch (e) {
-        // console.log("Error removing existing map:", e);
+        //
       }
       (mapInstanceRef as any).current = null;
     }
@@ -336,7 +330,7 @@ export const PublicGeoRankingReport: React.FC = () => {
         try {
           (mapInstanceRef as any).current.remove();
         } catch (e) {
-          // console.log("Error during map cleanup:", e);
+          //
         }
         (mapInstanceRef as any).current = null;
       }
@@ -359,7 +353,6 @@ export const PublicGeoRankingReport: React.FC = () => {
     const initMaps = setTimeout(() => {
       if (reportType === "individual") {
         map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
-        // console.log("map1 data", map1);
       } else {
         // Initialize both maps for comparison with additional delay
         map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);

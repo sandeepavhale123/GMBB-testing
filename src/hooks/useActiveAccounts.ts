@@ -117,13 +117,11 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   // const toggleListingAssignment = useCallback(
   //   (listingId: string): number[] | null => {
   //     const currentData = selectedAccountId ? accountData : data;
-  //     console.log("currentData", currentData);
   //     if (!currentData) return;
 
   //     let newAssignedIds: number[] = [];
 
   //     if (selectedAccountId && accountData) {
-  //       console.log("account data", accountData);
   //       // Update account-specific data
   //       const updatedListings = accountData.listings.map((listing) =>
   //         listing.id === listingId
@@ -148,8 +146,6 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   //       const isCurrentlyAssigned = data.assignListingIds.includes(
   //         parseInt(listingId)
   //       );
-
-  //       console.log("iscurrentlyassigned", isCurrentlyAssigned);
 
   //       const updatedAssignListingIds = isCurrentlyAssigned
   //         ? data.assignListingIds.filter((id) => id !== parseInt(listingId))
@@ -308,7 +304,7 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   //     try {
   //       // Use provided IDs or get current assigned IDs
   //       const assignedIds = specificListingIds || getAssignedListingIds();
-  //       console.log("assignedids", assignedIds);
+
   //       const payload = {
   //         id: employeeId,
   //         listId: assignedIds,
@@ -370,13 +366,6 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
       .map((id) => id.toString())
       .sort();
     const originalIds = [...originalAssignedIds].sort();
-
-    console.log("hasUnsavedChanges comparison:", {
-      currentAssignedIds,
-      originalIds,
-      areEqual:
-        JSON.stringify(currentAssignedIds) === JSON.stringify(originalIds),
-    });
 
     return JSON.stringify(currentAssignedIds) !== JSON.stringify(originalIds);
   }, [getAssignedListingIds, originalAssignedIds]);

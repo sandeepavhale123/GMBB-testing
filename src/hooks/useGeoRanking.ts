@@ -25,20 +25,11 @@ export const useGeoRanking = (listingId: number) => {
   // Enhanced refresh functionality with proper keyword selection
   const keywordsUpdateCallback = useCallback(
     async (selectKeywordId?: string) => {
-      // console.log(
-      //   `🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - calling /get-keywords API`
-      // );
       try {
         await fetchKeywords(true, selectKeywordId);
-        // console.log(
-        //   `✅ [${new Date().toISOString()}] /get-keywords API call completed successfully`
-        // );
 
         // If no specific keyword to select, ensure we have a selected keyword
         if (!selectKeywordId && keywords.length > 0 && !selectedKeyword) {
-          // console.log(
-          //   `🔄 [${new Date().toISOString()}] Setting first keyword as selected after refresh`
-          // );
           setSelectedKeyword(keywords[0].id);
         }
       } catch (error) {
@@ -70,10 +61,12 @@ export const useGeoRanking = (listingId: number) => {
   } = useKeywordDetails(listingId, selectedKeyword, false);
 
   // Enhanced date change handler for refresh auto-selection
-  const handleDateSelectAfterRefresh = useCallback((dateId: string) => {
-    console.log('🗺️ handleDateSelectAfterRefresh - Selecting date after refresh:', dateId);
-    onDateChange(dateId, true); // Pass isRefresh = true to avoid loading states
-  }, [onDateChange]);
+  const handleDateSelectAfterRefresh = useCallback(
+    (dateId: string) => {
+      onDateChange(dateId, true); // Pass isRefresh = true to avoid loading states
+    },
+    [onDateChange]
+  );
 
   const {
     refreshing,
@@ -91,14 +84,8 @@ export const useGeoRanking = (listingId: number) => {
 
   // Stable polling callback that doesn't cause re-renders
   const stablePollingCallback = useCallback(async () => {
-    // console.log(
-    //   `🔄 [${new Date().toISOString()}] stablePollingCallback called - refreshing keywords`
-    // );
     try {
       await fetchKeywords(true);
-      // console.log(
-      //   `✅ [${new Date().toISOString()}] Keywords refreshed successfully from polling`
-      // );
     } catch (error) {
       console.error(
         `❌ [${new Date().toISOString()}] Keywords refresh failed from polling:`,

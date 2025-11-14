@@ -31,13 +31,13 @@ export const applyStoredTheme = () => {
         themeData.sidebar_border_color
       );
     }
-    
+
     // Apply hover styles (keep hover background as default for now)
     document.documentElement.style.setProperty(
       "--sidebar-hover-bg",
       "rgba(255, 255, 255, 0.1)"
     );
-    
+
     // Apply sidebar hover text color if provided, otherwise use default
     if (themeData.sidebar_hover_text_color) {
       document.documentElement.style.setProperty(
@@ -69,8 +69,6 @@ export const applyStoredTheme = () => {
         document.head.appendChild(link);
       }
     }
-
-    // console.log("🎨 Applied stored theme customization");
   } catch (error) {
     console.error("Error applying stored theme:", error);
   }
@@ -78,5 +76,4 @@ export const applyStoredTheme = () => {
 
 export const clearStoredTheme = () => {
   localStorage.removeItem("theme_customization");
-  // console.log("🧹 Cleared stored theme customization");
 };

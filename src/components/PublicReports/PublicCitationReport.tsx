@@ -35,7 +35,6 @@ export const PublicCitationReport: React.FC = () => {
     languageFullName
   );
   const citationData = data?.data;
-  console.log("citation data", citationData);
 
   // Load theme for public report
   React.useEffect(() => {

@@ -88,8 +88,6 @@ export const useSignup = () => {
         cancelUrl: `${window.location.origin}/signup`,
       };
 
-      // console.log("📤 Sending signup request to /signup", payload);
-
       const response = await fetch(
         "https://api.gmbbriefcase.com/api/v1/signup",
         {
@@ -112,7 +110,6 @@ export const useSignup = () => {
       }
 
       const data: StripeSignupResponse = await response.json();
-      // console.log("✅ Signup response:", data);
 
       if (data.id) {
         // Lazy load Stripe only when needed

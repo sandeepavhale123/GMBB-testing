@@ -61,7 +61,6 @@ export interface UpdateAccountResponse {
   data?: any;
 }
 export const deleteGoogleAccount = async (accountId: string): Promise<void> => {
-  // console.log("Calling delete API for account:", accountId);
   const response = await axiosInstance.post("/delete-account", {
     accountId: accountId,
   });
@@ -70,14 +69,12 @@ export const deleteGoogleAccount = async (accountId: string): Promise<void> => {
     throw new Error(`Failed to delete account: ${response.statusText}`);
   }
 
-  // console.log("Delete response:", response.data);
   return response.data;
 };
 
 export const refreshGmbAccount = async (
   accountId: string
 ): Promise<RefreshAccountResponse> => {
-  // console.log("Calling refresh API for account:", accountId);
   const response = await axiosInstance.post("/manage-gmb-account", {
     accountId: parseInt(accountId),
   });
@@ -86,7 +83,6 @@ export const refreshGmbAccount = async (
     throw new Error(`Failed to refresh account: ${response.statusText}`);
   }
 
-  // console.log("Refresh response:", response.data);
   return response.data;
 };
 
@@ -94,12 +90,6 @@ export const updateGmbAccount = async (
   accountId: string,
   accountGrpIds: [string, string][]
 ): Promise<UpdateAccountResponse> => {
-  // console.log(
-  //   "Calling update API for account:",
-  //   accountId,
-  //   "with groups:",
-  //   accountGrpIds
-  // );
   const response = await axiosInstance.post("/update-gmb-account", {
     accountId: parseInt(accountId),
     accountGrpIds,
@@ -109,7 +99,6 @@ export const updateGmbAccount = async (
     throw new Error(`Failed to update account: ${response.statusText}`);
   }
 
-  // console.log("Update response:", response.data);
   return response.data;
 };
 

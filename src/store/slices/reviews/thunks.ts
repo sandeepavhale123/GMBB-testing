@@ -221,7 +221,7 @@ export const generateAIAutoReply = createAsyncThunk(
   async (payload: GenerateAIAutoReplyRequest, { rejectWithValue }) => {
     try {
       const response = await reviewService.generateAIAutoReply(payload);
-      console.log("✅ Returned from service:", response);
+
       return response.data.replyText;
     } catch (error: any) {
       return rejectWithValue(
@@ -234,26 +234,29 @@ export const generateAIAutoReply = createAsyncThunk(
 // Async thunk for fetching bulk reviews
 export const fetchBulkReviews = createAsyncThunk(
   "reviews/fetchBulkReviews",
-  async (params: {
-    pagination: {
-      page: number;
-      limit: number;
-      offset: number;
-    };
-    filters: {
-      search: string;
-      status: string;
-      dateRange: {
-        startDate: string;
-        endDate: string;
+  async (
+    params: {
+      pagination: {
+        page: number;
+        limit: number;
+        offset: number;
       };
-      sentiment: string;
-    };
-    sorting: {
-      sortBy: string;
-      sortOrder: "asc" | "desc";
-    };
-  }, { rejectWithValue }) => {
+      filters: {
+        search: string;
+        status: string;
+        dateRange: {
+          startDate: string;
+          endDate: string;
+        };
+        sentiment: string;
+      };
+      sorting: {
+        sortBy: string;
+        sortOrder: "asc" | "desc";
+      };
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await reviewService.getBulkReviews(params);
       return response.data;

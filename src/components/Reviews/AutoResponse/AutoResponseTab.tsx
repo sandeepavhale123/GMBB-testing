@@ -64,10 +64,6 @@ export const AutoResponseTab: React.FC = () => {
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  console.log(
-    "autoresponse value",
-    Number(autoResponse.autoSettings?.oldStatus)
-  );
 
   // Update local DNR state when data is loaded
   const [noResponseMode, setNoResponseMode] = useState(false);
@@ -247,7 +243,6 @@ export const AutoResponseTab: React.FC = () => {
 
   // const getTemplateForRating = (rating: number, isRatingOnly = false) => {
   //   const templates = autoResponse.autoSettings?.templates || [];
-  //   console.log("templates for auto response", templates);
   //   return templates.find(
   //     (template) =>
   //       template.starRating === rating &&
@@ -351,62 +346,62 @@ export const AutoResponseTab: React.FC = () => {
             {/* Reply for Review Tab Content */}
             {activeTab === "review" && (
               <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <TemplateCard
-                    key={rating}
-                    starRating={rating}
-                    listingId={Number(selectedListing.id)}
-                    template={getTemplateForRating(rating, false)}
-                    onCreateTemplate={handleCreateTemplate}
-                    onEditTemplate={handleEditTemplate}
-                    onDeleteTemplate={handleDeleteTemplate}
-                  />
-                ))}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <TemplateCard
+                      key={rating}
+                      starRating={rating}
+                      listingId={Number(selectedListing.id)}
+                      template={getTemplateForRating(rating, false)}
+                      onCreateTemplate={handleCreateTemplate}
+                      onEditTemplate={handleEditTemplate}
+                      onDeleteTemplate={handleDeleteTemplate}
+                    />
+                  ))}
+                </div>
 
-              {/* Reply to Old Reviews Card - Auto Response Mode */}
-              <ReplyToOldReviewsCard
-                checked={replyToExistingReviews}
-                onToggle={setReplyToExistingReviews}
-                onSave={() => {}}
-                listingId={
-                  selectedListing?.id ? Number(selectedListing.id) : undefined
-                }
-                isAutoResponseMode={true}
-              />
-            </div>
+                {/* Reply to Old Reviews Card - Auto Response Mode */}
+                <ReplyToOldReviewsCard
+                  checked={replyToExistingReviews}
+                  onToggle={setReplyToExistingReviews}
+                  onSave={() => {}}
+                  listingId={
+                    selectedListing?.id ? Number(selectedListing.id) : undefined
+                  }
+                  isAutoResponseMode={true}
+                />
+              </div>
             )}
 
             {/* Reply for Rating Only Tab Content */}
             {activeTab === "rating-only" && (
               <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <TemplateCard
-                    key={`rating-only-${rating}`}
-                    starRating={rating}
-                    template={getTemplateForRating(rating, true)}
-                    listingId={Number(selectedListing.id)}
-                    onCreateTemplate={handleCreateTemplate}
-                    onEditTemplate={handleEditTemplate}
-                    onDeleteTemplate={handleDeleteTemplate}
-                    isRatingOnly={true}
-                  />
-                ))}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <TemplateCard
+                      key={`rating-only-${rating}`}
+                      starRating={rating}
+                      template={getTemplateForRating(rating, true)}
+                      listingId={Number(selectedListing.id)}
+                      onCreateTemplate={handleCreateTemplate}
+                      onEditTemplate={handleEditTemplate}
+                      onDeleteTemplate={handleDeleteTemplate}
+                      isRatingOnly={true}
+                    />
+                  ))}
+                </div>
 
-              {/* Reply to Old Reviews Card - Auto Response Mode */}
-              <ReplyToOldReviewsCard
-                checked={replyToExistingReviews}
-                onToggle={setReplyToExistingReviews}
-                onSave={() => {}}
-                listingId={
-                  selectedListing?.id ? Number(selectedListing.id) : undefined
-                }
-                isAutoResponseMode={true}
-              />
-            </div>
+                {/* Reply to Old Reviews Card - Auto Response Mode */}
+                <ReplyToOldReviewsCard
+                  checked={replyToExistingReviews}
+                  onToggle={setReplyToExistingReviews}
+                  onSave={() => {}}
+                  listingId={
+                    selectedListing?.id ? Number(selectedListing.id) : undefined
+                  }
+                  isAutoResponseMode={true}
+                />
+              </div>
             )}
           </div>
 

@@ -38,7 +38,7 @@ export const useLogin = () => {
       }
 
       const data: LoginResponse = await response.json();
-      // console.log("Login response data:", data.data.profile.language);
+
       // set language as soon user login
       const lang = languageMap[data?.data?.profile.language];
       localStorage.setItem("i18nextLng", lang);
@@ -47,12 +47,8 @@ export const useLogin = () => {
       const planExpDate = data.data.profile.planExpDate;
       const subscriptionExpired = isSubscriptionExpired(planExpDate);
 
-      // console.log("Plan expiration date:", planExpDate);
-      // console.log("Is subscription expired:", subscriptionExpired);
-
       // Clear any existing business listings data before setting new user
       dispatch(clearUserListings());
-      // console.log("🧹 Cleared existing business listings data on login");
 
       // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
@@ -60,7 +56,6 @@ export const useLogin = () => {
 
       // Set hasAttemptedRefresh to true since this is a fresh login with valid tokens
       dispatch(setHasAttemptedRefresh(true));
-      // console.log("✅ Set hasAttemptedRefresh to true after successful login");
 
       // Store additional items in localStorage
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
@@ -69,14 +64,12 @@ export const useLogin = () => {
 
       // Store current user session for tracking user changes
       localStorage.setItem("current_user_session", data.data.profile.userId);
-      // console.log("💾 Stored user session ID:", data.data.profile.userId);
 
       // Load theme after successful login
       try {
         const themeResponse = await getTheme();
         if (themeResponse.code === 200) {
           dispatch(loadThemeFromAPI(themeResponse.data));
-          // console.log("🎨 Theme loaded successfully after login");
         }
       } catch (error) {
         // console.warn("Failed to load theme after login:", error);

@@ -45,7 +45,6 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
 }) => {
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const { profileData } = useProfile();
-  console.log("profile data", profileData);
 
   const isAdmin = userRole === "admin";
   const currentDashboardType =

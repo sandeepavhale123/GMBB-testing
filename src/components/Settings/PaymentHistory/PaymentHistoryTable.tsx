@@ -34,7 +34,7 @@ export const PaymentHistoryTable: React.FC = () => {
     loadPage,
     refreshHistory,
   } = usePaymentHistory();
-  // console.log("paymentHistory", paymentHistory);
+
   const { t } = useI18nNamespace("PaymentHistory/paymentHistoryTable");
 
   const [selectedTransactionId, setSelectedTransactionId] = useState<

@@ -87,7 +87,6 @@ export const GeoRankingReportPage: React.FC = () => {
     e.preventDefault();
     const result = await submitCheckRank();
     if (result.success) {
-      // console.log("Rank check submitted successfully");
       // Show alert for multiple keywords
       if (result.shouldNavigate && isMultipleKeywords(formData.keywords)) {
         setShowMultiKeywordAlert(true);

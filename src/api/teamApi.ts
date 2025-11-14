@@ -83,10 +83,8 @@ export const getTeamMembers = async (
       data: payload,
     });
 
-    // console.log("Team members API response:", result.data);
     return result.data;
   } catch (error) {
-    // console.error("Failed to fetch team members:", error);
     throw error;
   }
 };
@@ -101,7 +99,6 @@ export const addTeamMember = async (
       data: payload,
     });
 
-    // console.log("Add team member API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to add team member:", error);
@@ -144,7 +141,6 @@ export const getEditMember = async (
       data: payload,
     });
 
-    // console.log("Get edit member API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to fetch edit member:", error);
@@ -162,7 +158,6 @@ export const updateTeamMember = async (
       data: payload,
     });
 
-    // console.log("Update team member API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to update team member:", error);
@@ -180,7 +175,6 @@ export const deleteTeamMember = async (
       data: payload,
     });
 
-    // console.log("Delete team member API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to delete team member:", error);
@@ -271,7 +265,6 @@ export const getActiveAccounts = async (
       data: payload,
     });
 
-    // console.log("Get active accounts API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to fetch active accounts:", error);
@@ -289,7 +282,6 @@ export const getActiveAccountList = async (
       data: payload,
     });
 
-    // console.log("Get active account list API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to fetch active account list:", error);
@@ -307,7 +299,6 @@ export const saveAssignListings = async (
       data: payload,
     });
 
-    // console.log("Save assign listings API response:", result.data);
     return result.data;
   } catch (error) {
     // console.error("Failed to save assign listings:", error);

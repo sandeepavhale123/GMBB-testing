@@ -51,7 +51,6 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
 
       setIsConnecting(false);
     } catch (err) {
-      // console.log("error", err);
       toast({
         title: t("addAccountModal.errors.connectionError"),
         description:

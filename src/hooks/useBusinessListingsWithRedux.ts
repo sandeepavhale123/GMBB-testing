@@ -44,31 +44,11 @@ export const useBusinessListingsWithRedux =
         const currentTime = Date.now();
         lastFetchRef.current = currentTime; // ADD THIS LINE
 
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Fetching API business listings...",
-        //   { timestamp: currentTime } // ADD TIMESTAMP LOGGING
-        // );
-        // console.log("📋🔄 Auth state:", {
-        //   accessToken: !!accessToken,
-        //   isAuthenticated,
-        //   hasAttemptedRefresh,
-        //   isInitialized,
-        // });
-
         const data = await businessListingsService.getActiveListings({
           limit: 5000,
         });
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Received",
-        //   data.length,
-        //   "API listings"
-        // );
 
         setApiListings(data);
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Successfully updated API listings state",
-        //   { timestamp: currentTime, count: data.length } // ADD THIS LOGGING
-        // );
       } catch (err: any) {
         // console.error(
         //   "📋🔄 useBusinessListingsWithRedux: Failed to fetch API business listings:",
@@ -77,15 +57,9 @@ export const useBusinessListingsWithRedux =
 
         // Handle 401 errors with token refresh
         if (err.response?.status === 401 && retryCount === 0) {
-          // console.log(
-          //   "📋🔄 useBusinessListingsWithRedux: Attempting token refresh due to 401 error..."
-          // );
           try {
             const refreshSuccess = await refreshAccessToken();
             if (refreshSuccess) {
-              // console.log(
-              //   "📋🔄 useBusinessListingsWithRedux: Token refresh successful, retrying..."
-              // );
               return fetchListings(1);
             }
           } catch (refreshError) {
@@ -113,21 +87,12 @@ export const useBusinessListingsWithRedux =
     };
 
     const addNewListing = (business: BusinessListing) => {
-      // console.log(
-      //   "📋➕ useBusinessListingsWithRedux: Attempting to add business listing:",
-      //   business.name
-      // );
-
       // Check if business already exists in combined listings (by ID)
       const existsInListings = allListings.some(
         (listing) => listing.id === business.id
       );
 
       if (existsInListings) {
-        // console.log(
-        //   "📋➕ useBusinessListingsWithRedux: Business already exists in listings:",
-        //   business.name
-        // );
         toast({
           title: "Business Already Added",
           description: `"${business.name}" is already in your business listings.`,
@@ -136,10 +101,6 @@ export const useBusinessListingsWithRedux =
         return;
       }
 
-      // console.log(
-      //   "📋➕ useBusinessListingsWithRedux: Adding new business listing:",
-      //   business.name
-      // );
       dispatch(addBusinessListing(business));
       toast({
         title: "Business Added",
@@ -149,13 +110,6 @@ export const useBusinessListingsWithRedux =
     };
 
     useEffect(() => {
-      // console.log("📋🔄 useBusinessListingsWithRedux: Dependencies changed", {
-      //   isInitialized,
-      //   hasAttemptedRefresh,
-      //   isAuthenticated,
-      //   accessToken: !!accessToken,
-      // });
-
       // For fresh login scenarios, allow fetching if we have valid auth state
       // even if hasAttemptedRefresh is false (since we just logged in successfully)
       const canFetchData =
@@ -164,21 +118,13 @@ export const useBusinessListingsWithRedux =
           (isAuthenticated && accessToken)); // Allow immediate fetch after successful login
 
       if (canFetchData) {
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Conditions met, fetching listings..."
-        // );
         fetchListings();
       } else if (isInitialized && !isAuthenticated) {
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Not authenticated, clearing data"
-        // );
         setError("Authentication required");
         setLoading(false);
         setApiListings([]);
       } else {
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Waiting for auth initialization..."
-        // );
+        //
       }
     }, [accessToken, isInitialized, hasAttemptedRefresh, isAuthenticated]);
 

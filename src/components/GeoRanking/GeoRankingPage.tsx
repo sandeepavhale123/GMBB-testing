@@ -82,8 +82,6 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     fetchKeywords,
   } = geoRankingData;
 
-  // console.log("geo ranking data", geoRankingData);
-
   // Normalize the interface differences between hooks
   const refreshPollingActive =
     "refreshPollingActive" in geoRankingData

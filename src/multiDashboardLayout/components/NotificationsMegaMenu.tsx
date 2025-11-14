@@ -17,14 +17,13 @@ export const NotificationsMegaMenu: React.FC = () => {
   // Check if NotificationProvider is available
   let unreadCount = 0;
   let closeDrawer = () => {};
-  
+
   try {
     const notifications = useNotifications();
     unreadCount = notifications.unreadCount;
     closeDrawer = notifications.closeDrawer;
   } catch (error) {
     // NotificationProvider not available, use defaults
-    console.log("NotificationProvider not available, using defaults");
   }
 
   // useEffect(() => {

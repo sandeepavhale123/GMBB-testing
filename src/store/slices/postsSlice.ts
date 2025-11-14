@@ -58,7 +58,7 @@ interface PostsState {
     hasNext: boolean;
     hasPrevious: boolean;
   };
-  
+
   // Bulk post details state
   bulkPostDetails: {
     postSummary: any[];
@@ -270,52 +270,69 @@ export const deleteBulkPost = createAsyncThunk(
       const response = await postsApi.deleteBulkPost(params);
       return { ...response, bulkId: params.bulkId };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to delete bulk post');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete bulk post"
+      );
     }
   }
 );
 
 // Fetch bulk post details
 export const fetchBulkPostDetails = createAsyncThunk(
-  'posts/fetchBulkPostDetails',
-  async (request: { bulkId: string; search: string; status: string; page: number; limit: number }, { rejectWithValue }) => {
+  "posts/fetchBulkPostDetails",
+  async (
+    request: {
+      bulkId: string;
+      search: string;
+      status: string;
+      page: number;
+      limit: number;
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await postsApi.getBulkPostDetails({
         bulkId: parseInt(request.bulkId),
         search: request.search,
         status: request.status,
         page: request.page,
-        limit: request.limit
+        limit: request.limit,
       });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch bulk post details');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch bulk post details"
+      );
     }
   }
 );
 
 // Delete post from bulk
 export const deletePostFromBulk = createAsyncThunk(
-  'posts/deletePostFromBulk',
+  "posts/deletePostFromBulk",
   async (request: { postId: string }, { rejectWithValue }) => {
     try {
       const response = await postsApi.deletePostFromBulk(request);
       return { response, postId: request.postId };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to delete post');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete post"
+      );
     }
   }
 );
 
 // Fetch bulk post summary
 export const fetchBulkPostSummary = createAsyncThunk(
-  'posts/fetchBulkPostSummary',
+  "posts/fetchBulkPostSummary",
   async (request: GetBulkPostsSummaryRequest, { rejectWithValue }) => {
     try {
       const response = await postsApi.getBulkPostsSummary(request);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch bulk post summary');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch bulk post summary"
+      );
     }
   }
 );
@@ -325,7 +342,6 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setFilter: (state, action) => {
-      // console.log("Setting filter to:", action.payload);
       state.filter = action.payload;
     },
     setSearchQuery: (state, action) => {
@@ -373,11 +389,11 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false;
-        // console.log("Raw API response:", action.payload);
+
         state.posts = action.payload.data.posts.map(
           transformApiPostToFrontendPost
         );
-        // console.log("Transformed posts:", state.posts);
+
         state.pagination = action.payload.data.pagination;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -390,7 +406,7 @@ const postsSlice = createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.createLoading = false;
-        // console.log("Post created successfully:", action.payload);
+
         // Increment total posts count
         state.pagination.totalPosts += 1;
       })
@@ -404,13 +420,14 @@ const postsSlice = createSlice({
       })
       .addCase(createBulkPost.fulfilled, (state, action) => {
         state.createLoading = false;
-        // console.log("Bulk post created successfully:", action.payload);
+
         // Increment total posts count
         state.pagination.totalPosts += 1;
       })
       .addCase(createBulkPost.rejected, (state, action) => {
         state.createLoading = false;
-        state.createError = action.error.message || "Failed to create bulk post";
+        state.createError =
+          action.error.message || "Failed to create bulk post";
       })
       .addCase(deletePost.pending, (state) => {
         state.deleteLoading = true;
@@ -418,17 +435,16 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.deleteLoading = false;
-        // console.log("Posts deleted successfully:", action.payload);
+
         // Remove deleted posts from state
         const deletedIds = action.payload.deletedPostIds.map((id) =>
           id.toString()
         );
-        // console.log("Deleted IDs:", deletedIds);
-        // console.log("Current posts before filter:", state.posts.map(p => `${p.id} (${typeof p.id})`));
+
         state.posts = state.posts.filter(
           (post) => !deletedIds.includes(post.id.toString())
         );
-        // console.log("Posts after filter:", state.posts.map(p => `${p.id} (${typeof p.id})`));
+
         // Update pagination totals
         state.pagination.totalPosts -= deletedIds.length;
       })
@@ -443,7 +459,7 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostsOverview.fulfilled, (state, action) => {
         state.bulkPostsOverviewLoading = false;
         state.bulkPostsOverview = action.payload.data.bulkPostOverviewDetails;
-        
+
         // Map API pagination format to our internal format
         const apiPagination = action.payload.data.pagination;
         state.bulkPostsOverviewPagination = {
@@ -456,9 +472,10 @@ const postsSlice = createSlice({
       })
       .addCase(fetchBulkPostsOverview.rejected, (state, action) => {
         state.bulkPostsOverviewLoading = false;
-        state.bulkPostsOverviewError = action.error.message || "Failed to fetch bulk posts overview";
+        state.bulkPostsOverviewError =
+          action.error.message || "Failed to fetch bulk posts overview";
       })
-      
+
       .addCase(deleteBulkPost.pending, (state) => {
         state.deleteLoading = true;
         state.deleteError = null;
@@ -466,7 +483,9 @@ const postsSlice = createSlice({
       .addCase(deleteBulkPost.fulfilled, (state, action) => {
         state.deleteLoading = false;
         // Remove deleted bulk post from the overview array
-        state.bulkPostsOverview = state.bulkPostsOverview.filter(post => Number(post.id) !== action.payload.bulkId);
+        state.bulkPostsOverview = state.bulkPostsOverview.filter(
+          (post) => Number(post.id) !== action.payload.bulkId
+        );
       })
       .addCase(deleteBulkPost.rejected, (state, action) => {
         state.deleteLoading = false;
@@ -495,9 +514,10 @@ const postsSlice = createSlice({
         state.bulkPostDetailsLoading = false;
         // Remove the deleted post from the details
         if (state.bulkPostDetails) {
-          state.bulkPostDetails.bulkPostDetails = state.bulkPostDetails.bulkPostDetails.filter(
-            post => post.id !== action.payload.postId
-          );
+          state.bulkPostDetails.bulkPostDetails =
+            state.bulkPostDetails.bulkPostDetails.filter(
+              (post) => post.id !== action.payload.postId
+            );
         }
       })
       .addCase(deletePostFromBulk.rejected, (state, action) => {

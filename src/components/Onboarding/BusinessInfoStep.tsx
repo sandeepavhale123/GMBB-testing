@@ -2,15 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetAllTimeZoneQuery } from "@/api/timeZoneApi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { fetchBusinessDetails, saveBusinessDetails } from "@/store/slices/onboarding/onboardingSlice";
+import {
+  fetchBusinessDetails,
+  saveBusinessDetails,
+} from "@/store/slices/onboarding/onboardingSlice";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { businessInfoSchema } from "@/schemas/authSchemas";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -22,21 +42,37 @@ interface BusinessInfoStepProps {
   onNext: () => void;
 }
 
-const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStepProps) => {
-  const { t } = useI18nNamespace(["Onboarding/businessInfoStep", "Validation/validation"]);
+const BusinessInfoStep = ({
+  formData,
+  updateFormData,
+  onNext,
+}: BusinessInfoStepProps) => {
+  const { t } = useI18nNamespace([
+    "Onboarding/businessInfoStep",
+    "Validation/validation",
+  ]);
   const dispatch = useDispatch<AppDispatch>();
   const businessInfoSchema = z.object({
-    businessName: z.string().min(1, t("business.nameRequired")).min(2, t("business.nameMin")),
+    businessName: z
+      .string()
+      .min(1, t("business.nameRequired"))
+      .min(2, t("business.nameMin")),
     website: z
       .string()
       .optional()
       .refine(
         (val: string) =>
-          !val || val.trim() === "" || /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
+          !val ||
+          val.trim() === "" ||
+          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
 
-        t("business.urlInvalid"),
+        t("business.urlInvalid")
       ),
-    email: z.string().trim().min(1, t("email.required")).email(t("email.invalid")),
+    email: z
+      .string()
+      .trim()
+      .min(1, t("email.required"))
+      .email(t("email.invalid")),
     timezone: z.string().min(1, t("business.timezoneRequired")),
     businessType: z.string().min(1, t("business.typeRequired")),
     locationCount: z.string().optional(),
@@ -44,14 +80,18 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
 
   type BusinessInfoFormData = z.infer<typeof businessInfoSchema>;
   // Initialize form validation
-  const { validate, getFieldError, hasFieldError, clearFieldError } = useFormValidation(businessInfoSchema);
+  const { validate, getFieldError, hasFieldError, clearFieldError } =
+    useFormValidation(businessInfoSchema);
 
   // RTK Query for timezone data
   const { data: timeZoneData } = useGetAllTimeZoneQuery();
 
-  const { businessDetails, businessDetailsLoading, businessDetailsError, saveInProgress } = useSelector(
-    (state: RootState) => state.onboarding,
-  );
+  const {
+    businessDetails,
+    businessDetailsLoading,
+    businessDetailsError,
+    saveInProgress,
+  } = useSelector((state: RootState) => state.onboarding);
 
   const [localData, setLocalData] = useState({
     businessName: formData.businessName || "",
@@ -102,12 +142,8 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
     if (count <= 200) return "101-200";
     return "201+";
   };
-  // console.log("business details", businessDetails);
-  // console.log("formdata details", formData);
-  // console.log("localData details", localData);
 
   useEffect(() => {
-    // console.log("businessDetails from API:", businessDetails);
     // Only prefill when businessDetails exist and localData is still in its initial state
     if (
       businessDetails &&
@@ -121,11 +157,12 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
         website: businessDetails.website ?? "",
         email: businessDetails.email ?? "",
         timezone: businessDetails.timezone ?? "",
-        businessType: mapAgencyTypeToBusinessType(businessDetails.agencyType) ?? "Multi listing Dashboard",
-        locationCount: mapManageListingToLocationCount(businessDetails.manageListing) ?? "",
+        businessType:
+          mapAgencyTypeToBusinessType(businessDetails.agencyType) ??
+          "Multi listing Dashboard",
+        locationCount:
+          mapManageListingToLocationCount(businessDetails.manageListing) ?? "",
       };
-      // console.log("Prefilling form with business details:", businessDetails);
-      // console.log("Mapped prefill data:", prefillData);
       setLocalData(prefillData);
       updateFormData(prefillData);
     }
@@ -135,7 +172,14 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
 
   const businessTypes = ["Single listing Dashboard", "Multi listing Dashboard"];
 
-  const locationRanges = ["1-10", "11-20", "21-40", "41-100", "101-200", "201+"];
+  const locationRanges = [
+    "1-10",
+    "11-20",
+    "21-40",
+    "41-100",
+    "101-200",
+    "201+",
+  ];
 
   const handleChange = (field: string, value: string) => {
     const newData = { ...localData, [field]: value };
@@ -151,7 +195,6 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
     const validationResult = validate(localData);
 
     if (!validationResult.isValid) {
-      // console.log("Form validation failed");
       return;
     }
 
@@ -166,7 +209,11 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
     }
   };
 
-  const isValid = localData.businessName && localData.email && localData.timezone && localData.businessType;
+  const isValid =
+    localData.businessName &&
+    localData.email &&
+    localData.timezone &&
+    localData.businessType;
 
   return (
     <div className="max-w-3xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
@@ -174,13 +221,18 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
         <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
           {t("businessInfoStep.title")}
         </h2>
-        <p className="text-base sm:text-lg lg:text-xl text-gray-600">{t("businessInfoStep.description")}</p>
+        <p className="text-base sm:text-lg lg:text-xl text-gray-600">
+          {t("businessInfoStep.description")}
+        </p>
       </div>
 
       <div className=" p-4 sm:p-6 lg:p-8 xl:p-10  space-y-4 sm:space-y-6 lg:space-y-8">
         {/* Business/Agency Name - Full Width */}
         <div>
-          <Label htmlFor="businessName" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
+          <Label
+            htmlFor="businessName"
+            className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
+          >
             {t("businessInfoStep.businessNameLabel")}
           </Label>
           <Input
@@ -190,18 +242,24 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             placeholder={t("businessInfoStep.businessNamePlaceholder")}
             className={cn(
               "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
-              hasFieldError("businessName") && "border-red-500 focus:border-red-500 focus:ring-red-500",
+              hasFieldError("businessName") &&
+                "border-red-500 focus:border-red-500 focus:ring-red-500"
             )}
           />
           {hasFieldError("businessName") && (
-            <p className="text-red-500 text-sm mt-1">{getFieldError("businessName")}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {getFieldError("businessName")}
+            </p>
           )}
         </div>
 
         {/* Website and Company Email - Same Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
           <div>
-            <Label htmlFor="website" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
+            <Label
+              htmlFor="website"
+              className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
+            >
               {t("businessInfoStep.websiteLabel")}
             </Label>
             <Input
@@ -211,14 +269,22 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
               placeholder={t("businessInfoStep.websitePlaceholder")}
               className={cn(
                 "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
-                hasFieldError("website") && "border-red-500 focus:border-red-500 focus:ring-red-500",
+                hasFieldError("website") &&
+                  "border-red-500 focus:border-red-500 focus:ring-red-500"
               )}
             />
-            {hasFieldError("website") && <p className="text-red-500 text-sm mt-1">{getFieldError("website")}</p>}
+            {hasFieldError("website") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("website")}
+              </p>
+            )}
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
+            <Label
+              htmlFor="email"
+              className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
+            >
               {t("businessInfoStep.emailLabel")}
             </Label>
             <Input
@@ -229,17 +295,25 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
               placeholder={t("businessInfoStep.emailPlaceholder")}
               className={cn(
                 "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
-                hasFieldError("email") && "border-red-500 focus:border-red-500 focus:ring-red-500",
+                hasFieldError("email") &&
+                  "border-red-500 focus:border-red-500 focus:ring-red-500"
               )}
             />
-            {hasFieldError("email") && <p className="text-red-500 text-sm mt-1">{getFieldError("email")}</p>}
+            {hasFieldError("email") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("email")}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Preferred Timezone and Business Type - Same Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
           <div>
-            <Label htmlFor="timezone" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
+            <Label
+              htmlFor="timezone"
+              className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
+            >
               {t("businessInfoStep.timezoneLabel")}
             </Label>
             <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
@@ -250,18 +324,25 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
                   aria-expanded={timezoneOpen}
                   className={cn(
                     "h-10 w-full justify-between text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
-                    hasFieldError("timezone") && "border-red-500 focus:border-red-500 focus:ring-red-500",
+                    hasFieldError("timezone") &&
+                      "border-red-500 focus:border-red-500 focus:ring-red-500"
                   )}
                 >
-                  {localData.timezone || t("businessInfoStep.timezonePlaceholder")}
+                  {localData.timezone ||
+                    t("businessInfoStep.timezonePlaceholder")}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start">
                 <Command>
-                  <CommandInput placeholder={t("businessInfoStep.timezoneSearch")} className="h-9" />
+                  <CommandInput
+                    placeholder={t("businessInfoStep.timezoneSearch")}
+                    className="h-9"
+                  />
                   <CommandList>
-                    <CommandEmpty>{t("businessInfoStep.noTimezone")}</CommandEmpty>
+                    <CommandEmpty>
+                      {t("businessInfoStep.noTimezone")}
+                    </CommandEmpty>
                     <CommandGroup>
                       {timeZoneData && Array.isArray(timeZoneData)
                         ? timeZoneData.map((timezone) => (
@@ -276,38 +357,46 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  localData.timezone === timezone ? "opacity-100" : "opacity-0",
+                                  localData.timezone === timezone
+                                    ? "opacity-100"
+                                    : "opacity-0"
                                 )}
                               />
                               {timezone}
                             </CommandItem>
                           ))
                         : timeZoneData && typeof timeZoneData === "object"
-                          ? Object.entries(timeZoneData).map(([value, label]) => (
-                              <CommandItem
-                                key={value}
-                                value={value}
-                                onSelect={(currentValue) => {
-                                  handleChange("timezone", currentValue);
-                                  setTimezoneOpen(false);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    localData.timezone === value ? "opacity-100" : "opacity-0",
-                                  )}
-                                />
-                                {String(label)}
-                              </CommandItem>
-                            ))
-                          : null}
+                        ? Object.entries(timeZoneData).map(([value, label]) => (
+                            <CommandItem
+                              key={value}
+                              value={value}
+                              onSelect={(currentValue) => {
+                                handleChange("timezone", currentValue);
+                                setTimezoneOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  localData.timezone === value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {String(label)}
+                            </CommandItem>
+                          ))
+                        : null}
                     </CommandGroup>
                   </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>
-            {hasFieldError("timezone") && <p className="text-red-500 text-sm mt-1">{getFieldError("timezone")}</p>}
+            {hasFieldError("timezone") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("timezone")}
+              </p>
+            )}
           </div>
 
           <div>
@@ -317,25 +406,37 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             >
               {t("businessInfoStep.dashboardTypeLabel")}
             </Label>
-            <Select value={localData.businessType} onValueChange={(value) => handleChange("businessType", value)}>
+            <Select
+              value={localData.businessType}
+              onValueChange={(value) => handleChange("businessType", value)}
+            >
               <SelectTrigger
                 className={cn(
                   "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
-                  hasFieldError("businessType") && "border-red-500 focus:border-red-500 focus:ring-red-500",
+                  hasFieldError("businessType") &&
+                    "border-red-500 focus:border-red-500 focus:ring-red-500"
                 )}
               >
-                <SelectValue placeholder={t("businessInfoStep.dashboardTypePlaceholder")} />
+                <SelectValue
+                  placeholder={t("businessInfoStep.dashboardTypePlaceholder")}
+                />
               </SelectTrigger>
               <SelectContent>
                 {businessTypes.map((type) => (
-                  <SelectItem key={type} value={type} className="text-sm sm:text-base py-2 sm:py-3">
+                  <SelectItem
+                    key={type}
+                    value={type}
+                    className="text-sm sm:text-base py-2 sm:py-3"
+                  >
                     {type}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             {hasFieldError("businessType") && (
-              <p className="text-red-500 text-sm mt-1">{getFieldError("businessType")}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("businessType")}
+              </p>
             )}
           </div>
         </div>
@@ -347,14 +448,23 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             {t("businessInfoStep.locationCountLabel")}
           </Label>
 
-          <Select value={localData.locationCount} onValueChange={(value) => handleChange("locationCount", value)}>
+          <Select
+            value={localData.locationCount}
+            onValueChange={(value) => handleChange("locationCount", value)}
+          >
             <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-              <SelectValue placeholder={t("businessInfoStep.locationCountPlaceholder")} />
+              <SelectValue
+                placeholder={t("businessInfoStep.locationCountPlaceholder")}
+              />
             </SelectTrigger>
 
             <SelectContent>
               {locationRanges.map((range) => (
-                <SelectItem key={range} value={range} className="text-sm sm:text-base py-2 sm:py-3">
+                <SelectItem
+                  key={range}
+                  value={range}
+                  className="text-sm sm:text-base py-2 sm:py-3"
+                >
                   {range}
                 </SelectItem>
               ))}
@@ -368,7 +478,9 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             disabled={!isValid || saveInProgress}
             className="w-full h-10 text-sm sm:text-base font-semibold bg-blue-600 hover:bg-blue-700"
           >
-            {saveInProgress ? t("businessInfoStep.savingButton") : t("businessInfoStep.continueButton")}
+            {saveInProgress
+              ? t("businessInfoStep.savingButton")
+              : t("businessInfoStep.continueButton")}
           </Button>
         </div>
       </div>

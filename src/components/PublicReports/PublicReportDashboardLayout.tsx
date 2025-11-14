@@ -75,9 +75,6 @@ export const PublicReportDashboardLayout: React.FC<
   );
   const branding = brandingData?.data || null;
   const { lightLogo, darkLogo } = useThemeLogo();
-  // console.log("use theme logo", lightLogo);
-  // console.log("use theme darklogo", useThemeLogo());
-  // console.log("start date", compareDate);
 
   const allEmptyExceptLogo = branding
     ? Object.entries(branding)
@@ -85,7 +82,6 @@ export const PublicReportDashboardLayout: React.FC<
         .every(([_, value]) => value === "")
     : true; // default to true or false based on your UX need
 
-  console.log("All fields empty except logo:", allEmptyExceptLogo);
   const ln = localStorage.getItem("i18nextLng");
 
   const allSidebarItems = [
@@ -255,7 +251,7 @@ export const PublicReportDashboardLayout: React.FC<
             ) : (
               ""
             )}
-            
+
             <h2
               className="text-xl sm:text-2xl lg:text-3xl  font-bold text-white"
               style={{
@@ -344,8 +340,8 @@ export const PublicReportDashboardLayout: React.FC<
             </div>
           </header>
           <div className="absolute right-12 top-2 px-3 py-2">
-              <LanguageSwitcher reportId={token} />
-            </div>
+            <LanguageSwitcher reportId={token} />
+          </div>
 
           {/* Main Content */}
           <main

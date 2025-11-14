@@ -118,7 +118,6 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
         ...arr[index],
         hours: `${displayOpen} - ${displayClose}`,
       };
-      console.log("arr value", arr);
       return arr;
     });
   };

@@ -47,7 +47,6 @@ export const PublicFeedbackForm: React.FC = () => {
     if (data?.data?.language) {
       // Convert full name (like "german") to code (like "de")
       const langName = data.data.language.toLowerCase();
-      console.log("language", langName);
       const langCode = languageMap[langName] || "en"; // fallback to English
       if (i18n.language !== langCode) {
         i18n.changeLanguage(langCode);
@@ -148,19 +147,6 @@ export const PublicFeedbackForm: React.FC = () => {
 
   const formFields: FormField[] = parseFormFields(data);
   const reviewSiteUrls: Record<string, string> = parseReviewSiteUrls(data);
-
-  // Debug: Log actual data structure
-  console.log("Form Data:", {
-    formId,
-    hasData: !!data,
-    formFieldsType: typeof data?.data?.formFields,
-    formFieldsIsArray: Array.isArray(data?.data?.formFields),
-    formFieldsLength: formFields.length,
-    formFieldsRaw: data?.data?.formFields,
-    reviewSiteUrlsType: typeof data?.data?.reviewSiteUrls,
-    reviewSiteUrlsRaw: data?.data?.reviewSiteUrls,
-    reviewSiteUrlsParsed: reviewSiteUrls,
-  });
 
   const handleStarClick = (rating: number) => {
     setStarRating(rating);

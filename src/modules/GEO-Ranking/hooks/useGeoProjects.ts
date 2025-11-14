@@ -140,7 +140,6 @@ const deleteProjectApi = async (
 ): Promise<void> => {
   try {
     await deleteGeoProject(requestData);
-    console.log("Project deleted successfully:", requestData.projectId);
   } catch (error) {
     console.error("Error deleting GEO project:", error);
     throw error;

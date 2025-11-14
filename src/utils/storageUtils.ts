@@ -6,8 +6,6 @@
 const PRESERVED_KEYS = ["theme"];
 
 export const clearAllStorage = () => {
-  // console.log("🧹 Clearing all storage data...");
-
   // Clear sessionStorage completely
   sessionStorage.clear();
 
@@ -29,16 +27,9 @@ export const clearAllStorage = () => {
   Object.entries(preservedData).forEach(([key, value]) => {
     localStorage.setItem(key, value);
   });
-
-  // console.log(
-  //   "✅ Storage cleared, preserved keys:",
-  //   Object.keys(preservedData)
-  // );
 };
 
 export const clearAuthStorage = () => {
-  // console.log("🔐 Clearing authentication storage...");
-
   // Store onboarding step before clearing
   const onboardingStep = localStorage.getItem("onboarding_current_step");
 
@@ -63,14 +54,10 @@ export const clearAuthStorage = () => {
     localStorage.removeItem(key);
   });
 
-  // console.log("✅ Authentication storage cleared");
-
   // Restore onboarding step if it existed
   if (onboardingStep !== null) {
     localStorage.setItem("onboarding_current_step", onboardingStep);
   }
-
-  // console.log("✅ Authentication storage cleared (onboarding step preserved)");
 };
 
 export const isStorageAvailable = (

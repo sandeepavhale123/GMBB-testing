@@ -67,7 +67,7 @@ export const useListingManagement = ({
     inactiveListings: summaryInactiveListings,
     loading: summaryDataLoading,
     refetch: refetchSummary,
-    profileEmail:profileEmail,
+    profileEmail: profileEmail,
   } = useAccountListings({
     accountId,
     page: 1,
@@ -103,7 +103,6 @@ export const useListingManagement = ({
           // `Opening ${listing.name} listing page.`,
         });
       }
-      // console.log(`Navigating to listing page for listing ${listingId}`);
     },
     [navigate, listings, toast]
   );
@@ -119,7 +118,6 @@ export const useListingManagement = ({
   //           // Refetch both filtered data and summary statistics
   //           refetch();
   //           refetchSummary();
-  //           // console.log('Updated active listings count:', data.activeListings);
   //         }
   //       );
   //     } catch (error) {
@@ -147,9 +145,6 @@ export const useListingManagement = ({
             if (onListingStatusChange) {
               try {
                 await onListingStatusChange();
-                console.log(
-                  "🔄 ListingManagement: Business listings refreshed after status change"
-                );
               } catch (error) {
                 console.error(
                   "🔄 ListingManagement: Failed to refresh business listings:",
@@ -158,7 +153,6 @@ export const useListingManagement = ({
               }
             }
 
-            // console.log('Updated active listings count:', data.activeListings);
             // ✅ Invalidate all dashboards so they refetch
             Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
               queryClient.invalidateQueries({

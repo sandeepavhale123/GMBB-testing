@@ -52,8 +52,6 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [showDisableConfirm, setShowDisableConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // console.log("starRating", starRating);
-
   const handleManageClick = () => {
     if (template) {
       let content = "";
@@ -136,7 +134,6 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   // Get display content
   const getDisplayContent = () => {
     if (!template) return "No template created yet";
-    // console.log("template data", template);
 
     let content = "";
     if (Array.isArray(template.content)) {

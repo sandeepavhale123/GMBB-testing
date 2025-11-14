@@ -23,10 +23,6 @@ const Profile = () => {
   const { t } = useI18nNamespace("Profile/profile");
   useEffect(() => {
     if (listingId && listings.length > 0 && !selectedListing) {
-      // console.log(
-      //   "📍 SettingsPage: Triggering initializeSelectedListing for listingId:",
-      //   listingId
-      // );
       initializeSelectedListing(listingId);
     }
   }, [listingId, listings, selectedListing, initializeSelectedListing]);

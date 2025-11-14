@@ -20,7 +20,6 @@ export const useCreateReport = () => {
         queryKey: ["all-reports", variables.listingId],
       });
 
-      console.log(reportId, domain, "usereport");
       // Open new tab with performance report
       if (reportId) {
         const url = `${domain}`;

@@ -110,9 +110,6 @@ export const Dashboard: React.FC = () => {
   const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } =
     useAppSelector((state) => state.insights);
 
-  // console.log("listingid", selectedListing?.id);
-  // console.log("listings", listings);
-
   // Fetch insights data when insights tab is active and listing is selected
   React.useEffect(() => {
     if (activeTab === "insights" && selectedListing?.id) {
@@ -123,8 +120,6 @@ export const Dashboard: React.FC = () => {
         endDate: "",
       };
 
-      // console.log("Fetching dashboard insights data with params:", params);
-
       dispatch(fetchInsightsSummary(params));
       dispatch(fetchVisibilityTrends(params));
     }
@@ -132,18 +127,12 @@ export const Dashboard: React.FC = () => {
 
   // Handle media context - open modal when image is selected from gallery
   useEffect(() => {
-    // console.log("🎯 Dashboard media context changed:", {
-    //   shouldOpenCreatePost,
-    //   selectedMedia,
-    // });
     if (shouldOpenCreatePost && selectedMedia) {
-      // console.log("🎯 Opening create post modal from media context");
       setIsCreateModalOpen(true);
     }
   }, [shouldOpenCreatePost, selectedMedia]);
 
   const handleApprovePost = (post: any) => {
-    // console.log("🎯 Dashboard handleApprovePost called with:", post);
     setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
@@ -154,9 +143,6 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleOptimize = () => {
-    // console.log("handleOptimize called - listings:", listings);
-    // console.log("selectedListing:", selectedListing);
-
     navigate(`/health/${selectedListing?.id}`);
 
     // If no valid listing is available, show an error or redirect to a selection page
