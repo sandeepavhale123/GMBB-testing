@@ -639,7 +639,7 @@ export const PublicFeedbackForm: React.FC = () => {
                     alt=""
                   />
                   {t("leaveReviewOn")}
-                  {site.charAt(0).toUpperCase() + site.slice(1)}
+                  <span>{site.charAt(0).toUpperCase() + site.slice(1)}</span>
                   <ExternalLink className="h-4 w-4 ml-2" />
                 </Button>
               ))}

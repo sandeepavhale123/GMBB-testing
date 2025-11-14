@@ -269,8 +269,8 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="field-name" className="text-xs hidden">
+                    <div className="space-y-2 hidden">
+                      <Label htmlFor="field-name" className="text-xs ">
                         {t("fieldName")}
                       </Label>
                       <Input

@@ -42,6 +42,7 @@
     "editing": "Bestehendes Formular wird bearbeitet",
     "validationError": "Validierungsfehler",
     "formNameRequired": "Formularname ist erforderlich",
+    "logoRequired": "Logo ist erforderlich",
     "validUrlRequired": "Mindestens eine Bewertungsseiten-URL ist erforderlich",
     "validMessage": "Bitte geben Sie einen Formularnamen ein",
     "invalidUrls": "Bitte beheben Sie ungültige URLs, bevor Sie fortfahren",
@@ -67,7 +68,7 @@
   },
   "tooltips": {
     "formNameInfo": "Dieser Name dient nur zu Ihrer internen Referenz",
-    "logoInfo": "Optional – Laden Sie Ihr Firmenlogo hoch",
+    "logoInfo": "Erforderlich - Laden Sie Ihr Firmenlogo hoch",
     "ratingInfo": "Wählen Sie die minimale Sternebewertung, die Sie als positives Feedback betrachten",
     "reviewSiteInfo": "Geben Sie die Bewertungs-URLs ein, auf denen Kunden ihr Feedback hinterlassen können. Nur gültige URLs werden Benutzern angezeigt.",
     "uploadInfo": "Zum Hochladen klicken oder per Drag & Drop hinzufügen",

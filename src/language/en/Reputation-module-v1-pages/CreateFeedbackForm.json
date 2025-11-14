@@ -42,6 +42,7 @@
     "editing":"Editing existing form",
     "validationError": "Validation Error",
     "formNameRequired": "Form name is required",
+    "logoRequired": "Logo is required",
     "validUrlRequired": "At least one review site URL is required",
     "validMessage":"Please enter a form name",
     "invalidUrls": "Please fix invalid URLs before proceeding",
@@ -67,7 +68,7 @@
   },
   "tooltips": {
     "formNameInfo": "This name is for your internal reference only",
-    "logoInfo": "Optional - Upload your company logo",
+    "logoInfo": "Required - Upload your company logo",
     "ratingInfo": "Choose the minimum star rating you consider as positive feedback",
     "reviewSiteInfo": "Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to users.",
     "uploadInfo":"Click to upload or drag and drop",
