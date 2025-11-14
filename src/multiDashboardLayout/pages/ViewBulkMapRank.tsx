@@ -212,19 +212,23 @@ export const ViewBulkMapRank: React.FC = () => {
           keywords={12}
           nextCheck="2h"
           nextCheckTime="Scheduled for 4:30 PM"
-          statusDistribution={{
-            total: 245,
-            complete: {
-              count: 189,
-              percent: 77.1,
+          positionSummary={{
+            total: 12,
+            pos1_3: {
+              count: 0,
+              percent: 0,
             },
-            pending: {
-              count: 42,
-              percent: 17.1,
+            pos4_10: {
+              count: 1,
+              percent: 8.3,
             },
-            failed: {
-              count: 14,
-              percent: 5.8,
+            pos11_15: {
+              count: 0,
+              percent: 0,
+            },
+            pos16_20: {
+              count: 0,
+              percent: 0,
             },
           }}
           isLoading={loading}
