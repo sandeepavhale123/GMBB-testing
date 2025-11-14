@@ -18,17 +18,21 @@ interface BulkMapSummaryCardsProps {
   keywords: number;
   nextCheck: string;
   nextCheckTime?: string;
-  statusDistribution: {
+  positionSummary: {
     total: number;
-    complete: {
+    pos1_3: {
       count: number;
       percent: number;
     };
-    pending: {
+    pos4_10: {
       count: number;
       percent: number;
     };
-    failed: {
+    pos11_15: {
+      count: number;
+      percent: number;
+    };
+    pos16_20: {
       count: number;
       percent: number;
     };
@@ -42,7 +46,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
   keywords,
   nextCheck,
   nextCheckTime = "Scheduled for 4:30 PM",
-  statusDistribution,
+  positionSummary,
   isLoading,
 }) => {
   // Custom tooltip for chart hover
@@ -84,31 +88,40 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
     },
   ];
 
-  const statusStats = [
+  const positionStats = [
     {
-      label: "Complete",
-      count: statusDistribution.complete.count,
-      percent: statusDistribution.complete.percent,
-      icon: CheckCircle2,
+      label: "1-3",
+      count: positionSummary.pos1_3.count,
+      percent: positionSummary.pos1_3.percent,
       color: "text-green-600",
+      dotColor: "bg-green-600",
       bgColor: "bg-green-50",
       borderColor: "border-green-200",
     },
     {
-      label: "Pending",
-      count: statusDistribution.pending.count,
-      percent: statusDistribution.pending.percent,
-      icon: Clock,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
+      label: "4-10",
+      count: positionSummary.pos4_10.count,
+      percent: positionSummary.pos4_10.percent,
+      color: "text-yellow-600",
+      dotColor: "bg-yellow-600",
+      bgColor: "bg-yellow-50",
+      borderColor: "border-yellow-200",
     },
     {
-      label: "Failed",
-      count: statusDistribution.failed.count,
-      percent: statusDistribution.failed.percent,
-      icon: AlertCircle,
+      label: "11-15",
+      count: positionSummary.pos11_15.count,
+      percent: positionSummary.pos11_15.percent,
+      color: "text-orange-600",
+      dotColor: "bg-orange-600",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+    },
+    {
+      label: "16-20+",
+      count: positionSummary.pos16_20.count,
+      percent: positionSummary.pos16_20.percent,
       color: "text-red-600",
+      dotColor: "bg-red-600",
       bgColor: "bg-red-50",
       borderColor: "border-red-200",
     },
@@ -116,22 +129,28 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
 
   const chartData = [
     {
-      name: "Complete",
-      value: statusDistribution.complete.percent,
+      name: "1-3",
+      value: positionSummary.pos1_3.percent,
       color: "#22c55e",
-      count: statusDistribution.complete.count,
+      count: positionSummary.pos1_3.count,
     },
     {
-      name: "Pending",
-      value: statusDistribution.pending.percent,
-      color: "#3b82f6",
-      count: statusDistribution.pending.count,
+      name: "4-10",
+      value: positionSummary.pos4_10.percent,
+      color: "#eab308",
+      count: positionSummary.pos4_10.count,
     },
     {
-      name: "Failed",
-      value: statusDistribution.failed.percent,
+      name: "11-15",
+      value: positionSummary.pos11_15.percent,
+      color: "#f97316",
+      count: positionSummary.pos11_15.count,
+    },
+    {
+      name: "16-20+",
+      value: positionSummary.pos16_20.percent,
       color: "#ef4444",
-      count: statusDistribution.failed.count,
+      count: positionSummary.pos16_20.count,
     },
   ];
 
@@ -239,10 +258,10 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
         </Card>
       </div>
 
-      {/* Right Column - Status Distribution Chart */}
+      {/* Right Column - Position Summary */}
       <Card className="p-6 lg:col-span-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Status Distribution</h3>
+          <h3 className="text-lg font-semibold">Position Summary</h3>
 
           {isLoading ? (
             <div className="flex items-center justify-center h-[200px]">
@@ -273,36 +292,30 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
                 {/* Center Text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <p className="text-3xl font-bold">
-                    {statusDistribution.total}
+                    {positionSummary.total}
                   </p>
-                  <p className="text-xs text-muted-foreground">Total Checks</p>
+                  <p className="text-xs text-muted-foreground">Total Keywords</p>
                 </div>
               </div>
 
               {/* Legend */}
               <div className="flex flex-col gap-3 flex-1">
-                {statusStats.map((stat, index) => {
-                  const Icon = stat.icon;
+                {positionStats.map((stat, index) => {
                   return (
                     <div
                       key={index}
-                      className={`flex items-center justify-between p-3 rounded-lg border ${stat.borderColor} ${stat.bgColor}`}
+                      className="flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
-                        <div className={`${stat.color}`}>
-                          <Icon className="w-5 h-5" />
-                        </div>
+                        <div className={`w-3 h-3 rounded-full ${stat.dotColor}`}></div>
                         <div>
-                          <p className={`font-semibold text-sm ${stat.color}`}>
+                          <p className="font-medium text-sm text-foreground">
                             {stat.label}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {stat.count} checks
                           </p>
                         </div>
                       </div>
-                      <div className={`text-right ${stat.color}`}>
-                        <p className="font-bold text-lg">{stat.percent}%</p>
+                      <div className="text-right">
+                        <p className="font-bold text-lg text-foreground">{stat.count}</p>
                       </div>
                     </div>
                   );
