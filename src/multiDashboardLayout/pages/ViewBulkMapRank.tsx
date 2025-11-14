@@ -207,9 +207,9 @@ export const ViewBulkMapRank: React.FC = () => {
 
         {/* Summary Cards */}
         <BulkMapSummaryCards
-          totalChecks={245}
-          avgRank={3.2}
-          keywords={12}
+          searchBy="Business Name"
+          scheduledFrequency="Weekly"
+          lastCheck="Nov 14, 2025"
           nextCheck="2h"
           nextCheckTime="Scheduled for 4:30 PM"
           positionSummary={{

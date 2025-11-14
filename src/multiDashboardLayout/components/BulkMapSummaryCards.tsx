@@ -1,21 +1,19 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import {
-  BarChart3,
-  TrendingUp,
-  MapPin,
-  Calendar,
-  CheckCircle2,
+  Search,
   Clock,
+  CheckCircle2,
+  Calendar,
   AlertCircle,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface BulkMapSummaryCardsProps {
-  totalChecks: number;
-  avgRank: number;
-  keywords: number;
+  searchBy: string;
+  scheduledFrequency: string;
+  lastCheck: string;
   nextCheck: string;
   nextCheckTime?: string;
   positionSummary: {
@@ -41,9 +39,9 @@ interface BulkMapSummaryCardsProps {
 }
 
 export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
-  totalChecks,
-  avgRank,
-  keywords,
+  searchBy,
+  scheduledFrequency,
+  lastCheck,
   nextCheck,
   nextCheckTime = "Scheduled for 4:30 PM",
   positionSummary,
@@ -66,25 +64,25 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
 
   const stats = [
     {
-      title: "Total Checks",
-      value: totalChecks,
-      icon: BarChart3,
+      title: "Search By",
+      value: searchBy,
+      icon: Search,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
-      title: "Avg Rank",
-      value: avgRank.toFixed(1),
-      icon: TrendingUp,
-      color: "text-green-600",
-      bgColor: "bg-green-50",
-    },
-    {
-      title: "Keywords",
-      value: keywords,
-      icon: MapPin,
+      title: "Scheduled Frequency",
+      value: scheduledFrequency,
+      icon: Clock,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
+    },
+    {
+      title: "Last Check",
+      value: lastCheck,
+      icon: CheckCircle2,
+      color: "text-green-600",
+      bgColor: "bg-green-50",
     },
   ];
 
@@ -158,7 +156,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
       {/* Left Column - Stats Cards Stacked */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:col-span-6">
-        {/* Total Checks Card */}
+        {/* Search By Card */}
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
@@ -177,12 +175,12 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               )}
             </div>
             <div className={`${stats[0].bgColor} p-3 rounded-lg`}>
-              <BarChart3 className={`w-5 h-5 ${stats[0].color}`} />
+              <Search className={`w-5 h-5 ${stats[0].color}`} />
             </div>
           </div>
         </Card>
 
-        {/* Avg Rank Card */}
+        {/* Scheduled Frequency Card */}
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
@@ -201,12 +199,12 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               )}
             </div>
             <div className={`${stats[1].bgColor} p-3 rounded-lg`}>
-              <TrendingUp className={`w-5 h-5 ${stats[1].color}`} />
+              <Clock className={`w-5 h-5 ${stats[1].color}`} />
             </div>
           </div>
         </Card>
 
-        {/* Keywords Card */}
+        {/* Last Check Card */}
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
@@ -225,7 +223,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               )}
             </div>
             <div className={`${stats[2].bgColor} p-3 rounded-lg`}>
-              <MapPin className={`w-5 h-5 ${stats[2].color}`} />
+              <CheckCircle2 className={`w-5 h-5 ${stats[2].color}`} />
             </div>
           </div>
         </Card>
