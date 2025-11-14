@@ -137,7 +137,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               <p className="text-sm text-muted-foreground mb-2">
                 {stats[0].title}
               </p>
-              {isLoading ? <Skeleton className="h-8 w-16" /> : <p style={{
+              {isLoading ? <Skeleton className="h-8 w-16 text-xl" /> : <p style={{
               fontSize: "30px"
             }} className="mt-[30px] font-bold text-xl">
                   {stats[0].value}
@@ -156,7 +156,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               <p className="text-sm text-muted-foreground mb-2">
                 {stats[1].title}
               </p>
-              {isLoading ? <Skeleton className="h-8 w-16" /> : <p style={{
+              {isLoading ? <Skeleton className="h-8 w-16 text-xl" /> : <p style={{
               fontSize: "30px"
             }} className="mt-[30px] font-bold text-xl">
                   {stats[1].value}
@@ -175,7 +175,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
               <p className="text-sm text-muted-foreground mb-2">
                 {stats[2].title}
               </p>
-              {isLoading ? <Skeleton className="h-8 w-16" /> : <p style={{
+              {isLoading ? <Skeleton className="h-8 w-16 text-xl" /> : <p style={{
               fontSize: "30px"
             }} className="mt-[30px] font-bold text-xl">
                   {stats[2].value}
