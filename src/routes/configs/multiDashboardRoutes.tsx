@@ -32,6 +32,8 @@ import { ImportPostCSVWizard } from "@/multiDashboardLayout/pages/ImportPostCSVW
 import { BulkImportDetails } from "@/multiDashboardLayout/pages/BulkImportDetails";
 import { GalleryPage } from "@/multiDashboardLayout/pages/Gallery";
 import { BulkMapRanking } from "@/multiDashboardLayout/pages/BulkMapRanking";
+import { CheckBulkMapRank } from "@/multiDashboardLayout/pages/CheckBulkMapRank";
+import { ViewBulkMapRank } from "@/multiDashboardLayout/pages/ViewBulkMapRank";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -75,6 +77,14 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-map-ranking",
         element: <BulkMapRanking />,
+      },
+      {
+        path: "check-bulk-map-ranking",
+        element: <CheckBulkMapRank />,
+      },
+      {
+        path: "view-bulk-map-ranking/:id",
+        element: <ViewBulkMapRank />,
       },
         {
           path: "reports",

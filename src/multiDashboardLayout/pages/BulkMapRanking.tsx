@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Eye, Trash2, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -79,6 +80,7 @@ const summaryData = {
 };
 
 export const BulkMapRanking: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +106,7 @@ export const BulkMapRanking: React.FC = () => {
   };
 
   const handleView = (id: number) => {
-    console.log("View details for:", id);
+    navigate(`/main-dashboard/view-bulk-map-ranking/${id}`);
   };
 
   const handleDelete = (id: number) => {
@@ -116,7 +118,10 @@ export const BulkMapRanking: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Bulk Map Ranking</h1>
-        <Button className="flex items-center gap-2">
+        <Button 
+          className="flex items-center gap-2"
+          onClick={() => navigate("/main-dashboard/check-bulk-map-ranking")}
+        >
           <CheckCircle2 className="h-4 w-4" />
           Check Rank
         </Button>
