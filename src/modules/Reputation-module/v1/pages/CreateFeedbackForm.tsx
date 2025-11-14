@@ -309,11 +309,11 @@ export const CreateFeedbackForm: React.FC = () => {
       // Validate logo upload
       if (!logoFile && !logo) {
         setLogoError(t("messages.logoRequired"));
-        toast({
-          title: t("messages.validationError"),
-          description: t("messages.logoRequired"),
-          variant: "destructive",
-        });
+        // toast({
+        //   title: t("messages.validationError"),
+        //   description: t("messages.logoRequired"),
+        //   variant: "destructive",
+        // });
         return;
       }
     }
@@ -1072,7 +1072,7 @@ export const CreateFeedbackForm: React.FC = () => {
                           )}
                         </div>
                       ))}
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 hidden">
                         <Button variant="outline" className="flex-1">
                           {t("buttons.reset")}
                         </Button>
