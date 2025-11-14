@@ -3,13 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   Search,
   Eye,
-  MapPin,
-  TrendingUp,
-  Calendar,
-  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -28,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BulkMapSummaryCards } from "@/multiDashboardLayout/components/BulkMapSummaryCards";
 
 interface RankingData {
   id: number;
@@ -209,55 +206,29 @@ export const ViewBulkMapRank: React.FC = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Checks
-              </CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">245</div>
-              <p className="text-xs text-muted-foreground">All time checks</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg Rank</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">3.2</div>
-              <p className="text-xs text-muted-foreground">Average position</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Keywords</CardTitle>
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">12</div>
-              <p className="text-xs text-muted-foreground">Active keywords</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Next Check</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2h</div>
-              <p className="text-xs text-muted-foreground">
-                Scheduled for 4:30 PM
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <BulkMapSummaryCards
+          totalChecks={245}
+          avgRank={3.2}
+          keywords={12}
+          nextCheck="2h"
+          nextCheckTime="Scheduled for 4:30 PM"
+          statusDistribution={{
+            total: 245,
+            complete: {
+              count: 189,
+              percent: 77.1,
+            },
+            pending: {
+              count: 42,
+              percent: 17.1,
+            },
+            failed: {
+              count: 14,
+              percent: 5.8,
+            },
+          }}
+          isLoading={loading}
+        />
 
         {/* Search and Filter */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
