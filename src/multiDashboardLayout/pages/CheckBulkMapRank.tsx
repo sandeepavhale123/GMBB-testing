@@ -18,7 +18,6 @@ export const CheckBulkMapRank: React.FC = () => {
   const [keywords, setKeywords] = useState("");
   const [language, setLanguage] = useState("en");
   const [searchBy, setSearchBy] = useState("");
-  const [enableSchedule, setEnableSchedule] = useState(false);
   const [scheduleFrequency, setScheduleFrequency] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,7 +27,6 @@ export const CheckBulkMapRank: React.FC = () => {
       keywords,
       language,
       searchBy,
-      enableSchedule,
       scheduleFrequency,
     });
   };
@@ -200,39 +198,23 @@ export const CheckBulkMapRank: React.FC = () => {
                     </Select>
                   </div>
 
-                  {/* Enable Schedule Check */}
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="enable-schedule"
-                        checked={enableSchedule}
-                        onCheckedChange={(checked) =>
-                          setEnableSchedule(checked as boolean)
-                        }
-                      />
-                      <Label
-                        htmlFor="enable-schedule"
-                        className="text-sm font-medium cursor-pointer"
-                      >
-                        Enable Schedule Check
-                      </Label>
-                    </div>
-                    {enableSchedule && (
-                      <Select
-                        value={scheduleFrequency}
-                        onValueChange={setScheduleFrequency}
-                      >
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select frequency" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="onetime">Onetime</SelectItem>
-                          <SelectItem value="weekly">Weekly</SelectItem>
-                          <SelectItem value="monthly">Monthly</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </div>
+          {/* Schedule Frequency */}
+          <div className="space-y-2">
+            <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
+            <Select
+              value={scheduleFrequency}
+              onValueChange={setScheduleFrequency}
+            >
+              <SelectTrigger id="schedule-frequency">
+                <SelectValue placeholder="Select frequency" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="onetime">Onetime</SelectItem>
+                <SelectItem value="weekly">Weekly</SelectItem>
+                <SelectItem value="monthly">Monthly</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
                   {/* Submit Button */}
                   <Button type="submit" className="w-full" size="lg">
