@@ -18,12 +18,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataPagination } from "@/components/common/DataPagination";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export const BulkMapRanking: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Match API limit
+
+  // Debounce search query with 1500ms delay
+  const debouncedSearchQuery = useDebounce(searchQuery, 1500);
 
   // Fetch stats from API
   const { data: statsData, isLoading: statsLoading } = useBulkMapRankingStats();
@@ -34,7 +38,7 @@ export const BulkMapRanking: React.FC = () => {
     isLoading: keywordsLoading,
     isFetching: keywordsFetching,
     error: keywordsError 
-  } = useBulkMapRankingKeywords(searchQuery, currentPage, itemsPerPage);
+  } = useBulkMapRankingKeywords(debouncedSearchQuery, currentPage, itemsPerPage);
 
   // Extract stats with defaults
   const stats = {
