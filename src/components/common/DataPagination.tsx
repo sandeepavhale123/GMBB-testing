@@ -38,37 +38,34 @@ export const DataPagination: React.FC<DataPaginationProps> = ({
       ? Math.min(currentPage * itemsPerPage, totalItems)
       : null;
 
-  // Generate page numbers with ellipsis logic
+  // Generate page numbers with ellipsis logic - max 4 page buttons
   const getPageNumbers = (): (number | "ellipsis")[] => {
-    if (totalPages <= maxPageButtons + 2) {
-      // Show all pages if total is small
+    if (totalPages <= maxPageButtons) {
+      // Show all pages if total is within limit
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
     const pages: (number | "ellipsis")[] = [];
 
-    // Always show first page
-    pages.push(1);
-
-    if (currentPage <= Math.ceil(maxPageButtons / 2) + 1) {
-      // Near the beginning
-      for (let i = 2; i <= maxPageButtons + 1; i++) {
+    if (currentPage <= 2) {
+      // Near the beginning: [1] [2] [3] [4] ... [last]
+      for (let i = 1; i <= maxPageButtons; i++) {
         pages.push(i);
       }
       pages.push("ellipsis");
       pages.push(totalPages);
-    } else if (currentPage >= totalPages - Math.floor(maxPageButtons / 2)) {
-      // Near the end
+    } else if (currentPage >= totalPages - 1) {
+      // Near the end: [1] ... [n-3] [n-2] [n-1] [n]
+      pages.push(1);
       pages.push("ellipsis");
-      for (let i = totalPages - maxPageButtons; i <= totalPages; i++) {
+      for (let i = totalPages - maxPageButtons + 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // In the middle
+      // In the middle: [1] ... [current-1] [current] [current+1] [current+2] ... [last]
+      pages.push(1);
       pages.push("ellipsis");
-      const start = currentPage - Math.floor((maxPageButtons - 2) / 2);
-      const end = currentPage + Math.ceil((maxPageButtons - 2) / 2);
-      for (let i = start; i <= end; i++) {
+      for (let i = currentPage - 1; i <= Math.min(currentPage + 2, totalPages - 1); i++) {
         pages.push(i);
       }
       pages.push("ellipsis");
