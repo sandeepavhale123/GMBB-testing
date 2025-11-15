@@ -11,9 +11,21 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, ThumbsUp, MessageSquare, Share2, X, Loader2, Eye, ChevronLeft } from "lucide-react";
+import {
+  Star,
+  ThumbsUp,
+  MessageSquare,
+  Share2,
+  X,
+  Loader2,
+  Eye,
+  ChevronLeft,
+} from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { captureSquareImage, downloadImageBlob } from "@/utils/socialMediaImageCapture";
+import {
+  captureSquareImage,
+  downloadImageBlob,
+} from "@/utils/socialMediaImageCapture";
 import { cn } from "@/lib/utils";
 
 interface ShareReviewModalProps {
@@ -42,9 +54,14 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const authorName = review.customer_name || review.author || "Anonymous";
   const reviewContent = review.comment || review.content || "";
   const reviewAvatar = review.profile_image_url || review.avatar;
-  const authorInitial = authorName && authorName.length > 0 ? authorName.charAt(0).toUpperCase() : "A";
+  const authorInitial =
+    authorName && authorName.length > 0
+      ? authorName.charAt(0).toUpperCase()
+      : "A";
 
-  const [selectedChannels, setSelectedChannels] = useState<string[]>(["google"]);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>([
+    "google",
+  ]);
   const [themeColor, setThemeColor] = useState("#dbd7cf");
   const [description, setDescription] = useState(reviewContent);
   const [postDescription, setPostDescription] = useState("");
@@ -53,45 +70,37 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
   const [scheduleTime, setScheduleTime] = useState("");
   const [isCapturing, setIsCapturing] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  
+
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async () => {
     setIsCapturing(true);
-    
+
     try {
       // Capture the canvas as square image
       if (canvasRef.current) {
         const imageBlob = await captureSquareImage(canvasRef.current, {
           size: 600,
-          format: 'png',
+          format: "png",
           quality: 1.0,
-          backgroundColor: '#ffffff',
+          backgroundColor: "#ffffff",
           pixelRatio: 2,
         });
-        
+
         // Download the image locally
-        const fileName = `review-post-${authorName.replace(/\s+/g, '-')}-${Date.now()}.png`;
+        const fileName = `review-post-${authorName.replace(
+          /\s+/g,
+          "-"
+        )}-${Date.now()}.png`;
         downloadImageBlob(imageBlob, fileName);
-        
+
         toast({
           title: "Image Downloaded",
           description: "Your review post image has been saved successfully.",
         });
-        
-        // TODO: API call to create social media post
-        console.log("Submitting post:", {
-          channels: selectedChannels,
-          themeColor,
-          description,
-          scheduleEnabled,
-          scheduleDate,
-          scheduleTime,
-          imageBlob,
-        });
       }
     } catch (error) {
-      console.error('Error capturing image:', error);
+      console.error("Error capturing image:", error);
       toast({
         title: "Image Capture Failed",
         description: "Failed to create post image. Please try again.",
@@ -140,23 +149,29 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
 </clipPath>
 </defs>
 </svg>
-`
+`;
 
-const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
+  const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(
+    svgCode
+  )}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[95vw] sm:max-w-[56rem] h-[90vh] md:h-auto md:max-h-[90vh] overflow-hidden p-0">
         <div className="relative h-full overflow-hidden md:grid md:grid-cols-[40%_60%]">
           {/* Left Panel - Form Controls */}
-          <div className={cn(
-            "p-6 pr-6 overflow-y-auto",
-            "absolute inset-0 transition-transform duration-300 ease-in-out bg-background",
-            showPreview ? "-translate-x-full" : "translate-x-0",
-            "md:relative md:translate-x-0 md:border-r md:border-border"
-          )}>
+          <div
+            className={cn(
+              "p-6 pr-6 overflow-y-auto",
+              "absolute inset-0 transition-transform duration-300 ease-in-out bg-background",
+              showPreview ? "-translate-x-full" : "translate-x-0",
+              "md:relative md:translate-x-0 md:border-r md:border-border"
+            )}
+          >
             <DialogHeader className="mb-6">
-              <DialogTitle className="text-xl font-bold">Share Review</DialogTitle>
+              <DialogTitle className="text-xl font-bold">
+                Share Review
+              </DialogTitle>
             </DialogHeader>
 
             <div className="space-y-6">
@@ -171,15 +186,22 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       id="google"
                       checked={selectedChannels.includes("google")}
                       onCheckedChange={(checked) => {
-                        setSelectedChannels(prev =>
+                        setSelectedChannels((prev) =>
                           checked
                             ? [...prev, "google"]
-                            : prev.filter(c => c !== "google")
+                            : prev.filter((c) => c !== "google")
                         );
                       }}
                     />
-                    <Label htmlFor="google" className="flex items-center gap-2 cursor-pointer flex-1">
-                      <img src="/lovable-uploads/social-icons/google.png" alt="Google" className="w-5 h-5" />
+                    <Label
+                      htmlFor="google"
+                      className="flex items-center gap-2 cursor-pointer flex-1"
+                    >
+                      <img
+                        src="/lovable-uploads/social-icons/google.png"
+                        alt="Google"
+                        className="w-5 h-5"
+                      />
                       <span className="text-sm font-medium">Google</span>
                     </Label>
                   </div>
@@ -189,15 +211,22 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       id="facebook"
                       checked={selectedChannels.includes("facebook")}
                       onCheckedChange={(checked) => {
-                        setSelectedChannels(prev =>
+                        setSelectedChannels((prev) =>
                           checked
                             ? [...prev, "facebook"]
-                            : prev.filter(c => c !== "facebook")
+                            : prev.filter((c) => c !== "facebook")
                         );
                       }}
                     />
-                    <Label htmlFor="facebook" className="flex items-center gap-2 cursor-pointer flex-1">
-                      <img src="/lovable-uploads/social-icons/facebook.png" alt="Facebook" className="w-5 h-5" />
+                    <Label
+                      htmlFor="facebook"
+                      className="flex items-center gap-2 cursor-pointer flex-1"
+                    >
+                      <img
+                        src="/lovable-uploads/social-icons/facebook.png"
+                        alt="Facebook"
+                        className="w-5 h-5"
+                      />
                       <span className="text-sm font-medium">Facebook</span>
                     </Label>
                   </div>
@@ -206,7 +235,10 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
               {/* Theme Color */}
               <div className="space-y-2">
-                <Label htmlFor="themeColor" className="text-sm font-semibold text-foreground">
+                <Label
+                  htmlFor="themeColor"
+                  className="text-sm font-semibold text-foreground"
+                >
                   Theme color
                 </Label>
                 <div className="flex items-center gap-3">
@@ -217,13 +249,18 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                     onChange={(e) => setThemeColor(e.target.value)}
                     className="h-10 w-20 rounded border border-border cursor-pointer"
                   />
-                  <span className="text-sm text-muted-foreground">{themeColor}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {themeColor}
+                  </span>
                 </div>
               </div>
 
               {/* Post Caption */}
               <div className="space-y-2">
-                <Label htmlFor="postDescription" className="text-sm font-semibold text-foreground">
+                <Label
+                  htmlFor="postDescription"
+                  className="text-sm font-semibold text-foreground"
+                >
                   Post Caption (optional)
                 </Label>
                 <Textarea
@@ -238,7 +275,10 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
               {/* Schedule Post */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="schedule" className="text-sm font-semibold text-foreground">
+                  <Label
+                    htmlFor="schedule"
+                    className="text-sm font-semibold text-foreground"
+                  >
                     Schedule the Post (optional)
                   </Label>
                   <Switch
@@ -251,7 +291,10 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                 {scheduleEnabled && (
                   <div className="grid grid-cols-2 gap-3 pt-2">
                     <div className="space-y-1.5">
-                      <Label htmlFor="scheduleDate" className="text-xs text-muted-foreground">
+                      <Label
+                        htmlFor="scheduleDate"
+                        className="text-xs text-muted-foreground"
+                      >
                         Date
                       </Label>
                       <input
@@ -263,7 +306,10 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label htmlFor="scheduleTime" className="text-xs text-muted-foreground">
+                      <Label
+                        htmlFor="scheduleTime"
+                        className="text-xs text-muted-foreground"
+                      >
                         Time
                       </Label>
                       <input
@@ -280,25 +326,34 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
 
               {/* Action Buttons */}
               <div className="flex items-center gap-3 pt-4">
-                <Button 
-                  onClick={() => setShowPreview(true)} 
+                <Button
+                  onClick={() => setShowPreview(true)}
                   variant="outline"
                   className="md:hidden flex-1"
                 >
                   <Eye className="w-4 h-4 mr-2" />
                   Preview
                 </Button>
-                <Button onClick={handleSubmit} disabled={isCapturing} className="flex-1">
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isCapturing}
+                  className="flex-1"
+                >
                   {isCapturing ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Capturing...
                     </>
                   ) : (
-                    'Submit'
+                    "Submit"
                   )}
                 </Button>
-                <Button onClick={onClose} variant="outline" disabled={isCapturing} className="flex-1">
+                <Button
+                  onClick={onClose}
+                  variant="outline"
+                  disabled={isCapturing}
+                  className="flex-1"
+                >
                   Close
                 </Button>
               </div>
@@ -306,13 +361,15 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
           </div>
 
           {/* Right Panel - Preview */}
-          <div className={cn(
-            "p-2 md:p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
-            "absolute inset-0 transition-transform duration-300 ease-in-out",
-            showPreview ? "translate-x-0" : "translate-x-full",
-            "md:relative md:translate-x-0",
-            "flex flex-col items-center gap-4"
-          )}>
+          <div
+            className={cn(
+              "p-2 md:p-6 bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-950 dark:to-orange-950 overflow-y-auto",
+              "absolute inset-0 transition-transform duration-300 ease-in-out",
+              showPreview ? "translate-x-0" : "translate-x-full",
+              "md:relative md:translate-x-0",
+              "flex flex-col items-center gap-4"
+            )}
+          >
             {/* Mobile back button */}
             <button
               onClick={() => setShowPreview(false)}
@@ -333,14 +390,23 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
               {/* Preview Card */}
               <div className="bg-background  rounded-2xl shadow-2xl w-[380px]">
                 {/* canvas  */}
-                <div ref={canvasRef} className="px-8 py-4 mx-auto" style={{ backgroundImage: `url("${postBackground}")`,backgroundSize: "cover",height:"380px",width:"380px"}}>
+                <div
+                  ref={canvasRef}
+                  className="px-8 py-4 mx-auto"
+                  style={{
+                    backgroundImage: `url("${postBackground}")`,
+                    backgroundSize: "cover",
+                    height: "380px",
+                    width: "380px",
+                  }}
+                >
                   {/* Avatar & Author */}
                   <div className="flex flex-col items-center bg-white p-3 rounded-t-lg mt-[50px] ">
                     <Avatar className="w-24 h-24 border-[5px] border-border border-white mt-[-55px] mb-1">
                       <AvatarImage
-                      //  src={reviewAvatar}
-                      src="/lovable-uploads/avatar-01.jpg"
-                        />
+                        //  src={reviewAvatar}
+                        src="/lovable-uploads/avatar-01.jpg"
+                      />
                       <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
                         {authorInitial}
                       </AvatarFallback>
@@ -349,12 +415,12 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       {authorName}
                     </h3>
                     {/* Review Text */}
-                    <p className="text-sm text-muted-foreground text-center leading-[1.5]" >
-                      {reviewContent.length > 200 ? `${reviewContent.slice(0, 200)}...` : reviewContent}
+                    <p className="text-sm text-muted-foreground text-center leading-[1.5]">
+                      {reviewContent.length > 200
+                        ? `${reviewContent.slice(0, 200)}...`
+                        : reviewContent}
                     </p>
                   </div>
-
-
 
                   {/* Rating Section */}
                   <div className="bg-gray-900 dark:bg-gray-950 rounded-b-lg py-2 px-6 mb-3">
@@ -362,10 +428,11 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-6 h-6 ${i < review.rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-600"
-                            }`}
+                          className={`w-6 h-6 ${
+                            i < review.rating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-600"
+                          }`}
                         />
                       ))}
                     </div>
@@ -377,24 +444,43 @@ const postBackground = `data:image/svg+xml;utf8,${encodeURIComponent(svgCode)}`;
                       {(() => {
                         const getPlatformIcon = (platform: string): string => {
                           const platformLower = platform.toLowerCase();
-                          
-                          if (platformLower.includes('google')) return '/lovable-uploads/social-icons/google.png';
-                          if (platformLower.includes('facebook')) return '/lovable-uploads/social-icons/facebook.png';
-                          if (platformLower.includes('yelp')) return '/lovable-uploads/social-icons/yelp.png';
-                          if (platformLower.includes('foursquare')) return '/lovable-uploads/social-icons/foursquare.png';
-                          if (platformLower.includes('airbnb') || platformLower.includes('air-bnb')) return '/lovable-uploads/social-icons/air-bnb.png';
-                          if (platformLower.includes('tripadvisor')) return '/lovable-uploads/social-icons/tripadvisor.png';
-                          if (platformLower.includes('trustpilot')) return '/lovable-uploads/social-icons/trustpilot.png';
-                          if (platformLower.includes('yellow')) return '/lovable-uploads/social-icons/yellowPage.png';
-                          if (platformLower.includes('opentable')) return '/lovable-uploads/social-icons/OpenTable.png';
-                          
-                          return '/lovable-uploads/social-icons/google.png'; // Default fallback
+
+                          if (platformLower.includes("google"))
+                            return "/lovable-uploads/social-icons/google.png";
+                          if (platformLower.includes("facebook"))
+                            return "/lovable-uploads/social-icons/facebook.png";
+                          if (platformLower.includes("yelp"))
+                            return "/lovable-uploads/social-icons/yelp.png";
+                          if (platformLower.includes("foursquare"))
+                            return "/lovable-uploads/social-icons/foursquare.png";
+                          if (
+                            platformLower.includes("airbnb") ||
+                            platformLower.includes("air-bnb")
+                          )
+                            return "/lovable-uploads/social-icons/air-bnb.png";
+                          if (platformLower.includes("tripadvisor"))
+                            return "/lovable-uploads/social-icons/tripadvisor.png";
+                          if (platformLower.includes("trustpilot"))
+                            return "/lovable-uploads/social-icons/trustpilot.png";
+                          if (platformLower.includes("yellow"))
+                            return "/lovable-uploads/social-icons/yellowPage.png";
+                          if (platformLower.includes("opentable"))
+                            return "/lovable-uploads/social-icons/OpenTable.png";
+
+                          return "/lovable-uploads/social-icons/google.png"; // Default fallback
                         };
-                        
-                        const platform = review.platform || review.channel || '';
+
+                        const platform =
+                          review.platform || review.channel || "";
                         const iconSrc = getPlatformIcon(platform);
-                        
-                        return <img src={iconSrc} alt={platform} className="w-6 h-6 object-contain" />;
+
+                        return (
+                          <img
+                            src={iconSrc}
+                            alt={platform}
+                            className="w-6 h-6 object-contain"
+                          />
+                        );
                       })()}
                     </div>
                   </div>

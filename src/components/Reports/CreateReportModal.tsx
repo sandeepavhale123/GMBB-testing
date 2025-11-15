@@ -55,7 +55,6 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const [period2Date, setPeriod2Date] = useState<DateRange | undefined>();
   const formatDateForAPI = (date: Date) => format(date, "yyyy-MM-dd");
   const ln = localStorage.getItem("i18nextLng");
-  console.log("language from create ", ln);
   // Get report availability flags
   const isCitationAvailable = reportsData?.data?.isCitation === 1;
   const isGeoAvailable = reportsData?.data?.isGeo === 1;
@@ -144,7 +143,6 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     setPeriod2Date(undefined);
   };
   const handleGenerate = async () => {
-    // console.log("generate is clicked with id", selectedListing?.id);
     if (!selectedListing?.id) return;
     if (selectedSections.length === 0) return;
 
@@ -176,7 +174,6 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     }
 
     try {
-      // console.log("report date range", dateRange);
       await createReport({
         name: reportName,
         type: reportType,

@@ -18,7 +18,6 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
 }) => {
   const { selectedListing } = useListingContext();
   const { t } = useI18nNamespace("Dashboard/trafficSourcesChart");
-  // console.log("donut values", live, failed);
   const donutChartData = [
     { name: t("livePosts"), value: live, fill: "green" },
     { name: t("failedPosts"), value: failed, fill: "red" },

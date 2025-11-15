@@ -232,7 +232,7 @@ export function GeoRankingReportForm({
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
-      console.log("Response from georanking", response);
+
       if (response.code === 200 && response.data) {
         const { lat, long } = parseLatLong(response.data.latlong);
         const business: BusinessLocationLite = {
@@ -270,7 +270,6 @@ export function GeoRankingReportForm({
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
-      console.log("response for found", response);
       if (response.code === 200 && response.data) {
         const business: BusinessLocationLite = {
           name: response.data.bname,

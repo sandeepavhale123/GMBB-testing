@@ -48,8 +48,6 @@ export const PublicMediaReport: React.FC = () => {
   }
   if (isError) return <p>{t("publicMediaReport.error.title")}</p>;
 
-  // console.log("Media Report:", mediaReport);
-
   // data from api
   const reportType = mediaReport?.data?.reportType.toLowerCase(); // 'individual' or 'compare'
   const periodOne = mediaReport?.data?.periodOne?.summary;
@@ -62,10 +60,9 @@ export const PublicMediaReport: React.FC = () => {
     .map(([key]) => key);
 
   const renderChangeIndicator = (value: string) => {
-    // console.log("change summary..", value);
     const numericValue = Number(value);
     const isPositive = numericValue >= 0;
-    // console.log("positive summary", isPositive);
+
     return (
       <div
         className={`flex items-center justify-center gap-1 text-xs ${

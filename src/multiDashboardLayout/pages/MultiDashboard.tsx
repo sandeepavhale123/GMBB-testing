@@ -110,9 +110,6 @@ export const MultiDashboard: React.FC = () => {
 
   // Initialize dashboard type from localStorage, then profile data
   useEffect(() => {
-    // console.log("Profile data loaded:", profileData);
-    // console.log("Dashboard filter type:", profileData?.dashboardFilterType);
-
     // Check localStorage first
     const localDashboardType = localStorage.getItem("dashboardType");
     if (
@@ -121,7 +118,6 @@ export const MultiDashboard: React.FC = () => {
         localDashboardType as keyof typeof DASHBOARD_TYPE_MAPPING
       ]
     ) {
-      // console.log("Using localStorage dashboard type:", localDashboardType);
       setDashboardType(localDashboardType);
       return;
     }
@@ -132,16 +128,13 @@ export const MultiDashboard: React.FC = () => {
         DASHBOARD_ID_TO_TYPE_MAPPING[
           profileData.dashboardFilterType as keyof typeof DASHBOARD_ID_TO_TYPE_MAPPING
         ];
-      // console.log("Mapped dashboard type:", savedType);
+
       if (savedType) {
         setDashboardType(savedType);
-        // console.log("Set dashboard type to:", savedType);
       } else {
-        // console.log("Invalid dashboardFilterType, falling back to default");
         setDashboardType("default");
       }
     } else if (profileData && !profileData.dashboardFilterType) {
-      // console.log("No dashboardFilterType in profile, using default");
       setDashboardType("default");
     }
   }, [profileData]);
@@ -526,7 +519,6 @@ export const MultiDashboard: React.FC = () => {
   const handleReviewFilterChange = (
     value: "0" | "1" | "2" | "3" | "4" | "5" | "6"
   ) => {
-    // console.log("Review filter changed to:", value);
     setReviewFilter(value);
     setCurrentPage(1); // Reset to first page on filter change
   };
@@ -950,7 +942,6 @@ export const MultiDashboard: React.FC = () => {
                         post={transformedPost}
                         onClonePost={(post) => {
                           // Handle clone post logic here
-                          // console.log("Clone post:", post);
                         }}
                       />
                     );

@@ -13,7 +13,7 @@ export function CheckRanking() {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/CheckRanking");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const urlProjectId = searchParams.get('projectId');
+  const urlProjectId = searchParams.get("projectId");
   const [selectedBusiness, setSelectedBusiness] =
     useState<BusinessLocationLite | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(
@@ -105,7 +105,7 @@ export function CheckRanking() {
 
     try {
       const result = await submitAddKeywords(selectedBusiness, selectedProject);
-      console.log("result of add keyword", result);
+
       if (result.success) {
         // If multiple keywords were added, navigate to project details
         if (result.keywordCount >= 1) {
@@ -132,9 +132,7 @@ export function CheckRanking() {
 
   // Placeholder functions for missing props - memoized to prevent re-renders
   const handleMarkerClick = useCallback(
-    (coordinate: string, positionId: string) => {
-      console.log("Marker clicked:", coordinate, positionId);
-    },
+    (coordinate: string, positionId: string) => {},
     []
   );
 

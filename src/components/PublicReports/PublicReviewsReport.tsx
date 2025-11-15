@@ -74,8 +74,6 @@ export const PublicReviewsReport: React.FC = () => {
   }
   if (error) return <div>{t("error")}</div>;
 
-  // console.log("Review Report:", reviewsData);
-
   // Extract visible sections from API response
   const visibleSections = Object.entries(reviewsData?.data.visibleSection || {})
     .filter(([_, value]) => value === "1")

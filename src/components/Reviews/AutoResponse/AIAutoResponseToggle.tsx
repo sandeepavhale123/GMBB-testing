@@ -12,7 +12,7 @@ import { Checkbox } from "../../ui/checkbox";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-import { Sparkles, Star, Calendar, User, Loader2 , } from "lucide-react";
+import { Sparkles, Star, Calendar, User, Loader2 } from "lucide-react";
 import {
   AutoAiSettings,
   LatestReview,
@@ -60,7 +60,6 @@ Thank you`);
 
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  // console.log("auto ai response", typeof autoAiSettings?.oldStatus);
 
   // Update state when autoAiSettings data is loaded
   useEffect(() => {
@@ -134,7 +133,6 @@ Thank you`);
     dispatch(generateAIAutoReply(payload))
       .unwrap()
       .then((generatedText) => {
-        // console.log("response of ai", generatedText);
         setAiResponse(generatedText);
         setReplyTemplate(generatedText);
         toast({

@@ -9,6 +9,5 @@ export const useAxiosAuth = () => {
     // Always set auth helpers, even if no token initially
     // This ensures logout and refresh functions are always available
     setAuthHelpers(() => accessToken, logout, refreshAccessToken);
-    // console.log("🔧 Auth helpers set in axios instance");
   }, [accessToken, logout, refreshAccessToken]);
 };

@@ -22,13 +22,10 @@ const GoogleAuthHandler = () => {
   const urlParams = new URLSearchParams(location.search);
   const code = urlParams.get("code");
 
-  // console.log("GoogleAuthHandler: Processing code", code);
-
   useEffect(() => {
     // Prevent duplicate processing globally and in this component instance
     if (!code || hasProcessed.current || isProcessing || isProcessingGlobally) {
       if (!code) {
-        // console.log("GoogleAuthHandler: No code found, redirecting");
         navigate("/main-dashboard/settings/google-account", { replace: true });
       }
       return;
@@ -40,8 +37,6 @@ const GoogleAuthHandler = () => {
 
     const handleGoogleCallback = async () => {
       try {
-        // console.log("GoogleAuthHandler: Starting authentication process");
-
         const localAccessToken = localStorage.getItem("access_token");
         if (!localAccessToken) {
           throw new Error(t("googleAuthHandler.errors.noAccessToken"));
@@ -60,7 +55,6 @@ const GoogleAuthHandler = () => {
         );
 
         const responseData = await response.json();
-        // console.log("GoogleAuthHandler: API response", responseData);
 
         if (!response.ok) {
           const message =
@@ -72,7 +66,6 @@ const GoogleAuthHandler = () => {
 
         // Extract accountId from the nested data structure
         const accountId = responseData.data?.accountId;
-        // console.log("GoogleAuthHandler: Received accountId", accountId);
 
         if (!accountId) {
           throw new Error("No account ID received from Google authentication");

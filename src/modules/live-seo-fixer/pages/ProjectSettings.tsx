@@ -1,23 +1,45 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Save, ArrowLeft, AlertTriangle, Trash2, Globe, Shield, CheckCircle, Copy, ExternalLink } from 'lucide-react';
-import { Project } from '../types/Project';
-import { useToast } from '@/hooks/use-toast';
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import {
+  Save,
+  ArrowLeft,
+  AlertTriangle,
+  Trash2,
+  Globe,
+  Shield,
+  CheckCircle,
+  Copy,
+  ExternalLink,
+} from "lucide-react";
+import { Project } from "../types/Project";
+import { useToast } from "@/hooks/use-toast";
 import {
   generateWordPressApiKey,
   testWordPressConnection,
   connectWordPress,
   disconnectWordPress,
-} from '@/services/liveSeoFixer/wordpressService';
-import { getProjectDetails } from '@/services/liveSeoFixer/projectService';
+} from "@/services/liveSeoFixer/wordpressService";
+import { getProjectDetails } from "@/services/liveSeoFixer/projectService";
 
 export const ProjectSettings: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -26,10 +48,10 @@ export const ProjectSettings: React.FC = () => {
   const [project, setProject] = React.useState<any>(null);
   const [isLoadingProject, setIsLoadingProject] = React.useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
-  
+
   // WordPress integration state
-  const [wordpressUrl, setWordpressUrl] = React.useState('');
-  const [apiKey, setApiKey] = React.useState('');
+  const [wordpressUrl, setWordpressUrl] = React.useState("");
+  const [apiKey, setApiKey] = React.useState("");
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [isGeneratingKey, setIsGeneratingKey] = React.useState(false);
 
@@ -37,21 +59,21 @@ export const ProjectSettings: React.FC = () => {
   React.useEffect(() => {
     const fetchProjectData = async () => {
       if (!projectId) return;
-      
+
       setIsLoadingProject(true);
       try {
         const response = await getProjectDetails(projectId);
         const projectData = response.data;
-        
+
         setProject(projectData);
-        
+
         // Handle WordPress connection data
         const wpConn = projectData.wordpress_connection;
         if (wpConn) {
           if (wpConn.connected && wpConn.wordpress_url) {
             setWordpressUrl(wpConn.wordpress_url);
           }
-          
+
           // Auto-generate API key if not present
           if (!wpConn.api_key) {
             handleGenerateApiKey();
@@ -60,7 +82,7 @@ export const ProjectSettings: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error('Failed to fetch project:', error);
+        console.error("Failed to fetch project:", error);
         toast({
           title: "Error",
           description: "Failed to load project details",
@@ -70,21 +92,19 @@ export const ProjectSettings: React.FC = () => {
         setIsLoadingProject(false);
       }
     };
-    
+
     fetchProjectData();
   }, [projectId]);
 
   const handleSave = () => {
-    console.log('Saving project settings:', project);
     // Mock save success
-    alert('Project settings saved successfully!');
+    alert("Project settings saved successfully!");
   };
 
   const handleDelete = () => {
     if (showDeleteConfirm) {
-      console.log('Deleting project:', projectId);
       // Mock delete
-      navigate('/module/live-seo-fixer/dashboard');
+      navigate("/module/live-seo-fixer/dashboard");
     } else {
       setShowDeleteConfirm(true);
       setTimeout(() => setShowDeleteConfirm(false), 5000);
@@ -93,7 +113,7 @@ export const ProjectSettings: React.FC = () => {
 
   const handleGenerateApiKey = async () => {
     if (!projectId) return;
-    
+
     setIsGeneratingKey(true);
     try {
       const response = await generateWordPressApiKey(projectId);
@@ -105,7 +125,8 @@ export const ProjectSettings: React.FC = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to generate API key.",
+        description:
+          error.response?.data?.message || "Failed to generate API key.",
         variant: "destructive",
       });
     } finally {
@@ -123,15 +144,19 @@ export const ProjectSettings: React.FC = () => {
 
   const handleTestConnection = async () => {
     if (!projectId || !wordpressUrl || !apiKey) return;
-    
+
     setIsConnecting(true);
     try {
-      const testResponse = await testWordPressConnection(projectId, wordpressUrl, apiKey);
-      
+      const testResponse = await testWordPressConnection(
+        projectId,
+        wordpressUrl,
+        apiKey
+      );
+
       // If test succeeds, save the connection
       await connectWordPress(projectId, wordpressUrl, apiKey);
-      
-      setProject(prev => ({
+
+      setProject((prev) => ({
         ...prev,
         wordpress_connection: {
           connected: true,
@@ -139,11 +164,11 @@ export const ProjectSettings: React.FC = () => {
           wordpress_url: wordpressUrl,
           last_sync: null,
           total_fixes_synced: 0,
-          sync_status: 'success' as const,
+          sync_status: "success" as const,
           errors: [],
         },
       }));
-      
+
       toast({
         title: "WordPress Connected",
         description: `Successfully connected to ${testResponse.site_name}`,
@@ -151,7 +176,9 @@ export const ProjectSettings: React.FC = () => {
     } catch (error: any) {
       toast({
         title: "Connection Failed",
-        description: error.response?.data?.message || "Failed to connect to WordPress. Please check your URL and API key.",
+        description:
+          error.response?.data?.message ||
+          "Failed to connect to WordPress. Please check your URL and API key.",
         variant: "destructive",
       });
     } finally {
@@ -161,10 +188,10 @@ export const ProjectSettings: React.FC = () => {
 
   const handleDisconnect = async () => {
     if (!projectId) return;
-    
+
     // Get API key from project data or local state
     const keyToUse = project?.wordpress_connection?.api_key || apiKey;
-    
+
     if (!keyToUse) {
       toast({
         title: "Error",
@@ -173,11 +200,11 @@ export const ProjectSettings: React.FC = () => {
       });
       return;
     }
-    
+
     try {
       await disconnectWordPress(projectId, keyToUse);
-      
-      setProject(prev => ({
+
+      setProject((prev) => ({
         ...prev,
         wordpress_connection: {
           connected: false,
@@ -189,32 +216,34 @@ export const ProjectSettings: React.FC = () => {
           errors: [],
         },
       }));
-      
-      setWordpressUrl('');
-      
+
+      setWordpressUrl("");
+
       toast({
         title: "WordPress Disconnected",
-        description: "Your WordPress connection has been removed. You can use the same API key to reconnect.",
+        description:
+          "Your WordPress connection has been removed. You can use the same API key to reconnect.",
       });
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to disconnect WordPress.",
+        description:
+          error.response?.data?.message || "Failed to disconnect WordPress.",
         variant: "destructive",
       });
     }
   };
 
-  const getStatusColor = (status: Project['status']) => {
+  const getStatusColor = (status: Project["status"]) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'paused':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'completed':
-        return 'bg-blue-100 text-blue-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "paused":
+        return "bg-yellow-100 text-yellow-800";
+      case "completed":
+        return "bg-blue-100 text-blue-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -232,13 +261,21 @@ export const ProjectSettings: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={() => navigate(`/module/live-seo-fixer/projects/${projectId}`)}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            navigate(`/module/live-seo-fixer/projects/${projectId}`)
+          }
+        >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Project
         </Button>
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight">Project Settings</h1>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Project Settings
+            </h1>
             <Badge className={`${getStatusColor(project.status)} capitalize`}>
               {project.status}
             </Badge>
@@ -265,7 +302,9 @@ export const ProjectSettings: React.FC = () => {
               <Input
                 id="name"
                 value={project.name}
-                onChange={(e) => setProject(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setProject((prev) => ({ ...prev, name: e.target.value }))
+                }
               />
             </div>
             <div className="space-y-2">
@@ -273,7 +312,9 @@ export const ProjectSettings: React.FC = () => {
               <Input
                 id="website"
                 value={project.website}
-                onChange={(e) => setProject(prev => ({ ...prev, website: e.target.value }))}
+                onChange={(e) =>
+                  setProject((prev) => ({ ...prev, website: e.target.value }))
+                }
               />
             </div>
           </div>
@@ -283,8 +324,10 @@ export const ProjectSettings: React.FC = () => {
               <Label htmlFor="address">Address (Optional)</Label>
               <Input
                 id="address"
-                value={project.address || ''}
-                onChange={(e) => setProject(prev => ({ ...prev, address: e.target.value }))}
+                value={project.address || ""}
+                onChange={(e) =>
+                  setProject((prev) => ({ ...prev, address: e.target.value }))
+                }
                 placeholder="123 Main St, City, State 12345"
               />
             </div>
@@ -292,8 +335,10 @@ export const ProjectSettings: React.FC = () => {
               <Label htmlFor="phone">Phone (Optional)</Label>
               <Input
                 id="phone"
-                value={project.phone || ''}
-                onChange={(e) => setProject(prev => ({ ...prev, phone: e.target.value }))}
+                value={project.phone || ""}
+                onChange={(e) =>
+                  setProject((prev) => ({ ...prev, phone: e.target.value }))
+                }
                 placeholder="+1 (555) 123-4567"
               />
             </div>
@@ -303,8 +348,10 @@ export const ProjectSettings: React.FC = () => {
             <Label htmlFor="description">Description (Optional)</Label>
             <Textarea
               id="description"
-              value={project.description || ''}
-              onChange={(e) => setProject(prev => ({ ...prev, description: e.target.value }))}
+              value={project.description || ""}
+              onChange={(e) =>
+                setProject((prev) => ({ ...prev, description: e.target.value }))
+              }
               placeholder="Brief description of your website..."
               className="min-h-20"
             />
@@ -314,8 +361,8 @@ export const ProjectSettings: React.FC = () => {
             <Label htmlFor="status">Project Status</Label>
             <Select
               value={project.status}
-              onValueChange={(value: Project['status']) =>
-                setProject(prev => ({ ...prev, status: value }))
+              onValueChange={(value: Project["status"]) =>
+                setProject((prev) => ({ ...prev, status: value }))
               }
             >
               <SelectTrigger>
@@ -348,7 +395,7 @@ export const ProjectSettings: React.FC = () => {
             <Select
               value={project.auditFrequency}
               onValueChange={(value) =>
-                setProject(prev => ({ ...prev, auditFrequency: value }))
+                setProject((prev) => ({ ...prev, auditFrequency: value }))
               }
             >
               <SelectTrigger>
@@ -376,7 +423,7 @@ export const ProjectSettings: React.FC = () => {
             <Switch
               checked={project.autoFix}
               onCheckedChange={(checked) =>
-                setProject(prev => ({ ...prev, autoFix: checked }))
+                setProject((prev) => ({ ...prev, autoFix: checked }))
               }
             />
           </div>
@@ -391,7 +438,7 @@ export const ProjectSettings: React.FC = () => {
             <Switch
               checked={project.notifications}
               onCheckedChange={(checked) =>
-                setProject(prev => ({ ...prev, notifications: checked }))
+                setProject((prev) => ({ ...prev, notifications: checked }))
               }
             />
           </div>
@@ -406,7 +453,8 @@ export const ProjectSettings: React.FC = () => {
             WordPress Integration
           </CardTitle>
           <CardDescription>
-            Connect your WordPress site to apply SEO fixes server-side for better performance and reliability
+            Connect your WordPress site to apply SEO fixes server-side for
+            better performance and reliability
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -421,47 +469,60 @@ export const ProjectSettings: React.FC = () => {
                   onChange={(e) => setWordpressUrl(e.target.value)}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label>Setup Instructions</Label>
                 <ol className="text-sm text-muted-foreground list-decimal list-inside space-y-1 bg-muted p-4 rounded-md">
-                  <li>Install the "SEO Fixer Connector" plugin on your WordPress site</li>
-                  <li>Click "Generate API Key" below to create a secure connection key</li>
-                  <li>Copy the API key and paste it in your WordPress plugin settings</li>
+                  <li>
+                    Install the "SEO Fixer Connector" plugin on your WordPress
+                    site
+                  </li>
+                  <li>
+                    Click "Generate API Key" below to create a secure connection
+                    key
+                  </li>
+                  <li>
+                    Copy the API key and paste it in your WordPress plugin
+                    settings
+                  </li>
                   <li>Click "Test & Connect" to verify the connection</li>
                 </ol>
               </div>
-              
+
               <div className="space-y-2">
                 <Label>API Key</Label>
                 <div className="flex gap-2">
-                  <Button 
+                  <Button
                     onClick={handleGenerateApiKey}
                     disabled={isGeneratingKey}
                   >
-                    {isGeneratingKey ? 'Generating...' : 'Generate API Key'}
+                    {isGeneratingKey ? "Generating..." : "Generate API Key"}
                   </Button>
                   {apiKey && (
                     <>
-                      <Input 
-                        value={apiKey} 
-                        readOnly 
+                      <Input
+                        value={apiKey}
+                        readOnly
                         className="font-mono text-sm flex-1"
                       />
-                      <Button variant="outline" size="icon" onClick={handleCopyApiKey}>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleCopyApiKey}
+                      >
                         <Copy className="h-4 w-4" />
                       </Button>
                     </>
                   )}
                 </div>
               </div>
-              
-              <Button 
-                onClick={handleTestConnection} 
+
+              <Button
+                onClick={handleTestConnection}
                 disabled={!wordpressUrl || !apiKey || isConnecting}
                 className="w-full"
               >
-                {isConnecting ? 'Connecting...' : 'Test & Connect'}
+                {isConnecting ? "Connecting..." : "Test & Connect"}
               </Button>
             </>
           ) : (
@@ -469,48 +530,58 @@ export const ProjectSettings: React.FC = () => {
               <div className="flex items-center gap-2 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="font-medium text-green-900">Connected to WordPress</p>
-                  <p className="text-sm text-green-700">{project.wordpress_connection.wordpress_url}</p>
+                  <p className="font-medium text-green-900">
+                    Connected to WordPress
+                  </p>
+                  <p className="text-sm text-green-700">
+                    {project.wordpress_connection.wordpress_url}
+                  </p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-3 gap-4 p-4 bg-muted rounded-lg">
                 <div>
                   <p className="text-sm text-muted-foreground">Last Sync</p>
                   <p className="font-medium">
-                    {project.wordpress_connection.last_sync 
-                      ? new Date(project.wordpress_connection.last_sync).toLocaleString()
-                      : 'Never'}
+                    {project.wordpress_connection.last_sync
+                      ? new Date(
+                          project.wordpress_connection.last_sync
+                        ).toLocaleString()
+                      : "Never"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Fixes Synced</p>
-                  <p className="font-medium">{project.wordpress_connection.total_fixes_synced || 0}</p>
+                  <p className="font-medium">
+                    {project.wordpress_connection.total_fixes_synced || 0}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Status</p>
-                  <Badge 
+                  <Badge
                     className={
-                      project.wordpress_connection.sync_status === 'success'
-                        ? 'bg-green-100 text-green-800'
-                        : project.wordpress_connection.sync_status === 'error'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-yellow-100 text-yellow-800'
+                      project.wordpress_connection.sync_status === "success"
+                        ? "bg-green-100 text-green-800"
+                        : project.wordpress_connection.sync_status === "error"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-yellow-100 text-yellow-800"
                     }
                   >
-                    {project.wordpress_connection.sync_status || 'pending'}
+                    {project.wordpress_connection.sync_status || "pending"}
                   </Badge>
                 </div>
               </div>
-              
+
               <div className="p-4 border border-blue-200 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-900">
-                  <strong>Server-side rendering:</strong> Your approved fixes will be automatically synced to WordPress and applied before pages are sent to browsers and crawlers.
+                  <strong>Server-side rendering:</strong> Your approved fixes
+                  will be automatically synced to WordPress and applied before
+                  pages are sent to browsers and crawlers.
                 </p>
               </div>
-              
-              <Button 
-                variant="destructive" 
+
+              <Button
+                variant="destructive"
                 onClick={handleDisconnect}
                 className="w-full"
               >
@@ -537,7 +608,8 @@ export const ProjectSettings: React.FC = () => {
             <div>
               <h4 className="font-medium text-red-900">Delete Project</h4>
               <p className="text-sm text-red-700">
-                Once you delete a project, there is no going back. All data, audits, and fixes will be permanently removed.
+                Once you delete a project, there is no going back. All data,
+                audits, and fixes will be permanently removed.
               </p>
             </div>
             <Button
@@ -546,12 +618,13 @@ export const ProjectSettings: React.FC = () => {
               className="ml-4"
             >
               <Trash2 className="h-4 w-4 mr-2" />
-              {showDeleteConfirm ? 'Confirm Delete' : 'Delete Project'}
+              {showDeleteConfirm ? "Confirm Delete" : "Delete Project"}
             </Button>
           </div>
           {showDeleteConfirm && (
             <p className="text-sm text-red-600 mt-2 font-medium">
-              Click "Confirm Delete" again within 5 seconds to permanently delete this project.
+              Click "Confirm Delete" again within 5 seconds to permanently
+              delete this project.
             </p>
           )}
         </CardContent>

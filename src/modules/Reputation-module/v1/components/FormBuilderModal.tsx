@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormField, FieldType } from "../../types/formBuilder.types";
 import { Plus, Trash2, GripVertical } from "lucide-react";
@@ -35,9 +23,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   fields: initialFields,
   onSave,
 }) => {
-  const { t } = useI18nNamespace(
-    "Reputation-module-v1-components/FormBuilderModal"
-  );
+  const { t } = useI18nNamespace("Reputation-module-v1-components/FormBuilderModal");
 
   const fieldTypeOptions: { value: FieldType; label: string }[] = [
     { value: "text", label: t("fieldTypes.text") },
@@ -57,8 +43,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   const [dragOverFieldId, setDragOverFieldId] = useState<string | null>(null);
 
   const isOptionsField = (f?: FormField) =>
-    !!f &&
-    (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
+    !!f && (f.type === "select" || f.type === "radio" || f.type === "checkbox-group");
 
   // Sync fields when modal opens
   useEffect(() => {
@@ -83,11 +68,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   };
 
   const updateField = (id: string, updates: Partial<FormField>) => {
-    setFields(
-      fields.map((field) =>
-        field.id === id ? { ...field, ...updates } : field
-      )
-    );
+    setFields(fields.map((field) => (field.id === id ? { ...field, ...updates } : field)));
   };
 
   const removeField = (id: string) => {
@@ -158,9 +139,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
   // Keep textarea content in sync when switching fields or opening
   useEffect(() => {
     if (isOptionsField(selectedField)) {
-      setOptionsText(
-        selectedField?.options?.map((o) => o.label).join("\n") ?? ""
-      );
+      setOptionsText(selectedField?.options?.map((o) => o.label).join("\n") ?? "");
     } else {
       setOptionsText("");
     }
@@ -196,14 +175,9 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                     onDrop={(e) => handleDrop(e, field.id)}
                     onDragEnd={handleDragEnd}
                     className={`flex items-center gap-2 p-3 border rounded-lg cursor-move transition-all ${
-                      editingField === field.id
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:bg-muted/50"
-                    } ${
-                      draggedFieldId === field.id ? "opacity-50 scale-95" : ""
-                    } ${
-                      dragOverFieldId === field.id &&
-                      draggedFieldId !== field.id
+                      editingField === field.id ? "border-primary bg-primary/5" : "border-border hover:bg-muted/50"
+                    } ${draggedFieldId === field.id ? "opacity-50 scale-95" : ""} ${
+                      dragOverFieldId === field.id && draggedFieldId !== field.id
                         ? "border-primary border-2 bg-primary/10"
                         : ""
                     }`}
@@ -217,9 +191,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                   >
                     <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 cursor-grab active:cursor-grabbing" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
-                        {field.label}
-                      </p>
+                      <p className="text-sm font-medium truncate">{field.label}</p>
                       <p className="text-xs text-muted-foreground">
                         {field.type} {field.required && "• Required"}
                       </p>
@@ -233,11 +205,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       }}
                       className="flex-shrink-0"
                       disabled={field.name === "name" || field.type === "email"}
-                      title={
-                        field.name === "name" || field.type === "email"
-                          ? t("cannotRemove")
-                          : t("removeField")
-                      }
+                      title={field.name === "name" || field.type === "email" ? t("cannotRemove") : t("removeField")}
                     >
                       <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
@@ -264,18 +232,45 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                         value={selectedField.label}
                         onChange={(e) => {
                           const label = e.target.value;
-                          const generatedName = label.replace(/\s+/g, "_");
-                          updateField(selectedField.id, {
-                            label,
-                            name: generatedName,
-                          });
+                          const isProtectedField = selectedField.name === "name" || selectedField.name === "email";
+
+                          if (isProtectedField) {
+                            // For Name/Email fields: Only update label
+                            updateField(selectedField.id, { label });
+                          } else {
+                            // For other fields: Update both label and name
+                            let generatedName = label.replace(/\s+/g, "_");
+
+                            // Add underscore if generated name conflicts with built-in fields
+                            const lowerName = generatedName.toLowerCase();
+                            if (lowerName === "name" || lowerName === "email") {
+                              generatedName = generatedName + "_";
+                            }
+
+                            // Check for duplicate field names and make unique
+                            const existingFieldNames = fields
+                              .filter((f) => f.id !== selectedField.id) // Exclude current field
+                              .map((f) => f.name.toLowerCase());
+
+                            let finalName = generatedName;
+                            let counter = 1;
+                            while (existingFieldNames.includes(finalName.toLowerCase())) {
+                              finalName = `${generatedName}_${counter}`;
+                              counter++;
+                            }
+
+                            updateField(selectedField.id, {
+                              label,
+                              name: finalName,
+                            });
+                          }
                         }}
                         placeholder={t("fieldlabel")}
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="field-name" className="text-xs">
+                    <div className="space-y-2 hidden">
+                      <Label htmlFor="field-name" className="text-xs ">
                         {t("fieldName")}
                       </Label>
                       <Input
@@ -287,6 +282,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                           })
                         }
                         placeholder={t("fieldPlace")}
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       />
                     </div>
 
@@ -296,11 +292,13 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                       </Label>
                       <Select
                         value={selectedField.type}
-                        onValueChange={(value: FieldType) =>
-                          updateField(selectedField.id, { type: value })
-                        }
+                        onValueChange={(value: FieldType) => updateField(selectedField.id, { type: value })}
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       >
-                        <SelectTrigger id="field-type">
+                        <SelectTrigger
+                          id="field-type"
+                          disabled={selectedField.name === "name" || selectedField.name === "email"}
+                        >
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -338,10 +336,15 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                             required: checked === true,
                           })
                         }
+                        disabled={selectedField.name === "name" || selectedField.name === "email"}
                       />
                       <Label
                         htmlFor="field-required"
-                        className="text-xs cursor-pointer"
+                        className={`text-xs cursor-pointer ${
+                          selectedField.name === "name" || selectedField.name === "email"
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
                       >
                         {t("requiredField")}
                       </Label>
@@ -371,16 +374,14 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
                           placeholder={t("enterOptions")}
                           className="min-h-[100px]"
                         />
-                        <p className="text-xs text-muted-foreground">
-                          {t("enterOptions")}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{t("enterOptions")}</p>
                       </div>
                     )}
                   </div>
                 </div>
               </ScrollArea>
             ) : (
-              <div className="h-[440px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+              <div className="h-[440px] border rounded-lg flex items-center justify-center text-sm text-muted-foreground text-center px-6">
                 {t("selectFieldToEdit")}
               </div>
             )}
@@ -388,11 +389,7 @@ export const FormBuilderModal: React.FC<FormBuilderModalProps> = ({
         </div>
 
         <DialogFooter className="flex-col sm:flex-row gap-2">
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            className="w-full sm:w-auto"
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="w-full sm:w-auto">
             {t("cancel")}
           </Button>
           <Button onClick={handleSave} className="w-full sm:w-auto">

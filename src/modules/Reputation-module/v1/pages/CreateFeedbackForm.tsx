@@ -159,6 +159,7 @@ export const CreateFeedbackForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formName, setFormName] = useState("");
   const [formNameError, setFormNameError] = useState("");
+  const [logoError, setLogoError] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [title, setTitle] = useState("How was your experience with us?");
   const [subtitle, setSubtitle] = useState(
@@ -183,27 +184,27 @@ export const CreateFeedbackForm: React.FC = () => {
     {
       id: "field-name",
       type: "text",
-      label: t("formField.label1"),
+      label: "Name",
       name: "name",
-      placeholder: t("formField.place1"),
+      placeholder: "Enter your name",
       required: true,
       order: 0,
     },
     {
       id: "field-email",
       type: "email",
-      label: t("formField.label2"),
+      label: "Email",
       name: "email",
-      placeholder: t("formField.place2"),
+      placeholder: "Enter your email",
       required: true,
       order: 1,
     },
     {
       id: "field-comment",
       type: "textarea",
-      label: t("formField.label3"),
+      label: "Comment",
       name: "comment",
-      placeholder: t("formField.place3"),
+      placeholder: "Enter your comment",
       required: true,
       order: 2,
     },
@@ -247,16 +248,6 @@ export const CreateFeedbackForm: React.FC = () => {
         setLogo(data.logo);
         // Note: logoFile remains null since we're not re-uploading
       }
-
-      // Debug logging
-      console.log("Edit Form Data Loaded:", {
-        formId,
-        formFieldsType: typeof data.formFields,
-        formFieldsIsArray: Array.isArray(data.formFields),
-        parsedFieldsLength: parsedFields.length,
-        reviewSiteUrlsType: typeof data.reviewSiteUrls,
-        parsedUrlsKeys: Object.keys(parsedUrls),
-      });
     }
   }, [isEditMode, existingFormData, formId]);
 
@@ -264,6 +255,10 @@ export const CreateFeedbackForm: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       setLogoFile(file);
+      // Clear logo error when user uploads
+      if (logoError) {
+        setLogoError("");
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogo(reader.result as string);
@@ -294,10 +289,21 @@ export const CreateFeedbackForm: React.FC = () => {
   };
 
   const handleNext = () => {
-    // Step 1 validation: Form name is required
+    // Step 1 validation: Form name and logo are required
     if (currentStep === 1) {
       if (!formName.trim()) {
         setFormNameError(t("messages.formNameRequired"));
+        return;
+      }
+      
+      // Validate logo upload
+      if (!logoFile && !logo) {
+        setLogoError(t("messages.logoRequired"));
+        // toast({
+        //   title: t("messages.validationError"),
+        //   description: t("messages.logoRequired"),
+        //   variant: "destructive",
+        // });
         return;
       }
     }
@@ -408,13 +414,17 @@ export const CreateFeedbackForm: React.FC = () => {
         });
       }
     } catch (error: any) {
+      // Extract error message from API response
+      const apiErrorMessage = error?.response?.data?.message;
+
+      // Use API error message if available, otherwise use fallback
+      const errorDescription =
+        apiErrorMessage ||
+        (isEditMode ? t("messages.updateError") : t("messages.createError"));
+
       toast({
         title: t("labels.error"),
-        description:
-          error?.response?.data?.message || isEditMode
-            ? t("messages.updateError")
-            : t("messages.createError"),
-        // `Failed to ${isEditMode ? "update" : "create"} feedback form`,
+        description: errorDescription,
         variant: "destructive",
       });
     }
@@ -504,18 +514,28 @@ export const CreateFeedbackForm: React.FC = () => {
                       htmlFor="logo-upload"
                       className="text-sm font-medium"
                     >
-                      {t("labels.logo")}
+                      {t("labels.logo")} *
                     </Label>
                     <Input
                       id="logo-upload"
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
-                      className="w-full"
+                      className={cn(
+                        "w-full",
+                        logoError &&
+                          "border-destructive focus-visible:ring-destructive"
+                      )}
                     />
-                    <p className="text-xs text-muted-foreground">
-                      {t("tooltips.logoInfo")}
-                    </p>
+                    {logoError ? (
+                      <p className="text-xs text-destructive">
+                        {logoError}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">
+                        {t("tooltips.logoInfo")}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -1011,7 +1031,7 @@ export const CreateFeedbackForm: React.FC = () => {
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    console.log("File selected:", file.name);
+                                    //
                                   }
                                 }}
                               />
@@ -1042,7 +1062,7 @@ export const CreateFeedbackForm: React.FC = () => {
                           )}
                         </div>
                       ))}
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 hidden">
                         <Button variant="outline" className="flex-1">
                           {t("buttons.reset")}
                         </Button>

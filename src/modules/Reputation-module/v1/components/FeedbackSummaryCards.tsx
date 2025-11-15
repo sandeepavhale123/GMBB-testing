@@ -49,7 +49,7 @@ export const FeedbackSummaryCards: React.FC<FeedbackSummaryCardsProps> = ({
         <div className="bg-popover border border-border rounded-lg shadow-lg p-3">
           <p className="font-semibold text-sm">{payload[0].name}</p>
           <p className="text-xs text-muted-foreground mt-1">
-            {payload[0].value}% ({payload[0].payload.count} responses)
+            {payload[0].value}% ({payload[0].payload.count} {t("responses")})
           </p>
         </div>
       );

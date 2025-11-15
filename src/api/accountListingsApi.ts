@@ -52,7 +52,7 @@ export interface AccountListingResponse {
   };
 }
 
-export const accountListingsApi = { 
+export const accountListingsApi = {
   getAccountListings: async (
     params: AccountListingRequest
   ): Promise<AccountListingResponse> => {
@@ -61,7 +61,6 @@ export const accountListingsApi = {
       method: "POST",
       data: params,
     });
-    console.log("listing data", response.data);
     return response.data;
   },
 };

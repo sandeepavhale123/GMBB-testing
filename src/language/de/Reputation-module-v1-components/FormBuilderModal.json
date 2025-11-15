@@ -1,0 +1,33 @@
+{
+  "title": "Formular-Builder",
+  "formFields": "Formularfelder",
+  "addField": "Feld hinzufügen",
+  "editField": "Feld bearbeiten",
+  "newField": "Neues Feld",
+  "label": "Beschriftung *",
+  "fieldName": "Feldname *",
+  "fieldType": "Feldtyp *",
+  "fieldlabel": "Feldbeschriftung",
+  "placeholder": "Platzhalter",
+  "plText": "Platzhaltertext",
+  "fieldPlace": "feld_name",
+  "requiredField": "Pflichtfeld",
+  "options": "Optionen",
+  "enterOptions": "Geben Sie eine Option pro Zeile ein",
+  "selectFieldToEdit": "Wählen Sie ein Feld zum Bearbeiten oder fügen Sie ein neues Feld hinzu",
+  "cancel": "Abbrechen",
+  "saveChanges": "Änderungen speichern",
+  "cannotRemove": "Dieses Feld kann nicht entfernt werden",
+  "removeField": "Feld entfernen",
+  "requiredDot": "• Erforderlich",
+  "fieldTypes": {
+    "text": "Text",
+    "email": "E-Mail",
+    "textarea": "Textbereich",
+    "number": "Nummer",
+    "date": "Datum",
+    "select": "Auswahl",
+    "radio": "Radio",
+    "checkboxGroup": "Kontrollkästchen-Gruppe"
+  }
+}

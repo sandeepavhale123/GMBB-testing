@@ -5,7 +5,7 @@ interface MainBodyProps {
 export const MainBody: React.FC<MainBodyProps> = ({ children }) => {
   const lang = localStorage.getItem("i18nextLng");
   const isLargePadding = lang === "es" || lang === "fr";
-  console.log("lang", lang);
+
   return (
     <main
       className={`flex-1 min-h-[90vh] w-full bg-background pb-[100px] md:pb-[100px] lg:pb-[100px] 

@@ -159,7 +159,6 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               type="text"
               value={groupName}
               onChange={(e) => {
-                // console.log("Group name input changed:", e.target.value);
                 setGroupName(e.target.value);
               }}
               placeholder={t("form.groupNamePlaceholder")}

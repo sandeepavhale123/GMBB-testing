@@ -1,0 +1,103 @@
+{
+  "title": {
+    "create": "Crear formulario de comentarios",
+    "edit": "Editar formulario de comentarios",
+    "step1": "Detalles del formulario de comentarios",
+    "step2": "Opciones de personalización",
+    "step3": "Redirección tras feedback positivo",
+    "step4": "Mensaje de éxito"
+  },
+  "labels": {
+    "formName": "Nombre del formulario",
+    "logo": "Logo",
+    "feedback": "Formulario de comentarios",
+    "title": "Título",
+    "subtitle": "Subtítulo",
+    "success": "¡Éxito!",
+    "positiveFeedbackTitle": "Título de feedback positivo",
+    "successTitle": "Título de éxito",
+    "successSubtitle": "Subtítulo de éxito",
+    "positiveRatingThreshold": "Umbral de feedback positivo",
+    "reviewSites": "Sitios de reseñas",
+    "step": "Paso {{currentStep}} de 4",
+    "formTitle": "Título del formulario",
+    "formSubtitle": "Subtítulo del formulario",
+    "error": "Error",
+    "invalid": "URLs inválidas"
+  },
+  "placeholders": {
+    "formName": "p. ej., Formulario de comentarios del restaurante",
+    "url": "https://ejemplo.com/review",
+    "title": "Ingrese el título",
+    "subtitle": "Ingrese el subtítulo",
+    "successTitle": "Ingrese el título del mensaje de éxito",
+    "successSubtitle": "Ingrese el subtítulo del mensaje de éxito",
+    "positiveTitle": "Ingrese el título del feedback positivo",
+    "option": "Seleccione una opción",
+    "rating": "Seleccione el umbral de valoración",
+    "postitve": "Ingrese el título del feedback positivo..."
+  },
+  "messages": {
+    "loading": "Cargando datos del formulario...",
+    "editing": "Editando formulario existente",
+    "validationError": "Error de validación",
+    "formNameRequired": "El nombre del formulario es obligatorio",
+    "logoRequired": "El logotipo es obligatorio",
+    "validUrlRequired": "Se requiere al menos una URL de sitio de reseñas",
+    "validMessage": "Por favor, ingrese un nombre de formulario",
+    "invalidUrls": "Corrija las URLs inválidas antes de continuar",
+    "invalidUrlFormat": "Ingrese una URL válida (p. ej., https://ejemplo.com)",
+    "saved": "Formulario de comentarios creado con éxito",
+    "updated": "Formulario de comentarios actualizado con éxito",
+    "saveError": "Error al guardar el formulario de comentarios",
+    "updateError": "Error al actualizar el formulario de comentarios",
+    "createError": "Error al crear el formulario de comentarios",
+    "accept": "Aceptado: {{field}}",
+    "review": "Revise y ajuste los elementos de marca de su formulario"
+  },
+  "buttons": {
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "save": "Guardar",
+    "update": "Actualizar formulario",
+    "saving": "Guardando...",
+    "updating": "Actualizando...",
+    "edit": "Editar",
+    "reset": "Restablecer formulario",
+    "submit": "Enviar comentarios"
+  },
+  "tooltips": {
+    "formNameInfo": "Este nombre es solo para su referencia interna",
+    "logoInfo": "Obligatorio - Sube el logotipo de tu empresa",
+    "ratingInfo": "Elija la valoración mínima que considere feedback positivo",
+    "reviewSiteInfo": "Ingrese las URLs de reseñas donde los clientes pueden dejar su feedback. Solo se mostrarán URLs válidas.",
+    "uploadInfo": "Haga clic para subir o arrastre y suelte",
+    "imgalt": "Logo de {{site}}",
+    "review": "Reseña en {{name}}"
+  },
+  "preview": {
+    "header": "Vista previa",
+    "logoPlaceholder": "LOGO",
+    "logoalt": "Vista previa del logo"
+  },
+  "formField": {
+    "label1": "Nombre",
+    "place1": "Ingrese su nombre",
+    "label2": "Correo electrónico",
+    "place2": "Ingrese su correo electrónico",
+    "label3": "Comentario",
+    "place3": "Ingrese su comentario"
+  },
+  "state": {
+    "successSubtitle": "Agradecemos que se tome el tiempo de compartir sus opiniones. Su feedback nos ayuda a mejorar nuestro servicio.",
+    "successTitle": "¡Gracias por su feedback!",
+    "positiveFeedbackTitle": "¡Nos encantaría saber de usted! Comparta su experiencia dejando una reseña.",
+    "subtitle": "Valoramos su feedback y nos encantaría saber de usted.",
+    "title": "¿Cómo fue su experiencia con nosotros?"
+  },
+  "rating": {
+    "lab1": "3 estrellas o más",
+    "lab2": "4 estrellas o más",
+    "lab3": "Solo 5 estrellas"
+  }
+}

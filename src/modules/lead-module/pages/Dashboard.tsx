@@ -172,7 +172,6 @@ const Dashboard: React.FC = () => {
     refetchSummary();
   };
   const handleAction = (action: string, leadId: string) => {
-    console.log(`Action: ${action} for lead: ${leadId}`);
     if (action === "generate-gmb-health") {
       // Find the lead to get its reportId
       const lead = leads.find((l) => l.id === leadId);

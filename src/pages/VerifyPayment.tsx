@@ -29,13 +29,6 @@ export const VerifyPayment: React.FC = () => {
       window.history.replaceState({}, document.title, "/verify-payment");
 
       try {
-        // console.log(
-        //   "Verifying payment with sessionId:",
-        //   sessionId,
-        //   "and u:",
-        //   u
-        // );
-
         const response = await axiosInstance.post(
           `${import.meta.env.VITE_BASE_URL}/verify-subscription`,
           {
@@ -43,8 +36,6 @@ export const VerifyPayment: React.FC = () => {
             clientId: u,
           }
         );
-
-        // console.log("Verification response:", response.data);
 
         if (response.data && response.status === 200) {
           setStatus("success");
@@ -67,7 +58,6 @@ export const VerifyPayment: React.FC = () => {
   };
 
   const handleContinue = () => {
-    // console.log("clicking on continue");
     navigate("/location-dashboard/default");
   };
 

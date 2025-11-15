@@ -76,7 +76,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       });
 
       const data = await response.json();
-      // console.log("response from api", data);
+
       if (!response.ok) {
         toast({
           title: t("errorFoundTitle"),

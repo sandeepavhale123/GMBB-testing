@@ -140,18 +140,6 @@ export interface MediaStatsResponse {
 export const uploadMedia = async (
   data: MediaUploadData
 ): Promise<MediaUploadResponse> => {
-  // console.log('uploadMedia called with:', {
-  //   fileName: data.file?.name,
-  //   fileSize: data.file?.size,
-  //   fileType: data.file?.type,
-  //   title: data.title,
-  //   category: data.category,
-  //   publishOption: data.publishOption,
-  //   listingId: data.listingId,
-  //   selectedImage: data.selectedImage,
-  //   aiImageUrl: data.aiImageUrl
-  // });
-
   const formData = new FormData();
 
   // Add the file only for local uploads
@@ -188,14 +176,11 @@ export const uploadMedia = async (
   }
 
   // Log FormData contents
-  // console.log("FormData contents:");
   for (const [key, value] of formData.entries()) {
     if (value instanceof File) {
-      // console.log(
-      //   `${key}: File(${value.name}, ${value.size} bytes, ${value.type})`
-      // );
+      // a
     } else {
-      // console.log(`${key}: ${value}`);
+      //a
     }
   }
 
@@ -210,10 +195,8 @@ export const uploadMedia = async (
       }
     );
 
-    // console.log("Upload API response:", response.data);
     return response.data;
   } catch (error) {
-    // console.error("Upload API error:", error?.response?.data?.message);
     throw error;
   }
 };
@@ -307,9 +290,11 @@ export interface GalleryUploadResponse {
 }
 
 // Get gallery images
-export const getGalleryImages = async (params: GalleryImageRequest): Promise<GalleryImageResponse> => {
+export const getGalleryImages = async (
+  params: GalleryImageRequest
+): Promise<GalleryImageResponse> => {
   try {
-    const response = await axiosInstance.post('/get-gallery-images', params);
+    const response = await axiosInstance.post("/get-gallery-images", params);
     return response.data;
   } catch (error) {
     // console.error('Error fetching gallery images:', error);
@@ -329,27 +314,33 @@ export interface GalleryDeleteResponse {
 }
 
 // Upload media to gallery
-export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<GalleryUploadResponse> => {
+export const uploadGalleryMedia = async (
+  data: GalleryUploadRequest
+): Promise<GalleryUploadResponse> => {
   try {
     const formData = new FormData();
-    
+
     if (data.selectedImage === "local" && data.userfile) {
       formData.append("userfile", data.userfile);
     }
-    
+
     formData.append("selectedImage", data.selectedImage);
     formData.append("mediaType", data.mediaType);
-    
+
     if (data.selectedImage === "ai" && data.aiImageUrl) {
       formData.append("aiImageUrl", data.aiImageUrl);
     }
 
-    const response = await axiosInstance.post<GalleryUploadResponse>('/upload-ingallery', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    
+    const response = await axiosInstance.post<GalleryUploadResponse>(
+      "/upload-ingallery",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
     return response.data;
   } catch (error) {
     // console.error('Error uploading to gallery:', error);
@@ -358,9 +349,14 @@ export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<Ga
 };
 
 // Delete media from gallery
-export const deleteGalleryMedia = async (data: GalleryDeleteRequest): Promise<GalleryDeleteResponse> => {
+export const deleteGalleryMedia = async (
+  data: GalleryDeleteRequest
+): Promise<GalleryDeleteResponse> => {
   try {
-    const response = await axiosInstance.post<GalleryDeleteResponse>('/delete-gallery-images', data);
+    const response = await axiosInstance.post<GalleryDeleteResponse>(
+      "/delete-gallery-images",
+      data
+    );
     return response.data;
   } catch (error) {
     // console.error('Error deleting gallery media:', error);
@@ -406,9 +402,14 @@ export interface BulkMediaOverviewResponse {
 }
 
 // Get bulk media overview
-export const getBulkMediaOverview = async (params: BulkMediaOverviewRequest): Promise<BulkMediaOverviewResponse> => {
+export const getBulkMediaOverview = async (
+  params: BulkMediaOverviewRequest
+): Promise<BulkMediaOverviewResponse> => {
   try {
-    const response = await axiosInstance.post('/get-bulk-media-overview', params);
+    const response = await axiosInstance.post(
+      "/get-bulk-media-overview",
+      params
+    );
     return response.data;
   } catch (error) {
     // console.error('Error fetching bulk media overview:', error);
@@ -505,9 +506,14 @@ export const createBulkMedia = async (
 };
 
 // Delete bulk media
-export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<BulkMediaDeleteResponse> => {
+export const deleteBulkMedia = async (
+  data: BulkMediaDeleteRequest
+): Promise<BulkMediaDeleteResponse> => {
   try {
-    const response = await axiosInstance.post<BulkMediaDeleteResponse>('/delete-bulk-overview-media', data);
+    const response = await axiosInstance.post<BulkMediaDeleteResponse>(
+      "/delete-bulk-overview-media",
+      data
+    );
     return response.data;
   } catch (error) {
     // console.error('Error deleting bulk media:', error);
@@ -565,20 +571,26 @@ export interface DeleteMediaFromBulkResponse {
 }
 
 // Get bulk media details function
-export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Promise<BulkMediaDetailsResponse> => {
-  const response = await axiosInstance.post('/get-bulk-media-details', params);
+export const getBulkMediaDetails = async (
+  params: BulkMediaDetailsRequest
+): Promise<BulkMediaDetailsResponse> => {
+  const response = await axiosInstance.post("/get-bulk-media-details", params);
   return response.data;
 };
 
 // Delete media from bulk operation
-export const deleteMediaFromBulk = async (params: DeleteMediaFromBulkRequest): Promise<DeleteMediaFromBulkResponse> => {
-  const response = await axiosInstance.post('/delete-bulk-media', params);
+export const deleteMediaFromBulk = async (
+  params: DeleteMediaFromBulkRequest
+): Promise<DeleteMediaFromBulkResponse> => {
+  const response = await axiosInstance.post("/delete-bulk-media", params);
   return response.data;
 };
 
 // Get bulk media summary
-export const getBulkMediaSummary = async (params: GetBulkMediaSummaryRequest): Promise<GetBulkMediaSummaryResponse> => {
-  const response = await axiosInstance.post('/get-bulk-media-summary', params);
+export const getBulkMediaSummary = async (
+  params: GetBulkMediaSummaryRequest
+): Promise<GetBulkMediaSummaryResponse> => {
+  const response = await axiosInstance.post("/get-bulk-media-summary", params);
   return response.data;
 };
 
@@ -669,20 +681,29 @@ export interface UpdateImgexifResponse {
 }
 
 // Get EXIF template list
-export const getExifTemplateList = async (params: ExifTemplateListRequest): Promise<ExifTemplateListResponse> => {
-  const response = await axiosInstance.post('/get-exif-template', params);
+export const getExifTemplateList = async (
+  params: ExifTemplateListRequest
+): Promise<ExifTemplateListResponse> => {
+  const response = await axiosInstance.post("/get-exif-template", params);
   return response.data;
 };
 
 // Get EXIF template details
-export const getExifTemplateDetails = async (params: ExifTemplateDetailsRequest): Promise<ExifTemplateDetailsResponse> => {
-  const response = await axiosInstance.post('/get-exif-template-details', params);
+export const getExifTemplateDetails = async (
+  params: ExifTemplateDetailsRequest
+): Promise<ExifTemplateDetailsResponse> => {
+  const response = await axiosInstance.post(
+    "/get-exif-template-details",
+    params
+  );
   return response.data;
 };
 
 // Update image EXIF details
-export const updateImgexifDetails = async (data: UpdateImgexifRequest): Promise<UpdateImgexifResponse> => {
-  const response = await axiosInstance.post('/update-imgexif-details', data);
+export const updateImgexifDetails = async (
+  data: UpdateImgexifRequest
+): Promise<UpdateImgexifResponse> => {
+  const response = await axiosInstance.post("/update-imgexif-details", data);
   return response.data;
 };
 
@@ -700,7 +721,9 @@ export interface DeleteExifTemplateResponse {
   };
 }
 
-export const deleteExifTemplate = async (data: DeleteExifTemplateRequest): Promise<DeleteExifTemplateResponse> => {
-  const response = await axiosInstance.post('/delete-exif-template', data);
+export const deleteExifTemplate = async (
+  data: DeleteExifTemplateRequest
+): Promise<DeleteExifTemplateResponse> => {
+  const response = await axiosInstance.post("/delete-exif-template", data);
   return response.data;
 };

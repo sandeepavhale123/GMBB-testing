@@ -1,9 +1,13 @@
-
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from './useRedux';
-import { fetchUserProfile, fetchTimezones, updateUserProfile, clearErrors } from '../store/slices/profileSlice';
-import { UpdateProfileData } from '../services/profileService';
-import { shouldSkipProfileAPI } from '../utils/routeUtils';
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./useRedux";
+import {
+  fetchUserProfile,
+  fetchTimezones,
+  updateUserProfile,
+  clearErrors,
+} from "../store/slices/profileSlice";
+import { UpdateProfileData } from "../services/profileService";
+import { shouldSkipProfileAPI } from "../utils/routeUtils";
 
 export const useProfile = () => {
   const dispatch = useAppDispatch();
@@ -14,13 +18,12 @@ export const useProfile = () => {
     isUpdating,
     isLoadingTimezones,
     error,
-    updateError
-  } = useAppSelector(state => state.profile);
+    updateError,
+  } = useAppSelector((state) => state.profile);
 
   useEffect(() => {
     // Skip profile API calls on public report routes
     if (shouldSkipProfileAPI()) {
-      console.log('🚫 Skipping profile API calls on public route:', window.location.pathname);
       return;
     }
 
@@ -41,7 +44,7 @@ export const useProfile = () => {
   };
 
   const getStoredPassword = () => {
-    return profileData?.password || '';
+    return profileData?.password || "";
   };
 
   return {
@@ -54,6 +57,6 @@ export const useProfile = () => {
     updateError,
     updateProfile,
     clearProfileErrors,
-    getStoredPassword
+    getStoredPassword,
   };
 };

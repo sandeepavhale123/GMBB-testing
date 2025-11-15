@@ -18,7 +18,6 @@ export const useMediaStats = (listingId: string | null) => {
     setError(null);
 
     try {
-      // console.log('Fetching media stats for listing:', listingId);
       const response = await getMediaStats({ listingId });
 
       if (response.code === 200) {

@@ -37,16 +37,12 @@ export const BusinessListingSelector: React.FC = () => {
   const displayListings = searchQuery ? searchResults : listings;
 
   const handleSelect = (listing: (typeof listings)[0]) => {
-    // console.log("🔍 BusinessSelector: Setting selected listing:", listing);
     setSelectedListing(listing);
     setOpen(false);
     setSearchQuery("");
     // Navigate to the geo ranking page for this listing
     navigate(`/geo-ranking-report/${listing.id}`);
   };
-
-  // console.log("🔍 BusinessSelector: selectedListing:", selectedListing);
-  // console.log("🔍 BusinessSelector: listings count:", listings.length);
 
   if (isRefreshing) {
     return (
@@ -149,10 +145,6 @@ export const BusinessListingSelector: React.FC = () => {
                     key={business.id}
                     value={`${business.name}-${business.id}`}
                     onSelect={() => {
-                      console.log(
-                        "🖥️ BusinessListingSelector: Selected business:",
-                        business
-                      );
                       switchListing(business);
                       setOpen(false);
                       setSearchQuery("");

@@ -26,8 +26,7 @@ export const HealthCard: React.FC<HealthCardProps> = ({
     const rating = parseFloat(number);
     formattedValue = isNaN(rating) ? value : `${rating.toFixed(1)}`; // Format to one decimal place
   }
-  // console.log("value of 0", value.split("/")[0]);
-  // console.log("value of 1", value.split("/")[1]);
+
   return (
     <Card className={bgColor}>
       <CardContent className="p-4">

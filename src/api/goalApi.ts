@@ -27,7 +27,6 @@ export interface UpdateGoalListResponse {
 export const getGoalList = async (): Promise<GoalListResponse> => {
   try {
     const response = await axiosInstance.get("/get-goal-list");
-    // console.log(response);
     return response.data;
   } catch (error) {
     // console.error("Error fetching goal list:", error);

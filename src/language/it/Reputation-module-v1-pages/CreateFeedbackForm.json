@@ -1,0 +1,103 @@
+{
+  "title": {
+    "create": "Crea modulo di feedback",
+    "edit": "Modifica modulo di feedback",
+    "step1": "Dettagli del modulo di feedback",
+    "step2": "Opzioni di personalizzazione",
+    "step3": "Reindirizzamento per feedback positivo",
+    "step4": "Messaggio di successo"
+  },
+  "labels": {
+    "formName": "Nome del modulo",
+    "logo": "Logo",
+    "feedback":"Modulo di feedback",
+    "title": "Titolo",
+    "subtitle": "Sottotitolo",
+    "success":"Successo!",
+    "positiveFeedbackTitle": "Titolo del feedback positivo",
+    "successTitle": "Titolo del successo",
+    "successSubtitle": "Sottotitolo del successo",
+    "positiveRatingThreshold": "Soglia di feedback positivo",
+    "reviewSites": "Siti di recensioni",
+    "step": "Passo {{currentStep}} di 4",
+    "formTitle":"Titolo del modulo",
+    "formSubtitle":"Sottotitolo del modulo",
+    "error":"Errore",
+    "invalid":"URL non validi"
+  },
+  "placeholders": {
+    "formName": "es. Modulo di feedback ristorante",
+    "url": "https://example.com/review",
+    "title": "Inserisci il titolo",
+    "subtitle": "Inserisci il sottotitolo",
+    "successTitle": "Inserisci il titolo del messaggio di successo",
+    "successSubtitle": "Inserisci il sottotitolo del messaggio di successo",
+    "positiveTitle": "Inserisci il titolo del feedback positivo",
+    "option":"Seleziona un'opzione",
+    "rating":"Seleziona la soglia di valutazione",
+    "postitve":"Inserisci il titolo del feedback positivo..."
+  },
+  "messages": {
+    "loading": "Caricamento dati del modulo...",
+    "editing":"Modifica del modulo esistente",
+    "validationError": "Errore di validazione",
+    "formNameRequired": "Il nome del modulo è obbligatorio",
+    "logoRequired": "Il logo è obbligatorio",
+    "validUrlRequired": "Almeno un URL di sito di recensioni è richiesto",
+    "validMessage":"Inserisci un nome per il modulo",
+    "invalidUrls": "Correggi gli URL non validi prima di procedere",
+    "invalidUrlFormat": "Inserisci un URL valido (es. https://example.com)",
+    "saved": "Modulo di feedback creato con successo",
+    "updated": "Modulo di feedback aggiornato con successo",
+    "saveError": "Impossibile salvare il modulo di feedback",
+    "updateError": "Impossibile aggiornare il modulo di feedback",
+    "createError":"Impossibile creare il modulo di feedback",
+    "accept":"Accettato: {{field}}",
+    "review":"Verifica e regola gli elementi di branding del tuo modulo"
+  },
+  "buttons": {
+    "next": "Avanti",
+    "previous": "Indietro",
+    "save": "Salva",
+    "update": "Aggiorna modulo",
+    "saving": "Salvataggio...",
+    "updating": "Aggiornamento...",
+    "edit": "Modifica",
+    "reset": "Reimposta modulo",
+    "submit": "Invia feedback"
+  },
+  "tooltips": {
+    "formNameInfo": "Questo nome è solo per riferimento interno",
+    "logoInfo": "Obbligatorio - Carica il logo della tua azienda",
+    "ratingInfo": "Scegli la valutazione minima che consideri feedback positivo",
+    "reviewSiteInfo": "Inserisci gli URL dei siti dove i clienti possono lasciare il loro feedback. Solo gli URL validi saranno mostrati agli utenti.",
+    "uploadInfo":"Clicca per caricare o trascina qui",
+    "imgalt":"Logo di {{site}}",
+    "review":"Recensione su {{name}}"
+  },
+  "preview": {
+    "header": "Anteprima",
+    "logoPlaceholder": "LOGO",
+    "logoalt":"Anteprima del logo"
+  },
+  "formField":{
+    "label1":"Nome",
+    "place1":"Inserisci il tuo nome",
+    "label2":"Email",
+    "place2":"Inserisci la tua email",
+    "label3":"Commento",
+    "place3":"Inserisci il tuo commento"
+  },
+  "state":{
+    "successSubtitle":"Apprezziamo il tempo dedicato a condividere le tue opinioni. Il tuo feedback ci aiuta a migliorare il nostro servizio.",
+    "successTitle":"Grazie per il tuo feedback!",
+    "positiveFeedbackTitle":"Ci piacerebbe avere tue notizie! Condividi la tua esperienza lasciando una recensione.",
+    "subtitle":"Valutiamo il tuo feedback e ci piacerebbe conoscerlo.",
+    "title":"Come è stata la tua esperienza con noi?"
+  },
+  "rating":{
+    "lab1":"3 stelle o più",
+    "lab2":"4 stelle o più",
+    "lab3":"Solo 5 stelle"
+  }
+}

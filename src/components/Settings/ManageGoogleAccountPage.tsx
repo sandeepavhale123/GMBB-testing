@@ -68,8 +68,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
   const code = urlParams.get("code");
   const hasProcessedCode = useRef(false);
 
-  // console.log("Google OAuth code:", code);
-
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -105,7 +103,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
     [apiAccounts]
   );
   const handleManageListings = (accountId: string) => {
-    // console.log("location name", location.pathname);
     if (location.pathname.startsWith("/main-dashboard")) {
       navigate(`/main-dashboard/settings/listings/${accountId}`);
     } else {
@@ -145,7 +142,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
   const handleRefreshAccount = async (accountId: string) => {
     try {
       const response = await refreshAccount(accountId);
-      // console.log("handle refresh response", response);
 
       if (response.data && Array.isArray(response.data)) {
         // Transform the API response data format
@@ -182,7 +178,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
     if (!currentAccountId) return;
     try {
       const response = await updateAccount(currentAccountId, selectedGroups);
-      // console.log("update response", response);
+
       toast({
         title: t("manageGoogleAccountPage.modals.refreshAccount.updateSuccess"),
         description: `${response.message}`,
@@ -192,7 +188,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
       setCurrentAccountId("");
       refetch(); // Refresh the accounts list
     } catch (error: any) {
-      // console.log("Error updating listing groups:", error);
       toast({
         title: t("manageGoogleAccountPage.modals.refreshAccount.updateTitle"),
         description:
@@ -277,7 +272,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
   // If we have a code and haven't processed it yet, show the auth handler
   if (code && !hasProcessedCode.current) {
-    // console.log("Rendering GoogleAuthHandler for code processing");
     hasProcessedCode.current = true;
     return <GoogleAuthHandler />;
   }

@@ -44,14 +44,12 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
 
       // ✅ Expecting backend to return Stripe Checkout URL
       const data = response.data;
-      console.log("response from the backend", response.data);
 
       if (data.id) {
         // Lazy load Stripe only when needed
         const stripe = await loadStripe(
           import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
         );
-        console.log("stripe key", stripe);
 
         if (!stripe) {
           throw new Error(t("buyCreditsModal.alert.stripeInitFailed"));

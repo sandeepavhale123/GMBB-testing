@@ -42,12 +42,8 @@ export const usePaymentHistory = () => {
   const fetchPaymentHistory = async (page: number = 1) => {
     try {
       setIsLoading(true);
-      console.log("Fetching payment history for page:", page);
 
       const response: any = await getPaymentHistory(page, perPage);
-
-      // Log the full response to debug API structure
-      console.log("Payment history API response:", response);
 
       // Validate response structure
       if (!response) {
@@ -77,14 +73,6 @@ export const usePaymentHistory = () => {
       setCurrentPage(page);
       setTotalPages(calculatedTotalPages);
       setTotalRecords(totalItems);
-
-      console.log("Payment history loaded successfully:", {
-        originalDataCount: paymentData.length,
-        transformedDataCount: transformedData.length,
-        currentPage: page,
-        totalPages: calculatedTotalPages,
-        totalRecords: totalItems,
-      });
     } catch (error) {
       console.error("Payment history fetch error:", error);
 
@@ -98,7 +86,12 @@ export const usePaymentHistory = () => {
       const errorMessage = (() => {
         if (error instanceof Error) {
           // Check if it's an Axios error with response property
-          if ('response' in error && error.response && typeof error.response === 'object' && error.response !== null) {
+          if (
+            "response" in error &&
+            error.response &&
+            typeof error.response === "object" &&
+            error.response !== null
+          ) {
             const response = error.response as any;
             if (response.data?.message) {
               return response.data.message;
@@ -151,7 +144,6 @@ export const usePaymentHistory = () => {
   };
 
   const refreshHistory = () => {
-    console.log("Refreshing payment history...");
     fetchPaymentHistory(currentPage);
   };
 

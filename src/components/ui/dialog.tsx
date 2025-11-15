@@ -42,7 +42,7 @@ const DialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const location = useLocation();
   const pathname = location.pathname;
-  console.log("pathname", pathname);
+
   return (
     <DialogPortal>
       <DialogOverlay />

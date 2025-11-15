@@ -72,7 +72,6 @@ export function BusinessSearchForm({
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
-      // console.log("response of business", response);
       if (response.code === 200 && response.data) {
         const { lat, long } = parseLatLong(response.data.latlong);
         const business: BusinessLocationLite = {

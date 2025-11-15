@@ -25,17 +25,13 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
     try {
       setLoading(true);
       setError(null);
-      // console.log('📋 useBusinessListings: Fetching business listings...');
 
       // Fetch listings without query to get user's default listings
       const data = await businessListingsService.getActiveListings({
         limit: 10,
       });
-      // console.log('📋 useBusinessListings: Received', data.length, 'listings');
-      // console.log('📋 useBusinessListings: Listing names:', data.map(listing => listing.name));
 
       setListings(data);
-      // console.log('📋 useBusinessListings: Successfully updated listings state');
     } catch (err: any) {
       console.error(
         "📋 useBusinessListings: Failed to fetch business listings:",
@@ -44,11 +40,9 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
 
       // Handle 401 errors with token refresh
       if (err.response?.status === 401 && retryCount === 0) {
-        // console.log('📋 useBusinessListings: Attempting token refresh due to 401 error...');
         try {
           const refreshSuccess = await refreshAccessToken();
           if (refreshSuccess) {
-            // console.log('📋 useBusinessListings: Token refresh successful, retrying...');
             return fetchListings(1);
           }
         } catch (refreshError) {

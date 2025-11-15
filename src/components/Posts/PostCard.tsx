@@ -62,16 +62,6 @@ export const PostCard: React.FC<PostCardProps> = ({
   // Check if we're on bulk dashboard
   const isBulkDashboard = location.pathname.startsWith("/main-dashboard");
 
-  // Debug logging to check post status
-  // console.log(
-  //   "PostCard - Post ID:",
-  //   post.id,
-  //   "Status:",
-  //   post.status,
-  //   "Post:",
-  //   post
-  // );
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case "published":

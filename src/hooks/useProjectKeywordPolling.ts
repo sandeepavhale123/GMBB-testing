@@ -22,10 +22,6 @@ export const useProjectKeywordPolling = (
 
   // Handle empty keywords response - hide progress bar and refresh keywords
   const handleEmptyKeywords = useCallback(async () => {
-    console.log(
-      `🔄 [${new Date().toISOString()}] handleEmptyKeywords - Processing completed, refreshing keywords list`
-    );
-
     // Stop polling first
     setIsPolling(false);
     clearPollingInterval();
@@ -36,9 +32,6 @@ export const useProjectKeywordPolling = (
     try {
       // Refresh keywords list to show newly completed keywords
       await onKeywordsUpdate();
-      console.log(
-        `✅ [${new Date().toISOString()}] Keywords list refreshed successfully after processing completion`
-      );
     } catch (error) {
       console.error(
         `❌ [${new Date().toISOString()}] Failed to refresh keywords after processing completion:`,
@@ -52,36 +45,16 @@ export const useProjectKeywordPolling = (
     if (!projectId || !mountedRef.current) return;
 
     try {
-      console.log(
-        `🔄 [${new Date().toISOString()}] checkStatus - Calling /check-keyword-status API for projectId: ${projectId}`
-      );
       const response = await checkKeywordStatusForProject(projectId);
 
       if (!mountedRef.current) return;
-
-      console.log(
-        `📊 [${new Date().toISOString()}] checkStatus - API Response:`,
-        {
-          code: response.code,
-          keywordCount: response.data?.keywords?.length || 0,
-          keywords: response.data?.keywords || [],
-        }
-      );
 
       if (response.code === 200) {
         const keywords = response.data?.keywords || [];
 
         if (keywords.length === 0) {
-          console.log(
-            `✅ [${new Date().toISOString()}] No processing keywords found - calling handleEmptyKeywords`
-          );
           await handleEmptyKeywords();
         } else {
-          console.log(
-            `🔄 [${new Date().toISOString()}] Found ${
-              keywords.length
-            } processing keywords - updating state and continuing polling`
-          );
           setProcessingKeywords(keywords.map((k) => k.keyword));
 
           // Continue polling if we have processing keywords
@@ -107,39 +80,18 @@ export const useProjectKeywordPolling = (
   const checkInitialStatus = useCallback(async () => {
     if (!projectId || !enableInitialCheck) return;
 
-    console.log(
-      `🚀 [${new Date().toISOString()}] checkInitialStatus - Making initial /check-keyword-status request (projectId: ${projectId})`
-    );
-
     try {
       const response = await checkKeywordStatusForProject(projectId);
 
       if (!mountedRef.current) return;
 
-      console.log(
-        `📊 [${new Date().toISOString()}] checkInitialStatus - Initial API Response:`,
-        {
-          code: response.code,
-          keywordCount: response.data?.keywords?.length || 0,
-          keywords: response.data?.keywords || [],
-        }
-      );
-
       if (response.code === 200) {
         const keywords = response.data?.keywords || [];
 
         if (keywords.length === 0) {
-          console.log(
-            `✅ [${new Date().toISOString()}] Initial check: No processing keywords - progress bar will be hidden`
-          );
           setProcessingKeywords([]);
           setIsPolling(false);
         } else {
-          console.log(
-            `🔄 [${new Date().toISOString()}] Initial check: Found ${
-              keywords.length
-            } processing keywords - starting polling`
-          );
           setProcessingKeywords(keywords.map((k) => k.keyword));
           startPolling();
         }
@@ -161,24 +113,15 @@ export const useProjectKeywordPolling = (
   const startPolling = useCallback(() => {
     if (pollingIntervalRef.current) return; // Already polling
 
-    console.log(
-      `🔄 [${new Date().toISOString()}] startPolling - Starting 5-second polling interval`
-    );
     setIsPolling(true);
 
     pollingIntervalRef.current = setInterval(async () => {
-      console.log(
-        `⏰ [${new Date().toISOString()}] Polling interval - checking keyword status`
-      );
       await checkStatus();
     }, 5000);
   }, [checkStatus]);
 
   // Stop polling
   const stopPolling = useCallback(() => {
-    console.log(
-      `🛑 [${new Date().toISOString()}] stopPolling - Stopping polling interval`
-    );
     setIsPolling(false);
     clearPollingInterval();
   }, [clearPollingInterval]);

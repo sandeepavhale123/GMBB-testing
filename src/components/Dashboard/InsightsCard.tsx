@@ -56,8 +56,6 @@ export const InsightsCard: React.FC = () => {
       endDate: "",
     };
 
-    // console.log('Fetching dashboard insights data with params:', params);
-
     try {
       await dispatch(fetchInsightsSummary(params));
     } catch (error) {

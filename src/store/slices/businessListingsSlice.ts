@@ -28,10 +28,7 @@ const loadFromLocalStorage = (): BusinessListing[] => {
 const loadSelectedBusinessId = (): string | null => {
   try {
     const stored = localStorage.getItem("selectedBusinessId");
-    // console.log(
-    //   "Load BusinessId from local storage......................................",
-    //   stored
-    // );
+
     return stored || null;
   } catch (error) {
     console.error(
@@ -59,7 +56,6 @@ const checkUserChanged = (): boolean => {
   const lastSession = localStorage.getItem("last_user_session");
 
   if (currentSession && lastSession && currentSession !== lastSession) {
-    // console.log("🔄 User change detected:", { lastSession, currentSession });
     return true;
   }
 
@@ -96,7 +92,6 @@ const getInitialState = (): BusinessListingsState => {
   const userChanged = checkUserChanged();
 
   if (userChanged) {
-    // console.log("🔄 User changed - clearing business listings data");
     localStorage.removeItem("userBusinessListings");
     localStorage.removeItem("selectedBusinessId");
     // Update last session tracker
@@ -131,9 +126,8 @@ const businessListingsSlice = createSlice({
         // Add new listing at the beginning of the array
         state.userAddedListings.unshift(action.payload);
         saveToLocalStorage(state.userAddedListings);
-        // console.log("✅ Added business listing at top:", action.payload.name);
       } else {
-        // console.log("ℹ️ Business listing already exists:", action.payload.name);
+        //
       }
     },
     moveListingToTop: (state, action: PayloadAction<string>) => {
@@ -146,7 +140,6 @@ const businessListingsSlice = createSlice({
         const [listing] = state.userAddedListings.splice(listingIndex, 1);
         state.userAddedListings.unshift(listing);
         saveToLocalStorage(state.userAddedListings);
-        // console.log("🔝 Moved business listing to top:", listing.name);
       }
     },
     removeBusinessListing: (state, action: PayloadAction<string>) => {
@@ -154,26 +147,20 @@ const businessListingsSlice = createSlice({
         (listing) => listing.id !== action.payload
       );
       saveToLocalStorage(state.userAddedListings);
-      // console.log("🗑️ Removed business listing with ID:", action.payload);
     },
     setSelectedBusiness: (state, action: PayloadAction<string | null>) => {
       state.selectedBusinessId = action.payload;
       saveSelectedBusinessId(action.payload);
-      // console.log("📍 Set selected business ID:", action.payload);
     },
     clearUserListings: (state) => {
       state.userAddedListings = [];
       state.selectedBusinessId = null;
       localStorage.removeItem("userBusinessListings");
       localStorage.removeItem("selectedBusinessId");
-      // console.log(
-      //   "🧹 Cleared all user business listings and selected business"
-      // );
     },
     updateUserSession: (state, action: PayloadAction<string>) => {
       state.lastUserSession = action.payload;
       localStorage.setItem("last_user_session", action.payload);
-      // console.log("📝 Updated user session:", action.payload);
     },
   },
 });

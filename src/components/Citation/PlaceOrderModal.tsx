@@ -26,10 +26,6 @@ export const PlaceOrderModal: React.FC<PlaceOrderModalProps> = ({
   const [buttonUrl, setButtonUrl] = useState("");
 
   const handleSave = () => {
-    // Handle save logic here
-    // console.log("Button Text:", buttonText);
-    // console.log("Button URL:", buttonUrl);
-
     // Reset form and close modal
     setButtonText("");
     setButtonUrl("");

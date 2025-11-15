@@ -113,9 +113,9 @@ export const SubscriptionPage: React.FC = () => {
   // Map plan IDs to their corresponding feature keys
   const planIdToFeatureKey: Record<string, keyof PlanFeature> = {
     "52": "business",
-    "53": "pro", 
+    "53": "pro",
     "54": "agency",
-    "55": "enterprise"
+    "55": "enterprise",
   };
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -152,10 +152,6 @@ export const SubscriptionPage: React.FC = () => {
     const fetchUserPlan = async () => {
       try {
         const response = await axiosInstance.get("/get-user-profile");
-        // console.log(
-        //   "user data from user profile",
-        //   response.data.data.profileDetails
-        // );
         const { planId, planExpDate, planName } =
           response.data.data.profileDetails;
         if (planId) {
@@ -165,11 +161,6 @@ export const SubscriptionPage: React.FC = () => {
           setPlanExpDate(planExpDate);
           const expired = isSubscriptionExpired(planExpDate);
           setIsExpired(expired);
-          // console.log("Plan expiration check:", {
-          //   planExpDate,
-          //   isExpired: expired,
-          //   planId,
-          // });
         }
       } catch (error) {
         // console.error("Failed to fetch user plan:", error);
@@ -194,7 +185,7 @@ export const SubscriptionPage: React.FC = () => {
   const isPlanActive = (planId: string) => {
     return activePlanId === planId && !isExpired;
   };
-  // console.log("active plan id", activePlanId);
+
   const paynowId = ["50", "51", "0", "34", "68", "69", "70"];
   const hasActivePlan = () => {
     return (
@@ -203,7 +194,7 @@ export const SubscriptionPage: React.FC = () => {
       !isExpired
     );
   };
-  // console.log("Has active plan", hasActivePlan());
+
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -218,8 +209,7 @@ export const SubscriptionPage: React.FC = () => {
     if (isProcessing === planId) {
       return "Processing...";
     }
-    // console.log("planid", planId);
-    // console.log("active plan ", isPlanActive(planId));
+
     // Show "Pay Now" if no active plan, "Upgrade Now" if there's an active plan
     return hasActivePlan()
       ? isPlanActive(planId)
@@ -249,7 +239,6 @@ export const SubscriptionPage: React.FC = () => {
     setSelectedPlan(planId);
     try {
       // Here you would integrate with your payment system
-      // console.log(`Selected plan: ${planId}`);
 
       // Call custom backend API to create subscription
       const response = await axiosInstance.post(
@@ -261,13 +250,13 @@ export const SubscriptionPage: React.FC = () => {
         }
       );
       const data = response.data;
-      // console.log("response from the backend", response.data);
+
       if (data.id) {
         // Lazy load Stripe only when needed
         const stripe = await loadStripe(
           import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
         );
-        // console.log("stripe key", stripe);
+
         if (!stripe) {
           throw new Error("Stripe failed to initialize");
         }
@@ -303,13 +292,10 @@ export const SubscriptionPage: React.FC = () => {
     setIsProcessing(selectedUpgradePlan);
     setShowUpgradeModal(false);
     try {
-      // console.log(`Upgrading to plan: ${selectedUpgradePlan}`);
-
       // Send upgrade request to backend
       const response = await axiosInstance.post("/update-subscription", {
         planId: selectedUpgradePlan,
       });
-      // console.log("response message on upgrade", response);
 
       toast({
         title: t("subscriptionPage.toast.upgradeSuccess.title"),

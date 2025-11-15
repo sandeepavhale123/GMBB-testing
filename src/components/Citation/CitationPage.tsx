@@ -204,13 +204,7 @@ export const CitationPage: React.FC = () => {
   const existingCitationData = citationData?.existingCitations || [];
   const possibleCitationData = citationData?.possibleCitations || [];
   const trackerData = citationData?.summary;
-  // console.log("possible citation data", possibleCitationData);
-  // console.log("citation data", citationData);
   const handlePlaceSelect = (formattedAddress: string) => {
-    // console.log(
-    //   "handlePlaceSelect - Selected city from Google:",
-    //   formattedAddress
-    // );
     setSearchData((prev) => ({
       ...prev,
       city: formattedAddress,
@@ -231,7 +225,7 @@ export const CitationPage: React.FC = () => {
       refetch();
     }
   }, [selectedListing]);
-  // console.log("Current searchData state:", searchData);
+
   const toggleSidebar = () => {
     if (isMobile) {
       setSidebarOpen(!sidebarOpen);
@@ -280,15 +274,13 @@ export const CitationPage: React.FC = () => {
 
     // Get the actual value from the city input ref
     const cityValue = cityInputRef.current?.getValue() || searchData.city;
-    // console.log("handleSearch - Current searchData state:", searchData);
-    // console.log("handleSearch - City input value:", cityValue);
+
     const payload = {
       listingId: selectedListing?.id || 0,
       businessName: searchData.businessName,
       phone: searchData.phone,
       address: cityValue,
     };
-    // console.log("handleSearch - Final API payload:", payload);
 
     setReportUrl("");
     setReportProgressOpen(true);
@@ -319,17 +311,12 @@ export const CitationPage: React.FC = () => {
     });
   };
   const handleInputChange = (field: string, value: string) => {
-    // console.log(`handleInputChange - ${field}:`, value);
     setSearchData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(
-    //   "handleCityInputChange - Manual typing detected:",
-    //   e.target.value
-    // );
     handleInputChange("city", e.target.value);
   };
 

@@ -1,12 +1,24 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Save, AlertCircle, Shield, Bell, Globe } from 'lucide-react';
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Save, AlertCircle, Shield, Bell, Globe } from "lucide-react";
 
 export const Settings: React.FC = () => {
   const [settings, setSettings] = React.useState({
@@ -14,27 +26,26 @@ export const Settings: React.FC = () => {
       email: true,
       browser: false,
       audit: true,
-      fixes: true
+      fixes: true,
     },
     api: {
-      rateLimit: '1000',
-      timeout: '30'
+      rateLimit: "1000",
+      timeout: "30",
     },
     security: {
       twoFactor: false,
-      ipWhitelist: ''
+      ipWhitelist: "",
     },
     preferences: {
-      timezone: 'UTC',
-      language: 'en',
-      theme: 'system'
-    }
+      timezone: "UTC",
+      language: "en",
+      theme: "system",
+    },
   });
 
   const handleSave = () => {
-    console.log('Saving settings:', settings);
     // Mock save success
-    alert('Settings saved successfully!');
+    alert("Settings saved successfully!");
   };
 
   return (
@@ -54,37 +65,42 @@ export const Settings: React.FC = () => {
             Notifications
           </CardTitle>
           <CardDescription>
-            Configure how and when you receive notifications about your projects.
+            Configure how and when you receive notifications about your
+            projects.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Email Notifications</Label>
-              <p className="text-sm text-muted-foreground">Receive updates via email</p>
+              <p className="text-sm text-muted-foreground">
+                Receive updates via email
+              </p>
             </div>
             <Switch
               checked={settings.notifications.email}
               onCheckedChange={(checked) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  notifications: { ...prev.notifications, email: checked }
+                  notifications: { ...prev.notifications, email: checked },
                 }))
               }
             />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Browser Notifications</Label>
-              <p className="text-sm text-muted-foreground">Show desktop notifications</p>
+              <p className="text-sm text-muted-foreground">
+                Show desktop notifications
+              </p>
             </div>
             <Switch
               checked={settings.notifications.browser}
               onCheckedChange={(checked) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  notifications: { ...prev.notifications, browser: checked }
+                  notifications: { ...prev.notifications, browser: checked },
                 }))
               }
             />
@@ -93,14 +109,16 @@ export const Settings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Audit Completion</Label>
-              <p className="text-sm text-muted-foreground">Notify when audits complete</p>
+              <p className="text-sm text-muted-foreground">
+                Notify when audits complete
+              </p>
             </div>
             <Switch
               checked={settings.notifications.audit}
               onCheckedChange={(checked) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  notifications: { ...prev.notifications, audit: checked }
+                  notifications: { ...prev.notifications, audit: checked },
                 }))
               }
             />
@@ -109,14 +127,16 @@ export const Settings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Fix Applications</Label>
-              <p className="text-sm text-muted-foreground">Notify when fixes are applied</p>
+              <p className="text-sm text-muted-foreground">
+                Notify when fixes are applied
+              </p>
             </div>
             <Switch
               checked={settings.notifications.fixes}
               onCheckedChange={(checked) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  notifications: { ...prev.notifications, fixes: checked }
+                  notifications: { ...prev.notifications, fixes: checked },
                 }))
               }
             />
@@ -143,9 +163,9 @@ export const Settings: React.FC = () => {
                 id="rateLimit"
                 value={settings.api.rateLimit}
                 onChange={(e) =>
-                  setSettings(prev => ({
+                  setSettings((prev) => ({
                     ...prev,
-                    api: { ...prev.api, rateLimit: e.target.value }
+                    api: { ...prev.api, rateLimit: e.target.value },
                   }))
                 }
               />
@@ -156,9 +176,9 @@ export const Settings: React.FC = () => {
                 id="timeout"
                 value={settings.api.timeout}
                 onChange={(e) =>
-                  setSettings(prev => ({
+                  setSettings((prev) => ({
                     ...prev,
-                    api: { ...prev.api, timeout: e.target.value }
+                    api: { ...prev.api, timeout: e.target.value },
                   }))
                 }
               />
@@ -182,14 +202,16 @@ export const Settings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Two-Factor Authentication</Label>
-              <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+              <p className="text-sm text-muted-foreground">
+                Add an extra layer of security
+              </p>
             </div>
             <Switch
               checked={settings.security.twoFactor}
               onCheckedChange={(checked) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  security: { ...prev.security, twoFactor: checked }
+                  security: { ...prev.security, twoFactor: checked },
                 }))
               }
             />
@@ -202,9 +224,9 @@ export const Settings: React.FC = () => {
               placeholder="192.168.1.1, 10.0.0.1"
               value={settings.security.ipWhitelist}
               onChange={(e) =>
-                setSettings(prev => ({
+                setSettings((prev) => ({
                   ...prev,
-                  security: { ...prev.security, ipWhitelist: e.target.value }
+                  security: { ...prev.security, ipWhitelist: e.target.value },
                 }))
               }
             />
@@ -230,9 +252,9 @@ export const Settings: React.FC = () => {
               <Select
                 value={settings.preferences.timezone}
                 onValueChange={(value) =>
-                  setSettings(prev => ({
+                  setSettings((prev) => ({
                     ...prev,
-                    preferences: { ...prev.preferences, timezone: value }
+                    preferences: { ...prev.preferences, timezone: value },
                   }))
                 }
               >
@@ -242,7 +264,9 @@ export const Settings: React.FC = () => {
                 <SelectContent>
                   <SelectItem value="UTC">UTC</SelectItem>
                   <SelectItem value="America/New_York">Eastern Time</SelectItem>
-                  <SelectItem value="America/Los_Angeles">Pacific Time</SelectItem>
+                  <SelectItem value="America/Los_Angeles">
+                    Pacific Time
+                  </SelectItem>
                   <SelectItem value="Europe/London">London</SelectItem>
                   <SelectItem value="Asia/Tokyo">Tokyo</SelectItem>
                 </SelectContent>
@@ -254,9 +278,9 @@ export const Settings: React.FC = () => {
               <Select
                 value={settings.preferences.language}
                 onValueChange={(value) =>
-                  setSettings(prev => ({
+                  setSettings((prev) => ({
                     ...prev,
-                    preferences: { ...prev.preferences, language: value }
+                    preferences: { ...prev.preferences, language: value },
                   }))
                 }
               >
@@ -278,9 +302,9 @@ export const Settings: React.FC = () => {
               <Select
                 value={settings.preferences.theme}
                 onValueChange={(value) =>
-                  setSettings(prev => ({
+                  setSettings((prev) => ({
                     ...prev,
-                    preferences: { ...prev.preferences, theme: value }
+                    preferences: { ...prev.preferences, theme: value },
                   }))
                 }
               >
@@ -306,8 +330,9 @@ export const Settings: React.FC = () => {
             <span className="text-sm font-medium">Important</span>
           </div>
           <p className="text-sm text-yellow-700 mt-1">
-            Changes to API and security settings may affect existing integrations. 
-            Test thoroughly before applying to production projects.
+            Changes to API and security settings may affect existing
+            integrations. Test thoroughly before applying to production
+            projects.
           </p>
         </CardContent>
       </Card>

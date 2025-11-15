@@ -193,7 +193,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     new Set()
   );
 
-  // console.log("user", profileData);
   const isAdmin = profileData?.role?.toLowerCase() === "admin";
 
   // Helper function to check if user role should be restricted
@@ -221,16 +220,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const isPlanExpired = isSubscriptionExpired(planExpDate);
   const isEnterprisePlan =
     profileData?.planName?.toLowerCase() === "enterprise";
-  // console.log("profile data", profileData);
+
   const trialPlan =
     profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
     profileData?.planName?.toLowerCase() === "trial" ||
     profileData?.planId === "50";
-  // console.log("is  plan .....", trialPlan);
-  // console.log(
-  //   "result of condition",
-  //   !isPlanExpired && !collapsed && !isEnterprisePlan
-  // );
+
   // Toggle sub-menu expansion
   const toggleSubMenu = (menuId: string) => {
     setExpandedMenus((prev) => {
@@ -369,7 +364,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       // For non-listing routes (settings), navigate normally
       navigate(basePath);
     }
-    
+
     // Call onNavigate callback if provided (for mobile menu close)
     onNavigate?.();
   };

@@ -110,7 +110,7 @@ export const useBulkReportDetails = (projectId: string) => {
       });
 
       const transformedData = transformApiResponse(apiResponse);
-      console.log("report data", transformedData);
+
       // Apply client-side filtering for status since API doesn't support it
       if (filters.status !== "all") {
         transformedData.reports = transformedData.reports.filter(

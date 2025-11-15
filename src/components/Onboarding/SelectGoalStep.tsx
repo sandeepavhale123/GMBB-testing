@@ -46,30 +46,23 @@ const SelectGoalStep = ({
   } = useSelector((state: RootState) => state.onboarding);
 
   useEffect(() => {
-    // console.log("loading goals on mount");
     dispatch(fetchGoals());
   }, []);
 
   /// Update selected goals when API data loads
   useEffect(() => {
     if (goalsData?.data && !hasInitialized) {
-      // console.log("Goals data loaded:", goalsData);
-
       // Check if there are pre-selected goals from API activeList
       const activeList = (goalsData.data as any).activeList;
-      // console.log("activegoals....", activeList);
       if (activeList && Array.isArray(activeList) && activeList.length > 0) {
         const preSelectedGoals = activeList.map((item: any) => item.toString());
-        // console.log("Pre-selected goals from API:", preSelectedGoals);
         setSelectedGoals(preSelectedGoals);
         updateFormData({ goals: preSelectedGoals });
       } else if (formData.goals && formData.goals.length > 0) {
         // Use goals from form data if no API pre-selection
-        // console.log("Using goals from form data:", formData.goals);
         setSelectedGoals(formData.goals);
       } else {
         // No pre-selected goals, start with empty selection
-        // console.log("No pre-selected goals, starting with empty selection");
         setSelectedGoals([]);
       }
     }
@@ -116,7 +109,6 @@ const SelectGoalStep = ({
         ? selectedGoals.filter((id: string) => id !== goalId)
         : [...selectedGoals, goalId];
 
-      // console.log("Goal toggled:", goalId, "Updated goals:", updatedGoals);
       setSelectedGoals(updatedGoals);
       // Immediately update form data for persistence
       updateFormData({ goals: updatedGoals });
@@ -126,11 +118,8 @@ const SelectGoalStep = ({
 
   const handleNext = async () => {
     try {
-      // console.log("Saving goals before proceeding:", selectedGoals);
-
       // Convert string IDs to numbers for API
       const goalIds = selectedGoals.map((id) => parseInt(id, 10));
-      // console.log("Converting to numbers for API:", goalIds);
 
       //Save goals to API
       await dispatch(saveGoals(goalIds)).unwrap();

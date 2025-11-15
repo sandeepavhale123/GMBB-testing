@@ -1,0 +1,103 @@
+{
+  "title": {
+    "create": "Feedback-Formular erstellen",
+    "edit": "Feedback-Formular bearbeiten",
+    "step1": "Details des Feedback-Formulars",
+    "step2": "Anpassungsoptionen",
+    "step3": "Weiterleitung bei positivem Feedback",
+    "step4": "Erfolgsmeldung"
+  },
+  "labels": {
+    "formName": "Formularname",
+    "logo": "Logo",
+    "feedback": "Feedback-Formular",
+    "title": "Titel",
+    "subtitle": "Untertitel",
+    "success": "Erfolg!",
+    "positiveFeedbackTitle": "Titel für positives Feedback",
+    "successTitle": "Erfolgstitel",
+    "successSubtitle": "Erfolgsuntertitel",
+    "positiveRatingThreshold": "Schwellenwert für positives Feedback",
+    "reviewSites": "Bewertungsseiten",
+    "step": "Schritt {{currentStep}} von 4",
+    "formTitle": "Formulartitel",
+    "formSubtitle": "Formularuntertitel",
+    "error": "Fehler",
+    "invalid": "Ungültige URLs"
+  },
+  "placeholders": {
+    "formName": "z. B. Restaurant-Feedback-Formular",
+    "url": "https://beispiel.de/bewertung",
+    "title": "Titel eingeben",
+    "subtitle": "Untertitel eingeben",
+    "successTitle": "Titel der Erfolgsmeldung eingeben",
+    "successSubtitle": "Untertitel der Erfolgsmeldung eingeben",
+    "positiveTitle": "Titel für positives Feedback eingeben",
+    "option": "Option auswählen",
+    "rating": "Bewertungsschwelle auswählen",
+    "postitve": "Titel für positives Feedback eingeben..."
+  },
+  "messages": {
+    "loading": "Formulardaten werden geladen...",
+    "editing": "Bestehendes Formular wird bearbeitet",
+    "validationError": "Validierungsfehler",
+    "formNameRequired": "Formularname ist erforderlich",
+    "logoRequired": "Logo ist erforderlich",
+    "validUrlRequired": "Mindestens eine Bewertungsseiten-URL ist erforderlich",
+    "validMessage": "Bitte geben Sie einen Formularnamen ein",
+    "invalidUrls": "Bitte beheben Sie ungültige URLs, bevor Sie fortfahren",
+    "invalidUrlFormat": "Bitte geben Sie eine gültige URL ein (z. B. https://beispiel.de)",
+    "saved": "Feedback-Formular erfolgreich erstellt",
+    "updated": "Feedback-Formular erfolgreich aktualisiert",
+    "saveError": "Fehler beim Speichern des Feedback-Formulars",
+    "updateError": "Fehler beim Aktualisieren des Feedback-Formulars",
+    "createError": "Fehler beim Erstellen des Feedback-Formulars",
+    "accept": "Akzeptiert: {{field}}",
+    "review": "Überprüfen und passen Sie die Branding-Elemente Ihres Formulars an"
+  },
+  "buttons": {
+    "next": "Weiter",
+    "previous": "Zurück",
+    "save": "Speichern",
+    "update": "Formular aktualisieren",
+    "saving": "Speichern...",
+    "updating": "Aktualisiere...",
+    "edit": "Bearbeiten",
+    "reset": "Formular zurücksetzen",
+    "submit": "Feedback absenden"
+  },
+  "tooltips": {
+    "formNameInfo": "Dieser Name dient nur zu Ihrer internen Referenz",
+    "logoInfo": "Erforderlich - Laden Sie Ihr Firmenlogo hoch",
+    "ratingInfo": "Wählen Sie die minimale Sternebewertung, die Sie als positives Feedback betrachten",
+    "reviewSiteInfo": "Geben Sie die Bewertungs-URLs ein, auf denen Kunden ihr Feedback hinterlassen können. Nur gültige URLs werden Benutzern angezeigt.",
+    "uploadInfo": "Zum Hochladen klicken oder per Drag & Drop hinzufügen",
+    "imgalt": "{{site}}-Logo",
+    "review": "Bewertung auf {{name}}"
+  },
+  "preview": {
+    "header": "Vorschau",
+    "logoPlaceholder": "LOGO",
+    "logoalt": "Logo-Vorschau"
+  },
+  "formField": {
+    "label1": "Name",
+    "place1": "Geben Sie Ihren Namen ein",
+    "label2": "E-Mail",
+    "place2": "Geben Sie Ihre E-Mail-Adresse ein",
+    "label3": "Kommentar",
+    "place3": "Geben Sie Ihren Kommentar ein"
+  },
+  "state": {
+    "successSubtitle": "Wir schätzen es, dass Sie sich die Zeit genommen haben, Ihre Meinung mitzuteilen. Ihr Feedback hilft uns, unseren Service zu verbessern.",
+    "successTitle": "Vielen Dank für Ihr Feedback!",
+    "positiveFeedbackTitle": "Wir würden uns freuen, von Ihnen zu hören! Teilen Sie Ihre Erfahrung, indem Sie uns eine Bewertung hinterlassen.",
+    "subtitle": "Wir schätzen Ihr Feedback und würden gerne von Ihnen hören.",
+    "title": "Wie war Ihre Erfahrung mit uns?"
+  },
+  "rating": {
+    "lab1": "3 Sterne oder mehr",
+    "lab2": "4 Sterne oder mehr",
+    "lab3": "Nur 5 Sterne"
+  }
+}

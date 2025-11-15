@@ -71,8 +71,6 @@ export const PublicPostPerformanceReport: React.FC = () => {
   }
   if (error) return <div>{t("publicPostReport.error")}</div>;
 
-  // console.log("post Report:", postData);
-
   const defaultImage =
     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=200&q=80";
 
@@ -192,7 +190,6 @@ export const PublicPostPerformanceReport: React.FC = () => {
   const trendDataTwo = postData?.data?.periodTwo?.trend_data || [];
   const chartData = prepareChartData(trendDataOne, trendDataTwo, reportType);
 
-  // console.log("trenddatatwo", trendDataTwo);
   const formatTrendData = (data: any[]) =>
     data.map((item) => ({
       date: item.post_date,

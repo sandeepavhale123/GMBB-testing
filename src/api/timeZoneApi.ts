@@ -8,7 +8,6 @@ export const timeZoneApi = createApi({
     getAllTimeZone: builder.query<string[], void>({
       query: () => ({ url: "/get-timezone", method: "GET" }),
       transformResponse: (response: any) => {
-        // console.log("Timezone API response:", response);
         if (response.data.timezones) {
           return response.data.timezones;
         } else {

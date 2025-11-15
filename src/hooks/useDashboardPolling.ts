@@ -66,9 +66,6 @@ export const useDashboardPolling = ({
 
   // Handle when no syncing listings are found
   const handleNoSyncingListings = useCallback(async () => {
-    console.log(
-      `[${dashboardType.toUpperCase()} DASHBOARD POLLING] All listings synced, stopping polling`
-    );
     setIsPolling(false);
     setSyncingListings([]);
     setIsSyncing(false);
@@ -81,9 +78,6 @@ export const useDashboardPolling = ({
     if (!didFinalRefetch && isMountedRef.current && enabled) {
       setDidFinalRefetch(true);
       try {
-        console.log(
-          `[${dashboardType.toUpperCase()} DASHBOARD POLLING] One-time final refetch`
-        );
         // tiny delay avoids racing the last server update
         await new Promise((r) => setTimeout(r, 400));
         if (isMountedRef.current) await refetch();
@@ -101,20 +95,12 @@ export const useDashboardPolling = ({
     if (!isMountedRef.current || !enabled) return;
 
     try {
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Checking sync status...`
-      );
-
       // Refetch data to get latest sync status
       const result = await refetch();
 
       if (!isMountedRef.current) return;
 
       // Debug: Log the actual API response structure
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] API Response:`,
-        result
-      );
 
       // Try different possible response structures
       let listings = [];
@@ -125,11 +111,6 @@ export const useDashboardPolling = ({
       } else if (result?.listings) {
         listings = result.listings;
       }
-
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Extracted listings:`,
-        listings
-      );
 
       const syncingIds = listings
         .filter((listing: DashboardListing) => listing.isSync === 1)
@@ -149,13 +130,6 @@ export const useDashboardPolling = ({
       });
 
       setIsSyncing(true);
-
-      console.log(
-        `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Found ${
-          syncingIds.length
-        } syncing listings:`,
-        syncingIds
-      );
     } catch (error) {
       console.error(
         `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Error checking sync status:`,
@@ -168,9 +142,6 @@ export const useDashboardPolling = ({
   const startPolling = useCallback(() => {
     if (!enabled || pollingIntervalRef.current) return;
 
-    console.log(
-      `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Starting polling every ${pollingInterval}ms`
-    );
     setIsPolling(true);
     // kick once immediately, then interval
     void checkSyncStatus();
@@ -183,10 +154,6 @@ export const useDashboardPolling = ({
 
     try {
       // Debug: Log the initial data structure
-      // console.log(
-      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial data:`,
-      //   data
-      // );
 
       // Try different possible data structures
       let listings = [];
@@ -196,15 +163,7 @@ export const useDashboardPolling = ({
         listings = data.listings;
       }
 
-      // console.log(
-      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial extracted listings:`,
-      //   listings
-      // );
-
       if (!listings || listings.length === 0) {
-        // console.log(
-        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No listings found in initial data`
-        // );
         return;
       }
 
@@ -213,19 +172,11 @@ export const useDashboardPolling = ({
         .map((listing: DashboardListing) => getListingId(listing));
 
       if (syncingIds.length > 0) {
-        // console.log(
-        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial check found ${
-        //     syncingIds.length
-        //   } syncing listings, starting polling`
-        // );
         setSyncingListings(syncingIds);
         setIsSyncing(true);
         setDidFinalRefetch(false); // allow final refetch for this run
         startPolling();
       } else {
-        // console.log(
-        //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] No syncing listings found`
-        // );
         setSyncingListings([]);
         setIsSyncing(false);
         setIsPolling(false);
@@ -255,9 +206,6 @@ export const useDashboardPolling = ({
   const stopPolling = useCallback(() => {
     // Only log and execute if currently polling to avoid spam
     if (isPolling || pollingIntervalRef.current) {
-      // console.log(
-      //   `[${dashboardType.toUpperCase()} DASHBOARD POLLING] Stopping polling`
-      // );
       clearPollingInterval();
       setIsPolling(false);
       setSyncingListings([]);

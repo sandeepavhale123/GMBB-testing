@@ -378,7 +378,6 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
     if (isValid) return;
 
     const errors = form.formState.errors;
-    console.log("Form errors:", errors); // Debug log
 
     // Dynamic field-to-section mapping based on schedule type
     const currentScheduleType = watchScheduleType;
@@ -460,12 +459,6 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
     }
 
     if (firstErrorField) {
-      console.log(
-        "Scrolling to field:",
-        firstErrorField,
-        "Schedule type:",
-        currentScheduleType
-      ); // Debug log
       const targetSection = dynamicFieldToSectionMap[firstErrorField];
 
       if (targetSection?.current) {
@@ -535,7 +528,6 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
           }
         }, 400);
       } else {
-        console.log("Target section not found for field:", firstErrorField); // Debug log
         // Fallback: scroll to first available section with errors
         const allSections = [
           reportDetailsRef,

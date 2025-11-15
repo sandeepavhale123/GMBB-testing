@@ -43,7 +43,6 @@ export const VerifySignupPage = () => {
         }
 
         const data = await res.json();
-        // console.log("✅ Verification success:", data);
         setStatus("success");
 
         toast({

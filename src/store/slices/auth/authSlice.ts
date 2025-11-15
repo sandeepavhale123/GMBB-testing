@@ -43,10 +43,6 @@ const initialState: AuthState = {
 export const clearExpiredTokensAndRefresh = createAsyncThunk(
   "auth/clearExpiredTokensAndRefresh",
   async (_, { dispatch, rejectWithValue }) => {
-    // console.log(
-    //   "⏰ Clearing expired tokens and attempting immediate refresh..."
-    // );
-
     // Clear expired tokens from state and localStorage
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
@@ -56,15 +52,10 @@ export const clearExpiredTokensAndRefresh = createAsyncThunk(
     const userId = localStorage.getItem("userId");
 
     if (!refreshToken) {
-      // console.log("❌ No refresh token found, cannot refresh");
       return rejectWithValue("No refresh token available");
     }
 
     try {
-      // console.log(
-      //   "🔄 Calling refresh API immediately after clearing expired tokens..."
-      // );
-
       const payload: TokenRefreshPayload = {
         refresh_token: refreshToken,
         userId: userId || "",
@@ -88,7 +79,6 @@ export const clearExpiredTokensAndRefresh = createAsyncThunk(
       }
 
       const data: TokenRefreshResponse = await response.json();
-      // console.log("✅ Token refresh successful after clearing expired tokens");
 
       // Store new tokens
       localStorage.setItem("access_token", data.data.access_token);
@@ -128,10 +118,8 @@ const authSlice = createSlice({
       // Store in localStorage when setting
       if (action.payload) {
         localStorage.setItem("access_token", action.payload);
-        // console.log("🔑 Access token stored in localStorage");
       } else {
         localStorage.removeItem("access_token");
-        // console.log("🗑️ Access token removed from localStorage");
       }
     },
     setUser: (state, action) => {
@@ -139,10 +127,8 @@ const authSlice = createSlice({
       // Store in localStorage when setting
       if (action.payload) {
         localStorage.setItem("user", JSON.stringify(action.payload));
-        // console.log("👤 User data stored in localStorage");
       } else {
         localStorage.removeItem("user");
-        // console.log("🗑️ User data removed from localStorage");
       }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -150,22 +136,18 @@ const authSlice = createSlice({
     },
     setIsRefreshing: (state, action: PayloadAction<boolean>) => {
       state.isRefreshing = action.payload;
-      // console.log("🔄 AuthSlice: isRefreshing set to:", action.payload);
     },
     setHasAttemptedRefresh: (state, action: PayloadAction<boolean>) => {
       state.hasAttemptedRefresh = action.payload;
-      // console.log("🔄 AuthSlice: hasAttemptedRefresh set to:", action.payload);
     },
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
-      // console.log('🏁 AuthSlice: isInitialized set to:', action.payload);
     },
     setIsAuthenticating: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticating = action.payload;
     },
     // Action to rehydrate from localStorage
     rehydrateAuth: (state) => {
-      // console.log("🔄 AuthSlice: Rehydrating auth state from localStorage");
       const storedAccessToken = localStorage.getItem("access_token");
       const storedUser = localStorage.getItem("user");
       const refreshToken = localStorage.getItem("refresh_token");
@@ -176,9 +158,6 @@ const authSlice = createSlice({
           state.user = JSON.parse(storedUser);
           // Only set hasAttemptedRefresh to true if we have complete auth data
           state.hasAttemptedRefresh = true;
-          // console.log(
-          //   "✅ AuthSlice: Rehydrated with valid auth data, hasAttemptedRefresh = true"
-          // );
         } catch (error) {
           console.error("❌ Error parsing stored user data:", error);
           // Clear invalid data
@@ -188,15 +167,11 @@ const authSlice = createSlice({
         }
       } else if (refreshToken) {
         // We have a refresh token but no access token - we should attempt refresh
-        // console.log(
-        //   "🔄 AuthSlice: Have refresh token but no access token, will attempt refresh"
-        // );
+
         state.hasAttemptedRefresh = false;
       } else {
         // No tokens at all - mark as attempted so we don't try to refresh
-        // console.log(
-        //   "❌ AuthSlice: No tokens found, marking refresh as attempted"
-        // );
+
         state.hasAttemptedRefresh = true;
       }
 
@@ -204,8 +179,6 @@ const authSlice = createSlice({
     },
     // Enhanced logout with comprehensive cleanup
     logout: (state) => {
-      // console.log("🚪 Starting logout process...");
-
       // Reset auth state to initial values
       state.accessToken = null;
       state.user = null;
@@ -222,13 +195,9 @@ const authSlice = createSlice({
       localStorage.removeItem("current_user_session");
       localStorage.removeItem("last_user_session");
       localStorage.removeItem("last_refresh_attempt");
-
-      // console.log("✅ Logout completed - auth state and storage cleared");
     },
     // Action for clearing expired tokens without full logout
     clearExpiredTokens: (state) => {
-      // console.log("⏰ Clearing expired tokens...");
-
       state.accessToken = null;
       state.user = null;
       state.isRefreshing = false;
@@ -237,8 +206,6 @@ const authSlice = createSlice({
       // Clear auth storage but keep refresh token for potential retry
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
-
-      // console.log("✅ Expired tokens cleared, refresh token preserved");
     },
   },
   extraReducers: (builder) => {
@@ -247,26 +214,18 @@ const authSlice = createSlice({
         state.isRefreshing = true;
         state.accessToken = null;
         state.user = null;
-        // console.log("🔄 Starting clear expired tokens and refresh...");
       })
       .addCase(clearExpiredTokensAndRefresh.fulfilled, (state, action) => {
         state.isRefreshing = false;
         state.hasAttemptedRefresh = true;
         state.accessToken = action.payload.accessToken;
         state.user = action.payload.user;
-        // console.log(
-        //   "✅ Clear expired tokens and refresh completed successfully"
-        // );
       })
       .addCase(clearExpiredTokensAndRefresh.rejected, (state, action) => {
         state.isRefreshing = false;
         state.hasAttemptedRefresh = true;
         state.accessToken = null;
         state.user = null;
-        // console.log(
-        //   "❌ Clear expired tokens and refresh failed:",
-        //   action.payload
-        // );
       });
   },
 });

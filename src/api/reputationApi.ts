@@ -31,7 +31,7 @@ export const createFeedbackForm = async (
   data: CreateFeedbackFormRequest
 ): Promise<CreateFeedbackFormResponse> => {
   const formData = new FormData();
-  
+
   formData.append("formName", data.formName);
   if (data.logo) {
     formData.append("logo", data.logo);
@@ -54,7 +54,7 @@ export const createFeedbackForm = async (
       },
     }
   );
-  
+
   return response.data;
 };
 
@@ -72,6 +72,7 @@ export interface GetFeedbackFormResponse {
   code: number;
   message: string;
   data: {
+    language: string;
     formName: string;
     logo: string;
     title: string;
@@ -157,7 +158,7 @@ export const updateFeedbackForm = async (
   data: UpdateFeedbackFormRequest
 ): Promise<UpdateFeedbackFormResponse> => {
   const formData = new FormData();
-  
+
   formData.append("formId", data.formId);
   formData.append("formName", data.formName);
   if (data.logo) {
@@ -181,7 +182,7 @@ export const updateFeedbackForm = async (
       },
     }
   );
-  
+
   return response.data;
 };
 
@@ -229,15 +230,15 @@ export const useSubmitFeedbackForm = () => {
 };
 
 // Get All Feedback Forms
-import type { 
-  GetAllFeedbackFormsRequest, 
+import type {
+  GetAllFeedbackFormsRequest,
   GetAllFeedbackFormsResponse,
   DeleteFeedbackFormRequest,
   DeleteFeedbackFormResponse,
   GetFeedbackDetailsRequest,
   GetFeedbackDetailsResponse,
   GetFeedbackResponseStatsRequest,
-  GetFeedbackResponseStatsResponse
+  GetFeedbackResponseStatsResponse,
 } from "@/modules/Reputation-module/v1/types";
 
 export const getAllFeedbackForms = async (

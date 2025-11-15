@@ -75,8 +75,6 @@ export const useGeoRankingReport = (
   const determineDistanceUnit = (
     distance: string
   ): { unit: string; value: string } => {
-    // console.log("🔍 determineDistanceUnit called with:", distance);
-
     // Use exact dropdown values from geoRankingUtils.ts
     const meterValues = ["100", "200", "500", "1", "2.5", "5", "10", "25"];
     const mileValues = [
@@ -92,36 +90,26 @@ export const useGeoRankingReport = (
       "10mi",
     ];
 
-    // console.log("🌐 Distance analysis:", {
-    //   distance,
-    //   originalDistance: distance,
-    //   lowercaseDistance: distance.toLowerCase(),
-    // });
-
     // First, try direct match with mile values (case insensitive)
     const mileMatch = mileValues.find((val) => val === distance.toLowerCase());
     if (mileMatch) {
       const result = { unit: "Miles", value: mileMatch };
-      // console.log("📏 Direct mile match result:", result);
       return result;
     }
 
     // Check if it contains 'mi' and try to match
     if (distance.toLowerCase().includes("mi")) {
       const result = { unit: "Miles", value: distance.toLowerCase() };
-      // console.log('📏 Mile with "mi" result:', result);
       return result;
     }
 
     // Extract numeric value and try to match
     const numericValue = distance.replace(/[^0-9.]/g, "");
-    // console.log("📊 Extracted numeric value:", numericValue);
 
     // Try direct match with meter values
     const meterMatch = meterValues.find((val) => val === numericValue);
     if (meterMatch) {
       const result = { unit: "Meters", value: meterMatch };
-      // console.log("📏 Meter match result:", result);
       return result;
     }
 
@@ -129,13 +117,11 @@ export const useGeoRankingReport = (
     const mileNumericMatch = mileValues.find((val) => val === numericValue);
     if (mileNumericMatch) {
       const result = { unit: "Miles", value: mileNumericMatch };
-      // console.log("📏 Mile numeric match result:", result);
       return result;
     }
 
     // Default fallback - assume meters
     const result = { unit: "Meters", value: numericValue || "100" };
-    // console.log("📏 Fallback result:", result);
     return result;
   };
 
@@ -148,10 +134,6 @@ export const useGeoRankingReport = (
     const urlParams = new URLSearchParams(window.location.search);
     const isClone = urlParams.get("clone") === "true";
 
-    // console.log("🔄 initializeFromCloneData called");
-    // console.log("📋 URL Params:", Object.fromEntries(urlParams.entries()));
-    // console.log("🔍 Is Clone:", isClone);
-
     if (isClone) {
       const keyword = urlParams.get("keyword");
       const distance = urlParams.get("distance");
@@ -159,37 +141,20 @@ export const useGeoRankingReport = (
       const schedule = urlParams.get("schedule");
       const mapPoint = urlParams.get("mapPoint");
 
-      // console.log("📊 Extracted params:", {
-      //   keyword,
-      //   distance,
-      //   grid,
-      //   schedule,
-      //   mapPoint,
-      // });
-
       const updates: Partial<GeoRankingHookFormData> = {};
 
       if (keyword) {
         updates.keywords = keyword;
-        // console.log("✅ Set keywords:", keyword);
       }
 
       if (distance) {
-        // console.log("🔍 Processing distance:", distance);
         const { unit, value } = determineDistanceUnit(distance);
         updates.distanceUnit = unit;
         updates.distanceValue = value;
-        // console.log("📏 Distance processing result:", {
-        //   originalDistance: distance,
-        //   determinedUnit: unit,
-        //   determinedValue: value,
-        //   updates: updates,
-        // });
       }
 
       if (grid) {
         updates.gridSize = grid;
-        // console.log("🔢 Set grid size:", grid);
       }
 
       if (schedule) {
@@ -202,41 +167,30 @@ export const useGeoRankingReport = (
           "one-time": "onetime",
         };
         updates.scheduleCheck = scheduleMap[schedule.toLowerCase()] || schedule;
-        // console.log("⏰ Set schedule:", {
-        //   original: schedule,
-        //   mapped: updates.scheduleCheck,
-        // });
       }
 
       if (mapPoint) {
         updates.mapPoint = mapPoint;
-        // console.log("📍 Set map point:", mapPoint);
       }
-
-      // console.log("🔄 Final updates to apply:", updates);
 
       if (Object.keys(updates).length > 0) {
         setFormData((prev) => {
           const newFormData = { ...prev, ...updates };
-          // console.log("✅ Updated form data:", newFormData);
           return newFormData;
         });
 
         // Mark clone processing as complete after state update
         setTimeout(() => {
-          // console.log("🎯 Clone processing complete, enabling effects");
           setCloneProcessingComplete(true);
           setIsInitializing(false);
         }, 50);
       } else {
         // No clone data, end initialization immediately
-        // console.log("🔄 No clone data, ending initialization");
         setCloneProcessingComplete(true);
         setIsInitializing(false);
       }
     } else {
       // Not cloning, end initialization immediately
-      // console.log("🔄 Not cloning, ending initialization");
       setCloneProcessingComplete(true);
       setIsInitializing(false);
     }
@@ -312,14 +266,6 @@ export const useGeoRankingReport = (
           : processedDistance;
       const latlong = `${coords.lat},${coords.lng}`;
 
-      // console.log("Sending to API:", {
-      //   gridSize,
-      //   distance,
-      //   distanceUnit: formData.distanceUnit,
-      //   distanceValue: formData.distanceValue,
-      //   processedDistance,
-      // });
-
       const response = useModuleApi
         ? await getGridCoordinatesForGeoModule(distance, latlong, gridSize)
         : await getGridCoordinates(listingId, distance, latlong, gridSize);
@@ -343,26 +289,10 @@ export const useGeoRankingReport = (
 
   // Fetch grid coordinates when relevant parameters change
   useEffect(() => {
-    console.log("🔍 Grid coordinates useEffect triggered:", {
-      mapPoint: formData.mapPoint,
-      defaultCoordinates: defaultCoordinates,
-      gridSize: formData.gridSize,
-      distanceValue: formData.distanceValue,
-      distanceUnit: formData.distanceUnit,
-    });
-
     if (formData.mapPoint === "Automatic" && defaultCoordinates) {
-      console.log("✅ Calling fetchGridCoordinates with:", {
-        gridSize: formData.gridSize,
-        distanceValue: formData.distanceValue,
-        coordinates: defaultCoordinates,
-      });
       fetchGridCoordinates();
     } else {
-      console.log("❌ Grid coordinates fetch blocked:", {
-        isAutomatic: formData.mapPoint === "Automatic",
-        hasCoordinates: !!defaultCoordinates,
-      });
+      //
     }
 
     // Only clear manual coordinates when switching FROM another mode TO manual mode
@@ -387,19 +317,10 @@ export const useGeoRankingReport = (
   // Reset distance value when unit changes (but not during clone processing)
   useEffect(() => {
     if (!cloneProcessingComplete) {
-      // console.log("🚫 Skipping distance reset during clone processing");
-      // console.log("🔍 Clone processing complete:", cloneProcessingComplete);
-      // console.log("🔍 Distance unit:", formData.distanceUnit);
-      // console.log("🔍 Distance value:", formData.distanceValue);
       return;
     }
 
     const defaultValue = formData.distanceUnit === "Meters" ? "100" : ".1";
-    // console.log("🔄 Resetting distance value to default:", defaultValue);
-    // console.log(
-    //   "🔍 Current distance value before reset:",
-    //   formData.distanceValue
-    // );
 
     setFormData((prev) => ({
       ...prev,
@@ -483,10 +404,6 @@ export const useGeoRankingReport = (
 
     try {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        // console.log(
-        //   `Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`
-        // );
-
         // Update progress using enhanced logic
         if (attempt > 1) {
           // Don't increment on first attempt since we start at 10%
@@ -514,19 +431,13 @@ export const useGeoRankingReport = (
           }
         } else {
           // Data is ready - show 100% progress, then display results after delay
-          // console.log("Keyword details ready:", response);
+
           setIsCompleting(true);
           setPollingProgress(100);
 
           // Show 100% progress for 2 seconds before displaying results
           setTimeout(() => {
             const keywordData = response.data as KeywordDetailsData;
-            // console.log("🎯 Keyword data received:", {
-            //   rankDetails: keywordData.rankDetails,
-            //   totalRankDetails: keywordData.rankDetails?.length || 0,
-            //   mapPoint: formData.mapPoint,
-            //   manualCoordinatesSubmitted: manualCoordinates.length,
-            // });
 
             setKeywordData(keywordData);
             setPollingKeyword(false);
@@ -605,13 +516,6 @@ export const useGeoRankingReport = (
         return { success: false, shouldNavigate: false };
       }
 
-      // console.log("📍 Submitting coordinates:", {
-      //   mapPoint: formData.mapPoint,
-      //   coordinatesArray,
-      //   manualCoordinates: manualCoordinates.length,
-      //   gridCoordinates: gridCoordinates.length,
-      // });
-
       // Transform form data to API format
       const processedDistance = processDistanceValue(
         formData.distanceValue,
@@ -628,8 +532,6 @@ export const useGeoRankingReport = (
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),
         latlng: coordinatesArray,
       };
-
-      // console.log("Check rank request data:", requestData);
 
       const response = await addKeywords(requestData);
       const multipleKeywords = isMultipleKeywords(formData.keywords);

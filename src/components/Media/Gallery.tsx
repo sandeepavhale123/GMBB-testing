@@ -480,13 +480,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   // Debug: Log video data when mediaType is VIDEO
   React.useEffect(() => {
     if (mediaType === "VIDEO") {
-      // console.log("VIDEO tab selected");
-      // console.log("Raw images data:", images);
-      // console.log("Transformed mediaData:", mediaData);
-      console.log(
-        "Video items:",
-        mediaData.filter((item) => item.type === "video")
-      );
+      //
     }
   }, [mediaType, images, mediaData]);
   const { toast } = useToast();
@@ -524,8 +518,6 @@ export const Gallery: React.FC<GalleryProps> = ({
       "video/avi",
       "video/mov",
     ];
-    // console.log("we are inside validate file and file size is", file.size);
-    // console.log("we are inside validate file and max size is", maxSize);
 
     if (!allowedTypes.includes(file.type)) {
       toast({
@@ -537,7 +529,6 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
 
     if (file.size > maxSize) {
-      // console.log("inside test size");
       toast({
         title: t("gallery.errTitle.fileTitle"),
         description: t("gallery.messages.fileTooLarge", {

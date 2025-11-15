@@ -44,7 +44,6 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
   };
 
   const closeModal = () => {
-    // console.log("we are inside the modal close");
     setSelectedImage(null);
     onModalClose?.(); // unlock drawer scroll
   };

@@ -47,8 +47,6 @@ const appReducer = combineReducers({
 const rootReducer = (state: any, action: any) => {
   // Reset store to initial state when RESET_STORE action is dispatched
   if (action.type === RESET_STORE) {
-    // console.log("🔄 Global store reset triggered");
-
     // Preserve certain keys before clearing
     const preservedKeys = ["theme", "i18nextLng"];
     const preservedData: Record<string, string> = {};

@@ -157,7 +157,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
     : apiData && "listings" in apiData
     ? apiData.listings
     : [];
-  console.log("paginated data", paginatedData);
+
   // Loading and error states
   if (configLoading || isLoading) {
     return (

@@ -87,10 +87,6 @@ export const useProjectKeywordRefresh = ({
                   );
 
                 if (sortedDates.length > 0) {
-                  console.log(
-                    "🗺️ Auto-selecting latest date after refresh:",
-                    sortedDates[0]
-                  );
                   onDateSelect(sortedDates[0].id);
                 }
               }

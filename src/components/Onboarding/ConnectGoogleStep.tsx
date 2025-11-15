@@ -37,7 +37,6 @@ const ConnectGoogleStep = () => {
       !oauthParams.processed &&
       !alreadyHandled
     ) {
-      // console.log("Setting OAuth parameters");
       setOauthParameters(code, searchParams, false);
     }
   }, [search, oauthParams.code, oauthParams.processed, setOauthParameters]);

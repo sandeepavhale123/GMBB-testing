@@ -1,0 +1,10 @@
+{
+  "title": "🎉 Modulo di feedback creato con successo!",
+  "description": "Il tuo modulo \"{{formName}}\" è stato creato. Condividi il link qui sotto con i tuoi clienti.",
+  "formUrlLabel": "URL del modulo",
+  "copyInfo": "Clicca sull'icona di copia per copiare l'URL del modulo negli appunti",
+  "copyLink": "Copia link",
+  "goToDashboard": "Vai al cruscotto",
+  "toastTitle": "Link copiato!",
+  "toastDescription": "L'URL del modulo è stato copiato negli appunti"
+}

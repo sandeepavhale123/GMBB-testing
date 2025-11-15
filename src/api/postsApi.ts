@@ -201,7 +201,6 @@ export const postsApi = {
   createPost: async (
     request: CreatePostRequest
   ): Promise<CreatePostResponse> => {
-    // console.log('🚀 API createPost called with:', request);
     const formData = new FormData();
 
     // Add all fields to FormData
@@ -218,14 +217,12 @@ export const postsApi = {
     }
     if (request.selectedImage) {
       formData.append("selectedImage", request.selectedImage);
-      // console.log('✅ Added selectedImage to FormData:', request.selectedImage);
     }
     if (request.aiImageUrl) {
       formData.append("aiImageUrl", request.aiImageUrl);
     }
     if (request.galleryImageUrl) {
       formData.append("galleryImageUrl", request.galleryImageUrl);
-      // console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
     }
     if (request.ctaButton) {
       formData.append("ctaButton", request.ctaButton);
@@ -276,7 +273,6 @@ export const postsApi = {
   createBulkPost: async (
     request: CreateBulkPostRequest
   ): Promise<CreateBulkPostResponse> => {
-    // console.log('🚀 API createBulkPost called with:', request);
     const formData = new FormData();
 
     // Add all fields to FormData
@@ -293,14 +289,12 @@ export const postsApi = {
     }
     if (request.selectedImage) {
       formData.append("selectedImage", request.selectedImage);
-      // console.log('✅ Added selectedImage to FormData:', request.selectedImage);
     }
     if (request.aiImageUrl) {
       formData.append("aiImageUrl", request.aiImageUrl);
     }
     if (request.galleryImageUrl) {
       formData.append("galleryImageUrl", request.galleryImageUrl);
-      // console.log('🖼️ Added galleryImageUrl to FormData:', request.galleryImageUrl);
     }
     if (request.ctaButton) {
       formData.append("ctaButton", request.ctaButton);
@@ -341,20 +335,36 @@ export const postsApi = {
     return response.data;
   },
 
-  getBulkPostsOverview: async (request: GetBulkPostsOverviewRequest): Promise<GetBulkPostsOverviewResponse> => {
-    const response = await axiosInstance.post("/get-bulk-posts-overview", request);
+  getBulkPostsOverview: async (
+    request: GetBulkPostsOverviewRequest
+  ): Promise<GetBulkPostsOverviewResponse> => {
+    const response = await axiosInstance.post(
+      "/get-bulk-posts-overview",
+      request
+    );
     return response.data;
   },
 
-  deleteBulkPost: async (request: { bulkId: number }): Promise<{ code: number; message: string; data: any[] }> => {
-    const response = await axiosInstance.post("/delete-bulk-overview-posts", request);
+  deleteBulkPost: async (request: {
+    bulkId: number;
+  }): Promise<{ code: number; message: string; data: any[] }> => {
+    const response = await axiosInstance.post(
+      "/delete-bulk-overview-posts",
+      request
+    );
     return response.data;
   },
 
-  getBulkPostDetails: async (request: { bulkId: number; search: string; status: string; page: number; limit: number }): Promise<{ 
-    code: number; 
-    message: string; 
-    data: { 
+  getBulkPostDetails: async (request: {
+    bulkId: number;
+    search: string;
+    status: string;
+    page: number;
+    limit: number;
+  }): Promise<{
+    code: number;
+    message: string;
+    data: {
       postSummary: Array<{
         posttype: string;
         posttext: string;
@@ -379,27 +389,34 @@ export const postsApi = {
         limit: number;
         pages: number;
       };
-    } 
+    };
   }> => {
     const response = await axiosInstance.post("/get-bulk-posts-details", {
       bulkId: request.bulkId,
       search: request.search,
       status: request.status,
       page: request.page,
-      limit: request.limit
+      limit: request.limit,
     });
     return response.data;
   },
 
-  deletePostFromBulk: async (request: { postId: string }): Promise<{ code: number; message: string; data: any[] }> => {
+  deletePostFromBulk: async (request: {
+    postId: string;
+  }): Promise<{ code: number; message: string; data: any[] }> => {
     const response = await axiosInstance.post("/delete-bulk-posts", {
-      postId: [Number(request.postId)]
+      postId: [Number(request.postId)],
     });
     return response.data;
   },
 
-  getBulkPostsSummary: async (request: GetBulkPostsSummaryRequest): Promise<GetBulkPostsSummaryResponse> => {
-    const response = await axiosInstance.post("/get-bulk-posts-summary", request);
+  getBulkPostsSummary: async (
+    request: GetBulkPostsSummaryRequest
+  ): Promise<GetBulkPostsSummaryResponse> => {
+    const response = await axiosInstance.post(
+      "/get-bulk-posts-summary",
+      request
+    );
     return response.data;
-  }
+  },
 };

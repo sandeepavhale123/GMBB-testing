@@ -1,0 +1,12 @@
+{
+    "totalResponses": "Totale risposte",
+    "averageRating": "Valutazione media",
+    "positiveThreshold": "Soglia positiva",
+    "suffix": "/5",
+    "starsSuffix": "+ stelle",
+    "sentimentAnalysis": "Analisi del sentiment",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "responses": "risposte"
+  }

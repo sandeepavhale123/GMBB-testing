@@ -15,7 +15,7 @@ const AIChatbotPage = () => {
   const { listingId } = useParams();
   const [searchParams] = useSearchParams();
 
-  // Extract keyword information from URL parameters
+  // Extract keyword information from URL parameters.
   const keyword = searchParams.get("keyword") || "";
   const keywordId = searchParams.get("keywordId") || "";
 

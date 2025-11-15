@@ -79,14 +79,6 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
   }, [accountId, page, limit, search, status, sortOrder]);
 
   useEffect(() => {
-    // console.log("[useAccountListings] Effect Triggered", {
-    //   accountId,
-    //   page,
-    //   limit,
-    //   search,
-    //   status,
-    //   sortOrder,
-    // });
     fetchListings();
   }, [fetchListings]);
 

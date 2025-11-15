@@ -182,7 +182,6 @@ export const saveBusinessDetails = createAsyncThunk(
     const state = getState() as { onboarding: OnboardingState };
     const payload = mapFormDataToBusinessPayload(state.onboarding.formData);
     const result = await updateBusinessDetails(payload);
-    console.log("payload for business", payload);
     return result;
   }
 );
@@ -192,7 +191,6 @@ export const fetchGoals = createAsyncThunk(
   "onboarding/fetchGoals",
   async () => {
     const response = await getGoalList();
-    // console.log("goals from onboardingslice", response);
     return response;
   }
 );
@@ -202,7 +200,6 @@ export const saveGoals = createAsyncThunk(
   "onboarding/saveGoals",
   async (goalIds: number[]) => {
     const payload = { listIds: goalIds };
-    // console.log("payload in onboarding", JSON.stringify(payload));
     const response = await updateGoalList(payload);
     return response;
   }
@@ -225,7 +222,6 @@ const onboardingSlice = createSlice({
     nextStep: (state) => {
       if (state.currentStep < 5) {
         state.currentStep += 1;
-        console.log("next step", state.currentStep);
         saveCurrentStepToStorage(state.currentStep);
       }
     },
@@ -341,7 +337,6 @@ const onboardingSlice = createSlice({
 
         // If there are active goals, update the form data
         if (action.payload.data && action.payload.data.activeList) {
-          // console.log("Active goals received:", action.payload.data.activeList);
           const selectedGoals = action.payload.data.activeList.map(
             (goal: any) => (typeof goal === "string" ? goal : goal.id)
           );

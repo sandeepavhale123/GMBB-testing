@@ -41,7 +41,6 @@ export const InsightsComparisonChart: React.FC = () => {
         endDate: "",
       };
 
-      // console.log('Fetching comparison data with params:', params);
       dispatch(fetchInsightsComparison(params));
     }
   }, [selectedListing?.id, dispatch]);

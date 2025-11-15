@@ -11,7 +11,6 @@ export const healthApi = {
       listingId,
       refresh,
     });
-    // console.log("health response api", response.data);
     return response.data;
   },
 };

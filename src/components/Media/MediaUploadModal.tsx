@@ -209,7 +209,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
     if (firstFile) {
-      // console.log('File added:', firstFile.name, firstFile.size, 'bytes', firstFile.type);
       const mediaFile: MediaFile = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         file: firstFile,
@@ -567,13 +566,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     variants: number;
     style: string;
   }) => {
-    // console.log("AI generated media received:", {
-    //   imageUrl: generatedMedia.imageUrl,
-    //   prompt: generatedMedia.prompt,
-    //   style: generatedMedia.style,
-    //   variants: generatedMedia.variants,
-    // });
-
     // Convert AI generated image to MediaFile
     const aiFile: MediaFile = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
