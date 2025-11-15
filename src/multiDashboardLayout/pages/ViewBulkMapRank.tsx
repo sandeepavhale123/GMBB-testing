@@ -203,7 +203,7 @@ export const ViewBulkMapRank: React.FC = () => {
         <div className="flex items-start justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-foreground">
-              {businessName || "Business Name"}
+              {keywordDetailsData?.data?.keywordDetails?.keywordName || "Keyword Name"}
             </h1>
             <p className="text-muted-foreground mt-1">
               View ranking details and performance metrics
