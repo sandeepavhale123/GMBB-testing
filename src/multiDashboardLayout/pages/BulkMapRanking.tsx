@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useBulkMapRankingStats } from "@/api/bulkMapRankingApi";
 import {
   Table,
   TableBody,
@@ -72,12 +73,6 @@ const mockData = [
   },
 ];
 
-const summaryData = {
-  noOfKeywords: 245,
-  noOfSearch: 1234,
-  scheduledScan: 45,
-  availableCredits: 500,
-};
 
 export const BulkMapRanking: React.FC = () => {
   const navigate = useNavigate();
@@ -85,6 +80,18 @@ export const BulkMapRanking: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  // Fetch stats from API
+  const { data: statsData, isLoading: statsLoading, error: statsError } = useBulkMapRankingStats();
+
+  // Extract stats with defaults
+  const stats = {
+    noOfKeywords: statsData?.data?.noOfKeywords || 0,
+    totalProjects: statsData?.data?.totalProjects || 0,
+    noOfSchedule: statsData?.data?.noOfSchedule || 0,
+    remainingCredit: statsData?.data?.remainingCredit || 0,
+    allowedCredit: statsData?.data?.allowedCredit || 0,
+  };
 
   // Filter data based on search query
   const filteredData = mockData.filter((item) =>
@@ -134,16 +141,24 @@ export const BulkMapRanking: React.FC = () => {
             <CardTitle className="text-sm font-medium">No Of Keywords</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summaryData.noOfKeywords}</div>
+            {statsLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <div className="text-2xl font-bold">{stats.noOfKeywords}</div>
+            )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">No Of Search</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summaryData.noOfSearch.toLocaleString()}</div>
+            {statsLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <div className="text-2xl font-bold">{stats.totalProjects}</div>
+            )}
           </CardContent>
         </Card>
 
@@ -152,16 +167,26 @@ export const BulkMapRanking: React.FC = () => {
             <CardTitle className="text-sm font-medium">Scheduled Scan</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summaryData.scheduledScan}</div>
+            {statsLoading ? (
+              <Skeleton className="h-8 w-20" />
+            ) : (
+              <div className="text-2xl font-bold">{stats.noOfSchedule}</div>
+            )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Available Credits</CardTitle>
+            <CardTitle className="text-sm font-medium">Credits</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summaryData.availableCredits}</div>
+            {statsLoading ? (
+              <Skeleton className="h-8 w-32" />
+            ) : (
+              <div className="text-2xl font-bold">
+                {stats.remainingCredit.toLocaleString()} / {stats.allowedCredit.toLocaleString()}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
