@@ -22,6 +22,7 @@ interface MultiListingSelectorProps {
   error?: string;
   label?: string;
   placeholder?: string;
+  className?: string;
 }
 interface ListingOption {
   id: string;
@@ -36,6 +37,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   error,
   label = "Select Listings & Groups",
   placeholder = "Select listings and groups...",
+  className,
 }) => {
   const { t } = useI18nNamespace("Post/multiListingSelector");
   const [open, setOpen] = useState(false);
@@ -180,7 +182,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
     locationOptions.length > 0 &&
     locationOptions.every((option) => selectedListings.includes(option.id));
   return (
-    <div className="space-y-3">
+    <div className={className || "space-y-3"}>
       <Label className="text-sm font-medium">
         {t("multiListingSelector.label")}
       </Label>
