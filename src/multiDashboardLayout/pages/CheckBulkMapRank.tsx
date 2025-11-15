@@ -54,11 +54,12 @@ export const CheckBulkMapRank: React.FC = () => {
                 <div className="space-y-6">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Select Business Name - Multi Select */}
-                    <div className="space-y-2">
+                    <div className="space-y-2 relative">
                       <MultiListingSelector
                         selectedListings={selectedListings}
                         onListingsChange={setSelectedListings}
                         label="Select Business Name *"
+                        className="absolute z-50 space-y-3"
                       />
                     </div>
 
