@@ -42,7 +42,7 @@ export const CheckBulkMapRank: React.FC = () => {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div className="relative  min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
+              <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
                 <img
                   src="/lovable-uploads/bg-img/map-bg-image.png"
                   alt="Banner"
@@ -54,14 +54,16 @@ export const CheckBulkMapRank: React.FC = () => {
                 <div className="space-y-6">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Select Business Name - Multi Select */}
-                    <div className="space-y-2 relative">
+                   <div className="h-[90px]">
+                     <div className="space-y-2 relative">
                       <MultiListingSelector
                         selectedListings={selectedListings}
                         onListingsChange={setSelectedListings}
                         label="Select Business Name *"
-                        className="absolute z-50 space-y-3"
+                        className="absolute z-50 space-y-3 w-full"
                       />
                     </div>
+                   </div>
 
                   {/* Keywords */}
                   <div className="space-y-2">
