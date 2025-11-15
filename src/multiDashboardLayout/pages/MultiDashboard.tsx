@@ -638,7 +638,7 @@ export const MultiDashboard: React.FC = () => {
                   onValueChange={handleDashboardTypeChange}
                   disabled={isUpdatingDashboard}
                 >
-                  <SelectTrigger className="w-full sm:w-48 bg-background">
+                  <SelectTrigger className="w-full sm:w-48 bg-background" name="selectDashboardType">
                     <SelectValue placeholder="Dashboard Type" />
                   </SelectTrigger>
                   <SelectContent className="bg-background border">
@@ -671,6 +671,7 @@ export const MultiDashboard: React.FC = () => {
                   size="sm"
                   className="flex items-center gap-2"
                   onClick={() => setShowShareModal(true)}
+                  name="btn-share"
                 >
                   <Share2 className="h-4 w-4" />
                   <span className="hidden sm:inline">
@@ -725,7 +726,7 @@ export const MultiDashboard: React.FC = () => {
                   }
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-full sm:w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background" name="selectCategory">
                     <SelectValue
                       placeholder={
                         categoryStateLoading
@@ -754,7 +755,7 @@ export const MultiDashboard: React.FC = () => {
                   onValueChange={(value) => handleFilterChange("state", value)}
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-full sm:w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background" name="selectStats">
                     <SelectValue
                       placeholder={
                         categoryStateLoading
