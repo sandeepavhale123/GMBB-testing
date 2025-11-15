@@ -31,6 +31,32 @@ export const formatSchedule = (schedule: string): string => {
   return schedule.charAt(0).toUpperCase() + schedule.slice(1);
 };
 
+// Map kStatus from API (0/1) to display value
+export const mapKeywordStatus = (kStatus: string): "completed" | "pending" => {
+  return kStatus === "0" ? "completed" : "pending";
+};
+
+// Format rank for display (handles "20+" format)
+export const formatRank = (rank: string): string => {
+  return rank === "20+" ? "20+" : `#${rank}`;
+};
+
+// Get status badge variant
+export const getStatusBadgeVariant = (
+  status: "completed" | "pending" | "failed"
+): "default" | "secondary" | "destructive" => {
+  switch (status) {
+    case "completed":
+      return "default";
+    case "pending":
+      return "secondary";
+    case "failed":
+      return "destructive";
+    default:
+      return "secondary";
+  }
+};
+
 // Transform API response to BulkMapSummaryCards props
 export const transformKeywordDetailsToSummaryProps = (
   data: BulkMapRankingKeywordDetailsResponse["data"]
