@@ -87,16 +87,16 @@ export const DataPagination: React.FC<DataPaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className={`flex items-center ${alignmentClass} gap-4 flex-wrap`}>
+    <div className="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
       {/* Optional item count */}
       {showItemCount && totalItems && startItem && endItem && (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground whitespace-nowrap">
           Showing {startItem} to {endItem} of {totalItems} results
         </div>
       )}
 
       {/* Pagination controls */}
-      <Pagination className={alignmentClass}>
+      <Pagination className="justify-end">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
