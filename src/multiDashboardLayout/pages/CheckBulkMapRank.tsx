@@ -32,7 +32,7 @@ export const CheckBulkMapRank: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-6 lg:p-8 pt-24 md:pt-28">
+    <div className="flex-1 space-y-6 ">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold tracking-tight mb-6">
           Check Bulk Map Rank
@@ -42,7 +42,7 @@ export const CheckBulkMapRank: React.FC = () => {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div className="relative h-full min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
+              <div className="relative  min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
                 <img
                   src="/lovable-uploads/bg-img/map-bg-image.png"
                   alt="Banner"

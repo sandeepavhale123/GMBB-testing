@@ -64,7 +64,7 @@ export const ViewBulkMapRank: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-6 lg:p-8 pt-24 md:pt-28">
+    <div className="flex-1 space-y-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
@@ -76,12 +76,6 @@ export const ViewBulkMapRank: React.FC = () => {
               View ranking details and performance metrics
             </p>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => navigate("/main-dashboard/bulk-map-ranking")}
-          >
-            Back to List
-          </Button>
         </div>
 
         {/* Error State */}

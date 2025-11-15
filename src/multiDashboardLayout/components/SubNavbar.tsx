@@ -76,7 +76,7 @@ const backButtonRoutes: Record<string, string> = {
   "/import-post-csv": "/main-dashboard/bulk-post",
   "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
   "/bulk-import-details/": "/main-dashboard/import-post-csv",
-  "/bulk-map-ranking": "/main-dashboard",
+  // "/bulk-map-ranking": "/main-dashboard",
   "/check-bulk-map-ranking": "/main-dashboard/bulk-map-ranking",
   "/view-bulk-map-ranking/": "/main-dashboard/bulk-map-ranking",
 };

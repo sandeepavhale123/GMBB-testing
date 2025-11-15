@@ -72,7 +72,7 @@ export const BulkMapRanking: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-6 lg:p-8 pt-24 md:pt-28">
+    <div className="flex-1 space-y-6 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Bulk Map Ranking</h1>
