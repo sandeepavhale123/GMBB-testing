@@ -231,6 +231,7 @@ export const ViewBulkMapRank: React.FC = () => {
           {...(keywordDetailsData?.data
             ? transformKeywordDetailsToSummaryProps(keywordDetailsData.data)
             : {
+                keywordName: "N/A",
                 searchBy: "N/A",
                 scheduledFrequency: "N/A",
                 lastCheck: "N/A",
