@@ -4,7 +4,6 @@ import { Search, Clock, CheckCircle2, Calendar, AlertCircle } from "lucide-react
 import { Skeleton } from "@/components/ui/skeleton";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 interface BulkMapSummaryCardsProps {
-  keywordName: string;
   searchBy: string;
   scheduledFrequency: string;
   lastCheck: string;
@@ -32,7 +31,6 @@ interface BulkMapSummaryCardsProps {
   isLoading?: boolean;
 }
 export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
-  keywordName,
   searchBy,
   scheduledFrequency,
   lastCheck,
@@ -57,8 +55,8 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
     return null;
   };
   const stats = [{
-    title: "Keyword Name",
-    value: keywordName,
+    title: "Search By",
+    value: searchBy,
     icon: Search,
     color: "text-blue-600",
     bgColor: "bg-blue-50"
@@ -69,9 +67,9 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
     color: "text-purple-600",
     bgColor: "bg-purple-50"
   }, {
-    title: "Last Check / Next Check",
-    value: `${lastCheck} / ${nextCheck}`,
-    icon: Calendar,
+    title: "Last Check",
+    value: lastCheck,
+    icon: CheckCircle2,
     color: "text-green-600",
     bgColor: "bg-green-50"
   }];
@@ -132,7 +130,7 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
   return <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
       {/* Left Column - Stats Cards Stacked */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:col-span-6">
-        {/* Keyword Name Card */}
+        {/* Search By Card */}
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
@@ -170,21 +168,43 @@ export const BulkMapSummaryCards: React.FC<BulkMapSummaryCardsProps> = ({
           </div>
         </Card>
 
-        {/* Last Check / Next Check Combined Card */}
-        <Card className="p-4 md:col-span-2">
+        {/* Last Check Card */}
+        <Card className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-sm text-muted-foreground mb-2">
                 {stats[2].title}
               </p>
-              {isLoading ? <Skeleton className="h-8 w-32 text-xl" /> : <p style={{
+              {isLoading ? <Skeleton className="h-8 w-16 text-xl" /> : <p style={{
               fontSize: "20px"
             }} className="mt-[30px] font-bold text-xl">
                   {stats[2].value}
                 </p>}
             </div>
             <div className={`${stats[2].bgColor} p-3 rounded-lg`}>
-              <Calendar className={`w-5 h-5 ${stats[2].color}`} />
+              <CheckCircle2 className={`w-5 h-5 ${stats[2].color}`} />
+            </div>
+          </div>
+        </Card>
+
+        {/* Next Check Card */}
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <p className="text-sm text-muted-foreground mb-2">Next Check</p>
+              {isLoading ? <Skeleton className="h-8 w-16" /> : <>
+                  <p style={{
+                fontSize: "20px"
+              }} className="mt-[30px] font-bold text-xl">
+                    {nextCheck}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {nextCheckTime}
+                  </p>
+                </>}
+            </div>
+            <div className="bg-orange-50 p-3 rounded-lg">
+              <Calendar className="w-5 h-5 text-orange-600" />
             </div>
           </div>
         </Card>

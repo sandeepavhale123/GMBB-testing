@@ -46,7 +46,6 @@ export const transformKeywordDetailsToSummaryProps = (
     rankDistribution.counts["range_20+"];
 
   return {
-    keywordName: keywordDetails.keywordName,
     searchBy: keywordDetails.searchBy,
     scheduledFrequency: keywordDetails.scheduleFrequency,
     lastCheck: formatDate(keywordDetails.lastCheck),
