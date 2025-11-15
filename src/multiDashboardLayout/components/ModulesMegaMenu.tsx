@@ -118,6 +118,7 @@ export const ModulesMegaMenu: React.FC = () => {
         ref={buttonRef}
         variant="ghost"
         size="icon"
+        name="btn-mega-menu"
         className="text-white hover:text-black"
         onClick={() => setIsOpen(!isOpen)}
       >
