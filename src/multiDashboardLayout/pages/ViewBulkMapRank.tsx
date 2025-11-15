@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BulkMapSummaryCards } from "@/multiDashboardLayout/components/BulkMapSummaryCards";
+import { useBulkMapRankingKeywordDetails } from "@/api/bulkMapRankingKeywordDetailsApi";
+import { transformKeywordDetailsToSummaryProps } from "@/utils/bulkMapRankingUtils";
 
 interface RankingData {
   id: number;
@@ -44,6 +46,16 @@ export const ViewBulkMapRank: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const itemsPerPage = 10;
+
+  // Extract keywordId from URL params
+  const keywordId = id ? parseInt(id, 10) : 0;
+
+  // Fetch keyword details from API
+  const {
+    data: keywordDetailsData,
+    isLoading: isKeywordDetailsLoading,
+    error: keywordDetailsError,
+  } = useBulkMapRankingKeywordDetails(keywordId);
 
   const businessName = "Main Street Pizza";
 
@@ -205,33 +217,33 @@ export const ViewBulkMapRank: React.FC = () => {
           </Button>
         </div>
 
+        {/* Error State */}
+        {keywordDetailsError && (
+          <Card className="p-4 mb-6 border-destructive">
+            <p className="text-destructive text-sm">
+              Failed to load keyword details. Please try again.
+            </p>
+          </Card>
+        )}
+
         {/* Summary Cards */}
         <BulkMapSummaryCards
-          searchBy="City"
-          scheduledFrequency="ONETIME"
-          lastCheck="Nov 14, 2025"
-          nextCheck="Dec 14, 2025"
-          nextCheckTime="Scheduled for 4:30 PM"
-          positionSummary={{
-            total: 12,
-            pos1_3: {
-              count: 0,
-              percent: 0,
-            },
-            pos4_10: {
-              count: 1,
-              percent: 8.3,
-            },
-            pos11_15: {
-              count: 0,
-              percent: 0,
-            },
-            pos16_20: {
-              count: 0,
-              percent: 0,
-            },
-          }}
-          isLoading={loading}
+          {...(keywordDetailsData?.data
+            ? transformKeywordDetailsToSummaryProps(keywordDetailsData.data)
+            : {
+                searchBy: "N/A",
+                scheduledFrequency: "N/A",
+                lastCheck: "N/A",
+                nextCheck: "N/A",
+                positionSummary: {
+                  total: 0,
+                  pos1_3: { count: 0, percent: 0 },
+                  pos4_10: { count: 0, percent: 0 },
+                  pos11_15: { count: 0, percent: 0 },
+                  pos16_20: { count: 0, percent: 0 },
+                },
+              })}
+          isLoading={isKeywordDetailsLoading}
         />
 
         {/* Search and Filter */}
