@@ -431,6 +431,7 @@ export const ReviewComponent: React.FC = () => {
                   <Avatar className="w-10 h-10">
                     <AvatarImage
                       src={`https://api.dicebear.com/7.x/initials/svg?seed=${review.name}`}
+                      alt="user-profile"
                     />
                     <AvatarFallback className="bg-blue-100 text-blue-700 font-medium">
                       {getInitials(review.name)}

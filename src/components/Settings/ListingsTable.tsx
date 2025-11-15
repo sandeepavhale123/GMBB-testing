@@ -156,7 +156,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                     onClick={() => onViewListing?.(listing.id)}
                   >
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={listing.profile_image} />
+                      <AvatarImage src={listing.profile_image} alt="listing-profile" />
                       <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold text-sm">
                         {getInitials(listing.name)}
                       </AvatarFallback>

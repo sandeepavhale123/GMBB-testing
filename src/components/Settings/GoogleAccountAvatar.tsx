@@ -45,7 +45,7 @@ export const GoogleAccountAvatar: React.FC<GoogleAccountAvatarProps> = ({
 
   return (
     <Avatar className={getSizeClasses()}>
-      <AvatarImage src={avatar || ''} />
+      <AvatarImage src={avatar || ''}  alt="user-profile" />
       <AvatarFallback className={`bg-blue-100 text-blue-700 font-semibold ${getFallbackClasses()}`}>
         {getInitials(name)}
       </AvatarFallback>

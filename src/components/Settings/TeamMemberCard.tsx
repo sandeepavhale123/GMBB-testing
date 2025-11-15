@@ -52,7 +52,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
       {/* Header with Avatar and Actions */}
       <div className="flex items-center justify-between mb-3">
         <Avatar className="h-12 w-12">
-          <AvatarImage src={member.profilePicture} />
+          <AvatarImage src={member.profilePicture} alt="team-member-profile" />
           <AvatarFallback className="bg-blue-100 text-blue-600 text-lg">
             {member.firstName[0]}
             {member.lastName[0]}

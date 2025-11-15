@@ -124,7 +124,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10">
-            <AvatarImage src="" />
+            <AvatarImage src="" alt="user-profile" />
             <AvatarFallback className="bg-blue-600 text-white font-semibold text-sm">
               {getBusinessInitials()}
             </AvatarFallback>

@@ -282,6 +282,7 @@ export const RecentReviewsCard: React.FC = () => {
                     <Avatar className="w-8 h-8">
                       <AvatarImage
                         src={`https://api.dicebear.com/7.x/initials/svg?seed=${review.name}`}
+                        alt="user-profile"
                       />
                       <AvatarFallback className="bg-blue-100 text-blue-700 font-medium text-xs">
                         {getInitials(review.name)}

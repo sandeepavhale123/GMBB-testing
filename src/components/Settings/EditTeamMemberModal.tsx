@@ -226,7 +226,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
               {/* Profile Picture Upload */}
               <div className="flex flex-col items-center space-y-2">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src={profilePreview} />
+                  <AvatarImage src={profilePreview} alt="user-profile" />
                   <AvatarFallback className="bg-gray-100 text-gray-400">
                     {formData.firstName && formData.lastName ? (
                       `${formData.firstName[0]}${formData.lastName[0]}`

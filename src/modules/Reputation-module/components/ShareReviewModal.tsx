@@ -406,6 +406,7 @@ export const ShareReviewModal: React.FC<ShareReviewModalProps> = ({
                       <AvatarImage
                         //  src={reviewAvatar}
                         src="/lovable-uploads/avatar-01.jpg"
+                        alt="user-profile"
                       />
                       <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
                         {authorInitial}
