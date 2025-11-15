@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkMapRankingStats } from "@/api/bulkMapRankingApi";
+import { useBulkMapRankingKeywords } from "@/api/bulkMapRankingKeywordsApi";
+import { formatDateTime, mapStatus, formatSchedule } from "@/utils/bulkMapRankingUtils";
 import {
   Table,
   TableBody,
@@ -24,65 +26,22 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-// Mock data for demonstration
-const mockData = [
-  {
-    id: 1,
-    keyword: "best pizza near me",
-    noOfChecks: 45,
-    schedule: "Daily",
-    lastChecked: "Nov 14, 2025 • 2:30 PM",
-    nextCheck: "Nov 15, 2025 • 2:30 PM",
-    status: "complete",
-  },
-  {
-    id: 2,
-    keyword: "italian restaurant",
-    noOfChecks: 32,
-    schedule: "Weekly",
-    lastChecked: "Nov 13, 2025 • 10:15 AM",
-    nextCheck: "Nov 20, 2025 • 10:15 AM",
-    status: "pending",
-  },
-  {
-    id: 3,
-    keyword: "coffee shop",
-    noOfChecks: 67,
-    schedule: "Daily",
-    lastChecked: "Nov 14, 2025 • 1:45 PM",
-    nextCheck: "Nov 15, 2025 • 1:45 PM",
-    status: "complete",
-  },
-  {
-    id: 4,
-    keyword: "hair salon near me",
-    noOfChecks: 28,
-    schedule: "Monthly",
-    lastChecked: "Nov 10, 2025 • 9:00 AM",
-    nextCheck: "Dec 10, 2025 • 9:00 AM",
-    status: "pending",
-  },
-  {
-    id: 5,
-    keyword: "plumber emergency",
-    noOfChecks: 15,
-    schedule: "Weekly",
-    lastChecked: "Nov 14, 2025 • 8:20 AM",
-    nextCheck: "Nov 21, 2025 • 8:20 AM",
-    status: "complete",
-  },
-];
-
-
 export const BulkMapRanking: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10; // Match API limit
 
   // Fetch stats from API
-  const { data: statsData, isLoading: statsLoading, error: statsError } = useBulkMapRankingStats();
+  const { data: statsData, isLoading: statsLoading } = useBulkMapRankingStats();
+
+  // Fetch keywords table data from API
+  const { 
+    data: keywordsData, 
+    isLoading: keywordsLoading,
+    isFetching: keywordsFetching,
+    error: keywordsError 
+  } = useBulkMapRankingKeywords(searchQuery, currentPage, itemsPerPage);
 
   // Extract stats with defaults
   const stats = {
@@ -93,31 +52,26 @@ export const BulkMapRanking: React.FC = () => {
     allowedCredit: statsData?.data?.allowedCredit || 0,
   };
 
-  // Filter data based on search query
-  const filteredData = mockData.filter((item) =>
-    item.keyword.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Pagination logic
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = filteredData.slice(startIndex, endIndex);
+  // Extract keywords data
+  const keywords = keywordsData?.data?.keywords || [];
+  const totalPages = keywordsData?.data?.total_pages || 1;
+  const totalRecords = keywordsData?.data?.total_records || 0;
+  
+  // Loading state includes both initial load and fetching
+  const loading = keywordsLoading || keywordsFetching;
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1);
-    setLoading(true);
-    // Simulate loading delay
-    setTimeout(() => setLoading(false), 500);
+    setCurrentPage(1); // Reset to first page on search
   };
 
-  const handleView = (id: number) => {
+  const handleView = (id: string) => {
     navigate(`/main-dashboard/view-bulk-map-ranking/${id}`);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     console.log("Delete keyword:", id);
+    // TODO: Implement delete functionality
   };
 
   return (
@@ -227,61 +181,70 @@ export const BulkMapRanking: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {currentData.length > 0 ? (
-                      currentData.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell className="font-medium">{item.keyword}</TableCell>
-                          <TableCell className="text-center">{item.noOfChecks}</TableCell>
-                          <TableCell className="text-center">
-                            <Badge variant="outline">{item.schedule}</Badge>
-                          </TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {item.lastChecked}
-                          </TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {item.nextCheck}
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <Badge
-                              variant={item.status === "complete" ? "default" : "secondary"}
-                              className={
-                                item.status === "complete"
-                                  ? "bg-green-500 hover:bg-green-600"
-                                  : "bg-yellow-500 hover:bg-yellow-600"
-                              }
-                            >
-                              {item.status === "complete" ? (
-                                <CheckCircle2 className="h-3 w-3 mr-1 inline" />
-                              ) : (
-                                <Clock className="h-3 w-3 mr-1 inline" />
-                              )}
-                              {item.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <div className="flex items-center justify-center gap-2">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleView(item.id)}
+                    {keywords.length > 0 ? (
+                      keywords.map((item) => {
+                        const status = mapStatus(item.status);
+                        return (
+                          <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.keyword}</TableCell>
+                            <TableCell className="text-center">
+                              {item.noOfKeyword}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <Badge variant="outline">
+                                {formatSchedule(item.schedule)}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-sm text-muted-foreground">
+                              {formatDateTime(item.last_check)}
+                            </TableCell>
+                            <TableCell className="text-sm text-muted-foreground">
+                              {formatDateTime(item.next_check)}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <Badge
+                                variant={status === "completed" ? "default" : "secondary"}
+                                className={
+                                  status === "completed"
+                                    ? "bg-green-500 hover:bg-green-600"
+                                    : "bg-yellow-500 hover:bg-yellow-600"
+                                }
                               >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDelete(item.id)}
-                              >
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
+                                {status === "completed" ? (
+                                  <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                                ) : (
+                                  <Clock className="h-3 w-3 mr-1 inline" />
+                                )}
+                                {status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleView(item.id)}
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleDelete(item.id)}
+                                >
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
                     ) : (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                          No keywords found
+                          {searchQuery
+                            ? "No keywords found matching your search"
+                            : "No keywords available"}
                         </TableCell>
                       </TableRow>
                     )}
@@ -290,43 +253,62 @@ export const BulkMapRanking: React.FC = () => {
               </div>
 
               {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-4">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                          className={
-                            currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"
-                          }
-                        />
-                      </PaginationItem>
-                      {[...Array(totalPages)].map((_, index) => (
-                        <PaginationItem key={index}>
+              <div className="flex items-center justify-between px-2 py-4">
+                <div className="text-sm text-muted-foreground">
+                  Showing {keywords.length > 0 ? ((currentPage - 1) * itemsPerPage) + 1 : 0} to{" "}
+                  {Math.min(currentPage * itemsPerPage, totalRecords)} of {totalRecords} results
+                </div>
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        className={
+                          currentPage === 1
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
+                      />
+                    </PaginationItem>
+                    
+                    {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                      let pageNumber;
+                      if (totalPages <= 5) {
+                        pageNumber = index + 1;
+                      } else if (currentPage <= 3) {
+                        pageNumber = index + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNumber = totalPages - 4 + index;
+                      } else {
+                        pageNumber = currentPage - 2 + index;
+                      }
+
+                      return (
+                        <PaginationItem key={pageNumber}>
                           <PaginationLink
-                            onClick={() => setCurrentPage(index + 1)}
-                            isActive={currentPage === index + 1}
+                            onClick={() => setCurrentPage(pageNumber)}
+                            isActive={currentPage === pageNumber}
                             className="cursor-pointer"
                           >
-                            {index + 1}
+                            {pageNumber}
                           </PaginationLink>
                         </PaginationItem>
-                      ))}
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                          className={
-                            currentPage === totalPages
-                              ? "pointer-events-none opacity-50"
-                              : "cursor-pointer"
-                          }
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              )}
+                      );
+                    })}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        className={
+                          currentPage === totalPages
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
             </>
           )}
         </CardContent>
