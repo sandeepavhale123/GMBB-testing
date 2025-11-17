@@ -264,6 +264,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     </div>
                   </div>
                 </button>
+              </div>
+            </div>
             <div className="h-2" />
           </div>
           </ScrollArea>
