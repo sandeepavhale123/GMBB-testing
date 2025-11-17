@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkMapRankingStats } from "@/api/bulkMapRankingApi";
-import { useBulkMapRankingKeywords } from "@/api/bulkMapRankingKeywordsApi";
+import { useBulkMapRankingKeywords, deleteMapRankingKeyword } from "@/api/bulkMapRankingKeywordsApi";
 import { formatDateTime, mapStatus, formatSchedule } from "@/utils/bulkMapRankingUtils";
 import {
   Table,
@@ -19,12 +19,28 @@ import {
 } from "@/components/ui/table";
 import { DataPagination } from "@/components/common/DataPagination";
 import { useDebounce } from "@/hooks/useDebounce";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const BulkMapRanking: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Match API limit
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; keyword: string } | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Debounce search query with 1500ms delay
   const debouncedSearchQuery = useDebounce(searchQuery, 1500);
@@ -66,9 +82,38 @@ export const BulkMapRanking: React.FC = () => {
     navigate(`/main-dashboard/view-bulk-map-ranking/${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete keyword:", id);
-    // TODO: Implement delete functionality
+  const handleDeleteClick = (id: string, keyword: string) => {
+    setItemToDelete({ id, keyword });
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!itemToDelete) return;
+
+    setDeletingId(itemToDelete.id);
+    try {
+      const response = await deleteMapRankingKeyword(Number(itemToDelete.id));
+      
+      // Show actual API response message
+      toast({
+        variant: "success",
+        title: response.message,
+      });
+
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-keywords"] });
+      queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-stats"] });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Delete Failed",
+        description: error?.response?.data?.message || "Failed to delete keyword",
+      });
+    } finally {
+      setDeletingId(null);
+      setDeleteDialogOpen(false);
+      setItemToDelete(null);
+    }
   };
 
   return (
@@ -227,7 +272,8 @@ export const BulkMapRanking: React.FC = () => {
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  onClick={() => handleDelete(item.id)}
+                                  onClick={() => handleDeleteClick(item.id, item.keyword)}
+                                  disabled={deletingId === item.id}
                                 >
                                   <Trash2 className="h-4 w-4 text-destructive" />
                                 </Button>
@@ -264,6 +310,27 @@ export const BulkMapRanking: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Keyword</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the keyword "{itemToDelete?.keyword}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={!!deletingId}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={!!deletingId}
+            >
+              {deletingId ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
