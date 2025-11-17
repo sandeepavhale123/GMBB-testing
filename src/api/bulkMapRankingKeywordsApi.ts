@@ -44,6 +44,30 @@ const getBulkMapRankingKeywords = async (
   return response.data;
 };
 
+// Delete Types
+export interface DeleteMapRankingKeywordRequest {
+  keywordId: number;
+}
+
+export interface DeleteMapRankingKeywordResponse {
+  code: number;
+  message: string;
+  data: {
+    keyId: number;
+    status: string;
+  };
+}
+
+// Delete API function
+const deleteMapRankingKeyword = async (
+  keywordId: number
+): Promise<DeleteMapRankingKeywordResponse> => {
+  const response = await axiosInstance.post("/delete-mapranking-keyword", {
+    keywordId,
+  });
+  return response.data;
+};
+
 // Custom hook
 export const useBulkMapRankingKeywords = (
   search: string,
@@ -58,3 +82,6 @@ export const useBulkMapRankingKeywords = (
     refetchOnWindowFocus: false,
   });
 };
+
+// Export delete function
+export { deleteMapRankingKeyword };
