@@ -261,7 +261,7 @@ export const BulkMapRanking: React.FC = () => {
                                 className={
                                   status === "completed"
                                     ? "bg-green-500 hover:bg-green-600"
-                                    : "bg-yellow-500 hover:bg-yellow-600"
+                                    : "bg-blue-500 hover:bg-blue-600"
                                 }
                               >
                                 {status === "completed" ? (
