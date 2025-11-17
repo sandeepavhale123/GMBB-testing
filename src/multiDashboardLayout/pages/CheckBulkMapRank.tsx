@@ -23,7 +23,21 @@ export const CheckBulkMapRank: React.FC = () => {
   const [searchBy, setSearchBy] = useState("");
   const [scheduleFrequency, setScheduleFrequency] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [keywordError, setKeywordError] = useState(false);
   const navigate = useNavigate();
+
+  const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setKeywords(value);
+    
+    // Validate keyword count in real-time
+    const keywordArray = value.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
+    if (keywordArray.length > 5) {
+      setKeywordError(true);
+    } else {
+      setKeywordError(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,8 +155,14 @@ export const CheckBulkMapRank: React.FC = () => {
                       type="text"
                       placeholder="Enter keywords separated by commas"
                       value={keywords}
-                      onChange={(e) => setKeywords(e.target.value)}
+                      onChange={handleKeywordChange}
+                      className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""}
                     />
+                    {keywordError && (
+                      <p className="text-xs text-destructive">
+                        Maximum 5 keywords allowed. You have entered {keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0).length} keywords.
+                      </p>
+                    )}
                     <p className="text-xs text-muted-foreground">
                       Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
                     </p>
