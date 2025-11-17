@@ -22,8 +22,8 @@ export const formatDate = (dateString: string): string => {
 };
 
 // Map status from API (0/1) to display value
-export const mapStatus = (statusCode: string): "completed" | "pending" => {
-  return statusCode === "0" ? "completed" : "pending";
+export const mapStatus = (statusCode: string): "completed" | "running" => {
+  return statusCode === "0" ? "completed" : "running";
 };
 
 // Capitalize schedule for display
@@ -32,8 +32,8 @@ export const formatSchedule = (schedule: string): string => {
 };
 
 // Map kStatus from API (0/1) to display value
-export const mapKeywordStatus = (kStatus: string): "completed" | "pending" => {
-  return kStatus === "0" ? "completed" : "pending";
+export const mapKeywordStatus = (kStatus: string): "completed" | "running" => {
+  return kStatus === "0" ? "completed" : "running";
 };
 
 // Format rank for display (handles "20+" format)
@@ -43,12 +43,12 @@ export const formatRank = (rank: string): string => {
 
 // Get status badge variant
 export const getStatusBadgeVariant = (
-  status: "completed" | "pending" | "failed"
+  status: "completed" | "running" | "failed"
 ): "default" | "secondary" | "destructive" => {
   switch (status) {
     case "completed":
       return "default";
-    case "pending":
+    case "running":
       return "secondary";
     case "failed":
       return "destructive";

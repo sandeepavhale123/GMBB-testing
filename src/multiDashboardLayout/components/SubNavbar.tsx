@@ -66,20 +66,20 @@ export const SubNavbar: React.FC = () => {
   }
 
   // Back button route configuration
-const backButtonRoutes: Record<string, string> = {
-  "/bulk-post-details/": "/main-dashboard/bulk-post",
-  "/bulk-media-details/": "/main-dashboard/bulk-media",
-  "/bulk-auto-reply-project-details/": "/main-dashboard/bulk-auto-reply",
-  "/bulk-auto-reply": "/main-dashboard/bulk-review",
-  "/generate-bulk-report": "/main-dashboard/reports",
-  "/bulk-report-details/": "/main-dashboard/reports",
-  "/import-post-csv": "/main-dashboard/bulk-post",
-  "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
-  "/bulk-import-details/": "/main-dashboard/import-post-csv",
-  // "/bulk-map-ranking": "/main-dashboard",
-  "/check-bulk-map-ranking": "/main-dashboard/bulk-map-ranking",
-  "/view-bulk-map-ranking/": "/main-dashboard/bulk-map-ranking",
-};
+  const backButtonRoutes: Record<string, string> = {
+    "/bulk-post-details/": "/main-dashboard/bulk-post",
+    "/bulk-media-details/": "/main-dashboard/bulk-media",
+    "/bulk-auto-reply-project-details/": "/main-dashboard/bulk-auto-reply",
+    "/bulk-auto-reply": "/main-dashboard/bulk-review",
+    "/generate-bulk-report": "/main-dashboard/reports",
+    "/bulk-report-details/": "/main-dashboard/reports",
+    "/import-post-csv": "/main-dashboard/bulk-post",
+    "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
+    "/bulk-import-details/": "/main-dashboard/import-post-csv",
+    // "/bulk-map-ranking": "/main-dashboard",
+    "/check-bulk-map-ranking": "/main-dashboard/bulk-map-ranking",
+    "/view-bulk-map-ranking/": "/main-dashboard/bulk-map-ranking",
+  };
 
   const currentPath = location.pathname;
 
@@ -173,7 +173,7 @@ const backButtonRoutes: Record<string, string> = {
   return (
     <>
       {/* Mobile menu */}
-      <nav className="fixed top-[65px] left-0 right-0 z-50 w-full px-4 pt-1 pb-0 border-b border-border bg-white lg:hidden">
+      <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white lg:hidden">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between py-3">
             <h2 className="text-lg font-semibold text-foreground">Menu</h2>
@@ -255,9 +255,7 @@ const backButtonRoutes: Record<string, string> = {
               const Icon = item.icon;
 
               if (item.type === "dropdown" && item.children) {
-                const isAnyChildActive = item.children.some(
-                  (child) => location.pathname === child.path
-                );
+                const isAnyChildActive = item.children.some((child) => location.pathname === child.path);
 
                 return (
                   <DropdownMenu key={item.label}>
@@ -279,10 +277,7 @@ const backButtonRoutes: Record<string, string> = {
                         const ChildIcon = child.icon;
                         return (
                           <DropdownMenuItem key={child.path} asChild>
-                            <NavLink
-                              to={child.path}
-                              className="flex items-center gap-2 cursor-pointer"
-                            >
+                            <NavLink to={child.path} className="flex items-center gap-2 cursor-pointer">
                               <ChildIcon className="h-4 w-4" />
                               {child.label}
                             </NavLink>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Search, Eye, Trash2 } from "lucide-react";
+import { Search, Eye, Trash2, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -362,10 +362,22 @@ export const ViewBulkMapRank: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <Badge
-                        variant={getStatusBadgeVariant(
-                          mapKeywordStatus(item.kStatus)
-                        )}
+                        variant={
+                          mapKeywordStatus(item.kStatus) === "completed"
+                            ? "default"
+                            : "secondary"
+                        }
+                        className={
+                          mapKeywordStatus(item.kStatus) === "completed"
+                            ? "bg-green-500 hover:bg-green-600 text-white border-transparent"
+                            : "bg-blue-500 hover:bg-blue-600 text-white border-transparent"
+                        }
                       >
+                        {mapKeywordStatus(item.kStatus) === "completed" ? (
+                          <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                        ) : (
+                          <Clock className="h-3 w-3 mr-1 inline" />
+                        )}
                         {mapKeywordStatus(item.kStatus)}
                       </Badge>
                     </TableCell>
