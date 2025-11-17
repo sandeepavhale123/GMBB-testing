@@ -365,6 +365,11 @@ export const ViewBulkMapRank: React.FC = () => {
                         variant={getStatusBadgeVariant(
                           mapKeywordStatus(item.kStatus)
                         )}
+                        className={
+                          mapKeywordStatus(item.kStatus) === "running"
+                            ? "bg-blue-500 hover:bg-blue-600 text-white border-transparent"
+                            : ""
+                        }
                       >
                         {mapKeywordStatus(item.kStatus)}
                       </Badge>
