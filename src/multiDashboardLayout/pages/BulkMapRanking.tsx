@@ -132,62 +132,70 @@ export const BulkMapRanking: React.FC = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">No Of Keywords</CardTitle>
-            <KeyRound className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            {statsLoading ? (
-              <Skeleton className="h-8 w-20" />
-            ) : (
-              <div className="text-2xl font-bold">{stats.noOfKeywords}</div>
-            )}
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">No Of Keywords</p>
+              {statsLoading ? (
+                <Skeleton className="h-8 w-20 mt-2" />
+              ) : (
+                <p className="text-2xl font-bold mt-2">{stats.noOfKeywords}</p>
+              )}
+            </div>
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <KeyRound className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
-            <FolderOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            {statsLoading ? (
-              <Skeleton className="h-8 w-20" />
-            ) : (
-              <div className="text-2xl font-bold">{stats.totalProjects}</div>
-            )}
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Total Projects</p>
+              {statsLoading ? (
+                <Skeleton className="h-8 w-20 mt-2" />
+              ) : (
+                <p className="text-2xl font-bold mt-2">{stats.totalProjects}</p>
+              )}
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <FolderOpen className="w-6 h-6 text-green-600" />
+            </div>
+          </div>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Scheduled Scan</CardTitle>
-            <CalendarClock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            {statsLoading ? (
-              <Skeleton className="h-8 w-20" />
-            ) : (
-              <div className="text-2xl font-bold">{stats.noOfSchedule}</div>
-            )}
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Scheduled Scan</p>
+              {statsLoading ? (
+                <Skeleton className="h-8 w-20 mt-2" />
+              ) : (
+                <p className="text-2xl font-bold mt-2">{stats.noOfSchedule}</p>
+              )}
+            </div>
+            <div className="bg-purple-50 p-3 rounded-lg">
+              <CalendarClock className="w-6 h-6 text-purple-600" />
+            </div>
+          </div>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Credits</CardTitle>
-            <Coins className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            {statsLoading ? (
-              <Skeleton className="h-8 w-32" />
-            ) : (
-              <div className="text-2xl font-bold">
-                {stats.remainingCredit.toLocaleString()} / {stats.allowedCredit.toLocaleString()}
-              </div>
-            )}
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Credits</p>
+              {statsLoading ? (
+                <Skeleton className="h-8 w-32 mt-2" />
+              ) : (
+                <p className="text-2xl font-bold mt-2">
+                  {stats.remainingCredit.toLocaleString()} / {stats.allowedCredit.toLocaleString()}
+                </p>
+              )}
+            </div>
+            <div className="bg-orange-50 p-3 rounded-lg">
+              <Coins className="w-6 h-6 text-orange-600" />
+            </div>
+          </div>
         </Card>
       </div>
 
