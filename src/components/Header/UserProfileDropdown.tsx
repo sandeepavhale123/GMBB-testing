@@ -86,9 +86,9 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className={`p-0 rounded-full hover:bg-transparent ${className || ""}`}>
+          <Button variant="ghost" className={`p-0 rounded-full hover:bg-transparent ${className || ""}`} name="profile-dropdown">
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
-              <AvatarImage src={userProfilePic} />
+              <AvatarImage src={userProfilePic} alt="user-profile" />
               <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">{userInitials}</AvatarFallback>
             </Avatar>
           </Button>

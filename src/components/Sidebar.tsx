@@ -678,7 +678,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   collapsed && !isMobile && !isTablet ? "mx-auto" : "mr-3"
                 )}
               >
-                <AvatarImage src={userProfilePic} />
+                <AvatarImage src={userProfilePic} alt="user-profile" />
                 <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
                   {userInitials}
                 </AvatarFallback>

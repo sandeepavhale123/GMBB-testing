@@ -234,7 +234,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
           {/* Profile Picture Upload */}
           <div className="flex flex-col items-center space-y-2 hidden">
             <Avatar className="h-20 w-20">
-              <AvatarImage src={profilePreview} />
+              <AvatarImage src={profilePreview} alt="user-profile" />
               <AvatarFallback className="bg-gray-100 text-gray-400">
                 <Upload className="h-8 w-8" />
               </AvatarFallback>
