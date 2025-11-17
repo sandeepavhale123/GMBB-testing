@@ -136,7 +136,7 @@ export const CheckBulkMapRank: React.FC = () => {
               {/* Column 1: Banner Section */}
               <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
                 <img
-                  src="/lovable-uploads/bg-img/map-bg-image.png"
+                  src="/lovable-uploads/bg-img/map-bg-image.webp"
                   alt="Banner"
                   className="w-full h-full object-cover "
                 /> 
