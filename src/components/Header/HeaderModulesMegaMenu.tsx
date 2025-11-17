@@ -124,7 +124,7 @@ export const HeaderModulesMegaMenu: React.FC = () => {
               : "right-0 w-[600px]"
           )}
         >
-          <ScrollArea className={cn("w-full", isMobile ? "h-[70vh]" : "h-[80vh]")}>
+          <ScrollArea className={cn("w-full", isMobile && "h-[70vh] max-h-[70vh]")}>
             <div className={cn("p-4 pr-2", isMobile && "p-3 pr-1")}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground"> 
