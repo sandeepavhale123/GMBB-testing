@@ -68,3 +68,29 @@ export const useBulkMapRankingKeywordDetailsTable = (
     refetchOnWindowFocus: false,
   });
 };
+
+// Delete Types
+export interface DeleteMapRankingKeywordListingsRequest {
+  ids: number[];
+  keywordId: number;
+}
+
+export interface DeleteMapRankingKeywordListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    keyId: number;
+    deleted: number;
+  };
+}
+
+// Delete API function
+export const deleteMapRankingKeywordListings = async (
+  request: DeleteMapRankingKeywordListingsRequest
+): Promise<DeleteMapRankingKeywordListingsResponse> => {
+  const response = await axiosInstance.post(
+    "/delete-mapranking-keyword-lisitngs",
+    request
+  );
+  return response.data;
+};
