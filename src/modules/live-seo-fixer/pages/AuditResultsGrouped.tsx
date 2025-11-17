@@ -60,8 +60,8 @@ import {
 } from "@/services/liveSeoFixer";
 import { toast } from "sonner";
 import { JSSnippetModal } from "../components/JSSnippetModal";
-import { EditFixModal } from "../components/EditFixModal";
-import { AIContentModal } from "../components/AIContentModal";
+import EditFixModal from "../components/EditFixModal";
+import AIContentModal from "../components/AIContentModal";
 import { SchemaViewModal } from "../components/SchemaViewModal";
 import { useToast } from "@/hooks/use-toast";
 import {
