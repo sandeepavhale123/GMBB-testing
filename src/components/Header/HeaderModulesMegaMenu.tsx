@@ -11,6 +11,7 @@ import { useListingContext } from "@/context/ListingContext";
 import { useLocation, Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const HeaderModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("Header/headerModulesMegaMenu");
@@ -123,7 +124,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
               : "right-0 w-[600px]"
           )}
         >
-          <div className={cn("p-4", isMobile && "p-3")}>
+          <ScrollArea className={cn("w-full", isMobile ? "h-[70vh]" : "h-[80vh]")}>
+            <div className={cn("p-4 pr-2", isMobile && "p-3 pr-1")}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground"> 
                 {t("modulesMenu.title")}
@@ -262,9 +264,9 @@ export const HeaderModulesMegaMenu: React.FC = () => {
                     </div>
                   </div>
                 </button>
-              </div>
-            </div>
+            <div className="h-2" />
           </div>
+          </ScrollArea>
         </div>
       )}
 
