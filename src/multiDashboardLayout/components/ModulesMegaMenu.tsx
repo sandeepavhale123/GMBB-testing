@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { UtmTrackingBuilderModal } from "@/components/Utils/UtmTrackingBuilderModal";
 import { BuyCreditsModal } from "@/components/credits_modal/BuyCreditsModal";
@@ -128,24 +129,31 @@ export const ModulesMegaMenu: React.FC = () => {
         <div
           ref={menuRef}
           className={cn(
-            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50",
+            "absolute top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-[999]",
             isMobile
               ? "left-1/2 transform -translate-x-1/2 -ml-10 w-80 max-w-[calc(100vw-2rem)]"
               : "right-0 w-[600px]"
           )}
         >
-          <div
-            className={cn("p-4", isMobile && "p-3")}
+          <ScrollArea 
+            className={cn(
+              isMobile 
+                ? "max-h-[70vh]"
+                : "max-h-[80vh]"
+            )}
           >
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-foreground">
-                {t("title")}
-              </h3>
-            </div>
             <div
-              className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}
+              className={cn("p-4", isMobile && "p-3")}
             >
-              {getFilteredModules().map((module) => {
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-medium text-foreground">
+                  {t("title")}
+                </h3>
+              </div>
+              <div
+                className={cn(isMobile ? "space-y-2" : "grid grid-cols-2 gap-2")}
+              >
+                {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 const isActive = isModuleActive(module.href);
                 return (
@@ -283,7 +291,9 @@ export const ModulesMegaMenu: React.FC = () => {
                 </button>
               </div>
             </div>
+            <div className="h-2" />
           </div>
+          </ScrollArea>
         </div>
       )}
 
