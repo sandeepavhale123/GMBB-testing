@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +23,7 @@ export const CheckBulkMapRank: React.FC = () => {
   const [searchBy, setSearchBy] = useState("");
   const [scheduleFrequency, setScheduleFrequency] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +36,13 @@ export const CheckBulkMapRank: React.FC = () => {
     
     if (!keywords.trim()) {
       toast.error("Please enter at least one keyword.");
+      return;
+    }
+    
+    // Validate keyword count (max 5)
+    const keywordArray = keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
+    if (keywordArray.length > 5) {
+      toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
       return;
     }
     
@@ -74,6 +83,11 @@ export const CheckBulkMapRank: React.FC = () => {
         setSearchBy("");
         setScheduleFrequency("");
         // Keep language as-is (user preference)
+        
+        // Navigate after short delay to show toast
+        setTimeout(() => {
+          navigate("/main-dashboard/bulk-map-ranking");
+        }, 1500);
       } else {
         toast.error("Failed to add keywords. Please try again.");
       }
@@ -130,7 +144,7 @@ export const CheckBulkMapRank: React.FC = () => {
                       onChange={(e) => setKeywords(e.target.value)}
                     />
                     <p className="text-xs text-muted-foreground">
-                      Example: pizza restaurant, best coffee shop
+                      Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
                     </p>
                   </div>
 
