@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
+import { toast } from "sonner";
+import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
 
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
@@ -19,16 +21,68 @@ export const CheckBulkMapRank: React.FC = () => {
   const [language, setLanguage] = useState("en");
   const [searchBy, setSearchBy] = useState("");
   const [scheduleFrequency, setScheduleFrequency] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      selectedListings,
-      keywords,
-      language,
-      searchBy,
-      scheduleFrequency,
-    });
+    
+    // Validation
+    if (selectedListings.length === 0) {
+      toast.error("Please select at least one business location.");
+      return;
+    }
+    
+    if (!keywords.trim()) {
+      toast.error("Please enter at least one keyword.");
+      return;
+    }
+    
+    if (!searchBy) {
+      toast.error("Please select a search method.");
+      return;
+    }
+    
+    if (!scheduleFrequency) {
+      toast.error("Please select a schedule frequency.");
+      return;
+    }
+    
+    try {
+      setIsSubmitting(true);
+      
+      // Transform data for API
+      const locationIds = selectedListings.map((id) => parseInt(id, 10));
+      const formattedSearchBy = searchBy.toLowerCase(); // "City" → "city"
+      
+      const requestData = {
+        keywords: keywords.trim(),
+        locationIds,
+        language,
+        schedule: scheduleFrequency,
+        searchBy: formattedSearchBy,
+      };
+      
+      // Call API
+      const response = await addBulkMapRankingKeywords(requestData);
+      
+      if (response.code === 201) {
+        toast.success(response.message || "Keywords added successfully and queued for processing.");
+        
+        // Reset form
+        setSelectedListings([]);
+        setKeywords("");
+        setSearchBy("");
+        setScheduleFrequency("");
+        // Keep language as-is (user preference)
+      } else {
+        toast.error("Failed to add keywords. Please try again.");
+      }
+    } catch (error: any) {
+      console.error("Error adding bulk keywords:", error);
+      toast.error(error.response?.data?.message || "An error occurred while adding keywords.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -207,8 +261,13 @@ export const CheckBulkMapRank: React.FC = () => {
           </div>
 
                   {/* Submit Button */}
-                  <Button type="submit" className="w-full" size="lg">
-                    Check Rank Now
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    size="lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Processing..." : "Check Rank Now"}
                   </Button>
                 </form>
               </div>

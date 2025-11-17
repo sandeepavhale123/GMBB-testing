@@ -30,3 +30,25 @@ export const useBulkMapRankingStats = () => {
     refetchOnWindowFocus: false,
   });
 };
+
+// Add Bulk Keywords Request Types
+export interface AddBulkMapRankingKeywordsRequest {
+  keywords: string;
+  locationIds: number[];
+  language: string;
+  schedule: string;
+  searchBy: string;
+}
+
+export interface AddBulkMapRankingKeywordsResponse {
+  code: number;
+  message: string;
+}
+
+// API function for adding bulk keywords
+export const addBulkMapRankingKeywords = async (
+  data: AddBulkMapRankingKeywordsRequest
+): Promise<AddBulkMapRankingKeywordsResponse> => {
+  const response = await axiosInstance.post("/add-mapranking-bulk-keyword", data);
+  return response.data;
+};
