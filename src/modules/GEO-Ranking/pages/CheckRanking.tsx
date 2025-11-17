@@ -9,7 +9,7 @@ import { BusinessLocationLite, ProjectLite } from "@/types/business";
 import { getDistanceOptions, languageOptions } from "@/utils/geoRankingUtils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export function CheckRanking() {
+function CheckRanking() {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/CheckRanking");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -194,3 +194,5 @@ export function CheckRanking() {
     </div>
   );
 }
+
+export default CheckRanking;

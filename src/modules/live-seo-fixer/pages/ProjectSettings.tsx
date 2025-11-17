@@ -41,7 +41,7 @@ import {
 } from "@/services/liveSeoFixer/wordpressService";
 import { getProjectDetails } from "@/services/liveSeoFixer/projectService";
 
-export const ProjectSettings: React.FC = () => {
+const ProjectSettings: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -640,3 +640,5 @@ export const ProjectSettings: React.FC = () => {
     </div>
   );
 };
+
+export default ProjectSettings;

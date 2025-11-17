@@ -32,8 +32,20 @@ import {
   AlertCircle,
   GitBranch,
 } from "lucide-react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   getAuditResultsGrouped,
   applyFixesBulk,
@@ -52,22 +64,32 @@ import { EditFixModal } from "../components/EditFixModal";
 import { AIContentModal } from "../components/AIContentModal";
 import { SchemaViewModal } from "../components/SchemaViewModal";
 import { useToast } from "@/hooks/use-toast";
-import { syncFixToWordPress, syncBulkFixesToWordPress } from "@/services/liveSeoFixer/wordpressService";
+import {
+  syncFixToWordPress,
+  syncBulkFixesToWordPress,
+} from "@/services/liveSeoFixer/wordpressService";
 
-export const AuditResultsGrouped: React.FC = () => {
+const AuditResultsGrouped: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { toast: toastHook } = useToast();
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    null
+  );
   const [showSuccessModal, setShowSuccessModal] = React.useState(false);
   const [appliedCount, setAppliedCount] = React.useState(0);
-  const [activeTab, setActiveTab] = React.useState<"all" | "approved" | "pending">("all");
+  const [activeTab, setActiveTab] = React.useState<
+    "all" | "approved" | "pending"
+  >("all");
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const [editingIssue, setEditingIssue] = React.useState<any>(null);
   const [regeneratingIssue, setRegeneratingIssue] = React.useState<any>(null);
-  const [viewingSchema, setViewingSchema] = React.useState<{ data: string; title: string } | null>(null);
+  const [viewingSchema, setViewingSchema] = React.useState<{
+    data: string;
+    title: string;
+  } | null>(null);
 
   // Fetch project details
   const { data: projectData } = useQuery({
@@ -95,24 +117,55 @@ export const AuditResultsGrouped: React.FC = () => {
   });
 
   // Fetch category issues with pagination
-  const { data: categoryIssuesResponse, isLoading: isLoadingIssues } = useQuery({
-    queryKey: ["category-issues", projectId, auditId, selectedCategory, currentPage, itemsPerPage, activeTab],
-    queryFn: () => getCategoryIssues(projectId!, auditId!, selectedCategory!, currentPage, itemsPerPage, activeTab),
-    enabled: !!projectId && !!auditId && !!selectedCategory,
-  });
+  const { data: categoryIssuesResponse, isLoading: isLoadingIssues } = useQuery(
+    {
+      queryKey: [
+        "category-issues",
+        projectId,
+        auditId,
+        selectedCategory,
+        currentPage,
+        itemsPerPage,
+        activeTab,
+      ],
+      queryFn: () =>
+        getCategoryIssues(
+          projectId!,
+          auditId!,
+          selectedCategory!,
+          currentPage,
+          itemsPerPage,
+          activeTab
+        ),
+      enabled: !!projectId && !!auditId && !!selectedCategory,
+    }
+  );
 
   // Mutations
   const applyFixesMutation = useMutation({
-    mutationFn: ({ mode, options }: { mode: "all" | "category" | "individual"; options?: any }) =>
-      applyFixesBulk(projectId!, mode, options),
+    mutationFn: ({
+      mode,
+      options,
+    }: {
+      mode: "all" | "category" | "individual";
+      options?: any;
+    }) => applyFixesBulk(projectId!, mode, options),
     onSuccess: (response) => {
       const count = response?.data?.applied_count || 0;
       setAppliedCount(count);
       setShowSuccessModal(true);
-      queryClient.invalidateQueries({ queryKey: ["audit-results-grouped", projectId] });
-      queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId] });
-      queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
-      queryClient.invalidateQueries({ queryKey: ["project-details", projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-results-grouped", projectId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["category-issues", projectId, auditId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-categories", projectId, auditId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["project-details", projectId],
+      });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || "Failed to apply fixes");
@@ -120,11 +173,22 @@ export const AuditResultsGrouped: React.FC = () => {
   });
 
   const updateFixMutation = useMutation({
-    mutationFn: ({ issueId, fixValue, approved }: { issueId: string; fixValue: string; approved: boolean }) =>
-      updateIssueFix(projectId!, auditId!, issueId, fixValue, approved),
+    mutationFn: ({
+      issueId,
+      fixValue,
+      approved,
+    }: {
+      issueId: string;
+      fixValue: string;
+      approved: boolean;
+    }) => updateIssueFix(projectId!, auditId!, issueId, fixValue, approved),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId, selectedCategory] });
-      queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
+      queryClient.invalidateQueries({
+        queryKey: ["category-issues", projectId, auditId, selectedCategory],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-categories", projectId, auditId],
+      });
     },
   });
 
@@ -136,16 +200,25 @@ export const AuditResultsGrouped: React.FC = () => {
       setAppliedCount(count);
       setShowSuccessModal(true);
 
-      queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId, selectedCategory] });
-      queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
+      queryClient.invalidateQueries({
+        queryKey: ["category-issues", projectId, auditId, selectedCategory],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-categories", projectId, auditId],
+      });
     },
   });
 
   const regenerateFixMutation = useMutation({
-    mutationFn: ({ issueId }: { issueId: string }) => regenerateIssueFix(projectId!, issueId, true),
+    mutationFn: ({ issueId }: { issueId: string }) =>
+      regenerateIssueFix(projectId!, issueId, true),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId, selectedCategory] });
-      queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
+      queryClient.invalidateQueries({
+        queryKey: ["category-issues", projectId, auditId, selectedCategory],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-categories", projectId, auditId],
+      });
     },
   });
 
@@ -153,8 +226,12 @@ export const AuditResultsGrouped: React.FC = () => {
     mutationFn: ({ type, approved }: { type: string; approved: boolean }) =>
       rollbackCategoryFixes(projectId!, auditId!, type, approved),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["category-issues", projectId, auditId, selectedCategory] });
-      queryClient.invalidateQueries({ queryKey: ["audit-categories", projectId, auditId] });
+      queryClient.invalidateQueries({
+        queryKey: ["category-issues", projectId, auditId, selectedCategory],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["audit-categories", projectId, auditId],
+      });
     },
   });
 
@@ -165,12 +242,24 @@ export const AuditResultsGrouped: React.FC = () => {
 
   // Calculate total issues from categories
   const totalIssues = React.useMemo<number>(() => {
-    return categories.reduce((total: number, cat: any) => total + cat.total_issues, 0);
+    return categories.reduce(
+      (total: number, cat: any) => total + cat.total_issues,
+      0
+    );
   }, [categories]);
 
-  const criticalIssues = categories.reduce((sum: number, cat: any) => sum + cat.severity_breakdown.critical, 0);
-  const warningIssues = categories.reduce((sum: number, cat: any) => sum + cat.severity_breakdown.warning, 0);
-  const infoIssues = categories.reduce((sum: number, cat: any) => sum + cat.severity_breakdown.info, 0);
+  const criticalIssues = categories.reduce(
+    (sum: number, cat: any) => sum + cat.severity_breakdown.critical,
+    0
+  );
+  const warningIssues = categories.reduce(
+    (sum: number, cat: any) => sum + cat.severity_breakdown.warning,
+    0
+  );
+  const infoIssues = categories.reduce(
+    (sum: number, cat: any) => sum + cat.severity_breakdown.info,
+    0
+  );
 
   // Auto-select first category on load
   React.useEffect(() => {
@@ -228,12 +317,20 @@ export const AuditResultsGrouped: React.FC = () => {
   // Use API data for issues and pagination
   const paginatedIssues = categoryIssues;
   const totalPages = pagination?.total_pages || 1;
-  const approvedCount = categoryIssues.filter((i: any) => i.fix?.approved).length;
-  const pendingCount = categoryIssues.filter((i: any) => !i.fix?.approved).length;
+  const approvedCount = categoryIssues.filter(
+    (i: any) => i.fix?.approved
+  ).length;
+  const pendingCount = categoryIssues.filter(
+    (i: any) => !i.fix?.approved
+  ).length;
   const totalItemsInCategory = pagination?.total_items || 0;
 
   const handleFixAll = () => {
-    if (confirm(`Apply all ${totalIssues} fixes? This will prepare all approved fixes for deployment.`)) {
+    if (
+      confirm(
+        `Apply all ${totalIssues} fixes? This will prepare all approved fixes for deployment.`
+      )
+    ) {
       applyFixesMutation.mutate({ mode: "all" });
     }
   };
@@ -246,7 +343,9 @@ export const AuditResultsGrouped: React.FC = () => {
 
   const handleViewPageAudit = (auditPageId: string) => {
     const pageId = auditPageId.replace("audit_page_", "");
-    navigate(`/module/live-seo-fixer/projects/${projectId}/pages/${pageId}/audit`);
+    navigate(
+      `/module/live-seo-fixer/projects/${projectId}/pages/${pageId}/audit`
+    );
   };
 
   const handleToggleApprove = async (issue: any) => {
@@ -284,18 +383,20 @@ export const AuditResultsGrouped: React.FC = () => {
 
       toastHook({
         title: currentState ? "Fix Disapproved" : "Fix Approved",
-        description: currentState 
-          ? project?.wordpress_connected 
-            ? "The fix has been disapproved and removed from WordPress." 
+        description: currentState
+          ? project?.wordpress_connected
+            ? "The fix has been disapproved and removed from WordPress."
             : "The fix has been disapproved."
           : project?.wordpress_connected
-            ? "The fix has been approved and synced to WordPress."
-            : "The fix has been approved for deployment.",
+          ? "The fix has been approved and synced to WordPress."
+          : "The fix has been approved for deployment.",
       });
     } catch (error: any) {
       toastHook({
         title: "Error",
-        description: error.response?.data?.message || "Failed to update approval status. Please try again.",
+        description:
+          error.response?.data?.message ||
+          "Failed to update approval status. Please try again.",
         variant: "destructive",
       });
     }
@@ -333,7 +434,9 @@ export const AuditResultsGrouped: React.FC = () => {
     } catch (error: any) {
       toastHook({
         title: "Error",
-        description: error.response?.data?.message || "Failed to approve all fixes. Please try again.",
+        description:
+          error.response?.data?.message ||
+          "Failed to approve all fixes. Please try again.",
         variant: "destructive",
       });
     }
@@ -344,7 +447,7 @@ export const AuditResultsGrouped: React.FC = () => {
 
     if (
       !confirm(
-        "Are you sure you want to rollback all fixes in this category? This will reset them to their original values.",
+        "Are you sure you want to rollback all fixes in this category? This will reset them to their original values."
       )
     ) {
       return;
@@ -363,7 +466,9 @@ export const AuditResultsGrouped: React.FC = () => {
     } catch (error: any) {
       toastHook({
         title: "Error",
-        description: error.response?.data?.message || "Failed to rollback fixes. Please try again.",
+        description:
+          error.response?.data?.message ||
+          "Failed to rollback fixes. Please try again.",
         variant: "destructive",
       });
     }
@@ -372,14 +477,20 @@ export const AuditResultsGrouped: React.FC = () => {
   const handleEditIssue = (issue: any) => {
     // For schema and semantic-entities issues, navigate to schema editor instead of opening modal
     if (issue.type === "schema" || issue.type === "semantic-entities") {
-      navigate(`/module/live-seo-fixer/projects/${projectId}/audits/${auditId}/schema-editor`, {
-        state: {
-          schemaData: issue.fix?.content || issue.suggested_value || issue.current_value,
-          issueId: issue.id.toString(),
-          auditId: auditId,
-          schemaRequirements: issue.schema_requirements || {},
-        },
-      });
+      navigate(
+        `/module/live-seo-fixer/projects/${projectId}/audits/${auditId}/schema-editor`,
+        {
+          state: {
+            schemaData:
+              issue.fix?.content ||
+              issue.suggested_value ||
+              issue.current_value,
+            issueId: issue.id.toString(),
+            auditId: auditId,
+            schemaRequirements: issue.schema_requirements || {},
+          },
+        }
+      );
     } else {
       setEditingIssue(issue);
     }
@@ -404,7 +515,9 @@ export const AuditResultsGrouped: React.FC = () => {
     } catch (error: any) {
       toastHook({
         title: "Error",
-        description: error.response?.data?.message || "Failed to update fix. Please try again.",
+        description:
+          error.response?.data?.message ||
+          "Failed to update fix. Please try again.",
         variant: "destructive",
       });
     }
@@ -434,13 +547,19 @@ export const AuditResultsGrouped: React.FC = () => {
     } catch (error: any) {
       toastHook({
         title: "Error",
-        description: error.response?.data?.message || "Failed to update fix. Please try again.",
+        description:
+          error.response?.data?.message ||
+          "Failed to update fix. Please try again.",
         variant: "destructive",
       });
     }
   };
 
-  const getCharacterProgress = (text: string, optimalMin?: number, optimalMax?: number) => {
+  const getCharacterProgress = (
+    text: string,
+    optimalMin?: number,
+    optimalMax?: number
+  ) => {
     // Handle "Missing" case - treat as 0 length
     const length = text === "Missing" ? 0 : text?.length || 0;
 
@@ -485,7 +604,9 @@ export const AuditResultsGrouped: React.FC = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="flex flex-col items-center gap-2">
           <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
-          <span className="text-sm text-muted-foreground">Loading audit results...</span>
+          <span className="text-sm text-muted-foreground">
+            Loading audit results...
+          </span>
         </div>
       </div>
     );
@@ -494,7 +615,13 @@ export const AuditResultsGrouped: React.FC = () => {
   if (!categories || totalIssues === 0) {
     return (
       <div className="p-6">
-        <Button variant="outline" size="sm" onClick={() => navigate(`/module/live-seo-fixer/projects/${projectId}`)}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            navigate(`/module/live-seo-fixer/projects/${projectId}`)
+          }
+        >
           <ArrowLeft size={16} className="mr-2" />
           Back to Project
         </Button>
@@ -503,7 +630,8 @@ export const AuditResultsGrouped: React.FC = () => {
             <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold mb-2">No issues found!</h2>
             <p className="text-muted-foreground">
-              Your pages are looking great. All SEO elements are properly configured.
+              Your pages are looking great. All SEO elements are properly
+              configured.
             </p>
           </CardContent>
         </Card>
@@ -520,13 +648,17 @@ export const AuditResultsGrouped: React.FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate(`/module/live-seo-fixer/projects/${projectId}`)}
+              onClick={() =>
+                navigate(`/module/live-seo-fixer/projects/${projectId}`)
+              }
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
               <h1 className="text-2xl font-bold">SEO Audit Results</h1>
-              <p className="text-sm text-muted-foreground mt-1">Review and manage technical SEO fixes by category</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Review and manage technical SEO fixes by category
+              </p>
             </div>
           </div>
         </div>
@@ -566,7 +698,9 @@ export const AuditResultsGrouped: React.FC = () => {
                   </div>
                   <Icon className="h-4 w-4 mt-0.5 shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-sm">{categoryLabels[cat.type] || cat.type}</div>
+                    <div className="font-medium text-sm">
+                      {categoryLabels[cat.type] || cat.type}
+                    </div>
                     <div className="text-xs text-muted-foreground mt-0.5">
                       {totalInCategory === 0 ? (
                         <span className="text-gray-400">No issues found</span>
@@ -600,14 +734,20 @@ export const AuditResultsGrouped: React.FC = () => {
               <div className="flex items-center justify-between pb-4 border-b">
                 <div className="flex items-center gap-3">
                   <div>
-                    <h2 className="text-xl font-semibold">{categoryLabels[selectedCategory]} Issues</h2>
+                    <h2 className="text-xl font-semibold">
+                      {categoryLabels[selectedCategory]} Issues
+                    </h2>
                     <p className="text-sm text-muted-foreground mt-0.5">
                       {approvedCount} of {totalItemsInCategory} fixed
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={handleApproveAll}>
+                  <Button
+                    size="sm"
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={handleApproveAll}
+                  >
                     <Check className="h-4 w-4 mr-2" />
                     Approve all in Category
                   </Button>
@@ -673,7 +813,9 @@ export const AuditResultsGrouped: React.FC = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[120px]">STATUS</TableHead>
-                      {selectedCategory === "alt-tags" && <TableHead className="w-[200px]">IMAGE</TableHead>}
+                      {selectedCategory === "alt-tags" && (
+                        <TableHead className="w-[200px]">IMAGE</TableHead>
+                      )}
                       <TableHead className="w-[200px]">PAGE URL</TableHead>
                       <TableHead>ORIGINAL VALUE</TableHead>
                       <TableHead>SUGGESTED FIX</TableHead>
@@ -693,16 +835,19 @@ export const AuditResultsGrouped: React.FC = () => {
                       paginatedIssues.map((issue: any, idx: number) => {
                         const isApproved = issue.fix?.approved || false;
                         const originalTitle = issue.current_value || "Missing";
-                        const suggestedTitle = issue.fix?.content || issue.suggested_value || "No suggestion";
+                        const suggestedTitle =
+                          issue.fix?.content ||
+                          issue.suggested_value ||
+                          "No suggestion";
                         const originalProgress = getCharacterProgress(
                           originalTitle,
                           valueStats?.recommended?.optimal_min,
-                          valueStats?.recommended?.optimal_max,
+                          valueStats?.recommended?.optimal_max
                         );
                         const suggestedProgress = getCharacterProgress(
                           suggestedTitle,
                           valueStats?.recommended?.optimal_min,
-                          valueStats?.recommended?.optimal_max,
+                          valueStats?.recommended?.optimal_max
                         );
 
                         return (
@@ -714,14 +859,20 @@ export const AuditResultsGrouped: React.FC = () => {
                                 onClick={() => handleToggleApprove(issue)}
                                 disabled={updateFixMutation.isPending}
                                 className={`flex items-center gap-2 ${
-                                  isApproved ? "text-green-700 bg-green-50 hover:bg-green-100" : "text-muted-foreground"
+                                  isApproved
+                                    ? "text-green-700 bg-green-50 hover:bg-green-100"
+                                    : "text-muted-foreground"
                                 }`}
                               >
                                 {updateFixMutation.isPending ? (
                                   <RefreshCw className="h-4 w-4 animate-spin" />
                                 ) : (
                                   <CheckCircle2
-                                    className={`h-4 w-4 ${isApproved ? "text-green-600" : "text-gray-400"}`}
+                                    className={`h-4 w-4 ${
+                                      isApproved
+                                        ? "text-green-600"
+                                        : "text-gray-400"
+                                    }`}
                                   />
                                 )}
                                 {isApproved ? "Approved" : "Approve"}
@@ -740,17 +891,22 @@ export const AuditResultsGrouped: React.FC = () => {
                                           className="text-blue-600 hover:underline text-xs block"
                                         >
                                           {issue.image_url.length > 30
-                                            ? issue.image_url.substring(0, 30) + "..."
+                                            ? issue.image_url.substring(0, 30) +
+                                              "..."
                                             : issue.image_url}
                                         </a>
                                       </TooltipTrigger>
                                       <TooltipContent>
-                                        <p className="max-w-md break-all">{issue.image_url}</p>
+                                        <p className="max-w-md break-all">
+                                          {issue.image_url}
+                                        </p>
                                       </TooltipContent>
                                     </Tooltip>
                                   </TooltipProvider>
                                 ) : (
-                                  <span className="text-xs text-muted-foreground">No image</span>
+                                  <span className="text-xs text-muted-foreground">
+                                    No image
+                                  </span>
                                 )}
                               </TableCell>
                             )}
@@ -767,26 +923,34 @@ export const AuditResultsGrouped: React.FC = () => {
                                         className="text-blue-600 hover:underline text-xs block"
                                       >
                                         {issue.page.url.length > 30
-                                          ? issue.page.url.substring(0, 30) + "..."
+                                          ? issue.page.url.substring(0, 30) +
+                                            "..."
                                           : issue.page.url}
                                       </a>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                      <p className="max-w-md break-all">{issue.page.url}</p>
+                                      <p className="max-w-md break-all">
+                                        {issue.page.url}
+                                      </p>
                                     </TooltipContent>
                                   </Tooltip>
                                 </TooltipProvider>
                               ) : (
-                                <span className="text-xs text-muted-foreground">No page URL</span>
+                                <span className="text-xs text-muted-foreground">
+                                  No page URL
+                                </span>
                               )}
                             </TableCell>
 
                             <TableCell>
                               <div className="space-y-2">
-                                {(issue.type === "schema" || issue.type === "semantic-entities") ? (
+                                {issue.type === "schema" ||
+                                issue.type === "semantic-entities" ? (
                                   originalTitle !== "Missing" ? (
                                     <div className="flex items-center gap-2">
-                                      <div className="text-[11px] text-muted-foreground flex-1">Schema present</div>
+                                      <div className="text-[11px] text-muted-foreground flex-1">
+                                        Schema present
+                                      </div>
                                       <Button
                                         variant="ghost"
                                         size="icon"
@@ -802,24 +966,34 @@ export const AuditResultsGrouped: React.FC = () => {
                                       </Button>
                                     </div>
                                   ) : (
-                                    <div className="text-[11px] text-muted-foreground">Missing</div>
+                                    <div className="text-[11px] text-muted-foreground">
+                                      Missing
+                                    </div>
                                   )
                                 ) : (
                                   <>
-                                    <div className="text-[11px] text-muted-foreground">{originalTitle}</div>
+                                    <div className="text-[11px] text-muted-foreground">
+                                      {originalTitle}
+                                    </div>
                                     {originalProgress && (
                                       <div className="flex items-center gap-2">
                                         <div
                                           className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
-                                          title={valueStats?.recommended?.description || ""}
+                                          title={
+                                            valueStats?.recommended
+                                              ?.description || ""
+                                          }
                                         >
                                           <div
                                             className={`h-2 rounded-full ${originalProgress.color}`}
-                                            style={{ width: `${originalProgress.percentage}%` }}
+                                            style={{
+                                              width: `${originalProgress.percentage}%`,
+                                            }}
                                           />
                                         </div>
                                         <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                          {originalProgress.length} / {originalProgress.optimalMin}-
+                                          {originalProgress.length} /{" "}
+                                          {originalProgress.optimalMin}-
                                           {originalProgress.optimalMax}
                                         </span>
                                       </div>
@@ -830,10 +1004,13 @@ export const AuditResultsGrouped: React.FC = () => {
                             </TableCell>
                             <TableCell>
                               <div className="space-y-2">
-                                {(issue.type === "schema" || issue.type === "semantic-entities") ? (
+                                {issue.type === "schema" ||
+                                issue.type === "semantic-entities" ? (
                                   suggestedTitle !== "No suggestion" ? (
                                     <div className="flex items-center gap-2">
-                                      <div className="font-semibold text-[11px] flex-1">Schema suggested</div>
+                                      <div className="font-semibold text-[11px] flex-1">
+                                        Schema suggested
+                                      </div>
                                       <Button
                                         variant="ghost"
                                         size="icon"
@@ -858,7 +1035,9 @@ export const AuditResultsGrouped: React.FC = () => {
                                     </div>
                                   ) : (
                                     <div className="flex items-center gap-2">
-                                      <div className="font-semibold text-[11px] flex-1">No suggestion</div>
+                                      <div className="font-semibold text-[11px] flex-1">
+                                        No suggestion
+                                      </div>
                                       <Button
                                         variant="ghost"
                                         size="icon"
@@ -872,7 +1051,9 @@ export const AuditResultsGrouped: React.FC = () => {
                                 ) : (
                                   <>
                                     <div className="flex items-center gap-2">
-                                      <div className="font-semibold text-[11px] flex-1">{suggestedTitle}</div>
+                                      <div className="font-semibold text-[11px] flex-1">
+                                        {suggestedTitle}
+                                      </div>
                                       <Button
                                         variant="ghost"
                                         size="icon"
@@ -885,7 +1066,9 @@ export const AuditResultsGrouped: React.FC = () => {
                                         variant="ghost"
                                         size="icon"
                                         className="h-6 w-6"
-                                        onClick={() => handleRegenerateIssue(issue)}
+                                        onClick={() =>
+                                          handleRegenerateIssue(issue)
+                                        }
                                       >
                                         <RefreshCw className="h-3 w-3" />
                                       </Button>
@@ -894,15 +1077,21 @@ export const AuditResultsGrouped: React.FC = () => {
                                       <div className="flex items-center gap-2">
                                         <div
                                           className="flex-1 bg-gray-200 rounded-full h-2 cursor-help"
-                                          title={valueStats?.recommended?.description || ""}
+                                          title={
+                                            valueStats?.recommended
+                                              ?.description || ""
+                                          }
                                         >
                                           <div
                                             className={`h-2 rounded-full ${suggestedProgress.color}`}
-                                            style={{ width: `${suggestedProgress.percentage}%` }}
+                                            style={{
+                                              width: `${suggestedProgress.percentage}%`,
+                                            }}
                                           />
                                         </div>
                                         <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                          {suggestedProgress.length} / {suggestedProgress.optimalMin}-
+                                          {suggestedProgress.length} /{" "}
+                                          {suggestedProgress.optimalMin}-
                                           {suggestedProgress.optimalMax}
                                         </span>
                                       </div>
@@ -925,8 +1114,11 @@ export const AuditResultsGrouped: React.FC = () => {
                   {paginatedIssues.length > 0 ? (
                     <>
                       {(currentPage - 1) * itemsPerPage + 1}-
-                      {Math.min(currentPage * itemsPerPage, totalItemsInCategory)} of {totalItemsInCategory} results
-                      shown
+                      {Math.min(
+                        currentPage * itemsPerPage,
+                        totalItemsInCategory
+                      )}{" "}
+                      of {totalItemsInCategory} results shown
                     </>
                   ) : (
                     "0 results"
@@ -947,7 +1139,9 @@ export const AuditResultsGrouped: React.FC = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
                     disabled={currentPage === totalPages || totalPages === 0}
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -993,7 +1187,9 @@ export const AuditResultsGrouped: React.FC = () => {
           targetKeyword={editingIssue.page?.target_keyword || ""}
           projectName={project?.name || "Project"}
           originalValue={editingIssue.current_value}
-          suggestedFix={editingIssue.fix?.content || editingIssue.suggested_value}
+          suggestedFix={
+            editingIssue.fix?.content || editingIssue.suggested_value
+          }
           contentType={editingIssue.type as any}
           onSave={handleSaveEdit}
           optimalMin={valueStats?.recommended?.optimal_min}
@@ -1030,3 +1226,4 @@ export const AuditResultsGrouped: React.FC = () => {
     </div>
   );
 };
+export default AuditResultsGrouped;

@@ -64,7 +64,7 @@ import {
 } from "@/utils/domUtils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/Dashboard");
   const navigate = useNavigate();
   const {

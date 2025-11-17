@@ -1,17 +1,49 @@
+import { lazyImport } from "../lazyImport";
+const LeadLayout = lazyImport(
+  () => import("@/modules/lead-module/components/PageLayout")
+);
+const Dashboard = lazyImport(
+  () => import("@/modules/lead-module/pages/Dashboard")
+);
+const ReportBranding = lazyImport(
+  () => import("@/modules/lead-module/pages/ReportBranding")
+);
+const EmailTemplate = lazyImport(
+  () => import("@/modules/lead-module/pages/EmailTemplate")
+);
+const EmbeddedIframe = lazyImport(
+  () => import("@/modules/lead-module/pages/EmbeddedIframe")
+);
+const Integration = lazyImport(
+  () => import("@/modules/lead-module/pages/Integration")
+);
+const CreditHistory = lazyImport(
+  () => import("@/modules/lead-module/pages/CreditHistory")
+);
+
+// Settings
+const ThemeCustomizationWrapper = lazyImport(
+  () =>
+    import(
+      "@/modules/lead-module/components/settings/ThemeCustomizationWrapper"
+    )
+);
+const ReportBrandingWrapper = lazyImport(
+  () =>
+    import("@/modules/lead-module/components/settings/ReportBrandingWrapper")
+);
+const IntegrationsWrapper = lazyImport(
+  () => import("@/modules/lead-module/components/settings/IntegrationsWrapper")
+);
+const CTACustomizationWrapper = lazyImport(
+  () =>
+    import("@/modules/lead-module/components/settings/CTACustomizationWrapper")
+);
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
-import { LeadLayout } from "@/modules/lead-module/components/PageLayout";
+
 import { LeadSettingsLayout } from "@/modules/lead-module/components/LeadSettingsLayout";
-import Dashboard from "@/modules/lead-module/pages/Dashboard";
-import ReportBranding from "@/modules/lead-module/pages/ReportBranding";
-import EmailTemplate from "@/modules/lead-module/pages/EmailTemplate";
-import EmbeddedIframe from "@/modules/lead-module/pages/EmbeddedIframe";
-import Integration from "@/modules/lead-module/pages/Integration";
-import CreditHistory from "@/modules/lead-module/pages/CreditHistory";
-import { ThemeCustomizationWrapper } from "@/modules/lead-module/components/settings/ThemeCustomizationWrapper";
-import { ReportBrandingWrapper } from "@/modules/lead-module/components/settings/ReportBrandingWrapper";
-import { IntegrationsWrapper } from "@/modules/lead-module/components/settings/IntegrationsWrapper";
-import { CTACustomizationWrapper } from "@/modules/lead-module/components/settings/CTACustomizationWrapper";
+
 import type { RouteConfig } from "../routeConfig";
 
 export const leadModuleRoutes: RouteConfig[] = [
@@ -58,7 +90,7 @@ export const leadModuleRoutes: RouteConfig[] = [
             element: <ThemeCustomizationWrapper />,
           },
           {
-            path: "theme-customization", 
+            path: "theme-customization",
             element: <ThemeCustomizationWrapper />,
           },
           {

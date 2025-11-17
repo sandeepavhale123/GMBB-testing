@@ -6,8 +6,19 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { PhonePreview } from "@/modules/Reputation-module/components/PhonePreview";
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -43,21 +54,23 @@ const DEFAULT_WHATSAPP_TEMPLATE = `Hi Name!
 
 Review Link`;
 export const CreateCampaign: React.FC = () => {
-  const {
-    t
-  } = useI18nNamespace("Reputation/createCampaign");
+  const { t } = useI18nNamespace("Reputation/createCampaign");
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [campaignName, setCampaignName] = useState("");
-  const [campaignType, setCampaignType] = useState<"review" | "survey">("review");
-  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
+  const [campaignType, setCampaignType] = useState<"review" | "survey">(
+    "review"
+  );
+  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">(
+    "whatsapp"
+  );
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [newContactName, setNewContactName] = useState("");
   const [newContactPhone, setNewContactPhone] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("default");
-  const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
+  const [templateContent, setTemplateContent] = useState(
+    DEFAULT_WHATSAPP_TEMPLATE
+  );
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -76,8 +89,8 @@ export const CreateCampaign: React.FC = () => {
     if (campaignType === "review") {
       setSelectedFeedbackForm("");
       // Remove feedback form URL from template content
-      setTemplateContent(prev => 
-        prev.replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, '').trim()
+      setTemplateContent((prev) =>
+        prev.replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, "").trim()
       );
     }
   }, [campaignType]);
@@ -86,13 +99,15 @@ export const CreateCampaign: React.FC = () => {
   useEffect(() => {
     if (campaignType === "survey" && selectedFeedbackForm) {
       const formUrl = `${window.location.origin}/feedback/form/${selectedFeedbackForm}`;
-      
+
       // Check if URL already exists to avoid duplicates
       if (!templateContent.includes(formUrl)) {
-        setTemplateContent(prev => {
+        setTemplateContent((prev) => {
           // Remove any existing feedback form URLs first
-          const cleaned = prev.replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, '').trim();
-          
+          const cleaned = prev
+            .replace(/📋.*?\n.*?\/feedback\/form\/[^\s]+/g, "")
+            .trim();
+
           if (cleaned) {
             return `${cleaned}\n\n📋 Survey Form: ${formUrl}`;
           }
@@ -103,18 +118,25 @@ export const CreateCampaign: React.FC = () => {
   }, [selectedFeedbackForm, campaignType]);
 
   const campaignSchema = z.object({
-    campaignName: z.string().min(1, t("validation.nameRequired")).max(100, "Campaign name must be less than 100 characters"),
+    campaignName: z
+      .string()
+      .min(1, t("validation.nameRequired"))
+      .max(100, "Campaign name must be less than 100 characters"),
     channel: z.enum(["sms", "email", "whatsapp"]),
-    contacts: z.array(z.object({
-      name: z.string().min(1),
-      phone: z.string().regex(/^\d{10,15}$/, t("validation.invalidPhone"))
-    })).min(1, t("validation.contactRequired")),
+    contacts: z
+      .array(
+        z.object({
+          name: z.string().min(1),
+          phone: z.string().regex(/^\d{10,15}$/, t("validation.invalidPhone")),
+        })
+      )
+      .min(1, t("validation.contactRequired")),
     template: z.string().min(1, "Template cannot be empty"),
     schedule: z.object({
       enabled: z.boolean(),
       date: z.string().optional(),
-      time: z.string().optional()
-    })
+      time: z.string().optional(),
+    }),
   });
   const handleChannelChange = (value: string) => {
     if (value === "sms" || value === "email" || value === "whatsapp") {
@@ -132,8 +154,11 @@ export const CreateCampaign: React.FC = () => {
     if (!newContactName.trim() || !newContactPhone.trim()) {
       toast({
         title: "Error",
-        description: channel === "email" ? "Please enter both name and email" : "Please enter both name and phone number",
-        variant: "destructive"
+        description:
+          channel === "email"
+            ? "Please enter both name and email"
+            : "Please enter both name and phone number",
+        variant: "destructive",
       });
       return;
     }
@@ -141,14 +166,17 @@ export const CreateCampaign: React.FC = () => {
       toast({
         title: "Error",
         description: t("validation.invalidPhone"),
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
-    setContacts([...contacts, {
-      name: newContactName,
-      phone: newContactPhone
-    }]);
+    setContacts([
+      ...contacts,
+      {
+        name: newContactName,
+        phone: newContactPhone,
+      },
+    ]);
     setNewContactName("");
     setNewContactPhone("");
   };
@@ -163,7 +191,8 @@ export const CreateCampaign: React.FC = () => {
   };
   const handleDownloadSample = () => {
     const headers = channel === "email" ? "name,email" : "name,phone";
-    const sampleRow = channel === "email" ? "John Doe,john@example.com" : "John Doe,1234567890";
+    const sampleRow =
+      channel === "email" ? "John Doe,john@example.com" : "John Doe,1234567890";
     const csvContent = `${headers}\n${sampleRow}`;
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
@@ -181,18 +210,21 @@ export const CreateCampaign: React.FC = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
-      const lines = text.split("\n").filter(line => line.trim());
-      
+      const lines = text.split("\n").filter((line) => line.trim());
+
       if (lines.length < 2) {
         toast({
           title: "Error",
           description: "CSV file is empty or invalid",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
 
-      const headers = lines[0].toLowerCase().split(",").map(h => h.trim());
+      const headers = lines[0]
+        .toLowerCase()
+        .split(",")
+        .map((h) => h.trim());
       const nameIndex = headers.indexOf("name");
       const phoneIndex = headers.indexOf("phone");
       const emailIndex = headers.indexOf("email");
@@ -201,7 +233,7 @@ export const CreateCampaign: React.FC = () => {
         toast({
           title: "Error",
           description: "CSV must contain 'name' column",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -210,7 +242,7 @@ export const CreateCampaign: React.FC = () => {
         toast({
           title: "Error",
           description: "CSV must contain 'email' column for email campaigns",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -218,17 +250,19 @@ export const CreateCampaign: React.FC = () => {
       if ((channel === "sms" || channel === "whatsapp") && phoneIndex === -1) {
         toast({
           title: "Error",
-          description: "CSV must contain 'phone' column for SMS/WhatsApp campaigns",
-          variant: "destructive"
+          description:
+            "CSV must contain 'phone' column for SMS/WhatsApp campaigns",
+          variant: "destructive",
         });
         return;
       }
 
       const newContacts: Contact[] = [];
       for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(",").map(v => v.trim());
+        const values = lines[i].split(",").map((v) => v.trim());
         const name = values[nameIndex];
-        const contactValue = channel === "email" ? values[emailIndex] : values[phoneIndex];
+        const contactValue =
+          channel === "email" ? values[emailIndex] : values[phoneIndex];
 
         if (name && contactValue) {
           if (channel !== "email" && !/^\d{10,15}$/.test(contactValue)) {
@@ -242,7 +276,7 @@ export const CreateCampaign: React.FC = () => {
         toast({
           title: "Error",
           description: "No valid contacts found in CSV",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -250,7 +284,7 @@ export const CreateCampaign: React.FC = () => {
       setContacts([...contacts, ...newContacts]);
       toast({
         title: "Success",
-        description: `${newContacts.length} contacts imported successfully`
+        description: `${newContacts.length} contacts imported successfully`,
       });
       setIsImportModalOpen(false);
       setUploadedCSVFile(null);
@@ -268,12 +302,12 @@ export const CreateCampaign: React.FC = () => {
         schedule: {
           enabled: scheduleEnabled,
           date: scheduleDate,
-          time: scheduleTime
-        }
+          time: scheduleTime,
+        },
       });
       toast({
         title: t("success.title"),
-        description: t("success.description")
+        description: t("success.description"),
       });
       navigate("/module/reputation/request");
     } catch (error) {
@@ -281,12 +315,13 @@ export const CreateCampaign: React.FC = () => {
         toast({
           title: "Validation Error",
           description: error.errors[0]?.message || "Please check your inputs",
-          variant: "destructive"
+          variant: "destructive",
         });
       }
     }
   };
-  return <div className="pb-8 pt-4  min-h-screen bg-background">
+  return (
+    <div className="pb-8 pt-4  min-h-screen bg-background">
       <div className="mx-auto space-y-6">
         {/* Page Title */}
         <h1 className="text-3xl font-bold text-foreground">{t("title")}</h1>
@@ -297,24 +332,33 @@ export const CreateCampaign: React.FC = () => {
             <label className="text-sm font-medium text-foreground">
               {t("campaignName.label")}
             </label>
-            <Input 
-              placeholder={t("campaignName.placeholder")} 
-              value={campaignName} 
-              onChange={e => setCampaignName(e.target.value)} 
-              className="w-full text-base" 
+            <Input
+              placeholder={t("campaignName.placeholder")}
+              value={campaignName}
+              onChange={(e) => setCampaignName(e.target.value)}
+              className="w-full text-base"
             />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">
               {t("campaignType.label")}
             </label>
-            <Select value={campaignType} onValueChange={(value: "review" | "survey") => setCampaignType(value)}>
+            <Select
+              value={campaignType}
+              onValueChange={(value: "review" | "survey") =>
+                setCampaignType(value)
+              }
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={t("campaignType.placeholder")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="review">{t("campaignType.review")}</SelectItem>
-                <SelectItem value="survey">{t("campaignType.survey")}</SelectItem>
+                <SelectItem value="review">
+                  {t("campaignType.review")}
+                </SelectItem>
+                <SelectItem value="survey">
+                  {t("campaignType.survey")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -322,14 +366,28 @@ export const CreateCampaign: React.FC = () => {
 
         {/* Channel Toggle */}
         <div className="space-y-2">
-          <ToggleGroup type="single" value={channel} onValueChange={handleChannelChange} className="justify-start w-full">
-            <ToggleGroupItem value="whatsapp" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+          <ToggleGroup
+            type="single"
+            value={channel}
+            onValueChange={handleChannelChange}
+            className="justify-start w-full"
+          >
+            <ToggleGroupItem
+              value="whatsapp"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
               {t("channel.whatsapp")}
             </ToggleGroupItem>
-            <ToggleGroupItem value="sms" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+            <ToggleGroupItem
+              value="sms"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
               {t("channel.sms")}
             </ToggleGroupItem>
-            <ToggleGroupItem value="email" className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted">
+            <ToggleGroupItem
+              value="email"
+              className="flex-1 data-[state=on]:bg-white data-[state=on]:border-2 data-[state=on]:border-border data-[state=on]:font-semibold data-[state=off]:bg-muted"
+            >
               {t("channel.email")}
             </ToggleGroupItem>
           </ToggleGroup>
@@ -341,7 +399,11 @@ export const CreateCampaign: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h3 className="text-lg font-semibold">{t("contacts.title")}</h3>
               <div className="flex gap-4">
-                <Button variant="link" className="text-primary p-0 h-auto" onClick={() => setIsImportModalOpen(true)}>
+                <Button
+                  variant="link"
+                  className="text-primary p-0 h-auto"
+                  onClick={() => setIsImportModalOpen(true)}
+                >
                   {t("contacts.importCSV")}
                 </Button>
                 <Button variant="link" className="text-primary p-0 h-auto">
@@ -352,47 +414,91 @@ export const CreateCampaign: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] gap-4 items-end">
-              <Input placeholder={t("contacts.namePlaceholder")} value={newContactName} onChange={e => setNewContactName(e.target.value)} />
-              <Input type={channel === "email" ? "email" : "tel"} placeholder={channel === "email" ? t("contacts.emailPlaceholder") : t("contacts.phonePlaceholder")} value={newContactPhone} onChange={e => setNewContactPhone(e.target.value)} />
-              <Button onClick={handleAddContact} className="bg-black hover:bg-black/90 text-white whitespace-nowrap" style={{
-              width: "138px"
-            }}>
+              <Input
+                placeholder={t("contacts.namePlaceholder")}
+                value={newContactName}
+                onChange={(e) => setNewContactName(e.target.value)}
+              />
+              <Input
+                type={channel === "email" ? "email" : "tel"}
+                placeholder={
+                  channel === "email"
+                    ? t("contacts.emailPlaceholder")
+                    : t("contacts.phonePlaceholder")
+                }
+                value={newContactPhone}
+                onChange={(e) => setNewContactPhone(e.target.value)}
+              />
+              <Button
+                onClick={handleAddContact}
+                className="bg-black hover:bg-black/90 text-white whitespace-nowrap"
+                style={{
+                  width: "138px",
+                }}
+              >
                 {t("contacts.addButton")}
               </Button>
             </div>
 
             {/* Display added contacts */}
-            {contacts.length > 0 && <div className="mt-4 border border-grey-200 rounded-md">
+            {contacts.length > 0 && (
+              <div className="mt-4 border border-grey-200 rounded-md">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">Sr.No</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">Name</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">
+                        Sr.No
+                      </th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">
+                        Name
+                      </th>
                       <th className="text-left py-3 px-4 font-semibold text-sm text-gray-700">
                         {channel === "email" ? "Email" : "Contact No."}
                       </th>
-                      <th className="text-right px-4 font-semibold text-sm text-gray-700">Action</th>
+                      <th className="text-right px-4 font-semibold text-sm text-gray-700">
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {contacts.map((contact, index) => <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                    {contacts.map((contact, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
                         <td className="py-3 px-4 text-sm">{index + 1}</td>
-                        <td className="py-3 px-4 text-sm font-medium">{contact.name}</td>
-                        <td className="py-3 px-4 text-sm text-gray-600">{contact.phone}</td>
+                        <td className="py-3 px-4 text-sm font-medium">
+                          {contact.name}
+                        </td>
+                        <td className="py-3 px-4 text-sm text-gray-600">
+                          {contact.phone}
+                        </td>
                         <td className="py-3 px-4 flex justify-end ">
                           <div className="flex gap-2">
-                            <Button variant="ghost" size="sm" onClick={() => handleEditContact(index)} className="h-8 px-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEditContact(index)}
+                              className="h-8 px-2"
+                            >
                               {t("contacts.editButton")}
                             </Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleRemoveContact(index)} className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveContact(index)}
+                              className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                            >
                               {t("contacts.removeButton")}
                             </Button>
                           </div>
                         </td>
-                      </tr>)}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-              </div>}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -404,12 +510,17 @@ export const CreateCampaign: React.FC = () => {
               <h3 className="text-lg font-semibold">{t("template.title")}</h3>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+              <Select
+                value={selectedTemplate}
+                onValueChange={setSelectedTemplate}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder={t("template.defaultTemplate")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
+                  <SelectItem value="default">
+                    {t("template.defaultTemplate")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -419,12 +530,14 @@ export const CreateCampaign: React.FC = () => {
                   <label className="text-sm font-medium text-foreground">
                     {t("feedbackForm.label")}
                   </label>
-                  <Select 
-                    value={selectedFeedbackForm} 
+                  <Select
+                    value={selectedFeedbackForm}
                     onValueChange={setSelectedFeedbackForm}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder={t("feedbackForm.placeholder")} />
+                      <SelectValue
+                        placeholder={t("feedbackForm.placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {feedbackForms.length === 0 ? (
@@ -432,7 +545,7 @@ export const CreateCampaign: React.FC = () => {
                           {t("feedbackForm.noFormsAvailable")}
                         </SelectItem>
                       ) : (
-                        feedbackForms.map(form => (
+                        feedbackForms.map((form) => (
                           <SelectItem key={form.id} value={form.id || ""}>
                             {form.name}
                           </SelectItem>
@@ -443,7 +556,12 @@ export const CreateCampaign: React.FC = () => {
                 </div>
               )}
 
-              <Textarea rows={10} value={templateContent} onChange={e => setTemplateContent(e.target.value)} className="resize-none" />
+              <Textarea
+                rows={10}
+                value={templateContent}
+                onChange={(e) => setTemplateContent(e.target.value)}
+                className="resize-none"
+              />
             </CardContent>
           </Card>
 
@@ -456,19 +574,39 @@ export const CreateCampaign: React.FC = () => {
         {/* Schedule Section */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <Switch checked={scheduleEnabled} onCheckedChange={setScheduleEnabled} />
-            <label className="text-sm font-medium text-foreground">{t("schedule.label")}</label>
+            <Switch
+              checked={scheduleEnabled}
+              onCheckedChange={setScheduleEnabled}
+            />
+            <label className="text-sm font-medium text-foreground">
+              {t("schedule.label")}
+            </label>
           </div>
 
-          {scheduleEnabled && <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input type="date" placeholder={t("schedule.date")} value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} />
-              <Input type="time" placeholder={t("schedule.time")} value={scheduleTime} onChange={e => setScheduleTime(e.target.value)} />
-            </div>}
+          {scheduleEnabled && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                type="date"
+                placeholder={t("schedule.date")}
+                value={scheduleDate}
+                onChange={(e) => setScheduleDate(e.target.value)}
+              />
+              <Input
+                type="time"
+                placeholder={t("schedule.time")}
+                value={scheduleTime}
+                onChange={(e) => setScheduleTime(e.target.value)}
+              />
+            </div>
+          )}
         </div>
 
         {/* Submit Button */}
         <div className="flex justify-end pt-4">
-          <Button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-600 text-white px-8">
+          <Button
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-8"
+          >
             {t("submit")}
           </Button>
         </div>
@@ -480,16 +618,25 @@ export const CreateCampaign: React.FC = () => {
           <DialogHeader>
             <div className="flex items-center justify-between">
               <DialogTitle>{t("importModal.title")}</DialogTitle>
-              <Button variant="link" className="text-primary p-0 h-auto flex items-center gap-2" onClick={handleDownloadSample}>
+              <Button
+                variant="link"
+                className="text-primary p-0 h-auto flex items-center gap-2"
+                onClick={handleDownloadSample}
+              >
                 <Download className="h-4 w-4" />
                 {t("importModal.downloadSample")}
               </Button>
             </div>
           </DialogHeader>
           <div className="mt-4">
-            <CSVDropzone onFileUploaded={handleCSVUpload} uploadedFile={uploadedCSVFile} isReupload={false} />
+            <CSVDropzone
+              onFileUploaded={handleCSVUpload}
+              uploadedFile={uploadedCSVFile}
+              isReupload={false}
+            />
           </div>
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };

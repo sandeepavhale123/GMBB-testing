@@ -25,7 +25,7 @@ import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 export const namespaces = ["PublicReports/publicCitationReport"];
 
-export const PublicCitationReport: React.FC = () => {
+const PublicCitationReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const { t, loaded, languageFullName } = usePublicI18n(namespaces);
@@ -368,3 +368,5 @@ export const PublicCitationReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicCitationReport;

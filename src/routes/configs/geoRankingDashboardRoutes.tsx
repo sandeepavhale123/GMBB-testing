@@ -1,8 +1,17 @@
+import { lazyImport } from "../lazyImport";
 import { ProtectedRoute } from "../ProtectedRoute";
 import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
-import { GeoRankingDashboardLayout } from "@/GEO-ranking-dashboard/layouts/GeoRankingDashboardLayout";
-import { ComingSoonPage } from "@/GEO-ranking-dashboard/pages/coming-soon";
-import { Profile } from "@/GEO-ranking-dashboard/pages/profile";
+
+const GeoRankingDashboardLayout = lazyImport(
+  () => import("@/GEO-ranking-dashboard/layouts/GeoRankingDashboardLayout")
+);
+const ComingSoonPage = lazyImport(
+  () => import("@/GEO-ranking-dashboard/pages/coming-soon")
+);
+const Profile = lazyImport(
+  () => import("@/GEO-ranking-dashboard/pages/profile")
+);
+
 import { RouteConfig } from "../routeConfig";
 
 export const geoRankingDashboardRoutes: RouteConfig[] = [

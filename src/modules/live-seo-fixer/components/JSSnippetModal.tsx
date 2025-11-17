@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,13 +7,13 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Copy, Loader2, X, CheckCircle } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { getJSCode } from '@/services/liveSeoFixer';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Copy, Loader2, X, CheckCircle } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getJSCode } from "@/services/liveSeoFixer";
+import { toast } from "@/hooks/use-toast";
 
 interface JSSnippetModalProps {
   projectId: string;
@@ -32,7 +32,7 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
   onOpenChange: controlledOnOpenChange,
   successMode = false,
   appliedCount = 0,
-  wordPressConnected = false
+  wordPressConnected = false,
 }) => {
   const [internalOpen, setInternalOpen] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
@@ -42,7 +42,7 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
   const setOpen = controlledOnOpenChange || setInternalOpen;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['js-code', projectId],
+    queryKey: ["js-code", projectId],
     queryFn: () => getJSCode(projectId),
     enabled: open,
   });
@@ -64,9 +64,7 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="outline">View JS Snippet</Button>
-        )}
+        {trigger || <Button variant="outline">View JS Snippet</Button>}
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
@@ -76,9 +74,13 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
                 <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <DialogTitle className="text-2xl">Fixes Applied Successfully!</DialogTitle>
+                <DialogTitle className="text-2xl">
+                  Fixes Applied Successfully!
+                </DialogTitle>
                 <DialogDescription>
-                  {appliedCount} SEO {appliedCount === 1 ? 'fix has' : 'fixes have'} been approved and prepared for deployment
+                  {appliedCount} SEO{" "}
+                  {appliedCount === 1 ? "fix has" : "fixes have"} been approved
+                  and prepared for deployment
                 </DialogDescription>
               </div>
             </div>
@@ -99,18 +101,23 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
           )}
           {!successMode && (
             <DialogDescription>
-              Add this JavaScript snippet to your website's &lt;head&gt; section to enable live SEO fixes.
-              The snippet is lightweight and will only apply approved fixes.
+              Add this JavaScript snippet to your website's &lt;head&gt; section
+              to enable live SEO fixes. The snippet is lightweight and will only
+              apply approved fixes.
             </DialogDescription>
           )}
         </DialogHeader>
-        
+
         {successMode && appliedCount > 0 && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-green-700 font-medium">Fixes Ready for Deployment</p>
-                <p className="text-3xl font-bold text-green-900 mt-1">{appliedCount}</p>
+                <p className="text-sm text-green-700 font-medium">
+                  Fixes Ready for Deployment
+                </p>
+                <p className="text-3xl font-bold text-green-900 mt-1">
+                  {appliedCount}
+                </p>
               </div>
               <CheckCircle className="h-12 w-12 text-green-600" />
             </div>
@@ -123,15 +130,19 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
             <div className="flex items-start gap-3">
               <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-green-900 mb-1">WordPress Integration Active</h4>
+                <h4 className="font-semibold text-green-900 mb-1">
+                  WordPress Integration Active
+                </h4>
                 <p className="text-sm text-green-700">
-                  Your approved SEO fixes have been automatically sent to your WordPress website and will be applied automatically. No additional steps required!
+                  Your approved SEO fixes have been automatically sent to your
+                  WordPress website and will be applied automatically. No
+                  additional steps required!
                 </p>
               </div>
             </div>
           </div>
         )}
-        
+
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -144,9 +155,16 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
           <div className="space-y-4">
             {successMode && !wordPressConnected && (
               <div>
-                <h3 className="text-lg font-semibold mb-2">Next Step: Install JavaScript Snippet</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  Next Step: Install JavaScript Snippet
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  To activate these fixes on your live website, add the following JavaScript snippet to your website's <code className="bg-muted px-1 py-0.5 rounded">&lt;head&gt;</code> section.
+                  To activate these fixes on your live website, add the
+                  following JavaScript snippet to your website's{" "}
+                  <code className="bg-muted px-1 py-0.5 rounded">
+                    &lt;head&gt;
+                  </code>{" "}
+                  section.
                 </p>
               </div>
             )}
@@ -165,7 +183,7 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
                     onClick={copyToClipboard}
                   >
                     <Copy className="h-4 w-4 mr-2" />
-                    {copied ? 'Copied!' : 'Copy'}
+                    {copied ? "Copied!" : "Copy"}
                   </Button>
                 </div>
 
@@ -175,19 +193,27 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
                     <h4 className="font-medium">Installation Instructions:</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex items-start gap-2">
-                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                          1
+                        </span>
                         <span>{jsCode.instructions.step_1}</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                          2
+                        </span>
                         <span>{jsCode.instructions.step_2}</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                          3
+                        </span>
                         <span>{jsCode.instructions.step_3}</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                          4
+                        </span>
                         <span>{jsCode.instructions.step_4}</span>
                       </div>
                     </div>
@@ -207,7 +233,6 @@ export const JSSnippetModal: React.FC<JSSnippetModalProps> = ({
                 )}
               </>
             )}
-
           </div>
         ) : null}
       </DialogContent>

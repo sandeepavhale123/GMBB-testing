@@ -1,25 +1,32 @@
 import { Navigate } from "react-router-dom";
-import PostsPage from "@/pages/PostsPage";
-import MediaPage from "@/pages/MediaPage";
-import GalleryPage from "@/pages/GalleryPage";
-import InsightsPage from "@/pages/InsightsPage";
-import GeoRankingPage from "@/pages/GeoRankingPage";
-import AIChatbotPage from "@/pages/AIChatbotPage";
-import ReviewsPage from "@/pages/ReviewsPage";
+import { lazyImport } from "../lazyImport";
+const PostsPage = lazyImport(() => import("@/pages/PostsPage"));
+const MediaPage = lazyImport(() => import("@/pages/MediaPage"));
+const GalleryPage = lazyImport(() => import("@/pages/GalleryPage"));
+const InsightsPage = lazyImport(() => import("@/pages/InsightsPage"));
+const GeoRankingPage = lazyImport(() => import("@/pages/GeoRankingPage"));
+const AIChatbotPage = lazyImport(() => import("@/pages/AIChatbotPage"));
+const ReviewsPage = lazyImport(() => import("@/pages/ReviewsPage"));
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
 import ReportsPage from "@/pages/ReportsPage";
-import CitationPage from "@/pages/CitationPage";
-import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
+const GeoRankingReportPage = lazyImport(
+  () => import("@/components/GeoRanking/GeoRankingReportPage")
+);
+const CitationPage = lazyImport(() => import("@/pages/CitationPage"));
+const HealthPage = lazyImport(() => import("@/pages/HealthPage"));
+const KeywordsPage = lazyImport(() => import("@/pages/KeywordsPage"));
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
-import HealthPage from "@/pages/HealthPage";
-import KeywordsPage from "@/pages/KeywordsPage";
-import AddKeywordsPage from "@/pages/AddKeywordsPage";
-import BulkReportPage from "@/pages/BulkReportPage";
-import GenerateBulkReportPage from "@/pages/GenerateBulkReportPage";
-import ViewBulkReportDetails from "@/pages/ViewBulkReportDetails";
+const AddKeywordsPage = lazyImport(() => import("@/pages/AddKeywordsPage"));
+const BulkReportPage = lazyImport(() => import("@/pages/BulkReportPage"));
+const GenerateBulkReportPage = lazyImport(
+  () => import("@/pages/GenerateBulkReportPage")
+);
+const ViewBulkReportDetails = lazyImport(
+  () => import("@/pages/ViewBulkReportDetails")
+);
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes

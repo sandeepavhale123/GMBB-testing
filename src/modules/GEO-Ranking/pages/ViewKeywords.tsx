@@ -41,7 +41,7 @@ import type { SearchKeywordData } from "@/api/geoRankingApi";
 import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const ViewKeywords: React.FC = () => {
+const ViewKeywords: React.FC = () => {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/viewKeywords");
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
@@ -664,3 +664,5 @@ export const ViewKeywords: React.FC = () => {
     </div>
   );
 };
+
+export default ViewKeywords;

@@ -1,16 +1,44 @@
+import { lazyImport } from "../lazyImport";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
-import { GeoRankingLayout } from "@/modules/GEO-Ranking/components/PageLayout";
-import { Dashboard } from "@/modules/GEO-Ranking/pages/Dashboard";
-import { CheckRanking } from "@/modules/GEO-Ranking/pages/CheckRanking";
-import { ManageGoogleAPIKey } from "@/modules/GEO-Ranking/pages/ManageGoogleAPIKey";
-import { CreditHistory } from "@/modules/GEO-Ranking/pages/CreditHistory";
-import { ViewProjectDetails } from "@/modules/GEO-Ranking/pages/ViewProjectDetails";
-import { ViewKeywords } from "@/modules/GEO-Ranking/pages/ViewKeywords";
-import { AIChatBoxPage } from "@/modules/GEO-Ranking/pages/AI-ChatBoxPage";
-import { GeoRankingSettingsLayout } from "@/modules/GEO-Ranking/components/GeoRankingSettingsLayout";
-import { ThemeCustomizationWrapper } from "@/modules/GEO-Ranking/components/settings/ThemeCustomizationWrapper";
-import { GoogleApiKeyWrapper } from "@/modules/GEO-Ranking/components/settings/GoogleApiKeyWrapper";
+
+const GeoRankingLayout = lazyImport(
+  () => import("@/modules/GEO-Ranking/components/PageLayout")
+);
+const Dashboard = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/Dashboard")
+);
+const CheckRanking = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/CheckRanking")
+);
+const ManageGoogleAPIKey = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/ManageGoogleAPIKey")
+);
+const CreditHistory = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/CreditHistory")
+);
+const ViewProjectDetails = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/ViewProjectDetails")
+);
+const ViewKeywords = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/ViewKeywords")
+);
+const AIChatBoxPage = lazyImport(
+  () => import("@/modules/GEO-Ranking/pages/AI-ChatBoxPage")
+);
+const GeoRankingSettingsLayout = lazyImport(
+  () => import("@/modules/GEO-Ranking/components/GeoRankingSettingsLayout")
+);
+const ThemeCustomizationWrapper = lazyImport(
+  () =>
+    import(
+      "@/modules/GEO-Ranking/components/settings/ThemeCustomizationWrapper"
+    )
+);
+const GoogleApiKeyWrapper = lazyImport(
+  () => import("@/modules/GEO-Ranking/components/settings/GoogleApiKeyWrapper")
+);
+
 import type { RouteConfig } from "../routeConfig";
 
 export const geoRankingModuleRoutes: RouteConfig[] = [

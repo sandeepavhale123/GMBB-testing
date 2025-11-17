@@ -33,7 +33,7 @@ import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 export const namespaces = ["PublicReports/publicPostPerformanceReport"];
 
-export const PublicPostPerformanceReport: React.FC = () => {
+const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
@@ -479,3 +479,5 @@ export const PublicPostPerformanceReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicPostPerformanceReport;

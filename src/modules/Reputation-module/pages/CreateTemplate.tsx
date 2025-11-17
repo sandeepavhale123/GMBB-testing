@@ -6,7 +6,13 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { PhonePreview } from "@/modules/Reputation-module/components/PhonePreview";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useToast } from "@/hooks/use-toast";
@@ -31,7 +37,10 @@ const DEFAULT_WHATSAPP_TEMPLATE = `Hi {name}!
 Review Link:{reviewLink}`;
 
 // Mock template data - would be replaced with actual API call
-const mockTemplatesData: Record<string, { name: string; channel: "sms" | "email" | "whatsapp"; content: string }> = {
+const mockTemplatesData: Record<
+  string,
+  { name: string; channel: "sms" | "email" | "whatsapp"; content: string }
+> = {
   "1": {
     name: "Simple Review Request",
     channel: "sms",
@@ -78,9 +87,13 @@ export const CreateTemplate: React.FC = () => {
   const isEditMode = !!templateId;
 
   const [templateName, setTemplateName] = useState("");
-  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">("whatsapp");
+  const [channel, setChannel] = useState<"sms" | "email" | "whatsapp">(
+    "whatsapp"
+  );
   const [selectedTemplate, setSelectedTemplate] = useState("default");
-  const [templateContent, setTemplateContent] = useState(DEFAULT_WHATSAPP_TEMPLATE);
+  const [templateContent, setTemplateContent] = useState(
+    DEFAULT_WHATSAPP_TEMPLATE
+  );
 
   // Auto-fill template data when in edit mode
   useEffect(() => {
@@ -126,7 +139,9 @@ export const CreateTemplate: React.FC = () => {
 
       toast({
         title: isEditMode ? "Template Updated" : t("success.title"),
-        description: isEditMode ? "Your template has been updated successfully" : t("success.description"),
+        description: isEditMode
+          ? "Your template has been updated successfully"
+          : t("success.description"),
       });
 
       navigate("/module/reputation/request?tab=templates");
@@ -196,12 +211,17 @@ export const CreateTemplate: React.FC = () => {
               <h3 className="text-lg font-semibold">{t("template.title")}</h3>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+              <Select
+                value={selectedTemplate}
+                onValueChange={setSelectedTemplate}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder={t("template.defaultTemplate")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="default">{t("template.defaultTemplate")}</SelectItem>
+                  <SelectItem value="default">
+                    {t("template.defaultTemplate")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <div className="bg-blue-100 p-2 text-sm rounded-lg">
@@ -226,7 +246,10 @@ export const CreateTemplate: React.FC = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end pt-4">
-          <Button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-600 text-white px-8">
+          <Button
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-8"
+          >
             {isEditMode ? "Update Template" : t("submit")}
           </Button>
         </div>

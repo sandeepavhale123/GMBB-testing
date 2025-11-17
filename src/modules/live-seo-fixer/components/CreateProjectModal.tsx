@@ -1,7 +1,7 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -17,14 +17,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 const createProjectSchema = z.object({
-  name: z.string().min(1, 'Project name is required').max(100, 'Project name must be less than 100 characters'),
-  website: z.string().url('Please enter a valid website URL'),
+  name: z
+    .string()
+    .min(1, "Project name is required")
+    .max(100, "Project name must be less than 100 characters"),
+  website: z.string().url("Please enter a valid website URL"),
 });
 
 type CreateProjectForm = z.infer<typeof createProjectSchema>;
@@ -34,17 +37,17 @@ interface CreateProjectModalProps {
   isLoading?: boolean;
 }
 
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
+const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   onCreateProject,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [open, setOpen] = React.useState(false);
-  
+
   const form = useForm<CreateProjectForm>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
-      name: '',
-      website: '',
+      name: "",
+      website: "",
     },
   });
 
@@ -69,7 +72,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
             Add a new website to monitor and optimize for SEO issues.
           </DialogDescription>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -79,16 +82,13 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                 <FormItem>
                   <FormLabel>Project Name</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Enter project name" 
-                      {...field} 
-                    />
+                    <Input placeholder="Enter project name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="website"
@@ -96,16 +96,13 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                 <FormItem>
                   <FormLabel>Website URL</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="https://example.com" 
-                      {...field} 
-                    />
+                    <Input placeholder="https://example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <div className="flex justify-end space-x-2 pt-4">
               <Button
                 type="button"
@@ -118,7 +115,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Creating...' : 'Create Project'}
+                {isLoading ? "Creating..." : "Create Project"}
               </Button>
             </div>
           </form>
@@ -127,3 +124,5 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     </Dialog>
   );
 };
+
+export const CreateProjectModal;

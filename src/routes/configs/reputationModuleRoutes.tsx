@@ -1,16 +1,40 @@
+import { lazyImport } from "../lazyImport";
+const ReputationLayout = lazyImport(
+  () => import("@/modules/Reputation-module/components/PageLayout")
+);
+const Dashboard = lazyImport(
+  () => import("@/modules/Reputation-module/pages/Dashboard")
+);
+const Review = lazyImport(
+  () => import("@/modules/Reputation-module/pages/Review")
+);
+const Request = lazyImport(
+  () => import("@/modules/Reputation-module/pages/Request")
+);
+const Feedback = lazyImport(
+  () => import("@/modules/Reputation-module/pages/Feedback")
+);
+const CreateCampaign = lazyImport(
+  () => import("@/modules/Reputation-module/pages/CreateCampaign")
+);
+const CreateTemplate = lazyImport(
+  () => import("@/modules/Reputation-module/pages/CreateTemplate")
+);
+const ReviewLink = lazyImport(
+  () => import("@/modules/Reputation-module/pages/ReviewLink")
+);
+const CreateFeedbackForm = lazyImport(
+  () => import("@/modules/Reputation-module/pages/CreateFeedbackForm")
+);
+const Setting = lazyImport(
+  () => import("@/modules/Reputation-module/pages/Setting")
+);
+const QRCodePoster = lazyImport(
+  () => import("@/modules/Reputation-module/pages/QRCodePoster")
+);
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
-import { ReputationLayout } from "@/modules/Reputation-module/components/PageLayout";
-import { Dashboard } from "@/modules/Reputation-module/pages/Dashboard";
-import { Review } from "@/modules/Reputation-module/pages/Review";
-import { Request } from "@/modules/Reputation-module/pages/Request";
-import { Feedback } from "@/modules/Reputation-module/pages/Feedback";
-import { CreateCampaign } from "@/modules/Reputation-module/pages/CreateCampaign";
-import { CreateTemplate } from "@/modules/Reputation-module/pages/CreateTemplate";
-import { ReviewLink } from "@/modules/Reputation-module/pages/ReviewLink";
-import { CreateFeedbackForm } from "@/modules/Reputation-module/pages/CreateFeedbackForm";
-import { Setting } from "@/modules/Reputation-module/pages/Setting";
-import { QRCodePoster } from "@/modules/Reputation-module/pages/QRCodePoster";
+
 import { ReputationOnboarding } from "@/modules/Reputation-module/pages/ReputationOnboarding";
 import { Dashboard as V1Dashboard } from "@/modules/Reputation-module/v1/pages/Dashboard";
 import { CreateFeedbackForm as V1CreateFeedbackForm } from "@/modules/Reputation-module/v1/pages/CreateFeedbackForm";

@@ -12,7 +12,7 @@ import {
 import { Search } from "lucide-react";
 import { useCreditHistory } from "../hooks/useCreditHistory";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-export const CreditHistory: React.FC = () => {
+const CreditHistory: React.FC = () => {
   const { t } = useI18nNamespace("Geo-Ranking-module-pages/CreditHistory");
   const { creditHistory, isLoading, searchTerm, handleSearchChange } =
     useCreditHistory();
@@ -290,3 +290,5 @@ export const CreditHistory: React.FC = () => {
     </div>
   );
 };
+
+export default CreditHistory;

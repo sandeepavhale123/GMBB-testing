@@ -1,7 +1,7 @@
-import React from 'react';
-import TeamMembersPage from '@/components/Settings/TeamMembersPage';
+import React from "react";
+import TeamMembersPage from "@/components/Settings/TeamMembersPage";
 
-export const TeamMembersWrapper: React.FC = () => {
+const TeamMembersWrapper: React.FC = () => {
   return (
     <div className="p-6">
       <div className="[&>div]:!p-0 [&>div]:!max-w-none [&>div]:!mx-0">
@@ -10,3 +10,5 @@ export const TeamMembersWrapper: React.FC = () => {
     </div>
   );
 };
+
+export default TeamMembersWrapper;

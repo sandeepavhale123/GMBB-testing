@@ -1,17 +1,43 @@
+import { lazyImport } from "../lazyImport";
+const LiveSeoFixerLayout = lazyImport(
+  () => import("@/modules/live-seo-fixer/components/PageLayout")
+);
+const Dashboard = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/Dashboard")
+);
+const CreateProject = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/CreateProject")
+);
+const ProjectDetail = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/ProjectDetail")
+);
+const PageSelection = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/PageSelection")
+);
+const AuditProgress = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/AuditProgress")
+);
+const AuditResults = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/AuditResults")
+);
+const AuditResultsGrouped = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/AuditResultsGrouped")
+);
+const PageAudit = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/PageAudit")
+);
+const Settings = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/Settings")
+);
+const ProjectSettings = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/ProjectSettings")
+);
+const SchemaEditor = lazyImport(
+  () => import("@/modules/live-seo-fixer/pages/SchemaEditor")
+);
 import { Navigate } from "react-router-dom";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
-import { LiveSeoFixerLayout } from "@/modules/live-seo-fixer/components/PageLayout";
-import { Dashboard } from "@/modules/live-seo-fixer/pages/Dashboard";
-import { CreateProject } from "@/modules/live-seo-fixer/pages/CreateProject";
-import { ProjectDetail } from "@/modules/live-seo-fixer/pages/ProjectDetail";
-import { PageSelection } from "@/modules/live-seo-fixer/pages/PageSelection";
-import { AuditProgress } from "@/modules/live-seo-fixer/pages/AuditProgress";
-import { AuditResults } from "@/modules/live-seo-fixer/pages/AuditResults";
-import { AuditResultsGrouped } from "@/modules/live-seo-fixer/pages/AuditResultsGrouped";
-import { PageAudit } from "@/modules/live-seo-fixer/pages/PageAudit";
-import { Settings } from "@/modules/live-seo-fixer/pages/Settings";
-import { ProjectSettings } from "@/modules/live-seo-fixer/pages/ProjectSettings";
-import { SchemaEditor } from "@/modules/live-seo-fixer/pages/SchemaEditor";
+
 import { RouteConfig } from "../routeConfig";
 
 export const liveSeoFixerModuleRoutes: RouteConfig[] = [
@@ -25,56 +51,56 @@ export const liveSeoFixerModuleRoutes: RouteConfig[] = [
     children: [
       {
         path: "",
-        element: <Navigate to="/module/live-seo-fixer/dashboard" replace />
+        element: <Navigate to="/module/live-seo-fixer/dashboard" replace />,
       },
       {
         path: "dashboard",
-        element: <Dashboard />
+        element: <Dashboard />,
       },
       {
         path: "create-project",
-        element: <CreateProject />
+        element: <CreateProject />,
       },
       {
         path: "projects/:projectId",
-        element: <ProjectDetail />
+        element: <ProjectDetail />,
       },
       {
         path: "projects/:projectId/page-selection",
-        element: <PageSelection />
+        element: <PageSelection />,
       },
       {
         path: "projects/:projectId/audit-progress",
-        element: <AuditProgress />
+        element: <AuditProgress />,
       },
       {
         path: "projects/:projectId/audit-results",
-        element: <AuditResults />
+        element: <AuditResults />,
       },
       {
         path: "projects/:projectId/audit-results-grouped",
-        element: <AuditResultsGrouped />
+        element: <AuditResultsGrouped />,
       },
       {
         path: "projects/:projectId/pages/:pageId/audit",
-        element: <PageAudit />
+        element: <PageAudit />,
       },
       {
         path: "projects/:projectId/pages/:pageId/schema-editor",
-        element: <SchemaEditor />
+        element: <SchemaEditor />,
       },
       {
         path: "projects/:projectId/audits/:auditId/schema-editor",
-        element: <SchemaEditor />
+        element: <SchemaEditor />,
       },
       {
         path: "settings",
-        element: <Settings />
+        element: <Settings />,
       },
       {
         path: "projects/:projectId/settings",
-        element: <ProjectSettings />
-      }
-    ]
-  }
+        element: <ProjectSettings />,
+      },
+    ],
+  },
 ];

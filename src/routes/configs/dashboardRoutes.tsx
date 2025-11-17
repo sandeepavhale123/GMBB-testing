@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
-import Index from "@/pages/Index";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
+import { lazyImport } from "../lazyImport";
+const Index = lazyImport(() => import("@/pages/Index"));
 
 export const dashboardRoutes: RouteConfig[] = [
   // Main dashboard route

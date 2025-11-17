@@ -1,20 +1,56 @@
+import { lazyImport } from "../lazyImport";
+const PublicGMBHealthReport = lazyImport(
+  () => import("@/components/PublicReports/PublicGMBHealthReport")
+);
+const PublicGeoRankingReport = lazyImport(
+  () => import("@/components/PublicReports/PublicGeoRankingReport")
+);
+const PublicReviewsReport = lazyImport(
+  () => import("@/components/PublicReports/PublicReviewsReport")
+);
+const PublicInsightsReport = lazyImport(
+  () => import("@/components/PublicReports/PublicInsightsReport")
+);
+const PublicMediaReport = lazyImport(
+  () => import("@/components/PublicReports/PublicMediaReport")
+);
+const PublicPostPerformanceReport = lazyImport(
+  () => import("@/components/PublicReports/PublicPostPerformanceReport")
+);
+const PublicCitationReport = lazyImport(
+  () => import("@/components/PublicReports/PublicCitationReport")
+);
+const ShareableGEORankingReport = lazyImport(
+  () =>
+    import(
+      "@/modules/GEO-Ranking/sharable-report/pages/sharable-GEO-ranking-report"
+    )
+);
+const GmbHealthReport = lazyImport(
+  () => import("@/modules/lead-module/public-reports/pages/GmbHealthReport")
+);
+const GmbProspectReport = lazyImport(
+  () => import("@/modules/lead-module/public-reports/pages/GmbProspectReport")
+);
+const CitationAuditReport = lazyImport(
+  () => import("@/modules/lead-module/public-reports/pages/CitationAuditReport")
+);
+const LeadGeoRankingReport = lazyImport(
+  () =>
+    import("@/modules/lead-module/public-reports/pages/LeadGeoRankingReport")
+);
+
+const PublicMultiDashboardReport = lazyImport(
+  () => import("@/multiDashboardLayout/public-pages/multi-dashboard-report")
+);
+const ReviewFeedback = lazyImport(
+  () => import("@/modules/Reputation-module/public-pages/ReviewFeedback")
+);
+const PublicFeedbackForm = lazyImport(
+  () => import("@/modules/Reputation-module/public-pages/PublicFeedbackForm")
+);
 import { RouteConfig } from "../routeConfig";
 import { ThemePreloader } from "@/components/ThemePreloader";
-import { PublicGMBHealthReport } from "@/components/PublicReports/PublicGMBHealthReport";
-import { PublicGeoRankingReport } from "@/components/PublicReports/PublicGeoRankingReport";
-import { PublicReviewsReport } from "@/components/PublicReports/PublicReviewsReport";
-import { PublicInsightsReport } from "@/components/PublicReports/PublicInsightsReport";
-import { PublicMediaReport } from "@/components/PublicReports/PublicMediaReport";
-import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPostPerformanceReport";
-import { PublicCitationReport } from "@/components/PublicReports/PublicCitationReport";
-import { PublicMultiDashboardReport } from "@/multiDashboardLayout/public-pages/multi-dashboard-report";
-import { ShareableGEORankingReport } from "@/modules/GEO-Ranking/sharable-report/pages/sharable-GEO-ranking-report";
-import { GmbHealthReport } from "@/modules/lead-module/public-reports/pages/GmbHealthReport";
-import { GmbProspectReport } from "@/modules/lead-module/public-reports/pages/GmbProspectReport";
-import { CitationAuditReport } from "@/modules/lead-module/public-reports/pages/CitationAuditReport";
-import { LeadGeoRankingReport } from "@/modules/lead-module/public-reports/pages/LeadGeoRankingReport";
-import { ReviewFeedback } from "@/modules/Reputation-module/public-pages/ReviewFeedback";
-import { PublicFeedbackForm } from "@/modules/Reputation-module/public-pages/PublicFeedbackForm";
 
 export const publicReportRoutes: RouteConfig[] = [
   {

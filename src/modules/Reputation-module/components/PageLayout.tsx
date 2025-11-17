@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import { SubNavBar } from "./SubNavBar";
 import { MainBody } from "./MainBody";
 
-export const ReputationLayout: React.FC = () => {
+const ReputationLayout: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
 
   return (
@@ -21,3 +21,5 @@ export const ReputationLayout: React.FC = () => {
     </div>
   );
 };
+
+export default ReputationLayout;

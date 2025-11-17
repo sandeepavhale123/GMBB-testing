@@ -52,7 +52,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const PublicMultiDashboardReport: React.FC = () => {
+const PublicMultiDashboardReport: React.FC = () => {
   const { t, languageFullName: language } = useI18nNamespace(
     "MultidashboardPages/publicMultiDashboardReport"
   );
@@ -1463,3 +1463,5 @@ export const PublicMultiDashboardReport: React.FC = () => {
     </PublicMultiDashboardLayout>
   );
 };
+
+export default PublicMultiDashboardReport;

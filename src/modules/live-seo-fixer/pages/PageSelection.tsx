@@ -1,18 +1,43 @@
-import React from 'react';
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Search, Loader2, ExternalLink, ArrowLeft } from 'lucide-react';
-import { getDiscoveredPages, startAudit } from '@/services/liveSeoFixer';
-import { getSupportedPageTypes, transformToPageTypeOptions, PageTypeOption } from '@/services/liveSeoFixer/pageTypeService';
-import { useToast } from '@/hooks/use-toast';
+import React from "react";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Search, Loader2, ExternalLink, ArrowLeft } from "lucide-react";
+import { getDiscoveredPages, startAudit } from "@/services/liveSeoFixer";
+import {
+  getSupportedPageTypes,
+  transformToPageTypeOptions,
+  PageTypeOption,
+} from "@/services/liveSeoFixer/pageTypeService";
+import { useToast } from "@/hooks/use-toast";
 
 interface SelectedPage {
   id: string;
@@ -26,49 +51,56 @@ interface SelectedPage {
 const extractKeywordFromUrl = (url: string): string => {
   try {
     const urlObj = new URL(url);
-    const pathSegments = urlObj.pathname.split('/').filter(segment => segment.length > 0);
-    
+    const pathSegments = urlObj.pathname
+      .split("/")
+      .filter((segment) => segment.length > 0);
+
     if (pathSegments.length === 0) {
-      return '';
+      return "";
     }
-    
+
     // Get the last segment
     const lastSegment = pathSegments[pathSegments.length - 1];
-    
+
     // Remove file extensions if any
-    const withoutExtension = lastSegment.replace(/\.(html|php|aspx|jsp)$/, '');
-    
+    const withoutExtension = lastSegment.replace(/\.(html|php|aspx|jsp)$/, "");
+
     // Convert kebab-case, snake_case, or space-separated to Title Case
     const words = withoutExtension
-      .replace(/[-_]/g, ' ') // Replace hyphens and underscores with spaces
-      .split(' ')
-      .filter(word => word.length > 0)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
-    
-    return words.join(' ');
+      .replace(/[-_]/g, " ") // Replace hyphens and underscores with spaces
+      .split(" ")
+      .filter((word) => word.length > 0)
+      .map(
+        (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      );
+
+    return words.join(" ");
   } catch (error) {
-    return '';
+    return "";
   }
 };
 
-export const PageSelection: React.FC = () => {
+const PageSelection: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const auditId = searchParams.get('audit_id');
-  const mode = searchParams.get('mode'); // 'auto' or 'manual'
+  const auditId = searchParams.get("audit_id");
+  const mode = searchParams.get("mode"); // 'auto' or 'manual'
 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedPages, setSelectedPages] = React.useState<SelectedPage[]>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [pageTypes, setPageTypes] = React.useState<Record<string, string>>({});
-  const [targetKeywords, setTargetKeywords] = React.useState<Record<string, string>>({});
+  const [targetKeywords, setTargetKeywords] = React.useState<
+    Record<string, string>
+  >({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [autoSelectInitialized, setAutoSelectInitialized] = React.useState(false);
+  const [autoSelectInitialized, setAutoSelectInitialized] =
+    React.useState(false);
 
   // Fetch supported page types
   const { data: pageTypesResponse } = useQuery({
-    queryKey: ['supported-page-types'],
+    queryKey: ["supported-page-types"],
     queryFn: getSupportedPageTypes,
   });
 
@@ -79,8 +111,15 @@ export const PageSelection: React.FC = () => {
 
   // Fetch discovered pages
   const { data: pagesResponse, isLoading } = useQuery({
-    queryKey: ['discovered-pages', projectId, auditId, currentPage, searchQuery],
-    queryFn: () => getDiscoveredPages(projectId!, auditId!, currentPage, 50, searchQuery),
+    queryKey: [
+      "discovered-pages",
+      projectId,
+      auditId,
+      currentPage,
+      searchQuery,
+    ],
+    queryFn: () =>
+      getDiscoveredPages(projectId!, auditId!, currentPage, 50, searchQuery),
     enabled: !!projectId && !!auditId,
   });
 
@@ -89,30 +128,31 @@ export const PageSelection: React.FC = () => {
 
   // Auto-select pages when in auto mode
   React.useEffect(() => {
-    if (mode === 'auto' && pages.length > 0 && !autoSelectInitialized) {
+    if (mode === "auto" && pages.length > 0 && !autoSelectInitialized) {
       // Pre-select only the first 20 pages
       const pagesToPreselect = pages.slice(0, 20);
-      
-      const preselectedPages: SelectedPage[] = pagesToPreselect.map(page => {
+
+      const preselectedPages: SelectedPage[] = pagesToPreselect.map((page) => {
         const autoKeyword = extractKeywordFromUrl(page.url);
         return {
           id: page.id,
           url: page.url,
           title: page.title,
           pageType: page.estimated_type,
-          targetKeyword: page.suggested_keywords?.[0] || autoKeyword
+          targetKeyword: page.suggested_keywords?.[0] || autoKeyword,
         };
       });
-      
+
       const preselectedTypes: Record<string, string> = {};
       const preselectedKeywords: Record<string, string> = {};
-      
-      pagesToPreselect.forEach(page => {
+
+      pagesToPreselect.forEach((page) => {
         const autoKeyword = extractKeywordFromUrl(page.url);
         preselectedTypes[page.id] = page.estimated_type;
-        preselectedKeywords[page.id] = page.suggested_keywords?.[0] || autoKeyword;
+        preselectedKeywords[page.id] =
+          page.suggested_keywords?.[0] || autoKeyword;
       });
-      
+
       setSelectedPages(preselectedPages);
       setPageTypes(preselectedTypes);
       setTargetKeywords(preselectedKeywords);
@@ -125,30 +165,34 @@ export const PageSelection: React.FC = () => {
       if (selectedPages.length >= 20) {
         return; // Don't allow more than 20 selections
       }
-      
+
       // Auto-generate keyword from URL if not already set
       const autoKeyword = extractKeywordFromUrl(page.url);
-      const keyword = targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
-      
+      const keyword =
+        targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
+
       // Set the keyword in state
-      setTargetKeywords(prev => ({ ...prev, [page.id]: keyword }));
-      
-      setSelectedPages(prev => [...prev, {
-        id: page.id,
-        url: page.url,
-        title: page.title,
-        pageType: pageTypes[page.id] || page.estimated_type,
-        targetKeyword: keyword
-      }]);
+      setTargetKeywords((prev) => ({ ...prev, [page.id]: keyword }));
+
+      setSelectedPages((prev) => [
+        ...prev,
+        {
+          id: page.id,
+          url: page.url,
+          title: page.title,
+          pageType: pageTypes[page.id] || page.estimated_type,
+          targetKeyword: keyword,
+        },
+      ]);
     } else {
-      setSelectedPages(prev => prev.filter(p => p.id !== page.id));
+      setSelectedPages((prev) => prev.filter((p) => p.id !== page.id));
       // Clean up the state for unselected pages
-      setPageTypes(prev => {
+      setPageTypes((prev) => {
         const newTypes = { ...prev };
         delete newTypes[page.id];
         return newTypes;
       });
-      setTargetKeywords(prev => {
+      setTargetKeywords((prev) => {
         const newKeywords = { ...prev };
         delete newKeywords[page.id];
         return newKeywords;
@@ -157,17 +201,17 @@ export const PageSelection: React.FC = () => {
   };
 
   const handlePageTypeChange = (pageId: string, pageType: string) => {
-    setPageTypes(prev => ({ ...prev, [pageId]: pageType }));
-    setSelectedPages(prev => prev.map(p => 
-      p.id === pageId ? { ...p, pageType } : p
-    ));
+    setPageTypes((prev) => ({ ...prev, [pageId]: pageType }));
+    setSelectedPages((prev) =>
+      prev.map((p) => (p.id === pageId ? { ...p, pageType } : p))
+    );
   };
 
   const handleKeywordChange = (pageId: string, keyword: string) => {
-    setTargetKeywords(prev => ({ ...prev, [pageId]: keyword }));
-    setSelectedPages(prev => prev.map(p => 
-      p.id === pageId ? { ...p, targetKeyword: keyword } : p
-    ));
+    setTargetKeywords((prev) => ({ ...prev, [pageId]: keyword }));
+    setSelectedPages((prev) =>
+      prev.map((p) => (p.id === pageId ? { ...p, targetKeyword: keyword } : p))
+    );
   };
 
   const { toast } = useToast();
@@ -182,7 +226,7 @@ export const PageSelection: React.FC = () => {
       return;
     }
 
-    if (selectedPages.some(page => !page.targetKeyword.trim())) {
+    if (selectedPages.some((page) => !page.targetKeyword.trim())) {
       toast({
         title: "Missing keywords",
         description: "Please enter target keywords for all selected pages.",
@@ -194,15 +238,15 @@ export const PageSelection: React.FC = () => {
     setIsSubmitting(true);
     try {
       // Prepare the data to send to the API
-      const auditData = selectedPages.map(page => ({
+      const auditData = selectedPages.map((page) => ({
         id: page.id,
         url: page.url,
         page_type: page.pageType,
-        target_keyword: page.targetKeyword
+        target_keyword: page.targetKeyword,
       }));
-      
+
       const response = await startAudit(projectId!, auditId!, auditData);
-      
+
       if (response.code === 200) {
         toast({
           title: "Audit started successfully",
@@ -210,13 +254,16 @@ export const PageSelection: React.FC = () => {
         });
         navigate(`/module/live-seo-fixer/projects/${projectId}/audit-progress`);
       } else {
-        throw new Error(response.message || 'Failed to start audit');
+        throw new Error(response.message || "Failed to start audit");
       }
     } catch (error) {
-      console.error('Failed to start audit:', error);
+      console.error("Failed to start audit:", error);
       toast({
         title: "Error starting audit",
-        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -224,35 +271,39 @@ export const PageSelection: React.FC = () => {
     }
   };
 
-  const isPageSelected = (pageId: string) => selectedPages.some(p => p.id === pageId);
+  const isPageSelected = (pageId: string) =>
+    selectedPages.some((p) => p.id === pageId);
 
   const handleSelectAllPages = () => {
     const availableSlots = 20 - selectedPages.length;
-    const pagesToAdd = pages.slice(0, availableSlots).filter(page => !isPageSelected(page.id));
-    
+    const pagesToAdd = pages
+      .slice(0, availableSlots)
+      .filter((page) => !isPageSelected(page.id));
+
     const newSelectedPages: SelectedPage[] = [];
     const newPageTypes: Record<string, string> = {};
     const newTargetKeywords: Record<string, string> = {};
-    
-    pagesToAdd.forEach(page => {
+
+    pagesToAdd.forEach((page) => {
       const autoKeyword = extractKeywordFromUrl(page.url);
-      const keyword = targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
-      
+      const keyword =
+        targetKeywords[page.id] || page.suggested_keywords?.[0] || autoKeyword;
+
       newSelectedPages.push({
         id: page.id,
         url: page.url,
         title: page.title,
         pageType: pageTypes[page.id] || page.estimated_type,
-        targetKeyword: keyword
+        targetKeyword: keyword,
       });
-      
+
       newPageTypes[page.id] = pageTypes[page.id] || page.estimated_type;
       newTargetKeywords[page.id] = keyword;
     });
-    
-    setSelectedPages(prev => [...prev, ...newSelectedPages]);
-    setPageTypes(prev => ({ ...prev, ...newPageTypes }));
-    setTargetKeywords(prev => ({ ...prev, ...newTargetKeywords }));
+
+    setSelectedPages((prev) => [...prev, ...newSelectedPages]);
+    setPageTypes((prev) => ({ ...prev, ...newPageTypes }));
+    setTargetKeywords((prev) => ({ ...prev, ...newTargetKeywords }));
   };
 
   const handleDeselectAllPages = () => {
@@ -261,13 +312,16 @@ export const PageSelection: React.FC = () => {
     setTargetKeywords({});
   };
 
-  const allCurrentPagesSelected = pages.length > 0 && pages.every(page => isPageSelected(page.id));
-  const someCurrentPagesSelected = pages.some(page => isPageSelected(page.id));
+  const allCurrentPagesSelected =
+    pages.length > 0 && pages.every((page) => isPageSelected(page.id));
+  const someCurrentPagesSelected = pages.some((page) =>
+    isPageSelected(page.id)
+  );
 
   const renderPaginationItems = () => {
     const items = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         items.push(
@@ -314,7 +368,7 @@ export const PageSelection: React.FC = () => {
       // Show pages around current page
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
-      
+
       for (let i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
@@ -381,30 +435,33 @@ export const PageSelection: React.FC = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate(`/module/live-seo-fixer/projects/${projectId}`)}
+              onClick={() =>
+                navigate(`/module/live-seo-fixer/projects/${projectId}`)
+              }
             >
               <ArrowLeft size={16} className="mr-2" />
               Back to Project
             </Button>
-            {mode === 'auto' && (
+            {mode === "auto" && (
               <Badge variant="secondary" className="text-xs">
                 Auto-Selected by Priority
               </Badge>
             )}
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">Select Pages for Audit</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Select Pages for Audit
+          </h1>
           <p className="text-muted-foreground">
-            {mode === 'auto' 
+            {mode === "auto"
               ? `We've automatically selected ${selectedPages.length} high-priority pages. Adjust page types and add target keywords before starting the audit.`
-              : `Found ${pagesResponse?.data?.total_pages || 0} pages. Select up to 20 pages to analyze for SEO issues.`
-            }
+              : `Found ${
+                  pagesResponse?.data?.total_pages || 0
+                } pages. Select up to 20 pages to analyze for SEO issues.`}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline">
-            {selectedPages.length}/20 selected
-          </Badge>
-          <Button 
+          <Badge variant="outline">{selectedPages.length}/20 selected</Badge>
+          <Button
             onClick={handleStartAudit}
             disabled={selectedPages.length === 0 || isSubmitting}
           >
@@ -478,35 +535,53 @@ export const PageSelection: React.FC = () => {
           </TableHeader>
           <TableBody>
             {pages.map((page) => (
-              <TableRow key={page.id} className={isPageSelected(page.id) ? 'bg-muted/50' : ''}>
+              <TableRow
+                key={page.id}
+                className={isPageSelected(page.id) ? "bg-muted/50" : ""}
+              >
                 <TableCell>
                   <Checkbox
                     checked={isPageSelected(page.id)}
-                    onCheckedChange={(checked) => handlePageSelect(page, checked as boolean)}
-                    disabled={!isPageSelected(page.id) && selectedPages.length >= 20}
+                    onCheckedChange={(checked) =>
+                      handlePageSelect(page, checked as boolean)
+                    }
+                    disabled={
+                      !isPageSelected(page.id) && selectedPages.length >= 20
+                    }
                   />
                 </TableCell>
                 <TableCell>
                   <div className="space-y-1">
                     <div className="font-medium text-sm" title={page.url}>
-                      {page.url.length > 50 ? `${page.url.substring(0, 50)}...` : page.url}
+                      {page.url.length > 50
+                        ? `${page.url.substring(0, 50)}...`
+                        : page.url}
                     </div>
-                    {page.suggested_keywords && page.suggested_keywords.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {page.suggested_keywords.slice(0, 3).map((keyword, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-xs">
-                            {keyword}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
+                    {page.suggested_keywords &&
+                      page.suggested_keywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {page.suggested_keywords
+                            .slice(0, 3)
+                            .map((keyword, idx) => (
+                              <Badge
+                                key={idx}
+                                variant="secondary"
+                                className="text-xs"
+                              >
+                                {keyword}
+                              </Badge>
+                            ))}
+                        </div>
+                      )}
                   </div>
                 </TableCell>
                 <TableCell>
                   {isPageSelected(page.id) ? (
                     <Select
                       value={pageTypes[page.id] || page.estimated_type}
-                      onValueChange={(value) => handlePageTypeChange(page.id, value)}
+                      onValueChange={(value) =>
+                        handlePageTypeChange(page.id, value)
+                      }
                     >
                       <SelectTrigger className="h-8">
                         <SelectValue />
@@ -514,7 +589,9 @@ export const PageSelection: React.FC = () => {
                       <SelectContent>
                         {pageTypeOptions.map((type) => (
                           <SelectItem key={type.value} value={type.value}>
-                            <span className="capitalize">{type.value.replace(/-/g, ' ')}</span>
+                            <span className="capitalize">
+                              {type.value.replace(/-/g, " ")}
+                            </span>
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -529,8 +606,10 @@ export const PageSelection: React.FC = () => {
                   {isPageSelected(page.id) && (
                     <Input
                       placeholder="Target keyword"
-                      value={targetKeywords[page.id] || ''}
-                      onChange={(e) => handleKeywordChange(page.id, e.target.value)}
+                      value={targetKeywords[page.id] || ""}
+                      onChange={(e) =>
+                        handleKeywordChange(page.id, e.target.value)
+                      }
                       className="h-8"
                     />
                   )}
@@ -539,7 +618,7 @@ export const PageSelection: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => window.open(page.url, '_blank')}
+                    onClick={() => window.open(page.url, "_blank")}
                     className="h-8 w-8 p-0"
                   >
                     <ExternalLink className="h-3 w-3" />
@@ -557,26 +636,33 @@ export const PageSelection: React.FC = () => {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious 
+                <PaginationPrevious
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
                     if (currentPage > 1) setCurrentPage(currentPage - 1);
                   }}
-                  className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
+                  className={
+                    currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+                  }
                 />
               </PaginationItem>
-              
+
               {renderPaginationItems()}
-              
+
               <PaginationItem>
-                <PaginationNext 
+                <PaginationNext
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                    if (currentPage < totalPages)
+                      setCurrentPage(currentPage + 1);
                   }}
-                  className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
+                  className={
+                    currentPage >= totalPages
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
                 />
               </PaginationItem>
             </PaginationContent>
@@ -587,7 +673,7 @@ export const PageSelection: React.FC = () => {
       {/* Start Audit Button (Bottom) */}
       {pages.length > 0 && (
         <div className="flex justify-center pb-6">
-          <Button 
+          <Button
             onClick={handleStartAudit}
             disabled={selectedPages.length === 0 || isSubmitting}
             size="lg"
@@ -609,7 +695,9 @@ export const PageSelection: React.FC = () => {
           <CardContent className="py-12 text-center">
             <h3 className="text-lg font-semibold mb-2">No pages found</h3>
             <p className="text-muted-foreground">
-              {searchQuery ? 'Try adjusting your search query.' : 'No pages were discovered from the provided sitemaps.'}
+              {searchQuery
+                ? "Try adjusting your search query."
+                : "No pages were discovered from the provided sitemaps."}
             </p>
           </CardContent>
         </Card>
@@ -617,3 +705,5 @@ export const PageSelection: React.FC = () => {
     </div>
   );
 };
+
+export default PageSelection;

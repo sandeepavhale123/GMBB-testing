@@ -41,7 +41,7 @@ import i18n from "@/i18n";
 
 export const namespaces = ["PublicReports/publicGMBHealthReport"];
 
-export const PublicGMBHealthReport: React.FC = () => {
+const PublicGMBHealthReport: React.FC = () => {
   const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   const { token } = useParams();
   const location = useLocation();
@@ -1066,3 +1066,5 @@ export const PublicGMBHealthReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicGMBHealthReport;

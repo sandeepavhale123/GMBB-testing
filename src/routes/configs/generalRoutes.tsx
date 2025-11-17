@@ -14,10 +14,11 @@ import { ListingManagementPage } from "@/components/Settings/ListingManagementPa
 import { Navigate } from "react-router-dom";
 import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
-import GMBHealthPage from "@/pages/GMBHealthPage";
 import { ListingProvider } from "@/context/ListingContext";
-import ReportsPage from "@/pages/ReportsPage";
 import { VerifyTopUp } from "@/pages/VerifyTopUp";
+import { lazyImport } from "../lazyImport";
+const ReportsPage = lazyImport(() => import("@/pages/ReportsPage"));
+const GMBHealthPage = lazyImport(() => import("@/pages/GMBHealthPage"));
 
 export const generalRoutes: RouteConfig[] = [
   {

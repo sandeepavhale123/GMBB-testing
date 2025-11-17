@@ -19,7 +19,7 @@ import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 export const namespaces = ["PublicReports/publicMediaReport"];
 
-export const PublicMediaReport: React.FC = () => {
+const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const { t, loaded, languageFullName } = usePublicI18n(namespaces);
@@ -317,3 +317,5 @@ export const PublicMediaReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicMediaReport;

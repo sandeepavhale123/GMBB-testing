@@ -295,7 +295,7 @@ export const CreateFeedbackForm: React.FC = () => {
         setFormNameError(t("messages.formNameRequired"));
         return;
       }
-      
+
       // Validate logo upload
       if (!logoFile && !logo) {
         setLogoError(t("messages.logoRequired"));
@@ -528,9 +528,7 @@ export const CreateFeedbackForm: React.FC = () => {
                       )}
                     />
                     {logoError ? (
-                      <p className="text-xs text-destructive">
-                        {logoError}
-                      </p>
+                      <p className="text-xs text-destructive">{logoError}</p>
                     ) : (
                       <p className="text-xs text-muted-foreground">
                         {t("tooltips.logoInfo")}

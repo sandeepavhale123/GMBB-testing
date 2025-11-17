@@ -35,7 +35,7 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-export const PublicGeoRankingReport: React.FC = () => {
+const PublicGeoRankingReport: React.FC = () => {
   const { t, loaded, languageFullName } = usePublicI18n(namespaces);
   const [selectedKeywordId, setSelectedKeywordId] = useState<number | null>(
     null
@@ -753,3 +753,5 @@ export const PublicGeoRankingReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicGeoRankingReport;

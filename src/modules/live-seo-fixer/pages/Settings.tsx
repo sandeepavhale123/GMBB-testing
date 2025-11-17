@@ -20,7 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Save, AlertCircle, Shield, Bell, Globe } from "lucide-react";
 
-export const Settings: React.FC = () => {
+const Settings: React.FC = () => {
   const [settings, setSettings] = React.useState({
     notifications: {
       email: true,
@@ -347,3 +347,5 @@ export const Settings: React.FC = () => {
     </div>
   );
 };
+
+export default Settings;

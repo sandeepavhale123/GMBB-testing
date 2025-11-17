@@ -29,7 +29,7 @@ interface EditFixModalProps {
   recommendedDescription?: string;
 }
 
-export const EditFixModal: React.FC<EditFixModalProps> = ({
+ const EditFixModal: React.FC<EditFixModalProps> = ({
   open,
   onOpenChange,
   pageUrl,
@@ -194,3 +194,5 @@ export const EditFixModal: React.FC<EditFixModalProps> = ({
     </Dialog>
   );
 };
+
+export default EditFixModal;

@@ -13,7 +13,7 @@ interface SettingsNavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-export const GeoRankingSettingsLayout: React.FC = () => {
+const GeoRankingSettingsLayout: React.FC = () => {
   const { t } = useI18nNamespace(
     "Geo-Ranking-module-component/GeoRankingSettings"
   );
@@ -126,3 +126,5 @@ export const GeoRankingSettingsLayout: React.FC = () => {
     </div>
   );
 };
+
+export default GeoRankingSettingsLayout;

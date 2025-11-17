@@ -30,7 +30,7 @@ import {
 import { Sheet, SheetContent } from "../ui/sheet";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const GeoRankingReportPage: React.FC = () => {
+const GeoRankingReportPage: React.FC = () => {
   const { t } = useI18nNamespace("GeoRanking/geoRankingReportPage");
   const navigate = useNavigate();
   const { listingId } = useParams();
@@ -321,3 +321,5 @@ export const GeoRankingReportPage: React.FC = () => {
     </div>
   );
 };
+
+export default GeoRankingReportPage;

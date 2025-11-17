@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import { SubNavBar } from "./SubNavBar";
 import { MainBody } from "./MainBody";
 
-export const GeoRankingLayout: React.FC = () => {
+const GeoRankingLayout: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
 
   return (
@@ -21,3 +21,5 @@ export const GeoRankingLayout: React.FC = () => {
     </div>
   );
 };
+
+export default GeoRankingLayout;

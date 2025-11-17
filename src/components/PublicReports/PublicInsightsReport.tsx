@@ -39,7 +39,7 @@ import { usePublicI18n } from "@/hooks/usePublicI18n";
 
 export const namespaces = ["PublicReports/publicInsightsReport"];
 
-export const PublicInsightsReport: React.FC = () => {
+const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const isMobile = useIsMobile(1281);
@@ -942,3 +942,5 @@ export const PublicInsightsReport: React.FC = () => {
     </PublicReportDashboardLayout>
   );
 };
+
+export default PublicInsightsReport;

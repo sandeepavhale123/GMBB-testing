@@ -39,7 +39,9 @@ export const CreateFeedbackForm: React.FC = () => {
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [showJsonDialog, setShowJsonDialog] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
-  const [mobileTab, setMobileTab] = useState<"fields" | "canvas" | "properties">("canvas");
+  const [mobileTab, setMobileTab] = useState<
+    "fields" | "canvas" | "properties"
+  >("canvas");
   const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
 
   // Load form from localStorage on mount
@@ -80,12 +82,16 @@ export const CreateFeedbackForm: React.FC = () => {
         if (field.id === fieldId) {
           // Auto-generate name if label is being updated
           if (updates.label !== undefined) {
-            return { ...field, ...updates, name: generateFieldName(updates.label) };
+            return {
+              ...field,
+              ...updates,
+              name: generateFieldName(updates.label),
+            };
           }
           return { ...field, ...updates };
         }
         return field;
-      }),
+      })
     );
   };
 
@@ -139,13 +145,17 @@ export const CreateFeedbackForm: React.FC = () => {
 
     // Save to localStorage
     saveFormToLocalStorage(savedFormId, savedSchema);
-    
+
     // Clear draft
     if (!formId) {
-      localStorage.removeItem('feedback_form_draft');
+      localStorage.removeItem("feedback_form_draft");
     }
 
-    toast.success(isEditMode ? "Feedback form updated successfully" : "Feedback form created successfully");
+    toast.success(
+      isEditMode
+        ? "Feedback form updated successfully"
+        : "Feedback form created successfully"
+    );
 
     navigate("/module/reputation/request?tab=feedbackForms");
   };
@@ -161,7 +171,9 @@ export const CreateFeedbackForm: React.FC = () => {
       {/* Top Header */}
       <div className="border-b p-3 md:p-4 bg-card">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <h1 className="text-xl md:text-2xl font-bold">{isEditMode ? "Edit" : "Create"} Survey Form</h1>
+          <h1 className="text-xl md:text-2xl font-bold">
+            {isEditMode ? "Edit" : "Create"} Survey Form
+          </h1>
 
           {/* Desktop buttons */}
           {isDesktop && (
@@ -195,11 +207,16 @@ export const CreateFeedbackForm: React.FC = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setShowJsonDialog(true)} disabled={fields.length === 0}>
+                  <DropdownMenuItem
+                    onClick={() => setShowJsonDialog(true)}
+                    disabled={fields.length === 0}
+                  >
                     <Code className="h-4 w-4 mr-2" />
                     View JSON
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleCancel}>Cancel</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleCancel}>
+                    Cancel
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
@@ -231,20 +248,26 @@ export const CreateFeedbackForm: React.FC = () => {
 
           <PropertyEditorPanel
             selectedField={selectedField}
-            onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+            onUpdateField={(updates) =>
+              selectedFieldId && handleUpdateField(selectedFieldId, updates)
+            }
           />
         </div>
       ) : isMobile ? (
         // Mobile: Tab-based navigation
         <Tabs
           value={mobileTab}
-          onValueChange={(v) => setMobileTab(v as "fields" | "canvas" | "properties")}
+          onValueChange={(v) =>
+            setMobileTab(v as "fields" | "canvas" | "properties")
+          }
           className="flex-1 flex flex-col"
         >
           <TabsList className="w-full justify-start border-b rounded-none h-12 px-3">
             <TabsTrigger value="fields">Fields</TabsTrigger>
             <TabsTrigger value="canvas">Canvas</TabsTrigger>
-            {selectedFieldId && <TabsTrigger value="properties">Properties</TabsTrigger>}
+            {selectedFieldId && (
+              <TabsTrigger value="properties">Properties</TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="fields" className="flex-1 overflow-hidden mt-0">
@@ -273,10 +296,15 @@ export const CreateFeedbackForm: React.FC = () => {
           </TabsContent>
 
           {selectedFieldId && (
-            <TabsContent value="properties" className="flex-1 overflow-hidden mt-0">
+            <TabsContent
+              value="properties"
+              className="flex-1 overflow-hidden mt-0"
+            >
               <PropertyEditorPanel
                 selectedField={selectedField}
-                onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+                onUpdateField={(updates) =>
+                  selectedFieldId && handleUpdateField(selectedFieldId, updates)
+                }
               />
             </TabsContent>
           )}
@@ -286,7 +314,11 @@ export const CreateFeedbackForm: React.FC = () => {
         <div className="flex flex-1 overflow-hidden relative">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="absolute left-4 top-4 z-10">
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute left-4 top-4 z-10"
+              >
                 <Menu className="h-4 w-4" />
               </Button>
             </SheetTrigger>
@@ -309,14 +341,21 @@ export const CreateFeedbackForm: React.FC = () => {
           {selectedFieldId && (
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="absolute right-4 top-4 z-10">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="absolute right-4 top-4 z-10"
+                >
                   <SettingsIcon className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] p-0">
                 <PropertyEditorPanel
                   selectedField={selectedField}
-                  onUpdateField={(updates) => selectedFieldId && handleUpdateField(selectedFieldId, updates)}
+                  onUpdateField={(updates) =>
+                    selectedFieldId &&
+                    handleUpdateField(selectedFieldId, updates)
+                  }
                 />
               </SheetContent>
             </Sheet>

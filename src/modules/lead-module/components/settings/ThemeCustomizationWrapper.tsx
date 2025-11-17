@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrandingPage } from '@/components/Settings/BrandingPage';
+import React from "react";
+import { BrandingPage } from "@/components/Settings/BrandingPage";
 
-export const ThemeCustomizationWrapper: React.FC = () => {
+const ThemeCustomizationWrapper: React.FC = () => {
   return (
     <div className="p-6">
       <div className="[&>div]:!p-0 [&>div]:!max-w-none [&>div]:!mx-0">
@@ -10,3 +10,5 @@ export const ThemeCustomizationWrapper: React.FC = () => {
     </div>
   );
 };
+
+export default ThemeCustomizationWrapper;

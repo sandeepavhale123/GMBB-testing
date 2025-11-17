@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Trash2, 
-  Plus, 
-  X, 
-  AlertTriangle, 
-  Eye, 
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import {
+  ArrowLeft,
+  Trash2,
+  Plus,
+  X,
+  AlertTriangle,
+  Eye,
   Save,
   Building2,
   Globe,
@@ -14,15 +14,21 @@ import {
   List,
   Image as ImageIcon,
   FileText,
-  Loader2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
+  Loader2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,17 +38,17 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
-import { updateIssueFix, updateFixStatus } from '@/services/liveSeoFixer';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { updateIssueFix, updateFixStatus } from "@/services/liveSeoFixer";
+import { cn } from "@/lib/utils";
 
 // Schema type to icon mapping
 const schemaIcons: Record<string, any> = {
@@ -62,7 +68,7 @@ const getSchemaIcon = (type: string) => {
 // Convert camelCase to Title Case
 const camelToTitle = (str: string): string => {
   return str
-    .replace(/([A-Z])/g, ' $1')
+    .replace(/([A-Z])/g, " $1")
     .replace(/^./, (s) => s.toUpperCase())
     .trim();
 };
@@ -102,34 +108,43 @@ const validateDate = (date: string): boolean => {
 
 // Field validation based on field name
 const getFieldValidation = (fieldName: string, value: any): string | null => {
-  if (typeof value !== 'string') return null;
-  
-  if (fieldName.toLowerCase().includes('url') || fieldName === 'item') {
-    return validateUrl(value) ? null : 'Invalid URL format (must start with http:// or https://)';
+  if (typeof value !== "string") return null;
+
+  if (fieldName.toLowerCase().includes("url") || fieldName === "item") {
+    return validateUrl(value)
+      ? null
+      : "Invalid URL format (must start with http:// or https://)";
   }
-  if (fieldName.toLowerCase().includes('email')) {
-    return validateEmail(value) ? null : 'Invalid email format';
+  if (fieldName.toLowerCase().includes("email")) {
+    return validateEmail(value) ? null : "Invalid email format";
   }
-  if (fieldName.toLowerCase().includes('phone') || fieldName.toLowerCase().includes('telephone')) {
-    return validatePhone(value) ? null : 'Invalid phone number format';
+  if (
+    fieldName.toLowerCase().includes("phone") ||
+    fieldName.toLowerCase().includes("telephone")
+  ) {
+    return validatePhone(value) ? null : "Invalid phone number format";
   }
-  if (fieldName.toLowerCase() === 'latitude') {
-    return validateLatitude(value) ? null : 'Latitude must be between -90 and 90';
+  if (fieldName.toLowerCase() === "latitude") {
+    return validateLatitude(value)
+      ? null
+      : "Latitude must be between -90 and 90";
   }
-  if (fieldName.toLowerCase() === 'longitude') {
-    return validateLongitude(value) ? null : 'Longitude must be between -180 and 180';
+  if (fieldName.toLowerCase() === "longitude") {
+    return validateLongitude(value)
+      ? null
+      : "Longitude must be between -180 and 180";
   }
-  if (fieldName.toLowerCase().includes('date')) {
-    return validateDate(value) ? null : 'Date must be in YYYY-MM-DD format';
+  if (fieldName.toLowerCase().includes("date")) {
+    return validateDate(value) ? null : "Date must be in YYYY-MM-DD format";
   }
-  
+
   return null;
 };
 
 // Check if field is required based on schema requirements metadata
 const isRequiredField = (
-  schemaType: string, 
-  fieldPath: string[], 
+  schemaType: string,
+  fieldPath: string[],
   schemaRequirements: any
 ): boolean => {
   if (!schemaRequirements || !schemaRequirements[schemaType]) {
@@ -137,37 +152,37 @@ const isRequiredField = (
   }
 
   let current = schemaRequirements[schemaType];
-  
+
   for (let i = 0; i < fieldPath.length; i++) {
     const field = fieldPath[i];
-    
+
     // Skip numeric indices (array item indices)
     if (!isNaN(Number(field))) {
       continue;
     }
-    
+
     // Get the field definition
     const fieldDef = current[field];
-    
+
     if (!fieldDef) {
       return false;
     }
-    
+
     // If it's the last field in path
     if (i === fieldPath.length - 1) {
-      if (typeof fieldDef === 'string') {
-        return fieldDef === 'required';
+      if (typeof fieldDef === "string") {
+        return fieldDef === "required";
       }
-      if (typeof fieldDef === 'object' && fieldDef._requirement) {
-        return fieldDef._requirement === 'required';
+      if (typeof fieldDef === "object" && fieldDef._requirement) {
+        return fieldDef._requirement === "required";
       }
       return false;
     }
-    
+
     // Navigate deeper for nested objects/arrays
-    if (typeof fieldDef === 'object') {
+    if (typeof fieldDef === "object") {
       // Check if next field is inside _item_fields (for arrays)
-      if (fieldDef._type === 'array' && fieldDef._item_fields) {
+      if (fieldDef._type === "array" && fieldDef._item_fields) {
         current = fieldDef._item_fields;
       } else {
         current = fieldDef;
@@ -176,14 +191,18 @@ const isRequiredField = (
       return false;
     }
   }
-  
+
   return false;
 };
 
 interface SchemaEditorProps {}
 
-export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
-  const { projectId, auditId, pageId } = useParams<{ projectId: string; auditId?: string; pageId?: string }>();
+const SchemaEditor: React.FC<SchemaEditorProps> = () => {
+  const { projectId, auditId, pageId } = useParams<{
+    projectId: string;
+    auditId?: string;
+    pageId?: string;
+  }>();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -197,7 +216,9 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   const [schemas, setSchemas] = useState<any[]>([]);
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
   const [isModified, setIsModified] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<Record<string, Record<string, string>>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, Record<string, string>>
+  >({});
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [schemaToDelete, setSchemaToDelete] = useState<number | null>(null);
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
@@ -214,18 +235,19 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   useEffect(() => {
     if (initialSchemaData) {
       try {
-        const parsed = typeof initialSchemaData === 'string' 
-          ? JSON.parse(initialSchemaData) 
-          : initialSchemaData;
-        
+        const parsed =
+          typeof initialSchemaData === "string"
+            ? JSON.parse(initialSchemaData)
+            : initialSchemaData;
+
         const schemasArray = Array.isArray(parsed) ? parsed : [parsed];
         setSchemas(schemasArray);
       } catch (error) {
-        console.error('Failed to parse schema data:', error);
+        console.error("Failed to parse schema data:", error);
         toast({
-          title: 'Error',
-          description: 'Failed to load schema data. Invalid JSON format.',
-          variant: 'destructive',
+          title: "Error",
+          description: "Failed to load schema data. Invalid JSON format.",
+          variant: "destructive",
         });
         navigate(-1);
       }
@@ -233,50 +255,54 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   }, [initialSchemaData, navigate, toast]);
 
   // Update field value with deep cloning to prevent mutation
-  const updateFieldValue = (schemaIndex: number, path: string[], value: any) => {
-    setSchemas(prev => {
+  const updateFieldValue = (
+    schemaIndex: number,
+    path: string[],
+    value: any
+  ) => {
+    setSchemas((prev) => {
       const newSchemas = deepClone(prev);
-      
+
       // Navigate to the field and update it
       let current: any = newSchemas[schemaIndex];
       for (let i = 0; i < path.length - 1; i++) {
         current = current[path[i]];
       }
       current[path[path.length - 1]] = value;
-      
+
       return newSchemas;
     });
     setIsModified(true);
-    
+
     // Get schema type for validation
-    const schemaType = schemas[schemaIndex]['@type'];
+    const schemaType = schemas[schemaIndex]["@type"];
     const fieldName = path[path.length - 1];
     const isRequired = isRequiredField(schemaType, path, schemaRequirements);
-    
+
     // Validate the field
     let error: string | null = null;
-    
+
     // Check if required field is empty
-    if (isRequired && (value === null || value === undefined || value === '')) {
+    if (isRequired && (value === null || value === undefined || value === "")) {
       error = `${camelToTitle(fieldName)} is required`;
-    } else if (value !== null && value !== undefined && value !== '') {
+    } else if (value !== null && value !== undefined && value !== "") {
       // Check format validation only if field has a value
       error = getFieldValidation(fieldName, value);
     }
-    
+
     if (error) {
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
         [schemaIndex]: {
           ...prev[schemaIndex],
-          [path.join('.')]: error,
+          [path.join(".")]: error,
         },
       }));
     } else {
-      setValidationErrors(prev => {
+      setValidationErrors((prev) => {
         const newErrors = { ...prev };
         if (newErrors[schemaIndex]) {
-          delete newErrors[schemaIndex][path.join('.')];
+          delete newErrors[schemaIndex][path.join(".")];
           // Remove schema index if no errors left
           if (Object.keys(newErrors[schemaIndex]).length === 0) {
             delete newErrors[schemaIndex];
@@ -290,12 +316,12 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   // Clone structure with empty values - preserving nested array structures
   const cloneStructureWithEmptyValues = (obj: any, depth: number = 0): any => {
     // Prevent infinite recursion
-    if (depth > 5) return '';
-    
+    if (depth > 5) return "";
+
     if (obj === null || obj === undefined) {
-      return '';
+      return "";
     }
-    
+
     if (Array.isArray(obj)) {
       // For arrays with items, preserve the structure of first item for nested arrays
       if (obj.length > 0) {
@@ -303,88 +329,98 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
       }
       return [];
     }
-    
-    if (typeof obj === 'object') {
+
+    if (typeof obj === "object") {
       const cloned: any = {};
-      Object.keys(obj).forEach(key => {
-        if (key === '@type' || key === '@context') {
+      Object.keys(obj).forEach((key) => {
+        if (key === "@type" || key === "@context") {
           // Preserve @type and @context
           cloned[key] = obj[key];
-        } else if (key === 'position') {
+        } else if (key === "position") {
           // Reset position to 0 (will be set correctly later)
           cloned[key] = 0;
         } else if (Array.isArray(obj[key])) {
           // For nested arrays, preserve structure if they have items
           if (obj[key].length > 0) {
-            cloned[key] = [cloneStructureWithEmptyValues(obj[key][0], depth + 1)];
+            cloned[key] = [
+              cloneStructureWithEmptyValues(obj[key][0], depth + 1),
+            ];
           } else {
             cloned[key] = [];
           }
-        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        } else if (typeof obj[key] === "object" && obj[key] !== null) {
           // Recursively clone nested objects
           cloned[key] = cloneStructureWithEmptyValues(obj[key], depth + 1);
-        } else if (typeof obj[key] === 'number') {
+        } else if (typeof obj[key] === "number") {
           cloned[key] = 0;
         } else {
-          cloned[key] = '';
+          cloned[key] = "";
         }
       });
       return cloned;
     }
-    
-    if (typeof obj === 'number') {
+
+    if (typeof obj === "number") {
       return 0;
     }
-    
-    return '';
+
+    return "";
   };
 
   // Add array item with deep cloning
-  const addArrayItem = (schemaIndex: number, arrayPath: string[], itemTemplate: any) => {
-    setSchemas(prev => {
+  const addArrayItem = (
+    schemaIndex: number,
+    arrayPath: string[],
+    itemTemplate: any
+  ) => {
+    setSchemas((prev) => {
       const newSchemas = deepClone(prev);
-      
+
       // Navigate to the array
       let current: any = newSchemas[schemaIndex];
       for (const key of arrayPath) {
         current = current[key];
       }
-      
+
       // Add new item
       if (Array.isArray(current)) {
         current.push(deepClone(itemTemplate));
       }
-      
+
       return newSchemas;
     });
     setIsModified(true);
   };
 
   // Remove array item with deep cloning
-  const removeArrayItem = (schemaIndex: number, arrayPath: string[], itemIndex: number) => {
-    setSchemas(prev => {
+  const removeArrayItem = (
+    schemaIndex: number,
+    arrayPath: string[],
+    itemIndex: number
+  ) => {
+    setSchemas((prev) => {
       const newSchemas = deepClone(prev);
-      
+
       // Navigate to the array
       let current: any = newSchemas[schemaIndex];
       for (const key of arrayPath) {
         current = current[key];
       }
-      
+
       // Remove item
       if (Array.isArray(current)) {
         current.splice(itemIndex, 1);
-        
+
         // Update positions for BreadcrumbList
-        if (newSchemas[schemaIndex]['@type'] === 'BreadcrumbList') {
+        if (newSchemas[schemaIndex]["@type"] === "BreadcrumbList") {
           current.forEach((item: any, idx: number) => {
-            if (typeof item === 'object' && item !== null) {
+            if (typeof item === "object" && item !== null) {
               item.position = idx + 1;
             }
           });
         }
       }
-      
+
       return newSchemas;
     });
     setIsModified(true);
@@ -394,9 +430,9 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   const handleDeleteClick = (index: number) => {
     if (schemas.length === 1) {
       toast({
-        title: 'Cannot Delete',
-        description: 'Cannot delete the only remaining schema.',
-        variant: 'destructive',
+        title: "Cannot Delete",
+        description: "Cannot delete the only remaining schema.",
+        variant: "destructive",
       });
       return;
     }
@@ -406,23 +442,24 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
 
   const confirmDelete = () => {
     if (schemaToDelete === null) return;
-    
-    setSchemas(prev => prev.filter((_, idx) => idx !== schemaToDelete));
-    
+
+    setSchemas((prev) => prev.filter((_, idx) => idx !== schemaToDelete));
+
     // Adjust active tab if needed
     if (activeTabIndex === schemaToDelete) {
       setActiveTabIndex(Math.max(0, schemaToDelete - 1));
     } else if (activeTabIndex > schemaToDelete) {
       setActiveTabIndex(activeTabIndex - 1);
     }
-    
+
     setIsModified(true);
     setShowDeleteDialog(false);
     setSchemaToDelete(null);
-    
+
     toast({
-      title: 'Schema Deleted',
-      description: 'Schema deleted successfully. Remember to save your changes.',
+      title: "Schema Deleted",
+      description:
+        "Schema deleted successfully. Remember to save your changes.",
     });
   };
 
@@ -439,60 +476,71 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
   const handleSave = async () => {
     // Clear previous validation errors
     setValidationErrors({});
-    
+
     // Validate all schemas
     const newErrors: Record<string, Record<string, string>> = {};
     schemas.forEach((schema, schemaIndex) => {
-      const schemaType = schema['@type'];
+      const schemaType = schema["@type"];
       validateSchemaFields(schema, schemaIndex, [], schemaType, newErrors);
     });
-    
+
     // Set validation errors
     setValidationErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length > 0) {
       // Count total errors
-      const errorCount = Object.values(newErrors).reduce((sum, schemaErrors) => {
-        return sum + Object.keys(schemaErrors).length;
-      }, 0);
-      
+      const errorCount = Object.values(newErrors).reduce(
+        (sum, schemaErrors) => {
+          return sum + Object.keys(schemaErrors).length;
+        },
+        0
+      );
+
       toast({
-        title: 'Validation Error',
-        description: `Please fix ${errorCount} validation error${errorCount > 1 ? 's' : ''} before saving. Required fields must be filled and values must be valid.`,
-        variant: 'destructive',
+        title: "Validation Error",
+        description: `Please fix ${errorCount} validation error${
+          errorCount > 1 ? "s" : ""
+        } before saving. Required fields must be filled and values must be valid.`,
+        variant: "destructive",
       });
       return;
     }
-    
+
     setIsSaving(true);
-    
+
     try {
       const jsonOutput = JSON.stringify(schemas, null, 2);
-      
+
       // Call appropriate API based on available params
       if (auditId || stateAuditId) {
         // Use audit-based API (from AuditResultsGrouped)
-        await updateIssueFix(projectId!, auditId || stateAuditId!, issueId, jsonOutput, true);
+        await updateIssueFix(
+          projectId!,
+          auditId || stateAuditId!,
+          issueId,
+          jsonOutput,
+          true
+        );
       } else if (pageId) {
         // Use page-based API (from PageAudit)
         await updateFixStatus(projectId!, pageId!, issueId, jsonOutput, true);
       } else {
-        throw new Error('Missing required route parameters');
+        throw new Error("Missing required route parameters");
       }
-      
+
       toast({
-        title: 'Success',
-        description: 'Schemas saved successfully.',
+        title: "Success",
+        description: "Schemas saved successfully.",
       });
-      
+
       setIsModified(false);
       navigate(-1);
     } catch (error) {
-      console.error('Failed to save schemas:', error);
+      console.error("Failed to save schemas:", error);
       toast({
-        title: 'Error',
-        description: 'Failed to save schemas. Please try again.',
-        variant: 'destructive',
+        title: "Error",
+        description: "Failed to save schemas. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSaving(false);
@@ -501,56 +549,74 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
 
   // Validate schema fields recursively
   const validateSchemaFields = (
-    obj: any, 
-    schemaIndex: number, 
-    path: string[], 
+    obj: any,
+    schemaIndex: number,
+    path: string[],
     schemaType: string,
     errors: Record<string, Record<string, string>>
   ) => {
-    Object.keys(obj).forEach(key => {
-      if (key === '@context' || key === '@type') return;
-      
+    Object.keys(obj).forEach((key) => {
+      if (key === "@context" || key === "@type") return;
+
       const value = obj[key];
       const currentPath = [...path, key];
-      const fieldPath = currentPath.join('.');
-      
+      const fieldPath = currentPath.join(".");
+
       // Check if field is required
-      const required = isRequiredField(schemaType, currentPath, schemaRequirements);
-      
+      const required = isRequiredField(
+        schemaType,
+        currentPath,
+        schemaRequirements
+      );
+
       // Validate required fields
       if (required) {
-        if (value === null || value === undefined || value === '') {
+        if (value === null || value === undefined || value === "") {
           if (!errors[schemaIndex]) {
             errors[schemaIndex] = {};
           }
           errors[schemaIndex][fieldPath] = `${camelToTitle(key)} is required`;
           return;
         }
-        
+
         // For arrays, check if they have at least one item
         if (Array.isArray(value) && value.length === 0) {
           if (!errors[schemaIndex]) {
             errors[schemaIndex] = {};
           }
-          errors[schemaIndex][fieldPath] = `${camelToTitle(key)} must have at least one item`;
+          errors[schemaIndex][fieldPath] = `${camelToTitle(
+            key
+          )} must have at least one item`;
           return;
         }
       }
-      
+
       // Recursively validate nested objects
-      if (value && typeof value === 'object' && !Array.isArray(value)) {
-        validateSchemaFields(value, schemaIndex, currentPath, schemaType, errors);
-      } 
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        validateSchemaFields(
+          value,
+          schemaIndex,
+          currentPath,
+          schemaType,
+          errors
+        );
+      }
       // Validate array items
       else if (Array.isArray(value)) {
         value.forEach((item, itemIndex) => {
-          if (item && typeof item === 'object') {
-            validateSchemaFields(item, schemaIndex, [...currentPath, itemIndex.toString()], schemaType, errors);
+          if (item && typeof item === "object") {
+            validateSchemaFields(
+              item,
+              schemaIndex,
+              [...currentPath, itemIndex.toString()],
+              schemaType,
+              errors
+            );
           }
         });
-      } 
+      }
       // Validate primitive values
-      else if (value !== null && value !== undefined && value !== '') {
+      else if (value !== null && value !== undefined && value !== "") {
         const formatError = getFieldValidation(key, value);
         if (formatError) {
           if (!errors[schemaIndex]) {
@@ -570,25 +636,32 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
     path: string[],
     schemaType: string
   ) => {
-    const fieldPath = path.join('.');
+    const fieldPath = path.join(".");
     const error = validationErrors[schemaIndex]?.[fieldPath];
     const required = isRequiredField(schemaType, path, schemaRequirements);
-    
-    if (fieldName === '@context' || fieldName === '@type') {
+
+    if (fieldName === "@context" || fieldName === "@type") {
       return null;
     }
-    
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      return renderNestedObject(schemaIndex, fieldName, value, path, schemaType);
+
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      return renderNestedObject(
+        schemaIndex,
+        fieldName,
+        value,
+        path,
+        schemaType
+      );
     }
-    
+
     if (Array.isArray(value)) {
       return renderArray(schemaIndex, fieldName, value, path, schemaType);
     }
-    
-    const isLongText = fieldName.toLowerCase().includes('description') || 
-                       fieldName.toLowerCase().includes('text');
-    
+
+    const isLongText =
+      fieldName.toLowerCase().includes("description") ||
+      fieldName.toLowerCase().includes("text");
+
     return (
       <div key={fieldPath} className="space-y-1.5">
         <Label htmlFor={fieldPath} className="text-sm font-medium">
@@ -598,19 +671,23 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
         {isLongText ? (
           <Textarea
             id={fieldPath}
-            value={value || ''}
-            onChange={(e) => updateFieldValue(schemaIndex, path, e.target.value)}
+            value={value || ""}
+            onChange={(e) =>
+              updateFieldValue(schemaIndex, path, e.target.value)
+            }
             placeholder={`Enter ${camelToTitle(fieldName).toLowerCase()}`}
-            className={cn("min-h-[80px]", error && 'border-destructive')}
+            className={cn("min-h-[80px]", error && "border-destructive")}
           />
         ) : (
           <Input
             id={fieldPath}
-            type={typeof value === 'number' ? 'number' : 'text'}
-            value={value || ''}
-            onChange={(e) => updateFieldValue(schemaIndex, path, e.target.value)}
+            type={typeof value === "number" ? "number" : "text"}
+            value={value || ""}
+            onChange={(e) =>
+              updateFieldValue(schemaIndex, path, e.target.value)
+            }
             placeholder={`Enter ${camelToTitle(fieldName).toLowerCase()}`}
-            className={cn("h-9", error && 'border-destructive')}
+            className={cn("h-9", error && "border-destructive")}
           />
         )}
         {error && <p className="text-xs text-destructive mt-1">{error}</p>}
@@ -627,12 +704,23 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
     schemaType: string
   ) => {
     return (
-      <div key={basePath.join('.')} className="border-l-2 border-muted pl-3 space-y-2">
-        <Label className="text-sm font-semibold text-foreground">{camelToTitle(objectName)}</Label>
+      <div
+        key={basePath.join(".")}
+        className="border-l-2 border-muted pl-3 space-y-2"
+      >
+        <Label className="text-sm font-semibold text-foreground">
+          {camelToTitle(objectName)}
+        </Label>
         <div className="space-y-2">
-          {Object.keys(obj).map(key => {
-            if (key === '@type') return null;
-            return renderField(schemaIndex, key, obj[key], [...basePath, key], schemaType);
+          {Object.keys(obj).map((key) => {
+            if (key === "@type") return null;
+            return renderField(
+              schemaIndex,
+              key,
+              obj[key],
+              [...basePath, key],
+              schemaType
+            );
           })}
         </div>
       </div>
@@ -652,38 +740,42 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
       if (array.length > 0) {
         const firstItem = array[0];
         const clonedItem = cloneStructureWithEmptyValues(firstItem);
-        
+
         // Special handling for BreadcrumbList positions
-        if (schemaType === 'BreadcrumbList' && typeof clonedItem === 'object') {
+        if (schemaType === "BreadcrumbList" && typeof clonedItem === "object") {
           clonedItem.position = array.length + 1;
         }
-        
+
         return clonedItem;
       }
-      
+
       // Fallback templates for common schema types when array is empty
-      if (schemaType === 'BreadcrumbList') {
+      if (schemaType === "BreadcrumbList") {
         return {
-          '@type': 'ListItem',
+          "@type": "ListItem",
           position: array.length + 1,
-          name: '',
-          item: '',
+          name: "",
+          item: "",
         };
       }
-      
+
       // Default empty object for other types
       return {};
     };
-    
+
     return (
-      <div key={basePath.join('.')} className="space-y-2">
+      <div key={basePath.join(".")} className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label className="text-sm font-semibold">{camelToTitle(arrayName)}</Label>
+          <Label className="text-sm font-semibold">
+            {camelToTitle(arrayName)}
+          </Label>
           {array.length < 20 && (
             <Button
               variant="outline"
               size="sm"
-              onClick={() => addArrayItem(schemaIndex, basePath, getArrayItemTemplate())}
+              onClick={() =>
+                addArrayItem(schemaIndex, basePath, getArrayItemTemplate())
+              }
               className="h-8"
             >
               <Plus size={14} className="mr-1.5" />
@@ -691,7 +783,7 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
             </Button>
           )}
         </div>
-        
+
         <div className="space-y-2">
           {array.map((item, itemIndex) => (
             <Card key={itemIndex} className="border-muted bg-muted/30">
@@ -704,7 +796,9 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeArrayItem(schemaIndex, basePath, itemIndex)}
+                    onClick={() =>
+                      removeArrayItem(schemaIndex, basePath, itemIndex)
+                    }
                     className="h-6 w-6 p-0 hover:bg-destructive/10 hover:text-destructive"
                   >
                     <X size={14} />
@@ -712,9 +806,9 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
                 </div>
               </CardHeader>
               <CardContent className="py-2 px-3 space-y-2">
-                {typeof item === 'object' ? (
-                  Object.keys(item).map(key => {
-                    if (key === '@type') return null;
+                {typeof item === "object" ? (
+                  Object.keys(item).map((key) => {
+                    if (key === "@type") return null;
                     return renderField(
                       schemaIndex,
                       key,
@@ -755,7 +849,12 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
       {/* Header */}
       <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-3 border-b">
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm" onClick={handleBack} className="h-8">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleBack}
+            className="h-8"
+          >
             <ArrowLeft size={14} className="mr-1.5" />
             Back
           </Button>
@@ -767,19 +866,26 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
           </div>
         </div>
         <Badge variant="secondary" className="text-xs">
-          {schemas.length} {schemas.length === 1 ? 'Schema' : 'Schemas'}
+          {schemas.length} {schemas.length === 1 ? "Schema" : "Schemas"}
         </Badge>
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTabIndex.toString()} onValueChange={(v) => setActiveTabIndex(parseInt(v))}>
+      <Tabs
+        value={activeTabIndex.toString()}
+        onValueChange={(v) => setActiveTabIndex(parseInt(v))}
+      >
         <TabsList className="w-full justify-start overflow-x-auto h-9">
           {schemas.map((schema, index) => {
-            const Icon = getSchemaIcon(schema['@type']);
+            const Icon = getSchemaIcon(schema["@type"]);
             return (
-              <TabsTrigger key={index} value={index.toString()} className="relative pr-8 text-sm h-8">
+              <TabsTrigger
+                key={index}
+                value={index.toString()}
+                className="relative pr-8 text-sm h-8"
+              >
                 <Icon size={14} className="mr-1.5" />
-                {schema['@type']}
+                {schema["@type"]}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -797,10 +903,20 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
         </TabsList>
 
         {schemas.map((schema, index) => (
-          <TabsContent key={index} value={index.toString()} className="space-y-3 mt-4">
-            {Object.keys(schema).map(key => {
-              if (key === '@context') return null;
-              return renderField(index, key, schema[key], [key], schema['@type']);
+          <TabsContent
+            key={index}
+            value={index.toString()}
+            className="space-y-3 mt-4"
+          >
+            {Object.keys(schema).map((key) => {
+              if (key === "@context") return null;
+              return renderField(
+                index,
+                key,
+                schema[key],
+                [key],
+                schema["@type"]
+              );
             })}
           </TabsContent>
         ))}
@@ -809,16 +925,31 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
       {/* Sticky Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-3 shadow-lg">
         <div className="container mx-auto flex items-center justify-between max-w-7xl">
-          <Button variant="outline" onClick={handleBack} className="h-9" size="sm">
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            className="h-9"
+            size="sm"
+          >
             Cancel
           </Button>
-          
-          <Button variant="outline" onClick={() => setShowPreviewDialog(true)} className="h-9" size="sm">
+
+          <Button
+            variant="outline"
+            onClick={() => setShowPreviewDialog(true)}
+            className="h-9"
+            size="sm"
+          >
             <Eye size={14} className="mr-1.5" />
             Preview JSON
           </Button>
-          
-          <Button onClick={handleSave} disabled={isSaving || Object.keys(validationErrors).length > 0} className="h-9" size="sm">
+
+          <Button
+            onClick={handleSave}
+            disabled={isSaving || Object.keys(validationErrors).length > 0}
+            className="h-9"
+            size="sm"
+          >
             {isSaving ? (
               <>
                 <Loader2 size={14} className="mr-1.5 animate-spin" />
@@ -843,8 +974,11 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
               Delete Schema?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the <strong>{schemaToDelete !== null && schemas[schemaToDelete]?.['@type']}</strong> schema? 
-              This change will only take effect when you save.
+              Are you sure you want to delete the{" "}
+              <strong>
+                {schemaToDelete !== null && schemas[schemaToDelete]?.["@type"]}
+              </strong>{" "}
+              schema? This change will only take effect when you save.
               {schemaToDelete !== null && schemas[schemaToDelete]?.name && (
                 <div className="mt-2 p-2 bg-muted rounded text-sm">
                   <strong>Name:</strong> {schemas[schemaToDelete].name}
@@ -854,7 +988,10 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -867,7 +1004,8 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Unsaved Changes</AlertDialogTitle>
             <AlertDialogDescription>
-              You have unsaved changes. Are you sure you want to leave? All changes will be lost.
+              You have unsaved changes. Are you sure you want to leave? All
+              changes will be lost.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -899,8 +1037,8 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
               onClick={() => {
                 navigator.clipboard.writeText(JSON.stringify(schemas, null, 2));
                 toast({
-                  title: 'Copied',
-                  description: 'JSON copied to clipboard',
+                  title: "Copied",
+                  description: "JSON copied to clipboard",
                 });
               }}
             >
@@ -912,3 +1050,5 @@ export const SchemaEditor: React.FC<SchemaEditorProps> = () => {
     </div>
   );
 };
+
+export default SchemaEditor;

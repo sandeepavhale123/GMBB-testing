@@ -6,7 +6,7 @@ import { SubNavBar } from "./SubNavBar";
 import { MainBody } from "./MainBody";
 import { NotificationProvider } from "@/context/NotificationContext";
 
-export const LiveSeoFixerLayout: React.FC = () => {
+const LiveSeoFixerLayout: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
 
   return (
@@ -24,3 +24,5 @@ export const LiveSeoFixerLayout: React.FC = () => {
     </NotificationProvider>
   );
 };
+
+export default LiveSeoFixerLayout;

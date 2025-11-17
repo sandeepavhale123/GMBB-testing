@@ -8,7 +8,7 @@ import { useCTASettings } from "@/hooks/useCTASettings";
 import { useToast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const CTACustomizationWrapper: React.FC = () => {
+const CTACustomizationWrapper: React.FC = () => {
   const { t } = useI18nNamespace(
     "Laed-module-component/CTACustomizationWrapper"
   );
@@ -144,3 +144,5 @@ export const CTACustomizationWrapper: React.FC = () => {
     </div>
   );
 };
+
+export default CTACustomizationWrapper;

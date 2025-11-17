@@ -1,7 +1,14 @@
+import { lazyImport } from "../lazyImport";
+import { lazy } from "react";
 import { ProtectedRoute } from "../ProtectedRoute";
 import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
-import { MultiDashboard } from "@/multiDashboardLayout/pages/MultiDashboard";
+const MultiDashboard = lazy(() =>
+  import("@/multiDashboardLayout/pages/MultiDashboard").then((module) => ({
+    default: module.MultiDashboard,
+  }))
+);
+
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
 import { BulkPostDetails } from "@/multiDashboardLayout/pages/BulkPostDetails";
 import { BulkMediaDetails } from "@/multiDashboardLayout/pages/BulkMediaDetails";
@@ -71,30 +78,30 @@ export const multiDashboardRoutes: RouteConfig[] = [
         path: "bulk-review",
         element: <BulkReview />,
       },
-        {
-          path: "reports",
-          element: <Reports />,
-        },
-        {
-          path: "gallery",
-          element: <GalleryPage />,
-        },
-        {
-          path: "generate-bulk-report",
-          element: <GenerateBulkReport />,
-        },
-        {
-          path: "bulk-auto-reply",
-          element: <BulkAutoReply />,
-        },
-        {
-          path: "bulk-auto-reply-project-details/:projectId",
-          element: <BulkAutoReplyProjectDetails />,
-        },
-        {
-          path: "bulk-report-details/:projectId",
-          element: <BulkReportDetails />,
-        },
+      {
+        path: "reports",
+        element: <Reports />,
+      },
+      {
+        path: "gallery",
+        element: <GalleryPage />,
+      },
+      {
+        path: "generate-bulk-report",
+        element: <GenerateBulkReport />,
+      },
+      {
+        path: "bulk-auto-reply",
+        element: <BulkAutoReply />,
+      },
+      {
+        path: "bulk-auto-reply-project-details/:projectId",
+        element: <BulkAutoReplyProjectDetails />,
+      },
+      {
+        path: "bulk-report-details/:projectId",
+        element: <BulkReportDetails />,
+      },
       {
         path: "bulk-post-details/:bulkId",
         element: <BulkPostDetails />,

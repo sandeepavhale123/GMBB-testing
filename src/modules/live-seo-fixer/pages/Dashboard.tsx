@@ -1,22 +1,46 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ProjectCard } from '../components/ProjectCard';
-import { Project } from '../types/Project';
-import { fetchProjects, updateProjectStatus, deleteProject } from '@/services/liveSeoFixer';
-import { BarChart3, CheckCircle, AlertCircle, Clock, Search, Loader2, Plus } from 'lucide-react';
-import { toast } from 'sonner';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ProjectCard } from "../components/ProjectCard";
+import { Project } from "../types/Project";
+import {
+  fetchProjects,
+  updateProjectStatus,
+  deleteProject,
+} from "@/services/liveSeoFixer";
+import {
+  BarChart3,
+  CheckCircle,
+  AlertCircle,
+  Clock,
+  Search,
+  Loader2,
+  Plus,
+} from "lucide-react";
+import { toast } from "sonner";
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [statusFilter, setStatusFilter] = React.useState('all');
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState("all");
   const [debouncedSearch, setDebouncedSearch] = React.useState(searchTerm);
 
   // Debounce search term
@@ -34,28 +58,36 @@ export const Dashboard: React.FC = () => {
     data: projectsResponse,
     isLoading,
     isError,
-    error
+    error,
   } = useQuery({
-    queryKey: ['projects', currentPage, debouncedSearch, statusFilter],
-    queryFn: () => fetchProjects({
-      page: currentPage,
-      limit: 6,
-      search: debouncedSearch,
-      status: statusFilter === 'all' ? '' : statusFilter
-    }),
+    queryKey: ["projects", currentPage, debouncedSearch, statusFilter],
+    queryFn: () =>
+      fetchProjects({
+        page: currentPage,
+        limit: 6,
+        search: debouncedSearch,
+        status: statusFilter === "all" ? "" : statusFilter,
+      }),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   // Update project status mutation
   const updateStatusMutation = useMutation({
-    mutationFn: ({ projectId, status }: { projectId: string; status: 'active' | 'paused' | 'completed' }) =>
-      updateProjectStatus(projectId, status),
+    mutationFn: ({
+      projectId,
+      status,
+    }: {
+      projectId: string;
+      status: "active" | "paused" | "completed";
+    }) => updateProjectStatus(projectId, status),
     onSuccess: () => {
-      toast.success('Project status updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      toast.success("Project status updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to update project status');
+      toast.error(
+        error.response?.data?.message || "Failed to update project status"
+      );
     },
   });
 
@@ -63,11 +95,11 @@ export const Dashboard: React.FC = () => {
   const deleteProjectMutation = useMutation({
     mutationFn: (projectId: string) => deleteProject(projectId),
     onSuccess: () => {
-      toast.success('Project deleted successfully!');
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      toast.success("Project deleted successfully!");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to delete project');
+      toast.error(error.response?.data?.message || "Failed to delete project");
     },
   });
 
@@ -76,12 +108,16 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleToggleStatus = (project: Project) => {
-    const newStatus = project.status === 'active' ? 'paused' : 'active';
+    const newStatus = project.status === "active" ? "paused" : "active";
     updateStatusMutation.mutate({ projectId: project.id, status: newStatus });
   };
 
   const handleDeleteProject = (project: Project) => {
-    if (window.confirm(`Are you sure you want to delete "${project.name}"? This action cannot be undone.`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${project.name}"? This action cannot be undone.`
+      )
+    ) {
       deleteProjectMutation.mutate(project.id);
     }
   };
@@ -99,11 +135,12 @@ export const Dashboard: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">SEO Dashboard</h1>
           <p className="text-muted-foreground mt-2">
-            Monitor and optimize your websites for better search engine performance.
+            Monitor and optimize your websites for better search engine
+            performance.
           </p>
         </div>
-        <Button 
-          onClick={() => navigate('/module/live-seo-fixer/create-project')}
+        <Button
+          onClick={() => navigate("/module/live-seo-fixer/create-project")}
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
@@ -115,7 +152,9 @@ export const Dashboard: React.FC = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Projects
+            </CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -125,10 +164,12 @@ export const Dashboard: React.FC = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Active Projects
+            </CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -138,27 +179,29 @@ export const Dashboard: React.FC = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Issues Found</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">{totalIssuesFound}</div>
-            <p className="text-xs text-muted-foreground">
-              Across all projects
-            </p>
+            <div className="text-2xl font-bold text-destructive">
+              {totalIssuesFound}
+            </div>
+            <p className="text-xs text-muted-foreground">Across all projects</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Issues Fixed</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{totalIssuesFixed}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {totalIssuesFixed}
+            </div>
             <p className="text-xs text-muted-foreground">
               Successfully resolved
             </p>
@@ -204,12 +247,17 @@ export const Dashboard: React.FC = () => {
           <Card>
             <CardContent className="text-center py-8">
               <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-              <CardTitle className="mb-2 text-destructive">Error Loading Projects</CardTitle>
+              <CardTitle className="mb-2 text-destructive">
+                Error Loading Projects
+              </CardTitle>
               <CardDescription className="mb-4">
-                {(error as any)?.response?.data?.message || 'Failed to load projects. Please try again.'}
+                {(error as any)?.response?.data?.message ||
+                  "Failed to load projects. Please try again."}
               </CardDescription>
-              <Button 
-                onClick={() => queryClient.invalidateQueries({ queryKey: ['projects'] })}
+              <Button
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["projects"] })
+                }
                 variant="outline"
               >
                 Try Again
@@ -221,17 +269,20 @@ export const Dashboard: React.FC = () => {
             <CardContent className="text-center py-8">
               <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <CardTitle className="mb-2">
-                {searchTerm || statusFilter !== 'all' ? 'No projects found' : 'No projects yet'}
+                {searchTerm || statusFilter !== "all"
+                  ? "No projects found"
+                  : "No projects yet"}
               </CardTitle>
               <CardDescription className="mb-4">
-                {searchTerm || statusFilter !== 'all' 
-                  ? 'Try adjusting your search or filters.'
-                  : 'Create your first SEO monitoring project to get started.'
-                }
+                {searchTerm || statusFilter !== "all"
+                  ? "Try adjusting your search or filters."
+                  : "Create your first SEO monitoring project to get started."}
               </CardDescription>
-              {!searchTerm && statusFilter === 'all' && (
-                <Button 
-                  onClick={() => navigate('/module/live-seo-fixer/create-project')}
+              {!searchTerm && statusFilter === "all" && (
+                <Button
+                  onClick={() =>
+                    navigate("/module/live-seo-fixer/create-project")
+                  }
                   className="flex items-center gap-2"
                 >
                   <Plus className="h-4 w-4" />
@@ -260,23 +311,34 @@ export const Dashboard: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
                   disabled={currentPage === 1}
                 >
                   Previous
                 </Button>
 
                 <span className="text-sm text-muted-foreground px-4">
-                  Page {pagination.page} of {Math.ceil(pagination.total / pagination.limit)}
+                  Page {pagination.page} of{" "}
+                  {Math.ceil(pagination.total / pagination.limit)}
                 </span>
 
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(prev => 
-                    Math.min(prev + 1, Math.ceil(pagination.total / pagination.limit))
-                  )}
-                  disabled={currentPage >= Math.ceil(pagination.total / pagination.limit)}
+                  onClick={() =>
+                    setCurrentPage((prev) =>
+                      Math.min(
+                        prev + 1,
+                        Math.ceil(pagination.total / pagination.limit)
+                      )
+                    )
+                  }
+                  disabled={
+                    currentPage >=
+                    Math.ceil(pagination.total / pagination.limit)
+                  }
                 >
                   Next
                 </Button>
@@ -288,3 +350,4 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+export default Dashboard;
