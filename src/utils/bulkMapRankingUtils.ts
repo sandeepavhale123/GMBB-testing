@@ -22,8 +22,8 @@ export const formatDate = (dateString: string): string => {
 };
 
 // Map status from API (0/1) to display value
-export const mapStatus = (statusCode: string): "completed" | "pending" => {
-  return statusCode === "0" ? "completed" : "pending";
+export const mapStatus = (statusCode: string): "completed" | "running" => {
+  return statusCode === "0" ? "completed" : "running";
 };
 
 // Capitalize schedule for display
