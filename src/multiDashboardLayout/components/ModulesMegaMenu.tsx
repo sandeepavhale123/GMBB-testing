@@ -137,13 +137,14 @@ export const ModulesMegaMenu: React.FC = () => {
         >
           <ScrollArea 
             className={cn(
+              "w-full",
               isMobile 
-                ? "max-h-[70vh]"
-                : "max-h-[80vh]"
+                ? "h-[70vh]"
+                : "h-[80vh]"
             )}
           >
             <div
-              className={cn("p-4", isMobile && "p-3")}
+              className={cn("p-4 pr-3", isMobile && "p-3 pr-2")}
             >
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-medium text-foreground">
