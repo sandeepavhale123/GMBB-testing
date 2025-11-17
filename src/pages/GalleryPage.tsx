@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useLocation } from "react-router-dom";
-import { Gallery } from "@/components/Media/Gallery";
-import { CreatePostModal } from "@/components/Posts/CreatePostModal";
-import { MediaUploadModal } from "@/components/Media/MediaUploadModal";
+// import { Gallery } from "@/components/Media/Gallery";
+// import { CreatePostModal } from "@/components/Posts/CreatePostModal";
+// import { MediaUploadModal } from "@/components/Media/MediaUploadModal";
 import { useMediaContext } from "@/context/MediaContext";
 import { isSingleListingRoute } from "@/utils/routeUtils";
+
+import { lazyImport } from "@/utils/lazyImport";
+
+// Lazy imports
+const Gallery = lazyImport(() =>
+  import("@/components/Media/Gallery").then((mod) => ({ default: mod.Gallery }))
+);
+const CreatePostModal = lazyImport(() =>
+  import("@/components/Posts/CreatePostModal").then((mod) => ({
+    default: mod.CreatePostModal,
+  }))
+);
+const MediaUploadModal = lazyImport(() =>
+  import("@/components/Media/MediaUploadModal").then((mod) => ({
+    default: mod.MediaUploadModal,
+  }))
+);
 
 const GalleryPage: React.FC = () => {
   const location = useLocation();
@@ -47,21 +64,23 @@ const GalleryPage: React.FC = () => {
 
   return (
     <>
-      <Gallery
-        enableMultiSelect={enableMultiSelect}
-        maxSelectionLimit={maxSelectionLimit}
-      />
-      <CreatePostModal
-        isOpen={isCreatePostOpen}
-        onClose={handleCloseCreatePost}
-      />
-      <MediaUploadModal
-        isOpen={isMediaUploadOpen}
-        onClose={handleCloseMediaUpload}
-        onUpload={handleMediaUpload}
-        enableMultiSelect={enableMultiSelect}
-        maxSelectionLimit={maxSelectionLimit}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Gallery
+          enableMultiSelect={enableMultiSelect}
+          maxSelectionLimit={maxSelectionLimit}
+        />
+        <CreatePostModal
+          isOpen={isCreatePostOpen}
+          onClose={handleCloseCreatePost}
+        />
+        <MediaUploadModal
+          isOpen={isMediaUploadOpen}
+          onClose={handleCloseMediaUpload}
+          onUpload={handleMediaUpload}
+          enableMultiSelect={enableMultiSelect}
+          maxSelectionLimit={maxSelectionLimit}
+        />
+      </Suspense>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, Suspense } from "react";
 import {
   Upload,
   FileImage,
@@ -9,10 +9,18 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
-import { Gallery, MediaItem } from "./Gallery";
+import { MediaItem } from "./Gallery";
 import { useMediaContext } from "@/context/MediaContext";
 import { toast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
+// ✅ Lazy load Gallery (HEAVY component)
+import { lazyImport } from "@/utils/lazyImport";
+
+const Gallery = lazyImport(() =>
+  import("./Gallery").then((m) => ({ default: m.Gallery }))
+);
+
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
   onAIGenerate: () => void;
@@ -232,22 +240,31 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
       {/* Gallery Modal */}
       <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
         <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto p-6">
-            <Gallery
-              showHeader={true}
-              showUpload={true}
-              showDeleteButton={false}
-              showSelectButton={true}
-              enableMultiSelect={enableMultiSelect}
-              maxSelectionLimit={maxSelectionLimit}
-              selectedImages={selectedImages}
-              onToggleSelection={handleToggleSelection}
-              onClearSelection={handleClearSelection}
-              onUseSelected={handleUseSelected}
-              onCloseModal={() => setIsGalleryModalOpen(false)}
-              className="h-full"
-            />
-          </div>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center w-full h-full text-gray-500">
+                Loading gallery...
+              </div>
+            }
+          >
+            <div className="flex-1 overflow-auto p-6">
+              <Gallery
+                showHeader={true}
+                showUpload={true}
+                showDeleteButton={false}
+                showSelectButton={true}
+                enableMultiSelect={enableMultiSelect}
+                maxSelectionLimit={maxSelectionLimit}
+                selectedImages={selectedImages}
+                onToggleSelection={handleToggleSelection}
+                onClearSelection={handleClearSelection}
+                onUseSelected={handleUseSelected}
+                onCloseModal={() => setIsGalleryModalOpen(false)}
+                className="h-full"
+              />
+            </div>
+          </Suspense>
+
           <DialogFooter className="p-6 pt-4 border-t flex-row justify-between items-center">
             <div className="flex items-center gap-3">
               {selectedImages.length > 0 && (

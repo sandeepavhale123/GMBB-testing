@@ -1,14 +1,40 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { X, Sparkles } from "lucide-react";
 import { generateAIImage } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
-import { AIPromptInput } from "./AIGeneration/AIPromptInput";
-import { AIParameters } from "./AIGeneration/AIParameters";
-import { AIImagePreview } from "./AIGeneration/AIImagePreview";
-import { AIActionButtons } from "./AIGeneration/AIActionButtons";
+// import { AIPromptInput } from "./AIGeneration/AIPromptInput";
+// import { AIParameters } from "./AIGeneration/AIParameters";
+// import { AIImagePreview } from "./AIGeneration/AIImagePreview";
+// import { AIActionButtons } from "./AIGeneration/AIActionButtons";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { lazyImport } from "@/routes/lazyImport";
+
+// Lazy-loaded components
+const AIPromptInput = lazyImport(() =>
+  import("./AIGeneration/AIPromptInput").then((m) => ({
+    default: m.AIPromptInput,
+  }))
+);
+
+const AIParameters = lazyImport(() =>
+  import("./AIGeneration/AIParameters").then((m) => ({
+    default: m.AIParameters,
+  }))
+);
+
+const AIImagePreview = lazyImport(() =>
+  import("./AIGeneration/AIImagePreview").then((m) => ({
+    default: m.AIImagePreview,
+  }))
+);
+
+const AIActionButtons = lazyImport(() =>
+  import("./AIGeneration/AIActionButtons").then((m) => ({
+    default: m.AIActionButtons,
+  }))
+);
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
@@ -157,51 +183,53 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         </div>
 
         <div className="p-6 space-y-6">
-          {generatedImages.length === 0 ? (
-            <>
-              <AIPromptInput prompt={prompt} onPromptChange={setPrompt} />
+          <Suspense fallback={<div>Loading...</div>}>
+            {generatedImages.length === 0 ? (
+              <>
+                <AIPromptInput prompt={prompt} onPromptChange={setPrompt} />
 
-              <AIParameters
-                variants={variants}
-                style={style}
-                onVariantsChange={setVariants}
-                onStyleChange={setStyle}
-              />
+                <AIParameters
+                  variants={variants}
+                  style={style}
+                  onVariantsChange={setVariants}
+                  onStyleChange={setStyle}
+                />
 
-              <AIActionButtons
-                isGenerating={isGenerating}
-                hasGenerated={false}
-                prompt={prompt}
-                onGenerate={handleGenerate}
-                isDownloading={false}
-                onRegenerate={handleRegenerate}
-                onUseMedia={handleUseMedia}
-              />
-            </>
-          ) : (
-            <>
-              <AIImagePreview
-                images={generatedImages}
-                selectedIndex={selectedImageIndex}
-                prompt={prompt}
-                style={style}
-                onPreviousImage={handlePreviousImage}
-                onNextImage={handleNextImage}
-                onSelectImage={setSelectedImageIndex}
-                onCloseModal={handleClose}
-              />
+                <AIActionButtons
+                  isGenerating={isGenerating}
+                  hasGenerated={false}
+                  prompt={prompt}
+                  onGenerate={handleGenerate}
+                  isDownloading={false}
+                  onRegenerate={handleRegenerate}
+                  onUseMedia={handleUseMedia}
+                />
+              </>
+            ) : (
+              <>
+                <AIImagePreview
+                  images={generatedImages}
+                  selectedIndex={selectedImageIndex}
+                  prompt={prompt}
+                  style={style}
+                  onPreviousImage={handlePreviousImage}
+                  onNextImage={handleNextImage}
+                  onSelectImage={setSelectedImageIndex}
+                  onCloseModal={handleClose}
+                />
 
-              <AIActionButtons
-                isGenerating={isGenerating}
-                hasGenerated={true}
-                prompt={prompt}
-                onGenerate={handleGenerate}
-                isDownloading={false}
-                onRegenerate={handleRegenerate}
-                onUseMedia={handleUseMedia}
-              />
-            </>
-          )}
+                <AIActionButtons
+                  isGenerating={isGenerating}
+                  hasGenerated={true}
+                  prompt={prompt}
+                  onGenerate={handleGenerate}
+                  isDownloading={false}
+                  onRegenerate={handleRegenerate}
+                  onUseMedia={handleUseMedia}
+                />
+              </>
+            )}
+          </Suspense>
         </div>
       </DialogContent>
     </Dialog>

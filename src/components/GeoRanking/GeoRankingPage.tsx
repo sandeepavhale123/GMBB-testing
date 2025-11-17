@@ -1,16 +1,52 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, Suspense } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { GeoRankingHeader } from "./GeoRankingHeader";
-import { GeoRankingMapSection } from "./GeoRankingMapSection";
-import { UnderPerformingTable } from "./UnderPerformingTable";
-import { GeoPositionModal } from "./GeoPositionModal";
-import { ProcessingKeywordsAlert } from "./ProcessingKeywordsAlert";
-import { GeoRankingEmptyState } from "./GeoRankingEmptyState";
+// import { GeoRankingHeader } from "./GeoRankingHeader";
+// import { GeoRankingMapSection } from "./GeoRankingMapSection";
+// import { UnderPerformingTable } from "./UnderPerformingTable";
+// import { GeoPositionModal } from "./GeoPositionModal";
+// import { ProcessingKeywordsAlert } from "./ProcessingKeywordsAlert";
+// import { GeoRankingEmptyState } from "./GeoRankingEmptyState";
 import { Card, CardContent } from "../ui/card";
 import { ListingLoader } from "../ui/listing-loader";
 import { useGeoRanking } from "../../hooks/useGeoRanking";
 import { useProjectGeoRanking } from "../../hooks/useProjectGeoRanking";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
+// Lazy utility
+import { lazyImport } from "@/utils/lazyImport";
+
+// Lazy-loaded components
+const GeoRankingHeader = lazyImport(() =>
+  import("./GeoRankingHeader").then((m) => ({ default: m.GeoRankingHeader }))
+);
+
+const GeoRankingMapSection = lazyImport(() =>
+  import("./GeoRankingMapSection").then((m) => ({
+    default: m.GeoRankingMapSection,
+  }))
+);
+
+const UnderPerformingTable = lazyImport(() =>
+  import("./UnderPerformingTable").then((m) => ({
+    default: m.UnderPerformingTable,
+  }))
+);
+
+const GeoPositionModal = lazyImport(() =>
+  import("./GeoPositionModal").then((m) => ({ default: m.GeoPositionModal }))
+);
+
+const ProcessingKeywordsAlert = lazyImport(() =>
+  import("./ProcessingKeywordsAlert").then((m) => ({
+    default: m.ProcessingKeywordsAlert,
+  }))
+);
+
+const GeoRankingEmptyState = lazyImport(() =>
+  import("./GeoRankingEmptyState").then((m) => ({
+    default: m.GeoRankingEmptyState,
+  }))
+);
 
 interface ModalData {
   isOpen: boolean;
@@ -260,13 +296,15 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
               <h1>Keywords Being Processed</h1>
           </CardContent>
         </Card> */}
-        <ProcessingKeywordsAlert
-          keywords={processingKeywords}
-          progress={pollingProgress}
-          isPolling={refreshPollingActive || isPolling}
-          submittedKeywords={submittedKeywordsList}
-          isNewSubmission={isProcessing}
-        />
+        <Suspense fallback={<ListingLoader isLoading={true} children={""} />}>
+          <ProcessingKeywordsAlert
+            keywords={processingKeywords}
+            progress={pollingProgress}
+            isPolling={refreshPollingActive || isPolling}
+            submittedKeywords={submittedKeywordsList}
+            isNewSubmission={isProcessing}
+          />
+        </Suspense>
       </div>
     );
   }
@@ -291,64 +329,74 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
-            <ProcessingKeywordsAlert
-              keywords={processingKeywords}
-              progress={pollingProgress}
-              isPolling={refreshPollingActive || isPolling}
-              submittedKeywords={submittedKeywordsList}
-              isNewSubmission={isProcessing}
-            />
-
-            <GeoRankingHeader
-              keywords={keywords}
-              selectedKeyword={selectedKeyword}
-              selectedDate={selectedDate}
-              keywordDetails={keywordDetails}
-              credits={credits}
-              onKeywordChange={onKeywordChange}
-              onDateChange={onDateChange}
-              onClone={handleClone}
-              onRefresh={handleRefreshKeyword}
-              onCheckRank={handleCheckRank}
-              isRefreshing={refreshing}
-              refreshProgress={refreshProgress}
-              loading={keywordsLoading}
-              keywordChanging={keywordChanging}
-              dateChanging={dateChanging}
-              error={error}
-              projectId={projectId}
-              onDeleteSuccess={handleDeleteSuccess}
-            />
+            <Suspense fallback={<ListingLoader isLoading={true} />}>
+              <ProcessingKeywordsAlert
+                keywords={processingKeywords}
+                progress={pollingProgress}
+                isPolling={refreshPollingActive || isPolling}
+                submittedKeywords={submittedKeywordsList}
+                isNewSubmission={isProcessing}
+              />
+            </Suspense>
+            <Suspense fallback={<ListingLoader isLoading={true} />}>
+              <GeoRankingHeader
+                keywords={keywords}
+                selectedKeyword={selectedKeyword}
+                selectedDate={selectedDate}
+                keywordDetails={keywordDetails}
+                credits={credits}
+                onKeywordChange={onKeywordChange}
+                onDateChange={onDateChange}
+                onClone={handleClone}
+                onRefresh={handleRefreshKeyword}
+                onCheckRank={handleCheckRank}
+                isRefreshing={refreshing}
+                refreshProgress={refreshProgress}
+                loading={keywordsLoading}
+                keywordChanging={keywordChanging}
+                dateChanging={dateChanging}
+                error={error}
+                projectId={projectId}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+            </Suspense>
 
             <div className="space-y-4 sm:space-y-6">
-              <GeoRankingMapSection
-                gridSize={grid}
-                onMarkerClick={handleMarkerClick}
-                rankDetails={keywordDetails?.rankDetails || []}
-                rankStats={keywordDetails?.rankStats}
-                projectDetails={keywordDetails?.projectDetails}
-                loading={loading || keywordChanging || dateChanging}
-                showKeywordsLink={!isProjectMode}
-                listingId={listingId}
-              />
+              <Suspense fallback={<ListingLoader isLoading={true} />}>
+                <GeoRankingMapSection
+                  gridSize={grid}
+                  onMarkerClick={handleMarkerClick}
+                  rankDetails={keywordDetails?.rankDetails || []}
+                  rankStats={keywordDetails?.rankStats}
+                  projectDetails={keywordDetails?.projectDetails}
+                  loading={loading || keywordChanging || dateChanging}
+                  showKeywordsLink={!isProjectMode}
+                  listingId={listingId}
+                />
+              </Suspense>
 
-              <UnderPerformingTable
-                underPerformingAreas={keywordDetails?.underPerformingArea || []}
-                loading={loading || keywordChanging || dateChanging}
-              />
+              <Suspense fallback={<ListingLoader isLoading={true} />}>
+                <UnderPerformingTable
+                  underPerformingAreas={
+                    keywordDetails?.underPerformingArea || []
+                  }
+                  loading={loading || keywordChanging || dateChanging}
+                />
+              </Suspense>
             </div>
           </div>
         </CardContent>
       </Card>
-
-      <GeoPositionModal
-        isOpen={modalData.isOpen}
-        onClose={handleCloseModal}
-        gpsCoordinates={modalData.gpsCoordinates}
-        competitors={modalData.competitors}
-        loading={modalData.loading}
-        userBusinessName={userBusinessName}
-      />
+      <Suspense fallback={null}>
+        <GeoPositionModal
+          isOpen={modalData.isOpen}
+          onClose={handleCloseModal}
+          gpsCoordinates={modalData.gpsCoordinates}
+          competitors={modalData.competitors}
+          loading={modalData.loading}
+          userBusinessName={userBusinessName}
+        />
+      </Suspense>
     </div>
   );
 };

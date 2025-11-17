@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
@@ -20,13 +20,10 @@ import {
   TableRow,
 } from "../ui/table";
 import { Input } from "../ui/input";
-import {
-  GooglePlacesInput,
-  GooglePlacesInputRef,
-} from "../ui/google-places-input";
+import { GooglePlacesInputRef } from "../ui/google-places-input";
 import { Label } from "../ui/label";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
-import { PlaceOrderModal } from "./PlaceOrderModal";
+// import { PlaceOrderModal } from "./PlaceOrderModal";
 import {
   useCreateCitationReport,
   useGetCitationReport,
@@ -35,9 +32,10 @@ import {
 import { useListingContext } from "@/context/ListingContext";
 import { FileSearch } from "lucide-react";
 import { Loader } from "../ui/loader";
-import { ReportProgressModal } from "@/components/Dashboard/ReportProgressModal";
-import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
+// import { ReportProgressModal } from "@/components/Dashboard/ReportProgressModal";
+// import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { lazyImport } from "@/routes/lazyImport";
 
 type TrackerData = {
   listed: number;
@@ -45,6 +43,33 @@ type TrackerData = {
   listedPercent: number;
   totalChecked: number;
 };
+
+// ------------------------------------------
+//            LAZY LOADED COMPONENTS
+// ------------------------------------------
+const GooglePlacesInput = lazyImport(() =>
+  import("../ui/google-places-input").then((m) => ({
+    default: m.GooglePlacesInput,
+  }))
+);
+
+const PlaceOrderModal = lazyImport(() =>
+  import("./PlaceOrderModal").then((m) => ({
+    default: m.PlaceOrderModal,
+  }))
+);
+
+const ReportProgressModal = lazyImport(() =>
+  import("@/components/Dashboard/ReportProgressModal").then((m) => ({
+    default: m.ReportProgressModal,
+  }))
+);
+
+const CopyUrlModal = lazyImport(() =>
+  import("@/components/Dashboard/CopyUrlModal").then((m) => ({
+    default: m.CopyUrlModal,
+  }))
+);
 
 export const CitationPage: React.FC = () => {
   const { t } = useI18nNamespace("Citation/citationPage");
@@ -94,50 +119,54 @@ export const CitationPage: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
-          <div className="flex-1">
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={30}
-                    outerRadius={48}
-                    paddingAngle={2}
-                    dataKey="value"
-                    className="sm:!hidden"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={64}
-                    paddingAngle={2}
-                    dataKey="value"
-                    className="hidden sm:!block"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-xs sm:text-sm text-muted-foreground">
-                  {t("citationPage.trackerCard.listed")}
-                </span>
-                <span className="text-sm sm:text-lg font-semibold">
-                  {listedPercent}%
-                </span>
+          <Suspense
+            fallback={<div className="w-32 h-32 bg-muted rounded-full" />}
+          >
+            <div className="flex-1">
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={30}
+                      outerRadius={48}
+                      paddingAngle={2}
+                      dataKey="value"
+                      className="sm:!hidden"
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={64}
+                      paddingAngle={2}
+                      dataKey="value"
+                      className="hidden sm:!block"
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    {t("citationPage.trackerCard.listed")}
+                  </span>
+                  <span className="text-sm sm:text-lg font-semibold">
+                    {listedPercent}%
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          </Suspense>
           <div className="flex flex-col gap-2 sm:ml-4">
             <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm">
               <span>{t("citationPage.trackerCard.listed")}</span>
@@ -478,20 +507,24 @@ export const CitationPage: React.FC = () => {
                           {" "}
                           {t("citationPage.searchForm.cityLabel")}
                         </Label>
-                        <GooglePlacesInput
-                          ref={cityInputRef}
-                          id="city"
-                          name="city"
-                          type="text"
-                          placeholder={t(
-                            "citationPage.searchForm.cityPlaceholder"
-                          )}
-                          defaultValue={searchData.city}
-                          onChange={handleCityInputChange}
-                          onPlaceSelect={handlePlaceSelect}
-                          required
-                          autoComplete="off"
-                        />
+                        <Suspense
+                          fallback={<Input disabled placeholder="Loading..." />}
+                        >
+                          <GooglePlacesInput
+                            ref={cityInputRef}
+                            id="city"
+                            name="city"
+                            type="text"
+                            placeholder={t(
+                              "citationPage.searchForm.cityPlaceholder"
+                            )}
+                            defaultValue={searchData.city}
+                            onChange={handleCityInputChange}
+                            onPlaceSelect={handlePlaceSelect}
+                            required
+                            autoComplete="off"
+                          />
+                        </Suspense>
                       </div>
 
                       <Button
@@ -544,7 +577,9 @@ export const CitationPage: React.FC = () => {
 
                 {/* Two Cards Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <CitationTrackerCard trackerData={trackerData} />
+                  <Suspense fallback={<Card className="h-40" />}>
+                    <CitationTrackerCard trackerData={trackerData} />
+                  </Suspense>
                   <LocalPagesCard />
                 </div>
 
@@ -747,28 +782,34 @@ export const CitationPage: React.FC = () => {
         </div>
       </div>
 
-      <PlaceOrderModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <PlaceOrderModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      </Suspense>
 
       {/* Report Progress Modal */}
       {reportStatus && (
-        <ReportProgressModal
-          open={reportProgressOpen}
-          onOpenChange={handleReportProgressClose}
-          reportType="citation-audit"
-          status={reportStatus}
-          onSuccess={handleReportProgressSuccess}
-        />
+        <Suspense fallback={null}>
+          <ReportProgressModal
+            open={reportProgressOpen}
+            onOpenChange={handleReportProgressClose}
+            reportType="citation-audit"
+            status={reportStatus}
+            onSuccess={handleReportProgressSuccess}
+          />
+        </Suspense>
       )}
 
       {/* Copy URL Modal */}
-      <CopyUrlModal
-        open={copyUrlModalOpen}
-        onOpenChange={setCopyUrlModalOpen}
-        reportUrl={reportUrl}
-      />
+      <Suspense fallback={null}>
+        <CopyUrlModal
+          open={copyUrlModalOpen}
+          onOpenChange={setCopyUrlModalOpen}
+          reportUrl={reportUrl}
+        />
+      </Suspense>
     </div>
   );
 };
