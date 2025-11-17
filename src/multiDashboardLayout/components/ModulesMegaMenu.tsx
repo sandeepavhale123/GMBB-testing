@@ -138,9 +138,7 @@ export const ModulesMegaMenu: React.FC = () => {
           <ScrollArea 
             className={cn(
               "w-full",
-              isMobile 
-                ? "h-[70vh]"
-                : "h-[80vh]"
+              isMobile && "h-[70vh] max-h-[70vh]"
             )}
           >
             <div
@@ -292,7 +290,6 @@ export const ModulesMegaMenu: React.FC = () => {
                 </button>
               </div>
             </div>
-            <div className="h-2" />
           </div>
           </ScrollArea>
         </div>
