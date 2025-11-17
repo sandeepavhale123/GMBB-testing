@@ -28,6 +28,16 @@ export const CheckBulkMapRank: React.FC = () => {
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
+    // Check current keyword count
+    const currentKeywords = keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
+    
+    // If user is trying to add a comma and already has 5 keywords, prevent it
+    if (value.endsWith(',') && currentKeywords.length >= 5) {
+      setKeywordError(true);
+      return; // Don't update the value
+    }
+    
     setKeywords(value);
     
     // Validate keyword count in real-time
