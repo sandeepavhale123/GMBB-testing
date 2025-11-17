@@ -125,4 +125,4 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   );
 };
 
-export const CreateProjectModal;
+export default CreateProjectModal;

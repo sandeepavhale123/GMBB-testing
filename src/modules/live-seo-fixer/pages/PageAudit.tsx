@@ -23,7 +23,7 @@ import {
   Loader2,
   Edit,
 } from "lucide-react";
-import { AIContentModal } from "../components/AIContentModal";
+import AIContentModal from "../components/AIContentModal";
 import {
   getPageAuditDetails,
   approveFixes,

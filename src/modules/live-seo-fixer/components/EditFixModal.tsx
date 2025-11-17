@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Wand2 } from 'lucide-react';
-import { AIContentModal } from './AIContentModal';
+import AIContentModal from './AIContentModal';
 
 interface EditFixModalProps {
   open: boolean;
