@@ -9,14 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkMapRankingStats } from "@/api/bulkMapRankingApi";
 import { useBulkMapRankingKeywords, deleteMapRankingKeyword } from "@/api/bulkMapRankingKeywordsApi";
 import { formatDateTime, mapStatus, formatSchedule } from "@/utils/bulkMapRankingUtils";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataPagination } from "@/components/common/DataPagination";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
@@ -49,11 +42,11 @@ export const BulkMapRanking: React.FC = () => {
   const { data: statsData, isLoading: statsLoading } = useBulkMapRankingStats();
 
   // Fetch keywords table data from API
-  const { 
-    data: keywordsData, 
+  const {
+    data: keywordsData,
     isLoading: keywordsLoading,
     isFetching: keywordsFetching,
-    error: keywordsError 
+    error: keywordsError,
   } = useBulkMapRankingKeywords(debouncedSearchQuery, currentPage, itemsPerPage);
 
   // Extract stats with defaults
@@ -69,7 +62,7 @@ export const BulkMapRanking: React.FC = () => {
   const keywords = keywordsData?.data?.keywords || [];
   const totalPages = keywordsData?.data?.total_pages || 1;
   const totalRecords = keywordsData?.data?.total_records || 0;
-  
+
   // Loading state includes both initial load and fetching
   const loading = keywordsLoading || keywordsFetching;
 
@@ -93,7 +86,7 @@ export const BulkMapRanking: React.FC = () => {
     setDeletingId(itemToDelete.id);
     try {
       const response = await deleteMapRankingKeyword(Number(itemToDelete.id));
-      
+
       // Show actual API response message
       toast({
         variant: "success",
@@ -121,10 +114,7 @@ export const BulkMapRanking: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Bulk Map Ranking</h1>
-        <Button 
-          className="flex items-center gap-2"
-          onClick={() => navigate("/main-dashboard/check-bulk-map-ranking")}
-        >
+        <Button className="flex items-center gap-2" onClick={() => navigate("/main-dashboard/check-bulk-map-ranking")}>
           <CheckCircle2 className="h-4 w-4" />
           Check Rank
         </Button>
@@ -142,8 +132,8 @@ export const BulkMapRanking: React.FC = () => {
                 <p className="text-2xl font-bold mt-2">{stats.noOfKeywords}</p>
               )}
             </div>
-            <div className="bg-blue-50 p-3 rounded-lg">
-              <KeyRound className="w-6 h-6 text-blue-600" />
+            <div className="bg-blue-600 p-3 rounded-lg">
+              <KeyRound className="w-6 h-6 text-white" />
             </div>
           </div>
         </Card>
@@ -158,8 +148,8 @@ export const BulkMapRanking: React.FC = () => {
                 <p className="text-2xl font-bold mt-2">{stats.totalProjects}</p>
               )}
             </div>
-            <div className="bg-green-50 p-3 rounded-lg">
-              <FolderOpen className="w-6 h-6 text-green-600" />
+            <div className="bg-green-600 p-3 rounded-lg">
+              <FolderOpen className="w-6 h-6 text-white" />
             </div>
           </div>
         </Card>
@@ -174,8 +164,8 @@ export const BulkMapRanking: React.FC = () => {
                 <p className="text-2xl font-bold mt-2">{stats.noOfSchedule}</p>
               )}
             </div>
-            <div className="bg-purple-50 p-3 rounded-lg">
-              <CalendarClock className="w-6 h-6 text-purple-600" />
+            <div className="bg-purple-600 p-3 rounded-lg">
+              <CalendarClock className="w-6 h-6 text-white" />
             </div>
           </div>
         </Card>
@@ -192,8 +182,8 @@ export const BulkMapRanking: React.FC = () => {
                 </p>
               )}
             </div>
-            <div className="bg-orange-50 p-3 rounded-lg">
-              <Coins className="w-6 h-6 text-orange-600" />
+            <div className="bg-orange-600 p-3 rounded-lg">
+              <Coins className="w-6 h-6 text-white" />
             </div>
           </div>
         </Card>
@@ -204,12 +194,7 @@ export const BulkMapRanking: React.FC = () => {
         <CardHeader>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search keywords..."
-              value={searchQuery}
-              onChange={handleSearch}
-              className="pl-10"
-            />
+            <Input placeholder="Search keywords..." value={searchQuery} onChange={handleSearch} className="pl-10" />
           </div>
         </CardHeader>
         <CardContent>
@@ -241,13 +226,9 @@ export const BulkMapRanking: React.FC = () => {
                         return (
                           <TableRow key={item.id}>
                             <TableCell className="font-medium">{item.keyword}</TableCell>
+                            <TableCell className="text-center">{item.noOfKeyword}</TableCell>
                             <TableCell className="text-center">
-                              {item.noOfKeyword}
-                            </TableCell>
-                            <TableCell className="text-center">
-                              <Badge variant="outline">
-                                {formatSchedule(item.schedule)}
-                              </Badge>
+                              <Badge variant="outline">{formatSchedule(item.schedule)}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
                               {formatDateTime(item.last_check)}
@@ -274,11 +255,7 @@ export const BulkMapRanking: React.FC = () => {
                             </TableCell>
                             <TableCell className="text-center">
                               <div className="flex items-center justify-center gap-2">
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => handleView(item.id)}
-                                >
+                                <Button variant="ghost" size="icon" onClick={() => handleView(item.id)}>
                                   <Eye className="h-4 w-4" />
                                 </Button>
                                 <Button
@@ -297,9 +274,7 @@ export const BulkMapRanking: React.FC = () => {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                          {searchQuery
-                            ? "No keywords found matching your search"
-                            : "No keywords available"}
+                          {searchQuery ? "No keywords found matching your search" : "No keywords available"}
                         </TableCell>
                       </TableRow>
                     )}
@@ -334,10 +309,7 @@ export const BulkMapRanking: React.FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={!!deletingId}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteConfirm}
-              disabled={!!deletingId}
-            >
+            <AlertDialogAction onClick={handleDeleteConfirm} disabled={!!deletingId}>
               {deletingId ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
