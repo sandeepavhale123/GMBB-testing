@@ -87,7 +87,7 @@ export const DataPagination: React.FC<DataPaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
+    <div className="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap py-2">
       {/* Optional item count */}
       {showItemCount && totalItems && startItem && endItem && (
         <div className="text-sm text-muted-foreground whitespace-nowrap">
