@@ -334,7 +334,7 @@ export const CheckBulkMapRank: React.FC = () => {
                       variant="outline"
                       onClick={handleGenerateCSV}
                     >
-                      Generate Sample CSV File for {selectedListings.length} listings
+                      Generate Sample CSV File { selectedListings.length > 0 && `for ${selectedListings.length} listings` } 
                     </Button>
                   )}
 
