@@ -9,8 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 import { toast } from "sonner";
-import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
+import { addBulkMapRankingKeywords, uploadMapRankingCSV, CSVValidationError } from "@/api/bulkMapRankingApi";
 import { generateCSVForBulkMapRanking } from "@/api/bulkMapRankingApi";
+import { CSVValidationErrorModal } from "@/multiDashboardLayout/components/CSVValidationErrorModal";
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
@@ -26,6 +27,12 @@ export const CheckBulkMapRank: React.FC = () => {
   const [listingSelectionError, setListingSelectionError] = useState<string>("");
   const [generatedCSVFileUrl, setGeneratedCSVFileUrl] = useState<string>("");
   const [csvUploadError, setCsvUploadError] = useState<string>("");
+  
+  // CSV Error Modal State
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [csvErrorCount, setCsvErrorCount] = useState(0);
+  const [csvErrors, setCsvErrors] = useState<CSVValidationError[]>([]);
+  
   const navigate = useNavigate();
 
   // const handleGenerateCSV = () => {
@@ -119,8 +126,15 @@ export const CheckBulkMapRank: React.FC = () => {
       return;
     }
 
-    // Only validate keywords if NOT in CSV import mode
-    if (!isVisibleImportCSV) {
+    // Different validation based on mode
+    if (isVisibleImportCSV) {
+      // CSV Mode: Validate CSV file is uploaded
+      if (!uploadedCSVFile) {
+        toast.error("Please upload a CSV file.");
+        return;
+      }
+    } else {
+      // Manual Mode: Validate keywords
       if (!keywords.trim()) {
         toast.error("Please enter at least one keyword.");
         return;
@@ -133,6 +147,7 @@ export const CheckBulkMapRank: React.FC = () => {
         return;
       }
     }
+
     if (!searchBy) {
       toast.error("Please select a search method.");
       return;
@@ -141,45 +156,105 @@ export const CheckBulkMapRank: React.FC = () => {
       toast.error("Please select a schedule frequency.");
       return;
     }
+
     try {
       setIsSubmitting(true);
 
-      // Transform data for API
-      const locationIds = selectedListings.map(id => parseInt(id, 10));
-      const formattedSearchBy = searchBy.toLowerCase(); // "City" → "city"
+      // Branch logic based on CSV or manual entry
+      if (isVisibleImportCSV && uploadedCSVFile) {
+        // CSV Upload Mode
+        const formattedSearchBy = searchBy.toLowerCase();
+        
+        const response = await uploadMapRankingCSV({
+          userFile: uploadedCSVFile,
+          language,
+          schedule: scheduleFrequency,
+          searchBy: formattedSearchBy,
+        });
 
-      const requestData = {
-        keywords: keywords.trim(),
-        locationIds,
-        language,
-        schedule: scheduleFrequency,
-        searchBy: formattedSearchBy
-      };
+        if (response.code === 200) {
+          // Success
+          toast.success(response.message || "CSV uploaded and processed successfully.");
 
-      // Call API
-      const response = await addBulkMapRankingKeywords(requestData);
-      if (response.code === 201) {
-        toast.success(response.message || "Keywords added successfully and queued for processing.");
+          // Reset form
+          setUploadedCSVFile(null);
+          setSelectedListings([]);
+          setSearchBy("");
+          setScheduleFrequency("");
+          setIsVisibleImportCSV(false);
 
-        // Reset form
-        setSelectedListings([]);
-        setKeywords("");
-        setSearchBy("");
-        setScheduleFrequency("");
-        // Keep language as-is (user preference)
-
-        // Navigate after short delay to show toast
-        setTimeout(() => {
-          navigate("/main-dashboard/bulk-map-ranking");
-        }, 1500);
+          // Navigate after short delay
+          setTimeout(() => {
+            navigate("/main-dashboard/bulk-map-ranking");
+          }, 1500);
+        } else if (response.code === 401) {
+          // Validation errors
+          setCsvErrorCount(response.data.errorCount);
+          setCsvErrors(response.data.rows);
+          setIsErrorModalOpen(true);
+        } else {
+          toast.error("Failed to upload CSV. Please try again.");
+        }
       } else {
-        toast.error("Failed to add keywords. Please try again.");
+        // Manual Keyword Entry Mode (existing logic)
+        const locationIds = selectedListings.map(id => parseInt(id, 10));
+        const formattedSearchBy = searchBy.toLowerCase();
+
+        const requestData = {
+          keywords: keywords.trim(),
+          locationIds,
+          language,
+          schedule: scheduleFrequency,
+          searchBy: formattedSearchBy,
+        };
+
+        const response = await addBulkMapRankingKeywords(requestData);
+        
+        if (response.code === 201) {
+          toast.success(response.message || "Keywords added successfully and queued for processing.");
+
+          // Reset form
+          setSelectedListings([]);
+          setKeywords("");
+          setSearchBy("");
+          setScheduleFrequency("");
+
+          // Navigate after short delay
+          setTimeout(() => {
+            navigate("/main-dashboard/bulk-map-ranking");
+          }, 1500);
+        } else {
+          toast.error("Failed to add keywords. Please try again.");
+        }
       }
     } catch (error: any) {
-      console.error("Error adding bulk keywords:", error);
-      toast.error(error.response?.data?.message || "An error occurred while adding keywords.");
+      console.error("Error submitting form:", error);
+      
+      // Check if it's a CSV validation error (401)
+      if (error.response?.status === 401 && error.response?.data?.data?.rows) {
+        setCsvErrorCount(error.response.data.data.errorCount);
+        setCsvErrors(error.response.data.data.rows);
+        setIsErrorModalOpen(true);
+      } else {
+        toast.error(error.response?.data?.message || "An error occurred. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleReuploadCSV = () => {
+    // Close error modal
+    setIsErrorModalOpen(false);
+    
+    // Clear uploaded file to allow re-upload
+    setUploadedCSVFile(null);
+    
+    // Trigger file input click
+    const fileInput = document.getElementById("csv-upload") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = ""; // Reset input
+      fileInput.click(); // Open file picker
     }
   };
 
@@ -403,7 +478,10 @@ export const CheckBulkMapRank: React.FC = () => {
                     </Select>
                   </div>
                   <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-                    {isSubmitting ? "Processing..." : "Check Rank Now"}
+                    {isSubmitting 
+                      ? (isVisibleImportCSV ? "Uploading CSV..." : "Processing...") 
+                      : (isVisibleImportCSV ? "Upload & Check Rank" : "Check Rank Now")
+                    }
                   </Button>
                 </form>
 
@@ -413,5 +491,14 @@ export const CheckBulkMapRank: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* CSV Validation Error Modal */}
+      <CSVValidationErrorModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        errorCount={csvErrorCount}
+        errors={csvErrors}
+        onReupload={handleReuploadCSV}
+      />
     </div>;
 };

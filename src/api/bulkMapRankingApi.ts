@@ -73,3 +73,55 @@ export const generateCSVForBulkMapRanking = async(
    const response = await axiosInstance.post("/download-sample-csv",data);
    return response.data
 }
+
+// CSV Upload Request Types
+export interface UploadMapRankingCSVRequest {
+  userFile: File;
+  language: string;
+  schedule: string;
+  searchBy: string;
+}
+
+// CSV Upload Success Response
+export interface UploadMapRankingCSVSuccessResponse {
+  code: 200;
+  message: string;
+  data: {};
+}
+
+// CSV Upload Error Response (Validation Errors)
+export interface CSVValidationError {
+  row: number;
+  errors: string[];
+}
+
+export interface UploadMapRankingCSVErrorResponse {
+  code: 401;
+  message: string;
+  data: {
+    errorCount: number;
+    rows: CSVValidationError[];
+  };
+}
+
+export type UploadMapRankingCSVResponse = 
+  | UploadMapRankingCSVSuccessResponse 
+  | UploadMapRankingCSVErrorResponse;
+
+// API function for uploading CSV
+export const uploadMapRankingCSV = async (
+  data: UploadMapRankingCSVRequest
+): Promise<UploadMapRankingCSVResponse> => {
+  const formData = new FormData();
+  formData.append("userFile", data.userFile);
+  formData.append("language", data.language);
+  formData.append("schedule", data.schedule);
+  formData.append("searchBy", data.searchBy);
+
+  const response = await axiosInstance.post("/upload-mapranking-csv", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
