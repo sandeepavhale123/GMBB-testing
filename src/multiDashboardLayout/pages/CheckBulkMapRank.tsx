@@ -282,10 +282,11 @@ export const CheckBulkMapRank: React.FC = () => {
                               Download CSV sample file <Download />
                             </Button>
                           </a>
-                          <div>
-                            <label htmlFor="">Upload CSV File</label>
-                            <input type="file" />
-                          </div>
+                          <CSVDropzone
+                            onFileUploaded={setUploadedCSVFile}
+                            uploadedFile={uploadedCSVFile}
+                            isReupload={false}
+                          />
                         </>
                       )}
                     </div>
