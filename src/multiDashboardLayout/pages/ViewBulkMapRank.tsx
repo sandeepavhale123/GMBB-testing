@@ -42,6 +42,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { DataPagination } from "@/components/common/DataPagination";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { BusinessPositionDetailsModal } from "@/multiDashboardLayout/components/BusinessPositionDetailsModal";
 
 export const ViewBulkMapRank: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,6 +60,11 @@ export const ViewBulkMapRank: React.FC = () => {
     keywordId: number;
   }>({ ids: [], keywordId: 0 });
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Modal state for viewing position details
+  const [selectedDetailId, setSelectedDetailId] = useState<number | null>(null);
+  const [modalBusinessName, setModalBusinessName] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Extract keywordId from URL params
   const keywordId = id ? parseInt(id, 10) : 0;
@@ -86,7 +92,20 @@ export const ViewBulkMapRank: React.FC = () => {
   );
 
   const handleViewDetails = (detailId: string) => {
-    console.log("View details for:", detailId);
+    const numericId = parseInt(detailId, 10);
+    const business = tableData?.data?.keywordDetails?.find(
+      (item) => item.id === detailId
+    );
+
+    setSelectedDetailId(numericId);
+    setModalBusinessName(business?.businessName || "");
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDetailId(null);
+    setModalBusinessName("");
   };
 
   // Selection handlers
@@ -447,6 +466,17 @@ export const ViewBulkMapRank: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Business Position Details Modal */}
+      {isModalOpen && selectedDetailId && (
+        <BusinessPositionDetailsModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          detailId={selectedDetailId}
+          businessName={modalBusinessName}
+          userBusinessName={keywordDetailsData?.data?.keywordDetails?.searchBy}
+        />
+      )}
     </div>
   );
 };
