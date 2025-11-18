@@ -1,0 +1,55 @@
+{
+    "header":{
+        "title":"Bulk Map Ranking"
+    },
+    "buttons":
+    {
+        "checkRack":"Check Rank",
+        "cancel":"Cancel",
+        "deleting":"Deleting...",
+        "delete":"Delete"
+
+    },
+    "summerCard":
+    {
+        "noOfKeywords": "No Of Keywords",
+        "totalProjects":"Total Projects",
+        "scheduledScan":"Scheduled Scan",
+        "credits":"Credits"
+    },
+    "placeholder":
+    {
+        "searchKeyword":"Search keywords..."
+    },
+    "tableColumns": 
+    {
+        "keyword":"Keyword",
+        "noOfChecks":"No Of Checks",
+        "schedule":"Schedule",
+        "lastChecked":"Last Checked",
+        "nextCheck":"Next Check",
+        "status":"Status",
+        "action":"Action"
+    },
+    "messages": 
+    {
+        "nokeywordsFoundMatchingYourSearch":"No keywords found matching your search",
+        "noKeywordsAvailable":"No keywords available"
+    },
+    "deleteAlertBox":
+    {
+        "title":"Delete Keyword",
+        "description":"Are you sure you want to delete the keyword \"{{keyword}}\"? This action cannot be undone."
+    },
+    "toastMessage":
+    {
+        "deleteFailed":"Delete Failed",
+        "failedToDeleteKeyword":"Failed to delete keyword"
+    },
+    "status":
+    {
+        "completed":"Completed",
+        "running":"Running"
+    }
+
+}

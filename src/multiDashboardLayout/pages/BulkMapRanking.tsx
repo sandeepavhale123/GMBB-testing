@@ -12,6 +12,7 @@ import { formatDateTime, mapStatus, formatSchedule } from "@/utils/bulkMapRankin
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataPagination } from "@/components/common/DataPagination";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +26,9 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
+
 export const BulkMapRanking: React.FC = () => {
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +37,8 @@ export const BulkMapRanking: React.FC = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: string; keyword: string } | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const { t } = useI18nNamespace('MultidashboardPages/bulkMapRanking');
 
   // Debounce search query with 1500ms delay
   const debouncedSearchQuery = useDebounce(searchQuery, 1500);
@@ -99,8 +104,8 @@ export const BulkMapRanking: React.FC = () => {
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Delete Failed",
-        description: error?.response?.data?.message || "Failed to delete keyword",
+        title: t("toastMessage.deleteFailed"),
+        description: error?.response?.data?.message || t("toastMessage.failedToDeleteKeyword"),
       });
     } finally {
       setDeletingId(null);
@@ -113,10 +118,10 @@ export const BulkMapRanking: React.FC = () => {
     <div className="flex-1 space-y-6 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Bulk Map Ranking</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t("header.title")}</h1>
         <Button className="flex items-center gap-2" onClick={() => navigate("/main-dashboard/check-bulk-map-ranking")}>
           <CheckCircle2 className="h-4 w-4" />
-          Check Rank
+          {t("buttons.checkRack")}
         </Button>
       </div>
 
@@ -125,7 +130,7 @@ export const BulkMapRanking: React.FC = () => {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">No Of Keywords</p>
+              <p className="text-sm text-muted-foreground">{t("summerCard.noOfKeywords")}</p>
               {statsLoading ? (
                 <Skeleton className="h-8 w-20 mt-2" />
               ) : (
@@ -141,7 +146,7 @@ export const BulkMapRanking: React.FC = () => {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Total Projects</p>
+              <p className="text-sm text-muted-foreground">{t("summerCard.totalProjects")}</p>
               {statsLoading ? (
                 <Skeleton className="h-8 w-20 mt-2" />
               ) : (
@@ -157,7 +162,7 @@ export const BulkMapRanking: React.FC = () => {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Scheduled Scan</p>
+              <p className="text-sm text-muted-foreground">{t("summerCard.scheduledScan")}</p>
               {statsLoading ? (
                 <Skeleton className="h-8 w-20 mt-2" />
               ) : (
@@ -173,7 +178,7 @@ export const BulkMapRanking: React.FC = () => {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Credits</p>
+              <p className="text-sm text-muted-foreground">{t("summerCard.credits")}</p>
               {statsLoading ? (
                 <Skeleton className="h-8 w-32 mt-2" />
               ) : (
@@ -194,7 +199,7 @@ export const BulkMapRanking: React.FC = () => {
         <CardHeader>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search keywords..." value={searchQuery} onChange={handleSearch} className="pl-10" />
+            <Input placeholder={t("placeholder.searchKeyword")} value={searchQuery} onChange={handleSearch} className="pl-10" />
           </div>
         </CardHeader>
         <CardContent>
@@ -210,13 +215,13 @@ export const BulkMapRanking: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Keyword</TableHead>
-                      <TableHead className="text-center">No Of Checks</TableHead>
-                      <TableHead className="text-center">Schedule</TableHead>
-                      <TableHead>Last Checked</TableHead>
-                      <TableHead>Next Check</TableHead>
-                      <TableHead className="text-center">Status</TableHead>
-                      <TableHead className="text-center">Action</TableHead>
+                      <TableHead>{t("tableColumns.keyword")}</TableHead>
+                      <TableHead className="text-center">{t("tableColumns.noOfChecks")}</TableHead>
+                      <TableHead className="text-center">{t("tableColumns.schedule")}</TableHead>
+                      <TableHead>{t("tableColumns.lastChecked")}</TableHead>
+                      <TableHead>{t("tableColumns.nextCheck")}</TableHead>
+                      <TableHead className="text-center">{t("tableColumns.status")}</TableHead>
+                      <TableHead className="text-center">{t("tableColumns.action")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -246,11 +251,17 @@ export const BulkMapRanking: React.FC = () => {
                                 }
                               >
                                 {status === "completed" ? (
-                                  <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                                  <div>
+                                    <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                                    {t("status.completed")}
+                                  </div>
                                 ) : (
-                                  <Clock className="h-3 w-3 mr-1 inline" />
+                                  <div>
+                                    <Clock className="h-3 w-3 mr-1 inline" />
+                                    {t("status.running")}
+                                  </div>
                                 )}
-                                {status}
+
                               </Badge>
                             </TableCell>
                             <TableCell className="text-center">
@@ -274,7 +285,7 @@ export const BulkMapRanking: React.FC = () => {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                          {searchQuery ? "No keywords found matching your search" : "No keywords available"}
+                          {searchQuery ? t("messages.nokeywordsFoundMatchingYourSearch") : t("messages.noKeywordsAvailable")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -302,15 +313,15 @@ export const BulkMapRanking: React.FC = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Keyword</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteAlertBox.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the keyword "{itemToDelete?.keyword}"? This action cannot be undone.
+              {t("deleteAlertBox.description", { keyword: itemToDelete?.keyword })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={!!deletingId}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={!!deletingId}>{t("buttons.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteConfirm} disabled={!!deletingId}>
-              {deletingId ? "Deleting..." : "Delete"}
+              {deletingId ? t("buttons.deleting") : t("buttons.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
