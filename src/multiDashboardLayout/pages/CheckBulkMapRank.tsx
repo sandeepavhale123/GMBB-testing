@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 import { toast } from "sonner";
@@ -28,20 +22,28 @@ export const CheckBulkMapRank: React.FC = () => {
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    
+
     // Check current keyword count
-    const currentKeywords = keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
-    
+    const currentKeywords = keywords
+      .trim()
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
+
     // If user is trying to add a comma and already has 5 keywords, prevent it
-    if (value.endsWith(',') && currentKeywords.length >= 5) {
+    if (value.endsWith(",") && currentKeywords.length >= 5) {
       setKeywordError(true);
       return; // Don't update the value
     }
-    
+
     setKeywords(value);
-    
+
     // Validate keyword count in real-time
-    const keywordArray = value.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
+    const keywordArray = value
+      .trim()
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
     if (keywordArray.length > 5) {
       setKeywordError(true);
     } else {
@@ -51,42 +53,46 @@ export const CheckBulkMapRank: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
     if (selectedListings.length === 0) {
       toast.error("Please select at least one business location.");
       return;
     }
-    
+
     if (!keywords.trim()) {
       toast.error("Please enter at least one keyword.");
       return;
     }
-    
+
     // Validate keyword count (max 5)
-    const keywordArray = keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0);
+    const keywordArray = keywords
+      .trim()
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
     if (keywordArray.length > 5) {
       toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
       return;
     }
-    
+
     if (!searchBy) {
       toast.error("Please select a search method.");
       return;
     }
-    
+
     if (!scheduleFrequency) {
       toast.error("Please select a schedule frequency.");
       return;
     }
-    
+
     try {
       setIsSubmitting(true);
-      
+
       // Transform data for API
       const locationIds = selectedListings.map((id) => parseInt(id, 10));
       const formattedSearchBy = searchBy.toLowerCase(); // "City" → "city"
-      
+
       const requestData = {
         keywords: keywords.trim(),
         locationIds,
@@ -94,20 +100,20 @@ export const CheckBulkMapRank: React.FC = () => {
         schedule: scheduleFrequency,
         searchBy: formattedSearchBy,
       };
-      
+
       // Call API
       const response = await addBulkMapRankingKeywords(requestData);
-      
+
       if (response.code === 201) {
         toast.success(response.message || "Keywords added successfully and queued for processing.");
-        
+
         // Reset form
         setSelectedListings([]);
         setKeywords("");
         setSearchBy("");
         setScheduleFrequency("");
         // Keep language as-is (user preference)
-        
+
         // Navigate after short delay to show toast
         setTimeout(() => {
           navigate("/main-dashboard/bulk-map-ranking");
@@ -126,28 +132,31 @@ export const CheckBulkMapRank: React.FC = () => {
   return (
     <div className="flex-1 space-y-6 ">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">
-          Check Bulk Map Rank
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-6">Check Bulk Map Rank</h1>
 
         <Card>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{border:"1px solid black"}}>
+              <div
+                className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5"
+                style={{ border: "1px solid black" }}
+              >
                 <img
                   src="/lovable-uploads/bg-img/map-bg-image.webp"
                   alt="Banner"
                   className="w-full h-full object-cover "
-                /> 
+                />
               </div>
 
-                {/* Column 2: Form Section */}
-                <div className="space-y-6">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Select Business Name - Multi Select */}
-                   <div className="h-[90px]">
-                     <div className="space-y-2 relative">
+              {/* Column 2: Form Section */}
+              <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Select Business Name - Multi Select */}
+
+                  <div className="h-[90px]">
+                    <div className="space-y-2 relative">
+                      <a className="text-right mb-[-20px]">Import CSV</a>
                       <MultiListingSelector
                         selectedListings={selectedListings}
                         onListingsChange={setSelectedListings}
@@ -155,7 +164,7 @@ export const CheckBulkMapRank: React.FC = () => {
                         className="absolute z-50 space-y-3 w-full"
                       />
                     </div>
-                   </div>
+                  </div>
 
                   {/* Keywords */}
                   <div className="space-y-2">
@@ -170,7 +179,15 @@ export const CheckBulkMapRank: React.FC = () => {
                     />
                     {keywordError && (
                       <p className="text-xs text-destructive">
-                        Maximum 5 keywords allowed. You have entered {keywords.trim().split(',').map(k => k.trim()).filter(k => k.length > 0).length} keywords.
+                        Maximum 5 keywords allowed. You have entered{" "}
+                        {
+                          keywords
+                            .trim()
+                            .split(",")
+                            .map((k) => k.trim())
+                            .filter((k) => k.length > 0).length
+                        }{" "}
+                        keywords.
                       </p>
                     )}
                     <p className="text-xs text-muted-foreground">
@@ -185,8 +202,8 @@ export const CheckBulkMapRank: React.FC = () => {
                       <SelectTrigger id="language">
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
-        <SelectContent className="max-h-[300px]">
-          <SelectItem value="af">Afrikaans</SelectItem>
+                      <SelectContent className="max-h-[300px]">
+                        <SelectItem value="af">Afrikaans</SelectItem>
                         <SelectItem value="sq">Albanian</SelectItem>
                         <SelectItem value="am">Amharic</SelectItem>
                         <SelectItem value="ar">Arabic</SelectItem>
@@ -286,31 +303,23 @@ export const CheckBulkMapRank: React.FC = () => {
                     </Select>
                   </div>
 
-          {/* Schedule Frequency */}
-          <div className="space-y-2">
-            <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
-            <Select
-              value={scheduleFrequency}
-              onValueChange={setScheduleFrequency}
-            >
-              <SelectTrigger id="schedule-frequency">
-                <SelectValue placeholder="Select frequency" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="onetime">Onetime</SelectItem>
-                <SelectItem value="weekly">Weekly</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+                  {/* Schedule Frequency */}
+                  <div className="space-y-2">
+                    <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
+                    <Select value={scheduleFrequency} onValueChange={setScheduleFrequency}>
+                      <SelectTrigger id="schedule-frequency">
+                        <SelectValue placeholder="Select frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="onetime">Onetime</SelectItem>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
                   {/* Submit Button */}
-                  <Button 
-                    type="submit" 
-                    className="w-full" 
-                    size="lg"
-                    disabled={isSubmitting}
-                  >
+                  <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? "Processing..." : "Check Rank Now"}
                   </Button>
                 </form>
