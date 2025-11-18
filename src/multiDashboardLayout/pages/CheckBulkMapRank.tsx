@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 import { toast } from "sonner";
 import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
+import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
@@ -19,6 +20,7 @@ export const CheckBulkMapRank: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [keywordError, setKeywordError] = useState(false);
   const [isVisibleImportCSV, setIsVisibleImportCSV] = useState<boolean>(false);
+  const [uploadedCSVFile, setUploadedCSVFile] = useState<File | null>(null);
 
   const navigate = useNavigate();
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -296,9 +298,11 @@ export const CheckBulkMapRank: React.FC = () => {
                   <Button className="w-full btn-secondary">
                     Download CSV sample file  <Download />
                   </Button>
-                  <div className="border border-gray-200 p-5 flex justify-center items-center min-h-[200px] rounded rounded-md">
-                        <label htmlFor="" className="">Upload CSV file</label>
-                  </div>
+                  
+                  <CSVDropzone 
+                    onFileUploaded={setUploadedCSVFile}
+                    uploadedFile={uploadedCSVFile}
+                  />
 
                    <Button type="button" className="w-full" size="lg">
                       Check Rank Now
