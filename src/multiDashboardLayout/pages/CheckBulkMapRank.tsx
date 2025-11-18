@@ -9,7 +9,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 import { toast } from "sonner";
 import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
-
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
@@ -19,38 +18,27 @@ export const CheckBulkMapRank: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [keywordError, setKeywordError] = useState(false);
   const navigate = useNavigate();
-
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     // Check current keyword count
-    const currentKeywords = keywords
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
+    const currentKeywords = keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
 
     // If user is trying to add a comma and already has 5 keywords, prevent it
     if (value.endsWith(",") && currentKeywords.length >= 5) {
       setKeywordError(true);
       return; // Don't update the value
     }
-
     setKeywords(value);
 
     // Validate keyword count in real-time
-    const keywordArray = value
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
+    const keywordArray = value.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
     if (keywordArray.length > 5) {
       setKeywordError(true);
     } else {
       setKeywordError(false);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -59,38 +47,30 @@ export const CheckBulkMapRank: React.FC = () => {
       toast.error("Please select at least one business location.");
       return;
     }
-
     if (!keywords.trim()) {
       toast.error("Please enter at least one keyword.");
       return;
     }
 
     // Validate keyword count (max 5)
-    const keywordArray = keywords
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
+    const keywordArray = keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
     if (keywordArray.length > 5) {
       toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
       return;
     }
-
     if (!searchBy) {
       toast.error("Please select a search method.");
       return;
     }
-
     if (!scheduleFrequency) {
       toast.error("Please select a schedule frequency.");
       return;
     }
-
     try {
       setIsSubmitting(true);
 
       // Transform data for API
-      const locationIds = selectedListings.map((id) => parseInt(id, 10));
+      const locationIds = selectedListings.map(id => parseInt(id, 10));
       const formattedSearchBy = searchBy.toLowerCase(); // "City" → "city"
 
       const requestData = {
@@ -98,12 +78,11 @@ export const CheckBulkMapRank: React.FC = () => {
         locationIds,
         language,
         schedule: scheduleFrequency,
-        searchBy: formattedSearchBy,
+        searchBy: formattedSearchBy
       };
 
       // Call API
       const response = await addBulkMapRankingKeywords(requestData);
-
       if (response.code === 201) {
         toast.success(response.message || "Keywords added successfully and queued for processing.");
 
@@ -128,9 +107,7 @@ export const CheckBulkMapRank: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="flex-1 space-y-6 ">
+  return <div className="flex-1 space-y-6 ">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold tracking-tight mb-6">Check Bulk Map Rank</h1>
 
@@ -138,15 +115,10 @@ export const CheckBulkMapRank: React.FC = () => {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div
-                className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5"
-                style={{ border: "1px solid black" }}
-              >
-                <img
-                  src="/lovable-uploads/bg-img/map-bg-image.webp"
-                  alt="Banner"
-                  className="w-full h-full object-cover "
-                />
+              <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{
+              border: "1px solid black"
+            }}>
+                <img src="/lovable-uploads/bg-img/map-bg-image.webp" alt="Banner" className="w-full h-full object-cover " />
               </div>
 
               {/* Column 2: Form Section */}
@@ -156,40 +128,20 @@ export const CheckBulkMapRank: React.FC = () => {
 
                   <div className="h-[90px]">
                     <div className="space-y-2 relative">
-                      <a className="text-right mb-[-20px]">Import CSV</a>
-                      <MultiListingSelector
-                        selectedListings={selectedListings}
-                        onListingsChange={setSelectedListings}
-                        label="Select Business Name *"
-                        className="absolute z-50 space-y-3 w-full"
-                      />
+                      <a className="text-right mb-[-50px] w-full \n">Import CSV</a>
+                      <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
                     </div>
                   </div>
 
                   {/* Keywords */}
                   <div className="space-y-2">
                     <Label htmlFor="keywords">Keywords *</Label>
-                    <Input
-                      id="keywords"
-                      type="text"
-                      placeholder="Enter keywords separated by commas"
-                      value={keywords}
-                      onChange={handleKeywordChange}
-                      className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""}
-                    />
-                    {keywordError && (
-                      <p className="text-xs text-destructive">
+                    <Input id="keywords" type="text" placeholder="Enter keywords separated by commas" value={keywords} onChange={handleKeywordChange} className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""} />
+                    {keywordError && <p className="text-xs text-destructive">
                         Maximum 5 keywords allowed. You have entered{" "}
-                        {
-                          keywords
-                            .trim()
-                            .split(",")
-                            .map((k) => k.trim())
-                            .filter((k) => k.length > 0).length
-                        }{" "}
+                        {keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0).length}{" "}
                         keywords.
-                      </p>
-                    )}
+                      </p>}
                     <p className="text-xs text-muted-foreground">
                       Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
                     </p>
@@ -328,6 +280,5 @@ export const CheckBulkMapRank: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
