@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,8 +21,21 @@ export const CheckBulkMapRank: React.FC = () => {
   const [keywordError, setKeywordError] = useState(false);
   const [isVisibleImportCSV, setIsVisibleImportCSV] = useState<boolean>(false);
   const [uploadedCSVFile, setUploadedCSVFile] = useState<File | null>(null);
+  const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
+  const [showCSVSection, setShowCSVSection] = useState(false);
 
   const navigate = useNavigate();
+  
+  const handleGenerateCSV = () => {
+    setIsGeneratingCSV(true);
+    
+    // Show spinner for 5 seconds
+    setTimeout(() => {
+      setIsGeneratingCSV(false);
+      setShowCSVSection(true);
+    }, 5000);
+  };
+
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
@@ -292,21 +305,44 @@ export const CheckBulkMapRank: React.FC = () => {
                       </div>
                     </div>
 
-                  <Button className="w-full" variant="outline">
-                    Generate Sample CSV File for 6 listings
-                  </Button>
-                  <Button className="w-full btn-secondary">
-                    Download CSV sample file  <Download />
-                  </Button>
-                  
-                  <CSVDropzone 
-                    onFileUploaded={setUploadedCSVFile}
-                    uploadedFile={uploadedCSVFile}
-                  />
-
-                   <Button type="button" className="w-full" size="lg">
-                      Check Rank Now
+                  {!showCSVSection && !isGeneratingCSV && (
+                    <Button 
+                      className="w-full" 
+                      variant="outline"
+                      onClick={handleGenerateCSV}
+                    >
+                      Generate Sample CSV File for {selectedListings.length} listings
                     </Button>
+                  )}
+
+                  {isGeneratingCSV && (
+                    <div className="flex flex-col items-center justify-center py-8 space-y-3">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      <span className="text-sm text-muted-foreground">Generating CSV...</span>
+                    </div>
+                  )}
+
+                  {showCSVSection && (
+                    <>
+                      <Button className="w-full btn-secondary">
+                        Download CSV sample file  <Download />
+                      </Button>
+                      
+                      <CSVDropzone 
+                        onFileUploaded={setUploadedCSVFile}
+                        uploadedFile={uploadedCSVFile}
+                      />
+
+                      <Button 
+                        type="button" 
+                        className="w-full" 
+                        size="lg"
+                        disabled={!uploadedCSVFile}
+                      >
+                        Check Rank Now
+                      </Button>
+                    </>
+                  )}
 
                 </div>)
               }
