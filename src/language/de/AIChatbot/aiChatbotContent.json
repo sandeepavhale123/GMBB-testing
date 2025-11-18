@@ -10,7 +10,7 @@
     },
     "mainChat": {
       "title": "AI Genie Unterstützung",
-      "welcomeTitle": "Willkommen bei AI Genie Unterstützung",
+      "welcomeTitle": "Willkommen bei AI Genie Unterstützung.",
       "welcomeDescription": "Stellen Sie mir Fragen zu Ihrer Unternehmensleistung, SEO-Optimierung, Geo-Ranking-Insights und mehr. Probieren Sie die vorgeschlagenen Fragen aus, um loszulegen!",
       "loadingMessages": "Lade Chatnachrichten...",
       "aiThinking": "Die KI denkt..."
