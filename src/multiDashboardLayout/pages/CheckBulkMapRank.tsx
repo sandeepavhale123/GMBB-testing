@@ -25,22 +25,22 @@ export const CheckBulkMapRank: React.FC = () => {
   const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
   const [showCSVSection, setShowCSVSection] = useState(false);
   const [listingSelectionError, setListingSelectionError] = useState<string>("");
-  const[generatedCSVFileUrl,setGeneratedCSVFileUrl] = useState<string>("");
+  const [generatedCSVFileUrl, setGeneratedCSVFileUrl] = useState<string>("");
 
   const navigate = useNavigate();
-  
+
   // const handleGenerateCSV = () => {
   //   // Validate that at least one listing is selected
   //   if (selectedListings.length === 0) {
   //     setListingSelectionError("Select at least one listing or group to continue.");
   //     return;
   //   }
-    
+
   //   // Clear any existing error
   //   setListingSelectionError("");
-    
+
   //   setIsGeneratingCSV(true);
-    
+
   //   // Show spinner for 5 seconds
   //   setTimeout(() => {
   //     setIsGeneratingCSV(false);
@@ -53,7 +53,7 @@ export const CheckBulkMapRank: React.FC = () => {
     if (selectedListings.length > 0 && listingSelectionError) {
       setListingSelectionError("");
     }
-    
+
     // If CSV section is showing and user changes listing selection, reset to initial state
     if (showCSVSection) {
       setShowCSVSection(false);
@@ -154,29 +154,24 @@ export const CheckBulkMapRank: React.FC = () => {
 
   // generate CSV file    
 
-  const handleGenerateCSV = async () => 
-  {
+  const handleGenerateCSV = async () => {
     console.log("Generate CSV function called...")
-    try{
+    try {
       const locationId = selectedListings.map(id => parseInt(id, 10));
       setIsGeneratingCSV(true);
       const response = await generateCSVForBulkMapRanking({
-        listingIds:locationId,
+        listingIds: locationId,
       })
       setGeneratedCSVFileUrl(response.data.fileUrl);
-        setTimeout(() => {
-        setIsGeneratingCSV(false);
-        setShowCSVSection(true);
-      }, 5000);
+      setIsGeneratingCSV(false);
+      setShowCSVSection(true);
     }
-    catch(error)
-    {
-      console.log('error',error);
+    catch (error) {
+      console.log('error', error);
       setIsGeneratingCSV(false);
     }
-    finally
-    {
-        setIsGeneratingCSV(false);
+    finally {
+      setIsGeneratingCSV(false);
     }
   }
   return <div className="flex-1 space-y-6 ">
@@ -200,18 +195,18 @@ export const CheckBulkMapRank: React.FC = () => {
                   {isVisibleImportCSV ? "Manually Check" : "Import CSV"}
                 </Button>
               </div>
-              {!isVisibleImportCSV ?
-                (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Select Business Name - Multi Select */}
-                    <div className="h-[90px] ">
-                      <div className="space-y-2 relative">
-                        <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
-                      </div>
-                    </div>
 
-                    {/* Keywords */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Select Business Name - Multi Select */}
+                <div className="h-[90px] ">
+                  <div className="space-y-2 relative">
+                    <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
+                  </div>
+                </div>
+                {!isVisibleImportCSV ?
+                  (
                     <div className="space-y-2">
+                      {/* Keywords */}
                       <Label htmlFor="keywords">Keywords *</Label>
                       <Input id="keywords" type="text" placeholder="Enter keywords separated by commas" value={keywords} onChange={handleKeywordChange} className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""} />
                       {keywordError && <p className="text-xs text-destructive">
@@ -222,186 +217,171 @@ export const CheckBulkMapRank: React.FC = () => {
                       <p className="text-xs text-muted-foreground">
                         Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
                       </p>
+                    </div>) : (
+                    <div className="space-y-6 ">
+                      {!showCSVSection && !isGeneratingCSV && (
+                        <Button
+                          className="w-full"
+                          variant="outline"
+                          type="button"
+                          onClick={handleGenerateCSV}
+                        >
+                          Generate Sample CSV File {selectedListings.length > 0 && `for ${selectedListings.length} listings`}
+                        </Button>
+                      )}
+
+                      {isGeneratingCSV && (
+                        <div className="flex flex-col items-center justify-center py-8 space-y-3">
+                          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                          <span className="text-sm text-muted-foreground">Generating CSV...</span>
+                        </div>
+                      )}
+
+                      {showCSVSection && (
+                        <>
+                          <a href={generatedCSVFileUrl} download>
+                            <Button className="w-full btn-secondary"  type="button" >
+                              Download CSV sample file  <Download />
+                            </Button>
+                          </a>
+                           <div>
+                            <label htmlFor="">Upload CSV File</label>
+                            <input type="file" />
+                           </div>
+                        </>
+                      )}
                     </div>
+                  )
+                }
 
-                    {/* Select Language (Optional) */}
-                    <div className="space-y-2">
-                      <Label htmlFor="language">Select Language (Optional)</Label>
-                      <Select value={language} onValueChange={setLanguage}>
-                        <SelectTrigger id="language">
-                          <SelectValue placeholder="Select language" />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[300px]">
-                          <SelectItem value="af">Afrikaans</SelectItem>
-                          <SelectItem value="sq">Albanian</SelectItem>
-                          <SelectItem value="am">Amharic</SelectItem>
-                          <SelectItem value="ar">Arabic</SelectItem>
-                          <SelectItem value="hy">Armenian</SelectItem>
-                          <SelectItem value="az">Azerbaijani</SelectItem>
-                          <SelectItem value="eu">Basque</SelectItem>
-                          <SelectItem value="be">Belarusian</SelectItem>
-                          <SelectItem value="bn">Bengali</SelectItem>
-                          <SelectItem value="bs">Bosnian</SelectItem>
-                          <SelectItem value="bg">Bulgarian</SelectItem>
-                          <SelectItem value="my">Burmese</SelectItem>
-                          <SelectItem value="ca">Catalan</SelectItem>
-                          <SelectItem value="zh">Chinese</SelectItem>
-                          <SelectItem value="zh-CN">Chinese (Simplified)</SelectItem>
-                          <SelectItem value="zh-HK">Chinese (Hong Kong)</SelectItem>
-                          <SelectItem value="zh-TW">Chinese (Traditional)</SelectItem>
-                          <SelectItem value="hr">Croatian</SelectItem>
-                          <SelectItem value="cs">Czech</SelectItem>
-                          <SelectItem value="da">Danish</SelectItem>
-                          <SelectItem value="nl">Dutch</SelectItem>
-                          <SelectItem value="en">English</SelectItem>
-                          <SelectItem value="en-AU">English (Australian)</SelectItem>
-                          <SelectItem value="en-GB">English (Great Britain)</SelectItem>
-                          <SelectItem value="et">Estonian</SelectItem>
-                          <SelectItem value="fa">Farsi</SelectItem>
-                          <SelectItem value="fi">Finnish</SelectItem>
-                          <SelectItem value="fil">Filipino</SelectItem>
-                          <SelectItem value="fr">French</SelectItem>
-                          <SelectItem value="fr-CA">French (Canada)</SelectItem>
-                          <SelectItem value="gl">Galician</SelectItem>
-                          <SelectItem value="ka">Georgian</SelectItem>
-                          <SelectItem value="de">German</SelectItem>
-                          <SelectItem value="el">Greek</SelectItem>
-                          <SelectItem value="gu">Gujarati</SelectItem>
-                          <SelectItem value="iw">Hebrew</SelectItem>
-                          <SelectItem value="hi">Hindi</SelectItem>
-                          <SelectItem value="hu">Hungarian</SelectItem>
-                          <SelectItem value="is">Icelandic</SelectItem>
-                          <SelectItem value="id">Indonesian</SelectItem>
-                          <SelectItem value="it">Italian</SelectItem>
-                          <SelectItem value="ja">Japanese</SelectItem>
-                          <SelectItem value="kn">Kannada</SelectItem>
-                          <SelectItem value="kk">Kazakh</SelectItem>
-                          <SelectItem value="km">Khmer</SelectItem>
-                          <SelectItem value="ko">Korean</SelectItem>
-                          <SelectItem value="ky">Kyrgyz</SelectItem>
-                          <SelectItem value="lo">Lao</SelectItem>
-                          <SelectItem value="lv">Latvian</SelectItem>
-                          <SelectItem value="lt">Lithuanian</SelectItem>
-                          <SelectItem value="mk">Macedonian</SelectItem>
-                          <SelectItem value="ms">Malay</SelectItem>
-                          <SelectItem value="ml">Malayalam</SelectItem>
-                          <SelectItem value="mr">Marathi</SelectItem>
-                          <SelectItem value="mn">Mongolian</SelectItem>
-                          <SelectItem value="ne">Nepali</SelectItem>
-                          <SelectItem value="no">Norwegian</SelectItem>
-                          <SelectItem value="pl">Polish</SelectItem>
-                          <SelectItem value="pt">Portuguese</SelectItem>
-                          <SelectItem value="pt-BR">Portuguese (Brazil)</SelectItem>
-                          <SelectItem value="pt-PT">Portuguese (Portugal)</SelectItem>
-                          <SelectItem value="pa">Punjabi</SelectItem>
-                          <SelectItem value="ro">Romanian</SelectItem>
-                          <SelectItem value="ru">Russian</SelectItem>
-                          <SelectItem value="sr">Serbian</SelectItem>
-                          <SelectItem value="si">Sinhalese</SelectItem>
-                          <SelectItem value="sk">Slovak</SelectItem>
-                          <SelectItem value="sl">Slovenian</SelectItem>
-                          <SelectItem value="es">Spanish</SelectItem>
-                          <SelectItem value="es-419">Spanish (Latin America)</SelectItem>
-                          <SelectItem value="sw">Swahili</SelectItem>
-                          <SelectItem value="sv">Swedish</SelectItem>
-                          <SelectItem value="ta">Tamil</SelectItem>
-                          <SelectItem value="te">Telugu</SelectItem>
-                          <SelectItem value="th">Thai</SelectItem>
-                          <SelectItem value="tr">Turkish</SelectItem>
-                          <SelectItem value="uk">Ukrainian</SelectItem>
-                          <SelectItem value="ur">Urdu</SelectItem>
-                          <SelectItem value="uz">Uzbek</SelectItem>
-                          <SelectItem value="vi">Vietnamese</SelectItem>
-                          <SelectItem value="zu">Zulu</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
 
-                    {/* Search By */}
-                    <div className="space-y-2">
-                      <Label htmlFor="search-by">Search By *</Label>
-                      <Select value={searchBy} onValueChange={setSearchBy}>
-                        <SelectTrigger id="search-by">
-                          <SelectValue placeholder="Select search method" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="City">City</SelectItem>
-                          <SelectItem value="postalcode">Postal Code</SelectItem>
-                          <SelectItem value="latLong">Latitude-Longitude</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                {/* Select Language (Optional) */}
+                <div className="space-y-2">
+                  <Label htmlFor="language">Select Language (Optional)</Label>
+                  <Select value={language} onValueChange={setLanguage}>
+                    <SelectTrigger id="language">
+                      <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[300px]">
+                      <SelectItem value="af">Afrikaans</SelectItem>
+                      <SelectItem value="sq">Albanian</SelectItem>
+                      <SelectItem value="am">Amharic</SelectItem>
+                      <SelectItem value="ar">Arabic</SelectItem>
+                      <SelectItem value="hy">Armenian</SelectItem>
+                      <SelectItem value="az">Azerbaijani</SelectItem>
+                      <SelectItem value="eu">Basque</SelectItem>
+                      <SelectItem value="be">Belarusian</SelectItem>
+                      <SelectItem value="bn">Bengali</SelectItem>
+                      <SelectItem value="bs">Bosnian</SelectItem>
+                      <SelectItem value="bg">Bulgarian</SelectItem>
+                      <SelectItem value="my">Burmese</SelectItem>
+                      <SelectItem value="ca">Catalan</SelectItem>
+                      <SelectItem value="zh">Chinese</SelectItem>
+                      <SelectItem value="zh-CN">Chinese (Simplified)</SelectItem>
+                      <SelectItem value="zh-HK">Chinese (Hong Kong)</SelectItem>
+                      <SelectItem value="zh-TW">Chinese (Traditional)</SelectItem>
+                      <SelectItem value="hr">Croatian</SelectItem>
+                      <SelectItem value="cs">Czech</SelectItem>
+                      <SelectItem value="da">Danish</SelectItem>
+                      <SelectItem value="nl">Dutch</SelectItem>
+                      <SelectItem value="en">English</SelectItem>
+                      <SelectItem value="en-AU">English (Australian)</SelectItem>
+                      <SelectItem value="en-GB">English (Great Britain)</SelectItem>
+                      <SelectItem value="et">Estonian</SelectItem>
+                      <SelectItem value="fa">Farsi</SelectItem>
+                      <SelectItem value="fi">Finnish</SelectItem>
+                      <SelectItem value="fil">Filipino</SelectItem>
+                      <SelectItem value="fr">French</SelectItem>
+                      <SelectItem value="fr-CA">French (Canada)</SelectItem>
+                      <SelectItem value="gl">Galician</SelectItem>
+                      <SelectItem value="ka">Georgian</SelectItem>
+                      <SelectItem value="de">German</SelectItem>
+                      <SelectItem value="el">Greek</SelectItem>
+                      <SelectItem value="gu">Gujarati</SelectItem>
+                      <SelectItem value="iw">Hebrew</SelectItem>
+                      <SelectItem value="hi">Hindi</SelectItem>
+                      <SelectItem value="hu">Hungarian</SelectItem>
+                      <SelectItem value="is">Icelandic</SelectItem>
+                      <SelectItem value="id">Indonesian</SelectItem>
+                      <SelectItem value="it">Italian</SelectItem>
+                      <SelectItem value="ja">Japanese</SelectItem>
+                      <SelectItem value="kn">Kannada</SelectItem>
+                      <SelectItem value="kk">Kazakh</SelectItem>
+                      <SelectItem value="km">Khmer</SelectItem>
+                      <SelectItem value="ko">Korean</SelectItem>
+                      <SelectItem value="ky">Kyrgyz</SelectItem>
+                      <SelectItem value="lo">Lao</SelectItem>
+                      <SelectItem value="lv">Latvian</SelectItem>
+                      <SelectItem value="lt">Lithuanian</SelectItem>
+                      <SelectItem value="mk">Macedonian</SelectItem>
+                      <SelectItem value="ms">Malay</SelectItem>
+                      <SelectItem value="ml">Malayalam</SelectItem>
+                      <SelectItem value="mr">Marathi</SelectItem>
+                      <SelectItem value="mn">Mongolian</SelectItem>
+                      <SelectItem value="ne">Nepali</SelectItem>
+                      <SelectItem value="no">Norwegian</SelectItem>
+                      <SelectItem value="pl">Polish</SelectItem>
+                      <SelectItem value="pt">Portuguese</SelectItem>
+                      <SelectItem value="pt-BR">Portuguese (Brazil)</SelectItem>
+                      <SelectItem value="pt-PT">Portuguese (Portugal)</SelectItem>
+                      <SelectItem value="pa">Punjabi</SelectItem>
+                      <SelectItem value="ro">Romanian</SelectItem>
+                      <SelectItem value="ru">Russian</SelectItem>
+                      <SelectItem value="sr">Serbian</SelectItem>
+                      <SelectItem value="si">Sinhalese</SelectItem>
+                      <SelectItem value="sk">Slovak</SelectItem>
+                      <SelectItem value="sl">Slovenian</SelectItem>
+                      <SelectItem value="es">Spanish</SelectItem>
+                      <SelectItem value="es-419">Spanish (Latin America)</SelectItem>
+                      <SelectItem value="sw">Swahili</SelectItem>
+                      <SelectItem value="sv">Swedish</SelectItem>
+                      <SelectItem value="ta">Tamil</SelectItem>
+                      <SelectItem value="te">Telugu</SelectItem>
+                      <SelectItem value="th">Thai</SelectItem>
+                      <SelectItem value="tr">Turkish</SelectItem>
+                      <SelectItem value="uk">Ukrainian</SelectItem>
+                      <SelectItem value="ur">Urdu</SelectItem>
+                      <SelectItem value="uz">Uzbek</SelectItem>
+                      <SelectItem value="vi">Vietnamese</SelectItem>
+                      <SelectItem value="zu">Zulu</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                    {/* Schedule Frequency */}
-                    <div className="space-y-2">
-                      <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
-                      <Select value={scheduleFrequency} onValueChange={setScheduleFrequency}>
-                        <SelectTrigger id="schedule-frequency">
-                          <SelectValue placeholder="Select frequency" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="onetime">Onetime</SelectItem>
-                          <SelectItem value="weekly">Weekly</SelectItem>
-                          <SelectItem value="monthly">Monthly</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-                      {isSubmitting ? "Processing..." : "Check Rank Now"}
-                    </Button>
-                  </form>
-                ) :
-                (<div className="space-y-6 ">
-                    {/* Select Business Name - Multi Select */}
-                    <div className="h-[90px] ">
-                      <div className="space-y-2 relative">
-                        <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" error={listingSelectionError} />
-                      </div>
-                    </div>
+                {/* Search By */}
+                <div className="space-y-2">
+                  <Label htmlFor="search-by">Search By *</Label>
+                  <Select value={searchBy} onValueChange={setSearchBy}>
+                    <SelectTrigger id="search-by">
+                      <SelectValue placeholder="Select search method" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="City">City</SelectItem>
+                      <SelectItem value="postalcode">Postal Code</SelectItem>
+                      <SelectItem value="latLong">Latitude-Longitude</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                  {!showCSVSection && !isGeneratingCSV && (
-                    <Button 
-                      className="w-full" 
-                      variant="outline"
-                      onClick={handleGenerateCSV}
-                    >
-                      Generate Sample CSV File { selectedListings.length > 0 && `for ${selectedListings.length} listings` } 
-                    </Button>
-                  )}
+                {/* Schedule Frequency */}
+                <div className="space-y-2">
+                  <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
+                  <Select value={scheduleFrequency} onValueChange={setScheduleFrequency}>
+                    <SelectTrigger id="schedule-frequency">
+                      <SelectValue placeholder="Select frequency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="onetime">Onetime</SelectItem>
+                      <SelectItem value="weekly">Weekly</SelectItem>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+                  {isSubmitting ? "Processing..." : "Check Rank Now"}
+                </Button>
+              </form>
 
-                  {isGeneratingCSV && (
-                    <div className="flex flex-col items-center justify-center py-8 space-y-3">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <span className="text-sm text-muted-foreground">Generating CSV...</span>
-                    </div>
-                  )}
-
-                  {showCSVSection && (
-                    <>
-                     <a href={generatedCSVFileUrl} download>
-                      <Button className="w-full btn-secondary" >
-                        Download CSV sample file  <Download />
-                      </Button>
-                      </a>
-                      
-                      <CSVDropzone 
-                        onFileUploaded={setUploadedCSVFile}
-                        uploadedFile={uploadedCSVFile}
-                      />
-
-                      <Button 
-                        type="button" 
-                        className="w-full" 
-                        size="lg"
-                        disabled={!uploadedCSVFile}
-                      >
-                        Check Rank Now
-                      </Button>
-                    </>
-                  )}
-
-                </div>)
-              }
 
 
 
