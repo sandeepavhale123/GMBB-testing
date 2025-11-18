@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, CheckCircle, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,6 @@ import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiLi
 import { toast } from "sonner";
 import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
 import { generateCSVForBulkMapRanking } from "@/api/bulkMapRankingApi";
-import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
@@ -26,6 +25,7 @@ export const CheckBulkMapRank: React.FC = () => {
   const [showCSVSection, setShowCSVSection] = useState(true);
   const [listingSelectionError, setListingSelectionError] = useState<string>("");
   const [generatedCSVFileUrl, setGeneratedCSVFileUrl] = useState<string>("");
+  const [csvUploadError, setCsvUploadError] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -63,32 +63,69 @@ export const CheckBulkMapRank: React.FC = () => {
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
+    // Only validate keywords if NOT in CSV import mode
+    if (!isVisibleImportCSV) {
+      // Check current keyword count
+      const currentKeywords = keywords
+        .trim()
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
 
-    // Check current keyword count
-    const currentKeywords = keywords
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
+      // If user is trying to add a comma and already has 5 keywords, prevent it
+      if (value.endsWith(",") && currentKeywords.length >= 5) {
+        setKeywordError(true);
+        return; // Don't update the value
+      }
 
-    // If user is trying to add a comma and already has 5 keywords, prevent it
-    if (value.endsWith(",") && currentKeywords.length >= 5) {
-      setKeywordError(true);
-      return; // Don't update the value
-    }
-    setKeywords(value);
-
-    // Validate keyword count in real-time
-    const keywordArray = value
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
-    if (keywordArray.length > 5) {
-      setKeywordError(true);
+      // Validate keyword count in real-time
+      const keywordArray = value
+        .trim()
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
+      
+      if (keywordArray.length > 5) {
+        setKeywordError(true);
+      } else {
+        setKeywordError(false);
+      }
     } else {
+      // In CSV mode, clear any keyword errors
       setKeywordError(false);
     }
+    
+    setKeywords(value);
+  };
+
+  const handleCSVFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    
+    if (!file) {
+      setUploadedCSVFile(null);
+      setCsvUploadError("");
+      return;
+    }
+    
+    // Validate file is CSV
+    const fileExtension = file.name.toLowerCase().split(".").pop();
+    const isCSV = file.type === "text/csv" || 
+                  file.type === "application/vnd.ms-excel" || 
+                  fileExtension === "csv";
+    
+    if (!isCSV) {
+      setCsvUploadError("Please upload a CSV file only");
+      setUploadedCSVFile(null);
+      toast.error("Please upload a CSV file only");
+      e.target.value = ""; // Reset file input
+      return;
+    }
+    
+    // Valid CSV file
+    setCsvUploadError("");
+    setUploadedCSVFile(file);
+    toast.success(`"${file.name}" uploaded successfully`);
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,21 +135,26 @@ export const CheckBulkMapRank: React.FC = () => {
       toast.error("Please select at least one business location.");
       return;
     }
-    if (!keywords.trim()) {
-      toast.error("Please enter at least one keyword.");
-      return;
-    }
+    
+    // Only validate keywords if NOT in CSV import mode
+    if (!isVisibleImportCSV) {
+      if (!keywords.trim()) {
+        toast.error("Please enter at least one keyword.");
+        return;
+      }
 
-    // Validate keyword count (max 5)
-    const keywordArray = keywords
-      .trim()
-      .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
-    if (keywordArray.length > 5) {
-      toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
-      return;
+      // Validate keyword count (max 5)
+      const keywordArray = keywords
+        .trim()
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
+      if (keywordArray.length > 5) {
+        toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
+        return;
+      }
     }
+    
     if (!searchBy) {
       toast.error("Please select a search method.");
       return;
@@ -233,7 +275,9 @@ export const CheckBulkMapRank: React.FC = () => {
                   {!isVisibleImportCSV ? (
                     <div className="space-y-2">
                       {/* Keywords */}
-                      <Label htmlFor="keywords">Keywords *</Label>
+                      <Label htmlFor="keywords">
+                        Keywords <span className="text-red-500">*</span>
+                      </Label>
                       <Input
                         id="keywords"
                         type="text"
@@ -282,11 +326,30 @@ export const CheckBulkMapRank: React.FC = () => {
                               Download CSV sample file <Download />
                             </Button>
                           </a>
-                          <CSVDropzone
-                            onFileUploaded={setUploadedCSVFile}
-                            uploadedFile={uploadedCSVFile}
-                            isReupload={false}
-                          />
+                          <div className="space-y-2">
+                            <Label htmlFor="csv-upload" className="text-sm font-medium">
+                              Upload CSV File <span className="text-red-500">*</span>
+                            </Label>
+                            <Input
+                              id="csv-upload"
+                              type="file"
+                              accept=".csv"
+                              onChange={handleCSVFileUpload}
+                              className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                            />
+                            {uploadedCSVFile && (
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground bg-green-50 dark:bg-green-950/20 p-2 rounded-md">
+                                <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-500" />
+                                <span>Selected: {uploadedCSVFile.name}</span>
+                              </div>
+                            )}
+                            {csvUploadError && (
+                              <p className="text-sm text-destructive flex items-center gap-1">
+                                <XCircle className="h-4 w-4" />
+                                {csvUploadError}
+                              </p>
+                            )}
+                          </div>
                         </>
                       )}
                     </div>
