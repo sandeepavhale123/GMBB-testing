@@ -143,7 +143,7 @@ export const CheckBulkMapRank: React.FC = () => {
             <div className="space-y-6">
               <div className="flex justify-end mb-[-25px]">
                 <Button type="button" variant="ghost" className="text-[15px] cursor-pointer  ml-auto" onClick={() => setIsVisibleImportCSV(!isVisibleImportCSV)}>
-                  {isVisibleImportCSV ? "Back" : "Import CSV"}
+                  {isVisibleImportCSV ? "Manually Check" : "Import CSV"}
                 </Button>
               </div>
               {!isVisibleImportCSV ?
