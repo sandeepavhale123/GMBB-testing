@@ -26,7 +26,6 @@ export const CheckBulkMapRank: React.FC = () => {
   const [listingSelectionError, setListingSelectionError] = useState<string>("");
   const [generatedCSVFileUrl, setGeneratedCSVFileUrl] = useState<string>("");
   const [csvUploadError, setCsvUploadError] = useState<string>("");
-
   const navigate = useNavigate();
 
   // const handleGenerateCSV = () => {
@@ -60,18 +59,13 @@ export const CheckBulkMapRank: React.FC = () => {
       setUploadedCSVFile(null);
     }
   }, [selectedListings]);
-
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    
+
     // Only validate keywords if NOT in CSV import mode
     if (!isVisibleImportCSV) {
       // Check current keyword count
-      const currentKeywords = keywords
-        .trim()
-        .split(",")
-        .map((k) => k.trim())
-        .filter((k) => k.length > 0);
+      const currentKeywords = keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
 
       // If user is trying to add a comma and already has 5 keywords, prevent it
       if (value.endsWith(",") && currentKeywords.length >= 5) {
@@ -80,12 +74,7 @@ export const CheckBulkMapRank: React.FC = () => {
       }
 
       // Validate keyword count in real-time
-      const keywordArray = value
-        .trim()
-        .split(",")
-        .map((k) => k.trim())
-        .filter((k) => k.length > 0);
-      
+      const keywordArray = value.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
       if (keywordArray.length > 5) {
         setKeywordError(true);
       } else {
@@ -95,25 +84,19 @@ export const CheckBulkMapRank: React.FC = () => {
       // In CSV mode, clear any keyword errors
       setKeywordError(false);
     }
-    
     setKeywords(value);
   };
-
   const handleCSVFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    
     if (!file) {
       setUploadedCSVFile(null);
       setCsvUploadError("");
       return;
     }
-    
+
     // Validate file is CSV
     const fileExtension = file.name.toLowerCase().split(".").pop();
-    const isCSV = file.type === "text/csv" || 
-                  file.type === "application/vnd.ms-excel" || 
-                  fileExtension === "csv";
-    
+    const isCSV = file.type === "text/csv" || file.type === "application/vnd.ms-excel" || fileExtension === "csv";
     if (!isCSV) {
       setCsvUploadError("Please upload a CSV file only");
       setUploadedCSVFile(null);
@@ -121,7 +104,7 @@ export const CheckBulkMapRank: React.FC = () => {
       e.target.value = ""; // Reset file input
       return;
     }
-    
+
     // Valid CSV file
     setCsvUploadError("");
     setUploadedCSVFile(file);
@@ -135,7 +118,7 @@ export const CheckBulkMapRank: React.FC = () => {
       toast.error("Please select at least one business location.");
       return;
     }
-    
+
     // Only validate keywords if NOT in CSV import mode
     if (!isVisibleImportCSV) {
       if (!keywords.trim()) {
@@ -144,17 +127,12 @@ export const CheckBulkMapRank: React.FC = () => {
       }
 
       // Validate keyword count (max 5)
-      const keywordArray = keywords
-        .trim()
-        .split(",")
-        .map((k) => k.trim())
-        .filter((k) => k.length > 0);
+      const keywordArray = keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
       if (keywordArray.length > 5) {
         toast.error("Maximum 5 keywords allowed. Please reduce the number of keywords.");
         return;
       }
     }
-    
     if (!searchBy) {
       toast.error("Please select a search method.");
       return;
@@ -167,7 +145,7 @@ export const CheckBulkMapRank: React.FC = () => {
       setIsSubmitting(true);
 
       // Transform data for API
-      const locationIds = selectedListings.map((id) => parseInt(id, 10));
+      const locationIds = selectedListings.map(id => parseInt(id, 10));
       const formattedSearchBy = searchBy.toLowerCase(); // "City" → "city"
 
       const requestData = {
@@ -175,7 +153,7 @@ export const CheckBulkMapRank: React.FC = () => {
         locationIds,
         language,
         schedule: scheduleFrequency,
-        searchBy: formattedSearchBy,
+        searchBy: formattedSearchBy
       };
 
       // Call API
@@ -210,10 +188,10 @@ export const CheckBulkMapRank: React.FC = () => {
   const handleGenerateCSV = async () => {
     console.log("Generate CSV function called...");
     try {
-      const locationId = selectedListings.map((id) => parseInt(id, 10));
+      const locationId = selectedListings.map(id => parseInt(id, 10));
       setIsGeneratingCSV(true);
       const response = await generateCSVForBulkMapRanking({
-        listingIds: locationId,
+        listingIds: locationId
       });
       setGeneratedCSVFileUrl(response.data.fileUrl);
       setIsGeneratingCSV(false);
@@ -225,8 +203,7 @@ export const CheckBulkMapRank: React.FC = () => {
       setIsGeneratingCSV(false);
     }
   };
-  return (
-    <div className="flex-1 space-y-6 ">
+  return <div className="flex-1 space-y-6 ">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold tracking-tight mb-6">Check Bulk Map Rank</h1>
 
@@ -234,28 +211,16 @@ export const CheckBulkMapRank: React.FC = () => {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Banner Section */}
-              <div
-                className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5"
-                style={{
-                  border: "1px solid black",
-                }}
-              >
-                <img
-                  src="/lovable-uploads/bg-img/map-bg-image.webp"
-                  alt="Banner"
-                  className="w-full h-full object-cover "
-                />
+              <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{
+              border: "1px solid black"
+            }}>
+                <img src="/lovable-uploads/bg-img/map-bg-image.webp" alt="Banner" className="w-full h-full object-cover " />
               </div>
 
               {/* Column 2: Form Section */}
               <div className="space-y-6">
                 <div className="flex justify-end mb-[-25px]">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="text-[15px] cursor-pointer  ml-auto"
-                    onClick={() => setIsVisibleImportCSV(!isVisibleImportCSV)}
-                  >
+                  <Button type="button" variant="ghost" className="text-[15px] cursor-pointer  ml-auto" onClick={() => setIsVisibleImportCSV(!isVisibleImportCSV)}>
                     {isVisibleImportCSV ? "Manually Check" : "Import CSV"}
                   </Button>
                 </div>
@@ -264,63 +229,35 @@ export const CheckBulkMapRank: React.FC = () => {
                   {/* Select Business Name - Multi Select */}
                   <div className="h-[90px] ">
                     <div className="space-y-2 relative">
-                      <MultiListingSelector
-                        selectedListings={selectedListings}
-                        onListingsChange={setSelectedListings}
-                        label="Select Business Name *"
-                        className="absolute z-50 space-y-3 w-full"
-                      />
+                      <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
                     </div>
                   </div>
-                  {!isVisibleImportCSV ? (
-                    <div className="space-y-2">
+                  {!isVisibleImportCSV ? <div className="space-y-2">
                       {/* Keywords */}
                       <Label htmlFor="keywords">
                         Keywords <span className="text-red-500">*</span>
                       </Label>
-                      <Input
-                        id="keywords"
-                        type="text"
-                        placeholder="Enter keywords separated by commas"
-                        value={keywords}
-                        onChange={handleKeywordChange}
-                        className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""}
-                      />
-                      {keywordError && (
-                        <p className="text-xs text-destructive">
+                      <Input id="keywords" type="text" placeholder="Enter keywords separated by commas" value={keywords} onChange={handleKeywordChange} className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""} />
+                      {keywordError && <p className="text-xs text-destructive">
                           Maximum 5 keywords allowed. You have entered{" "}
-                          {
-                            keywords
-                              .trim()
-                              .split(",")
-                              .map((k) => k.trim())
-                              .filter((k) => k.length > 0).length
-                          }{" "}
+                          {keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0).length}{" "}
                           keywords.
-                        </p>
-                      )}
+                        </p>}
                       <p className="text-xs text-muted-foreground">
                         Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
                       </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-6 ">
-                      {!showCSVSection && !isGeneratingCSV && (
-                        <Button className="w-full" variant="outline" type="button" onClick={handleGenerateCSV}>
+                    </div> : <div className="space-y-6 ">
+                      {!showCSVSection && !isGeneratingCSV && <Button className="w-full" variant="outline" type="button" onClick={handleGenerateCSV}>
                           Generate Sample CSV File{" "}
                           {selectedListings.length > 0 && `for ${selectedListings.length} listings`}
-                        </Button>
-                      )}
+                        </Button>}
 
-                      {isGeneratingCSV && (
-                        <div className="flex flex-col items-center justify-center py-8 space-y-3">
+                      {isGeneratingCSV && <div className="flex flex-col items-center justify-center py-8 space-y-3">
                           <Loader2 className="h-8 w-8 animate-spin text-primary" />
                           <span className="text-sm text-muted-foreground">Generating CSV...</span>
-                        </div>
-                      )}
+                        </div>}
 
-                      {showCSVSection && (
-                        <>
+                      {showCSVSection && <>
                           <a href={generatedCSVFileUrl} download>
                             <Button className="w-full btn-secondary" type="button">
                               Download CSV sample file <Download />
@@ -330,30 +267,18 @@ export const CheckBulkMapRank: React.FC = () => {
                             <Label htmlFor="csv-upload" className="text-sm font-medium">
                               Upload CSV File <span className="text-red-500">*</span>
                             </Label>
-                            <Input
-                              id="csv-upload"
-                              type="file"
-                              accept=".csv"
-                              onChange={handleCSVFileUpload}
-                              className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-                            />
-                            {uploadedCSVFile && (
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground bg-green-50 dark:bg-green-950/20 p-2 rounded-md">
+                            <Input id="csv-upload" type="file" accept=".csv" onChange={handleCSVFileUpload} className="cursor-pointer file:mr-4 file:py-1 h-[45px] file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90" />
+                            {uploadedCSVFile && <div className="flex items-center gap-2 text-sm text-muted-foreground bg-green-50 dark:bg-green-950/20 p-2 rounded-md">
                                 <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-500" />
                                 <span>Selected: {uploadedCSVFile.name}</span>
-                              </div>
-                            )}
-                            {csvUploadError && (
-                              <p className="text-sm text-destructive flex items-center gap-1">
+                              </div>}
+                            {csvUploadError && <p className="text-sm text-destructive flex items-center gap-1">
                                 <XCircle className="h-4 w-4" />
                                 {csvUploadError}
-                              </p>
-                            )}
+                              </p>}
                           </div>
-                        </>
-                      )}
-                    </div>
-                  )}
+                        </>}
+                    </div>}
 
                   {/* Select Language (Optional) */}
                   <div className="space-y-2">
@@ -488,6 +413,5 @@ export const CheckBulkMapRank: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
