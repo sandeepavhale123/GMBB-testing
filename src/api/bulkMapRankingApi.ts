@@ -52,3 +52,24 @@ export const addBulkMapRankingKeywords = async (
   const response = await axiosInstance.post("/add-mapranking-bulk-keyword", data);
   return response.data;
 };
+
+
+// Generate CSV for bulk map rank check  
+export interface GenerateCSVFormBulkMapRankingRequest {
+  listingIds:number[];
+}
+
+export interface GenerateCSVFormBulkMapRankingResponse {
+    code:number ;
+    message:string;
+    data:{
+        fileUrl:string;
+        fileName:string;
+    }
+}
+export const generateCSVForBulkMapRanking = async(
+  data:GenerateCSVFormBulkMapRankingRequest
+):Promise<GenerateCSVFormBulkMapRankingResponse> => {
+   const response = await axiosInstance.post("/download-sample-csv",data);
+   return response.data
+}

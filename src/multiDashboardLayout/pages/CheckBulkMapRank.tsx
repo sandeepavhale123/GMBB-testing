@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MultiListingSelector } from "@/components/Posts/CreatePostModal/MultiListingSelector";
 import { toast } from "sonner";
 import { addBulkMapRankingKeywords } from "@/api/bulkMapRankingApi";
+import { generateCSVForBulkMapRanking } from "@/api/bulkMapRankingApi";
 import { CSVDropzone } from "@/components/ImportCSV/CSVDropzone";
 export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
@@ -24,27 +25,28 @@ export const CheckBulkMapRank: React.FC = () => {
   const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
   const [showCSVSection, setShowCSVSection] = useState(false);
   const [listingSelectionError, setListingSelectionError] = useState<string>("");
+  const[generatedCSVFileUrl,setGeneratedCSVFileUrl] = useState<string>("");
 
   const navigate = useNavigate();
   
-  const handleGenerateCSV = () => {
-    // Validate that at least one listing is selected
-    if (selectedListings.length === 0) {
-      setListingSelectionError("Select at least one listing or group to continue.");
-      return;
-    }
+  // const handleGenerateCSV = () => {
+  //   // Validate that at least one listing is selected
+  //   if (selectedListings.length === 0) {
+  //     setListingSelectionError("Select at least one listing or group to continue.");
+  //     return;
+  //   }
     
-    // Clear any existing error
-    setListingSelectionError("");
+  //   // Clear any existing error
+  //   setListingSelectionError("");
     
-    setIsGeneratingCSV(true);
+  //   setIsGeneratingCSV(true);
     
-    // Show spinner for 5 seconds
-    setTimeout(() => {
-      setIsGeneratingCSV(false);
-      setShowCSVSection(true);
-    }, 5000);
-  };
+  //   // Show spinner for 5 seconds
+  //   setTimeout(() => {
+  //     setIsGeneratingCSV(false);
+  //     setShowCSVSection(true);
+  //   }, 5000);
+  // };
 
   useEffect(() => {
     // Clear error when user selects at least one listing
@@ -148,6 +150,35 @@ export const CheckBulkMapRank: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+
+  // generate CSV file    
+
+  const handleGenerateCSV = async () => 
+  {
+    console.log("Generate CSV function called...")
+    try{
+      const locationId = selectedListings.map(id => parseInt(id, 10));
+      setIsGeneratingCSV(true);
+      const response = await generateCSVForBulkMapRanking({
+        listingIds:locationId,
+      })
+      setGeneratedCSVFileUrl(response.data.fileUrl);
+        setTimeout(() => {
+        setIsGeneratingCSV(false);
+        setShowCSVSection(true);
+      }, 5000);
+    }
+    catch(error)
+    {
+      console.log('error',error);
+      setIsGeneratingCSV(false);
+    }
+    finally
+    {
+        setIsGeneratingCSV(false);
+    }
+  }
   return <div className="flex-1 space-y-6 ">
     <div className="max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold tracking-tight mb-6">Check Bulk Map Rank</h1>
@@ -347,9 +378,11 @@ export const CheckBulkMapRank: React.FC = () => {
 
                   {showCSVSection && (
                     <>
-                      <Button className="w-full btn-secondary">
+                     <a href={generatedCSVFileUrl} download>
+                      <Button className="w-full btn-secondary" >
                         Download CSV sample file  <Download />
                       </Button>
+                      </a>
                       
                       <CSVDropzone 
                         onFileUploaded={setUploadedCSVFile}
