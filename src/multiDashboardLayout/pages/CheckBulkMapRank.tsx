@@ -57,7 +57,7 @@ export const CheckBulkMapRank: React.FC = () => {
       setShowCSVSection(false);
       setUploadedCSVFile(null);
     }
-  }, [selectedListings, listingSelectionError, showCSVSection]);
+  }, [selectedListings]);
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
