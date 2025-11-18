@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,20 @@ export const CheckBulkMapRank: React.FC = () => {
   const [uploadedCSVFile, setUploadedCSVFile] = useState<File | null>(null);
   const [isGeneratingCSV, setIsGeneratingCSV] = useState(false);
   const [showCSVSection, setShowCSVSection] = useState(false);
+  const [listingSelectionError, setListingSelectionError] = useState<string>("");
 
   const navigate = useNavigate();
   
   const handleGenerateCSV = () => {
+    // Validate that at least one listing is selected
+    if (selectedListings.length === 0) {
+      setListingSelectionError("Select at least one listing or group to continue.");
+      return;
+    }
+    
+    // Clear any existing error
+    setListingSelectionError("");
+    
     setIsGeneratingCSV(true);
     
     // Show spinner for 5 seconds
@@ -35,6 +45,19 @@ export const CheckBulkMapRank: React.FC = () => {
       setShowCSVSection(true);
     }, 5000);
   };
+
+  useEffect(() => {
+    // Clear error when user selects at least one listing
+    if (selectedListings.length > 0 && listingSelectionError) {
+      setListingSelectionError("");
+    }
+    
+    // If CSV section is showing and user changes listing selection, reset to initial state
+    if (showCSVSection) {
+      setShowCSVSection(false);
+      setUploadedCSVFile(null);
+    }
+  }, [selectedListings, listingSelectionError, showCSVSection]);
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -301,7 +324,7 @@ export const CheckBulkMapRank: React.FC = () => {
                     {/* Select Business Name - Multi Select */}
                     <div className="h-[90px] ">
                       <div className="space-y-2 relative">
-                        <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
+                        <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" error={listingSelectionError} />
                       </div>
                     </div>
 
