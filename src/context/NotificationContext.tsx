@@ -36,6 +36,7 @@ interface NotificationContextType {
   isLoading: boolean;
   hasMore: boolean;
   fetchNotifications: (pageToLoad: number) => Promise<Notification[]>;
+  hasLoadedOnce: boolean;
 }
 
 // const parseNotificationHTML = (html: string) => {
@@ -339,6 +340,7 @@ export const useNotifications = () => {
       isLoading: false,
       hasMore: false,
       fetchNotifications: async () => [],
+      hasLoadedOnce: false,
     };
     return fallback;
   }
@@ -358,80 +360,21 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const limit = 10;
 
   // Authentication state
   const { accessToken, user } = useAppSelector((state) => state.auth);
   const isAuthenticated = !!accessToken && !!user;
 
+  // Reset on logout
   useEffect(() => {
-    const fetchData = async () => {
-      // Check if we're on a public route
-      const isPublicRoute = shouldSkipProfileAPI();
-
-      // Only fetch if user is authenticated AND not on a public route
-      if (!isAuthenticated || isPublicRoute) {
-        setNotifications([]);
-        return;
-      }
-
-      try {
-        const response = await getNotifications({ page: 1, limit: 10 });
-
-        // Handle different possible response structures
-        let notificationData = null;
-        if (response?.data?.notification) {
-          notificationData = response.data.notification;
-        } else if (response?.data?.notifications) {
-          notificationData = response.data.notifications;
-        } else if (response?.data && Array.isArray(response.data)) {
-          notificationData = response.data;
-        } else if (response?.notification) {
-          notificationData = response.notification;
-        } else if (response?.notifications) {
-          notificationData = response.notifications;
-        } else if (Array.isArray(response)) {
-          notificationData = response;
-        }
-
-        if (!Array.isArray(notificationData)) {
-          // console.warn("⚠️ Notification data is not an array!", notificationData);
-          setNotifications([]);
-          return;
-        }
-
-        const mapped: Notification[] = notificationData.map((n: any) => {
-          const { textContent, images, videos } = parseNotificationHTML(
-            n.description || n.content || ""
-          );
-
-          return {
-            id: n.id ?? n.title ?? Math.random().toString(),
-            title: n.title || "Untitled",
-            category: n.category,
-            date: n.created_at || n.date || new Date().toISOString(),
-            read: n.read ?? false,
-            textContent,
-            images,
-            videos,
-            notificationUrl: n.notificationUrl || n.url,
-          };
-        });
-
-        setNotifications(mapped);
-      } catch (err) {
-        // console.error("❌ Failed to load notifications:", err);
-        if (err && typeof err === "object" && "response" in err) {
-          const axiosError = err as any;
-          if (axiosError.response?.status === 401) {
-            return;
-          }
-        }
-        setNotifications([]);
-      }
-    };
-
-    fetchData();
+    if (!isAuthenticated) {
+      setNotifications([]);
+      setHasLoadedOnce(false);
+      setPage(1);
+      setHasMore(true);
+    }
   }, [isAuthenticated]);
 
   const fetchNotifications = async (pageToLoad: number) => {
@@ -486,6 +429,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
       );
       if (newNotifications.length < limit) setHasMore(false);
+      setHasLoadedOnce(true);
 
       return newNotifications;
     } catch (err) {
@@ -516,15 +460,19 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     setHasMore(true);
   };
 
-  // Fetch notifications when page changes
+  // Fetch notifications when page changes for pagination
   useEffect(() => {
-    fetchNotifications(page);
+    if (page > 1) {
+      fetchNotifications(page);
+    }
   }, [page]);
 
   const openDrawer = () => {
     setIsDrawerOpen(true);
-    // resetNotifications();
-    // setTimeout(() => fetchNotifications(1), 0);
+    // Fetch notifications only on first open
+    if (!hasLoadedOnce) {
+      fetchNotifications(1);
+    }
   };
 
   const closeDrawer = () => {
@@ -543,7 +491,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     );
   };
 
-  const unreadCount = Array.isArray(notifications)
+  const unreadCount = hasLoadedOnce && Array.isArray(notifications)
     ? notifications.filter((n) => !n.read).length
     : 0;
 
@@ -561,7 +509,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     resetNotifications,
     isLoading,
     hasMore,
-    fetchNotifications, // ✅ export it
+    fetchNotifications,
+    hasLoadedOnce,
   };
 
   return (

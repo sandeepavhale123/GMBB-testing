@@ -16,11 +16,13 @@ export const NotificationsMegaMenu: React.FC = () => {
 
   // Check if NotificationProvider is available
   let unreadCount = 0;
+  let openDrawer = () => {};
   let closeDrawer = () => {};
 
   try {
     const notifications = useNotifications();
     unreadCount = notifications.unreadCount;
+    openDrawer = notifications.openDrawer;
     closeDrawer = notifications.closeDrawer;
   } catch (error) {
     // NotificationProvider not available, use defaults
@@ -57,7 +59,10 @@ export const NotificationsMegaMenu: React.FC = () => {
         variant="ghost"
         size="icon"
         className="text-white hover:text-black relative"
-        onClick={() => setIsSheetOpen(true)}
+        onClick={() => {
+          setIsSheetOpen(true);
+          openDrawer();
+        }}
       >
         <Bell className="w-4 h-4" />
         {unreadCount > 0 && (

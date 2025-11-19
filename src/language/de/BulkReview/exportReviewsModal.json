@@ -41,7 +41,7 @@
       },
       "error": {
         "title": "Export fehlgeschlagen",
-        "description": "Beim Export ist ein Fehler aufgetreten"
+        "description": "Beim Export ist ein Fehler aufgetreten."
       }
     }
   }

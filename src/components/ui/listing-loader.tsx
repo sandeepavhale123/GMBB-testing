@@ -4,7 +4,7 @@ import { Loader } from './loader';
 
 interface ListingLoaderProps {
   isLoading: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   loadingText?: string;
 }
 
