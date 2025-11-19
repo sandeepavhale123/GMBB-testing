@@ -26,7 +26,7 @@ export const useAuthRedux = () => {
     user,
     isRefreshing
   );
-  const { logout } = useLogout();
+  const { logout } = useLogout(); 
 
   // Initialize auto token refresh and get the refresh function
   const { refreshIfExpired } = useAutoTokenRefresh();
