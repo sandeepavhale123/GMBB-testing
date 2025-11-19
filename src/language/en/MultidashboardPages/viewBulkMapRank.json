@@ -19,7 +19,8 @@
     "clearSelection": "Clear Selection",
     "deleteSelected": "Delete Selected",
     "listing": "listing",
-    "listings": "listings"
+    "listings": "listings",
+    "selected":"selected"
   },
 
   "table": {
