@@ -1,0 +1,48 @@
+{
+  "header": {
+    "titleFallback": "Nombre de la palabra clave",
+    "subtitle": "Ver detalles de clasificación y métricas de rendimiento"
+  },
+
+  "errors": {
+    "keywordDetails": "Error al cargar los detalles de la palabra clave. Por favor, inténtelo de nuevo.",
+    "tableDetails": "Error al cargar los detalles de clasificación. Por favor, inténtelo de nuevo.",
+    "noData": "No se encontraron datos de clasificación",
+    "deleteFailed": "No se pudieron eliminar los registros"
+  },
+
+  "search": {
+    "placeholder": "Buscar por nombre de negocio, ciudad o código postal..."
+  },
+
+  "bulkActions": {
+    "clearSelection": "Limpiar selección",
+    "deleteSelected": "Eliminar seleccionados",
+    "listing": "registro",
+    "listings": "registros"
+  },
+
+  "table": {
+    "businessName": "Nombre del negocio",
+    "rankPosition": "Posición en el ranking",
+    "city": "Ciudad",
+    "postalCode": "Código postal",
+    "lastChecked": "Última revisión",
+    "status": "Estado",
+    "actions": "Acciones"
+  },
+
+  "deleteDialog": {
+    "title": "Confirmar eliminación",
+    "description": "¿Está seguro de que desea eliminar ",
+    "descriptionSecond": "? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "deleting": "Eliminando..."
+  },
+
+  "toast": {
+    "success": "Éxito",
+    "error": "Error"
+  }
+}

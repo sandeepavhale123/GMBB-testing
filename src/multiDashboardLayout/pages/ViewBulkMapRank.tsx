@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Search, Eye, Trash2, CheckCircle2, Clock } from "lucide-react";
+import { Search, Eye, Trash2, CheckCircle2, Clock , TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -43,8 +43,10 @@ import { DataPagination } from "@/components/common/DataPagination";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { BusinessPositionDetailsModal } from "@/multiDashboardLayout/components/BusinessPositionDetailsModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const ViewBulkMapRank: React.FC = () => {
+  const {t} = useI18nNamespace('MultidashboardPages/viewBulkMapRank')
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -161,7 +163,7 @@ export const ViewBulkMapRank: React.FC = () => {
 
       // Show actual API response message
       toast({
-        title: "Success",
+        title: t("toast.success"),
         description: response.message,
         variant: "default",
       });
@@ -180,9 +182,9 @@ export const ViewBulkMapRank: React.FC = () => {
       setDeleteDialogOpen(false);
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t("toast.error"),
         description:
-          error?.response?.data?.message || "Failed to delete listings",
+          error?.response?.data?.message ||  t("errors.deleteFailed"),
         variant: "destructive",
       });
     } finally {
@@ -202,10 +204,10 @@ export const ViewBulkMapRank: React.FC = () => {
         <div className="flex items-start justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-foreground">
-              {keywordDetailsData?.data?.keywordDetails?.keywordName || "Keyword Name"}
+              {keywordDetailsData?.data?.keywordDetails?.keywordName || t("header.title")}
             </h1>
             <p className="text-muted-foreground mt-1">
-              View ranking details and performance metrics
+             { t("header.subtitle") }
             </p>
           </div>
         </div>
@@ -214,7 +216,7 @@ export const ViewBulkMapRank: React.FC = () => {
         {keywordDetailsError && (
           <Card className="p-4 mb-6 border-destructive">
             <p className="text-destructive text-sm">
-              Failed to load keyword details. Please try again.
+              { t("errors.keywordDetails")}
             </p>
           </Card>
         )}
@@ -243,7 +245,7 @@ export const ViewBulkMapRank: React.FC = () => {
         {tableError && (
           <Card className="p-4 mb-6 border-destructive">
             <p className="text-destructive text-sm">
-              Failed to load ranking details. Please try again.
+              { t("errors.tableDetails") }
             </p>
           </Card>
         )}
@@ -254,7 +256,7 @@ export const ViewBulkMapRank: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               type="text"
-              placeholder="Search by business name, city, or postal code..."
+              placeholder={ t("search.placeholder") }
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -269,7 +271,7 @@ export const ViewBulkMapRank: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium">
                   {selectedIds.length}{" "}
-                  {selectedIds.length === 1 ? "listing" : "listings"} selected
+                  {selectedIds.length === 1 ?  t("bulkActions.listing") : t("bulkActions.listings")} {t("bulkActions.selected")}
                 </span>
                 <Button
                   variant="ghost"
@@ -277,7 +279,7 @@ export const ViewBulkMapRank: React.FC = () => {
                   onClick={handleClearSelection}
                   className="h-8"
                 >
-                  Clear Selection
+                   { t("bulkActions.clearSelection") }
                 </Button>
               </div>
               <Button
@@ -287,7 +289,7 @@ export const ViewBulkMapRank: React.FC = () => {
                 className="h-8"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete Selected
+                 { t("bulkActions.deleteSelected") }
               </Button>
             </div>
           </div>
@@ -308,13 +310,13 @@ export const ViewBulkMapRank: React.FC = () => {
                     aria-label="Select all"
                   />
                 </TableHead>
-                <TableHead>Business Name</TableHead>
-                <TableHead>Rank Position</TableHead>
-                <TableHead>City</TableHead>
-                <TableHead>Postal Code</TableHead>
-                <TableHead>Last Checked</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{ t("table.businessName") }</TableHead>
+                <TableHead>{ t("table.rankPosition") }</TableHead>
+                <TableHead>{ t("table.city") }</TableHead>
+                <TableHead>{ t("table.postalCode") }</TableHead>
+                <TableHead>{ t("table.lastChecked") }</TableHead>
+                <TableHead>{ t("table.status") }</TableHead>
+                <TableHead className="text-right">{ t("table.actions") }</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -352,7 +354,7 @@ export const ViewBulkMapRank: React.FC = () => {
                 <TableRow>
                   <TableCell colSpan={8} className="text-center py-8">
                     <p className="text-muted-foreground">
-                      No ranking data found
+                      { t("errors.noData") }
                     </p>
                   </TableCell>
                 </TableRow>
@@ -407,7 +409,7 @@ export const ViewBulkMapRank: React.FC = () => {
                           size="sm"
                           onClick={() => handleViewDetails(item.id)}
                         >
-                          <Eye className="h-4 w-4" />
+                          <TrendingUp className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
@@ -447,21 +449,21 @@ export const ViewBulkMapRank: React.FC = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+            <AlertDialogTitle>{ t("deleteDialog.title") }</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {itemsToDelete.ids.length}{" "}
-              {itemsToDelete.ids.length === 1 ? "listing" : "listings"}? This
-              action cannot be undone.
+              { t("deleteDialog.description") }{itemsToDelete.ids.length}{" "}
+              {itemsToDelete.ids.length === 1 ? t("bulkActions.listing") : t("bulkActions.listings")}? 
+              { t("deleteDialog.descriptionSecond") }
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>{ t("deleteDialog.cancel") }</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ?  t("deleteDialog.deleting")  : t("deleteDialog.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

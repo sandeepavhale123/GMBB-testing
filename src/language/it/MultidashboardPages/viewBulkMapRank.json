@@ -1,0 +1,48 @@
+{
+  "header": {
+    "titleFallback": "Nome della Parola Chiave",
+    "subtitle": "Visualizza i dettagli del posizionamento e le metriche di performance"
+  },
+
+  "errors": {
+    "keywordDetails": "Impossibile caricare i dettagli della parola chiave. Per favore riprova.",
+    "tableDetails": "Impossibile caricare i dettagli del posizionamento. Per favore riprova.",
+    "noData": "Nessun dato di posizionamento trovato",
+    "deleteFailed": "Impossibile eliminare le inserzioni"
+  },
+
+  "search": {
+    "placeholder": "Cerca per nome azienda, città o codice postale..."
+  },
+
+  "bulkActions": {
+    "clearSelection": "Cancella Selezione",
+    "deleteSelected": "Elimina Selezionati",
+    "listing": "inserzione",
+    "listings": "inserzioni"
+  },
+
+  "table": {
+    "businessName": "Nome Azienda",
+    "rankPosition": "Posizione in Classifica",
+    "city": "Città",
+    "postalCode": "Codice Postale",
+    "lastChecked": "Ultimo Controllo",
+    "status": "Stato",
+    "actions": "Azioni"
+  },
+
+  "deleteDialog": {
+    "title": "Conferma Eliminazione",
+    "description": "Sei sicuro di voler eliminare ",
+    "descriptionSecond": "? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "deleting": "Eliminazione..."
+  },
+
+  "toast": {
+    "success": "Successo",
+    "error": "Errore"
+  }
+}
