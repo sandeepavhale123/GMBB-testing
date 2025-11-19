@@ -512,7 +512,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const deleteMutation = useDeleteGalleryMediaMutation();
   const saveAIMutation = useSaveAIImageMutation();
   const validateFile = (file: File): boolean => {
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxSize = 20 * 1024 * 1024; // 20MB
     const allowedTypes = [
       "image/jpeg",
       "image/jpg",
