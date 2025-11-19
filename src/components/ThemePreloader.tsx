@@ -6,6 +6,9 @@ import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 import { AppDispatch } from "@/store/store";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
+// Session-level cache to prevent duplicate API calls
+let themeLoadedInSession = false;
+
 interface ThemePreloaderProps {
   children: React.ReactNode;
   loadFromAPI?: boolean;
@@ -25,8 +28,11 @@ export const ThemePreloader = ({
         // Apply stored theme from localStorage first
         applyStoredTheme();
 
-        // If loadFromAPI is true, call the get-theme API
-        if (loadFromAPI) {
+        // If loadFromAPI is true and we haven't loaded in this session yet
+        if (loadFromAPI && !themeLoadedInSession) {
+          // Set flag immediately to prevent duplicate calls
+          themeLoadedInSession = true;
+          
           const themeResponse = await getThemeUnauthenticated();
 
           if (themeResponse.code === 200) {
