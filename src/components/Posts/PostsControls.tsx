@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Grid2x2, List, Search, Filter, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -43,6 +43,20 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
   onViewModeChange,
 }) => {
   const { t } = useI18nNamespace("Post/postsControls");
+
+  /* ------------------------------------
+     Memoize translated filter labels
+  ------------------------------------- */
+  const filterOptions = useMemo(
+    () => [
+      { value: "all", label: t("postsControls.filter.all") },
+      { value: "scheduled", label: t("postsControls.filter.scheduled") },
+      { value: "live", label: t("postsControls.filter.live") },
+      { value: "failed", label: t("postsControls.filter.failed") },
+    ],
+    [t]
+  );
+
   return (
     <div className="bg-white rounded-lg border p-4 flex flex-wrap">
       <div className="flex flex-col flex-wrap sm:flex-row items-stretch sm:items-center justify-between gap-4 w-[-webkit-fill-available]">
@@ -65,7 +79,7 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">
+              {/* <SelectItem value="all">
                 {t("postsControls.filter.all")}
               </SelectItem>
               <SelectItem value="scheduled">
@@ -76,7 +90,12 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
               </SelectItem>
               <SelectItem value="failed">
                 {t("postsControls.filter.failed")}
-              </SelectItem>
+              </SelectItem> */}
+              {filterOptions.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 

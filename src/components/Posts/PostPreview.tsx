@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useListingContext } from "../../context/ListingContext";
@@ -19,32 +19,47 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
   const { selectedListing } = useListingContext();
   const { t } = useI18nNamespace("Post/postPreview");
   // CTA button options mapping
-  const ctaOptions = [
-    {
-      value: "LEARN_MORE",
-      label: t("cta.LEARN_MORE"),
-    },
-    {
-      value: "BOOK",
-      label: t("cta.BOOK"),
-    },
-    {
-      value: "CALL",
-      label: t("cta.CALL"),
-    },
-    {
-      value: "ORDER",
-      label: t("cta.ORDER"),
-    },
-    {
-      value: "SHOP",
-      label: t("cta.SHOP"),
-    },
-    {
-      value: "SIGN_UP",
-      label: t("cta.SIGN_UP"),
-    },
-  ];
+  // const ctaOptions = [
+  //   {
+  //     value: "LEARN_MORE",
+  //     label: t("cta.LEARN_MORE"),
+  //   },
+  //   {
+  //     value: "BOOK",
+  //     label: t("cta.BOOK"),
+  //   },
+  //   {
+  //     value: "CALL",
+  //     label: t("cta.CALL"),
+  //   },
+  //   {
+  //     value: "ORDER",
+  //     label: t("cta.ORDER"),
+  //   },
+  //   {
+  //     value: "SHOP",
+  //     label: t("cta.SHOP"),
+  //   },
+  //   {
+  //     value: "SIGN_UP",
+  //     label: t("cta.SIGN_UP"),
+  //   },
+  // ];
+
+  /* -------------------------------
+       MEMOIZED CTA OPTIONS
+    --------------------------------*/
+  const ctaOptions = useMemo(
+    () => [
+      { value: "LEARN_MORE", label: t("cta.LEARN_MORE") },
+      { value: "BOOK", label: t("cta.BOOK") },
+      { value: "CALL", label: t("cta.CALL") },
+      { value: "ORDER", label: t("cta.ORDER") },
+      { value: "SHOP", label: t("cta.SHOP") },
+      { value: "SIGN_UP", label: t("cta.SIGN_UP") },
+    ],
+    [t]
+  );
 
   // Add debug logging
   // React.useEffect(() => {

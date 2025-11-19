@@ -41,7 +41,7 @@ interface PostCardProps {
   onSelect?: (postId: string, isSelected: boolean) => void;
   onClonePost?: (post: Post) => void;
 }
-export const PostCard: React.FC<PostCardProps> = ({
+const PostCardComponent: React.FC<PostCardProps> = ({
   post,
   isSelectionMode = false,
   isSelected = false,
@@ -468,3 +468,5 @@ export const PostCard: React.FC<PostCardProps> = ({
     </>
   );
 };
+
+export const PostCard = React.memo(PostCardComponent);
