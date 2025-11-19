@@ -34,12 +34,7 @@ export const NotificationDrawer: React.FC = () => {
   // Authentication state
   const { accessToken, user } = useAppSelector((state) => state.auth);
   const isAuthenticated = !!accessToken && !!user;
-  useEffect(() => {
-    if (isDrawerOpen) {
-      resetNotifications(); // clear only on new open
-      fetchNotifications(1); // load fresh
-    }
-  }, [isDrawerOpen, fetchNotifications, resetNotifications]);
+  
   // CLOSE drawer → hide search & clear query
   useEffect(() => {
     if (!isDrawerOpen) {

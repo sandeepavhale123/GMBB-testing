@@ -460,12 +460,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     setHasMore(true);
   };
 
-  // Fetch notifications when page changes (only if drawer is open or page > 1)
+  // Fetch notifications when page changes for pagination
   useEffect(() => {
-    if (isDrawerOpen || page > 1) {
+    if (page > 1) {
       fetchNotifications(page);
     }
-  }, [page, isDrawerOpen]);
+  }, [page]);
 
   const openDrawer = () => {
     setIsDrawerOpen(true);
