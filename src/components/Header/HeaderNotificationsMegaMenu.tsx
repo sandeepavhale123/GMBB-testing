@@ -7,7 +7,7 @@ import { NotificationDrawer } from "@/components/Notifications/NotificationDrawe
 
 export const HeaderNotificationsMegaMenu: React.FC = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { unreadCount, closeDrawer } = useNotifications();
+  const { unreadCount, openDrawer, closeDrawer } = useNotifications();
 
   return (
     <div className="relative">
@@ -15,7 +15,10 @@ export const HeaderNotificationsMegaMenu: React.FC = () => {
         variant="ghost"
         size="sm"
         className="hover:bg-gray-100 p-2 shrink-0 relative"
-        onClick={() => setIsSheetOpen(true)}
+        onClick={() => {
+          setIsSheetOpen(true);
+          openDrawer();
+        }}
       >
         <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
         {unreadCount > 0 && (
