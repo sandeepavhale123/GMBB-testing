@@ -36,7 +36,7 @@ export const SingleListingExportReviewsModal: React.FC<
   const { t } = useI18nNamespace("Reviews/SingleListingExportReviewsModal");
 
   const EXPORT_TYPE_OPTIONS = [
-    { id: 1, label: t("exportReviewsModal.export1"), value: 1 },
+    { id: 1, label: t("exportReviewsModal.export1"), value: 4 },
     { id: 2, label: t("exportReviewsModal.export2"), value: 2 },
     { id: 3, label: t("exportReviewsModal.export3"), value: 3 },
   ];
@@ -75,7 +75,7 @@ export const SingleListingExportReviewsModal: React.FC<
     STAR_RATINGS.map((star) => star.value)
   );
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  const [exportType, setExportType] = useState<number>(1);
+  const [exportType, setExportType] = useState<number>(4);
   const [isExporting, setIsExporting] = useState(false);
 
   const handleStarToggle = (starValue: string) => {
@@ -115,7 +115,7 @@ export const SingleListingExportReviewsModal: React.FC<
     }
 
     if (
-      (exportType === 2 || exportType === 3) &&
+      (exportType === 2) &&
       (!dateRange?.from || !dateRange?.to)
     ) {
       toast({
@@ -135,7 +135,7 @@ export const SingleListingExportReviewsModal: React.FC<
       };
 
       // Only add customDate if export type requires it (2 or 3)
-      if (exportType === 2 || exportType === 3) {
+      if (exportType === 2) {
         params.customDate = {
           fromDate: formatDateForBackend(dateRange!.from),
           toDate: formatDateForBackend(dateRange!.to),
@@ -179,7 +179,7 @@ export const SingleListingExportReviewsModal: React.FC<
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] h-auto overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Download className="w-5 h-5" />
@@ -256,7 +256,7 @@ export const SingleListingExportReviewsModal: React.FC<
           </div>
 
           {/* Date Range Selection - Only show for export types 2 and 3 */}
-          {(exportType === 2 || exportType === 3) && (
+          {(exportType === 2) && (
             <div className="space-y-3">
               <Label className="text-base font-medium">
                 {t("exportReviewsModal.selectDateRange")}
@@ -285,7 +285,7 @@ export const SingleListingExportReviewsModal: React.FC<
               isExporting ||
               selectedStars.length === 0 ||
               !selectedListing?.id ||
-              ((exportType === 2 || exportType === 3) &&
+              ((exportType === 2) &&
                 (!dateRange?.from || !dateRange?.to))
             }
             className="min-w-[120px]"
