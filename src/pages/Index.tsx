@@ -126,7 +126,7 @@ const Index = () => {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 flex w-full">
-        {/* Mobile Navigation Sheet */}
+        {/* Mobile Navigation Sheet. */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
           <SheetContent side="left" className="p-0 w-64">
             <Sidebar
