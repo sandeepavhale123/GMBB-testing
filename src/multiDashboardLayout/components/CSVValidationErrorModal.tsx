@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CSVValidationError } from "@/api/bulkMapRankingApi";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface CSVValidationErrorModalProps {
   isOpen: boolean;
@@ -27,6 +28,8 @@ export const CSVValidationErrorModal: React.FC<CSVValidationErrorModalProps> = (
   errors,
   onReupload,
 }) => {
+
+  const { t } = useI18nNamespace("MultidashboardComponent/CSVValidationErrorModal")
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh]">
@@ -36,9 +39,12 @@ export const CSVValidationErrorModal: React.FC<CSVValidationErrorModalProps> = (
               <AlertCircle className="h-6 w-6 text-red-600" />
             </div>
             <div>
-              <DialogTitle className="text-xl">CSV Validation Errors</DialogTitle>
+              <DialogTitle className="text-xl"> {t("csvValidation.title")}</DialogTitle>
               <DialogDescription className="text-sm mt-1">
-                Found {errorCount} error{errorCount > 1 ? "s" : ""} in your CSV file. Please fix the issues and re-upload.
+                {t("csvValidation.description", {
+                  count: errorCount,
+                  plural: errorCount > 1 ? "s" : ""
+                })}
               </DialogDescription>
             </div>
           </div>
@@ -55,7 +61,7 @@ export const CSVValidationErrorModal: React.FC<CSVValidationErrorModalProps> = (
                   <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <p className="font-semibold text-sm text-red-900 mb-2">
-                      Row {error.row}
+                      {t("csvValidation.row")} {error.row}
                     </p>
                     <ul className="space-y-1">
                       {error.errors.map((errorMsg, errIdx) => (
@@ -76,11 +82,11 @@ export const CSVValidationErrorModal: React.FC<CSVValidationErrorModalProps> = (
 
         <DialogFooter className="gap-2 sm:gap-0">
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t("csvValidation.cancel")}
           </Button>
           <Button onClick={onReupload} className="gap-2">
             <Upload className="h-4 w-4" />
-            Re-upload CSV
+            {t("csvValidation.reupload")}
           </Button>
         </DialogFooter>
       </DialogContent>
