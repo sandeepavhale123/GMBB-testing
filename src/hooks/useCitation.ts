@@ -7,6 +7,7 @@ import {
   CreateCitationReportPayload,
   GetCitationReportPayload,
   RefreshCitationReportPayload,
+  getPossibleCitationList,
 } from "@/api/citationApi";
 import { toast } from "@/hooks/use-toast";
 import { useEffect } from "react";
@@ -78,6 +79,18 @@ export const useGetCitationReport = (
   }, [query.isError]);
 
   return query;
+};
+
+export const usePossibleCitationList = (
+  listingId?: number | string,
+  enabled = false
+) => {
+  return useQuery({
+    queryKey: ["possible-citation-list", listingId],
+    queryFn: () => getPossibleCitationList(Number(listingId)),
+    enabled: enabled && !!listingId,
+    staleTime: 1000 * 60 * 10, // cache 10 minutes
+  });
 };
 
 export const useRefreshCitationReport = () => {

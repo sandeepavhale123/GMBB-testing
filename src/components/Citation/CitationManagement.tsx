@@ -12,6 +12,8 @@ import {
 } from "../ui/table";
 import { CitationTrackerCard } from "./CitationTrackerCard";
 import { LocalPagesCard } from "./LocalPagesCard";
+import { usePossibleCitationList } from "@/hooks/useCitation";
+import { useListingContext } from "@/context/ListingContext";
 
 type Props = {
   citationData: any;
@@ -32,6 +34,9 @@ export const CitationManagement: React.FC<Props> = ({
   t,
   isPending,
 }) => {
+  // ✅ MUST COME FIRST → otherwise selectedListing is undefined
+  const { selectedListing } = useListingContext();
+
   const existingCitationData = useMemo(
     () => citationData?.existingCitations || [],
     [citationData]
@@ -41,6 +46,15 @@ export const CitationManagement: React.FC<Props> = ({
     [citationData]
   );
   const totalChecked = trackerData?.totalChecked || 0;
+
+  // Possible Citation List (disabled by default)
+  const {
+    data: possibleCitationList,
+    refetch: refetchPossibleCitations,
+    isFetching: loadingPossible,
+  } = usePossibleCitationList(selectedListing?.id, false);
+
+  const possibleRows = possibleCitationList?.data?.possibleCitations || [];
 
   const openWebsite = useCallback((website?: string) => {
     if (!website) return;
@@ -118,8 +132,11 @@ export const CitationManagement: React.FC<Props> = ({
                 {citationData?.existingCitation})
               </button>
               <button
-                onClick={() => setCitationTab("possible")}
-                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors whitespace-nowrap ${
+                onClick={() => {
+                  setCitationTab("possible");
+                  if (selectedListing.id) refetchPossibleCitations(); // ✅ FIXED: API is now called
+                }}
+                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
                   citationTab === "possible"
                     ? "bg-primary text-primary-foreground"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -204,49 +221,64 @@ export const CitationManagement: React.FC<Props> = ({
 
             {citationTab === "possible" && (
               <div className="w-full overflow-x-auto rounded-md border">
-                <Table className="min-w-max table-auto">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-xs sm:text-sm">
-                        {t("citationPage.auditCard.table.siteName")}
-                      </TableHead>
-                      <TableHead className="text-xs sm:text-sm text-right">
-                        {t("citationPage.auditCard.table.action")}
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {possibleCitationData.map((row: any, index: number) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center gap-2 sm:gap-4">
-                            <img
-                              src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`}
-                              alt="favicon"
-                              className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
-                              onError={(e) =>
-                                (e.currentTarget.src = "/default-icon.png")
-                              }
-                            />
-                            <span className="text-xs sm:text-sm break-words">
-                              {row.site}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-xs w-full sm:w-auto whitespace-nowrap"
-                            onClick={() => openWebsite(row.website)}
-                          >
-                            {t("citationPage.auditCard.table.fixNow")}
-                          </Button>
-                        </TableCell>
+                {/* Loader */}
+                {loadingPossible && (
+                  <div className="flex justify-center items-center py-10">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  </div>
+                )}
+
+                {/* No Data */}
+                {!loadingPossible && possibleRows.length === 0 && (
+                  <div className="text-center py-6 text-muted-foreground text-sm">
+                    {t("citationPage.noPossibleCitations")}
+                  </div>
+                )}
+
+                {/* Table */}
+                {!loadingPossible && possibleRows.length > 0 && (
+                  <Table className="min-w-max table-auto">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-xs sm:text-sm">
+                          {t("citationPage.auditCard.table.siteName")}
+                        </TableHead>
+                        <TableHead className="text-xs sm:text-sm text-right">
+                          {t("citationPage.auditCard.table.action")}
+                        </TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+
+                    <TableBody>
+                      {possibleRows.map((row: any, index: number) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`}
+                                className="w-4 h-4"
+                                onError={(e) =>
+                                  (e.currentTarget.src = "/default-icon.png")
+                                }
+                              />
+                              {row.site}
+                            </div>
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => openWebsite(row.website)}
+                            >
+                              {t("citationPage.auditCard.table.fixNow")}
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
               </div>
             )}
           </div>

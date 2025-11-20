@@ -19,6 +19,7 @@ import { useListingContext } from "@/context/ListingContext";
 import {
   useCreateCitationReport,
   useGetCitationReport,
+  usePossibleCitationList,
   useRefreshCitationReport,
 } from "@/hooks/useCitation";
 
@@ -220,6 +221,13 @@ export const CitationPage: React.FC = () => {
       setReportUrl("");
     }
   }, []);
+
+  // Get possible citations - Disabled by default
+  const {
+    data: possibleCitationResponse,
+    refetch: refetchPossibleCitations,
+    isFetching: loadingPossible,
+  } = usePossibleCitationList(selectedListing?.id, false);
 
   // Memoize derived arrays to avoid re-renders when parent updates unrelated state
   const existingCitationData = useMemo(

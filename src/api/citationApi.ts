@@ -15,6 +15,13 @@ export const createCitationReport = async (
   return response.data;
 };
 
+export const getPossibleCitationList = async (listingId: number) => {
+  const response = await axiosInstance.post("/get-possible-citation-list", {
+    listingId,
+  });
+  return response.data;
+};
+
 export interface GetCitationReportPayload {
   listingId: string | number;
 }
