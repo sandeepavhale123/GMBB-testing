@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ReviewSummary } from "./ReviewSummary";
 import { ReviewsList } from "./ReviewsList";
-import { AutoResponseTab } from "./AutoResponse/AutoResponseTab";
+// import { AutoResponseTab } from "./AutoResponse/AutoResponseTab";
+const AutoResponseTab = lazy(() =>
+  import("./AutoResponse/AutoResponseTab").then((module) => ({
+    default: module.AutoResponseTab, // pick named export
+  }))
+);
 import { ReviewsSubHeader } from "./ReviewsSubHeader";
 import { useToast } from "../../hooks/use-toast";
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
@@ -73,7 +78,9 @@ export const ReviewsManagementPage: React.FC = () => {
       case "auto-response":
         return (
           <div className="space-y-6">
-            <AutoResponseTab />
+            <Suspense fallback={<div>Loading...</div>}>
+              <AutoResponseTab />
+            </Suspense>
           </div>
         );
       default:
