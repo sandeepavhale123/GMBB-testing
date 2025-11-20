@@ -35,8 +35,8 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   selectedListings,
   onListingsChange,
   error,
-  label = "Select Listings & Groups",
-  placeholder = "Select listings and groups...",
+  label = "Select Listings",
+  placeholder = "Select listings...",
   className,
 }) => {
   const { t } = useI18nNamespace("Post/multiListingSelector");

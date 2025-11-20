@@ -1,7 +1,7 @@
 {
   "multiListingSelector": {
-    "label": "Select Listings & Groups",
-    "placeholder": "Select listings and groups...",
+    "label": "Select Listings",
+    "placeholder": "Select listings...",
     "loading": "Loading...",
     "noResults": "No listings found.",
     "searchPlaceholder": "Search listings and groups...",

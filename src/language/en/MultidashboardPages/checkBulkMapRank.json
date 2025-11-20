@@ -1,0 +1,76 @@
+{
+  "page": {
+    "title": "Check Bulk Map Rank"
+  },
+
+  "buttons": {
+    "importCsv": "Import CSV",
+    "manuallyCheck": "Manually Check",
+    "generateSampleCsv": "Generate Sample CSV File",
+    "downloadCsvSample": "Download CSV sample file",
+    "uploadCheckRank": "Upload & Check Rank",
+    "checkRankNow": "Check Rank Now",
+    "processing": "Processing...",
+    "uploadingCsv": "Uploading CSV..."
+  },
+
+  "form": {
+    "businessNameLabel": "Select Business Name *",
+    "keywordsLabel": "Keywords *",
+    "keywordsPlaceholder": "Enter keywords separated by commas",
+    "keywordsExample": "Example: pizza restaurant, best coffee shop (Maximum 5 keywords)",
+    "keywordsLimitMessage": "Maximum 5 keywords allowed. You have entered ",
+    "languageSelect": "Select Language (Optional)",
+    "languageSelectPlaceholder": "Select Language",
+    "searchByLabel": "Search By *",
+    "searchByPlaceholder": "Select search method *",
+    "scheduleFrequencyLabel": "Schedule Frequency *",
+    "scheduleFrequencyPlaceholder":"Select frequency"
+  },
+
+  "searchByOptions": {
+    "city": "City",
+    "postalCode": "Postal Code",
+    "latLong": "Latitude-Longitude"
+  },
+
+  "scheduleFrequencyOptions": {
+    "onetime": "Onetime",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
+
+  "csv": {
+    "uploadLabel": "Upload CSV File *",
+    "selectedFile": "Selected:",
+    "generatingCsv": "Generating CSV...",
+    "invalidCsv": "Please upload a CSV file only",
+    "uploadError": "CSV upload error",
+    "noFileUploaded": "Please upload a CSV file."
+  },
+
+  "toast": {
+    "error": "Error",
+    "success": "Success",
+
+    "csvInvalid": "Please upload a CSV file only",
+    "csvUploaded": "\"{{fileName}}\" uploaded successfully",
+    "csvUploadFailed": "Failed to upload CSV. Please try again.",
+    "csvProcessed": "CSV uploaded and processed successfully.",
+
+    "keywordMissing": "Please enter at least one keyword.",
+    "keywordLimitExceeded": "Maximum 5 keywords allowed. Please reduce the number of keywords.",
+
+    "listingMissing": "Please select at least one business location.",
+    "searchMethodMissing": "Please select a search method.",
+    "scheduleMissing": "Please select a schedule frequency.",
+
+    "keywordsAdded": "Keywords added successfully and queued for processing.",
+    "keywordsAddFailed": "Failed to add keywords. Please try again."
+  },
+
+  "validationModal": {
+    "title": "CSV Validation Errors",
+    "reupload": "Re-upload CSV"
+  }
+}
