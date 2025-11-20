@@ -131,7 +131,7 @@ const Index = () => {
           <SheetContent side="left" className="p-0 w-64">
             <Sidebar
               activeTab={activeTab}
-              onTabChange={() => {}} // Navigation is handled by the sidebar itself now
+              onTabChange={() => {}} // Navigation is handled by the sidebar itself now.
               collapsed={false}
               onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               onNavigate={() => setMobileMenuOpen(false)}
