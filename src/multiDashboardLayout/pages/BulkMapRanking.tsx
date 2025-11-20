@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkMapRankingStats } from "@/api/bulkMapRankingApi";
 import { useBulkMapRankingKeywords, deleteMapRankingKeyword } from "@/api/bulkMapRankingKeywordsApi";
-import { formatDateTime, mapStatus, formatSchedule } from "@/utils/bulkMapRankingUtils";
+import { formatDate, mapStatus, formatSchedule } from "@/utils/bulkMapRankingUtils";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataPagination } from "@/components/common/DataPagination";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -236,10 +236,10 @@ export const BulkMapRanking: React.FC = () => {
                               <Badge variant="outline">{formatSchedule(item.schedule)}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
-                              {formatDateTime(item.last_check)}
+                              {formatDate(item.last_check)}
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
-                              {formatDateTime(item.next_check)}
+                              {formatDate(item.next_check)}
                             </TableCell>
                             <TableCell className="text-center">
                               <Badge

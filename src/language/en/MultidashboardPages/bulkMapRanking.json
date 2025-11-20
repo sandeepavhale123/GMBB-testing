@@ -48,8 +48,8 @@
     },
     "status":
     {
-        "completed":"Completed",
-        "running":"Running"
+        "completed":"completed",
+        "running":"running"
     }
 
 }
