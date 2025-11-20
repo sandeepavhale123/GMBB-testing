@@ -391,15 +391,20 @@ export const ViewBulkMapRank: React.FC = () => {
                         className={
                           mapKeywordStatus(item.kStatus) === "completed"
                             ? "bg-green-500 hover:bg-green-600 text-white border-transparent"
-                            : "bg-blue-500 hover:bg-blue-600 text-white border-transparent"
+                            : "bg-blue-500 hover:bg-blue-600 text-white border-transparent" 
                         }
                       >
                         {mapKeywordStatus(item.kStatus) === "completed" ? (
-                          <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                          <div>
+                            <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                            {t("keywordStatus.completed")}
+                          </div>
                         ) : (
-                          <Clock className="h-3 w-3 mr-1 inline" />
+                         <div>
+                           <Clock className="h-3 w-3 mr-1 inline" />
+                           {t("keywordStatus.running")}
+                         </div>
                         )}
-                        {mapKeywordStatus(item.kStatus)}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">

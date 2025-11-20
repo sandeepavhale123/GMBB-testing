@@ -44,5 +44,9 @@
   "toast": {
     "success": "Éxito",
     "error": "Error"
+  },
+  "keywordStatus": {
+    "completed": "completado",
+    "running": "en ejecución"
   }
 }

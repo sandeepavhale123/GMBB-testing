@@ -38,7 +38,7 @@ export const mapKeywordStatus = (kStatus: string): "completed" | "running" => {
 
 // Format rank for display (handles "20+" format)
 export const formatRank = (rank: string): string => {
-  return rank === "20+" ? "20+" : `#${rank}`;
+  return rank === "20+" ? "20+" : `-`;
 };
 
 // Get status badge variant
