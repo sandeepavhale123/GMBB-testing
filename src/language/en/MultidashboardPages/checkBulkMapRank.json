@@ -54,7 +54,7 @@
     "success": "Success",
 
     "csvInvalid": "Please upload a CSV file only",
-    "csvUploaded": "\"{{fileName}}\" uploaded successfully",
+    "csvUploaded": "uploaded successfully",
     "csvUploadFailed": "Failed to upload CSV. Please try again.",
     "csvProcessed": "CSV uploaded and processed successfully.",
 

@@ -13,7 +13,10 @@ import { useToast } from "@/hooks/use-toast";
 import { addBulkMapRankingKeywords, uploadMapRankingCSV, CSVValidationError } from "@/api/bulkMapRankingApi";
 import { generateCSVForBulkMapRanking } from "@/api/bulkMapRankingApi";
 import { CSVValidationErrorModal } from "@/multiDashboardLayout/components/CSVValidationErrorModal";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export const CheckBulkMapRank: React.FC = () => {
+
+  const { t } = useI18nNamespace('MultidashboardPages/checkBulkMapRank')
 
   const { toast } = useToast();
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
@@ -87,11 +90,11 @@ export const CheckBulkMapRank: React.FC = () => {
     const fileExtension = file.name.toLowerCase().split(".").pop();
     const isCSV = file.type === "text/csv" || file.type === "application/vnd.ms-excel" || fileExtension === "csv";
     if (!isCSV) {
-      setCsvUploadError("Please upload a CSV file only");
+      setCsvUploadError(t("csv.invalidCsv"));
       setUploadedCSVFile(null);
       toast({
-        title: "Error",
-        description: "Please upload a CSV file only",
+        title: t("toast.error"),
+        description: t("csv.invalidCsv"),
         variant: "destructive",
       });
       e.target.value = ""; // Reset file input
@@ -102,8 +105,8 @@ export const CheckBulkMapRank: React.FC = () => {
     setCsvUploadError("");
     setUploadedCSVFile(file);
     toast({
-      title: "Success",
-      description: `"${file.name}" uploaded successfully`,
+      title:t("toast.success"),
+      description: `"${file.name}" ${t("toast.csvUploaded ")}`,
       variant: "success",
     });
   };
@@ -113,8 +116,8 @@ export const CheckBulkMapRank: React.FC = () => {
     // Validation
     if (selectedListings.length === 0) {
       toast({
-        title: "Error",
-        description: "Please select at least one business location.",
+        title: t("toast.error"),
+        description: t("toast.listingMissing"),
         variant: "destructive",
       });
       return;
@@ -125,8 +128,8 @@ export const CheckBulkMapRank: React.FC = () => {
       // CSV Mode: Validate CSV file is uploaded
       if (!uploadedCSVFile) {
         toast({
-          title: "Error",
-          description: "Please upload a CSV file.",
+          title: t("toast.error"),
+          description: t("csv.noFileUploaded"),
           variant: "destructive",
         });
         return;
@@ -135,8 +138,8 @@ export const CheckBulkMapRank: React.FC = () => {
       // Manual Mode: Validate keywords
       if (!keywords.trim()) {
         toast({
-          title: "Error",
-          description: "Please enter at least one keyword.",
+          title: t("toast.error"),
+          description: t("toast.keywordMissing"),
           variant: "destructive",
         });
         return;
@@ -146,8 +149,8 @@ export const CheckBulkMapRank: React.FC = () => {
       const keywordArray = keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0);
       if (keywordArray.length > 5) {
         toast({
-          title: "Error",
-          description: "Maximum 5 keywords allowed. Please reduce the number of keywords.",
+          title: t("toast.error"),
+          description:  t("toast.keywordLimitExceeded"),
           variant: "destructive",
         });
         return;
@@ -155,16 +158,16 @@ export const CheckBulkMapRank: React.FC = () => {
     }
     if (!searchBy) {
       toast({
-        title: "Error",
-        description: "Please select a search method.",
+        title: t("toast.error"),
+        description: t("toast.searchMethodMissing"),
         variant: "destructive",
       });
       return;
     }
     if (!scheduleFrequency) {
       toast({
-        title: "Error",
-        description: "Please select a schedule frequency.",
+        title: t("toast.error"),
+        description: t("toast.scheduleMissing"),
         variant: "destructive",
       });
       return;
@@ -183,8 +186,8 @@ export const CheckBulkMapRank: React.FC = () => {
         if (response.code === 200) {
           // Success
           toast({
-            title: "Success",
-            description: response.message || "CSV uploaded and processed successfully.",
+            title:t("toast.success"),
+            description: response.message || t("toast.csvProcessed"),
             variant: "success",
           });
           // Reset form
@@ -204,8 +207,8 @@ export const CheckBulkMapRank: React.FC = () => {
           setIsErrorModalOpen(true);
         } else {
           toast({
-            title: "Error",
-            description: "Failed to upload CSV. Please try again.",
+            title: t("toast.error"),
+            description: t("toast.csvUploadFailed"),
             variant: "destructive",
           });
         }
@@ -223,8 +226,8 @@ export const CheckBulkMapRank: React.FC = () => {
         const response = await addBulkMapRankingKeywords(requestData);
         if (response.code === 201) {
           toast({
-            title: "Success",
-            description: response.message || "Keywords added successfully and queued for processing.",
+            title:t("toast.success"),
+            description: response.message || t("toast.keywordsAdded"),
             variant: "success",
           });
           // Reset form
@@ -238,8 +241,8 @@ export const CheckBulkMapRank: React.FC = () => {
           }, 1500);
         } else {
           toast({
-            title: "Error",
-            description: "Failed to add keywords. Please try again.",
+            title: t("toast.error"),
+            description: t("toast.keywordsAddFailed"),
             variant: "destructive",
           });
         }
@@ -290,7 +293,7 @@ export const CheckBulkMapRank: React.FC = () => {
   };
   return <div className="flex-1 space-y-6 ">
     <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Check Bulk Map Rank</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-6">{t('page.title')}</h1>
       <Card>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -304,55 +307,55 @@ export const CheckBulkMapRank: React.FC = () => {
             <div className="space-y-6">
               <div className="flex justify-end mb-[-25px]">
                 <Button type="button" variant="ghost" className="text-[15px] cursor-pointer  ml-auto" onClick={() => setIsVisibleImportCSV(!isVisibleImportCSV)}>
-                  {isVisibleImportCSV ? "Manually Check" : "Import CSV"}
+                  {isVisibleImportCSV ? t('buttons.manuallyCheck')  : t('buttons.importCsv') }
                 </Button>
               </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Select Business Name - Multi Select */}
                 <div className="h-[90px] ">
                   <div className="space-y-2 relative">
-                    <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label="Select Business Name *" className="absolute z-50 space-y-3 w-full" />
+                    <MultiListingSelector selectedListings={selectedListings} onListingsChange={setSelectedListings} label={t('form.businessNameLabel') } className="absolute z-10 space-y-3 w-full" />
                   </div>
                 </div>
                 {!isVisibleImportCSV ? <div className="space-y-2">
                   {/* Keywords */}
                   <Label htmlFor="keywords">
-                    Keywords <span className="text-red-500">*</span>
+                    {t('form.keywordsLabel')  }
                   </Label>
-                  <Input id="keywords" type="text" placeholder="Enter keywords separated by commas" value={keywords} onChange={handleKeywordChange} className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""} />
+                  <Input id="keywords" type="text" placeholder={t('form.keywordsPlaceholder')} value={keywords} onChange={handleKeywordChange} className={keywordError ? "border-destructive focus-visible:ring-destructive" : ""} />
                   {keywordError && <p className="text-xs text-destructive">
-                    Maximum 5 keywords allowed. You have entered{" "}
+                    {t('form.keywordsLimitMessage') }{" "}
                     {keywords.trim().split(",").map(k => k.trim()).filter(k => k.length > 0).length}{" "}
-                    keywords.
+                    {t('form.keywordsLabel')  } .
                   </p>}
                   <p className="text-xs text-muted-foreground">
-                    Example: pizza restaurant, best coffee shop (Maximum 5 keywords)
+                   {t('form.keywordsExample') }
                   </p>
                 </div> : <div className="space-y-6 ">
                   {!showCSVSection && !isGeneratingCSV && <Button className="w-full" variant="outline" type="button" onClick={handleGenerateCSV}>
-                    Generate Sample CSV File{" "}
+                   {t('buttons.generateSampleCsv') }{" "}
                     {selectedListings.length > 0 && `for ${selectedListings.length} listings`}
                   </Button>}
 
                   {isGeneratingCSV && <div className="flex flex-col items-center justify-center py-8 space-y-3">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <span className="text-sm text-muted-foreground">Generating CSV...</span>
+                    <span className="text-sm text-muted-foreground">{t('csv.generatingCsv')}</span>
                   </div>}
 
                   {showCSVSection && <>
                     <a href={generatedCSVFileUrl} download>
                       <Button className="w-full btn-secondary" type="button">
-                        Download CSV sample file <Download />
+                        {t('buttons.downloadCsvSample')  } <Download />
                       </Button>
                     </a>
                     <div className="space-y-2">
                       <Label htmlFor="csv-upload" className="text-sm font-medium">
-                        Upload CSV File <span className="text-red-500">*</span>
+                        {t('csv.uploadLabel')}<span>*</span>
                       </Label>
                       <Input id="csv-upload" type="file" accept=".csv" onChange={handleCSVFileUpload} className="cursor-pointer file:mr-4 file:py-1 h-[45px] file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90" />
                       {uploadedCSVFile && <div className="flex items-center gap-2 text-sm text-muted-foreground bg-green-50 dark:bg-green-950/20 p-2 rounded-md">
                         <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-500" />
-                        <span>Selected: {uploadedCSVFile.name}</span>
+                        <span>{t('csv.selectedFile')}{uploadedCSVFile.name}</span>
                       </div>}
                       {csvUploadError && <p className="text-sm text-destructive flex items-center gap-1">
                         <XCircle className="h-4 w-4" />
@@ -364,10 +367,10 @@ export const CheckBulkMapRank: React.FC = () => {
 
                 {/* Select Language (Optional) */}
                 <div className="space-y-2">
-                  <Label htmlFor="language">Select Language (Optional)</Label>
+                  <Label htmlFor="language"> {t('form.languageSelect')  } </Label>
                   <Select value={language} onValueChange={setLanguage}>
                     <SelectTrigger id="language">
-                      <SelectValue placeholder="Select language" />
+                      <SelectValue placeholder={t('form.languageSelectPlaceholder')  } />
                     </SelectTrigger>
                     <SelectContent className="max-h-[300px]">
                       <SelectItem value="af">Afrikaans</SelectItem>
@@ -457,37 +460,37 @@ export const CheckBulkMapRank: React.FC = () => {
 
                 {/* Search By */}
                 <div className="space-y-2">
-                  <Label htmlFor="search-by">Search By *</Label>
+                  <Label htmlFor="search-by">{t('form.searchByLabel')}</Label>
                   <Select value={searchBy} onValueChange={setSearchBy}>
                     <SelectTrigger id="search-by">
-                      <SelectValue placeholder="Select search method" />
+                      <SelectValue placeholder={t('form.searchByPlaceholder') } />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="City">City</SelectItem>
-                      <SelectItem value="postalcode">Postal Code</SelectItem>
-                      <SelectItem value="latLong">Latitude-Longitude</SelectItem>
+                      <SelectItem value="City">{t('searchByOptions.city')}</SelectItem>
+                      <SelectItem value="postalcode">{t('searchByOptions.postalCode')} </SelectItem>
+                      <SelectItem value="latLong">{t('searchByOptions.latLong')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* Schedule Frequency */}
                 <div className="space-y-2">
-                  <Label htmlFor="schedule-frequency">Schedule Frequency *</Label>
+                  <Label htmlFor="schedule-frequency">{t('form.scheduleFrequencyLabel')}</Label>
                   <Select value={scheduleFrequency} onValueChange={setScheduleFrequency}>
                     <SelectTrigger id="schedule-frequency">
-                      <SelectValue placeholder="Select frequency" />
+                      <SelectValue placeholder={t('form.scheduleFrequencyPlaceholder')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="onetime">Onetime</SelectItem>
-                      <SelectItem value="weekly">Weekly</SelectItem>
-                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="onetime">{t('scheduleFrequencyOptions.onetime')}</SelectItem>
+                      <SelectItem value="weekly">{t('scheduleFrequencyOptions.weekly')}</SelectItem>
+                      <SelectItem value="monthly">{t('scheduleFrequencyOptions.monthly')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                   {isSubmitting
-                    ? (isVisibleImportCSV ? "Uploading CSV..." : "Processing...")
-                    : (isVisibleImportCSV ? "Upload & Check Rank" : "Check Rank Now")
+                    ? (isVisibleImportCSV ? t('buttons.uploadingCsv') : t('buttons.processing'))
+                    : (isVisibleImportCSV ? t('buttons.uploadCheckRank')   : t('buttons.checkRankNow'))
                   }
                 </Button>
               </form>
