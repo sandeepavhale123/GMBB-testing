@@ -1,0 +1,76 @@
+{
+  "page": {
+    "title": "Verificar Clasificación Masiva del Mapa"
+  },
+
+  "buttons": {
+    "importCsv": "Importar CSV",
+    "manuallyCheck": "Verificar Manualmente",
+    "generateSampleCsv": "Generar Archivo CSV de Muestra",
+    "downloadCsvSample": "Descargar archivo CSV de muestra",
+    "uploadCheckRank": "Subir y Verificar Clasificación",
+    "checkRankNow": "Verificar Clasificación Ahora",
+    "processing": "Procesando...",
+    "uploadingCsv": "Subiendo CSV..."
+  },
+
+  "form": {
+    "businessNameLabel": "Seleccionar Nombre del Negocio *",
+    "keywordsLabel": "Palabras clave *",
+    "keywordsPlaceholder": "Ingresa palabras clave separadas por comas",
+    "keywordsExample": "Ejemplo: restaurante de pizza, mejor cafetería (Máximo 5 palabras clave)",
+    "keywordsLimitMessage": "Máximo 5 palabras clave permitidas. Has ingresado ",
+    "languageSelect": "Seleccionar idioma (Opcional)",
+    "languageSelectPlaceholder": "Seleccionar idioma",
+    "searchByLabel": "Buscar por *",
+    "searchByPlaceholder": "Seleccionar método de búsqueda *",
+    "scheduleFrequencyLabel": "Frecuencia de Programación *",
+    "scheduleFrequencyPlaceholder": "Seleccionar frecuencia"
+  },
+
+  "searchByOptions": {
+    "city": "Ciudad",
+    "postalCode": "Código Postal",
+    "latLong": "Latitud-Longitud"
+  },
+
+  "scheduleFrequencyOptions": {
+    "onetime": "Una vez",
+    "weekly": "Semanal",
+    "monthly": "Mensual"
+  },
+
+  "csv": {
+    "uploadLabel": "Subir Archivo CSV *",
+    "selectedFile": "Seleccionado:",
+    "generatingCsv": "Generando CSV...",
+    "invalidCsv": "Por favor sube solo archivos CSV",
+    "uploadError": "Error al subir el CSV",
+    "noFileUploaded": "Por favor sube un archivo CSV."
+  },
+
+  "toast": {
+    "error": "Error",
+    "success": "Éxito",
+
+    "csvInvalid": "Por favor sube solo archivos CSV",
+    "csvUploaded": "subido con éxito",
+    "csvUploadFailed": "Error al subir el CSV. Intenta nuevamente.",
+    "csvProcessed": "CSV subido y procesado con éxito.",
+
+    "keywordMissing": "Por favor ingresa al menos una palabra clave.",
+    "keywordLimitExceeded": "Máximo 5 palabras clave permitidas. Reduce la cantidad.",
+
+    "listingMissing": "Por favor selecciona al menos una ubicación comercial.",
+    "searchMethodMissing": "Por favor selecciona un método de búsqueda.",
+    "scheduleMissing": "Por favor selecciona una frecuencia de programación.",
+
+    "keywordsAdded": "Palabras clave añadidas con éxito y en cola para procesamiento.",
+    "keywordsAddFailed": "No se pudieron añadir las palabras clave. Intenta nuevamente."
+  },
+
+  "validationModal": {
+    "title": "Errores de Validación del CSV",
+    "reupload": "Volver a subir CSV"
+  }
+}

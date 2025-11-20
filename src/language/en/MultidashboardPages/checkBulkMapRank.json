@@ -65,7 +65,7 @@
     "searchMethodMissing": "Please select a search method.",
     "scheduleMissing": "Please select a schedule frequency.",
 
-    "keywordsAdded": "Keywords added successfully and queued for processing.",
+    "keywordsAdded": "Keywords added successfully and queued for processing. ",
     "keywordsAddFailed": "Failed to add keywords. Please try again."
   },
 

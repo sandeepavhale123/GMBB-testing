@@ -1,0 +1,76 @@
+{
+  "page": {
+    "title": "Vérifier le Classement Cartographique en Lot"
+  },
+
+  "buttons": {
+    "importCsv": "Importer CSV",
+    "manuallyCheck": "Vérifier Manuellement",
+    "generateSampleCsv": "Générer un Fichier CSV d’Exemple",
+    "downloadCsvSample": "Télécharger le fichier CSV d’exemple",
+    "uploadCheckRank": "Téléverser et Vérifier le Classement",
+    "checkRankNow": "Vérifier le Classement Maintenant",
+    "processing": "Traitement...",
+    "uploadingCsv": "Téléversement du CSV..."
+  },
+
+  "form": {
+    "businessNameLabel": "Sélectionner le Nom de l’Entreprise *",
+    "keywordsLabel": "Mots-clés *",
+    "keywordsPlaceholder": "Saisir des mots-clés séparés par des virgules",
+    "keywordsExample": "Exemple : restaurant de pizza, meilleur café (Maximum 5 mots-clés)",
+    "keywordsLimitMessage": "Maximum 5 mots-clés autorisés. Vous avez saisi ",
+    "languageSelect": "Sélectionner la Langue (Optionnel)",
+    "languageSelectPlaceholder": "Sélectionner la langue",
+    "searchByLabel": "Rechercher par *",
+    "searchByPlaceholder": "Sélectionner la méthode de recherche *",
+    "scheduleFrequencyLabel": "Fréquence de Programmation *",
+    "scheduleFrequencyPlaceholder": "Sélectionner la fréquence"
+  },
+
+  "searchByOptions": {
+    "city": "Ville",
+    "postalCode": "Code Postal",
+    "latLong": "Latitude-Longitude"
+  },
+
+  "scheduleFrequencyOptions": {
+    "onetime": "Unique",
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel"
+  },
+
+  "csv": {
+    "uploadLabel": "Téléverser un Fichier CSV *",
+    "selectedFile": "Sélectionné :",
+    "generatingCsv": "Génération du CSV...",
+    "invalidCsv": "Veuillez téléverser uniquement un fichier CSV",
+    "uploadError": "Erreur lors du téléversement du CSV",
+    "noFileUploaded": "Veuillez téléverser un fichier CSV."
+  },
+
+  "toast": {
+    "error": "Erreur",
+    "success": "Succès",
+
+    "csvInvalid": "Veuillez téléverser uniquement un fichier CSV",
+    "csvUploaded": "téléversé avec succès",
+    "csvUploadFailed": "Échec du téléversement du CSV. Veuillez réessayer.",
+    "csvProcessed": "CSV téléversé et traité avec succès.",
+
+    "keywordMissing": "Veuillez saisir au moins un mot-clé.",
+    "keywordLimitExceeded": "Maximum 5 mots-clés autorisés. Veuillez réduire le nombre.",
+    
+    "listingMissing": "Veuillez sélectionner au moins un emplacement d’entreprise.",
+    "searchMethodMissing": "Veuillez sélectionner une méthode de recherche.",
+    "scheduleMissing": "Veuillez sélectionner une fréquence de programmation.",
+
+    "keywordsAdded": "Mots-clés ajoutés avec succès et mis en file d’attente pour traitement.",
+    "keywordsAddFailed": "Échec de l’ajout des mots-clés. Veuillez réessayer."
+  },
+
+  "validationModal": {
+    "title": "Erreurs de Validation du CSV",
+    "reupload": "Re-téléverser le CSV"
+  }
+}

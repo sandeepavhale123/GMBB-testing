@@ -1,0 +1,76 @@
+{
+  "page": {
+    "title": "Bulk-Kartenranking prüfen"
+  },
+
+  "buttons": {
+    "importCsv": "CSV importieren",
+    "manuallyCheck": "Manuell prüfen",
+    "generateSampleCsv": "Beispiel-CSV-Datei erstellen",
+    "downloadCsvSample": "Beispiel-CSV-Datei herunterladen",
+    "uploadCheckRank": "Hochladen & Ranking prüfen",
+    "checkRankNow": "Ranking jetzt prüfen",
+    "processing": "Verarbeite...",
+    "uploadingCsv": "CSV wird hochgeladen..."
+  },
+
+  "form": {
+    "businessNameLabel": "Geschäftsname auswählen *",
+    "keywordsLabel": "Keywords *",
+    "keywordsPlaceholder": "Keywords durch Kommas getrennt eingeben",
+    "keywordsExample": "Beispiel: Pizzarestaurant, bestes Café (Maximal 5 Keywords)",
+    "keywordsLimitMessage": "Maximal 5 Keywords erlaubt. Sie haben eingegeben ",
+    "languageSelect": "Sprache auswählen (optional)",
+    "languageSelectPlaceholder": "Sprache auswählen",
+    "searchByLabel": "Suchen nach *",
+    "searchByPlaceholder": "Suchmethode auswählen *",
+    "scheduleFrequencyLabel": "Häufigkeit der Planung *",
+    "scheduleFrequencyPlaceholder": "Häufigkeit auswählen"
+  },
+
+  "searchByOptions": {
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "latLong": "Breitengrad-Längengrad"
+  },
+
+  "scheduleFrequencyOptions": {
+    "onetime": "Einmalig",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich"
+  },
+
+  "csv": {
+    "uploadLabel": "CSV-Datei hochladen *",
+    "selectedFile": "Ausgewählt:",
+    "generatingCsv": "CSV wird erstellt...",
+    "invalidCsv": "Bitte nur CSV-Dateien hochladen",
+    "uploadError": "CSV-Upload-Fehler",
+    "noFileUploaded": "Bitte laden Sie eine CSV-Datei hoch."
+  },
+
+  "toast": {
+    "error": "Fehler",
+    "success": "Erfolg",
+
+    "csvInvalid": "Bitte nur CSV-Dateien hochladen",
+    "csvUploaded": "erfolgreich hochgeladen",
+    "csvUploadFailed": "CSV konnte nicht hochgeladen werden. Bitte erneut versuchen.",
+    "csvProcessed": "CSV erfolgreich hochgeladen und verarbeitet.",
+
+    "keywordMissing": "Bitte geben Sie mindestens ein Keyword ein.",
+    "keywordLimitExceeded": "Maximal 5 Keywords erlaubt. Bitte reduzieren Sie die Anzahl.",
+
+    "listingMissing": "Bitte wählen Sie mindestens einen Geschäftsstandort aus.",
+    "searchMethodMissing": "Bitte wählen Sie eine Suchmethode aus.",
+    "scheduleMissing": "Bitte wählen Sie eine Planungshäufigkeit aus.",
+
+    "keywordsAdded": "Keywords erfolgreich hinzugefügt und zur Verarbeitung eingereiht.",
+    "keywordsAddFailed": "Keywords konnten nicht hinzugefügt werden. Bitte erneut versuchen."
+  },
+
+  "validationModal": {
+    "title": "CSV-Validierungsfehler",
+    "reupload": "CSV erneut hochladen"
+  }
+}
