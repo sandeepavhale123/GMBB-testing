@@ -296,7 +296,7 @@ export const CheckBulkMapRank: React.FC = () => {
       <h1 className="text-3xl font-bold tracking-tight mb-6">{t('page.title')}</h1>
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-start items-start">
             {/* Column 1: Banner Section */}
             <div className="relative hidden lg:block min-h-[400px] lg:min-h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5" style={{
               border: "1px solid black"
