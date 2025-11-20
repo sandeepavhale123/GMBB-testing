@@ -183,7 +183,7 @@ export const BulkMapRanking: React.FC = () => {
                 <Skeleton className="h-8 w-32 mt-2" />
               ) : (
                 <p className="text-2xl font-bold mt-2">
-                  {stats.remainingCredit.toLocaleString()} / {stats.allowedCredit.toLocaleString()}
+                  {stats.remainingCredit} / {stats.allowedCredit}
                 </p>
               )}
             </div>
