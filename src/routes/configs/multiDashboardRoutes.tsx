@@ -38,6 +38,9 @@ import { ImportPostCSV } from "@/multiDashboardLayout/pages/ImportPostCSV";
 import { ImportPostCSVWizard } from "@/multiDashboardLayout/pages/ImportPostCSVWizard";
 import { BulkImportDetails } from "@/multiDashboardLayout/pages/BulkImportDetails";
 import { GalleryPage } from "@/multiDashboardLayout/pages/Gallery";
+import { BulkMapRanking } from "@/multiDashboardLayout/pages/BulkMapRanking";
+import { CheckBulkMapRank } from "@/multiDashboardLayout/pages/CheckBulkMapRank";
+import { ViewBulkMapRank } from "@/multiDashboardLayout/pages/ViewBulkMapRank";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -77,6 +80,42 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-review",
         element: <BulkReview />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
+      },
+      {
+        path: "gallery",
+        element: <GalleryPage />,
+      },
+      {
+        path: "generate-bulk-report",
+        element: <GenerateBulkReport />,
+      },
+      {
+        path: "bulk-auto-reply",
+        element: <BulkAutoReply />,
+      },
+      {
+        path: "bulk-auto-reply-project-details/:projectId",
+        element: <BulkAutoReplyProjectDetails />,
+      },
+      {
+        path: "bulk-report-details/:projectId",
+        element: <BulkReportDetails />,
+      },
+      {
+        path: "bulk-map-ranking",
+        element: <BulkMapRanking />,
+      },
+      {
+        path: "check-bulk-map-ranking",
+        element: <CheckBulkMapRank />,
+      },
+      {
+        path: "view-bulk-map-ranking/:id",
+        element: <ViewBulkMapRank />,
       },
       {
         path: "reports",

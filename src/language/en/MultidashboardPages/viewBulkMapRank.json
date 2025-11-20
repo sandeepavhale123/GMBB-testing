@@ -1,0 +1,54 @@
+{
+  "header": {
+    "titleFallback": "Keyword Name",
+    "subtitle": "View ranking details and performance metrics"
+  },
+
+  "errors": {
+    "keywordDetails": "Failed to load keyword details. Please try again.",
+    "tableDetails": "Failed to load ranking details. Please try again.",
+    "noData": "No ranking data found",
+    "deleteFailed": "Failed to delete listings"
+  },
+
+  "search": {
+    "placeholder": "Search by business name, city, or postal code..."
+  },
+
+  "bulkActions": {
+    "clearSelection": "Clear Selection",
+    "deleteSelected": "Delete Selected",
+    "listing": "listing",
+    "listings": "listings",
+    "selected":"selected"
+  },
+
+  "table": {
+    "businessName": "Business Name",
+    "rankPosition": "Rank Position",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "lastChecked": "Last Checked",
+    "status": "Status",
+    "actions": "Actions"
+  },
+
+  "deleteDialog": {
+    "title": "Confirm Deletion",
+    "description": "Are you sure you want to delete  ",
+    "descriptionSecond":"? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+
+  "toast": {
+    "success": "Success",
+    "error": "Error"
+  },
+  "keywordStatus":
+  {
+    "completed":"completed",
+    "running":"running"
+  }
+}

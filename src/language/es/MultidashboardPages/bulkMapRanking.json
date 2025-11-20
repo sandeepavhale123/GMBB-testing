@@ -1,0 +1,45 @@
+{
+    "header": {
+        "title": "Ranking de Mapas en Lote"
+    },
+    "buttons": {
+        "checkRack": "Verificar Rango",
+        "cancel": "Cancelar",
+        "deleting": "Eliminando...",
+        "delete": "Eliminar"
+    },
+    "summerCard": {
+        "noOfKeywords": "Número de Palabras Clave",
+        "totalProjects": "Total de Proyectos",
+        "scheduledScan": "Escaneo Programado",
+        "credits": "Créditos"
+    },
+    "placeholder": {
+        "searchKeyword": "Buscar palabras clave..."
+    },
+    "tableColumns": {
+        "keyword": "Palabra clave",
+        "noOfChecks": "Número de Revisiones",
+        "schedule": "Horario",
+        "lastChecked": "Última Revisión",
+        "nextCheck": "Próxima Revisión",
+        "status": "Estado",
+        "action": "Acción"
+    },
+    "messages": {
+        "nokeywordsFoundMatchingYourSearch": "No se encontraron palabras clave que coincidan con su búsqueda",
+        "noKeywordsAvailable": "No hay palabras clave disponibles"
+    },
+    "deleteAlertBox": {
+        "title": "Eliminar Palabra Clave",
+        "description": "¿Está seguro de que desea eliminar la palabra clave \"{{keyword}}\"? Esta acción no se puede deshacer."
+    },
+    "toastMessage": {
+        "deleteFailed": "Error al Eliminar",
+        "failedToDeleteKeyword": "No se pudo eliminar la palabra clave"
+    },
+    "status": {
+        "completed": "Completado",
+        "running": "En progreso"
+    }
+}

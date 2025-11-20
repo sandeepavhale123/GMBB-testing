@@ -1,0 +1,9 @@
+{
+  "csvValidation": {
+    "title": "CSV Validation Errors",
+    "description": "Found {{count}} error{{plural}} in your CSV file. Please fix the issues and re-upload.",
+    "row": "Row",
+    "cancel": "Cancel",
+    "reupload": "Re-upload CSV"
+  }
+}

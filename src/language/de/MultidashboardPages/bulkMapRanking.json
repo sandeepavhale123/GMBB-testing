@@ -1,0 +1,45 @@
+{
+    "header": {
+        "title": "Bulk-Karten-Ranking"
+    },
+    "buttons": {
+        "checkRack": "Rang prüfen",
+        "cancel": "Abbrechen",
+        "deleting": "Wird gelöscht...",
+        "delete": "Löschen"
+    },
+    "summerCard": {
+        "noOfKeywords": "Anzahl der Keywords",
+        "totalProjects": "Gesamtprojekte",
+        "scheduledScan": "Geplanter Scan",
+        "credits": "Credits"
+    },
+    "placeholder": {
+        "searchKeyword": "Keywords suchen..."
+    },
+    "tableColumns": {
+        "keyword": "Keyword",
+        "noOfChecks": "Anzahl der Checks",
+        "schedule": "Zeitplan",
+        "lastChecked": "Zuletzt geprüft",
+        "nextCheck": "Nächster Check",
+        "status": "Status",
+        "action": "Aktion"
+    },
+    "messages": {
+        "nokeywordsFoundMatchingYourSearch": "Keine passenden Keywords für Ihre Suche gefunden",
+        "noKeywordsAvailable": "Keine Keywords verfügbar"
+    },
+    "deleteAlertBox": {
+        "title": "Keyword löschen",
+        "description": "Sind Sie sicher, dass Sie das Keyword „{{keyword}}“ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "toastMessage": {
+        "deleteFailed": "Löschen fehlgeschlagen",
+        "failedToDeleteKeyword": "Keyword konnte nicht gelöscht werden"
+    },
+    "status": {
+        "completed": "Abgeschlossen",
+        "running": "Läuft"
+    }
+}
