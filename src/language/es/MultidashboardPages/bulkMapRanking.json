@@ -10,7 +10,7 @@
     },
     "summerCard": {
         "noOfKeywords": "Número de Palabras Clave",
-        "totalProjects": "Total de Proyectos",
+        "totalProjects": "Número de búsquedas",
         "scheduledScan": "Escaneo Programado",
         "credits": "Créditos"
     },
