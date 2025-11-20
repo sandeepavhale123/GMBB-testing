@@ -12,16 +12,30 @@ import { Sheet, SheetContent } from "../components/ui/sheet";
 import { useListingContext } from "../context/ListingContext";
 
 // 🔥 Lazy-loaded components
-const Sidebar = lazy(() => import("../components/Sidebar"));
-const Header = lazy(() => import("../components/Header/Header"));
-const ReviewsManagementPage = lazy(
-  () => import("../components/Reviews/ReviewsManagementPage")
+const Sidebar = lazy(() =>
+  import("../components/Sidebar").then((module) => ({
+    default: module.Sidebar,
+  }))
 );
-const ReviewsSubHeader = lazy(
-  () => import("../components/Reviews/ReviewsSubHeader")
+const Header = lazy(() =>
+  import("../components/Header/Header").then((module) => ({
+    default: module.Header,
+  }))
 );
-const NoListingSelected = lazy(
-  () => import("../components/ui/no-listing-selected")
+const ReviewsManagementPage = lazy(() =>
+  import("../components/Reviews/ReviewsManagementPage").then((module) => ({
+    default: module.ReviewsManagementPage,
+  }))
+);
+const ReviewsSubHeader = lazy(() =>
+  import("../components/Reviews/ReviewsSubHeader").then((module) => ({
+    default: module.ReviewsSubHeader,
+  }))
+);
+const NoListingSelected = lazy(() =>
+  import("../components/ui/no-listing-selected").then((module) => ({
+    default: module.NoListingSelected,
+  }))
 );
 
 const ReviewsPage = () => {
