@@ -70,7 +70,7 @@
       "uploadSuccess": "{{count}} archivo(s) subido(s) con éxito.",
       "uploadFailed": "Ocurrió un error al subir sus archivos. Inténtelo de nuevo.",
       "invalidFileType": "Solo se permiten archivos JPG, PNG, WebP, GIF, MP4, MOV y AVI.",
-      "fileTooLarge": "El tamaño del archivo debe ser menor a 10 MB. Su archivo tiene {{size}} MB.",
+      "fileTooLarge": "El tamaño del archivo debe ser menor a 20 MB. Su archivo tiene {{size}} MB.",
       "geneateSuccess": "{{count}} imagen(es) generada(s) con éxito.",
       "generationFailed": "No se pudieron generar las imágenes. Inténtelo de nuevo.",
       "downloadFailed": "No se pudieron descargar los medios. Inténtelo de nuevo.",

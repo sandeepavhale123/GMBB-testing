@@ -8,7 +8,7 @@
     "fileTypes": {
       "images": "JPG, PNG, WebP",
       "videos": "MP4, MOV",
-      "maxSize": "• Máx. 10MB"
+      "maxSize": "• Máx. 20MB"
     },
     "or": "o",
     "select": "seleccionado",
@@ -16,7 +16,7 @@
     "use": "Usar seleccionados",
     "errors": {
       "invalidFile": "Solo se permiten archivos JPG, PNG, WebP y MP4",
-      "fileTooLarge": "El tamaño del archivo debe ser menor de 10MB"
+      "fileTooLarge": "El tamaño del archivo debe ser menor de 20MB"
     },
     "toast": {
       "title": "Límite de selección alcanzado",

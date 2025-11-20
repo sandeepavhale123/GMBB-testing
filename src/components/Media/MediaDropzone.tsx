@@ -47,7 +47,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     }
   }, [shouldOpenMediaUpload]);
   const validateFile = (file: File): boolean => {
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxSize = 20 * 1024 * 1024; // 20MB
     const allowedTypes = [
       "image/jpeg",
       "image/png",
