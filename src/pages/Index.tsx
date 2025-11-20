@@ -40,7 +40,7 @@ const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Determine active tab from URL.
+  // Determine active tab from URL
   const getActiveTabFromUrl = () => {
     const pathParts = location.pathname.split("/");
     const route = pathParts[1];
@@ -105,9 +105,7 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                {t("comingSoon")}
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{t("comingSoon")}</h2>
               <p className="text-gray-600">{t("comingSoonDescription")}</p>
             </div>
           </div>
@@ -166,20 +164,12 @@ const Index = () => {
                 setSidebarCollapsed(!sidebarCollapsed);
               }
             }}
-            showFilters={[
-              "posts",
-              "reviews",
-              "geo-ranking",
-              "media",
-              "insights",
-            ].includes(activeTab)}
+            showFilters={["posts", "reviews", "geo-ranking", "media", "insights"].includes(activeTab)}
           />
 
           {/* Page Content with Loading Overlay */}
           <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
-            <ListingLoader isLoading={isLoading}>
-              {renderContent()}
-            </ListingLoader>
+            <ListingLoader isLoading={isLoading}>{renderContent()}</ListingLoader>
           </main>
         </div>
 
