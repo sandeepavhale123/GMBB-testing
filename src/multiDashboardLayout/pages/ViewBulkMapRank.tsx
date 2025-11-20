@@ -409,13 +409,17 @@ export const ViewBulkMapRank: React.FC = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Button
+                        {mapKeywordStatus(item.kStatus) === "completed" ? (
+                          <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleViewDetails(item.id)}
                         >
                           <TrendingUp className="h-4 w-4" />
                         </Button>
+                        ):('')
+                      }
+                        
                         <Button
                           variant="ghost"
                           size="sm"
