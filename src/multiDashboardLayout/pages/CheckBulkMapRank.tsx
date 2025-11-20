@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Download, Loader2, CheckCircle, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +20,7 @@ export const CheckBulkMapRank: React.FC = () => {
   const { t } = useI18nNamespace('MultidashboardPages/checkBulkMapRank')
 
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
   const [language, setLanguage] = useState("en");
@@ -190,6 +192,9 @@ export const CheckBulkMapRank: React.FC = () => {
             description: response.message || t("toast.csvProcessed"),
             variant: "success",
           });
+          // Invalidate queries to refresh data on next page
+          queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-keywords"] });
+          queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-stats"] });
           // Reset form
           setUploadedCSVFile(null);
           setSelectedListings([]);
@@ -230,6 +235,9 @@ export const CheckBulkMapRank: React.FC = () => {
             description: response.message || t("toast.keywordsAdded"),
             variant: "success",
           });
+          // Invalidate queries to refresh data on next page
+          queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-keywords"] });
+          queryClient.invalidateQueries({ queryKey: ["bulk-map-ranking-stats"] });
           // Reset form
           setSelectedListings([]);
           setKeywords("");
