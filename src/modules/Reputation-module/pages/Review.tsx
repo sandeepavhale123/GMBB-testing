@@ -183,7 +183,7 @@ const mockReviews: ReviewType[] = [
   },
 ];
 
-export const Review: React.FC = () => {
+const Review: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("all");
   const [selectedSentiment, setSelectedSentiment] = useState("all");
@@ -387,3 +387,5 @@ export const Review: React.FC = () => {
     </div>
   );
 };
+
+export default Review;

@@ -79,7 +79,7 @@ Review Link:{reviewLink}`,
   },
 };
 
-export const CreateTemplate: React.FC = () => {
+const CreateTemplate: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/createTemplate");
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -257,3 +257,5 @@ export const CreateTemplate: React.FC = () => {
     </div>
   );
 };
+
+export default CreateTemplate;

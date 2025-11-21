@@ -230,7 +230,7 @@ const mockFeedbackData: Feedback[] = [
     status: "pending",
   },
 ];
-export const Feedback: React.FC = () => {
+const Feedback: React.FC = () => {
   const { t } = useTranslation("Reputation/feedback");
   const [feedbackData, setFeedbackData] = useState<Feedback[]>(mockFeedbackData);
   const [selectedFeedback, setSelectedFeedback] = useState<Feedback | null>(null);
@@ -610,3 +610,5 @@ export const Feedback: React.FC = () => {
     </div>
   );
 };
+
+export default Feedback;

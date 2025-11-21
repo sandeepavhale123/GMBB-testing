@@ -53,7 +53,7 @@ const DEFAULT_WHATSAPP_TEMPLATE = `Hi Name!
 👋 We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review? ⭐
 
 Review Link`;
-export const CreateCampaign: React.FC = () => {
+const CreateCampaign: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/createCampaign");
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -640,3 +640,5 @@ export const CreateCampaign: React.FC = () => {
     </div>
   );
 };
+
+export default CreateCampaign;
