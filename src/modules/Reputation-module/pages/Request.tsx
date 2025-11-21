@@ -178,7 +178,7 @@ const mockFeedbackForms: FeedbackForm[] = [
   },
 ];
 
-export const Request: React.FC = () => {
+const Request: React.FC = () => {
   const { t } = useTranslation("Reputation/request");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -893,3 +893,5 @@ export const Request: React.FC = () => {
     </div>
   );
 };
+
+export default Request;

@@ -26,7 +26,7 @@ const reviewSites: ReviewSite[] = [
   { id: "airbnb", name: "Airbnb", icon: FaAirbnb, color: "#FF385C", textColor: "#fff" },
 ];
 
-export const ReviewLink: React.FC = () => {
+const ReviewLink: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedRating, setSelectedRating] = useState<number>(0);
@@ -489,3 +489,5 @@ export const ReviewLink: React.FC = () => {
     </TooltipProvider>
   );
 };
+
+export default ReviewLink;
