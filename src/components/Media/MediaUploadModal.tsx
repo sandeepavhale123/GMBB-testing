@@ -932,17 +932,20 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   <div className="h-full bg-background flex flex-col animate-slide-in-right">
                     <div className="sticky top-0 bg-background z-10 border-b border-border p-6 pb-4 flex-shrink-0">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2">
                           <Settings2 className="h-5 w-5 text-primary" />
                           <h3 className="text-2xl font-bold text-foreground">
                             {t("mediaUploadModal.editExif")}
-                            {files.length > 1
-                              ? ` (${
-                                  files.filter((f) => f.type === "image").length
-                                } ${t("mediaUploadModal.images")})`
-                              : ` (${
-                                  files.filter((f) => f.type === "image").length
-                                } ${t("mediaUploadModal.image")})`}
+                            {(() => {
+                              // Calculate total image count from both single file and files array
+                              const totalImageCount = 
+                                (file && file.type === "image" ? 1 : 0) + 
+                                files.filter((f) => f.type === "image").length;
+                              
+                              return totalImageCount > 1
+                                ? ` (${totalImageCount} ${t("mediaUploadModal.images")})`
+                                : ` (${totalImageCount} ${t("mediaUploadModal.image")})`;
+                            })()}
                           </h3>
                         </div>
                         <Button
