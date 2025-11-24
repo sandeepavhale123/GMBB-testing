@@ -93,29 +93,10 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
             )}
           </div>
 
-          <h3 className="font-semibold mb-2">{notification.title}</h3>
-
-          {/* Render description - prioritize new API shortdesc */}
-          {(notification.shortdesc || notification.textContent) && (
-            <div className="text-sm text-foreground mb-2">
-              {notification.shortdesc ? (
-                // New API: Plain text (already cleaned)
-                <p>{notification.shortdesc}</p>
-              ) : (
-                // Old API: HTML content
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: transformDescription(notification.textContent || ""),
-                  }}
-                />
-              )}
-            </div>
-          )}
-
-          {/* Render image - prioritize new API single image */}
+           {/* Render image - prioritize new API single image */}
           {(notification.image || (notification.images && notification.images.length > 0)) && (
             <div
-              className="relative group rounded-lg overflow-hidden mb-2"
+              className="relative group rounded-lg overflow-hidden mb-2 shadow shadow-md"
               onClick={(e) => e.stopPropagation()}
             >
               {notification.image ? (
@@ -143,11 +124,11 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
               ) : (
                 // Old API: Image array (backward compatibility)
                 notification.images?.map((img, idx) => (
-                  <div key={idx} className="relative group rounded-lg overflow-hidden mb-2">
+                  <div key={idx} className="relative group rounded-lg overflow-hidden mb-2 ">
                     <img
                       src={img.url}
                       alt={img.alt ?? ""}
-                      className="w-full h-32 object-cover transition-transform duration-200 group-hover:scale-105"
+                      className="w-full h-35 object-cover transition-transform duration-200 group-hover:scale-105 "
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
                       <Button
@@ -177,6 +158,28 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
                 dangerouslySetInnerHTML={{ __html: videoHTML }}
               />
             ))}
+
+
+          <h3 className="font-semibold mb-2">{notification.title}</h3>
+
+          {/* Render description - prioritize new API shortdesc */}
+          {(notification.shortdesc || notification.textContent) && (
+            <div className="text-sm text-foreground mb-2">
+              {notification.shortdesc ? (
+                // New API: Plain text (already cleaned)
+                <p>{ (notification.shortdesc.length > 80 ? notification.shortdesc.slice(1 , 80) + "...": notification.shortdesc) }</p>
+              ) : (
+                // Old API: HTML content
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: transformDescription(notification.textContent || ""),
+                  }}
+                />
+              )}
+            </div>
+          )}
+
+         
         </CardContent>
       </Card>
       {/* Image Modal */}
