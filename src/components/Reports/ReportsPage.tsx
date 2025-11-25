@@ -6,8 +6,10 @@ import { useReports } from "@/hooks/useReports";
 // import { ReportsTable } from "./ReportsTable";
 import { CreateReportModal } from "./CreateReportModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { Skeleton } from "../ui/skeleton";
+import TableSkeletonComponent from "../ui/skeleton-components/tableSkeletonComponent";
 
-const ReportsTable = React.lazy(() =>import("./ReportsTable"));
+const ReportsTable = React.lazy(() => import("./ReportsTable"));
 
 const ReportsPage: React.FC = () => {
   const { t } = useI18nNamespace("Reports/reportsPage");
@@ -20,10 +22,24 @@ const ReportsPage: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   if (isLoading) {
     return (
-      <LoadingComponent />
+      <div className="p-0">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold text-foreground">
+            {t("reportsPage.pageTitle")}
+          </h1>
+          <Button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            {t("reportsPage.createReportButton")}
+          </Button>
+        </div>
+        <TableSkeletonComponent />
+      </div>
     );
   }
-  if (error) {
+  if (!isLoading && error) {
     return (
       <div className="p-6">
         <div className="text-center py-12">
@@ -48,7 +64,7 @@ const ReportsPage: React.FC = () => {
         </Button>
       </div>
       {/* Reports Table */}
-      <Suspense fallback={<LoadingComponent />}>
+      <Suspense fallback={<TableSkeletonComponent />}>
         <ReportsTable listingId={selectedListing?.id || ""} />
       </Suspense>
       {/* Create Report Modal */}
@@ -66,9 +82,7 @@ export default ReportsPage;
 
 
 const LoadingComponent = () => {
-  return (<div className="p-6">
-    <div className="text-center py-12">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-    </div>
+  return (<div className="">
+    <TableSkeletonComponent />
   </div>)
 }
