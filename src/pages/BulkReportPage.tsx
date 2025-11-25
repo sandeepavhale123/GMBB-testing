@@ -1,29 +1,12 @@
-import React, { useState , Suspense} from "react";
-import { Provider } from "react-redux";
-import { store } from "../store/store";
-import { ThemeProvider } from "../components/ThemeProvider";
-import { NoListingSelected } from "../components/ui/no-listing-selected";
-import { useListingContext } from "../context/ListingContext";
+import React, { Suspense } from "react";
 
-import { Layout } from "@/components/layout/layout";
-const Reports = React.lazy(()=>import('@/multiDashboardLayout/pages/Reports'))
+const Reports = React.lazy(() => import('@/multiDashboardLayout/pages/Reports'));
+
 const BulkReportPage = () => {
-  const { selectedListing, isInitialLoading } = useListingContext();
   return (
-    <Provider store={store}>
-      <ThemeProvider>
-        <Layout activeTab="reports">
-          {/* Show no listing selected */}
-          {!selectedListing && !isInitialLoading ? (
-            <NoListingSelected pageType="Reports" />
-          ) : (
-            <Suspense fallback={<div>Loading...</div>}>
-              <Reports isSingleListingDashboard={true} />
-            </Suspense>
-          )}
-        </Layout>
-      </ThemeProvider>
-    </Provider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Reports isSingleListingDashboard={true} />
+    </Suspense>
   );
 };
 
