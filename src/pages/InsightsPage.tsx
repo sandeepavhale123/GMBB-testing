@@ -11,7 +11,7 @@ import { NoListingSelected } from "../components/ui/no-listing-selected";
 import { useListingContext } from "../context/ListingContext";
 
 const Insights = React.lazy(
-  () => import("../components/Insights/InsightsPage")
+  () => import("../components/Insights/InsightsPage").then(module => ({ default: module.default }))
 );
 
 const InsightsPage = () => {
