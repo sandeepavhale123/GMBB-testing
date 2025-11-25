@@ -17,7 +17,14 @@ import { useListingContext } from "../../context/ListingContext";
 const PRIMARY_COLOR = "hsl(var(--primary))";
 const MAPS_COLOR = "#ef4444";
 
-export const VisibilitySummaryCard = React.memo(
+interface VisibilitySummaryCardProps {
+  isLoadingSummary: boolean;
+  isLoadingVisibility: boolean;
+  summary: any;
+  visibilityTrends: any;
+}
+
+export const VisibilitySummaryCard = React.memo<VisibilitySummaryCardProps>(
   ({ isLoadingSummary, isLoadingVisibility, summary, visibilityTrends }) => {
     const { selectedListing } = useListingContext();
     const location = useLocation();
@@ -144,7 +151,13 @@ const SummarySkeleton = React.memo(() => (
   </div>
 ));
 
-const SummaryBlock = React.memo(({ googleSearch, googleMaps, t }) => (
+interface SummaryBlockProps {
+  googleSearch: any;
+  googleMaps: any;
+  t: (key: string, options?: any) => any;
+}
+
+const SummaryBlock = React.memo<SummaryBlockProps>(({ googleSearch, googleMaps, t }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <SummaryItem
       icon={<Search className="w-5 h-5 text-primary" />}
@@ -161,7 +174,14 @@ const SummaryBlock = React.memo(({ googleSearch, googleMaps, t }) => (
   </div>
 ));
 
-const SummaryItem = React.memo(({ icon, title, data, t }) => (
+interface SummaryItemProps {
+  icon: React.ReactNode;
+  title: any;
+  data: any;
+  t: (key: string, options?: any) => any;
+}
+
+const SummaryItem = React.memo<SummaryItemProps>(({ icon, title, data, t }) => (
   <div className="space-y-2">
     <div className="flex items-center gap-2">
       {icon}
@@ -189,7 +209,13 @@ const SummaryItem = React.memo(({ icon, title, data, t }) => (
   </div>
 ));
 
-const LegendControls = React.memo(({ visibleBars, toggleBar, t }) => (
+interface LegendControlsProps {
+  visibleBars: { search: boolean; maps: boolean };
+  toggleBar: (barName: any) => void;
+  t: (key: string, options?: any) => any;
+}
+
+const LegendControls = React.memo<LegendControlsProps>(({ visibleBars, toggleBar, t }) => (
   <div className="flex justify-center mt-4">
     <div className="flex gap-4 text-sm">
       {/* Search Toggle */}
@@ -211,7 +237,14 @@ const LegendControls = React.memo(({ visibleBars, toggleBar, t }) => (
   </div>
 ));
 
-const LegendButton = React.memo(({ active, color, text, onClick }) => (
+interface LegendButtonProps {
+  active: any;
+  color: string;
+  text: any;
+  onClick: () => void;
+}
+
+const LegendButton = React.memo<LegendButtonProps>(({ active, color, text, onClick }) => (
   <button
     onClick={onClick}
     className={`flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 ${

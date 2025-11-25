@@ -5,7 +5,7 @@ import { CustomerInteractionsCard } from "./CustomerInteractionsCard";
 import { CustomerActionsChart } from "./CustomerActionsChart";
 import { CustomerSearchSourcesCard } from "./CustomerSearchSourcesCard";
 
-interface InsightsContentProps {
+export interface InsightsContentProps {
   isLoadingSummary: boolean;
   isLoadingVisibility: boolean;
   isLoadingCustomerActions: boolean;

@@ -21,7 +21,12 @@ import { fetchTopKeywordQuery } from "../../store/slices/insightsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-const QueryItem = React.memo(({ query, placeholder }) => (
+interface QueryItemProps {
+  query: any;
+  placeholder: string;
+}
+
+const QueryItem = React.memo<QueryItemProps>(({ query, placeholder }) => (
   <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
     <span className="text-sm font-medium text-gray-900">{query.keyword}</span>
     <span className="text-sm text-gray-600">

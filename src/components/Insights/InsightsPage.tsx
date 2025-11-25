@@ -9,3 +9,5 @@ export const InsightsPage: React.FC = () => {
     </div>
   );
 };
+
+export default InsightsPage;

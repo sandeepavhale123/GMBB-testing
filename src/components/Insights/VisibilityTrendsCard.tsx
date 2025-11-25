@@ -97,7 +97,14 @@ export const VisibilityTrendsCard = React.memo(
 
 // 🟢 Memoized subcomponents
 
-const TrendItem = React.memo(({ title, value, description, valueClass }) => (
+interface TrendItemProps {
+  title: any;
+  value: any;
+  description: any;
+  valueClass: string;
+}
+
+const TrendItem = React.memo<TrendItemProps>(({ title, value, description, valueClass }) => (
   <div className="p-4 rounded-lg bg-gray-50">
     <div className="flex items-center justify-between">
       <span className="font-medium text-gray-900">{title}</span>
