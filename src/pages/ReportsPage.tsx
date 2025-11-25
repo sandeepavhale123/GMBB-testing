@@ -1,13 +1,7 @@
-import React, { Suspense } from "react";
-
-const ReportsComponent = React.lazy(() => import("../components/Reports/ReportsPage"));
+import ReportsComponent from "../components/Reports/ReportsPage";
 
 const ReportsPage = () => {
-  return (
-    <Suspense fallback={<div>Loading Reports...</div>}>
-      <ReportsComponent />
-    </Suspense>
-  );
+  return <ReportsComponent />;
 };
 
 export default ReportsPage;
