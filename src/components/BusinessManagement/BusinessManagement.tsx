@@ -20,7 +20,7 @@ import { NoListingSelected } from "../ui/no-listing-selected";
 type TabType = "business-info" | "opening-hours" | "edit-log";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const BusinessManagement: React.FC = () => {
+const BusinessManagement: React.FC = () => {
   const { t } = useI18nNamespace("BusinessManagement/businessManagement");
   const { listingId } = useParams();
   const { selectedListing, isInitialLoading } = useListingContext();
@@ -277,3 +277,6 @@ export const BusinessManagement: React.FC = () => {
     </div>
   );
 };
+
+
+export default BusinessManagement;

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState ,Suspense } from "react";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
-import { BusinessManagement } from "../components/BusinessManagement/BusinessManagement";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { ListingProvider } from "../context/ListingContext";
 
+const BusinessManagement = React.lazy(()=>import("../components/BusinessManagement/BusinessManagement"))
 const BusinessesPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,7 +22,7 @@ const BusinessesPage = () => {
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetContent side="left" className="p-0 w-64">
                 <Sidebar
-                  activeTab="business-info"
+                  activeTab="business-info" 
                   onTabChange={() => {}}
                   collapsed={false}
                   onToggleCollapse={() =>
@@ -62,7 +62,9 @@ const BusinessesPage = () => {
 
               {/* Page Content */}
               <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
-                <BusinessManagement />
+                <Suspense fallback={<div>Loading...</div>}>
+                <BusinessManagement /> 
+                </Suspense>
               </main>
             </div>
 
