@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   Select,
@@ -9,67 +15,71 @@ import {
 } from "../ui/select";
 import { Skeleton } from "../ui/skeleton";
 import { ScrollArea } from "../ui/scroll-area";
-import { Search, TrendingUp } from "lucide-react";
+import { Search } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { fetchTopKeywordQuery } from "../../store/slices/insightsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
+const QueryItem = React.memo(({ query, placeholder }) => (
+  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+    <span className="text-sm font-medium text-gray-900">{query.keyword}</span>
+    <span className="text-sm text-gray-600">
+      {parseInt(query.impressions) > 15 ? query.impressions : placeholder}
+    </span>
+  </div>
+));
+
 export const TopSearchQueriesWithAPI: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const dispatch = useAppDispatch();
+  const hasFetched = useRef(new Set());
+
   const { selectedListing } = useListingContext();
   const { topKeywordQuery, isLoadingTopKeywordQuery, topKeywordQueryError } =
     useAppSelector((state) => state.insights);
+
   const { t } = useI18nNamespace("Insights/topSearchQueriesWithAPI");
 
-  // Fetch data when component mounts or when month/listing changes
-  useEffect(() => {
-    if (selectedListing?.id && selectedMonth) {
-      dispatch(
-        fetchTopKeywordQuery({
-          listingId: parseInt(selectedListing.id, 10),
-          month: selectedMonth,
-        })
-      );
-    }
-  }, [selectedListing?.id, selectedMonth, dispatch]);
+  const availableRecords = useMemo(
+    () => topKeywordQuery?.avaialbleRecords || [],
+    [topKeywordQuery?.avaialbleRecords]
+  );
 
-  // Set default month when available records are loaded
-  useEffect(() => {
-    if (
-      topKeywordQuery?.avaialbleRecords &&
-      topKeywordQuery.avaialbleRecords.length > 0 &&
-      !selectedMonth
-    ) {
-      setSelectedMonth(
-        topKeywordQuery.avaialbleRecords[
-          topKeywordQuery.avaialbleRecords.length - 1
-        ]
-      );
-    }
-  }, [topKeywordQuery?.avaialbleRecords, selectedMonth]);
+  const monthData = useMemo(
+    () => topKeywordQuery?.Monthdata || [],
+    [topKeywordQuery?.Monthdata]
+  );
 
-  // Initial load to get available records
-  useEffect(() => {
-    if (selectedListing?.id && !topKeywordQuery && !selectedMonth) {
-      // Load with a default month to get available records
-      const currentDate = new Date();
-      const defaultMonth = currentDate.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      });
-      dispatch(
-        fetchTopKeywordQuery({
-          listingId: parseInt(selectedListing.id, 10),
-          month: defaultMonth,
-        })
-      );
-    }
-  }, [selectedListing?.id, topKeywordQuery, selectedMonth, dispatch]);
-  const handleMonthChange = (month: string) => {
+  const handleMonthChange = useCallback((month: string) => {
     setSelectedMonth(month);
-  };
+  }, []);
+
+  const getDefaultMonth = () =>
+    new Date().toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+
+  useEffect(() => {
+    if (!selectedListing?.id) return;
+
+    const month = selectedMonth || availableRecords.at(-1) || getDefaultMonth();
+    setSelectedMonth(month);
+
+    const cacheKey = `${selectedListing.id}-${month}`;
+    if (hasFetched.current.has(cacheKey)) return;
+
+    hasFetched.current.add(cacheKey);
+
+    dispatch(
+      fetchTopKeywordQuery({
+        listingId: Number(selectedListing.id),
+        month,
+      })
+    );
+  }, [selectedListing?.id, selectedMonth, availableRecords]);
+
   return (
     <Card className="h-full">
       <CardHeader>
@@ -80,7 +90,8 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
               {t("topSearchQueriesWithAPI.title")}
             </CardTitle>
           </div>
-          {topKeywordQuery?.avaialbleRecords && (
+
+          {availableRecords.length > 0 && (
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue
@@ -90,7 +101,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
                 />
               </SelectTrigger>
               <SelectContent>
-                {topKeywordQuery.avaialbleRecords.map((month) => (
+                {availableRecords.map((month) => (
                   <SelectItem key={month} value={month}>
                     {month}
                   </SelectItem>
@@ -103,6 +114,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
           {t("topSearchQueriesWithAPI.description")}
         </p>
       </CardHeader>
+
       <CardContent>
         {isLoadingTopKeywordQuery ? (
           <div className="space-y-4">
@@ -111,31 +123,20 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
             ))}
           </div>
         ) : topKeywordQueryError ? (
-          <div className="text-center py-8">
-            <p className="text-red-600 mb-2">
-              {" "}
-              {t("topSearchQueriesWithAPI.loadingErrorTitle")}
-            </p>
-            <p className="text-sm text-gray-500">{topKeywordQueryError}</p>
+          <div className="text-center py-8 text-red-600">
+            {t("topSearchQueriesWithAPI.loadingErrorTitle")}
           </div>
-        ) : topKeywordQuery?.Monthdata &&
-          topKeywordQuery.Monthdata.length > 0 ? (
+        ) : monthData.length > 0 ? (
           <ScrollArea className="h-[400px]">
             <div className="space-y-4 pr-4">
-              {topKeywordQuery.Monthdata.map((query) => (
-                <div
+              {monthData.map((query) => (
+                <QueryItem
                   key={query.id}
-                  className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
-                >
-                  <span className="text-sm font-medium text-gray-900">
-                    {query.keyword}
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    {parseInt(query.impressions) > 15
-                      ? query.impressions
-                      : t("topSearchQueriesWithAPI.impressionBelowThreshold")}
-                  </span>
-                </div>
+                  query={query}
+                  placeholder={t(
+                    "topSearchQueriesWithAPI.impressionBelowThreshold"
+                  )}
+                />
               ))}
             </div>
           </ScrollArea>
@@ -143,7 +144,6 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
           <div className="text-center py-8">
             <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-500">
-              {" "}
               {t("topSearchQueriesWithAPI.noDataMessage")}
             </p>
           </div>

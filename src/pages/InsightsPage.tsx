@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
-import { InsightsPage as Insights } from "../components/Insights/InsightsPage";
+// import { InsightsPage as Insights } from "../components/Insights/InsightsPage";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { NoListingSelected } from "../components/ui/no-listing-selected";
 import { useListingContext } from "../context/ListingContext";
+
+const Insights = React.lazy(
+  () => import("../components/Insights/InsightsPage")
+);
 
 const InsightsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -122,7 +126,9 @@ const InsightsPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
-              <Insights />
+              <Suspense fallback={<div>Loading Insights...</div>}>
+                <Insights />
+              </Suspense>
             </main>
           </div>
 
