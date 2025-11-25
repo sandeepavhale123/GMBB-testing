@@ -40,7 +40,7 @@ const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Determine active tab from URL
+  // Determine active tab from URL.
   const getActiveTabFromUrl = () => {
     const pathParts = location.pathname.split("/");
     const route = pathParts[1];
