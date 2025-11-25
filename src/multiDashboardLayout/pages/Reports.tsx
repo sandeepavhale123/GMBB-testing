@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import TableSkeletonComponent from "@/components/ui/skeleton-components/tableSkeletonComponent";
 import {
   Select,
   SelectContent,
@@ -66,7 +67,7 @@ type GenerateBulkReportProps = {
   isSingleListingDashboard?: boolean; // make it optional
 };
 
-export const Reports: React.FC<GenerateBulkReportProps> = ({
+const Reports: React.FC<GenerateBulkReportProps> = ({
   isSingleListingDashboard = false,
 }) => {
   const { t } = useI18nNamespace("MultidashboardPages/reports");
@@ -179,22 +180,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("reportsManagement")}
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              {t("reportsManagementDescription")}
-            </p>
-          </div>
-        </div>
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">{t("loadingReports")}</p>
-        </div>
-      </div>
+      <TableSkeletonComponent />
     );
   }
 
@@ -219,7 +205,7 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -267,9 +253,9 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
         ))}
       </div>
 
-      {/* Search and Filter Controls */}
       <div className="bg-card rounded-lg border border-border p-4 mb-6">
-        <div className="flex flex-col sm:flex-row gap-4">
+        {/* Search and Filter Controls */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
@@ -294,16 +280,8 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
             </SelectContent>
           </Select>
         </div>
-      </div>
-
-      {/* Projects Table */}
-      <div className="bg-card rounded-lg border border-border">
-        <div className="p-6 border-b border-border">
-          <h2 className="text-xl font-semibold text-foreground">
-            {t("totalReport")} : {pagination.total}
-          </h2>
-        </div>
-        <div className="p-0">
+        {/* Projects Table */}
+        <div className="p-0 border rounded-lg mb-4">
           <TooltipProvider>
             <Table>
               <TableHeader>
@@ -405,58 +383,59 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
             </Table>
           </TooltipProvider>
         </div>
+
+        {/* pagination  */}
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-between ">
+            <label className="text-sm  text-foreground">
+              {t("totalReport")} : {pagination.total}
+            </label>
+            <Pagination className="flex justify-end">
+              <PaginationContent >
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
+                    className={`${currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                      } [&>span]:hidden`}
+                  />
+                </PaginationItem>
+
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  const page = i + 1;
+                  return (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        onClick={() => setCurrentPage(page)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
+                    className={`${currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                      } [&>span]:hidden`}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-6">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(1, prev - 1))
-                  }
-                  className={`${
-                    currentPage === 1
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  } [&>span]:hidden`}
-                />
-              </PaginationItem>
-
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                const page = i + 1;
-                return (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      onClick={() => setCurrentPage(page)}
-                      isActive={currentPage === page}
-                      className="cursor-pointer"
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
-
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-                  }
-                  className={`${
-                    currentPage === totalPages
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  } [&>span]:hidden`}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
-
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
@@ -496,3 +475,4 @@ export const Reports: React.FC<GenerateBulkReportProps> = ({
     </div>
   );
 };
+export default Reports;

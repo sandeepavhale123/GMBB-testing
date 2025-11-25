@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , Suspense} from "react";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
@@ -7,9 +7,9 @@ import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { NoListingSelected } from "../components/ui/no-listing-selected";
 import { useListingContext } from "../context/ListingContext";
-import { Reports } from "@/multiDashboardLayout/pages/Reports";
-import { Layout } from "@/components/layout/layout";
 
+import { Layout } from "@/components/layout/layout";
+const Reports = React.lazy(()=>import('@/multiDashboardLayout/pages/Reports'))
 const BulkReportPage = () => {
   // const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,7 +23,9 @@ const BulkReportPage = () => {
           {!selectedListing && !isInitialLoading ? (
             <NoListingSelected pageType="Reports" />
           ) : (
-            <Reports isSingleListingDashboard={true} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Reports isSingleListingDashboard={true} />
+            </Suspense>
           )}
         </Layout>
       </ThemeProvider>
