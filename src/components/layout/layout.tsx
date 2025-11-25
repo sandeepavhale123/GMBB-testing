@@ -4,6 +4,7 @@ import { Sidebar } from "../Sidebar";
 import { Header } from "../Header/Header";
 import { Sheet, SheetContent } from "../ui/sheet";
 
+
 interface LayoutProps {
   activeTab?: string; // sidebar active tab
   children: ReactNode;
@@ -54,7 +55,7 @@ export const Layout: React.FC<LayoutProps> = ({ activeTab = "overview", children
           showFilters={false}
         />
 
-        <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto">
+        <main className="flex-1 p-3 pb-[100px] sm:p-4 sm:pb-[100px] md:p-6 md:pb-[100px] overflow-auto min-h-[100vh]">
           {children}
         </main>
       </div>

@@ -57,10 +57,10 @@ export const BusinessListingSelector: React.FC = () => {
       <div className="hidden lg:block">
         <Button
           variant="outline"
-          className="w-72 lg:w-96 justify-between border-gray-200"
+          className="w-72 lg:w-96 justify-between border-gray-200 h-[60px]"
         >
-          {t("businessListingSelector.noListings")}
-        </Button>
+          {t("businessListingSelector.noListings")} 
+        </Button> 
       </div>
     );
   }
@@ -75,7 +75,7 @@ export const BusinessListingSelector: React.FC = () => {
           variant="outline"
           className="w-72 lg:w-96 justify-between border-gray-200"
         >
-          {t("businessListingSelector.loading")}
+          {t("businessListingSelector.loading")} 
         </Button>
       </div>
     );
