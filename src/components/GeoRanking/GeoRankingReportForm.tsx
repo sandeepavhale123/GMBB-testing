@@ -51,7 +51,7 @@ interface GeoRankingReportFormProps {
   hasResults?: boolean;
 }
 
-export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
+const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   formData,
   onInputChange,
   onSubmit,
@@ -470,3 +470,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     </Card>
   );
 };
+
+
+export default GeoRankingReportForm;

@@ -32,7 +32,7 @@ interface GeoRankingReportMapProps {
   onClearManualCoordinates?: () => void;
 }
 
-export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
+const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   defaultCoordinates,
   gridCoordinates,
   rankDetails,
@@ -537,3 +537,5 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     </Card>
   );
 };
+
+export default GeoRankingReportMap;

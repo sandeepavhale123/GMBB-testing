@@ -27,7 +27,7 @@ interface GeoPositionModalProps {
   loading?: boolean;
 }
 
-export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
+const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   isOpen,
   onClose,
   gpsCoordinates,
@@ -289,3 +289,5 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   // Use portal to render modal at document body level, completely outside of any parent containers
   return createPortal(modalContent, document.body);
 };
+
+export default GeoPositionModal;

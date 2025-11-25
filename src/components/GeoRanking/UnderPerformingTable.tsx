@@ -11,7 +11,7 @@ interface UnderPerformingTableProps {
   loading?: boolean;
 }
 
-export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
+const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
   underPerformingAreas,
   loading = false,
 }) => {
@@ -135,3 +135,5 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
     </Card>
   );
 };
+
+export default UnderPerformingTable;

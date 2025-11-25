@@ -1,20 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import L from "leaflet";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
 import { useBusinessListings } from "../../hooks/useBusinessListings";
-import { GeoRankingReportForm } from "./GeoRankingReportForm";
-import { GeoRankingReportMap } from "./GeoRankingReportMap";
-import { GeoPositionModal } from "./GeoPositionModal";
-import { UnderPerformingTable } from "./UnderPerformingTable";
 import { useGeoRankingReport } from "../../hooks/useGeoRankingReport";
 import {
   getDistanceOptions,
   languageOptions,
 } from "../../utils/geoRankingUtils";
-
 import { getKeywordPositionDetails } from "../../api/geoRankingApi";
 import { useToast } from "../../hooks/use-toast";
 import { Progress } from "../ui/progress";
@@ -29,7 +24,10 @@ import {
 } from "../ui/alert-dialog";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-
+const GeoRankingReportForm = React.lazy(() => import('./GeoRankingReportForm'));
+const GeoRankingReportMap = React.lazy(() => import("./GeoRankingReportMap"));
+const GeoPositionModal = React.lazy(() => import("./GeoPositionModal"));
+const UnderPerformingTable = React.lazy(() => import("./UnderPerformingTable"));
 const GeoRankingReportPage: React.FC = () => {
   const { t } = useI18nNamespace("GeoRanking/geoRankingReportPage");
   const navigate = useNavigate();
@@ -148,7 +146,7 @@ const GeoRankingReportPage: React.FC = () => {
         <SheetContent side="left" className="p-0 w-64">
           <Sidebar
             activeTab={t("geoRankingReportPage.sidebar.activeTab")}
-            onTabChange={() => {}}
+            onTabChange={() => { }}
             collapsed={false}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
@@ -159,30 +157,15 @@ const GeoRankingReportPage: React.FC = () => {
       <div className="hidden md:flex">
         <Sidebar
           activeTab={t("geoRankingReportPage.sidebar.activeTab")}
-          onTabChange={() => {}}
+          onTabChange={() => { }}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
       </div>
-      {/* <Sidebar
-        activeTab="geo-ranking"
-        onTabChange={() => {}}
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-      /> */}
-
-      {/* <div
-        className={`flex-1 transition-all duration-300 ${
-          sidebarCollapsed ? "ml-16" : "ml-64"
-        }`}
-      >
-        <Header onToggleSidebar={toggleSidebar} /> */}
-
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-          sidebarCollapsed ? "md:ml-16" : "md:ml-64"
-        }`}
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+          }`}
       >
         {/* Header */}
         <Header
@@ -221,65 +204,73 @@ const GeoRankingReportPage: React.FC = () => {
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
               {/* Report Configuration */}
               <div className="xl:col-span-4 order-1 xl:order-2">
-                <GeoRankingReportForm
-                  formData={formData}
-                  onInputChange={handleInputChange}
-                  onSubmit={handleSubmit}
-                  onReset={handleReset}
-                  getDistanceOptions={() =>
-                    getDistanceOptions(formData.distanceUnit)
-                  }
-                  languageOptions={languageOptions}
-                  submittingRank={submittingRank}
-                  pollingKeyword={pollingKeyword}
-                  manualCoordinates={manualCoordinates}
-                  onClearManualCoordinates={clearManualCoordinates}
-                  hasResults={hasResults}
-                />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <GeoRankingReportForm
+                    formData={formData}
+                    onInputChange={handleInputChange}
+                    onSubmit={handleSubmit}
+                    onReset={handleReset}
+                    getDistanceOptions={() =>
+                      getDistanceOptions(formData.distanceUnit)
+                    }
+                    languageOptions={languageOptions}
+                    submittingRank={submittingRank}
+                    pollingKeyword={pollingKeyword}
+                    manualCoordinates={manualCoordinates}
+                    onClearManualCoordinates={clearManualCoordinates}
+                    hasResults={hasResults}
+                  />
+                </Suspense>
               </div>
 
               {/* Map Section */}
               <div className="xl:col-span-8 order-2 xl:order-1">
-                <GeoRankingReportMap
-                  defaultCoordinates={defaultCoordinates}
-                  gridCoordinates={gridCoordinates}
-                  rankDetails={keywordData?.rankDetails || null}
-                  pollingKeyword={pollingKeyword}
-                  loadingGrid={loadingGrid}
-                  onMarkerClick={handleMarkerClick}
-                  mapPoint={formData.mapPoint}
-                  manualCoordinates={manualCoordinates}
-                  onAddManualCoordinate={addManualCoordinate}
-                  onRemoveManualCoordinate={removeManualCoordinate}
-                  onUpdateManualCoordinate={updateManualCoordinate}
-                  onClearManualCoordinates={clearManualCoordinates}
-                />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <GeoRankingReportMap
+                    defaultCoordinates={defaultCoordinates}
+                    gridCoordinates={gridCoordinates}
+                    rankDetails={keywordData?.rankDetails || null}
+                    pollingKeyword={pollingKeyword}
+                    loadingGrid={loadingGrid}
+                    onMarkerClick={handleMarkerClick}
+                    mapPoint={formData.mapPoint}
+                    manualCoordinates={manualCoordinates}
+                    onAddManualCoordinate={addManualCoordinate}
+                    onRemoveManualCoordinate={removeManualCoordinate}
+                    onUpdateManualCoordinate={updateManualCoordinate}
+                    onClearManualCoordinates={clearManualCoordinates}
+                  />
+                </Suspense>
               </div>
+
             </div>
 
             {/* Under-Performing Areas Section */}
             {keywordData?.underPerformingArea &&
               keywordData.underPerformingArea.length > 0 && (
                 <div className="mt-6">
-                  <UnderPerformingTable
-                    underPerformingAreas={keywordData.underPerformingArea}
-                    loading={pollingKeyword}
-                  />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <UnderPerformingTable
+                      underPerformingAreas={keywordData.underPerformingArea}
+                      loading={pollingKeyword}
+                    />
+                  </Suspense>
                 </div>
               )}
           </div>
         </div>
 
         {/* Position Modal */}
-        <GeoPositionModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          gpsCoordinates={modalCoordinate}
-          competitors={modalCompetitors}
-          userBusinessName={currentListing?.name}
-          loading={modalLoading}
-        />
-
+        <Suspense fallback={<div>Loading...</div>}>
+          <GeoPositionModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            gpsCoordinates={modalCoordinate}
+            competitors={modalCompetitors}
+            userBusinessName={currentListing?.name}
+            loading={modalLoading}
+          />
+        </Suspense>
         {/* Multi-Keyword Alert */}
         <AlertDialog
           open={showMultiKeywordAlert}
