@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { GeoRankingHeader } from "@/components/GeoRanking/GeoRankingHeader";
 import { GeoRankingMapSection } from "@/components/GeoRanking/GeoRankingMapSection";
-import { GeoPositionModal } from "@/components/GeoRanking/GeoPositionModal";
+import GeoPositionModal from "@/components/GeoRanking/GeoPositionModal";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLeadGeoRanking } from "@/hooks/useLeadGeoRanking";
 import { useLeadKeywordPositionDetails } from "@/hooks/useLeadKeywordPositionDetails";

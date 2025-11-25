@@ -27,13 +27,11 @@ const GeoRankingMapSection = lazyImport(() =>
 );
 
 const UnderPerformingTable = lazyImport(() =>
-  import("./UnderPerformingTable").then((m) => ({
-    default: m.UnderPerformingTable,
-  }))
+  import("./UnderPerformingTable")
 );
 
 const GeoPositionModal = lazyImport(() =>
-  import("./GeoPositionModal").then((m) => ({ default: m.GeoPositionModal }))
+  import("./GeoPositionModal")
 );
 
 const ProcessingKeywordsAlert = lazyImport(() =>
