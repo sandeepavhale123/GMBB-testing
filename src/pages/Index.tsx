@@ -143,7 +143,7 @@ const Index = () => {
         <div className="hidden md:flex">
           <Sidebar
             activeTab={activeTab}
-            onTabChange={() => {}} // Navigation is handled by the sidebar itself now
+            onTabChange={() => {}} // Navigation is handled by the sidebar itself now.
             collapsed={sidebarCollapsed}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
