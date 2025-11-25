@@ -8,7 +8,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 
-export const Setting: React.FC = () => {
+const Setting: React.FC = () => {
   const { t } = useI18nNamespace("Reputation/setting");
   const [activeTab, setActiveTab] = useState("integration");
   const isMobile = useIsMobile(1024);
@@ -231,3 +231,5 @@ export const Setting: React.FC = () => {
     </div>
   );
 };
+
+export default Setting;

@@ -68,7 +68,7 @@ const mockConnectedChannels = [
   },
 ];
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [selectedChannel, setSelectedChannel] = useState("google");
 
   const navigate = useNavigate();
@@ -259,3 +259,5 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+
+export default Dashboard;

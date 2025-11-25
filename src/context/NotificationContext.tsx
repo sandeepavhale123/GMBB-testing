@@ -15,9 +15,16 @@ export interface Notification {
   category?: string;
   date: string;
   read?: boolean;
+  
+  // New API fields (primary)
+  shortdesc?: string; // Plain text description
+  image?: string; // Single image URL
+  
+  // Old API fields (deprecated but kept for backward compatibility)
   textContent?: string; // plain HTML/text
   images?: { url: string; alt?: string }[];
   videos?: string[]; // iframe URLs or raw iframe HTML
+  
   notificationUrl?: string;
 }
 
@@ -409,20 +416,38 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       }
 
       const newNotifications = notificationData.map((n: any) => {
-        const { textContent, images, videos } = parseNotificationHTML(
-          n.description || n.content || ""
-        );
-        return {
-          id: n.id ?? n.title ?? Math.random().toString(),
-          title: n.title || "Untitled",
-          category: n.category,
-          date: n.created_at || n.date || new Date().toISOString(),
-          read: n.read ?? false,
-          textContent,
-          images,
-          videos,
-          notificationUrl: n.notificationUrl || n.url,
-        };
+        // Check if new API structure (has shortdesc or image fields)
+        const isNewAPI = n.shortdesc !== undefined || n.image !== undefined;
+        
+        if (isNewAPI) {
+          // New API structure - direct mapping, no HTML parsing needed
+          return {
+            id: n.id ?? n.title ?? Math.random().toString(),
+            title: n.title || "Untitled",
+            category: n.category,
+            date: n.created_at || new Date().toISOString(),
+            read: n.read ?? false,
+            shortdesc: n.shortdesc,
+            image: n.image, // Single image URL
+            notificationUrl: n.notificationUrl || n.url,
+          };
+        } else {
+          // Old API structure - use HTML parsing (backward compatibility)
+          const { textContent, images, videos } = parseNotificationHTML(
+            n.description || n.content || ""
+          );
+          return {
+            id: n.id ?? n.title ?? Math.random().toString(),
+            title: n.title || "Untitled",
+            category: n.category,
+            date: n.created_at || n.date || new Date().toISOString(),
+            read: n.read ?? false,
+            textContent,
+            images,
+            videos,
+            notificationUrl: n.notificationUrl || n.url,
+          };
+        }
       });
 
       setNotifications((prev) =>

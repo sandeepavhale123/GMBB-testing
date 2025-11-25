@@ -48,7 +48,7 @@ const COLOR_PRESETS = [{
   text: "#374151",
   accent: "#6B7280"
 }];
-export const QRCodePoster: React.FC = () => {
+const QRCodePoster: React.FC = () => {
   const {
     t
   } = useTranslation("Reputation/qrCodePoster");
@@ -480,3 +480,5 @@ export const QRCodePoster: React.FC = () => {
       </div>
     </div>;
 };
+
+export default QRCodePoster;

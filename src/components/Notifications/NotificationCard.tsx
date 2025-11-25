@@ -93,56 +93,93 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
             )}
           </div>
 
-          <h3 className="font-semibold mb-2">{notification.title}</h3>
-
-          {/* Render text content */}
-          {notification.textContent && (
+           {/* Render image - prioritize new API single image */}
+          {(notification.image || (notification.images && notification.images.length > 0)) && (
             <div
-              className="text-sm text-foreground mb-2"
-              dangerouslySetInnerHTML={{
-                __html: transformDescription(notification.textContent),
-              }}
-            />
+              className="relative group rounded-lg overflow-hidden mb-2 shadow shadow-md"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {notification.image ? (
+                // New API: Single image
+                <>
+                  <img
+                    src={notification.image}
+                    alt={notification.title}
+                    className="w-full h-32 object-cover transition-transform duration-200 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleImageExpand(notification.image!);
+                      }}
+                    >
+                      <Expand className="h-4 w-4 mr-1" />
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                // Old API: Image array (backward compatibility)
+                notification.images?.map((img, idx) => (
+                  <div key={idx} className="relative group rounded-lg overflow-hidden mb-2 ">
+                    <img
+                      src={img.url}
+                      alt={img.alt ?? ""}
+                      className="w-full h-35 object-cover transition-transform duration-200 group-hover:scale-105 "
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImageExpand(img.url);
+                        }}
+                      >
+                        <Expand className="h-4 w-4 mr-1" />
+                      </Button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           )}
 
-          {/* Render images */}
-          {notification.images?.length > 0 &&
-            notification.images.map((img, idx) => (
-              <div
-                key={idx}
-                className="relative group rounded-lg overflow-hidden mb-2"
-                onClick={(e) => e.stopPropagation()} // prevent card click
-              >
-                <img
-                  src={img.url}
-                  alt={img.alt ?? ""}
-                  className="w-full h-32 object-cover transition-transform duration-200 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    onClick={(e) => {
-                      e.stopPropagation(); // prevent card click
-                      handleImageExpand(img.url); // open modal
-                    }}
-                  >
-                    <Expand className="h-4 w-4 mr-1" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-
-          {/* Render videos */}
-          {notification.videos?.length > 0 &&
-            notification.videos?.map((videoHTML, idx) => (
+          {/* Render videos - only for old API (deprecated for new API) */}
+          {notification.videos && notification.videos.length > 0 &&
+            notification.videos.map((videoHTML, idx) => (
               <div
                 key={idx}
                 className="relative rounded-lg overflow-hidden mb-2"
                 dangerouslySetInnerHTML={{ __html: videoHTML }}
               />
             ))}
+
+
+          <h3 className="font-semibold mb-2">{notification.title}</h3>
+
+          {/* Render description - prioritize new API shortdesc */}
+          {(notification.shortdesc || notification.textContent) && (
+            <div className="text-sm text-foreground mb-2">
+              {notification.shortdesc ? (
+                // New API: Plain text (already cleaned)
+                <p>{ (notification.shortdesc.length > 80 ? notification.shortdesc.slice(1 , 80) + "...": notification.shortdesc) }</p>
+              ) : (
+                // Old API: HTML content
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: transformDescription(notification.textContent || ""),
+                  }}
+                />
+              )}
+            </div>
+          )}
+
+         
         </CardContent>
       </Card>
       {/* Image Modal */}

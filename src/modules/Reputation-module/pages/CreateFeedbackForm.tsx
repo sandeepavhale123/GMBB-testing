@@ -29,7 +29,7 @@ import {
 } from "../utils/formBuilder.utils";
 import type { FormField, FieldType } from "../types/formBuilder.types";
 
-export const CreateFeedbackForm: React.FC = () => {
+const CreateFeedbackForm: React.FC = () => {
   const navigate = useNavigate();
   const { formId } = useParams<{ formId: string }>();
   const isEditMode = Boolean(formId);
@@ -381,3 +381,5 @@ export const CreateFeedbackForm: React.FC = () => {
     </div>
   );
 };
+
+export default CreateFeedbackForm;

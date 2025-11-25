@@ -238,7 +238,7 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
     },
     {
       value: "last-12-months",
-      label: t("GenerateBulkReport.scheduleConfig.frequencies.last2Weeks"),
+      label: t("GenerateBulkReport.scheduleConfig.frequencies.last12Months"),
     },
   ];
 

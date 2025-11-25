@@ -24,8 +24,8 @@ export const CheckBulkMapRank: React.FC = () => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [keywords, setKeywords] = useState("");
   const [language, setLanguage] = useState("en");
-  const [searchBy, setSearchBy] = useState("");
-  const [scheduleFrequency, setScheduleFrequency] = useState("");
+  const [searchBy, setSearchBy] = useState("City");
+  const [scheduleFrequency, setScheduleFrequency] = useState("onetime");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [keywordError, setKeywordError] = useState(false);
   const [isVisibleImportCSV, setIsVisibleImportCSV] = useState<boolean>(false);
