@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { useListingContext } from "@/context/ListingContext";
 import { useReports } from "@/hooks/useReports";
-import { ReportsTable } from "./ReportsTable";
+// import { ReportsTable } from "./ReportsTable";
 import { CreateReportModal } from "./CreateReportModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const ReportsPage: React.FC = () => {
+const ReportsTable = React.lazy(() =>import("./ReportsTable"));
+
+const ReportsPage: React.FC = () => {
   const { t } = useI18nNamespace("Reports/reportsPage");
   const { selectedListing } = useListingContext();
   const {
@@ -18,10 +20,7 @@ export const ReportsPage: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   if (isLoading) {
     return (
-      <div className="text-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-500">{t("reportsPage.loading")}</p>
-      </div>
+      <LoadingComponent />
     );
   }
   if (error) {
@@ -48,10 +47,10 @@ export const ReportsPage: React.FC = () => {
           {t("reportsPage.createReportButton")}
         </Button>
       </div>
-
       {/* Reports Table */}
-      <ReportsTable listingId={selectedListing?.id || ""} />
-
+      <Suspense fallback={<LoadingComponent />}>
+        <ReportsTable listingId={selectedListing?.id || ""} />
+      </Suspense>
       {/* Create Report Modal */}
       <CreateReportModal
         open={isCreateModalOpen}
@@ -60,3 +59,16 @@ export const ReportsPage: React.FC = () => {
     </div>
   );
 };
+
+
+export default ReportsPage;
+
+
+
+const LoadingComponent = () => {
+  return (<div className="p-6">
+    <div className="text-center py-12">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+    </div>
+  </div>)
+}

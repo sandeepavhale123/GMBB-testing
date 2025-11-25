@@ -23,7 +23,7 @@ interface ReportsTableProps {
   listingId: string;
 }
 
-export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
+const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   const { t } = useI18nNamespace("Reports/reportsTable");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -278,3 +278,5 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
     </>
   );
 };
+
+export default ReportsTable;
