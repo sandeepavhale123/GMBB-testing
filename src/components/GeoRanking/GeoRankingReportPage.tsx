@@ -2,8 +2,6 @@ import React, { useState, useRef, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import L from "leaflet";
-import { Header } from "../Header";
-import { Sidebar } from "../Sidebar";
 import { useBusinessListings } from "../../hooks/useBusinessListings";
 import { useGeoRankingReport } from "../../hooks/useGeoRankingReport";
 import {
@@ -22,7 +20,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import { Sheet, SheetContent } from "../ui/sheet";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 const GeoRankingReportForm = React.lazy(() => import('./GeoRankingReportForm'));
 const GeoRankingReportMap = React.lazy(() => import("./GeoRankingReportMap"));
@@ -34,7 +31,6 @@ const GeoRankingReportPage: React.FC = () => {
   const { listingId } = useParams();
   const numericListingId = listingId ? parseInt(listingId, 10) : 0;
   const mapInstanceRef = useRef<L.Map | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { listings } = useBusinessListings();
 
   const {
@@ -61,7 +57,6 @@ const GeoRankingReportPage: React.FC = () => {
 
   const { toast } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [modalCoordinate, setModalCoordinate] = useState("");
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
@@ -90,10 +85,6 @@ const GeoRankingReportPage: React.FC = () => {
         setShowMultiKeywordAlert(true);
       }
     }
-  };
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const handleMarkerClick = async (coordinate: string, positionId: string) => {
@@ -140,175 +131,134 @@ const GeoRankingReportPage: React.FC = () => {
   const hasResults = Boolean(keywordData?.rankDetails?.length);
 
   return (
-    <div className="min-h-screen flex w-full">
-      {/* Mobile Navigation Sheet */}
-      <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-        <SheetContent side="left" className="p-0 w-64">
-          <Sidebar
-            activeTab={t("geoRankingReportPage.sidebar.activeTab")}
-            onTabChange={() => { }}
-            collapsed={false}
-            onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-          />
-        </SheetContent>
-      </Sheet>
-
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex">
-        <Sidebar
-          activeTab={t("geoRankingReportPage.sidebar.activeTab")}
-          onTabChange={() => { }}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        />
-      </div>
-      {/* Main Content */}
-      <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${sidebarCollapsed ? "md:ml-16" : "md:ml-64"
-          }`}
-      >
-        {/* Header */}
-        <Header
-          onToggleSidebar={() => {
-            if (window.innerWidth < 768) {
-              setMobileMenuOpen(true);
-            } else {
-              setSidebarCollapsed(!sidebarCollapsed);
-            }
-          }}
-          showFilters={true}
-        />
-
-        <div className="p-3 sm:p-4 lg:p-6 px-0 py-0">
-          <div className=" mx-auto">
-            {/* Processing Status Card */}
-            {pollingKeyword && (
-              <div className="mb-6 p-6 bg-white rounded-lg shadow-sm border">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {t("geoRankingReportPage.processing.title")}
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                      {t("geoRankingReportPage.processing.description")}
-                    </p>
-                  </div>
-                </div>
-                <Progress value={pollingProgress} className="w-full" />
+    <div className="p-3 sm:p-4 lg:p-6 px-0 py-0">
+      <div className="mx-auto">
+        {/* Processing Status Card */}
+        {pollingKeyword && (
+          <div className="mb-6 p-6 bg-white rounded-lg shadow-sm border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
               </div>
-            )}
-
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
-              {/* Report Configuration */}
-              <div className="xl:col-span-4 order-1 xl:order-2">
-                <Suspense fallback={<div>Loading...</div>}>
-                  <GeoRankingReportForm
-                    formData={formData}
-                    onInputChange={handleInputChange}
-                    onSubmit={handleSubmit}
-                    onReset={handleReset}
-                    getDistanceOptions={() =>
-                      getDistanceOptions(formData.distanceUnit)
-                    }
-                    languageOptions={languageOptions}
-                    submittingRank={submittingRank}
-                    pollingKeyword={pollingKeyword}
-                    manualCoordinates={manualCoordinates}
-                    onClearManualCoordinates={clearManualCoordinates}
-                    hasResults={hasResults}
-                  />
-                </Suspense>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {t("geoRankingReportPage.processing.title")}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {t("geoRankingReportPage.processing.description")}
+                </p>
               </div>
-
-              {/* Map Section */}
-              <div className="xl:col-span-8 order-2 xl:order-1">
-                <Suspense fallback={<div>Loading...</div>}>
-                  <GeoRankingReportMap
-                    defaultCoordinates={defaultCoordinates}
-                    gridCoordinates={gridCoordinates}
-                    rankDetails={keywordData?.rankDetails || null}
-                    pollingKeyword={pollingKeyword}
-                    loadingGrid={loadingGrid}
-                    onMarkerClick={handleMarkerClick}
-                    mapPoint={formData.mapPoint}
-                    manualCoordinates={manualCoordinates}
-                    onAddManualCoordinate={addManualCoordinate}
-                    onRemoveManualCoordinate={removeManualCoordinate}
-                    onUpdateManualCoordinate={updateManualCoordinate}
-                    onClearManualCoordinates={clearManualCoordinates}
-                  />
-                </Suspense>
-              </div>
-
             </div>
+            <Progress value={pollingProgress} className="w-full" />
+          </div>
+        )}
 
-            {/* Under-Performing Areas Section */}
-            {keywordData?.underPerformingArea &&
-              keywordData.underPerformingArea.length > 0 && (
-                <div className="mt-6">
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <UnderPerformingTable
-                      underPerformingAreas={keywordData.underPerformingArea}
-                      loading={pollingKeyword}
-                    />
-                  </Suspense>
-                </div>
-              )}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
+          {/* Report Configuration */}
+          <div className="xl:col-span-4 order-1 xl:order-2">
+            <Suspense fallback={<div>Loading...</div>}>
+              <GeoRankingReportForm
+                formData={formData}
+                onInputChange={handleInputChange}
+                onSubmit={handleSubmit}
+                onReset={handleReset}
+                getDistanceOptions={() =>
+                  getDistanceOptions(formData.distanceUnit)
+                }
+                languageOptions={languageOptions}
+                submittingRank={submittingRank}
+                pollingKeyword={pollingKeyword}
+                manualCoordinates={manualCoordinates}
+                onClearManualCoordinates={clearManualCoordinates}
+                hasResults={hasResults}
+              />
+            </Suspense>
+          </div>
+
+          {/* Map Section */}
+          <div className="xl:col-span-8 order-2 xl:order-1">
+            <Suspense fallback={<div>Loading...</div>}>
+              <GeoRankingReportMap
+                defaultCoordinates={defaultCoordinates}
+                gridCoordinates={gridCoordinates}
+                rankDetails={keywordData?.rankDetails || null}
+                pollingKeyword={pollingKeyword}
+                loadingGrid={loadingGrid}
+                onMarkerClick={handleMarkerClick}
+                mapPoint={formData.mapPoint}
+                manualCoordinates={manualCoordinates}
+                onAddManualCoordinate={addManualCoordinate}
+                onRemoveManualCoordinate={removeManualCoordinate}
+                onUpdateManualCoordinate={updateManualCoordinate}
+                onClearManualCoordinates={clearManualCoordinates}
+              />
+            </Suspense>
           </div>
         </div>
 
-        {/* Position Modal */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <GeoPositionModal
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            gpsCoordinates={modalCoordinate}
-            competitors={modalCompetitors}
-            userBusinessName={currentListing?.name}
-            loading={modalLoading}
-          />
-        </Suspense>
-        {/* Multi-Keyword Alert */}
-        <AlertDialog
-          open={showMultiKeywordAlert}
-          onOpenChange={setShowMultiKeywordAlert}
-        >
-          <AlertDialogContent className="custom-z-index">
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                {" "}
-                {t("geoRankingReportPage.multiKeywordAlert.title")}
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                {t("geoRankingReportPage.multiKeywordAlert.description")}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogAction
-                onClick={() => {
-                  setShowMultiKeywordAlert(false);
-                  // Extract submitted keywords and pass as URL parameter
-                  const submittedKeywords = formData.keywords
-                    .split(/[,;\n\r]+/)
-                    .map((k) => k.trim())
-                    .filter((k) => k.length > 0)
-                    .join(",");
-                  navigate(
-                    `/geo-ranking?processing=true&submittedKeywords=${encodeURIComponent(
-                      submittedKeywords
-                    )}`
-                  );
-                }}
-              >
-                {t("geoRankingReportPage.multiKeywordAlert.action")}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {/* Under-Performing Areas Section */}
+        {keywordData?.underPerformingArea &&
+          keywordData.underPerformingArea.length > 0 && (
+            <div className="mt-6">
+              <Suspense fallback={<div>Loading...</div>}>
+                <UnderPerformingTable
+                  underPerformingAreas={keywordData.underPerformingArea}
+                  loading={pollingKeyword}
+                />
+              </Suspense>
+            </div>
+          )}
       </div>
+
+      {/* Position Modal */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <GeoPositionModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          gpsCoordinates={modalCoordinate}
+          competitors={modalCompetitors}
+          userBusinessName={currentListing?.name}
+          loading={modalLoading}
+        />
+      </Suspense>
+
+      {/* Multi-Keyword Alert */}
+      <AlertDialog
+        open={showMultiKeywordAlert}
+        onOpenChange={setShowMultiKeywordAlert}
+      >
+        <AlertDialogContent className="custom-z-index">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {" "}
+              {t("geoRankingReportPage.multiKeywordAlert.title")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("geoRankingReportPage.multiKeywordAlert.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={() => {
+                setShowMultiKeywordAlert(false);
+                // Extract submitted keywords and pass as URL parameter
+                const submittedKeywords = formData.keywords
+                  .split(/[,;\n\r]+/)
+                  .map((k) => k.trim())
+                  .filter((k) => k.length > 0)
+                  .join(",");
+                navigate(
+                  `/geo-ranking?processing=true&submittedKeywords=${encodeURIComponent(
+                    submittedKeywords
+                  )}`
+                );
+              }}
+            >
+              {t("geoRankingReportPage.multiKeywordAlert.action")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

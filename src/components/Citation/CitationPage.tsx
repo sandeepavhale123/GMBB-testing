@@ -8,10 +8,6 @@ import React, {
   useCallback,
 } from "react";
 import { useLocation } from "react-router-dom";
-import { Header } from "../Header";
-import { Sidebar } from "../Sidebar";
-import { useDeviceBreakpoints } from "@/hooks/use-mobile";
-import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { lazyImport } from "@/routes/lazyImport";
@@ -54,11 +50,8 @@ const CopyUrlModal = lazyImport(() =>
 export const CitationPage: React.FC = () => {
   const { t } = useI18nNamespace("Citation/citationPage");
   const location = useLocation();
-  const { isMobile, isTablet } = useDeviceBreakpoints();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // UI states kept separate to minimize change risk with option B
+  // UI states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
@@ -116,31 +109,6 @@ export const CitationPage: React.FC = () => {
       refetch();
     }
   }, [selectedListing, refetch]);
-
-  // Close sidebar when clicking outside on mobile
-  const handleBackdropClick = useCallback(() => {
-    if (isMobile && sidebarOpen) setSidebarOpen(false);
-  }, [isMobile, sidebarOpen]);
-
-  // Close sidebar on navigation change (mobile)
-  useEffect(() => {
-    if (isMobile) setSidebarOpen(false);
-  }, [location.pathname, isMobile]);
-
-  // escape key to close mobile sidebar
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isMobile && sidebarOpen)
-        setSidebarOpen(false);
-    };
-    document.addEventListener("keydown", handleEscapeKey);
-    return () => document.removeEventListener("keydown", handleEscapeKey);
-  }, [isMobile, sidebarOpen]);
-
-  const toggleSidebar = useCallback(() => {
-    if (isMobile) setSidebarOpen((s) => !s);
-    else setSidebarCollapsed((c) => !c);
-  }, [isMobile]);
 
   const handlePlaceSelect = useCallback((formattedAddress: string) => {
     setSearchData((prev) => ({ ...prev, city: formattedAddress }));
@@ -241,104 +209,37 @@ export const CitationPage: React.FC = () => {
 
   if (isPageLoading) {
     return (
-      <div className="min-h-screen flex w-full">
-        {isMobile && sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-30"
-            onClick={handleBackdropClick}
-          />
-        )}
-        <Sidebar
-          activeTab="citation"
-          onTabChange={() => {}}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={toggleSidebar}
-          isMobile={isMobile}
-          sidebarOpen={sidebarOpen}
-          isTablet={isTablet}
-        />
-
-        <div
-          className={`flex-1 transition-all duration-300 ${
-            isMobile
-              ? "ml-0"
-              : isTablet
-              ? sidebarCollapsed
-                ? "ml-16"
-                : "ml-64"
-              : sidebarCollapsed
-              ? "lg:ml-16"
-              : "lg:ml-64"
-          }`}
-        >
-          <Header onToggleSidebar={toggleSidebar} />
-          <div className="flex items-center justify-center min-h-[80vh]">
-            <Loader size="lg" text={t("citationPage.loading")} />
-          </div>
-        </div>
+      <div className="flex items-center justify-center min-h-[80vh]">
+        <Loader size="lg" text={t("citationPage.loading")} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex w-full">
-      {isMobile && sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30"
-          onClick={handleBackdropClick}
-        />
-      )}
-
-      <Sidebar
-        activeTab="citation"
-        onTabChange={() => {}}
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-        isMobile={isMobile}
-        sidebarOpen={sidebarOpen}
-        isTablet={isTablet}
-      />
-
-      <div
-        className={`flex-1 transition-all duration-300 ${
-          isMobile
-            ? "ml-0"
-            : isTablet
-            ? sidebarCollapsed
-              ? "ml-16"
-              : "ml-64"
-            : sidebarCollapsed
-            ? "lg:ml-16"
-            : "lg:ml-64"
-        }`}
-      >
-        <Header onToggleSidebar={toggleSidebar} />
-        <div className="p-4 sm:p-6">
-          <div className="max-w-6xl mx-auto space-y-6">
-            {!hasSearched && !citationData?.report_id ? (
-              <CitationSearchForm
-                searchData={searchData}
-                cityInputRef={cityInputRef}
-                onInputChange={handleInputChange}
-                onCityInputChange={handleCityInputChange}
-                onPlaceSelect={handlePlaceSelect}
-                onSubmit={handleSearch}
-                isCreating={isCreating}
-                t={t}
-              />
-            ) : (
-              <CitationManagement
-                citationData={citationData}
-                trackerData={trackerData}
-                citationTab={citationTab}
-                setCitationTab={setCitationTab}
-                onRefresh={handleRefresh}
-                t={t}
-                isPending={isPending}
-              />
-            )}
-          </div>
-        </div>
+    <div className="p-4 sm:p-6">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {!hasSearched && !citationData?.report_id ? (
+          <CitationSearchForm
+            searchData={searchData}
+            cityInputRef={cityInputRef}
+            onInputChange={handleInputChange}
+            onCityInputChange={handleCityInputChange}
+            onPlaceSelect={handlePlaceSelect}
+            onSubmit={handleSearch}
+            isCreating={isCreating}
+            t={t}
+          />
+        ) : (
+          <CitationManagement
+            citationData={citationData}
+            trackerData={trackerData}
+            citationTab={citationTab}
+            setCitationTab={setCitationTab}
+            onRefresh={handleRefresh}
+            t={t}
+            isPending={isPending}
+          />
+        )}
       </div>
 
       <Suspense fallback={null}>
