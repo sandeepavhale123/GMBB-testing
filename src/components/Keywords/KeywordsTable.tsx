@@ -39,6 +39,7 @@ import { Loader2 } from "lucide-react";
 import { useListingContext } from "../../context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { current } from "@reduxjs/toolkit";
+import { Card } from "../ui/card";
 
 interface Keyword {
   id: string;
@@ -237,8 +238,9 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
 
   return (
     <div className="space-y-4">
-      {selectedKeywords.length > 0 && (
-        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-muted rounded-lg">
+      <Card className="bg-white rounded-lg p-5">
+        {selectedKeywords.length > 0 && (
+        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center md:justify-end gap-2 sm:gap-4 p-3 sm:p-4 border rounded-lg">
           <span className="text-sm text-muted-foreground">
             {t("keywordsTable.bulkActions.selected", {
               count: selectedKeywords.length,
@@ -310,222 +312,223 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </Button>
         </div>
       )}
-
-      <div className="bg-white rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-12">
-                <Checkbox
-                  checked={isAllSelected}
-                  onCheckedChange={handleSelectAll}
-                  aria-label={t("keywordsTable.table.selectAll")}
-                  className={
-                    isPartiallySelected ? "data-[state=checked]:bg-primary" : ""
-                  }
-                />
-              </TableHead>
-              <TableHead className="w-16">
-                {t("keywordsTable.table.columns.srNo")}
-              </TableHead>
-              <TableHead>{t("keywordsTable.table.columns.keyword")}</TableHead>
-              <TableHead className="text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <span>{t("keywordsTable.table.columns.arp")}</span>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-3 w-3 text-gray-400" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.arpTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </TableHead>
-              <TableHead className="text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <span>{t("keywordsTable.table.columns.atrp")}</span>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-3 w-3 text-gray-400" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.atrpTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </TableHead>
-              <TableHead className="text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <span>{t("keywordsTable.table.columns.solv")}</span>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-3 w-3 text-gray-400" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.solvTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </TableHead>
-              <TableHead className="text-center">
-                {t("keywordsTable.table.columns.addedOn")}
-              </TableHead>
-              <TableHead className="text-center">
-                {t("keywordsTable.table.columns.status")}
-              </TableHead>
-              <TableHead className="text-center w-24">
-                {t("keywordsTable.table.columns.actions")}
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {keywords.map((keyword, index) => (
-              <TableRow key={keyword.id}>
-                <TableCell>
+        <div className="border rounded-lg mb-3">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12">
                   <Checkbox
-                    checked={selectedKeywords.includes(keyword.id)}
-                    onCheckedChange={(checked) =>
-                      handleSelectKeyword(keyword.id, checked as boolean)
+                    checked={isAllSelected}
+                    onCheckedChange={handleSelectAll}
+                    aria-label={t("keywordsTable.table.selectAll")}
+                    className={
+                      isPartiallySelected ? "data-[state=checked]:bg-primary" : ""
                     }
-                    aria-label={`Select keyword ${keyword.keyword}`}
                   />
-                </TableCell>
-                <TableCell className="font-medium">
-                  {startIndex + index + 1}
-                </TableCell>
-                <TableCell className="font-medium">
-                  <button
-                    onClick={() => handleViewRank(keyword)}
-                    className="text-foreground hover:text-primary cursor-pointer transition-colors"
-                  >
-                    {keyword.keyword}
-                  </button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <span className="cursor-help">
-                          {keyword.atr || "N/A"}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.arpTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
-                <TableCell className="text-center">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <span className="cursor-help">
-                          {keyword.atrp || "N/A"}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.atrpTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
-                <TableCell className="text-center">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <span className="cursor-help">
-                          {keyword.solv || t("keywordsTable.misc.na")}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{t("keywordsTable.table.columns.solvTooltip")}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
-                <TableCell className="text-center">
-                  {formatDate(keyword.date)}
-                </TableCell>
-                <TableCell className="text-center">
-                  {getStatusBadge(keyword.status)}
-                </TableCell>
-                <TableCell className="text-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleViewRank(keyword)}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        {t("keywordsTable.table.actions.viewRank")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleSelectKeyword(keyword.id, true)}
-                      >
-                        <Trash className="mr-2 h-4 w-4" />
-                        {t("keywordsTable.table.actions.selectDelete")}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
+                </TableHead>
+                <TableHead className="w-16">
+                  {t("keywordsTable.table.columns.srNo")}
+                </TableHead>
+                <TableHead>{t("keywordsTable.table.columns.keyword")}</TableHead>
+                <TableHead className="text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>{t("keywordsTable.table.columns.arp")}</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-3 w-3 text-gray-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.arpTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </TableHead>
+                <TableHead className="text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>{t("keywordsTable.table.columns.atrp")}</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-3 w-3 text-gray-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.atrpTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </TableHead>
+                <TableHead className="text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>{t("keywordsTable.table.columns.solv")}</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-3 w-3 text-gray-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.solvTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </TableHead>
+                <TableHead className="text-center">
+                  {t("keywordsTable.table.columns.addedOn")}
+                </TableHead>
+                <TableHead className="text-center">
+                  {t("keywordsTable.table.columns.status")}
+                </TableHead>
+                <TableHead className="text-center w-24">
+                  {t("keywordsTable.table.columns.actions")}
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {keywords.map((keyword, index) => (
+                <TableRow key={keyword.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedKeywords.includes(keyword.id)}
+                      onCheckedChange={(checked) =>
+                        handleSelectKeyword(keyword.id, checked as boolean)
+                      }
+                      aria-label={`Select keyword ${keyword.keyword}`}
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {startIndex + index + 1}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    <button
+                      onClick={() => handleViewRank(keyword)}
+                      className="text-foreground hover:text-primary cursor-pointer transition-colors"
+                    >
+                      {keyword.keyword}
+                    </button>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <span className="cursor-help">
+                            {keyword.atr || "N/A"}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.arpTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <span className="cursor-help">
+                            {keyword.atrp || "N/A"}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.atrpTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <span className="cursor-help">
+                            {keyword.solv || t("keywordsTable.misc.na")}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t("keywordsTable.table.columns.solvTooltip")}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {formatDate(keyword.date)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {getStatusBadge(keyword.status)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleViewRank(keyword)}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          {t("keywordsTable.table.actions.viewRank")}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleSelectKeyword(keyword.id, true)}
+                        >
+                          <Trash className="mr-2 h-4 w-4" />
+                          {t("keywordsTable.table.actions.selectDelete")}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
 
-        {/* Pagination */}
-      </div>
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between px-2">
-          <div className="text-sm text-gray-700">
-            {t("keywordsTable.pagination.showing", {
-              from: startIndex + 1,
-              to: Math.min(endIndex, totalKeywords),
-              total: totalKeywords,
-            })}
-            {/* Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of{" "}
-            {totalKeywords} results */}
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage <= 1}
-              className="flex items-center gap-1"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">{t("keywordsTable.pagination.previous")}</span>
-            </Button>
-            <span className="text-sm">
-              {t("keywordsTable.pagination.page", {
-                current: currentPage,
-                total: totalPages,
-              })}
-              {/* Page {currentPage} of {totalPages} */}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage >= totalPages}
-              className="flex items-center gap-1"
-            >
-              <span className="hidden sm:inline">{t("keywordsTable.pagination.next")}</span>
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </div>
+          {/* Pagination */}
         </div>
-      )}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-2">
+            <div className="text-sm text-gray-700">
+              {t("keywordsTable.pagination.showing", {
+                from: startIndex + 1,
+                to: Math.min(endIndex, totalKeywords),
+                total: totalKeywords,
+              })}
+              {/* Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of{" "}
+            {totalKeywords} results */}
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+                className="flex items-center gap-1"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">{t("keywordsTable.pagination.previous")}</span>
+              </Button>
+              <span className="text-sm">
+                {t("keywordsTable.pagination.page", {
+                  current: currentPage,
+                  total: totalPages,
+                })}
+                {/* Page {currentPage} of {totalPages} */}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+                className="flex items-center gap-1"
+              >
+                <span className="hidden sm:inline">{t("keywordsTable.pagination.next")}</span>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+      </Card>
     </div>
+
   );
 };

@@ -151,7 +151,7 @@ export const KeywordsPage: React.FC = () => {
     );
   }
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="space-y-6">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -167,7 +167,6 @@ export const KeywordsPage: React.FC = () => {
           {t("keywords.searchKeyword")}
         </Button>
       </div>
-
       {/* Keywords Table */}
       <KeywordsTable
         keywords={keywords}
