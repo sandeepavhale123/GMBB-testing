@@ -24,7 +24,7 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
 }) => {
 
   return (
-    <div className="space-y-6 bg-white">
+    <div className="space-y-6 bg-white border rounded-lg p-5">
       {/* Row 1: Visibility Overview */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <CustomerInteractionsCard
