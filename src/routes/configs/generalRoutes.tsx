@@ -17,7 +17,6 @@ import { VerifyPayment } from "@/pages/VerifyPayment";
 import { ListingProvider } from "@/context/ListingContext";
 import { VerifyTopUp } from "@/pages/VerifyTopUp";
 import { lazyImport } from "../lazyImport";
-const ReportsPage = lazyImport(() => import("@/pages/ReportsPage"));
 const GMBHealthPage = lazyImport(() => import("@/pages/GMBHealthPage"));
 
 export const generalRoutes: RouteConfig[] = [
@@ -40,30 +39,6 @@ export const generalRoutes: RouteConfig[] = [
         <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <Profile />
-          </ListingProvider>
-        </DashboardTypeGuard>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/reports",
-    element: (
-      <ProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
-          <ListingProvider>
-            <ReportsPage />
-          </ListingProvider>
-        </DashboardTypeGuard>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/reports/:listingId",
-    element: (
-      <ProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
-          <ListingProvider>
-            <ReportsPage />
           </ListingProvider>
         </DashboardTypeGuard>
       </ProtectedRoute>
