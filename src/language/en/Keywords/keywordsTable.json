@@ -32,7 +32,8 @@
       },
       "actions": {
         "viewRank": "View Rank",
-        "selectDelete": "Select for Delete"
+        "selectDelete": "Select for Delete",
+        "delete": "Delete"
       }
     },
     "status": {

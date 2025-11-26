@@ -86,6 +86,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
 
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [singleDeleteKeywordId, setSingleDeleteKeywordId] = useState<string | null>(null);
 
   const startIndex = (currentPage - 1) * 10;
   const endIndex = Math.min(startIndex + 10, totalKeywords);
@@ -116,6 +117,13 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
     onDeleteKeyword(selectedKeywords);
     setSelectedKeywords([]);
     setIsDeleteDialogOpen(false);
+  };
+
+  const confirmSingleDelete = () => {
+    if (singleDeleteKeywordId) {
+      onDeleteKeyword([singleDeleteKeywordId]);
+      setSingleDeleteKeywordId(null);
+    }
   };
 
   const isAllSelected =
@@ -470,10 +478,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                           {t("keywordsTable.table.actions.viewRank")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => handleSelectKeyword(keyword.id, true)}
+                          onClick={() => setSingleDeleteKeywordId(keyword.id)}
                         >
                           <Trash className="mr-2 h-4 w-4" />
-                          {t("keywordsTable.table.actions.selectDelete")}
+                          {t("keywordsTable.table.actions.delete")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -485,6 +493,38 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
 
           {/* Pagination */}
         </div>
+
+        {/* Single Delete Confirmation Dialog */}
+        <AlertDialog
+          open={singleDeleteKeywordId !== null}
+          onOpenChange={(open) => !open && setSingleDeleteKeywordId(null)}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {t("keywordsTable.bulkActions.confirmTitle")}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {t("keywordsTable.bulkActions.confirmDescription", {
+                  count: 1,
+                  plural: "",
+                })}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                {t("keywordsTable.bulkActions.cancel")}
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmSingleDelete}
+                className="bg-destructive hover:bg-destructive/90"
+              >
+                {t("keywordsTable.bulkActions.confirm")}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
         {totalPages > 1 && (
           <div className="flex items-center justify-between px-2">
             <div className="text-sm text-gray-700">
