@@ -8,12 +8,7 @@ import { ThemeColorsSection } from "./Branding/ThemeColorsSection";
 import { SidebarCustomizationSection } from "./Branding/SidebarCustomizationSection";
 import { BrandingSaveActions } from "./Branding/BrandingSaveActions";
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
-import {
-  updateTheme,
-  ThemeUpdateData,
-  getTheme,
-  deleteTheme,
-} from "../../api/themeApi";
+import { updateTheme, ThemeUpdateData, getTheme, deleteTheme } from "../../api/themeApi";
 import {
   setThemeLoading,
   setLightLogo,
@@ -88,8 +83,7 @@ export const BrandingPage: React.FC = () => {
       if (response?.code === 200) {
         toast({
           title: t("brandingPage.messages.reset.title"),
-          description:
-            response?.message || t("brandingPage.messages.reset.success"),
+          description: response?.message || t("brandingPage.messages.reset.success"),
         });
 
         // Fetch fresh theme data from server after reset
@@ -102,9 +96,7 @@ export const BrandingPage: React.FC = () => {
       // console.error("Theme reset error:", error);
       toast({
         title: t("brandingPage.messages.reset.errorTitle"),
-        description:
-          error?.response?.data?.message ||
-          t("brandingPage.messages.reset.errorDescription"),
+        description: error?.response?.data?.message || t("brandingPage.messages.reset.errorDescription"),
         variant: "destructive",
       });
     } finally {
@@ -144,9 +136,7 @@ export const BrandingPage: React.FC = () => {
       toast({
         title: t("brandingPage.messages.save.errorTitle"),
         description:
-          error?.response?.data?.message ||
-          error.message ||
-          t("brandingPage.messages.save.errorDescription"),
+          error?.response?.data?.message || error.message || t("brandingPage.messages.save.errorDescription"),
         variant: "destructive",
       });
     } finally {
@@ -154,12 +144,10 @@ export const BrandingPage: React.FC = () => {
     }
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto pb-[100px] sm:pb-[100px] ">
+    <div className="p-4 sm:p-6  pb-[100px] sm:pb-[100px] ">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {t("brandingPage.title")}
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("brandingPage.title")}</h1>
           <p className="text-gray-600">{t("brandingPage.subtitle")}</p>
         </div>
         <Badge variant="outline" className="text-blue-600 border-blue-200">

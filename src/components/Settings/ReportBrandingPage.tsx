@@ -4,23 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import {
-  Upload,
-  Building,
-  X,
-  Star,
-  TrendingUp,
-  Users,
-  Calendar,
-  Loader2,
-  Trash2,
-} from "lucide-react";
+import { Upload, Building, X, Star, TrendingUp, Users, Calendar, Loader2, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import {
-  useGetReportBranding,
-  useUpdateReportBranding,
-  useDeleteReportBranding,
-} from "@/hooks/useReportBranding";
+import { useGetReportBranding, useUpdateReportBranding, useDeleteReportBranding } from "@/hooks/useReportBranding";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
@@ -29,10 +15,7 @@ import { z } from "zod";
 
 export const ReportBrandingPage: React.FC = () => {
   const { toast } = useToast();
-  const { t } = useI18nNamespace([
-    "Settings/reportBranding",
-    "Validation/validation",
-  ]);
+  const { t } = useI18nNamespace(["Settings/reportBranding", "Validation/validation"]);
 
   const reportBrandingSchema = z.object({
     companyName: z
@@ -40,50 +23,33 @@ export const ReportBrandingPage: React.FC = () => {
       .trim()
       .min(1, t("branding.nameRequired"))
       .min(2, t("branding.nameMin"))
-      .refine(
-        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
-        t("branding.nameAlpha")
-      ),
-    companyEmail: z
-      .string()
-      .trim()
-      .min(1, t("email.required"))
-      .email(t("email.invalid")),
+      .refine((val) => (val.match(/[A-Za-z]/g) || []).length >= 3, t("branding.nameAlpha")),
+    companyEmail: z.string().trim().min(1, t("email.required")).email(t("email.invalid")),
     companyWebsite: z
       .string()
       .trim()
       .refine(
-        (val) =>
-          !val ||
-          val === "" ||
-          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
-        t("branding.url")
+        (val) => !val || val === "" || /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(val),
+        t("branding.url"),
       ),
     companyPhone: z
       .string()
       .trim()
       .min(10, t("branding.phone.minLength"))
       .refine(
-        (val) =>
-          !val ||
-          val === "" ||
-          /^[\+]?[1-9][\d]{0,15}$/.test(val.replace(/[\s\-\(\)]/g, "")),
-        t("branding.phone.invalid")
+        (val) => !val || val === "" || /^[\+]?[1-9][\d]{0,15}$/.test(val.replace(/[\s\-\(\)]/g, "")),
+        t("branding.phone.invalid"),
       ),
     companyAddress: z
       .string()
       .trim()
       .min(10, t("branding.address.minLength"))
-      .refine(
-        (val) => !val || val === "" || val.length >= 10,
-        t("branding.address.minLength")
-      ),
+      .refine((val) => !val || val === "" || val.length >= 10, t("branding.address.minLength")),
   });
 
   type ReportBrandingFormData = z.infer<typeof reportBrandingSchema>;
   // API hooks
-  const { data: brandingData, isLoading: isFetchingBranding } =
-    useGetReportBranding();
+  const { data: brandingData, isLoading: isFetchingBranding } = useGetReportBranding();
   const updateBrandingMutation = useUpdateReportBranding();
   const deleteBrandingMutation = useDeleteReportBranding();
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -111,10 +77,7 @@ export const ReportBrandingPage: React.FC = () => {
       });
     }
   }, [brandingData]);
-  const handleInputChange = (
-    field: keyof ReportBrandingFormData,
-    value: string
-  ) => {
+  const handleInputChange = (field: keyof ReportBrandingFormData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -130,9 +93,7 @@ export const ReportBrandingPage: React.FC = () => {
     if (file.size > 2 * 1024 * 1024) {
       toast({
         title: t("reportBranding.fields.companyLogo.fileTooLarge.title"),
-        description: t(
-          "reportBranding.fields.companyLogo.fileTooLarge.description"
-        ),
+        description: t("reportBranding.fields.companyLogo.fileTooLarge.description"),
         variant: "destructive",
       });
       return;
@@ -140,9 +101,7 @@ export const ReportBrandingPage: React.FC = () => {
     if (!file.type.startsWith("image/")) {
       toast({
         title: t("reportBranding.fields.companyLogo.invalidFile.title"),
-        description: t(
-          "reportBranding.fields.companyLogo.invalidFile.description"
-        ),
+        description: t("reportBranding.fields.companyLogo.invalidFile.description"),
         variant: "destructive",
       });
       return;
@@ -229,15 +188,11 @@ export const ReportBrandingPage: React.FC = () => {
     }
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto pb-[100px] sm:pb-[100px]">
+    <div className="p-4 sm:p-6 pb-[100px] sm:pb-[100px]">
       <div className="flex items-start md:items-center justify-between mb-6 flex-col gap-4 md:flex-row md:gap-0">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {t("reportBranding.title")}
-          </h1>
-          <p className="text-muted-foreground">
-            {t("reportBranding.description")}
-          </p>
+          <h1 className="text-2xl font-bold text-foreground">{t("reportBranding.title")}</h1>
+          <p className="text-muted-foreground">{t("reportBranding.description")}</p>
         </div>
         <div className="flex items-center gap-2">
           {brandingData?.data && Object.keys(brandingData.data).length > 0 && (
@@ -272,17 +227,12 @@ export const ReportBrandingPage: React.FC = () => {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="company-name"
-                        className="text-sm font-medium"
-                      >
+                      <Label htmlFor="company-name" className="text-sm font-medium">
                         {t("reportBranding.fields.companyName.label")}
                       </Label>
                       <Input
                         id="company-name"
-                        placeholder={t(
-                          "reportBranding.fields.companyName.placeholder"
-                        )}
+                        placeholder={t("reportBranding.fields.companyName.placeholder")}
                         value={formData.companyName}
                         onChange={(e) => {
                           handleInputChange("companyName", e.target.value);
@@ -290,33 +240,22 @@ export const ReportBrandingPage: React.FC = () => {
                             validation.clearFieldError("companyName");
                           }
                         }}
-                        className={
-                          validation.hasFieldError("companyName")
-                            ? "border-destructive"
-                            : ""
-                        }
+                        className={validation.hasFieldError("companyName") ? "border-destructive" : ""}
                         disabled={updateBrandingMutation.isPending}
                       />
                       {validation.hasFieldError("companyName") && (
-                        <p className="text-xs text-destructive">
-                          {validation.getFieldError("companyName")}
-                        </p>
+                        <p className="text-xs text-destructive">{validation.getFieldError("companyName")}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="company-email"
-                        className="text-sm font-medium"
-                      >
+                      <Label htmlFor="company-email" className="text-sm font-medium">
                         {t("reportBranding.fields.companyEmail.label")}
                       </Label>
                       <Input
                         id="company-email"
                         type="email"
-                        placeholder={t(
-                          "reportBranding.fields.companyEmail.placeholder"
-                        )}
+                        placeholder={t("reportBranding.fields.companyEmail.placeholder")}
                         value={formData.companyEmail}
                         onChange={(e) => {
                           handleInputChange("companyEmail", e.target.value);
@@ -324,32 +263,21 @@ export const ReportBrandingPage: React.FC = () => {
                             validation.clearFieldError("companyEmail");
                           }
                         }}
-                        className={
-                          validation.hasFieldError("companyEmail")
-                            ? "border-destructive"
-                            : ""
-                        }
+                        className={validation.hasFieldError("companyEmail") ? "border-destructive" : ""}
                         disabled={updateBrandingMutation.isPending}
                       />
                       {validation.hasFieldError("companyEmail") && (
-                        <p className="text-xs text-destructive">
-                          {validation.getFieldError("companyEmail")}
-                        </p>
+                        <p className="text-xs text-destructive">{validation.getFieldError("companyEmail")}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="company-website"
-                        className="text-sm font-medium"
-                      >
+                      <Label htmlFor="company-website" className="text-sm font-medium">
                         {t("reportBranding.fields.companyWebsite.label")}
                       </Label>
                       <Input
                         id="company-website"
-                        placeholder={t(
-                          "reportBranding.fields.companyWebsite.placeholder"
-                        )}
+                        placeholder={t("reportBranding.fields.companyWebsite.placeholder")}
                         value={formData.companyWebsite}
                         onChange={(e) => {
                           handleInputChange("companyWebsite", e.target.value);
@@ -357,32 +285,21 @@ export const ReportBrandingPage: React.FC = () => {
                             validation.clearFieldError("companyWebsite");
                           }
                         }}
-                        className={
-                          validation.hasFieldError("companyWebsite")
-                            ? "border-destructive"
-                            : ""
-                        }
+                        className={validation.hasFieldError("companyWebsite") ? "border-destructive" : ""}
                         disabled={updateBrandingMutation.isPending}
                       />
                       {validation.hasFieldError("companyWebsite") && (
-                        <p className="text-xs text-destructive">
-                          {validation.getFieldError("companyWebsite")}
-                        </p>
+                        <p className="text-xs text-destructive">{validation.getFieldError("companyWebsite")}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="company-phone"
-                        className="text-sm font-medium"
-                      >
+                      <Label htmlFor="company-phone" className="text-sm font-medium">
                         {t("reportBranding.fields.companyPhone.label")}
                       </Label>
                       <Input
                         id="company-phone"
-                        placeholder={t(
-                          "reportBranding.fields.companyPhone.placeholder"
-                        )}
+                        placeholder={t("reportBranding.fields.companyPhone.placeholder")}
                         value={formData.companyPhone}
                         onChange={(e) => {
                           handleInputChange("companyPhone", e.target.value);
@@ -390,32 +307,21 @@ export const ReportBrandingPage: React.FC = () => {
                             validation.clearFieldError("companyPhone");
                           }
                         }}
-                        className={
-                          validation.hasFieldError("companyPhone")
-                            ? "border-destructive"
-                            : ""
-                        }
+                        className={validation.hasFieldError("companyPhone") ? "border-destructive" : ""}
                         disabled={updateBrandingMutation.isPending}
                       />
                       {validation.hasFieldError("companyPhone") && (
-                        <p className="text-xs text-destructive">
-                          {validation.getFieldError("companyPhone")}
-                        </p>
+                        <p className="text-xs text-destructive">{validation.getFieldError("companyPhone")}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="company-address"
-                        className="text-sm font-medium"
-                      >
+                      <Label htmlFor="company-address" className="text-sm font-medium">
                         {t("reportBranding.fields.companyAddress.label")}
                       </Label>
                       <Input
                         id="company-address"
-                        placeholder={t(
-                          "reportBranding.fields.companyAddress.placeholder"
-                        )}
+                        placeholder={t("reportBranding.fields.companyAddress.placeholder")}
                         value={formData.companyAddress}
                         onChange={(e) => {
                           handleInputChange("companyAddress", e.target.value);
@@ -423,26 +329,18 @@ export const ReportBrandingPage: React.FC = () => {
                             validation.clearFieldError("companyAddress");
                           }
                         }}
-                        className={
-                          validation.hasFieldError("companyAddress")
-                            ? "border-destructive"
-                            : ""
-                        }
+                        className={validation.hasFieldError("companyAddress") ? "border-destructive" : ""}
                         disabled={updateBrandingMutation.isPending}
                       />
                       {validation.hasFieldError("companyAddress") && (
-                        <p className="text-xs text-destructive">
-                          {validation.getFieldError("companyAddress")}
-                        </p>
+                        <p className="text-xs text-destructive">{validation.getFieldError("companyAddress")}</p>
                       )}
                     </div>
 
                     {/* Logo Upload Section */}
                     <div className="space-y-3 pt-4 border-t">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium">
-                          {t("reportBranding.fields.companyLogo.label")}
-                        </Label>
+                        <Label className="text-sm font-medium">{t("reportBranding.fields.companyLogo.label")}</Label>
                         {logoFile && (
                           <Button
                             variant="ghost"
@@ -459,9 +357,7 @@ export const ReportBrandingPage: React.FC = () => {
                       <div className="flex items-start gap-4">
                         <div
                           className={`w-20 h-20 border-2 border-dashed rounded-lg flex items-center justify-center transition-colors ${
-                            dragOver
-                              ? "border-primary bg-primary/5"
-                              : "border-border bg-muted/50"
+                            dragOver ? "border-primary bg-primary/5" : "border-border bg-muted/50"
                           }`}
                           onDrop={handleDrop}
                           onDragOver={handleDragOver}
@@ -486,9 +382,7 @@ export const ReportBrandingPage: React.FC = () => {
 
                         <div className="flex-1">
                           <p className="text-xs text-muted-foreground mb-3">
-                            {t(
-                              "reportBranding.fields.companyLogo.requirements"
-                            )}
+                            {t("reportBranding.fields.companyLogo.requirements")}
                           </p>
 
                           <input
@@ -502,28 +396,19 @@ export const ReportBrandingPage: React.FC = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() =>
-                              document
-                                .getElementById("report-logo-upload")
-                                ?.click()
-                            }
+                            onClick={() => document.getElementById("report-logo-upload")?.click()}
                             className="w-full"
                             disabled={updateBrandingMutation.isPending}
                           >
                             <Upload className="w-4 h-4 mr-1" />
-                            {t(
-                              "reportBranding.fields.companyLogo.chooseButton"
-                            )}
+                            {t("reportBranding.fields.companyLogo.chooseButton")}
                           </Button>
 
                           {logoFile && (
                             <div className="text-sm text-muted-foreground mt-2">
                               <div className="flex items-center justify-between">
                                 <span className="truncate mr-2">
-                                  {t(
-                                    "reportBranding.fields.companyLogo.selected",
-                                    { fileName: logoFile.name }
-                                  )}
+                                  {t("reportBranding.fields.companyLogo.selected", { fileName: logoFile.name })}
                                   {/* Selected: {logoFile.name} */}
                                 </span>
                                 <span className="text-xs text-green-600">
@@ -545,9 +430,7 @@ export const ReportBrandingPage: React.FC = () => {
 
                       {dragOver && (
                         <div className="text-center p-2 bg-primary/5 border border-primary/20 rounded">
-                          <p className="text-sm text-primary">
-                            {t("reportBranding.fields.companyLogo.dropHere")}
-                          </p>
+                          <p className="text-sm text-primary">{t("reportBranding.fields.companyLogo.dropHere")}</p>
                         </div>
                       )}
                     </div>
@@ -558,9 +441,7 @@ export const ReportBrandingPage: React.FC = () => {
               <div className="flex justify-end">
                 <Button
                   onClick={handleSaveChanges}
-                  disabled={
-                    updateBrandingMutation.isPending || isFetchingBranding
-                  }
+                  disabled={updateBrandingMutation.isPending || isFetchingBranding}
                   className="min-w-[120px]"
                 >
                   {updateBrandingMutation.isPending ? (
@@ -577,9 +458,7 @@ export const ReportBrandingPage: React.FC = () => {
 
             {/* Right Column - Report Preview */}
             <div className="bg-muted/30 rounded-lg p-6 min-h-[600px] flex flex-col hidden">
-              <h3 className="text-lg font-semibold mb-6">
-                {t("reportBranding.reportPreview.title")}
-              </h3>
+              <h3 className="text-lg font-semibold mb-6">{t("reportBranding.reportPreview.title")}</h3>
 
               <div className="flex-1 flex items-center justify-center">
                 <Card className="w-full max-w-md">
@@ -607,28 +486,18 @@ export const ReportBrandingPage: React.FC = () => {
                           )}
                           <div>
                             <h3 className="font-semibold text-lg">
-                              {formData.companyName ||
-                                t(
-                                  "reportBranding.reportPreview.header.companyNamePlaceholder"
-                                )}
+                              {formData.companyName || t("reportBranding.reportPreview.header.companyNamePlaceholder")}
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                              {formData.companyWebsite ||
-                                t(
-                                  "reportBranding.reportPreview.header.websitePlaceholder"
-                                )}
+                              {formData.companyWebsite || t("reportBranding.reportPreview.header.websitePlaceholder")}
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-muted-foreground">
-                            {t(
-                              "reportBranding.reportPreview.header.reportDate"
-                            )}
+                            {t("reportBranding.reportPreview.header.reportDate")}
                           </p>
-                          <p className="font-medium">
-                            {formatToDayMonthYear(new Date())}
-                          </p>
+                          <p className="font-medium">{formatToDayMonthYear(new Date())}</p>
                         </div>
                       </div>
                     </div>
@@ -644,13 +513,9 @@ export const ReportBrandingPage: React.FC = () => {
                       </div>
                       <div className="text-center p-4 bg-blue-50 rounded-lg">
                         <Users className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                        <p className="text-2xl font-bold text-blue-700">
-                          1,247
-                        </p>
+                        <p className="text-2xl font-bold text-blue-700">1,247</p>
                         <p className="text-sm text-muted-foreground">
-                          {t(
-                            "reportBranding.reportPreview.metrics.totalReviews"
-                          )}
+                          {t("reportBranding.reportPreview.metrics.totalReviews")}
                         </p>
                       </div>
                     </div>
@@ -658,9 +523,7 @@ export const ReportBrandingPage: React.FC = () => {
                     {/* Sample Chart Area */}
                     <div className="bg-muted/50 rounded-lg p-6 text-center">
                       <TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-                      <p className="text-muted-foreground mb-2">
-                        {t("reportBranding.reportPreview.chart.title")}
-                      </p>
+                      <p className="text-muted-foreground mb-2">{t("reportBranding.reportPreview.chart.title")}</p>
                       <div className="h-24 bg-gradient-to-r from-blue-100 to-green-100 rounded flex items-end justify-center space-x-1 p-2">
                         {[40, 60, 45, 80, 65, 85, 75].map((height, index) => (
                           <div
@@ -680,30 +543,17 @@ export const ReportBrandingPage: React.FC = () => {
                       <div className="flex justify-between items-start flex-col gap-4 xxl:flex-row xxl:gap-0 xxl:items-center">
                         <div>
                           <p className="break-all">
-                            {formData.companyEmail ||
-                              t(
-                                "reportBranding.reportPreview.footer.emailPlaceholder"
-                              )}
+                            {formData.companyEmail || t("reportBranding.reportPreview.footer.emailPlaceholder")}
                           </p>
-                          <p>
-                            {formData.companyPhone ||
-                              t(
-                                "reportBranding.reportPreview.footer.phonePlaceholder"
-                              )}
-                          </p>
+                          <p>{formData.companyPhone || t("reportBranding.reportPreview.footer.phonePlaceholder")}</p>
                         </div>
                         <div className="text-right">
                           <p>
-                            {formData.companyAddress ||
-                              t(
-                                "reportBranding.reportPreview.footer.addressPlaceholder"
-                              )}
+                            {formData.companyAddress || t("reportBranding.reportPreview.footer.addressPlaceholder")}
                           </p>
                           <p className="flex items-center gap-1 justify-end mt-1">
                             <Calendar className="w-3 h-3" />
-                            {t(
-                              "reportBranding.reportPreview.footer.generatedOn"
-                            )}
+                            {t("reportBranding.reportPreview.footer.generatedOn")}
                             {formatToDayMonthYear(new Date())}
                           </p>
                         </div>
@@ -725,9 +575,7 @@ export const ReportBrandingPage: React.FC = () => {
           </DialogHeader>
 
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              {t("reportBranding.deleteDialog.description")}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("reportBranding.deleteDialog.description")}</p>
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
@@ -738,11 +586,7 @@ export const ReportBrandingPage: React.FC = () => {
             >
               {t("reportBranding.deleteDialog.cancel")}
             </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDeleteBranding}
-              disabled={deleteBrandingMutation.isPending}
-            >
+            <Button variant="destructive" onClick={handleDeleteBranding} disabled={deleteBrandingMutation.isPending}>
               {deleteBrandingMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
