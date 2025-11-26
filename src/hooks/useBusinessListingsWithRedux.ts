@@ -3,8 +3,13 @@ import { BusinessListing } from "@/components/Header/types";
 import { businessListingsService } from "@/services/businessListingsService";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useAppSelector, useAppDispatch } from "@/hooks/useRedux";
-import { addBusinessListing } from "@/store/slices/businessListingsSlice";
+import {
+  addBusinessListing,
+  setApiListings,
+} from "@/store/slices/businessListingsSlice";
 import { toast } from "@/hooks/use-toast";
+
+const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes
 
 interface UseBusinessListingsWithReduxReturn {
   listings: BusinessListing[];
@@ -16,10 +21,9 @@ interface UseBusinessListingsWithReduxReturn {
 
 export const useBusinessListingsWithRedux =
   (): UseBusinessListingsWithReduxReturn => {
-    const [apiListings, setApiListings] = useState<BusinessListing[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const lastFetchRef = useRef<number>(0); // ADD THIS LINE
+    const lastFetchRef = useRef<number>(0);
 
     const {
       accessToken,
@@ -30,12 +34,23 @@ export const useBusinessListingsWithRedux =
     } = useAuthRedux();
 
     const dispatch = useAppDispatch();
-    const { userAddedListings } = useAppSelector(
-      (state) => state.businessListings
-    );
+    const { userAddedListings, apiListings, apiListingsLastFetched } =
+      useAppSelector((state) => state.businessListings);
 
     // Combine user-added listings first, then API listings (user-added at top)
     const allListings = [...userAddedListings, ...apiListings];
+
+    // Check if we should fetch new data based on cache
+    const shouldFetch = () => {
+      // Fetch if no cached data
+      if (apiListings.length === 0) return true;
+
+      // Fetch if cache is stale
+      if (!apiListingsLastFetched) return true;
+      if (Date.now() - apiListingsLastFetched > CACHE_DURATION_MS) return true;
+
+      return false;
+    };
 
     const fetchListings = async (retryCount = 0) => {
       try {
@@ -48,7 +63,7 @@ export const useBusinessListingsWithRedux =
           limit: 5000,
         });
 
-        setApiListings(data);
+        dispatch(setApiListings(data));
       } catch (err: any) {
         // console.error(
         //   "📋🔄 useBusinessListingsWithRedux: Failed to fetch API business listings:",
@@ -80,7 +95,7 @@ export const useBusinessListingsWithRedux =
         }
 
         setError(errorMessage);
-        setApiListings([]);
+        dispatch(setApiListings([]));
       } finally {
         setLoading(false);
       }
@@ -118,21 +133,35 @@ export const useBusinessListingsWithRedux =
           (isAuthenticated && accessToken)); // Allow immediate fetch after successful login
 
       if (canFetchData) {
-        fetchListings();
+        // Only fetch if cache is stale or empty
+        if (shouldFetch()) {
+          fetchListings();
+        } else {
+          // Use cached data
+          setLoading(false);
+        }
       } else if (isInitialized && !isAuthenticated) {
         setError("Authentication required");
         setLoading(false);
-        setApiListings([]);
+        dispatch(setApiListings([]));
       } else {
         //
       }
     }, [accessToken, isInitialized, hasAttemptedRefresh, isAuthenticated]);
 
+    const refetch = async (force = false) => {
+      if (force) {
+        await fetchListings();
+      } else if (shouldFetch()) {
+        await fetchListings();
+      }
+    };
+
     return {
       listings: allListings,
       loading,
       error,
-      refetch: fetchListings,
+      refetch,
       addNewListing,
     };
   };

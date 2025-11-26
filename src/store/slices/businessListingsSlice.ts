@@ -3,12 +3,16 @@ import { BusinessListing } from "@/components/Header/types";
 
 interface BusinessListingsState {
   userAddedListings: BusinessListing[];
+  apiListings: BusinessListing[];
+  apiListingsLastFetched: number | null;
   selectedBusinessId: string | null;
   lastUserSession: string | null;
 }
 
 const initialState: BusinessListingsState = {
   userAddedListings: [],
+  apiListings: [],
+  apiListingsLastFetched: null,
   selectedBusinessId: null,
   lastUserSession: null,
 };
@@ -21,6 +25,28 @@ const loadFromLocalStorage = (): BusinessListing[] => {
   } catch (error) {
     console.error("Failed to load business listings from localStorage:", error);
     return [];
+  }
+};
+
+// Load API listings from localStorage
+const loadApiListings = (): BusinessListing[] => {
+  try {
+    const stored = localStorage.getItem("apiBusinessListings");
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error("Failed to load API listings from localStorage:", error);
+    return [];
+  }
+};
+
+// Load API listings timestamp from localStorage
+const loadApiListingsTimestamp = (): number | null => {
+  try {
+    const stored = localStorage.getItem("apiListingsLastFetched");
+    return stored ? parseInt(stored, 10) : null;
+  } catch (error) {
+    console.error("Failed to load API listings timestamp from localStorage:", error);
+    return null;
   }
 };
 
@@ -71,6 +97,24 @@ const saveToLocalStorage = (listings: BusinessListing[]) => {
   }
 };
 
+// Save API listings to localStorage
+const saveApiListings = (listings: BusinessListing[]) => {
+  try {
+    localStorage.setItem("apiBusinessListings", JSON.stringify(listings));
+  } catch (error) {
+    console.error("Failed to save API listings to localStorage:", error);
+  }
+};
+
+// Save API listings timestamp to localStorage
+const saveApiListingsTimestamp = (timestamp: number) => {
+  try {
+    localStorage.setItem("apiListingsLastFetched", timestamp.toString());
+  } catch (error) {
+    console.error("Failed to save API listings timestamp to localStorage:", error);
+  }
+};
+
 // Save selected business ID to localStorage
 const saveSelectedBusinessId = (businessId: string | null) => {
   try {
@@ -94,6 +138,8 @@ const getInitialState = (): BusinessListingsState => {
   if (userChanged) {
     localStorage.removeItem("userBusinessListings");
     localStorage.removeItem("selectedBusinessId");
+    localStorage.removeItem("apiBusinessListings");
+    localStorage.removeItem("apiListingsLastFetched");
     // Update last session tracker
     const currentSession = localStorage.getItem("current_user_session");
     if (currentSession) {
@@ -108,6 +154,8 @@ const getInitialState = (): BusinessListingsState => {
   return {
     ...initialState,
     userAddedListings: loadFromLocalStorage(),
+    apiListings: loadApiListings(),
+    apiListingsLastFetched: loadApiListingsTimestamp(),
     selectedBusinessId: loadSelectedBusinessId(),
     lastUserSession: loadLastUserSession(),
   };
@@ -152,6 +200,18 @@ const businessListingsSlice = createSlice({
       state.selectedBusinessId = action.payload;
       saveSelectedBusinessId(action.payload);
     },
+    setApiListings: (state, action: PayloadAction<BusinessListing[]>) => {
+      state.apiListings = action.payload;
+      state.apiListingsLastFetched = Date.now();
+      saveApiListings(action.payload);
+      saveApiListingsTimestamp(state.apiListingsLastFetched);
+    },
+    clearApiListingsCache: (state) => {
+      state.apiListings = [];
+      state.apiListingsLastFetched = null;
+      localStorage.removeItem("apiBusinessListings");
+      localStorage.removeItem("apiListingsLastFetched");
+    },
     clearUserListings: (state) => {
       state.userAddedListings = [];
       state.selectedBusinessId = null;
@@ -170,6 +230,8 @@ export const {
   moveListingToTop,
   removeBusinessListing,
   setSelectedBusiness,
+  setApiListings,
+  clearApiListingsCache,
   clearUserListings,
   updateUserSession,
 } = businessListingsSlice.actions;
