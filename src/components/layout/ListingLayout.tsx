@@ -1,14 +1,20 @@
-import React, { Suspense } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Layout } from "./layout";
 import { NoListingSelected } from "@/components/ui/no-listing-selected";
 import { useListingContext } from "@/context/ListingContext";
+import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
+import { useProfile } from "@/hooks/useProfile";
+import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 
 // Map routes to showFilters and pageType
 const routeConfig: Record<string, { showFilters: boolean; pageType: string }> = {
+  "location-dashboard": { showFilters: false, pageType: "Dashboard" },
+  "ai-tasks": { showFilters: false, pageType: "AI Tasks" },
+  "plan-expired": { showFilters: false, pageType: "Plan Expired" },
   posts: { showFilters: true, pageType: "Posts" },
   media: { showFilters: true, pageType: "Media" },
   gallery: { showFilters: true, pageType: "Gallery" },
@@ -29,11 +35,36 @@ const routeConfig: Record<string, { showFilters: boolean; pageType: string }> = 
 
 const ListingLayoutInner: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { selectedListing, isInitialLoading } = useListingContext();
+  const { profileData, isLoading: isProfileLoading } = useProfile();
   
   // Get route segment (e.g., "posts" from "/posts/:listingId")
   const routeSegment = location.pathname.split("/")[1];
   const config = routeConfig[routeSegment] || { showFilters: false, pageType: "Page" };
+
+  // Handle plan expired redirect
+  useEffect(() => {
+    const planExpired = isSubscriptionExpired(profileData?.planExpDate || null);
+    const role = profileData?.role?.toLowerCase();
+    const isClientOrStaff = role === "client" || role === "staff";
+    
+    if (planExpired && isClientOrStaff && routeSegment !== "plan-expired") {
+      navigate("/plan-expired", { replace: true });
+    }
+  }, [profileData, routeSegment, navigate]);
+
+  // Show loading state while profile loads
+  if (isProfileLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <p className="text-muted-foreground">Loading user profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Show no listing selected state
   if (!selectedListing && !isInitialLoading) {
@@ -57,7 +88,9 @@ export const ListingLayout: React.FC = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <ListingLayoutInner />
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
+          <ListingLayoutInner />
+        </DashboardTypeGuard>
       </ThemeProvider>
     </Provider>
   );
