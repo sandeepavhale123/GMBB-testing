@@ -76,7 +76,7 @@ export const Health: React.FC = () => {
     );
   return (
     // header area
-    <div className={`flex-1 flex flex-col transition-all duration-300 `}>
+    <div className={`flex-1 flex flex-col transition-all duration-300 bg-white shadow shadow-lg`}>
       {/* Dark Header */}
       <header className="bg-gradient-to-br from-primary via-primary/80 to-primary/60 text-white h-[370px] sm:h-[250px] z-10 relative">
         <h2

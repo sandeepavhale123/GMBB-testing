@@ -216,8 +216,8 @@ export const CitationPage: React.FC = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="">
+      <div className=" mx-auto space-y-6">
         {!hasSearched && !citationData?.report_id ? (
           <CitationSearchForm
             searchData={searchData}
