@@ -6,6 +6,9 @@ import { ListingLayout } from "@/components/layout/ListingLayout";
 import { RouteConfig } from "../routeConfig";
 
 // Lazy load content components
+const Dashboard = lazyImport(() => import("@/components/Dashboard/Dashboard").then(m => ({ default: m.Dashboard })));
+const AITaskManagerPage = lazyImport(() => import("@/components/AITaskManager/AITaskManagerPage").then(m => ({ default: m.AITaskManagerPage })));
+const PlanExpiredPage = lazyImport(() => import("@/pages/PlanExpiredPage"));
 const PostsPage = lazyImport(() => import("@/pages/PostsPage"));
 const MediaPage = lazyImport(() => import("@/pages/MediaPage"));
 const GalleryPage = lazyImport(() => import("@/pages/GalleryPage"));
@@ -36,6 +39,17 @@ export const listingRoutes: RouteConfig[] = [
       </ProtectedRoute>
     ),
     children: [
+      // Location Dashboard routes
+      { path: "location-dashboard", element: <Navigate to="/location-dashboard/default" replace /> },
+      { path: "location-dashboard/:listingId", element: <Dashboard /> },
+
+      // AI Tasks routes
+      { path: "ai-tasks", element: <Navigate to="/ai-tasks/default" replace /> },
+      { path: "ai-tasks/:listingId", element: <AITaskManagerPage /> },
+
+      // Plan expired route
+      { path: "plan-expired", element: <PlanExpiredPage /> },
+
       // Posts routes
       { path: "posts", element: <Navigate to="/posts/default" replace /> },
       { path: "posts/:listingId", element: <PostsPage /> },
