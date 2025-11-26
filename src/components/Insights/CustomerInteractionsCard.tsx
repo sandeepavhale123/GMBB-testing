@@ -20,7 +20,7 @@ interface CustomerInteractionsCardProps {
   summary: any;
 }
 
-export const CustomerInteractionsCard: React.FC<
+export const CustomerInteractionsCard: React.FC< 
   CustomerInteractionsCardProps
 > = ({ isLoadingSummary, summary }) => {
   const { selectedListing } = useListingContext();
@@ -143,7 +143,7 @@ export const CustomerInteractionsCard: React.FC<
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xll:grid-cols-3 gap-6">
             {customerActionsData.map((action, index) => (
               <div
                 key={index}
