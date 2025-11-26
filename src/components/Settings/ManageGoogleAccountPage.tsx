@@ -9,13 +9,7 @@ import { GoogleAccountListView } from "./GoogleAccountListView";
 import { GoogleAccountPagination } from "./GoogleAccountPagination";
 import { AddAccountModal } from "./AddAccountModal";
 import { DeleteAccountModal } from "./DeleteAccountModal";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Skeleton } from "../ui/skeleton";
 import { useGoogleAccounts } from "../../hooks/useGoogleAccounts";
 import GoogleAuthHandler from "./GoogleAuthHandler";
@@ -28,15 +22,13 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 const transformGoogleAccount = (apiAccount: any) => ({
   ...apiAccount,
   name: apiAccount.name || apiAccount.email.split("@")[0] || "Unknown",
-  connectedListings: apiAccount.connectedListings.map(
-    (name: string, index: number) => ({
-      id: `${apiAccount.id}-${index}`,
-      name,
-      address: "Address not available",
-      status: "connected" as const,
-      type: "Restaurant" as const,
-    })
-  ),
+  connectedListings: apiAccount.connectedListings.map((name: string, index: number) => ({
+    id: `${apiAccount.id}-${index}`,
+    name,
+    address: "Address not available",
+    status: "connected" as const,
+    type: "Restaurant" as const,
+  })),
 });
 export const ManageGoogleAccountPage: React.FC = () => {
   const { t } = useI18nNamespace("Settings/manageGoogleAccountPage");
@@ -98,10 +90,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
   });
 
   // Transform API accounts to match component interface
-  const accounts = useMemo(
-    () => apiAccounts.map(transformGoogleAccount),
-    [apiAccounts]
-  );
+  const accounts = useMemo(() => apiAccounts.map(transformGoogleAccount), [apiAccounts]);
   const handleManageListings = (accountId: string) => {
     if (location.pathname.startsWith("/main-dashboard")) {
       navigate(`/main-dashboard/settings/listings/${accountId}`);
@@ -112,23 +101,18 @@ export const ManageGoogleAccountPage: React.FC = () => {
   const handleReAuth = (e: React.MouseEvent) => {
     e.stopPropagation();
     const localdomain = window.location.host;
-    const isMultiDashboard =
-      window.location.pathname.startsWith("/main-dashboard");
+    const isMultiDashboard = window.location.pathname.startsWith("/main-dashboard");
 
     // Save state in localStorage
     // Save state in localStorage
     localStorage.setItem("oauth_origin", isMultiDashboard ? "multi" : "single");
     const state = localStorage.getItem("oauth_origin");
     if (state == "multi") {
-      const authUrl = `${
-        import.meta.env.VITE_BASE_URL
-      }/google-auth?domain=${localdomain}/main-dashboard/settings`;
+      const authUrl = `${import.meta.env.VITE_BASE_URL}/google-auth?domain=${localdomain}/main-dashboard/settings`;
 
       window.location.href = authUrl; // Redirect to backend OAuth start
     } else {
-      const authUrl = `${
-        import.meta.env.VITE_BASE_URL
-      }/google-auth?domain=${localdomain}/settings`;
+      const authUrl = `${import.meta.env.VITE_BASE_URL}/google-auth?domain=${localdomain}/settings`;
 
       window.location.href = authUrl; // Redirect to backend OAuth start
     }
@@ -165,16 +149,12 @@ export const ManageGoogleAccountPage: React.FC = () => {
       toast({
         title: t("manageGoogleAccountPage.modals.refreshAccount.refreshTitle"),
         description:
-          error instanceof Error
-            ? error.message
-            : t("manageGoogleAccountPage.modals.refreshAccount.refreshFailed"),
+          error instanceof Error ? error.message : t("manageGoogleAccountPage.modals.refreshAccount.refreshFailed"),
         variant: "destructive",
       });
     }
   };
-  const handleRefreshListingGroupsSubmit = async (
-    selectedGroups: [string, string][]
-  ) => {
+  const handleRefreshListingGroupsSubmit = async (selectedGroups: [string, string][]) => {
     if (!currentAccountId) return;
     try {
       const response = await updateAccount(currentAccountId, selectedGroups);
@@ -202,17 +182,13 @@ export const ManageGoogleAccountPage: React.FC = () => {
           "message" in error.response.data
             ? error.response.data.message
             : error instanceof Error
-            ? error.message
-            : t("manageGoogleAccountPage.modals.refreshAccount.updateFailed"),
+              ? error.message
+              : t("manageGoogleAccountPage.modals.refreshAccount.updateFailed"),
         variant: "destructive",
       });
     }
   };
-  const handleDeleteAccount = (
-    accountId: string,
-    accountName: string,
-    accountEmail: string
-  ) => {
+  const handleDeleteAccount = (accountId: string, accountName: string, accountEmail: string) => {
     setAccountToDelete({
       id: accountId,
       name: accountName,
@@ -225,13 +201,8 @@ export const ManageGoogleAccountPage: React.FC = () => {
       try {
         const response = await deleteAccount(accountToDelete.id);
         toast({
-          title: t(
-            "manageGoogleAccountPage.modals.deleteAccount.deleteSuccess"
-          ),
-          description: t(
-            "manageGoogleAccountPage.modals.deleteAccount.successDesc",
-            { name: accountToDelete.name }
-          ),
+          title: t("manageGoogleAccountPage.modals.deleteAccount.deleteSuccess"),
+          description: t("manageGoogleAccountPage.modals.deleteAccount.successDesc", { name: accountToDelete.name }),
         });
         setAccountToDelete(null);
         setShowDeleteModal(false);
@@ -245,9 +216,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
         toast({
           title: t("manageGoogleAccountPage.modals.deleteAccount.deleteTitle"),
           description:
-            error instanceof Error
-              ? error.message
-              : t("manageGoogleAccountPage.modals.deleteAccount.deleteFailed"),
+            error instanceof Error ? error.message : t("manageGoogleAccountPage.modals.deleteAccount.deleteFailed"),
           variant: "destructive",
         });
       }
@@ -276,15 +245,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
     return <GoogleAuthHandler />;
   }
   return (
-    <div className="p-4 sm:p-6 pb-[100px] sm:pb-[100px] max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 pb-[100px] sm:pb-[100px]">
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-2xl  font-bold text-gray-900 mb-2">
-          {t("manageGoogleAccountPage.pageTitle")}
-        </h2>
-        <p className="text-gray-600 text-sm sm:text-base">
-          {t("manageGoogleAccountPage.pageDescription")}
-        </p>
+        <h2 className="text-2xl  font-bold text-gray-900 mb-2">{t("manageGoogleAccountPage.pageTitle")}</h2>
+        <p className="text-gray-600 text-sm sm:text-base">{t("manageGoogleAccountPage.pageDescription")}</p>
       </div>
 
       {/* Top Controls Panel */}
@@ -303,10 +268,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             </div>
 
             {/* Active Listings Badge */}
-            <Badge
-              variant="outline"
-              className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit"
-            >
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
               {t("manageGoogleAccountPage.activeListingsBadge", {
                 active: totalActiveListings,
                 allowed: allowedListing,
@@ -337,17 +299,10 @@ export const ManageGoogleAccountPage: React.FC = () => {
             </div>
 
             {/* Add New Account Button */}
-            <Button
-              onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2"
-            >
+            <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                {t("manageGoogleAccountPage.addNewAccount.full")}
-              </span>
-              <span className="sm:hidden">
-                {t("manageGoogleAccountPage.addNewAccount.short")}
-              </span>
+              <span className="hidden sm:inline">{t("manageGoogleAccountPage.addNewAccount.full")}</span>
+              <span className="sm:hidden">{t("manageGoogleAccountPage.addNewAccount.short")}</span>
             </Button>
           </div>
         </div>
@@ -378,21 +333,14 @@ export const ManageGoogleAccountPage: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gray-50">
-                    <TableHead>
-                      {t("manageGoogleAccountPage.tableHeaders.account")}
-                    </TableHead>
+                    <TableHead>{t("manageGoogleAccountPage.tableHeaders.account")}</TableHead>
                     <TableHead className="text-center">
                       {t("manageGoogleAccountPage.tableHeaders.totalListings")}
                     </TableHead>
                     <TableHead className="text-center">
-                      {t(
-                        "manageGoogleAccountPage.tableHeaders.connectedListings"
-                      )}
+                      {t("manageGoogleAccountPage.tableHeaders.connectedListings")}
                     </TableHead>
-                    <TableHead className="text-center">
-                      {" "}
-                      {t("manageGoogleAccountPage.tableHeaders.actions")}
-                    </TableHead>
+                    <TableHead className="text-center"> {t("manageGoogleAccountPage.tableHeaders.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -424,10 +372,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
           ) : (
             <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
               {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-lg border border-gray-200 p-4"
-                >
+                <div key={i} className="bg-white rounded-lg border border-gray-200 p-4">
                   <div className="flex items-center justify-between mb-3">
                     <Skeleton className="h-12 w-12 rounded-full" />
                     <div className="flex space-x-2">
@@ -465,9 +410,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
                       {t("manageGoogleAccountPage.tableHeaders.totalListings")}
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
-                      {t(
-                        "manageGoogleAccountPage.tableHeaders.connectedListings"
-                      )}
+                      {t("manageGoogleAccountPage.tableHeaders.connectedListings")}
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
                       {t("manageGoogleAccountPage.tableHeaders.actions")}
@@ -507,17 +450,15 @@ export const ManageGoogleAccountPage: React.FC = () => {
           )}
 
           {/* Pagination */}
-          {pagination &&
-            pagination.total_pages &&
-            pagination.total_pages > 1 && (
-              <GoogleAccountPagination
-                currentPage={currentPage}
-                totalPages={pagination.total_pages}
-                hasNext={pagination.has_next || false}
-                hasPrev={pagination.has_prev || false}
-                onPageChange={handlePageChange}
-              />
-            )}
+          {pagination && pagination.total_pages && pagination.total_pages > 1 && (
+            <GoogleAccountPagination
+              currentPage={currentPage}
+              totalPages={pagination.total_pages}
+              hasNext={pagination.has_next || false}
+              hasPrev={pagination.has_prev || false}
+              onPageChange={handlePageChange}
+            />
+          )}
         </> /* Empty State */
       ) : (
         <div className="text-center py-12">
@@ -538,10 +479,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
                 t("manageGoogleAccountPage.emptyState.addAccountCTA")}
           </p>
           {!searchTerm && (
-            <Button
-              onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2 mx-auto"
-            >
+            <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 mx-auto">
               <Plus className="h-4 w-4" />
               {t("manageGoogleAccountPage.addNewAccount.full")}
             </Button>
