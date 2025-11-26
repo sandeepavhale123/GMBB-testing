@@ -163,12 +163,26 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
 
     // CTA URL validation when CTA button is enabled and not CALL type
-    if (
-      showCTAButton &&
-      formData.ctaButton !== "CALL" &&
-      !formData.ctaUrl.trim()
-    ) {
-      errors.ctaUrl = t("validation.urlRequired");
+    // if (
+    //   showCTAButton &&
+    //   formData.ctaButton !== "CALL" &&
+    //   !formData.ctaUrl.trim()
+    // ) {
+    //   errors.ctaUrl = t("validation.urlRequired");
+    // }
+    if (showCTAButton && formData.ctaButton !== "CALL") {
+      // check empty
+      if (!formData.ctaUrl.trim()) {
+        errors.ctaUrl = t("validation.urlRequired");
+      }
+      // check format
+      else {
+        try {
+          new URL(formData.ctaUrl.trim());
+        } catch {
+          errors.ctaUrl = "Please Enter valid CTA URL"; // <-- Add this key in i18n
+        }
+      }
     }
 
     // Listings validation for multi-dashboard context (bulk posting)
