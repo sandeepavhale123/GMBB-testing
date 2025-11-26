@@ -1,12 +1,10 @@
 import { lazyImport } from "../lazyImport";
-import { lazy } from "react";
 import { ProtectedRoute } from "../ProtectedRoute";
 import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
-const MultiDashboard = lazy(() =>
-  import("@/multiDashboardLayout/pages/MultiDashboard").then((module) => ({
-    default: module.MultiDashboard,
-  }))
+
+const MultiDashboard = lazyImport(() => 
+  import("@/multiDashboardLayout/pages/MultiDashboard").then(m => ({ default: m.MultiDashboard }))
 );
 
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
