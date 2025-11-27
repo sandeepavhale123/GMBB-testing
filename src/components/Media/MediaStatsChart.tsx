@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend , Tooltip } from "recharts";
 import { FileImage } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 
 interface MediaStatsChartProps {
   imageCount: number;
@@ -94,10 +95,15 @@ export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
                   <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
               </Pie>
+              <Tooltip
+                formatter={(value, name) => [`${value}`, `${name}`]}
+                cursor={{ fill: "rgba(0,0,0,0.1)" }}
+              />
+
               <Legend
-                verticalAlign="middle"
-                align="right"
-                layout="vertical"
+                verticalAlign="bottom"
+                align="center"
+                layout="horizontal"
                 iconType="circle"
                 wrapperStyle={{
                   paddingLeft: "20px",
