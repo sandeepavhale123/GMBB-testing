@@ -1,13 +1,9 @@
 import React, { useState, lazy, Suspense, useEffect } from "react";
-import { BusinessProfileHeader } from "./BusinessProfileHeader";
-import { EnhancedStatsCards } from "./EnhancedStatsCards";
-import { QuickWinsCard } from "./QuickWinsCard";
-import { DashboardRecentReviews } from "./DashboardRecentReviews";
-import { ReviewSummaryCard } from "./ReviewSummaryCard";
-import { SentimentBreakdownCard } from "./SentimentBreakdownCard";
-import { QACard } from "./QACard";
-import { VisibilitySummaryCard } from "../Insights/VisibilitySummaryCard";
-import { CustomerInteractionsCard } from "../Insights/CustomerInteractionsCard";
+
+// import { EnhancedStatsCards } from "./EnhancedStatsCards";
+
+
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -46,13 +42,22 @@ import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace"; // ✅ import hook for language
 
-// Lazy load heavy components for better performance
+const BusinessProfileHeader = lazy(() => import('./BusinessProfileHeader').then((module) => ({ default: module.BusinessProfileHeader, })))
+const DashboardRecentReviews = lazy(() => import('./DashboardRecentReviews').then((module) => ({ default: module.DashboardRecentReviews, })))
+const QuickWinsCard = lazy(() => import('./QuickWinsCard').then((module) => ({ default: module.QuickWinsCard, })))
+const ReviewSummaryCard = lazy(() => import('./ReviewSummaryCard').then((module) => ({ default: module.ReviewSummaryCard, })))
+const SentimentBreakdownCard = lazy(() => import('./SentimentBreakdownCard').then((module) => ({ default: module.SentimentBreakdownCard, })))
+const QACard = lazy(() => import('./QACard').then((module) => ({ default: module.QACard, })))
 const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
+const VisibilitySummaryCard = lazy(() => import('../Insights/VisibilitySummaryCard').then((module) => ({ default: module.VisibilitySummaryCard, })))
+const CustomerInteractionsCard = lazy(() => import('../Insights/CustomerInteractionsCard').then((module) => ({ default: module.CustomerInteractionsCard, })))
+
 const CreatePostCard = lazy(() =>
   import("./CreatePostCard").then((module) => ({
     default: module.CreatePostCard,
   }))
 );
+const EnhancedStatsCards = lazy(() => import('./EnhancedStatsCards'))
 const ScheduledPostCard = lazy(() =>
   import("./ScheduledPostCard").then((module) => ({
     default: module.ScheduledPostCard,
@@ -69,7 +74,7 @@ const InsightsComparisonChart = lazy(() =>
   }))
 );
 
-const LazyComponentLoader = ({ children }: { children: React.ReactNode }) => (
+const LazyComponentLoader =  React.memo(({ children }: { children: React.ReactNode }) => (
   <Suspense
     fallback={
       <div className="flex items-center justify-center p-8">
@@ -79,7 +84,7 @@ const LazyComponentLoader = ({ children }: { children: React.ReactNode }) => (
   >
     {children}
   </Suspense>
-);
+));
 
 export const Dashboard: React.FC = () => {
   const { t, loaded: i18nLoaded } = useI18nNamespace("Dashboard/dashboard"); // ✅ use namespace
@@ -164,7 +169,6 @@ export const Dashboard: React.FC = () => {
   if (!selectedListing && !isInitialLoading) {
     return <NoListingSelected pageType="Dashboard" />;
   }
-
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Setup Progress Alert - Show when setup is not complete */}
@@ -177,13 +181,14 @@ export const Dashboard: React.FC = () => {
       {/* Top Section - Responsive grid layout */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6">
         {/* Business Overview + Performance Overview - Responsive columns */}
-        <div className="xl:col-span-8 space-y-4 sm:space-y-6">
-          {/* Business Profile Header */}
-          <BusinessProfileHeader overviewData={overviewData} />
-
-          {/* Enhanced Stats Cards */}
-          <EnhancedStatsCards />
-        </div>
+        <LazyComponentLoader>
+          <div className="xl:col-span-8 space-y-4 sm:space-y-6">
+            {/* Business Profile Header */}
+            <BusinessProfileHeader overviewData={overviewData} />
+            {/* Enhanced Stats Cards */}
+            <EnhancedStatsCards />
+          </div>
+        </LazyComponentLoader>
 
         {/* Auto Optimization - Responsive positioning */}
         <div className="xl:col-span-4">
@@ -216,14 +221,13 @@ export const Dashboard: React.FC = () => {
                   {(overviewData?.healthScore || 0) >= 75
                     ? t("optimizationExcellent")
                     : (overviewData?.healthScore || 0) >= 50
-                    ? t("optimizationHealthy")
-                    : t("optimizationNeedsImprovement")}
+                      ? t("optimizationHealthy")
+                      : t("optimizationNeedsImprovement")}
                 </p>
                 <p className="text-blue-400 font-medium text-sm sm:text-base">
                   {overviewData?.healthScore || 0}% {t("optmized")}
                 </p>
               </div>
-
               {/* Optimize Button */}
               <Button
                 className="w-full font-medium text-sm sm:text-base"
@@ -286,7 +290,9 @@ export const Dashboard: React.FC = () => {
                       onCreatePost={() => setIsCreateModalOpen(true)}
                     />
                   </LazyComponentLoader>
-                  <QuickWinsCard quickwins={overviewData?.quickWins} />
+                  <LazyComponentLoader>
+                    <QuickWinsCard quickwins={overviewData?.quickWins} />
+                  </LazyComponentLoader>
                 </div>
 
                 {/* Bottom Row - Scheduled Posts Table (Full Width) */}
@@ -296,17 +302,18 @@ export const Dashboard: React.FC = () => {
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-4 sm:mt-6">
-              <div className="space-y-4 sm:space-y-6">
-                {/* Summary Cards Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                  <ReviewSummaryCard />
-                  <SentimentBreakdownCard />
-                  <QACard />
+              <LazyComponentLoader>
+                <div className="space-y-4 sm:space-y-6">
+                  {/* Summary Cards Row */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <ReviewSummaryCard />
+                    <SentimentBreakdownCard />
+                    <QACard />
+                  </div>
+                  {/* Recent Reviews Section - Full Width */}
+                  <DashboardRecentReviews />
                 </div>
-
-                {/* Recent Reviews Section - Full Width */}
-                <DashboardRecentReviews />
-              </div>
+              </LazyComponentLoader>
             </TabsContent>
             <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
               <LazyComponentLoader>
@@ -314,26 +321,25 @@ export const Dashboard: React.FC = () => {
               </LazyComponentLoader>
             </TabsContent>
             <TabsContent value="insights" className="mt-4 sm:mt-6">
-              <div className="space-y-6">
-                {/* First Row: Existing Cards Side by Side */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-                  <VisibilitySummaryCard
-                    isLoadingSummary={isLoadingSummary}
-                    isLoadingVisibility={isLoadingVisibility}
-                    summary={summary}
-                    visibilityTrends={visibilityTrends}
-                  />
-                  <CustomerInteractionsCard
-                    isLoadingSummary={isLoadingSummary}
-                    summary={summary}
-                  />
-                </div>
-
-                {/* Second Row: Full-Width Comparison Chart */}
-                <LazyComponentLoader>
+              <LazyComponentLoader>
+                <div className="space-y-6">
+                  {/* First Row: Existing Cards Side by Side */}
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                    <VisibilitySummaryCard
+                      isLoadingSummary={isLoadingSummary}
+                      isLoadingVisibility={isLoadingVisibility}
+                      summary={summary}
+                      visibilityTrends={visibilityTrends}
+                    />
+                    <CustomerInteractionsCard
+                      isLoadingSummary={isLoadingSummary}
+                      summary={summary}
+                    />
+                  </div>
+                  {/* Second Row: Full-Width Comparison Chart */}
                   <InsightsComparisonChart />
-                </LazyComponentLoader>
-              </div>
+                </div>
+              </LazyComponentLoader>
             </TabsContent>
           </Tabs>
         </div>

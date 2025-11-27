@@ -22,7 +22,7 @@ import { useListingContext } from "@/context/ListingContext";
 import { Skeleton } from "../ui/skeleton";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const EnhancedStatsCards: React.FC = () => {
+const EnhancedStatsCards: React.FC = () => {
   const { selectedListing } = useListingContext();
   const { data: overviewData, loading } = useOverviewData(
     selectedListing?.id ? parseInt(selectedListing.id) : null
@@ -111,3 +111,5 @@ export const EnhancedStatsCards: React.FC = () => {
     </div>
   );
 };
+
+export default EnhancedStatsCards;
