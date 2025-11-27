@@ -1,10 +1,10 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from "./axiosInstance";
 
 export interface AutoReplyProjectAPI {
   id: string;
   projectName: string;
   locationCount: number;
-  settingType: 'AI' | 'Custom Template';
+  settingType: "AI" | "Custom Template";
   listings: string[];
   aiSettings?: {
     tone: string;
@@ -43,7 +43,7 @@ export interface FetchAutoReplyProjectsResponse {
 export interface CreateAutoReplyProjectRequest {
   projectName: string;
   listings: string[];
-  replyType: 'AI' | 'Custom';
+  replyType: "AI" | "Custom";
   aiSettings?: {
     tone: string;
     responseLength: string;
@@ -80,33 +80,33 @@ export interface FetchListingsResponse {
 }
 
 export const autoReplyApi = {
-  // Fetch auto reply projects
+  // Fetch auto reply projects.
   fetchProjects: async (params: FetchAutoReplyProjectsRequest): Promise<FetchAutoReplyProjectsResponse> => {
-    const response = await axiosInstance.post('/get-auto-reply-projects', {
+    const response = await axiosInstance.post("/get-auto-reply-projects", {
       page: params.page,
       limit: params.limit,
-      search: params.search || ''
+      search: params.search || "",
     });
     return response.data;
   },
 
   // Create auto reply project
   createProject: async (data: CreateAutoReplyProjectRequest): Promise<CreateAutoReplyProjectResponse> => {
-    const response = await axiosInstance.post('/create-auto-reply-project', data);
+    const response = await axiosInstance.post("/create-auto-reply-project", data);
     return response.data;
   },
 
   // Delete auto reply project
   deleteProject: async (projectId: string): Promise<DeleteAutoReplyProjectResponse> => {
-    const response = await axiosInstance.post('/delete-auto-reply-project', { 
-      projectId 
+    const response = await axiosInstance.post("/delete-auto-reply-project", {
+      projectId,
     });
     return response.data;
   },
 
   // Fetch listings for dropdown
   fetchListings: async (): Promise<FetchListingsResponse> => {
-    const response = await axiosInstance.post('/get-listings-for-auto-reply');
+    const response = await axiosInstance.post("/get-listings-for-auto-reply");
     return response.data;
-  }
+  },
 };
