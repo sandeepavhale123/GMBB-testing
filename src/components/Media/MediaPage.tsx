@@ -297,8 +297,8 @@ export const MediaPage: React.FC = () => {
           isLoading={statsLoading}
         />
         <MediaStatsChart
-          imageCount={stats?.mediaDistribution.images.count || 0}
-          videoCount={stats?.mediaDistribution.videos.count || 0}
+          imageCount={stats?.mediaDistribution?.images?.count ?? 0}
+          videoCount={stats?.mediaDistribution?.videos?.count ?? 0}
           isLoading={statsLoading}
         />
       </div>
