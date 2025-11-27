@@ -74,7 +74,7 @@ const InsightsComparisonChart = lazy(() =>
   }))
 );
 
-const LazyComponentLoader =  React.memo(({ children }: { children: React.ReactNode }) => (
+const LazyComponentLoader = React.memo(({ children }: { children: React.ReactNode }) => (
   <Suspense
     fallback={
       <div className="flex items-center justify-center p-8">
@@ -275,72 +275,84 @@ export const Dashboard: React.FC = () => {
                 <span className="text-md"> {t("insights")}</span>
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="posts" className="mt-4 sm:mt-6">
-              <div className="space-y-4 sm:space-y-6">
-                {/* Top Row - Responsive grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                  <LazyComponentLoader>
-                    <TrafficSourcesChart
-                      live={overviewData?.livePosts}
-                      failed={overviewData?.failedPosts}
-                    />
-                  </LazyComponentLoader>
-                  <LazyComponentLoader>
-                    <CreatePostCard
-                      onCreatePost={() => setIsCreateModalOpen(true)}
-                    />
-                  </LazyComponentLoader>
-                  <LazyComponentLoader>
-                    <QuickWinsCard quickwins={overviewData?.quickWins} />
-                  </LazyComponentLoader>
-                </div>
 
-                {/* Bottom Row - Scheduled Posts Table (Full Width) */}
-                <LazyComponentLoader>
-                  <ScheduledPostCard onApprovePost={handleApprovePost} />
-                </LazyComponentLoader>
-              </div>
-            </TabsContent>
-            <TabsContent value="reviews" className="mt-4 sm:mt-6">
-              <LazyComponentLoader>
+            {activeTab === "posts" && (
+              <TabsContent value="posts" className="mt-4 sm:mt-6">
                 <div className="space-y-4 sm:space-y-6">
-                  {/* Summary Cards Row */}
+                  {/* Top Row - Responsive grid */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <ReviewSummaryCard />
-                    <SentimentBreakdownCard />
-                    <QACard />
+                    <LazyComponentLoader>
+                      <TrafficSourcesChart
+                        live={overviewData?.livePosts}
+                        failed={overviewData?.failedPosts}
+                      />
+                    </LazyComponentLoader>
+                    <LazyComponentLoader>
+                      <CreatePostCard
+                        onCreatePost={() => setIsCreateModalOpen(true)}
+                      />
+                    </LazyComponentLoader>
+                    <LazyComponentLoader>
+                      <QuickWinsCard quickwins={overviewData?.quickWins} />
+                    </LazyComponentLoader>
                   </div>
-                  {/* Recent Reviews Section - Full Width */}
-                  <DashboardRecentReviews />
+
+                  {/* Bottom Row - Scheduled Posts Table (Full Width) */}
+                  <LazyComponentLoader>
+                    <ScheduledPostCard onApprovePost={handleApprovePost} />
+                  </LazyComponentLoader>
                 </div>
-              </LazyComponentLoader>
-            </TabsContent>
-            <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
-              <LazyComponentLoader>
-                <GeoRankingPage />
-              </LazyComponentLoader>
-            </TabsContent>
-            <TabsContent value="insights" className="mt-4 sm:mt-6">
-              <LazyComponentLoader>
-                <div className="space-y-6">
-                  {/* First Row: Existing Cards Side by Side */}
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-                    <VisibilitySummaryCard
-                      isLoadingSummary={isLoadingSummary}
-                      isLoadingVisibility={isLoadingVisibility}
-                      summary={summary}
-                      visibilityTrends={visibilityTrends}
-                    />
-                    <CustomerInteractionsCard
-                      isLoadingSummary={isLoadingSummary}
-                      summary={summary}
-                    />
+              </TabsContent>
+            )}
+            {activeTab === "reviews" && (
+              <TabsContent value="reviews" className="mt-4 sm:mt-6">
+                <LazyComponentLoader>
+                  <div className="space-y-4 sm:space-y-6">
+                    {/* Summary Cards Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                      <ReviewSummaryCard />
+                      <SentimentBreakdownCard />
+                      <QACard />
+                    </div>
+                    {/* Recent Reviews Section - Full Width */}
+                    <DashboardRecentReviews />
                   </div>
-                  {/* Second Row: Full-Width Comparison Chart */}
-                  <InsightsComparisonChart />
-                </div>
-              </LazyComponentLoader>
-            </TabsContent>
+                </LazyComponentLoader>
+              </TabsContent>
+            )}
+
+            {activeTab === "geo-ranking" && (
+              <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
+                <LazyComponentLoader>
+                  <GeoRankingPage />
+                </LazyComponentLoader>
+              </TabsContent>
+            )}
+
+            {activeTab === "insights" && (
+              <TabsContent value="insights" className="mt-4 sm:mt-6">
+                <LazyComponentLoader>
+                  <div className="space-y-6">
+                    {/* First Row: Existing Cards Side by Side */}
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                      <VisibilitySummaryCard
+                        isLoadingSummary={isLoadingSummary}
+                        isLoadingVisibility={isLoadingVisibility}
+                        summary={summary}
+                        visibilityTrends={visibilityTrends}
+                      />
+                      <CustomerInteractionsCard
+                        isLoadingSummary={isLoadingSummary}
+                        summary={summary}
+                      />
+                    </div>
+                    {/* Second Row: Full-Width Comparison Chart */}
+                    <InsightsComparisonChart />
+                  </div>
+                </LazyComponentLoader>
+              </TabsContent>
+            )}
+
           </Tabs>
         </div>
       </div>
