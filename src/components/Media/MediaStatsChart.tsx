@@ -79,12 +79,12 @@ export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[200px]">
+        <div className="h-[200px] flex justify-center items-center">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
-                cx="40%"
+                cx="50%"
                 cy="50%"
                 innerRadius={40}
                 outerRadius={70}
