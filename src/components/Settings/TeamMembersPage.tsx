@@ -2,43 +2,14 @@ import React, { useState } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { Loader } from "../ui/loader";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableCell,
-} from "../ui/table";
-import {
-  Eye,
-  EyeOff,
-  Search,
-  Plus,
-  Grid3X3,
-  List,
-  Edit,
-  Trash2,
-  Copy,
-  MoreVertical,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { Table, TableBody, TableHead, TableHeader, TableRow, TableCell } from "../ui/table";
+import { Eye, EyeOff, Search, Plus, Grid3X3, List, Edit, Trash2, Copy, MoreVertical } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { AddTeamMemberModal } from "./AddTeamMemberModal";
 import { EditTeamMemberModal } from "./EditTeamMemberModal";
 import { DeleteTeamMemberModal } from "./DeleteTeamMemberModal";
@@ -101,9 +72,7 @@ const TeamMembersPage: React.FC = () => {
     }));
   };
   const getRoleBadgeClass = (role: string) => {
-    return (
-      roleColors[role as keyof typeof roleColors] || "bg-gray-100 text-gray-800"
-    );
+    return roleColors[role as keyof typeof roleColors] || "bg-gray-100 text-gray-800";
   };
   const handleCopyEmail = async (email: string) => {
     try {
@@ -115,10 +84,7 @@ const TeamMembersPage: React.FC = () => {
     } catch (err) {
       toast({
         title: t("teamMembersPage.copy.errorTitle"),
-        description:
-          err.message ||
-          err?.response?.data?.message ||
-          t("teamMembersPage.copy.errorDesc"),
+        description: err.message || err?.response?.data?.message || t("teamMembersPage.copy.errorDesc"),
         variant: "destructive",
       });
     }
@@ -128,9 +94,7 @@ const TeamMembersPage: React.FC = () => {
   };
   const getInitials = (member: TeamMember) => {
     if (member.firstName || member.lastName) {
-      return `${member.firstName?.[0] || ""}${
-        member.lastName?.[0] || ""
-      }`.toUpperCase();
+      return `${member.firstName?.[0] || ""}${member.lastName?.[0] || ""}`.toUpperCase();
     }
     return member.username.slice(0, 2).toUpperCase();
   };
@@ -141,27 +105,17 @@ const TeamMembersPage: React.FC = () => {
     return `https://member.gmbbriefcase.com/files/suninfo/profile/${profilePicture}`;
   };
   return (
-    <div className="p-4 pb-[100px] sm:p-6 sm:pb-[100px] max-w-6xl mx-auto">
+    <div className="p-4 pb-[100px] sm:p-6 sm:pb-[100px]">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              {t("teamMembersPage.title")}
-            </h2>
-            <p className="text-gray-600 text-sm sm:text-base">
-              {t("teamMembersPage.description")}
-            </p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("teamMembersPage.title")}</h2>
+            <p className="text-gray-600 text-sm sm:text-base">{t("teamMembersPage.description")}</p>
           </div>
-          <Button
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 w-fit"
-          >
+          <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 w-fit">
             <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">
-              {" "}
-              {t("teamMembersPage.addMember")}
-            </span>
+            <span className="hidden sm:inline"> {t("teamMembersPage.addMember")}</span>
             <span className="sm:hidden"> {t("teamMembersPage.add")}</span>
           </Button>
         </div>
@@ -187,28 +141,17 @@ const TeamMembersPage: React.FC = () => {
                   <SelectValue placeholder={t("teamMembersPage.allRoles")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">
-                    {t("teamMembersPage.allRoles")}
-                  </SelectItem>
-                  <SelectItem value="Staff">
-                    {t("teamMembersPage.staff")}
-                  </SelectItem>
-                  <SelectItem value="Client">
-                    {t("teamMembersPage.client")}
-                  </SelectItem>
-                  <SelectItem value="Moderator">
-                    {t("teamMembersPage.moderator")}
-                  </SelectItem>
+                  <SelectItem value="all">{t("teamMembersPage.allRoles")}</SelectItem>
+                  <SelectItem value="Staff">{t("teamMembersPage.staff")}</SelectItem>
+                  <SelectItem value="Client">{t("teamMembersPage.client")}</SelectItem>
+                  <SelectItem value="Moderator">{t("teamMembersPage.moderator")}</SelectItem>
                 </SelectContent>
               </Select>
 
               {/* Summary Badges */}
               {summary && (
                 <div className="flex gap-2">
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit"
-                  >
+                  <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
                     {t("teamMembersPage.totalMembers", {
                       count: summary.totalMembers,
                     })}
@@ -259,9 +202,7 @@ const TeamMembersPage: React.FC = () => {
         {error && (
           <Card className="p-8 text-center border-destructive">
             <div className="text-destructive mb-4">
-              <h3 className="text-lg font-semibold mb-2">
-                {t("teamMembersPage.error.title")}
-              </h3>
+              <h3 className="text-lg font-semibold mb-2">{t("teamMembersPage.error.title")}</h3>
               <p className="text-sm">{error}</p>
             </div>
             <Button onClick={clearTeamError} variant="outline">
@@ -276,13 +217,9 @@ const TeamMembersPage: React.FC = () => {
             <div className="text-muted-foreground mb-4">
               <Search className="w-12 h-12 mx-auto" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              {t("teamMembersPage.empty.title")}
-            </h3>
+            <h3 className="text-lg font-semibold text-foreground mb-2">{t("teamMembersPage.empty.title")}</h3>
             <p className="text-muted-foreground mb-4">
-              {searchTerm || roleFilter
-                ? t("teamMembersPage.empty.searchAdjust")
-                : t("teamMembersPage.empty.addFirst")}
+              {searchTerm || roleFilter ? t("teamMembersPage.empty.searchAdjust") : t("teamMembersPage.empty.addFirst")}
             </p>
             {!searchTerm && !roleFilter && (
               <Button onClick={() => setShowAddModal(true)}>
@@ -325,15 +262,10 @@ const TeamMembersPage: React.FC = () => {
                       {members.map((member) => (
                         <TableRow key={member.id} className="hover:bg-gray-50">
                           <TableCell className="p-4">
-                            <div
-                              className="flex items-center space-x-3"
-                              onClick={() => handleEditMember(member)}
-                            >
+                            <div className="flex items-center space-x-3" onClick={() => handleEditMember(member)}>
                               <Avatar className="h-10 w-10">
                                 <AvatarImage
-                                  src={getProfilePictureUrl(
-                                    member.profilePicture
-                                  )}
+                                  src={getProfilePictureUrl(member.profilePicture)}
                                   alt={getDisplayName(member)}
                                 />
                                 <AvatarFallback className="bg-gray-100 text-gray-600">
@@ -341,14 +273,9 @@ const TeamMembersPage: React.FC = () => {
                                 </AvatarFallback>
                               </Avatar>
                               <div>
-                                <div className="font-medium text-gray-900">
-                                  {getDisplayName(member)}
-                                </div>
+                                <div className="font-medium text-gray-900">{getDisplayName(member)}</div>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <Badge
-                                    className={getRoleBadgeClass(member.role)}
-                                    variant="secondary"
-                                  >
+                                  <Badge className={getRoleBadgeClass(member.role)} variant="secondary">
                                     {t(`teamMembersPage.roles.${member.role}`)}
                                   </Badge>
                                 </div>
@@ -357,9 +284,7 @@ const TeamMembersPage: React.FC = () => {
                           </TableCell>
                           <TableCell className="p-4 text-center">
                             <div className="flex items-center justify-center gap-2">
-                              <span className="text-sm text-gray-600">
-                                {member.username}
-                              </span>
+                              <span className="text-sm text-gray-600">{member.username}</span>
                               <button
                                 onClick={() => handleCopyEmail(member.username)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -372,14 +297,10 @@ const TeamMembersPage: React.FC = () => {
                           <TableCell className="p-4 text-center">
                             <div className="flex items-center justify-center gap-2">
                               <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
-                                {passwordVisibility[member.id]
-                                  ? member.password
-                                  : "••••••••"}
+                                {passwordVisibility[member.id] ? member.password : "••••••••"}
                               </span>
                               <button
-                                onClick={() =>
-                                  togglePasswordVisibility(member.id)
-                                }
+                                onClick={() => togglePasswordVisibility(member.id)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                                 title={
                                   passwordVisibility[member.id]
@@ -396,9 +317,7 @@ const TeamMembersPage: React.FC = () => {
                             </div>
                           </TableCell>
                           <TableCell className="p-4 text-center">
-                            <span className="text-sm font-medium text-gray-900">
-                              {member.listingsCount}
-                            </span>
+                            <span className="text-sm font-medium text-gray-900">{member.listingsCount}</span>
                           </TableCell>
                           {/* <TableCell className="p-4 text-center">
                             <Badge
@@ -411,18 +330,12 @@ const TeamMembersPage: React.FC = () => {
                           <TableCell className="p-4 text-center">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 w-8 p-0"
-                                >
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                   <MoreVertical className="w-4 h-4" />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                <DropdownMenuItem
-                                  onClick={() => handleEditMember(member)}
-                                >
+                                <DropdownMenuItem onClick={() => handleEditMember(member)}>
                                   <Edit className="w-4 h-4 mr-1" />
                                   {t("teamMembersPage.dropdown.edit")}
                                 </DropdownMenuItem>
@@ -452,14 +365,10 @@ const TeamMembersPage: React.FC = () => {
                               src={getProfilePictureUrl(member.profilePicture)}
                               alt={getDisplayName(member)}
                             />
-                            <AvatarFallback>
-                              {getInitials(member)}
-                            </AvatarFallback>
+                            <AvatarFallback>{getInitials(member)}</AvatarFallback>
                           </Avatar>
                           <div>
-                            <div className="font-medium text-foreground">
-                              {getDisplayName(member)}
-                            </div>
+                            <div className="font-medium text-foreground">{getDisplayName(member)}</div>
                             <div className="text-sm text-muted-foreground flex items-center gap-2 break-all">
                               {member.username}
                               <button
@@ -478,16 +387,11 @@ const TeamMembersPage: React.FC = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => handleEditMember(member)}
-                            >
+                            <DropdownMenuItem onClick={() => handleEditMember(member)}>
                               <Edit className="w-4 h-4 mr-1" />
                               {t("teamMembersPage.dropdown.edit")}
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleDeleteMember(member)}
-                              className="text-destructive"
-                            >
+                            <DropdownMenuItem onClick={() => handleDeleteMember(member)} className="text-destructive">
                               <Trash2 className="w-4 h-4 mr-1" />
                               {t("teamMembersPage.dropdown.delete")}
                             </DropdownMenuItem>
@@ -497,23 +401,17 @@ const TeamMembersPage: React.FC = () => {
 
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-muted-foreground">
-                            {t("teamMembersPage.grid.password")}
-                          </span>
+                          <span className="text-sm text-muted-foreground">{t("teamMembersPage.grid.password")}</span>
                           <div className="flex items-center gap-2">
                             {/* <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
                              {member.password}
                              </span> */}
                             <div className="flex items-center justify-center gap-2">
                               <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
-                                {passwordVisibility[member.id]
-                                  ? member.password
-                                  : "••••••••"}
+                                {passwordVisibility[member.id] ? member.password : "••••••••"}
                               </span>
                               <button
-                                onClick={() =>
-                                  togglePasswordVisibility(member.id)
-                                }
+                                onClick={() => togglePasswordVisibility(member.id)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                                 title={
                                   passwordVisibility[member.id]
@@ -532,21 +430,13 @@ const TeamMembersPage: React.FC = () => {
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-muted-foreground">
-                            {t("teamMembersPage.grid.role")}
-                          </span>
-                          <Badge className={getRoleBadgeClass(member.role)}>
-                            {member.role}
-                          </Badge>
+                          <span className="text-sm text-muted-foreground">{t("teamMembersPage.grid.role")}</span>
+                          <Badge className={getRoleBadgeClass(member.role)}>{member.role}</Badge>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-muted-foreground">
-                            {t("teamMembersPage.grid.listings")}
-                          </span>
-                          <span className="text-sm text-foreground">
-                            {member.listingsCount}
-                          </span>
+                          <span className="text-sm text-muted-foreground">{t("teamMembersPage.grid.listings")}</span>
+                          <span className="text-sm text-foreground">{member.listingsCount}</span>
                         </div>
 
                         {/* <div className="flex items-center justify-between">
@@ -566,10 +456,7 @@ const TeamMembersPage: React.FC = () => {
 
         {/* Pagination */}
         {!isLoading && !error && pagination && (
-          <TeamMemberPagination
-            pagination={pagination}
-            onPageChange={updateCurrentPage}
-          />
+          <TeamMemberPagination pagination={pagination} onPageChange={updateCurrentPage} />
         )}
       </div>
 
@@ -582,11 +469,7 @@ const TeamMembersPage: React.FC = () => {
         }}
       />
 
-      <EditTeamMemberModal
-        open={showEditModal}
-        onOpenChange={setShowEditModal}
-        member={selectedMember}
-      />
+      <EditTeamMemberModal open={showEditModal} onOpenChange={setShowEditModal} member={selectedMember} />
 
       <DeleteTeamMemberModal
         open={showDeleteModal}

@@ -4,39 +4,12 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../ui/collapsible";
-import {
-  Map,
-  Settings,
-  Check,
-  X,
-  Eye,
-  EyeOff,
-  ExternalLink,
-  ChevronDown,
-  Loader2,
-  Mail,
-  Globe,
-} from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink, ChevronDown, Loader2, Mail, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import {
-  apiKeySchema,
-  disconnectConfirmationSchema,
-  smtpSchema,
-  SmtpFormData,
-} from "@/schemas/authSchemas";
+import { apiKeySchema, disconnectConfirmationSchema, smtpSchema, SmtpFormData } from "@/schemas/authSchemas";
 import { Edit } from "lucide-react";
 import {
   useGetMapApiKey,
@@ -65,49 +38,32 @@ interface Integration {
   configurable: boolean;
 }
 export const IntegrationsPage: React.FC = () => {
-  const { t } = useI18nNamespace([
-    "Settings/integrationsPage",
-    "Validation/validation",
-  ]);
+  const { t } = useI18nNamespace(["Settings/integrationsPage", "Validation/validation"]);
 
   const apiKeySchema = z.object({
     apiKey: z.string().trim().min(1, t("apiKey.required")),
   });
 
   const disconnectConfirmationSchema = z.object({
-    confirmationText: z
-      .string()
-      .refine((val) => val.toLowerCase() === "delete", {
-        message: t("disconnect.confirmText"),
-      }),
+    confirmationText: z.string().refine((val) => val.toLowerCase() === "delete", {
+      message: t("disconnect.confirmText"),
+    }),
   });
 
   const smtpSchema = z.object({
     fromName: z
       .string()
       .min(1, t("smtp.fromName"))
-      .refine(
-        (val) => (val.match(/[A-Za-z]/g) || []).length >= 3,
-        t("smtp.minAlphabetic")
-      ),
-    rpyEmail: z
-      .string()
-      .trim()
-      .min(1, t("email.required"))
-      .email(t("email.invalid")),
+      .refine((val) => (val.match(/[A-Za-z]/g) || []).length >= 3, t("smtp.minAlphabetic")),
+    rpyEmail: z.string().trim().min(1, t("email.required")).email(t("email.invalid")),
     smtpHost: z.string().min(1, t("smtp.host")),
-    smtpPort: z
-      .string()
-      .min(1, t("smtp.port.required"))
-      .regex(/^\d+$/, t("smtp.port.number")),
+    smtpPort: z.string().min(1, t("smtp.port.required")).regex(/^\d+$/, t("smtp.port.number")),
     smtpUser: z.string().min(1, t("smtp.user")),
     smtpPass: z.string().min(1, t("smtp.password")),
   });
 
   type ApiKeyFormData = z.infer<typeof apiKeySchema>;
-  type DisconnectConfirmationFormData = z.infer<
-    typeof disconnectConfirmationSchema
-  >;
+  type DisconnectConfirmationFormData = z.infer<typeof disconnectConfirmationSchema>;
   type SmtpFormData = z.infer<typeof smtpSchema>;
 
   const { toast } = useToast();
@@ -121,8 +77,7 @@ export const IntegrationsPage: React.FC = () => {
   const updateSubdomainMutation = useUpdateSubdomain();
 
   // For SMTP, we'll use a default listingId of 1 - this can be made dynamic later
-  const { data: smtpDetailsData, isLoading: isFetchingSmtp } =
-    useGetSmtpDetails(selectedListing?.id || 1);
+  const { data: smtpDetailsData, isLoading: isFetchingSmtp } = useGetSmtpDetails(selectedListing?.id || 1);
   const updateSmtpDetailsMutation = useUpdateSmtpDetails();
   const testSmtpDetailsMutation = useTestSmtpDetails();
   const deleteSmtpDetailsMutation = useDeleteSmtpDetails();
@@ -133,9 +88,7 @@ export const IntegrationsPage: React.FC = () => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showDisconnectDialog, setShowDisconnectDialog] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
-  const [disconnectingIntegration, setDisconnectingIntegration] = useState<
-    string | null
-  >(null);
+  const [disconnectingIntegration, setDisconnectingIntegration] = useState<string | null>(null);
 
   // SMTP related states
   const [isConfiguringSmtp, setIsConfiguringSmtp] = useState(false);
@@ -167,8 +120,7 @@ export const IntegrationsPage: React.FC = () => {
     smtpDetailsData.data.smtpHost.length > 0;
   const connectedSubdomain = subdomainStatusData?.data?.status === "Active";
   const hasSubdomain =
-    typeof subdomainStatusData?.data?.domain === "string" &&
-    subdomainStatusData?.data?.domain.length > 0;
+    typeof subdomainStatusData?.data?.domain === "string" && subdomainStatusData?.data?.domain.length > 0;
 
   // const [integrations, setIntegrations] = useState<Integration[]>([
   //   {
@@ -219,7 +171,7 @@ export const IntegrationsPage: React.FC = () => {
         icon: item.icon,
         status: item.connected ? "active" : "inactive",
         configurable: true,
-      }))
+      })),
     );
   }, [t, connectedApiKey, connectedSmtp, connectedSubdomain]);
 
@@ -246,7 +198,7 @@ export const IntegrationsPage: React.FC = () => {
           };
         }
         return integration;
-      })
+      }),
     );
   }, [connectedApiKey, connectedSmtp, connectedSubdomain]);
 
@@ -265,8 +217,7 @@ export const IntegrationsPage: React.FC = () => {
       toast({
         title: t("integrations.errors.title"),
         description:
-          (validationResult.errors as Record<string, string>)?.apiKey ||
-          t("integrations.errors.apiKeyRequired"),
+          (validationResult.errors as Record<string, string>)?.apiKey || t("integrations.errors.apiKeyRequired"),
         variant: "destructive",
       });
       return;
@@ -298,8 +249,7 @@ export const IntegrationsPage: React.FC = () => {
       toast({
         title: t("integrations.errors.title"),
         description:
-          (validationResult.errors as Record<string, string>)
-            ?.confirmationText ||
+          (validationResult.errors as Record<string, string>)?.confirmationText ||
           t("integrations.errors.disconnectConfirmation"),
         variant: "destructive",
       });
@@ -384,13 +334,7 @@ export const IntegrationsPage: React.FC = () => {
   };
   const handleSmtpTest = async () => {
     // Add validation for required fields
-    const requiredFields = [
-      "fromEmail",
-      "smtpHost",
-      "smtpPort",
-      "smtpUser",
-      "smtpPassword",
-    ];
+    const requiredFields = ["fromEmail", "smtpHost", "smtpPort", "smtpUser", "smtpPassword"];
     const missingFields = requiredFields.filter((field) => {
       const value = smtpData[field as keyof typeof smtpData];
       return !value?.toString().trim();
@@ -465,11 +409,9 @@ export const IntegrationsPage: React.FC = () => {
     }
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto pb-[100px] sm:pb-[100px]">
+    <div className="p-4 sm:p-6 pb-[100px] sm:pb-[100px]">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground mb-2">
-          {t("integrations.title")}
-        </h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">{t("integrations.title")}</h2>
         <p className="text-muted-foreground">{t("integrations.subtitle")}</p>
       </div>
 
@@ -480,9 +422,7 @@ export const IntegrationsPage: React.FC = () => {
             <Card
               key={integration.id}
               className={`relative transition-all duration-200 ${
-                integration.status === "active"
-                  ? "bg-primary/5 border-primary/20 shadow-md"
-                  : "hover:shadow-md"
+                integration.status === "active" ? "bg-primary/5 border-primary/20 shadow-md" : "hover:shadow-md"
               }`}
             >
               {/* Active Badge - Top Right */}
@@ -509,12 +449,8 @@ export const IntegrationsPage: React.FC = () => {
 
               {/* Second Row: Title and Description */}
               <div className="px-6 pb-4 text-left">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {integration.name}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {integration.description}
-                </p>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{integration.name}</h3>
+                <p className="text-sm text-muted-foreground">{integration.description}</p>
               </div>
 
               {/* Third Row: Configure Button */}
@@ -659,10 +595,7 @@ export const IntegrationsPage: React.FC = () => {
       <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
         <DialogContent className="max-w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {" "}
-              {t("integrations.mapApi.configureTitle")}
-            </DialogTitle>
+            <DialogTitle> {t("integrations.mapApi.configureTitle")}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 sm:space-y-6 p-2 sm:p-0">
@@ -683,16 +616,12 @@ export const IntegrationsPage: React.FC = () => {
                     }
                   }}
                   className={`pr-10 ${
-                    apiKeyValidation.hasFieldError("apiKey")
-                      ? "border-destructive focus-visible:ring-destructive"
-                      : ""
+                    apiKeyValidation.hasFieldError("apiKey") ? "border-destructive focus-visible:ring-destructive" : ""
                   }`}
                   disabled={updateMapApiKeyMutation.isPending}
                 />
                 {apiKeyValidation.hasFieldError("apiKey") && (
-                  <p className="text-xs text-destructive mt-1">
-                    {apiKeyValidation.getFieldError("apiKey")}
-                  </p>
+                  <p className="text-xs text-destructive mt-1">{apiKeyValidation.getFieldError("apiKey")}</p>
                 )}
                 <Button
                   type="button"
@@ -709,15 +638,10 @@ export const IntegrationsPage: React.FC = () => {
                   )}
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {t("integrations.mapApi.helper")}
-              </p>
+              <p className="text-xs text-muted-foreground">{t("integrations.mapApi.helper")}</p>
             </div>
 
-            <Collapsible
-              open={showInstructions}
-              onOpenChange={setShowInstructions}
-            >
+            <Collapsible open={showInstructions} onOpenChange={setShowInstructions}>
               <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
@@ -726,15 +650,9 @@ export const IntegrationsPage: React.FC = () => {
                 >
                   <span className="flex items-center gap-2">
                     <Map className="w-4 h-4 flex-shrink-0" />
-                    <span className="truncate max-w-[25ch] sm:max-w-none">
-                      {t("integrations.mapApi.howToTitle")}
-                    </span>
+                    <span className="truncate max-w-[25ch] sm:max-w-none">{t("integrations.mapApi.howToTitle")}</span>
                   </span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${
-                      showInstructions ? "rotate-180" : ""
-                    }`}
-                  />
+                  <ChevronDown className={`w-4 h-4 transition-transform ${showInstructions ? "rotate-180" : ""}`} />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -810,9 +728,7 @@ export const IntegrationsPage: React.FC = () => {
               </Button>
               <Button
                 onClick={handleConfigureMapApi}
-                disabled={
-                  updateMapApiKeyMutation.isPending || !mapApiKey?.trim()
-                }
+                disabled={updateMapApiKeyMutation.isPending || !mapApiKey?.trim()}
                 className="w-full sm:w-auto"
               >
                 {updateMapApiKeyMutation.isPending ? (
@@ -830,21 +746,14 @@ export const IntegrationsPage: React.FC = () => {
       </Dialog>
 
       {/* Disconnect Confirmation Dialog */}
-      <Dialog
-        open={showDisconnectDialog}
-        onOpenChange={setShowDisconnectDialog}
-      >
+      <Dialog open={showDisconnectDialog} onOpenChange={setShowDisconnectDialog}>
         <DialogContent className="max-w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {t("integrations.disconnectDialog.title")}
-            </DialogTitle>
+            <DialogTitle>{t("integrations.disconnectDialog.title")}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-3 sm:space-y-4 p-2 sm:p-0">
-            <p className="text-sm text-muted-foreground">
-              {t("integrations.disconnectDialog.message")}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("integrations.disconnectDialog.message")}</p>
 
             <div className="space-y-2">
               <Label htmlFor="confirmText" className="text-sm font-medium">
@@ -866,10 +775,7 @@ export const IntegrationsPage: React.FC = () => {
                     ? "border-destructive focus-visible:ring-destructive"
                     : ""
                 }
-                disabled={
-                  deleteMapApiKeyMutation.isPending ||
-                  deleteSmtpDetailsMutation.isPending
-                }
+                disabled={deleteMapApiKeyMutation.isPending || deleteSmtpDetailsMutation.isPending}
               />
               {disconnectValidation.hasFieldError("confirmationText") && (
                 <p className="text-xs text-destructive mt-1">
@@ -888,10 +794,7 @@ export const IntegrationsPage: React.FC = () => {
                 setDisconnectingIntegration(null);
                 disconnectValidation.clearErrors();
               }}
-              disabled={
-                deleteMapApiKeyMutation.isPending ||
-                deleteSmtpDetailsMutation.isPending
-              }
+              disabled={deleteMapApiKeyMutation.isPending || deleteSmtpDetailsMutation.isPending}
               className="w-full sm:w-auto"
             >
               {t("integrations.buttons.cancel")}
@@ -906,8 +809,7 @@ export const IntegrationsPage: React.FC = () => {
               }
               className="w-full sm:w-auto"
             >
-              {deleteMapApiKeyMutation.isPending ||
-              deleteSmtpDetailsMutation.isPending ? (
+              {deleteMapApiKeyMutation.isPending || deleteSmtpDetailsMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   {t("integrations.buttons.disconnecting")}
@@ -947,27 +849,17 @@ export const IntegrationsPage: React.FC = () => {
                       smtpValidation.clearFieldError("fromName");
                     }
                   }}
-                  className={
-                    smtpValidation.hasFieldError("fromName")
-                      ? "border-destructive"
-                      : ""
-                  }
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  className={smtpValidation.hasFieldError("fromName") ? "border-destructive" : ""}
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 />
                 {smtpValidation.hasFieldError("fromName") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("fromName")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("fromName")}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="fromEmail" className="text-sm font-medium">
-                  {t("integrations.smtp.labels.fromEmail")}{" "}
-                  <span className="text-destructive">*</span>
+                  {t("integrations.smtp.labels.fromEmail")} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="fromEmail"
@@ -983,27 +875,17 @@ export const IntegrationsPage: React.FC = () => {
                       smtpValidation.clearFieldError("rpyEmail");
                     }
                   }}
-                  className={
-                    smtpValidation.hasFieldError("rpyEmail")
-                      ? "border-destructive"
-                      : ""
-                  }
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  className={smtpValidation.hasFieldError("rpyEmail") ? "border-destructive" : ""}
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 />
                 {smtpValidation.hasFieldError("rpyEmail") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("rpyEmail")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("rpyEmail")}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="smtpHost" className="text-sm font-medium">
-                  {t("integrations.smtp.labels.smtpHost")}{" "}
-                  <span className="text-destructive">*</span>
+                  {t("integrations.smtp.labels.smtpHost")} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="smtpHost"
@@ -1019,27 +901,17 @@ export const IntegrationsPage: React.FC = () => {
                       smtpValidation.clearFieldError("smtpHost");
                     }
                   }}
-                  className={
-                    smtpValidation.hasFieldError("smtpHost")
-                      ? "border-destructive"
-                      : ""
-                  }
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  className={smtpValidation.hasFieldError("smtpHost") ? "border-destructive" : ""}
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 />
                 {smtpValidation.hasFieldError("smtpHost") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("smtpHost")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("smtpHost")}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="smtpPort" className="text-sm font-medium">
-                  {t("integrations.smtp.labels.smtpPort")}{" "}
-                  <span className="text-destructive">*</span>
+                  {t("integrations.smtp.labels.smtpPort")} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="smtpPort"
@@ -1055,27 +927,17 @@ export const IntegrationsPage: React.FC = () => {
                       smtpValidation.clearFieldError("smtpPort");
                     }
                   }}
-                  className={
-                    smtpValidation.hasFieldError("smtpPort")
-                      ? "border-destructive"
-                      : ""
-                  }
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  className={smtpValidation.hasFieldError("smtpPort") ? "border-destructive" : ""}
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 />
                 {smtpValidation.hasFieldError("smtpPort") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("smtpPort")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("smtpPort")}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="smtpUser" className="text-sm font-medium">
-                  {t("integrations.smtp.labels.smtpUser")}{" "}
-                  <span className="text-destructive">*</span>
+                  {t("integrations.smtp.labels.smtpUser")} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="smtpUser"
@@ -1091,20 +953,11 @@ export const IntegrationsPage: React.FC = () => {
                       smtpValidation.clearFieldError("smtpUser");
                     }
                   }}
-                  className={
-                    smtpValidation.hasFieldError("smtpUser")
-                      ? "border-destructive"
-                      : ""
-                  }
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  className={smtpValidation.hasFieldError("smtpUser") ? "border-destructive" : ""}
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 />
                 {smtpValidation.hasFieldError("smtpUser") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("smtpUser")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("smtpUser")}</p>
                 )}
               </div>
 
@@ -1117,9 +970,7 @@ export const IntegrationsPage: React.FC = () => {
                   <Input
                     id="smtpPassword"
                     type={showSmtpPassword ? "text" : "password"}
-                    placeholder={t(
-                      "integrations.smtp.placeholders.smtpPassword"
-                    )}
+                    placeholder={t("integrations.smtp.placeholders.smtpPassword")}
                     value={smtpData.smtpPassword}
                     onChange={(e) => {
                       setSmtpData({
@@ -1130,15 +981,8 @@ export const IntegrationsPage: React.FC = () => {
                         smtpValidation.clearFieldError("smtpPass");
                       }
                     }}
-                    className={`pr-10 ${
-                      smtpValidation.hasFieldError("smtpPass")
-                        ? "border-destructive"
-                        : ""
-                    }`}
-                    disabled={
-                      updateSmtpDetailsMutation.isPending ||
-                      testSmtpDetailsMutation.isPending
-                    }
+                    className={`pr-10 ${smtpValidation.hasFieldError("smtpPass") ? "border-destructive" : ""}`}
+                    disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                   />
                   <Button
                     type="button"
@@ -1146,10 +990,7 @@ export const IntegrationsPage: React.FC = () => {
                     size="sm"
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowSmtpPassword(!showSmtpPassword)}
-                    disabled={
-                      updateSmtpDetailsMutation.isPending ||
-                      testSmtpDetailsMutation.isPending
-                    }
+                    disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                   >
                     {showSmtpPassword ? (
                       <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -1159,9 +1000,7 @@ export const IntegrationsPage: React.FC = () => {
                   </Button>
                 </div>
                 {smtpValidation.hasFieldError("smtpPass") && (
-                  <p className="text-xs text-destructive">
-                    {smtpValidation.getFieldError("smtpPass")}
-                  </p>
+                  <p className="text-xs text-destructive">{smtpValidation.getFieldError("smtpPass")}</p>
                 )}
               </div>
             </div>
@@ -1170,10 +1009,7 @@ export const IntegrationsPage: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={handleSmtpReset}
-                disabled={
-                  updateSmtpDetailsMutation.isPending ||
-                  testSmtpDetailsMutation.isPending
-                }
+                disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                 className="w-full sm:w-auto order-2 sm:order-1"
               >
                 {t("integrations.buttons.reset")}
@@ -1183,10 +1019,7 @@ export const IntegrationsPage: React.FC = () => {
                 <Button
                   variant="outline"
                   onClick={handleSmtpTest}
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                   className="w-full sm:w-auto"
                 >
                   {testSmtpDetailsMutation.isPending ? (
@@ -1200,10 +1033,7 @@ export const IntegrationsPage: React.FC = () => {
                 </Button>
                 <Button
                   onClick={handleSmtpSave}
-                  disabled={
-                    updateSmtpDetailsMutation.isPending ||
-                    testSmtpDetailsMutation.isPending
-                  }
+                  disabled={updateSmtpDetailsMutation.isPending || testSmtpDetailsMutation.isPending}
                   className="w-full sm:w-auto"
                 >
                   {updateSmtpDetailsMutation.isPending ? (
@@ -1222,10 +1052,7 @@ export const IntegrationsPage: React.FC = () => {
       </Dialog>
 
       {/* Subdomain Configuration Modal */}
-      <Dialog
-        open={isConfiguringSubdomain}
-        onOpenChange={setIsConfiguringSubdomain}
-      >
+      <Dialog open={isConfiguringSubdomain} onOpenChange={setIsConfiguringSubdomain}>
         <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t("integrations.subdomain.name")}</DialogTitle>
@@ -1244,15 +1071,11 @@ export const IntegrationsPage: React.FC = () => {
                 onChange={(e) => setSubdomain(e.target.value)}
                 disabled={updateSubdomainMutation.isPending}
               />
-              <p className="text-xs text-muted-foreground">
-                {t("integrations.subdomain.text")}
-              </p>
+              <p className="text-xs text-muted-foreground">{t("integrations.subdomain.text")}</p>
             </div>
 
             <div className="bg-muted/30 p-3 sm:p-4 rounded-lg">
-              <h4 className="font-medium text-foreground mb-3">
-                {t("integrations.subdomain.follow")}
-              </h4>
+              <h4 className="font-medium text-foreground mb-3">{t("integrations.subdomain.follow")}</h4>
               <div className="space-y-3 text-sm text-foreground">
                 <div className="flex items-start gap-3">
                   <span className="font-medium min-w-[60px] text-primary">
@@ -1266,9 +1089,7 @@ export const IntegrationsPage: React.FC = () => {
                   </span>
                   <span>
                     {t("integrations.subdomain.step2")}
-                    <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">
-                      157.230.2.181
-                    </code>
+                    <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">157.230.2.181</code>
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
@@ -1311,9 +1132,7 @@ export const IntegrationsPage: React.FC = () => {
               </Button>
               <Button
                 onClick={handleSubdomainSave}
-                disabled={
-                  updateSubdomainMutation.isPending || !subdomain.trim()
-                }
+                disabled={updateSubdomainMutation.isPending || !subdomain.trim()}
                 className="w-full sm:w-auto"
               >
                 {updateSubdomainMutation.isPending ? (
