@@ -85,6 +85,20 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
     );
   }, [selectedListing?.id, selectedMonth, availableRecords]);
 
+  // Sync selectedMonth with API response MonthName
+  useEffect(() => {
+    if (topKeywordQuery?.MonthName && topKeywordQuery.MonthName !== selectedMonth) {
+      setSelectedMonth(topKeywordQuery.MonthName);
+    }
+  }, [topKeywordQuery?.MonthName]);
+
+  // Ensure selectedMonth is always a valid option from availableRecords
+  useEffect(() => {
+    if (availableRecords.length > 0 && selectedMonth && !availableRecords.includes(selectedMonth)) {
+      setSelectedMonth(availableRecords.at(-1) || "");
+    }
+  }, [availableRecords, selectedMonth]);
+
   return (
     <Card className="h-full">
       <CardHeader>
