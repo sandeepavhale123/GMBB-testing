@@ -229,7 +229,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(
           className="bg-white/95 backdrop-blur-sm shadow-lg z-55 mb-4 lg:absolute lg:mb-0"
           style={{
             top: "120px",
-            left: "80px",
+            left: "35px",
             zIndex: "402",
           }}
         >

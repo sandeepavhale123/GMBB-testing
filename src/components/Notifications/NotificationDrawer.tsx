@@ -112,7 +112,7 @@ export const NotificationDrawer: React.FC = () => {
     <SheetContent
       side="right"
       className={`flex flex-col w-full sm:w-[400px] p-0 ${
-        pathname.startsWith("/module/geo-ranking") ? "z-[500]" : "z-[52]"
+        pathname.startsWith("/module/geo-ranking") || pathname.startsWith("/geo-ranking") ? "z-[500]" : "z-[52]"
       }`}
     >
       <SheetHeader className="border-b border-border p-4 space-y-4">
