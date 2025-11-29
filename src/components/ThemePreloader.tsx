@@ -4,7 +4,6 @@ import { applyStoredTheme } from "@/utils/themeUtils";
 import { getThemeUnauthenticated } from "@/hooks/useThemeLoader";
 import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 import { AppDispatch } from "@/store/store";
-import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 // Session-level cache to prevent duplicate API calls
 let themeLoadedInSession = false;
@@ -21,7 +20,6 @@ export const ThemePreloader = ({
   const [themeLoaded, setThemeLoaded] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  const { t } = useI18nNamespace("Components/themePreloader");
   useEffect(() => {
     const loadTheme = async () => {
       try {
@@ -61,7 +59,7 @@ export const ThemePreloader = ({
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-gray-600">{t("themePreloader.loading")}</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
