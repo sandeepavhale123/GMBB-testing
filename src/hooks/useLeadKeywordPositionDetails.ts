@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getKeywordPositionDetails, GetKeywordPositionDetailsResponse } from '@/api/leadApi';
+import { getKeywordPositionDetailsPublic, GetKeywordPositionDetailsResponse } from '@/api/leadPublicApi';
 
 export interface Competitor {
   position: number;
@@ -34,7 +34,7 @@ export const useLeadKeywordPositionDetails = (): UseLeadKeywordPositionDetailsRe
     setError(null);
 
     try {
-      const response = await getKeywordPositionDetails({ positionId });
+      const response = await getKeywordPositionDetailsPublic({ positionId });
       
       // Transform API response to match modal interface
       const competitors: Competitor[] = response.data.keywordDetails.map(competitor => ({

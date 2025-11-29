@@ -25,7 +25,7 @@ import {
 } from "recharts";
 import { CTASection } from "../components/CTASection";
 import { SingleCTASection } from "../components/SingleCTASection";
-import { useGetGmbProspectReport, getLeadReportBranding } from "@/api/leadApi";
+import { useGetGmbProspectReportPublic, getLeadReportBrandingPublic } from "@/api/leadPublicApi";
 import { InsightsErrorState } from "@/components/Insights/InsightsErrorState";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
@@ -60,7 +60,7 @@ export const GmbProspectReport: React.FC = () => {
     isLoading: reportLoading,
     error: reportError,
     refetch: refetchReport,
-  } = useGetGmbProspectReport(reportId || "", language);
+  } = useGetGmbProspectReportPublic(reportId || "", language);
 
   // Fetch branding data
   const [brandingData, setBrandingData] = React.useState(null);
@@ -68,7 +68,7 @@ export const GmbProspectReport: React.FC = () => {
 
   React.useEffect(() => {
     if (reportId) {
-      getLeadReportBranding({ reportId, language })
+      getLeadReportBrandingPublic({ reportId, language })
         .then((response) => setBrandingData(response.data))
         .catch(() => setBrandingData(null))
         .finally(() => setBrandingLoading(false));
