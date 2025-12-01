@@ -45,6 +45,8 @@ interface LeadFormData {
   location?: string;
   keyword?: string;
   inputMethod: "name" | "url" | "cid";
+  latitude?: string;
+  longitude?: string;
 }
 
 // Form validation schema
@@ -117,6 +119,8 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     location: "",
     keyword: "",
     inputMethod: "name",
+    latitude: "",
+    longitude: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,6 +160,13 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         phone: formData.phone || undefined,
         location: formData.location || undefined,
         keyword: formData.keyword || undefined,
+        // Send coordinates only for Google auto suggest (inputMethod: "name")
+        coordinates:
+          formData.inputMethod === "name" &&
+          formData.latitude &&
+          formData.longitude
+            ? `${formData.latitude},${formData.longitude}`
+            : undefined,
       };
 
       const response = await addLead(apiRequest);
@@ -177,6 +188,8 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
           location: "",
           keyword: "",
           inputMethod: "name",
+          latitude: "",
+          longitude: "",
         });
         setShowOptionalDetails(false);
         clearErrors();
@@ -225,6 +238,8 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
         businessName: business.name || "",
         address: business.address || "",
         cid: business.cid || "",
+        latitude: business.latitude || "",
+        longitude: business.longitude || "",
       }));
     },
     []
