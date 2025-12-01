@@ -505,3 +505,5 @@ export const CitationAuditReport: React.FC = () => {
     </PublicReportLayout>
   );
 };
+
+export default CitationAuditReport;

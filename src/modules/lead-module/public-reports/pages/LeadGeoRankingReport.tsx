@@ -304,3 +304,5 @@ export const LeadGeoRankingReport: React.FC = () => {
     </PublicReportLayout>
   );
 };
+
+export default LeadGeoRankingReport;
