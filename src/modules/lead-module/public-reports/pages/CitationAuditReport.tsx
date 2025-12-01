@@ -23,7 +23,8 @@ import {
   Loader2,
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
-import { useGetCitationAuditReportPublic, useGetLeadReportBrandingPublic } from "@/api/leadPublicApi";
+import { useGetCitationAuditReport } from "@/api/leadApi";
+import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
@@ -59,8 +60,8 @@ export const CitationAuditReport: React.FC = () => {
     data: apiResponse,
     isLoading,
     error,
-  } = useGetCitationAuditReportPublic(reportId || "", currentLangName);
-  const { data: brandingResponse } = useGetLeadReportBrandingPublic(
+  } = useGetCitationAuditReport(reportId || "", currentLangName);
+  const { data: brandingResponse } = useGetLeadReportBranding(
     reportId || "",
     currentLangName
   );

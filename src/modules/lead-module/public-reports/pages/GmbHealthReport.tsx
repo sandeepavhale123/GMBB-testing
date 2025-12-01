@@ -35,7 +35,8 @@ import { CTASection } from "../components/CTASection";
 import { SingleCTASection } from "../components/SingleCTASection";
 import { Top20CompetitorsCard } from "../components/Top20CompetitorsCard";
 import { CircularProgress } from "@/components/ui/circular-progress";
-import { useGetGmbHealthReportPublic, useGetLeadReportBrandingPublic } from "@/api/leadPublicApi";
+import { useGetGmbHealthReport } from "@/api/leadApi";
+import { useGetLeadReportBranding } from "@/hooks/useReportBranding";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
@@ -71,9 +72,9 @@ export const GmbHealthReport: React.FC = () => {
     data: apiResponse,
     isLoading,
     error,
-  } = useGetGmbHealthReportPublic(reportId || "", currentLangName);
+  } = useGetGmbHealthReport(reportId || "", currentLangName);
 
-  const { data: brandingResponse } = useGetLeadReportBrandingPublic(
+  const { data: brandingResponse } = useGetLeadReportBranding(
     reportId || "",
     currentLangName
   );

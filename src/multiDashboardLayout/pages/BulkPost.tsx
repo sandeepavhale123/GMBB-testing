@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import {
   Plus,
   Calendar,
@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CreatePostModal } from "@/components/Posts/CreatePostModal";
+
 import { useBulkPostsOverview } from "@/hooks/useBulkPostsOverview";
 import { format } from "date-fns";
 import {
@@ -36,6 +36,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { count } from "console";
+
+const CreatePostModal = React.lazy(() => import("@/components/Posts/CreatePostModal").then((m) => ({ default: m.CreatePostModal, })))
 
 export const BulkPost: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardPages/bulkPost");
@@ -123,11 +125,13 @@ export const BulkPost: React.FC = () => {
   };
   return (
     <>
-      <CreatePostModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onBulkPostCreated={refresh}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CreatePostModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onBulkPostCreated={refresh}
+        />
+      </Suspense>
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -314,6 +318,7 @@ export const BulkPost: React.FC = () => {
                           >
                             {post.image ? (
                               <img
+                                loading="lazy"
                                 src={post.image}
                                 alt={post.posttype || "Post image"}
                                 className="w-full h-[190px] object-cover transition-all duration-300 group-hover:object-cover"
@@ -326,8 +331,8 @@ export const BulkPost: React.FC = () => {
                                     parent.innerHTML = `
               <div class='w-full h-full bg-muted rounded-lg flex items-center justify-center'>
                 <span class='text-xs text-muted-foreground text-center px-2'>${t(
-                  "messages.noImage"
-                )}</span>
+                                      "messages.noImage"
+                                    )}</span>
               </div>
             `;
                                   }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,19 +40,15 @@ import { start } from "repl";
 export const ImportPostCSV: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardPages/importPostCSV");
 
-  const getStatusVariant = (status: string) => {
+  const getStatusVariant = useCallback((status: string) => {
     const normalizedStatus = status.toLowerCase();
-    switch (normalizedStatus) {
-      case t("importPostCSV.status.completed"):
-        return "default";
-      case t("importPostCSV.status.processing"):
-        return "secondary";
-      case t("importPostCSV.status.failed"):
-        return "destructive";
-      default:
-        return "secondary";
-    }
-  };
+
+    if (normalizedStatus === "completed") return "default";
+    if (normalizedStatus === "processing") return "secondary";
+    if (normalizedStatus === "failed") return "destructive";
+
+    return "secondary";
+  }, []);
 
   const getStatusColor = (status: string) => {
     const normalizedStatus = status.toLowerCase();
@@ -67,6 +63,8 @@ export const ImportPostCSV: React.FC = () => {
         return "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-900/20 dark:text-gray-300";
     }
   };
+
+
 
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -150,6 +148,34 @@ export const ImportPostCSV: React.FC = () => {
     return pages;
   };
 
+  // table row component 
+  const memoizedCsvRows = useMemo(() => {
+    console.log("table row render")
+    return csvHistory.map((record, index) => {
+      const rowNumber = (pagination.page - 1) * pagination.limit + index + 1;
+      return (
+        <TableRow key={record.id}>
+          
+          <TableCell>{rowNumber}. {record.filename}</TableCell>
+          <TableCell>{record.note}</TableCell>
+          <TableCell>{record.date}</TableCell>
+          <TableCell>{record.total_posts}</TableCell>
+          <TableCell>{record.listing_count}</TableCell>
+          <TableCell>
+            <Badge variant={getStatusVariant(record.status)} className={getStatusColor(record.status)}>
+              {record.status}
+            </Badge>
+          </TableCell>
+          <TableCell>
+            <Button onClick={() => handleView(record.id)} variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-black" ><Eye /></Button>
+            <Button onClick={() => handleDelete(record.id)} variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive" ><Trash2 /></Button>
+          </TableCell>
+        </TableRow>
+      );
+    });
+  }, [csvHistory, pagination, getStatusVariant, getStatusColor]);
+
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -229,65 +255,7 @@ export const ImportPostCSV: React.FC = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              csvHistory.map((record, index) => {
-                const rowNumber =
-                  (pagination.page - 1) * pagination.limit + index + 1;
-                return (
-                  <TableRow key={record.id} className="border-border">
-                    <TableCell className="font-medium text-foreground">
-                      <span className="text-muted-foreground mr-2">
-                        {rowNumber}
-                      </span>
-                      {record.filename}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {record.note}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {record.date}
-                    </TableCell>
-                    <TableCell className="text-foreground">
-                      {record.total_posts}
-                    </TableCell>
-                    <TableCell className="text-foreground">
-                      {record.listing_count}{" "}
-                      {t("importPostCSV.tableHeaders.listing")}
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={getStatusVariant(record.status)}
-                        className={getStatusColor(record.status)}
-                      >
-                        {record.status.charAt(0).toUpperCase() +
-                          record.status.slice(1)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleView(record.id)}
-                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(record.id)}
-                          disabled={
-                            deleteLoading && recordToDelete?.id === record.id
-                          }
-                          className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
+              memoizedCsvRows
             )}
           </TableBody>
         </Table>
@@ -337,7 +305,7 @@ export const ImportPostCSV: React.FC = () => {
                   }
                   className={
                     pagination.page >=
-                    Math.ceil(pagination.total / pagination.limit)
+                      Math.ceil(pagination.total / pagination.limit)
                       ? "pointer-events-none opacity-50"
                       : "cursor-pointer"
                   }

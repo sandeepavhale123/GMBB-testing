@@ -167,7 +167,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
             <div className="text-sm text-foreground mb-2">
               {notification.shortdesc ? (
                 // New API: Plain text (already cleaned)
-                <p>{ (notification.shortdesc.length > 80 ? notification.shortdesc.slice(0 , 80) + "...": notification.shortdesc) }</p>
+                <p>{ (notification.shortdesc.length > 80 ? notification.shortdesc.slice(1 , 80) + "...": notification.shortdesc) }</p>
               ) : (
                 // Old API: HTML content
                 <div

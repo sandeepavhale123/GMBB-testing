@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useGetLeadGeoKeywordsPublic, useGetLeadKeywordDetailsPublic } from "@/api/leadPublicApi";
+import { useGetLeadGeoKeywords, useGetLeadKeywordDetails } from "@/api/leadApi";
 
 export interface LeadGeoKeyword {
   id: string;
@@ -37,14 +37,14 @@ export const useLeadGeoRanking = (reportId: string, language?: string) => {
     data: keywordsData,
     isLoading: keywordsLoading,
     error: keywordsError,
-  } = useGetLeadGeoKeywordsPublic(reportId, language);
+  } = useGetLeadGeoKeywords(reportId, language);
 
   // Fetch keyword details for selected keyword
   const {
     data: keywordDetailsData,
     isLoading: detailsLoading,
     error: detailsError,
-  } = useGetLeadKeywordDetailsPublic(reportId, selectedKeyword, language);
+  } = useGetLeadKeywordDetails(reportId, selectedKeyword, language);
 
   // Transform keywords data
   const keywords = useMemo<LeadGeoKeyword[]>(() => {

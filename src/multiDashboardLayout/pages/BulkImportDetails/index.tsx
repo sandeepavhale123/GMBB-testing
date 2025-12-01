@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  ArrowLeft,
-  Search,
   Eye,
   Trash2,
   Loader2,
@@ -19,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
@@ -32,10 +30,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useBulkImportDetails } from "@/hooks/useBulkImportDetails";
-import type { BulkListing } from "@/api/csvApi";
-import { PostPreviewModal } from "@/components/Posts/PostPreviewModal";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-import { current } from "@reduxjs/toolkit";
+import { ListingSidebar } from "./components/ListingSidebar";
+
+const PostPreviewModal = lazy(() =>
+  import("@/components/Posts/PostPreviewModal").then((module) => ({
+    default: module.PostPreviewModal,
+  }))
+);
 
 // Helper function to get status variant
 const getStatusVariant = (status: string) => {
@@ -57,121 +60,11 @@ const formatDate = (dateString: string) => {
   if (!dateString || dateString === "01/01/1970 12:00 AM") {
     return "Not scheduled";
   }
-
-  // Return the date string as-is without formatting
   return dateString;
 };
 
 export const BulkImportDetails: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardPages/bulkImportDetails");
-  const ListingSidebar = ({
-    listings,
-    loading,
-    error,
-    noListingsFound,
-    selectedListingId,
-    onSearch,
-    onListingSelect,
-  }: {
-    listings: BulkListing[];
-    loading: boolean;
-    error: string | null;
-    noListingsFound: boolean;
-    selectedListingId: string | null;
-    onSearch: (query: string) => void;
-    onListingSelect: (id: string) => void;
-  }) => {
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const handleSearchChange = (value: string) => {
-      setSearchQuery(value);
-      onSearch(value);
-    };
-
-    if (error) {
-      return (
-        <Card className="h-fit">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base font-medium text-destructive">
-              {t("bulkImportDetails.listingSidebar.errorLoading")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{error}</p>
-          </CardContent>
-        </Card>
-      );
-    }
-
-    return (
-      <Card className="h-fit">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-base font-medium">
-            {t("bulkImportDetails.listingSidebar.selectedCount", {
-              count: listings.length,
-            })}
-            {/* {listings.length} Selected listings */}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder={t(
-                "bulkImportDetails.listingSidebar.searchPlaceholder"
-              )}
-              value={searchQuery}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10 text-sm"
-            />
-          </div>
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {noListingsFound ? (
-              <div className="text-center py-4 text-muted-foreground text-sm">
-                {t("bulkImportDetails.listingSidebar.noListingsFound")}
-              </div>
-            ) : (
-              <>
-                {listings.map((listing) => (
-                  <div
-                    key={listing.id}
-                    onClick={() => onListingSelect(listing.id)}
-                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                      selectedListingId === listing.id
-                        ? "bg-success/10 border-success text-success"
-                        : "border-border hover:bg-muted/50"
-                    }`}
-                  >
-                    <div className="font-medium text-sm break-words">
-                      {listing.listing_name}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {t("bulkImportDetails.listingSidebar.zipCode", {
-                        zip: listing.zipcode,
-                      })}
-                      {/* Zip code: {listing.zipcode} */}
-                    </div>
-                  </div>
-                ))}
-                {listings.length === 0 && !loading && (
-                  <div className="text-center py-4 text-muted-foreground text-sm">
-                    {t("bulkImportDetails.listingSidebar.noListings")}
-                  </div>
-                )}
-                {loading && (
-                  <div className="text-center py-4 text-muted-foreground text-sm flex items-center justify-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    {t("bulkImportDetails.listingSidebar.loading")}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
@@ -179,6 +72,10 @@ export const BulkImportDetails: React.FC = () => {
     useState<any>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
+
+  // Local state for posts search with debouncing
+  const [localPostSearch, setLocalPostSearch] = useState("");
+  const debouncedPostSearch = useDebounce(localPostSearch, 300);
 
   const historyId = parseInt(id || "0", 10);
 
@@ -192,7 +89,6 @@ export const BulkImportDetails: React.FC = () => {
     postsError,
     postsPagination,
     selectedListingId,
-    postSearch,
     setListingSearch,
     setPostSearch,
     setSelectedListingId,
@@ -201,6 +97,11 @@ export const BulkImportDetails: React.FC = () => {
     isDeletingPost,
   } = useBulkImportDetails(historyId);
 
+  // Sync debounced post search value to hook
+  useEffect(() => {
+    setPostSearch(debouncedPostSearch);
+  }, [debouncedPostSearch, setPostSearch]);
+
   const handleBack = () => {
     navigate("/main-dashboard/import-post-csv");
   };
@@ -208,11 +109,9 @@ export const BulkImportDetails: React.FC = () => {
   const handleViewPost = (postId: string) => {
     const post = filteredPosts.find((p) => p.id === postId);
     if (post) {
-      // If search_url exists, open in new tab
       if (post.search_url) {
         window.open(post.search_url, "_blank");
       } else {
-        // Otherwise show modal preview
         const transformedData = {
           title:
             post.event_title ||
@@ -253,11 +152,12 @@ export const BulkImportDetails: React.FC = () => {
     setPostToDelete(null);
   };
 
-  // Filter posts based on search only (no status filter)
+  // Filter posts based on local search for immediate feedback
   const filteredPosts = posts.filter((post) => {
     const matchesSearch =
-      post.text.toLowerCase().includes(postSearch.toLowerCase()) ||
-      (post.tags && post.tags.toLowerCase().includes(postSearch.toLowerCase()));
+      post.text.toLowerCase().includes(localPostSearch.toLowerCase()) ||
+      (post.tags &&
+        post.tags.toLowerCase().includes(localPostSearch.toLowerCase()));
     return matchesSearch;
   });
 
@@ -309,12 +209,12 @@ export const BulkImportDetails: React.FC = () => {
             </Card>
           ) : (
             <>
-              {/* Search */}
+              {/* Search with debouncing */}
               <div>
                 <Input
                   placeholder={t("bulkImportDetails.posts.searchPlaceholder")}
-                  value={postSearch}
-                  onChange={(e) => setPostSearch(e.target.value)}
+                  value={localPostSearch}
+                  onChange={(e) => setLocalPostSearch(e.target.value)}
                   className="w-full"
                 />
               </div>
@@ -463,16 +363,6 @@ export const BulkImportDetails: React.FC = () => {
                               ),
                               total: postsPagination.total,
                             })}
-                            {/* Showing{" "}
-                            {(postsPagination.page - 1) *
-                              postsPagination.limit +
-                              1}{" "}
-                            to{" "}
-                            {Math.min(
-                              postsPagination.page * postsPagination.limit,
-                              postsPagination.total
-                            )}{" "}
-                            of {postsPagination.total} posts */}
                           </p>
                           <div className="flex items-center gap-2 order-1 sm:order-2">
                             <Button
@@ -494,8 +384,6 @@ export const BulkImportDetails: React.FC = () => {
                                 current: postsPagination.page,
                                 totalPages: postsPagination.totalPages,
                               })}
-                              {/* Page {postsPagination.page} of{" "}
-                              {postsPagination.totalPages} */}
                             </span>
                             <Button
                               variant="outline"
@@ -525,11 +413,13 @@ export const BulkImportDetails: React.FC = () => {
 
       {/* Post Preview Modal */}
       {selectedPostForPreview && (
-        <PostPreviewModal
-          isOpen={isPreviewModalOpen}
-          onClose={handleClosePreview}
-          data={selectedPostForPreview}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <PostPreviewModal
+            isOpen={isPreviewModalOpen}
+            onClose={handleClosePreview}
+            data={selectedPostForPreview}
+          />
+        </Suspense>
       )}
 
       {/* Delete Confirmation Modal */}

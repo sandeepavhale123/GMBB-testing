@@ -7,7 +7,7 @@ import GeoPositionModal from "@/components/GeoRanking/GeoPositionModal";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLeadGeoRanking } from "@/hooks/useLeadGeoRanking";
 import { useLeadKeywordPositionDetails } from "@/hooks/useLeadKeywordPositionDetails";
-import { useGetLeadReportBrandingPublic } from "@/api/leadPublicApi";
+import { useGetLeadReportBranding } from "@/api/leadApi";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import i18n from "@/i18n";
 
@@ -66,7 +66,7 @@ export const LeadGeoRankingReport: React.FC = () => {
   } = useLeadGeoRanking(reportId || "", currentLangName);
 
   // Get branding data
-  const { data: brandingData } = useGetLeadReportBrandingPublic(
+  const { data: brandingData } = useGetLeadReportBranding(
     reportId || "",
     currentLangName
   );

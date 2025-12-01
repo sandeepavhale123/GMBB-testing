@@ -66,17 +66,27 @@ export const SubNavbar: React.FC = () => {
   }
 
   // Back button route configuration
+  // ⚠️ IMPORTANT: Routes MUST be ordered from MOST SPECIFIC to LEAST SPECIFIC
+  // because matching uses substring comparison (includes()).
+  // Example: "/import-post-csv-wizard" must come BEFORE "/import-post-csv"
+  // to prevent the shorter route from matching first.
   const backButtonRoutes: Record<string, string> = {
+    // Import CSV routes - wizard is more specific, must come first
+    "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
+    "/import-post-csv": "/main-dashboard/bulk-post",
+    "/bulk-import-details/": "/main-dashboard/import-post-csv",
+    
+    // Bulk action detail routes
     "/bulk-post-details/": "/main-dashboard/bulk-post",
     "/bulk-media-details/": "/main-dashboard/bulk-media",
     "/bulk-auto-reply-project-details/": "/main-dashboard/bulk-auto-reply",
     "/bulk-auto-reply": "/main-dashboard/bulk-review",
+    
+    // Report routes
     "/generate-bulk-report": "/main-dashboard/reports",
     "/bulk-report-details/": "/main-dashboard/reports",
-    "/import-post-csv": "/main-dashboard/bulk-post",
-    "/import-post-csv-wizard": "/main-dashboard/import-post-csv",
-    "/bulk-import-details/": "/main-dashboard/import-post-csv",
-    // "/bulk-map-ranking": "/main-dashboard",
+    
+    // Map ranking routes
     "/check-bulk-map-ranking": "/main-dashboard/bulk-map-ranking",
     "/view-bulk-map-ranking/": "/main-dashboard/bulk-map-ranking",
   };

@@ -133,15 +133,13 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       if (!mapRef.current || mapInstanceRef.current) return;
       const center = getMapCenter();
 
-      const map = L.map(mapRef.current,{zoomControl: false, }).setView([center.lat, center.lng], 13);
+      const map = L.map(mapRef.current).setView([center.lat, center.lng], 13);
       mapInstanceRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
-
-      
 
       return () => {
         if (mapInstanceRef.current) {
