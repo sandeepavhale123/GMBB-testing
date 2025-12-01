@@ -863,3 +863,5 @@ export const GmbHealthReport: React.FC = () => {
     </PublicReportLayout>
   );
 };
+
+export default GmbHealthReport;
