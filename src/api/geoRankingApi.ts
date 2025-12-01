@@ -643,6 +643,7 @@ export interface AddKeywordsToProjectRequest {
   searchDataEngine: string;
   scheduleCheck: string;
   latlng: string[];
+  coordinates?: string;
 }
 
 export interface AddKeywordsToProjectResponse {

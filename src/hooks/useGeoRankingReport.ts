@@ -677,6 +677,9 @@ export const useGeoRankingReport = (
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),
         latlng: coordinatesArray,
+        coordinates: selectedBusiness.latitude && selectedBusiness.longitude
+          ? `${selectedBusiness.latitude},${selectedBusiness.longitude}`
+          : undefined,
       };
 
       const response = await addKeywordsToProject(requestData);
