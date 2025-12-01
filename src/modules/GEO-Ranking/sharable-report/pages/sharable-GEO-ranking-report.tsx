@@ -15,3 +15,5 @@ export const ShareableGEORankingReport: React.FC = () => {
     <ShareableGeoRankingLayout projectName={shareableData?.data?.projectName} />
   );
 };
+
+export default ShareableGEORankingReport;
