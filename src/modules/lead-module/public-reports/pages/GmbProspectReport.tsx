@@ -784,3 +784,5 @@ export const GmbProspectReport: React.FC = () => {
     </PublicReportLayout>
   );
 };
+
+export default GmbProspectReport;
