@@ -243,6 +243,7 @@ export interface AddLeadRequest {
   phone?: string;
   location?: string;
   keyword?: string;
+  coordinates?: string; // Format: "lat,long" - only sent for Google auto suggest (inputtype: "0")
 }
 
 export interface AddLeadResponse {
