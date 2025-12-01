@@ -2,31 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info, RotateCcw, MapPin, RefreshCw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
-import {
-  getBusinessDetailsFromCID,
-  getBusinessDetailsFromMapUrl,
-  getProjectLists,
-} from "@/api/businessSearchApi";
+import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
 import { BusinessLocationLite, ProjectLite } from "@/types/business";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { z } from "zod";
@@ -84,10 +69,7 @@ export function GeoRankingReportForm({
   onAddKeywordsSubmit,
   urlProjectId,
 }: GeoRankingReportFormProps) {
-  const { t } = useI18nNamespace([
-    "Geo-Ranking-module-component/GeoRankingReportForm",
-    "Validation/validation",
-  ]);
+  const { t } = useI18nNamespace(["Geo-Ranking-module-component/GeoRankingReportForm", "Validation/validation"]);
 
   const keywordsSchema = z.object({
     keywords: z
@@ -114,20 +96,15 @@ export function GeoRankingReportForm({
   const keywordsValidation = useFormValidation(keywordsSchema);
 
   // Business search state
-  const [searchMethod, setSearchMethod] = useState<
-    "google" | "cid" | "map_url"
-  >("google");
+  const [searchMethod, setSearchMethod] = useState<"google" | "cid" | "map_url">("google");
   const [cidInput, setCidInput] = useState("");
   const [mapUrlInput, setMapUrlInput] = useState("");
-  const [selectedBusiness, setSelectedBusiness] =
-    useState<BusinessLocationLite | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Project selection state
   const [projects, setProjects] = useState<ProjectLite[]>([]);
-  const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(
-    null
-  );
+  const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
 
   // Helper function to count keywords
@@ -194,11 +171,7 @@ export function GeoRankingReportForm({
     const validation = keywordsValidation.validate({
       keywords: value,
     });
-    if (
-      !validation.isValid &&
-      validation.errors &&
-      "keywords" in validation.errors
-    ) {
+    if (!validation.isValid && validation.errors && "keywords" in validation.errors) {
       toast({
         title: t("toast.invalidTitle"),
         description: validation.errors.keywords || t("toast.invalidDesc"),
@@ -216,7 +189,7 @@ export function GeoRankingReportForm({
     onBusinessSelect?.(business);
   };
   const parseLatLong = (
-    latlong: string
+    latlong: string,
   ): {
     lat: string;
     long: string;
@@ -357,11 +330,7 @@ export function GeoRankingReportForm({
   useEffect(() => {
     if (!cidInput.trim() && !mapUrlInput.trim()) return;
     const timeoutId = setTimeout(() => {
-      if (
-        searchMethod === "cid" &&
-        cidInput.trim() &&
-        /^\d+$/.test(cidInput.trim())
-      ) {
+      if (searchMethod === "cid" && cidInput.trim() && /^\d+$/.test(cidInput.trim())) {
         handleCIDSearch();
       } else if (searchMethod === "map_url" && mapUrlInput.trim()) {
         handleMapUrlSearch();
@@ -380,9 +349,7 @@ export function GeoRankingReportForm({
 
           {/* Search Data Engine */}
           <div className="flex flex-col sm:items-end gap-2 w-full sm:w-auto">
-            <Label className="text-sm font-medium text-gray-700">
-              {t("searchDataEngine")}
-            </Label>
+            <Label className="text-sm font-medium text-gray-700">{t("searchDataEngine")}</Label>
             <RadioGroup
               value={formData.searchDataEngine}
               onValueChange={handleSearchDataEngineChange}
@@ -415,9 +382,7 @@ export function GeoRankingReportForm({
                 <Label className="text-sm font-medium">{t("searchBy")}</Label>
                 <RadioGroup
                   value={searchMethod}
-                  onValueChange={(value) =>
-                    setSearchMethod(value as "google" | "cid" | "map_url")
-                  }
+                  onValueChange={(value) => setSearchMethod(value as "google" | "cid" | "map_url")}
                   className="flex flex-col sm:flex-row gap-2 sm:gap-4"
                   disabled={disabled}
                 >
@@ -427,7 +392,7 @@ export function GeoRankingReportForm({
                       {t("businessName")}
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 hidden ">
                     <RadioGroupItem value="cid" id="cid-search" />
                     <Label htmlFor="cid-search" className="text-sm">
                       {t("cid")}
@@ -503,9 +468,7 @@ export function GeoRankingReportForm({
             {selectedBusiness && (
               <div className="bg-muted/50 rounded-lg p-4 space-y-2 hidden">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-sm">
-                    {t("selectedBusiness")}
-                  </h4>
+                  <h4 className="font-medium text-sm">{t("selectedBusiness")}</h4>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -519,21 +482,15 @@ export function GeoRankingReportForm({
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                   <div>
                     <span className="font-medium">{t("name")}</span>
-                    <p className="text-muted-foreground truncate">
-                      {selectedBusiness.name}
-                    </p>
+                    <p className="text-muted-foreground truncate">{selectedBusiness.name}</p>
                   </div>
                   <div>
                     <span className="font-medium">{t("latitude")}</span>
-                    <p className="text-muted-foreground">
-                      {selectedBusiness.latitude}
-                    </p>
+                    <p className="text-muted-foreground">{selectedBusiness.latitude}</p>
                   </div>
                   <div>
                     <span className="font-medium">{t("longitude")}</span>
-                    <p className="text-muted-foreground">
-                      {selectedBusiness.longitude}
-                    </p>
+                    <p className="text-muted-foreground">{selectedBusiness.longitude}</p>
                   </div>
                 </div>
               </div>
@@ -553,19 +510,13 @@ export function GeoRankingReportForm({
           {/* Keywords */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label
-                htmlFor="keywords"
-                className="text-sm font-medium text-gray-700"
-              >
+              <Label htmlFor="keywords" className="text-sm font-medium text-gray-700">
                 {t("keywords")} ({keywordCount}/5)
               </Label>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span
-                      className="cursor-help"
-                      onClick={(e) => e.preventDefault()}
-                    >
+                    <span className="cursor-help" onClick={(e) => e.preventDefault()}>
                       <Info className="w-4 h-4 text-gray-400" />
                     </span>
                   </TooltipTrigger>
@@ -583,21 +534,14 @@ export function GeoRankingReportForm({
               className="w-full"
             />
             {keywordCount === 5 && (
-              <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-                {t("keywordLimitMessage")}
-              </p>
+              <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">{t("keywordLimitMessage")}</p>
             )}
           </div>
 
           {/* Map Point */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">
-              {t("mapPoint")}
-            </Label>
-            <Select
-              value={formData.mapPoint}
-              onValueChange={(value) => onInputChange("mapPoint", value)}
-            >
+            <Label className="text-sm font-medium text-gray-700">{t("mapPoint")}</Label>
+            <Select value={formData.mapPoint} onValueChange={(value) => onInputChange("mapPoint", value)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -608,9 +552,7 @@ export function GeoRankingReportForm({
             </Select>
             {formData.mapPoint === "Manually" && (
               <div className="space-y-2">
-                <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                  {t("manualPointsHint")}
-                </p>
+                <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">{t("manualPointsHint")}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">
                     {t("pointsSelected")}: {manualCoordinates.length}
@@ -633,9 +575,7 @@ export function GeoRankingReportForm({
             <div className="grid grid-cols-2 gap-4">
               {/* Distance Unit */}
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">
-                  {t("distanceUnit")}
-                </Label>
+                <Label className="text-sm font-medium text-gray-700">{t("distanceUnit")}</Label>
                 <RadioGroup
                   value={formData.distanceUnit}
                   onValueChange={(val) => onInputChange("distanceUnit", val)}
@@ -658,13 +598,8 @@ export function GeoRankingReportForm({
 
               {/* Distance Value */}
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">
-                  {t("distance")}
-                </Label>
-                <Select
-                  value={formData.distanceValue}
-                  onValueChange={(val) => onInputChange("distanceValue", val)}
-                >
+                <Label className="text-sm font-medium text-gray-700">{t("distance")}</Label>
+                <Select value={formData.distanceValue} onValueChange={(val) => onInputChange("distanceValue", val)}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("choose")} />
                   </SelectTrigger>
@@ -683,9 +618,7 @@ export function GeoRankingReportForm({
           {/* Grid Size and Schedule Check */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">
-                {t("gridSize")}
-              </Label>
+              <Label className="text-sm font-medium text-gray-700">{t("gridSize")}</Label>
               <Select
                 value={formData.gridSize}
                 onValueChange={(value) => onInputChange("gridSize", value)}
@@ -706,13 +639,8 @@ export function GeoRankingReportForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">
-                {t("scheduleCheck")}
-              </Label>
-              <Select
-                value={formData.scheduleCheck}
-                onValueChange={(value) => onInputChange("scheduleCheck", value)}
-              >
+              <Label className="text-sm font-medium text-gray-700">{t("scheduleCheck")}</Label>
+              <Select value={formData.scheduleCheck} onValueChange={(value) => onInputChange("scheduleCheck", value)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -728,13 +656,8 @@ export function GeoRankingReportForm({
           <div className="grid grid-cols-12 gap-4">
             {/* Language Selector */}
             <div className="space-y-2 col-span-12 md:col-span-6">
-              <Label className="text-sm font-medium text-gray-700">
-                {t("language")}
-              </Label>
-              <Select
-                value={formData.language}
-                onValueChange={(value) => onInputChange("language", value)}
-              >
+              <Label className="text-sm font-medium text-gray-700">{t("language")}</Label>
+              <Select value={formData.language} onValueChange={(value) => onInputChange("language", value)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -750,20 +673,14 @@ export function GeoRankingReportForm({
 
             {/* Project Selection */}
             <div className="space-y-2 col-span-12 md:col-span-6">
-              <Label className="text-sm font-medium">
-                {t("selectProject")}
-              </Label>
+              <Label className="text-sm font-medium">{t("selectProject")}</Label>
               <Select
                 value={selectedProject?.id || ""}
                 onValueChange={handleProjectSelect}
                 disabled={disabled || projectsLoading}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue
-                    placeholder={
-                      projectsLoading ? t("loadingProjects") : t("selectP")
-                    }
-                  />
+                  <SelectValue placeholder={projectsLoading ? t("loadingProjects") : t("selectP")} />
                 </SelectTrigger>
                 <SelectContent className="max-h-[200px] overflow-y-auto">
                   {projects.map((project) => (
@@ -781,18 +698,16 @@ export function GeoRankingReportForm({
             <Button
               type="submit"
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-              disabled={
-                submittingRank || pollingKeyword || !isKeywordCountValid
-              }
+              disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
               onClick={onAddKeywordsSubmit ? onAddKeywordsSubmit : undefined}
             >
               {pollingKeyword
                 ? t("processingKeyword")
                 : submittingRank
-                ? t("checkingRank")
-                : onAddKeywordsSubmit
-                ? t("addKeywords")
-                : t("checkRank")}
+                  ? t("checkingRank")
+                  : onAddKeywordsSubmit
+                    ? t("addKeywords")
+                    : t("checkRank")}
             </Button>
 
             {shouldShowResetButton && (
@@ -811,9 +726,7 @@ export function GeoRankingReportForm({
 
           {pollingKeyword && (
             <div className="text-center mt-2">
-              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                {t("keywordProcessingNote")}
-              </p>
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">{t("keywordProcessingNote")}</p>
             </div>
           )}
         </form>
