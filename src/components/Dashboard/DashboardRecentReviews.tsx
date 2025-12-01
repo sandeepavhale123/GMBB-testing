@@ -43,8 +43,8 @@ export const DashboardRecentReviews: React.FC = () => {
           search: "",
           status: "all",
           dateRange: {
-            startDate: "2018-01-01",
-            endDate: "2025-12-31",
+            startDate: "",
+            endDate: "",
           },
           rating: {
             min: 1,

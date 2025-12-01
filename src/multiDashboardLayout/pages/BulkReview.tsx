@@ -89,8 +89,8 @@ export const BulkReview: React.FC = () => {
         search: searchQuery,
         status: filter,
         dateRange: {
-          startDate: dateRange.startDate || "2018-01-01",
-          endDate: dateRange.endDate || "2025-12-31",
+          startDate: dateRange.startDate || "",
+          endDate: dateRange.endDate || "",
         },
         sentiment: sentimentFilter === "all" ? "All" : sentimentFilter,
       },
