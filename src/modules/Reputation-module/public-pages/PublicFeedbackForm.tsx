@@ -316,3 +316,5 @@ export const PublicFeedbackForm: React.FC = () => {
     </div>
   );
 };
+
+export default PublicFeedbackForm;

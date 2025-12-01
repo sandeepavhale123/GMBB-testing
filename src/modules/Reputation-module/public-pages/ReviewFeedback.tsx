@@ -341,3 +341,5 @@ export const ReviewFeedback: React.FC = () => {
     </PublicReputationLayout>
   );
 };
+
+export default ReviewFeedback;
