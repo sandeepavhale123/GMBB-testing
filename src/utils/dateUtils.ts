@@ -55,7 +55,7 @@ export const formatScheduledDate = (dateString: string): string => {
       }
     }
 
-    // Fallback to standard date parsing
+    // Fallback to standard date parsing.
     const date = new Date(dateString);
     if (!isNaN(date.getTime())) {
       return date.toLocaleDateString("en-US", {
@@ -77,8 +77,7 @@ export const formatScheduledDate = (dateString: string): string => {
 // format date in Jan 01 2025 this form
 export const formatToDayMonthYear = (dateInput: string | Date): string => {
   try {
-    const date =
-      typeof dateInput === "string" ? parseISO(dateInput) : dateInput;
+    const date = typeof dateInput === "string" ? parseISO(dateInput) : dateInput;
     return format(date, "dd MMM yyyy"); // Example: 01 Jan 2025
   } catch (error) {
     // console.error("Invalid date passed to formatToDayMonthYear:", dateInput);
@@ -89,8 +88,7 @@ export const formatToDayMonthYear = (dateInput: string | Date): string => {
 // Format to "dd/MM/yy" safely
 export const formatToDDMMYY = (dateInput: string | Date): string => {
   try {
-    const date =
-      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+    const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
     if (isNaN(date.getTime())) {
       // console.error("Invalid date passed to formatToDDMMYY:", dateInput);
@@ -109,10 +107,10 @@ export const formatDateForBackend = (date: Date): string => {
   if (!date || isNaN(date.getTime())) {
     return "";
   }
-  
+
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  
+
   return `${year}-${month}-${day}`;
 };
