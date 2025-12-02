@@ -1,4 +1,5 @@
 import { format, parseISO } from "date-fns";
+import { toZonedTime, fromZonedTime } from "date-fns-tz";
 
 export const convertLocalDateTimeToUTC = (localDateTime: string): string => {
   if (!localDateTime) return "";
@@ -55,7 +56,7 @@ export const formatScheduledDate = (dateString: string): string => {
       }
     }
 
-    // Fallback to standard date parsing.
+    // Fallback to standard date parsing
     const date = new Date(dateString);
     if (!isNaN(date.getTime())) {
       return date.toLocaleDateString("en-US", {
@@ -77,7 +78,8 @@ export const formatScheduledDate = (dateString: string): string => {
 // format date in Jan 01 2025 this form
 export const formatToDayMonthYear = (dateInput: string | Date): string => {
   try {
-    const date = typeof dateInput === "string" ? parseISO(dateInput) : dateInput;
+    const date =
+      typeof dateInput === "string" ? parseISO(dateInput) : dateInput;
     return format(date, "dd MMM yyyy"); // Example: 01 Jan 2025
   } catch (error) {
     // console.error("Invalid date passed to formatToDayMonthYear:", dateInput);
@@ -88,7 +90,8 @@ export const formatToDayMonthYear = (dateInput: string | Date): string => {
 // Format to "dd/MM/yy" safely
 export const formatToDDMMYY = (dateInput: string | Date): string => {
   try {
-    const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+    const date =
+      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
     if (isNaN(date.getTime())) {
       // console.error("Invalid date passed to formatToDDMMYY:", dateInput);
@@ -107,10 +110,53 @@ export const formatDateForBackend = (date: Date): string => {
   if (!date || isNaN(date.getTime())) {
     return "";
   }
-
+  
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-
+  
   return `${year}-${month}-${day}`;
+};
+
+// Convert UTC date to user's timezone
+export const convertUTCToUserTimezone = (utcDate: string | Date, userTimezone: string): Date => {
+  let date: Date;
+  
+  if (typeof utcDate === 'string') {
+    // Parse as ISO and ensure it's treated as UTC
+    date = parseISO(utcDate);
+    
+    // If the string doesn't end with Z, it might not be treated as UTC
+    // Ensure we're working with UTC by creating a proper UTC date
+    if (!utcDate.endsWith('Z') && !utcDate.includes('+')) {
+      // Treat the string as UTC by appending Z
+      date = new Date(utcDate + 'Z');
+    }
+  } else {
+    date = utcDate;
+  }
+  
+  return toZonedTime(date, userTimezone);
+};
+
+// Convert user's local time to UTC for backend
+export const convertUserTimezoneToUTC = (localDate: Date, userTimezone: string): Date => {
+  return fromZonedTime(localDate, userTimezone);
+};
+
+// Format UTC date in user's timezone with custom format
+export const formatUTCDateInUserTimezone = (
+  utcDate: string | Date, 
+  userTimezone: string, 
+  formatString: string = "MMM d, yyyy h:mm a"
+): string => {
+  if (!utcDate) return "";
+  
+  try {
+    const zonedDate = convertUTCToUserTimezone(utcDate, userTimezone);
+    return format(zonedDate, formatString);
+  } catch (error) {
+    console.error('Error formatting date in timezone:', error, { utcDate, userTimezone });
+    return String(utcDate);
+  }
 };
