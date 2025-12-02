@@ -56,6 +56,7 @@
     "country-flag-icons": "^1.5.21",
     "crisp-sdk-web": "^1.0.3",
     "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
     "embla-carousel-react": "^8.3.0",
     "html-react-parser": "^5.2.6",
     "html-to-image": "^1.11.13",
