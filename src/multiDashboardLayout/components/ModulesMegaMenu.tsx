@@ -8,6 +8,7 @@ import {
   Link as LinkIcon,
   Coins,
   Map,
+  Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +42,12 @@ export const ModulesMegaMenu: React.FC = () => {
       icon: Search,
       href: "/module/live-seo-fixer",
       beta: true,
+    },
+     {
+      name: t("modules.socialPoster.name"),
+      description: t("modules.socialPoster.description"),
+      icon: Share2,
+      href: "/social-poster",
     },
     // {
     //   name: t("modules.reputation.name"),
