@@ -102,6 +102,7 @@ export const DashboardModeSwitch: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2 px-2">
+      <label className="text-xs font-medium text-white/80 hidden md:block ">Dashboard Mode : </label>
       <span className="text-xs text-white/80 hidden md:block">
         {t("dashboardMode.multi")}
       </span>
