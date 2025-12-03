@@ -78,12 +78,28 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
 
   const toggleSelectAll = () => {
     if (selectedAccounts.length === allAccounts.length) {
-      // Deselect all
       onSelectionChange([]);
     } else {
-      // Select all
       onSelectionChange(allAccounts.map((acc) => acc.id));
     }
+  };
+
+  const toggleSelectAllPlatform = (platform: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const platformAccountIds = groupedAccounts[platform]?.map((acc) => acc.id) || [];
+    const allPlatformSelected = platformAccountIds.every((id) => selectedAccounts.includes(id));
+    
+    if (allPlatformSelected) {
+      onSelectionChange(selectedAccounts.filter((id) => !platformAccountIds.includes(id)));
+    } else {
+      const newSelection = [...new Set([...selectedAccounts, ...platformAccountIds])];
+      onSelectionChange(newSelection);
+    }
+  };
+
+  const isPlatformAllSelected = (platform: string) => {
+    const platformAccountIds = groupedAccounts[platform]?.map((acc) => acc.id) || [];
+    return platformAccountIds.length > 0 && platformAccountIds.every((id) => selectedAccounts.includes(id));
   };
 
   const isAllSelected = allAccounts.length > 0 && selectedAccounts.length === allAccounts.length;
@@ -155,14 +171,24 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
                 return (
                   <div key={platform} className="space-y-2">
                     <div
-                      className="flex items-center gap-2 text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-                      onClick={() => togglePlatform(platform)}
+                      className="flex items-center justify-between text-sm font-medium text-muted-foreground"
                     >
-                      <ChevronRight className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-90")} />
-                      <div className={cn("h-6 w-6 rounded-full flex items-center justify-center", colorClass)}>
-                        {Icon && <Icon className="h-3.5 w-3.5 text-white" />}
+                      <div
+                        className="flex items-center gap-2 cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => togglePlatform(platform)}
+                      >
+                        <ChevronRight className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-90")} />
+                        <div className={cn("h-6 w-6 rounded-full flex items-center justify-center", colorClass)}>
+                          {Icon && <Icon className="h-3.5 w-3.5 text-white" />}
+                        </div>
+                        <span>{getPlatformDisplayName(platform)}</span>
                       </div>
-                      <span>{getPlatformDisplayName(platform)}</span>
+                      <span
+                        className="text-xs text-primary cursor-pointer hover:underline"
+                        onClick={(e) => toggleSelectAllPlatform(platform, e)}
+                      >
+                        {isPlatformAllSelected(platform) ? "Deselect All" : "Select All"}
+                      </span>
                     </div>
                     {isExpanded && (
                       <div className="space-y-2 pl-8">
