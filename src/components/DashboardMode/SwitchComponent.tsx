@@ -21,10 +21,6 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Only show to admin users
-  const isAdmin = profileData?.role?.toLowerCase() === "admin";
-  if (!isAdmin) return null;
-
   // Current state: checked = multi (1), unchecked = single (0)
   const isMultiMode = profileData?.dashboardType === 1;
   
@@ -110,6 +106,10 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
       dispatch,
     ]
   );
+
+  // Only show to admin users - must be after all hooks
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  if (!isAdmin) return null;
 
   return (
     <div className="hidden md:flex items-center gap-2 px-2">
