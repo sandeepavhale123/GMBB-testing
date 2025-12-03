@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Action buttons - Desktop/Tablet only (right side) */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3 shrink-0">
-             <DashboardModeSwitch />
+             <DashboardModeSwitch variant="light" />
             {isAllowedDomain() && (
               <Button
                 variant="secondary"
