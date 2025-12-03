@@ -9,7 +9,11 @@ import { fetchUserProfile } from "@/store/slices/profileSlice";
 import { toast } from "@/hooks/use-toast";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-export const DashboardModeSwitch: React.FC = () => {
+interface DashboardModeSwitchProps {
+  variant?: "light" | "dark";
+}
+
+export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ variant = "dark" }) => {
   const { t } = useI18nNamespace("MultidashboardComponent/header");
   const { profileData } = useProfile();
   const navigate = useNavigate();
@@ -17,8 +21,15 @@ export const DashboardModeSwitch: React.FC = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Only show to admin users
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  if (!isAdmin) return null;
+
   // Current state: checked = multi (1), unchecked = single (0)
   const isMultiMode = profileData?.dashboardType === 1;
+  
+  // Text color based on variant
+  const textColorClass = variant === "light" ? "text-gray-900/80" : "text-white/80";
 
   // Determine current dashboard context
   const singleDashboardPrefixes = [
@@ -101,18 +112,18 @@ export const DashboardModeSwitch: React.FC = () => {
   );
 
   return (
-    <div className="flex items-center gap-2 px-2">
-      <label className="text-xs font-medium text-white/80 hidden md:block ">Dashboard Mode : </label>
-      <span className="text-xs text-white/80 hidden md:block">
+    <div className="hidden md:flex items-center gap-2 px-2">
+      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode : </label>
+      <span className={`text-xs ${textColorClass}`}>
         {t("dashboardMode.multi")}
       </span>
       <Switch
         checked={isMultiMode}
         onCheckedChange={handleToggle}
         disabled={isLoading}
-        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-500"
+        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted"
       />
-      <span className="text-xs text-white/80 hidden md:block">
+      <span className={`text-xs ${textColorClass}`}>
         {t("dashboardMode.single")}
       </span>
     </div>
