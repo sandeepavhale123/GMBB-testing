@@ -106,7 +106,7 @@ export const ComposePostCard: React.FC<ComposePostCardProps> = ({
           <Input
             id="media-upload-input"
             type="file"
-            accept="*/*"
+            accept="image/png, image/jpeg, image/jpg, video/*"
             className="hidden"
             onChange={onMediaUpload}
             disabled={uploadedMedia.length > 0 || isUploading}
