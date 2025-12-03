@@ -87,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Action buttons - Desktop/Tablet only (right side) */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3 shrink-0">
              <DashboardModeSwitch variant="light" />
-            {isAllowedDomain() && (
+            {/* {isAllowedDomain() && (
               <Button
                 variant="secondary"
                 size="sm"
@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
                 <ExternalLink className="w-4 h-4" />
               </Button>
-            )}
+            )} */}
             <BusinessListingSelector />
             <MobileBusinessSelector />
             <LanguageSwitcher />

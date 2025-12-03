@@ -114,18 +114,19 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
   return (
     <div className="hidden md:flex items-center gap-2 px-2">
       <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode : </label>
-      <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.multi")}
+     <span className={`text-xs ${textColorClass}`}>
+        {t("dashboardMode.single")}
       </span>
       <Switch
         checked={isMultiMode}
         onCheckedChange={handleToggle}
         disabled={isLoading}
-        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted"
+        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-success"
       />
-      <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.single")}
+       <span className={`text-xs ${textColorClass}`}>
+        {t("dashboardMode.multi")}
       </span>
+      
     </div>
   );
 };
