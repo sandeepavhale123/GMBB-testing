@@ -42,6 +42,7 @@ interface SelectAccountsCardProps {
 export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selectedAccounts, onSelectionChange }) => {
   const [open, setOpen] = useState(false);
   const [expandedPlatforms, setExpandedPlatforms] = useState<Set<string>>(new Set());
+  const [showAllBadges, setShowAllBadges] = useState(false);
   const { data: accountsResponse, isLoading } = useAvailableAccounts({ status: "healthy" });
   const allAccounts = accountsResponse?.data?.accounts || [];
 
@@ -224,7 +225,7 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
         {/* Selected accounts chips */}
         {selectedAccountDetails.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {selectedAccountDetails.map((account) => {
+            {(showAllBadges ? selectedAccountDetails : selectedAccountDetails.slice(0, 6)).map((account) => {
               const Icon = platformIcons[account.platform];
               const colorClass = platformColors[account.platform];
               return (
@@ -240,6 +241,15 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
                 </Badge>
               );
             })}
+            {selectedAccountDetails.length > 6 && (
+              <Badge
+                variant="outline"
+                className="cursor-pointer hover:bg-muted"
+                onClick={() => setShowAllBadges(!showAllBadges)}
+              >
+                {showAllBadges ? "Show less" : `+${selectedAccountDetails.length - 6} more`}
+              </Badge>
+            )}
           </div>
         )}
       </CardContent>
