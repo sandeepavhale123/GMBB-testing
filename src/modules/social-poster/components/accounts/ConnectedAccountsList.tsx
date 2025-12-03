@@ -72,6 +72,32 @@ export const ConnectedAccountsList: React.FC<ConnectedAccountsListProps> = ({ pl
   const disconnectMutation = useDisconnectAccount();
   const refreshMutation = useRefreshAccountToken();
 
+  const accounts = data?.data?.accounts || [];
+
+  // Filter accounts based on search query - must be before any early returns
+  const filteredAccounts = React.useMemo(() => {
+    if (!searchQuery.trim()) return accounts;
+    
+    const query = searchQuery.toLowerCase();
+    return accounts.filter(account => {
+      // Search in account display name
+      if (account.displayName.toLowerCase().includes(query)) return true;
+      
+      // Search in platform name
+      if (getPlatformDisplayName(account.platform).toLowerCase().includes(query)) return true;
+      
+      // Search in pages/sub-accounts
+      if (account.pages && account.pages.length > 0) {
+        return account.pages.some(page => 
+          page.accountName.toLowerCase().includes(query) ||
+          page.username?.toLowerCase().includes(query)
+        );
+      }
+      
+      return false;
+    });
+  }, [accounts, searchQuery]);
+
   const toggleExpanded = (accountId: string) => {
     setExpandedAccounts((prev) =>
       prev.includes(accountId) ? prev.filter((id) => id !== accountId) : [...prev, accountId],
@@ -198,32 +224,6 @@ export const ConnectedAccountsList: React.FC<ConnectedAccountsListProps> = ({ pl
       </div>
     );
   }
-
-  const accounts = data?.data?.accounts || [];
-
-  // Filter accounts based on search query
-  const filteredAccounts = React.useMemo(() => {
-    if (!searchQuery.trim()) return accounts;
-    
-    const query = searchQuery.toLowerCase();
-    return accounts.filter(account => {
-      // Search in account display name
-      if (account.displayName.toLowerCase().includes(query)) return true;
-      
-      // Search in platform name
-      if (getPlatformDisplayName(account.platform).toLowerCase().includes(query)) return true;
-      
-      // Search in pages/sub-accounts
-      if (account.pages && account.pages.length > 0) {
-        return account.pages.some(page => 
-          page.accountName.toLowerCase().includes(query) ||
-          page.username?.toLowerCase().includes(query)
-        );
-      }
-      
-      return false;
-    });
-  }, [accounts, searchQuery]);
 
   if (filteredAccounts.length === 0 && searchQuery) {
     return (
