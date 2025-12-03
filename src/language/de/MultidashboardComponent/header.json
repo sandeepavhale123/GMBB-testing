@@ -4,5 +4,9 @@
   },
   "buttons": {
     "backToOldVersion": "Zur alten Version zurückkehren"
+  },
+  "dashboardMode": {
+    "multi": "Multi",
+    "single": "Einzel"
   }
 }
