@@ -121,6 +121,7 @@ interface InsightsDashboardRequest {
   search: string;
   category: string;
   state: string;
+  insightDays: string;
 }
 
 interface InsightsDashboardListing {
