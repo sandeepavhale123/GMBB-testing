@@ -43,12 +43,10 @@ const AddKeywordsPage = () => {
             }),
         });
 
-        // Navigate to keywords page
+        // Navigate to keywords page.
         navigate(`/keywords/${selectedListing.id}`);
       } else {
-        throw new Error(
-          response.message || t("addKeywordsPage.toast.keywordsAddFailed")
-        );
+        throw new Error(response.message || t("addKeywordsPage.toast.keywordsAddFailed"));
       }
     } catch (error) {
       console.error("Error adding keywords:", error);
@@ -62,12 +60,7 @@ const AddKeywordsPage = () => {
     }
   };
 
-  return (
-    <AddKeywords
-      onAddKeywords={handleAddKeywords}
-      isLoading={isAddingKeywords}
-    />
-  );
+  return <AddKeywords onAddKeywords={handleAddKeywords} isLoading={isAddingKeywords} />;
 };
 
 export default AddKeywordsPage;
