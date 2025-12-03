@@ -12,11 +12,11 @@ interface PlatformData {
 }
 
 const platformData: PlatformData[] = [
-  { name: "Facebook", posts: 18, color: "hsl(221, 75%, 55%)" },
-  { name: "Instagram", posts: 15, color: "hsl(330, 75%, 50%)" },
-  { name: "LinkedIn", posts: 12, color: "hsl(201, 100%, 35%)" },
-  { name: "Twitter", posts: 8, color: "hsl(0, 0%, 20%)" },
-  { name: "Threads", posts: 3, color: "hsl(0, 0%, 40%)" },
+  { name: "Facebook", posts: 0, color: "hsl(221, 75%, 55%)" },
+  { name: "Instagram", posts: 0, color: "hsl(330, 75%, 50%)" },
+  { name: "LinkedIn", posts: 0, color: "hsl(201, 100%, 35%)" },
+  { name: "Twitter", posts: 0, color: "hsl(0, 0%, 20%)" },
+  { name: "Threads", posts: 0, color: "hsl(0, 0%, 40%)" },
 ];
 
 const totalPosts = platformData.reduce((sum, p) => sum + p.posts, 0);
