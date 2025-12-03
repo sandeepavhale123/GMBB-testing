@@ -57,7 +57,14 @@
       "allPosts": "All Posts",
       "scheduledPost": "Scheduled Post",
       "livePost": "Live Post",
-      "failedPost": "Failed Post"
+      "failedPost": "Failed Post",
+      "insightDays": "Time Period",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "last90Days": "Last 90 Days",
+      "last6Months": "Last 6 Months",
+      "last9Months": "Last 9 Months",
+      "last12Months": "Last 12 Months"
     }
   },
   "export":"Export CSV",

@@ -121,6 +121,7 @@ interface InsightsDashboardRequest {
   search: string;
   category: string;
   state: string;
+  insightDays: string;
 }
 
 interface InsightsDashboardListing {
@@ -466,14 +467,12 @@ export interface ChangeDashboardModeResponse {
   data: [];
 }
 
-// Change Dashboard Mode API
-export const dashboardApi = {
-  changeDashboardMode: async (
-    request: ChangeDashboardModeRequest
-  ): Promise<ChangeDashboardModeResponse> => {
-    const response = await axiosInstance.post("/change-dashboard", request);
-    return response.data;
-  },
+// Change Dashboard Mode API function
+export const changeDashboardMode = async (
+  request: ChangeDashboardModeRequest
+): Promise<ChangeDashboardModeResponse> => {
+  const response = await axiosInstance.post("/change-dashboard", request);
+  return response.data;
 };
 
 // Export API functions

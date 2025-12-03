@@ -1,32 +1,20 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
 import { useProfile } from "@/hooks/useProfile";
-import { dashboardApi } from "@/api/dashboardApi";
+import { changeDashboardMode } from "@/api/dashboardApi";
 import { profileService } from "@/services/profileService";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchUserProfile } from "@/store/slices/profileSlice";
 import { toast } from "@/hooks/use-toast";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
-const SINGLE_DASHBOARD_PREFIXES = [
-  "/location-dashboard",
-  "/posts",
-  "/media",
-  "/gallery",
-  "/insights",
-  "/keywords",
-  "/geo-ranking",
-  "/citation",
-  "/reviews",
-  "/qa",
-  "/reports",
-  "/business-info",
-  "/ai-tasks",
-];
+interface DashboardModeSwitchProps {
+  variant?: "light" | "dark";
+}
 
-const MULTI_DASHBOARD_PREFIXES = ["/main-dashboard", "/main"];
-
-export const DashboardModeSwitch: React.FC = memo(() => {
+export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ variant = "dark" }) => {
+  const { t } = useI18nNamespace("MultidashboardComponent/header");
   const { profileData } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,6 +23,36 @@ export const DashboardModeSwitch: React.FC = memo(() => {
 
   // Current state: checked = multi (1), unchecked = single (0)
   const isMultiMode = profileData?.dashboardType === 1;
+  
+  // Text color based on variant
+  const textColorClass = variant === "light" ? "text-gray-900/80" : "text-white/80";
+
+  // Determine current dashboard context
+  const singleDashboardPrefixes = [
+    "/location-dashboard",
+    "/posts",
+    "/media",
+    "/gallery",
+    "/insights",
+    "/keywords",
+    "/geo-ranking",
+    "/citation",
+    "/reviews",
+    "/qa",
+    "/reports",
+    "/business-info",
+    "/ai-tasks",
+  ];
+
+  const multiDashboardPrefixes = ["/main-dashboard", "/main"];
+
+  const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) =>
+    location.pathname.startsWith(prefix)
+  );
+
+  const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) =>
+    location.pathname.startsWith(prefix)
+  );
 
   const handleToggle = useCallback(
     async (checked: boolean) => {
@@ -46,35 +64,29 @@ export const DashboardModeSwitch: React.FC = memo(() => {
       setIsLoading(true);
 
       try {
-        const response = await dashboardApi.changeDashboardMode({
+        const response = await changeDashboardMode({
           dashboardType: newDashboardType,
         });
 
         // Show success toast with API message
         toast({
           title: "Success",
-          description:
-            response.message || "Dashboard mode changed successfully",
+          description: response.message || "Dashboard mode changed successfully",
         });
 
         // Clear profile cache and refresh
         await profileService.refreshUserProfile();
         dispatch(fetchUserProfile());
 
-        // Determine current dashboard context
-        const isOnSingleDashboard = SINGLE_DASHBOARD_PREFIXES.some((prefix) =>
-          location.pathname.startsWith(prefix)
-        );
-        const isOnMultiDashboard = MULTI_DASHBOARD_PREFIXES.some((prefix) =>
-          location.pathname.startsWith(prefix)
-        );
-
         // Navigation logic
         if (newDashboardType === 1 && isOnSingleDashboard) {
+          // Switching to multi while on single dashboard → navigate to multi
           navigate("/main-dashboard");
         } else if (newDashboardType === 0 && isOnMultiDashboard) {
+          // Switching to single while on multi dashboard → navigate to single
           navigate("/location-dashboard/default");
         }
+        // Otherwise, stay on current page
       } catch (error: any) {
         toast({
           title: "Error",
@@ -86,23 +98,38 @@ export const DashboardModeSwitch: React.FC = memo(() => {
         setIsLoading(false);
       }
     },
-    [profileData?.dashboardType, location.pathname, navigate, dispatch]
+    [
+      profileData?.dashboardType,
+      isOnSingleDashboard,
+      isOnMultiDashboard,
+      navigate,
+      dispatch,
+    ]
   );
 
+  // Only show to admin users - must be after all hooks
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  if (!isAdmin) return null;
+
   return (
-    <div className="flex items-center gap-2 px-2">
-      <span className="text-xs text-foreground/80 hidden md:block">Multi</span>
+    <div className="hidden md:flex items-center gap-2 px-2">
+      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode : </label>
+     <span className={`text-xs ${textColorClass}`}>
+        {t("dashboardMode.single")}
+      </span>
       <Switch
         checked={isMultiMode}
         onCheckedChange={handleToggle}
         disabled={isLoading}
-        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted"
+        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-success"
       />
-      <span className="text-xs text-foreground/80 hidden md:block">Single</span>
+       <span className={`text-xs ${textColorClass}`}>
+        {t("dashboardMode.multi")}
+      </span>
+      
     </div>
   );
-});
-
-DashboardModeSwitch.displayName = "DashboardModeSwitch";
+};
 
 export default DashboardModeSwitch;
+

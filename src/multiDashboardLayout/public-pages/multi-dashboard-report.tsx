@@ -70,6 +70,7 @@ const PublicMultiDashboardReport: React.FC = () => {
     startDate: string;
     endDate: string;
   }>({ startDate: "", endDate: "" });
+  const [insightDays, setInsightDays] = useState<string>("7");
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -122,6 +123,7 @@ const PublicMultiDashboardReport: React.FC = () => {
     postStatus: postStatus || undefined,
     reviewFilter,
     language,
+    insightDays: activeDashboardType === "insight" ? insightDays : "7",
   });
 
   // Fetch categories and states for filters
@@ -224,6 +226,11 @@ const PublicMultiDashboardReport: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleInsightDaysChange = (value: string) => {
+    setInsightDays(value);
+    setCurrentPage(1);
+  };
+
   const handleDashboardTypeChange = (type: string) => {
     setDashboardType(type);
     setUserHasChangedDashboard(true);
@@ -235,6 +242,7 @@ const PublicMultiDashboardReport: React.FC = () => {
     setReviewFilter("");
     setPostStatus("");
     setDateRange({ startDate: "", endDate: "" });
+    setInsightDays("7");
   };
 
   // Generate metrics cards from report config stats
@@ -443,6 +451,26 @@ const PublicMultiDashboardReport: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
+
+                {/* Insight Days Filter - Only show for insight dashboard */}
+                {activeDashboardType === "insight" && (
+                  <Select
+                    value={insightDays}
+                    onValueChange={handleInsightDaysChange}
+                  >
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder={t("filters.insightDays")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
+                      <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
+                      <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
+                      <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
+                      <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
+                      <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
 
                 {activeDashboardType === "review" && (
                   <Select

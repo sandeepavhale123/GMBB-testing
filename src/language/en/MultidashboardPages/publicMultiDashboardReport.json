@@ -60,7 +60,14 @@
       "live": "Live",
       "scheduled": "Scheduled",
       "failed": "Failed"
-    }
+    },
+    "insightDays": "Time Period",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "last6Months": "Last 6 Months",
+    "last9Months": "Last 9 Months",
+    "last12Months": "Last 12 Months"
   },
   "content": {
     "showing": "Showing {{count}} of {{total}} {{type}}",

@@ -42,9 +42,7 @@ export interface BulkMapRankingKeywordDetailsResponse {
 }
 
 // API function
-const getBulkMapRankingKeywordDetails = async (
-  keywordId: number
-): Promise<BulkMapRankingKeywordDetailsResponse> => {
+const getBulkMapRankingKeywordDetails = async (keywordId: number): Promise<BulkMapRankingKeywordDetailsResponse> => {
   const response = await axiosInstance.post("/get-mapranking-keyword-overview", {
     keywordId,
   });
@@ -57,7 +55,7 @@ export const useBulkMapRankingKeywordDetails = (keywordId: number) => {
     queryKey: ["bulk-map-ranking-keyword-details", keywordId],
     queryFn: () => getBulkMapRankingKeywordDetails(keywordId),
     enabled: !!keywordId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000, // 2 minutes.
     retry: 2,
     refetchOnWindowFocus: false,
   });

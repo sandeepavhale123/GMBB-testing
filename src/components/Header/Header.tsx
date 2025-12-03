@@ -14,6 +14,7 @@ import { HeaderModulesMegaMenu } from "./HeaderModulesMegaMenu";
 import { HeaderNotificationsMegaMenu } from "./HeaderNotificationsMegaMenu";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import DashboardModeSwitch from "../DashboardMode";
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
   showFilters,
@@ -49,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Action buttons - Mobile only (shown on right side of Row 1) */}
             <div className="flex sm:hidden items-center gap-2 shrink-0">
+              
               {isAllowedDomain() && (
                 <Button
                   variant="secondary"
@@ -84,7 +86,8 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Action buttons - Desktop/Tablet only (right side) */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3 shrink-0">
-            {isAllowedDomain() && (
+             <DashboardModeSwitch variant="light" />
+            {/* {isAllowedDomain() && (
               <Button
                 variant="secondary"
                 size="sm"
@@ -98,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
                 <ExternalLink className="w-4 h-4" />
               </Button>
-            )}
+            )} */}
             <BusinessListingSelector />
             <MobileBusinessSelector />
             <LanguageSwitcher />

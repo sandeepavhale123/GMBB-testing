@@ -130,4 +130,12 @@ export const profileService = {
     // Compare the entered password with the stored password from profile data
     return data.currentPassword === storedPassword;
   },
+
+  // Clear all module-level caches on logout
+  clearAllCaches: () => {
+    cachedProfile = null;
+    cachedTimezones = null;
+    inProgressRequest = null;
+    inProgressTimezonesRequest = null;
+  },
 };
