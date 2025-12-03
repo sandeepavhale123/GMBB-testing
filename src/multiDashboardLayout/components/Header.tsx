@@ -13,6 +13,7 @@ import { BiSupport } from "react-icons/bi";
 import { isAllowedDomain } from "@/lib/utils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { DashboardModeSwitch } from "@/components/DashboardMode";
 
 export const Header: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/header");
@@ -77,6 +78,9 @@ export const Header: React.FC = () => {
 
           {/* Right Section - Action Buttons */}
           <div className="flex items-center gap-2">
+            {/* Dashboard Mode Toggle */}
+            <DashboardModeSwitch />
+
             {isAllowedDomain() && (
               <Button
                 variant="secondary"
