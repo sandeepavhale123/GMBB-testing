@@ -1,28 +1,38 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePostingActivity } from "../../hooks/usePostingActivity";
 
-interface PlatformData {
-  name: string;
-  posts: number;
-  color: string;
-}
-
-const platformData: PlatformData[] = [
-  { name: "Facebook", posts: 0, color: "hsl(221, 75%, 55%)" },
-  { name: "Instagram", posts: 0, color: "hsl(330, 75%, 50%)" },
-  { name: "LinkedIn", posts: 0, color: "hsl(201, 100%, 35%)" },
-  { name: "Twitter", posts: 0, color: "hsl(0, 0%, 20%)" },
-  { name: "Threads", posts: 0, color: "hsl(0, 0%, 40%)" },
-];
-
-const totalPosts = platformData.reduce((sum, p) => sum + p.posts, 0);
+const platformColors: Record<string, string> = {
+  facebook: "hsl(221, 75%, 55%)",
+  instagram: "hsl(330, 75%, 50%)",
+  linkedin: "hsl(201, 100%, 35%)",
+  linkedin_individual: "hsl(201, 100%, 40%)",
+  linkedin_organisation: "hsl(201, 100%, 30%)",
+  twitter: "hsl(0, 0%, 20%)",
+  threads: "hsl(0, 0%, 40%)",
+  pinterest: "hsl(0, 75%, 50%)",
+  youtube: "hsl(0, 100%, 50%)",
+};
 
 export const PostingActivityChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("last_month");
+  const { data, isLoading } = usePostingActivity(timeRange);
+
+  if (isLoading) {
+    return <PostingActivityChartSkeleton />;
+  }
+
+  const platforms = data?.data?.platforms || [];
+  const totalPosts = data?.data?.total_posts || 0;
+
+  const chartData = platforms.map((p) => ({
+    name: p.display_name,
+    posts: p.posts,
+    color: platformColors[p.platform] || "hsl(var(--primary))",
+  }));
 
   return (
     <Card className="bg-card">
@@ -50,7 +60,7 @@ export const PostingActivityChart: React.FC = () => {
 
         <div className="h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={platformData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
               <XAxis
                 dataKey="name"
@@ -70,7 +80,7 @@ export const PostingActivityChart: React.FC = () => {
                 cursor={{ fill: "hsl(var(--muted))" }}
               />
               <Bar dataKey="posts" radius={[4, 4, 0, 0]}>
-                {platformData.map((entry, index) => (
+                {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Bar>
