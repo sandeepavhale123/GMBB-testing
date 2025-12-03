@@ -37,6 +37,10 @@
     "seo": {
       "name": "SEO Fixer",
       "description": "Detecta y corrige automáticamente problemas de SEO en sitios web"
+    },
+    "socialPoster": {
+      "name": "Social Poster",
+      "description": "Programa y gestiona publicaciones en todas las plataformas de redes sociales"
     }
   }
 }

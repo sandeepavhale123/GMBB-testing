@@ -42,6 +42,10 @@
     "seo": {
       "name": "Correttore SEO",
       "description": "Rileva e correggi automaticamente i problemi SEO sui siti web"
+    },
+    "socialPoster": {
+      "name": "Social Poster",
+      "description": "Pianifica e gestisci i post su tutte le piattaforme di social media"
     }
   }
 }

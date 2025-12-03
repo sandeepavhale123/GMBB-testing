@@ -43,6 +43,10 @@
     "seo": {
       "name": "SEO-Korrektor",
       "description": "Erkennen und beheben Sie automatisch SEO-Probleme auf Websites"
+    },
+     "socialPoster": {
+      "name": "Social Poster",
+      "description": "Planen und verwalten Sie Beiträge auf allen Social-Media-Plattformen"
     }
   }
 }

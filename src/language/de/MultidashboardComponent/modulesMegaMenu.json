@@ -37,6 +37,10 @@
     "seo": {
       "name": "SEO-Fixer",
       "description": "Erkennt und behebt automatisch SEO-Probleme auf Websites"
+    },
+     "socialPoster": {
+      "name": "Social Poster",
+      "description": "Planen und verwalten Sie Beiträge auf allen Social-Media-Plattformen"
     }
   }
 }
