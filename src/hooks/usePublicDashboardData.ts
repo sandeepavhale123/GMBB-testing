@@ -32,6 +32,7 @@ interface UsePublicDashboardDataParams {
   postStatus?: string;
   reviewFilter?: string;
   language?: string;
+  insightDays?: string;
 }
 
 type ShareableResponse =
@@ -56,6 +57,7 @@ export const usePublicDashboardData = (
     postStatus,
     reviewFilter,
     language,
+    insightDays,
   } = params;
 
   const request: ShareableReportRequest = {
@@ -70,6 +72,7 @@ export const usePublicDashboardData = (
     ...(postStatus && { postStatus }),
     ...(reviewFilter && { review: reviewFilter }),
     language,
+    ...(insightDays && { insightDays }),
   };
 
   // Get dashboard type for API routing
@@ -89,6 +92,7 @@ export const usePublicDashboardData = (
       postStatus,
       reviewFilter,
       language,
+      insightDays,
     ],
     queryFn: async (): Promise<ShareableResponse> => {
       switch (dashboardType) {
