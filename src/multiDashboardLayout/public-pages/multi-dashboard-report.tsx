@@ -123,7 +123,7 @@ const PublicMultiDashboardReport: React.FC = () => {
     postStatus: postStatus || undefined,
     reviewFilter,
     language,
-    insightDays: activeDashboardType === "insight" ? insightDays : undefined,
+    insightDays: activeDashboardType === "insight" ? insightDays : "7",
   });
 
   // Fetch categories and states for filters
