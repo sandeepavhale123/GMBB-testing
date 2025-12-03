@@ -45,8 +45,8 @@ export const HeaderModulesMegaMenu: React.FC = () => {
       beta: true,
     },
     {
-      name: t("modules.socialPoster.name"),
-      description: t("modules.socialPoster.description"),
+      name: t("modulesMenu.socialPoster.name"),
+      description: t("modulesMenu.socialPoster.description"),
       icon: Share2,
       href: "/social-poster",
     },
