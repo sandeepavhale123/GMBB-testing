@@ -455,6 +455,27 @@ export const generateShareableReport = async (
   return response.data;
 };
 
+// Change Dashboard Mode API Types
+export interface ChangeDashboardModeRequest {
+  dashboardType: 0 | 1; // 0 = single, 1 = multi
+}
+
+export interface ChangeDashboardModeResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+// Change Dashboard Mode API
+export const dashboardApi = {
+  changeDashboardMode: async (
+    request: ChangeDashboardModeRequest
+  ): Promise<ChangeDashboardModeResponse> => {
+    const response = await axiosInstance.post("/change-dashboard", request);
+    return response.data;
+  },
+};
+
 // Export API functions
 export { setDashboard };
 
