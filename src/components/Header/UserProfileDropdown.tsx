@@ -81,8 +81,7 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
     const isDashboardType2 = profileData?.dashboardType === 2;
     const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
     const isInModule = location.pathname.startsWith("/module/");
-    const isInUtility= location.pathname.startsWith("/utility/");
-
+    const isInUtility = location.pathname.startsWith("/utility/");
 
     if (isDashboardType2) {
       navigate("/geo-ranking-dashboard/profile");
@@ -129,14 +128,18 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className={`p-0 rounded-full border-none  hover:bg-transparent ${className || ""}`} name="profile-dropdown">
+          <Button
+            variant="ghost"
+            className={`p-0 rounded-full border-none  hover:bg-transparent ${className || ""}`}
+            name="profile-dropdown"
+          >
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
               <AvatarImage src={userProfilePic} alt="user-profile" />
               <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">{userInitials}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80 bg-white shadow-lg border">
+        <DropdownMenuContent align="end" className="w-60 bg-white shadow-lg border">
           <div className="px-3 py-2 border-b">
             <p className="font-medium text-gray-900">{userName}</p>
             <p className="text-sm text-gray-500">
@@ -151,14 +154,8 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
           {isAdmin && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                onClick={handleDashboardSwitch} 
-                className="cursor-pointer"
-                disabled={isSwitching}
-              >
-                {isSwitching ? (
-                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-                ) : null}
+              <DropdownMenuItem onClick={handleDashboardSwitch} className="cursor-pointer" disabled={isSwitching}>
+                {isSwitching ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : null}
                 {profileData?.dashboardType === 0
                   ? t("userProfileDropdown.switchToBulk")
                   : t("userProfileDropdown.switchToSingle")}
