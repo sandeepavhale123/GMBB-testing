@@ -120,6 +120,8 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
         disabled={isLoading}
         leftLabel={t("dashboardMode.single")}
         rightLabel={t("dashboardMode.bulk")}
+        leftTooltip="Single Listing Dashboard"
+        rightTooltip="Bulk Listing Dashboard"
       />
     </div>
   );
