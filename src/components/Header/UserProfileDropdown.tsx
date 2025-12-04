@@ -1,5 +1,5 @@
-import React from "react";
-import { User, LogOut, Settings } from "lucide-react";
+import React, { useState, useCallback } from "react";
+import { User, LogOut, Settings, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -9,10 +9,16 @@ import {
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Switch } from "../ui/switch";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useProfile } from "../../hooks/useProfile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { changeDashboardMode } from "@/api/dashboardApi";
+import { profileService } from "@/services/profileService";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { fetchUserProfile } from "@/store/slices/profileSlice";
+import { toast } from "@/hooks/use-toast";
 
 interface UserProfileDropdownProps {
   className?: string;
@@ -24,6 +30,43 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
   const location = useLocation();
   const { logout } = useAuthRedux();
   const { profileData } = useProfile();
+  const dispatch = useAppDispatch();
+  const [isSwitching, setIsSwitching] = useState(false);
+
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+
+  const handleDashboardSwitch = useCallback(async () => {
+    const currentType = profileData?.dashboardType;
+    const newDashboardType = currentType === 1 ? 0 : 1;
+
+    setIsSwitching(true);
+    try {
+      const response = await changeDashboardMode({
+        dashboardType: newDashboardType as 0 | 1,
+      });
+      toast({
+        title: t("userProfileDropdown.switchSuccess"),
+        description: response.message,
+      });
+
+      await profileService.refreshUserProfile();
+      dispatch(fetchUserProfile());
+
+      if (newDashboardType === 1) {
+        navigate("/main-dashboard");
+      } else {
+        navigate("/location-dashboard/default");
+      }
+    } catch (error: any) {
+      toast({
+        title: t("userProfileDropdown.switchError"),
+        description: error.response?.data?.message || "Failed to switch dashboard",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSwitching(false);
+    }
+  }, [profileData?.dashboardType, navigate, dispatch, t]);
 
   const handleAccountSettings = () => {
     const isInMainDashboard = location.pathname.startsWith("/main-dashboard");
@@ -105,6 +148,29 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
             {t("userProfileDropdown.viewProfile")}
           </DropdownMenuItem>
 
+          {isAdmin && (
+            <>
+              <DropdownMenuSeparator />
+              <div className="px-3 py-2 flex items-center justify-between gap-3">
+                <span className="text-sm text-foreground">
+                  {profileData?.dashboardType === 0
+                    ? t("userProfileDropdown.switchToBulk")
+                    : t("userProfileDropdown.switchToSingle")}
+                </span>
+                {isSwitching ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                ) : (
+                  <Switch
+                    checked={false}
+                    onCheckedChange={handleDashboardSwitch}
+                    disabled={isSwitching}
+                  />
+                )}
+              </div>
+            </>
+          )}
+
+          <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50" onClick={logout}>
             <LogOut className="w-4 h-4 mr-1" />
             {t("userProfileDropdown.logout")}

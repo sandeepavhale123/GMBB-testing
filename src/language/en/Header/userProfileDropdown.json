@@ -4,6 +4,10 @@
     "defaultUserEmail": "user@example.com",
     "viewProfile": "View Profile",
     "accountSettings": "Account Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "switchToBulk": "Switch to Bulk Dashboard",
+    "switchToSingle": "Switch to Single Dashboard",
+    "switchSuccess": "Dashboard Switched",
+    "switchError": "Switch Failed"
   }
 }
