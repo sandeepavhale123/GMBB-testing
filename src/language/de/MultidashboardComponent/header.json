@@ -6,7 +6,7 @@
     "backToOldVersion": "Zur alten Version zurückkehren"
   },
   "dashboardMode": {
-    "multi": "Multi",
+    "bulk": "Bulk",
     "single": "Einzel"
   }
 }

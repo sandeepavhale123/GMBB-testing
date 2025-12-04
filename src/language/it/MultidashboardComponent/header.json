@@ -4,5 +4,9 @@
   },
   "buttons": {
     "backToOldVersion": "Torna alla vecchia versione"
+  },
+  "dashboardMode": {
+    "bulk": "Bulk",
+    "single": "Singolo"
   }
 }
