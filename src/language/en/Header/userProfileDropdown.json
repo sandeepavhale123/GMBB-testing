@@ -5,8 +5,8 @@
     "viewProfile": "View Profile",
     "accountSettings": "Account Settings",
     "logout": "Logout",
-    "switchToBulk": "Switch to Bulk Dashboard",
-    "switchToSingle": "Switch to Single Dashboard",
+    "switchToBulk": "Switch To Bulk Dashboard",
+    "switchToSingle": "Switch To Single Dashboard",
     "switchSuccess": "Dashboard Switched",
     "switchError": "Switch Failed"
   }
