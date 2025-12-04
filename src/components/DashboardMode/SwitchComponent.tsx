@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Switch } from "@/components/ui/switch";
+import { SegmentedToggle } from "./SegmentedToggle";
 import { useProfile } from "@/hooks/useProfile";
 import { changeDashboardMode } from "@/api/dashboardApi";
 import { profileService } from "@/services/profileService";
@@ -113,20 +113,14 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   return (
     <div className="hidden md:flex items-center gap-2 px-2">
-      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode : </label>
-     <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.single")}
-      </span>
-      <Switch
-        checked={isMultiMode}
-        onCheckedChange={handleToggle}
+      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode :</label>
+      <SegmentedToggle
+        isActive={isMultiMode}
+        onToggle={handleToggle}
         disabled={isLoading}
-        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-success"
+        leftLabel={t("dashboardMode.single")}
+        rightLabel={t("dashboardMode.bulk")}
       />
-       <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.multi")}
-      </span>
-      
     </div>
   );
 };
