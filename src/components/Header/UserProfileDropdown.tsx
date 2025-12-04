@@ -151,22 +151,18 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
           {isAdmin && (
             <>
               <DropdownMenuSeparator />
-              <div className="px-3 py-2 flex items-center justify-between gap-3">
-                <span className="text-sm text-foreground">
-                  {profileData?.dashboardType === 0
-                    ? t("userProfileDropdown.switchToBulk")
-                    : t("userProfileDropdown.switchToSingle")}
-                </span>
+              <DropdownMenuItem 
+                onClick={handleDashboardSwitch} 
+                className="cursor-pointer"
+                disabled={isSwitching}
+              >
                 {isSwitching ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                ) : (
-                  <Switch
-                    checked={false}
-                    onCheckedChange={handleDashboardSwitch}
-                    disabled={isSwitching}
-                  />
-                )}
-              </div>
+                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                ) : null}
+                {profileData?.dashboardType === 0
+                  ? t("userProfileDropdown.switchToBulk")
+                  : t("userProfileDropdown.switchToSingle")}
+              </DropdownMenuItem>
             </>
           )}
 
