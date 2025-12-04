@@ -76,7 +76,6 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, showFilters, on
 
           {/* Action buttons - Desktop/Tablet only (right side) */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3 shrink-0">
-            <DashboardModeSwitch variant="light" />
             {/* {isAllowedDomain() && (
               <Button
                 variant="secondary"
@@ -93,6 +92,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, showFilters, on
               </Button>
             )} */}
             <BusinessListingSelector />
+            <DashboardModeSwitch variant="light" />
             <MobileBusinessSelector />
             <LanguageSwitcher />
             <HeaderModulesMegaMenu />
