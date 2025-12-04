@@ -107,8 +107,8 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
         isActive={isMultiMode}
         onToggle={handleToggle}
         disabled={isLoading}
-        leftLabel={t("dashboardMode.single")}
-        rightLabel={t("dashboardMode.bulk")}
+        leftLabel="Single"
+        rightLabel="Bulk"
         leftTooltip="Single Listing Dashboard"
         rightTooltip="Bulk Listing Dashboard"
       />

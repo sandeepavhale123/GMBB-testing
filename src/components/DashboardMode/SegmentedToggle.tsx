@@ -42,12 +42,12 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
                   : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
               )}
             >
-              {leftLabel}
+              {leftLabel} { !isActive ? "Dashboard" : "" }  
             </button>
           </TooltipTrigger>
           {leftTooltip && (
             <TooltipContent side="bottom" className="text-xs">
-              {leftTooltip}
+              {leftTooltip} 
             </TooltipContent>
           )}
         </Tooltip>
@@ -64,7 +64,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
                   : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
               )}
             >
-              {rightLabel}
+              {rightLabel} { isActive ? "Dashboard" : "" } 
             </button>
           </TooltipTrigger>
           {rightTooltip && (
