@@ -36,7 +36,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
               onClick={() => !disabled && onToggle(false)}
               disabled={disabled}
               className={cn(
-                "px-3 py-1 text-xs font-medium transition-all duration-200 ease-in-out",
+                "px-3 py-2 text-xs font-medium transition-all duration-200 ease-in-out",
                 !isActive
                   ? "bg-success text-success-foreground scale-[1.02]"
                   : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
@@ -58,7 +58,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
               onClick={() => !disabled && onToggle(true)}
               disabled={disabled}
               className={cn(
-                "px-3 py-1 text-xs font-medium transition-all duration-200 ease-in-out",
+                "px-3 py-2 text-xs font-medium transition-all duration-200 ease-in-out",
                 isActive
                   ? "bg-success text-success-foreground scale-[1.02]"
                   : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
