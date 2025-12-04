@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/hooks/use-toast';
-import { useApiKey } from '@/hooks/useApiKey';
+import React, { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
+import { useApiKey } from "@/hooks/useApiKey";
 
-import { BusinessLocationLite } from '@/types/business';
+import { BusinessLocationLite } from "@/types/business";
 
 interface BusinessGooglePlacesInputProps {
   onPlaceSelect?: (business: BusinessLocationLite) => void;
@@ -21,9 +21,9 @@ declare global {
 
 export function BusinessGooglePlacesInput({
   onPlaceSelect,
-  defaultValue = '',
+  defaultValue = "",
   disabled = false,
-  placeholder = 'Search for a business...',
+  placeholder = "Search for a business...",
 }: BusinessGooglePlacesInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
@@ -47,17 +47,17 @@ export function BusinessGooglePlacesInput({
       try {
         setLoading(true);
 
-        // Load Google Maps script if not already loaded
+        // Load Google Maps script if not already loaded.
         if (!window.google) {
-          const script = document.createElement('script');
+          const script = document.createElement("script");
           script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
           script.async = true;
           script.defer = true;
-          
+
           script.onload = () => {
             setupAutocomplete();
           };
-          
+
           document.head.appendChild(script);
         } else {
           setupAutocomplete();
@@ -78,15 +78,15 @@ export function BusinessGooglePlacesInput({
       if (!inputRef.current || !window.google) return;
 
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ['establishment'],
-        fields: ['name', 'geometry.location', 'formatted_address'],
+        types: ["establishment"],
+        fields: ["name", "geometry.location", "formatted_address"],
       });
 
       autocompleteRef.current = autocomplete;
 
-      autocomplete.addListener('place_changed', () => {
+      autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
-        
+
         if (place.geometry && place.geometry.location && place.name) {
           const businessDetails: BusinessLocationLite = {
             name: place.name,
@@ -120,13 +120,7 @@ export function BusinessGooglePlacesInput({
       ref={inputRef}
       value={inputValue}
       onChange={handleInputChange}
-      placeholder={
-        apiKeyLoading 
-          ? "Loading API key..." 
-          : loading 
-            ? "Loading Google Places..." 
-            : placeholder
-      }
+      placeholder={apiKeyLoading ? "Loading API key..." : loading ? "Loading Google Places..." : placeholder}
       disabled={disabled || loading || apiKeyLoading || !apiKey}
       className="w-full"
     />
