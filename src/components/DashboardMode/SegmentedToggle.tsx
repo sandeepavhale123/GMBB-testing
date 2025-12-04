@@ -1,11 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface SegmentedToggleProps {
   isActive: boolean;
@@ -30,8 +25,8 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
     <TooltipProvider delayDuration={200}>
       <div
         className={cn(
-          "flex rounded-md border border-success overflow-hidden",
-          disabled && "opacity-50 cursor-not-allowed"
+          "flex rounded-sm border border-success overflow-hidden",
+          disabled && "opacity-50 cursor-not-allowed",
         )}
       >
         <Tooltip>
@@ -44,7 +39,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
                 "px-3 py-1 text-xs font-medium transition-all duration-200 ease-in-out",
                 !isActive
                   ? "bg-success text-success-foreground scale-[1.02]"
-                  : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]"
+                  : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
               )}
             >
               {leftLabel}
@@ -66,7 +61,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
                 "px-3 py-1 text-xs font-medium transition-all duration-200 ease-in-out",
                 isActive
                   ? "bg-success text-success-foreground scale-[1.02]"
-                  : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]"
+                  : "bg-background text-foreground hover:bg-muted hover:scale-[1.02]",
               )}
             >
               {rightLabel}

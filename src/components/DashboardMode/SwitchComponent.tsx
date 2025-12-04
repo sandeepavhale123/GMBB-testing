@@ -23,7 +23,7 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   // Current state: checked = multi (1), unchecked = single (0)
   const isMultiMode = profileData?.dashboardType === 1;
-  
+
   // Text color based on variant
   const textColorClass = variant === "light" ? "text-gray-900/80" : "text-white/80";
 
@@ -46,13 +46,9 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   const multiDashboardPrefixes = ["/main-dashboard", "/main"];
 
-  const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) =>
-    location.pathname.startsWith(prefix)
-  );
+  const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
-  const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) =>
-    location.pathname.startsWith(prefix)
-  );
+  const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
   const handleToggle = useCallback(
     async (checked: boolean) => {
@@ -90,21 +86,14 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
       } catch (error: any) {
         toast({
           title: "Error",
-          description:
-            error.response?.data?.message || "Failed to change dashboard mode",
+          description: error.response?.data?.message || "Failed to change dashboard mode",
           variant: "destructive",
         });
       } finally {
         setIsLoading(false);
       }
     },
-    [
-      profileData?.dashboardType,
-      isOnSingleDashboard,
-      isOnMultiDashboard,
-      navigate,
-      dispatch,
-    ]
+    [profileData?.dashboardType, isOnSingleDashboard, isOnMultiDashboard, navigate, dispatch],
   );
 
   // Only show to admin users - must be after all hooks
@@ -113,7 +102,7 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   return (
     <div className="hidden md:flex items-center gap-2 px-2">
-      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode :</label>
+      {/* <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode :</label> */}
       <SegmentedToggle
         isActive={isMultiMode}
         onToggle={handleToggle}
@@ -128,4 +117,3 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 };
 
 export default DashboardModeSwitch;
-
