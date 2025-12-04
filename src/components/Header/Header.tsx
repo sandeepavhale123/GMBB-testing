@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, showFilters, on
               </Button>
             )} */}
             <BusinessListingSelector />
-            <DashboardModeSwitch variant="light" />
+            {/* <DashboardModeSwitch variant="light" /> */}
             <MobileBusinessSelector />
             <LanguageSwitcher />
             <HeaderModulesMegaMenu />
