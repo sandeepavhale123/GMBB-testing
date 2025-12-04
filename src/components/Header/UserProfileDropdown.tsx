@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { User, LogOut, Settings, Loader2 } from "lucide-react";
+import { User, LogOut, Settings, Loader2 , ArrowRightLeft  } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -155,7 +155,8 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleDashboardSwitch} className="cursor-pointer" disabled={isSwitching}>
-                {isSwitching ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : null}
+                 <ArrowRightLeft className="w-4 h-4 mr-1"  />
+                {/* {isSwitching ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : null} */}
                 {profileData?.dashboardType === 0
                   ? t("userProfileDropdown.switchToBulk")
                   : t("userProfileDropdown.switchToSingle")}
