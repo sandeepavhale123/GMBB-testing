@@ -99,13 +99,13 @@ export const getProjectDetails = async (
       wordpress_url?: string;
       last_sync?: string | null;
       total_fixes_synced?: number;
-      sync_status?: 'pending' | 'success' | 'error' | null;
+      sync_status?: "pending" | "success" | "error" | null;
       errors?: string[];
     };
     wordpress_connected?: boolean;
     wordpress_url?: string;
     wordpress_last_sync?: string;
-    wordpress_sync_status?: 'pending' | 'success' | 'error';
+    wordpress_sync_status?: "pending" | "success" | "error";
     wordpress_fixes_synced?: number;
   };
 }> => {
@@ -224,7 +224,7 @@ export const getJSCode = async (
   return response.data;
 };
 
-// Audit Management APIs
+// Audit Management APIs.
 export const startAudit = async (
   projectId: string,
   auditId: string,
