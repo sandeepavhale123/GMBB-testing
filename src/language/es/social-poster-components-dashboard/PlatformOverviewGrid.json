@@ -1,0 +1,25 @@
+{
+  "status": {
+    "healthy": "Activo",
+    "warning": "Advertencia",
+    "error": "Error",
+    "disconnected": "No conectado"
+  },
+  "labels": {
+    "failedToLoad": "No se pudieron cargar las estadísticas de la plataforma",
+    "connectedAccounts": "Cuentas conectadas",
+    "individual": "Individual",
+    "organisation": "Organización",
+    "connect": "Conectar",
+    "comingSoon": "Próximamente"
+  },
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter/X",
+    "linkedin": "LinkedIn",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  }
+}

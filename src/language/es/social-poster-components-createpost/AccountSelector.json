@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "targetAccounts": "Cuentas objetivo",
+    "selected": "seleccionado"
+  },
+  "loading": {
+    "title": "Cuentas objetivo",
+    "description": "Cargando cuentas...",
+    "message": "Cargando cuentas disponibles..."
+  },
+  "noPlatforms": {
+    "title": "Cuentas objetivo",
+    "description": "Primero selecciona plataformas",
+    "message": "Elige plataformas para ver las cuentas disponibles"
+  },
+  "filters": {
+    "searchPlaceholder": "Buscar cuentas...",
+    "filterByPlatform": "Filtrar por plataforma",
+    "allPlatforms": "Todas las plataformas"
+  },
+  "platform": {
+    "linkedinIndividual": "LinkedIn (Individual)",
+    "linkedinOrganisation": "LinkedIn (Organización)"
+  },
+  "buttons": {
+    "selectAll": "Seleccionar todo",
+    "deselectAll": "Deseleccionar todo"
+  },
+  "status": {
+    "healthy": "Activo",
+    "unhealthy": "Inactivo"
+  }
+}

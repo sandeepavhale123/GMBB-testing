@@ -1,0 +1,13 @@
+{
+  "facebook": {
+    "fallbackBusinessName": "Tu negocio",
+    "fallbackContent": "El contenido de tu publicación aparecerá aquí...",
+    "justNow": "Justo ahora",
+    "altmedia": "Medios de la publicación",
+    "comments": "{{count}} comentarios",
+    "shares": "{{count}} compartidos",
+    "like": "Me gusta",
+    "comment": "Comentar",
+    "share": "Compartir"
+  }
+}

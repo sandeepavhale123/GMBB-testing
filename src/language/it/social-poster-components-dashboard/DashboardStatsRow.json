@@ -1,0 +1,15 @@
+{
+  "stats": {
+    "totalAccounts": "Account totali",
+    "totalPosts": "Post totali",
+    "scheduledPosts": "Post programmati",
+    "successRate": "Tasso di successo",
+
+    "labels": {
+      "connected": "collegato",
+      "allTime": "totale",
+      "upcoming": "in arrivo",
+      "overall": "complessivo"
+    }
+  }
+}

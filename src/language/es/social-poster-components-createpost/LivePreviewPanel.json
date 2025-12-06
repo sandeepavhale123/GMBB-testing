@@ -1,0 +1,16 @@
+{
+  "title": "Vista previa en vivo",
+  "selectPlatform": "Seleccionar plataforma",
+  "noPlatformSelected": "Selecciona cuentas para ver la vista previa",
+  "previewNotAvailable": "Vista previa no disponible para esta plataforma",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "threads": "Threads",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Individual)",
+    "linkedin_organisation": "LinkedIn (Organización)"
+  }
+}

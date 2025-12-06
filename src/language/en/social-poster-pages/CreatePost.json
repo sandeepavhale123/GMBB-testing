@@ -1,0 +1,44 @@
+{
+  "createPost": {
+    "titleCreate": "Create Post",
+    "titleEdit": "Edit Post",
+    "subtitle": "Compose and schedule posts across multiple platforms",
+
+    "errors": {
+      "enterContent": "Please enter post content",
+      "selectAccount": "Please select at least one account",
+      "exceedsLimit": "Content exceeds character limit of {{limit}} characters",
+      "instagramMediaRequired": "Instagram requires at least one image or video",
+      "scheduleMissing": "Please select date and time for scheduled post",
+      "invalidFile": "Please upload a valid image or video file",
+      "onlyOneMedia": "You can only upload 1 video or 1 image",
+      "uploadFailed": "Failed to upload media. Please try again.",
+      "removeFailed": "Failed to remove media"
+    },
+
+    "success": {
+      "mediaUploaded": "Media uploaded successfully",
+      "mediaRemoved": "Media removed successfully",
+      "formReset": "Form reset"
+    },
+
+    "buttons": {
+      "cancel": "Cancel",
+      "insertLink": "Insert Link"
+    },
+
+    "dialogs": {
+      "emojiPicker": "Select Emoji",
+      "linkDialogTitle": "Add Link",
+      "linkDialogDescription": "Enter the link text and URL",
+      "previewTitle": "Post Preview"
+    },
+
+    "labels": {
+      "linkText": "Link Text",
+      "url": "URL",
+      "placeholder":"Click here",
+      "url-place":"https://example.com"
+    }
+  }
+}

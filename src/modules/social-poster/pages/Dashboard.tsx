@@ -7,22 +7,21 @@ import { PostingActivityChart } from "../components/dashboard/PostingActivityCha
 import { PostPerformanceChart } from "../components/dashboard/PostPerformanceChart";
 import { UpcomingPostsRedesigned } from "../components/dashboard/UpcomingPostsRedesigned";
 import { ConnectedAccountsSummary } from "../components/dashboard/ConnectedAccountsSummary";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export const SocialPosterDashboard: React.FC = () => {
   const navigate = useNavigate();
-
+  const { t } = useI18nNamespace(["social-poster-pages/Dashboard"]);
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Manage your social media presence across all platforms
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight"> {t("title")}</h1>
+          <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button onClick={() => navigate("/social-poster/posts/create")}>
           <Plus className="mr-2 h-4 w-4" />
-          Create Post
+          {t("createPost")}
         </Button>
       </div>
 

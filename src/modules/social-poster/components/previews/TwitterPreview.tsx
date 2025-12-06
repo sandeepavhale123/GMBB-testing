@@ -1,18 +1,30 @@
 import React from "react";
-import { MessageCircle, Repeat2, Heart, Share, MoreHorizontal } from "lucide-react";
+import {
+  MessageCircle,
+  Repeat2,
+  Heart,
+  Share,
+  MoreHorizontal,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useListingContext } from "@/context/ListingContext";
 import { MediaItem } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface TwitterPreviewProps {
   content: string;
   media?: MediaItem[];
 }
 
-export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }) => {
+export const TwitterPreview: React.FC<TwitterPreviewProps> = ({
+  content,
+  media,
+}) => {
   const { selectedListing } = useListingContext();
-  
-  const businessName = selectedListing?.name || "Your Business";
+  const { t } = useI18nNamespace([
+    "social-poster-components-preview/TwitterPreview",
+  ]);
+  const businessName = selectedListing?.name || t("twitter.fallbackname");
   const businessHandle = businessName.toLowerCase().replace(/\s+/g, "");
   const businessInitials = businessName
     .split(" ")
@@ -21,10 +33,11 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
     .toUpperCase()
     .slice(0, 2);
 
-  const displayContent = content || "Your post content will appear here...";
-  const truncatedContent = displayContent.length > 110  
-    ? displayContent.slice(0, 110 ) + "..." 
-    : displayContent;
+  const displayContent = content || t("twitter.fallbackContent");
+  const truncatedContent =
+    displayContent.length > 110
+      ? displayContent.slice(0, 110) + "..."
+      : displayContent;
   const firstMedia = media?.[0];
 
   return (
@@ -38,7 +51,7 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
               {businessInitials}
             </AvatarFallback>
           </Avatar>
-          
+
           <div className="flex-1 min-w-0">
             {/* User Info */}
             <div className="flex items-center gap-1 mb-1">
@@ -49,7 +62,9 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
                 @{businessHandle}
               </span>
               <span className="text-muted-foreground text-[15px]">·</span>
-              <span className="text-muted-foreground text-[15px]">now</span>
+              <span className="text-muted-foreground text-[15px]">
+                {t("twitter.timestampNow")}
+              </span>
               <div className="ml-auto">
                 <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
               </div>
@@ -65,7 +80,7 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
             {/* Media */}
             {firstMedia?.preview && (
               <div className="relative w-full rounded-2xl overflow-hidden border border-border mb-3">
-                {firstMedia.mediaType === 'video' ? (
+                {firstMedia.mediaType === "video" ? (
                   <video
                     src={firstMedia.preview}
                     className="w-full max-h-[300px] object-cover"
@@ -74,7 +89,7 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
                 ) : (
                   <img
                     src={firstMedia.preview}
-                    alt="Post media"
+                    alt={t("twitter.alt")}
                     className="w-full max-h-[300px] object-cover"
                   />
                 )}
@@ -87,21 +102,27 @@ export const TwitterPreview: React.FC<TwitterPreviewProps> = ({ content, media }
                 <div className="p-2 rounded-full group-hover:bg-[hsl(201,100%,50%)]/10 transition-colors">
                   <MessageCircle className="w-[18px] h-[18px] text-muted-foreground group-hover:text-[hsl(201,100%,50%)]" />
                 </div>
-                <span className="text-xs text-muted-foreground group-hover:text-[hsl(201,100%,50%)]">42</span>
+                <span className="text-xs text-muted-foreground group-hover:text-[hsl(201,100%,50%)]">
+                  42
+                </span>
               </button>
 
               <button className="group flex items-center gap-1 hover:text-[hsl(142,71%,45%)] transition-colors">
                 <div className="p-2 rounded-full group-hover:bg-[hsl(142,71%,45%)]/10 transition-colors">
                   <Repeat2 className="w-[18px] h-[18px] text-muted-foreground group-hover:text-[hsl(142,71%,45%)]" />
                 </div>
-                <span className="text-xs text-muted-foreground group-hover:text-[hsl(142,71%,45%)]">12</span>
+                <span className="text-xs text-muted-foreground group-hover:text-[hsl(142,71%,45%)]">
+                  12
+                </span>
               </button>
 
               <button className="group flex items-center gap-1 hover:text-[hsl(340,75%,55%)] transition-colors">
                 <div className="p-2 rounded-full group-hover:bg-[hsl(340,75%,55%)]/10 transition-colors">
                   <Heart className="w-[18px] h-[18px] text-muted-foreground group-hover:text-[hsl(340,75%,55%)]" />
                 </div>
-                <span className="text-xs text-muted-foreground group-hover:text-[hsl(340,75%,55%)]">256</span>
+                <span className="text-xs text-muted-foreground group-hover:text-[hsl(340,75%,55%)]">
+                  256
+                </span>
               </button>
 
               <button className="group flex items-center gap-1 hover:text-[hsl(201,100%,50%)] transition-colors">

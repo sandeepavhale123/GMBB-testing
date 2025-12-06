@@ -1,0 +1,6 @@
+{
+  "title": "Schedule Options",
+  "date": "Date",
+  "time": "Time",
+  "timezoneNote": "Post will be scheduled for {{timezone}} timezone"
+}

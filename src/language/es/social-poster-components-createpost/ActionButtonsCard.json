@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "reset": "Restablecer",
+    "preview": "Vista previa",
+    "connecting": "Conectando...",
+    "creating": "Creando...",
+    "updating": "Actualizando...",
+    "schedule": "Programar",
+    "publish_now": "Publicar ahora",
+    "update_schedule": "Actualizar programación",
+    "update_post": "Actualizar publicación"
+  }
+}

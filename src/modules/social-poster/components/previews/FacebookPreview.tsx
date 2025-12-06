@@ -3,16 +3,24 @@ import { ThumbsUp, MessageCircle, Share2, MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useListingContext } from "@/context/ListingContext";
 import { MediaItem } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface FacebookPreviewProps {
   content: string;
   media?: MediaItem[];
 }
 
-export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media }) => {
+export const FacebookPreview: React.FC<FacebookPreviewProps> = ({
+  content,
+  media,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-preview/FacebookPreview",
+  ]);
   const { selectedListing } = useListingContext();
 
-  const businessName = selectedListing?.name || "Your Business";
+  const businessName =
+    selectedListing?.name || t("facebook.fallbackBusinessName");
   const businessInitials = businessName
     .split(" ")
     .map((word) => word[0])
@@ -20,8 +28,11 @@ export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media
     .toUpperCase()
     .slice(0, 2);
 
-  const displayContent = content || "Your post content will appear here...";
-  const truncatedContent = displayContent.length > 110 ? displayContent.slice(0, 110) + "..." : displayContent;
+  const displayContent = content || t("facebook.fallbackContent");
+  const truncatedContent =
+    displayContent.length > 110
+      ? displayContent.slice(0, 110) + "..."
+      : displayContent;
   const firstMedia = media?.[0];
 
   return (
@@ -36,9 +47,12 @@ export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-semibold text-[15px] text-foreground">{businessName}</h3>
+            <h3 className="font-semibold text-[15px] text-foreground">
+              {businessName}
+            </h3>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Just now · <span className="inline-block w-3 h-3">🌐</span>
+              {t("facebook.justNow")} ·{" "}
+              <span className="inline-block w-3 h-3">🌐</span>
             </p>
           </div>
         </div>
@@ -47,16 +61,26 @@ export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media
 
       {/* Content */}
       <div className="px-3 pb-3">
-        <p className="text-[15px] text-foreground leading-relaxed whitespace-pre-wrap break-words">{truncatedContent}</p>
+        <p className="text-[15px] text-foreground leading-relaxed whitespace-pre-wrap break-words">
+          {truncatedContent}
+        </p>
       </div>
 
       {/* Media */}
       {firstMedia?.preview && (
         <div className="relative w-full bg-muted">
           {firstMedia.mediaType === "video" ? (
-            <video src={firstMedia.preview} className="w-full max-h-[300px] object-cover" controls />
+            <video
+              src={firstMedia.preview}
+              className="w-full max-h-[300px] object-cover"
+              controls
+            />
           ) : (
-            <img src={firstMedia.preview} alt="Post media" className="w-full max-h-[300px] object-cover" />
+            <img
+              src={firstMedia.preview}
+              alt={t("facebook.altmedia")}
+              className="w-full max-h-[300px] object-cover"
+            />
           )}
         </div>
       )}
@@ -70,8 +94,8 @@ export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media
           <span>42</span>
         </div>
         <div className="flex items-center gap-3">
-          <span>12 comments</span>
-          <span>3 shares</span>
+          <span>{t("facebook.comments", { count: 12 })}</span>
+          <span>{t("facebook.shares", { count: 3 })}</span>
         </div>
       </div>
 
@@ -79,15 +103,21 @@ export const FacebookPreview: React.FC<FacebookPreviewProps> = ({ content, media
       <div className="px-3 py-2 flex items-center justify-around border-t border-border">
         <button className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-muted transition-colors">
           <ThumbsUp className="w-[18px] h-[18px] text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Like</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("facebook.like")}
+          </span>
         </button>
         <button className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-muted transition-colors">
           <MessageCircle className="w-[18px] h-[18px] text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Comment</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("facebook.comment")}
+          </span>
         </button>
         <button className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-muted transition-colors">
           <Share2 className="w-[18px] h-[18px] text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Share</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("facebook.share")}
+          </span>
         </button>
       </div>
     </div>

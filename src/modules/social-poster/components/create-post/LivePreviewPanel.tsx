@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Instagram, Twitter, MessageSquare } from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
@@ -10,6 +16,7 @@ import { LinkedInPreview } from "../previews/LinkedInPreview";
 import { TwitterPreview } from "../previews/TwitterPreview";
 import { ThreadsPreview } from "../previews/ThreadsPreview";
 import { MediaItem } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface LivePreviewPanelProps {
   content: string;
@@ -17,11 +24,11 @@ interface LivePreviewPanelProps {
   selectedPlatforms: string[];
 }
 
-const getPlatformDisplayName = (platform: string): string => {
-  if (platform === "linkedin_individual") return "LinkedIn (Individual)";
-  if (platform === "linkedin_organisation") return "LinkedIn (Organisation)";
-  return platform.charAt(0).toUpperCase() + platform.slice(1);
-};
+// const getPlatformDisplayName = (platform: string): string => {
+//   if (platform === "linkedin_individual") return "LinkedIn (Individual)";
+//   if (platform === "linkedin_organisation") return "LinkedIn (Organisation)";
+//   return platform.charAt(0).toUpperCase() + platform.slice(1);
+// };
 
 const getPlatformIcon = (platform: string) => {
   switch (platform) {
@@ -40,7 +47,19 @@ const getPlatformIcon = (platform: string) => {
   }
 };
 
-export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, media, selectedPlatforms }) => {
+export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
+  content,
+  media,
+  selectedPlatforms,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-createpost/LivePreviewPanel",
+  ]);
+
+  const getPlatformDisplayName = (platform: string, t: any): string => {
+    return t(`platforms.${platform}`);
+  };
+
   // Consolidate LinkedIn platforms for display
   const displayPlatforms = useMemo(() => {
     const platforms = [...selectedPlatforms];
@@ -49,13 +68,19 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, med
 
     if (hasLinkedInIndividual || hasLinkedInOrg) {
       // Remove both LinkedIn variants and add single 'linkedin'
-      return platforms.filter((p) => p !== "linkedin_individual" && p !== "linkedin_organisation").concat("linkedin");
+      return platforms
+        .filter(
+          (p) => p !== "linkedin_individual" && p !== "linkedin_organisation"
+        )
+        .concat("linkedin");
     }
 
     return platforms;
   }, [selectedPlatforms]);
 
-  const [selectedPlatform, setSelectedPlatform] = useState<string>(displayPlatforms[0] || "");
+  const [selectedPlatform, setSelectedPlatform] = useState<string>(
+    displayPlatforms[0] || ""
+  );
 
   // Update selected platform when platforms change
   React.useEffect(() => {
@@ -68,7 +93,7 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, med
     if (!selectedPlatform) {
       return (
         <div className="flex items-center justify-center h-64 text-muted-foreground">
-          Select accounts to see preview
+          {t("noPlatformSelected")}
         </div>
       );
     }
@@ -89,7 +114,7 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, med
       default:
         return (
           <div className="flex items-center justify-center h-64 text-muted-foreground">
-            Preview not available for this platform
+            {t("previewNotAvailable")}
           </div>
         );
     }
@@ -99,11 +124,14 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, med
     <Card className="sticky top-[100px]">
       <CardHeader>
         <div className="flex justify-between items-center gap-4">
-          <CardTitle className="text-lg">Live Preview</CardTitle>
+          <CardTitle className="text-lg">{t("title")}</CardTitle>
           {displayPlatforms.length > 0 && (
-            <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
+            <Select
+              value={selectedPlatform}
+              onValueChange={setSelectedPlatform}
+            >
               <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select platform" />
+                <SelectValue placeholder={t("selectPlatform")} />
               </SelectTrigger>
               <SelectContent>
                 {displayPlatforms.map((platform) => {
@@ -119,7 +147,7 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({ content, med
                         >
                           <Icon className="h-3 w-3 text-white" />
                         </div>
-                        <span>{getPlatformDisplayName(platform)}</span>
+                        <span>{getPlatformDisplayName(platform, t)}</span>
                       </div>
                     </SelectItem>
                   );

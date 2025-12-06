@@ -3,16 +3,46 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { Instagram, Twitter, Edit, Trash2, AlertCircle, RefreshCw, FileText, Calendar, Loader2, ExternalLink, MoreVertical, Eye, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  Instagram,
+  Twitter,
+  Edit,
+  Trash2,
+  AlertCircle,
+  RefreshCw,
+  FileText,
+  Calendar,
+  Loader2,
+  ExternalLink,
+  MoreVertical,
+  Eye,
+  MessageSquare,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { PlatformType, PostStatus, Post } from "../../types";
 import { format } from "date-fns";
 import { useDeletePost, useRetryPost } from "../../hooks/useSocialPoster";
 import { useProfile } from "@/hooks/useProfile";
 import { formatUTCDateInUserTimezone } from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const platformIcons: Record<PlatformType, React.ElementType> = {
   facebook: FaFacebookF,
@@ -46,14 +76,6 @@ const statusColors: Record<PostStatus, string> = {
   failed: "hsl(var(--destructive))",
 };
 
-const statusLabels: Record<PostStatus, string> = {
-  draft: "Draft",
-  scheduled: "Scheduled",
-  publishing: "Publishing",
-  published: "Published",
-  failed: "Failed",
-};
-
 // Helper function to get platform icon component
 const getPlatformIcon = (platform: PlatformType) => {
   const Icon = platformIcons[platform];
@@ -69,7 +91,9 @@ const getPlatformIcon = (platform: PlatformType) => {
 };
 
 // Helper function to get badge variant based on status
-const getStatusVariant = (status: PostStatus): "default" | "secondary" | "destructive" | "outline" => {
+const getStatusVariant = (
+  status: PostStatus
+): "default" | "secondary" | "destructive" | "outline" => {
   switch (status) {
     case "published":
       return "default";
@@ -94,25 +118,44 @@ interface PostsListViewProps {
   onPageChange?: (page: number) => void;
 }
 
-export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, pagination, onPageChange }) => {
+export const PostsListView: React.FC<PostsListViewProps> = ({
+  posts,
+  isLoading,
+  pagination,
+  onPageChange,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-post/PostsListView",
+  ]);
+
+  const statusLabels: Record<PostStatus, string> = {
+    draft: t("postsList.status.draft"),
+    scheduled: t("postsList.status.scheduled"),
+    publishing: t("postsList.status.publishing"),
+    published: t("postsList.status.published"),
+    failed: t("postsList.status.failed"),
+  };
   const navigate = useNavigate();
   const { profileData } = useProfile();
   const userTimezone = profileData?.timezone || "UTC";
-  const [selectedPostBreakdown, setSelectedPostBreakdown] = useState<Post | null>(null);
-  const [instagramWarningPost, setInstagramWarningPost] = useState<string | null>(null);
+  const [selectedPostBreakdown, setSelectedPostBreakdown] =
+    useState<Post | null>(null);
+  const [instagramWarningPost, setInstagramWarningPost] = useState<
+    string | null
+  >(null);
   const deletePostMutation = useDeletePost();
   const retryPostMutation = useRetryPost();
 
   const handleDelete = async (postId: string) => {
-    const post = posts.find(p => p.id === postId);
+    const post = posts.find((p) => p.id === postId);
     const hasPublishedInstagram = post?.targets.some(
-      t => t.platform === 'instagram' && t.status === 'published'
+      (t) => t.platform === "instagram" && t.status === "published"
     );
 
     if (hasPublishedInstagram) {
       setInstagramWarningPost(postId);
     } else {
-      if (window.confirm('Are you sure you want to delete this post?')) {
+      if (window.confirm(t("postsList.deleteConfirm"))) {
         await deletePostMutation.mutateAsync(postId);
       }
     }
@@ -134,7 +177,7 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
   };
 
   const handleView = (postId: string) => {
-    const post = posts.find(p => p.id === postId);
+    const post = posts.find((p) => p.id === postId);
     if (post) {
       setSelectedPostBreakdown(post);
     }
@@ -154,9 +197,11 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
           <FileText className="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 className="mt-4 text-lg font-semibold">No Posts Yet</h3>
+        <h3 className="mt-4 text-lg font-semibold">
+          {t("postsList.noPostsTitle")}
+        </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Create your first post to see it here
+          {t("postsList.noPostsDescription")}
         </p>
       </div>
     );
@@ -171,9 +216,9 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
           return acc;
         }, {} as Record<PlatformType, typeof post.targets>);
 
-        const publishedCount = parseInt(post.targetCounts?.published || '0');
-        const failedCount = parseInt(post.targetCounts?.failed || '0');
-        const pendingCount = parseInt(post.targetCounts?.pending || '0');
+        const publishedCount = parseInt(post.targetCounts?.published || "0");
+        const failedCount = parseInt(post.targetCounts?.failed || "0");
+        const pendingCount = parseInt(post.targetCounts?.pending || "0");
 
         return (
           <Card key={post.id}>
@@ -186,10 +231,13 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                     onClick={() => handleView(post.id)}
                   >
                     <img
-                      src={post.media[0].mediaType === 'video' && post.media[0].thumbnailUrl 
-                        ? post.media[0].thumbnailUrl 
-                        : post.media[0].mediaUrl}
-                      alt="Post media"
+                      src={
+                        post.media[0].mediaType === "video" &&
+                        post.media[0].thumbnailUrl
+                          ? post.media[0].thumbnailUrl
+                          : post.media[0].mediaUrl
+                      }
+                      alt={t("postsList.postalt")}
                       className="h-24 w-24 rounded-lg object-cover hover:opacity-80 transition-opacity"
                     />
                   </div>
@@ -198,7 +246,7 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       {/* Clickable Content */}
-                      <p 
+                      <p
                         className="text-sm line-clamp-2 cursor-pointer hover:text-primary transition-colors"
                         onClick={() => handleView(post.id)}
                       >
@@ -217,7 +265,11 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                         {post.scheduledFor && (
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
-                            {formatUTCDateInUserTimezone(post.scheduledFor, userTimezone)} ({userTimezone})
+                            {formatUTCDateInUserTimezone(
+                              post.scheduledFor,
+                              userTimezone
+                            )}{" "}
+                            ({userTimezone})
                           </div>
                         )}
                       </div>
@@ -225,38 +277,43 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                     {/* More Dropdown Menu */}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 w-8 p-0"
+                        >
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-popover">
                         <DropdownMenuItem onClick={() => handleView(post.id)}>
                           <Eye className="h-4 w-4 mr-2" />
-                          View
+                          {t("postsList.view")}
                         </DropdownMenuItem>
-                        {(post.status === "draft" || post.status === "scheduled") && (
+                        {(post.status === "draft" ||
+                          post.status === "scheduled") && (
                           <DropdownMenuItem onClick={() => handleEdit(post.id)}>
                             <Edit className="h-4 w-4 mr-2" />
-                            Edit
+                            {t("postsList.edit")}
                           </DropdownMenuItem>
                         )}
                         {post.status === "failed" && (
-                          <DropdownMenuItem 
+                          <DropdownMenuItem
                             onClick={() => handleRetry(post.id)}
                             disabled={retryPostMutation.isPending}
                           >
                             <RefreshCw className="h-4 w-4 mr-2" />
-                            Retry
+                            {t("postsList.retry")}
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={() => handleDelete(post.id)}
                           disabled={deletePostMutation.isPending}
                           className="text-destructive focus:text-destructive"
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
+                          {t("postsList.delete")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -264,19 +321,27 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
 
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center -space-x-2">
-                      {Object.keys(platformGroups).slice(0, 4).map((platform, idx) => {
-                        const Icon = platformIcons[platform as PlatformType] || FileText;
-                        const color = platformBgColors[platform as PlatformType] || "hsl(0, 0%, 50%)";
-                        return (
-                          <div
-                            key={platform}
-                            className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-card"
-                            style={{ backgroundColor: color, zIndex: 4 - idx }}
-                          >
-                            <Icon className="h-3 w-3 text-white" />
-                          </div>
-                        );
-                      })}
+                      {Object.keys(platformGroups)
+                        .slice(0, 4)
+                        .map((platform, idx) => {
+                          const Icon =
+                            platformIcons[platform as PlatformType] || FileText;
+                          const color =
+                            platformBgColors[platform as PlatformType] ||
+                            "hsl(0, 0%, 50%)";
+                          return (
+                            <div
+                              key={platform}
+                              className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-card"
+                              style={{
+                                backgroundColor: color,
+                                zIndex: 4 - idx,
+                              }}
+                            >
+                              <Icon className="h-3 w-3 text-white" />
+                            </div>
+                          );
+                        })}
                       {Object.keys(platformGroups).length > 4 && (
                         <div
                           className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-card bg-muted text-xs font-medium"
@@ -289,10 +354,14 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                     <div className="text-xs text-muted-foreground">
                       <span className="text-green-600">{publishedCount} ✓</span>
                       {failedCount > 0 && (
-                        <span className="text-red-600 ml-2">{failedCount} ✗</span>
+                        <span className="text-red-600 ml-2">
+                          {failedCount} ✗
+                        </span>
                       )}
                       {pendingCount > 0 && (
-                        <span className="text-yellow-600 ml-2">{pendingCount} ⏳</span>
+                        <span className="text-yellow-600 ml-2">
+                          {pendingCount} ⏳
+                        </span>
                       )}
                     </div>
                   </div>
@@ -307,9 +376,12 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
       {pagination && pagination.totalPages > 1 && (
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-6 pt-6 border-t">
           <div className="text-xs md:text-sm text-muted-foreground text-center md:text-left">
-            Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} posts
+            {t("postsList.showing")}{" "}
+            {(pagination.page - 1) * pagination.limit + 1} {t("postsList.to")}{" "}
+            {Math.min(pagination.page * pagination.limit, pagination.total)}{" "}
+            {t("postsList.of")} {pagination.total} {t("postsList.posts")}
           </div>
-          
+
           <div className="flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
             <Button
               variant="outline"
@@ -319,11 +391,16 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
               className="flex items-center gap-1"
             >
               <ChevronLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">Previous</span>
+              <span className="hidden sm:inline">
+                {t("postsList.previous")}
+              </span>
             </Button>
 
             <div className="hidden md:flex items-center gap-1">
-              {Array.from({ length: Math.min(3, pagination.totalPages) }, (_, i) => i + 1).map((pageNum) => (
+              {Array.from(
+                { length: Math.min(3, pagination.totalPages) },
+                (_, i) => i + 1
+              ).map((pageNum) => (
                 <Button
                   key={pageNum}
                   variant={pagination.page === pageNum ? "default" : "outline"}
@@ -339,7 +416,11 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
               )}
               {pagination.totalPages > 3 && (
                 <Button
-                  variant={pagination.page === pagination.totalPages ? "default" : "outline"}
+                  variant={
+                    pagination.page === pagination.totalPages
+                      ? "default"
+                      : "outline"
+                  }
                   size="sm"
                   onClick={() => onPageChange?.(pagination.totalPages)}
                   className="w-8 h-8 p-0"
@@ -351,7 +432,8 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
 
             {/* Mobile page indicator */}
             <div className="md:hidden text-sm text-muted-foreground px-3">
-              Page {pagination.page} of {pagination.totalPages}
+              {t("postsList.page")} {pagination.page} {t("postsList.of")}{" "}
+              {pagination.totalPages}
             </div>
 
             <Button
@@ -361,7 +443,7 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
               disabled={pagination.page === pagination.totalPages}
               className="flex items-center gap-1"
             >
-              <span className="hidden sm:inline">Next</span>
+              <span className="hidden sm:inline">{t("postsList.next")}</span>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -369,10 +451,13 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
       )}
 
       {/* Platform Breakdown Modal */}
-      <Dialog open={!!selectedPostBreakdown} onOpenChange={() => setSelectedPostBreakdown(null)}>
+      <Dialog
+        open={!!selectedPostBreakdown}
+        onOpenChange={() => setSelectedPostBreakdown(null)}
+      >
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Post Details</DialogTitle>
+            <DialogTitle>{t("postsList.postDetails")}</DialogTitle>
           </DialogHeader>
           {selectedPostBreakdown && (
             <ScrollArea className="max-h-[60vh]">
@@ -388,8 +473,12 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                         <div className="flex items-center gap-3 mb-3">
                           {getPlatformIcon(target.platform)}
                           <div className="flex-1">
-                            <div className="font-medium">{target.accountName}</div>
-                            <div className="text-xs text-muted-foreground">{target.platform}</div>
+                            <div className="font-medium">
+                              {target.accountName}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {target.platform}
+                            </div>
                           </div>
                           <Badge variant={getStatusVariant(target.status)}>
                             {target.status}
@@ -397,36 +486,45 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
                         </div>
 
                         {/* Published URL */}
-                        {target.status === "published" && target.publishedUrl && (
-                          <div className="mb-3">
-                            <a
-                              href={target.publishedUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-sm text-primary hover:underline flex items-center gap-1"
-                            >
-                              <ExternalLink className="h-3 w-3" />
-                              View Published Post
-                            </a>
-                          </div>
-                        )}
+                        {target.status === "published" &&
+                          target.publishedUrl && (
+                            <div className="mb-3">
+                              <a
+                                href={target.publishedUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-primary hover:underline flex items-center gap-1"
+                              >
+                                <ExternalLink className="h-3 w-3" />
+                                {t("postsList.viewPublishedPost")}
+                              </a>
+                            </div>
+                          )}
 
                         {/* Show failure reasons if any */}
                         {hasFailed && (
                           <div className="space-y-2">
-                            {failedTargets.map((target) => (
-                              target.error && (
-                                <div key={target.id} className="flex gap-2 p-3 bg-destructive/10 rounded-md">
-                                  <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
-                                  <div className="space-y-1">
-                                    <p className="text-sm font-medium text-destructive">{target.accountName}</p>
-                                    <p className="text-xs text-destructive/80">
-                                      {typeof target.error === 'string' ? target.error : JSON.stringify(target.error)}
-                                    </p>
+                            {failedTargets.map(
+                              (target) =>
+                                target.error && (
+                                  <div
+                                    key={target.id}
+                                    className="flex gap-2 p-3 bg-destructive/10 rounded-md"
+                                  >
+                                    <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                                    <div className="space-y-1">
+                                      <p className="text-sm font-medium text-destructive">
+                                        {target.accountName}
+                                      </p>
+                                      <p className="text-xs text-destructive/80">
+                                        {typeof target.error === "string"
+                                          ? target.error
+                                          : JSON.stringify(target.error)}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              )
-                            ))}
+                                )
+                            )}
                           </div>
                         )}
                       </CardContent>
@@ -440,34 +538,39 @@ export const PostsListView: React.FC<PostsListViewProps> = ({ posts, isLoading, 
       </Dialog>
 
       {/* Instagram Delete Warning Modal */}
-      <Dialog open={!!instagramWarningPost} onOpenChange={() => setInstagramWarningPost(null)}>
+      <Dialog
+        open={!!instagramWarningPost}
+        onOpenChange={() => setInstagramWarningPost(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-amber-500" />
-              Instagram Post Cannot Be Deleted Remotely
+              {t("postsList.instagramWarningTitle")}
             </DialogTitle>
             <DialogDescription className="pt-2">
-              Instagram's API does not support deleting posts remotely. If you proceed, the post 
-              will be removed from our system, but you'll need to manually delete it from Instagram.
+              {t("postsList.instagramWarningDescription")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setInstagramWarningPost(null)}>
-              Cancel
+            <Button
+              variant="outline"
+              onClick={() => setInstagramWarningPost(null)}
+            >
+              {t("postsList.cancel")}
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={confirmInstagramDelete}
               disabled={deletePostMutation.isPending}
             >
               {deletePostMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Deleting...
+                  {t("postsList.deleting")}
                 </>
               ) : (
-                "Delete from System"
+                t("postsList.deleteFromSystem")
               )}
             </Button>
           </DialogFooter>

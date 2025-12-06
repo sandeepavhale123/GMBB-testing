@@ -1,0 +1,41 @@
+{
+  "dialog": {
+    "title": "Connect Social Media Accounts",
+    "description": "Choose which platforms you want to connect"
+  },
+  "buttons": {
+    "connect": "Connect",
+    "connecting": "Connecting..."
+  },
+  "platforms": {
+    "facebook_instagram": {
+      "name": "Facebook & Instagram",
+      "description": "Connect both platforms with single OAuth"
+    },
+    "twitter": {
+      "name": "Twitter/X",
+      "description": "Connect your Twitter/X account"
+    },
+    "linkedin": {
+      "name": "LinkedIn",
+      "description": "Connect your LinkedIn account"
+    },
+    "threads": {
+      "name": "Threads",
+      "description": "Connect your Threads account"
+    },
+    "pinterest": {
+      "name": "Pinterest",
+      "description": "Coming soon"
+    },
+    "youtube": {
+      "name": "YouTube",
+      "description": "Coming soon"
+    }
+  },
+  "toast": {
+    "oauth_failed": "Failed to initialize OAuth",
+    "connect_failed": "Failed to connect account",
+    "coming_soon": "This platform is coming soon"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "dialog": {
+    "title": "Connect LinkedIn Account",
+    "description": "Choose your account type to connect"
+  },
+  "individual": {
+    "title": "Connect Individual Profile",
+    "description": "Connect your personal LinkedIn profile to post as yourself"
+  },
+  "organization": {
+    "title": "Connect Organization Page",
+    "description": "Connect your company page to post as your organization"
+  },
+  "buttons": {
+    "connect": "Connect",
+    "connecting": "Connecting..."
+  },
+  "errors": {
+    "oauthInitFailed": "Failed to initialize LinkedIn OAuth",
+    "connectFailed": "Failed to connect LinkedIn account"
+  }
+}

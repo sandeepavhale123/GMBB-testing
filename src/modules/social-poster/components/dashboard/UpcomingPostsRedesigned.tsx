@@ -17,6 +17,7 @@ import { useUpcomingPosts } from "../../hooks/useSocialPoster";
 import { useProfile } from "@/hooks/useProfile";
 import { formatUTCDateInUserTimezone } from "@/utils/dateUtils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const platformIcons: Record<PlatformType, React.ElementType> = {
   facebook: FaFacebookF,
@@ -52,6 +53,9 @@ const placeholderColors = [
 ];
 
 export const UpcomingPostsRedesigned: React.FC = () => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-dashboard/UpcomingPostsRedesigned",
+  ]);
   const { profileData } = useProfile();
   const userTimezone = profileData?.timezone || "UTC";
   const { data, isLoading, error } = useUpcomingPosts(5);
@@ -60,7 +64,9 @@ export const UpcomingPostsRedesigned: React.FC = () => {
     return (
       <Card className="bg-card h-full">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Upcoming Posts</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("upcomingPosts")}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {[1, 2, 3].map((i) => (
@@ -82,10 +88,14 @@ export const UpcomingPostsRedesigned: React.FC = () => {
     return (
       <Card className="bg-card h-full">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Upcoming Posts</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("upcomingPosts")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-destructive text-center py-6">Failed to load upcoming posts</p>
+          <p className="text-sm text-destructive text-center py-6">
+            {t("error.upcomingPostsFailed")}
+          </p>
         </CardContent>
       </Card>
     );
@@ -97,15 +107,21 @@ export const UpcomingPostsRedesigned: React.FC = () => {
     return (
       <Card className="bg-card h-full">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Upcoming Posts</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("upcomingPosts")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted">
               <Calendar className="h-7 w-7 text-muted-foreground" />
             </div>
-            <h3 className="mt-4 text-sm font-medium">No Scheduled Posts</h3>
-            <p className="mt-1 text-xs text-muted-foreground">Create your first post to see it here</p>
+            <h3 className="mt-4 text-sm font-medium">
+              {t("empty.noScheduledPosts")}
+            </h3>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t("empty.createFirstPost")}
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -115,20 +131,26 @@ export const UpcomingPostsRedesigned: React.FC = () => {
   return (
     <Card className="bg-card h-full pb-3">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold">Upcoming Posts</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          {t("upcomingPosts")}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 h-[450px] overflow-y-auto">
         {upcomingPosts.map((post, index) => {
           const hasMedia = post.mediaUrls && post.mediaUrls.length > 0;
-          const placeholderColor = placeholderColors[index % placeholderColors.length];
+          const placeholderColor =
+            placeholderColors[index % placeholderColors.length];
 
           return (
-            <div key={post.id} className="flex gap-4 rounded-lg border p-3 hover:bg-muted/50 transition-colors">
+            <div
+              key={post.id}
+              className="flex gap-4 rounded-lg border p-3 hover:bg-muted/50 transition-colors"
+            >
               {/* Thumbnail */}
               {hasMedia ? (
                 <img
                   src={post.mediaUrls[0]}
-                  alt="Post preview"
+                  alt={t("post.previewAlt")}
                   className="h-16 w-16 rounded-lg object-cover flex-shrink-0"
                 />
               ) : (
@@ -144,7 +166,10 @@ export const UpcomingPostsRedesigned: React.FC = () => {
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground mb-1">
-                    {formatUTCDateInUserTimezone(post.scheduledFor, userTimezone)}
+                    {formatUTCDateInUserTimezone(
+                      post.scheduledFor,
+                      userTimezone
+                    )}
                   </p>
                   <div className="flex items-center -space-x-2">
                     {post.platforms.slice(0, 4).map((platform, idx) => {
@@ -161,7 +186,7 @@ export const UpcomingPostsRedesigned: React.FC = () => {
                       );
                     })}
                     {post.platforms.length > 4 && (
-                      <div 
+                      <div
                         className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-card bg-muted text-xs font-medium text-muted-foreground"
                         style={{ zIndex: 0 }}
                       >
@@ -170,7 +195,9 @@ export const UpcomingPostsRedesigned: React.FC = () => {
                     )}
                   </div>
                 </div>
-                <p className="text-sm font-medium line-clamp-2 mb-2">{post.content}</p>
+                <p className="text-sm font-medium line-clamp-2 mb-2">
+                  {post.content}
+                </p>
               </div>
             </div>
           );

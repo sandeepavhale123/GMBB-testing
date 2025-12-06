@@ -1,0 +1,54 @@
+{
+  "calendar": {
+    "today": "Heute",
+    "selectDate": "Datum auswählen",
+    "noPostsTitle": "Keine geplanten Beiträge",
+    "noPostsDesc": "Für dieses Datum sind keine Beiträge geplant",
+    "schedulePost": "Klicken Sie auf ein Datum im Kalender, um geplante Beiträge anzuzeigen",
+    "createPost": "Beitrag erstellen",
+    "postsScheduled": "{{count}} Beitrag geplant",
+    "postsScheduled_plural": "{{count}} Beiträge geplant",
+    "dayHeaders": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+    "more": "mehr",
+    "postalt": "Video-Vorschaubild",
+    "Postmedia": "Beitragsmedien"
+  },
+
+  "status": {
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "publishing": "Wird veröffentlicht",
+    "published": "Veröffentlicht",
+    "failed": "Fehlgeschlagen"
+  },
+
+  "postActions": {
+    "edit": "Beitrag bearbeiten",
+    "retryFail": "Fehlgeschlagene Beiträge erneut versuchen",
+    "delete": "Beitrag löschen",
+    "view": "Details anzeigen",
+    "retry": "Fehlgeschlagene erneut versuchen",
+    "retryAll": "Alle Plattformen erneut versuchen",
+    "confirmDelete": "Möchten Sie diesen Beitrag wirklich löschen?"
+  },
+
+  "breakdown": {
+    "title": "Plattformübersicht",
+    "description": "Detaillierter Status für jede Plattform",
+    "postContent": "Beitragsinhalt",
+    "retry": "Fehlgeschlagene erneut versuchen",
+    "success": "Erfolgreich",
+    "failed": "Fehlgeschlagen",
+    "pending": "Ausstehend",
+    "viewPublished": "Veröffentlichten Beitrag ansehen"
+  },
+
+  "instagramWarning": {
+    "title": "Instagram-Beitrag veröffentlicht",
+    "message": "Dieser Beitrag wurde auf Instagram veröffentlicht. Aufgrund von Einschränkungen der Instagram-API können veröffentlichte Beiträge nicht automatisch gelöscht werden.",
+    "deleteMessage": "Bitte löschen Sie den Beitrag bei Bedarf manuell von Instagram. Der Beitrag wird aus diesem System entfernt, bleibt jedoch auf Instagram.",
+    "deleteAnyway": "Trotzdem löschen",
+    "cancel": "Abbrechen",
+    "system": "Aus System löschen"
+  }
+}

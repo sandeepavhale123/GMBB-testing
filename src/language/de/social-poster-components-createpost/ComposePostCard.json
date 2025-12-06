@@ -1,0 +1,8 @@
+{
+  "title": "Beitrag erstellen",
+  "placeholder": "Was denkst du gerade?",
+  "ai_generate": "Mit KI generieren",
+  "instagram_warning": "Instagram erfordert mindestens ein Bild oder Video",
+  "uploading_media": "Medien werden hochgeladen...",
+  "character_limit_error": "Zeichenlimit beträgt {{limit}} Zeichen"
+}

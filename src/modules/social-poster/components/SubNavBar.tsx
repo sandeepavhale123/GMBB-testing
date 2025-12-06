@@ -3,21 +3,23 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, FileText, Users, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const SubNavBar: React.FC = () => {
+  const { t } = useI18nNamespace(["social-poster-components/SubNavBar"]);
   const navItems = [
     {
-      label: "Dashboard",
+      label: t("subnav.dashboard"),
       path: "/social-poster/dashboard",
       icon: LayoutDashboard,
     },
     {
-      label: "Posts",
+      label: t("subnav.posts"),
       path: "/social-poster/posts",
       icon: FileText,
     },
     {
-      label: "Accounts",
+      label: t("subnav.accounts"),
       path: "/social-poster/accounts",
       icon: Users,
     },
@@ -29,7 +31,9 @@ export const SubNavBar: React.FC = () => {
 
   // Check if we're on the create post page
   const isCreatePostPage = location.pathname === "/social-poster/posts/create";
-  const isEditPostPage = location.pathname.includes("/social-poster/posts/") && location.pathname.includes("/edit");
+  const isEditPostPage =
+    location.pathname.includes("/social-poster/posts/") &&
+    location.pathname.includes("/edit");
 
   // Show back button for create/edit pages
   if (isCreatePostPage || isEditPostPage) {
@@ -49,7 +53,7 @@ export const SubNavBar: React.FC = () => {
               className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft size={18} />
-              <span>Back</span>
+              <span>{t("subnav.back")}</span>
             </Button>
           </div>
         </div>

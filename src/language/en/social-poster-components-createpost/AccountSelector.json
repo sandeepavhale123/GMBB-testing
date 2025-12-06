@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "targetAccounts": "Target Accounts",
+    "selected":"selected"
+  },
+  "loading": {
+    "title": "Target Accounts",
+    "description": "Loading accounts...",
+    "message": "Loading available accounts..."
+  },
+  "noPlatforms": {
+    "title": "Target Accounts",
+    "description": "Select platforms first",
+    "message": "Choose platforms to see available accounts"
+  },
+  "filters": {
+    "searchPlaceholder": "Search accounts...",
+    "filterByPlatform": "Filter by platform",
+    "allPlatforms": "All Platforms"
+  },
+  "platform": {
+    "linkedinIndividual": "LinkedIn (Individual)",
+    "linkedinOrganisation": "LinkedIn (Organisation)"
+  },
+  "buttons": {
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All"
+  },
+  "status": {
+    "healthy": "Healthy",
+    "unhealthy": "Unhealthy"
+  }
+}

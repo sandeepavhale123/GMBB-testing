@@ -1,0 +1,32 @@
+{
+  "title": "Administrar Cuentas",
+  "subtitle": "Conecta y administra tus cuentas de redes sociales",
+
+  "button_connect_new": "Conectar Nueva",
+
+  "search_placeholder": "Buscar cuentas...",
+
+  "filters": {
+    "all_platforms": "Todas las plataformas",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin_individual": "LinkedIn (Individual)",
+    "linkedin_organisation": "LinkedIn (Organización)",
+    "threads": "Threads",
+
+    "all_status": "Todos los estados",
+    "healthy": "Saludable",
+    "warning": "Advertencia",
+    "error": "Error",
+    "disconnected": "Desconectado"
+  },
+
+  "toast": {
+    "success_title": "¡Conexión exitosa!",
+    "failed_title": "Conexión fallida",
+    "success_desc": "Conectado exitosamente",
+    "success_description_default": "Cuenta de {{platform}} conectada exitosamente",
+    "failed_description_default": "No se pudo conectar la cuenta de {{platform}}"
+  }
+}

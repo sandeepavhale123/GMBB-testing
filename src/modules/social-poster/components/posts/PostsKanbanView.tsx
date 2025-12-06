@@ -4,21 +4,26 @@ import { Badge } from "@/components/ui/badge";
 import { mockPosts, getPostsByStatus } from "../../data/mockData";
 import { PostStatus } from "../../types";
 import { format } from "date-fns";
-
-const columns: Array<{ id: PostStatus; title: string }> = [
-  { id: "draft", title: "Draft" },
-  { id: "scheduled", title: "Scheduled" },
-  { id: "publishing", title: "Publishing" },
-  { id: "published", title: "Published" },
-  { id: "failed", title: "Failed" },
-];
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const PostsKanbanView: React.FC = () => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-post/PostsKanbanView",
+  ]);
+
+  const columns: Array<{ id: PostStatus; title: string }> = [
+    { id: "draft", title: t("columns.draft") },
+    { id: "scheduled", title: t("columns.scheduled") },
+    { id: "publishing", title: t("columns.publishing") },
+    { id: "published", title: t("columns.published") },
+    { id: "failed", title: t("columns.failed") },
+  ];
+
   return (
     <div className="grid gap-4 md:grid-cols-5">
       {columns.map((column) => {
         const posts = getPostsByStatus(column.id);
-        
+
         return (
           <Card key={column.id}>
             <CardHeader className="pb-3">
@@ -30,14 +35,20 @@ export const PostsKanbanView: React.FC = () => {
               <div className="space-y-2">
                 {posts.length === 0 ? (
                   <div className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">
-                    No posts
+                    {t("common.noPosts")}
                   </div>
                 ) : (
                   posts.map((post) => {
-                    const totalCount = parseInt(post.targetCounts?.total || '0');
-                    const publishedCount = parseInt(post.targetCounts?.published || '0');
-                    const failedCount = parseInt(post.targetCounts?.failed || '0');
-                    
+                    const totalCount = parseInt(
+                      post.targetCounts?.total || "0"
+                    );
+                    const publishedCount = parseInt(
+                      post.targetCounts?.published || "0"
+                    );
+                    const failedCount = parseInt(
+                      post.targetCounts?.failed || "0"
+                    );
+
                     return (
                       <div
                         key={post.id}
@@ -46,28 +57,37 @@ export const PostsKanbanView: React.FC = () => {
                         {post.media && post.media.length > 0 && (
                           <img
                             src={post.media[0].mediaUrl}
-                            alt="Post preview"
+                            alt={t("common.postPreviewAlt")}
                             className="w-full h-24 object-cover rounded"
                           />
                         )}
                         <p className="text-xs line-clamp-3">{post.content}</p>
                         {post.scheduledFor && (
                           <p className="text-xs text-muted-foreground">
-                            {format(new Date(post.scheduledFor), "MMM d, h:mm a")}
+                            {format(
+                              new Date(post.scheduledFor),
+                              "MMM d, h:mm a"
+                            )}
                           </p>
                         )}
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-muted-foreground">
-                            {totalCount} accounts
+                            {totalCount} {t("common.accounts")}
                           </span>
                           <div className="flex gap-1">
                             {publishedCount > 0 && (
-                              <Badge variant="outline" className="text-chart-2 border-chart-2">
+                              <Badge
+                                variant="outline"
+                                className="text-chart-2 border-chart-2"
+                              >
                                 {publishedCount} ✓
                               </Badge>
                             )}
                             {failedCount > 0 && (
-                              <Badge variant="outline" className="text-destructive border-destructive">
+                              <Badge
+                                variant="outline"
+                                className="text-destructive border-destructive"
+                              >
                                 {failedCount} ✗
                               </Badge>
                             )}

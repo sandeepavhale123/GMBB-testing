@@ -1,0 +1,32 @@
+{
+  "title": "Manage Accounts",
+  "subtitle": "Connect and manage your social media accounts",
+
+  "button_connect_new": "Connect New",
+
+  "search_placeholder": "Search accounts...",
+
+  "filters": {
+    "all_platforms": "All Platforms",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin_individual": "LinkedIn (Individual)",
+    "linkedin_organisation": "LinkedIn (Organisation)",
+    "threads": "Threads",
+
+    "all_status": "All Status",
+    "healthy": "Healthy",
+    "warning": "Warning",
+    "error": "Error",
+    "disconnected": "Disconnected"
+  },
+
+  "toast": {
+    "success_title": "Connection Successful!",
+    "failed_title": "Connection Failed",
+    "success_desc":"Successfully connected",
+    "success_description_default": "Successfully connected {{platform}} account",
+    "failed_description_default": "Failed to connect {{platform}} account"
+  }
+}

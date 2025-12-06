@@ -1,0 +1,11 @@
+{
+  "instagram": {
+    "fallbackBusinessName": "Your Business",
+    "fallbackContent": "Your post content will appear here...",
+    "addImage": "Add an image",
+    "likes": "{{count}} likes",
+    "altmedia":"Post media",
+    "viewAllComments": "View all {{count}} comments",
+    "justNow": "Just now"
+  }
+}

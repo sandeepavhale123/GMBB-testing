@@ -3,32 +3,53 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { 
-  Instagram, 
-  Twitter, 
-  Linkedin, 
-  Edit, 
-  Trash2, 
-  AlertCircle, 
-  RefreshCw, 
-  FileText, 
+import {
+  Instagram,
+  Twitter,
+  Linkedin,
+  Edit,
+  Trash2,
+  AlertCircle,
+  RefreshCw,
+  FileText,
   Calendar as CalendarIcon,
-  Loader2, 
+  Loader2,
   ExternalLink,
   ChevronLeft,
   ChevronRight,
   Clock,
   Info,
-  MessageSquare
+  MessageSquare,
 } from "lucide-react";
 import { FaFacebookF } from "react-icons/fa";
 import { PlatformType, PostStatus, Post } from "../../types";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth, addMonths, subMonths, isToday } from "date-fns";
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  isSameDay,
+  isSameMonth,
+  addMonths,
+  subMonths,
+  isToday,
+} from "date-fns";
 import { useDeletePost, useRetryPost } from "../../hooks/useSocialPoster";
 import { useProfile } from "@/hooks/useProfile";
-import { formatUTCDateInUserTimezone, convertUTCToUserTimezone } from "@/utils/dateUtils";
+import {
+  formatUTCDateInUserTimezone,
+  convertUTCToUserTimezone,
+} from "@/utils/dateUtils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const platformIcons: Record<PlatformType, React.ElementType> = {
   facebook: FaFacebookF,
@@ -62,40 +83,51 @@ const statusColors: Record<PostStatus, string> = {
   failed: "hsl(var(--destructive))",
 };
 
-const statusLabels: Record<PostStatus, string> = {
-  draft: "Draft",
-  scheduled: "Scheduled",
-  publishing: "Publishing",
-  published: "Published",
-  failed: "Failed",
-};
-
 interface PostsCalendarViewProps {
   posts: Post[];
   isLoading: boolean;
 }
 
-export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isLoading }) => {
+export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({
+  posts,
+  isLoading,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-post/PostsCalendarView",
+  ]);
+
+  const statusLabels: Record<PostStatus, string> = {
+    draft: t("status.draft"),
+    scheduled: t("status.scheduled"),
+    publishing: t("status.publishing"),
+    published: t("status.published"),
+    failed: t("status.failed"),
+  };
+
   const navigate = useNavigate();
   const { profileData } = useProfile();
   const userTimezone = profileData?.timezone || "UTC";
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedPostBreakdown, setSelectedPostBreakdown] = useState<string | null>(null);
-  const [instagramWarningPost, setInstagramWarningPost] = useState<string | null>(null);
+  const [selectedPostBreakdown, setSelectedPostBreakdown] = useState<
+    string | null
+  >(null);
+  const [instagramWarningPost, setInstagramWarningPost] = useState<
+    string | null
+  >(null);
   const deletePostMutation = useDeletePost();
   const retryPostMutation = useRetryPost();
 
   const handleDelete = async (postId: string) => {
-    const post = posts.find(p => p.id === postId);
+    const post = posts.find((p) => p.id === postId);
     const hasPublishedInstagram = post?.targets.some(
-      t => t.platform === 'instagram' && t.status === 'published'
+      (t) => t.platform === "instagram" && t.status === "published"
     );
 
     if (hasPublishedInstagram) {
       setInstagramWarningPost(postId);
     } else {
-      if (window.confirm('Are you sure you want to delete this post?')) {
+      if (window.confirm(t("postActions.confirmDelete"))) {
         await deletePostMutation.mutateAsync(postId);
       }
     }
@@ -116,8 +148,8 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
     navigate(`/social-poster/posts/${postId}/edit`);
   };
 
-  const selectedPost = selectedPostBreakdown 
-    ? posts.find(p => p.id === selectedPostBreakdown)
+  const selectedPost = selectedPostBreakdown
+    ? posts.find((p) => p.id === selectedPostBreakdown)
     : null;
 
   // Get calendar days for current month
@@ -137,14 +169,22 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
 
   // Get posts for selected date
   const postsForSelectedDate = selectedDate
-    ? posts.filter((post) => {
-        if (!post.scheduledFor) return false;
-        const zonedDate = convertUTCToUserTimezone(post.scheduledFor, userTimezone);
-        return isSameDay(zonedDate, selectedDate);
-      }).sort((a, b) => {
-        if (!a.scheduledFor || !b.scheduledFor) return 0;
-        return new Date(a.scheduledFor).getTime() - new Date(b.scheduledFor).getTime();
-      })
+    ? posts
+        .filter((post) => {
+          if (!post.scheduledFor) return false;
+          const zonedDate = convertUTCToUserTimezone(
+            post.scheduledFor,
+            userTimezone
+          );
+          return isSameDay(zonedDate, selectedDate);
+        })
+        .sort((a, b) => {
+          if (!a.scheduledFor || !b.scheduledFor) return 0;
+          return (
+            new Date(a.scheduledFor).getTime() -
+            new Date(b.scheduledFor).getTime()
+          );
+        })
     : [];
 
   const handlePrevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
@@ -175,12 +215,20 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                 </CardTitle>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" onClick={handleToday}>
-                    Today
+                    {t("calendar.today")}
                   </Button>
-                  <Button variant="outline" size="icon" onClick={handlePrevMonth}>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePrevMonth}
+                  >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="icon" onClick={handleNextMonth}>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNextMonth}
+                  >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -190,7 +238,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
               {/* Calendar Grid */}
               <div className="grid grid-cols-7 gap-2">
                 {/* Day headers */}
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                {t("calendar.dayHeaders").map((day) => (
                   <div
                     key={day}
                     className="text-center text-sm font-semibold text-muted-foreground py-2"
@@ -203,7 +251,9 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                 {calendarDays.map((day) => {
                   const dateKey = format(day, "yyyy-MM-dd");
                   const dayPosts = postsByDate[dateKey] || [];
-                  const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
+                  const isSelected = selectedDate
+                    ? isSameDay(day, selectedDate)
+                    : false;
                   const isCurrentDay = isToday(day);
                   const hasPosts = dayPosts.length > 0;
 
@@ -213,20 +263,27 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                       onClick={() => setSelectedDate(day)}
                       className={`
                         relative min-h-[80px] p-2 rounded-lg border transition-all
-                        ${isSelected 
-                          ? "border-primary bg-primary/10 shadow-sm" 
-                          : hasPosts
-                          ? "border-primary/30 bg-primary/5 hover:border-primary/50 hover:bg-primary/10"
-                          : "border-border hover:border-primary/50 hover:bg-muted/50"
+                        ${
+                          isSelected
+                            ? "border-primary bg-primary/10 shadow-sm"
+                            : hasPosts
+                            ? "border-primary/30 bg-primary/5 hover:border-primary/50 hover:bg-primary/10"
+                            : "border-border hover:border-primary/50 hover:bg-muted/50"
                         }
                         ${!isSameMonth(day, currentMonth) ? "opacity-40" : ""}
                       `}
                     >
                       <div className="flex flex-col items-start h-full">
-                        <span className={`
+                        <span
+                          className={`
                           text-sm font-medium mb-1
-                          ${isCurrentDay ? "bg-primary text-primary-foreground w-6 h-6 rounded-full flex items-center justify-center" : ""}
-                        `}>
+                          ${
+                            isCurrentDay
+                              ? "bg-primary text-primary-foreground w-6 h-6 rounded-full flex items-center justify-center"
+                              : ""
+                          }
+                        `}
+                        >
                           {format(day, "d")}
                         </span>
                         {dayPosts.length > 0 && (
@@ -235,13 +292,15 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                               <div
                                 key={post.id}
                                 className="w-full h-1.5 rounded-full"
-                                style={{ backgroundColor: statusColors[post.status] }}
+                                style={{
+                                  backgroundColor: statusColors[post.status],
+                                }}
                                 title={post.content.slice(0, 50)}
                               />
                             ))}
                             {dayPosts.length > 2 && (
                               <span className="text-xs text-muted-foreground">
-                                +{dayPosts.length - 2} more
+                                +{dayPosts.length - 2} {t("calendar.more")}
                               </span>
                             )}
                           </div>
@@ -266,7 +325,12 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                       {format(selectedDate, "EEEE, MMMM d, yyyy")}
                     </CardTitle>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {postsForSelectedDate.length} {postsForSelectedDate.length === 1 ? 'post' : 'posts'} scheduled
+                      {postsForSelectedDate.length}{" "}
+                      {postsForSelectedDate.length === 1
+                        ? t("calendar.postsScheduled")
+                        : t("calendar.postsScheduled_plural")}
+                      {/* {postsForSelectedDate.length === 1 ? "post" : "posts"}{" "}
+                      scheduled */}
                     </p>
                   </div>
                   {postsForSelectedDate.length > 0 && (
@@ -281,27 +345,43 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                   {postsForSelectedDate.length > 0 ? (
                     <div className="space-y-4 pr-4">
                       {postsForSelectedDate.map((post) => {
-                        const platformGroups = post.targets.reduce((acc, target) => {
-                          if (!acc[target.platform]) acc[target.platform] = [];
-                          acc[target.platform].push(target);
-                          return acc;
-                        }, {} as Record<PlatformType, typeof post.targets>);
+                        const platformGroups = post.targets.reduce(
+                          (acc, target) => {
+                            if (!acc[target.platform])
+                              acc[target.platform] = [];
+                            acc[target.platform].push(target);
+                            return acc;
+                          },
+                          {} as Record<PlatformType, typeof post.targets>
+                        );
 
-                        const publishedCount = parseInt(post.targetCounts?.published || '0');
-                        const failedCount = parseInt(post.targetCounts?.failed || '0');
-                        const pendingCount = parseInt(post.targetCounts?.pending || '0');
+                        const publishedCount = parseInt(
+                          post.targetCounts?.published || "0"
+                        );
+                        const failedCount = parseInt(
+                          post.targetCounts?.failed || "0"
+                        );
+                        const pendingCount = parseInt(
+                          post.targetCounts?.pending || "0"
+                        );
 
                         return (
-                          <Card key={post.id} className="border-l-4" style={{ borderLeftColor: statusColors[post.status] }}>
+                          <Card
+                            key={post.id}
+                            className="border-l-4"
+                            style={{
+                              borderLeftColor: statusColors[post.status],
+                            }}
+                          >
                             <CardContent className="p-6">
                               <div className="flex gap-4">
                                 {post.media && post.media.length > 0 && (
                                   <div className="relative flex-shrink-0">
-                                    {post.media[0].mediaType === 'video' ? (
+                                    {post.media[0].mediaType === "video" ? (
                                       post.media[0].thumbnailUrl ? (
                                         <img
                                           src={post.media[0].thumbnailUrl}
-                                          alt="Video thumbnail"
+                                          alt={t("calendar.postalt")}
                                           className="h-32 w-32 rounded-lg object-cover"
                                         />
                                       ) : (
@@ -312,7 +392,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                                     ) : (
                                       <img
                                         src={post.media[0].mediaUrl}
-                                        alt="Post media"
+                                        alt={t("calendar.Postmedia")}
                                         className="h-32 w-32 rounded-lg object-cover"
                                       />
                                     )}
@@ -326,12 +406,15 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                                 <div className="flex-1 space-y-3">
                                   <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1">
-                                      <p className="text-sm mb-2">{post.content}</p>
+                                      <p className="text-sm mb-2">
+                                        {post.content}
+                                      </p>
                                       <div className="flex items-center gap-3 flex-wrap">
                                         <Badge
                                           variant="outline"
                                           style={{
-                                            borderColor: statusColors[post.status],
+                                            borderColor:
+                                              statusColors[post.status],
                                             color: statusColors[post.status],
                                           }}
                                         >
@@ -340,52 +423,71 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                                         {post.scheduledFor && (
                                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                             <Clock className="h-3 w-3" />
-                                            {formatUTCDateInUserTimezone(post.scheduledFor, userTimezone, "h:mm a")}
+                                            {formatUTCDateInUserTimezone(
+                                              post.scheduledFor,
+                                              userTimezone,
+                                              "h:mm a"
+                                            )}
                                           </div>
                                         )}
                                         <div className="flex items-center -space-x-2">
-                                          {Object.keys(platformGroups).slice(0, 4).map((platform, idx) => {
-                                            const Icon = platformIcons[platform as PlatformType] || FileText;
-                                            const color = platformBgColors[platform as PlatformType] || "hsl(0, 0%, 50%)";
-                                            return (
-                                              <div
-                                                key={platform}
-                                                className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-card"
-                                                style={{ backgroundColor: color, zIndex: 4 - idx }}
-                                              >
-                                                <Icon className="h-2.5 w-2.5 text-white" />
-                                              </div>
-                                            );
-                                          })}
-                                          {Object.keys(platformGroups).length > 4 && (
+                                          {Object.keys(platformGroups)
+                                            .slice(0, 4)
+                                            .map((platform, idx) => {
+                                              const Icon =
+                                                platformIcons[
+                                                  platform as PlatformType
+                                                ] || FileText;
+                                              const color =
+                                                platformBgColors[
+                                                  platform as PlatformType
+                                                ] || "hsl(0, 0%, 50%)";
+                                              return (
+                                                <div
+                                                  key={platform}
+                                                  className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-card"
+                                                  style={{
+                                                    backgroundColor: color,
+                                                    zIndex: 4 - idx,
+                                                  }}
+                                                >
+                                                  <Icon className="h-2.5 w-2.5 text-white" />
+                                                </div>
+                                              );
+                                            })}
+                                          {Object.keys(platformGroups).length >
+                                            4 && (
                                             <div
                                               className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-card bg-muted text-xs font-medium"
                                               style={{ zIndex: 0 }}
                                             >
-                                              +{Object.keys(platformGroups).length - 4}
+                                              +
+                                              {Object.keys(platformGroups)
+                                                .length - 4}
                                             </div>
                                           )}
                                         </div>
                                       </div>
                                     </div>
                                     <div className="flex gap-2">
-                                      {(post.status === "draft" || post.status === "scheduled") && (
-                                        <Button 
-                                          size="sm" 
+                                      {(post.status === "draft" ||
+                                        post.status === "scheduled") && (
+                                        <Button
+                                          size="sm"
                                           variant="outline"
                                           onClick={() => handleEdit(post.id)}
-                                          title="Edit post"
+                                          title={t("postActions.edit")}
                                         >
                                           <Edit className="h-3 w-3" />
                                         </Button>
                                       )}
                                       {post.status === "failed" && (
-                                        <Button 
-                                          size="sm" 
-                                          variant="outline" 
+                                        <Button
+                                          size="sm"
+                                          variant="outline"
                                           onClick={() => handleRetry(post.id)}
                                           disabled={retryPostMutation.isPending}
-                                          title="Retry failed posts"
+                                          title={t("postActions.retryFail")}
                                         >
                                           {retryPostMutation.isPending ? (
                                             <Loader2 className="h-3 w-3 animate-spin" />
@@ -394,12 +496,12 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                                           )}
                                         </Button>
                                       )}
-                                      <Button 
-                                        size="sm" 
+                                      <Button
+                                        size="sm"
                                         variant="outline"
                                         onClick={() => handleDelete(post.id)}
                                         disabled={deletePostMutation.isPending}
-                                        title="Delete post"
+                                        title={t("postActions.delete")}
                                       >
                                         {deletePostMutation.isPending ? (
                                           <Loader2 className="h-3 w-3 animate-spin" />
@@ -412,20 +514,28 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
 
                                   <div className="flex items-center justify-between">
                                     <div className="text-xs text-muted-foreground">
-                                      <span className="text-green-600 font-medium">{publishedCount} ✓</span>
+                                      <span className="text-green-600 font-medium">
+                                        {publishedCount} ✓
+                                      </span>
                                       {failedCount > 0 && (
-                                        <span className="text-red-600 font-medium ml-3">{failedCount} ✗</span>
+                                        <span className="text-red-600 font-medium ml-3">
+                                          {failedCount} ✗
+                                        </span>
                                       )}
                                       {pendingCount > 0 && (
-                                        <span className="text-yellow-600 font-medium ml-3">{pendingCount} ⏳</span>
+                                        <span className="text-yellow-600 font-medium ml-3">
+                                          {pendingCount} ⏳
+                                        </span>
                                       )}
                                     </div>
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      onClick={() => setSelectedPostBreakdown(post.id)}
+                                      onClick={() =>
+                                        setSelectedPostBreakdown(post.id)
+                                      }
                                     >
-                                      View Details
+                                      {t("postActions.view")}
                                     </Button>
                                   </div>
                                 </div>
@@ -440,15 +550,17 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
                         <CalendarIcon className="h-8 w-8 text-muted-foreground" />
                       </div>
-                      <h3 className="mt-4 text-lg font-semibold">No Posts Scheduled</h3>
+                      <h3 className="mt-4 text-lg font-semibold">
+                        {t("calendar.noPostsTitle")}
+                      </h3>
                       <p className="mt-2 text-sm text-muted-foreground">
-                        No posts are scheduled for this date
+                        {t("calendar.noPostsDesc")}
                       </p>
                       <Button
                         className="mt-4"
                         onClick={() => navigate("/social-poster/posts/create")}
                       >
-                        Create Post
+                        {t("calendar.createPost")}
                       </Button>
                     </div>
                   )}
@@ -459,9 +571,11 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
             <Card className="h-full">
               <CardContent className="flex flex-col items-center justify-center min-h-[calc(100vh-300px)]">
                 <CalendarIcon className="h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold">Select a Date</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("calendar.selectDate")}
+                </h3>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Click on a date in the calendar to view scheduled posts
+                  {t("calendar.schedulePost")}
                 </p>
               </CardContent>
             </Card>
@@ -470,20 +584,23 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
       </div>
 
       {/* Platform Breakdown Modal */}
-      <Dialog open={!!selectedPostBreakdown} onOpenChange={() => setSelectedPostBreakdown(null)}>
+      <Dialog
+        open={!!selectedPostBreakdown}
+        onOpenChange={() => setSelectedPostBreakdown(null)}
+      >
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Platform Breakdown</DialogTitle>
-            <DialogDescription>
-              Detailed status for each platform
-            </DialogDescription>
+            <DialogTitle>{t("breakdown.title")}</DialogTitle>
+            <DialogDescription>{t("breakdown.description")}</DialogDescription>
           </DialogHeader>
           {selectedPost && (
             <ScrollArea className="max-h-[500px]">
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">Post Content</CardTitle>
+                    <CardTitle className="text-base">
+                      {t("breakdown.postContent")}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm">{selectedPost.content}</p>
@@ -497,12 +614,19 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                     return acc;
                   }, {} as Record<PlatformType, typeof selectedPost.targets>)
                 ).map(([platform, targets]) => {
-                  const Icon = platformIcons[platform as PlatformType] || FileText;
-                  const failedTargets = targets.filter(t => t.status === "failed");
-                  const successTargets = targets.filter(t => t.status === "published");
-                  const pendingTargets = targets.filter(t => t.status === "scheduled" || t.status === "publishing");
+                  const Icon =
+                    platformIcons[platform as PlatformType] || FileText;
+                  const failedTargets = targets.filter(
+                    (t) => t.status === "failed"
+                  );
+                  const successTargets = targets.filter(
+                    (t) => t.status === "published"
+                  );
+                  const pendingTargets = targets.filter(
+                    (t) => t.status === "scheduled" || t.status === "publishing"
+                  );
                   const hasFailed = failedTargets.length > 0;
-                  
+
                   return (
                     <Card key={platform}>
                       <CardHeader>
@@ -510,17 +634,28 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                           <div className="flex items-center gap-2">
                             <div
                               className="flex h-6 w-6 items-center justify-center rounded-full"
-                              style={{ backgroundColor: platformBgColors[platform as PlatformType] || "hsl(0, 0%, 50%)" }}
+                              style={{
+                                backgroundColor:
+                                  platformBgColors[platform as PlatformType] ||
+                                  "hsl(0, 0%, 50%)",
+                              }}
                             >
                               <Icon className="h-3 w-3 text-white" />
                             </div>
-                            <span className="font-semibold capitalize">{platform}</span>
+                            <span className="font-semibold capitalize">
+                              {platform}
+                            </span>
                           </div>
                           {hasFailed && (
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => handleRetry(selectedPost.id, failedTargets.map(t => t.id))}
+                              onClick={() =>
+                                handleRetry(
+                                  selectedPost.id,
+                                  failedTargets.map((t) => t.id)
+                                )
+                              }
                               disabled={retryPostMutation.isPending}
                             >
                               {retryPostMutation.isPending ? (
@@ -528,7 +663,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                               ) : (
                                 <RefreshCw className="h-4 w-4 mr-2" />
                               )}
-                              Retry Failed
+                              {t("breakdown.retry")}
                             </Button>
                           )}
                         </div>
@@ -536,23 +671,40 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                       <CardContent className="space-y-3">
                         <div className="grid grid-cols-3 gap-4 text-center">
                           <div>
-                            <div className="text-2xl font-bold text-green-600">{successTargets.length}</div>
-                            <div className="text-xs text-muted-foreground">Success</div>
+                            <div className="text-2xl font-bold text-green-600">
+                              {successTargets.length}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {t("breakdown.success")}
+                            </div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-red-600">{failedTargets.length}</div>
-                            <div className="text-xs text-muted-foreground">Failed</div>
+                            <div className="text-2xl font-bold text-red-600">
+                              {failedTargets.length}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {t("breakdown.failed")}
+                            </div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-yellow-600">{pendingTargets.length}</div>
-                            <div className="text-xs text-muted-foreground">Pending</div>
+                            <div className="text-2xl font-bold text-yellow-600">
+                              {pendingTargets.length}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {t("breakdown.pending")}
+                            </div>
                           </div>
                         </div>
 
                         <div className="space-y-2">
                           {targets.map((target) => (
-                            <div key={target.id} className="flex items-center justify-between p-2 rounded bg-muted/50">
-                              <span className="text-sm">{target.accountName}</span>
+                            <div
+                              key={target.id}
+                              className="flex items-center justify-between p-2 rounded bg-muted/50"
+                            >
+                              <span className="text-sm">
+                                {target.accountName}
+                              </span>
                               <div className="flex items-center gap-2">
                                 <Badge
                                   variant="outline"
@@ -563,29 +715,34 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                                 >
                                   {statusLabels[target.status]}
                                 </Badge>
-                                {target.status === "published" && target.publishedUrl && (
-                                  <Button
-                                    size="sm"
-                                    variant="ghost"
-                                    className="h-6 w-6 p-0"
-                                    asChild
-                                  >
-                                    <a
-                                      href={target.publishedUrl}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      title="View published post"
+                                {target.status === "published" &&
+                                  target.publishedUrl && (
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="h-6 w-6 p-0"
+                                      asChild
                                     >
-                                      <ExternalLink className="h-4 w-4 text-primary" />
-                                    </a>
-                                  </Button>
-                                )}
+                                      <a
+                                        href={target.publishedUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        title={t("breakdown.viewPublished")}
+                                      >
+                                        <ExternalLink className="h-4 w-4 text-primary" />
+                                      </a>
+                                    </Button>
+                                  )}
                                 {target.status === "failed" && target.error && (
                                   <Button
                                     size="sm"
                                     variant="ghost"
                                     className="h-6 w-6 p-0"
-                                    title={typeof target.error === 'string' ? target.error : JSON.stringify(target.error)}
+                                    title={
+                                      typeof target.error === "string"
+                                        ? target.error
+                                        : JSON.stringify(target.error)
+                                    }
                                   >
                                     <AlertCircle className="h-4 w-4 text-destructive" />
                                   </Button>
@@ -597,19 +754,27 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
 
                         {hasFailed && (
                           <div className="space-y-2">
-                            {failedTargets.map((target) => (
-                              target.error && (
-                                <div key={target.id} className="flex gap-2 p-3 bg-destructive/10 rounded-md">
-                                  <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
-                                  <div className="space-y-1">
-                                    <p className="text-sm font-medium text-destructive">{target.accountName}</p>
-                                    <p className="text-sm text-muted-foreground">
-                                      {typeof target.error === 'string' ? target.error : JSON.stringify(target.error)}
-                                    </p>
+                            {failedTargets.map(
+                              (target) =>
+                                target.error && (
+                                  <div
+                                    key={target.id}
+                                    className="flex gap-2 p-3 bg-destructive/10 rounded-md"
+                                  >
+                                    <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                                    <div className="space-y-1">
+                                      <p className="text-sm font-medium text-destructive">
+                                        {target.accountName}
+                                      </p>
+                                      <p className="text-sm text-muted-foreground">
+                                        {typeof target.error === "string"
+                                          ? target.error
+                                          : JSON.stringify(target.error)}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              )
-                            ))}
+                                )
+                            )}
                           </div>
                         )}
                       </CardContent>
@@ -623,7 +788,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                     onClick={() => handleRetry(selectedPost.id)}
                   >
                     <RefreshCw className="h-4 w-4 mr-2" />
-                    Retry All Platforms
+                    {t("postActions.retryAll")}
                   </Button>
                 )}
               </div>
@@ -633,7 +798,10 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
       </Dialog>
 
       {/* Instagram Deletion Warning Modal */}
-      <Dialog open={!!instagramWarningPost} onOpenChange={() => setInstagramWarningPost(null)}>
+      <Dialog
+        open={!!instagramWarningPost}
+        onOpenChange={() => setInstagramWarningPost(null)}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <div className="flex items-start gap-3">
@@ -641,18 +809,16 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
                 <Info className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <DialogTitle>Instagram Post Published</DialogTitle>
+                <DialogTitle>{t("instagramWarning.title")}</DialogTitle>
                 <DialogDescription className="mt-2">
-                  This post has been published to Instagram. Due to Instagram API limitations, 
-                  published posts cannot be deleted automatically.
+                  {t("instagramWarning.message")}
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
           <div className="space-y-3 py-4">
             <p className="text-sm text-muted-foreground">
-              Please delete the post manually from Instagram if needed. The post will be removed 
-              from this system, but will remain on Instagram.
+              {t("instagramWarning.deleteMessage")}
             </p>
           </div>
           <DialogFooter className="flex gap-2">
@@ -660,7 +826,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
               variant="outline"
               onClick={() => setInstagramWarningPost(null)}
             >
-              Cancel
+              {t("instagramWarning.cancel")}
             </Button>
             <Button
               variant="default"
@@ -670,7 +836,7 @@ export const PostsCalendarView: React.FC<PostsCalendarViewProps> = ({ posts, isL
               {deletePostMutation.isPending ? (
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
               ) : null}
-              Delete from System
+              {t("instagramWarning.system")}
             </Button>
           </DialogFooter>
         </DialogContent>

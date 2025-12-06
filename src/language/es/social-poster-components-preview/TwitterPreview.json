@@ -1,0 +1,8 @@
+{
+  "twitter": {
+    "fallbackname": "Tu empresa",
+    "fallbackContent": "El contenido de tu publicación aparecerá aquí...",
+    "timestampNow": "ahora",
+    "alt": "Medios de la publicación"
+  }
+}

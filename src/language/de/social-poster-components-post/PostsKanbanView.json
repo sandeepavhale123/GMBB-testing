@@ -1,0 +1,15 @@
+{
+  "columns": {
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "publishing": "Wird veröffentlicht",
+    "published": "Veröffentlicht",
+    "failed": "Fehlgeschlagen"
+  },
+
+  "common": {
+    "noPosts": "Keine Beiträge",
+    "accounts": "Konten",
+    "postPreviewAlt": "Beitrag Vorschau"
+  }
+}

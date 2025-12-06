@@ -1,0 +1,27 @@
+{
+  "title": "Seleziona account",
+
+  "loading": {
+    "loadingAccounts": "Caricamento account in corso..."
+  },
+
+  "dropdown": {
+    "placeholder": "Seleziona account...",
+    "selectedCount": "{{count}} account selezionato",
+    "selectedCountPlural": "{{count}} account selezionati"
+  },
+
+  "actions": {
+    "selectAll": "Seleziona tutti gli account",
+    "deselectAll": "Deseleziona tutti",
+    "selectAllPlatform": "Seleziona tutto",
+    "deselectAllPlatform": "Deseleziona tutto",
+    "showLess": "Mostra meno",
+    "showMore": "+{{count}} in più"
+  },
+
+  "platformNames": {
+    "linkedin_individual": "LinkedIn (Individuale)",
+    "linkedin_organisation": "LinkedIn (Organizzazione)"
+  }
+}

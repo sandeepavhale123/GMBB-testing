@@ -1,0 +1,8 @@
+{
+  "title": "Crea post",
+  "placeholder": "A cosa stai pensando?",
+  "ai_generate": "Genera con AI",
+  "instagram_warning": "Instagram richiede almeno un'immagine o un video",
+  "uploading_media": "Caricamento dei media in corso...",
+  "character_limit_error": "Il limite di caratteri è di {{limit}} caratteri"
+}

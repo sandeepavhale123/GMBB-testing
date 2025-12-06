@@ -1,18 +1,31 @@
 import React from "react";
-import { Heart, MessageCircle, Repeat2, Share, MoreHorizontal } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  Repeat2,
+  Share,
+  MoreHorizontal,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useListingContext } from "@/context/ListingContext";
 import { MediaItem } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ThreadsPreviewProps {
   content: string;
   media?: MediaItem[];
 }
 
-export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }) => {
+export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({
+  content,
+  media,
+}) => {
   const { selectedListing } = useListingContext();
-
-  const businessName = selectedListing?.name || "Your Business";
+  const { t } = useI18nNamespace([
+    "social-poster-components-preview/ThreadsPreview",
+  ]);
+  const businessName =
+    selectedListing?.name || t("threads.fallbackBusinessName");
   const businessHandle = businessName.toLowerCase().replace(/\s+/g, "");
   const businessInitials = businessName
     .split(" ")
@@ -21,8 +34,11 @@ export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }
     .toUpperCase()
     .slice(0, 2);
 
-  const displayContent = content || "Your post content will appear here...";
-  const truncatedContent = displayContent.length > 110 ? displayContent.slice(0, 110) + "..." : displayContent;
+  const displayContent = content || t("threads.fallbackContent");
+  const truncatedContent =
+    displayContent.length > 110
+      ? displayContent.slice(0, 110) + "..."
+      : displayContent;
   const firstMedia = media?.[0];
 
   return (
@@ -39,8 +55,12 @@ export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
-              <span className="font-semibold text-[15px] text-foreground">{businessHandle}</span>
-              <span className="text-muted-foreground text-xs">· now</span>
+              <span className="font-semibold text-[15px] text-foreground">
+                {businessHandle}
+              </span>
+              <span className="text-muted-foreground text-xs">
+                · {t("threads.timestampNow")}
+              </span>
             </div>
           </div>
 
@@ -51,15 +71,25 @@ export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }
 
         {/* Content */}
         <div className="pl-12">
-          <p className="text-[15px] text-foreground leading-normal whitespace-pre-wrap break-words mb-3">{truncatedContent}</p>
+          <p className="text-[15px] text-foreground leading-normal whitespace-pre-wrap break-words mb-3">
+            {truncatedContent}
+          </p>
 
           {/* Media */}
           {firstMedia?.preview && (
             <div className="relative w-full rounded-xl overflow-hidden mb-3">
               {firstMedia.mediaType === "video" ? (
-                <video src={firstMedia.preview} className="w-full max-h-[280px] object-cover" controls />
+                <video
+                  src={firstMedia.preview}
+                  className="w-full max-h-[280px] object-cover"
+                  controls
+                />
               ) : (
-                <img src={firstMedia.preview} alt="Post media" className="w-full max-h-[280px] object-cover" />
+                <img
+                  src={firstMedia.preview}
+                  alt={t("threads.altmedia")}
+                  className="w-full max-h-[280px] object-cover"
+                />
               )}
             </div>
           )}
@@ -71,7 +101,10 @@ export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }
             </button>
 
             <button className="group flex items-center hover:opacity-60 transition-opacity">
-              <MessageCircle className="w-6 h-6 text-foreground" strokeWidth={1.5} />
+              <MessageCircle
+                className="w-6 h-6 text-foreground"
+                strokeWidth={1.5}
+              />
             </button>
 
             <button className="group flex items-center hover:opacity-60 transition-opacity">
@@ -85,9 +118,9 @@ export const ThreadsPreview: React.FC<ThreadsPreviewProps> = ({ content, media }
 
           {/* Stats */}
           <div className="flex items-center gap-3 text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
-            <span>42 replies</span>
+            <span>{t("threads.stats.replies", { count: 42 })}</span>
             <span>·</span>
-            <span>128 likes</span>
+            <span>{t("threads.stats.likes", { count: 128 })}</span>
           </div>
         </div>
       </div>

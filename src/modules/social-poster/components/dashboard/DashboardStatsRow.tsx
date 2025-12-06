@@ -1,8 +1,19 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, FileText, Clock, CheckCircle2, TrendingUp, TrendingDown } from "lucide-react";
-import { useDashboardStats, useConnectedAccounts } from "../../hooks/useSocialPoster";
+import {
+  Users,
+  FileText,
+  Clock,
+  CheckCircle2,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
+import {
+  useDashboardStats,
+  useConnectedAccounts,
+} from "../../hooks/useSocialPoster";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface StatCardProps {
   title: string;
@@ -12,7 +23,16 @@ interface StatCardProps {
   icon: React.ElementType;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, change, changeLabel, icon: Icon }) => {
+const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  change,
+  changeLabel,
+  icon: Icon,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-dashboard/DashboardStatsRow",
+  ]);
   const isPositive = change >= 0;
 
   return (
@@ -48,8 +68,12 @@ const StatCardSkeleton: React.FC = () => (
 );
 
 export const DashboardStatsRow: React.FC = () => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-dashboard/DashboardStatsRow",
+  ]);
   const { data: statsData, isLoading: statsLoading } = useDashboardStats();
-  const { data: accountsData, isLoading: accountsLoading } = useConnectedAccounts();
+  const { data: accountsData, isLoading: accountsLoading } =
+    useConnectedAccounts();
 
   const isLoading = statsLoading || accountsLoading;
 
@@ -65,36 +89,38 @@ export const DashboardStatsRow: React.FC = () => {
 
   const dashboardStats = statsData?.data;
   const accountsResponse = accountsData?.data;
-  const accounts = Array.isArray(accountsResponse) ? accountsResponse : accountsResponse?.accounts || [];
+  const accounts = Array.isArray(accountsResponse)
+    ? accountsResponse
+    : accountsResponse?.accounts || [];
   const totalAccounts = accounts.length;
 
   const stats: StatCardProps[] = [
     {
-      title: "Total Accounts",
+      title: t("stats.totalAccounts"),
       value: dashboardStats?.totalAccounts || totalAccounts,
       change: 0,
-      changeLabel: "connected",
+      changeLabel: t("stats.labels.connected"),
       icon: Users,
     },
     {
-      title: "Total Posts",
+      title: t("stats.totalPosts"),
       value: dashboardStats?.totalPosts || 0,
       change: 0,
-      changeLabel: "all time",
+      changeLabel: t("stats.labels.allTime"),
       icon: FileText,
     },
     {
-      title: "Scheduled Posts",
+      title: t("stats.scheduledPosts"),
       value: dashboardStats?.scheduledPosts || 0,
       change: 0,
-      changeLabel: "upcoming",
+      changeLabel: t("stats.labels.upcoming"),
       icon: Clock,
     },
     {
-      title: "Success Rate",
+      title: t("stats.successRate"),
       value: `${Math.round(dashboardStats?.successRate || 0)}%`,
       change: 0,
-      changeLabel: "overall",
+      changeLabel: t("stats.labels.overall"),
       icon: CheckCircle2,
     },
   ];

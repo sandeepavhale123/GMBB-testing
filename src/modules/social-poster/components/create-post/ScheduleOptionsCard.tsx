@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useProfile } from "@/hooks/useProfile";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ScheduleOptionsCardProps {
   enabled: boolean;
@@ -22,6 +23,9 @@ export const ScheduleOptionsCard: React.FC<ScheduleOptionsCardProps> = ({
   onDateChange,
   onTimeChange,
 }) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-createpost/ScheduleOptionsCard",
+  ]);
   const { profileData } = useProfile();
   const userTimezone = profileData?.timezone || "UTC";
 
@@ -29,7 +33,7 @@ export const ScheduleOptionsCard: React.FC<ScheduleOptionsCardProps> = ({
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Schedule Options</CardTitle>
+          <CardTitle className="text-lg">{t("title")}</CardTitle>
           <Switch checked={enabled} onCheckedChange={onEnabledChange} />
         </div>
       </CardHeader>
@@ -37,7 +41,7 @@ export const ScheduleOptionsCard: React.FC<ScheduleOptionsCardProps> = ({
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="schedule-date">Date</Label>
+              <Label htmlFor="schedule-date">{t("date")}</Label>
               <Input
                 type="date"
                 id="schedule-date"
@@ -46,7 +50,7 @@ export const ScheduleOptionsCard: React.FC<ScheduleOptionsCardProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="schedule-time">Time</Label>
+              <Label htmlFor="schedule-time">{t("time")}</Label>
               <Input
                 type="time"
                 id="schedule-time"
@@ -55,7 +59,10 @@ export const ScheduleOptionsCard: React.FC<ScheduleOptionsCardProps> = ({
               />
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">Post will be scheduled for {userTimezone} timezone</p>
+          <p className="text-sm text-muted-foreground">
+            {t("timezoneNote", { timezone: userTimezone })}
+            {/* Post will be scheduled for {userTimezone} timezone */}
+          </p>
         </CardContent>
       )}
     </Card>

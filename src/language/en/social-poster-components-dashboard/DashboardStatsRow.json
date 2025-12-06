@@ -1,0 +1,15 @@
+{
+  "stats": {
+    "totalAccounts": "Total Accounts",
+    "totalPosts": "Total Posts",
+    "scheduledPosts": "Scheduled Posts",
+    "successRate": "Success Rate",
+
+    "labels": {
+      "connected": "connected",
+      "allTime": "all time",
+      "upcoming": "upcoming",
+      "overall": "overall"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Anteprima in tempo reale",
+  "selectPlatform": "Seleziona piattaforma",
+  "noPlatformSelected": "Seleziona account per vedere l'anteprima",
+  "previewNotAvailable": "Anteprima non disponibile per questa piattaforma",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "threads": "Threads",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Individuale)",
+    "linkedin_organisation": "LinkedIn (Organizzazione)"
+  }
+}

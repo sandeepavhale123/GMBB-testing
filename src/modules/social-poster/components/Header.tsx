@@ -5,8 +5,10 @@ import { NotificationsMegaMenu } from "@/multiDashboardLayout/components/Notific
 import { UserProfileDropdown } from "@/components/Header/UserProfileDropdown";
 import { ModulesMegaMenu } from "@/multiDashboardLayout/components/ModulesMegaMenu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 export const Header: React.FC = () => {
+  const { t } = useI18nNamespace(["social-poster-components/Header"]);
   const theme = useAppSelector((state) => state.theme);
   const logoData = useThemeLogo();
 
@@ -21,15 +23,15 @@ export const Header: React.FC = () => {
           <div className="flex items-center space-x-3">
             <img
               src={logoData.darkLogo}
-              alt="Company Logo"
+              alt={t("header.altLogo")}
               className="h-8 w-auto object-contain"
             />
             <div className="border-l border-border/30 pl-3 hidden md:block">
               <h1 className="text-md font-semibold text-white mb-0 p-0">
-                Social Poster
+                {t("header.title")}
               </h1>
               <p className="text-sm text-white mt-0 p-0">
-                Manage your social media presence
+                {t("header.subtitle")}
               </p>
             </div>
           </div>

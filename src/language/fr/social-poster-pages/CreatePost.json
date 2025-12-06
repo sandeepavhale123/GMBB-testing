@@ -1,0 +1,44 @@
+{
+  "createPost": {
+    "titleCreate": "Créer une publication",
+    "titleEdit": "Modifier la publication",
+    "subtitle": "Rédigez et planifiez des publications sur plusieurs plateformes",
+
+    "errors": {
+      "enterContent": "Veuillez saisir le contenu de la publication",
+      "selectAccount": "Veuillez sélectionner au moins un compte",
+      "exceedsLimit": "Le contenu dépasse la limite de {{limit}} caractères",
+      "instagramMediaRequired": "Instagram nécessite au moins une image ou une vidéo",
+      "scheduleMissing": "Veuillez sélectionner la date et l'heure pour la publication planifiée",
+      "invalidFile": "Veuillez téléverser un fichier image ou vidéo valide",
+      "onlyOneMedia": "Vous ne pouvez téléverser qu’1 vidéo ou 1 image",
+      "uploadFailed": "Échec du téléversement du média. Veuillez réessayer.",
+      "removeFailed": "Échec de la suppression du média"
+    },
+
+    "success": {
+      "mediaUploaded": "Média téléversé avec succès",
+      "mediaRemoved": "Média supprimé avec succès",
+      "formReset": "Formulaire réinitialisé"
+    },
+
+    "buttons": {
+      "cancel": "Annuler",
+      "insertLink": "Insérer un lien"
+    },
+
+    "dialogs": {
+      "emojiPicker": "Sélectionner un emoji",
+      "linkDialogTitle": "Ajouter un lien",
+      "linkDialogDescription": "Saisissez le texte du lien et l’URL",
+      "previewTitle": "Aperçu de la publication"
+    },
+
+    "labels": {
+      "linkText": "Texte du lien",
+      "url": "URL",
+      "placeholder": "Cliquez ici",
+      "url-place": "https://example.com"
+    }
+  }
+}

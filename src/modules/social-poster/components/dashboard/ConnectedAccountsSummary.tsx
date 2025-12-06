@@ -1,12 +1,19 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, Twitter, MessageSquare, ImageIcon, Youtube } from "lucide-react";
+import {
+  Instagram,
+  Twitter,
+  MessageSquare,
+  ImageIcon,
+  Youtube,
+} from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { useConnectedAccounts } from "../../hooks/useSocialPoster";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { PlatformType } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const platformIcons: Record<string, React.ElementType> = {
   facebook: FaFacebookF,
@@ -52,13 +59,18 @@ interface AccountSummary {
 }
 
 export const ConnectedAccountsSummary: React.FC = () => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-dashboard/ConnectedAccountsSummary",
+  ]);
   const { data, isLoading } = useConnectedAccounts();
 
   if (isLoading) {
     return (
       <Card className="bg-card">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Connected Accounts</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("connectedAccounts")}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {[1, 2, 3, 4].map((i) => (
@@ -79,7 +91,9 @@ export const ConnectedAccountsSummary: React.FC = () => {
   }
 
   const accountsResponse = data?.data;
-  const accounts = Array.isArray(accountsResponse) ? accountsResponse : accountsResponse?.accounts || [];
+  const accounts = Array.isArray(accountsResponse)
+    ? accountsResponse
+    : accountsResponse?.accounts || [];
 
   // Group accounts by platform and create summary
   const accountSummaries: AccountSummary[] = accounts.map((account: any) => ({
@@ -93,10 +107,14 @@ export const ConnectedAccountsSummary: React.FC = () => {
     return (
       <Card className="bg-card">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Connected Accounts</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            {t("connectedAccounts")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground text-center py-6">No accounts connected yet</p>
+          <p className="text-sm text-muted-foreground text-center py-6">
+            {t("noAccounts")}
+          </p>
         </CardContent>
       </Card>
     );
@@ -107,13 +125,17 @@ export const ConnectedAccountsSummary: React.FC = () => {
   return (
     <Card className="bg-card h-full pb-3">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold">Connected Accounts</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          {t("connectedAccounts")}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-0 h-[400px] overflow-y-auto">
         {displayedAccounts.map((account, index) => {
           const Icon = platformIcons[account.platform] || MessageSquare;
-          const color = platformColors[account.platform] || "hsl(221, 75%, 55%)";
-          const displayName = platformDisplayNames[account.platform] || account.platform;
+          const color =
+            platformColors[account.platform] || "hsl(221, 75%, 55%)";
+          const displayName =
+            platformDisplayNames[account.platform] || account.platform;
 
           return (
             <React.Fragment key={index}>
@@ -127,12 +149,17 @@ export const ConnectedAccountsSummary: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium">{account.accountName}</p>
-                    <p className="text-xs text-muted-foreground">{displayName}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {displayName}
+                    </p>
                   </div>
                 </div>
-                <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+                <Badge
+                  variant="outline"
+                  className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                >
                   <span className="mr-1.5 h-2 w-2 rounded-full bg-emerald-500" />
-                  Connected
+                  {t("status.connected")}
                 </Badge>
               </div>
               {index < displayedAccounts.length - 1 && <Separator />}

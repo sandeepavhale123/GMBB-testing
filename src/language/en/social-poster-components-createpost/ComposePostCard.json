@@ -1,0 +1,8 @@
+{
+  "title": "Compose Post",
+  "placeholder": "What's on your mind?",
+  "ai_generate": "Generate with AI",
+  "instagram_warning": "Instagram requires at least one image or video",
+  "uploading_media": "Uploading media...",
+  "character_limit_error": "Character limit is {{limit}} characters"
+}

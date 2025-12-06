@@ -1,0 +1,16 @@
+{
+  "label": "Seleziona piattaforme",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter/X",
+    "linkedin_individual": "LinkedIn (Individuale)",
+    "linkedin_organisation": "LinkedIn (Organizzazione)",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  },
+
+  "soon": "Presto"
+}

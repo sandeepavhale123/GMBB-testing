@@ -1,7 +1,16 @@
 import React from "react";
-import { Facebook, Instagram, Twitter, Linkedin, ImageIcon, Youtube, MessageSquare } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin,
+  ImageIcon,
+  Youtube,
+  MessageSquare,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface Platform {
   id: string;
@@ -11,23 +20,135 @@ interface Platform {
   enabled: boolean;
 }
 
-const platforms: Platform[] = [
-  { id: "facebook", name: "Facebook", icon: Facebook, color: "hsl(221, 75%, 55%)", enabled: true },
-  { id: "instagram", name: "Instagram", icon: Instagram, color: "hsl(330, 75%, 50%)", enabled: true },
-  { id: "twitter", name: "Twitter/X", icon: Twitter, color: "hsl(0, 0%, 0%)", enabled: true },
-  { id: "linkedin_individual", name: "LinkedIn (Individual)", icon: Linkedin, color: "hsl(201, 100%, 35%)", enabled: true },
-  { id: "linkedin_organisation", name: "LinkedIn (Organisation)", icon: Linkedin, color: "hsl(201, 100%, 35%)", enabled: true },
-  { id: "threads", name: "Threads", icon: MessageSquare, color: "hsl(0, 0%, 0%)", enabled: true },
-  { id: "pinterest", name: "Pinterest", icon: ImageIcon, color: "hsl(0, 78%, 52%)", enabled: false },
-  { id: "youtube", name: "YouTube", icon: Youtube, color: "hsl(0, 100%, 50%)", enabled: false },
-];
+// const platforms: Platform[] = [
+//   {
+//     id: "facebook",
+//     name: "Facebook",
+//     icon: Facebook,
+//     color: "hsl(221, 75%, 55%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "instagram",
+//     name: "Instagram",
+//     icon: Instagram,
+//     color: "hsl(330, 75%, 50%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "twitter",
+//     name: "Twitter/X",
+//     icon: Twitter,
+//     color: "hsl(0, 0%, 0%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "linkedin_individual",
+//     name: "LinkedIn (Individual)",
+//     icon: Linkedin,
+//     color: "hsl(201, 100%, 35%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "linkedin_organisation",
+//     name: "LinkedIn (Organisation)",
+//     icon: Linkedin,
+//     color: "hsl(201, 100%, 35%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "threads",
+//     name: "Threads",
+//     icon: MessageSquare,
+//     color: "hsl(0, 0%, 0%)",
+//     enabled: true,
+//   },
+//   {
+//     id: "pinterest",
+//     name: "Pinterest",
+//     icon: ImageIcon,
+//     color: "hsl(0, 78%, 52%)",
+//     enabled: false,
+//   },
+//   {
+//     id: "youtube",
+//     name: "YouTube",
+//     icon: Youtube,
+//     color: "hsl(0, 100%, 50%)",
+//     enabled: false,
+//   },
+// ];
 
+const platforms: Platform[] = [
+  {
+    id: "facebook",
+    name: "platforms.facebook",
+    icon: Facebook,
+    color: "hsl(221, 75%, 55%)",
+    enabled: true,
+  },
+  {
+    id: "instagram",
+    name: "platforms.instagram",
+    icon: Instagram,
+    color: "hsl(330, 75%, 50%)",
+    enabled: true,
+  },
+  {
+    id: "twitter",
+    name: "platforms.twitter",
+    icon: Twitter,
+    color: "hsl(0, 0%, 0%)",
+    enabled: true,
+  },
+  {
+    id: "linkedin_individual",
+    name: "platforms.linkedin_individual",
+    icon: Linkedin,
+    color: "hsl(201, 100%, 35%)",
+    enabled: true,
+  },
+  {
+    id: "linkedin_organisation",
+    name: "platforms.linkedin_organisation",
+    icon: Linkedin,
+    color: "hsl(201, 100%, 35%)",
+    enabled: true,
+  },
+  {
+    id: "threads",
+    name: "platforms.threads",
+    icon: MessageSquare,
+    color: "hsl(0, 0%, 0%)",
+    enabled: true,
+  },
+  {
+    id: "pinterest",
+    name: "platforms.pinterest",
+    icon: ImageIcon,
+    color: "hsl(0, 78%, 52%)",
+    enabled: false,
+  },
+  {
+    id: "youtube",
+    name: "platforms.youtube",
+    icon: Youtube,
+    color: "hsl(0, 100%, 50%)",
+    enabled: false,
+  },
+];
 interface PlatformSelectorProps {
   selected: string[];
   onChange: (platforms: string[]) => void;
 }
 
-export const PlatformSelector: React.FC<PlatformSelectorProps> = ({ selected, onChange }) => {
+export const PlatformSelector: React.FC<PlatformSelectorProps> = ({
+  selected,
+  onChange,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-createpost/PlatformSelector",
+  ]);
   const togglePlatform = (platformId: string, enabled: boolean) => {
     if (!enabled) return;
 
@@ -40,7 +161,7 @@ export const PlatformSelector: React.FC<PlatformSelectorProps> = ({ selected, on
 
   return (
     <div>
-      <label className="text-sm font-medium mb-3 block">Select Platforms</label>
+      <label className="text-sm font-medium mb-3 block">{t("label")}</label>
       <div className="flex flex-wrap gap-2">
         {platforms.map((platform) => {
           const Icon = platform.icon;
@@ -56,8 +177,10 @@ export const PlatformSelector: React.FC<PlatformSelectorProps> = ({ selected, on
               className={cn("gap-2", !platform.enabled && "opacity-50")}
             >
               <Icon className="h-4 w-4" />
-              {platform.name}
-              {!platform.enabled && <span className="text-xs">(Soon)</span>}
+              {t(platform.name)}
+              {!platform.enabled && (
+                <span className="text-xs">({t("soon")})</span>
+              )}
             </Button>
           );
         })}

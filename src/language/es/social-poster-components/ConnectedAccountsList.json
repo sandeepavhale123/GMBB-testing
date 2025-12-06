@@ -1,0 +1,45 @@
+{
+  "loading": {
+    "accountsLoading": "Cargando cuentas..."
+  },
+  "error": {
+    "title": "Error al cargar las cuentas",
+    "description": "No se pudieron cargar las cuentas conectadas"
+  },
+  "empty": {
+    "noResultsTitle": "No se encontraron cuentas",
+    "noResultsDescription": "Ninguna cuenta coincide con tu búsqueda \"{{query}}\"",
+    "noAccountsTitle": "No hay cuentas conectadas",
+    "noAccountsDescription": "Conecta tus cuentas de redes sociales para comenzar"
+  },
+  "buttons": {
+    "refresh": "Actualizar",
+    "disconnect": "Desconectar",
+    "pagesToggle": "Páginas/Cuentas ({{count}})"
+  },
+  "account": {
+    "connected": "Conectado: {{date}}",
+    "lastRefreshed": "Última actualización: {{date}}",
+    "tokenExpires": "• El token expira {{time}}",
+    "followers": "seguidores",
+    "status": {
+      "healthy": "Saludable",
+      "warning": "Advertencia",
+      "error": "Error",
+      "disconnected": "Desconectado"
+    }
+  },
+  "dialogs": {
+    "confirmDisconnect": "¿Estás seguro de que deseas desconectar esta cuenta?"
+  },
+  "token": {
+    "refreshFailedTitle": "Conexión fallida",
+    "refreshFailedDesc": "No se pudo iniciar el flujo OAuth",
+    "refreshed": "Token actualizado",
+    "refreshSuccessDesc": "El token expirará en {{days}} días",
+    "tokenExpiresSoon": "El token expirará pronto. Por favor, actualiza tu conexión.",
+    "tokenExpiresSoonThreads": "El token expirará pronto. Haz clic en 'Actualizar' para extender manualmente la validez del token (60 días).",
+    "refresh": "Actualización fallida",
+    "refreshDesc": "No se pudo actualizar el token"
+  }
+}

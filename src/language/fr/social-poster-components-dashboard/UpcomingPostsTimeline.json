@@ -1,0 +1,13 @@
+{
+  "error": "Échec du chargement des publications à venir",
+
+  "empty": {
+    "noScheduled": "Aucune publication programmée",
+    "createFirst": "Créez votre première publication pour la voir ici"
+  },
+
+  "post": {
+    "previewAlt": "Aperçu de la publication",
+    "accounts": "{{count}} comptes"
+  }
+}

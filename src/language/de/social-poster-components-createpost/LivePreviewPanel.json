@@ -1,0 +1,16 @@
+{
+  "title": "Live-Vorschau",
+  "selectPlatform": "Plattform auswählen",
+  "noPlatformSelected": "Wählen Sie Konten aus, um die Vorschau zu sehen",
+  "previewNotAvailable": "Vorschau für diese Plattform nicht verfügbar",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "threads": "Threads",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Einzelprofil)",
+    "linkedin_organisation": "LinkedIn (Organisation)"
+  }
+}

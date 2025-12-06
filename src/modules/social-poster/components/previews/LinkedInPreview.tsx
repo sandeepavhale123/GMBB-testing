@@ -1,18 +1,32 @@
 import React from "react";
-import { ThumbsUp, MessageSquare, Repeat2, Send, MoreHorizontal } from "lucide-react";
+import {
+  ThumbsUp,
+  MessageSquare,
+  Repeat2,
+  Send,
+  MoreHorizontal,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useListingContext } from "@/context/ListingContext";
 import { MediaItem } from "../../types";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface LinkedInPreviewProps {
   content: string;
   media?: MediaItem[];
 }
 
-export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media }) => {
+export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({
+  content,
+  media,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-preview/LinkedInPreview",
+  ]);
   const { selectedListing } = useListingContext();
 
-  const businessName = selectedListing?.name || "Your Business";
+  const businessName =
+    selectedListing?.name || t("linkedin.fallbackBusinessName");
   const businessInitials = businessName
     .split(" ")
     .map((word) => word[0])
@@ -20,8 +34,11 @@ export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media
     .toUpperCase()
     .slice(0, 2);
 
-  const displayContent = content || "Your post content will appear here...";
-  const truncatedContent = displayContent.length > 110 ? displayContent.slice(0, 110) + "..." : displayContent;
+  const displayContent = content || t("linkedin.fallbackContent");
+  const truncatedContent =
+    displayContent.length > 110
+      ? displayContent.slice(0, 110) + "..."
+      : displayContent;
   const firstMedia = media?.[0];
 
   return (
@@ -39,9 +56,13 @@ export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media
             <h3 className="font-semibold text-sm text-foreground hover:underline hover:text-[hsl(201,100%,35%)] cursor-pointer">
               {businessName}
             </h3>
-            <p className="text-xs text-muted-foreground">1,234 followers</p>
+            <p className="text-xs text-muted-foreground">
+              {" "}
+              {t("linkedin.followers", { count: 1234 })}
+            </p>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Just now · <span className="inline-block w-3 h-3">🌐</span>
+              {t("linkedin.justNow")} ·{" "}
+              <span className="inline-block w-3 h-3">🌐</span>
             </p>
           </div>
         </div>
@@ -50,16 +71,26 @@ export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media
 
       {/* Content */}
       <div className="px-3 pb-3">
-        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words">{truncatedContent}</p>
+        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words">
+          {truncatedContent}
+        </p>
       </div>
 
       {/* Media */}
       {firstMedia?.preview && (
         <div className="relative w-full bg-muted">
           {firstMedia.mediaType === "video" ? (
-            <video src={firstMedia.preview} className="w-full max-h-[300px] object-cover" controls />
+            <video
+              src={firstMedia.preview}
+              className="w-full max-h-[300px] object-cover"
+              controls
+            />
           ) : (
-            <img src={firstMedia.preview} alt="Post media" className="w-full max-h-[300px] object-cover" />
+            <img
+              src={firstMedia.preview}
+              alt={t("linkedin.altmedia")}
+              className="w-full max-h-[300px] object-cover"
+            />
           )}
         </div>
       )}
@@ -78,8 +109,8 @@ export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media
           <span className="ml-1">87</span>
         </div>
         <div className="flex items-center gap-3">
-          <span>24 comments</span>
-          <span>5 reposts</span>
+          <span>{t("linkedin.commentsCount", { count: 24 })}</span>
+          <span>{t("linkedin.repostsCount", { count: 5 })}</span>
         </div>
       </div>
 
@@ -87,19 +118,27 @@ export const LinkedInPreview: React.FC<LinkedInPreviewProps> = ({ content, media
       <div className="px-3 py-1 flex items-center justify-around border-t border-border">
         <button className="flex items-center gap-2 px-3 py-3 rounded-md hover:bg-muted transition-colors">
           <ThumbsUp className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Like</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("linkedin.actions.like")}
+          </span>
         </button>
         <button className="flex items-center gap-2 px-3 py-3 rounded-md hover:bg-muted transition-colors">
           <MessageSquare className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Comment</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("linkedin.actions.comment")}
+          </span>
         </button>
         <button className="flex items-center gap-2 px-3 py-3 rounded-md hover:bg-muted transition-colors">
           <Repeat2 className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Repost</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("linkedin.actions.repost")}
+          </span>
         </button>
         <button className="flex items-center gap-2 px-3 py-3 rounded-md hover:bg-muted transition-colors">
           <Send className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Send</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {t("linkedin.actions.send")}
+          </span>
         </button>
       </div>
     </div>

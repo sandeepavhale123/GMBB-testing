@@ -1,0 +1,14 @@
+{
+  "title": "Actividad de Publicaciones",
+  "postsLabel": "Publicaciones",
+
+  "timeRange": {
+    "last_week": "La Semana Pasada",
+    "last_month": "El Mes Pasado",
+    "last_6_months": "Últimos 6 Meses",
+    "last_12_months": "Últimos 12 Meses"
+  },
+  "tooltip": {
+    "posts": "Publicaciones"
+  }
+}

@@ -3,12 +3,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Instagram, Twitter, MessageSquare, ChevronDown, X, ChevronRight } from "lucide-react";
+import {
+  Instagram,
+  Twitter,
+  MessageSquare,
+  ChevronDown,
+  X,
+  ChevronRight,
+} from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useAvailableAccounts } from "../../hooks/useSocialPoster";
 import { PlatformType } from "../../types";
 import { cn } from "@/lib/utils";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 const platformIcons: Record<string, React.ElementType> = {
   facebook: FaFacebookF,
@@ -28,22 +40,37 @@ const platformColors: Record<string, string> = {
   threads: "bg-black",
 };
 
-const getPlatformDisplayName = (platform: string): string => {
-  if (platform === "linkedin_individual") return "LinkedIn (Individual)";
-  if (platform === "linkedin_organisation") return "LinkedIn (Organisation)";
+// const getPlatformDisplayName = (platform: string): string => {
+//   if (platform === "linkedin_individual") return "LinkedIn (Individual)";
+//   if (platform === "linkedin_organisation") return "LinkedIn (Organisation)";
+//   return platform.charAt(0).toUpperCase() + platform.slice(1);
+// };
+
+const getPlatformDisplayName = (platform: string, t: any) => {
+  const translated = t(`platformNames.${platform}`);
+  if (translated !== `platformNames.${platform}`) return translated;
   return platform.charAt(0).toUpperCase() + platform.slice(1);
 };
-
 interface SelectAccountsCardProps {
   selectedAccounts: string[];
   onSelectionChange: (accountIds: string[]) => void;
 }
 
-export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selectedAccounts, onSelectionChange }) => {
+export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({
+  selectedAccounts,
+  onSelectionChange,
+}) => {
+  const { t } = useI18nNamespace([
+    "social-poster-components-createpost/SelectAccountsCard",
+  ]);
   const [open, setOpen] = useState(false);
-  const [expandedPlatforms, setExpandedPlatforms] = useState<Set<string>>(new Set());
+  const [expandedPlatforms, setExpandedPlatforms] = useState<Set<string>>(
+    new Set()
+  );
   const [showAllBadges, setShowAllBadges] = useState(false);
-  const { data: accountsResponse, isLoading } = useAvailableAccounts({ status: "healthy" });
+  const { data: accountsResponse, isLoading } = useAvailableAccounts({
+    status: "healthy",
+  });
   const allAccounts = accountsResponse?.data?.accounts || [];
 
   const togglePlatform = (platform: string) => {
@@ -60,14 +87,11 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
 
   // Group accounts by platform
   const groupedAccounts = useMemo(() => {
-    return allAccounts.reduce(
-      (acc, account) => {
-        if (!acc[account.platform]) acc[account.platform] = [];
-        acc[account.platform].push(account);
-        return acc;
-      },
-      {} as Record<string, typeof allAccounts>,
-    );
+    return allAccounts.reduce((acc, account) => {
+      if (!acc[account.platform]) acc[account.platform] = [];
+      acc[account.platform].push(account);
+      return acc;
+    }, {} as Record<string, typeof allAccounts>);
   }, [allAccounts]);
 
   const toggleAccount = (accountId: string) => {
@@ -87,23 +111,35 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
 
   const toggleSelectAllPlatform = (platform: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    const platformAccountIds = groupedAccounts[platform]?.map((acc) => acc.id) || [];
-    const allPlatformSelected = platformAccountIds.every((id) => selectedAccounts.includes(id));
-    
+    const platformAccountIds =
+      groupedAccounts[platform]?.map((acc) => acc.id) || [];
+    const allPlatformSelected = platformAccountIds.every((id) =>
+      selectedAccounts.includes(id)
+    );
+
     if (allPlatformSelected) {
-      onSelectionChange(selectedAccounts.filter((id) => !platformAccountIds.includes(id)));
+      onSelectionChange(
+        selectedAccounts.filter((id) => !platformAccountIds.includes(id))
+      );
     } else {
-      const newSelection = [...new Set([...selectedAccounts, ...platformAccountIds])];
+      const newSelection = [
+        ...new Set([...selectedAccounts, ...platformAccountIds]),
+      ];
       onSelectionChange(newSelection);
     }
   };
 
   const isPlatformAllSelected = (platform: string) => {
-    const platformAccountIds = groupedAccounts[platform]?.map((acc) => acc.id) || [];
-    return platformAccountIds.length > 0 && platformAccountIds.every((id) => selectedAccounts.includes(id));
+    const platformAccountIds =
+      groupedAccounts[platform]?.map((acc) => acc.id) || [];
+    return (
+      platformAccountIds.length > 0 &&
+      platformAccountIds.every((id) => selectedAccounts.includes(id))
+    );
   };
 
-  const isAllSelected = allAccounts.length > 0 && selectedAccounts.length === allAccounts.length;
+  const isAllSelected =
+    allAccounts.length > 0 && selectedAccounts.length === allAccounts.length;
 
   // Get selected account details for display
   const selectedAccountDetails = useMemo(() => {
@@ -114,10 +150,12 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Select Accounts</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">Loading accounts...</p>
+          <p className="text-sm text-muted-foreground">
+            {t("loading.loadingAccounts")}
+          </p>
         </CardContent>
       </Card>
     );
@@ -126,7 +164,7 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Select Accounts</CardTitle>
+        <CardTitle className="text-lg">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Multi-select dropdown trigger */}
@@ -140,10 +178,25 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
             >
               <span className="text-muted-foreground">
                 {selectedAccounts.length === 0
-                  ? "Select accounts..."
-                  : `${selectedAccounts.length} account${selectedAccounts.length > 1 ? "s" : ""} selected`}
+                  ? t("dropdown.placeholder")
+                  : selectedAccounts.length === 1
+                  ? t("dropdown.selectedCount", {
+                      count: selectedAccounts.length,
+                    })
+                  : t("dropdown.selectedCountPlural", {
+                      count: selectedAccounts.length,
+                    })}
+
+                {/* `${selectedAccounts.length} account${
+                      selectedAccounts.length > 1 ? "s" : ""
+                    } selected`} */}
               </span>
-              <ChevronDown className={cn("ml-2 h-4 w-4 shrink-0 transition-transform", open && "rotate-180")} />
+              <ChevronDown
+                className={cn(
+                  "ml-2 h-4 w-4 shrink-0 transition-transform",
+                  open && "rotate-180"
+                )}
+              />
             </Button>
           </PopoverTrigger>
           <PopoverContent
@@ -156,9 +209,16 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
               {allAccounts.length > 0 && (
                 <div className="pb-2 border-b">
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="select-all" checked={isAllSelected} onCheckedChange={toggleSelectAll} />
-                    <label htmlFor="select-all" className="text-sm font-medium cursor-pointer">
-                      Select All Accounts
+                    <Checkbox
+                      id="select-all"
+                      checked={isAllSelected}
+                      onCheckedChange={toggleSelectAll}
+                    />
+                    <label
+                      htmlFor="select-all"
+                      className="text-sm font-medium cursor-pointer"
+                    >
+                      {t("actions.selectAll")}
                     </label>
                   </div>
                 </div>
@@ -171,30 +231,43 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
                 const isExpanded = expandedPlatforms.has(platform);
                 return (
                   <div key={platform} className="space-y-2">
-                    <div
-                      className="flex items-center justify-between text-sm font-medium text-muted-foreground"
-                    >
+                    <div className="flex items-center justify-between text-sm font-medium text-muted-foreground">
                       <div
                         className="flex items-center gap-2 cursor-pointer hover:text-foreground transition-colors"
                         onClick={() => togglePlatform(platform)}
                       >
-                        <ChevronRight className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-90")} />
-                        <div className={cn("h-6 w-6 rounded-full flex items-center justify-center", colorClass)}>
+                        <ChevronRight
+                          className={cn(
+                            "h-4 w-4 transition-transform",
+                            isExpanded && "rotate-90"
+                          )}
+                        />
+                        <div
+                          className={cn(
+                            "h-6 w-6 rounded-full flex items-center justify-center",
+                            colorClass
+                          )}
+                        >
                           {Icon && <Icon className="h-3.5 w-3.5 text-white" />}
                         </div>
-                        <span>{getPlatformDisplayName(platform)}</span>
+                        <span>{getPlatformDisplayName(platform, t)}</span>
                       </div>
                       <span
                         className="text-xs text-primary cursor-pointer hover:underline"
                         onClick={(e) => toggleSelectAllPlatform(platform, e)}
                       >
-                        {isPlatformAllSelected(platform) ? "Deselect All" : "Select All"}
+                        {isPlatformAllSelected(platform)
+                          ? t("actions.deselectAllPlatform")
+                          : t("actions.selectAllPlatform")}
                       </span>
                     </div>
                     {isExpanded && (
                       <div className="space-y-2 pl-8">
                         {accounts.map((account) => (
-                          <div key={account.id} className="flex items-center space-x-2">
+                          <div
+                            key={account.id}
+                            className="flex items-center space-x-2"
+                          >
                             <Checkbox
                               id={account.id}
                               checked={selectedAccounts.includes(account.id)}
@@ -225,12 +298,24 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
         {/* Selected accounts chips */}
         {selectedAccountDetails.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {(showAllBadges ? selectedAccountDetails : selectedAccountDetails.slice(0, 6)).map((account) => {
+            {(showAllBadges
+              ? selectedAccountDetails
+              : selectedAccountDetails.slice(0, 6)
+            ).map((account) => {
               const Icon = platformIcons[account.platform];
               const colorClass = platformColors[account.platform];
               return (
-                <Badge key={account.id} variant="secondary" className="gap-1.5 pl-1 pr-2">
-                  <div className={cn("h-5 w-5 rounded-full flex items-center justify-center", colorClass)}>
+                <Badge
+                  key={account.id}
+                  variant="secondary"
+                  className="gap-1.5 pl-1 pr-2"
+                >
+                  <div
+                    className={cn(
+                      "h-5 w-5 rounded-full flex items-center justify-center",
+                      colorClass
+                    )}
+                  >
                     {Icon && <Icon className="h-3 w-3 text-white" />}
                   </div>
                   <span>{account.accountName}</span>
@@ -247,7 +332,13 @@ export const SelectAccountsCard: React.FC<SelectAccountsCardProps> = ({ selected
                 className="cursor-pointer hover:bg-muted"
                 onClick={() => setShowAllBadges(!showAllBadges)}
               >
-                {showAllBadges ? "Show less" : `+${selectedAccountDetails.length - 6} more`}
+                {showAllBadges
+                  ? t("actions.showLess")
+                  : t("actions.showMore", {
+                      count: selectedAccountDetails.length - 6,
+                    })}
+
+                {/* `+${selectedAccountDetails.length - 6} more`} */}
               </Badge>
             )}
           </div>

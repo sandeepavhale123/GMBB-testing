@@ -3,9 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Facebook, Instagram, Twitter, Linkedin, ImageIcon, Youtube, MessageSquare, Loader2 } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin,
+  ImageIcon,
+  Youtube,
+  MessageSquare,
+  Loader2,
+} from "lucide-react";
 import { PlatformType } from "../../types";
 import { usePlatformStats } from "../../hooks/useSocialPoster";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface Platform {
   id: string;
@@ -54,17 +64,30 @@ const platformNames: Record<PlatformType, string> = {
   youtube: "YouTube",
 };
 
-const enabledPlatforms: PlatformType[] = ["facebook", "instagram", "twitter", "linkedin", "linkedin_individual", "linkedin_organisation", "threads"];
-
-const statusConfig = {
-  healthy: { color: "hsl(var(--chart-2))", label: "Active" },
-  warning: { color: "hsl(var(--chart-4))", label: "Warning" },
-  error: { color: "hsl(var(--destructive))", label: "Error" },
-  disconnected: { color: "hsl(var(--muted-foreground))", label: "Not Connected" },
-};
+const enabledPlatforms: PlatformType[] = [
+  "facebook",
+  "instagram",
+  "twitter",
+  "linkedin",
+  "linkedin_individual",
+  "linkedin_organisation",
+  "threads",
+];
 
 export const PlatformOverviewGrid: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useI18nNamespace([
+    "social-poster-components-dashboard/PlatformOverviewGrid",
+  ]);
+  const statusConfig = {
+    healthy: { color: "hsl(var(--chart-2))", label: t("status.healthy") },
+    warning: { color: "hsl(var(--chart-4))", label: t("status.warning") },
+    error: { color: "hsl(var(--destructive))", label: t("status.error") },
+    disconnected: {
+      color: "hsl(var(--muted-foreground))",
+      label: t("status.disconnected"),
+    },
+  };
   const { data, isLoading, error } = usePlatformStats();
 
   if (isLoading) {
@@ -93,7 +116,9 @@ export const PlatformOverviewGrid: React.FC = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-sm text-destructive">Failed to load platform stats</p>
+            <p className="text-sm text-destructive">
+              {t("labels.failedToLoad")}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -111,14 +136,20 @@ export const PlatformOverviewGrid: React.FC = () => {
         const statusInfo = statusConfig[platformStat.status];
         const isEnabled = enabledPlatforms.includes(platformStat.platform);
         const isConnected = platformStat.connectedAccounts > 0;
-        
+
         // Determine LinkedIn account type badge
-        const isLinkedInIndividual = platformStat.platform === "linkedin_individual";
-        const isLinkedInOrganisation = platformStat.platform === "linkedin_organisation";
-        const showLinkedInBadge = isLinkedInIndividual || isLinkedInOrganisation;
+        const isLinkedInIndividual =
+          platformStat.platform === "linkedin_individual";
+        const isLinkedInOrganisation =
+          platformStat.platform === "linkedin_organisation";
+        const showLinkedInBadge =
+          isLinkedInIndividual || isLinkedInOrganisation;
 
         return (
-          <Card key={platformStat.platform} className="relative overflow-hidden">
+          <Card
+            key={platformStat.platform}
+            className="relative overflow-hidden"
+          >
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
@@ -133,7 +164,9 @@ export const PlatformOverviewGrid: React.FC = () => {
                       <h3 className="font-semibold">{name}</h3>
                       {showLinkedInBadge && (
                         <Badge variant="outline" className="text-xs">
-                          {isLinkedInIndividual ? "Individual" : "Organisation"}
+                          {isLinkedInIndividual
+                            ? t("labels.individual")
+                            : t("labels.organisation")}
                         </Badge>
                       )}
                     </div>
@@ -144,8 +177,12 @@ export const PlatformOverviewGrid: React.FC = () => {
               <div className="mt-4 space-y-2">
                 {isConnected ? (
                   <>
-                    <p className="text-2xl font-bold">{platformStat.connectedAccounts}</p>
-                    <p className="text-xs text-muted-foreground">Connected Accounts</p>
+                    <p className="text-2xl font-bold">
+                      {platformStat.connectedAccounts}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("labels.connectedAccounts")}
+                    </p>
                   </>
                 ) : (
                   <Button
@@ -155,14 +192,17 @@ export const PlatformOverviewGrid: React.FC = () => {
                     onClick={() => navigate("/social-poster/accounts")}
                     disabled={!isEnabled}
                   >
-                    {isEnabled ? "Connect" : "Coming Soon"}
+                    {isEnabled ? t("labels.connect") : t("labels.comingSoon")}
                   </Button>
                 )}
               </div>
 
               {!isEnabled && (
-                <Badge variant="secondary" className="absolute top-2 right-2 text-xs">
-                  Coming Soon
+                <Badge
+                  variant="secondary"
+                  className="absolute top-2 right-2 text-xs"
+                >
+                  {t("labels.comingSoon")}
                 </Badge>
               )}
             </CardContent>
