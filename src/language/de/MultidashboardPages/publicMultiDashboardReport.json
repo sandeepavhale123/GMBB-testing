@@ -62,6 +62,8 @@
       "failed": "Fehlgeschlagen"
     },
     "insightDays": "Zeitraum",
+    "reviewDays": "Bewertungszeitraum",
+    "allTime": "Gesamter Zeitraum",
     "last7Days": "Letzte 7 Tage",
     "last30Days": "Letzte 30 Tage",
     "last90Days": "Letzte 90 Tage",
