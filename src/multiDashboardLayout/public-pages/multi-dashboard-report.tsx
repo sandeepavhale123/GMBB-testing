@@ -507,7 +507,7 @@ const PublicMultiDashboardReport: React.FC = () => {
                     </SelectContent>
                   </Select>
                 )}
-
+                {/* Additional Filters for insight and review   */} 
                   {["insight","review"].includes(activeDashboardType) && (
                   <>
                     <Select
@@ -536,7 +536,7 @@ const PublicMultiDashboardReport: React.FC = () => {
                     )}
                   </>
                 )}
-                {/* Additional Filters for Post Dashboard */}
+                {/* Additional Filters for Post Dashboard  */} 
                 {activeDashboardType === "post" && (
                   <div className="flex gap-2">
                     <Select
