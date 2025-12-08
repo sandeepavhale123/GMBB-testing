@@ -75,6 +75,8 @@ const PublicMultiDashboardReport: React.FC = () => {
   }>({ startDate: "", endDate: "" });
   const [insightDays, setInsightDays] = useState<string>("7");
   const [insightDateRange, setInsightDateRange] = useState<DateRange | undefined>();
+  const [reviewDays, setReviewDays] = useState<string>("7");
+  const [reviewDateRange, setReviewDateRange] = useState<DateRange | undefined>();
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -127,11 +129,18 @@ const PublicMultiDashboardReport: React.FC = () => {
     postStatus: postStatus || undefined,
     reviewFilter,
     language,
-    insightDays: activeDashboardType === "insight" ? (insightDays === "custom" ? "" : insightDays) : "7",
+    insightDays: activeDashboardType === "insight" ? (insightDays === "custom" ? "" : insightDays) : undefined,
     insightDateRange: activeDashboardType === "insight" && insightDays === "custom" && insightDateRange?.from && insightDateRange?.to
       ? {
           startDate: format(insightDateRange.from, "yyyy-MM-dd"),
           endDate: format(insightDateRange.to, "yyyy-MM-dd"),
+        }
+      : undefined,
+    reviewDays: activeDashboardType === "review" ? (reviewDays === "custom" ? "" : reviewDays) : undefined,
+    reviewDateRange: activeDashboardType === "review" && reviewDays === "custom" && reviewDateRange?.from && reviewDateRange?.to
+      ? {
+          startDate: format(reviewDateRange.from, "yyyy-MM-dd"),
+          endDate: format(reviewDateRange.to, "yyyy-MM-dd"),
         }
       : undefined,
   });
@@ -249,6 +258,19 @@ const PublicMultiDashboardReport: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleReviewDaysChange = (value: string) => {
+    setReviewDays(value);
+    if (value !== "custom") {
+      setReviewDateRange(undefined);
+    }
+    setCurrentPage(1);
+  };
+
+  const handleReviewDateRangeChange = (range: DateRange | undefined) => {
+    setReviewDateRange(range);
+    setCurrentPage(1);
+  };
+
   const handleDashboardTypeChange = (type: string) => {
     setDashboardType(type);
     setUserHasChangedDashboard(true);
@@ -262,6 +284,8 @@ const PublicMultiDashboardReport: React.FC = () => {
     setDateRange({ startDate: "", endDate: "" });
     setInsightDays("7");
     setInsightDateRange(undefined);
+    setReviewDays("7");
+    setReviewDateRange(undefined);
   };
 
   // Generate metrics cards from report config stats
@@ -507,8 +531,8 @@ const PublicMultiDashboardReport: React.FC = () => {
                     </SelectContent>
                   </Select>
                 )}
-                {/* Additional Filters for insight and review   */} 
-                  {["insight","review"].includes(activeDashboardType) && (
+                {/* Insight Days Filter - Only for insight dashboard */}
+                {activeDashboardType === "insight" && (
                   <>
                     <Select
                       value={insightDays}
@@ -531,6 +555,36 @@ const PublicMultiDashboardReport: React.FC = () => {
                       <DateRangePicker
                         date={insightDateRange}
                         onDateChange={handleInsightDateRangeChange}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
+                )}
+                {/* Review Days Filter - Only for review dashboard */}
+                {activeDashboardType === "review" && (
+                  <>
+                    <Select
+                      value={reviewDays}
+                      onValueChange={handleReviewDaysChange}
+                    >
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder={t("filters.reviewDays")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="All">{t("filters.allTime")}</SelectItem>
+                        <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {reviewDays === "custom" && (
+                      <DateRangePicker
+                        date={reviewDateRange}
+                        onDateChange={handleReviewDateRangeChange}
                         className="w-full sm:w-auto"
                       />
                     )}
