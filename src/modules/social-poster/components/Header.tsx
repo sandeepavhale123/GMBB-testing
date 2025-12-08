@@ -23,16 +23,14 @@ export const Header: React.FC = () => {
           <div className="flex items-center space-x-3">
             <img
               src={logoData.darkLogo}
-              alt={t("header.altLogo")}
+              alt={t("altLogo")}
               className="h-8 w-auto object-contain"
             />
             <div className="border-l border-border/30 pl-3 hidden md:block">
               <h1 className="text-md font-semibold text-white mb-0 p-0">
-                {t("header.title")}
+                {t("title")}
               </h1>
-              <p className="text-sm text-white mt-0 p-0">
-                {t("header.subtitle")}
-              </p>
+              <p className="text-sm text-white mt-0 p-0">{t("subtitle")}</p>
             </div>
           </div>
         </div>
