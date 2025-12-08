@@ -33,6 +33,10 @@ interface UsePublicDashboardDataParams {
   reviewFilter?: string;
   language?: string;
   insightDays?: string;
+  insightDateRange?: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 type ShareableResponse =
@@ -58,6 +62,7 @@ export const usePublicDashboardData = (
     reviewFilter,
     language,
     insightDays,
+    insightDateRange,
   } = params;
 
   const request: ShareableReportRequest = {
@@ -73,6 +78,7 @@ export const usePublicDashboardData = (
     ...(reviewFilter && { review: reviewFilter }),
     language,
     ...(insightDays && { insightDays }),
+    ...(insightDateRange && { dateRange: insightDateRange }),
   };
 
   // Get dashboard type for API routing
@@ -93,6 +99,7 @@ export const usePublicDashboardData = (
       reviewFilter,
       language,
       insightDays,
+      insightDateRange,
     ],
     queryFn: async (): Promise<ShareableResponse> => {
       switch (dashboardType) {

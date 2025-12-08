@@ -67,7 +67,8 @@
     "last90Days": "Letzte 90 Tage",
     "last6Months": "Letzte 6 Monate",
     "last9Months": "Letzte 9 Monate",
-    "last12Months": "Letzte 12 Monate"
+    "last12Months": "Letzte 12 Monate",
+    "customRange": "Benutzerdefinierter Zeitraum"
   },
   "content": {
     "showing": "Zeige {{count}} von {{total}} {{type}}",

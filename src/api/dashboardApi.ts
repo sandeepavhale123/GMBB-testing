@@ -122,6 +122,10 @@ interface InsightsDashboardRequest {
   category: string;
   state: string;
   insightDays: string;
+  dateRange?: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 interface InsightsDashboardListing {
