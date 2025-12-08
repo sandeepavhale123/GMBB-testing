@@ -64,7 +64,8 @@
       "last90Days": "Last 90 Days",
       "last6Months": "Last 6 Months",
       "last9Months": "Last 9 Months",
-      "last12Months": "Last 12 Months"
+      "last12Months": "Last 12 Months",
+      "customRange": "Custom Range"
     }
   },
   "export":"Export CSV",
