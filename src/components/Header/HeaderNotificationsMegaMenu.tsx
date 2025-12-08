@@ -21,9 +21,14 @@ export const HeaderNotificationsMegaMenu: React.FC = () => {
         }}
       >
         <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-        {unreadCount > 0 && (
-          <div className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-destructive rounded-full">
+        {unreadCount > 0 ? (
+           <div className="absolute -top-[-3px] -right-[-7px]  h-3 w-3  flex items-center justify-center text-[8px] font-bold text-white bg-destructive rounded-full">
             {unreadCount}
+          </div>
+        ):
+        (
+          <div className="absolute -top-[-3px] -right-[-7px]  h-3 w-3  flex items-center justify-center text-[8px] font-bold text-white bg-destructive rounded-full">
+             <div className="h-1 w-1 rounded-lg bg-white"></div>
           </div>
         )}
       </Button>
