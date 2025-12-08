@@ -22,11 +22,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { PageBreadcrumb } from "../Header/PageBreadcrumb";
 import { SafeHtmlRenderer } from "../ui/safe-html-renderer";
-import {
-  useCompleteAiTask,
-  usePendingAiTask,
-  useTransformedAiTasks,
-} from "../../hooks/useAiTask";
+import { useCompleteAiTask, usePendingAiTask, useTransformedAiTasks } from "../../hooks/useAiTask";
 import { AiTask } from "../../api/aitaskApi";
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
@@ -72,11 +68,9 @@ export const AITaskManagerPage: React.FC = () => {
   const [localTasks, setLocalTasks] = useState<AiTask[]>([]);
   const [activeTab, setActiveTab] = useState("pending");
   const navigate = useNavigate();
-  //  Update local tasks when API data changes
+  //  Update local tasks when API data changes.
   React.useEffect(() => {
-    const normalizedTasks = tasks.map((t) =>
-      t.status === "due" ? { ...t, status: "pending" as const } : t
-    );
+    const normalizedTasks = tasks.map((t) => (t.status === "due" ? { ...t, status: "pending" as const } : t));
 
     if (!isEqual(localTasks, normalizedTasks)) {
       setLocalTasks(normalizedTasks);
@@ -91,11 +85,7 @@ export const AITaskManagerPage: React.FC = () => {
         taskId,
         listingId: Number(selectedListing.id),
       });
-      setLocalTasks((prev) =>
-        prev.map((t) =>
-          t.id === taskId ? { ...t, status: "completed" as const } : t
-        )
-      );
+      setLocalTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: "completed" as const } : t)));
       if (!response.ok) {
         toast({
           title: t("AITaskManagerPage.toasts.error.title"),
@@ -118,25 +108,17 @@ export const AITaskManagerPage: React.FC = () => {
         taskId,
         listingId: Number(selectedListing.id),
       });
-      setLocalTasks((prev) =>
-        prev.map((t) =>
-          t.id === taskId ? { ...t, status: "pending" as const } : t
-        )
-      );
+      setLocalTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: "pending" as const } : t)));
       if (!response.ok) {
         toast({
           title: t("AITaskManagerPage.toasts.error.title"),
-          description:
-            response.message ||
-            response.data.message ||
-            t("AITaskManagerPage.toasts.error.default"),
+          description: response.message || response.data.message || t("AITaskManagerPage.toasts.error.default"),
           variant: "destructive",
         });
       }
       toast({
         title: t("AITaskManagerPage.toasts.reverted.title"),
-        description:
-          response.message || t("AITaskManagerPage.toasts.reverted.message"),
+        description: response.message || t("AITaskManagerPage.toasts.reverted.message"),
       });
     } catch (error) {
       //
@@ -146,8 +128,7 @@ export const AITaskManagerPage: React.FC = () => {
   const handleFixTask = (url: string, target: string) => {
     if (!url) return;
 
-    const isExternalUrl =
-      url.startsWith("http://") || url.startsWith("https://");
+    const isExternalUrl = url.startsWith("http://") || url.startsWith("https://");
 
     if (isExternalUrl) {
       if (target === "_blank") {
@@ -189,13 +170,8 @@ export const AITaskManagerPage: React.FC = () => {
           <div className="flex items-start gap-3 mb-3">
             <CategoryIcon className="w-5 h-5 text-gray-600 shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                {task.task_name}
-              </h3>
-              <SafeHtmlRenderer
-                html={task.task_description}
-                className="text-gray-600 text-sm leading-relaxed"
-              />
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.task_name}</h3>
+              <SafeHtmlRenderer html={task.task_description} className="text-gray-600 text-sm leading-relaxed" />
               {task.frequency && (
                 <p className="text-xs text-gray-500 mt-1">
                   {t("AITaskManagerPage.task.frequency", {
@@ -240,10 +216,7 @@ export const AITaskManagerPage: React.FC = () => {
                       ? t("AITaskManagerPage.task.actions.inProgress")
                       : t("AITaskManagerPage.task.actions.fix")}
                   </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => handleMarkCompleted(task.id)}
-                  >
+                  <Button size="sm" onClick={() => handleMarkCompleted(task.id)}>
                     <CheckCircle className="w-4 h-4 mr-1" />
                     {t("AITaskManagerPage.task.actions.markCompleted")}
                   </Button>
@@ -272,13 +245,8 @@ export const AITaskManagerPage: React.FC = () => {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {t("AITaskManagerPage.loading.title")}
-            </h3>
-            <p className="text-gray-500">
-              {" "}
-              {t("AITaskManagerPage.loading.description")}
-            </p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t("AITaskManagerPage.loading.title")}</h3>
+            <p className="text-gray-500"> {t("AITaskManagerPage.loading.description")}</p>
           </div>
         </div>
       </div>
@@ -291,28 +259,18 @@ export const AITaskManagerPage: React.FC = () => {
       <div className="space-y-6">
         <Alert className="border-yellow-200 bg-yellow-50">
           <AlertCircle className="h-4 w-4 text-yellow-600" />
-          <AlertDescription className="text-yellow-800">
-            {t("AITaskManagerPage.noListing.message")}
-          </AlertDescription>
+          <AlertDescription className="text-yellow-800">{t("AITaskManagerPage.noListing.message")}</AlertDescription>
         </Alert>
       </div>
     );
   }
 
   const pendingCount = localTasks.filter((t) => t.status === "pending").length;
-  const inProgressCount = localTasks.filter(
-    (t) => t.status === "in-progress"
-  ).length;
-  const completedCount = localTasks.filter(
-    (t) => t.status === "completed"
-  ).length;
+  const inProgressCount = localTasks.filter((t) => t.status === "in-progress").length;
+  const completedCount = localTasks.filter((t) => t.status === "completed").length;
   const oneTimeCount = localTasks.filter((t) => t.type === "one-time").length;
-  const recurringCount = localTasks.filter(
-    (t) => t.type === "recurring"
-  ).length;
-  const highPriorityCount = localTasks.filter(
-    (t) => t.priority === "high" && t.status !== "completed"
-  ).length;
+  const recurringCount = localTasks.filter((t) => t.type === "recurring").length;
+  const highPriorityCount = localTasks.filter((t) => t.priority === "high" && t.status !== "completed").length;
 
   return (
     <div className="space-y-6">
@@ -328,9 +286,7 @@ export const AITaskManagerPage: React.FC = () => {
             </div>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
-              {stats.due}
-            </div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">{stats.due}</div>
           </CardContent>
         </Card>
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
@@ -412,9 +368,7 @@ export const AITaskManagerPage: React.FC = () => {
             <Card className="text-center py-12">
               <CardContent>
                 <CheckCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {t("AITaskManagerPage.emptyState.title")}
-                </h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">{t("AITaskManagerPage.emptyState.title")}</h3>
                 <p className="text-gray-500">
                   {activeTab === "completed"
                     ? t("AITaskManagerPage.emptyState.completedMessage")

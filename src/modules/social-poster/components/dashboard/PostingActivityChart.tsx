@@ -40,7 +40,7 @@ export const PostingActivityChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("last_month");
   const { data, isLoading } = usePostingActivity(timeRange);
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) => {
     if (!active || !payload || !payload.length) return null;
 
     return (

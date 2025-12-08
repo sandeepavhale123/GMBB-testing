@@ -15,11 +15,7 @@ import { HeaderNotificationsMegaMenu } from "./HeaderNotificationsMegaMenu";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import DashboardModeSwitch from "../DashboardMode";
-export const Header: React.FC<HeaderProps> = ({
-  onToggleSidebar,
-  showFilters,
-  onShowFilters,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, showFilters, onShowFilters }) => {
   const { t } = useI18nNamespace("Header/header");
   const dispatch = useAppDispatch();
   const { isDark } = useAppSelector((state) => state.theme);
@@ -50,20 +46,14 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Action buttons - Mobile only (shown on right side of Row 1) */}
             <div className="flex sm:hidden items-center gap-2 shrink-0">
-              
               {isAllowedDomain() && (
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() =>
-                    (window.location.href =
-                      "https://old.gmbbriefcase.com/login")
-                  }
+                  onClick={() => (window.location.href = "https://old.gmbbriefcase.com/login")}
                   className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
                 >
-                  <span className="hidden md:block ml-1">
-                    {t("header.backToOldVersion")}{" "}
-                  </span>
+                  <span className="hidden md:block ml-1">{t("header.backToOldVersion")} </span>
                   <ExternalLink className="w-4 h-4" />
                 </Button>
               )}
@@ -86,7 +76,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Action buttons - Desktop/Tablet only (right side) */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3 shrink-0">
-             <DashboardModeSwitch variant="light" />
             {/* {isAllowedDomain() && (
               <Button
                 variant="secondary"
@@ -103,6 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
               </Button>
             )} */}
             <BusinessListingSelector />
+            {/* <DashboardModeSwitch variant="light" /> */}
             <MobileBusinessSelector />
             <LanguageSwitcher />
             <HeaderModulesMegaMenu />
