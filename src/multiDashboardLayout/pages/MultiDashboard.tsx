@@ -788,44 +788,8 @@ export const MultiDashboard: React.FC = () => {
                       ))}
                   </SelectContent>
                 </Select>
-                {/* Insight Days Filter - Only show for insight dashboard */}
-                {dashboardType === "insight" && (
-                  <>
-                    <Select
-                      value={insightDays}
-                      onValueChange={(value) => {
-                        setInsightDays(value);
-                        if (value !== "custom") {
-                          setInsightDateRange(undefined);
-                        }
-                        setCurrentPage(1);
-                      }}
-                    >
-                      <SelectTrigger className="w-full sm:w-48 bg-background">
-                        <SelectValue placeholder={t("dashboard.filters.insightDays")} />
-                      </SelectTrigger>
-                      <SelectContent className="z-50 bg-background">
-                        <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
-                        <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
-                        <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
-                        <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
-                        <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
-                        <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
-                        <SelectItem value="custom">{t("dashboard.filters.customRange")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {insightDays === "custom" && (
-                      <DateRangePicker
-                        date={insightDateRange}
-                        onDateChange={(range) => {
-                          setInsightDateRange(range);
-                          setCurrentPage(1);
-                        }}
-                        className="w-full sm:w-auto"
-                      />
-                    )}
-                  </>
-                )}
+                
+              
 
                 {/* Review Filter Dropdown - Only show for review dashboard */}
                 {dashboardType === "review" && (
@@ -862,6 +826,45 @@ export const MultiDashboard: React.FC = () => {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                )}
+
+                  {/* Insight Days Filter - Only show for insight dashboard */}
+                  {["insight", "review"].includes(dashboardType) && (
+                  <>
+                    <Select
+                      value={insightDays}
+                      onValueChange={(value) => {
+                        setInsightDays(value);
+                        if (value !== "custom") {
+                          setInsightDateRange(undefined);
+                        }
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="w-full sm:w-48 bg-background">
+                        <SelectValue placeholder={t("dashboard.filters.insightDays")} />
+                      </SelectTrigger>
+                      <SelectContent className="z-50 bg-background">
+                        <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("dashboard.filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {insightDays === "custom" && (
+                      <DateRangePicker
+                        date={insightDateRange}
+                        onDateChange={(range) => {
+                          setInsightDateRange(range);
+                          setCurrentPage(1);
+                        }}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
                 )}
 
                 {/* Post Filters - Only show for post dashboard */}
