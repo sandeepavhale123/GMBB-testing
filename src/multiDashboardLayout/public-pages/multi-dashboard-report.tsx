@@ -472,34 +472,7 @@ const PublicMultiDashboardReport: React.FC = () => {
                 </Select>
 
                 {/* Insight Days Filter - Only show for insight dashboard */}
-                {activeDashboardType === "insight" && (
-                  <>
-                    <Select
-                      value={insightDays}
-                      onValueChange={handleInsightDaysChange}
-                    >
-                      <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder={t("filters.insightDays")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
-                        <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
-                        <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
-                        <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
-                        <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
-                        <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
-                        <SelectItem value="custom">{t("filters.customRange")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {insightDays === "custom" && (
-                      <DateRangePicker
-                        date={insightDateRange}
-                        onDateChange={handleInsightDateRangeChange}
-                        className="w-full sm:w-auto"
-                      />
-                    )}
-                  </>
-                )}
+              
 
                 {activeDashboardType === "review" && (
                   <Select
@@ -533,6 +506,35 @@ const PublicMultiDashboardReport: React.FC = () => {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                )}
+
+                  {["insight","review"].includes(activeDashboardType) && (
+                  <>
+                    <Select
+                      value={insightDays}
+                      onValueChange={handleInsightDaysChange}
+                    >
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder={t("filters.insightDays")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {insightDays === "custom" && (
+                      <DateRangePicker
+                        date={insightDateRange}
+                        onDateChange={handleInsightDateRangeChange}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
                 )}
                 {/* Additional Filters for Post Dashboard */}
                 {activeDashboardType === "post" && (
