@@ -102,6 +102,8 @@ export const MultiDashboard: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [insightDays, setInsightDays] = useState("7");
   const [insightDateRange, setInsightDateRange] = useState<DateRange | undefined>();
+  const [reviewDays, setReviewDays] = useState("7");
+  const [reviewDateRange, setReviewDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCopyUrlModal, setShowCopyUrlModal] = useState(false);
@@ -206,6 +208,13 @@ export const MultiDashboard: React.FC = () => {
       category: selectedCategory,
       state: selectedState,
       review: reviewFilter,
+      reviewDays: reviewDays === "custom" ? "" : reviewDays,
+      ...(reviewDays === "custom" && reviewDateRange?.from && reviewDateRange?.to && {
+        dateRange: {
+          startDate: formatDateForBackend(reviewDateRange.from),
+          endDate: formatDateForBackend(reviewDateRange.to),
+        },
+      }),
     }),
     [
       currentPage,
@@ -214,6 +223,8 @@ export const MultiDashboard: React.FC = () => {
       selectedCategory,
       selectedState,
       reviewFilter,
+      reviewDays,
+      reviewDateRange,
     ]
   );
 
@@ -828,8 +839,8 @@ export const MultiDashboard: React.FC = () => {
                   </Select>
                 )}
 
-                  {/* Insight Days Filter - Only show for insight dashboard */}
-                  {["insight", "review"].includes(dashboardType) && (
+                {/* Insight Days Filter - Only show for insight dashboard */}
+                {dashboardType === "insight" && (
                   <>
                     <Select
                       value={insightDays}
@@ -859,6 +870,46 @@ export const MultiDashboard: React.FC = () => {
                         date={insightDateRange}
                         onDateChange={(range) => {
                           setInsightDateRange(range);
+                          setCurrentPage(1);
+                        }}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
+                )}
+
+                {/* Review Days Filter - Only show for review dashboard */}
+                {dashboardType === "review" && (
+                  <>
+                    <Select
+                      value={reviewDays}
+                      onValueChange={(value) => {
+                        setReviewDays(value);
+                        if (value !== "custom") {
+                          setReviewDateRange(undefined);
+                        }
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="w-full sm:w-48 bg-background">
+                        <SelectValue placeholder={t("dashboard.filters.reviewDays")} />
+                      </SelectTrigger>
+                      <SelectContent className="z-50 bg-background">
+                        <SelectItem value="All">{t("dashboard.filters.allTime")}</SelectItem>
+                        <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("dashboard.filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {reviewDays === "custom" && (
+                      <DateRangePicker
+                        date={reviewDateRange}
+                        onDateChange={(range) => {
+                          setReviewDateRange(range);
                           setCurrentPage(1);
                         }}
                         className="w-full sm:w-auto"
