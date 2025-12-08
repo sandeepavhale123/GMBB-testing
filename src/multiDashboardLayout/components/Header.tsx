@@ -79,7 +79,7 @@ export const Header: React.FC = () => {
           {/* Right Section - Action Buttons */}
           <div className="flex items-center gap-2">
             {/* Dashboard Mode Toggle */}
-            <DashboardModeSwitch />
+            {/* <DashboardModeSwitch /> */}
 
             {isAllowedDomain() && (
               <Button

@@ -4,6 +4,10 @@
     "defaultUserEmail": "utente@example.com",
     "viewProfile": "Visualizza Profilo",
     "accountSettings": "Impostazioni Account",
-    "logout": "Disconnetti"
+    "logout": "Disconnetti",
+    "switchToBulk": "Passa alla Dashboard Multipla",
+    "switchToSingle": "Passa alla Dashboard Singola",
+    "switchSuccess": "Dashboard Cambiata",
+    "switchError": "Cambio Fallito"
   }
 }

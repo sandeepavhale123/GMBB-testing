@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Switch } from "@/components/ui/switch";
+import { SegmentedToggle } from "./SegmentedToggle";
 import { useProfile } from "@/hooks/useProfile";
 import { changeDashboardMode } from "@/api/dashboardApi";
 import { profileService } from "@/services/profileService";
@@ -23,7 +23,7 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   // Current state: checked = multi (1), unchecked = single (0)
   const isMultiMode = profileData?.dashboardType === 1;
-  
+
   // Text color based on variant
   const textColorClass = variant === "light" ? "text-gray-900/80" : "text-white/80";
 
@@ -46,13 +46,9 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   const multiDashboardPrefixes = ["/main-dashboard", "/main"];
 
-  const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) =>
-    location.pathname.startsWith(prefix)
-  );
+  const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
-  const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) =>
-    location.pathname.startsWith(prefix)
-  );
+  const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
   const handleToggle = useCallback(
     async (checked: boolean) => {
@@ -90,21 +86,14 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
       } catch (error: any) {
         toast({
           title: "Error",
-          description:
-            error.response?.data?.message || "Failed to change dashboard mode",
+          description: error.response?.data?.message || "Failed to change dashboard mode",
           variant: "destructive",
         });
       } finally {
         setIsLoading(false);
       }
     },
-    [
-      profileData?.dashboardType,
-      isOnSingleDashboard,
-      isOnMultiDashboard,
-      navigate,
-      dispatch,
-    ]
+    [profileData?.dashboardType, isOnSingleDashboard, isOnMultiDashboard, navigate, dispatch],
   );
 
   // Only show to admin users - must be after all hooks
@@ -113,23 +102,18 @@ export const DashboardModeSwitch: React.FC<DashboardModeSwitchProps> = ({ varian
 
   return (
     <div className="hidden md:flex items-center gap-2 px-2">
-      <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode : </label>
-     <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.single")}
-      </span>
-      <Switch
-        checked={isMultiMode}
-        onCheckedChange={handleToggle}
+      {/* <label className={`text-xs font-medium ${textColorClass}`}>Dashboard Mode :</label> */}
+      <SegmentedToggle
+        isActive={isMultiMode}
+        onToggle={handleToggle}
         disabled={isLoading}
-        className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-success"
+        leftLabel="Single"
+        rightLabel="Bulk"
+        leftTooltip="Single Listing Dashboard"
+        rightTooltip="Bulk Listing Dashboard"
       />
-       <span className={`text-xs ${textColorClass}`}>
-        {t("dashboardMode.multi")}
-      </span>
-      
     </div>
   );
 };
 
 export default DashboardModeSwitch;
-
