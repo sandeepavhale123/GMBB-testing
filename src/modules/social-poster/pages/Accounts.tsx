@@ -75,7 +75,6 @@ export const SocialPosterAccounts: React.FC = () => {
             accountsConnected.length > 0
               ? `${t("toast.success_desc")} ${accountsConnected.join(" and ")}`
               : t("toast.success_description_default", {
-                  ns: "accounts",
                   platform,
                 }),
         });
