@@ -441,7 +441,7 @@ export const CitationAuditReport: React.FC = () => {
                         </TableHead>
                         <TableHead>{t("citationAudit.table.phone")}</TableHead>
                         <TableHead className="text-right">
-                          {t("citationAudit.table.phone")}
+                          {t("citationAudit.table.action")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
