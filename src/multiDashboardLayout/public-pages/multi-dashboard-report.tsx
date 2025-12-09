@@ -50,7 +50,10 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import type { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 
 const PublicMultiDashboardReport: React.FC = () => {
   const { t, languageFullName: language } = useI18nNamespace(
@@ -71,6 +74,9 @@ const PublicMultiDashboardReport: React.FC = () => {
     endDate: string;
   }>({ startDate: "", endDate: "" });
   const [insightDays, setInsightDays] = useState<string>("7");
+  const [insightDateRange, setInsightDateRange] = useState<DateRange | undefined>();
+  const [reviewDays, setReviewDays] = useState<string>("7");
+  const [reviewDateRange, setReviewDateRange] = useState<DateRange | undefined>();
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -123,7 +129,20 @@ const PublicMultiDashboardReport: React.FC = () => {
     postStatus: postStatus || undefined,
     reviewFilter,
     language,
-    insightDays: activeDashboardType === "insight" ? insightDays : "7",
+    insightDays: activeDashboardType === "insight" ? (insightDays === "custom" ? "" : insightDays) : undefined,
+    insightDateRange: activeDashboardType === "insight" && insightDays === "custom" && insightDateRange?.from && insightDateRange?.to
+      ? {
+          startDate: format(insightDateRange.from, "yyyy-MM-dd"),
+          endDate: format(insightDateRange.to, "yyyy-MM-dd"),
+        }
+      : undefined,
+    reviewDays: activeDashboardType === "review" ? (reviewDays === "custom" ? "" : reviewDays) : undefined,
+    reviewDateRange: activeDashboardType === "review" && reviewDays === "custom" && reviewDateRange?.from && reviewDateRange?.to
+      ? {
+          startDate: format(reviewDateRange.from, "yyyy-MM-dd"),
+          endDate: format(reviewDateRange.to, "yyyy-MM-dd"),
+        }
+      : undefined,
   });
 
   // Fetch categories and states for filters
@@ -228,6 +247,27 @@ const PublicMultiDashboardReport: React.FC = () => {
 
   const handleInsightDaysChange = (value: string) => {
     setInsightDays(value);
+    if (value !== "custom") {
+      setInsightDateRange(undefined);
+    }
+    setCurrentPage(1);
+  };
+
+  const handleInsightDateRangeChange = (range: DateRange | undefined) => {
+    setInsightDateRange(range);
+    setCurrentPage(1);
+  };
+
+  const handleReviewDaysChange = (value: string) => {
+    setReviewDays(value);
+    if (value !== "custom") {
+      setReviewDateRange(undefined);
+    }
+    setCurrentPage(1);
+  };
+
+  const handleReviewDateRangeChange = (range: DateRange | undefined) => {
+    setReviewDateRange(range);
     setCurrentPage(1);
   };
 
@@ -243,6 +283,9 @@ const PublicMultiDashboardReport: React.FC = () => {
     setPostStatus("");
     setDateRange({ startDate: "", endDate: "" });
     setInsightDays("7");
+    setInsightDateRange(undefined);
+    setReviewDays("7");
+    setReviewDateRange(undefined);
   };
 
   // Generate metrics cards from report config stats
@@ -453,24 +496,7 @@ const PublicMultiDashboardReport: React.FC = () => {
                 </Select>
 
                 {/* Insight Days Filter - Only show for insight dashboard */}
-                {activeDashboardType === "insight" && (
-                  <Select
-                    value={insightDays}
-                    onValueChange={handleInsightDaysChange}
-                  >
-                    <SelectTrigger className="w-[200px]">
-                      <SelectValue placeholder={t("filters.insightDays")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
-                      <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
-                      <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
-                      <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
-                      <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
-                      <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
+              
 
                 {activeDashboardType === "review" && (
                   <Select
@@ -505,7 +531,66 @@ const PublicMultiDashboardReport: React.FC = () => {
                     </SelectContent>
                   </Select>
                 )}
-                {/* Additional Filters for Post Dashboard */}
+                {/* Insight Days Filter - Only for insight dashboard */}
+                {activeDashboardType === "insight" && (
+                  <>
+                    <Select
+                      value={insightDays}
+                      onValueChange={handleInsightDaysChange}
+                    >
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder={t("filters.insightDays")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {insightDays === "custom" && (
+                      <DateRangePicker
+                        date={insightDateRange}
+                        onDateChange={handleInsightDateRangeChange}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
+                )}
+                {/* Review Days Filter - Only for review dashboard */}
+                {activeDashboardType === "review" && (
+                  <>
+                    <Select
+                      value={reviewDays}
+                      onValueChange={handleReviewDaysChange}
+                    >
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder={t("filters.reviewDays")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="All">{t("filters.allTime")}</SelectItem>
+                        <SelectItem value="7">{t("filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {reviewDays === "custom" && (
+                      <DateRangePicker
+                        date={reviewDateRange}
+                        onDateChange={handleReviewDateRangeChange}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
+                )}
+                {/* Additional Filters for Post Dashboard  */} 
                 {activeDashboardType === "post" && (
                   <div className="flex gap-2">
                     <Select

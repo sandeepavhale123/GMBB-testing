@@ -17,6 +17,7 @@ export interface ShareableReportRequest {
   review?: string;
   language?: string;
   insightDays?: string;
+  reviewDays?: string;
 }
 
 export interface ShareablePagination {

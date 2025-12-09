@@ -122,6 +122,10 @@ interface InsightsDashboardRequest {
   category: string;
   state: string;
   insightDays: string;
+  dateRange?: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 interface InsightsDashboardListing {
@@ -191,6 +195,11 @@ interface ReviewDashboardRequest {
   category: string;
   state: string;
   review: "0" | "1" | "2" | "3" | "4" | "5" | "6";
+  reviewDays: string; // "All", "7", "30", "90", "180", "270", "365" or ""
+  dateRange?: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 interface ReviewDashboardListing {

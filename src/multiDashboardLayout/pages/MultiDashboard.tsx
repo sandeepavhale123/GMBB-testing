@@ -101,6 +101,9 @@ export const MultiDashboard: React.FC = () => {
   const [postStatus, setPostStatus] = useState("all");
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [insightDays, setInsightDays] = useState("7");
+  const [insightDateRange, setInsightDateRange] = useState<DateRange | undefined>();
+  const [reviewDays, setReviewDays] = useState("7");
+  const [reviewDateRange, setReviewDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCopyUrlModal, setShowCopyUrlModal] = useState(false);
@@ -178,7 +181,13 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
-      insightDays: insightDays,
+      insightDays: insightDays === "custom" ? "" : insightDays,
+      ...(insightDays === "custom" && insightDateRange?.from && insightDateRange?.to && {
+        dateRange: {
+          startDate: formatDateForBackend(insightDateRange.from),
+          endDate: formatDateForBackend(insightDateRange.to),
+        },
+      }),
     }),
     [
       currentPage,
@@ -187,6 +196,7 @@ export const MultiDashboard: React.FC = () => {
       selectedCategory,
       selectedState,
       insightDays,
+      insightDateRange,
     ]
   );
 
@@ -198,6 +208,13 @@ export const MultiDashboard: React.FC = () => {
       category: selectedCategory,
       state: selectedState,
       review: reviewFilter,
+      reviewDays: reviewDays === "custom" ? "" : reviewDays,
+      ...(reviewDays === "custom" && reviewDateRange?.from && reviewDateRange?.to && {
+        dateRange: {
+          startDate: formatDateForBackend(reviewDateRange.from),
+          endDate: formatDateForBackend(reviewDateRange.to),
+        },
+      }),
     }),
     [
       currentPage,
@@ -206,6 +223,8 @@ export const MultiDashboard: React.FC = () => {
       selectedCategory,
       selectedState,
       reviewFilter,
+      reviewDays,
+      reviewDateRange,
     ]
   );
 
@@ -780,28 +799,8 @@ export const MultiDashboard: React.FC = () => {
                       ))}
                   </SelectContent>
                 </Select>
-                {/* Insight Days Filter - Only show for insight dashboard */}
-                {dashboardType === "insight" && (
-                  <Select
-                    value={insightDays}
-                    onValueChange={(value) => {
-                      setInsightDays(value);
-                      setCurrentPage(1);
-                    }}
-                  >
-                    <SelectTrigger className="w-full sm:w-48 bg-background">
-                      <SelectValue placeholder={t("dashboard.filters.insightDays")} />
-                    </SelectTrigger>
-                    <SelectContent className="z-50 bg-background">
-                      <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
-                      <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
-                      <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
-                      <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
-                      <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
-                      <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
+                
+              
 
                 {/* Review Filter Dropdown - Only show for review dashboard */}
                 {dashboardType === "review" && (
@@ -838,6 +837,85 @@ export const MultiDashboard: React.FC = () => {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                )}
+
+                {/* Insight Days Filter - Only show for insight dashboard */}
+                {dashboardType === "insight" && (
+                  <>
+                    <Select
+                      value={insightDays}
+                      onValueChange={(value) => {
+                        setInsightDays(value);
+                        if (value !== "custom") {
+                          setInsightDateRange(undefined);
+                        }
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="w-full sm:w-48 bg-background">
+                        <SelectValue placeholder={t("dashboard.filters.insightDays")} />
+                      </SelectTrigger>
+                      <SelectContent className="z-50 bg-background">
+                        <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("dashboard.filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {insightDays === "custom" && (
+                      <DateRangePicker
+                        date={insightDateRange}
+                        onDateChange={(range) => {
+                          setInsightDateRange(range);
+                          setCurrentPage(1);
+                        }}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
+                )}
+
+                {/* Review Days Filter - Only show for review dashboard */}
+                {dashboardType === "review" && (
+                  <>
+                    <Select
+                      value={reviewDays}
+                      onValueChange={(value) => {
+                        setReviewDays(value);
+                        if (value !== "custom") {
+                          setReviewDateRange(undefined);
+                        }
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="w-full sm:w-48 bg-background">
+                        <SelectValue placeholder={t("dashboard.filters.reviewDays")} />
+                      </SelectTrigger>
+                      <SelectContent className="z-50 bg-background">
+                        <SelectItem value="All">{t("dashboard.filters.allTime")}</SelectItem>
+                        <SelectItem value="7">{t("dashboard.filters.last7Days")}</SelectItem>
+                        <SelectItem value="30">{t("dashboard.filters.last30Days")}</SelectItem>
+                        <SelectItem value="90">{t("dashboard.filters.last90Days")}</SelectItem>
+                        <SelectItem value="180">{t("dashboard.filters.last6Months")}</SelectItem>
+                        <SelectItem value="270">{t("dashboard.filters.last9Months")}</SelectItem>
+                        <SelectItem value="365">{t("dashboard.filters.last12Months")}</SelectItem>
+                        <SelectItem value="custom">{t("dashboard.filters.customRange")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {reviewDays === "custom" && (
+                      <DateRangePicker
+                        date={reviewDateRange}
+                        onDateChange={(range) => {
+                          setReviewDateRange(range);
+                          setCurrentPage(1);
+                        }}
+                        className="w-full sm:w-auto"
+                      />
+                    )}
+                  </>
                 )}
 
                 {/* Post Filters - Only show for post dashboard */}

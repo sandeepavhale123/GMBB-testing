@@ -59,12 +59,15 @@
       "livePost": "Live-Beitrag",
       "failedPost": "Fehlgeschlagener Beitrag",
       "insightDays": "Zeitraum",
+      "reviewDays": "Bewertungszeitraum",
+      "allTime": "Gesamter Zeitraum",
       "last7Days": "Letzte 7 Tage",
       "last30Days": "Letzte 30 Tage",
       "last90Days": "Letzte 90 Tage",
       "last6Months": "Letzte 6 Monate",
       "last9Months": "Letzte 9 Monate",
-      "last12Months": "Letzte 12 Monate"
+      "last12Months": "Letzte 12 Monate",
+      "customRange": "Benutzerdefinierter Zeitraum"
     }
   },
   "export": "CSV exportieren",
