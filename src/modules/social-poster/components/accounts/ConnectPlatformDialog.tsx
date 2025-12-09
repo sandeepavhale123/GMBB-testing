@@ -86,7 +86,7 @@ export const ConnectPlatformDialog: React.FC<ConnectPlatformDialogProps> = ({
       name: t("platforms.threads.name"),
       icon: MessageSquare,
       color: "hsl(0, 0%, 0%)",
-      enabled: false,
+      enabled: true,
       description: t("platforms.threads.description"),
     },
     {
