@@ -200,7 +200,7 @@ const PublicCitationReport: React.FC = () => {
                 {t("publicCitationReport.audit.title")}
               </CardTitle>
             </div>
-            <Button
+            {/* <Button
               asChild
               variant="default"
               className="w-full sm:w-auto text-sm"
@@ -212,7 +212,7 @@ const PublicCitationReport: React.FC = () => {
               >
                 {t("publicCitationReport.audit.placeOrder")}
               </a>
-            </Button>
+            </Button> */}
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="existing" className="w-full">

@@ -591,7 +591,7 @@ export const CitationPage: React.FC = () => {
                         {t("citationPage.auditCard.title")}
                       </CardTitle>
                     </div>
-                    <Button
+                    {/* <Button
                       asChild
                       variant="default"
                       className="w-full sm:w-auto text-sm"
@@ -603,7 +603,7 @@ export const CitationPage: React.FC = () => {
                       >
                         {t("citationPage.auditCard.orderButton")}
                       </a>
-                    </Button>
+                    </Button> */}
                   </CardHeader>
                   <CardContent>
                     <div className="w-full">

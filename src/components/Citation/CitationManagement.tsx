@@ -102,7 +102,7 @@ export const CitationManagement: React.FC<Props> = ({
               {t("citationPage.auditCard.title")}
             </CardTitle>
           </div>
-          <Button
+          {/* <Button
             asChild
             variant="default"
             className="w-full sm:w-auto text-sm"
@@ -114,7 +114,7 @@ export const CitationManagement: React.FC<Props> = ({
             >
               {t("citationPage.auditCard.orderButton")}
             </a>
-          </Button>
+          </Button> */}
         </CardHeader>
 
         <CardContent>
