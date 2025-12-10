@@ -87,10 +87,6 @@ export const ModulesMegaMenu: React.FC = () => {
     fetchProfile();
   }, []);
 
-  // Hide mega menu for dashboardType 2 users
-  if (dashboardType === 2) {
-    return null;
-  }
 
   const getFilteredModules = () => {
     const baseModules = modules.filter(
@@ -126,6 +122,12 @@ export const ModulesMegaMenu: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Hide mega menu for dashboardType 2 users (must be after all hooks)
+  if (dashboardType === 2) {
+    return null;
+  }
+
   return (
     <div className="relative">
       <Button
