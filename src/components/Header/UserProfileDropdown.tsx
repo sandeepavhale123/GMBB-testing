@@ -114,6 +114,37 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
     );
   };
 
+  // Helper function to check if dashboard switch should be shown (only on bulk/single dashboard modules)
+  const shouldShowDashboardSwitch = () => {
+    const singleDashboardPrefixes = [
+      "/location-dashboard",
+      "/posts",
+      "/media",
+      "/gallery",
+      "/insights",
+      "/keywords",
+      "/geo-ranking",
+      "/citation",
+      "/reviews",
+      "/qa",
+      "/reports",
+      "/business-info",
+      "/ai-tasks",
+    ];
+
+    const multiDashboardPrefixes = ["/main-dashboard", "/main"];
+
+    const isOnSingleDashboard = singleDashboardPrefixes.some((prefix) =>
+      location.pathname.startsWith(prefix)
+    );
+
+    const isOnMultiDashboard = multiDashboardPrefixes.some((prefix) =>
+      location.pathname.startsWith(prefix)
+    );
+
+    return isOnSingleDashboard || isOnMultiDashboard;
+  };
+
   // Get user info from profile data
   const userName = profileData
     ? `${profileData.first_name} ${profileData.last_name}`
@@ -151,12 +182,11 @@ export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ classN
             {t("userProfileDropdown.viewProfile")}
           </DropdownMenuItem>
 
-          {isAdmin && (
+          {isAdmin && shouldShowDashboardSwitch() && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleDashboardSwitch} className="cursor-pointer" disabled={isSwitching}>
                  <ArrowRightLeft className="w-4 h-4 mr-1"  />
-                {/* {isSwitching ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : null} */}
                 {profileData?.dashboardType === 0
                   ? t("userProfileDropdown.switchToBulk")
                   : t("userProfileDropdown.switchToSingle")}
