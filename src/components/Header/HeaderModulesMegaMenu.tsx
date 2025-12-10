@@ -57,13 +57,13 @@ export const HeaderModulesMegaMenu: React.FC = () => {
     //   href: "/module/reputation",
     //   beta: true,
     // },
-    {
-      name: "Feedback & Review Generator",
-      description: "Collect feedback and automatically generate positive reviews.",
-      icon: Star,
-      href: "/module/reputation/v1/dashboard",
-      // beta: true,
-    },
+    // {
+    //   name: "Feedback & Review Generator",
+    //   description: "Collect feedback and automatically generate positive reviews.",
+    //   icon: Star,
+    //   href: "/module/reputation/v1/dashboard",
+    //   // beta: true,
+    // },
   ];
   const isModuleActive = (moduleHref: string) => {
     return location.pathname.startsWith(moduleHref);
