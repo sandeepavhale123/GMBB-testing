@@ -86,6 +86,12 @@ export const ModulesMegaMenu: React.FC = () => {
     };
     fetchProfile();
   }, []);
+
+  // Hide mega menu for dashboardType 2 users
+  if (dashboardType === 2) {
+    return null;
+  }
+
   const getFilteredModules = () => {
     const baseModules = modules.filter(
       (module) => module.name !== "Manage GMB listing"
