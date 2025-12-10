@@ -56,13 +56,13 @@ export const ModulesMegaMenu: React.FC = () => {
     //   href: "/module/reputation",
     //   beta: true,
     // },
-    {
-      name: "Feedback & Review Generator",
-      description: "Collect feedback and automatically generate positive reviews.", 
-      icon: Star,
-      href: "/module/reputation/v1/dashboard",
-      // beta: true,
-    },
+    // {
+    //   name: "Feedback & Review Generator",
+    //   description: "Collect feedback and automatically generate positive reviews.", 
+    //   icon: Star,
+    //   href: "/module/reputation/v1/dashboard",
+    //   // beta: true,
+    // },
   ];
   const [isOpen, setIsOpen] = useState(false);
   const [dashboardType, setDashboardType] = useState<number | null>(null);
