@@ -410,3 +410,10 @@ export interface GetPostActivityResponse {
   message: string;
   data: PostActivityResponse;
 }
+
+// Channel-specific content for compose post tabs
+export interface ChannelContent {
+  platform: PlatformType | "draft";
+  content: string;
+  useCustomContent: boolean; // false = use draft content
+}

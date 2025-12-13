@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { ComposePostCard } from "../components/create-post/ComposePostCard";
 import { ScheduleOptionsCard } from "../components/create-post/ScheduleOptionsCard";
 import { ActionButtonsCard } from "../components/create-post/ActionButtonsCard";
 import { LivePreviewPanel } from "../components/create-post/LivePreviewPanel";
-import { getMinCharacterLimit } from "../components/create-post/CharacterCounter";
+import { getMinCharacterLimit, getCharacterLimit } from "../components/create-post/CharacterCounter";
 import {
   useUploadMedia,
   useDeleteMedia,
@@ -26,7 +26,7 @@ import {
   useUpdatePost,
   useAvailableAccounts,
 } from "../hooks/useSocialPoster";
-import { Post } from "../types";
+import { Post, ChannelContent, PlatformType } from "../types";
 import { MediaItem } from "../types";
 import { useProfile } from "@/hooks/useProfile";
 import {
@@ -34,11 +34,26 @@ import {
   convertUserTimezoneToUTC,
 } from "@/utils/dateUtils";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+
 interface CreatePostProps {
   editMode?: boolean;
   postData?: any;
   postId?: string;
 }
+
+// Get unique display platforms (consolidate linkedin variants)
+const getDisplayPlatforms = (platforms: string[]): string[] => {
+  const uniquePlatforms = new Set<string>();
+  platforms.forEach(p => {
+    if (p === "linkedin_individual" || p === "linkedin_organisation") {
+      uniquePlatforms.add("linkedin");
+    } else {
+      uniquePlatforms.add(p);
+    }
+  });
+  return Array.from(uniquePlatforms);
+};
+
 export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
   editMode = false,
   postData,
@@ -111,6 +126,11 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
   );
   const [isUploading, setIsUploading] = useState(false);
   const [deletingMediaId, setDeletingMediaId] = useState<string | null>(null);
+  
+  // Channel-specific content state
+  const [channelContents, setChannelContents] = useState<Record<string, ChannelContent>>({});
+  const [activeTab, setActiveTab] = useState<string>("draft");
+  
   const emojis = [
     "😀",
     "😂",
@@ -143,6 +163,58 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
       .map((account) => account.platform);
     return [...new Set(platforms)]; // Remove duplicates
   }, [selectedAccounts, allAccounts]);
+
+  // Get display platforms for tabs
+  const displayPlatforms = useMemo(() => getDisplayPlatforms(selectedPlatforms), [selectedPlatforms]);
+
+  // Initialize channel contents when platforms change
+  React.useEffect(() => {
+    setChannelContents(prev => {
+      const updated = { ...prev };
+      displayPlatforms.forEach(platform => {
+        if (!updated[platform]) {
+          updated[platform] = {
+            platform: platform as PlatformType,
+            content: content,
+            useCustomContent: false,
+          };
+        }
+      });
+      // Remove platforms that are no longer selected
+      Object.keys(updated).forEach(key => {
+        if (!displayPlatforms.includes(key)) {
+          delete updated[key];
+        }
+      });
+      return updated;
+    });
+    
+    // Reset to draft tab if current tab is removed
+    if (activeTab !== "draft" && !displayPlatforms.includes(activeTab)) {
+      setActiveTab("draft");
+    }
+  }, [displayPlatforms, content, activeTab]);
+
+  // Handle channel content change
+  const handleChannelContentChange = useCallback((platform: string, newContent: string, useCustom: boolean) => {
+    setChannelContents(prev => ({
+      ...prev,
+      [platform]: {
+        platform: platform as PlatformType,
+        content: newContent,
+        useCustomContent: useCustom,
+      }
+    }));
+  }, []);
+
+  // Get final content for a platform (for submission)
+  const getFinalContentForPlatform = useCallback((platform: string): string => {
+    const channelData = channelContents[platform];
+    if (channelData?.useCustomContent) {
+      return channelData.content;
+    }
+    return content;
+  }, [channelContents, content]);
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -329,6 +401,10 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
             onMediaRemove={removeMedia}
             onEmojiClick={() => setShowEmojiPicker(true)}
             onLinkClick={() => setShowLinkDialog(true)}
+            channelContents={channelContents}
+            onChannelContentChange={handleChannelContentChange}
+            activeTab={activeTab}
+            onActiveTabChange={setActiveTab}
           />
 
           <ScheduleOptionsCard
@@ -359,6 +435,9 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
             content={content}
             media={uploadedMedia}
             selectedPlatforms={selectedPlatforms}
+            channelContents={channelContents}
+            activeTab={activeTab}
+            onPlatformChange={(platform) => setActiveTab(platform)}
           />
         </div>
       </div>
@@ -374,6 +453,8 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
               content={content}
               media={uploadedMedia}
               selectedPlatforms={selectedPlatforms}
+              channelContents={channelContents}
+              activeTab={activeTab}
             />
           </div>
         </DialogContent>

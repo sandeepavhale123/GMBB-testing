@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -15,20 +15,18 @@ import { InstagramPreview } from "../previews/InstagramPreview";
 import { LinkedInPreview } from "../previews/LinkedInPreview";
 import { TwitterPreview } from "../previews/TwitterPreview";
 import { ThreadsPreview } from "../previews/ThreadsPreview";
-import { MediaItem } from "../../types";
+import { MediaItem, ChannelContent } from "../../types";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface LivePreviewPanelProps {
   content: string;
   media?: MediaItem[];
   selectedPlatforms: string[];
+  // New props for channel-specific content sync
+  channelContents?: Record<string, ChannelContent>;
+  activeTab?: string;
+  onPlatformChange?: (platform: string) => void;
 }
-
-// const getPlatformDisplayName = (platform: string): string => {
-//   if (platform === "linkedin_individual") return "LinkedIn (Individual)";
-//   if (platform === "linkedin_organisation") return "LinkedIn (Organisation)";
-//   return platform.charAt(0).toUpperCase() + platform.slice(1);
-// };
 
 const getPlatformIcon = (platform: string) => {
   switch (platform) {
@@ -51,6 +49,9 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
   content,
   media,
   selectedPlatforms,
+  channelContents,
+  activeTab,
+  onPlatformChange,
 }) => {
   const { t } = useI18nNamespace([
     "social-poster-components-createpost/LivePreviewPanel",
@@ -67,7 +68,6 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
     const hasLinkedInOrg = platforms.includes("linkedin_organisation");
 
     if (hasLinkedInIndividual || hasLinkedInOrg) {
-      // Remove both LinkedIn variants and add single 'linkedin'
       return platforms
         .filter(
           (p) => p !== "linkedin_individual" && p !== "linkedin_organisation"
@@ -78,16 +78,40 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
     return platforms;
   }, [selectedPlatforms]);
 
-  const [selectedPlatform, setSelectedPlatform] = useState<string>(
+  const [selectedPlatform, setSelectedPlatform] = React.useState<string>(
     displayPlatforms[0] || ""
   );
 
+  // Sync with active tab from ComposePostCard
+  useEffect(() => {
+    if (activeTab && activeTab !== "draft" && displayPlatforms.includes(activeTab)) {
+      setSelectedPlatform(activeTab);
+    }
+  }, [activeTab, displayPlatforms]);
+
   // Update selected platform when platforms change
-  React.useEffect(() => {
+  useEffect(() => {
     if (!displayPlatforms.includes(selectedPlatform)) {
       setSelectedPlatform(displayPlatforms[0] || "");
     }
   }, [displayPlatforms, selectedPlatform]);
+
+  // Handle platform selection change
+  const handlePlatformChange = (platform: string) => {
+    setSelectedPlatform(platform);
+    onPlatformChange?.(platform);
+  };
+
+  // Get content for the selected platform (respecting channel-specific content)
+  const getPreviewContent = (): string => {
+    if (!channelContents || !selectedPlatform) return content;
+    
+    const channelData = channelContents[selectedPlatform];
+    if (channelData?.useCustomContent) {
+      return channelData.content;
+    }
+    return content;
+  };
 
   const renderPreview = () => {
     if (!selectedPlatform) {
@@ -98,7 +122,8 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
       );
     }
 
-    const previewProps = { content, media };
+    const previewContent = getPreviewContent();
+    const previewProps = { content: previewContent, media };
 
     switch (selectedPlatform) {
       case "facebook":
@@ -128,7 +153,7 @@ export const LivePreviewPanel: React.FC<LivePreviewPanelProps> = ({
           {displayPlatforms.length > 0 && (
             <Select
               value={selectedPlatform}
-              onValueChange={setSelectedPlatform}
+              onValueChange={handlePlatformChange}
             >
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder={t("selectPlatform")} />
