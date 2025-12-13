@@ -187,7 +187,7 @@ export const ComposePostCard: React.FC<ComposePostCardProps> = ({
         )}
 
         {/* Toolbar row */}
-        <div className="flex items-center justify-between pt-2 border-t">
+        <div className="flex items-center justify-between pt-2 border-t gap-5">
           <div className="flex items-center gap-2">
             <Button
               type="button"
