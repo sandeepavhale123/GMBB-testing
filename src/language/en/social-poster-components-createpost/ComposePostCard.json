@@ -4,5 +4,10 @@
   "ai_generate": "Generate with AI",
   "instagram_warning": "Instagram requires at least one image or video",
   "uploading_media": "Uploading media...",
-  "character_limit_error": "Character limit is {{limit}} characters"
+  "character_limit_error": "Character limit is {{limit}} characters",
+  "tabs": {
+    "draft": "Draft",
+    "customContent": "Customize content for this platform",
+    "characterWarning": "Content exceeds {{limit}} character limit ({{current}} characters)"
+  }
 }

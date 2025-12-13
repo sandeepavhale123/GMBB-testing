@@ -4,5 +4,10 @@
   "ai_generate": "Générer avec l'IA",
   "instagram_warning": "Instagram nécessite au moins une image ou une vidéo",
   "uploading_media": "Téléversement des médias...",
-  "character_limit_error": "La limite de caractères est de {{limit}} caractères"
+  "character_limit_error": "La limite de caractères est de {{limit}} caractères",
+  "tabs": {
+    "draft": "Brouillon",
+    "customContent": "Personnaliser le contenu pour cette plateforme",
+    "characterWarning": "Le contenu dépasse la limite de {{limit}} caractères ({{current}} caractères)"
+  }
 }
