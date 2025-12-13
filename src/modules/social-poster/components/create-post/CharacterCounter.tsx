@@ -85,7 +85,7 @@ export const CharacterCounter: React.FC<CharacterCounterProps> = ({
     <div className="space-y-2">
       {/* Main limit info */}
       {minLimit !== Infinity && (
-        <div className="flex items-center gap-2 text-sm">
+        <div className="hidden items-center gap-2 text-sm">
           <span className="font-medium text-foreground">
             {t("labels.character_limit")}:
           </span>
