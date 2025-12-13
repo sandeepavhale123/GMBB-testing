@@ -282,13 +282,47 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
     }
   };
   const insertEmoji = (emoji: string) => {
-    setContent(content + emoji);
+    if (activeTab === "draft") {
+      setContent(content + emoji);
+    } else {
+      const channelData = channelContents[activeTab];
+      const currentContent = channelData?.useCustomContent 
+        ? channelData.content 
+        : content;
+      
+      setChannelContents(prev => ({
+        ...prev,
+        [activeTab]: {
+          platform: activeTab as PlatformType,
+          content: currentContent + emoji,
+          useCustomContent: true,
+        }
+      }));
+    }
     setShowEmojiPicker(false);
   };
   const insertLink = () => {
     if (linkUrl && linkText) {
       const linkMarkdown = `[${linkText}](${linkUrl})`;
-      setContent(content + " " + linkMarkdown);
+      
+      if (activeTab === "draft") {
+        setContent(content + " " + linkMarkdown);
+      } else {
+        const channelData = channelContents[activeTab];
+        const currentContent = channelData?.useCustomContent 
+          ? channelData.content 
+          : content;
+        
+        setChannelContents(prev => ({
+          ...prev,
+          [activeTab]: {
+            platform: activeTab as PlatformType,
+            content: currentContent + " " + linkMarkdown,
+            useCustomContent: true,
+          }
+        }));
+      }
+      
       setLinkUrl("");
       setLinkText("");
       setShowLinkDialog(false);
