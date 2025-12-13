@@ -102,6 +102,17 @@ export const CharacterCounter: React.FC<CharacterCounterProps> = ({
   // Multi-platform mode (for draft tab)
   const minLimit = getMinCharacterLimit(platforms);
 
+  // Check if any platform is over its limit
+  const hasAnyOverLimit = platforms.some((platform) => {
+    const info = platformLimits[platform];
+    return info && info.limit !== Infinity && length > info.limit;
+  });
+
+  // Only show in multi-platform mode if any limit is exceeded
+  if (!hasAnyOverLimit) {
+    return null;
+  }
+
   return (
     <div className="space-y-2">
       {/* Main enforced limit */}
