@@ -338,31 +338,42 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
       const mediaIds = uploadedMedia
         .map((m) => m.id)
         .filter((id): id is string => id !== undefined);
+
+      // Build platformContent from channelContents (only channels with custom content)
+      const platformContent: Record<string, string> = {};
+      Object.entries(channelContents).forEach(([platform, channelData]) => {
+        if (channelData.useCustomContent && channelData.content.trim()) {
+          // LinkedIn handling: both linkedin_individual and linkedin_organisation use "linkedin" key
+          if (platform === "linkedin" || platform === "linkedin_individual" || platform === "linkedin_organisation") {
+            platformContent["linkedin"] = channelData.content;
+          } else {
+            platformContent[platform] = channelData.content;
+          }
+        }
+      });
+
+      const requestData = {
+        content,
+        mediaIds: mediaIds.length > 0 ? mediaIds : undefined,
+        targetAccountIds: selectedAccounts,
+        scheduledFor,
+        platformOptions:
+          Object.keys(platformOptions).length > 0
+            ? platformOptions
+            : undefined,
+        platformContent:
+          Object.keys(platformContent).length > 0
+            ? platformContent
+            : undefined,
+      };
+
       if (editMode && postId) {
         await updatePostMutation.mutateAsync({
           postId,
-          data: {
-            content,
-            mediaIds: mediaIds.length > 0 ? mediaIds : undefined,
-            targetAccountIds: selectedAccounts,
-            scheduledFor,
-            platformOptions:
-              Object.keys(platformOptions).length > 0
-                ? platformOptions
-                : undefined,
-          },
+          data: requestData,
         });
       } else {
-        await createPostMutation.mutateAsync({
-          content,
-          mediaIds: mediaIds.length > 0 ? mediaIds : undefined,
-          targetAccountIds: selectedAccounts,
-          scheduledFor,
-          platformOptions:
-            Object.keys(platformOptions).length > 0
-              ? platformOptions
-              : undefined,
-        });
+        await createPostMutation.mutateAsync(requestData);
       }
       navigate("/social-poster/posts");
     } catch (error) {

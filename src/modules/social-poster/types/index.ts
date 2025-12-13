@@ -239,6 +239,15 @@ export interface CreatePostRequest {
   targetAccountIds: string[];
   scheduledFor?: string;
   platformOptions?: Post["platformOptions"];
+  platformContent?: {
+    twitter?: string;
+    instagram?: string;
+    linkedin?: string;
+    facebook?: string;
+    threads?: string;
+    youtube?: string;
+    pinterest?: string;
+  };
 }
 
 export interface CreatePostResponse {
@@ -362,6 +371,7 @@ export interface UpdatePostRequest {
   targetAccountIds?: string[];
   scheduledFor?: string;
   platformOptions?: Post["platformOptions"];
+  platformContent?: CreatePostRequest["platformContent"];
 }
 
 export interface RetryPostRequest {
