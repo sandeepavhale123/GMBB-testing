@@ -11,7 +11,7 @@
       "instagramMediaRequired": "Instagram nécessite au moins une image ou une vidéo",
       "scheduleMissing": "Veuillez sélectionner la date et l'heure pour la publication planifiée",
       "invalidFile": "Veuillez téléverser un fichier image ou vidéo valide",
-      "onlyOneMedia": "Vous ne pouvez téléverser qu’1 vidéo ou 1 image",
+      "onlyOneMedia": "Vous ne pouvez téléverser qu'1 vidéo ou 1 image",
       "uploadFailed": "Échec du téléversement du média. Veuillez réessayer.",
       "removeFailed": "Échec de la suppression du média"
     },
@@ -24,21 +24,25 @@
 
     "buttons": {
       "cancel": "Annuler",
-      "insertLink": "Insérer un lien"
+      "insertLink": "Insérer un lien",
+      "ok": "OK"
     },
 
     "dialogs": {
       "emojiPicker": "Sélectionner un emoji",
       "linkDialogTitle": "Ajouter un lien",
-      "linkDialogDescription": "Saisissez le texte du lien et l’URL",
-      "previewTitle": "Aperçu de la publication"
+      "linkDialogDescription": "Saisissez le texte du lien et l'URL",
+      "previewTitle": "Aperçu de la publication",
+      "limitWarningTitle": "Limite de caractères dépassée",
+      "limitWarningDescription": "Veuillez personnaliser le contenu pour ces plateformes"
     },
 
     "labels": {
       "linkText": "Texte du lien",
       "url": "URL",
       "placeholder": "Cliquez ici",
-      "url-place": "https://example.com"
+      "url-place": "https://example.com",
+      "characters": "caractères"
     }
   }
 }

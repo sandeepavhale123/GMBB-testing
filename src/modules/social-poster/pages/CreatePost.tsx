@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -130,6 +130,10 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
   // Channel-specific content state
   const [channelContents, setChannelContents] = useState<Record<string, ChannelContent>>({});
   const [activeTab, setActiveTab] = useState<string>("draft");
+  
+  // Character limit warning modal state
+  const [showLimitWarningModal, setShowLimitWarningModal] = useState(false);
+  const [platformsOverLimit, setPlatformsOverLimit] = useState<Array<{ platform: string; name: string; length: number; limit: number }>>([]);
   
   const emojis = [
     "😀",
@@ -299,6 +303,24 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
     setUploadedMedia([]);
     toast.success("Form reset");
   };
+  // Handle limit warning OK - switch to platform tab and enable customization
+  const handleLimitWarningOk = useCallback(() => {
+    if (platformsOverLimit.length > 0) {
+      const firstOverLimit = platformsOverLimit[0].platform;
+      setActiveTab(firstOverLimit);
+      // Enable custom content for the platform
+      setChannelContents(prev => ({
+        ...prev,
+        [firstOverLimit]: {
+          platform: firstOverLimit as PlatformType,
+          content: prev[firstOverLimit]?.content || content,
+          useCustomContent: true,
+        }
+      }));
+    }
+    setShowLimitWarningModal(false);
+  }, [platformsOverLimit, content]);
+
   const handleSubmit = async () => {
     if (!content.trim()) {
       toast.error(t("createPost.errors.enterContent"));
@@ -308,15 +330,40 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
       toast.error(t("createPost.errors.selectAccount"));
       return;
     }
-    const minLimit = getMinCharacterLimit(selectedPlatforms);
-    if (minLimit !== Infinity && content.length > minLimit) {
-      toast.error(
-        t("createPost.errors.exceedsLimit", {
-          limit: minLimit,
-        })
-      );
+    
+    // Check for platforms exceeding character limits
+    const overLimitPlatforms: Array<{ platform: string; name: string; length: number; limit: number }> = [];
+    displayPlatforms.forEach(platform => {
+      const limit = getCharacterLimit(platform);
+      const channelData = channelContents[platform];
+      const platformContent = channelData?.useCustomContent ? channelData.content : content;
+      
+      if (limit !== Infinity && platformContent.length > limit) {
+        const platformNames: Record<string, string> = {
+          twitter: "Twitter",
+          facebook: "Facebook",
+          instagram: "Instagram",
+          linkedin: "LinkedIn",
+          threads: "Threads",
+          youtube: "YouTube",
+          tiktok: "TikTok",
+          pinterest: "Pinterest",
+        };
+        overLimitPlatforms.push({
+          platform,
+          name: platformNames[platform] || platform,
+          length: platformContent.length,
+          limit,
+        });
+      }
+    });
+    
+    if (overLimitPlatforms.length > 0) {
+      setPlatformsOverLimit(overLimitPlatforms);
+      setShowLimitWarningModal(true);
       return;
     }
+    
     if (selectedPlatforms.includes("instagram") && uploadedMedia.length === 0) {
       toast.error(t("createPost.errors.instagramMediaRequired"));
       return;
@@ -530,6 +577,38 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
             </Button>
             <Button onClick={insertLink} disabled={!linkUrl || !linkText}>
               {t("createPost.buttons.insertLink")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Character Limit Warning Modal */}
+      <Dialog open={showLimitWarningModal} onOpenChange={setShowLimitWarningModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-warning/10">
+                <AlertTriangle className="h-5 w-5 text-warning" />
+              </div>
+              <DialogTitle>{t("createPost.dialogs.limitWarningTitle")}</DialogTitle>
+            </div>
+            <DialogDescription className="pt-2">
+              {t("createPost.dialogs.limitWarningDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2 py-4">
+            {platformsOverLimit.map(({ platform, name, length, limit }) => (
+              <div key={platform} className="flex items-center justify-between rounded-lg border p-3">
+                <span className="font-medium">{name}</span>
+                <span className="text-sm text-destructive font-medium">
+                  {length}/{limit} {t("createPost.labels.characters")}
+                </span>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button onClick={handleLimitWarningOk} className="w-full">
+              {t("createPost.buttons.ok")}
             </Button>
           </DialogFooter>
         </DialogContent>
