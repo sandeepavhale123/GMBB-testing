@@ -596,16 +596,16 @@ export const SocialPosterCreatePost: React.FC<CreatePostProps> = ({
               {t("createPost.dialogs.limitWarningDescription")}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-2 py-4">
-            {platformsOverLimit.map(({ platform, name, length, limit }) => (
-              <div key={platform} className="flex items-center justify-between rounded-lg border p-3">
-                <span className="font-medium">{name}</span>
+          {platformsOverLimit.length > 0 && (
+            <div className="py-4">
+              <div className="flex items-center justify-between rounded-lg border p-3">
+                <span className="font-medium">{platformsOverLimit[0].name}</span>
                 <span className="text-sm text-destructive font-medium">
-                  {length}/{limit} {t("createPost.labels.characters")}
+                  {platformsOverLimit[0].length}/{platformsOverLimit[0].limit} {t("createPost.labels.characters")}
                 </span>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
           <DialogFooter>
             <Button onClick={handleLimitWarningOk} className="w-full">
               {t("createPost.buttons.ok")}
