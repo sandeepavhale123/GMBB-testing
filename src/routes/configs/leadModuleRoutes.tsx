@@ -1,43 +1,22 @@
 import { lazyImport } from "../lazyImport";
-const LeadLayout = lazyImport(
-  () => import("@/modules/lead-module/components/PageLayout")
-);
-const Dashboard = lazyImport(
-  () => import("@/modules/lead-module/pages/Dashboard")
-);
-const ReportBranding = lazyImport(
-  () => import("@/modules/lead-module/pages/ReportBranding")
-);
-const EmailTemplate = lazyImport(
-  () => import("@/modules/lead-module/pages/EmailTemplate")
-);
-const EmbeddedIframe = lazyImport(
-  () => import("@/modules/lead-module/pages/EmbeddedIframe")
-);
-const Integration = lazyImport(
-  () => import("@/modules/lead-module/pages/Integration")
-);
-const CreditHistory = lazyImport(
-  () => import("@/modules/lead-module/pages/CreditHistory")
-);
+const LeadLayout = lazyImport(() => import("@/modules/lead-module/components/PageLayout"));
+const Dashboard = lazyImport(() => import("@/modules/lead-module/pages/Dashboard"));
+const ReportBranding = lazyImport(() => import("@/modules/lead-module/pages/ReportBranding"));
+const EmailTemplate = lazyImport(() => import("@/modules/lead-module/pages/EmailTemplate"));
+const EmbeddedIframe = lazyImport(() => import("@/modules/lead-module/pages/EmbeddedIframe"));
+const Integration = lazyImport(() => import("@/modules/lead-module/pages/Integration"));
+const CreditHistory = lazyImport(() => import("@/modules/lead-module/pages/CreditHistory"));
 
-// Settings
+// Settings.
 const ThemeCustomizationWrapper = lazyImport(
-  () =>
-    import(
-      "@/modules/lead-module/components/settings/ThemeCustomizationWrapper"
-    )
+  () => import("@/modules/lead-module/components/settings/ThemeCustomizationWrapper"),
 );
 const ReportBrandingWrapper = lazyImport(
-  () =>
-    import("@/modules/lead-module/components/settings/ReportBrandingWrapper")
+  () => import("@/modules/lead-module/components/settings/ReportBrandingWrapper"),
 );
-const IntegrationsWrapper = lazyImport(
-  () => import("@/modules/lead-module/components/settings/IntegrationsWrapper")
-);
+const IntegrationsWrapper = lazyImport(() => import("@/modules/lead-module/components/settings/IntegrationsWrapper"));
 const CTACustomizationWrapper = lazyImport(
-  () =>
-    import("@/modules/lead-module/components/settings/CTACustomizationWrapper")
+  () => import("@/modules/lead-module/components/settings/CTACustomizationWrapper"),
 );
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
