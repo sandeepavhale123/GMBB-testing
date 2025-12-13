@@ -221,132 +221,133 @@ export const ComposePostCard: React.FC<ComposePostCardProps> = ({
 
   return (
     <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg">{t("title")}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <Tabs value={activeTab} onValueChange={onActiveTabChange} className="w-full">
-          <TabsList className="w-full flex-wrap h-auto gap-1 bg-muted/50 p-1">
-            {/* Draft tab - always visible */}
-            <TabsTrigger 
-              value="draft" 
-              className="flex items-center gap-1.5 data-[state=active]:bg-background"
-            >
-              <FileText className="h-3.5 w-3.5" />
-              <span>{t("tabs.draft")}</span>
-            </TabsTrigger>
+      <Tabs value={activeTab} onValueChange={onActiveTabChange} className="w-full">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <CardTitle className="text-lg">{t("title")}</CardTitle>
+            <TabsList className="h-auto gap-1 bg-muted/50 p-1">
+              {/* Draft tab - always visible */}
+              <TabsTrigger 
+                value="draft" 
+                className="flex items-center gap-1.5 data-[state=active]:bg-background px-2 py-1 text-xs"
+              >
+                <FileText className="h-3 w-3" />
+                <span>{t("tabs.draft")}</span>
+              </TabsTrigger>
 
-            {/* Channel tabs */}
-            {displayPlatforms.map((platform) => {
-              const { Icon, color, name } = getPlatformIcon(platform);
-              const isOverLimit = isPlatformOverLimit(platform);
-              
-              return (
-                <TabsTrigger 
-                  key={platform} 
-                  value={platform}
-                  className={cn(
-                    "flex items-center gap-1.5 data-[state=active]:bg-background relative",
-                    isOverLimit && "text-destructive"
-                  )}
-                >
-                  <div 
-                    className="flex items-center justify-center w-5 h-5 rounded-full"
-                    style={{ backgroundColor: isOverLimit ? "hsl(var(--destructive))" : color }}
+              {/* Channel tabs */}
+              {displayPlatforms.map((platform) => {
+                const { Icon, color, name } = getPlatformIcon(platform);
+                const isOverLimit = isPlatformOverLimit(platform);
+                
+                return (
+                  <TabsTrigger 
+                    key={platform} 
+                    value={platform}
+                    className={cn(
+                      "flex items-center gap-1.5 data-[state=active]:bg-background relative px-2 py-1 text-xs",
+                      isOverLimit && "text-destructive"
+                    )}
                   >
-                    <Icon className="h-3 w-3 text-white" />
-                  </div>
-                  <span className="hidden sm:inline">{name}</span>
-                  {isOverLimit && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full" />
-                  )}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-
+                    <div 
+                      className="flex items-center justify-center w-4 h-4 rounded-full"
+                      style={{ backgroundColor: isOverLimit ? "hsl(var(--destructive))" : color }}
+                    >
+                      <Icon className="h-2.5 w-2.5 text-white" />
+                    </div>
+                    <span className="hidden sm:inline">{name}</span>
+                    {isOverLimit && (
+                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full" />
+                    )}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
           {/* Draft tab content */}
-          <TabsContent value="draft" className="mt-4">
+          <TabsContent value="draft" className="mt-0">
             {renderTextarea("draft")}
           </TabsContent>
 
           {/* Channel tab contents */}
           {displayPlatforms.map((platform) => (
-            <TabsContent key={platform} value={platform} className="mt-4">
+            <TabsContent key={platform} value={platform} className="mt-0">
               {renderTextarea(platform)}
             </TabsContent>
           ))}
-        </Tabs>
 
-        {/* Hidden file input */}
-        <Input
-          id="media-upload-input"
-          type="file"
-          accept="image/png, image/jpeg, image/jpg, video/*"
-          className="hidden"
-          onChange={onMediaUpload}
-          disabled={uploadedMedia.length > 0 || isUploading}
-        />
+          {/* Hidden file input */}
+          <Input
+            id="media-upload-input"
+            type="file"
+            accept="image/png, image/jpeg, image/jpg, video/*"
+            className="hidden"
+            onChange={onMediaUpload}
+            disabled={uploadedMedia.length > 0 || isUploading}
+          />
 
-        {/* Instagram media warning */}
-        {selectedPlatforms.includes("instagram") && uploadedMedia.length === 0 && (
-          <div className="flex items-start gap-2 p-3 rounded-lg bg-chart-4/10 border border-chart-4/20">
-            <div className="text-chart-4 text-sm">
-              ⚠️ {t("instagram_warning")}
+          {/* Instagram media warning */}
+          {selectedPlatforms.includes("instagram") && uploadedMedia.length === 0 && (
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-chart-4/10 border border-chart-4/20">
+              <div className="text-chart-4 text-sm">
+                ⚠️ {t("instagram_warning")}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Uploaded Media Preview */}
-        {(uploadedMedia.length > 0 || isUploading) && (
-          <div className="space-y-3">
-            {uploadedMedia.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {uploadedMedia.map((file, index) => (
-                  <div key={index} className="relative group">
-                    {file.mediaType === "video" ? (
-                      <video
-                        src={file.preview}
-                        className="h-24 w-24 object-cover rounded-md"
-                      />
-                    ) : (
-                      <img
-                        src={file.preview}
-                        alt={file.name}
-                        className="h-24 w-24 object-cover rounded-md"
-                      />
-                    )}
-                    {deletingMediaId === file.id ? (
-                      <div className="absolute inset-0 bg-background/80 flex items-center justify-center rounded-md">
-                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                      </div>
-                    ) : (
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => onMediaRemove(index)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+          {/* Uploaded Media Preview */}
+          {(uploadedMedia.length > 0 || isUploading) && (
+            <div className="space-y-3">
+              {uploadedMedia.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {uploadedMedia.map((file, index) => (
+                    <div key={index} className="relative group">
+                      {file.mediaType === "video" ? (
+                        <video
+                          src={file.preview}
+                          className="h-24 w-24 object-cover rounded-md"
+                        />
+                      ) : (
+                        <img
+                          src={file.preview}
+                          alt={file.name}
+                          className="h-24 w-24 object-cover rounded-md"
+                        />
+                      )}
+                      {deletingMediaId === file.id ? (
+                        <div className="absolute inset-0 bg-background/80 flex items-center justify-center rounded-md">
+                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                        </div>
+                      ) : (
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => onMediaRemove(index)}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
 
-            {/* Upload Progress */}
-            {isUploading && (
-              <div className="flex items-center gap-2 p-3 border rounded-lg bg-muted/50">
-                <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                <span className="text-sm text-muted-foreground">
-                  {t("uploading_media")}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
-      </CardContent>
+              {/* Upload Progress */}
+              {isUploading && (
+                <div className="flex items-center gap-2 p-3 border rounded-lg bg-muted/50">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  <span className="text-sm text-muted-foreground">
+                    {t("uploading_media")}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Tabs>
 
       <AIDescriptionModal
         isOpen={isAIModalOpen}
