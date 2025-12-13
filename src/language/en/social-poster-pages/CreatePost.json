@@ -24,21 +24,25 @@
 
     "buttons": {
       "cancel": "Cancel",
-      "insertLink": "Insert Link"
+      "insertLink": "Insert Link",
+      "ok": "OK"
     },
 
     "dialogs": {
       "emojiPicker": "Select Emoji",
       "linkDialogTitle": "Add Link",
       "linkDialogDescription": "Enter the link text and URL",
-      "previewTitle": "Post Preview"
+      "previewTitle": "Post Preview",
+      "limitWarningTitle": "Character Limit Exceeded",
+      "limitWarningDescription": "Please customize content for these platforms"
     },
 
     "labels": {
       "linkText": "Link Text",
       "url": "URL",
       "placeholder":"Click here",
-      "url-place":"https://example.com"
+      "url-place":"https://example.com",
+      "characters": "characters"
     }
   }
 }

@@ -24,21 +24,25 @@
 
     "buttons": {
       "cancel": "Abbrechen",
-      "insertLink": "Link einfügen"
+      "insertLink": "Link einfügen",
+      "ok": "OK"
     },
 
     "dialogs": {
       "emojiPicker": "Emoji auswählen",
       "linkDialogTitle": "Link hinzufügen",
       "linkDialogDescription": "Geben Sie den Linktext und die URL ein",
-      "previewTitle": "Beitragsvorschau"
+      "previewTitle": "Beitragsvorschau",
+      "limitWarningTitle": "Zeichenlimit überschritten",
+      "limitWarningDescription": "Bitte passen Sie den Inhalt für diese Plattformen an"
     },
 
     "labels": {
       "linkText": "Linktext",
       "url": "URL",
       "placeholder":"Hier klicken",
-      "url-place":"https://example.com"
+      "url-place":"https://example.com",
+      "characters": "Zeichen"
     }
   }
 }
