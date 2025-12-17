@@ -1,11 +1,15 @@
 {
   "PlaceOrderModal": {
-    "title": "Passer la commande",
+    "title": "Paramètres de commande",
     "buttonTextLabel": "Texte du bouton",
     "buttonTextPlaceholder": "Entrez le texte du bouton",
     "buttonUrlLabel": "URL du bouton",
     "buttonUrlPlaceholder": "https://exemple.com",
+    "enabledLabel": "Visibilité du bouton",
+    "enabledNote": "Lorsque désactivé, le bouton de commande sera masqué du rapport de citation public.",
     "cancel": "Annuler",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "loading": "Chargement..."
   }
 }

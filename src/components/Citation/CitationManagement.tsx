@@ -1,5 +1,5 @@
 // src/components/Citation/CitationManagement.tsx
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import {
@@ -14,6 +14,9 @@ import { CitationTrackerCard } from "./CitationTrackerCard";
 import { LocalPagesCard } from "./LocalPagesCard";
 import { usePossibleCitationList } from "@/hooks/useCitation";
 import { useListingContext } from "@/context/ListingContext";
+import { usePlaceOrderSetting } from "@/hooks/usePlaceOrderSetting";
+import { PlaceOrderModal } from "./PlaceOrderModal";
+import { Pencil } from "lucide-react";
 
 type Props = {
   citationData: any;
@@ -36,6 +39,8 @@ export const CitationManagement: React.FC<Props> = ({
 }) => {
   // ✅ MUST COME FIRST → otherwise selectedListing is undefined
   const { selectedListing } = useListingContext();
+  const { settings: placeOrderSettings } = usePlaceOrderSetting();
+  const [isPlaceOrderModalOpen, setIsPlaceOrderModalOpen] = useState(false);
 
   const existingCitationData = useMemo(
     () => citationData?.existingCitations || [],
@@ -102,19 +107,38 @@ export const CitationManagement: React.FC<Props> = ({
               {t("citationPage.auditCard.title")}
             </CardTitle>
           </div>
-          <Button
-            asChild
-            variant="default"
-            className="w-full sm:w-auto text-sm"
-          >
-            <a
-              href="https://orders.citationbuilderpro.com/store/43/local-citation-service"
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="relative w-full sm:w-auto">
+            {/* Pencil edit button - positioned top-right */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute -top-2 -right-2 z-10 rounded-full h-7 w-7 bg-background shadow-md border"
+              onClick={() => setIsPlaceOrderModalOpen(true)}
             >
-              {t("citationPage.auditCard.orderButton")}
-            </a>
-          </Button>
+              <Pencil className="h-3.5 w-3.5" />
+            </Button>
+
+            {/* Conditionally render Place Order button based on place_status */}
+            {placeOrderSettings?.place_status === 1 && (
+              <Button
+                asChild
+                variant="default"
+                className="w-full sm:w-auto text-sm"
+              >
+                <a
+                  href={
+                    placeOrderSettings?.order_url ||
+                    "https://orders.citationbuilderpro.com/store/43/local-citation-service"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {placeOrderSettings?.order_btn ||
+                    t("citationPage.auditCard.orderButton")}
+                </a>
+              </Button>
+            )}
+          </div>
         </CardHeader>
 
         <CardContent>
@@ -284,6 +308,11 @@ export const CitationManagement: React.FC<Props> = ({
           </div>
         </CardContent>
       </Card>
+
+      <PlaceOrderModal
+        isOpen={isPlaceOrderModalOpen}
+        onClose={() => setIsPlaceOrderModalOpen(false)}
+      />
     </>
   );
 };
