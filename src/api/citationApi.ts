@@ -1,5 +1,6 @@
 // src/api/citation/createCitationReport.ts
 import axiosInstance from "./axiosInstance";
+import { publicAxiosInstance } from "./publicAxiosInstance";
 
 export interface CreateCitationReportPayload {
   listingId: string | number;
@@ -76,5 +77,20 @@ export const updatePlaceOrderStatus = async (
   data: UpdatePlaceOrderStatusPayload
 ) => {
   const response = await axiosInstance.post("/update-placeorder-status", data);
+  return response.data;
+};
+
+// Public Place Order Setting API (for public reports - no auth required)
+export interface GetPlaceOrderSettingByReportIdPayload {
+  reportId: string;
+}
+
+export const getPlaceOrderSettingByReportId = async (
+  data: GetPlaceOrderSettingByReportIdPayload
+) => {
+  const response = await publicAxiosInstance.post(
+    "/get-placeorder-settingby-reportId",
+    data
+  );
   return response.data;
 };
