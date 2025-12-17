@@ -63,6 +63,11 @@
       "step4":"Once you have done let us know, we will update your request in next 24 hours."
     },
 
+    "citationButton": {
+      "name": "Citation Button",
+      "description": "Customize the Place Order button that appears on public citation reports."
+    },
+
     "buttons": {
       "configure": "Configure",
       "edit": "Edit",

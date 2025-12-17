@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
-import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink, ChevronDown, Loader2, Mail, Globe } from "lucide-react";
+import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink, ChevronDown, Loader2, Mail, Globe, ShoppingCart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { apiKeySchema, disconnectConfirmationSchema, smtpSchema, SmtpFormData } from "@/schemas/authSchemas";
@@ -27,6 +27,8 @@ import { SmtpPayload } from "@/api/integrationApi";
 import { useListingContext } from "@/context/ListingContext";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { z } from "zod";
+import { useProfile } from "@/hooks/useProfile";
+import { PlaceOrderModal } from "@/components/Citation/PlaceOrderModal";
 interface Integration {
   id: string;
   name: string;
@@ -68,6 +70,11 @@ export const IntegrationsPage: React.FC = () => {
 
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
+  const { profileData } = useProfile();
+
+  // Citation Button Customization - only for dashboardType 0 and 1
+  const showCitationCard = profileData?.dashboardType === 0 || profileData?.dashboardType === 1;
+  const [isPlaceOrderModalOpen, setIsPlaceOrderModalOpen] = useState(false);
 
   // API hooks
   const { data: mapApiKeyData, isLoading: isFetchingKey } = useGetMapApiKey();
@@ -589,7 +596,52 @@ export const IntegrationsPage: React.FC = () => {
             </Card>
           );
         })}
+
+        {/* Citation Button Customization Card - Only for dashboardType 0 and 1 */}
+        {showCitationCard && (
+          <Card className="relative transition-all duration-200 hover:shadow-md">
+            {/* Icon Row */}
+            <div className="p-6 pb-4">
+              <div className="flex justify-start">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                  <ShoppingCart className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+            </div>
+
+            {/* Title and Description Row */}
+            <div className="px-6 pb-4 text-left">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                {t("integrations.citationButton.name")}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t("integrations.citationButton.description")}
+              </p>
+            </div>
+
+            {/* Edit Button Row */}
+            <div className="px-6 pb-6">
+              <div className="flex justify-start gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsPlaceOrderModalOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <Edit className="w-4 h-4" />
+                  {t("integrations.buttons.edit")}
+                </Button>
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
+
+      {/* Place Order Modal for Citation Button Customization */}
+      <PlaceOrderModal
+        isOpen={isPlaceOrderModalOpen}
+        onClose={() => setIsPlaceOrderModalOpen(false)}
+      />
 
       {/* Configure Modal */}
       <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
