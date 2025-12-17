@@ -25,9 +25,10 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
   const [loading, setLoading] = useState(false);
   const PRICE_PER_CREDIT = 0.005; // $0.005 per credit
 
+  const MIN_CREDITS = 2000; // Minimum $10 worth of credits
   const handleIncrement = () => setCredits((prev) => prev + 1000);
   const handleDecrement = () =>
-    setCredits((prev) => Math.max(1000, prev - 1000));
+    setCredits((prev) => Math.max(MIN_CREDITS, prev - 1000));
   const totalPrice = (credits * PRICE_PER_CREDIT).toFixed(2);
 
   const handleBuyNow = async () => {
@@ -108,7 +109,10 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
             <div className="flex items-center justify-between bg-background border border-border rounded-lg px-4 py-3">
               <button
                 onClick={handleDecrement}
-                className="text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
+                disabled={credits <= MIN_CREDITS}
+                className={`text-muted-foreground hover:text-foreground focus:outline-none transition-colors ${
+                  credits <= MIN_CREDITS ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 type="button"
               >
                 <Minus className="h-5 w-5" />
