@@ -22,7 +22,7 @@ export const usePaymentHistory = () => {
       transaction_id: item.txn_id || item.transaction_id || "",
       amount:
         typeof item.Total === "string"
-          ? parseInt(item.Total) * 100
+          ? parseFloat(item.Total) * 100
           : (item.Total || 0) * 100, // Convert to cents
       currency: item.currancy || item.currency || "usd",
       date: item.CreateTime || item.date || new Date().toISOString(),
