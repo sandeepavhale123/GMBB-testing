@@ -2,6 +2,7 @@ import { applyStoredTheme } from "@/utils/themeUtils";
 import React from "react";
 import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
 import { usePerformanceCitationReport } from "@/hooks/useReports";
+import { usePublicPlaceOrderSetting } from "@/hooks/usePlaceOrderSetting";
 import {
   Card,
   CardContent,
@@ -35,6 +36,10 @@ const PublicCitationReport: React.FC = () => {
     languageFullName
   );
   const citationData = data?.data;
+
+  // Fetch place order settings for public report
+  const { settings: placeOrderSettings } = usePublicPlaceOrderSetting(reportId);
+  const isPlaceOrderEnabled = placeOrderSettings?.place_status === 1;
 
   // Load theme for public report
   React.useEffect(() => {
@@ -200,19 +205,22 @@ const PublicCitationReport: React.FC = () => {
                 {t("publicCitationReport.audit.title")}
               </CardTitle>
             </div>
-            {/* <Button
-              asChild
-              variant="default"
-              className="w-full sm:w-auto text-sm"
-            >
-              <a
-                href="https://orders.citationbuilderpro.com/store/43/local-citation-service"
-                target="_blank"
-                rel="noopener noreferrer"
+            {isPlaceOrderEnabled && (
+              <Button
+                asChild
+                variant="default"
+                className="w-full sm:w-auto text-sm"
               >
-                {t("publicCitationReport.audit.placeOrder")}
-              </a>
-            </Button> */}
+                <a
+                  href={placeOrderSettings?.order_url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {placeOrderSettings?.order_btn ||
+                    t("publicCitationReport.audit.placeOrder")}
+                </a>
+              </Button>
+            )}
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="existing" className="w-full">

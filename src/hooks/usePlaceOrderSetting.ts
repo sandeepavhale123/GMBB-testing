@@ -4,6 +4,7 @@ import {
   getPlaceOrderSetting,
   updatePlaceOrderSetting,
   updatePlaceOrderStatus,
+  getPlaceOrderSettingByReportId,
   PlaceOrderSettingResponse,
   UpdatePlaceOrderSettingPayload,
   UpdatePlaceOrderStatusPayload,
@@ -71,5 +72,24 @@ export const usePlaceOrderSetting = () => {
     updateStatus: updateStatusMutation.mutate,
     isUpdatingSetting: updateSettingMutation.isPending,
     isUpdatingStatus: updateStatusMutation.isPending,
+  };
+};
+
+// Hook for public reports - fetches by reportId (no auth required)
+export const usePublicPlaceOrderSetting = (reportId: string) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["public-place-order-setting", reportId],
+    queryFn: async () => {
+      const response = await getPlaceOrderSettingByReportId({ reportId });
+      return response.data as PlaceOrderSettingResponse;
+    },
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    settings: data,
+    isLoading,
   };
 };
