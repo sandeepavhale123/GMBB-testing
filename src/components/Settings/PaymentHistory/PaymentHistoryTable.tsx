@@ -324,7 +324,6 @@ export const PaymentHistoryTable: React.FC = () => {
                         onClick={() => handleViewInvoice(payment)}
                       >
                         <Eye className="w-4 h-4 mr-1" />
-                        {t("paymentHistoryTable.buttons.view")}
                       </Button>
                     </TableCell>
                   </TableRow>
