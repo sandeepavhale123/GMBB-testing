@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, Loader2, Copy } from "lucide-react";
+import { Eye, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Tooltip,
@@ -297,10 +297,7 @@ export const PaymentHistoryTable: React.FC = () => {
                             </span>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p className="flex items-center gap-1">
-                              {payment.transaction_id}
-                              <Copy className="w-3 h-3" />
-                            </p>
+                            <p>{payment.transaction_id}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
