@@ -4,8 +4,13 @@
     "buttonTextLabel": "Button Text",
     "buttonTextPlaceholder": "Enter button text",
     "buttonUrlLabel": "Button URL",
-    "buttonUrlPlaceholder": "https://example.com",
+    "buttonUrlPlaceholder": "https://example.com", 
+    "enabledLabel": "Button Visibility",
+    "enabledNote": "If disabled, the order button will be hidden in the public citation report.",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "saving": "saving...",
+    "loading": "Loading..."
   }
 }
+ 
