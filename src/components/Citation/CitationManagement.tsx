@@ -119,12 +119,11 @@ export const CitationManagement: React.FC<Props> = ({
             </Button>
 
             {/* Conditionally render Place Order button based on place_status */}
-          
+            {placeOrderSettings?.place_status === 1 && (
               <Button
                 asChild
                 variant="default"
-                className="w-full sm:w-auto text-sm "
-                disabled={placeOrderSettings?.place_status === 1}
+                className="w-full sm:w-auto text-sm"
               >
                 <a
                   href={
@@ -138,7 +137,7 @@ export const CitationManagement: React.FC<Props> = ({
                     t("citationPage.auditCard.orderButton")}
                 </a>
               </Button>
-          
+            )}
           </div>
         </CardHeader>
 
