@@ -21,7 +21,7 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
   onOpenChange,
 }) => {
   const { t } = useI18nNamespace("credits_modal/buyCreditsModal");
-  const [credits, setCredits] = useState(1000);
+  const [credits, setCredits] = useState(2000);
   const [loading, setLoading] = useState(false);
   const PRICE_PER_CREDIT = 0.005; // $0.005 per credit
 
