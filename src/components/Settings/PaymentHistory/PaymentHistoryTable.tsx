@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Eye, Loader2 } from "lucide-react";
+import { Eye, Loader2, Copy } from "lucide-react";
+import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Table,
   TableBody,
@@ -274,7 +281,29 @@ export const PaymentHistoryTable: React.FC = () => {
                 {paymentHistory.map((payment) => (
                   <TableRow key={payment.id}>
                     <TableCell className="font-mono text-sm">
-                      {payment.transaction_id}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span
+                              className="cursor-pointer hover:text-primary truncate max-w-[80px] inline-block align-middle"
+                              onClick={() => {
+                                navigator.clipboard.writeText(payment.transaction_id);
+                                toast.success("Transaction ID copied to clipboard");
+                              }}
+                            >
+                              {payment.transaction_id.length > 8
+                                ? `${payment.transaction_id.slice(0, 8)}...`
+                                : payment.transaction_id}
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="flex items-center gap-1">
+                              {payment.transaction_id}
+                              <Copy className="w-3 h-3" />
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </TableCell>
                     <TableCell className="font-medium">
                       {payment.plan_name}
