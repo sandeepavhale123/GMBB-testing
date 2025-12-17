@@ -111,18 +111,8 @@ export const CitationManagement: React.FC<Props> = ({
             </CardTitle>
           </div>
           <div className="relative w-full sm:w-auto">
-            {/* Pencil edit button - positioned top-right */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute -top-[12px] -right-[12px] z-10 rounded-full h-7 w-7 bg-background shadow-md border"
-              onClick={() => setIsPlaceOrderModalOpen(true)}
-            >
-              <Pencil className="h-3.5 w-3.5" />
-            </Button>
-
             {/* Conditionally render Place Order button based on place_status */}
-            {/* {placeOrderSettings?.place_status === 1 && (
+            {placeOrderSettings?.place_status === 1 && (
               <Button
                 asChild
                 variant="default"
@@ -140,10 +130,10 @@ export const CitationManagement: React.FC<Props> = ({
                     t("citationPage.auditCard.orderButton")}
                 </a>
               </Button>
-            )} */}
+            )}
 
              
-            <Button
+            {/* <Button
               variant="default"
               disabled={isDisabled}
               className="w-full sm:w-auto text-sm disabled:opacity-75"
@@ -163,7 +153,7 @@ export const CitationManagement: React.FC<Props> = ({
                     t("citationPage.auditCard.orderButton")}
                 </a>
               )}
-            </Button>
+            </Button> */}
 
           </div>
         </CardHeader>
@@ -333,11 +323,6 @@ export const CitationManagement: React.FC<Props> = ({
           </div>
         </CardContent>
       </Card>
-
-      <PlaceOrderModal
-        isOpen={isPlaceOrderModalOpen}
-        onClose={() => setIsPlaceOrderModalOpen(false)}
-      />
     </>
   );
 };
