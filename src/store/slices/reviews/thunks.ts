@@ -61,8 +61,8 @@ export const sendReviewReply = createAsyncThunk(
     try {
       const response = await reviewService.sendReviewReply(params);
 
-      // Refresh summary after successful reply
-      if (params.listingId) {
+      // Refresh summary after successful reply (only for non-bulk context)
+      if (params.listingId && params.listingId !== "bulk") {
         dispatch(fetchReviewSummary(params.listingId));
       }
 
@@ -89,8 +89,8 @@ export const deleteReviewReply = createAsyncThunk(
     try {
       const response = await reviewService.deleteReviewReply(reviewId);
 
-      // Refresh summary after successful delete
-      if (listingId) {
+      // Refresh summary after successful delete (only for non-bulk context)
+      if (listingId && listingId !== "bulk") {
         dispatch(fetchReviewSummary(listingId));
       }
 
