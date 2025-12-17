@@ -1,11 +1,15 @@
 {
   "PlaceOrderModal": {
-    "title": "Bestellung aufgeben",
+    "title": "Bestellungseinstellungen",
     "buttonTextLabel": "Buttontext",
     "buttonTextPlaceholder": "Buttontext eingeben",
     "buttonUrlLabel": "Button-URL",
     "buttonUrlPlaceholder": "https://beispiel.de",
+    "enabledLabel": "Button-Sichtbarkeit",
+    "enabledNote": "Wenn deaktiviert, wird der Bestellbutton im öffentlichen Zitationsbericht ausgeblendet.",
     "cancel": "Abbrechen",
-    "save": "Speichern"
+    "save": "Speichern",
+    "saving": "Speichern...",
+    "loading": "Laden..."
   }
 }

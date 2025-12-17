@@ -1,11 +1,15 @@
 {
   "PlaceOrderModal": {
-    "title": "Realizar Pedido",
+    "title": "Configuración de Pedido",
     "buttonTextLabel": "Texto del Botón",
     "buttonTextPlaceholder": "Ingrese el texto del botón",
     "buttonUrlLabel": "URL del Botón",
     "buttonUrlPlaceholder": "https://ejemplo.com",
+    "enabledLabel": "Visibilidad del Botón",
+    "enabledNote": "Cuando está deshabilitado, el botón de pedido se ocultará del informe de citas público.",
     "cancel": "Cancelar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "loading": "Cargando..."
   }
 }
