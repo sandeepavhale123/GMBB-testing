@@ -70,6 +70,9 @@ export const CitationManagement: React.FC<Props> = ({
     window.open(url, "_blank", "noopener,noreferrer");
   }, []);
 
+
+  const isDisabled = placeOrderSettings?.place_status !== 1;
+  
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -119,11 +122,11 @@ export const CitationManagement: React.FC<Props> = ({
             </Button>
 
             {/* Conditionally render Place Order button based on place_status */}
-            {placeOrderSettings?.place_status === 1 && (
+            {/* {placeOrderSettings?.place_status === 1 && (
               <Button
                 asChild
                 variant="default"
-                className="w-full sm:w-auto text-sm"
+                className="w-full sm:w-auto text-sm disabled:opacity-75"
               >
                 <a
                   href={
@@ -137,7 +140,31 @@ export const CitationManagement: React.FC<Props> = ({
                     t("citationPage.auditCard.orderButton")}
                 </a>
               </Button>
-            )}
+            )} */}
+
+             
+            <Button
+              variant="default"
+              disabled={isDisabled}
+              className="w-full sm:w-auto text-sm disabled:opacity-75"
+            >
+              {isDisabled ? (
+                <span>
+                  {placeOrderSettings?.order_btn ||
+                    t("citationPage.auditCard.orderButton")}
+                </span>
+              ) : (
+                <a
+                  href={placeOrderSettings?.order_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {placeOrderSettings?.order_btn ||
+                    t("citationPage.auditCard.orderButton")}
+                </a>
+              )}
+            </Button>
+
           </div>
         </CardHeader>
 
@@ -146,11 +173,10 @@ export const CitationManagement: React.FC<Props> = ({
             <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
               <button
                 onClick={() => setCitationTab("existing")}
-                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors whitespace-nowrap ${
-                  citationTab === "existing"
+                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors whitespace-nowrap ${citationTab === "existing"
                     ? "bg-primary text-primary-foreground"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 {t("citationPage.auditCard.existingTab")}(
                 {citationData?.existingCitation})
@@ -160,11 +186,10 @@ export const CitationManagement: React.FC<Props> = ({
                   setCitationTab("possible");
                   if (selectedListing.id) refetchPossibleCitations(); // ✅ FIXED: API is now called
                 }}
-                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${
-                  citationTab === "possible"
+                className={`px-3 py-2 sm:px-4 font-medium text-xs sm:text-sm rounded-md transition-colors ${citationTab === "possible"
                     ? "bg-primary text-primary-foreground"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 {t("citationPage.auditCard.possibleTab")}({totalChecked})
               </button>
@@ -225,7 +250,7 @@ export const CitationManagement: React.FC<Props> = ({
                           <a
                             href={
                               row.website?.startsWith("http://") ||
-                              row.website?.startsWith("https://")
+                                row.website?.startsWith("https://")
                                 ? row.website
                                 : `https://${row.website}`
                             }
