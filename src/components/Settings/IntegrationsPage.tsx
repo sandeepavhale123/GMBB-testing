@@ -29,6 +29,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 import { z } from "zod";
 import { useProfile } from "@/hooks/useProfile";
 import { PlaceOrderModal } from "@/components/Citation/PlaceOrderModal";
+import { usePlaceOrderSetting } from "@/hooks/usePlaceOrderSetting";
 interface Integration {
   id: string;
   name: string;
@@ -75,6 +76,8 @@ export const IntegrationsPage: React.FC = () => {
   // Citation Button Customization - only for dashboardType 0 and 1
   const showCitationCard = profileData?.dashboardType === 0 || profileData?.dashboardType === 1;
   const [isPlaceOrderModalOpen, setIsPlaceOrderModalOpen] = useState(false);
+  const { settings: placeOrderSettings } = usePlaceOrderSetting();
+  const isCitationButtonActive = placeOrderSettings?.place_status === 1;
 
   // API hooks
   const { data: mapApiKeyData, isLoading: isFetchingKey } = useGetMapApiKey();
@@ -599,7 +602,30 @@ export const IntegrationsPage: React.FC = () => {
 
         {/* Citation Button Customization Card - Only for dashboardType 0 and 1 */}
         {showCitationCard && (
-          <Card className="relative transition-all duration-200 hover:shadow-md">
+          <Card className={`relative transition-all duration-200 ${
+            isCitationButtonActive ? "bg-primary/5 border-primary/20 shadow-md" : "hover:shadow-md"
+          }`}>
+            {/* Active/Inactive Badge - Top Right */}
+            <div className="absolute top-3 right-3">
+              {isCitationButtonActive ? (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-100"
+                >
+                  <Check className="w-3 h-3" />
+                  {t("integrations.status.active")}
+                </Badge>
+              ) : (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 bg-muted text-muted-foreground"
+                >
+                  <X className="w-3 h-3" />
+                  {t("integrations.status.inactive")}
+                </Badge>
+              )}
+            </div>
+
             {/* Icon Row */}
             <div className="p-6 pb-4">
               <div className="flex justify-start">
