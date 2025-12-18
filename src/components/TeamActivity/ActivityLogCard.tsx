@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MessageSquare, Star, Mail, Monitor } from "lucide-react";
+import { MessageSquare, Star, Mail } from "lucide-react";
 import { ActivityLogItem } from "@/api/teamApi";
 import { formatDistanceToNow } from "date-fns";
 
@@ -108,8 +108,8 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
         </div>
 
         {/* Right Section - Team Member Info */}
-        <div className="lg:w-64 lg:border-l lg:pl-4 border-t lg:border-t-0 pt-4 lg:pt-0">
-          <div className="flex flex-col items-center lg:items-start gap-3">
+        <div className="lg:w-64 lg:border-l lg:pl-4 border-t lg:border-t-0 pt-4 lg:pt-0 flex items-center">
+          <div className="flex flex-col items-center w-full gap-3 bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
             {/* Avatar */}
             <Avatar className="h-12 w-12 bg-primary/10">
               <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
@@ -118,13 +118,13 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
             </Avatar>
 
             {/* Name and Role */}
-            <div className="text-center lg:text-left">
+            <div className="text-center">
               <h5 className="font-semibold text-foreground">
                 {activity.first_name} {activity.last_name}
               </h5>
-              <p className="text-sm text-muted-foreground capitalize">
+              <Badge className="mt-1 bg-primary text-primary-foreground capitalize">
                 {activity.user_role}
-              </p>
+              </Badge>
             </div>
 
             {/* Email */}
@@ -134,12 +134,6 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
                 <span className="truncate max-w-[180px]">{activity.sub_user_email}</span>
               </div>
             )}
-
-            {/* Platform */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Monitor className="w-4 h-4" />
-              <span>Web Dashboard</span>
-            </div>
           </div>
         </div>
       </div>
