@@ -45,6 +45,7 @@
     "filters": {
       "allCategories": "All Categories",
       "allStates": "All States",
+      "allGroups": "All Groups",
       "reviewFilter": "Review Filter",
       "allReviews": "All Reviews",
       "unrespondedReview": "Un - Responded Review",
