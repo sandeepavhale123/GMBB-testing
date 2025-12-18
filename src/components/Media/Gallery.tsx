@@ -21,6 +21,8 @@ import {
   Copy,
   CheckSquare,
   Square,
+  FileDown,
+  X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -59,6 +61,7 @@ import {
 } from "@/hooks/useGalleryMutations";
 import { GalleryImageItem } from "@/api/mediaApi";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { downloadMediaCSV } from "@/utils/csvExportUtils";
 
 export interface MediaItem {
   id: string;
@@ -121,6 +124,10 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [internalSelectedImages, setInternalSelectedImages] = useState<
     MediaItem[]
   >([]);
+
+  // Export mode state
+  const [isExportMode, setIsExportMode] = useState(false);
+  const [exportSelectedImages, setExportSelectedImages] = useState<MediaItem[]>([]);
 
   // Use external selection state if provided, otherwise use internal
   const selectedImages = externalSelectedImages || internalSelectedImages;
@@ -401,6 +408,48 @@ export const Gallery: React.FC<GalleryProps> = ({
     return selectedImages.some((img) => img.id === itemId);
   };
 
+  // Export mode handlers
+  const isExportSelected = (itemId: string) => {
+    return exportSelectedImages.some((img) => img.id === itemId);
+  };
+
+  const handleExportToggleSelection = (item: MediaItem, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setExportSelectedImages((prev) => {
+      const isSelected = prev.some((img) => img.id === item.id);
+      if (isSelected) {
+        return prev.filter((img) => img.id !== item.id);
+      } else {
+        return [...prev, item];
+      }
+    });
+  };
+
+  const handleExitExportMode = () => {
+    setIsExportMode(false);
+    setExportSelectedImages([]);
+  };
+
+  const handleExportCSV = () => {
+    if (exportSelectedImages.length === 0) {
+      toast({
+        title: t("gallery.errTitle.noImage"),
+        description: t("gallery.export.noItemsSelected"),
+        variant: "destructive",
+      });
+      return;
+    }
+    downloadMediaCSV(exportSelectedImages);
+    toast({
+      title: t("gallery.errTitle.uploadeTitle"),
+      description: t("gallery.export.exportSuccess", { count: exportSelectedImages.length }),
+      variant: "success",
+    });
+    handleExitExportMode();
+  };
+
   // AI Generation handlers
   const handleGenerate = async () => {
     if (!aiPrompt.trim()) return;
@@ -505,6 +554,55 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </button>
               </div>
             )}
+            {/* Export Mode Toggle */}
+            {!showSelectButton && (
+              <Button
+                variant={isExportMode ? "destructive" : "outline"}
+                size="sm"
+                onClick={() => isExportMode ? handleExitExportMode() : setIsExportMode(true)}
+                className="flex items-center gap-2"
+              >
+                {isExportMode ? (
+                  <>
+                    <X className="h-4 w-4" />
+                    {t("gallery.export.exitExport")}
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="h-4 w-4" />
+                    {t("gallery.export.exportMode")}
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Export Mode Action Bar */}
+      {isExportMode && exportSelectedImages.length > 0 && (
+        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="bg-primary text-white">
+              {t("gallery.export.itemsSelected", { count: exportSelectedImages.length })}
+            </Badge>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setExportSelectedImages([])}
+            >
+              {t("gallery.export.clearSelection")}
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleExportCSV}
+              className="bg-primary hover:bg-primary/90"
+            >
+              <FileDown className="h-4 w-4 mr-2" />
+              {t("gallery.export.exportCSV")}
+            </Button>
           </div>
         </div>
       )}
@@ -628,24 +726,47 @@ export const Gallery: React.FC<GalleryProps> = ({
                     ))
                   : displayMedia.map((item) => {
                       const isSelected = isImageSelected(item.id);
+                      const isExportItemSelected = isExportSelected(item.id);
                       return (
                         <div
                           key={item.id}
                           className={`group relative overflow-hidden rounded-lg border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer ${
-                            isSelected
+                            isExportMode && isExportItemSelected
+                              ? "border-primary border-2 ring-2 ring-primary/20"
+                              : isSelected
                               ? "border-primary border-2 ring-2 ring-primary/20"
                               : "border-border"
                           }`}
                           onClick={
-                            enableMultiSelect && showSelectButton
+                            isExportMode
+                              ? (e) => handleExportToggleSelection(item, e)
+                              : enableMultiSelect && showSelectButton
                               ? (e) => handleToggleSelection(item, e)
                               : showSelectButton && !enableMultiSelect
                               ? () => handleSelectMedia(item)
                               : undefined
                           }
                         >
+                          {/* Export mode checkbox overlay */}
+                          {isExportMode && (
+                            <div className="absolute top-2 left-2 z-10">
+                              <div
+                                className={`w-6 h-6 rounded flex items-center justify-center transition-all shadow-lg border-2 border-primary ${
+                                  isExportItemSelected
+                                    ? "bg-primary shadow-primary/50"
+                                    : "bg-white/90 shadow-black/20"
+                                }`}
+                                onClick={(e) => handleExportToggleSelection(item, e)}
+                              >
+                                {isExportItemSelected && (
+                                  <CheckSquare className="h-4 w-4 text-white" />
+                                )}
+                              </div>
+                            </div>
+                          )}
+
                           {/* Multi-select checkbox overlay */}
-                          {enableMultiSelect && showSelectButton && (
+                          {enableMultiSelect && showSelectButton && !isExportMode && (
                             <div className="absolute top-2 left-2 z-10">
                               <div
                                 className={`w-6 h-6 rounded flex items-center justify-center transition-all shadow-lg border-2 border-primary ${
@@ -679,8 +800,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                             )}
                           </div>
 
-                          {/* Action Buttons Overlay - Hidden in Modal View */}
-                          {!showSelectButton && (
+                          {/* Action Buttons Overlay - Hidden in Modal View and Export Mode */}
+                          {!showSelectButton && !isExportMode && (
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                               <div className="flex items-center gap-2">
                                 {/* Quick View */}
