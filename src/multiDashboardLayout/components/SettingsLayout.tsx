@@ -71,7 +71,7 @@ export const SettingsLayout: React.FC = () => {
       icon: Settings,
     },
     {
-      label: "Activity",
+      label: "Activity Logs",
       path: "/main-dashboard/settings/activity",
       icon: Activity,
     },
