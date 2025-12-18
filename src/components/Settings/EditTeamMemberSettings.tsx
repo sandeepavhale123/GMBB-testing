@@ -62,8 +62,9 @@ export const EditTeamMemberSettings: React.FC = () => {
     clearTeamEditError,
     clearTeamSaveError,
   } = useTeam();
-  const { profileData } = useProfile();
-  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  const { profileData, isLoading: isProfileLoading } = useProfile();
+  const isAdmin = !isProfileLoading && profileData?.role?.toLowerCase() === "admin";
+  console.log('Profile Role Debug:', { role: profileData?.role, isLoading: isProfileLoading, isAdmin });
   const [formData, setFormData] = useState<EditFormData>({
     firstName: "",
     lastName: "",
