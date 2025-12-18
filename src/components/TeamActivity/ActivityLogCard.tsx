@@ -56,12 +56,11 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
             </span>
           </div>
 
-          {/* Listing Name */}
-          <h4 className="font-semibold text-foreground">{activity.listing_name}</h4>
-
-          {/* Reviewer Info */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Review by {activity.display_name}</span>
+          {/* Listing Name with Reviewer Info */}
+          <div className="flex flex-wrap items-center gap-2">
+            <h4 className="font-semibold text-foreground">{activity.listing_name}</h4>
+            <span className="text-muted-foreground">•</span>
+            <span className="text-sm text-muted-foreground">Review by {activity.display_name}</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
