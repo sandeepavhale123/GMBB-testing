@@ -16,6 +16,7 @@ import { Button } from "../../components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
 import { useIsMobile } from "../../hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { useProfile } from "@/hooks/useProfile";
 
 interface SettingsNavItem {
   label: string;
@@ -25,6 +26,8 @@ interface SettingsNavItem {
 
 export const SettingsLayout: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/settingsLayout");
+  const { profileData, isLoading: isProfileLoading } = useProfile();
+  const isAdmin = !isProfileLoading && profileData?.role?.toLowerCase() === "admin";
 
   const settingsNavItems: SettingsNavItem[] = [
     {
@@ -99,30 +102,40 @@ export const SettingsLayout: React.FC = () => {
   };
 
   // Settings navigation component (reusable for both desktop and mobile)
-  const SettingsNav = () => (
-    <nav className="space-y-1">
-      {settingsNavItems.map((item) => {
-        const Icon = item.icon;
-        const isActive = getActivePath(item.path) === item.path;
+  const SettingsNav = () => {
+    // Filter out Activity tab for non-admin users
+    const filteredNavItems = settingsNavItems.filter((item) => {
+      if (item.path === "/main-dashboard/settings/activity") {
+        return isAdmin;
+      }
+      return true;
+    });
 
-        return (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            onClick={() => isMobile && setIsSheetOpen(false)}
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
-            }`}
-          >
-            <Icon className="h-4 w-4" />
-            {item.label}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
+    return (
+      <nav className="space-y-1">
+        {filteredNavItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = getActivePath(item.path) === item.path;
+
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => isMobile && setIsSheetOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {item.label}
+            </NavLink>
+          );
+        })}
+      </nav>
+    );
+  };
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
