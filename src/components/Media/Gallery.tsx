@@ -1183,40 +1183,61 @@ export const Gallery: React.FC<GalleryProps> = ({
                       </div>
                     </div>
                   ))
-                : displayMedia.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
-                    >
-                      <div className="aspect-square overflow-hidden">
-                        {item.type === "video" ? (
-                          <video
-                            src={item.url}
-                            className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                            onClick={
-                              showSelectButton
-                                ? () => handleSelectMedia(item)
-                                : undefined
-                            }
-                            preload="metadata"
-                            muted
-                          />
-                        ) : (
-                          <img
-                            src={item.url}
-                            alt={item.title}
-                            className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                            onClick={
-                              showSelectButton
-                                ? () => handleSelectMedia(item)
-                                : undefined
-                            }
-                          />
+                : displayMedia.map((item) => {
+                    const isExportItemSelected = isExportSelected(item.id);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`group relative overflow-hidden rounded-lg border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer ${
+                          isExportMode && isExportItemSelected
+                            ? "border-primary border-2 ring-2 ring-primary/20"
+                            : "border-border"
+                        }`}
+                        onClick={
+                          isExportMode
+                            ? (e) => handleExportToggleSelection(item, e)
+                            : showSelectButton
+                            ? () => handleSelectMedia(item)
+                            : undefined
+                        }
+                      >
+                        {/* Export mode checkbox overlay */}
+                        {isExportMode && (
+                          <div className="absolute top-2 left-2 z-10">
+                            <div
+                              className={`w-6 h-6 rounded flex items-center justify-center transition-all shadow-lg border-2 border-primary ${
+                                isExportItemSelected
+                                  ? "bg-primary shadow-primary/50"
+                                  : "bg-white/90 shadow-black/20"
+                              }`}
+                              onClick={(e) => handleExportToggleSelection(item, e)}
+                            >
+                              {isExportItemSelected && (
+                                <CheckSquare className="h-4 w-4 text-white" />
+                              )}
+                            </div>
+                          </div>
                         )}
-                      </div>
 
-                      {/* Action Buttons Overlay - Hidden in Modal View */}
-                      {!showSelectButton && (
+                        <div className="aspect-square overflow-hidden">
+                          {item.type === "video" ? (
+                            <video
+                              src={item.url}
+                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                              preload="metadata"
+                              muted
+                            />
+                          ) : (
+                            <img
+                              src={item.url}
+                              alt={item.title}
+                              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                            />
+                          )}
+                        </div>
+
+                        {/* Action Buttons Overlay - Hidden in Modal View and Export Mode */}
+                        {!showSelectButton && !isExportMode && (
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                           <div className="flex items-center gap-2">
                             {/* Quick View */}
@@ -1444,8 +1465,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                           {item.title}
                         </p>
                       </div>
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
             </div>
           </div>
         )}
