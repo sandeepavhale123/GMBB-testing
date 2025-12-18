@@ -367,3 +367,27 @@ export const getActivityLogs = async (
     throw error;
   }
 };
+
+// Team Members List for Filter
+export interface TeamMemberListItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+}
+
+export interface GetTeamMembersListResponse {
+  code: number;
+  message: string;
+  data: {
+    members: TeamMemberListItem[];
+  };
+}
+
+export const getTeamMembersList = async (): Promise<GetTeamMembersListResponse> => {
+  const result = await axiosInstance({
+    url: "/get-team-member",
+    method: "POST",
+  });
+  return result.data;
+};

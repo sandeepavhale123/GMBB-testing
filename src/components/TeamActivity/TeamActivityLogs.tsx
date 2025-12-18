@@ -10,16 +10,19 @@ import {
 } from "@/components/ui/select";
 import { Search, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useActivityLogs } from "@/hooks/useActivityLogs";
+import { useTeamMembersList } from "@/hooks/useTeamMembersList";
 import { ActivityLogCard } from "./ActivityLogCard";
 import { ActivityLogCardSkeleton } from "./ActivityLogCardSkeleton";
 
 interface TeamActivityLogsProps {
   subUserId?: string;
+  showMemberFilter?: boolean;
   className?: string;
 }
 
 export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
   subUserId = "",
+  showMemberFilter = false,
   className = "",
 }) => {
   const {
@@ -36,14 +39,19 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
     setPage,
     limit,
     setLimit,
+    selectedMemberId,
+    setSelectedMemberId,
   } = useActivityLogs({ subUserId });
 
-  const hasFilters = search || dateFrom || dateTo;
+  const { members, isLoading: isMembersLoading } = useTeamMembersList(showMemberFilter);
+
+  const hasFilters = search || dateFrom || dateTo || selectedMemberId;
 
   const clearFilters = () => {
     setSearch("");
     setDateFrom("");
     setDateTo("");
+    setSelectedMemberId("");
   };
 
   const { total, totalPages } = pagination;
@@ -64,6 +72,27 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
             className="pl-10"
           />
         </div>
+
+        {/* Team Member Filter - Only shown on Settings Activity page */}
+        {showMemberFilter && (
+          <Select
+            value={selectedMemberId}
+            onValueChange={setSelectedMemberId}
+            disabled={isMembersLoading}
+          >
+            <SelectTrigger className="w-full sm:w-48">
+              <SelectValue placeholder="All Members" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Members</SelectItem>
+              {members.map((member) => (
+                <SelectItem key={member.id} value={member.id}>
+                  {member.firstName} {member.lastName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
 
         {/* Date From */}
         <Input
