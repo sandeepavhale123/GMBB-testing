@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TeamActivityLogs } from "@/components/TeamActivity";
 import {
   Select,
   SelectContent,
@@ -404,6 +405,16 @@ export const EditTeamMemberSettings: React.FC = () => {
                   {t("editTeamMemberSettings.tabs.assignListings")}
                 </button>
               )}
+              <button
+                onClick={() => setActiveTab("activity")}
+                className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === "activity"
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Activity
+              </button>
             </div>
           </div>
         </div>
@@ -833,6 +844,18 @@ export const EditTeamMemberSettings: React.FC = () => {
             </CardContent>
           </Card>
         )}
+
+      {/* Activity Tab */}
+      {activeTab === "activity" && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Activity Logs</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <TeamActivityLogs subUserId={memberId} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
