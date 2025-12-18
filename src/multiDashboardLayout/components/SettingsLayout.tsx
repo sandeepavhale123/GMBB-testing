@@ -10,6 +10,7 @@ import {
   Menu,
   Bell,
   FolderOpen,
+  Activity,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
@@ -65,6 +66,11 @@ export const SettingsLayout: React.FC = () => {
       label: t("nav.integrations"),
       path: "/main-dashboard/settings/integrations",
       icon: Settings,
+    },
+    {
+      label: "Activity",
+      path: "/main-dashboard/settings/activity",
+      icon: Activity,
     },
   ];
 

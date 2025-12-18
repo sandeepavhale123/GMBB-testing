@@ -305,3 +305,65 @@ export const saveAssignListings = async (
     throw error;
   }
 };
+
+// Activity Log Types
+export interface ActivityLogItem {
+  activity_id: string;
+  user_id: string;
+  sub_user_id: string;
+  user_role: string;
+  module: string;
+  action: string;
+  description: string;
+  created_at: string;
+  listing_id: string;
+  listing_name: string;
+  listing_city: string;
+  review_text: string;
+  display_name: string;
+  reply_text: string;
+  sub_user_email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface ActivityLogFilters {
+  search: string;
+  sub_user_id: string;
+  date_from: string;
+  date_to: string;
+}
+
+export interface GetActivityLogsRequest {
+  page: number;
+  limit: number;
+  filters: ActivityLogFilters;
+}
+
+export interface GetActivityLogsResponse {
+  code: number;
+  message: string;
+  data: {
+    page: number;
+    limit: number;
+    total: number;
+    total_pages: number;
+    data: ActivityLogItem[];
+  };
+}
+
+export const getActivityLogs = async (
+  payload: GetActivityLogsRequest
+): Promise<GetActivityLogsResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/activity-logs",
+      method: "POST",
+      data: payload,
+    });
+
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};

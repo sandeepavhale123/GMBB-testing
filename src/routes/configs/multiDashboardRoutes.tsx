@@ -30,6 +30,7 @@ import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/setting
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
 import { ManageGroupsWrapper } from "@/multiDashboardLayout/components/settings/ManageGroupsWrapper";
 import { GroupDetailsWrapper } from "@/multiDashboardLayout/components/settings/GroupDetailsWrapper";
+import { ActivityWrapper } from "@/multiDashboardLayout/components/settings/ActivityWrapper";
 import { RouteConfig } from "../routeConfig";
 import { Profile } from "@/multiDashboardLayout/pages/Profile";
 import { ImportPostCSV } from "@/multiDashboardLayout/pages/ImportPostCSV";
@@ -190,6 +191,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "integrations",
             element: <IntegrationsWrapper />,
+          },
+          {
+            path: "activity",
+            element: <ActivityWrapper />,
           },
           {
             path: "team-members/edit/:memberId",
