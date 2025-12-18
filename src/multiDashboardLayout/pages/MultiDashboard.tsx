@@ -578,7 +578,7 @@ export const MultiDashboard: React.FC = () => {
 
         {/* Search and Filters */}
         <div className="bg-card rounded-lg border border-border p-6">
-          <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 gap-4">
             <h3 className="text-lg font-semibold mb-2">
               {t("dashboard.title", {
                 type:
