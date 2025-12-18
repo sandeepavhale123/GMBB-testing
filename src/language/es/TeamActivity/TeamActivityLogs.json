@@ -1,0 +1,14 @@
+{
+  "activityLogs": {
+    "searchPlaceholder": "Buscar actividades...",
+    "allMembers": "Todos los miembros",
+    "fromDate": "Desde la fecha",
+    "toDate": "Hasta la fecha",
+    "noLogs": "No se encontraron registros de actividad",
+    "clearFilters": "Limpiar filtros",
+    "showing": "Mostrando",
+    "of": "de",
+    "perPage": "Por página",
+    "page": "Página"
+  }
+}

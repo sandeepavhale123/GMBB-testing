@@ -5,18 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import { ActivityLogItem } from "@/api/teamApi";
 import { formatDistanceToNow } from "date-fns";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface ActivityLogCardProps {
   activity: ActivityLogItem;
 }
 
 export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) => {
+   const { t } = useI18nNamespace("TeamActivity/ActivityLogCard");
   const [isExpanded, setIsExpanded] = useState(false);
-
+  
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return formatDistanceToNow(date, { addSuffix: true });
+      return formatDistanceToNow(date, { addSuffix: true }); 
     } catch {
       return dateString;
     }
@@ -46,7 +48,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-              Replied to Review
+              {t("card.reviewToReview")}
             </Badge>
           </div>
           <span className="text-xs text-muted-foreground">{formatDate(activity.created_at)}</span>
@@ -56,7 +58,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
         <div className="flex flex-wrap items-center gap-2">
           <h4 className="font-semibold text-foreground">{activity.listing_name}</h4>
           <span className="text-muted-foreground">•</span>
-          <span className="text-sm text-muted-foreground">Review by {activity.display_name}</span>
+          <span className="text-sm text-muted-foreground">{t("card.reviewBy")} {activity.display_name}</span>
           <div className="flex items-center">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
@@ -84,7 +86,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="text-primary hover:text-primary/80 p-0 h-auto shrink-0"
               >
-                {isExpanded ? "Show less" : "Read more"}
+                {isExpanded ? t("card.showLess") : t("card.readMore")}
               </Button>
             )}
           </div>

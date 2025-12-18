@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
 import {
   Select,
   SelectContent,
@@ -13,6 +14,7 @@ import { useActivityLogs } from "@/hooks/useActivityLogs";
 import { useTeamMembersList } from "@/hooks/useTeamMembersList";
 import { ActivityLogCard } from "./ActivityLogCard";
 import { ActivityLogCardSkeleton } from "./ActivityLogCardSkeleton";
+import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
 interface TeamActivityLogsProps {
   subUserId?: string;
@@ -43,6 +45,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
     setSelectedMemberId,
   } = useActivityLogs({ subUserId });
 
+    const { t } = useI18nNamespace("TeamActivity/TeamActivityLogs");
   const { members, isLoading: isMembersLoading } = useTeamMembersList(showMemberFilter);
 
   const hasFilters = search || dateFrom || dateTo || selectedMemberId;
@@ -66,7 +69,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search activities..."
+            placeholder={t("activityLogs.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10"
@@ -84,7 +87,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
               <SelectValue placeholder="All Members" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Members</SelectItem>
+              <SelectItem value="all">{t("activityLogs.allMembers")}</SelectItem>
               {members.map((member) => (
                 <SelectItem key={member.id} value={member.id}>
                   {member.firstName} {member.lastName}
@@ -97,7 +100,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
         {/* Date From */}
         <Input
           type="date"
-          placeholder="From Date"
+          placeholder={t("activityLogs.fromDate")}
           value={dateFrom}
           onChange={(e) => setDateFrom(e.target.value)}
           className="w-full sm:w-40"
@@ -106,7 +109,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
         {/* Date To */}
         <Input
           type="date"
-          placeholder="To Date"
+          placeholder={t("activityLogs.toDate")}
           value={dateTo}
           onChange={(e) => setDateTo(e.target.value)}
           className="w-full sm:w-40"
@@ -130,10 +133,10 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
           </>
         ) : activities.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
-            <p>No activity logs found</p>
+            <p>{t("activityLogs.noLogs")}</p>
             {hasFilters && (
               <Button variant="link" onClick={clearFilters} className="mt-2">
-                Clear filters
+                {t("activityLogs.clearFilters")}
               </Button>
             )}
           </div>
@@ -148,13 +151,13 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
       {!isLoading && activities.length > 0 && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
           <div className="text-sm text-muted-foreground">
-            Showing {startItem}-{endItem} of {total}
+            {t("activityLogs.showing")} {startItem}-{endItem} {t("activityLogs.of")} {total}
           </div>
 
           <div className="flex items-center gap-4">
             {/* Page Size */}
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Per page:</span>
+              <span className="text-sm text-muted-foreground">{t("activityLogs.perPage")}:</span>
               <Select
                 value={limit.toString()}
                 onValueChange={(value) => setLimit(parseInt(value))}
@@ -181,7 +184,7 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
                 <ChevronLeft className="h-4 w-4" />
               </Button>
               <span className="text-sm text-muted-foreground">
-                Page {page} of {totalPages}
+                {t("activityLogs.page")} {page} {t("activityLogs.of")} {totalPages}
               </span>
               <Button
                 variant="outline"

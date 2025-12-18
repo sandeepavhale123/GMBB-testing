@@ -8,7 +8,7 @@ export const ActivityWrapper: React.FC = () => {
         <h2 className="text-2xl font-semibold text-foreground">Activity Logs</h2>
         <p className="text-sm text-muted-foreground mt-1">
           Track team member actions and review replies
-        </p>
+        </p> 
       </div>
       <TeamActivityLogs showMemberFilter={true} />
     </div>
