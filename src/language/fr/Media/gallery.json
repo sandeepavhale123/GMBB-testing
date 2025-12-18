@@ -80,6 +80,16 @@
       "failed": "Échec de la copie de l'URL dans le presse-papiers",
       "url1": "L'URL de l'image a été copiée dans le presse-papiers.",
       "unableCopy": "Impossible de copier l'URL dans le presse-papiers."
+    },
+    "export": {
+      "exportMode": "Mode d’exportation",
+      "selectAll": "Tout sélectionner",
+      "exitExport": "Quitter l’exportation",
+      "exportCSV": "Exporter en CSV",
+      "clearSelection": "Effacer",
+      "itemsSelected": "{{count}} sélectionnés",
+      "exportSuccess": "{{count}} éléments multimédias exportés avec succès en CSV",
+      "noItemsSelected": "Veuillez sélectionner au moins un élément à exporter"
     }
   }
 }

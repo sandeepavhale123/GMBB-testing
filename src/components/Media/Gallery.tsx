@@ -110,7 +110,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   onCloseModal,
   className = "",
 }) => {
-  const { t } = useI18nNamespace("Media/gallery");
+  const { t } = useI18nNamespace("Media/gallery"); 
   const { triggerCreatePost, triggerMediaUpload, triggerMultiMediaUpload } =
     useMediaContext();
   const navigate = useNavigate();

@@ -84,6 +84,7 @@
     },
     "export": {
       "exportMode": "Export Mode",
+      "selectAll": "Select All",
       "exitExport": "Exit Export",
       "exportCSV": "Export CSV",
       "clearSelection": "Clear",

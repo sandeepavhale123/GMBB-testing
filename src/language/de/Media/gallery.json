@@ -80,6 +80,16 @@
       "failed": "Kopieren der URL in die Zwischenablage fehlgeschlagen",
       "url1": "Bild-URL wurde in die Zwischenablage kopiert.",
       "unableCopy": "Konnte die URL nicht in die Zwischenablage kopieren."
+    },
+    "export": {
+      "exportMode": "Exportmodus",
+      "selectAll": "Alle auswählen",
+      "exitExport": "Export beenden",
+      "exportCSV": "CSV exportieren",
+      "clearSelection": "Löschen",
+      "itemsSelected": "{{count}} ausgewählt",
+      "exportSuccess": "{{count}} Medienelemente erfolgreich als CSV exportiert",
+      "noItemsSelected": "Bitte wählen Sie mindestens ein Element zum Exportieren aus"
     }
   }
 }

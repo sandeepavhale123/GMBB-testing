@@ -80,6 +80,16 @@
       "failed": "Impossibile copiare l'URL negli appunti",
       "url1": "URL dell'immagine copiato negli appunti.",
       "unableCopy": "Impossibile copiare l'URL negli appunti."
+    },
+    "export": {
+      "exportMode": "Modalità di esportazione",
+      "selectAll": "Seleziona tutto",
+      "exitExport": "Esci dall'esportazione",
+      "exportCSV": "Esporta CSV",
+      "clearSelection": "Cancella",
+      "itemsSelected": "{{count}} selezionati",
+      "exportSuccess": "{{count}} elementi multimediali esportati con successo in CSV",
+      "noItemsSelected": "Seleziona almeno un elemento da esportare"
     }
   }
 }

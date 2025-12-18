@@ -80,6 +80,16 @@
       "failed": "Error al copiar la URL al portapapeles",
       "url1": "La URL de la imagen ha sido copiada al portapapeles.",
       "unableCopy": "No se pudo copiar la URL al portapapeles."
+    },
+    "export": {
+      "exportMode": "Modo de exportación",
+      "selectAll": "Seleccionar todo",
+      "exitExport": "Salir de la exportación",
+      "exportCSV": "Exportar CSV",
+      "clearSelection": "Limpiar",
+      "itemsSelected": "{{count}} seleccionados",
+      "exportSuccess": "{{count}} elementos multimedia exportados correctamente a CSV",
+      "noItemsSelected": "Seleccione al menos un elemento para exportar"
     }
   }
 }
