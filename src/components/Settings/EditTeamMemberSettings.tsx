@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
+import { useProfile } from "@/hooks/useProfile";
 import { updateEditMember } from "@/store/slices/teamSlice";
 import { useActiveAccounts } from "@/hooks/useActiveAccounts";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
@@ -61,6 +62,8 @@ export const EditTeamMemberSettings: React.FC = () => {
     clearTeamEditError,
     clearTeamSaveError,
   } = useTeam();
+  const { profileData } = useProfile();
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
   const [formData, setFormData] = useState<EditFormData>({
     firstName: "",
     lastName: "",
@@ -405,16 +408,18 @@ export const EditTeamMemberSettings: React.FC = () => {
                   {t("editTeamMemberSettings.tabs.assignListings")}
                 </button>
               )}
-              <button
-                onClick={() => setActiveTab("activity")}
-                className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === "activity"
-                    ? "border-primary text-primary"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                Activity
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => setActiveTab("activity")}
+                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === "activity"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  }`}
+                >
+                  Activity
+                </button>
+              )}
             </div>
           </div>
         </div>
