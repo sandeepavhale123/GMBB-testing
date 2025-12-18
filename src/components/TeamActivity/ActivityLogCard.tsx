@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MessageSquare, Star, Mail, Monitor, ChevronDown, ChevronUp } from "lucide-react";
+import { MessageSquare, Star, Mail, Monitor } from "lucide-react";
 import { ActivityLogItem } from "@/api/teamApi";
 import { formatDistanceToNow } from "date-fns";
 
@@ -33,7 +33,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
     return text.substring(0, maxLength) + "...";
   };
 
-  const shouldShowExpand = (activity.review_text?.length || 0) > 60 || (activity.reply_text?.length || 0) > 60;
+  
 
   return (
     <Card className="p-4 hover:shadow-md transition-shadow">
@@ -104,27 +104,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
             </div>
           )}
 
-          {/* Expand/Collapse Button */}
-          {shouldShowExpand && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-primary hover:text-primary/80 p-0 h-auto"
-            >
-              {isExpanded ? (
-                <>
-                  <ChevronUp className="w-4 h-4 mr-1" />
-                  Show less
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="w-4 h-4 mr-1" />
-                  Read more
-                </>
-              )}
-            </Button>
-          )}
+
         </div>
 
         {/* Right Section - Team Member Info */}
