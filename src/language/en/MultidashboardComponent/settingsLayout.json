@@ -9,6 +9,7 @@
     "themeCustomization": "Theme Customization",
     "reportBranding": "Report Branding",
     "notifications": "Notifications",
-    "integrations": "Integrations"
+    "integrations": "Integrations",
+    "activityLogs" : "Activity Logs"
   }
-}
+} 
