@@ -73,7 +73,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
 
           {/* Review Text */}
           {activity.review_text && (
-            <div className="bg-muted/50 p-3 rounded-md flex flex-col gap-2">
+            <div className="bg-muted/50 p-3 rounded-md flex items-start justify-between gap-2">
               <p className="text-sm text-muted-foreground italic flex-1">
                 "{isExpanded ? activity.review_text : truncateText(activity.review_text)}"
               </p>
@@ -82,7 +82,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="text-primary hover:text-primary/80 p-0 h-auto self-end"
+                  className="text-primary hover:text-primary/80 p-0 h-auto shrink-0"
                 >
                   {isExpanded ? "Show less" : "Read more"}
                 </Button>
