@@ -27,13 +27,13 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
     }
   };
 
-  const truncateText = (text: string, maxLength: number = 60) => {
+  const truncateText = (text: string, maxLength: number = 150) => {
     if (!text) return "";
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + "...";
   };
 
-  const shouldShowExpand = (activity.review_text?.length || 0) > 60 || (activity.reply_text?.length || 0) > 60;
+  const shouldShowExpand = (activity.review_text?.length || 0) > 150 || (activity.reply_text?.length || 0) > 150;
 
   return (
     <Card className="p-4 hover:shadow-md transition-shadow">
@@ -51,7 +51,9 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
                 Replied to Review
               </Badge>
             </div>
-            <span className="text-xs text-muted-foreground">{formatDate(activity.created_at)}</span>
+            <span className="text-xs text-muted-foreground">
+              {formatDate(activity.created_at)}
+            </span>
           </div>
 
           {/* Listing Name with Reviewer Info */}
@@ -61,7 +63,10 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
             <span className="text-sm text-muted-foreground">Review by {activity.display_name}</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
-                <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <Star
+                  key={star}
+                  className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                />
               ))}
             </div>
           </div>
@@ -72,7 +77,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
               <p className="text-sm text-muted-foreground italic truncate flex-1">
                 "{isExpanded ? activity.review_text : activity.review_text}"
               </p>
-              {activity.review_text.length > 60 && (
+              {activity.review_text.length > 100 && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -88,7 +93,9 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
           {/* Admin Reply */}
           {activity.reply_text && (
             <div className="space-y-2">
-              <Badge className="bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">ADMIN REPLY</Badge>
+              <Badge className="bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">
+                ADMIN REPLY
+              </Badge>
               <div className="bg-primary/5 border-l-2 border-primary p-3 rounded-r-md">
                 <p className="text-sm text-foreground">
                   "{isExpanded ? activity.reply_text : truncateText(activity.reply_text)}"
@@ -135,7 +142,9 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
               <h5 className="font-semibold text-foreground">
                 {activity.first_name} {activity.last_name}
               </h5>
-              <p className="text-sm text-muted-foreground capitalize">{activity.user_role}</p>
+              <p className="text-sm text-muted-foreground capitalize">
+                {activity.user_role}
+              </p>
             </div>
 
             {/* Email */}
