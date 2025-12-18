@@ -582,7 +582,14 @@ export const Gallery: React.FC<GalleryProps> = ({
       {/* Export Mode Action Bar */}
       {isExportMode && exportSelectedImages.length > 0 && (
         <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setExportSelectedImages(displayMedia)}
+            >
+              {t("gallery.export.selectAll", "Select All")}
+            </Button>
             <Badge variant="secondary" className="bg-primary text-white">
               {t("gallery.export.itemsSelected", { count: exportSelectedImages.length })}
             </Badge>
