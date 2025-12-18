@@ -81,6 +81,15 @@
       "failed":"Failed to copy URL to clipboard",
       "url1":"Image URL has been copied to clipboard.",
       "unableCopy":"Unable to copy URL to clipboard."
+    },
+    "export": {
+      "exportMode": "Export Mode",
+      "exitExport": "Exit Export",
+      "exportCSV": "Export CSV",
+      "clearSelection": "Clear",
+      "itemsSelected": "{{count}} selected",
+      "exportSuccess": "Successfully exported {{count}} media items to CSV",
+      "noItemsSelected": "Please select at least one item to export"
     }
   }
 }
