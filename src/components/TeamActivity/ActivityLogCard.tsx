@@ -98,7 +98,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
               </Badge>
               <div className="bg-primary/5 border-l-2 border-primary p-3 rounded-r-md">
                 <p className="text-sm text-foreground">
-                  "{isExpanded ? activity.reply_text : truncateText(activity.reply_text)}"
+                  "{activity.reply_text}"
                 </p>
               </div>
             </div>
