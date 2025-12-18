@@ -649,8 +649,8 @@ export const MultiDashboard: React.FC = () => {
 
         {/* Search and Filters */}
         <div className="bg-card rounded-lg border border-border p-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-            <h3 className="text-lg font-semibold mb-2">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+            <h3 className="text-lg font-semibold mb-2 md:mb-0">
               {t("dashboard.title", {
                 type:
                   dashboardType === "review"
@@ -675,7 +675,7 @@ export const MultiDashboard: React.FC = () => {
                 : "Default"}{" "}
               dashboard */}
             </h3>
-            <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Select
                   key={dashboardType} // Force re-render when dashboard type changes
@@ -719,7 +719,7 @@ export const MultiDashboard: React.FC = () => {
                   name="btn-share"
                 >
                   <Share2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">
+                  <span className="hidden md:inline">
                     {t("dashboard.shareReport")}
                   </span>
                 </Button>
@@ -733,7 +733,7 @@ export const MultiDashboard: React.FC = () => {
                     onClick={() => setShowExportModal(true)}
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">{t("export")}</span>
+                    <span className="hidden md:inline">{t("export")}</span>
                   </Button>
                 )}
 
