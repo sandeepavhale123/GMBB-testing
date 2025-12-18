@@ -33,8 +33,6 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
     return text.substring(0, maxLength) + "...";
   };
 
-  
-
   return (
     <Card className="p-4 hover:shadow-md transition-shadow">
       <div className="flex flex-col lg:flex-row gap-4">
@@ -43,17 +41,15 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
           {/* Header with badges and timestamp */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+              {/* <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
                 <MessageSquare className="w-3 h-3 mr-1" />
                 {activity.module?.toUpperCase()} MODULE
-              </Badge>
-              <Badge variant="outline" className="text-muted-foreground">
+              </Badge> */}
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
                 Replied to Review
               </Badge>
             </div>
-            <span className="text-xs text-muted-foreground">
-              {formatDate(activity.created_at)}
-            </span>
+            <span className="text-xs text-muted-foreground">{formatDate(activity.created_at)}</span>
           </div>
 
           {/* Listing Name with Reviewer Info */}
@@ -63,10 +59,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
             <span className="text-sm text-muted-foreground">Review by {activity.display_name}</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  className="w-3 h-3 fill-yellow-400 text-yellow-400"
-                />
+                <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
           </div>
@@ -93,18 +86,12 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
           {/* Admin Reply */}
           {activity.reply_text && (
             <div className="space-y-2">
-              <Badge className="bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">
-                ADMIN REPLY
-              </Badge>
+              <Badge className="bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">ADMIN REPLY</Badge>
               <div className="bg-primary/5 border-l-2 border-primary p-3 rounded-r-md">
-                <p className="text-sm text-foreground">
-                  "{activity.reply_text}"
-                </p>
+                <p className="text-sm text-foreground">"{activity.reply_text}"</p>
               </div>
             </div>
           )}
-
-
         </div>
 
         {/* Right Section - Team Member Info */}
@@ -122,9 +109,7 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
               <h5 className="font-semibold text-foreground">
                 {activity.first_name} {activity.last_name}
               </h5>
-              <Badge className="mt-1 bg-primary text-primary-foreground capitalize">
-                {activity.user_role}
-              </Badge>
+              <Badge className="mt-1 bg-primary text-primary-foreground capitalize">{activity.user_role}</Badge>
             </div>
 
             {/* Email */}
