@@ -26,7 +26,7 @@ export const ListingSidebar: React.FC<ListingSidebarProps> = React.memo(
     // Debounce the search value by 300ms
     const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-    // Only call onSearch when debounced value changes
+    // Only call onSearch when debounced value changes.
     useEffect(() => {
       onSearch(debouncedSearchQuery);
     }, [debouncedSearchQuery, onSearch]);
