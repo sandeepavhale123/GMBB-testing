@@ -13,7 +13,7 @@ export interface SetDashboardResponse {
 }
 
 // Dashboard Settings API function
-const setDashboard = async (
+export const setDashboard = async (
   dashboard: string
 ): Promise<SetDashboardResponse> => {
   const response = await axiosInstance.post("/set-dashboard", { dashboard });
@@ -524,8 +524,6 @@ export const changeDashboardMode = async (
   return response.data;
 };
 
-// Export API functions
-export { setDashboard };
 
 export type {
   DashboardListing,
