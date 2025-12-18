@@ -325,6 +325,7 @@ export interface ActivityLogItem {
   sub_user_email: string;
   first_name: string;
   last_name: string;
+  rating: string;
 }
 
 export interface ActivityLogFilters {
