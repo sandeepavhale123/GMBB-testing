@@ -636,7 +636,7 @@ export const MultiDashboard: React.FC = () => {
                   name="btn-share"
                 >
                   <Share2 className="h-4 w-4" />
-                  <span className="hidden lg:inline">{t("dashboard.shareReport")}</span>
+                  <span className="hidden sm:inline">{t("dashboard.shareReport")}</span>
                 </Button>
 
                 {/* Export CSV Button - Only show for Review Dashboard */}
@@ -648,7 +648,7 @@ export const MultiDashboard: React.FC = () => {
                     onClick={() => setShowExportModal(true)}
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden lg:inline">{t("export")}</span>
+                    <span className="hidden sm:inline">{t("export")}</span>
                   </Button>
                 )}
 
@@ -664,7 +664,7 @@ export const MultiDashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
-            <div className="flex flex-col md:flex-row gap-4 flex-1 w-full">
+            <div className="flex flex-col lg:flex-row gap-4 flex-1 w-full">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <input
