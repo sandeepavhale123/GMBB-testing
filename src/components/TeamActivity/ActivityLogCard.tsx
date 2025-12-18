@@ -27,13 +27,13 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
     }
   };
 
-  const truncateText = (text: string, maxLength: number = 150) => {
+  const truncateText = (text: string, maxLength: number = 60) => {
     if (!text) return "";
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + "...";
   };
 
-  const shouldShowExpand = (activity.review_text?.length || 0) > 150 || (activity.reply_text?.length || 0) > 150;
+  const shouldShowExpand = (activity.review_text?.length || 0) > 60 || (activity.reply_text?.length || 0) > 60;
 
   return (
     <Card className="p-4 hover:shadow-md transition-shadow">
@@ -75,9 +75,9 @@ export const ActivityLogCard: React.FC<ActivityLogCardProps> = ({ activity }) =>
           {activity.review_text && (
             <div className="bg-muted/50 p-3 rounded-md flex items-center justify-between gap-2">
               <p className="text-sm text-muted-foreground italic truncate flex-1">
-                "{isExpanded ? activity.review_text : activity.review_text}"
+                "{isExpanded ? activity.review_text : truncateText(activity.review_text)}"
               </p>
-              {activity.review_text.length > 100 && (
+              {activity.review_text.length > 60 && (
                 <Button
                   variant="ghost"
                   size="sm"
