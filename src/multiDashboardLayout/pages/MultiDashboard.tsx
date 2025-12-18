@@ -53,6 +53,7 @@ import {
   useLocationDashboardData,
   usePostsDashboardData,
   useCategoryAndStateData,
+  useGroupLists,
   setDashboard,
 } from "@/api/dashboardApi";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -95,6 +96,7 @@ export const MultiDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedState, setSelectedState] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [reviewFilter, setReviewFilter] = useState<
     "0" | "1" | "2" | "3" | "4" | "5" | "6"
   >("0");
@@ -157,6 +159,13 @@ export const MultiDashboard: React.FC = () => {
     error: categoryStateError,
   } = useCategoryAndStateData();
 
+  // Fetch group lists for filter
+  const {
+    data: groupListData,
+    isLoading: groupListLoading,
+    error: groupListError,
+  } = useGroupLists("");
+
   const defaultParams = useMemo(
     () => ({
       page: currentPage,
@@ -164,6 +173,7 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
+      group_id: selectedGroup,
     }),
     [
       currentPage,
@@ -171,6 +181,7 @@ export const MultiDashboard: React.FC = () => {
       debouncedSearchTerm,
       selectedCategory,
       selectedState,
+      selectedGroup,
     ]
   );
 
@@ -181,6 +192,7 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
+      group_id: selectedGroup,
       insightDays: insightDays === "custom" ? "" : insightDays,
       ...(insightDays === "custom" && insightDateRange?.from && insightDateRange?.to && {
         dateRange: {
@@ -195,6 +207,7 @@ export const MultiDashboard: React.FC = () => {
       debouncedSearchTerm,
       selectedCategory,
       selectedState,
+      selectedGroup,
       insightDays,
       insightDateRange,
     ]
@@ -207,6 +220,7 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
+      group_id: selectedGroup,
       review: reviewFilter,
       reviewDays: reviewDays === "custom" ? "" : reviewDays,
       ...(reviewDays === "custom" && reviewDateRange?.from && reviewDateRange?.to && {
@@ -222,6 +236,7 @@ export const MultiDashboard: React.FC = () => {
       debouncedSearchTerm,
       selectedCategory,
       selectedState,
+      selectedGroup,
       reviewFilter,
       reviewDays,
       reviewDateRange,
@@ -235,6 +250,7 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
+      group_id: selectedGroup,
     }),
     [
       currentPage,
@@ -242,6 +258,7 @@ export const MultiDashboard: React.FC = () => {
       debouncedSearchTerm,
       selectedCategory,
       selectedState,
+      selectedGroup,
     ]
   );
 
@@ -252,6 +269,7 @@ export const MultiDashboard: React.FC = () => {
       search: debouncedSearchTerm,
       category: selectedCategory,
       city: selectedState,
+      group_id: selectedGroup,
       dateRange: {
         startDate: dateRange?.from ? formatDateForBackend(dateRange.from) : "",
         endDate: dateRange?.to ? formatDateForBackend(dateRange.to) : "",
@@ -264,6 +282,7 @@ export const MultiDashboard: React.FC = () => {
       debouncedSearchTerm,
       selectedCategory,
       selectedState,
+      selectedGroup,
       dateRange,
       postStatus,
     ]
@@ -538,6 +557,10 @@ export const MultiDashboard: React.FC = () => {
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
+  const handleGroupFilterChange = (value: string) => {
+    setSelectedGroup(value === "all" ? "" : value);
+    setCurrentPage(1);
+  };
   const handleReviewFilterChange = (
     value: "0" | "1" | "2" | "3" | "4" | "5" | "6"
   ) => {
@@ -795,6 +818,35 @@ export const MultiDashboard: React.FC = () => {
                       categoryAndStateData?.data?.states?.map((state) => (
                         <SelectItem key={state} value={state}>
                           {state}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                
+                {/* Group Filter Dropdown */}
+                <Select
+                  value={selectedGroup}
+                  onValueChange={handleGroupFilterChange}
+                  disabled={groupListLoading}
+                >
+                  <SelectTrigger className="w-full sm:w-40 bg-background" name="selectGroup">
+                    <SelectValue
+                      placeholder={
+                        groupListLoading
+                          ? t("status.loading")
+                          : t("dashboard.filters.allGroups")
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="z-50 bg-background">
+                    <SelectItem value="all">
+                      {t("dashboard.filters.allGroups")}
+                    </SelectItem>
+                    {!groupListLoading &&
+                      !groupListError &&
+                      groupListData?.data?.groupsLists?.map((group) => (
+                        <SelectItem key={group.id} value={group.id}>
+                          {group.groupName} ({group.locCount})
                         </SelectItem>
                       ))}
                   </SelectContent>

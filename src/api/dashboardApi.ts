@@ -20,6 +20,41 @@ const setDashboard = async (
   return response.data;
 };
 
+// Group List API Types
+export interface GroupListItem {
+  id: string;
+  groupName: string;
+  locCount: number;
+}
+
+export interface GroupListRequest {
+  search: string;
+}
+
+export interface GroupListResponse {
+  code: number;
+  message: string;
+  data: {
+    groupsLists: GroupListItem[];
+  };
+}
+
+// Group List API function
+const getGroupLists = async (params: GroupListRequest): Promise<GroupListResponse> => {
+  const response = await axiosInstance.post("/get-group-lists", params);
+  return response.data;
+};
+
+// Custom hook for group lists
+export const useGroupLists = (search: string = "") => {
+  return useQuery({
+    queryKey: ["group-lists", search],
+    queryFn: () => getGroupLists({ search }),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: 2,
+  });
+};
+
 // Category and State API Types
 export interface CategoryAndStateData {
   categories: string[];
@@ -55,6 +90,7 @@ interface DashboardRequest {
   search: string;
   category: string;
   state: string;
+  group_id: string;
 }
 
 interface DashboardListing {
@@ -121,6 +157,7 @@ interface InsightsDashboardRequest {
   search: string;
   category: string;
   state: string;
+  group_id: string;
   insightDays: string;
   dateRange?: {
     startDate: string;
@@ -194,6 +231,7 @@ interface ReviewDashboardRequest {
   search: string;
   category: string;
   state: string;
+  group_id: string;
   review: "0" | "1" | "2" | "3" | "4" | "5" | "6";
   reviewDays: string; // "All", "7", "30", "90", "180", "270", "365" or ""
   dateRange?: {
@@ -318,6 +356,7 @@ interface LocationDashboardRequest {
   search: string;
   category: string;
   state: string;
+  group_id: string;
 }
 
 interface LocationDashboardListing {
@@ -381,6 +420,7 @@ interface PostDashboardRequest {
   search: string;
   category: string;
   city: string;
+  group_id: string;
   dateRange: {
     startDate: string;
     endDate: string;
