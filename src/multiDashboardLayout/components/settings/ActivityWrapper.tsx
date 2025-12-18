@@ -10,7 +10,7 @@ export const ActivityWrapper: React.FC = () => {
           Track team member actions and review replies
         </p>
       </div>
-      <TeamActivityLogs />
+      <TeamActivityLogs showMemberFilter={true} />
     </div>
   );
 };
