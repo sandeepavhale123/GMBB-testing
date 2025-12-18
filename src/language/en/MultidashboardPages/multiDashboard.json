@@ -18,7 +18,7 @@
     "totalPosts": {
       "title": "Total Posts",
       "subtitle": "Published this month",
-      "trend": "+12 this week"
+      "trend": "+12 this week" 
     }
   },
   "errors": {
@@ -42,6 +42,7 @@
     "default":"Default",
     "shareReport": "Share Report",
     "searchPlaceholder": "Search by listing name or ZIP code",
+    "allGroups":"All Groups",
     "filters": {
       "allCategories": "All Categories",
       "allStates": "All States",

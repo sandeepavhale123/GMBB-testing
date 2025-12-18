@@ -17,7 +17,7 @@
     },
     "totalPosts": {
       "title": "Total de Publicaciones",
-      "subtitle": "Publicadas este mes",
+      "subtitle": "Publicadas este mes", 
       "trend": "+12 esta semana"
     }
   },
@@ -42,23 +42,35 @@
     "default": "Predeterminado",
     "shareReport": "Compartir Informe",
     "searchPlaceholder": "Buscar por nombre del listado o código postal",
-    "filters": {
-      "allCategories": "Todas las categorías",
-      "allStates": "Todos los estados",
-      "reviewFilter": "Filtro de reseñas",
-      "allReviews": "Todas las reseñas",
-      "unrespondedReview": "Reseñas sin respuesta",
-      "unrespondedARE": "ARE sin respuesta",
-      "unrespondedDNR": "DNR sin respuesta",
-      "excludeARE": "Excluir reseñas ARE",
-      "excludeDNR": "Excluir reseñas DNR",
-      "excludeARE_DNR": "Excluir reseñas ARE/DNR",
-      "postStatus": "Estado de la publicación",
-      "allPosts": "Todas las publicaciones",
-      "scheduledPost": "Publicación programada",
-      "livePost": "Publicación en vivo",
-      "failedPost": "Publicación fallida"
-    }
+    "allGroups": "Todos los grupos",
+  "filters": {
+    "allCategories": "Todas las categorías",
+    "allStates": "Todos los estados",
+    "allGroups": "Todos los grupos",
+    "reviewFilter": "Filtro de reseñas",
+    "allReviews": "Todas las reseñas",
+    "unrespondedReview": "Reseña sin responder",
+    "unrespondedARE": "ARE sin responder",
+    "unrespondedDNR": "DNR sin responder",
+    "excludeARE": "Excluir reseñas ARE",
+    "excludeDNR": "Excluir reseñas DNR",
+    "excludeARE_DNR": "Excluir reseñas ARE/DNR",
+    "postStatus": "Estado de la publicación",
+    "allPosts": "Todas las publicaciones",
+    "scheduledPost": "Publicación programada",
+    "livePost": "Publicación en vivo",
+    "failedPost": "Publicación fallida",
+    "insightDays": "Periodo de tiempo",
+    "reviewDays": "Periodo de reseñas",
+    "allTime": "Todo el tiempo",
+    "last7Days": "Últimos 7 días",
+    "last30Days": "Últimos 30 días",
+    "last90Days": "Últimos 90 días",
+    "last6Months": "Últimos 6 meses",
+    "last9Months": "Últimos 9 meses",
+    "last12Months": "Últimos 12 meses",
+    "customRange": "Rango personalizado"
+  }
   },
   "export": "Exportar CSV",
   "status": {
