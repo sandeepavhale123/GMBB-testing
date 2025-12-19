@@ -80,6 +80,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         termsConditions: "",
         postTags: "",
         siloPost: false,
+        autoScheduleFrequency: "",
+        autoScheduleTime: "",
+        autoScheduleDay: "",
+        autoScheduleDate: "",
+        autoScheduleRecurrenceCount: 0,
       };
     }
     return {
@@ -101,6 +106,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       termsConditions: "",
       postTags: "",
       siloPost: false,
+      autoScheduleFrequency: "",
+      autoScheduleTime: "",
+      autoScheduleDay: "",
+      autoScheduleDate: "",
+      autoScheduleRecurrenceCount: 0,
     };
   };
 
@@ -432,6 +442,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         termsConditions: "",
         postTags: "",
         siloPost: false,
+        autoScheduleFrequency: "",
+        autoScheduleTime: "",
+        autoScheduleDay: "",
+        autoScheduleDate: "",
+        autoScheduleRecurrenceCount: 0,
       });
       setValidationErrors({});
       setShowCTAButton(false);
@@ -507,6 +522,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       termsConditions: "",
       postTags: "",
       siloPost: false,
+      autoScheduleFrequency: "",
+      autoScheduleTime: "",
+      autoScheduleDay: "",
+      autoScheduleDate: "",
+      autoScheduleRecurrenceCount: 0,
     });
     setShowCTAButton(false);
     setShowAdvancedOptions(false);
