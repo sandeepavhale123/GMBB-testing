@@ -147,6 +147,32 @@ const mapFilterToApiStatus = (filter: string): string => {
   }
 };
 
+// Helper: Convert frequency to API type number
+const mapFrequencyToType = (frequency: string): number => {
+  switch (frequency) {
+    case "daily": return 1;
+    case "weekly": return 2;
+    case "monthly": return 3;
+    default: return 1;
+  }
+};
+
+// Helper: Convert 24hr time to 12hr format
+const convertTo12HourFormat = (time24: string): string => {
+  if (!time24) return "";
+  const [hours, minutes] = time24.split(':');
+  const hour = parseInt(hours);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+  return `${hour12}:${minutes} ${ampm}`;
+};
+
+// Helper: Convert day index to day name
+const dayIndexToName = (index: string): string => {
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  return days[parseInt(index)] || 'sunday';
+};
+
 // Helper function to transform API post to frontend post
 const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => {
   const transformedPost = {
@@ -230,7 +256,29 @@ export const fetchPosts = createAsyncThunk(
 export const createPost = createAsyncThunk(
   "posts/createPost",
   async (postData: CreatePostRequest) => {
-    const response = await postsApi.createPost(postData);
+    // Transform auto-scheduling fields if publishOption is "auto"
+    const transformedData: CreatePostRequest = {
+      ...postData,
+      publishOption: postData.publishOption === "auto" ? "recurrent" : postData.publishOption,
+    };
+
+    // Add auto-scheduling fields when recurrent
+    if (postData.publishOption === "auto") {
+      const autoData = postData as any;
+      transformedData.autoRescheduleType = mapFrequencyToType(autoData.autoScheduleFrequency || "daily");
+      transformedData.autoPostTime = convertTo12HourFormat(autoData.autoScheduleTime || "");
+      transformedData.autoPostCount = parseInt(autoData.autoScheduleRecurrenceCount) || 1;
+      
+      if (autoData.autoScheduleFrequency === "weekly") {
+        transformedData.autoWeekDay = dayIndexToName(autoData.autoScheduleDay || "0");
+      }
+      
+      if (autoData.autoScheduleFrequency === "monthly") {
+        transformedData.autoMonthDate = parseInt(autoData.autoScheduleDate) || 1;
+      }
+    }
+
+    const response = await postsApi.createPost(transformedData);
     return response;
   }
 );
@@ -239,7 +287,29 @@ export const createPost = createAsyncThunk(
 export const createBulkPost = createAsyncThunk(
   "posts/createBulkPost",
   async (postData: CreateBulkPostRequest) => {
-    const response = await postsApi.createBulkPost(postData);
+    // Transform auto-scheduling fields if publishOption is "auto"
+    const transformedData: CreateBulkPostRequest = {
+      ...postData,
+      publishOption: postData.publishOption === "auto" ? "recurrent" : postData.publishOption,
+    };
+
+    // Add auto-scheduling fields when recurrent
+    if (postData.publishOption === "auto") {
+      const autoData = postData as any;
+      transformedData.autoRescheduleType = mapFrequencyToType(autoData.autoScheduleFrequency || "daily");
+      transformedData.autoPostTime = convertTo12HourFormat(autoData.autoScheduleTime || "");
+      transformedData.autoPostCount = parseInt(autoData.autoScheduleRecurrenceCount) || 1;
+      
+      if (autoData.autoScheduleFrequency === "weekly") {
+        transformedData.autoWeekDay = dayIndexToName(autoData.autoScheduleDay || "0");
+      }
+      
+      if (autoData.autoScheduleFrequency === "monthly") {
+        transformedData.autoMonthDate = parseInt(autoData.autoScheduleDate) || 1;
+      }
+    }
+
+    const response = await postsApi.createBulkPost(transformedData);
     return response;
   }
 );
