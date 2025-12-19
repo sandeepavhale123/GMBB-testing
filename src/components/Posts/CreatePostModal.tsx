@@ -297,6 +297,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
           postTags: formData.postTags,
           siloPost: formData.siloPost,
+          // Auto-scheduling fields
+          autoScheduleFrequency: formData.publishOption === "auto" ? formData.autoScheduleFrequency : undefined,
+          autoScheduleTime: formData.publishOption === "auto" ? formData.autoScheduleTime : undefined,
+          autoScheduleDay: formData.publishOption === "auto" && formData.autoScheduleFrequency === "weekly" ? formData.autoScheduleDay : undefined,
+          autoScheduleDate: formData.publishOption === "auto" && formData.autoScheduleFrequency === "monthly" ? formData.autoScheduleDate : undefined,
+          autoScheduleRecurrenceCount: formData.publishOption === "auto" ? formData.autoScheduleRecurrenceCount : undefined,
           // Handle image based on source
           selectedImage: formData.imageSource || null,
           userfile:
@@ -357,6 +363,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
           postTags: formData.postTags,
           siloPost: formData.siloPost,
+          // Auto-scheduling fields
+          autoScheduleFrequency: formData.publishOption === "auto" ? formData.autoScheduleFrequency : undefined,
+          autoScheduleTime: formData.publishOption === "auto" ? formData.autoScheduleTime : undefined,
+          autoScheduleDay: formData.publishOption === "auto" && formData.autoScheduleFrequency === "weekly" ? formData.autoScheduleDay : undefined,
+          autoScheduleDate: formData.publishOption === "auto" && formData.autoScheduleFrequency === "monthly" ? formData.autoScheduleDate : undefined,
+          autoScheduleRecurrenceCount: formData.publishOption === "auto" ? formData.autoScheduleRecurrenceCount : undefined,
           // Handle image based on source
           selectedImage: formData.imageSource || null,
           userfile:
