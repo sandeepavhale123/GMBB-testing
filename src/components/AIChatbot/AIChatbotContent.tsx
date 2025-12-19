@@ -110,7 +110,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
   } = useChat(keywordId, projectId);
 
   useEffect(() => {
-    // Only scroll to bottom when new messages are added, not when existing messages are updated
+    // Only scroll to bottom when new messages are added, not when existing messages are updated.
     if (messages.length > prevMessagesLength.current) {
       messagesEndRef.current?.scrollIntoView({
         behavior: "smooth",
