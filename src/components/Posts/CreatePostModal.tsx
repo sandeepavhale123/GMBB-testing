@@ -228,46 +228,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form
+    // Validate form - inline errors will be shown on fields
     if (!validateForm()) {
-      // Check for specific validation errors and show appropriate messages
-      if (validationErrors.listings) {
-        toast({
-          title: t("toast.listingRequired.title"),
-          description: t("toast.listingRequired.description"),
-          variant: "destructive",
-        });
-      } else if (validationErrors.title) {
-        toast({
-          title: t("toast.titleRequired.title"),
-          description: validationErrors.title,
-          variant: "destructive",
-        });
-      } else if (validationErrors.ctaUrl) {
-        toast({
-          title: t("toast.urlRequired.title"),
-          description: validationErrors.ctaUrl,
-          variant: "destructive",
-        });
-      } else if (validationErrors.autoScheduleFrequency || validationErrors.autoScheduleTime || validationErrors.autoScheduleRecurrenceCount || validationErrors.autoScheduleDay || validationErrors.autoScheduleDate) {
-        toast({
-          title: t("toast.autoScheduleError.title"),
-          description: t("toast.autoScheduleError.description"),
-          variant: "destructive",
-        });
-      } else if (validationErrors.scheduleDate) {
-        toast({
-          title: t("toast.scheduleDateError.title"),
-          description: validationErrors.scheduleDate,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: t("toast.validationError.title"),
-          description: t("toast.validationError.description"),
-          variant: "destructive",
-        });
-      }
       return;
     }
 
