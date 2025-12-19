@@ -160,8 +160,36 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     setIsAIImageOpen(false);
   };
 
-  // Validation function
-  const validateForm = () => {
+  // Error field mapping for focus functionality
+  const errorFieldMap: Record<string, string> = {
+    listings: "field-listings",
+    title: "field-title",
+    ctaUrl: "field-ctaUrl",
+    scheduleDate: "field-scheduleDate",
+    autoScheduleFrequency: "field-autoScheduleFrequency",
+    autoScheduleTime: "field-autoScheduleTime",
+    autoScheduleDay: "field-autoScheduleDay",
+    autoScheduleDate: "field-autoScheduleDate",
+    autoScheduleRecurrenceCount: "field-autoScheduleRecurrenceCount",
+  };
+
+  // Focus on first error field helper
+  const focusFirstErrorField = (errors: Record<string, string>) => {
+    const errorKeys = Object.keys(errorFieldMap);
+    for (const key of errorKeys) {
+      if (errors[key]) {
+        const element = document.getElementById(errorFieldMap[key]);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+          setTimeout(() => element.focus(), 300);
+          break;
+        }
+      }
+    }
+  };
+
+  // Validation function - returns errors object
+  const validateForm = (): { [key: string]: string } => {
     const errors: { [key: string]: string } = {};
 
     // Title validation for event and offer post types
@@ -222,14 +250,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
 
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validate form - inline errors will be shown on fields
-    if (!validateForm()) {
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      focusFirstErrorField(errors);
       return;
     }
 
@@ -498,7 +528,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   // Clear validation errors when form data changes
   React.useEffect(() => {
     if (Object.keys(validationErrors).length > 0) {
-      validateForm();
+      const errors = validateForm();
+      // Don't auto-focus on field changes, only on submit
     }
   }, [
     formData.title,
