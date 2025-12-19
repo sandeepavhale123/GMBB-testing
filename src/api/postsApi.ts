@@ -45,6 +45,12 @@ export interface CreatePostRequest {
   termsConditions?: string;
   postTags?: string;
   siloPost?: boolean;
+  // Auto Recurring Post fields
+  autoRescheduleType?: number;  // 1 = daily, 2 = weekly, 3 = monthly
+  autoPostTime?: string;        // "10:20 AM" format
+  autoWeekDay?: string;         // "monday", "tuesday", etc.
+  autoMonthDate?: number;       // 1-31
+  autoPostCount?: number;       // Recurrence frequency count
 }
 
 export interface CreatePostResponse {
@@ -123,6 +129,12 @@ export interface CreateBulkPostRequest {
   termsConditions?: string;
   postTags?: string;
   siloPost?: boolean;
+  // Auto Recurring Post fields
+  autoRescheduleType?: number;  // 1 = daily, 2 = weekly, 3 = monthly
+  autoPostTime?: string;        // "10:20 AM" format
+  autoWeekDay?: string;         // "monday", "tuesday", etc.
+  autoMonthDate?: number;       // 1-31
+  autoPostCount?: number;       // Recurrence frequency count
 }
 
 export interface CreateBulkPostResponse {
@@ -255,6 +267,25 @@ export const postsApi = {
       formData.append("siloPost", request.siloPost.toString());
     }
 
+    // Auto recurring post fields (only when publishOption is recurrent)
+    if (request.publishOption === "recurrent") {
+      if (request.autoRescheduleType) {
+        formData.append("autoRescheduleType", request.autoRescheduleType.toString());
+      }
+      if (request.autoPostTime) {
+        formData.append("autoPostTime", request.autoPostTime);
+      }
+      if (request.autoWeekDay) {
+        formData.append("autoWeekDay", request.autoWeekDay);
+      }
+      if (request.autoMonthDate) {
+        formData.append("autoMonthDate", request.autoMonthDate.toString());
+      }
+      if (request.autoPostCount) {
+        formData.append("autoPostCount", request.autoPostCount.toString());
+      }
+    }
+
     const response = await axiosInstance.post("/create-post", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -325,6 +356,25 @@ export const postsApi = {
     }
     if (request.siloPost !== undefined) {
       formData.append("siloPost", request.siloPost.toString());
+    }
+
+    // Auto recurring post fields (only when publishOption is recurrent)
+    if (request.publishOption === "recurrent") {
+      if (request.autoRescheduleType) {
+        formData.append("autoRescheduleType", request.autoRescheduleType.toString());
+      }
+      if (request.autoPostTime) {
+        formData.append("autoPostTime", request.autoPostTime);
+      }
+      if (request.autoWeekDay) {
+        formData.append("autoWeekDay", request.autoWeekDay);
+      }
+      if (request.autoMonthDate) {
+        formData.append("autoMonthDate", request.autoMonthDate.toString());
+      }
+      if (request.autoPostCount) {
+        formData.append("autoPostCount", request.autoPostCount.toString());
+      }
     }
 
     const response = await axiosInstance.post("/create-bulk-posts", formData, {
