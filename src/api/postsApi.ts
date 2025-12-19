@@ -61,6 +61,55 @@ export interface CreatePostResponse {
   };
 }
 
+// Edit Post interfaces
+export interface EditPostRequest extends CreatePostRequest {
+  id: number; // Post ID for editing
+}
+
+export interface EditPostResponse {
+  code: number;
+  message: string;
+  data: {
+    postId: string;
+  };
+}
+
+// Get Post Details interfaces
+export interface GetPostDetailsRequest {
+  postId: number;
+}
+
+export interface GetPostDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    user_id: string;
+    listingId: string;
+    description: string;
+    imageUrl: string;
+    postTags: string;
+    ctaButton: string;
+    ctaUrl: string;
+    status: string;
+    postType: string;
+    publishOption: string;
+    scheduleDate: string;
+    autoRescheduleType: number;
+    autoPostTime: string;
+    autoWeekDay: string;
+    autoMonthDate: number;
+    autoPostCount: number;
+    // Event/Offer fields
+    title?: string;
+    startDate?: string;
+    endDate?: string;
+    couponCode?: string;
+    redeemOnlineUrl?: string;
+    termsConditions?: string;
+  };
+}
+
 export interface ApiPost {
   id: string;
   title: string;
@@ -467,6 +516,98 @@ export const postsApi = {
       "/get-bulk-posts-summary",
       request
     );
+    return response.data;
+  },
+
+  getPostDetails: async (
+    request: GetPostDetailsRequest
+  ): Promise<GetPostDetailsResponse> => {
+    const response = await axiosInstance.post("/get-post-details", request);
+    return response.data;
+  },
+
+  editPost: async (request: EditPostRequest): Promise<EditPostResponse> => {
+    const formData = new FormData();
+
+    // Add post ID for editing
+    formData.append("id", request.id.toString());
+
+    // Add all fields to FormData (same as createPost)
+    formData.append("listingId", request.listingId.toString());
+    formData.append("title", request.title || "");
+    formData.append("postType", request.postType || "");
+    formData.append("description", request.description);
+    formData.append("publishOption", request.publishOption);
+    formData.append("platforms", JSON.stringify(request.platforms));
+
+    // Add optional fields
+    if (request.userfile) {
+      formData.append("userfile", request.userfile);
+    }
+    if (request.selectedImage) {
+      formData.append("selectedImage", request.selectedImage);
+    }
+    if (request.aiImageUrl) {
+      formData.append("aiImageUrl", request.aiImageUrl);
+    }
+    if (request.galleryImageUrl) {
+      formData.append("galleryImageUrl", request.galleryImageUrl);
+    }
+    if (request.ctaButton) {
+      formData.append("ctaButton", request.ctaButton);
+    }
+    if (request.ctaUrl) {
+      formData.append("ctaUrl", request.ctaUrl);
+    }
+    if (request.scheduleDate) {
+      formData.append("scheduleDate", request.scheduleDate);
+    }
+    if (request.startDate) {
+      formData.append("startDate", request.startDate);
+    }
+    if (request.endDate) {
+      formData.append("endDate", request.endDate);
+    }
+    if (request.couponCode) {
+      formData.append("couponCode", request.couponCode);
+    }
+    if (request.redeemOnlineUrl) {
+      formData.append("redeemOnlineUrl", request.redeemOnlineUrl);
+    }
+    if (request.termsConditions) {
+      formData.append("termsConditions", request.termsConditions);
+    }
+    if (request.postTags) {
+      formData.append("postTags", request.postTags);
+    }
+    if (request.siloPost !== undefined) {
+      formData.append("siloPost", request.siloPost.toString());
+    }
+
+    // Auto recurring post fields (only when publishOption is recurrent)
+    if (request.publishOption === "recurrent") {
+      if (request.autoRescheduleType) {
+        formData.append("autoRescheduleType", request.autoRescheduleType.toString());
+      }
+      if (request.autoPostTime) {
+        formData.append("autoPostTime", request.autoPostTime);
+      }
+      if (request.autoWeekDay) {
+        formData.append("autoWeekDay", request.autoWeekDay);
+      }
+      if (request.autoMonthDate) {
+        formData.append("autoMonthDate", request.autoMonthDate.toString());
+      }
+      if (request.autoPostCount) {
+        formData.append("autoPostCount", request.autoPostCount.toString());
+      }
+    }
+
+    const response = await axiosInstance.post("/edit-post", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   },
 };

@@ -1,7 +1,8 @@
 {
   "title": {
     "create": "Create Post",
-    "clone": "Clone Post"
+    "clone": "Clone Post",
+    "edit": "Edit Post"
   },
   "validation": {
     "titleRequired": "Title is required for event and offer posts.",
@@ -44,7 +45,7 @@
     "error": {
       "title": "Error",
       "noListing": "No business listing selected. Please select a listing first.",
-      "desc":"An unexpected error occurred. Please try again."
+      "desc": "An unexpected error occurred. Please try again."
     },
     "success": {
       "bulk": {
@@ -65,6 +66,10 @@
         "cloned": {
           "title": "Post Cloned Successfully",
           "description": "Post cloned with ID: {{id}}"
+        },
+        "edited": {
+          "title": "Post Updated Successfully",
+          "description": "Post has been updated."
         }
       }
     },
@@ -75,17 +80,23 @@
       },
       "single": {
         "created": "Failed to Create Post.",
-        "cloned": "Failed to Clone Post"
+        "cloned": "Failed to Clone Post",
+        "edited": "Failed to Update Post"
       }
     }
+  },
+  "loading": {
+    "fetchingDetails": "Loading post details..."
   },
   "buttons": {
     "cancel": "Cancel",
     "preview": "Preview",
     "create": "Create Post",
     "clone": "Clone Post",
+    "edit": "Update Post",
     "creating": "Creating...",
-    "cloning": "Cloning..."
+    "cloning": "Cloning...",
+    "editing": "Updating..."
   },
   "preview": {
     "title": "Live Preview"
