@@ -9,6 +9,8 @@ import {
   BulkPostOverviewItem,
   GetBulkPostsSummaryRequest,
   BulkPostSummaryItem,
+  EditPostRequest,
+  GetPostDetailsResponse,
 } from "../../api/postsApi";
 
 interface Post {
@@ -72,6 +74,13 @@ interface PostsState {
   bulkPostSummary: BulkPostSummaryItem[] | null;
   bulkPostSummaryLoading: boolean;
   bulkPostSummaryError: string | null;
+
+  // Edit post state
+  editLoading: boolean;
+  editError: string | null;
+  postDetails: GetPostDetailsResponse["data"] | null;
+  postDetailsLoading: boolean;
+  postDetailsError: string | null;
 }
 
 const initialState: PostsState = {
@@ -109,6 +118,13 @@ const initialState: PostsState = {
   bulkPostSummary: null,
   bulkPostSummaryLoading: false,
   bulkPostSummaryError: null,
+
+  // Edit post state
+  editLoading: false,
+  editError: null,
+  postDetails: null,
+  postDetailsLoading: false,
+  postDetailsError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -407,6 +423,36 @@ export const fetchBulkPostSummary = createAsyncThunk(
   }
 );
 
+// Fetch post details for editing
+export const fetchPostDetails = createAsyncThunk(
+  "posts/fetchPostDetails",
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.getPostDetails({ postId });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch post details"
+      );
+    }
+  }
+);
+
+// Edit post
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async (request: EditPostRequest, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.editPost(request);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to edit post"
+      );
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -449,6 +495,17 @@ const postsSlice = createSlice({
     // Clear bulk post summary error
     clearBulkPostSummaryError: (state) => {
       state.bulkPostSummaryError = null;
+    },
+    
+    // Clear edit error
+    clearEditError: (state) => {
+      state.editError = null;
+    },
+
+    // Clear post details
+    clearPostDetails: (state) => {
+      state.postDetails = null;
+      state.postDetailsError = null;
     },
   },
   extraReducers: (builder) => {
@@ -607,6 +664,33 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostSummary.rejected, (state, action) => {
         state.bulkPostSummaryLoading = false;
         state.bulkPostSummaryError = action.payload as string;
+      })
+
+      // Fetch post details
+      .addCase(fetchPostDetails.pending, (state) => {
+        state.postDetailsLoading = true;
+        state.postDetailsError = null;
+      })
+      .addCase(fetchPostDetails.fulfilled, (state, action) => {
+        state.postDetailsLoading = false;
+        state.postDetails = action.payload;
+      })
+      .addCase(fetchPostDetails.rejected, (state, action) => {
+        state.postDetailsLoading = false;
+        state.postDetailsError = action.payload as string;
+      })
+
+      // Edit post
+      .addCase(editPost.pending, (state) => {
+        state.editLoading = true;
+        state.editError = null;
+      })
+      .addCase(editPost.fulfilled, (state) => {
+        state.editLoading = false;
+      })
+      .addCase(editPost.rejected, (state, action) => {
+        state.editLoading = false;
+        state.editError = action.payload as string;
       });
   },
 });
@@ -622,5 +706,7 @@ export const {
   clearBulkPostsOverviewError,
   clearBulkPostDetailsError,
   clearBulkPostSummaryError,
+  clearEditError,
+  clearPostDetails,
 } = postsSlice.actions;
 export default postsSlice.reducer;

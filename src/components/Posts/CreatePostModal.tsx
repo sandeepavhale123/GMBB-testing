@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Eye, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Eye, X, Loader2 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
@@ -20,6 +20,10 @@ import {
   createBulkPost,
   fetchPosts,
   clearCreateError,
+  fetchPostDetails,
+  editPost,
+  clearPostDetails,
+  clearEditError,
 } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
@@ -35,6 +39,8 @@ interface CreatePostModalProps {
   onClose: () => void;
   initialData?: CreatePostFormData | null;
   isCloning?: boolean;
+  isEditing?: boolean;
+  editPostId?: string;
   onBulkPostCreated?: () => void;
 }
 
@@ -43,13 +49,15 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   onClose,
   initialData = null,
   isCloning = false,
+  isEditing = false,
+  editPostId,
   onBulkPostCreated,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { selectedListing } = useListingContext();
   const { selectedMedia, clearSelection } = useMediaContext();
-  const { createLoading, createError } = useAppSelector((state) => state.posts);
+  const { createLoading, createError, postDetails, postDetailsLoading, editLoading, editError } = useAppSelector((state) => state.posts);
   const { t } = useI18nNamespace("Post/createPostModal");
 
   // Check if we're in multi-dashboard context
@@ -117,11 +125,89 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [formData, setFormData] = useState(getInitialFormData());
 
   // Reset form data when modal opens/closes or initialData changes
-  React.useEffect(() => {
-    if (isOpen) {
+  useEffect(() => {
+    if (isOpen && !isEditing) {
       setFormData(getInitialFormData());
     }
   }, [isOpen, initialData, selectedMedia]);
+
+  // Helper to map autoRescheduleType to frequency
+  const mapRescheduleTypeToFrequency = (type: number): string => {
+    switch (type) {
+      case 1: return "daily";
+      case 2: return "weekly";
+      case 3: return "monthly";
+      default: return "";
+    }
+  };
+
+  // Helper to convert 12hr time to 24hr format
+  const convertTo24HourFormat = (time12: string): string => {
+    if (!time12) return "";
+    const match = time12.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (!match) return "";
+    let [, hours, minutes, period] = match;
+    let hour = parseInt(hours);
+    if (period.toUpperCase() === "PM" && hour !== 12) hour += 12;
+    if (period.toUpperCase() === "AM" && hour === 12) hour = 0;
+    return `${hour.toString().padStart(2, "0")}:${minutes}`;
+  };
+
+  // Helper to convert day name to index
+  const dayNameToIndex = (name: string): string => {
+    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const index = days.indexOf(name?.toLowerCase());
+    return index >= 0 ? index.toString() : "";
+  };
+
+  // Fetch post details when editing
+  useEffect(() => {
+    if (isOpen && isEditing && editPostId) {
+      dispatch(fetchPostDetails(parseInt(editPostId)));
+    }
+    // Cleanup when modal closes
+    if (!isOpen) {
+      dispatch(clearPostDetails());
+    }
+  }, [isOpen, isEditing, editPostId, dispatch]);
+
+  // Map post details to form when loaded
+  useEffect(() => {
+    if (isEditing && postDetails) {
+      const publishOption = postDetails.publishOption === "recurrent" ? "auto" : postDetails.publishOption;
+      
+      setFormData({
+        listings: [],
+        title: postDetails.title || "",
+        postType: postDetails.postType || "regular",
+        description: postDetails.description || "",
+        image: postDetails.imageUrl || null,
+        imageSource: null, // We don't change image source for existing images
+        ctaButton: postDetails.ctaButton || "",
+        ctaUrl: postDetails.ctaUrl || "",
+        publishOption: publishOption || "now",
+        scheduleDate: postDetails.scheduleDate || "",
+        platforms: [],
+        startDate: postDetails.startDate || "",
+        endDate: postDetails.endDate || "",
+        couponCode: postDetails.couponCode || "",
+        redeemOnlineUrl: postDetails.redeemOnlineUrl || "",
+        termsConditions: postDetails.termsConditions || "",
+        postTags: postDetails.postTags || "",
+        siloPost: false,
+        autoScheduleFrequency: mapRescheduleTypeToFrequency(postDetails.autoRescheduleType),
+        autoScheduleTime: convertTo24HourFormat(postDetails.autoPostTime || ""),
+        autoScheduleDay: dayNameToIndex(postDetails.autoWeekDay || ""),
+        autoScheduleDate: postDetails.autoMonthDate?.toString() || "",
+        autoScheduleRecurrenceCount: postDetails.autoPostCount || 0,
+      });
+
+      // Set CTA button visibility if there's a CTA button
+      if (postDetails.ctaButton) {
+        setShowCTAButton(true);
+      }
+    }
+  }, [isEditing, postDetails]);
 
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
@@ -261,6 +347,104 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (Object.keys(errors).length > 0) {
       focusFirstErrorField(errors);
       return;
+    }
+
+    // For editing, use the editPostId's listing
+    if (isEditing && editPostId && postDetails) {
+      try {
+        dispatch(clearEditError());
+
+        const editPostData = {
+          id: parseInt(editPostId),
+          listingId: parseInt(postDetails.listingId),
+          title: formData.title,
+          postType: formData.postType,
+          description: formData.description,
+          ctaButton: showCTAButton ? formData.ctaButton : undefined,
+          ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+          publishOption: formData.publishOption,
+          scheduleDate:
+            formData.publishOption === "schedule" && formData.scheduleDate
+              ? formData.scheduleDate
+              : undefined,
+          platforms: formData.platforms,
+          startDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.startDate
+              ? formData.startDate
+              : undefined,
+          endDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.endDate
+              ? formData.endDate
+              : undefined,
+          couponCode:
+            formData.postType === "offer" ? formData.couponCode : undefined,
+          redeemOnlineUrl:
+            formData.postType === "offer"
+              ? formData.redeemOnlineUrl
+              : undefined,
+          termsConditions:
+            formData.postType === "offer"
+              ? formData.termsConditions
+              : undefined,
+          postTags: formData.postTags,
+          siloPost: formData.siloPost,
+          // Auto-scheduling fields
+          autoScheduleFrequency: formData.publishOption === "auto" ? formData.autoScheduleFrequency : undefined,
+          autoScheduleTime: formData.publishOption === "auto" ? formData.autoScheduleTime : undefined,
+          autoScheduleDay: formData.publishOption === "auto" && formData.autoScheduleFrequency === "weekly" ? formData.autoScheduleDay : undefined,
+          autoScheduleDate: formData.publishOption === "auto" && formData.autoScheduleFrequency === "monthly" ? formData.autoScheduleDate : undefined,
+          autoScheduleRecurrenceCount: formData.publishOption === "auto" ? formData.autoScheduleRecurrenceCount : undefined,
+          // Handle image based on source
+          selectedImage: formData.imageSource || undefined,
+          userfile:
+            formData.imageSource === "local" && formData.image instanceof File
+              ? formData.image
+              : undefined,
+          aiImageUrl:
+            formData.imageSource === "ai" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+          galleryImageUrl:
+            formData.imageSource === "gallery" &&
+            typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+        };
+
+        await dispatch(editPost(editPostData)).unwrap();
+
+        toast({
+          title: t("toast.success.single.edited.title"),
+          description: t("toast.success.single.edited.description"),
+        });
+
+        // Refresh posts list
+        const listingId = parseInt(postDetails.listingId);
+        if (listingId) {
+          dispatch(
+            fetchPosts({
+              listingId,
+              filters: { status: "all", search: "" },
+              pagination: { page: 1, limit: 12 },
+            })
+          );
+        }
+
+        handleClose();
+        return;
+      } catch (error) {
+        toast({
+          title: t("toast.failure.single.edited"),
+          description:
+            error instanceof Error
+              ? (error as any)?.response?.data?.message || error.message
+              : t("toast.error.desc"),
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     // Determine if this is bulk posting or single posting
@@ -511,11 +695,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   };
 
   // Check if Create Post button should be enabled
-  const isCreatePostEnabled =
-    formData.description.trim().length > 0 && !createLoading;
+  const isSubmitEnabled =
+    formData.description.trim().length > 0 && !createLoading && !editLoading && !postDetailsLoading;
 
   // Show error toast if there's a create error
-  React.useEffect(() => {
+  useEffect(() => {
     if (createError) {
       toast({
         title: t("toast.error.title"),
@@ -525,8 +709,19 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
   }, [createError]);
 
+  // Show error toast if there's an edit error
+  useEffect(() => {
+    if (editError) {
+      toast({
+        title: t("toast.error.title"),
+        description: editError,
+        variant: "destructive",
+      });
+    }
+  }, [editError]);
+
   // Clear validation errors when form data changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (Object.keys(validationErrors).length > 0) {
       const errors = validateForm();
       // Don't auto-focus on field changes, only on submit
@@ -588,7 +783,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-xl sm:text-2xl font-semibold">
-                {isCloning ? t("title.clone") : t("title.create")}
+                {isEditing ? t("title.edit") : isCloning ? t("title.clone") : t("title.create")}
               </DialogTitle>
               <Button
                 variant="ghost"
@@ -604,9 +799,18 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           <div className="flex flex-1 min-h-0">
             {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
             <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
+              {/* Loading state when fetching post details for editing */}
+              {isEditing && postDetailsLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">{t("loading.fetchingDetails")}</p>
+                  </div>
+                </div>
+              ) : (
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                {/* Multi-Listing Selector (only in multi-dashboard) */}
-                {isMultiDashboard && (
+                {/* Multi-Listing Selector (only in multi-dashboard and not editing) */}
+                {isMultiDashboard && !isEditing && (
                   <MultiListingSelector
                     selectedListings={formData.listings}
                     onListingsChange={(listings) =>
@@ -660,6 +864,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   isBulkPost={isMultiDashboard}
                 />
               </form>
+              )}
             </div>
 
             {/* Right Panel - Preview (hidden on mobile/tablet, visible on large screens) */}
@@ -701,13 +906,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               <Button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={!isCreatePostEnabled}
+                disabled={!isSubmitEnabled}
                 className="bg-primary hover:bg-primary/90 flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {createLoading
+                {editLoading
+                  ? t("buttons.editing")
+                  : createLoading
                   ? isCloning
                     ? t("buttons.cloning")
                     : t("buttons.creating")
+                  : isEditing
+                  ? t("buttons.edit")
                   : isCloning
                   ? t("buttons.clone")
                   : t("buttons.create")}
@@ -718,13 +927,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <Button
               type="submit"
               onClick={handleSubmit}
-              disabled={!isCreatePostEnabled}
+              disabled={!isSubmitEnabled}
               className="hidden sm:block bg-primary hover:bg-primary/90 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {createLoading
+              {editLoading
+                ? t("buttons.editing")
+                : createLoading
                 ? isCloning
                   ? t("buttons.cloning")
                   : t("buttons.creating")
+                : isEditing
+                ? t("buttons.edit")
                 : isCloning
                 ? t("buttons.clone")
                 : t("buttons.create")}

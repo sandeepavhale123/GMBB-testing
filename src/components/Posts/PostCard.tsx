@@ -6,6 +6,7 @@ import {
   Eye,
   Loader2,
   ArrowUpRight,
+  Pencil,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -13,6 +14,7 @@ import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { PostViewModal } from "./PostViewModal";
+import { CreatePostModal } from "./CreatePostModal";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -55,6 +57,7 @@ const PostCardComponent: React.FC<PostCardProps> = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const { t } = useI18nNamespace("Post/postCard");
@@ -414,6 +417,17 @@ const PostCardComponent: React.FC<PostCardProps> = ({
             >
               <Eye className="w-3 h-3" />
             </Button>
+            {/* Edit button - only for scheduled posts */}
+            {post.status === "scheduled" && !isSelectionMode && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => setIsEditModalOpen(true)}
+              >
+                <Pencil className="w-3 h-3" />
+              </Button>
+            )}
             {!isSelectionMode && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
@@ -464,6 +478,14 @@ const PostCardComponent: React.FC<PostCardProps> = ({
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
         post={post}
+      />
+
+      {/* Edit Post Modal */}
+      <CreatePostModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        isEditing={true}
+        editPostId={post.id}
       />
     </>
   );
