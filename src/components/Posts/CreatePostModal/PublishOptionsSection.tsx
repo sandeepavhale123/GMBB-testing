@@ -213,30 +213,25 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
               <Label className="text-sm text-gray-600">
                 {t("publishOptionsSection.dateLabel")}
               </Label>
-              <Select
+              <select
                 value={formData.autoScheduleDate}
-                onValueChange={(value) =>
+                onChange={(e) =>
                   onFormDataChange((prev) => ({
                     ...prev,
-                    autoScheduleDate: value,
+                    autoScheduleDate: e.target.value,
                   }))
                 }
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder={t(
-                      "publishOptionsSection.placeholder.selectDate"
-                    )}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {dateOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                <option value="" disabled>
+                  {t("publishOptionsSection.placeholder.selectDate")}
+                </option>
+                {dateOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
           )}
 
