@@ -3,9 +3,7 @@ import { ProtectedRoute } from "../ProtectedRoute";
 import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
 
-const MultiDashboard = lazyImport(() => 
-  import("@/multiDashboardLayout/pages/MultiDashboard").then(m => ({ default: m.MultiDashboard }))
-);
+const MultiDashboard = lazyImport(() => import("@/multiDashboardLayout/pages/MultiDashboard"));
 
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
 import { BulkPostDetails } from "@/multiDashboardLayout/pages/BulkPostDetails";
