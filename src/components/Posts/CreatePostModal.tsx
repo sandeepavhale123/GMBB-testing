@@ -160,6 +160,33 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     return index >= 0 ? index.toString() : "";
   };
 
+  // Helper to convert frequency to autoRescheduleType
+  const mapFrequencyToRescheduleType = (frequency: string): number | undefined => {
+    switch (frequency) {
+      case "daily": return 1;
+      case "weekly": return 2;
+      case "monthly": return 3;
+      default: return undefined;
+    }
+  };
+
+  // Helper to convert 24hr time to 12hr format
+  const convertTo12HourFormat = (time24: string): string => {
+    if (!time24) return "";
+    const [hours, minutes] = time24.split(":");
+    const hour = parseInt(hours);
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${period}`;
+  };
+
+  // Helper to convert day index to name
+  const indexToDayName = (index: string): string => {
+    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const idx = parseInt(index);
+    return idx >= 0 && idx < 7 ? days[idx] : "";
+  };
+
   // Fetch post details when editing
   useEffect(() => {
     if (isOpen && isEditing && editPostId) {
@@ -205,6 +232,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       // Set CTA button visibility if there's a CTA button
       if (postDetails.ctaButton) {
         setShowCTAButton(true);
+      }
+
+      // Auto-enable advanced options if relevant data exists
+      const shouldShowAdvanced = 
+        (postDetails.postType && postDetails.postType !== "regular") ||
+        publishOption === "schedule" ||
+        publishOption === "auto" ||
+        postDetails.postTags?.trim();
+      
+      if (shouldShowAdvanced) {
+        setShowAdvancedOptions(true);
       }
     }
   }, [isEditing, postDetails]);
@@ -362,7 +400,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           description: formData.description,
           ctaButton: showCTAButton ? formData.ctaButton : undefined,
           ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
-          publishOption: formData.publishOption,
+          // Transform "auto" to "recurrent" for API
+          publishOption: formData.publishOption === "auto" ? "recurrent" : formData.publishOption,
           scheduleDate:
             formData.publishOption === "schedule" && formData.scheduleDate
               ? formData.scheduleDate
@@ -390,12 +429,22 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               : undefined,
           postTags: formData.postTags,
           siloPost: formData.siloPost,
-          // Auto-scheduling fields
-          autoScheduleFrequency: formData.publishOption === "auto" ? formData.autoScheduleFrequency : undefined,
-          autoScheduleTime: formData.publishOption === "auto" ? formData.autoScheduleTime : undefined,
-          autoScheduleDay: formData.publishOption === "auto" && formData.autoScheduleFrequency === "weekly" ? formData.autoScheduleDay : undefined,
-          autoScheduleDate: formData.publishOption === "auto" && formData.autoScheduleFrequency === "monthly" ? formData.autoScheduleDate : undefined,
-          autoScheduleRecurrenceCount: formData.publishOption === "auto" ? formData.autoScheduleRecurrenceCount : undefined,
+          // Auto-scheduling fields - transform to API expected format
+          autoRescheduleType: formData.publishOption === "auto" 
+            ? mapFrequencyToRescheduleType(formData.autoScheduleFrequency) 
+            : undefined,
+          autoPostTime: formData.publishOption === "auto" 
+            ? convertTo12HourFormat(formData.autoScheduleTime) 
+            : undefined,
+          autoWeekDay: formData.publishOption === "auto" && formData.autoScheduleFrequency === "weekly" 
+            ? indexToDayName(formData.autoScheduleDay) 
+            : undefined,
+          autoMonthDate: formData.publishOption === "auto" && formData.autoScheduleFrequency === "monthly" 
+            ? parseInt(formData.autoScheduleDate) 
+            : undefined,
+          autoPostCount: formData.publishOption === "auto" 
+            ? formData.autoScheduleRecurrenceCount 
+            : undefined,
           // Handle image based on source
           selectedImage: formData.imageSource || undefined,
           userfile:
