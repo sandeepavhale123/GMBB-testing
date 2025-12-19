@@ -6,8 +6,8 @@ import { ListingLayout } from "@/components/layout/ListingLayout";
 import { RouteConfig } from "../routeConfig";
 
 // Lazy load content components
-const Dashboard = lazyImport(() => import("@/components/Dashboard/Dashboard").then(m => ({ default: m.Dashboard })));
-const AITaskManagerPage = lazyImport(() => import("@/components/AITaskManager/AITaskManagerPage").then(m => ({ default: m.AITaskManagerPage })));
+const Dashboard = lazyImport(() => import("@/components/Dashboard/Dashboard"));
+const AITaskManagerPage = lazyImport(() => import("@/components/AITaskManager/AITaskManagerPage"));
 const PlanExpiredPage = lazyImport(() => import("@/pages/PlanExpiredPage"));
 const PostsPage = lazyImport(() => import("@/pages/PostsPage"));
 const MediaPage = lazyImport(() => import("@/pages/MediaPage"));

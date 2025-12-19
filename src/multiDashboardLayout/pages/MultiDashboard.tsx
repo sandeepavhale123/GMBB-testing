@@ -1690,3 +1690,5 @@ export const MultiDashboard: React.FC = () => {
     </TooltipProvider>
   );
 };
+
+export default MultiDashboard;

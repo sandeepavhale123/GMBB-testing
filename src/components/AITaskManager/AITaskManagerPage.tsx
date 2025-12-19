@@ -382,3 +382,5 @@ export const AITaskManagerPage: React.FC = () => {
     </div>
   );
 };
+
+export default AITaskManagerPage;
