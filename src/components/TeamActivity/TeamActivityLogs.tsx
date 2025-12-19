@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -16,16 +16,25 @@ import { ActivityLogCard } from "./ActivityLogCard";
 import { ActivityLogCardSkeleton } from "./ActivityLogCardSkeleton";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 
+interface PaginationData {
+  total: number;
+  page: number;
+  totalPages: number;
+  limit: number;
+}
+
 interface TeamActivityLogsProps {
   subUserId?: string;
   showMemberFilter?: boolean;
   className?: string;
+  onPaginationChange?: (pagination: PaginationData, isLoading: boolean) => void;
 }
 
 export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
   subUserId = "",
   showMemberFilter = false,
   className = "",
+  onPaginationChange,
 }) => {
   const {
     activities,
@@ -44,6 +53,11 @@ export const TeamActivityLogs: React.FC<TeamActivityLogsProps> = ({
     selectedMemberId,
     setSelectedMemberId,
   } = useActivityLogs({ subUserId });
+
+  // Notify parent of pagination changes
+  useEffect(() => {
+    onPaginationChange?.(pagination, isLoading);
+  }, [pagination, isLoading, onPaginationChange]);
 
     const { t } = useI18nNamespace("TeamActivity/TeamActivityLogs");
   const { members, isLoading: isMembersLoading } = useTeamMembersList(showMemberFilter);

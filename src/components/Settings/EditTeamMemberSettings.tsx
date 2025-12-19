@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TeamActivityLogs } from "@/components/TeamActivity";
-import { useActivityLogs } from "@/hooks/useActivityLogs";
+
 import {
   Select,
   SelectContent,
@@ -856,20 +856,33 @@ export const EditTeamMemberSettings: React.FC = () => {
 };
 
 // Activity Tab Content component with total count badge
+interface PaginationData {
+  total: number;
+  page: number;
+  totalPages: number;
+  limit: number;
+}
+
 const ActivityTabContent: React.FC<{ memberId: string; t: (key: string) => string }> = ({ memberId, t }) => {
-  const { pagination, isLoading } = useActivityLogs({ subUserId: memberId });
+  const [paginationData, setPaginationData] = React.useState<PaginationData>({ total: 0, page: 1, totalPages: 1, limit: 20 });
+  const [isLoadingData, setIsLoadingData] = React.useState(true);
+
+  const handlePaginationChange = React.useCallback((pagination: PaginationData, isLoading: boolean) => {
+    setPaginationData(pagination);
+    setIsLoadingData(isLoading);
+  }, []);
   
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-0">
         <CardTitle>Activity Logs</CardTitle>
         <div className="flex items-center gap-2 bg-blue-100 p-3 rounded-md mb-0">
-            <p className="text-sm text-muted-foreground">{t("editTeamMemberSettings.totalReplies")}:</p>
-            <p className="bg-blue-500 text-white  rounded px-2 py-1 text-sm  ">{isLoading ? "..." : pagination.total}</p>
+          <p className="text-sm text-muted-foreground">{t("editTeamMemberSettings.totalReplies")}:</p>
+          <p className="bg-blue-500 text-white rounded px-2 py-1 text-sm">{isLoadingData ? "..." : paginationData.total}</p>
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        <TeamActivityLogs subUserId={memberId} />
+        <TeamActivityLogs subUserId={memberId} onPaginationChange={handlePaginationChange} />
       </CardContent>
     </Card>
   );
