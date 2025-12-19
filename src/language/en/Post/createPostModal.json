@@ -6,8 +6,15 @@
   "validation": {
     "titleRequired": "Title is required for event and offer posts.",
     "urlRequired": "URL is required when CTA button is enabled.",
+    "invalidCtaUrl": "Please enter a valid CTA URL.",
     "listingsRequired": "Please select at least one listing or group.",
-    "genericError": "Please fix the validation errors before submitting."
+    "genericError": "Please fix the validation errors before submitting.",
+    "scheduleDateRequired": "Please select a schedule date and time.",
+    "frequencyRequired": "Please select a schedule frequency.",
+    "timeRequired": "Please select a time for auto scheduling.",
+    "recurrenceCountRequired": "Please enter the number of recurrences (minimum 1).",
+    "dayRequired": "Please select a day for weekly scheduling.",
+    "dateRequired": "Please select a date for monthly scheduling."
   },
   "toast": {
     "listingRequired": {
@@ -25,6 +32,14 @@
     "validationError": {
       "title": "Validation Error",
       "description": "Please fix the validation errors before submitting."
+    },
+    "autoScheduleError": {
+      "title": "Auto Scheduling Error",
+      "description": "Please fill in all required auto scheduling fields."
+    },
+    "scheduleDateError": {
+      "title": "Schedule Date Required",
+      "description": "Please select a schedule date and time."
     },
     "error": {
       "title": "Error",

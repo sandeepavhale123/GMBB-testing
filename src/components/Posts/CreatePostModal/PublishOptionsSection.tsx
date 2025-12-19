@@ -25,16 +25,27 @@ interface PublishFormData {
   autoScheduleRecurrenceCount: number;
 }
 
+interface ValidationErrors {
+  autoScheduleFrequency?: string;
+  autoScheduleTime?: string;
+  autoScheduleDay?: string;
+  autoScheduleDate?: string;
+  autoScheduleRecurrenceCount?: string;
+  scheduleDate?: string;
+}
+
 interface PublishOptionsSectionProps {
   formData: PublishFormData;
   onFormDataChange: (
     updater: (prev: PublishFormData) => PublishFormData
   ) => void;
+  validationErrors?: ValidationErrors;
 }
 
 export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
   formData,
   onFormDataChange,
+  validationErrors = {},
 }) => {
   const { t } = useI18nNamespace("Post/publishOptionsSection");
 
@@ -134,8 +145,11 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   scheduleDate: e.target.value,
                 }))
               }
-              className="w-full"
+              className={`w-full ${validationErrors.scheduleDate ? 'border-destructive' : ''}`}
             />
+            {validationErrors.scheduleDate && (
+              <p className="text-sm text-destructive">{validationErrors.scheduleDate}</p>
+            )}
           </div>
         )}
       </div>
@@ -157,7 +171,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                 }))
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className={validationErrors.autoScheduleFrequency ? 'border-destructive' : ''}>
                 <SelectValue
                   placeholder={t(
                     "publishOptionsSection.placeholder.selectFrequency"
@@ -172,6 +186,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                 ))}
               </SelectContent>
             </Select>
+            {validationErrors.autoScheduleFrequency && (
+              <p className="text-sm text-destructive">{validationErrors.autoScheduleFrequency}</p>
+            )}
           </div>
 
           {/* Day Selection - Only for Weekly */}
@@ -189,7 +206,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   }))
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className={validationErrors.autoScheduleDay ? 'border-destructive' : ''}>
                   <SelectValue
                     placeholder={t(
                       "publishOptionsSection.placeholder.selectDay"
@@ -204,6 +221,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   ))}
                 </SelectContent>
               </Select>
+              {validationErrors.autoScheduleDay && (
+                <p className="text-sm text-destructive">{validationErrors.autoScheduleDay}</p>
+              )}
             </div>
           )}
 
@@ -221,7 +241,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                     autoScheduleDate: e.target.value,
                   }))
                 }
-                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${validationErrors.autoScheduleDate ? 'border-destructive' : ''}`}
               >
                 <option value="" disabled>
                   {t("publishOptionsSection.placeholder.selectDate")}
@@ -232,6 +252,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   </option>
                 ))}
               </select>
+              {validationErrors.autoScheduleDate && (
+                <p className="text-sm text-destructive">{validationErrors.autoScheduleDate}</p>
+              )}
             </div>
           )}
 
@@ -251,8 +274,11 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                       autoScheduleTime: e.target.value,
                     }))
                   }
-                  className="w-full"
+                  className={`w-full ${validationErrors.autoScheduleTime ? 'border-destructive' : ''}`}
                 />
+                {validationErrors.autoScheduleTime && (
+                  <p className="text-sm text-destructive">{validationErrors.autoScheduleTime}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -273,8 +299,11 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                         parseInt(e.target.value) || 0,
                     }))
                   }
-                  className="w-full"
+                  className={`w-full ${validationErrors.autoScheduleRecurrenceCount ? 'border-destructive' : ''}`}
                 />
+                {validationErrors.autoScheduleRecurrenceCount && (
+                  <p className="text-sm text-destructive">{validationErrors.autoScheduleRecurrenceCount}</p>
+                )}
               </div>
             </div>
           )}

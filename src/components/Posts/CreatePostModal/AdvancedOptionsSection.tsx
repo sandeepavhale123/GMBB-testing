@@ -102,6 +102,7 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
           <PublishOptionsSection
             formData={formData}
             onFormDataChange={onFormDataChange}
+            validationErrors={validationErrors}
           />
 
           {/* Divider after Publish Options */}

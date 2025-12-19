@@ -173,13 +173,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
 
     // CTA URL validation when CTA button is enabled and not CALL type
-    // if (
-    //   showCTAButton &&
-    //   formData.ctaButton !== "CALL" &&
-    //   !formData.ctaUrl.trim()
-    // ) {
-    //   errors.ctaUrl = t("validation.urlRequired");
-    // }
     if (showCTAButton && formData.ctaButton !== "CALL") {
       // check empty
       if (!formData.ctaUrl.trim()) {
@@ -190,7 +183,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         try {
           new URL(formData.ctaUrl.trim());
         } catch {
-          errors.ctaUrl = "Please Enter valid CTA URL"; // <-- Add this key in i18n
+          errors.ctaUrl = t("validation.invalidCtaUrl");
         }
       }
     }
@@ -198,6 +191,34 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     // Listings validation for multi-dashboard context (bulk posting)
     if (isMultiDashboard && formData.listings.length === 0) {
       errors.listings = t("validation.listingsRequired");
+    }
+
+    // Schedule date validation
+    if (formData.publishOption === "schedule" && !formData.scheduleDate) {
+      errors.scheduleDate = t("validation.scheduleDateRequired");
+    }
+
+    // Auto scheduling validation
+    if (formData.publishOption === "auto") {
+      if (!formData.autoScheduleFrequency) {
+        errors.autoScheduleFrequency = t("validation.frequencyRequired");
+      }
+
+      if (formData.autoScheduleFrequency && !formData.autoScheduleTime) {
+        errors.autoScheduleTime = t("validation.timeRequired");
+      }
+
+      if (formData.autoScheduleFrequency && (!formData.autoScheduleRecurrenceCount || formData.autoScheduleRecurrenceCount < 1)) {
+        errors.autoScheduleRecurrenceCount = t("validation.recurrenceCountRequired");
+      }
+
+      if (formData.autoScheduleFrequency === "weekly" && !formData.autoScheduleDay) {
+        errors.autoScheduleDay = t("validation.dayRequired");
+      }
+
+      if (formData.autoScheduleFrequency === "monthly" && !formData.autoScheduleDate) {
+        errors.autoScheduleDate = t("validation.dateRequired");
+      }
     }
 
     setValidationErrors(errors);
@@ -226,6 +247,18 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         toast({
           title: t("toast.urlRequired.title"),
           description: validationErrors.ctaUrl,
+          variant: "destructive",
+        });
+      } else if (validationErrors.autoScheduleFrequency || validationErrors.autoScheduleTime || validationErrors.autoScheduleRecurrenceCount || validationErrors.autoScheduleDay || validationErrors.autoScheduleDate) {
+        toast({
+          title: t("toast.autoScheduleError.title"),
+          description: t("toast.autoScheduleError.description"),
+          variant: "destructive",
+        });
+      } else if (validationErrors.scheduleDate) {
+        toast({
+          title: t("toast.scheduleDateError.title"),
+          description: validationErrors.scheduleDate,
           variant: "destructive",
         });
       } else {
