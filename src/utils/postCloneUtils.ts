@@ -20,6 +20,11 @@ export interface CreatePostFormData {
   termsConditions: string;
   postTags: string;
   siloPost: boolean;
+  autoScheduleFrequency: string;
+  autoScheduleTime: string;
+  autoScheduleDay: string;
+  autoScheduleDate: string;
+  autoScheduleRecurrenceCount: number;
 }
 
 export const transformPostForCloning = (post: Post): CreatePostFormData => {
@@ -41,6 +46,11 @@ export const transformPostForCloning = (post: Post): CreatePostFormData => {
     redeemOnlineUrl: '',
     termsConditions: '',
     postTags: post.tags || '',
-    siloPost: false
+    siloPost: false,
+    autoScheduleFrequency: '',
+    autoScheduleTime: '',
+    autoScheduleDay: '',
+    autoScheduleDate: '',
+    autoScheduleRecurrenceCount: 0
   };
 };

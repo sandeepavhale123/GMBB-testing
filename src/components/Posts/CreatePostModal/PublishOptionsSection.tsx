@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, RefreshCw } from "lucide-react";
 import { Label } from "../../ui/label";
 import {
   Select,
@@ -18,6 +18,11 @@ interface PublishFormData {
   scheduleDate: string;
   postTags: string;
   siloPost: boolean;
+  autoScheduleFrequency: string;
+  autoScheduleTime: string;
+  autoScheduleDay: string;
+  autoScheduleDate: string;
+  autoScheduleRecurrenceCount: number;
 }
 
 interface PublishOptionsSectionProps {
@@ -44,7 +49,33 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
       label: t("publishOptionsSection.schedulePost"),
       icon: Calendar,
     },
+    {
+      value: "auto",
+      label: t("publishOptionsSection.autoSchedule"),
+      icon: RefreshCw,
+    },
   ];
+
+  const frequencyOptions = [
+    { value: "daily", label: t("publishOptionsSection.frequencies.daily") },
+    { value: "weekly", label: t("publishOptionsSection.frequencies.weekly") },
+    { value: "monthly", label: t("publishOptionsSection.frequencies.monthly") },
+  ];
+
+  const dayOptions = [
+    { value: "0", label: t("publishOptionsSection.days.sunday") },
+    { value: "1", label: t("publishOptionsSection.days.monday") },
+    { value: "2", label: t("publishOptionsSection.days.tuesday") },
+    { value: "3", label: t("publishOptionsSection.days.wednesday") },
+    { value: "4", label: t("publishOptionsSection.days.thursday") },
+    { value: "5", label: t("publishOptionsSection.days.friday") },
+    { value: "6", label: t("publishOptionsSection.days.saturday") },
+  ];
+
+  const dateOptions = Array.from({ length: 31 }, (_, i) => ({
+    value: String(i + 1),
+    label: String(i + 1),
+  }));
 
   return (
     <div className="space-y-4">
@@ -108,6 +139,152 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           </div>
         )}
       </div>
+
+      {/* Auto Scheduling Fields */}
+      {formData.publishOption === "auto" && (
+        <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+          {/* Schedule Frequency */}
+          <div className="space-y-2">
+            <Label className="text-sm text-gray-600">
+              {t("publishOptionsSection.scheduleFrequencyLabel")}
+            </Label>
+            <Select
+              value={formData.autoScheduleFrequency}
+              onValueChange={(value) =>
+                onFormDataChange((prev) => ({
+                  ...prev,
+                  autoScheduleFrequency: value,
+                }))
+              }
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={t(
+                    "publishOptionsSection.placeholder.selectFrequency"
+                  )}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {frequencyOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Day Selection - Only for Weekly */}
+          {formData.autoScheduleFrequency === "weekly" && (
+            <div className="space-y-2">
+              <Label className="text-sm text-gray-600">
+                {t("publishOptionsSection.dayLabel")}
+              </Label>
+              <Select
+                value={formData.autoScheduleDay}
+                onValueChange={(value) =>
+                  onFormDataChange((prev) => ({
+                    ...prev,
+                    autoScheduleDay: value,
+                  }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={t(
+                      "publishOptionsSection.placeholder.selectDay"
+                    )}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {dayOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Date Selection - Only for Monthly */}
+          {formData.autoScheduleFrequency === "monthly" && (
+            <div className="space-y-2">
+              <Label className="text-sm text-gray-600">
+                {t("publishOptionsSection.dateLabel")}
+              </Label>
+              <Select
+                value={formData.autoScheduleDate}
+                onValueChange={(value) =>
+                  onFormDataChange((prev) => ({
+                    ...prev,
+                    autoScheduleDate: value,
+                  }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={t(
+                      "publishOptionsSection.placeholder.selectDate"
+                    )}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {dateOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Time and Recurrence Count - Show when frequency is selected */}
+          {formData.autoScheduleFrequency && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm text-gray-600">
+                  {t("publishOptionsSection.timeLabel")}
+                </Label>
+                <Input
+                  type="time"
+                  value={formData.autoScheduleTime}
+                  onChange={(e) =>
+                    onFormDataChange((prev) => ({
+                      ...prev,
+                      autoScheduleTime: e.target.value,
+                    }))
+                  }
+                  className="w-full"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm text-gray-600">
+                  {t("publishOptionsSection.recurrenceCountLabel")}
+                </Label>
+                <Input
+                  type="number"
+                  min={1}
+                  placeholder={t(
+                    "publishOptionsSection.placeholder.recurrenceCount"
+                  )}
+                  value={formData.autoScheduleRecurrenceCount || ""}
+                  onChange={(e) =>
+                    onFormDataChange((prev) => ({
+                      ...prev,
+                      autoScheduleRecurrenceCount:
+                        parseInt(e.target.value) || 0,
+                    }))
+                  }
+                  className="w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <Separator />
 

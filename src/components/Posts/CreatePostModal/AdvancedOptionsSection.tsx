@@ -31,6 +31,12 @@ interface PostFormData {
   // New fields
   postTags: string;
   siloPost: boolean;
+  // Auto scheduling fields
+  autoScheduleFrequency: string;
+  autoScheduleTime: string;
+  autoScheduleDay: string;
+  autoScheduleDate: string;
+  autoScheduleRecurrenceCount: number;
 }
 
 interface AdvancedOptionsSectionProps {
