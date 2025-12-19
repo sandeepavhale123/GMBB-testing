@@ -85,9 +85,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
-          <Label className="text-sm text-gray-600">
+          {/* <Label className="text-sm text-gray-600">
             {t("publishOptionsSection.publishOptionLabel")}
-          </Label>
+          </Label> */}
           <Select
             value={formData.publishOption}
             onValueChange={(value) =>
@@ -285,7 +285,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
-          <Label className="text-sm text-gray-600">
+          <Label className="text-sm font-medium">
             {t("publishOptionsSection.postTagsLabel")}
           </Label>
           <Input
