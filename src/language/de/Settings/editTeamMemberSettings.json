@@ -74,6 +74,7 @@
         "profileUpdate": "Profil konnte nicht aktualisiert werden",
         "listingsUpdate": "Eintragszuweisungen konnten nicht aktualisiert werden"
       }
-    }
+    },
+    "totalReplies": "Gesamtantworten"
   }
 }

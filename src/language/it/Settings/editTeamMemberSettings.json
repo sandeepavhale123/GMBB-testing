@@ -74,6 +74,7 @@
         "profileUpdate": "Impossibile aggiornare il profilo",
         "listingsUpdate": "Impossibile aggiornare gli annunci assegnati"
       }
-    }
+    },
+    "totalReplies": "Risposte totali"
   }
 }

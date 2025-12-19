@@ -74,6 +74,7 @@
         "profileUpdate": "Error al actualizar el perfil",
         "listingsUpdate": "Error al actualizar las asignaciones de listados"
       }
-    }
+    },
+    "totalReplies": "Total de respuestas"
   }
 }
