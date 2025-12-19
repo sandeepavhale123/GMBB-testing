@@ -626,6 +626,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   onListingsSearchChange={setListingsSearch}
                   onListingToggle={handleListingToggle}
                   validationErrors={validationErrors}
+                  isBulkPost={isMultiDashboard}
                 />
               </form>
             </div>

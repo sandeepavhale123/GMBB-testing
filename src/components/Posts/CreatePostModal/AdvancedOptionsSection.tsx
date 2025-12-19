@@ -48,6 +48,7 @@ interface AdvancedOptionsSectionProps {
   onListingsSearchChange: (value: string) => void;
   onListingToggle: (listing: string) => void;
   validationErrors?: { [key: string]: string };
+  isBulkPost?: boolean;
 }
 
 export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
@@ -56,6 +57,7 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
   formData,
   onFormDataChange,
   validationErrors = {},
+  isBulkPost = false,
 }) => {
   const { t } = useI18nNamespace("Post/advancedOptionsSection");
   return (
@@ -103,6 +105,7 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
             formData={formData}
             onFormDataChange={onFormDataChange}
             validationErrors={validationErrors}
+            isBulkPost={isBulkPost}
           />
 
           {/* Divider after Publish Options */}

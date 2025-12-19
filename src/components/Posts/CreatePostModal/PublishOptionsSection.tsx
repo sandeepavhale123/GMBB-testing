@@ -40,12 +40,14 @@ interface PublishOptionsSectionProps {
     updater: (prev: PublishFormData) => PublishFormData
   ) => void;
   validationErrors?: ValidationErrors;
+  isBulkPost?: boolean;
 }
 
 export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
   formData,
   onFormDataChange,
   validationErrors = {},
+  isBulkPost = false,
 }) => {
   const { t } = useI18nNamespace("Post/publishOptionsSection");
 
@@ -66,6 +68,11 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
       icon: RefreshCw,
     },
   ];
+
+  // Filter out auto-scheduling option for bulk posts
+  const filteredPublishOptions = isBulkPost
+    ? publishOptions.filter(option => option.value !== "auto")
+    : publishOptions;
 
   const frequencyOptions = [
     { value: "daily", label: t("publishOptionsSection.frequencies.daily") },
@@ -113,7 +120,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
               />
             </SelectTrigger>
             <SelectContent>
-              {publishOptions.map((option) => {
+              {filteredPublishOptions.map((option) => {
                 const IconComponent = option.icon;
                 return (
                   <SelectItem key={option.value} value={option.value}>
