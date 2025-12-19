@@ -74,6 +74,7 @@
         "profileUpdate": "Failed to update profile",
         "listingsUpdate": "Failed to update listing assignments"
       }
-    }
+    },
+    "totalReplies": "Total Replies"
   }
 }

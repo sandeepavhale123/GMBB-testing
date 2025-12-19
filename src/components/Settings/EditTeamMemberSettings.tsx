@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TeamActivityLogs } from "@/components/TeamActivity";
+import { useActivityLogs } from "@/hooks/useActivityLogs";
 import {
   Select,
   SelectContent,
@@ -848,15 +849,30 @@ export const EditTeamMemberSettings: React.FC = () => {
 
       {/* Activity Tab */}
       {activeTab === "activity" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Activity Logs</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <TeamActivityLogs subUserId={memberId} />
-          </CardContent>
-        </Card>
+        <ActivityTabContent memberId={memberId} t={t} />
       )}
     </div>
+  );
+};
+
+// Activity Tab Content component with total count badge
+const ActivityTabContent: React.FC<{ memberId: string; t: (key: string) => string }> = ({ memberId, t }) => {
+  const { pagination, isLoading } = useActivityLogs({ subUserId: memberId });
+  
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>Activity Logs</CardTitle>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">{t("editTeamMemberSettings.totalReplies")}:</span>
+          <Badge variant="secondary" className="text-lg px-3 py-1">
+            {isLoading ? "..." : pagination.total}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="p-6">
+        <TeamActivityLogs subUserId={memberId} />
+      </CardContent>
+    </Card>
   );
 };
