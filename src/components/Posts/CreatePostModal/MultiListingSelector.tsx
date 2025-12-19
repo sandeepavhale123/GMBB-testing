@@ -212,6 +212,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger asChild>
           <Button
+            id="field-listings"
             variant="outline"
             className="w-full justify-between"
             disabled={isLoading}

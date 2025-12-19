@@ -141,6 +141,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
               {t("publishOptionsSection.scheduleLabel")}
             </Label>
             <Input
+              id="field-scheduleDate"
               type="datetime-local"
               value={formData.scheduleDate}
               min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -178,7 +179,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                 }))
               }
             >
-              <SelectTrigger className={validationErrors.autoScheduleFrequency ? 'border-destructive' : ''}>
+              <SelectTrigger id="field-autoScheduleFrequency" className={validationErrors.autoScheduleFrequency ? 'border-destructive' : ''}>
                 <SelectValue
                   placeholder={t(
                     "publishOptionsSection.placeholder.selectFrequency"
@@ -213,7 +214,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   }))
                 }
               >
-                <SelectTrigger className={validationErrors.autoScheduleDay ? 'border-destructive' : ''}>
+                <SelectTrigger id="field-autoScheduleDay" className={validationErrors.autoScheduleDay ? 'border-destructive' : ''}>
                   <SelectValue
                     placeholder={t(
                       "publishOptionsSection.placeholder.selectDay"
@@ -241,6 +242,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                 {t("publishOptionsSection.dateLabel")}
               </Label>
               <select
+                id="field-autoScheduleDate"
                 value={formData.autoScheduleDate}
                 onChange={(e) =>
                   onFormDataChange((prev) => ({
@@ -273,6 +275,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   {t("publishOptionsSection.timeLabel")}
                 </Label>
                 <Input
+                  id="field-autoScheduleTime"
                   type="time"
                   value={formData.autoScheduleTime}
                   onChange={(e) =>
@@ -293,6 +296,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
                   {t("publishOptionsSection.recurrenceCountLabel")}
                 </Label>
                 <Input
+                  id="field-autoScheduleRecurrenceCount"
                   type="number"
                   min={1}
                   placeholder={t(

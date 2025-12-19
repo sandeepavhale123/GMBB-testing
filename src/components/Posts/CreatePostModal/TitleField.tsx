@@ -40,7 +40,7 @@ export const TitleField: React.FC<TitleFieldProps> = ({
       </Label>
       <div className="relative">
         <Input
-          id="title"
+          id="field-title"
           value={formData.title}
           onChange={(e) =>
             onFormDataChange((prev) => ({ ...prev, title: e.target.value }))
