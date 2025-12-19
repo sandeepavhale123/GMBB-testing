@@ -861,13 +861,11 @@ const ActivityTabContent: React.FC<{ memberId: string; t: (key: string) => strin
   
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-center justify-between pb-0">
         <CardTitle>Activity Logs</CardTitle>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">{t("editTeamMemberSettings.totalReplies")}:</span>
-          <Badge variant="secondary" className="text-lg px-3 py-1">
-            {isLoading ? "..." : pagination.total}
-          </Badge>
+        <div className="flex items-center gap-2 bg-blue-100 p-3 rounded-md mb-0">
+            <p className="text-sm text-muted-foreground">{t("editTeamMemberSettings.totalReplies")}:</p>
+            <p className="bg-blue-500 text-white  rounded px-2 py-1 text-sm  ">{isLoading ? "..." : pagination.total}</p>
         </div>
       </CardHeader>
       <CardContent className="p-6">
