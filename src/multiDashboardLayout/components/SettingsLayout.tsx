@@ -27,7 +27,10 @@ interface SettingsNavItem {
 export const SettingsLayout: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/settingsLayout");
   const { profileData, isLoading: isProfileLoading } = useProfile();
-  const isAdmin = !isProfileLoading && profileData?.role?.toLowerCase() === "admin";
+  const userRole = profileData?.role?.toLowerCase();
+  const isAdmin = !isProfileLoading && userRole === "admin";
+  const isModerator = !isProfileLoading && userRole === "moderator";
+  const canViewActivityLogs = isAdmin || isModerator;
 
   const settingsNavItems: SettingsNavItem[] = [
     {
@@ -106,7 +109,7 @@ export const SettingsLayout: React.FC = () => {
     // Filter out Activity tab for non-admin users
     const filteredNavItems = settingsNavItems.filter((item) => {
       if (item.path === "/main-dashboard/settings/activity") {
-        return isAdmin;
+        return canViewActivityLogs;
       }
       return true;
     });
