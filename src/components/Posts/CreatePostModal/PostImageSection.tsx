@@ -72,12 +72,14 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
   const getImageDisplay = () => {
     if (!image) return null;
     if (typeof image === "string") {
-      // It's a URL from AI generation
+      // It's a URL from AI generation, gallery, or existing post
+      // Extract filename from URL for display
+      const filename = image.split('/').pop() || "Post Image";
       return {
         isFile: false,
         url: image,
-        name: t("postImage.aiImageName"),
-        size: t("postImage.aiImageSize"),
+        name: filename,
+        size: "Existing Image",
       };
     } else {
       // It's a File object
@@ -113,7 +115,19 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
       >
         {imageDisplay ? (
           <div className="space-y-2">
-            <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+            {/* Show actual image thumbnail */}
+            <img 
+              src={imageDisplay.url} 
+              alt="Preview" 
+              className="w-24 h-24 mx-auto object-cover rounded-lg border border-green-300"
+              onError={(e) => {
+                // Fallback to icon if image fails to load
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                target.nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <div className="w-16 h-16 mx-auto bg-green-100 rounded-full hidden items-center justify-center">
               <Upload className="w-6 h-6 text-green-600" />
             </div>
             <p className="text-sm font-medium text-green-700">

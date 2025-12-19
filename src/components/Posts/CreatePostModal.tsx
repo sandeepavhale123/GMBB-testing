@@ -209,7 +209,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postType: postDetails.postType || "regular",
         description: postDetails.description || "",
         image: postDetails.imageUrl || null,
-        imageSource: null, // We don't change image source for existing images
+        imageSource: postDetails.imageUrl ? "gallery" : null, // Set as "gallery" for existing images
         ctaButton: postDetails.ctaButton || "",
         ctaUrl: postDetails.ctaUrl || "",
         publishOption: publishOption || "now",
