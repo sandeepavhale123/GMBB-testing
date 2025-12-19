@@ -7,6 +7,7 @@ import {
   ImageOff,
   Trash2,
   Import,
+  Edit,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -46,6 +47,8 @@ export const BulkPost: React.FC = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [editBulkId, setEditBulkId] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const {
     bulkPosts,
     loading,
@@ -129,6 +132,16 @@ export const BulkPost: React.FC = () => {
         <CreatePostModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
+          onBulkPostCreated={refresh}
+        />
+        <CreatePostModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditBulkId(null);
+          }}
+          isBulkEditing={true}
+          bulkEditId={editBulkId}
           onBulkPostCreated={refresh}
         />
       </Suspense>
@@ -293,6 +306,20 @@ export const BulkPost: React.FC = () => {
                             >
                               {t("buttons.viewDetails")}
                             </Button>
+                            {post.schedulePosts > 0 && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setEditBulkId(post.id);
+                                  setIsEditModalOpen(true);
+                                }}
+                                className="flex-shrink-0 flex items-center gap-2"
+                              >
+                                <Edit className="w-4 h-4" />
+                                {t("buttons.edit")}
+                              </Button>
+                            )}
                             <Button
                               variant="destructive"
                               size="sm"

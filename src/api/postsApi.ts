@@ -233,6 +233,77 @@ export interface GetBulkPostsSummaryRequest {
   bulkId: number;
 }
 
+// Edit Bulk Post Details interfaces
+export interface GetEditBulkPostDetailsRequest {
+  bulkId: number;
+}
+
+export interface GetEditBulkPostDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    bulkId: number;
+    listingId: string[];
+    postType: string;
+    description: string;
+    postTags: string;
+    selectedImage: string;
+    imageUrl: string;
+    ctaButton: string;
+    ctaUrl: string;
+    title: string;
+    startDate: string;
+    endDate: string;
+    startTime: string;
+    endTime: string;
+    couponCode: string;
+    redeemOnlineUrl: string;
+    termsConditions: string;
+    publishOption: string;
+    scheduleDate: string;
+    selretype: number;
+    autoPostTime: string;
+    weekDay: string;
+    monthDay: string;
+    recurrentFreq: string;
+  };
+}
+
+export interface UpdateBulkPostRequest {
+  bulkId: number;
+  listingId: string;
+  postType: string;
+  description: string;
+  userfile?: File;
+  selectedImage?: string;
+  aiImageUrl?: string;
+  ctaButton?: string;
+  ctaUrl?: string;
+  publishOption: string;
+  scheduleDate?: string;
+  startDate?: string;
+  endDate?: string;
+  title?: string;
+  tags?: string;
+  couponCode?: string;
+  redeemOnlineUrl?: string;
+  termsConditions?: string;
+  postTags?: string;
+}
+
+export interface UpdateBulkPostResponse {
+  code: number;
+  message: string;
+  data: {
+    results: Array<{
+      listingId: string;
+      status: string;
+      postId: number;
+      message: string;
+    }>;
+  };
+}
+
 export interface BulkPostSummaryItem {
   posttype: string;
   posttext: string;
@@ -604,6 +675,77 @@ export const postsApi = {
     }
 
     const response = await axiosInstance.post("/edit-post", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+
+  // Get bulk post details for editing
+  getEditBulkPostDetails: async (
+    request: GetEditBulkPostDetailsRequest
+  ): Promise<GetEditBulkPostDetailsResponse> => {
+    const response = await axiosInstance.post("/edit-bulk-posts-details", request);
+    return response.data;
+  },
+
+  // Update bulk posts
+  updateBulkPosts: async (
+    request: UpdateBulkPostRequest
+  ): Promise<UpdateBulkPostResponse> => {
+    const formData = new FormData();
+
+    formData.append("bulkId", request.bulkId.toString());
+    formData.append("listingId", request.listingId);
+    formData.append("postType", request.postType);
+    formData.append("description", request.description);
+    formData.append("publishOption", request.publishOption);
+
+    if (request.userfile) {
+      formData.append("userfile", request.userfile);
+    }
+    if (request.selectedImage) {
+      formData.append("selectedImage", request.selectedImage);
+    }
+    if (request.aiImageUrl) {
+      formData.append("aiImageUrl", request.aiImageUrl);
+    }
+    if (request.ctaButton) {
+      formData.append("ctaButton", request.ctaButton);
+    }
+    if (request.ctaUrl) {
+      formData.append("ctaUrl", request.ctaUrl);
+    }
+    if (request.scheduleDate) {
+      formData.append("scheduleDate", request.scheduleDate);
+    }
+    if (request.startDate) {
+      formData.append("startDate", request.startDate);
+    }
+    if (request.endDate) {
+      formData.append("endDate", request.endDate);
+    }
+    if (request.title) {
+      formData.append("title", request.title);
+    }
+    if (request.tags) {
+      formData.append("tags", request.tags);
+    }
+    if (request.couponCode) {
+      formData.append("couponCode", request.couponCode);
+    }
+    if (request.redeemOnlineUrl) {
+      formData.append("redeemOnlineUrl", request.redeemOnlineUrl);
+    }
+    if (request.termsConditions) {
+      formData.append("termsConditions", request.termsConditions);
+    }
+    if (request.postTags) {
+      formData.append("postTags", request.postTags);
+    }
+
+    const response = await axiosInstance.post("/update-bulk-posts", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
