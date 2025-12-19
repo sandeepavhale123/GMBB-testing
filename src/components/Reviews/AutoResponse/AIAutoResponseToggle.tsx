@@ -134,7 +134,7 @@ Thank you`);
       .unwrap()
       .then((generatedText) => {
         setAiResponse(generatedText);
-        setReplyTemplate(generatedText);
+        // setReplyTemplate(generatedText);
         toast({
           title: t("aiAutoResponse.toast.success.saveTitle"),
           description: t("aiAutoResponse.toast.success.generateDescription"),
