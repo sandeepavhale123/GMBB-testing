@@ -620,6 +620,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             formData.imageSource === "ai" && typeof formData.image === "string"
               ? formData.image
               : undefined,
+          galleryImageUrl:
+            formData.imageSource === "gallery" &&
+            typeof formData.image === "string"
+              ? formData.image
+              : undefined,
         };
 
         await dispatch(updateBulkPost(updateBulkData)).unwrap();
