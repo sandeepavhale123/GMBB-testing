@@ -24,6 +24,10 @@ import {
   editPost,
   clearPostDetails,
   clearEditError,
+  fetchBulkEditDetails,
+  updateBulkPost,
+  clearBulkEditDetails,
+  clearUpdateBulkError,
 } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
@@ -42,6 +46,8 @@ interface CreatePostModalProps {
   isEditing?: boolean;
   editPostId?: string;
   onBulkPostCreated?: () => void;
+  isBulkEditing?: boolean;
+  bulkEditId?: string | null;
 }
 
 export const CreatePostModal: React.FC<CreatePostModalProps> = ({
@@ -52,12 +58,26 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isEditing = false,
   editPostId,
   onBulkPostCreated,
+  isBulkEditing = false,
+  bulkEditId = null,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { selectedListing } = useListingContext();
   const { selectedMedia, clearSelection } = useMediaContext();
-  const { createLoading, createError, postDetails, postDetailsLoading, editLoading, editError } = useAppSelector((state) => state.posts);
+  const { 
+    createLoading, 
+    createError, 
+    postDetails, 
+    postDetailsLoading, 
+    editLoading, 
+    editError,
+    bulkEditDetails,
+    bulkEditDetailsLoading,
+    bulkEditDetailsError,
+    updateBulkLoading,
+    updateBulkError,
+  } = useAppSelector((state) => state.posts);
   const { t } = useI18nNamespace("Post/createPostModal");
 
   // Check if we're in multi-dashboard context
@@ -126,7 +146,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
   // Reset form data when modal opens/closes or initialData changes
   useEffect(() => {
-    if (isOpen && !isEditing) {
+    if (isOpen && !isEditing && !isBulkEditing) {
       setFormData(getInitialFormData());
     }
   }, [isOpen, initialData, selectedMedia]);
@@ -192,11 +212,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (isOpen && isEditing && editPostId) {
       dispatch(fetchPostDetails(parseInt(editPostId)));
     }
+    // Fetch bulk edit details when bulk editing
+    if (isOpen && isBulkEditing && bulkEditId) {
+      dispatch(fetchBulkEditDetails(parseInt(bulkEditId)));
+    }
     // Cleanup when modal closes
     if (!isOpen) {
       dispatch(clearPostDetails());
+      dispatch(clearBulkEditDetails());
     }
-  }, [isOpen, isEditing, editPostId, dispatch]);
+  }, [isOpen, isEditing, editPostId, isBulkEditing, bulkEditId, dispatch]);
 
   // Map post details to form when loaded
   useEffect(() => {
@@ -246,6 +271,55 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       }
     }
   }, [isEditing, postDetails]);
+
+  // Map bulk edit details to form when loaded
+  useEffect(() => {
+    if (isBulkEditing && bulkEditDetails) {
+      // Map autoRescheduleType based on selretype
+      const publishOption = bulkEditDetails.publishOption || "now";
+      
+      setFormData({
+        listings: bulkEditDetails.listingId || [],
+        title: bulkEditDetails.title || "",
+        postType: bulkEditDetails.postType || "regular",
+        description: bulkEditDetails.description || "",
+        image: bulkEditDetails.imageUrl || null,
+        imageSource: bulkEditDetails.imageUrl ? "gallery" : null,
+        ctaButton: bulkEditDetails.ctaButton || "",
+        ctaUrl: bulkEditDetails.ctaUrl || "",
+        publishOption: publishOption,
+        scheduleDate: bulkEditDetails.scheduleDate || "",
+        platforms: [],
+        startDate: bulkEditDetails.startDate || "",
+        endDate: bulkEditDetails.endDate || "",
+        couponCode: bulkEditDetails.couponCode || "",
+        redeemOnlineUrl: bulkEditDetails.redeemOnlineUrl || "",
+        termsConditions: bulkEditDetails.termsConditions || "",
+        postTags: bulkEditDetails.postTags || "",
+        siloPost: false,
+        autoScheduleFrequency: "",
+        autoScheduleTime: "",
+        autoScheduleDay: "",
+        autoScheduleDate: "",
+        autoScheduleRecurrenceCount: 0,
+      });
+
+      // Set CTA button visibility if there's a CTA button
+      if (bulkEditDetails.ctaButton) {
+        setShowCTAButton(true);
+      }
+
+      // Auto-enable advanced options if relevant data exists
+      const shouldShowAdvanced = 
+        (bulkEditDetails.postType && bulkEditDetails.postType !== "regular") ||
+        publishOption === "schedule" ||
+        bulkEditDetails.postTags?.trim();
+      
+      if (shouldShowAdvanced) {
+        setShowAdvancedOptions(true);
+      }
+    }
+  }, [isBulkEditing, bulkEditDetails]);
 
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
@@ -486,6 +560,87 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       } catch (error) {
         toast({
           title: t("toast.failure.single.edited"),
+          description:
+            error instanceof Error
+              ? (error as any)?.response?.data?.message || error.message
+              : t("toast.error.desc"),
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    // For bulk editing, use the updateBulkPost thunk
+    if (isBulkEditing && bulkEditId && bulkEditDetails) {
+      try {
+        dispatch(clearUpdateBulkError());
+
+        const updateBulkData = {
+          bulkId: parseInt(bulkEditId),
+          listingId: formData.listings.join(","),
+          postType: formData.postType,
+          description: formData.description,
+          ctaButton: showCTAButton ? formData.ctaButton : undefined,
+          ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+          publishOption: formData.publishOption,
+          scheduleDate:
+            formData.publishOption === "schedule" && formData.scheduleDate
+              ? formData.scheduleDate
+              : undefined,
+          startDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.startDate
+              ? formData.startDate
+              : undefined,
+          endDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.endDate
+              ? formData.endDate
+              : undefined,
+          title: formData.title,
+          tags: formData.postTags,
+          couponCode:
+            formData.postType === "offer" ? formData.couponCode : undefined,
+          redeemOnlineUrl:
+            formData.postType === "offer"
+              ? formData.redeemOnlineUrl
+              : undefined,
+          termsConditions:
+            formData.postType === "offer"
+              ? formData.termsConditions
+              : undefined,
+          postTags: formData.postTags,
+          // Handle image based on source
+          selectedImage: formData.imageSource || undefined,
+          userfile:
+            formData.imageSource === "local" && formData.image instanceof File
+              ? formData.image
+              : undefined,
+          aiImageUrl:
+            formData.imageSource === "ai" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+        };
+
+        await dispatch(updateBulkPost(updateBulkData)).unwrap();
+
+        toast({
+          title: t("toast.success.bulk.edited.title"),
+          description: t("toast.success.bulk.edited.description", {
+            count: formData.listings.length,
+          }),
+        });
+
+        // Call the bulk post created callback if provided to refresh the list
+        if (onBulkPostCreated) {
+          onBulkPostCreated();
+        }
+
+        handleClose();
+        return;
+      } catch (error) {
+        toast({
+          title: t("toast.failure.bulk.edited"),
           description:
             error instanceof Error
               ? (error as any)?.response?.data?.message || error.message
@@ -745,7 +900,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
   // Check if Create Post button should be enabled
   const isSubmitEnabled =
-    formData.description.trim().length > 0 && !createLoading && !editLoading && !postDetailsLoading;
+    formData.description.trim().length > 0 && !createLoading && !editLoading && !postDetailsLoading && !updateBulkLoading && !bulkEditDetailsLoading;
 
   // Show error toast if there's a create error
   useEffect(() => {
@@ -768,6 +923,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       });
     }
   }, [editError]);
+
+  // Show error toast if there's a bulk edit error
+  useEffect(() => {
+    if (updateBulkError) {
+      toast({
+        title: t("toast.error.title"),
+        description: updateBulkError,
+        variant: "destructive",
+      });
+    }
+  }, [updateBulkError]);
 
   // Clear validation errors when form data changes
   useEffect(() => {
@@ -832,7 +998,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-xl sm:text-2xl font-semibold">
-                {isEditing ? t("title.edit") : isCloning ? t("title.clone") : t("title.create")}
+                {isBulkEditing ? t("title.bulkEdit") : isEditing ? t("title.edit") : isCloning ? t("title.clone") : t("title.create")}
               </DialogTitle>
               <Button
                 variant="ghost"
@@ -849,16 +1015,18 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
             <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
               {/* Loading state when fetching post details for editing */}
-              {isEditing && postDetailsLoading ? (
+              {(isEditing && postDetailsLoading) || (isBulkEditing && bulkEditDetailsLoading) ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">{t("loading.fetchingDetails")}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isBulkEditing ? t("loading.fetchingBulkDetails") : t("loading.fetchingDetails")}
+                    </p>
                   </div>
                 </div>
               ) : (
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                {/* Multi-Listing Selector (only in multi-dashboard and not editing) */}
+                {/* Multi-Listing Selector (only in multi-dashboard and not editing single post) */}
                 {isMultiDashboard && !isEditing && (
                   <MultiListingSelector
                     selectedListings={formData.listings}
@@ -958,12 +1126,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 disabled={!isSubmitEnabled}
                 className="bg-primary hover:bg-primary/90 flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {editLoading
+                {updateBulkLoading
+                  ? t("buttons.bulkEditing")
+                  : editLoading
                   ? t("buttons.editing")
                   : createLoading
                   ? isCloning
                     ? t("buttons.cloning")
                     : t("buttons.creating")
+                  : isBulkEditing
+                  ? t("buttons.bulkEdit")
                   : isEditing
                   ? t("buttons.edit")
                   : isCloning
@@ -979,12 +1151,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               disabled={!isSubmitEnabled}
               className="hidden sm:block bg-primary hover:bg-primary/90 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {editLoading
+              {updateBulkLoading
+                ? t("buttons.bulkEditing")
+                : editLoading
                 ? t("buttons.editing")
                 : createLoading
                 ? isCloning
                   ? t("buttons.cloning")
                   : t("buttons.creating")
+                : isBulkEditing
+                ? t("buttons.bulkEdit")
                 : isEditing
                 ? t("buttons.edit")
                 : isCloning

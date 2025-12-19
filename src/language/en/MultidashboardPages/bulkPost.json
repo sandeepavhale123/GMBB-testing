@@ -8,6 +8,7 @@
     "createBulkPost": "Create Bulk Post",
     "tryAgain": "Try Again",
     "viewDetails": "View Details",
+    "edit": "Edit",
     "delete": "Delete",
     "deleting": "Deleting...",
     "cancel": "Cancel",
@@ -42,6 +43,14 @@
     "deleteError": {
       "title": "Error",
       "description": "Failed to delete bulk post"
+    },
+    "editSuccess": {
+      "title": "Success",
+      "description": "Bulk post updated successfully"
+    },
+    "editError": {
+      "title": "Error",
+      "description": "Failed to update bulk post"
     }
   }
 }

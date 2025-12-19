@@ -11,6 +11,8 @@ import {
   BulkPostSummaryItem,
   EditPostRequest,
   GetPostDetailsResponse,
+  GetEditBulkPostDetailsResponse,
+  UpdateBulkPostRequest,
 } from "../../api/postsApi";
 
 interface Post {
@@ -81,6 +83,13 @@ interface PostsState {
   postDetails: GetPostDetailsResponse["data"] | null;
   postDetailsLoading: boolean;
   postDetailsError: string | null;
+  
+  // Bulk edit state
+  bulkEditDetails: GetEditBulkPostDetailsResponse["data"] | null;
+  bulkEditDetailsLoading: boolean;
+  bulkEditDetailsError: string | null;
+  updateBulkLoading: boolean;
+  updateBulkError: string | null;
 }
 
 const initialState: PostsState = {
@@ -125,6 +134,13 @@ const initialState: PostsState = {
   postDetails: null,
   postDetailsLoading: false,
   postDetailsError: null,
+  
+  // Bulk edit state
+  bulkEditDetails: null,
+  bulkEditDetailsLoading: false,
+  bulkEditDetailsError: null,
+  updateBulkLoading: false,
+  updateBulkError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -453,6 +469,36 @@ export const editPost = createAsyncThunk(
   }
 );
 
+// Fetch bulk edit details
+export const fetchBulkEditDetails = createAsyncThunk(
+  "posts/fetchBulkEditDetails",
+  async (bulkId: number, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.getEditBulkPostDetails({ bulkId });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch bulk post details"
+      );
+    }
+  }
+);
+
+// Update bulk post
+export const updateBulkPost = createAsyncThunk(
+  "posts/updateBulkPost",
+  async (request: UpdateBulkPostRequest, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.updateBulkPosts(request);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update bulk post"
+      );
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -506,6 +552,17 @@ const postsSlice = createSlice({
     clearPostDetails: (state) => {
       state.postDetails = null;
       state.postDetailsError = null;
+    },
+    
+    // Clear bulk edit details
+    clearBulkEditDetails: (state) => {
+      state.bulkEditDetails = null;
+      state.bulkEditDetailsError = null;
+    },
+    
+    // Clear update bulk error
+    clearUpdateBulkError: (state) => {
+      state.updateBulkError = null;
     },
   },
   extraReducers: (builder) => {
@@ -691,6 +748,33 @@ const postsSlice = createSlice({
       .addCase(editPost.rejected, (state, action) => {
         state.editLoading = false;
         state.editError = action.payload as string;
+      })
+      
+      // Fetch bulk edit details
+      .addCase(fetchBulkEditDetails.pending, (state) => {
+        state.bulkEditDetailsLoading = true;
+        state.bulkEditDetailsError = null;
+      })
+      .addCase(fetchBulkEditDetails.fulfilled, (state, action) => {
+        state.bulkEditDetailsLoading = false;
+        state.bulkEditDetails = action.payload;
+      })
+      .addCase(fetchBulkEditDetails.rejected, (state, action) => {
+        state.bulkEditDetailsLoading = false;
+        state.bulkEditDetailsError = action.payload as string;
+      })
+      
+      // Update bulk post
+      .addCase(updateBulkPost.pending, (state) => {
+        state.updateBulkLoading = true;
+        state.updateBulkError = null;
+      })
+      .addCase(updateBulkPost.fulfilled, (state) => {
+        state.updateBulkLoading = false;
+      })
+      .addCase(updateBulkPost.rejected, (state, action) => {
+        state.updateBulkLoading = false;
+        state.updateBulkError = action.payload as string;
       });
   },
 });
@@ -708,5 +792,7 @@ export const {
   clearBulkPostSummaryError,
   clearEditError,
   clearPostDetails,
+  clearBulkEditDetails,
+  clearUpdateBulkError,
 } = postsSlice.actions;
 export default postsSlice.reducer;
