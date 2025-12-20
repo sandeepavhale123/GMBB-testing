@@ -125,7 +125,7 @@ export const ReportNotificationsTab: React.FC = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
-  const [gmbPostSetting, setGmbPostSetting] = useState<string[]>(["ALL"]);
+  const [gmbPostSetting, setGmbPostSetting] = useState<string>("ALL");
   const [gmbReviewSetting, setGmbReviewSetting] = useState<string[]>(["ALL"]);
   const { toast } = useToast();
 
@@ -142,7 +142,7 @@ export const ReportNotificationsTab: React.FC = () => {
 
           // Load action settings
           if (postSetting && postSetting.length > 0) {
-            setGmbPostSetting(postSetting);
+            setGmbPostSetting(postSetting[0] || "ALL");
           }
           if (reviewSetting && reviewSetting.length > 0) {
             setGmbReviewSetting(reviewSetting);
@@ -243,7 +243,7 @@ export const ReportNotificationsTab: React.FC = () => {
       }, {} as UpdateNotificationSettingsPayload);
 
       // Include action settings
-      currentState.gmbPostSetting = gmbPostSetting;
+      currentState.gmbPostSetting = [gmbPostSetting];
       currentState.gmbReviewSetting = gmbReviewSetting;
 
       const response = await updateNotificationSettings(currentState);
@@ -279,15 +279,9 @@ export const ReportNotificationsTab: React.FC = () => {
     }
   };
 
-  const handleActionSettingChange = async (
-    type: "review" | "post",
-    values: string[]
-  ) => {
+  const handleReviewSettingChange = async (values: string[]) => {
     try {
-      setUpdating(type === "review" ? "review-report" : "post-report");
-
-      const newPostSetting = type === "post" ? values : gmbPostSetting;
-      const newReviewSetting = type === "review" ? values : gmbReviewSetting;
+      setUpdating("review-report");
 
       // Build payload
       const currentState = reportTypes.reduce((acc, report) => {
@@ -306,18 +300,57 @@ export const ReportNotificationsTab: React.FC = () => {
         return acc;
       }, {} as UpdateNotificationSettingsPayload);
 
-      currentState.gmbPostSetting = newPostSetting;
-      currentState.gmbReviewSetting = newReviewSetting;
+      currentState.gmbPostSetting = [gmbPostSetting];
+      currentState.gmbReviewSetting = values;
 
       const response = await updateNotificationSettings(currentState);
 
       if (response.code === 200) {
-        if (type === "post") {
-          setGmbPostSetting(values);
-        } else {
-          setGmbReviewSetting(values);
-        }
+        setGmbReviewSetting(values);
+        toast({
+          title: t("reportNotificationsTab.toast.success.title"),
+          description: t("reportNotificationsTab.toast.success.description"),
+        });
+      }
+    } catch (error) {
+      toast({
+        title: t("reportNotificationsTab.toast.error.title"),
+        description: t("reportNotificationsTab.toast.error.update"),
+        variant: "destructive",
+      });
+    } finally {
+      setUpdating(null);
+    }
+  };
 
+  const handlePostSettingChange = async (value: string) => {
+    try {
+      setUpdating("post-report");
+
+      // Build payload
+      const currentState = reportTypes.reduce((acc, report) => {
+        const apiValue = mapFrequencyToApiType(report.frequency);
+        switch (report.id) {
+          case "post-report":
+            acc.gmbPostType = apiValue;
+            break;
+          case "review-report":
+            acc.gmbReviewType = apiValue;
+            break;
+          case "geo-ranking":
+            acc.geoRankingType = apiValue;
+            break;
+        }
+        return acc;
+      }, {} as UpdateNotificationSettingsPayload);
+
+      currentState.gmbPostSetting = [value];
+      currentState.gmbReviewSetting = gmbReviewSetting;
+
+      const response = await updateNotificationSettings(currentState);
+
+      if (response.code === 200) {
+        setGmbPostSetting(value);
         toast({
           title: t("reportNotificationsTab.toast.success.title"),
           description: t("reportNotificationsTab.toast.success.description"),
@@ -351,27 +384,7 @@ export const ReportNotificationsTab: React.FC = () => {
         newValues = ["ALL"];
       }
     }
-    handleActionSettingChange("review", newValues);
-  };
-
-  const togglePostOption = (value: string) => {
-    let newValues: string[];
-    if (value === "ALL") {
-      newValues = ["ALL"];
-    } else {
-      // Remove "ALL" if selecting specific options
-      const filtered = gmbPostSetting.filter((v) => v !== "ALL");
-      if (filtered.includes(value)) {
-        newValues = filtered.filter((v) => v !== value);
-      } else {
-        newValues = [...filtered, value];
-      }
-      // If no selections, default to "ALL"
-      if (newValues.length === 0) {
-        newValues = ["ALL"];
-      }
-    }
-    handleActionSettingChange("post", newValues);
+    handleReviewSettingChange(newValues);
   };
 
   const getReviewSettingLabel = () => {
@@ -382,12 +395,10 @@ export const ReportNotificationsTab: React.FC = () => {
   };
 
   const getPostSettingLabel = () => {
-    if (gmbPostSetting.includes("ALL")) {
+    if (gmbPostSetting === "ALL") {
       return t("reportNotificationsTab.action.postOptions.all");
     }
-    return gmbPostSetting
-      .map((v) => t(`reportNotificationsTab.action.postOptions.${v.toLowerCase()}`))
-      .join(", ");
+    return t(`reportNotificationsTab.action.postOptions.${gmbPostSetting.toLowerCase()}`);
   };
 
   const renderActionCell = (reportId: string) => {
@@ -441,49 +452,30 @@ export const ReportNotificationsTab: React.FC = () => {
 
     if (reportId === "post-report") {
       return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-40 justify-between"
-              disabled={isUpdating}
-            >
-              {isUpdating ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  <span className="truncate">{getPostSettingLabel()}</span>
-                  <span className="ml-2">▼</span>
-                </>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-48 p-2 bg-background border z-50">
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
-                <Checkbox
-                  checked={gmbPostSetting.includes("ALL")}
-                  onCheckedChange={() => togglePostOption("ALL")}
-                />
-                <span>{t("reportNotificationsTab.action.postOptions.all")}</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
-                <Checkbox
-                  checked={gmbPostSetting.includes("Failed")}
-                  onCheckedChange={() => togglePostOption("Failed")}
-                />
-                <span>{t("reportNotificationsTab.action.postOptions.failed")}</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
-                <Checkbox
-                  checked={gmbPostSetting.includes("Live")}
-                  onCheckedChange={() => togglePostOption("Live")}
-                />
-                <span>{t("reportNotificationsTab.action.postOptions.live")}</span>
-              </label>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <Select
+          value={gmbPostSetting}
+          onValueChange={handlePostSettingChange}
+          disabled={isUpdating}
+        >
+          <SelectTrigger className="w-40">
+            {isUpdating ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <SelectValue>{getPostSettingLabel()}</SelectValue>
+            )}
+          </SelectTrigger>
+          <SelectContent className="bg-background border z-50">
+            <SelectItem value="ALL">
+              {t("reportNotificationsTab.action.postOptions.all")}
+            </SelectItem>
+            <SelectItem value="Failed">
+              {t("reportNotificationsTab.action.postOptions.failed")}
+            </SelectItem>
+            <SelectItem value="Live">
+              {t("reportNotificationsTab.action.postOptions.live")}
+            </SelectItem>
+          </SelectContent>
+        </Select>
       );
     }
 
