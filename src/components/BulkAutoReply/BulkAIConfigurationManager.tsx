@@ -20,6 +20,7 @@ import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 interface BulkAISettings {
   tone?: string;
   text_reply?: string;
+  customPrompt?: string;
   specific_star?: string[];
   oldStatus?: string;
   prompt?: string;
@@ -58,6 +59,7 @@ export const BulkAIConfigurationManager: React.FC<
 {responcetext}
 Thank you`);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
+  const [customPrompt, setCustomPrompt] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingSample, setIsGeneratingSample] = useState(false);
   const [sampleResponse, setSampleResponse] = useState("");
@@ -74,6 +76,9 @@ Thank you`);
       }
       if (autoAiSettings.prompt) {
         setAdditionalInstructions(autoAiSettings.prompt);
+      }
+      if (autoAiSettings.customPrompt) {
+        setCustomPrompt(autoAiSettings.customPrompt);
       }
       if (autoAiSettings?.specific_star) {
         setSelectedStarRatings(autoAiSettings.specific_star);
@@ -93,6 +98,7 @@ Thank you`);
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
+        customPrompt: customPrompt,
         reply_text: formattedReplyText,
         specific_star: selectedStarRatings,
         newStatus: 1,
@@ -140,6 +146,7 @@ Thank you`);
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
+        customPrompt: customPrompt,
         reply_text: formattedReplyText,
         specific_star: selectedStarRatings,
         newStatus: 1,
@@ -179,6 +186,7 @@ Thank you`);
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
+        customPrompt: customPrompt,
         reply_text: formattedReplyText,
         specific_star: selectedStarRatings,
         newStatus: 1,
@@ -340,6 +348,38 @@ Thank you`);
                   {"{responcetext}"}
                 </span>
                 {t("advanced.noteText3")}
+              </p>
+            </div>
+
+            {/* Custom Prompt Section */}
+            <div className="space-y-3 group">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                <label className="text-sm font-semibold text-foreground">
+                  {t("advanced.customPrompt.label")}
+                </label>
+              </div>
+              <div className="relative">
+                <Textarea
+                  placeholder={t("advanced.customPrompt.placeholder")}
+                  className="min-h-[80px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y text-sm"
+                  rows={3}
+                  value={customPrompt}
+                  onChange={(e) => {
+                    if (e.target.value.length <= 800) {
+                      setCustomPrompt(e.target.value);
+                    }
+                  }}
+                  maxLength={800}
+                />
+                <div className="flex justify-end mt-1">
+                  <span className={`text-xs ${customPrompt.length >= 800 ? 'text-red-500' : 'text-muted-foreground'}`}>
+                    {customPrompt.length}/800
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t("advanced.customPrompt.hint")}
               </p>
             </div>
 

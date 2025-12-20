@@ -27,6 +27,11 @@
     "noteText1": "Puedes usar las siguientes variables en tu texto de respuesta para mostrar el nombre del reseñador:",
     "noteText2": ". Para insertar el contenido de la respuesta, usa ",
     "noteText3": ". No olvides incluirlo en tu plantilla.",
+    "customPrompt": {
+      "label": "Indicación Personalizada",
+      "placeholder": "Ingresa indicación personalizada",
+      "hint": "Añade instrucciones específicas para personalizar cómo la IA genera las respuestas."
+    },
     "replyText": "Texto de Respuesta",
     "responsePlaceholder": "Ingresa tu plantilla de respuesta...",
     "starRatings": "Aplicar a Calificaciones por Estrellas"
