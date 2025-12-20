@@ -27,6 +27,11 @@
     "noteText1": "Sie können die folgenden Variablen in Ihrem Antworttext verwenden, um den Namen des Rezensenten anzuzeigen:",
     "noteText2": ". Um den Antwortinhalt einzufügen, verwenden Sie ",
     "noteText3": ". Vergessen Sie nicht, es in Ihre Vorlage aufzunehmen.",
+    "customPrompt": {
+      "label": "Benutzerdefinierte Eingabeaufforderung",
+      "placeholder": "Benutzerdefinierte Eingabeaufforderung eingeben",
+      "hint": "Fügen Sie spezifische Anweisungen hinzu, um anzupassen, wie die KI Antworten generiert."
+    },
     "replyText": "Antworttext",
     "responsePlaceholder": "Geben Sie Ihre Antwortvorlage ein...",
     "starRatings": "Für Sternebewertungen anwenden"

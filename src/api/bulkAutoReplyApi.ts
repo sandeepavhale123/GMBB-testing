@@ -101,6 +101,7 @@ export interface UpdateBulkTemplateAutoReplyResponse {
 export interface SaveBulkAIAutoReplyRequest {
   projectId: number;
   tone: string;
+  customPrompt?: string;
   reply_text: string;
   specific_star: string[];
   newStatus: number;

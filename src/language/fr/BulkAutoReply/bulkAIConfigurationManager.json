@@ -27,6 +27,11 @@
     "noteText1": "Vous pouvez utiliser les variables suivantes dans votre texte de réponse pour afficher le nom de l'auteur de l'avis :",
     "noteText2": ". Pour insérer le contenu de la réponse, utilisez ",
     "noteText3": ". N'oubliez pas de l'inclure dans votre modèle.",
+    "customPrompt": {
+      "label": "Invite personnalisée",
+      "placeholder": "Entrez une invite personnalisée",
+      "hint": "Ajoutez des instructions spécifiques pour personnaliser la façon dont l'IA génère les réponses."
+    },
     "replyText": "Texte de réponse",
     "responsePlaceholder": "Saisissez votre modèle de réponse...",
     "starRatings": "Appliquer aux évaluations par étoiles"

@@ -27,6 +27,11 @@
     "noteText1": "Puoi utilizzare le seguenti variabili nel testo della risposta per mostrare il nome del recensore:",
     "noteText2": ". Per inserire il contenuto della risposta, usa ",
     "noteText3": ". Non dimenticare di includerlo nel tuo modello.",
+    "customPrompt": {
+      "label": "Prompt personalizzato",
+      "placeholder": "Inserisci prompt personalizzato",
+      "hint": "Aggiungi istruzioni specifiche per personalizzare come l'AI genera le risposte."
+    },
     "replyText": "Testo della risposta",
     "responsePlaceholder": "Inserisci il tuo modello di risposta...",
     "starRatings": "Applica per le valutazioni a stelle"

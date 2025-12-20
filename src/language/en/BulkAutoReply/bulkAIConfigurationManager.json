@@ -27,8 +27,13 @@
     "noteText1": "You can use the following variables in your reply text to display the reviewer's name:",
     "noteText2": ". To insert the response content, use ",
     "noteText3": ". Don't forget to include it in your template.",
+    "customPrompt": {
+      "label": "Custom Prompt",
+      "placeholder": "Enter custom prompt",
+      "hint": "Add specific instructions to customize how the AI generates replies."
+    },
     "replyText": "Reply Text",
-    "responsePlaceholder":"Enter your response template...",
+    "responsePlaceholder": "Enter your response template...",
     "starRatings": "Apply For Star Ratings"
   },
   "sample": {
