@@ -6,7 +6,8 @@
     "table": {
       "headers": {
         "reportType": "Tipo di Rapporto",
-        "frequency": "Frequenza"
+        "frequency": "Frequenza",
+        "action": "Azione"
       }
     },
     "reports": {
@@ -28,6 +29,21 @@
       "whenUpdated": "Quando Aggiornato",
       "off": "Disattivato",
       "tooltip": "Invia solo quando ci sono nuovi dati o dati modificati nel rapporto"
+    },
+    "action": {
+      "all": "Tutti",
+      "postOptions": {
+        "all": "TUTTI",
+        "failed": "Fallito",
+        "live": "Attivo"
+      },
+      "reviewOptions": {
+        "5star": "5 Stelle",
+        "4star": "4 Stelle",
+        "3star": "3 Stelle",
+        "2star": "2 Stelle",
+        "1star": "1 Stella"
+      }
     },
     "toast": {
       "success": {

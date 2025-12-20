@@ -6,7 +6,8 @@
     "table": {
       "headers": {
         "reportType": "Report Type",
-        "frequency": "Frequency"
+        "frequency": "Frequency",
+        "action": "Action"
       }
     },
     "reports": {
@@ -28,6 +29,21 @@
       "whenUpdated": "When Updated",
       "off": "Off",
       "tooltip": "Send only when there's new or changed report data"
+    },
+    "action": {
+      "all": "All",
+      "postOptions": {
+        "all": "ALL",
+        "failed": "Failed",
+        "live": "Live"
+      },
+      "reviewOptions": {
+        "5star": "5 Star",
+        "4star": "4 Star",
+        "3star": "3 Star",
+        "2star": "2 Star",
+        "1star": "1 Star"
+      }
     },
     "toast": {
       "success": {
