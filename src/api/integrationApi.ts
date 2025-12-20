@@ -78,6 +78,8 @@ export interface NotificationSettingsResponse {
       gmbPostType: string;
       gmbReviewType: string;
       geoRankingType: string;
+      gmbPostSetting?: string[];
+      gmbReviewSetting?: string[];
     };
   };
 }
@@ -91,6 +93,8 @@ export interface UpdateNotificationSettingsPayload {
   gmbPostType: number;
   gmbReviewType: number;
   geoRankingType: number;
+  gmbPostSetting?: string[];
+  gmbReviewSetting?: string[];
 }
 
 export interface UpdateNotificationSettingsResponse {

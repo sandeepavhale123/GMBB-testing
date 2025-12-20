@@ -6,7 +6,8 @@
     "table": {
       "headers": {
         "reportType": "Berichtstyp",
-        "frequency": "Häufigkeit"
+        "frequency": "Häufigkeit",
+        "action": "Aktion"
       }
     },
     "reports": {
@@ -28,6 +29,21 @@
       "whenUpdated": "Bei Aktualisierung",
       "off": "Aus",
       "tooltip": "Senden Sie nur, wenn neue oder geänderte Berichtsdaten vorliegen"
+    },
+    "action": {
+      "all": "Alle",
+      "postOptions": {
+        "all": "ALLE",
+        "failed": "Fehlgeschlagen",
+        "live": "Live"
+      },
+      "reviewOptions": {
+        "5star": "5 Sterne",
+        "4star": "4 Sterne",
+        "3star": "3 Sterne",
+        "2star": "2 Sterne",
+        "1star": "1 Stern"
+      }
     },
     "toast": {
       "success": {

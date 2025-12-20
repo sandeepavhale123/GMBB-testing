@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -12,13 +9,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  Heart,
   MessageSquare,
   FileText,
-  BarChart3,
   MapPin,
-  Search,
-  Send,
   Info,
   Loader2,
 } from "lucide-react";
@@ -35,6 +28,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import {
   getNotificationSettings,
   updateNotificationSettings,
@@ -85,42 +84,6 @@ const mapFrequencyToApiType = (frequency: string): number => {
   }
 };
 
-// const getInitialReportTypes = (): ReportType[] => [
-//   {
-//     id: "review-report",
-//     name: "New / Updated Review Report",
-//     description:
-//       "Detailed analysis of new and updated customer reviews and ratings, with report notifications sent daily or whenever updates occur.",
-//     icon: MessageSquare,
-//     enabled: false,
-//     frequency: "off",
-//     recipients: "Default recipients",
-//     status: "paused",
-//   },
-//   {
-//     id: "post-report",
-//     name: "GMB Post Report",
-//     description:
-//       "Performance analysis of your GMB posts, with report notifications sent daily or whenever new updates are available.",
-//     icon: FileText,
-//     enabled: false,
-//     frequency: "off",
-//     recipients: "Default recipients",
-//     status: "paused",
-//   },
-//   {
-//     id: "geo-ranking",
-//     name: "GEO Ranking Report",
-//     description:
-//       "Local search ranking performance analysis, with report notifications sent daily or whenever updates occur.",
-//     icon: MapPin,
-//     enabled: false,
-//     frequency: "off",
-//     recipients: "Default recipients",
-//     status: "paused",
-//   },
-// ];
-
 export const ReportNotificationsTab: React.FC = () => {
   const { t } = useI18nNamespace("Settings/reportNotificationsTab");
   const getInitialReportTypes = (t: (key: string) => string): ReportType[] => [
@@ -162,6 +125,8 @@ export const ReportNotificationsTab: React.FC = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [gmbPostSetting, setGmbPostSetting] = useState<string[]>(["ALL"]);
+  const [gmbReviewSetting, setGmbReviewSetting] = useState<string[]>(["ALL"]);
   const { toast } = useToast();
 
   // Fetch notification settings on component mount
@@ -172,8 +137,16 @@ export const ReportNotificationsTab: React.FC = () => {
         const response = await getNotificationSettings();
 
         if (response.code === 200 && response.data?.notification) {
-          const { gmbPostType, gmbReviewType, geoRankingType } =
+          const { gmbPostType, gmbReviewType, geoRankingType, gmbPostSetting: postSetting, gmbReviewSetting: reviewSetting } =
             response.data.notification;
+
+          // Load action settings
+          if (postSetting && postSetting.length > 0) {
+            setGmbPostSetting(postSetting);
+          }
+          if (reviewSetting && reviewSetting.length > 0) {
+            setGmbReviewSetting(reviewSetting);
+          }
 
           setReportTypes((prev) =>
             prev.map((report) => {
@@ -201,7 +174,6 @@ export const ReportNotificationsTab: React.FC = () => {
           );
         }
       } catch (error) {
-        // console.error("Failed to fetch notification settings:", error);
         toast({
           title: t("reportNotificationsTab.toast.error.title"),
           description: t("reportNotificationsTab.toast.error.load"),
@@ -270,6 +242,10 @@ export const ReportNotificationsTab: React.FC = () => {
         return acc;
       }, {} as UpdateNotificationSettingsPayload);
 
+      // Include action settings
+      currentState.gmbPostSetting = gmbPostSetting;
+      currentState.gmbReviewSetting = gmbReviewSetting;
+
       const response = await updateNotificationSettings(currentState);
 
       if (response.code === 200) {
@@ -293,7 +269,6 @@ export const ReportNotificationsTab: React.FC = () => {
         });
       }
     } catch (error) {
-      // console.error("Failed to update notification settings:", error);
       toast({
         title: t("reportNotificationsTab.toast.error.title"),
         description: t("reportNotificationsTab.toast.error.update"),
@@ -304,13 +279,216 @@ export const ReportNotificationsTab: React.FC = () => {
     }
   };
 
-  const getFrequencyBadge = (frequency: string) => {
-    const variants = {
-      daily: "bg-blue-100 text-blue-800 hover:bg-blue-100",
-      "when-updated": "bg-green-100 text-green-800 hover:bg-green-100",
-      off: "bg-gray-100 text-gray-600 hover:bg-gray-100",
-    };
-    return variants[frequency as keyof typeof variants] || variants.off;
+  const handleActionSettingChange = async (
+    type: "review" | "post",
+    values: string[]
+  ) => {
+    try {
+      setUpdating(type === "review" ? "review-report" : "post-report");
+
+      const newPostSetting = type === "post" ? values : gmbPostSetting;
+      const newReviewSetting = type === "review" ? values : gmbReviewSetting;
+
+      // Build payload
+      const currentState = reportTypes.reduce((acc, report) => {
+        const apiValue = mapFrequencyToApiType(report.frequency);
+        switch (report.id) {
+          case "post-report":
+            acc.gmbPostType = apiValue;
+            break;
+          case "review-report":
+            acc.gmbReviewType = apiValue;
+            break;
+          case "geo-ranking":
+            acc.geoRankingType = apiValue;
+            break;
+        }
+        return acc;
+      }, {} as UpdateNotificationSettingsPayload);
+
+      currentState.gmbPostSetting = newPostSetting;
+      currentState.gmbReviewSetting = newReviewSetting;
+
+      const response = await updateNotificationSettings(currentState);
+
+      if (response.code === 200) {
+        if (type === "post") {
+          setGmbPostSetting(values);
+        } else {
+          setGmbReviewSetting(values);
+        }
+
+        toast({
+          title: t("reportNotificationsTab.toast.success.title"),
+          description: t("reportNotificationsTab.toast.success.description"),
+        });
+      }
+    } catch (error) {
+      toast({
+        title: t("reportNotificationsTab.toast.error.title"),
+        description: t("reportNotificationsTab.toast.error.update"),
+        variant: "destructive",
+      });
+    } finally {
+      setUpdating(null);
+    }
+  };
+
+  const toggleReviewOption = (value: string) => {
+    let newValues: string[];
+    if (value === "ALL") {
+      newValues = ["ALL"];
+    } else {
+      // Remove "ALL" if selecting specific ratings
+      const filtered = gmbReviewSetting.filter((v) => v !== "ALL");
+      if (filtered.includes(value)) {
+        newValues = filtered.filter((v) => v !== value);
+      } else {
+        newValues = [...filtered, value];
+      }
+      // If no selections, default to "ALL"
+      if (newValues.length === 0) {
+        newValues = ["ALL"];
+      }
+    }
+    handleActionSettingChange("review", newValues);
+  };
+
+  const togglePostOption = (value: string) => {
+    let newValues: string[];
+    if (value === "ALL") {
+      newValues = ["ALL"];
+    } else {
+      // Remove "ALL" if selecting specific options
+      const filtered = gmbPostSetting.filter((v) => v !== "ALL");
+      if (filtered.includes(value)) {
+        newValues = filtered.filter((v) => v !== value);
+      } else {
+        newValues = [...filtered, value];
+      }
+      // If no selections, default to "ALL"
+      if (newValues.length === 0) {
+        newValues = ["ALL"];
+      }
+    }
+    handleActionSettingChange("post", newValues);
+  };
+
+  const getReviewSettingLabel = () => {
+    if (gmbReviewSetting.includes("ALL")) {
+      return t("reportNotificationsTab.action.all");
+    }
+    return gmbReviewSetting.map((v) => `${v}★`).join(", ");
+  };
+
+  const getPostSettingLabel = () => {
+    if (gmbPostSetting.includes("ALL")) {
+      return t("reportNotificationsTab.action.postOptions.all");
+    }
+    return gmbPostSetting
+      .map((v) => t(`reportNotificationsTab.action.postOptions.${v.toLowerCase()}`))
+      .join(", ");
+  };
+
+  const renderActionCell = (reportId: string) => {
+    const isUpdating = updating === reportId;
+
+    if (reportId === "review-report") {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-40 justify-between"
+              disabled={isUpdating}
+            >
+              {isUpdating ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  <span className="truncate">{getReviewSettingLabel()}</span>
+                  <span className="ml-2">▼</span>
+                </>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-48 p-2 bg-background border z-50">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
+                <Checkbox
+                  checked={gmbReviewSetting.includes("ALL")}
+                  onCheckedChange={() => toggleReviewOption("ALL")}
+                />
+                <span>{t("reportNotificationsTab.action.all")}</span>
+              </label>
+              {["5", "4", "3", "2", "1"].map((star) => (
+                <label
+                  key={star}
+                  className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded"
+                >
+                  <Checkbox
+                    checked={gmbReviewSetting.includes(star)}
+                    onCheckedChange={() => toggleReviewOption(star)}
+                  />
+                  <span>{t(`reportNotificationsTab.action.reviewOptions.${star}star`)}</span>
+                </label>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+
+    if (reportId === "post-report") {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-40 justify-between"
+              disabled={isUpdating}
+            >
+              {isUpdating ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  <span className="truncate">{getPostSettingLabel()}</span>
+                  <span className="ml-2">▼</span>
+                </>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-48 p-2 bg-background border z-50">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
+                <Checkbox
+                  checked={gmbPostSetting.includes("ALL")}
+                  onCheckedChange={() => togglePostOption("ALL")}
+                />
+                <span>{t("reportNotificationsTab.action.postOptions.all")}</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
+                <Checkbox
+                  checked={gmbPostSetting.includes("Failed")}
+                  onCheckedChange={() => togglePostOption("Failed")}
+                />
+                <span>{t("reportNotificationsTab.action.postOptions.failed")}</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-muted p-2 rounded">
+                <Checkbox
+                  checked={gmbPostSetting.includes("Live")}
+                  onCheckedChange={() => togglePostOption("Live")}
+                />
+                <span>{t("reportNotificationsTab.action.postOptions.live")}</span>
+              </label>
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+
+    // GEO Ranking - empty cell
+    return <span className="text-muted-foreground">-</span>;
   };
 
   if (loading) {
@@ -342,6 +520,9 @@ export const ReportNotificationsTab: React.FC = () => {
               </TableHead>
               <TableHead>
                 {t("reportNotificationsTab.table.headers.frequency")}
+              </TableHead>
+              <TableHead>
+                {t("reportNotificationsTab.table.headers.action")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -426,6 +607,7 @@ export const ReportNotificationsTab: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
+                  <TableCell>{renderActionCell(report.id)}</TableCell>
                 </TableRow>
               );
             })}
