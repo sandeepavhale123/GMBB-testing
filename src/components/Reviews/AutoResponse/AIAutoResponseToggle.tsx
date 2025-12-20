@@ -299,11 +299,16 @@ Thank you`);
 
                   {/* Custom Prompt Section */}
                   <div className="space-y-3 group mb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                      <label className="text-sm font-semibold text-foreground">
-                        {t("aiAutoResponse.advancedOptions.customPrompt.label")}
-                      </label>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                        <label className="text-sm font-semibold text-foreground">
+                          {t("aiAutoResponse.advancedOptions.customPrompt.label")}
+                        </label>
+                      </div>
+                      <span className={`text-xs ${customPrompt.length > 800 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                        {customPrompt.length}/800
+                      </span>
                     </div>
                     <Textarea
                       placeholder={t(
@@ -312,6 +317,7 @@ Thank you`);
                       className="min-h-[80px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y text-sm"
                       rows={3}
                       value={customPrompt}
+                      maxLength={800}
                       onChange={(e) => setCustomPrompt(e.target.value)}
                     />
                     <p className="text-xs text-muted-foreground">

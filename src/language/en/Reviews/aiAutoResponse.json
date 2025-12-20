@@ -29,7 +29,7 @@
       },
       "customPrompt": {
         "label": "Custom Prompt",
-        "placeholder": "e.g., Write the reply in Spanish language, include a discount offer...",
+        "placeholder": "e.g., Include keywords like 'thank you', mention business name, add a special offer...",
         "hint": "Add specific instructions to customize how the AI generates replies."
       },
       "replyText": {
