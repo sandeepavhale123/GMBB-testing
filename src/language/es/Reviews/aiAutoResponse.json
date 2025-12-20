@@ -27,6 +27,11 @@
         "descEndVb": " {responcetext}",
         "descTextEnd": ". No olvides incluirlo en tu plantilla."
       },
+      "customPrompt": {
+        "label": "Indicación Personalizada",
+        "placeholder": "ej., Escribe la respuesta en español, incluye una oferta de descuento...",
+        "hint": "Añade instrucciones específicas para personalizar cómo la IA genera las respuestas."
+      },
       "replyText": {
         "label": "Texto de Respuesta",
         "placeholder": "Ingresa tu plantilla de respuesta..."

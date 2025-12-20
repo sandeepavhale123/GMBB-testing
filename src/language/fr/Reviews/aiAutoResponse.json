@@ -27,6 +27,11 @@
         "descEndVb":" {responcetext}",
         "descTextEnd":". N'oubliez pas de l'inclure dans votre modèle."
       },
+      "customPrompt": {
+        "label": "Invite Personnalisée",
+        "placeholder": "ex., Écrivez la réponse en espagnol, incluez une offre de réduction...",
+        "hint": "Ajoutez des instructions spécifiques pour personnaliser la génération des réponses par l'IA."
+      },
       "replyText": {
         "label": "Texte de réponse",
         "placeholder": "Entrez votre modèle de réponse..."

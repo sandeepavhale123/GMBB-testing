@@ -41,6 +41,7 @@ export interface AutoAiSettings {
   listingId: number;
   text_reply: string;
   prompt: string;
+  customPrompt?: string;
   newStatus: number | string;
   oldStatus: number | string;
   specific_star: string[];
