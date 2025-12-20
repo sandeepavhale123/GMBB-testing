@@ -18,19 +18,19 @@ export const ActivityWrapper: React.FC = () => {
     setPaginationData(pagination);
     setIsLoadingData(isLoading);
   }, []);
-
+  // page code
   return (
     <div className="p-6">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-foreground">{t("title")}</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("description")}
-          </p>
+          <p className="text-sm text-muted-foreground mt-1">{t("description")}</p>
         </div>
         <div className="flex items-center gap-2 bg-blue-100 p-3 rounded-md mb-0">
           <p className="text-sm text-muted-foreground">{t("totalReplies")}:</p>
-          <p className="bg-blue-500 text-white rounded px-2 py-1 text-sm">{isLoadingData ? " " : paginationData.total}</p>
+          <p className="bg-blue-500 text-white rounded px-2 py-1 text-sm">
+            {isLoadingData ? " " : paginationData.total}
+          </p>
         </div>
       </div>
       <TeamActivityLogs showMemberFilter={true} onPaginationChange={handlePaginationChange} />
