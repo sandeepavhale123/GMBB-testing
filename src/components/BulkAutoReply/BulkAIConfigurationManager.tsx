@@ -68,8 +68,12 @@ Thank you`);
   // Update state when autoAiSettings data is loaded
   useEffect(() => {
     if (autoAiSettings) {
+      // Auto-enable advanced options if any advanced settings exist
+      if (autoAiSettings.text_reply || autoAiSettings.customPrompt || autoAiSettings.specific_star) {
+        setShowAdvanced(true);
+      }
       if (autoAiSettings.text_reply) {
-        setReplyTemplate(autoAiSettings.text_reply.replace(/\\r\\n/g, "\n"));
+        setReplyTemplate(autoAiSettings.text_reply.replace(/\r\n/g, "\n"));
       }
       if (autoAiSettings.tone) {
         setResponseStyle(autoAiSettings.tone);
