@@ -48,6 +48,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
 {responcetext}
 Thank you`);
+  const [customPrompt, setCustomPrompt] = useState("");
   const [settings, setSettings] = useState({
     useReviewerName: true,
     adaptTone: true,
@@ -79,6 +80,9 @@ Thank you`);
       if (autoAiSettings?.oldStatus) {
         setReplyToExistingReviews(autoAiSettings.oldStatus === "1");
       }
+      if (autoAiSettings?.customPrompt) {
+        setCustomPrompt(autoAiSettings.customPrompt);
+      }
     }
   }, [autoAiSettings]);
   const handleSettingChange = (key: string, value: boolean) => {
@@ -95,6 +99,7 @@ Thank you`);
     const payload = {
       listingId: Number(selectedListing.id),
       tone: responseStyle,
+      customPrompt: customPrompt,
       reply_text: replyTemplate,
       specific_star: selectedStarRatings,
       newStatus: 1,
@@ -127,6 +132,7 @@ Thank you`);
     setIsGenerating(true);
     const payload = {
       reviewId: Number(review.id),
+      customPrompt: customPrompt,
       tone: responseStyle,
       reviewReplyFormat: replyTemplate,
     };
@@ -288,6 +294,28 @@ Thank you`);
                       {t(
                         "aiAutoResponse.advancedOptions.variables.descTextEnd"
                       )}
+                    </p>
+                  </div>
+
+                  {/* Custom Prompt Section */}
+                  <div className="space-y-3 group mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                      <label className="text-sm font-semibold text-foreground">
+                        {t("aiAutoResponse.advancedOptions.customPrompt.label")}
+                      </label>
+                    </div>
+                    <Textarea
+                      placeholder={t(
+                        "aiAutoResponse.advancedOptions.customPrompt.placeholder"
+                      )}
+                      className="min-h-[80px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y text-sm"
+                      rows={3}
+                      value={customPrompt}
+                      onChange={(e) => setCustomPrompt(e.target.value)}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      {t("aiAutoResponse.advancedOptions.customPrompt.hint")}
                     </p>
                   </div>
 

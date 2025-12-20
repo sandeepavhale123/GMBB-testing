@@ -159,6 +159,7 @@ export interface RefreshReviewsResponse {
 export interface SaveAIAutoReplyRequest {
   listingId: number;
   tone: string;
+  customPrompt?: string;
   reply_text: string;
   specific_star: string[];
   newStatus: number;
@@ -204,6 +205,7 @@ export interface AutoReviewReplySettingsResponse {
       id: string;
       listingId: number;
       text_reply: string;
+      customPrompt?: string;
       newStatus: string | number;
       oldStatus: string | number;
       prompt: string;
@@ -234,6 +236,7 @@ export interface UpdateDNRSettingResponse {
 
 export interface GenerateAIAutoReplyRequest {
   reviewId: string | number;
+  customPrompt?: string;
   tone: string;
   reviewReplyFormat: string;
 }

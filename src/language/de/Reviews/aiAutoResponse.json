@@ -27,6 +27,11 @@
         "descEndVb": " {responcetext}",
         "descTextEnd": ". Vergessen Sie nicht, ihn in Ihre Vorlage einzufügen."
       },
+      "customPrompt": {
+        "label": "Benutzerdefinierte Eingabeaufforderung",
+        "placeholder": "z.B. Schreiben Sie die Antwort auf Spanisch, fügen Sie ein Rabattangebot hinzu...",
+        "hint": "Fügen Sie spezifische Anweisungen hinzu, um die KI-Antwortgenerierung anzupassen."
+      },
       "replyText": {
         "label": "Antworttext",
         "placeholder": "Geben Sie Ihre Antwortvorlage ein..."

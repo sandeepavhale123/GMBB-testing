@@ -27,6 +27,11 @@
         "descEndVb": " {responcetext}",
         "descTextEnd": ". Non dimenticare di includerlo nel tuo template."
       },
+      "customPrompt": {
+        "label": "Prompt Personalizzato",
+        "placeholder": "es., Scrivi la risposta in spagnolo, includi un'offerta di sconto...",
+        "hint": "Aggiungi istruzioni specifiche per personalizzare come l'IA genera le risposte."
+      },
       "replyText": {
         "label": "Testo della Risposta",
         "placeholder": "Inserisci il template della tua risposta..."
