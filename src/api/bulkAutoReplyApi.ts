@@ -67,6 +67,18 @@ export interface AutoSettings {
   fiveStarStatus: number;
 }
 
+export interface BulkAISettings {
+  id?: string;
+  listingId?: string;
+  tone?: string;
+  text_reply?: string;
+  customPrompt?: string;
+  specific_star?: string[];
+  newStatus?: string;
+  oldStatus?: string;
+  prompt?: string;
+}
+
 export interface ProjectInfo {
   id: string;
   listingIds: string;
@@ -81,6 +93,7 @@ export interface BulkProjectDetailsResponse {
   data: {
     listingDetails: ListingDetail[];
     autoSettings: AutoSettings;
+    autoAiSettings?: BulkAISettings;
     project: ProjectInfo;
   };
 }

@@ -111,7 +111,7 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* AI Configuration Manager */}
           <BulkAIConfigurationManager
-            autoAiSettings={projectData?.data?.autoSettings}
+            autoAiSettings={projectData?.data?.autoAiSettings}
             onSave={handleAISettingsSave}
             isEnabled={aiEnabled}
             onToggle={setAiEnabled}
@@ -131,7 +131,7 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* DNR Configuration Manager */}
           <BulkAIConfigurationManager
-            autoAiSettings={projectData?.data?.autoSettings}
+            autoAiSettings={projectData?.data?.autoAiSettings}
             onSave={handleAISettingsSave}
             isEnabled={aiEnabled}
             onToggle={setAiEnabled}
