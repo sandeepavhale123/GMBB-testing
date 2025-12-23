@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Badge } from "../ui/badge";
@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Plus, X, Search, ArrowLeft, Filter } from "lucide-react";
+import { Plus, X, Search, ArrowLeft, Filter, AlertCircle } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getKeywordSearchVolume,
   KeywordSearchData,
+  getSearchCredits,
 } from "../../api/geoRankingApi";
 import { useToast } from "../../hooks/use-toast";
 import { KeywordFilterModal } from "./KeywordFilterModal";
@@ -29,6 +30,8 @@ import {
   GeoRankingSettings,
 } from "./GeoRankingSettingsModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
+import { BuyCreditsModal } from "../credits_modal/BuyCreditsModal";
+
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[], settings: GeoRankingSettings) => void;
   isLoading?: boolean;
@@ -54,8 +57,30 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [selectedCountry, setSelectedCountry] = useState("2840");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
+  const [remainingCredits, setRemainingCredits] = useState<number | null>(null);
+  const [isLoadingCredits, setIsLoadingCredits] = useState(true);
+  const [isBuyCreditsModalOpen, setIsBuyCreditsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Fetch search credits on mount
+  useEffect(() => {
+    const fetchCredits = async () => {
+      try {
+        setIsLoadingCredits(true);
+        const response = await getSearchCredits();
+        if (response.code === 200) {
+          setRemainingCredits(response.data.credits.remainingCredit);
+        }
+      } catch (error) {
+        console.error("Failed to fetch search credits:", error);
+        setRemainingCredits(0);
+      } finally {
+        setIsLoadingCredits(false);
+      }
+    };
+    fetchCredits();
+  }, []);
   const handleAddKeyword = () => {
     const trimmedKeyword = keywordInput.trim();
     if (
@@ -223,8 +248,39 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               <div className="flex items-center mb-0">
                 <Search className="h-5 w-5 text-primary mr-2" />
                 {t("AddKeywordsPage.header")}
+                {/* Show remaining credits */}
+                {!isLoadingCredits && remainingCredits !== null && (
+                  <Badge 
+                    variant={remainingCredits === 0 ? "destructive" : "secondary"} 
+                    className="ml-3"
+                  >
+                    {remainingCredits} {t("AddKeywordsPage.creditsRemaining")}
+                  </Badge>
+                )}
+                {isLoadingCredits && (
+                  <Skeleton className="h-5 w-24 ml-3" />
+                )}
               </div>
             </div>
+
+            {/* No Credits Warning */}
+            {remainingCredits === 0 && !isLoadingCredits && (
+              <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5 text-destructive" />
+                  <p className="text-destructive text-sm">
+                    {t("AddKeywordsPage.noCreditsWarning")}
+                  </p>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => setIsBuyCreditsModalOpen(true)}
+                >
+                  {t("AddKeywordsPage.buyCredits")}
+                </Button>
+              </div>
+            )}
 
             {/* Search Input */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -249,7 +305,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               <Button
                 onClick={handleSearchKeyword}
                 disabled={
-                  !keywordInput.trim() || keywords.length >= 5 || isSearching
+                  !keywordInput.trim() || keywords.length >= 5 || isSearching || remainingCredits === 0
                 }
                 className="h-12 px-6 w-full sm:w-auto"
               >
@@ -433,7 +489,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                     <Button
                       variant="outline"
                       onClick={() =>
-                        setDisplayedKeywordsCount((prev) => prev + 5)
+                        setDisplayedKeywordsCount((prev) => prev + 100)
                       }
                       className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 mb-10"
                     >
@@ -460,6 +516,12 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             onOpenChange={setIsGeoSettingsModalOpen}
             onSubmit={handleGeoSettingsSubmit}
             keywords={keywords}
+          />
+
+          {/* Buy Credits Modal */}
+          <BuyCreditsModal
+            open={isBuyCreditsModalOpen}
+            onOpenChange={setIsBuyCreditsModalOpen}
           />
 
           {/* Bottom Note */}

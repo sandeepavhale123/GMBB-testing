@@ -426,6 +426,23 @@ export interface AddSearchKeywordResponse {
   data: [];
 }
 
+// Search Credits API
+export interface SearchCreditsResponse {
+  code: number;
+  message: string;
+  data: {
+    credits: {
+      allowedCredit: number;
+      remainingCredit: number;
+    };
+  };
+}
+
+export const getSearchCredits = async (): Promise<SearchCreditsResponse> => {
+  const response = await axiosInstance.post("/get-search-credits", {});
+  return response.data;
+};
+
 export const addSearchKeyword = async (
   requestData: AddSearchKeywordRequest
 ): Promise<AddSearchKeywordResponse> => {
