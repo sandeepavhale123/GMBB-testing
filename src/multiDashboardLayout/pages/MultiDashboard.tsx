@@ -89,9 +89,9 @@ export const MultiDashboard: React.FC = () => {
   const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const [postStatus, setPostStatus] = useState("all");
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  const [insightDays, setInsightDays] = useState("7");
+  const [insightDays, setInsightDays] = useState("30");
   const [insightDateRange, setInsightDateRange] = useState<DateRange | undefined>();
-  const [reviewDays, setReviewDays] = useState("7");
+  const [reviewDays, setReviewDays] = useState("All");
   const [reviewDateRange, setReviewDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
