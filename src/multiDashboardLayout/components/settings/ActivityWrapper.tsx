@@ -18,7 +18,7 @@ export const ActivityWrapper: React.FC = () => {
     setPaginationData(pagination);
     setIsLoadingData(isLoading);
   }, []);
-  // page code
+  // page code.
   return (
     <div className="p-6">
       <div className="mb-6 flex items-start justify-between">
