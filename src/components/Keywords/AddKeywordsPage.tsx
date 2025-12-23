@@ -118,11 +118,19 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           description: t("AddKeywordsPage.toast.keywordsFoundDescription", {
             count: newResults.length,
           }),
-          // `Found ${newResults.length} keyword(s) with search data.`,
         });
+
+        // Refresh credits after search
+        try {
+          const creditsResponse = await getSearchCredits();
+          if (creditsResponse.code === 200) {
+            setRemainingCredits(creditsResponse.data.credits.remainingCredit);
+          }
+        } catch (creditsError) {
+          console.error("Failed to refresh credits:", creditsError);
+        }
       }
     } catch (error: any) {
-      // console.error("Keyword search error:", error);
       if (error.response?.status === 401) {
         toast({
           title: t("AddKeywordsPage.toast.authErrorTitle"),
