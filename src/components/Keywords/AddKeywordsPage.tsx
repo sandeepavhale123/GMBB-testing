@@ -248,17 +248,18 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               <div className="flex items-center mb-0">
                 <Search className="h-5 w-5 text-primary mr-2" />
                 {t("AddKeywordsPage.header")}
-                {/* Show remaining credits */}
+              </div>
+              {/* Show remaining credits */}
+              <div className="flex items-center">
                 {!isLoadingCredits && remainingCredits !== null && (
                   <Badge 
                     variant={remainingCredits === 0 ? "destructive" : "secondary"} 
-                    className="ml-3"
                   >
                     {remainingCredits} {t("AddKeywordsPage.creditsRemaining")}
                   </Badge>
                 )}
                 {isLoadingCredits && (
-                  <Skeleton className="h-5 w-24 ml-3" />
+                  <Skeleton className="h-5 w-24" />
                 )}
               </div>
             </div>
