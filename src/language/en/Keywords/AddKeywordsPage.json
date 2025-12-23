@@ -16,9 +16,9 @@
     "localPack": "Local pack",
     "addKeyword": "Add keyword",
     "loadMore": "Load More Keywords",
-    "creditsRemaining": "credits remaining", 
-    "noCreditsWarning": "You have no credits remaining. Please buy credits to search keywords.",
-    "buyCredits": "Buy Credits",
+    "creditsRemaining": "credits remaining",
+    "noCreditsWarning": "You have no credits remaining. Upgrade your plan.",
+    "upgradePlan": "Upgrade Plan",
     "toast": {
       "keywordsFoundTitle": "Keywords Found",
       "keywordsFoundDescription": "Found {{count}} keyword(s) with search data.",

@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   getKeywordSearchVolume,
   KeywordSearchData,
@@ -30,7 +30,6 @@ import {
   GeoRankingSettings,
 } from "./GeoRankingSettingsModal";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
-import { BuyCreditsModal } from "../credits_modal/BuyCreditsModal";
 
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[], settings: GeoRankingSettings) => void;
@@ -59,9 +58,17 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
   const [remainingCredits, setRemainingCredits] = useState<number | null>(null);
   const [isLoadingCredits, setIsLoadingCredits] = useState(true);
-  const [isBuyCreditsModalOpen, setIsBuyCreditsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  const handleUpgradePlan = () => {
+    if (location.pathname.startsWith("/main")) {
+      navigate("/main-dashboard/settings/subscription");
+    } else {
+      navigate("/settings/subscription");
+    }
+  };
 
   // Fetch search credits on mount
   useEffect(() => {
@@ -284,9 +291,9 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => setIsBuyCreditsModalOpen(true)}
+                  onClick={handleUpgradePlan}
                 >
-                  {t("AddKeywordsPage.buyCredits")}
+                  {t("AddKeywordsPage.upgradePlan")}
                 </Button>
               </div>
             )}
@@ -527,11 +534,6 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             keywords={keywords}
           />
 
-          {/* Buy Credits Modal */}
-          <BuyCreditsModal
-            open={isBuyCreditsModalOpen}
-            onOpenChange={setIsBuyCreditsModalOpen}
-          />
 
           {/* Bottom Note */}
         </div>

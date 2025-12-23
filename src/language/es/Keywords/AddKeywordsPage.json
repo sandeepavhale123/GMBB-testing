@@ -17,8 +17,8 @@
     "addKeyword": "Agregar palabra clave",
     "loadMore": "Cargar Más Palabras Clave",
     "creditsRemaining": "créditos restantes",
-    "noCreditsWarning": "No tienes créditos restantes. Por favor compra créditos para buscar palabras clave.",
-    "buyCredits": "Comprar Créditos",
+    "noCreditsWarning": "No tienes créditos restantes. Actualiza tu plan.",
+    "upgradePlan": "Actualizar Plan",
     
     "toast": {
       "keywordsFoundTitle": "Palabras Clave Encontradas",
