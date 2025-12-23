@@ -19,6 +19,7 @@
     "creditsRemaining": "créditos restantes",
     "noCreditsWarning": "No tienes créditos restantes. Por favor compra créditos para buscar palabras clave.",
     "buyCredits": "Comprar Créditos",
+    
     "toast": {
       "keywordsFoundTitle": "Palabras Clave Encontradas",
       "keywordsFoundDescription": "Se encontraron {{count}} palabra(s) clave con datos de búsqueda.",

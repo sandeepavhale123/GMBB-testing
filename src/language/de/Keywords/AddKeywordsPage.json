@@ -16,6 +16,9 @@
     "localPack": "Local Pack",
     "addKeyword": "Keyword hinzufügen",
     "loadMore": "Weitere Keywords laden",
+    "creditsRemaining": "verbleibende Guthaben",
+    "noCreditsWarning": "Sie haben keine Credits mehr. Bitte kaufen Sie Credits, um nach Keywords zu suchen.",
+    "buyCredits": "Credits kaufen",
     "toast": {
       "keywordsFoundTitle": "Keywords gefunden",
       "keywordsFoundDescription": "{{count}} Keyword(s) mit Suchdaten gefunden.",

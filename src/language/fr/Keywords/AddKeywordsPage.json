@@ -16,6 +16,9 @@
     "localPack": "Pack local",
     "addKeyword": "Ajouter un mot-clé",
     "loadMore": "Charger plus de mots-clés",
+    "creditsRemaining": "Crédits restants",
+    "noCreditsWarning": "Vous n’avez plus de crédits. Veuillez acheter des crédits pour rechercher des mots-clés.",
+    "buyCredits": "Acheter des crédits",
     "toast": {
       "keywordsFoundTitle": "Mots-clés trouvés",
       "keywordsFoundDescription": "{{count}} mot(s)-clé(s) trouvé(s) avec des données de recherche.",
