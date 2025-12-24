@@ -10,7 +10,10 @@
     "build": "npm run clean && npm run version && vite build",
     "build:dev": "npm run clean && npm run version && vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:all": "npm run build && cd llmtracker && npm run build && cd ..",
+    "build:all:dev": "npm run build:dev && cd llmtracker && npm run build:dev && cd ..",
+    "dev:all": "concurrently \"npm run dev\" \"cd llmtracker && npm run dev\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -96,6 +99,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.2.1",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",

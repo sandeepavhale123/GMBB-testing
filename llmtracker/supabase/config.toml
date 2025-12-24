@@ -1,0 +1,4 @@
+project_id = "uuamwkahckzufscqkviz"
+
+[functions.run-llm]
+verify_jwt = true
