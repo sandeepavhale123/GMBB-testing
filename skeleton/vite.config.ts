@@ -7,7 +7,7 @@ import { componentTagger } from "lovable-tagger";
 const buildVersion = process.env.VITE_BUILD_VERSION || Date.now().toString();
 
 export default defineConfig(({ mode }) => ({
-   base: '/skeleton/',
+   base: '/skeleton/dist/',
   server: {
     host: "::",
     port: 8080,
