@@ -1,0 +1,38 @@
+{
+  "common": {
+    "noPosts": "Nessun post ancora",
+    "createFirstPost": "Crea il tuo primo post per vederlo qui",
+    "aredelete": "Sei sicuro di voler eliminare questo post?",
+    "view": "Visualizza",
+    "edit": "Modifica",
+    "retry": "Riprova",
+    "delete": "Elimina",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina",
+    "of": "di"
+  },
+
+  "status": {
+    "draft": "Bozza",
+    "scheduled": "Programmato",
+    "publishing": "In pubblicazione",
+    "published": "Pubblicato",
+    "failed": "Fallito"
+  },
+
+  "grid": {
+    "postDetails": "Dettagli del post",
+    "viewPublishedPost": "Visualizza post pubblicato",
+    "showing": "Mostrando",
+    "to": "a",
+    "of": "di",
+    "posts": "post",
+
+    "instagramWarningTitle": "Il post Instagram non può essere eliminato da remoto",
+    "instagramWarningDesc": "L'API di Instagram non supporta l'eliminazione remota dei post. Se procedi, il post sarà rimosso dal nostro sistema, ma dovrai eliminarlo manualmente da Instagram.",
+    "cancel": "Annulla",
+    "deleteFromSystem": "Elimina dal sistema",
+    "deleting": "Eliminazione in corso..."
+  }
+}

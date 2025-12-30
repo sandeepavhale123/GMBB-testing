@@ -1,0 +1,15 @@
+{
+  "healthScoreCard": {
+    "title": "Gesundheitsscore",
+    "statusGood": "Gut",
+    "listingOptimizationScore": "Ihr Optimierungsscore für den Eintrag",
+    "aiAutoOptimize": "KI-Auto-Optimierung",
+    "viewDetailedReport": "Detaillierten Bericht ansehen",
+    "quickWinsTitle": "Schnelle Erfolge",
+    "quickWinItems": {
+      "addPhotos": "Fügen Sie 5+ aktuelle Fotos hinzu",
+      "updateHours": "Öffnungszeiten aktualisieren"
+    },
+    "moreSuggestions": "+1 weitere Vorschläge"
+  }
+}

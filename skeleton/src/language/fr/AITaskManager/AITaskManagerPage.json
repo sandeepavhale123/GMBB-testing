@@ -1,0 +1,70 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Tâches en attente",
+      "completed": "Tâches terminées",
+      "oneTime": "Tâches ponctuelles",
+      "recurring": "Tâches récurrentes"
+    },
+
+    "tabs": {
+      "pending": "En attente ({{count}})",
+      "completed": "Terminées ({{count}})",
+      "all": "Toutes les tâches ({{count}})",
+      "recurring": "Récurrentes ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Fréquence : {{value}}",
+      "status": {
+        "pending": "en attente",
+        "inProgress": "en cours",
+        "completed": "terminée",
+        "due": "échéance",
+        "oneTime": "ponctuelle"
+      },
+      "type": {
+        "one-time": "ponctuelle",
+        "recurring": "récurrente"
+      },
+      "priority": {
+        "high": "Haute priorité"
+      },
+      "actions": {
+        "fix": "Corriger",
+        "inProgress": "En cours",
+        "markCompleted": "Marquer comme terminée",
+        "revert": "Annuler"
+      }
+    },
+
+    "loading": {
+      "title": "Chargement des tâches AI",
+      "description": "Récupération de vos dernières tâches..."
+    },
+
+    "noListing": {
+      "message": "Aucune fiche sélectionnée. Veuillez sélectionner une fiche pour voir les tâches AI."
+    },
+
+    "emptyState": {
+      "title": "Aucune tâche trouvée",
+      "completedMessage": "Bravo ! Terminez quelques tâches pour les voir ici.",
+      "defaultMessage": "Aucune tâche ne correspond au filtre actuel."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Erreur",
+        "default": "Échec de l'annulation de la tâche."
+      },
+      "success": {
+        "title": "Succès"
+      },
+      "reverted": {
+        "title": "Annulée",
+        "message": "Tâche remise en attente."
+      }
+    }
+  }
+}

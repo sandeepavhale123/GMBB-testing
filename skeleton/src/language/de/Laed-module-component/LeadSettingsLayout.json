@@ -1,0 +1,16 @@
+{
+  "leadSettingsLayout": {
+    "navItems": {
+      "themeCustomization": "Design-Anpassung",
+      "reportBranding": "Berichts-Branding",
+      "integrations": "Integrationen",
+      "ctaCustomization": "CTA-Anpassung"
+    },
+    "titles": {
+      "settings": "Einstellungen"
+    },
+    "descriptions": {
+      "manageSettings": "Verwalten Sie die Einstellungen Ihres Lead-Moduls."
+    }
+  }
+}

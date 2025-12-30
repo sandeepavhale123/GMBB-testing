@@ -1,0 +1,44 @@
+{
+  "businessManagement": {
+    "tabs": {
+      "businessInfo": "Business Info",
+      "openingHours": "Opening Hours",
+      "editLog": "Edit Log"
+    },
+    "toast": {
+      "refreshSuccessTitle": "Success",
+      "refreshSuccessDesc": "GMB profile info refreshed successfully",
+      "refreshErrorTitle": "Error",
+      "refreshErrorDesc": "Failed to refresh business info"
+    },
+    "errorState": {
+      "title": "Error Loading Business Info",
+      "description": "Something went wrong while fetching business info."
+    },
+    "emptyState": {
+      "businessInfo": "No business information available."
+    },
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "phone": "Phone",
+      "website": "Website",
+      "storeCode": "Store code",
+      "category": "Category",
+      "additionalCategory": "Additional category",
+      "labels": "Labels",
+      "appointmentUrl": "Appointment URL",
+      "mapUrl": "Map URL",
+      "description": "Description"
+    },
+    "warnings": {
+      "fakeInfo": "To avoid getting suspended, don't add fake info to get more reviews and other policy violating content."
+    },
+    "loading": {
+      "skeleton": "Loading business information..."
+    },
+    "noListingSelected": {
+      "pageType": "Business Management"
+    }
+  }
+}

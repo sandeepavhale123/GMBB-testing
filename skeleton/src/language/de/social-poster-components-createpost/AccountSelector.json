@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "targetAccounts": "Zielkonten",
+    "selected": "ausgewählt"
+  },
+  "loading": {
+    "title": "Zielkonten",
+    "description": "Konten werden geladen...",
+    "message": "Verfügbare Konten werden geladen..."
+  },
+  "noPlatforms": {
+    "title": "Zielkonten",
+    "description": "Wählen Sie zuerst Plattformen aus",
+    "message": "Wählen Sie Plattformen aus, um verfügbare Konten zu sehen"
+  },
+  "filters": {
+    "searchPlaceholder": "Konten suchen...",
+    "filterByPlatform": "Nach Plattform filtern",
+    "allPlatforms": "Alle Plattformen"
+  },
+  "platform": {
+    "linkedinIndividual": "LinkedIn (Einzelprofil)",
+    "linkedinOrganisation": "LinkedIn (Organisation)"
+  },
+  "buttons": {
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen"
+  },
+  "status": {
+    "healthy": "Gesund",
+    "unhealthy": "Ungesund"
+  }
+}

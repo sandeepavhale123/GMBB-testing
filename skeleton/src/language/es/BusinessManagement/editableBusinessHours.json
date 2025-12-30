@@ -1,0 +1,27 @@
+{
+  "editableBusinessHours": {
+    "view": {
+      "title": "Horario de Atención",
+      "open": "Abierto",
+      "closed": "Cerrado"
+    },
+    "edit": {
+      "title": "Editar Horario de Atención",
+      "openLabel": "Abrir",
+      "closeLabel": "Cerrar",
+      "closedLabel": "Cerrado",
+      "to": "a",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    }
+  }
+}

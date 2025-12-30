@@ -1,0 +1,46 @@
+{
+  "geoRanking": {
+    "form": {
+      "resetTitle": "Form Reset",
+      "resetDescription": "Ready for a new keyword search",
+      "keyword":"Keyword Processed",
+      "keywordsRequired": "Keywords are required.",
+      "coordinatesRequired": "No coordinates available. Please generate grid or place markers."
+    },
+    "toast": {
+      "success": {
+        "title":"Success",
+        "timeout":"Processing Timeout",
+        "submitRank": "Rank check submitted successfully",
+        "addKeywords": "Keywords added successfully to the project",
+        "keywordProcessed": "Your keyword ranking data is now available!"
+      },
+      "error": {
+        "error":"Error",
+        "fetchDefaultCoordinates": "Failed to fetch default coordinates",
+        "fetchGridCoordinates": "Failed to fetch grid coordinates",
+        "submitRank": "Failed to submit rank check",
+        "addKeywords": "Failed to add keywords",
+        "processingTimeout": "Keyword processing is taking longer than expected. Please check back later.",
+        "moduleOnly": "This function is only available in module mode",
+        "selectBusinessProject": "Please select a business and project first"
+      },
+      "info": {
+        "titleProcessing":"Processing Keyword",
+        "titleKeyword":"Keyword in Queue",
+        "keywordInQueue": "Your keyword is in queue. It will take some time to process.",
+        "processingKeyword": "Please wait while we process your keyword ranking data..."
+      }
+    },
+    "labels": {
+      "automatic": "Automatic",
+      "manual": "Manually",
+      "meters": "Meters",
+      "miles": "Miles",
+      "distanceValue": "Distance Value",
+      "gridSize": "Grid Size",
+      "mapPoint": "Map Point",
+      "scheduleCheck": "Schedule Check"
+    }
+  }
+}

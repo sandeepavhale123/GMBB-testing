@@ -1,0 +1,13 @@
+{
+  "error": "No se pudieron cargar las próximas publicaciones",
+
+  "empty": {
+    "noScheduled": "No hay publicaciones programadas",
+    "createFirst": "Crea tu primera publicación para verla aquí"
+  },
+
+  "post": {
+    "previewAlt": "Vista previa de la publicación",
+    "accounts": "{{count}} cuentas"
+  }
+}

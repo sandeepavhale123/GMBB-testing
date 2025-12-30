@@ -1,0 +1,28 @@
+{
+  "googleAuthHandler": {
+    "toast": {
+      "success": {
+        "title": "¡Éxito!",
+        "description": "Cuenta de Google conectada con éxito."
+      },
+      "error": {
+        "title": "Conexión Fallida",
+        "description": "No se pudo conectar la cuenta de Google. Por favor, inténtelo de nuevo."
+      }
+    },
+    "errorState": {
+      "title": "Conexión Fallida",
+      "button": "Volver a Configuración de Cuenta"
+    },
+    "loadingState": {
+      "title": "Conectando su Cuenta",
+      "description": "Por favor espere mientras conectamos su Perfil de Negocio de Google y obtenemos sus listados...",
+      "note": "Esto puede tardar unos momentos"
+    },
+    "errors": {
+      "noAccessToken": "No se encontró token de acceso. Por favor, inicie sesión nuevamente.",
+      "noAccountId": "No se recibió ID de cuenta de la autenticación de Google",
+      "failedAuth": "Error al autenticar con Google"
+    }
+  }
+}

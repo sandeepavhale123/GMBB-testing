@@ -1,0 +1,44 @@
+{
+  "title": "Bewertungsbericht",
+  "loading": "Bewertungsbericht wird geladen...",
+  "error": "Fehler beim Laden des Bewertungsberichts",
+  "overview": {
+    "averageRating": "Durchschnittliche Bewertung",
+    "totalReviews": "Gesamtbewertungen",
+    "manualReply": "Manuelle Antwort",
+    "aiReply": "KI-Antwort"
+  },
+  "sections": {
+    "ratingSummary": "Zusammenfassung der Bewertungsanzahl",
+    "sentimentAnalysis": "Stimmungsanalyse",
+    "reviewTrends": "Bewertungstrends im Laufe der Zeit",
+    "reviewDataSummary": "Zusammenfassung der Bewertungsdaten",
+    "recentReviews": "Neueste Bewertungen",
+    "reviews": "Bewertungen"
+  },
+  "chart": {
+    "totalReviews": "Gesamtbewertungen",
+    "star5": "5 Sterne",
+    "star4": "4 Sterne",
+    "star3": "3 Sterne",
+    "star2": "2 Sterne",
+    "star1": "1 Stern"
+  },
+  "labels": {
+    "star": "Stern",
+    "reviews": "Bewertungen",
+    "reviewDate": "Bewertungsdatum",
+    "totalReview": "Gesamtbewertung",
+    "fiveStar": "5-Sterne-Bewertung",
+    "fourStar": "4-Sterne-Bewertung",
+    "threeStar": "3-Sterne-Bewertung",
+    "twoStar": "2-Sterne-Bewertung",
+    "oneStar": "1-Stern-Bewertung",
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ",
+    "noData": "Keine Daten verfügbar",
+    "vsPrevious": "im Vergleich zum vorherigen"
+  },
+  "noresponse": "Keine Antwort"
+}

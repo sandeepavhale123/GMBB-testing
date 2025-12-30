@@ -1,0 +1,76 @@
+{
+  "report": {
+    "title": "Rapport Prospect GMB",
+    "loading": "Chargement du rapport...",
+    "error": "Échec du chargement du rapport prospect",
+    "introductionTitle": "Introduction",
+    "introductionDesc": "Bonjour, merci d’avoir évalué votre profil Google My Business (GMB). Voici les résultats de notre évaluation sur 10 points.",
+    "atAGlance": "Votre rapport GMB en un coup d’œil",
+    "failedTests": {
+      "title": "Tests échoués",
+      "desc": "Domaines nécessitant une attention"
+    },
+    "passedTests": {
+      "title": "Tests réussis",
+      "desc": "Domaines performants"
+    },
+    "breakdownTitle": "Détail complet",
+    "whyItMatters": "Pourquoi c’est important :",
+    "recommendation": "Recommandation :",
+    "passed": "Réussi",
+    "failed": "Échoué",
+    "competitor": {
+      "title": "Analyse des concurrents",
+      "chartTitle": "Analyse des concurrents",
+      "impact": "Aucun impact",
+      "listingDesc": "La fiche surpasse ou correspond à ses concurrents dans les domaines clés",
+      "why": "Se démarquer parmi les concurrents augmente les chances d’attirer plus de clients",
+      "recomendation": "Analysez le profil des concurrents et concentrez-vous sur les domaines où ils excellent, comme de meilleures notes ou des descriptions plus détaillées.",
+      "legend": {
+        "avgRating": "Note moyenne",
+        "reviewCount": "Nombre d’avis"
+      },
+      "tableHeaders": {
+        "name": "Nom de l’entreprise",
+        "rating": "Note",
+        "reviews": "Avis"
+      }
+    },
+    "citation": {
+      "title": "Analyse des citations des concurrents",
+      "impact": "Aucun impact",
+      "result": "Résultats de l’analyse des citations",
+      "why": "Les citations améliorent le référencement local et signalent la crédibilité",
+      "recommendation": "Identifiez les lacunes de citations et soumettez votre entreprise aux annuaires",
+      "chartTitle": "Comparaison des citations",
+      "legend": {
+        "localCitations": "Citations locales"
+      },
+      "tableHeaders": {
+        "name": "Nom de l’entreprise",
+        "citations": "Citations locales"
+      }
+    },
+    "suggestions": {
+      "title": "Suggestions avancées au-delà des vérifications actuelles",
+      "tableHeaders": {
+        "suggestion": "Suggestion",
+        "impact": "Niveau d’impact"
+      },
+      "impactLevels": {
+        "high": "Impact élevé",
+        "moderate": "Impact modéré",
+        "low": "Faible impact"
+      }
+    },
+    "summary": {
+      "title": "Résumé des recommandations",
+      "li1": "Ajoutez un lien de site web fonctionnel.",
+      "li2": "Encouragez les clients satisfaits à laisser des avis.",
+      "li3": "La note moyenne est inférieure à 4 étoiles.",
+      "li4": "Le logo est présent et professionnel.",
+      "li5": "Mettez à jour vos horaires d’ouverture.",
+      "li6": "Moins de 5 photos. Améliorez les photos."
+    }
+  }
+}

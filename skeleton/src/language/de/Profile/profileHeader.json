@@ -1,0 +1,14 @@
+{
+  "changePassword": "Passwort ändern",
+  "manageSubscription": "Abonnement verwalten",
+  "profilePicUpdated": "Profilbild aktualisiert",
+  "profileUpdated": "Dein Profil wurde erfolgreich aktualisiert.",
+  "invalidFileType": "Ungültiger Dateityp",
+  "invalidFileTypeDesc": "Bitte lade eine gültige Bilddatei hoch.",
+  "fileTooLarge": "Datei zu groß",
+  "fileTooLargeDesc": "Bitte wähle ein Bild, das kleiner als 5 MB ist.",
+  "updateFailed": "Aktualisierung fehlgeschlagen",
+  "updateErrorDesc": "Beim Aktualisieren deines Profils ist ein Fehler aufgetreten.",
+  "uploadFailed": "Upload fehlgeschlagen",
+  "uploadDesc": "Profilbild konnte nicht aktualisiert werden. Bitte versuche es erneut."
+}

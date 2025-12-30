@@ -1,0 +1,49 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Google-Konto verwalten",
+    "pageDescription": "Verbinden und überwachen Sie Ihre Google-Unternehmensprofile, um die lokale Sichtbarkeit und SEO-Leistung zu maximieren.",
+    "searchPlaceholder": "Konten nach Name oder E-Mail suchen",
+    "activeListingsBadge": "Aktive Einträge: {{active}}/{{allowed}}",
+    "addNewAccount": {
+      "full": "Neues Konto hinzufügen",
+      "short": "Hinzufügen"
+    },
+    "errorState": {
+      "tryAgain": "Erneut versuchen"
+    },
+    "loading": "Wird geladen...",
+    "emptyState": {
+      "noAccountsConnected": "Keine Konten verbunden",
+      "noAccountsFound": "Keine Konten gefunden",
+      "searchNoMatch": "Keine Konten entsprechen \"{searchTerm}\". Versuchen Sie einen anderen Suchbegriff.",
+      "addAccountCTA": "Klicken Sie auf „Neues Konto hinzufügen“, um Ihr Google-Unternehmensprofil zu synchronisieren."
+    },
+    "modals": {
+      "addAccount": "Konto hinzufügen",
+      "deleteAccount": {
+        "title": "Konto löschen",
+        "confirm": "Löschen bestätigen",
+        "accountDeleted": "Das Google-Konto \"{accountName}\" wurde erfolgreich gelöscht.",
+        "deleteTitle": "Löschen fehlgeschlagen",
+        "deleteFailed": "Das Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+        "noEmail": "Keine E-Mail verfügbar",
+        "deleteSuccess": "Konto gelöscht",
+        "successDesc": "Das Google-Konto {{name}} wurde erfolgreich gelöscht."
+      },
+      "refreshAccount": {
+        "title": "Konto aktualisiert",
+        "updateTitle": "Aktualisierung fehlgeschlagen",
+        "updateSuccess": "Listing-Gruppen aktualisiert",
+        "updateFailed": "Die Listing-Gruppen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut.",
+        "refreshTitle": "Aktualisierung fehlgeschlagen",
+        "refreshFailed": "Das Konto konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+      }
+    },
+    "tableHeaders": {
+      "account": "Konto",
+      "totalListings": "Gesamtanzahl der Einträge",
+      "connectedListings": "Verbundene Einträge",
+      "actions": "Aktionen"
+    }
+  }
+}

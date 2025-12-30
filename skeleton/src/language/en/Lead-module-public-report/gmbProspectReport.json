@@ -1,0 +1,76 @@
+{
+  "report": {
+    "title": "GMB Prospect Report",
+    "loading": "Loading report...",
+    "error": "Failed to load prospect report",
+    "introductionTitle": "Introduction",
+    "introductionDesc": "Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the results of our 10-point evaluation.",
+    "atAGlance": "Your GMB Report at a Glance",
+    "failedTests": {
+      "title": "Failed Tests",
+      "desc": "Areas that need attention"
+    },
+    "passedTests": {
+      "title": "Passed Tests",
+      "desc": "Areas performing well"
+    },
+    "breakdownTitle": "Detailed Breakdown",
+    "whyItMatters": "Why It Matters:",
+    "recommendation": "Recommendation:",
+    "passed": "Passed",
+    "failed": "Failed",
+    "competitor": {
+      "title": "Competitor Analysis",
+      "chartTitle": "Competitor Analysis",
+      "impact":"No Impact",
+      "listingDesc":"The listing outperforms or matches its competitors in key areas",
+      "why":"standing out among competitors increase the chance of attraction more customer",
+      "recomendation": "analyze competitor profile and focus on areas where they excel such as better rating or more details description.",
+      "legend": {
+        "avgRating": "Avg. Rating",
+        "reviewCount": "Review Count"
+      },
+      "tableHeaders": {
+        "name": "Business Name",
+        "rating": "Rating",
+        "reviews": "Reviews"
+      }
+    },
+    "citation": {
+      "title": "Citation Competitor Analysis",
+      "impact":"No Impact",
+      "result":"Citation analysis results",
+      "why":"Citations improve local SEO ranking and signal credibility",
+      "recommendation":"Identify citation gaps and submit your business to directories",
+      "chartTitle": "Citation Comparison",
+      "legend": {
+        "localCitations": "Local Citations"
+      },
+      "tableHeaders": {
+        "name": "Business Name",
+        "citations": "Local Citations"
+      }
+    },
+    "suggestions": {
+      "title": "Advanced Suggestion Beyond Current Checks",
+      "tableHeaders": {
+        "suggestion": "Suggestion",
+        "impact": "Impact Level"
+      },
+      "impactLevels": {
+        "high": "High Impact",
+        "moderate": "Moderate Impact",
+        "low": "Low Impact"
+      }
+    },
+    "summary": {
+      "title": "Summary of Recommendations",
+       "li1": "Add a working website link.",
+        "li2":"Encourage satisfied customers to leave reviews.",
+        "li3":"Average Rating is below 4 star",
+        "li4":"The logo is present and professional.",
+        "li5":"Update your business hours.",
+        "li6":"Less Than 5 Photos. Enhance Photo"      
+    }
+  }
+}

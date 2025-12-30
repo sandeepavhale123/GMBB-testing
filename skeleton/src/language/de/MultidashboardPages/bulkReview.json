@@ -1,0 +1,28 @@
+{
+  "title": "Massenbewertungsverwaltung",
+  "subtitle": "Verwalten Sie Bewertungen für alle Ihre Einträge.",
+  "configureAutoReply": "Automatische Antwort konfigurieren",
+  "summary": {
+    "reviews": "Kundenbewertungen",
+    "loading": "Bewertungen werden geladen...",
+    "noReviews": "Keine Bewertungen gefunden, die Ihren Kriterien entsprechen."
+  },
+  "export": "CSV exportieren",
+  "toast": {
+    "successTitle": "Erfolg",
+    "replySuccess": "Antwort erfolgreich gesendet",
+    "replyError": "Antwort konnte nicht gesendet werden",
+    "deleteSuccess": "Antwort erfolgreich gelöscht",
+    "deleteError": "Antwort konnte nicht gelöscht werden"
+  },
+  "pagination": {
+    "showing": "Anzeige von {{from}} bis {{to}} von {{total}} Bewertungen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite {{current}} von {{pages}}"
+  },
+  "error": {
+    "title": "Fehler",
+    "retry": "Erneut versuchen"
+  }
+}

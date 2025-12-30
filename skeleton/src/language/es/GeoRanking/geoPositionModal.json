@@ -1,0 +1,25 @@
+{
+  "geoPositionModal": {
+    "toast": {
+      "copySuccess": {
+        "title": "¡Coordenadas copiadas!",
+        "description": "Coordenadas GPS copiadas al portapapeles"
+      },
+      "copyError": {
+        "title": "Error al copiar",
+        "description": "No se pudieron copiar las coordenadas al portapapeles"
+      }
+    },
+    "header": {
+      "copyButton": "Copiar coordenadas",
+      "closeButton": "Cerrar modal"
+    },
+    "content": {
+      "topResult": "Mejor resultado",
+      "loading": "Cargando resultados...",
+      "noResults": "No se encontraron resultados",
+      "yourBusiness": "Tu negocio",
+      "reviews": "{{count}} reseñas"
+    }
+  }
+}

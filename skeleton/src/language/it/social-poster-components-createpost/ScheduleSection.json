@@ -1,0 +1,16 @@
+{
+  "title": "Pianifica",
+  "description": "Scegli quando pubblicare",
+
+  "options": {
+    "now": "Pubblica ora",
+    "schedule": "Pianifica per dopo"
+  },
+
+  "fields": {
+    "date": "Data",
+    "time": "Ora"
+  },
+
+  "timezoneNote": "Il post sarà programmato per il fuso orario {{timezone}}"
+}

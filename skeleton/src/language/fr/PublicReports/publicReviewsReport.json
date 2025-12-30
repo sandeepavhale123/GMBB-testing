@@ -1,0 +1,44 @@
+{
+  "title": "Rapport des Avis",
+  "loading": "Chargement du rapport des avis...",
+  "error": "Erreur lors du chargement du rapport des avis",
+  "overview": {
+    "averageRating": "Note Moyenne",
+    "totalReviews": "Nombre Total d’Avis",
+    "manualReply": "Réponse Manuelle",
+    "aiReply": "Réponse IA"
+  },
+  "sections": {
+    "ratingSummary": "Résumé du Nombre de Notes",
+    "sentimentAnalysis": "Analyse du Sentiment",
+    "reviewTrends": "Tendances des Avis au Fil du Temps",
+    "reviewDataSummary": "Résumé des Données d’Avis",
+    "recentReviews": "Avis Récents",
+    "reviews": "Avis"
+  },
+  "chart": {
+    "totalReviews": "Nombre Total d’Avis",
+    "star5": "5 Étoiles",
+    "star4": "4 Étoiles",
+    "star3": "3 Étoiles",
+    "star2": "2 Étoiles",
+    "star1": "1 Étoile"
+  },
+  "labels": {
+    "star": "Étoile",
+    "reviews": "avis",
+    "reviewDate": "Date de l’Avis",
+    "totalReview": "Avis Total",
+    "fiveStar": "Note 5 Étoiles",
+    "fourStar": "Note 4 Étoiles",
+    "threeStar": "Note 3 Étoiles",
+    "twoStar": "Note 2 Étoiles",
+    "oneStar": "Note 1 Étoile",
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif",
+    "noData": "Aucune donnée disponible",
+    "vsPrevious": "par rapport au précédent"
+  },
+  "noresponse": "Aucune Réponse"
+}

@@ -1,0 +1,32 @@
+{
+  "customNotifications": {
+    "searchPlaceholder": "Buscar por nombre de ubicación o correo electrónico...",
+    "addCustomRecipient": "Agregar destinatario personalizado",
+    "addCustomNotification": "Agregar notificación personalizada",
+    "editEmailSettings": "Editar configuración de correo electrónico",
+    "deleteEmailNotification": "Eliminar notificación de correo electrónico",
+    "deleteConfirmation": "¿Estás seguro de que deseas eliminar la notificación de correo electrónico para \"{{locationName}}\"? Esta acción no se puede deshacer.",
+    "validationError": "Error de validación",
+    "validationSelectListing": "Por favor, selecciona al menos un listado y proporciona destinatarios de correo electrónico.",
+    "validationProvideRecipients": "Por favor, proporciona destinatarios de correo electrónico.",
+    "success": "Éxito",
+    "error": "Error",
+    "successAdd": "¡Notificación personalizada agregada con éxito!",
+    "successUpdate": "¡Configuración de correo electrónico actualizada con éxito!",
+    "successDelete": "Notificaciones de correo electrónico eliminadas con éxito.",
+    "failedLoad": "No se pudieron cargar las notificaciones personalizadas.",
+    "tryAgain": "Intentar de nuevo",
+    "loadingNotifications": "Cargando notificaciones...",
+    "noNotificationsFound": "No se encontraron notificaciones personalizadas",
+    "locationName": "Nombre de la ubicación",
+    "emailRecipients": "Destinatarios de correo electrónico",
+    "enterEmails": "Ingresa las direcciones de correo electrónico separadas por comas",
+    "cancel": "Cancelar",
+    "addNotification": "Agregar notificación",
+    "update": "Actualizar",
+    "delete": "Eliminar",
+    "actions": "Acciones",
+    "showingResults": "Mostrando {{from}} a {{to}} de {{total}} resultados",
+    "paginationDots": "..."
+  }
+}

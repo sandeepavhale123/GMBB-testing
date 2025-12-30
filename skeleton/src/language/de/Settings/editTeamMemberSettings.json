@@ -1,0 +1,80 @@
+{
+  "editTeamMemberSettings": {
+    "loading": {
+      "text": "Teammitglied wird geladen..."
+    },
+    "errors": {
+      "editError": "Fehler beim Laden des Teammitglieds",
+      "notFound": "Teammitglied nicht gefunden",
+      "listingsError": "Fehler beim Laden der Einträge: {{error}}",
+      "updateProfile": "Profil konnte nicht aktualisiert werden",
+      "updateListings": "Eintragszuweisungen konnten nicht aktualisiert werden",
+      "updateListing": "Eintragszuweisung konnte nicht aktualisiert werden"
+    },
+    "buttons": {
+      "back": "Zurück",
+      "backToTeamMembers": "Zurück zu Teammitgliedern",
+      "saveChanges": "Änderungen speichern",
+      "saving": "Speichert...",
+      "previous": "Vorherige",
+      "next": "Nächste"
+    },
+    "tabs": {
+      "profile": "Profil",
+      "assignListings": "Einträge zuweisen"
+    },
+    "profile": {
+      "title": "Teammitglied bearbeiten",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "passwordPlaceholder": "Leer lassen, um aktuelles Passwort beizubehalten",
+      "role": "Rolle auswählen",
+      "roles": {
+        "moderator": "Moderator",
+        "staff": "Mitarbeiter",
+        "client": "Kunde"
+      }
+    },
+    "listings": {
+      "title": "Eintragsverwaltung",
+      "filter": {
+        "googleAccount": "Google-Konto",
+        "searchPlaceholder": "Konten suchen...",
+        "noAccounts": "Keine Konten gefunden",
+        "assignedListings": "Zugewiesene Einträge"
+      },
+      "table": {
+        "businessName": "Firmenname",
+        "account": "Konto",
+        "assign": "Zuweisen",
+        "loading": "Einträge werden geladen...",
+        "noListings": "Keine Einträge für das ausgewählte Konto gefunden"
+      },
+      "pagination": {
+        "pageInfo": "Seite {{current}} von {{total}} • {{count}} Einträge",
+        "show": "Anzeigen:",
+        "page": "Seite",
+        "of": "von"
+      },
+      "badge": {
+        "assigned": "{{count}} zugewiesen"
+      }
+    },
+    "toasts": {
+      "success": {
+        "title":"Erfolg",
+        "profileUpdated": "Teammitglied-Profil erfolgreich aktualisiert",
+        "listingsUpdated": "Eintragszuweisungen erfolgreich aktualisiert",
+        "listingUpdated": "Eintragszuweisung erfolgreich aktualisiert"
+      },
+      "error": {
+        "title":"Fehler",
+        "profileUpdate": "Profil konnte nicht aktualisiert werden",
+        "listingsUpdate": "Eintragszuweisungen konnten nicht aktualisiert werden"
+      }
+    },
+    "totalReplies": "Gesamtantworten"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "subscriptionPage": {
+    "title": "Abonnementpläne",
+    "activePlan": "Ihr Plan ist bis {{date}} aktiv.",
+    "expiredPlan": "Ihr Plan ist abgelaufen. Bitte verlängern Sie ihn, um weiterhin auf die Funktionen zuzugreifen.",
+    "description": "Wählen Sie den perfekten Plan für die Bedürfnisse Ihres Unternehmens. Sie können jederzeit ein Upgrade oder Downgrade durchführen.",
+    "unsubscribe": "Abmelden",
+    "tabs": {
+      "pricingPlan": "Preisplan",
+      "paymentHistory": "Zahlungsverlauf"
+    },
+    "labels": {
+      "features": "Funktionen",
+      "pricePerMonth": "Preis/Monat",
+      "mostPopular": "Am beliebtesten"
+    },
+    "buttons": {
+      "active": "Aktiv",
+      "processing": "Wird verarbeitet...",
+      "payNow": "Jetzt bezahlen",
+      "upgradeNow": "Jetzt upgraden",
+      "contactSales": "Vertrieb kontaktieren"
+    },
+    "help": {
+      "title": "Brauchen Sie Hilfe bei der Auswahl?",
+      "description": "Kontaktieren Sie unser Vertriebsteam, um den perfekten Plan für Ihr Unternehmen zu finden."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Zahlungsfehler",
+        "description": "Die Zahlung konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut."
+      },
+      "upgradeSuccess": {
+        "title": "Upgrade erfolgreich"
+      },
+      "upgradeError": {
+        "title": "Upgrade-Fehler",
+        "description": "Das Upgrade des Plans ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      },
+      "subscriptionCancelled": {
+        "title": "Abonnement gekündigt",
+        "description": "Ihr Abonnement wurde gekündigt."
+      },
+      "cancelError": {
+        "title": "Fehler",
+        "description": "Das Abonnement konnte nicht gekündigt werden."
+      }
+    },
+    "planFeature": {
+      "name1": "Anzahl der erlaubten GMB-Einträge",
+      "name2": "KW-Rangprüfung pro Tag",
+      "name3": "Organische KW-Auflistung",
+      "name4": "GEO-KW-Prüfung",
+      "name5": "Team hinzufügen",
+      "name6": "White-Label-Bericht",
+      "name7": "White-Label-Subdomain",
+      "unlmited": "Unbegrenzt"
+    },
+    "plans": {
+      "business": "Business",
+      "pro": "Pro",
+      "agency": "Agentur",
+      "enterprise": "Unternehmen"
+    },
+    "upgrade": "Jetzt upgraden",
+    "pay": "Jetzt bezahlen"
+  }
+}

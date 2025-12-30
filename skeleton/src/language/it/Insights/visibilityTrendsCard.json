@@ -1,0 +1,11 @@
+{
+  "visibilityTrendsCard": {
+    "title": "Riepilogo delle Tendenze di Visibilità",
+    "totalSearchViews": "Visualizzazioni Totali da Ricerca",
+    "searchTrendLabel": "Tendenza: {{trend}}",
+    "totalMapsViews": "Visualizzazioni Totali da Maps",
+    "mapsTrendLabel": "Tendenza: {{trend}}",
+    "totalViews": "Visualizzazioni Totali",
+    "totalViewsDescription": "Visibilità combinata da ricerca e Maps"
+  }
+}

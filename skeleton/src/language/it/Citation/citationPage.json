@@ -1,0 +1,50 @@
+{
+  "citationPage": {
+    "loading": "Caricamento della pagina delle citazioni...",
+    "searchForm": {
+      "title": "Rapporto di Revisione delle Citazioni",
+      "description": "Inserisci i dettagli della tua attività per avviare la revisione delle citazioni",
+      "businessNameLabel": "Nome dell'attività",
+      "businessNamePlaceholder": "Inserisci il nome dell'attività",
+      "phoneLabel": "Telefono",
+      "phonePlaceholder": "Inserisci il numero di telefono",
+      "cityLabel": "Città",
+      "cityPlaceholder": "Inserisci il nome della città",
+      "searchButton": "Cerca",
+      "searchingButton": "Ricerca in corso..."
+    },
+    "management": {
+      "title": "Gestione Citazioni",
+      "description": "Monitora e gestisci le citazioni della tua attività nei vari directory",
+      "refresh": "Aggiorna Citazione",
+      "refreshing": "Aggiornamento in corso...",
+      "newSearch": "Nuova Ricerca"
+    },
+    "trackerCard": {
+      "title": "Tracciatore di Citazioni",
+      "listed": "Elencate",
+      "notListed": "Non Elencate",
+      "listedPercent": "Elencate"
+    },
+    "localPagesCard": {
+      "title": "Pagine Locali & Directory",
+      "description": "Il punteggio delle tue pagine locali e directory si basa sul numero di luoghi in cui la tua scheda è presente, diviso per il numero di pagine locali e directory che abbiamo verificato."
+    },
+    "auditCard": {
+      "title": "Revisione delle Citazioni",
+      "orderButton": "Effettua Ordine",
+      "existingTab": "Citazione Esistente",
+      "possibleTab": "Citazione Possibile",
+      "table": {
+        "website": "Sito Web",
+        "businessName": "Nome dell'attività",
+        "phone": "Telefono",
+        "action": "Azione",
+        "siteName": "Nome del Sito",
+        "view": "Visualizza",
+        "fixNow": "Correggi Ora"
+      }
+    },
+    "noPhoneProvided": "Non Corrisponde"
+  }
+}

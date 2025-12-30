@@ -1,0 +1,45 @@
+{
+  "leadClassifier": {
+    "title": "Lead-Klassifizierer",
+    "description": "Klassifizieren Sie diesen Lead, um Ihre Geschäftsmöglichkeiten besser zu organisieren und zu verfolgen.",
+    "businessDetails": "Unternehmensdetails",
+    "businessName": "Unternehmensname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "website": "Webseite",
+    "address": "Adresse",
+    "leadCategory": "Lead-Kategorie",
+    "notProvided": "Nicht angegeben",
+    "notClassified": "Nicht klassifiziert",
+    "tabs": {
+      "webLead": "Web-Lead",
+      "newClient": "Neuer Kunde",
+      "badLead": "Schlechter Lead",
+      "other": "Andere"
+    },
+    "options": {
+      "1": "Als potenzieller Neukunde identifiziert",
+      "2": "Konvertiert",
+      "3": "Warme Leads",
+      "4": "Kalte Leads",
+      "5": "Verlorene Leads",
+      "6": "Wurde kein Kunde (Andere)",
+      "7": "Wurde Kunde",
+      "8": "Spammer / Telemarketing",
+      "9": "Bietet diesen Service nicht an",
+      "10": "Als bestehender Kunde identifiziert",
+      "11": "Weiterempfehlung wahrscheinlich",
+      "12": "Aufgelegt / Nicht erreicht / Unbekannt",
+      "13": "Andere"
+    },
+    "selectClassification": "Wählen Sie die Klassifizierung für {{category}}:",
+    "leadNotes": "Lead-Notizen",
+    "notesPlaceholder": "Fügen Sie zusätzliche Notizen zu diesem Lead hinzu...",
+    "cancel": "Abbrechen",
+    "save": "Klassifizierung speichern",
+    "errors": {
+      "selectClassification": "Bitte wählen Sie eine Lead-Klassifizierung aus",
+      "leadUnavailable": "Lead-Daten sind nicht verfügbar"
+    }
+  }
+}

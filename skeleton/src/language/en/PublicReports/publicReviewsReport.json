@@ -1,0 +1,44 @@
+{
+  "title": "Reviews Report",
+  "loading": "Loading Review report...",
+  "error": "Error loading review report",
+  "overview": {
+    "averageRating": "Average Rating",
+    "totalReviews": "Total Reviews",
+    "manualReply": "Manually Reply",
+    "aiReply": "AI Reply"
+  },
+  "sections": {
+    "ratingSummary": "Rating Count Summary",
+    "sentimentAnalysis": "Sentiment Analysis",
+    "reviewTrends": "Review Trends Over Time",
+    "reviewDataSummary": "Review Data Summary",
+    "recentReviews": "Recent Reviews",
+    "reviews": "Reviews"
+  },
+  "chart": {
+    "totalReviews": "Total Reviews",
+    "star5": "5 Star",
+    "star4": "4 Star",
+    "star3": "3 Star",
+    "star2": "2 Star",
+    "star1": "1 Star"
+  },
+  "labels": {
+    "star": "Star",
+    "reviews": "reviews",
+    "reviewDate": "Review Date",
+    "totalReview": "Total Review",
+    "fiveStar": "5 Star Rating",
+    "fourStar": "4 Star Rating",
+    "threeStar": "3 Star Rating",
+    "twoStar": "2 Star Rating",
+    "oneStar": "1 Star Rating",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "noData": "No data available",
+    "vsPrevious": "vs previous"
+  },
+  "noresponse":"No Response"
+}

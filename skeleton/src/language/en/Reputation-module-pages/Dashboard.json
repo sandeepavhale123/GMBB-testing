@@ -1,0 +1,55 @@
+{
+  "page": {
+    "title": "Reputation Management Dashboard",
+    "subtitle": "Monitor and manage your online reputation across all platforms"
+  },
+
+  "summary": {
+    "overallRating": {
+      "title": "Overall Rating",
+      "subtitle": "Based on {{count}} reviews"
+    },
+    "totalReviews": {
+      "title": "Total Reviews",
+      "subtitle": "Across all channels"
+    },
+    "totalCampaigns": {
+      "title": "Total Campaigns",
+      "subtitle": "Active campaigns"
+    },
+    "totalFeedbackForms": {
+      "title": "Feedback Forms",
+      "subtitle": "Active forms"
+    }
+  },
+
+  "channels": {
+    "title": "Connected Channels",
+    "subtitle": "Manage channels",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "connect": "Connect",
+    "add": "Add"
+  },
+
+  "reviewTracking": {
+    "google": "Google Review Tracking",
+    "facebook": "Facebook Review Tracking",
+    "yelp": "Yelp Review Tracking",
+    "opentable": "OpenTable Review Tracking",
+    "foursquare": "Foursquare Review Tracking",
+    "bbb": "BBB Review Tracking",
+    "last7Days": "Last 7 days",
+    "last30Days": "Last 30 days",
+    "last3Months": "Last 3 months",
+    "allTime": "Last 1 year",
+    "selectChannel": "Select channel",
+    "selectPeriod": "Select period",
+    "noData": "No review data available"
+  },
+
+  "months": {
+    "jun24": "Jun '24",
+    "jun":"Jun"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Gestisci Feedback",
+  "pageDescription": "Rivedi e gestisci i feedback dei clienti con valutazioni inferiori a 3 stelle",
+  "summary": {
+    "totalFeedback": "Feedback Totali",
+    "averageRating": "Valutazione Media",
+    "pendingCount": "In Attesa",
+    "resolvedCount": "Risolti"
+  },
+  "filters": {
+    "rating": "Valutazione",
+    "channel": "Canale",
+    "status": "Stato",
+    "dateRange": "Intervallo di Date",
+    "search": "Cerca per nome o messaggio...",
+    "exportCSV": "Esporta CSV",
+    "clearFilters": "Cancella Filtri"
+  },
+  "table": {
+    "customerName": "Nome Cliente",
+    "rating": "Valutazione",
+    "message": "Messaggio",
+    "channel": "Canale",
+    "submittedDate": "Data di Invio",
+    "status": "Stato",
+    "actions": "Azioni"
+  },
+  "status": {
+    "pending": "In Attesa",
+    "reviewed": "Rivisto",
+    "resolved": "Risolto"
+  },
+  "channels": {
+    "google": "Google",
+    "facebook": "Facebook",
+    "yelp": "Yelp",
+    "direct": "Diretto",
+    "email": "Email"
+  },
+  "modal": {
+    "title": "Dettagli Feedback",
+    "customerInfo": "Informazioni Cliente",
+    "customerName": "Nome",
+    "customerEmail": "Email",
+    "customerPhone": "Telefono",
+    "feedbackMessage": "Messaggio Feedback",
+    "currentStatus": "Stato Attuale",
+    "adminNotes": "Note Amministratore",
+    "adminNotesPlaceholder": "Aggiungi note interne o commenti su questo feedback...",
+    "saveButton": "Salva Modifiche",
+    "closeButton": "Chiudi",
+    "submittedOn": "Inviato il",
+    "channel": "Canale"
+  },
+  "empty": {
+    "title": "Nessun Feedback Trovato",
+    "description": "Non ci sono feedback di clienti che corrispondono ai tuoi filtri.",
+    "noDataTitle": "Nessun Feedback Ancora",
+    "noDataDescription": "I feedback dei clienti con valutazioni inferiori a 3 stelle appariranno qui."
+  },
+  "toast": {
+    "updateSuccess": "Feedback aggiornato con successo",
+    "updateError": "Impossibile aggiornare il feedback",
+    "exportSuccess": "Feedback esportati con successo",
+    "exportError": "Impossibile esportare i feedback"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} di {{total}} voci",
+    "previous": "Precedente",
+    "next": "Successivo"
+  }
+}

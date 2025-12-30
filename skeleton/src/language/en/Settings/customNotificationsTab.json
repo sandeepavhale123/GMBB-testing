@@ -1,0 +1,32 @@
+{
+  "customNotifications": {
+    "searchPlaceholder": "Search by location name or email...",
+    "addCustomRecipient": "Add Custom Recipient",
+    "addCustomNotification": "Add Custom Notification",
+    "editEmailSettings": "Edit Email Settings",
+    "deleteEmailNotification": "Delete Email Notification",
+    "deleteConfirmation": "Are you sure you want to delete the email notification for \"{{locationName}}\"? This action cannot be undone.",
+    "validationError": "Validation Error",
+    "validationSelectListing": "Please select at least one listing and provide email recipients.",
+    "validationProvideRecipients": "Please provide email recipients.",
+    "success": "Success",
+    "error": "Error",
+    "successAdd": "Custom notification added successfully!",
+    "successUpdate": "Email settings updated successfully!",
+    "successDelete": "Email notifications removed successfully.",
+    "failedLoad": "Failed to load custom notifications.",
+    "tryAgain": "Try Again",
+    "loadingNotifications": "Loading notifications...",
+    "noNotificationsFound": "No custom notifications found",
+    "locationName": "Location Name",
+    "emailRecipients": "Email Recipients",
+    "enterEmails": "Enter email addresses separated by commas",
+    "cancel": "Cancel",
+    "addNotification": "Add Notification",
+    "update": "Update",
+    "delete": "Delete",
+    "actions": "Actions",
+    "showingResults": "Showing {{from}} to {{to}} of {{total}} results",
+    "paginationDots": "..."
+  }
+}

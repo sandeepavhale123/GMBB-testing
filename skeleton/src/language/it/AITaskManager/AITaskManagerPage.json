@@ -1,0 +1,70 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Attività in sospeso",
+      "completed": "Attività completate",
+      "oneTime": "Attività una tantum",
+      "recurring": "Attività ricorrenti"
+    },
+
+    "tabs": {
+      "pending": "In sospeso ({{count}})",
+      "completed": "Completate ({{count}})",
+      "all": "Tutte le attività ({{count}})",
+      "recurring": "Ricorrenti ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Frequenza: {{value}}",
+      "status": {
+        "pending": "in sospeso",
+        "inProgress": "in corso",
+        "completed": "completata",
+        "due": "scaduta",
+        "oneTime": "una tantum"
+      },
+      "type": {
+        "one-time": "una tantum",
+        "recurring": "ricorrente"
+      },
+      "priority": {
+        "high": "Alta priorità"
+      },
+      "actions": {
+        "fix": "Correggi",
+        "inProgress": "In corso",
+        "markCompleted": "Segna come completata",
+        "revert": "Annulla"
+      }
+    },
+
+    "loading": {
+      "title": "Caricamento attività AI",
+      "description": "Recupero delle tue ultime attività..."
+    },
+
+    "noListing": {
+      "message": "Nessuna scheda selezionata. Seleziona una scheda per visualizzare le attività AI."
+    },
+
+    "emptyState": {
+      "title": "Nessuna attività trovata",
+      "completedMessage": "Ottimo lavoro! Completa alcune attività per vederle qui.",
+      "defaultMessage": "Nessuna attività corrisponde al filtro corrente."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Errore",
+        "default": "Impossibile annullare l'attività."
+      },
+      "success": {
+        "title": "Successo"
+      },
+      "reverted": {
+        "title": "Annullata",
+        "message": "Attività riportata in sospeso."
+      }
+    }
+  }
+}

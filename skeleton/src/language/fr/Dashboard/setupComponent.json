@@ -1,0 +1,44 @@
+{
+  "header": {
+    "preparing": "Nous préparons les données de votre entreprise. Cela prend généralement quelques minutes."
+  },
+  "progress": {
+    "modulesComplete": "{{completed}} sur {{total}} modules terminés",
+    "allDone": "Tout est terminé !",
+    "remaining": "{{remaining}} restant(s)"
+  },
+  "modules": {
+    "gmbInfo": {
+      "label": "Infos GMB",
+      "description": "Configuration des données du profil Google My Business"
+    },
+    "reviewData": {
+      "label": "Avis",
+      "description": "Importation des données et analyses des avis"
+    },
+    "insightData": {
+      "label": "Analyses",
+      "description": "Traitement des analyses de performance"
+    },
+    "qaData": {
+      "label": "Q&R",
+      "description": "Chargement des questions et réponses"
+    },
+    "postData": {
+      "label": "Articles",
+      "description": "Synchronisation du contenu et des médias des articles"
+    },
+    "mediaData": {
+      "label": "Médias",
+      "description": "Traitement des images et fichiers médias"
+    }
+  },
+  "status": {
+    "complete": "Configuration terminée ✅",
+    "processing": "{{description}}...",
+    "failed": "Échec de la configuration - veuillez réessayer"
+  },
+  "loading": {
+    "checking": "Vérification de l'état de la configuration..."
+  }
+}

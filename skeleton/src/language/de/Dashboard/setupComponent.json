@@ -1,0 +1,44 @@
+{
+  "header": {
+    "preparing": "Wir bereiten Ihre Unternehmensdaten vor. Dies dauert in der Regel ein paar Minuten."
+  },
+  "progress": {
+    "modulesComplete": "{{completed}} von {{total}} Modulen abgeschlossen",
+    "allDone": "Alles erledigt!",
+    "remaining": "{{remaining}} verbleibend"
+  },
+  "modules": {
+    "gmbInfo": {
+      "label": "GMB-Info",
+      "description": "Einrichten der Google-My-Business-Profilinformationen"
+    },
+    "reviewData": {
+      "label": "Bewertungen",
+      "description": "Import von Bewertungsdaten und Analysen"
+    },
+    "insightData": {
+      "label": "Einblicke",
+      "description": "Verarbeitung von Leistungsdaten"
+    },
+    "qaData": {
+      "label": "Fragen & Antworten",
+      "description": "Laden von Fragen und Antworten"
+    },
+    "postData": {
+      "label": "Beiträge",
+      "description": "Synchronisierung von Beiträgen und Medien"
+    },
+    "mediaData": {
+      "label": "Medien",
+      "description": "Verarbeitung von Bildern und Mediendateien"
+    }
+  },
+  "status": {
+    "complete": "Einrichtung abgeschlossen ✅",
+    "processing": "{{description}}...",
+    "failed": "Einrichtung fehlgeschlagen – bitte erneut versuchen"
+  },
+  "loading": {
+    "checking": "Überprüfe den Einrichtungsstatus..."
+  }
+}

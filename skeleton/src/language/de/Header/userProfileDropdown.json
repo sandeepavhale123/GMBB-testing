@@ -1,0 +1,13 @@
+{
+  "userProfileDropdown": {
+    "defaultUserName": "Benutzer",
+    "defaultUserEmail": "user@example.com",
+    "viewProfile": "Profil anzeigen",
+    "accountSettings": "Kontoeinstellungen",
+    "logout": "Abmelden",
+    "switchToBulk": "Zum Bulk-Dashboard wechseln",
+    "switchToSingle": "Zum Einzel-Dashboard wechseln",
+    "switchSuccess": "Dashboard gewechselt",
+    "switchError": "Wechsel fehlgeschlagen"
+  }
+}

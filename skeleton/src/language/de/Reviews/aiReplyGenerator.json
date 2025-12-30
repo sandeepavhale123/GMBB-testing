@@ -1,0 +1,14 @@
+{
+  "aiReplyGenerator": {
+    "title": "KI-Antwortgenerator",
+    "loading": "KI-Antwort wird generiert...",
+    "generationFailed": "KI-Generierung fehlgeschlagen",
+    "generationFailedMessage": "Die KI-Antwort konnte nicht generiert werden. Bitte versuchen Sie es erneut.",
+    "errorTitle": "Fehler",
+    "unexpectedError": "Beim Generieren der Antwort ist ein unerwarteter Fehler aufgetreten.",
+    "placeholder": "KI-generierte Antwort...",
+    "saveReply": "Antwort speichern",
+    "regenerate": "Erneut generieren",
+    "cancel": "Abbrechen"
+  }
+}

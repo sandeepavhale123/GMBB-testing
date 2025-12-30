@@ -1,0 +1,14 @@
+{
+  "actions": {
+    "reset": "Zurücksetzen",
+    "preview": "Vorschau",
+    "connecting": "Verbinden...",
+    "creating": "Erstellen...",
+    "updating": "Aktualisieren...",
+    "schedule": "Planen",
+    "publish_now": "Jetzt veröffentlichen",
+    "update_schedule": "Plan aktualisieren",
+    "update_post": "Beitrag aktualisieren"
+  }
+}
+

@@ -1,0 +1,28 @@
+{
+  "welcomeStep": {
+    "title": "¡Bienvenido a GMB Briefcase!",
+    "subtitle": "Configuremos tu perfil de negocio en solo unos pocos pasos",
+
+    "cards": {
+      "businessInfo": {
+        "title": "Información del Negocio",
+        "description": "Cuéntanos sobre tu negocio y lo que haces"
+      },
+      "locationDetails": {
+        "title": "Detalles de la Ubicación",
+        "description": "Agrega la dirección y la información de contacto de tu negocio"
+      },
+      "businessHours": {
+        "title": "Horario Comercial",
+        "description": "Establece tus horas de atención para los clientes"
+      },
+      "readyToGo": {
+        "title": "¡Listo para Comenzar!",
+        "description": "Empieza a administrar tu perfil de negocio en Google"
+      }
+    },
+
+    "timeEstimate": "Esta configuración tomará aproximadamente 5 minutos",
+    "buttonText": "Comenzar"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "calendar": {
+    "today": "Hoy",
+    "selectDate": "Seleccionar una fecha",
+    "noPostsTitle": "No hay publicaciones programadas",
+    "noPostsDesc": "No hay publicaciones programadas para esta fecha",
+    "schedulePost": "Haz clic en una fecha del calendario para ver las publicaciones programadas",
+    "createPost": "Crear publicación",
+    "postsScheduled": "{{count}} publicación programada",
+    "postsScheduled_plural": "{{count}} publicaciones programadas",
+    "dayHeaders": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+    "more": "más",
+    "postalt": "Miniatura del video",
+    "Postmedia": "Medios de la publicación"
+  },
+
+  "status": {
+    "draft": "Borrador",
+    "scheduled": "Programada",
+    "publishing": "Publicando",
+    "published": "Publicado",
+    "failed": "Fallida"
+  },
+
+  "postActions": {
+    "edit": "Editar publicación",
+    "retryFail": "Reintentar publicaciones fallidas",
+    "delete": "Eliminar publicación",
+    "view": "Ver detalles",
+    "retry": "Reintentar fallida",
+    "retryAll": "Reintentar en todas las plataformas",
+    "confirmDelete": "¿Está seguro de que desea eliminar esta publicación?"
+  },
+
+  "breakdown": {
+    "title": "Desglose por plataforma",
+    "description": "Estado detallado para cada plataforma",
+    "postContent": "Contenido de la publicación",
+    "retry": "Reintentar fallida",
+    "success": "Éxito",
+    "failed": "Fallida",
+    "pending": "Pendiente",
+    "viewPublished": "Ver publicación publicada"
+  },
+
+  "instagramWarning": {
+    "title": "Publicación de Instagram realizada",
+    "message": "Esta publicación se ha publicado en Instagram. Debido a las limitaciones de la API de Instagram, las publicaciones publicadas no se pueden eliminar automáticamente.",
+    "deleteMessage": "Por favor, elimine la publicación manualmente desde Instagram si es necesario. La publicación se eliminará de este sistema, pero permanecerá en Instagram.",
+    "deleteAnyway": "Eliminar de todos modos",
+    "cancel": "Cancelar",
+    "system": "Eliminar del sistema"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Posting Activity by Platform",
+  "totalPostsLabel": "Posts",
+
+  "timeRange": {
+    "last_week": "Last Week",
+    "last_month": "Last Month",
+    "last_6_months": "Last 6 Months",
+    "last_12_months": "Last 12 Months"
+  },
+  "tooltip": {
+    "posts": "Posts" 
+  }
+}

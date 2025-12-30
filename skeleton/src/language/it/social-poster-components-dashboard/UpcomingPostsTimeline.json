@@ -1,0 +1,13 @@
+{
+  "error": "Impossibile caricare i prossimi post",
+
+  "empty": {
+    "noScheduled": "Nessun post programmato",
+    "createFirst": "Crea il tuo primo post per vederlo qui"
+  },
+
+  "post": {
+    "previewAlt": "Anteprima del post",
+    "accounts": "{{count}} account"
+  }
+}

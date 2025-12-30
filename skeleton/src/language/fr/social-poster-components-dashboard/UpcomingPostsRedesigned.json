@@ -1,0 +1,16 @@
+{
+  "upcomingPosts": "Publications à venir",
+  "loading": {
+    "upcomingPosts": "Publications à venir"
+  },
+  "error": {
+    "upcomingPostsFailed": "Échec du chargement des publications à venir"
+  },
+  "empty": {
+    "noScheduledPosts": "Aucune publication programmée",
+    "createFirstPost": "Créez votre première publication pour la voir ici"
+  },
+  "post": {
+    "previewAlt": "Aperçu de la publication"
+  }
+}

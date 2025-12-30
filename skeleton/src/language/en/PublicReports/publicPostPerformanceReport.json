@@ -1,0 +1,32 @@
+{
+  "publicPostReport": {
+    "title": "Post Performance Report",
+    "loading": "Loading Post report...",
+    "error": "Error loading review report",
+    "stats": {
+      "totalPosts": "Total Posts",
+      "totalScheduled": "Total Scheduled",
+      "publishedPosts": "Published Posts",
+      "failedPosts": "Failed Posts"
+    },
+    "status": {
+      "published": "Published",
+      "scheduled": "Scheduled",
+      "failed": "Failed"
+    },
+    "chart": {
+      "title": "Post Activity Over Time",
+      "currentPeriod": "Current Period Posts",
+      "previousPeriod": "Previous Period Posts",
+      "noData": "No data available"
+    },
+    "recentPosts": {
+      "title": "Posts",
+      "noContent": "No content",
+      "viewOnGoogle": "View on Google"
+    },
+    "comparison": {
+      "vsPrevious": "{{value}}% vs previous"
+    }
+  }
+}

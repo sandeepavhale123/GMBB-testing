@@ -1,0 +1,22 @@
+{
+  "header": {
+    "fallbackTitle": "Projektdetails",
+    "subtitle": "Verwalten Sie Auto-Antwort-Vorlagen und Standorte für dieses Projekt."
+  },
+  "loading": {
+    "spinnerAlt": "Lade Projektdetails..."
+  },
+  "error": {
+    "message": "Projektdetails konnten nicht geladen werden",
+    "retry": "Erneut versuchen"
+  },
+  "toast": {
+    "saveChanges": {
+      "title": "Änderungen speichern",
+      "description": "Änderungen erfolgreich gespeichert!"
+    }
+  },
+  "projectType": {
+    "unsupported": "Nicht unterstützter Projekttyp: {{type}}"
+  }
+}

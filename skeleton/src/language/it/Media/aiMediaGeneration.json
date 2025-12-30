@@ -1,0 +1,16 @@
+{
+  "aiMediaGeneration": {
+    "title": "Crea Immagine con Genie",
+    "missingPromptTitle": "Prompt Mancante",
+    "missingPromptDescription": "Descrivi l'immagine che desideri creare.",
+    "generationSuccessTitle": "Immagini Generate",
+    "generationSuccessDescription": "Generata con successo {{count}} immagine{{plural}}.",
+    "generationFailedTitle": "Generazione Fallita",
+    "generationFailedDescription": "Impossibile generare le immagini. Riprova.",
+    "imageReadyTitle": "Immagine Pronta",
+    "imageReadyDescription": "L'immagine generata dall'AI è pronta per essere caricata.",
+    "perPage": "Per pagina:",
+    "next": "Avanti",
+    "previous": "Indietro"
+  }
+}

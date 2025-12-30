@@ -1,0 +1,15 @@
+{
+  "googleAuthHandler": {
+    "loadingMessage": "Authentification avec Google en cours...",
+    "toast": {
+      "success": {
+        "title": "Authentification Google réussie",
+        "description": "Votre compte Google a été connecté avec succès."
+      },
+      "error": {
+        "title": "Échec de l'authentification Google",
+        "defaultDescription": "Une erreur inconnue est survenue."
+      }
+    }
+  }
+}

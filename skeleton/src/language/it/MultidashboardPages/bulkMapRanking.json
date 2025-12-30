@@ -1,0 +1,45 @@
+{
+    "header": {
+        "title": "Classifica delle Mappe in Massa"
+    },
+    "buttons": {
+        "checkRack": "Verifica Posizione",
+        "cancel": "Annulla",
+        "deleting": "Eliminazione...",
+        "delete": "Elimina"
+    },
+    "summerCard": {
+        "noOfKeywords": "Numero di Parole Chiave",
+        "totalProjects": "Numero di ricerche",
+        "scheduledScan": "Scansione Programmata",
+        "credits": "Crediti"
+    },
+    "placeholder": {
+        "searchKeyword": "Cerca parole chiave..."
+    },
+    "tableColumns": {
+        "keyword": "Parola Chiave",
+        "noOfChecks": "Numero di Controlli",
+        "schedule": "Pianificazione",
+        "lastChecked": "Ultimo Controllo",
+        "nextCheck": "Prossimo Controllo",
+        "status": "Stato",
+        "action": "Azione"
+    },
+    "messages": {
+        "nokeywordsFoundMatchingYourSearch": "Nessuna parola chiave trovata corrispondente alla tua ricerca",
+        "noKeywordsAvailable": "Nessuna parola chiave disponibile"
+    },
+    "deleteAlertBox": {
+        "title": "Elimina Parola Chiave",
+        "description": "Sei sicuro di voler eliminare la parola chiave «{{keyword}}»? Questa azione non può essere annullata."
+    },
+    "toastMessage": {
+        "deleteFailed": "Eliminazione Fallita",
+        "failedToDeleteKeyword": "Impossibile eliminare la parola chiave"
+    },
+    "status": {
+        "completed": "Completato",
+        "running": "In corso"
+    }
+}

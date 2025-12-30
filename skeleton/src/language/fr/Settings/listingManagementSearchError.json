@@ -1,0 +1,7 @@
+{
+  "listingManagementSearchError": {
+    "noListingsWithSearchTerm": "Aucune fiche ne correspond à « {{searchTerm}} ». Essayez un autre terme de recherche.",
+    "noListingsWithFilters": "Aucune fiche ne correspond à vos filtres actuels. Essayez d'ajuster vos filtres.",
+    "noListingsFound": "Aucune fiche trouvée."
+  }
+}

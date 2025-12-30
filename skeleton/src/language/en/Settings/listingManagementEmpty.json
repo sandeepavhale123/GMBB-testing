@@ -1,0 +1,7 @@
+{
+  "listingManagementEmpty": {
+    "title": "No listings found",
+    "searchMessage": "No listings match \"{{searchTerm}}\". Try a different search term.",
+    "filterMessage": "No listings match your current filters. Try adjusting your filters."
+  }
+}

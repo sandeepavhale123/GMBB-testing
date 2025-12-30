@@ -1,0 +1,45 @@
+{
+  "loading": {
+    "accountsLoading": "Loading accounts..."
+  },
+  "error": {
+    "title": "Error Loading Accounts",
+    "description": "Failed to load connected accounts"
+  },
+  "empty": {
+    "noResultsTitle": "No Accounts Found",
+    "noResultsDescription": "No accounts match your search \"{{query}}\"",
+    "noAccountsTitle": "No Connected Accounts",
+    "noAccountsDescription": "Connect your social media accounts to get started"
+  },
+  "buttons": {
+    "refresh": "Refresh",
+    "disconnect": "Disconnect",
+    "pagesToggle": "Pages/Accounts ({{count}})"
+  },
+  "account": {
+    "connected": "Connected: {{date}}",
+    "lastRefreshed": "Last refreshed: {{date}}",
+    "tokenExpires": "• Token expires {{time}}",
+    "followers":"followers",
+    "status": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "error": "Error",
+      "disconnected": "Disconnected"
+    }
+  },
+  "dialogs": {
+    "confirmDisconnect": "Are you sure you want to disconnect this account?"
+  },
+  "token": {
+    "refreshFailedTitle": "Connection Failed",
+    "refreshFailedDesc": "Failed to initiate OAuth flow",
+    "refreshed": "Token Refreshed",
+    "refreshSuccessDesc": "Token will expire in {{days}} days",
+    "tokenExpiresSoon": "Token expires soon. Please refresh your connection.",
+    "tokenExpiresSoonThreads": "Token expires soon. Click 'Refresh' to manually extend token expiry (60 days).",
+    "refresh":"Refresh Failed",
+    "refreshDesc":"Failed to refresh token"
+  }
+}

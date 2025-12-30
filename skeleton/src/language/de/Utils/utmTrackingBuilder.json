@@ -1,0 +1,60 @@
+{
+  "modal": {
+    "title": "UTM-URL-Generator",
+    "info": {
+      "title": "Was ist UTM-Tracking?",
+      "description": "UTM-Parameter sind Tags, die Sie zu URLs hinzufügen, um Marketingkampagnen in Analysetools wie Google Analytics zu verfolgen. Sie helfen Ihnen zu verstehen, welche Kampagnen den Traffic und die Conversions antreiben.",
+      "example": {
+        "title": "Beispiel-UTM-URL:",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=summer_sale"
+      },
+      "benefits": {
+        "title": "Vorteile:",
+        "list": [
+          "Kampagnenleistung genau verfolgen",
+          "Ihre besten Traffic-Quellen identifizieren",
+          "ROI der Marketingausgaben messen",
+          "Ihre Marketingstrategie optimieren"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "Website-URL",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Kampagnenname",
+        "placeholder": "summer_sale_2025"
+      },
+      "campaignSource": {
+        "label": "Kampagnenquelle",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Kampagnenmedium",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Kampagnenbegriff",
+        "placeholder": "running+shoes"
+      },
+      "campaignContent": {
+        "label": "Kampagneninhalt",
+        "placeholder": "banner_ad, text_link"
+      },
+      "optional": "optional",
+      "generatedUrl": "Generierte UTM-URL",
+      "copyUrl": "URL kopieren",
+      "copySuccess": "UTM-URL wurde in die Zwischenablage kopiert!",
+      "clearForm": "Formular löschen",
+      "close": "Schließen"
+    },
+    "validation": {
+      "url": "Muss eine gültige URL sein",
+      "campaign": "Kampagnenname ist erforderlich",
+      "Source": "Kampagnenquelle ist erforderlich",
+      "Medium": "Kampagnenmedium ist erforderlich"
+    }
+  }
+}

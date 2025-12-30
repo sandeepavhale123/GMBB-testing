@@ -1,0 +1,78 @@
+{
+  "title": {
+    "create": "Beitrag erstellen",
+    "clone": "Beitrag klonen"
+  },
+  "validation": {
+    "titleRequired": "Titel ist für Event- und Angebotsbeiträge erforderlich.",
+    "urlRequired": "URL ist erforderlich, wenn der CTA-Button aktiviert ist.",
+    "listingsRequired": "Bitte wählen Sie mindestens ein Listing oder eine Gruppe aus.",
+    "genericError": "Bitte beheben Sie die Validierungsfehler, bevor Sie senden."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Listing erforderlich",
+      "description": "Bitte wählen Sie mindestens ein Listing aus."
+    },
+    "titleRequired": {
+      "title": "Titel erforderlich",
+      "description": "Titel ist für Event- und Angebotsbeiträge erforderlich."
+    },
+    "urlRequired": {
+      "title": "URL erforderlich",
+      "description": "URL ist erforderlich, wenn der CTA-Button aktiviert ist."
+    },
+    "validationError": {
+      "title": "Validierungsfehler",
+      "description": "Bitte beheben Sie die Validierungsfehler, bevor Sie senden."
+    },
+    "error": {
+      "title": "Fehler",
+      "noListing": "Es wurde kein Unternehmenslisting ausgewählt. Bitte wählen Sie zuerst ein Listing aus.",
+      "desc": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "success": {
+      "bulk": {
+        "created": {
+          "title": "Massenbeitrag erfolgreich erstellt.",
+          "description": "Massenbeitrag für {{count}} Listings erstellt."
+        },
+        "cloned": {
+          "title": "Massenbeitrag erfolgreich geklont",
+          "description": "Massenbeitrag für {{count}} Listings geklont."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Beitrag erfolgreich erstellt.",
+          "description": "Beitrag erstellt mit ID: {{id}}"
+        },
+        "cloned": {
+          "title": "Beitrag erfolgreich geklont",
+          "description": "Beitrag geklont mit ID: {{id}}"
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "Fehler beim Erstellen des Massenbeitrags.",
+        "cloned": "Fehler beim Klonen des Massenbeitrags."
+      },
+      "single": {
+        "created": "Fehler beim Erstellen des Beitrags.",
+        "cloned": "Fehler beim Klonen des Beitrags."
+      }
+    }
+  },
+  "buttons": {
+    "cancel": "Abbrechen",
+    "preview": "Vorschau",
+    "create": "Beitrag erstellen",
+    "clone": "Beitrag klonen",
+    "creating": "Erstellen...",
+    "cloning": "Klonen..."
+  },
+  "preview": {
+    "title": "Live-Vorschau"
+  }
+}

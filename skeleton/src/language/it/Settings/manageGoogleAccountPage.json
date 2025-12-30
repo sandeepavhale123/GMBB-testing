@@ -1,0 +1,49 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Gestisci account Google",
+    "pageDescription": "Connetti e monitora i tuoi profili aziendali Google per massimizzare la visibilità locale e le prestazioni SEO.",
+    "searchPlaceholder": "Cerca account per nome o email",
+    "activeListingsBadge": "Schede attive: {{active}}/{{allowed}}",
+    "addNewAccount": {
+      "full": "Aggiungi nuovo account",
+      "short": "Aggiungi"
+    },
+    "errorState": {
+      "tryAgain": "Riprova"
+    },
+    "loading": "Caricamento...",
+    "emptyState": {
+      "noAccountsConnected": "Nessun account connesso",
+      "noAccountsFound": "Nessun account trovato",
+      "searchNoMatch": "Nessun account corrisponde a \"{searchTerm}\". Prova un altro termine di ricerca.",
+      "addAccountCTA": "Fai clic su 'Aggiungi nuovo account' per sincronizzare il tuo profilo aziendale Google."
+    },
+    "modals": {
+      "addAccount": "Aggiungi account",
+      "deleteAccount": {
+        "title": "Elimina account",
+        "confirm": "Conferma eliminazione",
+        "accountDeleted": "L'account Google \"{accountName}\" è stato eliminato con successo.",
+        "deleteTitle": "Eliminazione non riuscita",
+        "deleteFailed": "Impossibile eliminare l'account. Per favore riprova.",
+        "noEmail": "Nessuna email disponibile",
+        "deleteSuccess": "Account eliminato",
+        "successDesc": "L'account Google {{name}} è stato eliminato con successo."
+      },
+      "refreshAccount": {
+        "title": "Account aggiornato",
+        "updateTitle": "Aggiornamento non riuscito",
+        "updateSuccess": "Gruppi di schede aggiornati",
+        "updateFailed": "Impossibile aggiornare i gruppi di schede. Per favore riprova.",
+        "refreshTitle": "Aggiornamento non riuscito",
+        "refreshFailed": "Impossibile aggiornare l'account. Per favore riprova."
+      }
+    },
+    "tableHeaders": {
+      "account": "Account",
+      "totalListings": "Schede totali",
+      "connectedListings": "Schede collegate",
+      "actions": "Azioni"
+    }
+  }
+}

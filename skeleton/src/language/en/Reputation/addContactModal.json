@@ -1,0 +1,62 @@
+{
+  "title": "Add Contact",
+  "createGroup": {
+    "title": "Create New Group",
+    "nameLabel": "Group Name",
+    "namePlaceholder": "Enter group name",
+    "submitButton": "Create"
+  },
+  "tabs": {
+    "manual": "Manual Entry",
+    "csv": "Import CSV"
+  },
+  "manual": {
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+    "countryCodeLabel": "Country Code",
+    "countryCodePlaceholder": "Select country code",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter phone number",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter email address",
+    "submitButton": "Add Contact",
+    "submitting": "Adding..."
+  },
+  "csv": {
+    "title": "Import Contacts from CSV",
+    "description": "Upload a CSV file with contact information",
+    "downloadSample": "Download Sample CSV",
+    "importButton": "Import Contacts",
+    "fileColumns": "Expected columns: First Name, Last Name, Country Code, Phone Number, Email",
+    "selectGroupLabel": "Select Group",
+    "selectGroupPlaceholder": "Select a group...",
+    "createNewGroup": "Create New Group",
+    "newGroupPlaceholder": "Enter group name",
+    "noGroups": "No groups available"
+  },
+  "validation": {
+    "firstNameRequired": "First name is required",
+    "firstNameMaxLength": "First name must be less than 50 characters",
+    "lastNameRequired": "Last name is required",
+    "lastNameMaxLength": "Last name must be less than 50 characters",
+    "countryCodeRequired": "Country code is required",
+    "phoneRequired": "Phone number is required",
+    "phoneInvalid": "Phone number must be 10-15 digits",
+    "phoneNumeric": "Phone number must contain only digits",
+    "emailInvalid": "Please enter a valid email address",
+    "emailMaxLength": "Email must be less than 255 characters",
+    "csvRequired": "Please upload a CSV file"
+  },
+  "success": {
+    "contactAdded": "Contact added successfully",
+    "contactsImported": "{{count}} contacts imported successfully",
+    "csvImported": "Successfully imported {{imported}} of {{total}} contacts"
+  },
+  "errors": {
+    "addFailed": "Failed to add contact. Please try again.",
+    "importFailed": "Failed to import contacts. Please check your CSV file."
+  },
+  "cancel": "Cancel"
+}

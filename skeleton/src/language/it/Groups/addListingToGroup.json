@@ -1,0 +1,12 @@
+{
+  "title": "Aggiungi inserzioni a {{groupName}}",
+  "noListingsTitle": "Nessuna inserzione selezionata",
+  "noListingsDescription": "Seleziona almeno un'inserzione da aggiungere al gruppo.",
+  "successTitle": "Successo",
+  "successDescription": "Sono state aggiunte con successo {{count}} inserzione{{plural}} a {{groupName}}. Inserzioni totali: {{total}}",
+  "errorTitle": "Errore",
+  "errorDescription": "Impossibile aggiungere le inserzioni al gruppo. Riprova.",
+  "cancel": "Annulla",
+  "adding": "Aggiungendo...",
+  "addListings": "Aggiungi {{count}} inserzione{{plural}}"
+}

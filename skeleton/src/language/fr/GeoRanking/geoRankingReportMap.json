@@ -1,0 +1,46 @@
+{
+  "geoRankingReportMap": {
+    "title": {
+      "default": "Carte de classement géographique",
+      "processing": "Traitement du mot-clé...",
+      "results": "Résultats du classement du mot-clé"
+    },
+    "loading": {
+      "processingTitle": "Traitement des données du mot-clé",
+      "processingSubtitle": "Analyse des classements de recherche...",
+      "loadingTitle": "Chargement des données de la carte",
+      "loadingSubtitle": "Génération des coordonnées de la grille..."
+    },
+    "popup": {
+      "business": {
+        "title": "Votre entreprise",
+        "subtitle": "Emplacement principal"
+      },
+      "gridPoint": {
+        "title": "Point de grille {{index}}",
+        "subtitle": "En attente des résultats..."
+      },
+      "rankMarker": {
+        "title": "Classement : {{rank}}",
+        "subtitle": "Cliquez pour les détails"
+      },
+      "manual": {
+        "title": "Coordonnée manuelle {{index}}",
+        "latlng": "Lat : {{lat}}, Lng : {{lng}}",
+        "drag": "Glisser pour repositionner",
+        "remove": "Supprimer"
+      }
+    },
+    "zoom": {
+      "in": "Zoom avant",
+      "out": "Zoom arrière"
+    },
+    "legend": {
+      "title": "Légende du classement",
+      "top": "1-3 (Meilleur)",
+      "good": "4-10 (Bon)",
+      "fair": "11-15 (Moyen)",
+      "poor": "16+ (Faible)"
+    }
+  }
+}

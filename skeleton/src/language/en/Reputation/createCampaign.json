@@ -1,0 +1,174 @@
+{
+  "title": "Create Campaign",
+  "loading":"Loading...",
+  "campaignName": {
+    "label": "Campaign Name",
+    "placeholder": "Enter campaign name"
+  },
+  "campaignType": {
+    "label": "Campaign Type",
+    "placeholder": "Select campaign type",
+    "review": "Review Campaign",
+    "survey": "Survey Campaign"
+  },
+  "toast":{
+    "error":"Error",
+    "success":"Success",
+    "feedback":"Failed to load feedback forms",
+    "template":"Failed to load template details",
+    "toastDesc":"Please enter first name, last name and email",
+    "toastdesc2":"Please enter first name, last name and phone number",
+    "contact":"Contact updated successfully",
+    "faliedContact":"Failed to update contact",
+    "csv":"CSV file is empty or invalid",
+    "nameColumns":"CSV must contain 'first_name' and 'last_name' columns",
+    "email":"CSV must contain 'email' column for email campaigns",
+    "phone":"CSV must contain 'phone' column for SMS/WhatsApp campaigns",
+    "invalidCont":"No valid contacts found in CSV",
+    "import":"{{newContacts}} contacts imported successfully",
+    "csvUploadSuccess":"{{count}} contacts imported from CSV successfully",
+    "csvUploadFailed":"Failed to upload CSV file",
+    "campaign":"Campaign not created. Please try again.",
+    "info":"Info",
+    "infoDesc":"Please select contacts or groups to add",
+    "addConatct":"Failed to add contacts to campaign. Please try again.",
+    "importSuccess": "{{count}} contacts imported successfully{{groups}}",
+    "noCampagin":"No campaign ID found. Please create a campaign first."
+  },
+  "channel": {
+    "label": "Select Channel",
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "twilioRequired": "Please integrate your Twilio account to use this service"
+  },
+  "contacts": {
+    "title": "Add contacts",
+    "importCSV": "Import CSV",
+    "contactList": "Contact list",
+    "namePlaceholder": "Enter name",
+    "countryCodePlaceholder": "Code",
+    "phonePlaceholder": "Enter Phone no.",
+    "emailPlaceholder": "Enter email",
+    "addButton": "Add",
+    "editButton": "Edit",
+    "removeButton": "Remove",
+    "updateButton": "Update",
+    "cancelButton": "Cancel",
+    "firstNamePlaceholder":"Enter first name",
+    "lastNamePlaceholder":"Enter last name"
+  },
+  "template": {
+    "title": "Select Template",
+    "placeholder":"Select a template",
+    "defaultTemplate": "Default template",
+    "greeting": "Hi Name!",
+    "defaultMessage": "We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review?",
+    "reviewLink": "Review Link",
+    "noTemplateSelected": "Select a template to preview its content",
+    "readOnlyNote": "Template content cannot be edited for SMS/WhatsApp campaigns",
+    "shortCodes": "Available Short Codes (click to copy):",
+    "copied": "Copied to clipboard!"
+  },
+  "feedbackForm": {
+    "label": "Select Feedback Form",
+    "placeholder": "Choose a feedback form",
+    "noFormsAvailable": "No feedback forms available. Create one first."
+  },
+  "schedule": {
+    "label": "Schedule the campaign (optional)",
+    "date": "Date",
+    "time": "Time"
+  },
+  "submit": "Submit",
+  "validation": {
+    "title":"Validation Error",
+    "input":"Please check your inputs",
+    "nameRequired": "Campaign name is required",
+    "contactRequired": "At least one contact is required",
+    "invalidPhone": "Invalid phone number (10-15 digits required)",
+    "invalidEmail": "Please enter a valid email address",
+    "platformRequired": "Please select an email sending platform (SMTP or Mailgun)",
+    "less":"Campaign name must be less than 100 characters",
+    "notEmpty":"Template cannot be empty",
+    "contactValidationTitle": "Contact Validation Errors",
+    "contactRowMissingName": "Row {{row}}: Name is missing",
+    "contactRowMissingEmail": "Row {{row}} ({{name}}): Email is missing",
+    "contactRowMissingPhone": "Row {{row}} ({{name}}): Phone is missing",
+    "contactRowInvalidEmail": "Row {{row}} ({{name}}): Invalid email format",
+    "contactRowInvalidPhone": "Row {{row}} ({{name}}): Invalid phone number",
+    "moreErrors": "...and {{count}} more error(s)"
+  },
+  "success": {
+    "title": "Campaign Created",
+    "description": "Your campaign has been created successfully"
+  },
+  "importModal": {
+    "title": "Import File",
+    "downloadSample": "Download Sample File"
+  },
+  "contactListModal": {
+    "title": "Contact list",
+    "tabs": {
+      "contactList": "Contact List",
+      "importCSV": "Import CSV"
+    },
+    "filter": {
+      "contacts": "Contacts",
+      "groups": "Groups"
+    },
+    "table": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "group": "Group",
+      "groupName": "Group Name",
+      "contactCount": "Contact Count"
+    },
+    "csv": {
+      "title": "Import CSV",
+      "downloadSample": "Download Sample File",
+      "description": "Upload a CSV file with contacts to import",
+      "selectGroupLabel": "Assign to Group (Optional)",
+      "selectGroupPlaceholder": "Select a group...",
+      "noGroups": "No groups available",
+      "importButton": "Import"
+    },
+    "searchPlaceholder": "Search contacts or groups...",
+    "groups": "Groups",
+    "contacts": "Contacts",
+    "noResults": "No results found",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "cancel": "Cancel",
+    "addSelected": "Add Selected",
+    "selectedCount": "{{count}} selected"
+  },
+  "sendPlatform": {
+    "title": "Select Sending Platform",
+    "configured": "Configured",
+    "notConfigured": "Configure",
+    "smtp": "SMTP",
+    "mailgun": "Mailgun"
+  },
+  "sender": {
+    "title": "Select Sender",
+    "placeholder": "Choose a sender",
+    "noSendersAvailable": "No senders available. Configure Twilio first.",
+    "loading":" Loading senders..."
+  },
+  "table":{
+    "sr":"Sr.No",
+    "first": "First Name",
+    "last": "Last Name",
+    "action":"Action"
+  },
+  "empty":"No contacts added yet. Use the Contact List button above to add contacts.",
+  "load":"Loading templates...",
+  "noTemplate":"No templates available for this channel.",
+  "create":"Create Template",
+  "forms":"Loading forms...",
+  "emailPlace":"Enter your message template...",
+  "update":"Updating...",
+  "add":"Adding..."
+}

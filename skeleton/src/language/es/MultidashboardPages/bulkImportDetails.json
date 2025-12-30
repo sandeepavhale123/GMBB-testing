@@ -1,0 +1,40 @@
+{
+  "bulkImportDetails": {
+    "title": "Detalles de Importación Masiva",
+    "loadingListings": "Cargando anuncios...",
+    "selectListingPrompt": "Seleccione un anuncio para ver publicaciones",
+    "listingSidebar": {
+      "selectedCount": "{{count}} anuncios seleccionados",
+      "searchPlaceholder": "Buscar por nombre de anuncio o código postal",
+      "noListingsFound": "No se encontraron anuncios para este ID de historial.",
+      "errorLoading": "Error al cargar los anuncios",
+      "noListings": "No se encontraron anuncios",
+      "zipCode": "Código postal: {{zip}}",
+      "loading": "Cargando..."
+    },
+    "posts": {
+      "searchPlaceholder": "Buscar por contenido o etiquetas de la publicación",
+      "loading": "Cargando publicaciones...",
+      "errorLoading": "Error al cargar las publicaciones",
+      "noPostsFound": "No se encontraron publicaciones que coincidan con sus criterios de búsqueda.",
+      "image": "Imagen",
+      "postContent": "Contenido de la publicación",
+      "noContent": "Sin contenido",
+      "noImage": "Sin imagen",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción",
+      "deletePost": "Eliminar publicación",
+      "deleteConfirmation": "¿Está seguro de que desea eliminar esta publicación? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando..."
+    },
+    "pagination": {
+      "showingPosts": "Mostrando {{start}} a {{end}} de {{total}} publicaciones",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageOf": "Página {{current}} de {{totalPages}}"
+    }
+  }
+}

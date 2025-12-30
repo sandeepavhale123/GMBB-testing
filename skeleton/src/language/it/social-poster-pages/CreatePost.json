@@ -1,0 +1,44 @@
+{
+  "createPost": {
+    "titleCreate": "Crea Post",
+    "titleEdit": "Modifica Post",
+    "subtitle": "Crea e programma post su più piattaforme",
+
+    "errors": {
+      "enterContent": "Inserisci il contenuto del post",
+      "selectAccount": "Seleziona almeno un account",
+      "exceedsLimit": "Il contenuto supera il limite di {{limit}} caratteri",
+      "instagramMediaRequired": "Instagram richiede almeno un'immagine o un video",
+      "scheduleMissing": "Seleziona data e ora per il post programmato",
+      "invalidFile": "Carica un file immagine o video valido",
+      "onlyOneMedia": "Puoi caricare solo 1 video o 1 immagine",
+      "uploadFailed": "Caricamento dei media non riuscito. Riprova.",
+      "removeFailed": "Rimozione dei media non riuscita"
+    },
+
+    "success": {
+      "mediaUploaded": "Media caricati con successo",
+      "mediaRemoved": "Media rimossi con successo",
+      "formReset": "Modulo reimpostato"
+    },
+
+    "buttons": {
+      "cancel": "Annulla",
+      "insertLink": "Inserisci link"
+    },
+
+    "dialogs": {
+      "emojiPicker": "Seleziona Emoji",
+      "linkDialogTitle": "Aggiungi Link",
+      "linkDialogDescription": "Inserisci il testo del link e l'URL",
+      "previewTitle": "Anteprima Post"
+    },
+
+    "labels": {
+      "linkText": "Testo del Link",
+      "url": "URL",
+      "placeholder": "Clicca qui",
+      "url-place": "https://example.com"
+    }
+  }
+}

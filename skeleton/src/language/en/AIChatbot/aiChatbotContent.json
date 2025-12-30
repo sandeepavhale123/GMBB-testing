@@ -1,0 +1,31 @@
+{
+  "aiChatbotContent": {
+    "sidebar": {
+      "title": "Chat History",
+      "newChat": "New Chat",
+      "showHistory": "Show History",
+      "hideHistory": "Hide History",
+      "loadingHistory": "Loading chat history...",
+      "noHistory": "No chat history yet."
+    },
+    "mainChat": {
+      "title": "AI Genie Assistance",
+      "welcomeTitle": "Welcome to AI Genie Assistance.",
+      "welcomeDescription": "Ask me questions about your business performance, SEO optimization, geo-ranking insights, and more. Try the suggested questions to get started!",
+      "loadingMessages": "Loading chat messages...",
+      "aiThinking": "AI is thinking..."
+    },
+    "actions": {
+      "copy": "Copy",
+      "good": "Good",
+      "bad": "Bad"
+    },
+    "deleteDialog": {
+      "title": "Delete Chat Session",
+      "description": "Are you sure you want to delete this chat session? This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    }
+  }
+}

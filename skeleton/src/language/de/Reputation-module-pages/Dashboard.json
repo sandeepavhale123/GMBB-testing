@@ -1,0 +1,46 @@
+{
+  "page": {
+    "title": "Dashboard für Reputationsmanagement",
+    "subtitle": "Überwachen und verwalten Sie Ihre Online-Reputation über alle Plattformen hinweg"
+  },
+
+  "summary": {
+    "overallRating": {
+      "title": "Gesamtbewertung",
+      "subtitle": "Basierend auf {{count}} Bewertungen"
+    },
+    "totalReviews": {
+      "title": "Gesamtanzahl der Bewertungen",
+      "subtitle": "Letzte 30 Tage: +{{count}}"
+    },
+    "responseRate": {
+      "title": "Antwortquote",
+      "subtitle": "Durchschnittliche Antwortzeit: {{time}}"
+    },
+    "sentiment": {
+      "title": "Stimmungsanalyse",
+      "subtitle": "Positive Stimmung"
+    }
+  },
+
+  "channels": {
+    "title": "Kanäle",
+    "subtitle": "Kanäle verwalten",
+    "connected": "Verbunden",
+    "notConnected": "Nicht verbunden",
+    "connect": "Verbinden"
+  },
+
+  "reviewTracking": {
+    "google": "Google-Bewertungsverfolgung",
+    "facebook": "Facebook-Bewertungsverfolgung",
+    "yelp": "Yelp-Bewertungsverfolgung",
+    "last7Days": "Letzte 7 Tage",
+    "selectChannel": "Kanal auswählen"
+  },
+
+  "months": {
+    "jun24": "Jun '24",
+    "jun": "Jun"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "ctaCustomization": {
+    "title": "CTA Customization",
+    "subtitle": "Customize your call-to-action section for lead reports.",
+    "previewTitle": "Preview",
+    "previewDescription": "This is how your CTA will appear in lead reports.",
+    "toast": {
+      "resetTitle": "CTA Reset",
+      "resetDescription": "CTA settings have been reset to defaults.",
+      "updateTitle": "CTA Updated",
+      "updateCallDescription": "Call CTA has been updated successfully.",
+      "updateAppointmentDescription": "Appointment CTA has been updated successfully.",
+      "resetCallDescription": "Call CTA has been reset to defaults.",
+      "resetAppointmentDescription": "Appointment CTA has been reset to defaults.",
+      "errorTitle": "Error",
+      "errorDescription": "Failed to update CTA settings. Please try again."
+    },
+    "defaultCTA": {
+      "header": "BOOST YOUR GBP SCORE &&& Increase your calls",
+      "description": "Learn how to pay your employees a month's salary by simply fixing what's broken. Get your free blueprint to crush your competition!",
+      "buttonLabel": "BOOK A CALL"
+    }
+  }
+}

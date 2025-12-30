@@ -1,0 +1,50 @@
+{
+  "editTeamMemberModal": {
+    "title": "Teammitglied bearbeiten",
+    "tabs": {
+      "profile": "Profil bearbeiten",
+      "listings": "Einträge",
+      "permissions": "Berechtigungen"
+    },
+    "profile": {
+      "changePhoto": "Foto ändern",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "password": "Passwort",
+      "placeholder": {
+        "firstName": "Vorname eingeben",
+        "lastName": "Nachname eingeben",
+        "password": "Neues Passwort eingeben"
+      },
+      "role": "Rolle",
+      "selectRole": "Rolle auswählen",
+      "roles": {
+        "moderator": "Moderator",
+        "staff": "Mitarbeiter",
+        "client": "Kunde"
+      },
+      "buttons": {
+        "cancel": "Abbrechen",
+        "save": "Änderungen speichern"
+      }
+    },
+    "listings": {
+      "allowAccessTitle": "Zugriff auf Einträge erlauben",
+      "allowAccessDescription": "Zugriff auf Einträge aktivieren oder deaktivieren",
+      "filterByAccount": "Nach Konto filtern",
+      "allAccounts": "Alle Konten",
+      "listingsTitle": "Einträge",
+      "accoun1": "Konto 1",
+      "accoun2": "Konto 2"
+    },
+    "permissions": {
+      "title": "Funktionsberechtigungen",
+      "description": "Zugriffsebenen für jede Funktion steuern: Anzeigen, Bearbeiten oder Verbergen",
+      "levels": {
+        "view": "Ansehen",
+        "edit": "Bearbeiten",
+        "hide": "Verbergen"
+      }
+    }
+  }
+}

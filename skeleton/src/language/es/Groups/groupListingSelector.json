@@ -1,0 +1,15 @@
+{
+  "label": "Seleccionar Listados *",
+  "loading": "Cargando...",
+  "selectListings": "Seleccionar listados...",
+  "selectedCount": "{{count}} listado seleccionado",
+  "selectedCount_plural": "{{count}} listados seleccionados",
+  "searchPlaceholder": "Buscar listados...",
+  "noListingsFound": "No se encontraron listados.",
+  "locations": "Ubicaciones",
+  "selectAll": "Seleccionar Todo",
+  "deselectAll": "Deseleccionar Todo",
+  "errorFetchListingsTitle": "Error",
+  "errorFetchListingsDescription": "No se pudieron obtener los listados",
+  "selectAtLeastOne": "Seleccione al menos un listado para continuar."
+}

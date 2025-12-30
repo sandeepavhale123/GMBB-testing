@@ -1,0 +1,78 @@
+{
+  "title": {
+    "create": "Créer une publication",
+    "clone": "Cloner une publication"
+  },
+  "validation": {
+    "titleRequired": "Le titre est requis pour les publications d’événements et d’offres.",
+    "urlRequired": "L’URL est requise lorsque le bouton CTA est activé.",
+    "listingsRequired": "Veuillez sélectionner au moins une fiche ou un groupe.",
+    "genericError": "Veuillez corriger les erreurs de validation avant de soumettre."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Fiche requise",
+      "description": "Veuillez sélectionner au moins une fiche."
+    },
+    "titleRequired": {
+      "title": "Titre requis",
+      "description": "Le titre est requis pour les publications d’événements et d’offres."
+    },
+    "urlRequired": {
+      "title": "URL requise",
+      "description": "L’URL est requise lorsque le bouton CTA est activé."
+    },
+    "validationError": {
+      "title": "Erreur de validation",
+      "description": "Veuillez corriger les erreurs de validation avant de soumettre."
+    },
+    "error": {
+      "title": "Erreur",
+      "noListing": "Aucune fiche d’entreprise sélectionnée. Veuillez en sélectionner une d’abord.",
+      "desc": "Une erreur inattendue est survenue. Veuillez réessayer."
+    },
+    "success": {
+      "bulk": {
+        "created": {
+          "title": "Publication groupée créée avec succès.",
+          "description": "Publication groupée créée pour {{count}} fiches."
+        },
+        "cloned": {
+          "title": "Publication groupée clonée avec succès",
+          "description": "Publication groupée clonée pour {{count}} fiches."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Publication créée avec succès.",
+          "description": "Publication créée avec l’ID : {{id}}"
+        },
+        "cloned": {
+          "title": "Publication clonée avec succès",
+          "description": "Publication clonée avec l’ID : {{id}}"
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "Échec de la création de la publication groupée.",
+        "cloned": "Échec du clonage de la publication groupée."
+      },
+      "single": {
+        "created": "Échec de la création de la publication.",
+        "cloned": "Échec du clonage de la publication."
+      }
+    }
+  },
+  "buttons": {
+    "cancel": "Annuler",
+    "preview": "Aperçu",
+    "create": "Créer une publication",
+    "clone": "Cloner une publication",
+    "creating": "Création en cours...",
+    "cloning": "Clonage en cours..."
+  },
+  "preview": {
+    "title": "Aperçu en direct"
+  }
+}

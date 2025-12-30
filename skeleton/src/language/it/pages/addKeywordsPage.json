@@ -1,0 +1,25 @@
+{
+  "addKeywordsPage": {
+    "noListingSelected": {
+      "title": "Nessuna scheda selezionata",
+      "description": "Seleziona prima una scheda per aggiungere le parole chiave."
+    },
+    "toast": {
+      "errorTitle": "Errore",
+      "noListing": "Nessuna scheda selezionata. Seleziona prima una scheda.",
+      "keywordsAddedTitle": "Parole chiave aggiunte",
+      "keywordsAddedDescription": "{{count}} parola(e) chiave aggiunta(e) con successo alla coda.",
+      "keywordsAddFailed": "Impossibile aggiungere le parole chiave."
+    },
+    "pageTitle": "Aggiungi parole chiave",
+    "form": {
+      "keywordsLabel": "Parole chiave",
+      "keywordsPlaceholder": "Inserisci le parole chiave separate da una virgola",
+      "languageLabel": "Lingua",
+      "distanceLabel": "Valore della distanza",
+      "gridSizeLabel": "Dimensione della griglia",
+      "addButton": "Aggiungi parole chiave",
+      "addingButton": "Aggiunta in corso..."
+    }
+  }
+}

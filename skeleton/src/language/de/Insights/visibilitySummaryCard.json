@@ -1,0 +1,23 @@
+{
+  "visibilitySummaryTitle": "Sichtbarkeitsübersicht",
+  "visibilitySummarySubtitle": "Gesamtanzahl der Aufrufe aus der Google-Suche und Google Maps.",
+  "view": "Alle anzeigen",
+  
+  "googleSearchViews": "Google-Suchaufrufe",
+  "googleMapsViews": "Google-Maps-Aufrufe",
+  
+  "percentageChange": "{{value}}% im Vergleich zum vorherigen Zeitraum",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Suche",
+  "mapsBarName": "Karten",
+  
+  "searchViewsLegend": "Suchaufrufe",
+  "mapsViewsLegend": "Kartenaufrufe",
+
+  "hideTitle": "Suchaufrufe ausblenden",
+  "showTitle": "Suchaufrufe anzeigen",
+
+  "hideMap": "Kartenaufrufe ausblenden",
+  "showMap": "Kartenaufrufe anzeigen"
+}

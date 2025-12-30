@@ -1,0 +1,16 @@
+{
+  "label": "Plattformen auswählen",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter/X",
+    "linkedin_individual": "LinkedIn (Einzelprofil)",
+    "linkedin_organisation": "LinkedIn (Organisation)",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  },
+
+  "soon": "Bald"
+}

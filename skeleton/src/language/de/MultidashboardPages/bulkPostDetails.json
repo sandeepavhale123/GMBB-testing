@@ -1,0 +1,73 @@
+{
+  "bulkPostDetails": {
+    "header": {
+      "title": "Details ansehen",
+      "subtitle": "Details des ausgewählten Massenbeitrags anzeigen"
+    },
+    "postPreview": {
+      "postedOn": "Veröffentlicht am:",
+      "viewPost": "Beitrag ansehen",
+      "deletePost": "Beitrag löschen"
+    },
+    "table": {
+      "listingName": "Listenname",
+      "zipCode": "Postleitzahl",
+      "status": "Status",
+      "action": "Aktion",
+      "noListings": "Keine Einträge gefunden.",
+      "unknown": "Unbekannt",
+      "post": "Beitrag",
+      "na": "Nicht verfügbar"
+    },
+    "filter": {
+      "searchPlaceholder": "Nach Listenname suchen.",
+      "statusPlaceholder": "Nach Status filtern",
+      "postStatus": "Beitragsstatus",
+      "live": "live",
+      "scheduled": "Geplant",
+      "failed": "Fehlgeschlagen"
+    },
+    "status": {
+      "published": "veröffentlicht",
+      "live": "live",
+      "draft": "Entwurf",
+      "scheduled": "geplant",
+      "failed": "fehlgeschlagen"
+    },
+    "bulkActions": {
+      "selected": "{{count}} Beitrag ausgewählt",
+      "selected_plural": "{{count}} Beiträge ausgewählt",
+      "deleteSelected": "Ausgewählte löschen"
+    },
+    "pagination": {
+      "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "page": "Seite {{current}} von {{totalPages}}"
+    },
+    "dialogs": {
+      "bulkDelete": {
+        "title": "Mehrere Beiträge löschen",
+        "description": "Möchten Sie wirklich {{count}} ausgewählte Beiträge löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "cancel": "Abbrechen",
+        "confirm": "Alle löschen"
+      },
+      "deleteSingle": {
+        "title": "Sind Sie sicher?",
+        "description": "Diese Aktion kann nicht rückgängig gemacht werden. Der Beitrag wird dauerhaft gelöscht.",
+        "cancel": "Abbrechen",
+        "confirm": "Löschen"
+      }
+    },
+    "messages": {
+      "successTitle": "Erfolg",
+      "successDelete": "Beitrag erfolgreich gelöscht",
+      "successBulkDelete": "{{count}} Beiträge erfolgreich gelöscht",
+      "errorTitle": "Fehler",
+      "errorDelete": "Beitrag konnte nicht gelöscht werden",
+      "errorBulkDelete": "Einige Beiträge konnten nicht gelöscht werden",
+      "errorDetails": "Fehler beim Laden der Beitragsdetails: {{error}}",
+      "tryAgain": "Erneut versuchen"
+    }
+  }
+}

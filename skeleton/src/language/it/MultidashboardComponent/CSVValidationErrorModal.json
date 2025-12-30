@@ -1,0 +1,9 @@
+{
+  "csvValidation": {
+    "title": "Errori di validazione CSV",
+    "description": "Trovati {{count}} errore{{plural}} nel tuo file CSV. Correggi i problemi e carica nuovamente il file.",
+    "row": "Riga",
+    "cancel": "Annulla",
+    "reupload": "Ricarica CSV"
+  }
+}

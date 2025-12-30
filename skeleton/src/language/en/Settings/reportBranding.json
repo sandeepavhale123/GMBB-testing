@@ -1,0 +1,98 @@
+{
+  "reportBranding": {
+    "title": "Report Branding",
+    "description": "Customize your company branding for the generated reports.",
+    "deleteBranding": "Delete Branding",
+    "whiteLabel": "White Label",
+    "companyInformation": "Company Information",
+    "fields": {
+      "companyName": {
+        "label": "Company Name",
+        "placeholder": "Enter company name",
+        "error": "Company name is required"
+      },
+      "companyEmail": {
+        "label": "Company Email",
+        "placeholder": "company@example.com",
+        "error": "Please enter a valid email address"
+      },
+      "companyWebsite": {
+        "label": "Company Website",
+        "placeholder": "https://www.company.com",
+        "error": "Please enter a valid website URL"
+      },
+      "companyPhone": {
+        "label": "Company Phone",
+        "placeholder": "+1 (555) 123-4567",
+        "error": "Please enter a valid phone number"
+      },
+      "companyAddress": {
+        "label": "Company Address",
+        "placeholder": "123 Business St, City, State 12345",
+        "error": "Please enter a valid address"
+      },
+      "companyLogo": {
+        "label": "Company Logo",
+        "chooseButton": "Choose Logo",
+        "removeButton": "Remove Logo",
+        "fileTooLarge": {
+          "title": "File too large",
+          "description": "Logo file must be less than 2MB"
+        },
+        "invalidFile": {
+          "title": "Invalid file type",
+          "description": "Please upload an image file (PNG, JPG, SVG)"
+        },
+        "uploaded": {
+          "title": "Report logo uploaded",
+          "description": "{{fileName}} ready for use"
+        },
+        "removed": {
+          "title": "Report logo removed",
+          "description": "Logo has been removed successfully"
+        },
+        "dropHere": "Drop logo here to upload",
+        "requirements": "PNG, JPG, SVG up to 2MB. Recommended: 200 x 200px",
+        "ready": "✓ Ready",
+        "current": "✓ Current logo uploaded",
+        "selected": "Selected: {{fileName}}"
+      }
+    },
+    "saveChanges": {
+      "button": "Save Changes",
+      "saving": "Saving..."
+    },
+    "reportPreview": {
+      "title": "Report Preview",
+      "header": {
+        "companyNamePlaceholder": "Your Company Name",
+        "websitePlaceholder": "www.yourcompany.com",
+        "reportDate": "Report Date"
+      },
+      "metrics": {
+        "avgRating": "Avg Rating",
+        "totalReviews": "Total Reviews"
+      },
+      "chart": {
+        "title": "Performance Chart"
+      },
+      "footer": {
+        "emailPlaceholder": "contact@yourcompany.com",
+        "phonePlaceholder": "+1 (555) 123-4567",
+        "addressPlaceholder": "123 Business St, City, State",
+        "generatedOn": "Generated on"
+      }
+    },
+    "deleteDialog": {
+      "title": "Delete Report Branding",
+      "description": "Are you sure you want to delete all report branding settings? This action cannot be undone and will remove your company logo and information from all future reports.",
+      "cancel": "Cancel",
+      "delete": "Delete Branding",
+      "deleting": "Deleting..."
+    },
+    "validation": {
+      "errorTitle": "Error",
+      "errorDescription": "Please fix the validation errors"
+    }
+  }
+}

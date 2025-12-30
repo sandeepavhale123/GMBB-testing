@@ -1,0 +1,7 @@
+{
+  "reportNotFound": {
+    "title": "Bericht nicht gefunden",
+    "description": "Dieser Bericht ist möglicherweise abgelaufen oder wurde entfernt.",
+    "business": "Unternehmensstandort"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "toastTitle": "Something went wrong",
+  "toastDescription": "An error occurred. Please try refreshing the page.",
+  "title": "Something went wrong",
+  "description": "There was an error in this component. Please try refreshing or contact support if the problem persists.",
+  "devSummary": "Error Details (Dev Mode)",
+  "tryAgain": "Try Again"
+}

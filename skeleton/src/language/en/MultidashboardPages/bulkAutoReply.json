@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "Bulk Auto Reply Management",
+    "subtitle": "Manage automated reply settings for your locations."
+  },
+  "actions": {
+    "createProject": "Create Project",
+    "successTitle": "Success",
+    "errorTitle": "Error",
+    "deleteSuccess": "Auto reply project deleted successfully",
+    "deleteError": "Failed to delete project",
+    "createSuccess": "Auto reply project created successfully"
+  }
+}

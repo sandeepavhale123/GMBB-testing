@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "checkRank": "Check Rank",
+    "creditsHistory": "Credits History",
+    "settings": "Settings",
+    "aiChatbot": "AI Chatbot"
+  },
+  "back": "Back"
+}

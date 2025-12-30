@@ -1,0 +1,15 @@
+{
+  "publishOptionsSection": {
+    "label": "Veröffentlichungsoptionen",
+    "publishOptionLabel": "Veröffentlichungsoption",
+    "publishNow": "Jetzt veröffentlichen",
+    "schedulePost": "Beitrag planen",
+    "scheduleLabel": "Datum & Uhrzeit planen",
+    "placeholder": {
+      "publishOption": "Veröffentlichungsoption auswählen",
+      "postTags": "Tags eingeben, durch Kommas getrennt"
+    },
+    "postTagsLabel": "Beitrags-Tags",
+    "siloCheckbox": "Vorherigen Beitragstag-URL durch diesen Beitrag hinzufügen (Silo-Beitrag)."
+  }
+}

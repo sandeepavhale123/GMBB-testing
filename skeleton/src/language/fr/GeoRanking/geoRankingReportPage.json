@@ -1,0 +1,25 @@
+{
+  "geoRankingReportPage": {
+    "processing": {
+      "title": "Traitement du mot-clé",
+      "description": "Le mot-clé est en cours de traitement. Cela peut prendre quelques minutes..."
+    },
+    "modal": {
+      "error": {
+        "title": "Erreur",
+        "description": "Échec du chargement des détails de position"
+      }
+    },
+    "multiKeywordAlert": {
+      "title": "Mots-clés en cours de traitement",
+      "description": "Vos mots-clés sont en cours de traitement. Cela prendra du temps. Vous pouvez consulter les résultats sur la page de classement GEO.",
+      "action": "Aller à la page de classement GEO"
+    },
+    "sidebar": {
+      "activeTab": "classement-geo"
+    },
+    "underPerforming": {
+      "title": "Zones sous-performantes"
+    }
+  }
+}

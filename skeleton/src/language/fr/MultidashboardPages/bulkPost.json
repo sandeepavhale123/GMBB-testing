@@ -1,0 +1,47 @@
+{
+  "page": {
+    "title": "Gestion des publications en masse",
+    "subtitle": "Créez et planifiez des publications sur plusieurs annonces."
+  },
+  "buttons": {
+    "createNew": "Créer une nouvelle publication",
+    "createBulkPost": "Créer une publication en masse",
+    "tryAgain": "Réessayer",
+    "viewDetails": "Voir les détails",
+    "delete": "Supprimer",
+    "deleting": "Suppression...",
+    "cancel": "Annuler",
+    "confirmDelete": "Supprimer",
+    "import":"Importer CSV"
+  },
+  "messages": {
+    "errorLoading": "Erreur lors du chargement des publications en masse : {{error}}",
+    "noPostsTitle": "Aucune publication en masse pour le moment",
+    "noPostsDescription": "Créez votre première publication en masse pour commencer",
+    "postedOn": "Publié sur {{count}} annonces",
+    "failedOn": "Échec sur {{count}} annonces",
+    "scheduledOn": "Planifié sur {{count}} annonces",
+    "noActivePosts": "Aucune publication active",
+    "untitledPost": "Publication sans titre",
+    "noDescription": "Aucune description disponible",
+    "noImage": "Aucune image",
+    "location":" emplacements au total"
+  },
+  "pagination": {
+    "showing": "Affichage de {{start}} à {{end}} sur {{total}} publications"
+  },
+  "dialog": {
+    "title": "Êtes-vous sûr ?",
+    "description": "Cette action est irréversible. Cela supprimera définitivement la publication en masse et toutes les données associées."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Succès",
+      "description": "La publication en masse a été supprimée avec succès"
+    },
+    "deleteError": {
+      "title": "Erreur",
+      "description": "Échec de la suppression de la publication en masse"
+    }
+  }
+}

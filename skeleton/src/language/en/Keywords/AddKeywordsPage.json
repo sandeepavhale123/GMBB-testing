@@ -1,0 +1,34 @@
+{
+  "AddKeywordsPage": {
+    "back": "Back",
+    "header": "Easily find the high search volume keywords",
+    "inputPlaceholder": "Enter primary keyword or category",
+    "filter": "Filter",
+    "searchButton": "Search Keyword",
+    "searching": "Searching...",
+    "country": "Country",
+    "language": "Language",
+    "addedCount": "{{count}}/5",
+    "addingKeywords": "Adding Keywords...",
+    "checkRank": "Check Rank",
+    "recommendedKeywords": "Recommended keywords",
+    "competition": "Competition:",
+    "localPack": "Local pack",
+    "addKeyword": "Add keyword",
+    "loadMore": "Load More Keywords",
+    "creditsRemaining": "credits remaining",
+    "noCreditsWarning": "You have no credits remaining. Upgrade your plan.",
+    "upgradePlan": "Upgrade Plan",
+    "toast": {
+      "keywordsFoundTitle": "Keywords Found",
+      "keywordsFoundDescription": "Found {{count}} keyword(s) with search data.",
+      "authErrorTitle": "Authentication Error",
+      "authErrorDescription": "Please check your credentials and try again.",
+      "searchFailedTitle": "Search Failed",
+      "searchFailedDescription": "Unable to fetch keyword data. Please try again."
+    },
+    "aria": {
+      "removeKeyword": "Remove {{keyword}}"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "dialog": {
+    "title": "Connecter des comptes de réseaux sociaux",
+    "description": "Choisissez les plateformes que vous souhaitez connecter"
+  },
+  "buttons": {
+    "connect": "Connecter",
+    "connecting": "Connexion..."
+  },
+  "platforms": {
+    "facebook_instagram": {
+      "name": "Facebook & Instagram",
+      "description": "Connectez les deux plateformes avec un seul OAuth"
+    },
+    "twitter": {
+      "name": "Twitter/X",
+      "description": "Connectez votre compte Twitter/X"
+    },
+    "linkedin": {
+      "name": "LinkedIn",
+      "description": "Connectez votre compte LinkedIn"
+    },
+    "threads": {
+      "name": "Threads",
+      "description": "Connectez votre compte Threads"
+    },
+    "pinterest": {
+      "name": "Pinterest",
+      "description": "Bientôt disponible"
+    },
+    "youtube": {
+      "name": "YouTube",
+      "description": "Bientôt disponible"
+    }
+  },
+  "toast": {
+    "oauth_failed": "Échec de l'initialisation d'OAuth",
+    "connect_failed": "Échec de la connexion du compte",
+    "coming_soon": "Cette plateforme sera bientôt disponible"
+  }
+}

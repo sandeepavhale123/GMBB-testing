@@ -1,0 +1,47 @@
+{
+  "dialog": {
+    "title": "Crear Proyecto de Respuesta Automática",
+    "description": "Configura respuestas automáticas para tus listados mediante plantillas y ajustes.",
+    "close": "Cerrar",
+    "createProject": "Crear Proyecto",
+    "creating": "Creando..."
+  },
+  "labels": {
+    "projectName": "Nombre del Proyecto",
+    "replyType": "Tipo de Respuesta",
+    "projectPlaceholder": "Ingresa el nombre del proyecto"
+  },
+  "replyTypes": {
+    "ai": {
+      "title": "Respuestas Generadas por IA",
+      "description": "Respuestas inteligentes impulsadas por IA"
+    },
+    "template": {
+      "title": "Plantilla Personalizada",
+      "description": "Usa tu propia plantilla de respuesta"
+    },
+    "dnr": {
+      "title": "DNR (No Responder)",
+      "description": "Omitir respuestas automáticas para estos listados"
+    }
+  },
+  "toast": {
+    "success": {
+      "title": "Éxito",
+      "created": "Proyecto de respuesta automática creado con éxito"
+    },
+    "error": {
+      "title": "Error",
+      "projectName": "Por favor, ingresa un nombre de proyecto",
+      "selectListing": "Por favor, selecciona al menos un listado.",
+      "createProject": "No se pudo crear el proyecto de respuesta automática"
+    }
+  },
+  "conflictDialog": {
+    "title": "Conflicto en Configuración de Respuesta Automática",
+    "description": "Las siguientes ubicaciones ya tienen configuraciones de respuesta automática. Puedes eliminar listados individuales o continuar sobrescribiendo todos:",
+    "overrideInfo": "Crear este proyecto sobrescribirá las configuraciones de respuesta automática existentes para las ubicaciones restantes.",
+    "cancel": "Cancelar",
+    "overrideContinue": "Sobrescribir y Continuar"
+  }
+}

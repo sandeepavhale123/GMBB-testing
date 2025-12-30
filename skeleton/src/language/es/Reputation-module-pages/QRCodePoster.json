@@ -1,0 +1,68 @@
+{
+  "page": {
+    "editTitle": "Editar póster con código QR",
+    "createTitle": "Crear nuevo póster",
+    "subtitle": "Personaliza el diseño de tu póster con código QR",
+    "noListing": "Por favor, selecciona un listado para personalizar tu póster con código QR."
+  },
+
+  "fields": {
+    "reviewUrl": {
+      "label": "URL del enlace de reseñas",
+      "helper": "Introduce la URL donde los clientes dejarán reseñas",
+      "placeholder": "https://g.page/tu-negocio"
+    },
+    "logo": {
+      "label": "Logotipo de la empresa",
+      "drag": "Arrastra y suelta tu logotipo aquí",
+      "browse": "o haz clic para buscar (PNG, JPG, SVG – máx. 5 MB)",
+      "change": "Haz clic para cambiar el logotipo",
+      "alt": "Vista previa del logotipo"
+    },
+    "businessName": {
+      "label": "Nombre del negocio",
+      "placeholder": "Nombre de tu negocio"
+    },
+    "title": {
+      "label": "Título del póster",
+      "placeholder": "¡Déjanos una reseña!"
+    },
+    "subtitle": {
+      "label": "Subtítulo",
+      "placeholder": "Escanea el código QR para compartir tu experiencia"
+    }
+  },
+
+  "colors": {
+    "label": "Color",
+    "background": "Fondo",
+    "text": "Texto",
+    "pattern": "Patrón"
+  },
+
+  "theme": {
+    "label": "Tema"
+  },
+
+  "buttons": {
+    "save": "Guardar póster",
+    "update": "Actualizar póster",
+    "saving": "Guardando...",
+    "cancel": "Cancelar",
+    "download": "Descargar póster",
+    "downloading": "Descargando..."
+  },
+
+  "toast": {
+    "success": "Éxito",
+    "error": "Error",
+    "validation": "Error de validación",
+    "posterDownloaded": "¡Póster descargado correctamente!",
+    "downloadFailed": "Error al descargar el póster",
+    "validationError": "Error de validación",
+    "businessRequired": "Por favor, introduce el nombre de tu negocio",
+    "listingRequired": "Por favor, selecciona primero un listado",
+    "fileTooLarge": "El archivo del logotipo es demasiado grande. El tamaño máximo es de 5 MB",
+    "invalidFile": "Formato de archivo no válido. Por favor, sube PNG, JPG o SVG"
+  }
+}

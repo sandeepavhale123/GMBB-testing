@@ -1,0 +1,11 @@
+{
+  "qaFilters": {
+    "searchPlaceholder": "Buscar preguntas o fichas",
+    "status": {
+      "placeholder": "Todos los estados",
+      "all": "Todos",
+      "answered": "Respondidas",
+      "unanswered": "Sin respuesta"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Bewertungsübersicht",
+      "autoResponse": "Automatische Antwort"
+    },
+    "replySettingBadge": {
+      "prefix": "Aktivierte automatische Antwort-Einstellung: ",
+      "AI": "AI-Antwort",
+      "CUSTOM": "Benutzerdefinierte Vorlage",
+      "DNR": "Nicht Antworten"
+    },
+    "export": "Bewertungen Exportieren"
+  }
+}

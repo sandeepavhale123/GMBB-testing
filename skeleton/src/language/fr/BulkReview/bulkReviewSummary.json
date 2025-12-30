@@ -1,0 +1,22 @@
+{
+  "error": {
+    "message": "Erreur lors du chargement des données récapitulatives",
+    "retry": "Réessayer"
+  },
+  "stats": {
+    "totalReviews": "Nombre total d'avis",
+    "pendingReplies": "Réponses en attente",
+    "aiReplies": "Réponses AI",
+    "manualReplies": "Réponses manuelles"
+  },
+  "overallRating": {
+    "title": "Note globale",
+    "reviewsAcross": "{{count}} avis sur toutes les fiches"
+  },
+  "activitySummary": {
+    "title": "Résumé de l'activité",
+    "aiResponses": "Réponses AI",
+    "manualResponses": "Réponses manuelles",
+    "pending": "En attente"
+  }
+}

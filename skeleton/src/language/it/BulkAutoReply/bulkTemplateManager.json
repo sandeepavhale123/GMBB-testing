@@ -1,0 +1,23 @@
+{
+  "titles": {
+    "replyTemplates": "Modelli di Risposta"
+  },
+  "tabs": {
+    "review": "Risposta per Recensione",
+    "rating": "Risposta Solo per Valutazione"
+  },
+  "toast": {
+    "success": {
+      "title": "Successo",
+      "enabled": "Modello abilitato con successo",
+      "disabled": "Modello disabilitato con successo",
+      "saved": "Modello salvato con successo"
+    },
+    "error": {
+      "title": "Errore",
+      "projectId": "ID del progetto non trovato",
+      "updateTemplate": "Impossibile aggiornare lo stato del modello",
+      "saveTemplate": "Impossibile salvare il modello"
+    }
+  }
+}

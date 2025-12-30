@@ -1,0 +1,20 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Business",
+      "storeCode": "Store Code",
+      "category": "Category",
+      "location": "Location",
+      "status": "Status",
+      "state": "State",
+      "actions": "Actions"
+    },
+     "status": {
+      "verified": "Verified",
+      "pending": "Pending",
+      "suspended": "Suspended"
+    },
+    "noListings": "No listings found matching your criteria.",
+    "tootltip":"Toggle the switch to activate or deactivate your listings"
+  }
+}

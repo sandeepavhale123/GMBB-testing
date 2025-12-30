@@ -1,0 +1,52 @@
+{
+  "addLead": {
+    "title": "Neuen Lead hinzufügen",
+    "button": "Lead hinzufügen",
+    "cancel": "Abbrechen",
+    "adding": "Lead wird hinzugefügt...",
+    "inputMethod": {
+      "label": "Wie möchten Sie Geschäftsdaten hinzufügen?",
+      "name": "Google Auto-Vorschlag",
+      "url": "Google Maps URL",
+      "cid": "Listing CID"
+    },
+    "fields": {
+      "businessName": "Nach Unternehmensname suchen",
+      "businessPlaceholder": "Unternehmensname suchen...",
+      "mapUrl": "Google Maps URL",
+      "mapUrlPlaceholder": "Google Maps URL eingeben",
+      "cid": "Listing CID",
+      "cidPlaceholder": "CID eingeben",
+      "email": "E-Mail",
+      "emailPlaceholder": "E-Mail-Adresse eingeben",
+      "phone": "Telefonnummer",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "location": "Breitengrad, Längengrad oder Stadt",
+      "locationPlaceholder": "Standort (Lat, Long oder Stadt) eingeben",
+      "keyword": "Benutzerdefiniertes Keyword",
+      "keywordPlaceholder": "Benutzerdefiniertes Keyword eingeben",
+      "optionalDetails": "Optionale Details hinzufügen"
+    },
+    "validation": {
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "businessNameRequired": "Bitte wählen Sie ein Unternehmen aus.",
+      "cidInvalid": "CID konnte nicht aufgelöst werden. Bitte wählen Sie erneut einen Vorschlag oder verwenden Sie Map URL/CID.",
+      "mapUrlRequired": "Google Maps URL ist erforderlich.",
+      "cidNumeric": "Bitte geben Sie eine gültige numerische CID ein."
+    },
+    "success": {
+      "title": "Erfolg",
+      "description": "Lead erfolgreich hinzugefügt"
+    },
+    "error": {
+      "validationTitle": "Validierungsfehler",
+      "validationDesc": "Bitte beheben Sie die Fehler und versuchen Sie es erneut.",
+      "addFailedTitle": "Lead konnte nicht hinzugefügt werden",
+      "addFailedDesc": "Bitte versuchen Sie es erneut."
+    },
+    "notes": {
+      "latitudeLongitude": "Breitengrad und Längengrad sollten wie folgt eingegeben werden: lat:34.048927,lon:-111.093735,zoom=15",
+      "freeText": "Freitext sollte wie folgt eingegeben werden: Stadt, Bundesland, Land"
+    }
+  }
+}

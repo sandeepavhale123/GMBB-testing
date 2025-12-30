@@ -1,0 +1,44 @@
+{
+  "businessManagement": {
+    "tabs": {
+      "businessInfo": "Unternehmensinformationen",
+      "openingHours": "Öffnungszeiten",
+      "editLog": "Bearbeitungsprotokoll"
+    },
+    "toast": {
+      "refreshSuccessTitle": "Erfolg",
+      "refreshSuccessDesc": "GMB-Profilinformationen erfolgreich aktualisiert",
+      "refreshErrorTitle": "Fehler",
+      "refreshErrorDesc": "Fehler beim Aktualisieren der Unternehmensinformationen"
+    },
+    "errorState": {
+      "title": "Fehler beim Laden der Unternehmensinformationen",
+      "description": "Beim Abrufen der Unternehmensinformationen ist etwas schiefgelaufen."
+    },
+    "emptyState": {
+      "businessInfo": "Keine Unternehmensinformationen verfügbar"
+    },
+    "fields": {
+      "name": "Name",
+      "address": "Adresse",
+      "phone": "Telefon",
+      "website": "Webseite",
+      "storeCode": "Filialcode",
+      "category": "Kategorie",
+      "additionalCategory": "Zusätzliche Kategorie",
+      "labels": "Etiketten",
+      "appointmentUrl": "Termin-URL",
+      "mapUrl": "Karten-URL",
+      "description": "Beschreibung"
+    },
+    "warnings": {
+      "fakeInfo": "Um eine Sperrung zu vermeiden, fügen Sie keine falschen Informationen hinzu, um mehr Bewertungen oder andere richtlinienwidrige Inhalte zu erhalten."
+    },
+    "loading": {
+      "skeleton": "Lade Unternehmensinformationen..."
+    },
+    "noListingSelected": {
+      "pageType": "Unternehmensverwaltung"
+    }
+  }
+}

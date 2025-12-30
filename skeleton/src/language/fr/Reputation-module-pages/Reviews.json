@@ -1,0 +1,41 @@
+{
+  "page": {
+    "title": "Avis",
+    "subtitle": "Consultez et gérez les avis des clients provenant de tous les canaux connectés"
+  },
+
+  "actions": {
+    "reviewIntegration": "Intégration des sites d’avis",
+    "exportReviews": "Exporter les avis",
+    "tryAgain": "Réessayer"
+  },
+
+  "filters": {
+    "searchPlaceholder": "Rechercher des avis...",
+    "channelPlaceholder": "Filtrer par canal",
+    "sentimentPlaceholder": "Filtrer par sentiment",
+
+    "channels": {
+      "all": "Tous les canaux",
+      "google": "Profil d’entreprise Google",
+      "facebook": "Facebook",
+      "opentable": "OpenTable",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "bbb": "Better Business Bureau (BBB)"
+    },
+
+    "sentiments": {
+      "all": "Tous les sentiments",
+      "positive": "Positif (4–5 étoiles)",
+      "neutral": "Neutre (3 étoiles)",
+      "negative": "Négatif (1–2 étoiles)"
+    }
+  },
+
+  "states": {
+    "loading": "Chargement...",
+    "showingResults": "Affichage de {{count}} sur {{total}} avis",
+    "noResults": "Aucun avis ne correspond à vos filtres"
+  }
+}

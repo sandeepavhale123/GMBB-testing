@@ -1,0 +1,33 @@
+{
+  "loadingGroups": "Gruppen werden geladen...",
+  "noGroupsTitle": "Keine Gruppen gefunden",
+  "noGroupsDescription": "Beginnen Sie damit, Ihre erste Gruppe zu erstellen, um Ihre Einträge zu organisieren.",
+  "bulkSelected": "{{count}} Gruppe ausgewählt",
+  "bulkSelected_plural": "{{count}} Gruppen ausgewählt",
+  "clearSelection": "Auswahl löschen",
+  "deleteSelected": "Ausgewählte löschen ({{count}})",
+  "table": {
+    "groups": "Gruppen",
+    "locations": "Anzahl der Standorte",
+    "actions": "Aktionen"
+  },
+  "dialog": {
+    "deleteGroupTitle": "Gruppe löschen",
+    "deleteGroupsTitle": "Gruppen löschen",
+    "deleteGroupDescription": "Sind Sie sicher, dass Sie die Gruppe \"{{name}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt die Gruppe aus allen zugehörigen Einträgen.",
+    "deleteGroupsDescription": "Sind Sie sicher, dass Sie die {{count}} ausgewählte Gruppe löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt die Gruppe aus allen zugehörigen Einträgen.",
+    "deleteGroupsDescription_plural": "Sind Sie sicher, dass Sie die {{count}} ausgewählten Gruppen löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt die Gruppen aus allen zugehörigen Einträgen.",
+    "cancel": "Abbrechen",
+    "delete": "Gruppe löschen",
+    "delete_plural": "{{count}} Gruppen löschen",
+    "deleting": "Wird gelöscht..."
+  },
+  "toast": {
+    "successTitle": "Erfolg",
+    "errorTitle": "Fehler",
+    "deleteSuccess": "Gruppe erfolgreich gelöscht",
+    "deleteSuccess_plural": "{{count}} Gruppen erfolgreich gelöscht",
+    "deleteSuccess_singal": "{{count}} Gruppe erfolgreich gelöscht",
+    "deleteFailed": "Löschen der Gruppe(n) fehlgeschlagen"
+  }
+}

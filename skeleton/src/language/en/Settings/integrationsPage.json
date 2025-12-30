@@ -1,0 +1,157 @@
+{
+  "integrations": {
+    "title": "Integrations",
+    "subtitle": "Manage your third-party integrations and API connections.",
+
+    "mapApi": {
+      "name": "Google Map Api Key",
+      "description": "Configure map services for location-based features.",
+      "configureTitle": "Configure Google Map Api Key",
+      "label": "Google Places API Key",
+      "placeholder": "Enter your Google Places API key",
+      "helper": "This API key will be used for all location-based features including Geo Ranking and map services.",
+      "howToTitle": "How to generate Google Places API key",
+      "steps": {
+        "1": "Note - You must enable Billing for Google Project.",
+        "2-p1": "Visit the Google ",
+        "2-p2": "Cloud Platform Console.",
+        "3": "Click the project drop-down and select or create the project for which you want to add an API key.",
+        "4": "From Dashboard → Go to APIs overview → Click on Library → Enable Maps JavaScript API & Enable Places API.",
+        "5": "After that Click the menu button and select APIs & Services → Credentials.",
+        "6": "On the Credentials page, Create credentials Dropdown - Select API Key Option.",
+        "7": "A dialog will appear showing your newly created API key — copy the key.",
+        "8": "Use or Paste generated key under Geo Ranking → Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).",
+        "9": "Once you have added a key it will be used for all of your listings and no more need to generate a separate key for each GMB listing."
+      }
+    },
+
+    "smtp": {
+      "name": "SMTP Details",
+      "description": "Configure email server settings for notifications.",
+      "configureTitle": "Configure SMTP Settings",
+      "labels": {
+        "fromName": "From Name",
+        "fromEmail": "From Email",
+        "smtpHost": "SMTP Host",
+        "smtpPort": "SMTP Port",
+        "smtpUser": "SMTP User",
+        "smtpPassword": "SMTP Password"
+      },
+      "placeholders": {
+        "fromName": "Your Name or Company",
+        "fromEmail": "your-email@example.com",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "username",
+        "smtpPassword": "password"
+      }
+    },
+
+    "subdomain": {
+      "name": "Sub domain configuration",
+      "description": "Configure white label subdomain for your reports.",
+      "label":"Enter subdomain",
+      "configureTitle": "Configure Subdomain",
+      "placeholder": "example",
+      "text":"Enter your desired subdomain (without .com or other extensions)",
+      "follow":"Follow the below steps:",
+      "stepcount": "Step {{count}}:",
+      "step1":"Add white label subdomain here & save it.",
+      "step2":"Add the IP in DNS manager as A record:",
+      "step3p1":"Please check DNS propagation at:",
+      "step3p2":"dnschecker.org",
+      "step4":"Once you have done let us know, we will update your request in next 24 hours."
+    },
+
+"mailgun": {
+      "name": "Mailgun",
+      "description": "Configure Mailgun email service for sending emails.",
+      "configureTitle": "Configure Mailgun",
+      "labels": {
+        "apiKey": "API Key",
+        "domain": "Domain",
+        "region": "Region",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "replyToEmail": "Reply To Email",
+        "configName": "Configuration Name"
+      },
+      "placeholders": {
+        "apiKey": "Enter your Mailgun API key",
+        "domain": "mg.yourdomain.com",
+        "fromEmail": "noreply@yourdomain.com",
+        "fromName": "Your Company",
+        "replyToEmail": "support@yourdomain.com",
+        "configName": "My Mailgun Config"
+      },
+      "regions": {
+        "us": "US",
+        "eu": "EU"
+      }
+    },
+
+    "twilio": {
+      "name": "Twilio",
+      "description": "Connect Twilio for SMS and WhatsApp messaging services.",
+      "configureTitle": "Configure Twilio",
+      "labels": {
+        "accountSid": "Account SID",
+        "authToken": "Auth Token",
+        "configName": "Configuration Name"
+      },
+      "placeholders": {
+        "accountSid": "Enter your Twilio Account SID",
+        "authToken": "Enter your Twilio Auth Token",
+        "configName": "My Twilio Account"
+      }
+    },
+
+    "citationButton": {
+      "name": "Citation Button",
+      "description": "Customize the Place Order button that appears on public citation reports."
+    },
+
+    "buttons": {
+      "configure": "Configure",
+      "edit": "Edit",
+      "disconnect": "Disconnect",
+      "cancel": "Cancel",
+      "saveConfiguration": "Save Configuration",
+      "saving": "Saving...",
+      "loading": "Loading...",
+      "disconnecting": "Disconnecting...",
+      "reset":"Reset",
+      "testing":"Testing...",
+      "testSetting":"Test SMTP Settings",
+      "save":"Save"
+    },
+
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+
+    "disconnectDialog": {
+      "title": "Confirm Disconnection",
+      "message": "Are you sure you want to disconnect this integration? This action cannot be undone.",
+      "label": "Type \"delete\" to confirm:",
+      "placeholder": "Type 'delete' to confirm"
+    },
+
+"errors": {
+        "title":"Error",
+      "apiKeyRequired": "Please enter a valid API key",
+      "disconnectConfirmation": "Please type 'delete' to confirm disconnection",
+      "noApiKey": "No API key found to disconnect",
+      "noSmtp": "No SMTP configuration found to disconnect",
+      "noSubdomain": "No subdomain found to disconnect",
+      "noMailgun": "No Mailgun configuration found to disconnect",
+      "noTwilio": "No Twilio configuration found to disconnect",
+      "smtpRequired": "Please fill in all required fields before testing",
+      "smtpValidation": "Please fix the validation errors",
+      "subdomainRequired": "Please enter a subdomain",
+      "mailgunValidation": "Please fix the validation errors",
+      "twilioValidation": "Please fix the validation errors"
+    }
+  }
+}

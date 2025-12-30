@@ -1,0 +1,14 @@
+{
+  "AddKeywordModal": {
+    "title": "Aggiungi Parole Chiave",
+    "inputPlaceholder": "Inserisci parola chiave",
+    "inputPlaceholderMax": "Consentito un massimo di 5 parole chiave",
+    "addButton": "Aggiungi",
+    "addedKeywordsTitle": "Parole Chiave Aggiunte:",
+    "infoTitle": "Cosa succede dopo:",
+    "infoDescription": "Verificheremo la posizione di ranking di queste parole chiave in diverse località geografiche per mostrarti dove appare la tua attività nei risultati di ricerca locali.",
+    "close": "Chiudi",
+    "checkRank": "Controlla Posizione",
+    "removeKeywordAria": "Rimuovi {{keyword}}"
+  }
+}

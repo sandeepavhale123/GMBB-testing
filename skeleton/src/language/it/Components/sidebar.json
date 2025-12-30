@@ -1,0 +1,40 @@
+{
+  "sidebar": {
+    "menu": {
+      "main-dashboard": "Cruscotto Principale",
+      "overview": "Cruscotto",
+      "posts": "Post",
+      "media": "Media",
+      "reviews": "Recensioni",
+      "insights": "Approfondimenti",
+      "qa": "Domande&Risposte",
+      "businesses": "Gestione",
+      "tracking": "Tracciamento",
+      "keywords": "Ricerca Parole Chiave",
+      "geo-ranking": "Classifica GEO",
+      "citation": "Citazioni",
+      "reports": "Report",
+      "performance-report": "Report Prestazioni",
+      "bulk-report": "Report di Massa",
+      "gallery": "Galleria",
+      "settings": "Impostazioni"
+    },
+    "upgradeCard": {
+      "title": {
+        "planExpired": "Piano Scaduto",
+        "upgradePlan": "Aggiorna Piano"
+      },
+      "description": {
+        "planExpired": "Il tuo piano è scaduto. Rinnova per continuare ad accedere alle funzionalità",
+        "upgradePlan": "Sblocca funzionalità premium e ottieni accesso illimitato"
+      },
+      "button": {
+        "renewNow": "Rinnova Ora",
+        "upgradeNow": "Aggiorna Ora"
+      }
+    },
+    "profile": {
+      "userFallback": "Utente"
+    }
+  }
+}

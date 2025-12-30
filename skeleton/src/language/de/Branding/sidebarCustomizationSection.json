@@ -1,0 +1,43 @@
+{
+  "sidebarCustomization": {
+    "title": "Seitenleisten-Hintergrundfarbe auswählen",
+    "themes": {
+      "theme_01": "Dunkles Thema",
+      "blue": "Blau",
+      "red": "Rot",
+      "green": "Grün",
+      "brown": "Braun",
+      "gray": "Grau",
+      "purple": "Lila",
+      "custom": "Benutzerdefinierte Farben"
+    },
+    "customModal": {
+      "title": "Benutzerdefinierter Farbwähler",
+      "preview": {
+        "logo": "IHR LOGO",
+        "menuItems": {
+          "overview": "Übersicht",
+          "posts": "Beiträge",
+          "media": "Medien",
+          "insights": "Einblicke",
+          "geoRanking": "GEO-Ranking"
+        }
+      },
+      "labels": {
+        "background": "Hintergrundfarbe",
+        "text": "Textfarbe",
+        "activeBackground": "Aktiver Menü-Hintergrund",
+        "activeText": "Aktiver Menü-Text"
+      },
+      "buttons": {
+        "reset": "Zurücksetzen",
+        "cancel": "Abbrechen",
+        "apply": "Farben übernehmen"
+      }
+    },
+    "customCard": {
+      "label": "Benutzerdefiniert",
+      "description": "Benutzerdefinierte Farben"
+    }
+  }
+}

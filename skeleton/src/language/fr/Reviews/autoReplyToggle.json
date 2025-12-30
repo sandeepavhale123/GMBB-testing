@@ -1,0 +1,6 @@
+{
+  "autoReplyToggle": {
+    "title": "Modèles de réponse automatique",
+    "description": "Créez des modèles de réponse personnalisés pour différentes notes étoiles. Les modèles seront envoyés automatiquement lors de la réception des avis."
+  }
+}

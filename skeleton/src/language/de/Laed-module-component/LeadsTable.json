@@ -1,0 +1,26 @@
+{
+  "leadsTable": {
+    "headers": {
+      "businessName": "Unternehmensname",
+      "email": "E-Mail",
+      "date": "Datum",
+      "category": "Kategorie",
+      "reports": "Berichte",
+      "actions": "Aktionen"
+    },
+    "reportLabels": {
+      "gmbHealthReport": "GMB-Gesundheitsbericht",
+      "citationAudit": "Citation Audit",
+      "geoRanking": "GEO-Ranking",
+      "gmbProspect": "GMB-Interessentenbericht",
+      "onPageReport": "On-Page-Bericht",
+      "noReports": "Keine Berichte"
+    },
+    "fallbacks": {
+      "na": "k.A."
+    },
+    "empty": {
+      "noLeads": "Keine Leads gefunden. Fügen Sie Ihren ersten Lead hinzu, um zu beginnen."
+    }
+  }
+}

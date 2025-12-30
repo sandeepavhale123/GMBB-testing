@@ -1,0 +1,54 @@
+{
+  "calendar": {
+    "today": "Oggi",
+    "selectDate": "Seleziona una data",
+    "noPostsTitle": "Nessun post programmato",
+    "noPostsDesc": "Nessun post è programmato per questa data",
+    "schedulePost": "Clicca su una data nel calendario per visualizzare i post programmati",
+    "createPost": "Crea Post",
+    "postsScheduled": "{{count}} post programmato",
+    "postsScheduled_plural": "{{count}} post programmati",
+    "dayHeaders": ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],
+    "more": "altro",
+    "postalt": "Miniatura video",
+    "Postmedia": "Media del post"
+  },
+
+  "status": {
+    "draft": "Bozza",
+    "scheduled": "Programmato",
+    "publishing": "In pubblicazione",
+    "published": "Pubblicato",
+    "failed": "Fallito"
+  },
+
+  "postActions": {
+    "edit": "Modifica post",
+    "retryFail": "Riprova i post falliti",
+    "delete": "Elimina post",
+    "view": "Visualizza dettagli",
+    "retry": "Riprova i falliti",
+    "retryAll": "Riprova tutte le piattaforme",
+    "confirmDelete": "Sei sicuro di voler eliminare questo post?"
+  },
+
+  "breakdown": {
+    "title": "Dettaglio piattaforma",
+    "description": "Stato dettagliato per ciascuna piattaforma",
+    "postContent": "Contenuto del post",
+    "retry": "Riprova i falliti",
+    "success": "Successo",
+    "failed": "Fallito",
+    "pending": "In attesa",
+    "viewPublished": "Visualizza post pubblicato"
+  },
+
+  "instagramWarning": {
+    "title": "Post Instagram pubblicato",
+    "message": "Questo post è stato pubblicato su Instagram. A causa delle limitazioni dell'API di Instagram, i post pubblicati non possono essere eliminati automaticamente.",
+    "deleteMessage": "Elimina manualmente il post da Instagram se necessario. Il post sarà rimosso da questo sistema, ma rimarrà su Instagram.",
+    "deleteAnyway": "Elimina comunque",
+    "cancel": "Annulla",
+    "system": "Elimina dal sistema"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "keywordSelector": {
+    "labels": {
+      "keyword": "Parola chiave"
+    },
+    "placeholders": {
+      "keyword": {
+        "loading": "Caricamento parole chiave...",
+        "default": "Seleziona parola chiave",
+        "search": "Cerca parole chiave..."
+      },
+      "date": {
+        "loading": "Caricamento date...",
+        "default": "Seleziona data del report"
+      }
+    },
+    "messages": {
+      "loading": "Caricamento...",
+      "noKeywords": "Nessuna parola chiave trovata"
+    },
+    "all": " Tutti"
+  }
+}

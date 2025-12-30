@@ -1,0 +1,24 @@
+{
+  "ctaCustomization": {
+    "title": "Personalización de CTA",
+    "subtitle": "Personaliza tu sección de llamada a la acción para los informes de leads.",
+    "previewTitle": "Vista previa",
+    "previewDescription": "Así es como aparecerá tu CTA en los informes de leads.",
+    "toast": {
+      "resetTitle": "CTA restablecido",
+      "resetDescription": "La configuración del CTA se ha restablecido a los valores predeterminados.",
+      "updateTitle": "CTA actualizado",
+      "updateCallDescription": "El CTA de llamada se ha actualizado correctamente.",
+      "updateAppointmentDescription": "El CTA de cita se ha actualizado correctamente.",
+      "resetCallDescription": "El CTA de llamada se ha restablecido a los valores predeterminados.",
+      "resetAppointmentDescription": "El CTA de cita se ha restablecido a los valores predeterminados.",
+      "errorTitle": "Error",
+      "errorDescription": "No se pudo actualizar la configuración del CTA. Por favor, inténtalo de nuevo."
+    },
+    "defaultCTA": {
+      "header": "MEJORA TU PUNTUACIÓN GBP &&& Incrementa tus llamadas",
+      "description": "Aprende cómo pagar un mes de salario a tus empleados simplemente arreglando lo que está roto. ¡Obtén tu guía gratuita para superar a la competencia!",
+      "buttonLabel": "RESERVAR UNA LLAMADA"
+    }
+  }
+}

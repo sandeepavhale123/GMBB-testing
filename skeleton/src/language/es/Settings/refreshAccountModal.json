@@ -1,0 +1,23 @@
+{
+  "refreshAccountModal": {
+    "title": "Seleccionar Grupos de Listados",
+    "description": "Elige los grupos de listados que deseas actualizar",
+    "selectAll": {
+      "label": "Seleccionar Todos los Grupos de Listados",
+      "count": "{{selected}} de {{total}} seleccionados"
+    },
+    "groups": {
+      "available": "Grupos Disponibles:",
+      "empty": "No hay grupos de listados disponibles"
+    },
+    "footer": {
+      "selected": "{{count}} grupo seleccionado",
+      "selectedPlural": "{{count}} grupos seleccionados"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "submit": "Enviar ({{count}})",
+      "submitting": "Enviando..."
+    }
+  }
+}

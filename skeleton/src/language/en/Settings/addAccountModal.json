@@ -1,0 +1,30 @@
+{
+  "addAccountModal": {
+    "title": "Add Google Business Account",
+    "alert": {
+      "title": "Google Business Profile Required",
+      "description": "You'll need to authenticate with Google and grant access to your Business Profile listings."
+    },
+    "instructions": {
+      "intro": "After clicking \"Connect Account\", you'll be redirected to Google to:",
+      "steps": {
+        "signIn": "Sign in to your Google account",
+        "grantAccess": "Grant access to your Business Profile data",
+        "authorize": "Authorize listing management permissions"
+      }
+    },
+    "noProfile": {
+      "text": "Don't have a Google Business Profile? Create one here",
+      "url": "https://business.google.com"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "connect": "Connect Account",
+      "connecting": "Connecting..."
+    },
+    "errors": {
+      "connectionError": "Connection Error",
+      "failedToConnect": "Failed to initiate Google connection"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Riepilogo Attività",
+  "livePosts": "Post Attivi",
+  "failedPosts": "Post Falliti",
+  "successPosts": "{{count}} post riusciti",
+  "failedCountPosts": "{{count}} post falliti",
+  "view": "Vedi Tutti"
+}

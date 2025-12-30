@@ -1,0 +1,52 @@
+{
+  "bulkActions": {
+    "selected": "{{count}} media selected",
+    "selected_plural": "{{count}} medias selected",
+    "deleteSelected": "Delete Selected"
+  },
+    "status": {
+    "live": "Live",
+    "published": "Published",
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "failed": "Failed"
+  },
+  "table": {
+    "listingName": "Listing Name",
+    "zipCode": "Zip Code",
+    "status": "Status",
+    "action": "Action",
+    "noListings": "No listings found.",
+    "unknown": "Unknown",
+    "na": "N/A",
+    "selectAll":"Select all media"
+  },
+  "pagination": {
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}"
+  },
+  "bulkDeleteDialog": {
+    "title": "Delete Multiple Media",
+    "description": "Are you sure you want to delete {{count}} selected media? This action cannot be undone.",
+    "description_plural": "Are you sure you want to delete {{count}} selected medias? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete All"
+  },
+  "deleteDialog": {
+    "title": "Are you sure?",
+    "deleteTitle":"Delete Media",
+    "description": "This action cannot be undone. This will permanently delete the media.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "toast": {
+    "successTitle":"Success",
+    "successDelete": "Media deleted successfully",
+    "successBulkDelete": "{{count}} media items deleted successfully",
+    "errorTitle":"Error",
+    "errorDelete": "Failed to delete media",
+    "errorBulkDelete": "Failed to delete some media items"
+  }
+}

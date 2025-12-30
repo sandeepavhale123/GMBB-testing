@@ -1,0 +1,34 @@
+{
+  "mediaFilters": {
+    "searchPlaceholder": "Medien durchsuchen...",
+    "category": {
+      "placeholder": "Kategorie",
+      "all": "Alle Kategorien",
+      "cover": "Cover",
+      "profile": "Profil",
+      "logo": "Logo",
+      "exterior": "Außenbereich",
+      "interior": "Innenbereich",
+      "product": "Produkt",
+      "atWork": "Bei der Arbeit",
+      "foodAndDrink": "Essen und Trinken",
+      "menu": "Menü",
+      "commonArea": "Gemeinschaftsbereich",
+      "rooms": "Räume",
+      "teams": "Teams",
+      "additional": "Zusätzlich"
+    },
+    "status": {
+      "placeholder": "Status",
+      "all": "Alle Status",
+      "live": "Live",
+      "scheduled": "Geplant",
+      "failed": "Fehlgeschlagen"
+    },
+    "sortOrder": {
+      "placeholder": "Sortierung",
+      "desc": "Absteigend",
+      "asc": "Aufsteigend"
+    }
+  }
+}

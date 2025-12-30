@@ -1,0 +1,33 @@
+{
+  "loadingGroups": "Loading groups...",
+  "noGroupsTitle": "No groups found",
+  "noGroupsDescription": "Get started by creating your first group to organize your listings.",
+  "bulkSelected": "{{count}} group selected",
+  "bulkSelected_plural": "{{count}} groups selected",
+  "clearSelection": "Clear Selection",
+  "deleteSelected": "Delete Selected ({{count}})",
+  "table": {
+    "groups": "Groups",
+    "locations": "No. of Locations",
+    "actions": "Actions"
+  },
+  "dialog": {
+    "deleteGroupTitle": "Delete Group",
+    "deleteGroupsTitle": "Delete Groups",
+    "deleteGroupDescription": "Are you sure you want to delete the group \"{{name}}\"? This action cannot be undone and will remove the group from all associated listings.",
+    "deleteGroupsDescription": "Are you sure you want to delete {{count}} selected group? This action cannot be undone and will remove the group from all associated listings.",
+    "deleteGroupsDescription_plural": "Are you sure you want to delete {{count}} selected groups? This action cannot be undone and will remove the groups from all associated listings.",
+    "cancel": "Cancel",
+    "delete": "Delete Group",
+    "delete_plural": "Delete {{count}} Groups",
+    "deleting": "Deleting..."
+  },
+  "toast": {
+    "successTitle": "Success",
+    "errorTitle": "Error",
+    "deleteSuccess": "Group deleted successfully",
+    "deleteSuccess_plural": "{{count}} groups deleted successfully",
+    "deleteSuccess_singal": "{{count}} group deleted successfully",
+    "deleteFailed": "Failed to delete group(s)"
+  }
+}

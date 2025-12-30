@@ -1,0 +1,69 @@
+{
+  "page": {
+    "editTitle": "Modifica poster con codice QR",
+    "createTitle": "Crea un nuovo poster",
+    "subtitle": "Personalizza il design del tuo poster con codice QR",
+    "noListing": "Seleziona una scheda per personalizzare il tuo poster con codice QR."
+  },
+
+  "fields": {
+    "reviewUrl": {
+      "label": "URL del link alle recensioni",
+      "helper": "Inserisci l’URL dove i clienti lasceranno le recensioni",
+      "placeholder": "https://g.page/la-tua-attività"
+    },
+    "logo": {
+      "label": "Logo dell’attività",
+      "drag": "Trascina e rilascia il tuo logo qui",
+      "browse": "oppure clicca per sfogliare (PNG, JPG, SVG – max 5 MB)",
+      "change": "Clicca per cambiare il logo",
+      "alt": "Anteprima del logo"
+    },
+    "businessName": {
+      "label": "Nome dell’attività",
+      "placeholder": "Nome della tua attività"
+    },
+    "title": {
+      "label": "Titolo del poster",
+      "placeholder": "Lasciaci una recensione!"
+    },
+    "subtitle": {
+      "label": "Sottotitolo",
+      "placeholder": "Scansiona il codice QR per condividere la tua esperienza"
+    }
+  },
+
+  "colors": {
+    "label": "Colore",
+    "background": "Sfondo",
+    "text": "Testo",
+    "pattern": "Motivo"
+  },
+
+  "theme": {
+    "label": "Tema"
+  },
+
+  "buttons": {
+    "save": "Salva poster",
+    "update": "Aggiorna poster",
+    "saving": "Salvataggio in corso...",
+    "cancel": "Annulla",
+    "download": "Scarica poster",
+    "downloading": "Download in corso..."
+  },
+
+  "toast": {
+    "success": "Operazione riuscita",
+    "error": "Errore",
+    "validation": "Errore di validazione",
+    "posterDownloaded": "Poster scaricato con successo!",
+    "downloadFailed": "Download del poster non riuscito",
+    "validationError": "Errore di validazione",
+    "businessRequired": "Inserisci il nome della tua attività",
+    "urlRequired": "Inserisci l'URL del link alle recensioni",
+    "listingRequired": "Seleziona prima una scheda",
+    "fileTooLarge": "Il file del logo è troppo grande. La dimensione massima è 5 MB",
+    "invalidFile": "Formato del file non valido. Carica un file PNG, JPG o SVG"
+  }
+}

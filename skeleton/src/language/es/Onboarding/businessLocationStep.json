@@ -1,0 +1,19 @@
+{
+  "businessLocationStep": {
+    "title": "¿Dónde se encuentra tu negocio?",
+    "description": "Agrega la dirección de tu negocio e información de contacto",
+    "addressLabel": "Dirección *",
+    "addressPlaceholder": "Calle Principal 123",
+    "cityLabel": "Ciudad *",
+    "cityPlaceholder": "Ciudad",
+    "stateLabel": "Estado *",
+    "statePlaceholder": "Estado",
+    "zipCodeLabel": "Código Postal *",
+    "zipCodePlaceholder": "12345",
+    "phoneLabel": "Número de Teléfono",
+    "phonePlaceholder": "(555) 123-4567",
+    "websiteLabel": "Sitio Web",
+    "websitePlaceholder": "https://tusitio.com",
+    "continueButton": "Continuar"
+  }
+}

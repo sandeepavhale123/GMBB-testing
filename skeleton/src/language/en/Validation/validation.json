@@ -1,0 +1,82 @@
+{
+  "email": {
+    "required": "Email is required",
+    "invalid": "Please enter a valid email address"
+  },
+  "password": {
+    "required": "Password is required",
+    "minLength": "Password must be at least 8 characters long",
+    "uppercase": "Password must contain at least one uppercase letter",
+    "lowercase": "Password must contain at least one lowercase letter",
+    "number": "Password must contain at least one number",
+    "specialChar": "Password must contain at least one special character",
+    "mismatch": "Passwords don't match"
+  },
+  "name": {
+    "minLength": "Name must be at least 2 characters long",
+    "lettersOnly": "Name can only contain letters and spaces",
+    "minAlphabetic": "Name must contain at least 3 alphabetic characters"
+  },
+  "agency": {
+    "minLength": "Agency name must be 3 characters required",
+    "minAlphabetic": "Name must contain at least 3 alphabetic characters"
+  },
+  "plan": {
+    "required": "Please select a plan"
+  },
+  "timezone": {
+    "required": "Timezone is required"
+  },
+  "language": {
+    "required": "Language is required"
+  },
+  "dashboardType": {
+    "required": "Dashboard type is required"
+  },
+  "business": {
+    "nameRequired": "Business name is required",
+    "nameMin": "Business name must be at least 2 characters long",
+    "urlInvalid": "Please enter a valid URL",
+    "timezoneRequired": "Please select a timezone",
+    "typeRequired": "Please select what best describes you"
+  },
+  "apiKey": {
+    "required": "API key is required"
+  },
+  "disconnect": {
+    "confirmText": "Please type 'delete' to confirm"
+  },
+  "smtp": {
+    "fromName": "From name is required",
+    "minAlphabetic": "Name must contain at least 3 alphabetic characters",
+    "email": "Please enter a valid email address",
+    "host": "SMTP host is required",
+    "port": {
+      "required": "SMTP port is required",
+      "number": "Port must be a number"
+    },
+    "user": "SMTP user is required",
+    "password": "SMTP password is required"
+  },
+  "keywords": {
+    "max": "You can add a maximum of 5 keywords.",
+    "min": "At least one keyword is required."
+  },
+  "branding": {
+    "nameRequired": "Company name is required",
+    "nameMin": "Company name must be at least 2 characters long",
+    "nameAlpha": "Name must contain at least 3 alphabetic characters",
+    "email": "Please enter a valid email address",
+    "url": "Please enter a valid URL",
+    "phone": {
+      "minLength": "Phone number must contain 10 digits",
+      "invalid": "Please enter a valid phone number"
+    },
+    "address": {
+      "minLength": "Address must be at least 10 characters long"
+    }
+  },
+  "team": {
+    "roleRequired": "Role is required"
+  }
+}

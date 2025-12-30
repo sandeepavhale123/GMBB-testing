@@ -1,0 +1,55 @@
+{
+  "page": {
+    "title": "Tableau de bord de gestion de la réputation",
+    "subtitle": "Surveillez et gérez votre réputation en ligne sur toutes les plateformes"
+  },
+
+  "summary": {
+    "overallRating": {
+      "title": "Note globale",
+      "subtitle": "Basée sur {{count}} avis"
+    },
+    "totalReviews": {
+      "title": "Total des avis",
+      "subtitle": "Sur tous les canaux"
+    },
+    "totalCampaigns": {
+      "title": "Total des campagnes",
+      "subtitle": "Campagnes actives"
+    },
+    "totalFeedbackForms": {
+      "title": "Formulaires de feedback",
+      "subtitle": "Formulaires actifs"
+    }
+  },
+
+  "channels": {
+    "title": "Canaux connectés",
+    "subtitle": "Gérer les canaux",
+    "connected": "Connecté",
+    "notConnected": "Non connecté",
+    "connect": "Connecter",
+    "add": "Ajouter"
+  },
+
+  "reviewTracking": {
+    "google": "Suivi des avis Google",
+    "facebook": "Suivi des avis Facebook",
+    "yelp": "Suivi des avis Yelp",
+    "opentable": "Suivi des avis OpenTable",
+    "foursquare": "Suivi des avis Foursquare",
+    "bbb": "Suivi des avis BBB",
+    "last7Days": "7 derniers jours",
+    "last30Days": "30 derniers jours",
+    "last3Months": "3 derniers mois",
+    "allTime": "Dernière année",
+    "selectChannel": "Sélectionner un canal",
+    "selectPeriod": "Sélectionner une période",
+    "noData": "Aucune donnée d'avis disponible"
+  },
+
+  "months": {
+    "jun24": "Juin '24",
+    "jun": "Juin"
+  }
+}

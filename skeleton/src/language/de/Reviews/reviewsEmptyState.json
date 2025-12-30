@@ -1,0 +1,12 @@
+{
+  "reviewsEmptyState": {
+    "title": {
+      "filtered": "Keine Bewertungen entsprechen Ihren Filtern",
+      "default": "Noch keine Bewertungen"
+    },
+    "description": {
+      "filtered": "Versuchen Sie, Ihre Suchkriterien oder Filter anzupassen, um mehr Ergebnisse zu sehen.",
+      "default": "Bewertungen werden hier angezeigt, sobald Kunden Feedback zu Ihren Geschäftseinträgen hinterlassen."
+    }
+  }
+}

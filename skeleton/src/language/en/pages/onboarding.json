@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "steps": {
+      "1": {
+        "title": "Business Information",
+        "description": "Enter your business details to get started"
+      },
+      "2": {
+        "title": "Define your goal",
+        "description": "Choose what you want to achieve with this setup"
+      },
+      "3": {
+        "title": "Connect Google account",
+        "description": "Securely link your Google account for integration"
+      },
+      "4": {
+        "title": "Select listings",
+        "description": "Pick the Google listing you want to manage"
+      },
+      "5": {
+        "title": "Complete",
+        "description": "Setup complete!"
+      }
+    },
+    "setup":"  Setup Progress",
+    "progress": "Step {{currentStep}} of {{totalSteps}}",
+    "back": "Back"
+  }
+}

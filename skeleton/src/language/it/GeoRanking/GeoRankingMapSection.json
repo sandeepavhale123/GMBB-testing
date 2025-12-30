@@ -1,0 +1,52 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Mappa di Classifica a Griglia GEO",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Griglia",
+      "distance": "Distanza",
+      "engine": "Motore",
+      "engineValue": "Google Maps",
+      "frequency": "Frequenza"
+    },
+    "loading": {
+      "title": "Caricamento Dati della Mappa",
+      "description": "Generazione delle coordinate della griglia..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Riepilogo della Posizione"
+    },
+    "frequencyOptions": {
+      "one": "Una Volta",
+      "daily": "Giornaliero",
+      "weekly": "Settimanale",
+      "monthly": "Mensile"
+    },
+    "distanceMap": {
+      "label1": "100 Metri",
+      "label2": "200 Metri",
+      "label3": "500 Metri",
+      "label4": "1 Chilometro",
+      "label5": "2.5 Chilometri",
+      "label6": "5 Chilometri",
+      "label7": "10 Chilometri",
+      "label8": "25 Chilometri",
+      "label9": "0.1 Miglia",
+      "label10": "0.25 Miglia",
+      "label11": "0.5 Miglia",
+      "label12": "0.75 Miglia",
+      "label13": "1 Miglio",
+      "label14": "2 Miglia",
+      "label15": "3 Miglia",
+      "label16": "5 Miglia",
+      "label17": "8 Miglia",
+      "label18": "10 Miglia"
+    },
+    "view": "Visualizza Tutte le Parole Chiave"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "postViewModal": {
+    "title": "Beitragsvorschau",
+    "imageAlt": "Beitrag",
+    "imagePlaceholder": "Beitragsbild",
+    "untitled": "Unbenannter Beitrag",
+    "status": {
+      "published": "Live",
+      "scheduled": "Geplant",
+      "draft": "Entwurf",
+      "failed": "Fehlgeschlagen"
+    },
+    "tagsLabel": "Tags",
+    "meta": {
+      "publishDate": "Veröffentlichungsdatum"
+    },
+    "buttons": {
+      "viewPost": "Beitrag ansehen",
+      "close": "Schließen"
+    }
+  }
+}

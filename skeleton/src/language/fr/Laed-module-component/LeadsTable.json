@@ -1,0 +1,26 @@
+{
+  "leadsTable": {
+    "headers": {
+      "businessName": "Nom de l’entreprise",
+      "email": "E-mail",
+      "date": "Date",
+      "category": "Catégorie",
+      "reports": "Rapports",
+      "actions": "Actions"
+    },
+    "reportLabels": {
+      "gmbHealthReport": "Rapport de santé GMB",
+      "citationAudit": "Audit des citations",
+      "geoRanking": "Classement GEO",
+      "gmbProspect": "Prospect GMB",
+      "onPageReport": "Rapport On-Page",
+      "noReports": "Aucun rapport"
+    },
+    "fallbacks": {
+      "na": "N/A"
+    },
+    "empty": {
+      "noLeads": "Aucun prospect trouvé. Ajoutez votre premier prospect pour commencer."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "recentReviewsTitle": "Recent Reviews",
+  "viewAllButton": "View All",
+  "noReviews": "No reviews available",
+  "replySentTitle": "Reply Sent",
+  "replySentDescription": "Your reply has been sent successfully.",
+  "replyErrorTitle": "Error",
+  "replyErrorDescription": "Failed to send reply. Please try again.",
+  "tryAgainButton": "Try Again"
+}

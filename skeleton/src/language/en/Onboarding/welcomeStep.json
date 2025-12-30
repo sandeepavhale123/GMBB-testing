@@ -1,0 +1,28 @@
+{
+  "welcomeStep": {
+    "title": "Welcome to GMB Briefcase!",
+    "subtitle": "Let's set up your business profile in just a few simple steps",
+
+    "cards": {
+      "businessInfo": {
+        "title": "Business Information",
+        "description": "Tell us about your business and what you do"
+      },
+      "locationDetails": {
+        "title": "Location Details",
+        "description": "Add your business address and contact info"
+      },
+      "businessHours": {
+        "title": "Business Hours",
+        "description": "Set your operating hours for customers"
+      },
+      "readyToGo": {
+        "title": "Ready to Go!",
+        "description": "Start managing your Google Business profile"
+      }
+    },
+
+    "timeEstimate": "This setup will take about 5 minutes to complete",
+    "buttonText": "Get Started"
+  }
+}

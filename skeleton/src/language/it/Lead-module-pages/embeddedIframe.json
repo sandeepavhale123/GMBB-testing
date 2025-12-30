@@ -1,0 +1,56 @@
+{
+  "title": "Iframe Incorporato",
+  "subtitle": "Genera e gestisci moduli lead incorporabili",
+
+  "configuration": {
+    "title": "Configurazione Iframe",
+    "description": "Personalizza le impostazioni del modulo incorporato",
+    "formTitleLabel": "Titolo Modulo",
+    "formTitlePlaceholder": "Inserisci il titolo del modulo",
+    "widthLabel": "Larghezza",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Altezza",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Mostra Logo Azienda",
+    "showLogoDescription": "Visualizza il tuo logo nel modulo",
+    "darkModeLabel": "Abilita Modalità Scura",
+    "darkModeDescription": "Consenti agli utenti di attivare il tema scuro",
+    "autoResizeLabel": "Ridimensionamento automatico",
+    "autoResizeDescription": "Regola automaticamente l'altezza dell'iframe",
+    "successMessageLabel": "Messaggio di Successo",
+    "successMessagePlaceholder": "Messaggio mostrato dopo l'invio del modulo"
+  },
+
+  "embedCode": {
+    "title": "Codice da Incorporare",
+    "description": "Copia questo codice per incorporare il modulo sul tuo sito web",
+    "copied": "Copiato!",
+    "copy": "Copia",
+    "preview": "Anteprima",
+    "test": "Test Modulo",
+    "tipsTitle": "Suggerimenti per l'integrazione:",
+    "tips1": "Aggiungi l'iframe a qualsiasi pagina HTML o CMS",
+    "tips2": "Il modulo si adatterà automaticamente al tema del tuo sito",
+    "tips3": "Tutte le submissions vengono registrate nel tuo dashboard lead",
+    "tips4": "HTTPS è richiesto per l'incorporamento dell'iframe"
+  },
+
+  "activeEmbeds": {
+    "title": "Iframe Attivi",
+    "description": "Gestisci i moduli iframe distribuiti",
+    "submissions": "Invii"
+  },
+
+  "statuses": {
+    "Active": "Attivo",
+    "Inactive": "Inattivo"
+  },
+  "name": {
+    "home": "Modulo Contatti Homepage",
+    "homeDom": "iltuosito.com",
+    "landing": "Modulo Landing Page",
+    "landingDom": "landing.iltuosito.com",
+    "blog": "Modulo Sidebar Blog",
+    "blogDom": "blog.iltuosito.com"
+  }
+}

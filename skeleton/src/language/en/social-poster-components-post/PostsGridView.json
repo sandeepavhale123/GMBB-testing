@@ -1,0 +1,38 @@
+{
+  "common": {
+    "noPosts": "No Posts Yet",
+    "createFirstPost": "Create your first post to see it here",
+    "aredelete":"Are you sure you want to delete this post?",
+    "view": "View",
+    "edit": "Edit",
+    "retry": "Retry",
+    "delete": "Delete",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+
+  "status": {
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "publishing": "Publishing",
+    "published": "Published",
+    "failed": "Failed"
+  },
+
+  "grid": {
+    "postDetails": "Post Details",
+    "viewPublishedPost": "View Published Post",
+    "showing": "Showing",
+    "to": "to",
+    "of":"of",
+    "posts": "posts",
+
+    "instagramWarningTitle": "Instagram Post Cannot Be Deleted Remotely",
+    "instagramWarningDesc": "Instagram's API does not support deleting posts remotely. If you proceed, the post will be removed from our system, but you'll need to manually delete it from Instagram.",
+    "cancel": "Cancel",
+    "deleteFromSystem": "Delete from System",
+    "deleting": "Deleting..."
+  }
+}

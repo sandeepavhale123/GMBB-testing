@@ -1,0 +1,39 @@
+{
+  "createReportModal": {
+    "title": "Performance Report",
+    "fields": {
+      "reportName": {
+        "label": "Report Name",
+        "placeholder": "Enter report name"
+      },
+      "reportType": {
+        "label": "Report Type",
+        "compareLabel": "Comparison Report"
+      },
+      "dateRange": {
+        "label": "Date Range",
+        "select": "Select date range",
+        "period1": {
+          "label": "Period 1 (Current)",
+          "select": "Select first period"
+        },
+        "period2": {
+          "label": "Period 2 (Previous)",
+          "select": "Select second period"
+        }
+      },
+      "sectionsToggle": {
+        "label": "Toggle to show or hide sections of the report"
+      },
+      "sections": {
+        "label": "Report Sections",
+        "generateReport": "Generate Report"
+      }
+    },
+    "buttons": {
+      "close": "Close",
+      "generate": "Generate",
+      "generating": "Generating..."
+    }
+  }
+}

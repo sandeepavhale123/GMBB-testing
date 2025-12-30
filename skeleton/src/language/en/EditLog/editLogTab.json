@@ -1,0 +1,12 @@
+{
+  "editLogTab": {
+    "searchPlaceholder": "Search edit logs...",
+    "searchButton": "Search",
+    "resultsCount": "Showing {{count}} of {{total}} edit logs",
+    "errorLoad": "Failed to load edit logs",
+    "noData": "No edit history available",
+    "noSearchResults": "No edit logs found for your search",
+    "changedLabel": "Changed",
+    "loading": "Loading..."
+  }
+}

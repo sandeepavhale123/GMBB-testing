@@ -1,0 +1,25 @@
+{
+  "geoPositionModal": {
+    "toast": {
+      "copySuccess": {
+        "title": "Coordonnées copiées !",
+        "description": "Les coordonnées GPS ont été copiées dans le presse-papiers"
+      },
+      "copyError": {
+        "title": "Échec de la copie",
+        "description": "Impossible de copier les coordonnées dans le presse-papiers"
+      }
+    },
+    "header": {
+      "copyButton": "Copier les coordonnées",
+      "closeButton": "Fermer la fenêtre"
+    },
+    "content": {
+      "topResult": "Meilleur résultat",
+      "loading": "Chargement des résultats...",
+      "noResults": "Aucun résultat trouvé",
+      "yourBusiness": "Votre entreprise",
+      "reviews": "{{count}} avis"
+    }
+  }
+}

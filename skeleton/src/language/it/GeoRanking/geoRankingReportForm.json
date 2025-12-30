@@ -1,0 +1,60 @@
+{
+  "geoRankingReportForm": {
+    "title": "Configurazione Report",
+    "keywords": {
+      "label": "Parole chiave",
+      "placeholder": "parola1, parola2, parola3",
+      "tooltip": "Aggiungi fino a 5 parole chiave separate da virgole",
+      "maxReached": "⚠️ Hai raggiunto il limite massimo di 5 parole chiave. Puoi comunque modificare le parole chiave esistenti.",
+      "limitExceededToastTitle": "Limite Parole Chiave Superato",
+      "limitExceededToastDesc": "Sono state aggiunte solo le prime 5 parole chiave. Il limite massimo è 5 parole chiave.",
+      "invalidToastTitle": "Parole Chiave Non Valide",
+      "invalidToastDesc": "Per favore controlla le tue parole chiave."
+    },
+    "searchDataEngine": {
+      "label": "Motore Dati di Ricerca",
+      "mapApi": "API Mappa",
+      "briefcaseApi": "API Briefcase",
+      "missingApiKeyTitle": "Chiave API Mancante",
+      "missingApiKeyDesc": "Per favore aggiungi prima la chiave API andando su Impostazioni → Pagina Integrazioni."
+    },
+    "mapPoint": {
+      "label": "Punto Mappa",
+      "automatic": "Automatico",
+      "manually": "Manuale",
+      "manualInfo": "Clicca sulla mappa per posizionare i punti manualmente. Puoi trascinarli per riposizionarli.",
+      "pointsSelected": "Punti selezionati: {{count}}",
+      "clearAllPoints": "Cancella tutti i punti"
+    },
+    "distanceUnit": {
+      "label": "Unità di Distanza",
+      "meters": "Metri",
+      "miles": "Miglia"
+    },
+    "distanceValue": {
+      "label": "Distanza",
+      "placeholder": "Scegli…"
+    },
+    "gridSize": {
+      "label": "Dimensione Griglia"
+    },
+    "scheduleCheck": {
+      "label": "Pianifica Controllo",
+      "options": {
+        "onetime": "Una tantum",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
+      }
+    },
+    "language": {
+      "label": "Lingua"
+    },
+    "buttons": {
+      "checkRank": "Controlla posizionamento",
+      "processingKeyword": "Elaborazione parola chiave...",
+      "submittingRank": "Controllo posizionamento...",
+      "reset": "Reimposta & Nuova ricerca"
+    },
+    "pollingInfo": "🔄 La parola chiave è in elaborazione. Questo potrebbe richiedere qualche minuto..."
+  }
+}

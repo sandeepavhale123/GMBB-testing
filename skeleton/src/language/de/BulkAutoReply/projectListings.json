@@ -1,0 +1,32 @@
+{
+  "searchPlaceholder": "Standorte suchen...",
+  "addLocationButton": "Standort hinzufügen",
+  "table": {
+    "locationName": "Standortname",
+    "zipCode": "Postleitzahl",
+    "action": "Aktion",
+    "noLocations": "Keine Standorte gefunden"
+  },
+  "removeLocation": {
+    "title": "Standort entfernen",
+    "description": "Möchten Sie \"{{locationName}}\" wirklich aus diesem Projekt entfernen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "remove": "Entfernen"
+  },
+  "toast": {
+    "successTitle": "Erfolg",
+    "errorTitle": "Fehler",
+    "errorProjectId": "Projekt-ID wird zum Löschen des Eintrags benötigt",
+    "successDelete": "Eintrag erfolgreich aus dem Projekt entfernt",
+    "errorDelete": "Fehler beim Entfernen des Eintrags aus dem Projekt",
+    "errorAdd": "Bitte wählen Sie mindestens einen Eintrag zum Hinzufügen aus",
+    "successAdd": "{{count}} Eintrag(e) erfolgreich zum Projekt hinzugefügt",
+    "errorAddFailed": "Fehler beim Hinzufügen von Einträgen zum Projekt"
+  },
+  "addListingsModal": {
+    "title": "Einträge zum Projekt hinzufügen",
+    "cancel": "Abbrechen",
+    "addSelected": "Ausgewählte hinzufügen ({{count}})",
+    "adding": "Wird hinzugefügt..."
+  }
+}

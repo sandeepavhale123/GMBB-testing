@@ -1,0 +1,49 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Gérer le compte Google",
+    "pageDescription": "Connectez et surveillez vos profils d’entreprise Google afin de maximiser la visibilité locale et les performances SEO.",
+    "searchPlaceholder": "Rechercher des comptes par nom ou par e-mail",
+    "activeListingsBadge": "Fiches actives : {{active}}/{{allowed}}",
+    "addNewAccount": {
+      "full": "Ajouter un nouveau compte",
+      "short": "Ajouter"
+    },
+    "errorState": {
+      "tryAgain": "Réessayer"
+    },
+    "loading": "Chargement...",
+    "emptyState": {
+      "noAccountsConnected": "Aucun compte connecté",
+      "noAccountsFound": "Aucun compte trouvé",
+      "searchNoMatch": "Aucun compte ne correspond à \"{searchTerm}\". Essayez un autre terme de recherche.",
+      "addAccountCTA": "Cliquez sur « Ajouter un nouveau compte » pour synchroniser votre profil d’entreprise Google."
+    },
+    "modals": {
+      "addAccount": "Ajouter un compte",
+      "deleteAccount": {
+        "title": "Supprimer le compte",
+        "confirm": "Confirmer la suppression",
+        "accountDeleted": "Le compte Google \"{accountName}\" a été supprimé avec succès.",
+        "deleteTitle": "Échec de la suppression",
+        "deleteFailed": "Échec de la suppression du compte. Veuillez réessayer.",
+        "noEmail": "Aucun e-mail disponible",
+        "deleteSuccess": "Compte supprimé",
+        "successDesc": "Le compte Google {{name}} a été supprimé avec succès."
+      },
+      "refreshAccount": {
+        "title": "Compte actualisé",
+        "updateTitle": "Échec de la mise à jour",
+        "updateSuccess": "Groupes de fiches mis à jour",
+        "updateFailed": "Échec de la mise à jour des groupes de fiches. Veuillez réessayer.",
+        "refreshTitle": "Échec de l’actualisation",
+        "refreshFailed": "Échec de l’actualisation du compte. Veuillez réessayer."
+      }
+    },
+    "tableHeaders": {
+      "account": "Compte",
+      "totalListings": "Nombre total de fiches",
+      "connectedListings": "Fiches connectées",
+      "actions": "Actions"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "geoRankingReportPage": {
+    "processing": {
+      "title": "Keyword wird verarbeitet",
+      "description": "Das Keyword wird verarbeitet. Dies kann einige Minuten dauern..."
+    },
+    "modal": {
+      "error": {
+        "title": "Fehler",
+        "description": "Positionsdetails konnten nicht geladen werden"
+      }
+    },
+    "multiKeywordAlert": {
+      "title": "Keywords werden verarbeitet",
+      "description": "Ihre Keywords werden verarbeitet. Dies wird einige Zeit dauern. Sie können die Ergebnisse auf der GEO-Ranking-Seite überprüfen.",
+      "action": "Zur GEO-Ranking-Seite"
+    },
+    "sidebar": {
+      "activeTab": "geo-ranking"
+    },
+    "underPerforming": {
+      "title": "Schlecht performende Bereiche"
+    }
+  }
+}

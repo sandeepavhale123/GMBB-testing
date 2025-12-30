@@ -1,0 +1,15 @@
+{
+  "qaManagementPage": {
+    "noListingSelected": {
+      "title": "Ningún listado seleccionado",
+      "description": "Por favor, selecciona un listado de negocio para ver las Preguntas y Respuestas."
+    },
+    "loading": {
+      "message": "Cargando datos de Preguntas y Respuestas..."
+    },
+    "error": {
+      "title": "Error",
+      "description": "No se pudieron cargar los datos de Preguntas y Respuestas"
+    }
+  }
+}

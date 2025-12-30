@@ -1,0 +1,23 @@
+{
+  "visibilitySummaryTitle": "Visibility Summary",
+  "visibilitySummarySubtitle": "Total views from Google Search and Maps.",
+  "view":"View All",
+  
+  "googleSearchViews": "Google Search Views",
+  "googleMapsViews": "Google Maps Views",
+  
+  "percentageChange": "{{value}}% from last period",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Search",
+  "mapsBarName": "Maps",
+  
+  "searchViewsLegend": "Search Views",
+  "mapsViewsLegend": "Maps Views",
+
+  "hideTitle":"Hide Search Views",
+  "showTitle":"Show Search Views",
+
+  "hideMap":"Hide Maps Views",
+  "showMap":"Show Maps Views"
+}

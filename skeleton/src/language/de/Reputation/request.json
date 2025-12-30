@@ -1,0 +1,170 @@
+{
+  "title": "Bewertungsanfragen",
+  "subtitle": "Senden Sie Bewertungsanfragen an Ihre Kunden",
+  "createButton": "Erstellen",
+  "tabs": {
+    "campaign": "Kampagne",
+    "siteIntegration": "Seitenintegration",
+    "qrCode": "QR-Code",
+    "reviewLink": "Feedback-Formular",
+    "feedbackForms": "Feedback-Formular"
+  },
+  "integration": {
+    "title": "Kanalintegration",
+    "description": "Verbinden und verwalten Sie Ihre Integrationen von Bewertungsplattformen",
+    "available": "Verfügbare Integrationen",
+    "comming": "Demnächst verfügbar",
+    "status": {
+      "connected": "Verbunden",
+      "notConnected": "Nicht verbunden"
+    },
+    "button": {
+      "connect": "Verbinden",
+      "disconnect": "Trennen"
+    }
+  },
+  "qrCode": {
+    "title": "Bewertungs-QR-Code",
+    "description": "Erstellen und laden Sie QR-Codes für Ihre Bewertungsanfragen herunter",
+    "simpleCard": {
+      "title": "Einfacher QR-Code",
+      "description": "Laden Sie einen einfachen QR-Code herunter, der direkt zu Ihrer Bewertungsseite führt. Ideal für schnelles Teilen und Drucken.",
+      "downloadButton": "QR-Code herunterladen"
+    },
+    "posterCard": {
+      "title": "Individuelles QR-Poster",
+      "description": "Erstellen Sie ein gebrandetes Poster mit Ihrem QR-Code, Logo und individuellen Nachrichten. Ideal zur Anzeige in Ihrem Geschäft.",
+      "customizeButton": "Poster anpassen"
+    }
+  },
+  "table": {
+    "name": "Name",
+    "channel": "Kanal",
+    "status": "Status",
+    "date": "Datum",
+    "contacts": "Kontakte",
+    "delivered": "Zugestellt",
+    "action": "Aktion"
+  },
+  "status": {
+    "sent": "Gesendet",
+    "pending": "Ausstehend",
+    "scheduled": "Geplant",
+    "draft": "Entwurf",
+    "completed": "Abgeschlossen",
+    "failed": "Fehlgeschlagen"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
+  },
+  "contactsModal": {
+    "title": "{{campaignName}} – Kontakte",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "status": "Status",
+    "noContacts": "Keine Kontakte gefunden",
+    "showing": "Zeige {{count}} von {{total}} Kontakten"
+  },
+  "actions": {
+    "view": "Anzeigen",
+    "send": "Senden",
+    "delete": "Löschen"
+  },
+  "empty": {
+    "title": "Noch keine Kampagnen",
+    "description": "Erstellen Sie Ihre erste Bewertungsanfrage-Kampagne, um zu beginnen",
+    "button": "Kampagne erstellen"
+  },
+  "createCampaignModal": {
+    "title": "Kampagne erstellen",
+    "campaignName": "Kampagnenname",
+    "placeholder": "Kampagnennamen eingeben",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "creating": "Wird erstellt..."
+  },
+  "comingSoon": {
+    "title": "Demnächst verfügbar",
+    "description": "Diese Funktion befindet sich in der Entwicklung"
+  },
+  "templates": {
+    "title": "Vorlage",
+    "createButton": "Erstellen",
+    "table": {
+      "name": "Name",
+      "channel": "Kanal",
+      "status": "Status",
+      "date": "Datum",
+      "action": "Aktion"
+    },
+    "status": {
+      "active": "Aktiv",
+      "draft": "Entwurf"
+    },
+    "actions": {
+      "view": "Anzeigen",
+      "delete": "Löschen"
+    },
+    "empty": {
+      "title": "Noch keine Vorlagen",
+      "description": "Erstellen Sie Ihre erste Bewertungsanfrage-Vorlage, um zu beginnen",
+      "button": "Vorlage erstellen"
+    },
+    "deleteDialog": {
+      "title": "Vorlage löschen",
+      "description": "Möchten Sie diese Vorlage wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Bewertungsanfrage senden",
+    "selectTemplate": "Vorlage auswählen",
+    "selectTemplatePlaceholder": "Vorlage auswählen...",
+    "templateContent": "Nachrichteninhalt",
+    "noTemplatesAvailable": "Keine aktiven Vorlagen verfügbar",
+    "createTemplateFirst": "Bitte erstellen Sie zuerst eine Vorlage",
+    "templatePreview": "Vorschau",
+    "cancel": "Abbrechen",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "success": {
+      "title": "Bewertungsanfrage gesendet",
+      "description": "Ihre Bewertungsanfrage wurde erfolgreich an {{contactName}} gesendet"
+    },
+    "error": {
+      "title": "Senden fehlgeschlagen",
+      "description": "Die Bewertungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    }
+  },
+  "feedbackForms": {
+    "title": "Feedback-Formular",
+    "description": "Erstellen und verwalten Sie benutzerdefinierte Feedback-Formulare für Ihre Kunden",
+    "createButton": "Formular erstellen",
+    "table": {
+      "name": "Name",
+      "createdAt": "Erstellt am",
+      "action": "Aktion"
+    },
+    "actions": {
+      "view": "Anzeigen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "empty": {
+      "title": "Noch keine Feedback-Formulare",
+      "description": "Erstellen Sie Ihr erstes benutzerdefiniertes Feedback-Formular, um strukturiertes Feedback zu sammeln",
+      "button": "Feedback-Formular erstellen"
+    },
+    "deleteDialog": {
+      "title": "Feedback-Formular löschen",
+      "description": "Möchten Sie dieses Formular wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
+    },
+    "failed": "Fehler beim Laden der Feedback-Formulare. Bitte versuchen Sie es erneut."
+  }
+}

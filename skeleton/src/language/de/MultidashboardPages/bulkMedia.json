@@ -1,0 +1,47 @@
+{
+  "header": {
+    "title": "Massen-Medienverwaltung",
+    "subtitle": "Medien auf mehreren Einträgen hochladen und organisieren."
+  },
+  "buttons": {
+    "upload": "Medien hochladen",
+    "tryAgain": "Erneut versuchen",
+    "viewDetails": "Details ansehen",
+    "delete": "Löschen",
+    "deleting": "Wird gelöscht..."
+  },
+  "messages": {
+    "errorLoading": "Fehler beim Laden der Massenmedien: {{error}}",
+    "noMediaTitle": "Noch keine Massenmedien",
+    "noMediaDescription": "Laden Sie Ihre ersten Massenmedien hoch, um zu beginnen",
+    "noImage": "Kein Bild",
+    "noActivePosts": "Keine aktiven Beiträge",
+    "postedOn": "Veröffentlicht auf {{count}} Einträgen",
+    "failedOn": "Fehlgeschlagen auf {{count}} Einträgen",
+    "scheduledOn": "Geplant auf {{count}} Einträgen"
+  },
+  "mediaTypes": {
+    "video": "Video",
+    "photo": "Foto"
+  },
+  "location": "Gesamtanzahl der Standorte",
+  "pagination": {
+    "showing": "Zeige {{from}} bis {{to}} von {{total}} Medien"
+  },
+  "deleteDialog": {
+    "title": "Medien löschen",
+    "description": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt das Medium aus allen zugehörigen Einträgen.",
+    "cancel": "Abbrechen",
+    "confirm": "Löschen"
+  },
+  "toast": {
+    "success": {
+      "title": "Erfolg",
+      "description": "Medien erfolgreich gelöscht"
+    },
+    "error": {
+      "title": "Fehler",
+      "description": "Medien konnten nicht gelöscht werden. Bitte versuchen Sie es erneut."
+    }
+  }
+}

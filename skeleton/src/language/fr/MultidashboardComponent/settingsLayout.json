@@ -1,0 +1,15 @@
+{
+  "title": "Paramètres",
+  "subtitle": "Gérez votre compte et vos préférences.",
+  "nav": {
+    "googleAccount": "Compte Google",
+    "manageGroups": "Gérer les groupes",
+    "teamMembers": "Membres de l'équipe",
+    "subscription": "Abonnement",
+    "themeCustomization": "Personnalisation du thème",
+    "reportBranding": "Branding des rapports",
+    "notifications": "Notifications",
+    "integrations": "Intégrations",
+    "activityLogs": "Journaux d’activité"
+  }
+}

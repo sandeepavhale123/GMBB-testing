@@ -1,0 +1,18 @@
+{
+  "linkedin": {
+    "fallbackBusinessName": "Votre entreprise",
+    "fallbackContent": "Le contenu de votre publication apparaîtra ici...",
+    "followers": "{{count}} abonnés",
+    "justNow": "À l'instant",
+    "likesCount": "{{count}}",
+    "commentsCount": "{{count}} commentaires",
+    "repostsCount": "{{count}} repartages",
+    "altmedia": "Média de la publication",
+    "actions": {
+      "like": "J'aime",
+      "comment": "Commenter",
+      "repost": "Partager",
+      "send": "Envoyer"
+    }
+  }
+}

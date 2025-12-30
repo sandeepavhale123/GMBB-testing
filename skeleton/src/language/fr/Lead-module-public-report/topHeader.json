@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Classement du rapport",
+    "defaultSubtitle": "Rapports professionnels d’entreprise",
+    "navigation": {
+      "overall": "Global",
+      "presence": "Présence",
+      "posts": "Publications",
+      "competitors": "Concurrents",
+      "reviews": "Avis"
+    },
+    "menu": {
+      "toggle": "Basculer le menu de navigation"
+    }
+  }
+}

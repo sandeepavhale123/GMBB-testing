@@ -1,0 +1,15 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Review Summary",
+      "autoResponse": "Auto Response"
+    },
+    "replySettingBadge": {
+      "prefix": "Activated auto reply setting : ",
+      "AI": "AI Reply",
+      "CUSTOM": "Custom Template",
+      "DNR": "Do Not Respond"
+    },
+    "export":"Export Reviews"
+  }
+}

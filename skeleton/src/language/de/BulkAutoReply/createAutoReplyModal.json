@@ -1,0 +1,47 @@
+{
+  "dialog": {
+    "title": "Automatische Antwort Projekt erstellen",
+    "description": "Richten Sie automatische Antworten für Ihre Einträge ein, indem Sie Vorlagen und Einstellungen konfigurieren.",
+    "close": "Schließen",
+    "createProject": "Projekt erstellen",
+    "creating": "Wird erstellt..."
+  },
+  "labels": {
+    "projectName": "Projektname",
+    "replyType": "Antworttyp",
+    "projectPlaceholder": "Projektnamen eingeben"
+  },
+  "replyTypes": {
+    "ai": {
+      "title": "KI-generierte Antworten",
+      "description": "Intelligente Antworten, unterstützt durch KI"
+    },
+    "template": {
+      "title": "Eigene Vorlage",
+      "description": "Verwenden Sie Ihre eigene Antwortvorlage"
+    },
+    "dnr": {
+      "title": "DNR (Nicht Antworten)",
+      "description": "Automatische Antworten für diese Einträge überspringen"
+    }
+  },
+  "toast": {
+    "success": {
+      "title": "Erfolg",
+      "created": "Automatische Antwort-Projekt erfolgreich erstellt"
+    },
+    "error": {
+      "title": "Fehler",
+      "projectName": "Bitte geben Sie einen Projektnamen ein",
+      "selectListing": "Bitte wählen Sie mindestens einen Eintrag aus.",
+      "createProject": "Fehler beim Erstellen des automatischen Antwortprojekts"
+    }
+  },
+  "conflictDialog": {
+    "title": "Konflikt bei Auto-Antwort-Einstellungen",
+    "description": "Die folgenden Standorte haben bereits konfigurierte Auto-Antwort-Einstellungen. Sie können einzelne Einträge entfernen oder alle überschreiben:",
+    "overrideInfo": "Durch das Erstellen dieses Projekts werden die bestehenden Auto-Antwort-Einstellungen für die verbleibenden Standorte überschrieben.",
+    "cancel": "Abbrechen",
+    "overrideContinue": "Überschreiben & Fortfahren"
+  }
+}

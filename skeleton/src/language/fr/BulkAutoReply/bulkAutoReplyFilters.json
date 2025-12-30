@@ -1,0 +1,10 @@
+{
+  "searchPlaceholder": "Rechercher des projets...",
+  "filter": "Filtrer",
+  "filters": {
+    "all": "Toutes les réponses",
+    "ai": "AI",
+    "template": "Modèle personnalisé",
+    "dnr": "DNR (Ne pas répondre)"
+  }
+}

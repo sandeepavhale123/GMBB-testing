@@ -1,0 +1,20 @@
+{
+  "label": "Verfügbare Einträge",
+  "dropdown": {
+    "noneSelected": "Einträge auswählen",
+    "selectedCount": "{{count}} Eintrag{{plural}} ausgewählt"
+  },
+  "searchPlaceholder": "Einträge suchen...",
+  "loading": "Wird geladen...",
+  "noResults": {
+    "default": "Keine verfügbaren Einträge zum Hinzufügen.",
+    "search": "Keine Einträge gefunden.",
+    "error": "{{errorMessage}}"
+  },
+  "selectAll": "Alle auswählen ({{count}})",
+  "deselectAll": "Alle abwählen ({{count}})",
+  "listingsCount": "{{count}} Eintrag{{plural}}",
+  "zip": "PLZ: {{zipCode}}",
+  "footerNote": "Bitte wählen Sie mindestens einen Eintrag aus, um ihn der Gruppe hinzuzufügen",
+  "unknownUser": "Unbekannt"
+}

@@ -1,0 +1,23 @@
+{
+  "refreshAccountModal": {
+    "title": "Sélectionner les groupes de fiches",
+    "description": "Choisissez les groupes de fiches que vous souhaitez actualiser",
+    "selectAll": {
+      "label": "Sélectionner tous les groupes de fiches",
+      "count": "{{selected}} sur {{total}} sélectionnés"
+    },
+    "groups": {
+      "available": "Groupes disponibles :",
+      "empty": "Aucun groupe de fiches disponible"
+    },
+    "footer": {
+      "selected": "{{count}} groupe sélectionné",
+      "selectedPlural": "{{count}} groupes sélectionnés"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "submit": "Soumettre ({{count}})",
+      "submitting": "Soumission en cours..."
+    }
+  }
+}

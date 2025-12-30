@@ -1,0 +1,40 @@
+{
+  "sidebar": {
+    "menu": {
+      "main-dashboard": "Panel Principal",
+      "overview": "Tablero",
+      "posts": "Publicaciones",
+      "media": "Medios",
+      "reviews": "Reseñas",
+      "insights": "Estadísticas",
+      "qa": "Preguntas y Respuestas",
+      "businesses": "Gestión",
+      "tracking": "Seguimiento",
+      "keywords": "Investigación de Palabras Clave",
+      "geo-ranking": "Clasificación GEO",
+      "citation": "Citas",
+      "reports": "Informes",
+      "performance-report": "Informe de Rendimiento",
+      "bulk-report": "Informe Masivo",
+      "gallery": "Galería",
+      "settings": "Configuración"
+    },
+    "upgradeCard": {
+      "title": {
+        "planExpired": "Plan Expirado",
+        "upgradePlan": "Actualizar Plan"
+      },
+      "description": {
+        "planExpired": "Su plan ha expirado. Renueve para continuar accediendo a las funciones",
+        "upgradePlan": "Desbloquee funciones premium y obtenga acceso ilimitado"
+      },
+      "button": {
+        "renewNow": "Renovar Ahora",
+        "upgradeNow": "Actualizar Ahora"
+      }
+    },
+    "profile": {
+      "userFallback": "Usuario"
+    }
+  }
+}

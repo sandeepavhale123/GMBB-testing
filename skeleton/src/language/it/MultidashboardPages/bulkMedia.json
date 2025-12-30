@@ -1,0 +1,47 @@
+{
+  "header": {
+    "title": "Gestione dei Media in Massa",
+    "subtitle": "Carica e organizza i media su più inserzioni."
+  },
+  "buttons": {
+    "upload": "Carica Media",
+    "tryAgain": "Riprova",
+    "viewDetails": "Visualizza Dettagli",
+    "delete": "Elimina",
+    "deleting": "Eliminazione in corso..."
+  },
+  "messages": {
+    "errorLoading": "Errore nel caricamento dei media in massa: {{error}}",
+    "noMediaTitle": "Nessun media in massa presente",
+    "noMediaDescription": "Carica i tuoi primi media in massa per iniziare",
+    "noImage": "Nessuna immagine",
+    "noActivePosts": "Nessun post attivo",
+    "postedOn": "Pubblicato su {{count}} inserzioni",
+    "failedOn": "Fallito su {{count}} inserzioni",
+    "scheduledOn": "Programmato su {{count}} inserzioni"
+  },
+  "mediaTypes": {
+    "video": "Video",
+    "photo": "Foto"
+  },
+  "location": "totale inserzioni",
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} di {{total}} media"
+  },
+  "deleteDialog": {
+    "title": "Elimina Media",
+    "description": "Sei sicuro di voler eliminare \"{{title}}\"? Questa azione non può essere annullata e rimuoverà il media da tutte le inserzioni associate.",
+    "cancel": "Annulla",
+    "confirm": "Elimina"
+  },
+  "toast": {
+    "success": {
+      "title": "Successo",
+      "description": "Media eliminato con successo"
+    },
+    "error": {
+      "title": "Errore",
+      "description": "Impossibile eliminare il media. Per favore, riprova."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "feedbackForm": {
+    "title": {
+      "create": "Create Feedback Form",
+      "edit": "Edit Feedback Form"
+    },
+
+    "buttons": {
+      "viewJson": "View JSON",
+      "cancel": "Cancel",
+      "saveForm": "Save Form",
+      "save": "Save"
+    },
+
+    "tabs": {
+      "fields": "Fields",
+      "canvas": "Canvas",
+      "properties": "Properties"
+    },
+
+    "toast": {
+      "fieldAdded": "{{fieldType}} field added",
+      "fieldDeleted": "Field deleted",
+      "fieldDuplicated": "Field duplicated",
+      "createdSuccess": "Feedback form created successfully",
+      "updatedSuccess": "Feedback form updated successfully"
+    }
+  }
+}

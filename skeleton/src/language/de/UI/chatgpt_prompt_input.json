@@ -1,0 +1,16 @@
+{
+  "placeholder": "Nachricht...",
+  "removeImage": "Bild entfernen",
+  "imagePreviewAlt": "Bildvorschau",
+  "fullSizePreviewAlt": "Vorschau in voller Größe",
+  "questions": "Fragen",
+  "loadingQuestions": "Fragen werden geladen...",
+  "retry": "Erneut versuchen",
+  "selectCategory": "Kategorie auswählen:",
+  "back": "← Zurück",
+  "close": "Schließen",
+  "recordVoice": "Sprache aufnehmen",
+  "send": "Senden",
+  "sendMessage": "Nachricht senden",
+  "errorLoading": "Fragen konnten nicht geladen werden. Bitte versuchen Sie es erneut."
+}

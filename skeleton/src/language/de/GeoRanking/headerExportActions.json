@@ -1,0 +1,21 @@
+{
+  "headerExportActions": {
+    "credits": {
+      "label": "Verfügbare Guthaben",
+      "icon": "🪙"
+    },
+    "buttons": {
+      "refresh": {
+        "idle": "Aktualisieren",
+        "loading": "Wird aktualisiert..."
+      },
+      "clone": "Klonen",
+      "share": "Teilen",
+      "checkRank": "Rang prüfen",
+      "export": {
+        "idle": "Bericht exportieren",
+        "loading": "Wird exportiert..."
+      }
+    }
+  }
+}

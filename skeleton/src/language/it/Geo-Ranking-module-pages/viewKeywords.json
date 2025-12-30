@@ -1,0 +1,67 @@
+{
+  "title": "Parole chiave del progetto",
+  "subtitle": "Gestisci e visualizza tutte le parole chiave per il progetto #{{projectId}}",
+  "total": "Totale:",
+  "keyword": "parole chiave",
+  "addKeywords": "Aggiungi parole chiave",
+  "n/a": "N/D",
+  "invalid": "Data non valida",
+  "bulk": {
+    "selected": "{{count}} parola chiave selezionata",
+    "selectedPlural": "{{count}} parole chiave selezionate",
+    "clearSelection": "Cancella selezione",
+    "deleteSelected": "Elimina selezionate"
+  },
+  "table": {
+    "selectAll": "Seleziona tutte le parole chiave",
+    "srNo": "N.°",
+    "keyword": "Parola chiave",
+    "arp": "ARP",
+    "arpTooltip": "Posizione media nel ranking",
+    "atrp": "ATRP",
+    "atrpTooltip": "Posizione media nel ranking più alto",
+    "solv": "SoLV",
+    "solvTooltip": "Quota di visibilità locale",
+    "addedOn": "Aggiunto il",
+    "status": "Stato",
+    "actions": "Azioni",
+    "viewReport": "Visualizza rapporto",
+    "delete": "Elimina"
+  },
+  "pagination": {
+    "showing": "Mostrando da {{start}} a {{end}} di {{total}} parole chiave",
+    "previous": "Precedente",
+    "next": "Successivo"
+  },
+  "empty": {
+    "title": "Nessuna parola chiave trovata",
+    "description": "Inizia a monitorare le tue classifiche aggiungendo parole chiave a questo progetto.",
+    "button": "Aggiungi la tua prima parola chiave"
+  },
+  "deleteDialog": {
+    "title": "Conferma eliminazione",
+    "description": "Sei sicuro di voler eliminare {{count}} parola chiave{{plural}}? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "confirm": "Elimina",
+    "deleting": "Eliminazione in corso..."
+  },
+  "statuses": {
+    "completed": "Completato",
+    "pending": "In sospeso",
+    "failed": "Non riuscito",
+    "processing": "Elaborazione in corso"
+  },
+  "errors": {
+    "title": "Errore",
+    "fetch": "Impossibile recuperare le parole chiave",
+    "delete": "Impossibile eliminare le parole chiave",
+    "missingProjectId": "ID progetto mancante"
+  },
+  "success": {
+    "title": "Successo",
+    "delete1": "{{count}} parola chiave eliminata con successo",
+    "delete2": "{{count}} parole chiave eliminate con successo"
+  },
+  "loading": "Caricamento...",
+  "tryAgain": "Riprova"
+}

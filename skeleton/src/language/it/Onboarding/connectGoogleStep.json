@@ -1,0 +1,22 @@
+{
+  "connectGoogleStep": {
+    "title": "Autenticazione Sicura con Google",
+    "description": "Utilizziamo il sistema sicuro OAuth di Google per connettere il tuo account. Le tue credenziali non vengono mai memorizzate sui nostri server.",
+    "button": "Connetti con Google",
+    "permissions": [
+      "Visualizzare e gestire le informazioni della tua attività",
+      "Leggere e rispondere alle recensioni dei clienti",
+      "Creare e gestire i post",
+      "Accedere alle informazioni sulle prestazioni"
+    ],
+    "nextSteps": {
+      "title": "Cosa succede dopo?",
+      "description": "Verrai reindirizzato a Google per accedere e autorizzare GMB Briefcase. Una volta connesso, importeremo automaticamente le tue attività."
+    },
+    "legal": {
+      "agreement": "Connettendoti, accetti i nostri",
+      "termsOfService": "Termini di Servizio",
+      "privacyPolicy": "Privacy Policy"
+    }
+  }
+}

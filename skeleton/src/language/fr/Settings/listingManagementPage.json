@@ -1,0 +1,10 @@
+{
+  "listingManagementPage": {
+    "pageTitle": "Gérer les fiches",
+    "backButton": "Retour",
+    "loadingListings": "Chargement des fiches...",
+    "errorTitle": "Impossible de charger les fiches",
+    "errorMessage": "{{error}}",
+    "retryButton": "Réessayer"
+  }
+}

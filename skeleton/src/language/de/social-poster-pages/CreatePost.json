@@ -1,0 +1,48 @@
+{
+  "createPost": {
+    "titleCreate": "Beitrag erstellen",
+    "titleEdit": "Beitrag bearbeiten",
+    "subtitle": "Beiträge erstellen und auf mehreren Plattformen planen",
+
+    "errors": {
+      "enterContent": "Bitte geben Sie den Inhalt des Beitrags ein",
+      "selectAccount": "Bitte wählen Sie mindestens ein Konto aus",
+      "exceedsLimit": "Der Inhalt überschreitet das Zeichenlimit von {{limit}} Zeichen",
+      "instagramMediaRequired": "Instagram erfordert mindestens ein Bild oder Video",
+      "scheduleMissing": "Bitte wählen Sie Datum und Uhrzeit für den geplanten Beitrag",
+      "invalidFile": "Bitte laden Sie eine gültige Bild- oder Videodatei hoch",
+      "onlyOneMedia": "Sie können nur 1 Video oder 1 Bild hochladen",
+      "uploadFailed": "Medien konnten nicht hochgeladen werden. Bitte versuchen Sie es erneut.",
+      "removeFailed": "Medien konnten nicht entfernt werden"
+    },
+
+    "success": {
+      "mediaUploaded": "Medien erfolgreich hochgeladen",
+      "mediaRemoved": "Medien erfolgreich entfernt",
+      "formReset": "Formular zurückgesetzt"
+    },
+
+    "buttons": {
+      "cancel": "Abbrechen",
+      "insertLink": "Link einfügen",
+      "ok": "OK"
+    },
+
+    "dialogs": {
+      "emojiPicker": "Emoji auswählen",
+      "linkDialogTitle": "Link hinzufügen",
+      "linkDialogDescription": "Geben Sie den Linktext und die URL ein",
+      "previewTitle": "Beitragsvorschau",
+      "limitWarningTitle": "Zeichenlimit überschritten",
+      "limitWarningDescription": "Bitte passen Sie den Inhalt für diese Plattformen an"
+    },
+
+    "labels": {
+      "linkText": "Linktext",
+      "url": "URL",
+      "placeholder":"Hier klicken",
+      "url-place":"https://example.com",
+      "characters": "Zeichen"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "label": "Fiches disponibles",
+  "dropdown": {
+    "noneSelected": "Sélectionner des fiches",
+    "selectedCount": "{{count}} fiche{{plural}} sélectionnée{{plural}}"
+  },
+  "searchPlaceholder": "Rechercher des fiches...",
+  "loading": "Chargement...",
+  "noResults": {
+    "default": "Aucune fiche disponible à ajouter.",
+    "search": "Aucune fiche trouvée.",
+    "error": "{{errorMessage}}"
+  },
+  "selectAll": "Tout sélectionner ({{count}})",
+  "deselectAll": "Tout désélectionner ({{count}})",
+  "listingsCount": "{{count}} fiche{{plural}}",
+  "zip": "Code postal : {{zipCode}}",
+  "footerNote": "Sélectionnez au moins une fiche à ajouter au groupe",
+  "unknownUser": "Inconnu"
+}

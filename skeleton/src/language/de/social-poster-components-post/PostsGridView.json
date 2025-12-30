@@ -1,0 +1,38 @@
+{
+  "common": {
+    "noPosts": "Noch keine Beiträge",
+    "createFirstPost": "Erstelle deinen ersten Beitrag, um ihn hier zu sehen",
+    "aredelete": "Möchten Sie diesen Beitrag wirklich löschen?",
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "retry": "Erneut versuchen",
+    "delete": "Löschen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite",
+    "of": "von"
+  },
+
+  "status": {
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "publishing": "Wird veröffentlicht",
+    "published": "Veröffentlicht",
+    "failed": "Fehlgeschlagen"
+  },
+
+  "grid": {
+    "postDetails": "Beitragsdetails",
+    "viewPublishedPost": "Veröffentlichten Beitrag ansehen",
+    "showing": "Zeige",
+    "to": "bis",
+    "of": "von",
+    "posts": "Beiträge",
+
+    "instagramWarningTitle": "Instagram-Beitrag kann nicht remote gelöscht werden",
+    "instagramWarningDesc": "Die API von Instagram unterstützt das Löschen von Beiträgen nicht remote. Wenn Sie fortfahren, wird der Beitrag aus unserem System entfernt, Sie müssen ihn jedoch manuell auf Instagram löschen.",
+    "cancel": "Abbrechen",
+    "deleteFromSystem": "Aus System löschen",
+    "deleting": "Löschen..."
+  }
+}

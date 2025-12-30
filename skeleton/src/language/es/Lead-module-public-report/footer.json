@@ -1,0 +1,6 @@
+{
+  "emailLabel": "Correo electrónico",
+  "phoneLabel": "Teléfono",
+  "addressLabel": "Dirección",
+  "defaultLogoFallback": "C"
+}

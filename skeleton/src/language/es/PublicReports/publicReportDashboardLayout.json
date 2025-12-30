@@ -1,0 +1,23 @@
+{
+  "publicGeoRankingReport": {
+    "title": "Informe de Clasificación GEO",
+    "loading": "Cargando informe de clasificación GEO...",
+    "controls": {
+      "selectKeyword": "Seleccionar palabra clave",
+      "overallVisibility": "Visibilidad general",
+      "totalKeywords": "Palabras clave totales",
+      "reportFrequency": "Frecuencia del informe",
+      "individual": "Individual",
+      "comparison": "Comparación"
+    },
+    "rank": "Rango",
+    "chart": {
+      "rankingLegend": "Leyenda de clasificación",
+      "legend": "Leyenda",
+      "noData": "No hay datos disponibles"
+    },
+    "comparison": {
+      "visibility": "Visibilidad"
+    }
+  }
+}

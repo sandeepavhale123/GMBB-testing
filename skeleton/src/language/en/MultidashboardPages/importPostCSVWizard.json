@@ -1,0 +1,84 @@
+{
+  "importPostCSVWizard": {
+    "title": "Import Post CSV",
+    "steps": {
+      "1": "Select Listings",
+      "2": "Upload File",
+      "3": "Quality Control",
+      "4": "Submit"
+    },
+    "uploadError":"Upload Error",
+    "stepCount": "Step {{currentStep}} of 4",
+    "selectListings": {
+      "heading": "Select Listings",
+      "description": "Choose the listings and post type for your bulk import.",
+      "postTypeLabel": "Post Type",
+      "postTypePlaceholder": "Select file type",
+      "postTypeOptions": {
+        "0": "Select file type",
+        "1": "Regular post file",
+        "2": "Event post file",
+        "3": "Offer post file"
+      },
+      "next": "Next",
+      "generatingCSV": "Generating CSV..."
+    },
+    "uploadFile": {
+      "heading": "Upload File",
+      "description": "Upload your CSV file for bulk post import.",
+      "downloadSample": "Download Generated CSV File",
+      "previous": "Previous",
+      "next": "Next",
+      "uploading": "Uploading..."
+    },
+    "qualityControl": {
+      "heading": "Quality Control",
+      "description": "Review your uploaded file validation results.",
+      "uploadSummary": "Upload Summary",
+      "validationErrorsTitle": "Validation Errors Found - Please fix and re-upload",
+      "reuploadFile": "Re-upload File",
+      "allRowsValid": "All rows validated successfully!",
+      "processedRows": "✓ {{count}} rows processed",
+      "noErrors": "✓ No validation errors found",
+      "readyForSubmission": "✓ Ready for submission",
+      "notesLabel": "Notes (Optional)",
+      "notesPlaceholder": "Add any notes about this import...",
+      "submit": "Submit Import",
+      "saving": "Saving...",
+      "fixErrors": "Fix Errors to Continue"
+    },
+    "submit": {
+      "heading": "Congratulations!",
+      "description": "All your posts have been successfully imported in bulk.",
+      "goToDashboard": "Go to Main Dashboard",
+      "viewPostDetails": "View Post Details"
+    },
+    "row":"Row",
+    "error":"error(s)",
+    "file":"File",
+    "totalRows":"Total Rows",
+    "err":"Errors",
+    "errors": {
+        "title":"Error",
+      "selectListing": "Please select at least one listing.",
+      "selectPostType": "Please select a valid post type.",
+      "selectFile": "Please select a file to upload.",
+      "noUploadedFile": "No uploaded file found. Please upload a file first.",
+      "sampleNotAvailable": "Sample CSV file is not available. Please go back to step 1.",
+      "csvGenerateFailed": "Failed to generate CSV file. Please try again.",
+      "uploadFailed": "Failed to upload file. Please try again.",
+      "saveFailed": "Failed to save bulk sheet. Please try again.",
+      "authFailed": "Authentication failed. Please log in again.",
+      "permissionDenied": "You don't have permission to perform this action.",
+      "serverError": "Server error occurred. Please try again later."
+    },
+    "success": {
+    "title":"Success",
+    "titleUpload":"Upload Complete",
+      "csvGenerated": "CSV file generated successfully",
+      "uploadSuccess": "File uploaded and validated successfully",
+      "uploadWithErrors": "File uploaded with {{count}} validation errors. Please review.",
+      "bulkSaveSuccess": "Successfully imported {{count}} posts"
+    }
+  }
+}

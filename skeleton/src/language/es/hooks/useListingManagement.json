@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "Buscar fichas",
+  "filterAll": "Todas",
+  "filterActive": "Activas",
+  "filterInactive": "Inactivas",
+  "viewListingSuccessTitle": "Abriendo ficha",
+  "viewListingSuccessDesc": "Abriendo la página de la ficha {{name}}.",
+  "toggleSuccess": "Estado de la ficha actualizado correctamente",
+  "toggleFailed": "No se pudo actualizar el estado de la ficha",
+  "bulkStatusRefresh": "Actualizando fichas comerciales...",
+  "paginationNext": "Siguiente",
+  "paginationPrev": "Anterior"
+}

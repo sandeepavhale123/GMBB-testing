@@ -1,0 +1,23 @@
+{
+  "refreshAccountModal": {
+    "title": "Listing-Gruppen auswählen",
+    "description": "Wählen Sie die Listing-Gruppen aus, die Sie aktualisieren möchten",
+    "selectAll": {
+      "label": "Alle Listing-Gruppen auswählen",
+      "count": "{{selected}} von {{total}} ausgewählt"
+    },
+    "groups": {
+      "available": "Verfügbare Gruppen:",
+      "empty": "Keine Listing-Gruppen verfügbar"
+    },
+    "footer": {
+      "selected": "{{count}} Gruppe ausgewählt",
+      "selectedPlural": "{{count}} Gruppen ausgewählt"
+    },
+    "buttons": {
+      "cancel": "Abbrechen",
+      "submit": "Absenden ({{count}})",
+      "submitting": "Wird gesendet..."
+    }
+  }
+}

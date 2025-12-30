@@ -1,0 +1,32 @@
+{
+  "sentiment": {
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif"
+  },
+  "location": "{{locationName}} • {{zipcode}}",
+  "rating": "({{rating}}/5)",
+  "review": {
+    "comment": "Commentaire de l'avis",
+    "repliedOn": "Répondu le {{date}}"
+  },
+  "actions": {
+    "generateAI": "Générer avec Genie",
+    "replyManually": "Répondre manuellement",
+    "editReply": "Modifier la réponse",
+    "deleteReply": "Supprimer la réponse",
+    "share": "Partager",
+    "viewDetails": "Voir les détails"
+  },
+  "tooltips": {
+    "dnr": "Réponse désactivée — le paramètre DNR (Ne pas répondre) est actif pour cet avis."
+  },
+  "dialogs": {
+    "deleteReply": {
+      "title": "Supprimer la réponse",
+      "description": "Êtes-vous sûr de vouloir supprimer cette réponse ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    }
+  }
+}

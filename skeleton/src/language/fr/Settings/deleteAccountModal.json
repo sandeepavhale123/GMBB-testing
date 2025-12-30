@@ -1,0 +1,13 @@
+{
+  "deleteAccountModal": {
+    "title": "Supprimer le compte",
+    "description1": "Êtes-vous sûr de vouloir supprimer le compte ",
+    "description2": "\"{{accountName}}\"",
+    "description3": " avec cet email ",
+    "description4": "\"{{accountEmail}}\"",
+    "description5": " ? Cette action est irréversible et supprimera toutes les fiches et données associées.",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "deleting": "Suppression en cours..."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "reportBranding": {
+    "success": {
+      "update": "Report branding updated successfully",
+      "delete": "Report branding deleted successfully"
+    },
+    "error": {
+      "update": "Failed to update report branding. Please try again.",
+      "delete": "Failed to delete report branding. Please try again."
+    },
+    "toast": {
+      "titleSuccess": "Success",
+      "titleError": "Error"
+    }
+  }
+}

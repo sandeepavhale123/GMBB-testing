@@ -1,0 +1,49 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Administrar cuenta de Google",
+    "pageDescription": "Conecta y supervisa tus Perfiles de Empresa de Google para maximizar la visibilidad local y el rendimiento SEO.",
+    "searchPlaceholder": "Buscar cuentas por nombre o correo electrónico",
+    "activeListingsBadge": "Listados activos: {{active}}/{{allowed}}",
+    "addNewAccount": {
+      "full": "Agregar nueva cuenta",
+      "short": "Agregar"
+    },
+    "errorState": {
+      "tryAgain": "Intentar de nuevo"
+    },
+    "loading": "Cargando...",
+    "emptyState": {
+      "noAccountsConnected": "No hay cuentas conectadas",
+      "noAccountsFound": "No se encontraron cuentas",
+      "searchNoMatch": "Ninguna cuenta coincide con \"{searchTerm}\". Prueba con otro término de búsqueda.",
+      "addAccountCTA": "Haz clic en 'Agregar nueva cuenta' para sincronizar tu Perfil de Empresa de Google."
+    },
+    "modals": {
+      "addAccount": "Agregar cuenta",
+      "deleteAccount": {
+        "title": "Eliminar cuenta",
+        "confirm": "Confirmar eliminación",
+        "accountDeleted": "La cuenta de Google \"{accountName}\" se ha eliminado correctamente.",
+        "deleteTitle": "Error al eliminar",
+        "deleteFailed": "No se pudo eliminar la cuenta. Por favor, inténtalo de nuevo.",
+        "noEmail": "No hay correo electrónico disponible",
+        "deleteSuccess": "Cuenta eliminada",
+        "successDesc": "La cuenta de Google {{name}} se ha eliminado correctamente."
+      },
+      "refreshAccount": {
+        "title": "Cuenta actualizada",
+        "updateTitle": "Error en la actualización",
+        "updateSuccess": "Grupos de listados actualizados",
+        "updateFailed": "No se pudieron actualizar los grupos de listados. Por favor, inténtalo de nuevo.",
+        "refreshTitle": "Error al actualizar",
+        "refreshFailed": "No se pudo actualizar la cuenta. Por favor, inténtalo de nuevo."
+      }
+    },
+    "tableHeaders": {
+      "account": "Cuenta",
+      "totalListings": "Listados totales",
+      "connectedListings": "Listados conectados",
+      "actions": "Acciones"
+    }
+  }
+}

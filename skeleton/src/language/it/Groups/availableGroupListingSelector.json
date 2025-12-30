@@ -1,0 +1,20 @@
+{
+  "label": "Inserzioni disponibili",
+  "dropdown": {
+    "noneSelected": "Seleziona inserzioni",
+    "selectedCount": "{{count}} inserzione{{plural}} selezionata{{plural}}"
+  },
+  "searchPlaceholder": "Cerca inserzioni...",
+  "loading": "Caricamento...",
+  "noResults": {
+    "default": "Nessuna inserzione disponibile da aggiungere.",
+    "search": "Nessuna inserzione trovata.",
+    "error": "{{errorMessage}}"
+  },
+  "selectAll": "Seleziona tutto ({{count}})",
+  "deselectAll": "Deseleziona tutto ({{count}})",
+  "listingsCount": "{{count}} inserzione{{plural}}",
+  "zip": "CAP: {{zipCode}}",
+  "footerNote": "Seleziona almeno un'inserzione da aggiungere al gruppo",
+  "unknownUser": "Sconosciuto"
+}

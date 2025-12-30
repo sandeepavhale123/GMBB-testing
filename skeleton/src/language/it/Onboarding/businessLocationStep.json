@@ -1,0 +1,19 @@
+{
+  "businessLocationStep": {
+    "title": "Dove si trova la tua attività?",
+    "description": "Aggiungi l'indirizzo della tua attività e le informazioni di contatto",
+    "addressLabel": "Indirizzo *",
+    "addressPlaceholder": "Via Principale 123",
+    "cityLabel": "Città *",
+    "cityPlaceholder": "Città",
+    "stateLabel": "Provincia *",
+    "statePlaceholder": "Provincia",
+    "zipCodeLabel": "CAP *",
+    "zipCodePlaceholder": "12345",
+    "phoneLabel": "Numero di telefono",
+    "phonePlaceholder": "(555) 123-4567",
+    "websiteLabel": "Sito Web",
+    "websitePlaceholder": "https://iltuosito.com",
+    "continueButton": "Continua"
+  }
+}

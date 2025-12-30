@@ -1,0 +1,18 @@
+{
+  "toast": {
+    "success": "Succès",
+    "error": "Erreur",
+    "upload": {
+      "success": "Média téléversé avec succès",
+      "failed": "Échec du téléversement du média"
+    },
+    "delete": {
+      "success": "Média supprimé avec succès",
+      "failed": "Échec de la suppression du média"
+    },
+    "saveAI": {
+      "success": "Image IA enregistrée avec succès",
+      "failed": "Échec de l’enregistrement de l’image IA"
+    }
+  }
+}

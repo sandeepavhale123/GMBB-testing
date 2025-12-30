@@ -1,0 +1,42 @@
+{
+  "integration": {
+    "mapApiKey": {
+      "success": {
+        "update": "API-Schlüssel erfolgreich aktualisiert",
+        "delete": "API-Schlüssel erfolgreich getrennt"
+      },
+      "error": {
+        "update": "API-Schlüssel konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+        "delete": "API-Schlüssel konnte nicht getrennt werden. Bitte versuchen Sie es erneut."
+      }
+    },
+    "subdomain": {
+      "success": {
+        "update": "Subdomain-Konfiguration erfolgreich gespeichert",
+        "delete": "Subdomain erfolgreich gelöscht"
+      },
+      "error": {
+        "update": "Subdomain-Konfiguration konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+        "delete": "Subdomain konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
+      }
+    },
+    "smtp": {
+      "success": {
+        "update": "SMTP-Einstellungen erfolgreich gespeichert",
+        "delete": "SMTP-Einstellungen erfolgreich gelöscht",
+        "testEmail": "SMTP-Test-E-Mail erfolgreich gesendet"
+      },
+      "error": {
+        "update": "SMTP-Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+        "delete": "SMTP-Einstellungen konnten nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+        "testEmail": "Test-E-Mail konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Einstellungen."
+      }
+    },
+    "toast": {
+      "titleSuccess": "Erfolg",
+      "titleError": "Fehler",
+      "titleTestSuccess": "Test-E-Mail gesendet",
+      "titleTestError": "Test fehlgeschlagen"
+    }
+  }
+}

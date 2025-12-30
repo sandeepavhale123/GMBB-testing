@@ -1,0 +1,127 @@
+{
+  "loading": {
+    "config": "Loading report configuration...",
+    "dashboard": "Loading dashboard data..."
+  },
+  "error": {
+    "config": "Failed to load report configuration",
+    "dashboard": "Failed to load dashboard data",
+    "retry": "Try Again"
+  },
+   "dashboardTypes": {
+    "default": "Default",
+    "insight": "Insight",
+    "review": "Review",
+    "location": "Location",
+    "post": "Post"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Total Listings",
+      "subtitle": "Active locations"
+    },
+    "avgRating": {
+      "title": "Avg. Rating",
+      "subtitle": "Across all listings"
+    },
+    "totalPosts": {
+      "title": "Total Posts",
+      "subtitle": "Published content"
+    },
+    "totalReviews": {
+      "title": "Total Reviews",
+      "subtitle": "Customer feedback"
+    }
+  },
+  "listing":"GMB Listing – {{name}}  dashboard",
+  "allcategories":"All Categories",
+  "filters": {
+    "dashboardSelector": "Select Dashboard Type",
+    "default": "Default Dashboard",
+    "insight": "Insight Dashboard",
+    "review": "Review Dashboard",
+    "location": "Location Dashboard",
+    "post": "Post Dashboard",
+    "searchPlaceholder": "Search by listing name or Zip code.",
+    "categories": "All Categories",
+    "locations": "All Locations",
+    "reviews": {
+      "all": "All Reviews",
+      "unresponded": "Un - Responded Review",
+      "unrespondedARE": "Un - Responded ARE",
+      "unrespondedDNR": "Un - Responded DNR",
+      "excludeARE": "Exclude ARE Review",
+      "excludeDNR": "Exclude DNR Review",
+      "excludeBoth": "Exclude ARE/DNR Review"
+    },
+    "posts": {
+      "status": "Post Status",
+      "all": "All Status",
+      "live": "Live",
+      "scheduled": "Scheduled",
+      "failed": "Failed"
+    },
+    "insightDays": "Time Period",
+    "reviewDays": "Review Period",
+    "allTime": "All Time",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "last6Months": "Last 6 Months",
+    "last9Months": "Last 9 Months",
+    "last12Months": "Last 12 Months",
+    "customRange": "Custom Range"
+  },
+  "content": {
+    "showing": "Showing {{count}} of {{total}} {{type}}",
+    "noData": "No data available",
+    "imageNotAvailable": "Image not available",
+    "untitledPost": "Untitled Post",
+    "openOnGoogle": "Open on Google",
+    "viewOnGoogle":"View on Google My Business",
+    "img":"IMG"
+  },
+  "labels": {
+    "id":"ID: {{id}}",
+    "zip":"Zip: {{zipcode}}",
+    "state":"State: {{city}}",
+    "visibility": "Visibility",
+    "search": "Search",
+    "maps": "Maps",
+    "total": "Total",
+    "customerActions": "Customer Actions",
+    "clicks": "Clicks",
+    "directions": "Directions",
+    "calls": "Calls",
+    "messages": "Messages",
+    "reviewStats": "Review Stats",
+    "reviewsReplies": "Reviews / Replies",
+    "autoReply": "Auto Reply",
+    "reviewSentiment": "Review Sentiment",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "address": "Address",
+    "phone": "Phone",
+    "photos": "Photos",
+    "rating": "Rating",
+    "website": "Website",
+    "map": "Map",
+    "lastPosts": "Last Posts",
+    "upcoming": "Upcoming",
+    "lastPost": "Last Post",
+    "upcomingPost": "Upcoming",
+    "zipLabel":"Zip:",
+    "na":"N/A",
+    "totalView":"Total Views",
+    "stateLabel":"State",
+    "reviewLabel":"Reviews",
+    "zipcodeLabel":"Zip Code",
+    "nopost":"No post"
+  },
+  "pagination": {
+    "pageOf": "Page {{current}} of {{total}}",
+    "previous": "Previous",
+    "next": "Next"
+  }
+}

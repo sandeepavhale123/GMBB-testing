@@ -1,0 +1,219 @@
+{
+  "title": "Review Requests",
+  "subtitle": "Send review requests to your customers",
+  "createButton": "Create",
+  "tabs": {
+    "campaign": "Campaign",
+    "siteIntegration": "Site Integration",
+    "qrCode": "QR Code",
+    "reviewLink": "Feedback Form",
+    "feedbackForms": "Feedback Form"
+  },
+  "integration": {
+    "title": "Channel Integration",
+    "description": "Connect and manage your review platform integrations",
+    "available":"Available Integrations",
+    "comming":"Coming Soon",
+    "status": {
+      "connected": "Connected",
+      "notConnected": "Not Connected"
+    },
+    "button": {
+      "connect": "Connect",
+      "disconnect": "Disconnect"
+    }
+  },
+  "qrCode": {
+    "title": "Review QR Code",
+    "description": "Generate and download QR codes for your review requests",
+    "simpleCard": {
+      "title": "Simple QR Code",
+      "description": "Download a basic QR code that links directly to your review page. Perfect for quick sharing and printing.",
+      "downloadButton": "Download QR Code"
+    },
+    "posterCard": {
+      "title": "Custom QR Poster",
+      "description": "Create a branded poster with your QR code, logo, and custom messaging. Ideal for display in your business location.",
+      "customizeButton": "Customize Poster"
+    }
+  },
+  "table": {
+    "name": "Name",
+    "channel": "Channel",
+    "status": "Status",
+    "date": "Date",
+    "contacts": "Contacts",
+    "delivered": "Delivered",
+    "action": "Action"
+  },
+  "status": {
+    "sent": "Sent",
+    "pending": "Pending",
+    "scheduled": "Scheduled",
+    "draft": "Draft",
+    "completed": "Completed",
+    "failed": "Failed"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "contactsModal": {
+    "title": "{{campaignName}} - Contacts",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "status": "Status",
+    "noContacts": "No contacts found",
+    "showing": "Showing {{count}} of {{total}} contacts"
+  },
+  "actions": {
+    "view": "View",
+    "send": "Send",
+    "delete": "Delete"
+  },
+  "empty": {
+    "title": "No campaigns yet",
+    "description": "Create your first review request campaign to get started",
+    "button": "Create Campaign"
+  },
+  "createCampaignModal": {
+    "title": "Create Campaign",
+    "campaignName": "Campaign Name",
+    "placeholder": "Enter campaign name",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "creating": "Creating..."
+  },
+  "comingSoon": {
+    "title": "Coming Soon",
+    "description": "This feature is under development"
+  },
+  "templates": {
+    "title": "Template",
+    "createButton": "Create",
+    "table": {
+      "name": "Name",
+      "channel": "Channel",
+      "status": "Status",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Active",
+      "draft": "Draft"
+    },
+    "actions": {
+      "view": "View",
+      "delete": "Delete"
+    },
+    "empty": {
+      "title": "No templates yet",
+      "description": "Create your first review request template to get started",
+      "button": "Create Template"
+    },
+    "deleteDialog": {
+      "title": "Delete Template",
+      "description": "Are you sure you want to delete this template? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Send Review Request",
+    "selectTemplate": "Select a Template",
+    "selectTemplatePlaceholder": "Choose a template...",
+    "templateContent": "Message Content",
+    "noTemplatesAvailable": "No active templates available",
+    "createTemplateFirst": "Please create a template first",
+    "templatePreview": "Preview",
+    "cancel": "Cancel",
+    "send": "Send",
+    "sending": "Sending...",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "sms": "SMS",
+      "email": "Email",
+      "phoneNotAvailable": "Phone number not available",
+      "emailNotAvailable": "Email address not available"
+    },
+    "feedbackForm": {
+      "label": "Feedback Form",
+      "placeholder": "Select feedback form...",
+      "empty": "No feedback forms available"
+    },
+    "sender": {
+      "label": "Select Sender",
+      "placeholder": "Choose a sender...",
+      "notAvailable": "No senders available"
+    },
+    "platform": {
+      "label": "Send Platform",
+      "smtp": "SMTP",
+      "mailgun": "Mailgun",
+      "configured": "Configured",
+      "notConfigured": "Not Configured"
+    },
+    "subject": {
+      "label": "Email Subject",
+      "placeholder": "Enter email subject..."
+    },
+    "success": {
+      "title": "Review Request Sent",
+      "description": "Your review request has been sent successfully to {{contactName}}"
+    },
+    "error": {
+      "title": "Failed to Send",
+      "description": "Could not send review request. Please try again."
+    }
+  },
+  "feedbackForms": {
+    "title": "Feedback Form",
+    "description": "Create and manage custom feedback form for your customers",
+    "createButton": "Create Form",
+    "table": {
+      "name": "Name",
+      "createdAt": "Created At",
+      "action": "Action"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "empty": {
+      "title": "No feedback forms yet",
+      "description": "Create your first custom Feedback form to collect structured feedback",
+      "button": "Create Feedback Form"
+    },
+    "deleteDialog": {
+      "title": "Delete Feedback Form",
+      "description": "Are you sure you want to delete this form? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "failed":"Failed to load feedback forms. Please try again."
+  },
+  "campaignTab":{
+    "error":"Error",
+    "errDesc":"Failed to create campaign",
+    "errTry":"Failed to create campaign. Please try again.",
+    "success":"Success",
+    "delSuccess":"Campaign deleted successfully",
+    "delFail":"Failed to delete campaign",
+    "deleteTry":"Failed to delete campaign. Please try again.",
+    "failed":"Failed to load campaigns",
+    "retry":"Retry",
+    "campaign":"Campaign",
+    "feedback":"Send feedback request campaigns to your customers",
+    "page":"Showing {{from}} to {{to}} of {{total}} campaigns"
+  },
+  "deleteCampaign":{
+    "delete":"Delete Campaign",
+    "description":"Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "cancel":"Cancel",
+    "deleting":"Deleting...",
+    "delete":"Delete"
+  }
+}

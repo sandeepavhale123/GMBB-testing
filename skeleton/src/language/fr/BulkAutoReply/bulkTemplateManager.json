@@ -1,0 +1,23 @@
+{
+  "titles": {
+    "replyTemplates": "Modèles de réponse"
+  },
+  "tabs": {
+    "review": "Réponse pour avis",
+    "rating": "Réponse pour notes uniquement"
+  },
+  "toast": {
+    "success": {
+      "title": "Succès",
+      "enabled": "Modèle activé avec succès",
+      "disabled": "Modèle désactivé avec succès",
+      "saved": "Modèle enregistré avec succès"
+    },
+    "error": {
+      "title": "Erreur",
+      "projectId": "ID du projet introuvable",
+      "updateTemplate": "Échec de la mise à jour du statut du modèle",
+      "saveTemplate": "Échec de l'enregistrement du modèle"
+    }
+  }
+}

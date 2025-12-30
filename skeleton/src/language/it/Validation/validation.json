@@ -1,0 +1,82 @@
+{
+  "email": {
+    "required": "L'email è obbligatoria",
+    "invalid": "Inserisci un indirizzo email valido"
+  },
+  "password": {
+    "required": "La password è obbligatoria",
+    "minLength": "La password deve contenere almeno 8 caratteri",
+    "uppercase": "La password deve contenere almeno una lettera maiuscola",
+    "lowercase": "La password deve contenere almeno una lettera minuscola",
+    "number": "La password deve contenere almeno un numero",
+    "specialChar": "La password deve contenere almeno un carattere speciale",
+    "mismatch": "Le password non corrispondono"
+  },
+  "name": {
+    "minLength": "Il nome deve contenere almeno 2 caratteri",
+    "lettersOnly": "Il nome può contenere solo lettere e spazi",
+    "minAlphabetic": "Il nome deve contenere almeno 3 caratteri alfabetici"
+  },
+  "agency": {
+    "minLength": "Il nome dell'agenzia deve contenere almeno 3 caratteri",
+    "minAlphabetic": "Il nome deve contenere almeno 3 caratteri alfabetici"
+  },
+  "plan": {
+    "required": "Seleziona un piano"
+  },
+  "timezone": {
+    "required": "Il fuso orario è obbligatorio"
+  },
+  "language": {
+    "required": "La lingua è obbligatoria"
+  },
+  "dashboardType": {
+    "required": "Il tipo di dashboard è obbligatorio"
+  },
+  "business": {
+    "nameRequired": "Il nome dell'attività è obbligatorio",
+    "nameMin": "Il nome dell'attività deve contenere almeno 2 caratteri",
+    "urlInvalid": "Inserisci un URL valido",
+    "timezoneRequired": "Seleziona un fuso orario",
+    "typeRequired": "Seleziona l'opzione che ti descrive meglio"
+  },
+  "apiKey": {
+    "required": "La chiave API è obbligatoria"
+  },
+  "disconnect": {
+    "confirmText": "Digita 'delete' per confermare"
+  },
+  "smtp": {
+    "fromName": "Il nome del mittente è obbligatorio",
+    "minAlphabetic": "Il nome deve contenere almeno 3 caratteri alfabetici",
+    "email": "Inserisci un indirizzo email valido",
+    "host": "L'host SMTP è obbligatorio",
+    "port": {
+      "required": "La porta SMTP è obbligatoria",
+      "number": "La porta deve essere un numero"
+    },
+    "user": "L'utente SMTP è obbligatorio",
+    "password": "La password SMTP è obbligatoria"
+  },
+  "keywords": {
+    "max": "Puoi aggiungere un massimo di 5 parole chiave.",
+    "min": "È richiesta almeno una parola chiave."
+  },
+  "branding": {
+    "nameRequired": "Il nome dell'azienda è obbligatorio",
+    "nameMin": "Il nome dell'azienda deve contenere almeno 2 caratteri",
+    "nameAlpha": "Il nome deve contenere almeno 3 caratteri alfabetici",
+    "email": "Inserisci un indirizzo email valido",
+    "url": "Inserisci un URL valido",
+    "phone": {
+      "minLength": "Il numero di telefono deve contenere 10 cifre",
+      "invalid": "Inserisci un numero di telefono valido"
+    },
+    "address": {
+      "minLength": "L'indirizzo deve contenere almeno 10 caratteri"
+    }
+  },
+  "team": {
+    "roleRequired": "Il ruolo è obbligatorio"
+  }
+}

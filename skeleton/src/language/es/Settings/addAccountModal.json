@@ -1,0 +1,30 @@
+{
+  "addAccountModal": {
+    "title": "Agregar Cuenta de Negocio de Google",
+    "alert": {
+      "title": "Se Requiere un Perfil de Negocio de Google",
+      "description": "Necesitas autenticarte con Google y otorgar acceso a tus listados de Perfil de Negocio."
+    },
+    "instructions": {
+      "intro": "Después de hacer clic en \"Conectar Cuenta\", serás redirigido a Google para:",
+      "steps": {
+        "signIn": "Iniciar sesión en tu cuenta de Google",
+        "grantAccess": "Otorgar acceso a los datos de tu Perfil de Negocio",
+        "authorize": "Autorizar permisos de gestión de listados"
+      }
+    },
+    "noProfile": {
+      "text": "¿No tienes un Perfil de Negocio de Google? Créalo aquí",
+      "url": "https://business.google.com"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "connect": "Conectar Cuenta",
+      "connecting": "Conectando..."
+    },
+    "errors": {
+      "connectionError": "Error de Conexión",
+      "failedToConnect": "No se pudo iniciar la conexión con Google"
+    }
+  }
+}

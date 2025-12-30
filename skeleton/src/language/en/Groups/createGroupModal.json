@@ -1,0 +1,30 @@
+{
+  "dialog": {
+    "createTitle": "Create New Group",
+    "editTitle": "Edit Group"
+  },
+  "form": {
+    "groupNameLabel": "Group Name *",
+    "groupNamePlaceholder": "Enter group name",
+    "validation": {
+      "groupNameMin": "Group name must be at least 2 characters",
+      "groupNameMax": "Group name must be less than 50 characters",
+      "selectListing": "Please select at least one listing"
+    }
+  },
+  "toast": {
+    "success": "Success",
+    "groupCreated": "Group created successfully",
+    "groupUpdated": "Group updated successfully",
+    "error": "Error",
+    "failedCreate": "Failed to create group",
+    "failedUpdate": "Failed to update group"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "create": "Create Group",
+    "update": "Update Group",
+    "creating": "Creating...",
+    "updating": "Updating..."
+  }
+}

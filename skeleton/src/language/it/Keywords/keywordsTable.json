@@ -1,0 +1,59 @@
+{
+  "keywordsTable": {
+    "emptyState": {
+      "title": "Inizia a monitorare le tue parole chiave",
+      "description": "Monitora il posizionamento delle tue parole chiave locali aggiungendo parole chiave rilevanti per la tua attività. Monitora come la tua attività appare nei risultati di ricerca in diverse località.",
+      "button": "Aggiungi Parole Chiave di Ricerca"
+    },
+    "bulkActions": {
+      "selected": "{{count}} parola{{plural}} chiave selezionata/e",
+      "delete": "Elimina Selezionati",
+      "deleting": "Eliminazione in corso...",
+      "clear": "Pulisci Selezione",
+      "confirmTitle": "Conferma Eliminazione",
+      "confirmDescription": "Sei sicuro di voler eliminare {{count}} parola{{plural}} chiave? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    },
+    "table": {
+      "selectAll": "Seleziona tutte le parole chiave",
+      "columns": {
+        "srNo": "N.°",
+        "keyword": "Parola Chiave",
+        "arp": "ARP",
+        "arpTooltip": "Posizione Media nel Ranking",
+        "atrp": "ATRP",
+        "atrpTooltip": "Punti Totali Medi nel Ranking",
+        "solv": "SoLV",
+        "solvTooltip": "Quota della Voce Locale",
+        "addedOn": "Aggiunto Il",
+        "status": "Stato",
+        "actions": "Azioni"
+      },
+      "actions": {
+        "viewRank": "Visualizza Ranking",
+        "selectDelete": "Seleziona per Eliminare",
+        "delete": "Elimina"
+      }
+    },
+    "status": {
+      "completed": "Completato",
+      "pending": "In sospeso",
+      "failed": "Fallito",
+      "running": "In corso"
+    },
+    "pagination": {
+      "showing": "Mostrando da {{from}} a {{to}} di {{total}} risultati",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "page": "Pagina {{current}} di {{total}}"
+    },
+    "error": {
+      "tryAgain": "Riprova"
+    },
+    "misc": {
+      "na": "N/D",
+      "invalidDate": "Data non valida"
+    }
+  }
+}

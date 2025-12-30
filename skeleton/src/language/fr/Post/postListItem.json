@@ -1,0 +1,30 @@
+{
+  "status": {
+    "published": "En ligne",
+    "scheduled": "Planifié",
+    "draft": "Brouillon",
+    "failed": "Échec"
+  },
+  "toast": {
+    "errorTitle": "Erreur",
+    "noListingSelected": "Aucune fiche d’entreprise sélectionnée. Veuillez d’abord en sélectionner une.",
+    "deletingPost": "Suppression du post...",
+    "preparingDeletion": "Préparation de la suppression...",
+    "finalizing": "Finalisation...",
+    "successTitle": "Post supprimé avec succès",
+    "successDescription": "Suppression terminée",
+    "failedTitle": "Échec de la suppression du post",
+    "unexpectedError": "Une erreur inattendue s’est produite. Veuillez réessayer."
+  },
+  "dialog": {
+    "deleteTitle": "Supprimer le post",
+    "deleteDescription": "Êtes-vous sûr de vouloir supprimer ce post ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "deleting": "Suppression..."
+  },
+  "ui": {
+    "untitled": "Post sans titre",
+    "openOnGoogle": "Ouvrir sur Google"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "keywordSelector": {
+    "labels": {
+      "keyword": "Mot-clé"
+    },
+    "placeholders": {
+      "keyword": {
+        "loading": "Chargement des mots-clés...",
+        "default": "Sélectionner un mot-clé",
+        "search": "Rechercher des mots-clés..."
+      },
+      "date": {
+        "loading": "Chargement des dates...",
+        "default": "Sélectionner la date du rapport"
+      }
+    },
+    "messages": {
+      "loading": "Chargement...",
+      "noKeywords": "Aucun mot-clé trouvé"
+    },
+    "all": " Tous"
+  }
+}

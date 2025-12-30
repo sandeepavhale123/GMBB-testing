@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "reset": "Reset",
+    "preview": "Preview",
+    "connecting": "Connecting...",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "schedule": "Schedule",
+    "publish_now": "Publish Now",
+    "update_schedule": "Update Schedule",
+    "update_post": "Update Post"
+  }
+}

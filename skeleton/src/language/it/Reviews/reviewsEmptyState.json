@@ -1,0 +1,12 @@
+{
+  "reviewsEmptyState": {
+    "title": {
+      "filtered": "Nessuna recensione corrisponde ai tuoi filtri",
+      "default": "Nessuna recensione ancora"
+    },
+    "description": {
+      "filtered": "Prova ad aggiustare i tuoi criteri di ricerca o i filtri per vedere più risultati.",
+      "default": "Le recensioni appariranno qui una volta che i clienti lasceranno un feedback sulle tue inserzioni aziendali."
+    }
+  }
+}

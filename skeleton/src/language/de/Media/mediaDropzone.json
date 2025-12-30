@@ -1,0 +1,28 @@
+{
+  "mediaDropzone": {
+    "generateWithGenie": "Générer avec Genie",
+    "dropFileHere": "Déposez votre fichier ici",
+    "dragDropFile": "Glissez et déposez votre fichier multimédia",
+    "chooseFromGallery": "choisir depuis la galerie",
+    "uploadOneFile": "Téléversez un fichier à la fois",
+    "fileTypes": {
+      "images": "JPG, PNG, WebP",
+      "videos": "MP4, MOV",
+      "maxSize": "• Max 20 Mo"
+    },
+    "or": "ou",
+    "select": "sélectionné",
+    "clear": "Tout effacer",
+    "use": "Utiliser la sélection",
+    "errors": {
+      "invalidFile": "Seuls les fichiers JPG, PNG, WebP et MP4 sont autorisés",
+      "fileTooLarge": "La taille du fichier doit être inférieure à 20 Mo"
+    },
+    "toast": {
+      "title": "Limite de sélection atteinte",
+      "description": "Vous pouvez sélectionner jusqu’à {{maxSelectionLimit}} image.",
+      "descriptions": "Vous pouvez sélectionner jusqu’à {{maxSelectionLimit}} images."
+    },
+    "close": "Fermer"
+  }
+}

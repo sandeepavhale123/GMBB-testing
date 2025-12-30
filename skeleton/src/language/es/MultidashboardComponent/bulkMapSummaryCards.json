@@ -1,0 +1,12 @@
+{
+  "statsCards": {
+    "searchBy": "Buscar por",
+    "scheduledFrequency": "Frecuencia programada",
+    "lastCheck": "Última revisión",
+    "nextCheck": "Próxima revisión"
+  },
+  "positionSummary": {
+    "title": "Resumen de posiciones",
+    "totalKeywords": "Total de palabras clave"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "alt": {
+    "logo": "Logo"
+  },
+  "buttons": {
+    "backToOldVersion": "Zur alten Version zurückkehren"
+  },
+  "dashboardMode": {
+    "bulk": "Bulk",
+    "single": "Einzel"
+  }
+}

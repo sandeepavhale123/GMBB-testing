@@ -1,0 +1,16 @@
+{
+  "title": "Condividi Report",
+  "validation": {
+    "selectAtLeastOne": "Seleziona almeno un profilo o un gruppo"
+  },
+  "errors": {
+    "failed": "Generazione del report fallita",
+    "failedRetry": "Generazione del report fallita. Per favore, riprova.",
+    "toastTitle": "Errore",
+    "toastDescription": "Generazione del report fallita. Per favore, riprova."
+  },
+  "buttons": {
+    "cancel": "Annulla",
+    "generate": "Genera Report"
+  }
+}

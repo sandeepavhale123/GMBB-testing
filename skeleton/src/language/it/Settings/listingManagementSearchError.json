@@ -1,0 +1,7 @@
+{
+  "listingManagementSearchError": {
+    "noListingsWithSearchTerm": "Nessun annuncio corrisponde a \"{{searchTerm}}\". Prova con un termine di ricerca diverso.",
+    "noListingsWithFilters": "Nessun annuncio corrisponde ai filtri attuali. Prova a modificare i filtri.",
+    "noListingsFound": "Nessun annuncio trovato."
+  }
+}

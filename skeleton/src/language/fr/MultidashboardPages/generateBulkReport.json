@@ -1,0 +1,134 @@
+{
+  "GenerateBulkReport": {
+    "pageTitle": "Générer un rapport en masse",
+    "pageDescription": "Créez et planifiez des rapports automatisés pour plusieurs emplacements.",
+
+    "reportDetails": {
+      "title": "Détails du rapport",
+      "description": "Donnez un nom à votre projet de rapport et sélectionnez les emplacements.",
+      "reportTitleLabel": "Titre du rapport",
+      "reportTitlePlaceholder": "Entrez le titre du rapport...",
+      "locationsSelected": "{{count}} emplacements sélectionnés"
+    },
+
+    "reportTypes": {
+      "title": "Types de rapport",
+      "description": "Sélectionnez les rapports à inclure dans votre projet.",
+      "availableReports": "Rapports disponibles",
+      "selectAll": "Tout sélectionner",
+      "deselectAll": "Tout désélectionner",
+      "sections": {
+        "posts": "Publication GMB",
+        "media": "Publication média",
+        "reviews": "Avis",
+        "qa": "Questions/Réponses",
+        "insights": "Analyses"
+      }
+    },
+
+    "scheduleConfig": {
+      "title": "Configuration de la planification",
+      "description": "Configurez quand et à quelle fréquence les rapports doivent être générés.",
+      "scheduleTypeLabel": "Type de planification",
+      "scheduleTypes": {
+        "oneTime": "Une seule fois",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel"
+      },
+      "fromDateLabel": "Date de début",
+      "fromDatePlaceholder": "Choisir la date de début",
+      "toDateLabel": "Date de fin",
+      "toDatePlaceholder": "Choisir la date de fin",
+      "selectFrequency": "Sélectionner la fréquence",
+      "selectFrequencyPlaceholder": "Sélectionner la fréquence...",
+      "selectWeek": "Envoyer l'email cette semaine",
+      "selectWeekPlaceholder": "Sélectionner la semaine...",
+      "selectDay": "Envoyer l'email le",
+      "selectDayPlaceholder": "Sélectionner le jour...",
+      "weekOptions": {
+        "first": "Première semaine",
+        "second": "Deuxième semaine",
+        "third": "Troisième semaine",
+        "fourth": "Quatrième semaine",
+        "last": "Dernière semaine"
+      },
+      "days": {
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche"
+      },
+      "frequencies": {
+        "lastWeek": "La semaine dernière",
+        "last2Weeks": "Les 2 dernières semaines",
+        "last3Weeks": "Les 3 dernières semaines",
+        "last4Weeks": "Les 4 dernières semaines",
+        "last5Weeks": "Les 5 dernières semaines",
+        "lastMonth": "Le mois dernier",
+        "last2Months": "Les 2 derniers mois",
+        "last3Months": "Les 3 derniers mois",
+        "last6Months": "Les 6 derniers mois",
+        "last12Months": "Les 12 derniers mois"
+      }
+    },
+
+    "deliveryFormat": {
+      "title": "Format de livraison",
+      "descriptionSingle": "Choisissez comment vous souhaitez recevoir votre rapport. Vous pouvez sélectionner plusieurs formats.",
+      "descriptionMultiple": "Choisissez comment vous souhaitez recevoir vos rapports. Pour plusieurs emplacements, vous pouvez sélectionner un seul format pour une meilleure performance de livraison.",
+      "csv": "Format CSV",
+      "pdf": "Format PDF",
+      "html": "Rapport HTML public",
+      "selectionGuide": "Guide de sélection :",
+      "selectionNoteSingle": "Vous pouvez sélectionner plusieurs formats de livraison pour votre rapport d'un seul emplacement.",
+      "selectionNoteMultiple": "Lors de la génération de rapports pour plusieurs emplacements, vous ne pouvez sélectionner qu'un seul format de livraison pour optimiser les performances."
+    },
+
+    "emailComposer": {
+      "title": "Rédacteur d'email",
+      "description": "Configurez la manière dont les rapports seront envoyés par email.",
+      "to": "À *",
+      "toPlaceholder": "destinataire1@example.com, destinataire2@example.com",
+      "cc": "CC",
+      "ccPlaceholder": "cc1@example.com, cc2@example.com",
+      "bcc": "CCI",
+      "bccPlaceholder": "cci@example.com, cci2@example.com",
+      "subject": "Objet *",
+      "subjectPlaceholder": "Vos rapports générés - {projectName}",
+      "message": "Message *",
+      "messagePlaceholder": "Entrez votre message email..."
+    },
+
+    "actions": {
+      "cancel": "Annuler",
+      "create": "Créer le rapport",
+      "creating": "Création en cours..."
+    },
+
+    "toasts": {
+      "reportCreatedTitle": "Projet de rapport créé",
+      "reportCreatedDescription": "{{projectName}}a été créé avec succès avec l'ID de projet : {{projectId}}",
+      "errorTitle": "Erreur",
+      "errorMessage": "Échec de la création du projet de rapport. Veuillez réessayer."
+    },
+
+    "validation": {
+      "projectNameRequired": "Le nom du projet est requis.",
+      "selectedListingsRequired": "Sélectionnez au moins un emplacement.",
+      "reportSectionsRequired": "Sélectionnez au moins un type de rapport.",
+      "deliveryFormatRequired": "Sélectionnez au moins un format de livraison.",
+      "emailToRequired": "Le destinataire de l'email est requis.",
+      "emailSubjectRequired": "L'objet de l'email est requis.",
+      "emailMessageRequired": "Le message de l'email est requis.",
+      "invalidEmails": "Veuillez saisir des adresses email valides séparées par des virgules.",
+      "fromDateRequired": "La date de début est requise pour les rapports uniques.",
+      "toDateRequired": "La date de fin est requise pour les rapports uniques.",
+      "frequencyRequired": "La fréquence est requise pour les rapports récurrents.",
+      "emailDayRequired": "Le jour de l'email est requis pour les rapports récurrents.",
+      "emailWeekRequired": "La semaine de l'email est requise pour les rapports mensuels."
+    }
+  }
+}

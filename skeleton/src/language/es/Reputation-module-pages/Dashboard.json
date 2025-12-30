@@ -1,0 +1,55 @@
+{
+  "page": {
+    "title": "Panel de gestión de reputación",
+    "subtitle": "Monitorea y gestiona tu reputación en línea en todas las plataformas"
+  },
+
+  "summary": {
+    "overallRating": {
+      "title": "Calificación general",
+      "subtitle": "Basado en {{count}} reseñas"
+    },
+    "totalReviews": {
+      "title": "Total de reseñas",
+      "subtitle": "En todos los canales"
+    },
+    "totalCampaigns": {
+      "title": "Total de campañas",
+      "subtitle": "Campañas activas"
+    },
+    "totalFeedbackForms": {
+      "title": "Formularios de feedback",
+      "subtitle": "Formularios activos"
+    }
+  },
+
+  "channels": {
+    "title": "Canales conectados",
+    "subtitle": "Gestionar canales",
+    "connected": "Conectado",
+    "notConnected": "No conectado",
+    "connect": "Conectar",
+    "add": "Agregar"
+  },
+
+  "reviewTracking": {
+    "google": "Seguimiento de reseñas de Google",
+    "facebook": "Seguimiento de reseñas de Facebook",
+    "yelp": "Seguimiento de reseñas de Yelp",
+    "opentable": "Seguimiento de reseñas de OpenTable",
+    "foursquare": "Seguimiento de reseñas de Foursquare",
+    "bbb": "Seguimiento de reseñas de BBB",
+    "last7Days": "Últimos 7 días",
+    "last30Days": "Últimos 30 días",
+    "last3Months": "Últimos 3 meses",
+    "allTime": "Último año",
+    "selectChannel": "Seleccionar canal",
+    "selectPeriod": "Seleccionar período",
+    "noData": "No hay datos de reseñas disponibles"
+  },
+
+  "months": {
+    "jun24": "Jun '24",
+    "jun": "Jun"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "bulkReportDetails": {
+    "toast": {
+      "emailSent": {
+        "title": "Email Inviata",
+        "description": "L'email del report è stata inviata di nuovo con successo."
+      },
+      "emailsSent": {
+        "title": "Email Inviate",
+        "description": "{{count}} email sono state inviate di nuovo con successo."
+      },
+      "downloadStarted": {
+        "title": "Download Iniziato",
+        "description": "Il download di {{format}} è iniziato."
+      },
+      "allPdfStarted": {
+        "title": "Download Iniziato",
+        "description": "Il download PDF all-in-one è iniziato."
+      },
+      "error": {
+        "title": "Errore",
+        "resendEmail": "Impossibile inviare nuovamente l'email",
+        "bulkResend": "Impossibile inviare nuovamente le email",
+        "download": "Impossibile scaricare {{format}}",
+        "downloadAll": "Impossibile scaricare il PDF all-in-one"
+      }
+    },
+    "status": {
+      "completed": "Completato",
+      "processing": "In Elaborazione",
+      "failed": "Fallito",
+      "pending": "In Attesa"
+    },
+    "delivery": {
+      "sent": "Inviato",
+      "failed": "Fallito",
+      "pending": "In Attesa"
+    },
+    "errorState": {
+      "failedToLoad": "Impossibile caricare i dettagli del report massivo",
+      "tryAgain": "Riprova"
+    },
+    "header": {
+      "details": "Dettagli del report massivo • {{count}} località",
+      "recipients": "Destinatari: {{recipients}}"
+    },
+    "download": {
+     "allPdf": "Scarica PDF tutto in uno",
+      "pdf": "Scarica PDF",
+      "allCsv": "Scarica CSV tutto in uno",
+      "csv": "Scarica CSV"
+    },
+    "table": {
+      "title": "Dettagli del Report",
+      "location": "Località",
+      "reportDate": "Data Report",
+      "status": "Stato",
+      "actions": "Azioni",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "pagination": {
+      "showing": "Mostrando da {{from}} a {{to}} di {{total}} voci",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "page": "Pagina {{current}} di {{pages}}"
+    }
+  }
+}

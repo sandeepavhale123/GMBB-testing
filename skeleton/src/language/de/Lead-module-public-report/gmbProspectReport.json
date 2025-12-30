@@ -1,0 +1,76 @@
+{
+  "report": {
+    "title": "GMB-Prospektbericht",
+    "loading": "Bericht wird geladen...",
+    "error": "Prospektbericht konnte nicht geladen werden",
+    "introductionTitle": "Einführung",
+    "introductionDesc": "Hallo, vielen Dank, dass Sie Ihr Google My Business (GMB) Profil bewertet haben. Nachfolgend finden Sie die Ergebnisse unserer 10-Punkte-Auswertung.",
+    "atAGlance": "Ihr GMB-Bericht auf einen Blick",
+    "failedTests": {
+      "title": "Nicht bestandene Tests",
+      "desc": "Bereiche, die Aufmerksamkeit benötigen"
+    },
+    "passedTests": {
+      "title": "Bestandene Tests",
+      "desc": "Bereiche mit guter Leistung"
+    },
+    "breakdownTitle": "Detaillierte Aufschlüsselung",
+    "whyItMatters": "Warum es wichtig ist:",
+    "recommendation": "Empfehlung:",
+    "passed": "Bestanden",
+    "failed": "Nicht bestanden",
+    "competitor": {
+      "title": "Wettbewerbsanalyse",
+      "chartTitle": "Wettbewerbsanalyse",
+      "impact": "Keine Auswirkung",
+      "listingDesc": "Der Eintrag übertrifft oder entspricht seinen Wettbewerbern in wichtigen Bereichen",
+      "why": "Hervorstechen gegenüber Wettbewerbern erhöht die Chance, mehr Kunden anzuziehen",
+      "recomendation": "Analysieren Sie das Wettbewerberprofil und konzentrieren Sie sich auf Bereiche, in denen sie sich auszeichnen, z. B. bessere Bewertungen oder detailliertere Beschreibungen.",
+      "legend": {
+        "avgRating": "Durchschnittsbewertung",
+        "reviewCount": "Anzahl Bewertungen"
+      },
+      "tableHeaders": {
+        "name": "Unternehmensname",
+        "rating": "Bewertung",
+        "reviews": "Bewertungen"
+      }
+    },
+    "citation": {
+      "title": "Citation-Wettbewerbsanalyse",
+      "impact": "Keine Auswirkung",
+      "result": "Ergebnisse der Citation-Analyse",
+      "why": "Citations verbessern das lokale SEO-Ranking und signalisieren Glaubwürdigkeit",
+      "recommendation": "Identifizieren Sie Citation-Lücken und tragen Sie Ihr Unternehmen in Verzeichnisse ein",
+      "chartTitle": "Citation-Vergleich",
+      "legend": {
+        "localCitations": "Lokale Citations"
+      },
+      "tableHeaders": {
+        "name": "Unternehmensname",
+        "citations": "Lokale Citations"
+      }
+    },
+    "suggestions": {
+      "title": "Erweiterte Vorschläge über die aktuellen Prüfungen hinaus",
+      "tableHeaders": {
+        "suggestion": "Vorschlag",
+        "impact": "Auswirkungsgrad"
+      },
+      "impactLevels": {
+        "high": "Hohe Auswirkung",
+        "moderate": "Mittlere Auswirkung",
+        "low": "Geringe Auswirkung"
+      }
+    },
+    "summary": {
+      "title": "Zusammenfassung der Empfehlungen",
+      "li1": "Fügen Sie einen funktionierenden Website-Link hinzu.",
+      "li2": "Ermutigen Sie zufriedene Kunden, Bewertungen zu hinterlassen.",
+      "li3": "Die Durchschnittsbewertung liegt unter 4 Sternen.",
+      "li4": "Das Logo ist vorhanden und professionell.",
+      "li5": "Aktualisieren Sie Ihre Geschäftszeiten.",
+      "li6": "Weniger als 5 Fotos. Fotos verbessern."
+    }
+  }
+}

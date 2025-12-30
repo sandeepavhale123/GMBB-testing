@@ -1,0 +1,14 @@
+{
+  "title": "Attività di pubblicazione per piattaforma",
+  "totalPostsLabel": "Post",
+
+  "timeRange": {
+    "last_week": "La scorsa settimana",
+    "last_month": "Lo scorso mese",
+    "last_6_months": "Ultimi 6 mesi",
+    "last_12_months": "Ultimi 12 mesi"
+  },
+  "tooltip": {
+    "posts": "Post"
+  }
+}

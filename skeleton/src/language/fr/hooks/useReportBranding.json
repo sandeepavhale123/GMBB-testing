@@ -1,0 +1,16 @@
+{
+  "reportBranding": {
+    "success": {
+      "update": "Branding du rapport mis à jour avec succès",
+      "delete": "Branding du rapport supprimé avec succès"
+    },
+    "error": {
+      "update": "Échec de la mise à jour du branding du rapport. Veuillez réessayer.",
+      "delete": "Échec de la suppression du branding du rapport. Veuillez réessayer."
+    },
+    "toast": {
+      "titleSuccess": "Succès",
+      "titleError": "Erreur"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "upgradeNowConfirmationModal": {
+    "title": "Upgrade Plan",
+    "description": "Are you sure you want to upgrade to the {{planName}} plan?",
+    "cancelButton": "Cancel",
+    "confirmButton": "Yes, Upgrade",
+    "processing": "Processing..."
+  }
+}

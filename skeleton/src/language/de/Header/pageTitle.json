@@ -1,0 +1,100 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Überwachen Sie die Leistung Ihres Unternehmens auf allen Plattformen"
+  },
+  "aiTasks": {
+    "title": "KI-Aufgaben",
+    "subtitle": "Verwalten und verfolgen Sie KI-gestützte Optimierungsaufgaben"
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Verwalten Sie Ihre Kontoinformationen und Einstellungen"
+  },
+  "posts": {
+    "title": "Beiträge",
+    "subtitle": "Erstellen und verwalten Sie Inhalte für alle Ihre Unternehmensstandorte"
+  },
+  "mediaLibrary": {
+    "title": "Medienbibliothek",
+    "subtitle": "Organisieren und verwalten Sie Ihre Unternehmensbilder und -videos für alle Plattformen"
+  },
+  "reviews": {
+    "title": "Bewertungen",
+    "subtitle": "Überwachen und beantworten Sie Kundenfeedback an allen Standorten"
+  },
+  "qa": {
+    "title": "Fragen & Antworten",
+    "subtitle": "Verwalten Sie Kundenfragen und geben Sie hilfreiche Antworten"
+  },
+  "businessInfo": {
+    "title": "Verwaltung",
+    "subtitle": "Verwalten Sie Ihre Unternehmenseinträge und Standortinformationen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Konfigurieren Sie Ihre Kontoeinstellungen und Integrationen"
+  },
+  "manageListings": {
+    "title": "Einträge verwalten",
+    "subtitle": "Überwachen und verwalten Sie Ihre Google-Unternehmensprofileinträge"
+  },
+  "insights": {
+    "title": "Einblicke",
+    "subtitle": "Analysieren Sie Leistungskennzahlen, um Ihre lokale Sichtbarkeit zu verbessern"
+  },
+  "keywords": {
+    "title": "Schlüsselwörter",
+    "subtitle": "Verfolgen Sie die Keyword-Rankings nach geografischem Standort"
+  },
+  "searchKeyword": {
+    "title": "Suchbegriff",
+    "subtitle": "Schlüsselwörter"
+  },
+  "geoRanking": {
+    "title": "GEO-Ranking",
+    "subtitle": "Verfolgen Sie die Keyword-Rankings nach geografischem Standort"
+  },
+  "geoRankingReport": {
+    "title": "GEO-Ranking-Bericht",
+    "subtitle": "Detaillierte Analyse Ihrer lokalen Suchleistung"
+  },
+  "citationManagement": {
+    "title": "Zitationsverwaltung",
+    "subtitle": "Überwachen und verwalten Sie Ihre Unternehmenseinträge in Verzeichnissen"
+  },
+  "analytics": {
+    "title": "Analysen",
+    "subtitle": "Umfassende Kennzahlen und Leistungsdaten für Ihr Unternehmen"
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "Verwalten Sie Teammitglieder und deren Zugriffsberechtigungen"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "subtitle": "Bleiben Sie mit wichtigen Warnungen und Updates auf dem Laufenden"
+  },
+  "reports": {
+    "title": "Berichte",
+    "subtitle": "Anzeigen und Erstellen von Leistungsberichten"
+  },
+  "aiChatbot": {
+    "title": "KI-Genie-Assistent",
+    "subtitle": "Erhalten Sie KI-gestützte Unterstützung zur Optimierung Ihres GEO-Rankings"
+  },
+  "editTeamMember": {
+    "title": "Teammitglied bearbeiten",
+    "subtitle": "Verwalten Sie das Profil, den Eintragszugriff und die Funktionsberechtigungen von Teammitgliedern"
+  },
+  "welcomeDashboard": {
+    "title": "Dashboard",
+    "subtitle": "Willkommen zurück in Ihrem Unternehmens-Dashboard"
+  },
+  "gallery": {
+    "title": "Galerie"
+  },
+  "bulkReport": {
+    "title": "Sammelbericht"
+  }
+}

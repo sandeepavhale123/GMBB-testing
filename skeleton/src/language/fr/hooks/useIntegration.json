@@ -1,0 +1,42 @@
+{
+  "integration": {
+    "mapApiKey": {
+      "success": {
+        "update": "Clé API mise à jour avec succès",
+        "delete": "Clé API déconnectée avec succès"
+      },
+      "error": {
+        "update": "Échec de l'enregistrement de la clé API. Veuillez réessayer.",
+        "delete": "Échec de la déconnexion de la clé API. Veuillez réessayer."
+      }
+    },
+    "subdomain": {
+      "success": {
+        "update": "Configuration du sous-domaine enregistrée avec succès",
+        "delete": "Sous-domaine supprimé avec succès"
+      },
+      "error": {
+        "update": "Échec de l'enregistrement de la configuration du sous-domaine. Veuillez réessayer.",
+        "delete": "Échec de la suppression du sous-domaine. Veuillez réessayer."
+      }
+    },
+    "smtp": {
+      "success": {
+        "update": "Paramètres SMTP enregistrés avec succès",
+        "delete": "Paramètres SMTP supprimés avec succès",
+        "testEmail": "Email de test SMTP envoyé avec succès"
+      },
+      "error": {
+        "update": "Échec de l'enregistrement des paramètres SMTP. Veuillez réessayer.",
+        "delete": "Échec de la suppression des paramètres SMTP. Veuillez réessayer.",
+        "testEmail": "Échec de l'envoi de l'email de test. Veuillez vérifier vos paramètres."
+      }
+    },
+    "toast": {
+      "titleSuccess": "Succès",
+      "titleError": "Erreur",
+      "titleTestSuccess": "Email de test envoyé",
+      "titleTestError": "Test échoué"
+    }
+  }
+}

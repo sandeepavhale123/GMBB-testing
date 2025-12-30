@@ -1,0 +1,12 @@
+{
+  "listingSwitcher": {
+    "searchPlaceholder": "Einträge suchen...",
+    "searching": "Suche läuft...",
+    "noResults": "Kein Eintrag gefunden.",
+    "noListings": "Keine Einträge verfügbar",
+    "loading": "Wird geladen...",
+    "errorMessage": "Einträge konnten nicht geladen werden",
+    "retry": "Erneut versuchen",
+    "addListings": "Einträge hinzufügen"
+  }
+}

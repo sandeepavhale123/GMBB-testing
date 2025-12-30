@@ -1,0 +1,40 @@
+{
+  "bulkImportDetails": {
+    "title": "Bulk Import Details",
+    "loadingListings": "Loading listings...",
+    "selectListingPrompt": "Select a listing to view posts",
+    "listingSidebar": {
+      "selectedCount": "{{count}} Selected listings",
+      "searchPlaceholder": "Search by listing name or zip code",
+      "noListingsFound": "No listings found for this history ID.",
+      "errorLoading": "Error loading listings",
+      "noListings": "No listings found",
+      "zipCode": "Zip code: {{zip}}",
+      "loading":"Loading..."
+    },
+    "posts": {
+      "searchPlaceholder": "Search by post content or tags",
+      "loading": "Loading posts...",
+      "errorLoading": "Error loading posts",
+      "noPostsFound": "No posts found matching your search criteria.",
+      "image":"Image",
+      "postContent":"Post Content",
+      "noContent": "No content",
+      "noImage": "No image",
+      "status": "Status",
+      "date": "Date",
+      "action": "Action",
+      "deletePost": "Delete Post",
+      "deleteConfirmation": "Are you sure you want to delete this post? This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "pagination": {
+    "showingPosts": "Showing {{start}} to {{end}} of {{total}} posts",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{current}} of {{totalPages}}"
+  }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "qaCard": {
+    "answered": "Beantwortet",
+    "unanswered": "Unbeantwortet",
+    "askedBy": "Gefragt von",
+    "anonymousUser": "Anonymer Benutzer",
+    "reply": "Antworten",
+    "replyTitle": "Verwenden Sie relevante Schlüsselwörter in Ihrer Antwort",
+    "answerPlaceholder": "Schreiben Sie Ihre Antwort mit relevanten Schlüsselwörtern wie Städtenamen, Dienstleistungen oder Produkten, um das lokale SEO zu verbessern...",
+    "postAnswer": "Antwort veröffentlichen",
+    "cancel": "Abbrechen",
+    "answeredLabel": "Beantwortet vor {{timeAgo}}",
+    "listingFallback": {
+      "name": "Unternehmensprofil",
+      "address": "Standort"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Resumen de Actividad",
+  "labels": {
+    "success": "Éxito",
+    "failed": "Fallido"
+  },
+  "summary": "% Éxito vs. Fallidos"
+}

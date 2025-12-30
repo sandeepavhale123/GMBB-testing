@@ -1,0 +1,30 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStarted": {
+        "title": "Aggiornamento avviato",
+        "description": "Aggiornamento dei dati della parola chiave in corso..."
+      },
+      "refreshComplete": {
+        "title": "Aggiornamento completato",
+        "description": "I dati della parola chiave sono stati aggiornati con successo"
+      },
+      "refreshTimeout": {
+        "title": "Timeout aggiornamento",
+        "description": "L'aggiornamento sta impiegando più tempo del previsto. Riprova più tardi."
+      },
+      "refreshFailed": {
+        "title": "Aggiornamento fallito",
+        "description": "Impossibile aggiornare la parola chiave"
+      }
+    },
+    "errors": {
+      "refreshTimeout": "Timeout aggiornamento - riprova",
+      "missingKeywordOrListing": "ID elenco e parola chiave selezionata sono richiesti"
+    },
+    "labels": {
+      "refreshing": "Aggiornamento in corso...",
+      "progress": "Progresso"
+    }
+  }
+}

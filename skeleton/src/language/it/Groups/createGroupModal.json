@@ -1,0 +1,30 @@
+{
+  "dialog": {
+    "createTitle": "Crea Nuovo Gruppo",
+    "editTitle": "Modifica Gruppo"
+  },
+  "form": {
+    "groupNameLabel": "Nome del Gruppo *",
+    "groupNamePlaceholder": "Inserisci il nome del gruppo",
+    "validation": {
+      "groupNameMin": "Il nome del gruppo deve contenere almeno 2 caratteri",
+      "groupNameMax": "Il nome del gruppo deve contenere meno di 50 caratteri",
+      "selectListing": "Seleziona almeno un'inserzione"
+    }
+  },
+  "toast": {
+    "success": "Successo",
+    "groupCreated": "Gruppo creato con successo",
+    "groupUpdated": "Gruppo aggiornato con successo",
+    "error": "Errore",
+    "failedCreate": "Creazione del gruppo fallita",
+    "failedUpdate": "Aggiornamento del gruppo fallito"
+  },
+  "actions": {
+    "cancel": "Annulla",
+    "create": "Crea Gruppo",
+    "update": "Aggiorna Gruppo",
+    "creating": "Creazione in corso...",
+    "updating": "Aggiornamento in corso..."
+  }
+}

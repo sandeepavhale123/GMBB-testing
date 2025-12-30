@@ -1,0 +1,15 @@
+{
+  "label": "Select Listings *",
+  "loading": "Loading...",
+  "selectListings": "Select listings...",
+  "selectedCount": "{{count}} listing selected",
+  "selectedCount_plural": "{{count}} listings selected",
+  "searchPlaceholder": "Search listings...",
+  "noListingsFound": "No listings found.",
+  "locations": "Locations",
+  "selectAll": "Select All",
+  "deselectAll": "Deselect All",
+  "errorFetchListingsTitle": "Error",
+  "errorFetchListingsDescription": "Failed to fetch listings",
+  "selectAtLeastOne": "Select at least one listing to continue."
+}

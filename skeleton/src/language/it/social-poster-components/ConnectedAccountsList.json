@@ -1,0 +1,45 @@
+{
+  "loading": {
+    "accountsLoading": "Caricamento degli account..."
+  },
+  "error": {
+    "title": "Errore nel caricamento degli account",
+    "description": "Impossibile caricare gli account collegati"
+  },
+  "empty": {
+    "noResultsTitle": "Nessun account trovato",
+    "noResultsDescription": "Nessun account corrisponde alla tua ricerca \"{{query}}\"",
+    "noAccountsTitle": "Nessun account collegato",
+    "noAccountsDescription": "Collega i tuoi account social per iniziare"
+  },
+  "buttons": {
+    "refresh": "Aggiorna",
+    "disconnect": "Disconnetti",
+    "pagesToggle": "Pagine/Account ({{count}})"
+  },
+  "account": {
+    "connected": "Collegato: {{date}}",
+    "lastRefreshed": "Ultimo aggiornamento: {{date}}",
+    "tokenExpires": "• Il token scade {{time}}",
+    "followers": "followers",
+    "status": {
+      "healthy": "Sano",
+      "warning": "Avviso",
+      "error": "Errore",
+      "disconnected": "Disconnesso"
+    }
+  },
+  "dialogs": {
+    "confirmDisconnect": "Sei sicuro di voler disconnettere questo account?"
+  },
+  "token": {
+    "refreshFailedTitle": "Connessione fallita",
+    "refreshFailedDesc": "Impossibile avviare il flusso OAuth",
+    "refreshed": "Token aggiornato",
+    "refreshSuccessDesc": "Il token scadrà tra {{days}} giorni",
+    "tokenExpiresSoon": "Il token scadrà presto. Aggiorna la tua connessione.",
+    "tokenExpiresSoonThreads": "Il token scadrà presto. Clicca 'Aggiorna' per estendere manualmente la validità del token (60 giorni).",
+    "refresh": "Aggiornamento fallito",
+    "refreshDesc": "Impossibile aggiornare il token"
+  }
+}

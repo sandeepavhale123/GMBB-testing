@@ -1,0 +1,100 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Monitor your business performance across all platforms"
+  },
+  "aiTasks": {
+    "title": "AI Tasks",
+    "subtitle": "Manage and track AI-powered optimization tasks"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account information and preferences"
+  },
+  "posts": {
+    "title": "Posts",
+    "subtitle": "Create and manage content for all your business locations"
+  },
+  "mediaLibrary": {
+    "title": "Media Library",
+    "subtitle": "Organize and manage your business images and videos for all platforms"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "subtitle": "Monitor and respond to customer feedback across all locations"
+  },
+  "qa": {
+    "title": "Q&A",
+    "subtitle": "Manage customer questions and provide helpful answers"
+  },
+  "businessInfo": {
+    "title": "Management",
+    "subtitle": "Manage your business listings and location information"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Configure your account preferences and integrations"
+  },
+  "manageListings": {
+    "title": "Manage Listings",
+    "subtitle": "Monitor and manage your Google Business Profile listings"
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "Review performance insights to improve your local visibility"
+  },
+  "keywords": {
+    "title": "Keywords",
+    "subtitle": "Track keyword ranking by geographic location"
+  },
+  "searchKeyword": {
+    "title": "Search Keyword",
+    "subtitle": "Keywords"
+  },
+  "geoRanking": {
+    "title": "GEO Ranking",
+    "subtitle": "Track keyword ranking by geographic location"
+  },
+  "geoRankingReport": {
+    "title": "GEO Ranking Report",
+    "subtitle": "Detailed analysis of your local search performance"
+  },
+  "citationManagement": {
+    "title": "Citation Management",
+    "subtitle": "Monitor and manage your business citations across directories"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Comprehensive metrics and performance data for your business"
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "Manage team members and their access permissions"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Stay updated with important alerts and updates"
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "View and generate performance reports"
+  },
+  "aiChatbot": {
+    "title": "AI Genie Assistance",
+    "subtitle": "Get AI-powered assistance for your GEO ranking optimization"
+  },
+  "editTeamMember": {
+    "title": "Edit Team Member",
+    "subtitle": "Manage team member profile, listing access, and feature permissions"
+  },
+  "welcomeDashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back to your business dashboard"
+  },
+  "gallery":{
+    "title":"Gallery"
+  },
+  "bulkReport":{
+    "title":"Bulk Report"
+  }
+}

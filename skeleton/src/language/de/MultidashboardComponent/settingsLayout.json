@@ -1,0 +1,16 @@
+{
+  "title": "Einstellungen",
+  "subtitle": "Verwalten Sie Ihr Konto und Ihre Präferenzen.",
+  "nav": {
+    "googleAccount": "Google-Konto",
+    "manageGroups": "Gruppen verwalten",
+    "teamMembers": "Teammitglieder",
+    "subscription": "Abonnement",
+    "themeCustomization": "Design-Anpassung",
+    "reportBranding": "Bericht-Branding",
+    "notifications": "Benachrichtigungen",
+    "integrations": "Integrationen",
+    "activityLogs": "Aktivitätsprotokolle"
+  }
+} 
+ 

@@ -1,0 +1,10 @@
+{
+  "preferencesTitle": "Preferenze e Impostazioni",
+  "timezone": "Fuso Orario",
+  "labels": {
+    "selectTimezone": "Seleziona fuso orario...",
+    "searchTimezone": "Cerca fuso orario...",
+    "noTimezoneFound": "Nessun fuso orario trovato.",
+    "dashboardType": "Tipo di Dashboard"
+  }
+}

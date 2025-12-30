@@ -1,0 +1,8 @@
+{
+  "title": "Paramètres",
+  "description": "Personnalisez le thème et les préférences de votre classement GEO.",
+  "nav": {
+    "theme": "Personnalisation du thème",
+    "apiKey": "Clé API Google Places"
+  }
+}

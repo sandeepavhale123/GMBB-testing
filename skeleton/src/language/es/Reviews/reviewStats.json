@@ -1,0 +1,14 @@
+{
+  "reviewStats": {
+    "cards": {
+      "totalReviews": "Total de Reseñas",
+      "pendingReplies": "Respuestas Pendientes",
+      "aiReplies": "Respuestas AI",
+      "manualReplies": "Respuestas Manuales"
+    },
+    "loading": {
+      "skeletonTitle": "Cargando...",
+      "skeletonValue": "Por favor, espere"
+    }
+  }
+}

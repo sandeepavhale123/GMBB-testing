@@ -1,0 +1,60 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Lade Benachrichtigungseinstellungen..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Berichtstyp",
+        "frequency": "Häufigkeit",
+        "action": "Aktion"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "Neuer / Aktualisierter Bewertungsbericht",
+        "description": "Detaillierte Analyse neuer und aktualisierter Kundenbewertungen und -bewertungen, mit Berichtbenachrichtigungen, die täglich oder bei Aktualisierungen gesendet werden."
+      },
+      "postReport": {
+        "name": "GMB-Beitragsbericht",
+        "description": "Leistungsanalyse Ihrer GMB-Beiträge, mit Berichtbenachrichtigungen, die täglich oder bei neuen Updates gesendet werden."
+      },
+      "geoRanking": {
+        "name": "GEO-Ranking-Bericht",
+        "description": "Analyse der lokalen Such-Ranking-Leistung, mit Berichtbenachrichtigungen, die täglich oder bei Aktualisierungen gesendet werden."
+      }
+    },
+    "frequency": {
+      "daily": "Täglich",
+      "whenUpdated": "Bei Aktualisierung",
+      "off": "Aus",
+      "tooltip": "Senden Sie nur, wenn neue oder geänderte Berichtsdaten vorliegen"
+    },
+    "action": {
+      "all": "Alle",
+      "postOptions": {
+        "all": "ALLE",
+        "failed": "Fehlgeschlagen",
+        "live": "Live"
+      },
+      "reviewOptions": {
+        "5star": "5 Sterne",
+        "4star": "4 Sterne",
+        "3star": "3 Sterne",
+        "2star": "2 Sterne",
+        "1star": "1 Stern"
+      }
+    },
+    "toast": {
+      "success": {
+        "title": "Erfolg",
+        "description": "Benachrichtigungseinstellungen erfolgreich aktualisiert"
+      },
+      "error": {
+        "title": "Fehler",
+        "load": "Laden der Benachrichtigungseinstellungen fehlgeschlagen",
+        "update": "Aktualisierung der Benachrichtigungseinstellungen fehlgeschlagen"
+      }
+    }
+  }
+}

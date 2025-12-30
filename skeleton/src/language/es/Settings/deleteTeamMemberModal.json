@@ -1,0 +1,24 @@
+{
+  "deleteTeamMemberModal": {
+    "title": "Eliminar miembro del equipo",
+    "description": "Esta acción no se puede deshacer",
+    "confirmation1": "¿Estás seguro de que deseas eliminar a ",
+    "confirmation2": "{{firstName}} {{lastName}}",
+    "confirmation3": "? Esto eliminará permanentemente su cuenta y revocará todo acceso al sistema.",
+    "alsoRemoveTitle": "Esto también eliminará:",
+    "alsoRemoveItems": {
+      "listings": "• Acceso a {{listingsCount}} listados",
+      "permissions": "• Todos los permisos asignados",
+      "credentials": "• Credenciales y configuraciones de la cuenta"
+    },
+    "cancel": "Cancelar",
+    "delete": "Eliminar miembro",
+    "deleting": "Eliminando...",
+    "toast": {
+      "successTitle": "Éxito",
+      "successDescription": "Miembro del equipo eliminado correctamente",
+      "errorTitle": "Error",
+      "errorDescription": "No se pudo eliminar al miembro del equipo"
+    }
+  }
+}

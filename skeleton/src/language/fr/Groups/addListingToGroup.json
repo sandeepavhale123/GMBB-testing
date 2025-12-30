@@ -1,0 +1,12 @@
+{
+  "title": "Ajouter des fiches à {{groupName}}",
+  "noListingsTitle": "Aucune fiche sélectionnée",
+  "noListingsDescription": "Veuillez sélectionner au moins une fiche à ajouter au groupe.",
+  "successTitle": "Succès",
+  "successDescription": "Ajout de {{count}} fiche{{plural}} à {{groupName}} réussi. Total des fiches : {{total}}",
+  "errorTitle": "Erreur",
+  "errorDescription": "Échec de l'ajout des fiches au groupe. Veuillez réessayer.",
+  "cancel": "Annuler",
+  "adding": "Ajout en cours...",
+  "addListings": "Ajouter {{count}} fiche{{plural}}"
+}

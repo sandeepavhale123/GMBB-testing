@@ -1,0 +1,25 @@
+{
+  "addKeywordsPage": {
+    "noListingSelected": {
+      "title": "No Listing Selected",
+      "description": "Please select a listing first to add keywords."
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "noListing": "No listing selected. Please select a listing first.",
+      "keywordsAddedTitle": "Keywords Added",
+      "keywordsAddedDescription": "Successfully added {{count}} keyword(s) to queue.",
+      "keywordsAddFailed": "Failed to add keywords."
+    },
+    "pageTitle": "Add Keywords",
+    "form": {
+      "keywordsLabel": "Keywords",
+      "keywordsPlaceholder": "Enter keywords separated by comma",
+      "languageLabel": "Language",
+      "distanceLabel": "Distance Value",
+      "gridSizeLabel": "Grid Size",
+      "addButton": "Add Keywords",
+      "addingButton": "Adding..."
+    }
+  }
+}

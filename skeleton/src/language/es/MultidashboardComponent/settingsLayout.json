@@ -1,0 +1,15 @@
+{
+  "title": "Configuración",
+  "subtitle": "Gestiona tu cuenta y preferencias.",
+  "nav": {
+    "googleAccount": "Cuenta de Google",
+    "manageGroups": "Gestionar Grupos",
+    "teamMembers": "Miembros del Equipo",
+    "subscription": "Suscripción",
+    "themeCustomization": "Personalización del Tema",
+    "reportBranding": "Marca del Informe",
+    "notifications": "Notificaciones",
+    "integrations": "Integraciones",
+    "activityLogs": "Registros de actividad"
+  }
+} 

@@ -1,0 +1,60 @@
+{
+  "modal": {
+    "title": "Generatore di URL UTM",
+    "info": {
+      "title": "Che cos'è il tracciamento UTM?",
+      "description": "I parametri UTM sono tag che aggiungi agli URL per monitorare le campagne di marketing in strumenti di analisi come Google Analytics. Ti aiutano a capire quali campagne generano traffico e conversioni.",
+      "example": {
+        "title": "Esempio di URL UTM:",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=saldi_estivi"
+      },
+      "benefits": {
+        "title": "Vantaggi:",
+        "list": [
+          "Monitora con precisione le prestazioni delle campagne",
+          "Identifica le tue migliori fonti di traffico",
+          "Misura il ROI delle spese di marketing",
+          "Ottimizza la tua strategia di marketing"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "URL del sito web",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Nome della campagna",
+        "placeholder": "saldi_estivi_2025"
+      },
+      "campaignSource": {
+        "label": "Fonte della campagna",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Mezzo della campagna",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Termine della campagna",
+        "placeholder": "scarpe+corsa"
+      },
+      "campaignContent": {
+        "label": "Contenuto della campagna",
+        "placeholder": "banner_pubblicitario, link_testo"
+      },
+      "optional": "opzionale",
+      "generatedUrl": "URL UTM generato",
+      "copyUrl": "Copia URL",
+      "copySuccess": "URL UTM copiato negli appunti!",
+      "clearForm": "Pulisci modulo",
+      "close": "Chiudi"
+    },
+    "validation": {
+      "url": "Deve essere un URL valido",
+      "campaign": "Il nome della campagna è obbligatorio",
+      "Source": "La fonte della campagna è obbligatoria",
+      "Medium": "Il mezzo della campagna è obbligatorio"
+    }
+  }
+}

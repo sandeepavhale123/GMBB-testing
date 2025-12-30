@@ -1,0 +1,21 @@
+{
+  "title": "Lead-Dashboard",
+  "description": "Verwalten und verfolgen Sie Ihre Leads effektiv.",
+  "convertedLeads": "Konvertierte Leads",
+  "totalLeads": "Gesamtanzahl Leads",
+  "remainingCredits": "Verbleibendes Guthaben",
+  "addLead": "Lead hinzufügen",
+  "leads": "Leads",
+  "manageLeads": "Verwalten Sie Ihre Lead-Datenbank und verfolgen Sie Interaktionen",
+  "showingPage": "Seite {{currentPage}} von {{totalPages}} anzeigen ({{leadCount}} Leads)",
+  "deleteLeadTitle": "Lead löschen",
+  "deleteLeadDescription": "Möchten Sie den Lead für ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": "? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "deleting": "Löschen...",
+  "reportIDMissing": "Berichts-ID für diesen Lead nicht gefunden",
+  "noReportID": "Keine Berichts-ID für diesen Lead gefunden",
+  "fetchError": "Leads konnten nicht abgerufen werden. Bitte versuchen Sie es erneut."
+}

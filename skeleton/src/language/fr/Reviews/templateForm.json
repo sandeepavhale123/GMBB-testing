@@ -1,0 +1,22 @@
+{
+  "templateForm": {
+    "labels": {
+      "starRating": "Sélectionner la note en étoiles",
+      "templateContent": "Modèle de réponse"
+    },
+    "placeholders": {
+      "selectRating": "Choisissez la note en étoiles pour ce modèle",
+      "templateTextarea": "Rédigez votre modèle de réponse ici. Utilisez des variables comme {first_name} pour personnaliser les réponses..."
+    },
+    "tips": {
+      "personalization": "Astuce : Utilisez les variables du panneau de gauche pour rendre votre modèle plus personnel"
+    },
+    "buttons": {
+      "close": "Fermer",
+      "save": "Enregistrer le modèle",
+      "saving": "Enregistrement..."
+    },
+    "stars": "{{count}} étoile",
+    "stars_plural": "{{count}} étoiles"
+  }
+}

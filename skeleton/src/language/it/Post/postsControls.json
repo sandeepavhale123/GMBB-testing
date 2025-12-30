@@ -1,0 +1,16 @@
+{
+  "postsControls": {
+    "searchPlaceholder": "Cerca post...",
+    "filter": {
+      "label": "Filtra",
+      "all": "Tutti i post",
+      "scheduled": "Post programmati",
+      "live": "Post live",
+      "failed": "Post non riusciti"
+    },
+    "dateRange": {
+      "placeholder": "Filtra per intervallo di date"
+    },
+    "resetFilters": "Ripristina filtri"
+  }
+}

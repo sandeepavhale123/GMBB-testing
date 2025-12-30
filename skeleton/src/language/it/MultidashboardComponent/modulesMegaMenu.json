@@ -1,0 +1,46 @@
+{
+  "title": "Moduli",
+  "comingSoon": "In arrivo",
+  "beta": "Beta",
+  "utilities": {
+    "title": "Utilità",
+    "utmBuilder": {
+      "name": "Generatore URL UTM",
+      "description": "Crea URL di campagne tracciabili"
+    },
+    "buyCredits": {
+      "name": "Acquista Crediti",
+      "description": "Acquista crediti per il tuo account"
+    },
+    "mapCreator": {
+      "name": "Creatore di Mappe",
+      "description": "Crea dati di ranking delle keyword con coordinate sulla mappa"
+    }
+  },
+  "modules": {
+    "manageGmb": {
+      "name": "Gestisci scheda GMB",
+      "description": "Gestisci le tue schede Google My Business"
+    },
+    "geoRanking": {
+      "name": "Classifica GEO",
+      "description": "Monitora e ottimizza le tue classifiche nelle ricerche locali"
+    },
+    "leadManagement": {
+      "name": "Gestione Lead",
+      "description": "Gestisci e traccia i tuoi lead in modo efficace"
+    },
+    "reputation": {
+      "name": "Reputazione",
+      "description": "Monitora e gestisci la tua reputazione online"
+    },
+    "seo": {
+      "name": "SEO Fixer",
+      "description": "Rileva e corregge automaticamente i problemi SEO sui siti web"
+    },
+    "socialPoster": {
+      "name": "Social Poster",
+      "description": "Pianifica e gestisci i post su tutte le piattaforme di social media"
+    }
+  }
+}

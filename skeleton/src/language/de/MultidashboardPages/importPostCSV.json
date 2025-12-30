@@ -1,0 +1,38 @@
+{
+  "importPostCSV": {
+    "title": "Massenpost-Verwaltung",
+    "importButton": "CSV-Datei importieren",
+    "searchPlaceholder": "Nach Dateiname oder Notiz suchen...",
+    "noRecordsFound": "Keine Einträge für Ihre Suche gefunden.",
+    "noCSVFound": "Keine CSV-Importe gefunden. Klicken Sie auf \"Importieren\", um zu starten.",
+    "tableHeaders": {
+      "filename": "Dateiname",
+      "note": "Notiz",
+      "date": "Datum",
+      "totalPosts": "Gesamtbeiträge",
+      "listingsApplied": "Angewandte Einträge",
+      "status": "Status",
+      "action": "Aktion",
+      "listing": "Einträge"
+    },
+    "status": {
+      "completed": "abgeschlossen",
+      "processing": "in Bearbeitung",
+      "failed": "fehlgeschlagen"
+    },
+    "deleteDialog": {
+      "title": "CSV-Import löschen",
+      "description": "Möchten Sie den Importeintrag für \"{{filename}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "deleting": "Löschen..."
+    },
+    "toast": {
+      "successTitle": "Erfolg",
+      "successMessage": "Eintrag erfolgreich gelöscht",
+      "errorTitle": "Fehler",
+      "errorMessage": "Löschen des Eintrags fehlgeschlagen"
+    },
+    "paginationInfo": "Anzeige von {{start}} bis {{end}} von {{total}} Einträgen"
+  }
+}

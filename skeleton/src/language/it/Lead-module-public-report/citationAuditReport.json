@@ -1,0 +1,45 @@
+{
+  "citationAudit": {
+    "title": "Rapporto Audit Citazioni",
+    "listingName": "Nome Attività",
+    "loading": "Caricamento Rapporto Audit Citazioni...",
+    "loadError": "Impossibile caricare il rapporto audit citazioni",
+    "retry": "Riprova",
+
+    "metrics": {
+      "total": "Citazioni Totali Trovate",
+      "accuracy": "Punteggio di Accuratezza",
+      "missing": "Citazioni Mancanti",
+      "duplicates": "Elenco Duplicati"
+    },
+
+    "atAGlance": {
+      "title": "Il Tuo Rapporto Citazioni a Colpo d'Occhio",
+      "foundTitle": "Citazioni Trovate",
+      "foundDesc": "Citazioni attualmente presenti",
+      "missingTitle": "Citazioni Mancanti",
+      "missingDesc": "Citazioni da aggiungere"
+    },
+
+    "localPageScore": {
+      "title": "Punteggio Pagine Locali & Directory",
+      "description": "Il tuo punteggio per pagine locali e directory si basa sul numero di posti in cui la tua attività è presente, diviso per il numero di pagine locali e directory che abbiamo controllato."
+    },
+
+    "tabs": {
+      "citation": "Audit Citazioni",
+      "existing": "Citazioni Esistenti",
+      "possible": "Citazioni Possibili"
+    },
+
+    "table": {
+      "siteName": "Nome Sito",
+      "businessName": "Nome Attività",
+      "phone": "Telefono",
+      "action": "Azione",
+      "notMatching": "Non Corrisponde",
+      "view": "Visualizza",
+      "add": "Aggiungi Attività"
+    }
+  }
+}

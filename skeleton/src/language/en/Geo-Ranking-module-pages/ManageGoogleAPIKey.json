@@ -1,0 +1,43 @@
+{
+  "manageApiKey": {
+    "pageTitle": "Google Places API Key",
+    "pageDescription": "Manage your Google Places API key for location-based ranking checks.",
+    "infoAlert": {
+      "description": "You need a valid Google Places API key to perform location-based ranking checks. Make sure your API key has the Places API and Geocoding API enabled.",
+      "getKey": "Get API Key"
+    },
+    "status": {
+      "title": "Current Status",
+      "configured": "API Key Configured",
+      "keyLabel": "Key",
+      "active": "Active",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "deleteTitle": "Delete API Key",
+      "deleteDescription": "Are you sure you want to delete your Google Places API key? This action cannot be undone and will disable all location-based ranking checks.",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete API Key"
+    },
+    "config": {
+      "title": "API Key Configuration",
+      "label": "Google Places API Key",
+      "placeholder": "Enter your Google Places API Key",
+      "add": "Add",
+      "update": "Update",
+      "saving": "Saving..."
+    },
+    "instructions": {
+      "title": "How to generate Google Place API key:",
+      "step1": "1. Note - You must enable Billing for Google Project.",
+      "step2_p1": "2. Visit the Google ",
+      "step2_p2": "Cloud Platform Console.",
+      "step3": "3. Click the project drop-down and select or create the project for which you want to add an API key.",
+      "step4": "4. From Dashboard > Go to APIs overview > Click on Library > Enable Maps JavaScript API & Enable Places API by clicking on both respectively.",
+      "step5": "5. After that Click the menu button and select APIs & Services > Credentials.",
+      "step6": "6. On the Credentials page, Create credentials Dropdown - Select API Key Option.",
+      "step7": "7. This creates a dialog that displays, “your newly created API key” - Copy the key.",
+      "step8": "8. Use or paste the generated key under Geo Ranking > Manage Key tab. (One-time activity - Only First use of GEO Ranking Check).",
+      "step9": "9. Once you have added a key, it will be used for all of your listings, and no more need to generate a separate key for every GMB listing."
+    }
+  }
+}

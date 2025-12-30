@@ -1,0 +1,7 @@
+{
+  "aiPromptInput": {
+    "label": "Describe the image you want to create",
+    "placeholder": "e.g., A chef preparing pasta in an open kitchen with warm lighting",
+    "hint": "Be specific and descriptive • {{count}}/{{max}} characters"
+  }
+}

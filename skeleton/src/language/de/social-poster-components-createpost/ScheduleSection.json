@@ -1,0 +1,16 @@
+{
+  "title": "Planen",
+  "description": "Wählen Sie, wann veröffentlicht werden soll",
+
+  "options": {
+    "now": "Jetzt veröffentlichen",
+    "schedule": "Für später planen"
+  },
+
+  "fields": {
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+
+  "timezoneNote": "Der Beitrag wird für die Zeitzone {{timezone}} geplant"
+}

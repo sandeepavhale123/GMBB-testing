@@ -1,0 +1,15 @@
+{
+  "label": "Sélectionner des fiches *",
+  "loading": "Chargement...",
+  "selectListings": "Sélectionner des fiches...",
+  "selectedCount": "{{count}} fiche sélectionnée",
+  "selectedCount_plural": "{{count}} fiches sélectionnées",
+  "searchPlaceholder": "Rechercher des fiches...",
+  "noListingsFound": "Aucune fiche trouvée.",
+  "locations": "Emplacements",
+  "selectAll": "Tout sélectionner",
+  "deselectAll": "Tout désélectionner",
+  "errorFetchListingsTitle": "Erreur",
+  "errorFetchListingsDescription": "Échec de la récupération des fiches",
+  "selectAtLeastOne": "Sélectionnez au moins une fiche pour continuer."
+}

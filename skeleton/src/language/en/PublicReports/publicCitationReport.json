@@ -1,0 +1,37 @@
+{
+  "publicCitationReport": {
+    "title": "Citation Performance Report",
+    "tracker": {
+      "cardTitle": "Citation Tracker",
+      "listed": "Listed",
+      "notListed": "Not Listed"
+    },
+    "localPages": {
+      "title": "Local Pages & Directories",
+      "description": "Your local page and directory score is based on the number of places in which your listing is present, divided by the number of local page and directories we've checked."
+    },
+    "notmatch":"Not Matching",
+    "audit": {
+      "title": "Citation Audit",
+      "placeOrder": "Place Order",
+      "tabs": {
+        "existing": "Existing Citation",
+        "possible": "Possible Citation"
+      }
+    },
+    "table": {
+      "existing": {
+        "website": "Website",
+        "businessName": "Business Name",
+        "phone": "Phone",
+        "action": "Action",
+        "view": "View"
+      },
+      "possible": {
+        "siteName": "Site Name",
+        "action": "Action",
+        "fixNow": "Fix Now"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "listingSwitcher": {
+    "searchPlaceholder": "Search listings...",
+    "searching": "Searching...",
+    "noResults": "No listing found.",
+    "noListings": "No listings available",
+    "loading": "Loading...",
+    "errorMessage": "Failed to load listings",
+    "retry": "Try Again",
+    "addListings": "Add Listings",
+    "listing":"Select Listing",
+    "current":"Current Selection"
+  }
+}

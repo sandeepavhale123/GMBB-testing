@@ -1,0 +1,139 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Total Listings",
+      "subtitle": "Active locations",
+      "trend": "+2 this month"
+    },
+    "avgRating": {
+      "title": "Avg. Rating",
+      "subtitle": "Across all listings",
+      "trend": "↑ 0.3 points"
+    },
+    "totalReviews": {
+      "title": "Total Review",
+      "subtitle": "Customer feedback",
+      "trend": "Improving"
+    },
+    "totalPosts": {
+      "title": "Total Posts",
+      "subtitle": "Published this month",
+      "trend": "+12 this week" 
+    }
+  },
+  "errors": {
+    "metricsLoad": "Failed to load metrics. Please try again.",
+    "listingsLoad": "Failed to load listings. Please try again.",
+    "postsLoad": "Failed to load posts. Please try again."
+  },
+  "dashboard": {
+    "title": "GMB Listing – {{type}} dashboard",
+    "types": {
+      "default": "Default Dashboard",
+      "insight": "Insight Dashboard",
+      "review": "Review Dashboard",
+      "location": "Location Dashboard",
+      "post": "Post Dashboard"
+    },
+    "review":"Review",
+    "insight":"Insight",
+    "location":"Location",
+    "post":"Post",
+    "default":"Default",
+    "shareReport": "Share Report",
+    "searchPlaceholder": "Search by listing name or ZIP code",
+    "allGroups":"All Groups",
+    "filters": {
+      "allCategories": "All Categories",
+      "allStates": "All States",
+      "allGroups": "All Groups",
+      "reviewFilter": "Review Filter",
+      "allReviews": "All Reviews",
+      "unrespondedReview": "Un - Responded Review",
+      "unrespondedARE": "Un - Responded ARE",
+      "unrespondedDNR": "Un - Responded DNR",
+      "excludeARE": "Exclude ARE Review",
+      "excludeDNR": "Exclude DNR Review",
+      "excludeARE_DNR": "Exclude ARE/DNR Review",
+      "postStatus": "Post status",
+      "allPosts": "All Posts",
+      "scheduledPost": "Scheduled Post",
+      "livePost": "Live Post",
+      "failedPost": "Failed Post",
+      "insightDays": "Time Period",
+      "reviewDays": "Review Period",
+      "allTime": "All Time",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "last90Days": "Last 90 Days",
+      "last6Months": "Last 6 Months",
+      "last9Months": "Last 9 Months",
+      "last12Months": "Last 12 Months",
+      "customRange": "Custom Range"
+    }
+  },
+  "export":"Export CSV",
+  "status": {
+    "loading": "Loading...",
+    "error": "Error loading data",
+    "showingPosts": "Showing {{count}} of {{total}} posts",
+    "showingListings": "Showing {{count}} of {{total}} listings",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "rating":{
+    "excellent":"Excellent",
+    "good":"Good",
+    "poor":"Poor"
+  },
+  "listing": {
+    "listingid":"ID: {{id}}",
+    "zipcode":"Zip: {{zipcode}}",
+    "state":"State: {{city}}",
+    "fetchingData": "Fetching listing data...",
+    "visibility": "Visibility",
+    "Search":"Search",
+    "Maps":"Maps",
+    "Total":"Total",
+    "customerActions": "Customer Actions",
+    "clicks": "Clicks",
+    "directions": "Directions",
+    "calls": "Calls",
+    "messages": "Messages",
+    "reviewStats": "Review Stats",
+    "reviewsReplies": "Reviews / Replies",
+    "autoReply": "Auto reply",
+    "reviewSentiment": "Review Sentiment",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "listingStatus": "Listing Status",
+    "visibilityLabel": "Visibility:",
+    "completeLabel": "Complete:",
+    "lastUpdated": "Last Updated:",
+    "photos": "Photos",
+    "rating": "Rating",
+    "website": "Website",
+    "maps": "Maps",
+    "avgRating": "Avg. Rating",
+    "starRating": "Star Rating",
+    "reviewsVsReplies": "Reviews vs Replies",
+    "lastPost": "Last Post",
+    "upcoming": "Upcoming",
+    "viewDetails": "View Details",
+    "totalViews":"Total Views",
+    "phone":"Phone",
+    "na":"N/A",
+    "stateLabel":"State",
+    "nopost":"No post"
+  },
+  "pagination":{
+  "showing": {
+    "posts": "Showing {{from}} to {{to}} of {{total}} posts",
+    "listings": "Showing {{from}} to {{to}} of {{total}} listings"
+  },
+  "previous": "Previous",
+  "next": "Next",
+  "page": "Page {{current}} of {{pages}}"
+}
+}

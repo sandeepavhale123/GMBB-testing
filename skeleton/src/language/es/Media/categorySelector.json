@@ -1,0 +1,15 @@
+{
+  "categorySelector": {
+    "placeholder": "Seleccionar categoría...",
+    "categories": {
+      "product": "Producto",
+      "interior": "Interior",
+      "team": "Equipo",
+      "food": "Comida y Bebidas",
+      "exterior": "Exterior",
+      "event": "Eventos",
+      "service": "Servicios",
+      "atmosphere": "Ambiente"
+    }
+  }
+}

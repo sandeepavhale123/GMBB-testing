@@ -1,0 +1,10 @@
+{
+  "preferencesTitle": "Préférences et paramètres",
+  "timezone": "Fuseau horaire",
+  "labels": {
+    "selectTimezone": "Sélectionnez le fuseau horaire...",
+    "searchTimezone": "Rechercher un fuseau horaire...",
+    "noTimezoneFound": "Aucun fuseau horaire trouvé.",
+    "dashboardType": "Type de tableau de bord"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Gérer les Commentaires",
+  "pageDescription": "Consultez et gérez les commentaires des clients avec des notes inférieures à 3 étoiles",
+  "summary": {
+    "totalFeedback": "Total des Commentaires",
+    "averageRating": "Note Moyenne",
+    "pendingCount": "En Attente",
+    "resolvedCount": "Résolus"
+  },
+  "filters": {
+    "rating": "Note",
+    "channel": "Canal",
+    "status": "Statut",
+    "dateRange": "Plage de Dates",
+    "search": "Rechercher par nom ou message...",
+    "exportCSV": "Exporter CSV",
+    "clearFilters": "Effacer les Filtres"
+  },
+  "table": {
+    "customerName": "Nom du Client",
+    "rating": "Note",
+    "message": "Message",
+    "channel": "Canal",
+    "submittedDate": "Date de Soumission",
+    "status": "Statut",
+    "actions": "Actions"
+  },
+  "status": {
+    "pending": "En Attente",
+    "reviewed": "Examiné",
+    "resolved": "Résolu"
+  },
+  "channels": {
+    "google": "Google",
+    "facebook": "Facebook",
+    "yelp": "Yelp",
+    "direct": "Direct",
+    "email": "Email"
+  },
+  "modal": {
+    "title": "Détails du Commentaire",
+    "customerInfo": "Informations Client",
+    "customerName": "Nom",
+    "customerEmail": "Email",
+    "customerPhone": "Téléphone",
+    "feedbackMessage": "Message du Commentaire",
+    "currentStatus": "Statut Actuel",
+    "adminNotes": "Notes Admin",
+    "adminNotesPlaceholder": "Ajoutez des notes internes ou des commentaires sur ce commentaire...",
+    "saveButton": "Enregistrer les Modifications",
+    "closeButton": "Fermer",
+    "submittedOn": "Soumis le",
+    "channel": "Canal"
+  },
+  "empty": {
+    "title": "Aucun Commentaire Trouvé",
+    "description": "Il n'y a aucun commentaire client correspondant à vos filtres.",
+    "noDataTitle": "Pas Encore de Commentaires",
+    "noDataDescription": "Les commentaires des clients avec des notes inférieures à 3 étoiles apparaîtront ici."
+  },
+  "toast": {
+    "updateSuccess": "Commentaire mis à jour avec succès",
+    "updateError": "Échec de la mise à jour du commentaire",
+    "exportSuccess": "Commentaires exportés avec succès",
+    "exportError": "Échec de l'exportation des commentaires"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} entrées",
+    "previous": "Précédent",
+    "next": "Suivant"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metricsCards": {
+    "overallVisibility": {
+      "label": "Visibilità Complessiva"
+    },
+    "totalKeywords": {
+      "label": "Parole Chiave Totali"
+    },
+    "aiGenie": {
+      "label": "Raccomandazione AI Genie",
+      "button": "Parliamo"
+    }
+  }
+}

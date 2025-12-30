@@ -1,0 +1,14 @@
+{
+  "AddKeywordModal": {
+    "title": "Add Keywords",
+    "inputPlaceholder": "Enter keyword",
+    "inputPlaceholderMax": "Maximum 5 keywords allowed",
+    "addButton": "Add",
+    "addedKeywordsTitle": "Added Keywords:",
+    "infoTitle": "What happens next:",
+    "infoDescription": "We'll check the ranking position of these keywords across different geographic locations to show you where your business appears in local search results.",
+    "close": "Close",
+    "checkRank": "Check Rank",
+    "removeKeywordAria": "Remove {{keyword}}"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "noListing": {
+    "title": "Aucune fiche disponible",
+    "description": "Veuillez sélectionner une fiche d'entreprise pour voir {{pageType}}."
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "loading": {
+    "config": "Caricamento configurazione del report...",
+    "dashboard": "Caricamento dati del cruscotto..."
+  },
+  "error": {
+    "config": "Impossibile caricare la configurazione del report",
+    "dashboard": "Impossibile caricare i dati del cruscotto",
+    "retry": "Riprova"
+  },
+  "dashboardTypes": {
+    "default": "Predefinito",
+    "insight": "Approfondimento",
+    "review": "Recensione",
+    "location": "Posizione",
+    "post": "Post"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Totale schede",
+      "subtitle": "Sedi attive"
+    },
+    "avgRating": {
+      "title": "Valutazione media",
+      "subtitle": "Su tutte le schede"
+    },
+    "totalPosts": {
+      "title": "Totale post",
+      "subtitle": "Contenuti pubblicati"
+    },
+    "totalReviews": {
+      "title": "Totale recensioni",
+      "subtitle": "Feedback dei clienti"
+    }
+  },
+  "listing": "Scheda GMB – cruscotto {{name}}",
+  "allcategories": "Tutte le categorie",
+  "filters": {
+    "dashboardSelector": "Seleziona tipo di cruscotto",
+    "default": "Cruscotto predefinito",
+    "insight": "Cruscotto approfondimento",
+    "review": "Cruscotto recensioni",
+    "location": "Cruscotto posizioni",
+    "post": "Cruscotto post",
+    "searchPlaceholder": "Cerca per nome della scheda o codice postale.",
+    "categories": "Tutte le categorie",
+    "locations": "Tutte le sedi",
+    "reviews": {
+      "all": "Tutte le recensioni",
+      "unresponded": "Recensioni senza risposta",
+      "unrespondedARE": "ARE senza risposta",
+      "unrespondedDNR": "DNR senza risposta",
+      "excludeARE": "Escludi recensioni ARE",
+      "excludeDNR": "Escludi recensioni DNR",
+      "excludeBoth": "Escludi recensioni ARE/DNR"
+    },
+    "posts": {
+      "status": "Stato del post",
+      "all": "Tutti gli stati",
+      "live": "Attivo",
+      "scheduled": "Programmato",
+      "failed": "Fallito"
+    }
+  },
+  "content": {
+    "showing": "Visualizzazione di {{count}} su {{total}} {{type}}",
+    "noData": "Nessun dato disponibile",
+    "imageNotAvailable": "Immagine non disponibile",
+    "untitledPost": "Post senza titolo",
+    "openOnGoogle": "Apri su Google",
+    "viewOnGoogle": "Visualizza su Google My Business",
+    "img": "IMG"
+  },
+  "labels": {
+    "id": "ID: {{id}}",
+    "zip": "CAP: {{zipcode}}",
+    "state": "Stato: {{city}}",
+    "visibility": "Visibilità",
+    "search": "Ricerca",
+    "maps": "Mappe",
+    "total": "Totale",
+    "customerActions": "Azioni dei clienti",
+    "clicks": "Clic",
+    "directions": "Indicazioni",
+    "calls": "Chiamate",
+    "messages": "Messaggi",
+    "reviewStats": "Statistiche recensioni",
+    "reviewsReplies": "Recensioni / Risposte",
+    "autoReply": "Risposta automatica",
+    "reviewSentiment": "Sentimento recensioni",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "address": "Indirizzo",
+    "phone": "Telefono",
+    "photos": "Foto",
+    "rating": "Valutazione",
+    "website": "Sito web",
+    "map": "Mappa",
+    "lastPosts": "Ultimi post",
+    "upcoming": "Prossimi",
+    "lastPost": "Ultimo post",
+    "upcomingPost": "In arrivo",
+    "zipLabel": "CAP:",
+    "na": "N/D",
+    "totalView": "Visualizzazioni totali",
+    "stateLabel": "Stato",
+    "reviewLabel": "Recensioni",
+    "zipcodeLabel": "Codice postale",
+    "nopost": "Nessun post"
+  },
+  "pagination": {
+    "pageOf": "Pagina {{current}} di {{total}}",
+    "previous": "Precedente",
+    "next": "Successiva"
+  }
+}

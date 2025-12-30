@@ -1,0 +1,67 @@
+{
+  "title": "Project Keywords",
+  "subtitle": "Manage and view all keywords for project #{{projectId}}",
+  "total": "Total:",
+  "keyword": "keywords",
+  "addKeywords": "Add Keywords",
+  "n/a":"N/A",
+  "invalid":"Invalid Date",
+  "bulk": {
+    "selected": "{{count}} keyword selected",
+    "selectedPlural": "{{count}} keywords selected",
+    "clearSelection": "Clear Selection",
+    "deleteSelected": "Delete Selected"
+  },
+  "table": {
+    "selectAll": "Select all keywords",
+    "srNo": "Sr No",
+    "keyword": "Keyword",
+    "arp": "ARP",
+    "arpTooltip": "Average Rank Position",
+    "atrp": "ATRP",
+    "atrpTooltip": "Average Top Rank Position",
+    "solv": "SoLV",
+    "solvTooltip": "Share of Local Visibility",
+    "addedOn": "Added On",
+    "status": "Status",
+    "actions": "Actions",
+    "viewReport": "View Report",
+    "delete": "Delete"
+  },
+  "pagination": {
+    "showing": "Showing {{start}} to {{end}} of {{total}} keywords",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "empty": {
+    "title": "No keywords found",
+    "description": "Start tracking your rankings by adding keywords to this project.",
+    "button": "Add Your First Keyword"
+  },
+  "deleteDialog": {
+    "title": "Confirm Deletion",
+    "description": "Are you sure you want to delete {{count}} keyword{{plural}}? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "deleting": "Deleting..."
+  },
+  "statuses": {
+    "completed": "Completed",
+    "pending": "Pending",
+    "failed": "Failed",
+    "processing": "Processing"
+  },
+  "errors": {
+    "title":"Error",
+    "fetch": "Failed to fetch keywords",
+    "delete": "Failed to delete keywords",
+    "missingProjectId": "Project ID is missing"
+  },
+  "success": {
+    "title":"Success",
+    "delete1": "{{count}} keyword deleted successfully",
+    "delete2": "{{count}} keywords deleted successfully"
+  },
+  "loading": "Loading...",
+  "tryAgain": "Try Again"
+}

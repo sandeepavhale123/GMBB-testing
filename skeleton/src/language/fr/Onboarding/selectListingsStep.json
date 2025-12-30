@@ -1,0 +1,27 @@
+{
+  "selectListingsStep": {
+    "title": "Sélectionnez vos fiches d'établissement",
+    "subtitle": "Choisissez les fiches Google Business Profile que vous souhaitez gérer avec GMB Briefcase.",
+    "connectedTo": "Connecté à {{email}}",
+    "allowedToSelect": "Autorisé à sélectionner : {{count}} fiche{{plural}}",
+    "foundListings": "{{count}} fiche(s) trouvée(s)",
+    "searchPlaceholder": "Recherchez des fiches par nom, adresse ou catégorie...",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "verified": "Vérifiée",
+    "notVerified": "Non vérifiée",
+    "noListingsFound": "Aucune fiche ne correspond à \"{{term}}\"",
+    "limitReachedTitle": "Limite atteinte",
+    "limitReachedDescription": "Selon votre plan, vous êtes autorisé à sélectionner {{count}} fiches.",
+    "limitReachedRemaining": "Vous ne pouvez sélectionner que {{count}} fiche(s) supplémentaire(s).",
+    "successTitle": "Succès",
+    "successDescription": "{{count}} fiche(s) connectée(s) avec succès",
+    "connectionFailedTitle": "Échec de la connexion",
+    "connectionFailedDescription": "Impossible de connecter les fiches. Veuillez réessayer.",
+    "connectButton": "Connecter {{count}} fiche(s)",
+    "selectToContinue": "Sélectionnez une fiche pour continuer",
+    "connecting": "Connexion en cours...",
+    "supportText": "Vous ne voyez pas votre entreprise ? Vous pouvez",
+    "contactSupport": "contacter le support"
+  }
+}

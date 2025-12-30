@@ -1,0 +1,7 @@
+{
+  "listingManagementError": {
+    "pageTitle": "Administrar Listados",
+    "tryAgainButton": "Intentar de Nuevo",
+    "errorMessage": "{{error}}"
+  }
+}

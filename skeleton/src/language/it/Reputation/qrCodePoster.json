@@ -1,0 +1,49 @@
+{
+  "title": "Personalizza Poster Codice QR",
+  "description": "Crea un poster brandizzato per la tua attività",
+  "leftPanel": {
+    "logo": {
+      "title": "Carica Logo",
+      "dragDrop": "Trascina e rilascia il tuo logo qui",
+      "browse": "Sfoglia File",
+      "remove": "Rimuovi Logo",
+      "position": "Posizione Logo"
+    },
+    "business": {
+      "title": "Informazioni Aziendali",
+      "nameLabel": "Nome Azienda",
+      "namePlaceholder": "Inserisci il nome della tua azienda",
+      "keywordsLabel": "Slogan / Invito all'Azione",
+      "keywordsPlaceholder": "es: Scansiona per lasciarci una recensione!"
+    },
+    "colors": {
+      "title": "Schema Colori",
+      "background": "Colore Sfondo",
+      "text": "Colore Testo",
+      "accent": "Colore Accento",
+      "presets": "Preset Colori"
+    },
+    "qrCode": {
+      "title": "Impostazioni Codice QR",
+      "urlLabel": "URL Link Recensioni",
+      "sizeLabel": "Dimensione Codice QR",
+      "showScanText": "Mostra testo 'Scansionami'"
+    },
+    "actions": {
+      "download": "Scarica Poster",
+      "reset": "Ripristina Predefinito",
+      "save": "Salva Modello"
+    }
+  },
+  "rightPanel": {
+    "title": "Anteprima",
+    "subtitle": "Dimensione Poster Standard 18\" × 24\""
+  },
+  "toast": {
+    "logoTooLarge": "Il file del logo è troppo grande. Dimensione massima: 5 MB",
+    "invalidFormat": "Formato file non valido. Carica PNG, JPG o SVG",
+    "downloadSuccess": "Poster scaricato con successo!",
+    "downloadError": "Impossibile scaricare il poster",
+    "resetSuccess": "Ripristinato alle impostazioni predefinite"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "Gestiona tu reputación en un solo lugar",
+    "description": "Envía solicitudes de reseñas a tus clientes, gestiona los comentarios negativos con cuidado, crea campañas de encuestas rápidas para recopilar opiniones y comparte tus mejores reseñas en las redes sociales, todo desde un panel fácil de usar."
+  },
+  "importListings": {
+    "title": "Importar listados existentes",
+    "description": "Importa y revisa fácilmente todos tus listados actuales con un solo clic. Mantente organizado y asegúrate de que la información de tu negocio esté siempre actualizada.",
+    "select": "Seleccionar",
+    "selectAll": "Seleccionar todo",
+    "importButton": "Importar listados seleccionados",
+    "noListing": "No hay listados disponibles para importar.",
+    "importing": "Importando...",
+    "success": "Importación exitosa",
+    "listing": "listado(s) importado(s) correctamente.",
+    "ok": "OK"
+  },
+  "addListing": {
+    "title": "Agregar listado",
+    "subtitle": "¿No encontraste tu negocio en los listados?",
+    "noWorries": "No te preocupes",
+    "description": "— Agrega uno nuevo en segundos y comienza a hacer seguimiento de reseñas, calificaciones y el rendimiento de tu reputación al instante.",
+    "button": "Agregar cuenta de Google",
+    "impoted": "(Importado)"
+  },
+  "addBusiness": {
+    "title": "Agregar negocio",
+    "description": "Busca tu negocio y agrégalo para comenzar a gestionar reseñas, calificaciones y tu reputación.",
+    "placeholder": "Buscar un negocio...",
+    "addButton": "Agregar negocio",
+    "addingButton": "Agregando...",
+    "successTitle": "Negocio agregado",
+    "successDescription": "Tu negocio ha sido agregado correctamente.",
+    "errorTitle": "Error",
+    "errorDescription": "No se pudo agregar el negocio. Por favor, inténtalo de nuevo.",
+    "selectBusiness": "Por favor selecciona un negocio válido",
+    "note": "Nota",
+    "noteDescription": "El negocio fue agregado, pero no se pudo seleccionar automáticamente. Por favor, selecciónalo manualmente."
+  },
+  "errors": {
+    "retry": "Intentar de nuevo",
+    "importFailedTitle": "Error de importación",
+    "importFailedDescription": "No se pudieron importar los listados.",
+    "generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "listingError": "Ocurrió un error al importar los listados"
+  },
+  "reputation": "Gestión de la reputación",
+  "searchPlaceholder": "Buscar listados..."
+}

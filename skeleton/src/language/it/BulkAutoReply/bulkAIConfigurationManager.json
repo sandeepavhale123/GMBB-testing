@@ -1,0 +1,65 @@
+{
+  "dnr": {
+    "title": "Progetto DNR",
+    "description1": "Hai creato questo progetto per DNR (Do Not Respond).",
+    "description2": "Questo progetto è configurato per non rispondere automaticamente alle recensioni."
+  },
+  "header": {
+    "title": "Risposta automatica AI",
+    "badge": "Supportato da AI",
+    "description": "Lascia che l'AI generi risposte personalizzate e contestuali basate sul contenuto e sul sentiment delle recensioni."
+  },
+  "responseStyle": {
+    "label": "Stile di risposta AI",
+    "placeholder": "Scegli il tuo stile di risposta...",
+    "styles": {
+      "professional": "Professionale",
+      "friendly": "Cordiale",
+      "casual": "Informale",
+      "formal": "Formale",
+      "empathetic": "Empatico"
+    },
+    "hint": "💡 L'AI adatterà questo stile al contenuto specifico e alla valutazione di ogni recensione."
+  },
+  "advanced": {
+    "label": "Opzioni avanzate",
+    "noteTitle": "Nota:",
+    "noteText1": "Puoi utilizzare le seguenti variabili nel testo della risposta per mostrare il nome del recensore:",
+    "noteText2": ". Per inserire il contenuto della risposta, usa ",
+    "noteText3": ". Non dimenticare di includerlo nel tuo modello.",
+    "customPrompt": {
+      "label": "Prompt personalizzato",
+      "placeholder": "Inserisci prompt personalizzato",
+      "hint": "Aggiungi istruzioni specifiche per personalizzare come l'AI genera le risposte."
+    },
+    "replyText": "Testo della risposta",
+    "responsePlaceholder": "Inserisci il tuo modello di risposta...",
+    "starRatings": "Applica per le valutazioni a stelle"
+  },
+  "sample": {
+    "title": "Genera risposta AI di esempio",
+    "subtitle": "Testa come l'AI risponderà a una recensione di esempio",
+    "button": "Genera risposta AI di esempio",
+    "buttonLoading": "Generazione risposta di esempio in corso...",
+    "reviewUser": "John Doe",
+    "reviewText": "Esperienza fantastica! Il servizio è stato eccellente e il personale molto cordiale. Tutto ha superato le mie aspettative. Tornerò sicuramente!",
+    "generatedLabel": "Risposta generata dall'AI:"
+  },
+  "replyExisting": {
+    "label": "Rispondi alle recensioni esistenti",
+    "description": "Abilita questa opzione per rispondere automaticamente alle recensioni pubblicate prima dell'attivazione delle risposte AI."
+  },
+  "save": {
+    "button": "Salva impostazioni AI"
+  },
+  "toast": {
+    "success": "Successo",
+    "error": "Errore",
+    "saveSuccess": "Impostazioni di risposta automatica AI salvate con successo! Aggiornate {{count}} sede{{plural}}.",
+    "saveError": "Impossibile salvare le impostazioni di risposta automatica AI. Riprova.",
+    "toggleSuccess": "Risposta automatica AI {{status}} con successo! Aggiornate {{count}} sede{{plural}}.",
+    "toggleError": "Impossibile aggiornare lo stato della risposta automatica AI. Riprova.",
+    "replyToggleSuccess": "Risposta alle recensioni esistenti {{status}} con successo! Aggiornate {{count}} sede{{plural}}.",
+    "replyToggleError": "Impossibile aggiornare l'impostazione di risposta alle recensioni esistenti. Riprova."
+  }
+}

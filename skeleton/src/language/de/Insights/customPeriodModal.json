@@ -1,0 +1,8 @@
+{
+  "customPeriodModal": {
+    "title": "Benutzerdefinierten Zeitraum auswählen",
+    "dateRangePlaceholder": "Zeitraum auswählen",
+    "cancel": "Abbrechen",
+    "submit": "Bestätigen"
+  }
+}

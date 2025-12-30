@@ -1,0 +1,22 @@
+{
+  "dialog": {
+    "title": "Collega l'account LinkedIn",
+    "description": "Scegli il tipo di account da collegare"
+  },
+  "individual": {
+    "title": "Collega il profilo personale",
+    "description": "Collega il tuo profilo LinkedIn personale per pubblicare come te stesso"
+  },
+  "organization": {
+    "title": "Collega la pagina aziendale",
+    "description": "Collega la pagina della tua azienda per pubblicare come organizzazione"
+  },
+  "buttons": {
+    "connect": "Collega",
+    "connecting": "Collegamento in corso..."
+  },
+  "errors": {
+    "oauthInitFailed": "Impossibile inizializzare OAuth di LinkedIn",
+    "connectFailed": "Impossibile collegare l'account LinkedIn"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "page": {
+    "title": "Manage Feedbacks",
+    "subtitle": "Create and manage your feedback collection forms"
+  },
+  "error":{
+    "title":" Manage Feedbacks and Reviews",
+    "description":"Automate feedback collection and review generation"
+  },
+  "buttons": {
+    "createFeedbackForm": "Create Feedback Form"
+  },
+  "alerts": {
+    "loadError": "Failed to load feedback forms. Please try again.",
+    "deleteError": "Failed to delete feedback form. Please try again.",
+    "deleteNotFound": "Unable to delete form. Form ID not found."
+  },
+  "messages": {
+    "deleteSuccess": "Feedback form deleted successfully",
+    "error": "Error",
+    "success": "Success"
+  }
+}

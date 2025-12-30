@@ -1,0 +1,10 @@
+{
+  "title": "🎉 Formulaire de feedback créé avec succès !",
+  "description": "Votre formulaire \"{{formName}}\" a été créé. Partagez le lien ci-dessous avec vos clients.",
+  "formUrlLabel": "URL du formulaire",
+  "copyInfo": "Cliquez sur l'icône de copie pour copier l'URL du formulaire dans votre presse-papiers",
+  "copyLink": "Copier le lien",
+  "goToDashboard": "Aller au tableau de bord",
+  "toastTitle": "Lien copié !",
+  "toastDescription": "L'URL du formulaire a été copiée dans le presse-papiers"
+}

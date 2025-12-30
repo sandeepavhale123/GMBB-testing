@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Historial de Créditos",
+    "description": "Realiza un seguimiento de tu uso de créditos en todas las comprobaciones de clasificación.",
+    "searchPlaceholder": "Buscar palabras clave...",
+    "table": {
+      "keyword": "Palabra Clave",
+      "type": "Tipo de Crédito",
+      "credit": "Crédito",
+      "date": "Fecha"
+    },
+    "empty": {
+      "title": "No se encontró historial de créditos",
+      "subtitle": "Intenta ajustar tu búsqueda"
+    }
+  }
+}

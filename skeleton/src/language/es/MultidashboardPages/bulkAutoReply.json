@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "Gestión Masiva de Respuestas Automáticas",
+    "subtitle": "Administra la configuración de respuestas automáticas para tus ubicaciones."
+  },
+  "actions": {
+    "createProject": "Crear Proyecto",
+    "successTitle": "Éxito",
+    "errorTitle": "Error",
+    "deleteSuccess": "Proyecto de respuesta automática eliminado con éxito",
+    "deleteError": "Error al eliminar el proyecto",
+    "createSuccess": "Proyecto de respuesta automática creado con éxito"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "reviewReplyForm": {
+    "placeholder": "Écrivez votre réponse...",
+    "buttons": {
+      "generate": "Générer avec Genie",
+      "save": "Enregistrer la réponse",
+      "sending": "Envoi...",
+      "cancel": "Annuler"
+    }
+  }
+}

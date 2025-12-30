@@ -1,0 +1,62 @@
+{
+  "validation": {
+    "required": {
+      "email": "Email is required",
+      "password": "Password is required",
+      "timezone": "Timezone is required",
+      "language": "Language is required",
+      "dashboardType": "Dashboard type is required",
+      "businessName": "Business name is required",
+      "apiKey": "API key is required",
+      "role": "Role is required",
+      "smtpHost": "SMTP host is required",
+      "smtpPort": "SMTP port is required",
+      "smtpUser": "SMTP user is required",
+      "smtpPass": "SMTP password is required",
+      "fromName": "From name is required"
+    },
+    "email": {
+      "invalid": "Please enter a valid email address"
+    },
+    "password": {
+      "minLength": "Password must be at least 8 characters long",
+      "uppercase": "Password must contain at least one uppercase letter",
+      "lowercase": "Password must contain at least one lowercase letter",
+      "number": "Password must contain at least one number",
+      "special": "Password must contain at least one special character",
+      "mismatch": "Passwords don't match"
+    },
+    "name": {
+      "minLength": "Name must be at least 2 characters long",
+      "lettersOnly": "Name can only contain letters and spaces",
+      "minAlpha": "Name must contain at least 3 alphabetic characters"
+    },
+    "agency": {
+      "minLength": "Agency name must be 3 characters required",
+      "minAlpha": "Name must contain at least 3 alphabetic characters"
+    },
+    "plan": {
+      "required": "Please select a plan"
+    },
+    "url": {
+      "invalid": "Please enter a valid URL"
+    },
+    "phone": {
+      "invalid": "Please enter a valid phone number",
+      "minLength": "Phone number must contain 10 digits"
+    },
+    "address": {
+      "minLength": "Address must be at least 10 characters long"
+    },
+    "keywords": {
+      "max": "You can add a maximum of 5 keywords.",
+      "min": "At least one keyword is required."
+    },
+    "deleteConfirm": {
+      "text": "Please type 'delete' to confirm"
+    },
+    "smtp": {
+      "portNumber": "Port must be a number"
+    }
+  }
+}

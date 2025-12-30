@@ -1,0 +1,9 @@
+{
+  "businessListingSelector": {
+    "noListings": "Aucune fiche disponible",
+    "loading": "Chargement...",
+    "searchPlaceholder": "Rechercher des fiches...",
+    "searching": "Recherche en cours...",
+    "noResults": "Aucune fiche trouvée."
+  }
+}

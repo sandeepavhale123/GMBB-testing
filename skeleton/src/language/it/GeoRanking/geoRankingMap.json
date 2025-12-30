@@ -1,0 +1,26 @@
+{
+  "geoRankingMap": {
+    "manualTitle": "Selezione Manuale del Punto",
+    "automaticTitle": "Visualizzazione Automatica della Griglia",
+    "loading": {
+      "main": "Caricamento dati mappa",
+      "automatic": "Generazione coordinate della griglia...",
+      "manual": "Preparazione mappa..."
+    },
+    "zoom": {
+      "in": "Zoom In",
+      "out": "Zoom Out"
+    },
+    "defaultMarker": {
+      "title": "Posizione Predefinita",
+      "manualNote": "Passa a manuale per posizionare punti personalizzati",
+      "centerNote": "Punto centrale dell’attività"
+    },
+    "manualMarker": {
+      "title": "Punto Manuale",
+      "dragNote": "Trascina per riposizionare",
+      "removeButton": "Rimuovi"
+    },
+    "gridMarker": "Punto Griglia: {{id}}"
+  }
+}

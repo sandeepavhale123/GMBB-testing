@@ -1,0 +1,113 @@
+{
+  "title": {
+    "create": "Create Post",
+    "clone": "Clone Post",
+    "edit": "Edit Post",
+    "bulkEdit": "Edit Bulk Post"
+  },
+  "validation": {
+    "titleRequired": "Title is required for event and offer posts.",
+    "urlRequired": "URL is required when CTA button is enabled.",
+    "invalidCtaUrl": "Please enter a valid CTA URL.",
+    "listingsRequired": "Please select at least one listing or group.",
+    "genericError": "Please fix the validation errors before submitting.",
+    "scheduleDateRequired": "Please select a schedule date and time.",
+    "frequencyRequired": "Please select a schedule frequency.",
+    "timeRequired": "Please select a time for auto scheduling.",
+    "recurrenceCountRequired": "Please enter the number of recurrences (minimum 1).",
+    "dayRequired": "Please select a day for weekly scheduling.",
+    "dateRequired": "Please select a date for monthly scheduling."
+  },
+  "toast": {
+    "listingRequired": {
+      "title": "Listing Required",
+      "description": "Please select at least one listing."
+    },
+    "titleRequired": {
+      "title": "Title Required",
+      "description": "Title is required for event and offer posts."
+    },
+    "urlRequired": {
+      "title": "URL Required",
+      "description": "URL is required when CTA button is enabled."
+    },
+    "validationError": {
+      "title": "Validation Error",
+      "description": "Please fix the validation errors before submitting."
+    },
+    "autoScheduleError": {
+      "title": "Auto Scheduling Error",
+      "description": "Please fill in all required auto scheduling fields."
+    },
+    "scheduleDateError": {
+      "title": "Schedule Date Required",
+      "description": "Please select a schedule date and time."
+    },
+    "error": {
+      "title": "Error",
+      "noListing": "No business listing selected. Please select a listing first.",
+      "desc": "An unexpected error occurred. Please try again."
+    },
+      "success": {
+      "bulk": {
+        "created": {
+          "title": "Bulk Post Created Successfully.",
+          "description": "Bulk post created for {{count}} listings."
+        },
+        "cloned": {
+          "title": "Bulk Post Cloned Successfully",
+          "description": "Bulk post cloned for {{count}} listings."
+        },
+        "edited": {
+          "title": "Bulk Post Updated Successfully",
+          "description": "Bulk post updated for {{count}} listings."
+        }
+      },
+      "single": {
+        "created": {
+          "title": "Post Created Successfully.",
+          "description": "Post created with ID: {{id}}"
+        },
+        "cloned": {
+          "title": "Post Cloned Successfully",
+          "description": "Post cloned with ID: {{id}}"
+        },
+        "edited": {
+          "title": "Post Updated Successfully",
+          "description": "Post has been updated."
+        }
+      }
+    },
+    "failure": {
+      "bulk": {
+        "created": "Failed to Create Bulk Post.",
+        "cloned": "Failed to Clone Bulk Post",
+        "edited": "Failed to Update Bulk Post"
+      },
+      "single": {
+        "created": "Failed to Create Post.",
+        "cloned": "Failed to Clone Post",
+        "edited": "Failed to Update Post"
+      }
+    }
+  },
+  "loading": {
+    "fetchingDetails": "Loading post details...",
+    "fetchingBulkDetails": "Loading bulk post details..."
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "preview": "Preview",
+    "create": "Create Post",
+    "clone": "Clone Post",
+    "edit": "Update Post",
+    "bulkEdit": "Update Bulk Post",
+    "creating": "Creating...",
+    "cloning": "Cloning...",
+    "editing": "Updating...",
+    "bulkEditing": "Updating Bulk Post..."
+  },
+  "preview": {
+    "title": "Live Preview"
+  }
+}

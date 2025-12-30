@@ -1,0 +1,32 @@
+{
+  "searchPlaceholder": "Buscar ubicaciones...",
+  "addLocationButton": "Agregar Ubicación",
+  "table": {
+    "locationName": "Nombre de la Ubicación",
+    "zipCode": "Código Postal",
+    "action": "Acción",
+    "noLocations": "No se encontraron ubicaciones"
+  },
+  "removeLocation": {
+    "title": "Eliminar Ubicación",
+    "description": "¿Estás seguro de que deseas eliminar \"{{locationName}}\" de este proyecto? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "remove": "Eliminar"
+  },
+  "toast": {
+    "successTitle": "Éxito",
+    "errorTitle": "Error",
+    "errorProjectId": "Se requiere el ID del proyecto para eliminar el listado",
+    "successDelete": "Listado eliminado del proyecto con éxito",
+    "errorDelete": "No se pudo eliminar el listado del proyecto",
+    "errorAdd": "Por favor, selecciona al menos un listado para agregar",
+    "successAdd": "{{count}} listado(s) agregado(s) al proyecto con éxito",
+    "errorAddFailed": "No se pudieron agregar los listados al proyecto"
+  },
+  "addListingsModal": {
+    "title": "Agregar Listados al Proyecto",
+    "cancel": "Cancelar",
+    "addSelected": "Agregar Seleccionados ({{count}})",
+    "adding": "Agregando..."
+  }
+}

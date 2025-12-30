@@ -1,0 +1,68 @@
+{
+  "subscriptionPage": {
+    "title": "Subscription Plans",
+    "activePlan": "Your plan is active until {{date}}.",
+    "expiredPlan": "Your plan expired. Please renew to continue accessing features.",
+    "description": "Choose the perfect plan for your business needs. Upgrade or downgrade at any time.",
+    "unsubscribe": "Unsubscribe",
+    "tabs": {
+      "pricingPlan": "Pricing Plan",
+      "paymentHistory": "Payment History"
+    },
+    "labels": {
+      "features": "Features",
+      "pricePerMonth": "Price/PM",
+      "mostPopular": "Most Popular"
+    },
+    "buttons": {
+      "active": "Active",
+      "processing": "Processing...",
+      "payNow": "Pay Now",
+      "upgradeNow": "Upgrade Now",
+      "contactSales": "Contact Sales"
+    },
+    "help": {
+      "title": "Need Help Choosing?",
+      "description": "Contact our sales team to find the perfect plan for your business needs."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Payment Error",
+        "description": "Failed to process payment. Please try again."
+      },
+      "upgradeSuccess": {
+        "title": "Upgrade Successful"
+      },
+      "upgradeError": {
+        "title": "Upgrade Error",
+        "description": "Failed to upgrade plan. Please try again."
+      },
+      "subscriptionCancelled": {
+        "title": "Subscription Cancelled",
+        "description": "Your subscription has been cancelled."
+      },
+      "cancelError": {
+        "title": "Error",
+        "description": "Failed to cancel subscription."
+      }
+    },
+    "planFeature":{
+      "name1":"No. of GMB Listings Allowed",
+      "name2":"KW Rank Check P/day",
+      "name3":"Organic KW listing",
+      "name4":"GEO KW Check",
+      "name5":"Add Team",
+      "name6":"White Label Report",
+      "name7":"White Label Subdomain",
+      "unlmited":"Unlimited"
+    },
+    "plans":{
+      "business":"Business",
+      "pro":"Pro",
+      "agency":"Agency",
+      "enterprise":"Enterprise"
+    },
+    "upgrade":"Upgrade Now",
+    "pay":"Pay Now"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "googleAuthHandler": {
+    "toast": {
+      "success": {
+        "title": "Succès !",
+        "description": "Compte Google connecté avec succès."
+      },
+      "error": {
+        "title": "Échec de la connexion",
+        "description": "Impossible de connecter le compte Google. Veuillez réessayer."
+      }
+    },
+    "errorState": {
+      "title": "Échec de la connexion",
+      "button": "Retour aux paramètres du compte"
+    },
+    "loadingState": {
+      "title": "Connexion de votre compte",
+      "description": "Veuillez patienter pendant que nous connectons votre profil Google Business et récupérons vos fiches...",
+      "note": "Cela peut prendre quelques instants"
+    },
+    "errors": {
+      "noAccessToken": "Aucun jeton d'accès trouvé. Veuillez vous reconnecter.",
+      "noAccountId": "Aucun ID de compte reçu lors de l'authentification Google",
+      "failedAuth": "Échec de l'authentification avec Google"
+    }
+  }
+}

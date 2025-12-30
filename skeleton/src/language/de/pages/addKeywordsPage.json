@@ -1,0 +1,25 @@
+{
+  "addKeywordsPage": {
+    "noListingSelected": {
+      "title": "Kein Eintrag ausgewählt",
+      "description": "Bitte wählen Sie zuerst einen Eintrag aus, um Schlüsselwörter hinzuzufügen."
+    },
+    "toast": {
+      "errorTitle": "Fehler",
+      "noListing": "Kein Eintrag ausgewählt. Bitte wählen Sie zuerst einen Eintrag aus.",
+      "keywordsAddedTitle": "Schlüsselwörter hinzugefügt",
+      "keywordsAddedDescription": "{{count}} Schlüsselwort(e) erfolgreich zur Warteschlange hinzugefügt.",
+      "keywordsAddFailed": "Fehler beim Hinzufügen der Schlüsselwörter."
+    },
+    "pageTitle": "Schlüsselwörter hinzufügen",
+    "form": {
+      "keywordsLabel": "Schlüsselwörter",
+      "keywordsPlaceholder": "Geben Sie durch Kommas getrennte Schlüsselwörter ein",
+      "languageLabel": "Sprache",
+      "distanceLabel": "Entfernungswert",
+      "gridSizeLabel": "Rastergröße",
+      "addButton": "Schlüsselwörter hinzufügen",
+      "addingButton": "Wird hinzugefügt..."
+    }
+  }
+}

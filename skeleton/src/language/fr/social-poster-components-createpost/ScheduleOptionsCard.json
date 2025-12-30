@@ -1,0 +1,6 @@
+{
+  "title": "Options de planification",
+  "date": "Date",
+  "time": "Heure",
+  "timezoneNote": "La publication sera programmée pour le fuseau horaire {{timezone}}"
+}

@@ -1,0 +1,34 @@
+{
+  "preparingMessage": "Estamos preparando los datos de tu negocio. Esto normalmente toma unos minutos.",
+  "modules": {
+    "gmbInfo": {
+      "label": "Información de GMB",
+      "description": "Configurando los datos del perfil de Google My Business"
+    },
+    "reviewData": {
+      "label": "Reseñas",
+      "description": "Importando datos y análisis de reseñas"
+    },
+    "insightData": {
+      "label": "Insights",
+      "description": "Procesando información de rendimiento"
+    },
+    "qaData": {
+      "label": "Preguntas y Respuestas",
+      "description": "Cargando preguntas y respuestas"
+    },
+    "postData": {
+      "label": "Publicaciones",
+      "description": "Sincronizando contenido y medios de publicaciones"
+    },
+    "mediaData": {
+      "label": "Medios",
+      "description": "Procesando imágenes y archivos multimedia"
+    }
+  },
+  "status": {
+    "complete": "Completado",
+    "processing": "Procesando",
+    "failed": "Fallido"
+  }
+}

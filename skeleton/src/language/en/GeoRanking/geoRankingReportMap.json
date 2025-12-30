@@ -1,0 +1,46 @@
+{
+  "geoRankingReportMap": {
+    "title": {
+      "default": "Geo Ranking Map",
+      "processing": "Processing Keyword...",
+      "results": "Keyword Ranking Results"
+    },
+    "loading": {
+      "processingTitle": "Processing Keyword Data",
+      "processingSubtitle": "Analyzing search rankings...",
+      "loadingTitle": "Loading Map Data",
+      "loadingSubtitle": "Generating grid coordinates..."
+    },
+    "popup": {
+      "business": {
+        "title": "Your Business",
+        "subtitle": "Primary location"
+      },
+      "gridPoint": {
+        "title": "Grid Point {{index}}",
+        "subtitle": "Awaiting results..."
+      },
+      "rankMarker": {
+        "title": "Rank: {{rank}}",
+        "subtitle": "Click for details"
+      },
+      "manual": {
+        "title": "Manual Coordinate {{index}}",
+        "latlng": "Lat: {{lat}}, Lng: {{lng}}",
+        "drag": "Drag to reposition",
+        "remove": "Remove"
+      }
+    },
+    "zoom": {
+      "in": "Zoom In",
+      "out": "Zoom Out"
+    },
+    "legend": {
+      "title": "Ranking Legend",
+      "top": "1-3 (Top)",
+      "good": "4-10 (Good)",
+      "fair": "11-15 (Fair)",
+      "poor": "16+ (Poor)"
+    }
+  }
+}

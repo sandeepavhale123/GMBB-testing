@@ -1,0 +1,67 @@
+{
+  "title": "Projekt-Keywords",
+  "subtitle": "Verwalten und anzeigen aller Keywords für Projekt #{{projectId}}",
+  "total": "Gesamt:",
+  "keyword": "Keywords",
+  "addKeywords": "Keywords hinzufügen",
+  "n/a": "N/V",
+  "invalid": "Ungültiges Datum",
+  "bulk": {
+    "selected": "{{count}} Keyword ausgewählt",
+    "selectedPlural": "{{count}} Keywords ausgewählt",
+    "clearSelection": "Auswahl löschen",
+    "deleteSelected": "Ausgewählte löschen"
+  },
+  "table": {
+    "selectAll": "Alle Keywords auswählen",
+    "srNo": "Nr.",
+    "keyword": "Keyword",
+    "arp": "ARP",
+    "arpTooltip": "Durchschnittliche Rangposition",
+    "atrp": "ATRP",
+    "atrpTooltip": "Durchschnittliche Top-Rangposition",
+    "solv": "SoLV",
+    "solvTooltip": "Anteil der lokalen Sichtbarkeit",
+    "addedOn": "Hinzugefügt am",
+    "status": "Status",
+    "actions": "Aktionen",
+    "viewReport": "Bericht anzeigen",
+    "delete": "Löschen"
+  },
+  "pagination": {
+    "showing": "Zeige {{start}} bis {{end}} von {{total}} Keywords",
+    "previous": "Zurück",
+    "next": "Weiter"
+  },
+  "empty": {
+    "title": "Keine Keywords gefunden",
+    "description": "Beginnen Sie mit der Verfolgung Ihrer Rankings, indem Sie diesem Projekt Keywords hinzufügen.",
+    "button": "Fügen Sie Ihr erstes Keyword hinzu"
+  },
+  "deleteDialog": {
+    "title": "Löschung bestätigen",
+    "description": "Sind Sie sicher, dass Sie {{count}} Keyword{{plural}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "confirm": "Löschen",
+    "deleting": "Wird gelöscht..."
+  },
+  "statuses": {
+    "completed": "Abgeschlossen",
+    "pending": "Ausstehend",
+    "failed": "Fehlgeschlagen",
+    "processing": "Wird verarbeitet"
+  },
+  "errors": {
+    "title": "Fehler",
+    "fetch": "Fehler beim Abrufen der Keywords",
+    "delete": "Fehler beim Löschen der Keywords",
+    "missingProjectId": "Projekt-ID fehlt"
+  },
+  "success": {
+    "title": "Erfolg",
+    "delete1": "{{count}} Keyword erfolgreich gelöscht",
+    "delete2": "{{count}} Keywords erfolgreich gelöscht"
+  },
+  "loading": "Wird geladen...",
+  "tryAgain": "Erneut versuchen"
+}

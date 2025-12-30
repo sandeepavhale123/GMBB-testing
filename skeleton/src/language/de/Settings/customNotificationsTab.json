@@ -1,0 +1,32 @@
+{
+  "customNotifications": {
+    "searchPlaceholder": "Nach Standortnamen oder E-Mail suchen...",
+    "addCustomRecipient": "Benutzerdefinierten Empfänger hinzufügen",
+    "addCustomNotification": "Benutzerdefinierte Benachrichtigung hinzufügen",
+    "editEmailSettings": "E-Mail-Einstellungen bearbeiten",
+    "deleteEmailNotification": "E-Mail-Benachrichtigung löschen",
+    "deleteConfirmation": "Sind Sie sicher, dass Sie die E-Mail-Benachrichtigung für „{{locationName}}“ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "validationError": "Validierungsfehler",
+    "validationSelectListing": "Bitte wählen Sie mindestens ein Listing aus und geben Sie E-Mail-Empfänger an.",
+    "validationProvideRecipients": "Bitte geben Sie E-Mail-Empfänger an.",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "successAdd": "Benutzerdefinierte Benachrichtigung erfolgreich hinzugefügt!",
+    "successUpdate": "E-Mail-Einstellungen erfolgreich aktualisiert!",
+    "successDelete": "E-Mail-Benachrichtigungen erfolgreich entfernt.",
+    "failedLoad": "Benutzerdefinierte Benachrichtigungen konnten nicht geladen werden.",
+    "tryAgain": "Erneut versuchen",
+    "loadingNotifications": "Benachrichtigungen werden geladen...",
+    "noNotificationsFound": "Keine benutzerdefinierten Benachrichtigungen gefunden",
+    "locationName": "Standortname",
+    "emailRecipients": "E-Mail-Empfänger",
+    "enterEmails": "E-Mail-Adressen durch Kommas getrennt eingeben",
+    "cancel": "Abbrechen",
+    "addNotification": "Benachrichtigung hinzufügen",
+    "update": "Aktualisieren",
+    "delete": "Löschen",
+    "actions": "Aktionen",
+    "showingResults": "Zeige {{from}} bis {{to}} von {{total}} Ergebnissen",
+    "paginationDots": "..."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "reviewsManagementPage": {
+    "tabs": {
+      "summary": "Sommario",
+      "autoResponse": "Risposta Automatica"
+    },
+    "errors": {
+      "summaryError": {
+        "title": "Errore nel Caricamento del Sommario delle Recensioni",
+        "description": "Qualcosa è andato storto durante il caricamento del sommario delle recensioni."
+      },
+      "reviewsError": {
+        "title": "Errore nel Caricamento delle Recensioni",
+        "description": "Qualcosa è andato storto durante il recupero delle recensioni."
+      },
+      "replyError": {
+        "title": "Errore nell'Invio della Risposta",
+        "description": "Qualcosa è andato storto durante l'invio della tua risposta."
+      }
+    }
+  }
+}

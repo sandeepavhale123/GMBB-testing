@@ -1,0 +1,47 @@
+{
+  "page": {
+    "title": "Massenbeitragsverwaltung",
+    "subtitle": "Erstellen und planen Sie Beiträge für mehrere Einträge."
+  },
+  "buttons": {
+    "createNew": "Neuen Beitrag erstellen",
+    "createBulkPost": "Massenbeitrag erstellen",
+    "tryAgain": "Erneut versuchen",
+    "viewDetails": "Details ansehen",
+    "delete": "Löschen",
+    "deleting": "Löschen...",
+    "cancel": "Abbrechen",
+    "confirmDelete": "Löschen",
+    "import":"CSV importieren"
+  },
+  "messages": {
+    "errorLoading": "Fehler beim Laden der Massenbeiträge: {{error}}",
+    "noPostsTitle": "Noch keine Massenbeiträge",
+    "noPostsDescription": "Erstellen Sie Ihren ersten Massenbeitrag, um zu beginnen",
+    "postedOn": "Veröffentlicht auf {{count}} Einträgen",
+    "failedOn": "Fehlgeschlagen bei {{count}} Einträgen",
+    "scheduledOn": "Geplant für {{count}} Einträge",
+    "noActivePosts": "Keine aktiven Beiträge",
+    "untitledPost": "Beitrag ohne Titel",
+    "noDescription": "Keine Beschreibung verfügbar",
+    "noImage": "Kein Bild",
+    "location":" gesamt Standorte"
+  },
+  "pagination": {
+    "showing": "Zeige {{start}} bis {{end}} von {{total}} Beiträgen"
+  },
+  "dialog": {
+    "title": "Sind Sie sicher?",
+    "description": "Diese Aktion kann nicht rückgängig gemacht werden. Der Massenbeitrag und alle zugehörigen Daten werden dauerhaft gelöscht."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Erfolg",
+      "description": "Massenbeitrag erfolgreich gelöscht"
+    },
+    "deleteError": {
+      "title": "Fehler",
+      "description": "Fehler beim Löschen des Massenbeitrags"
+    }
+  }
+}

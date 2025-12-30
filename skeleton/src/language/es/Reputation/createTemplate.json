@@ -1,0 +1,64 @@
+{
+  "title": "Crear Plantilla",
+  "templateName": {
+    "label": "Nombre de la Plantilla",
+    "placeholder": "Ingrese el nombre de la plantilla"
+  },
+  "channel": {
+    "label": "Seleccionar Canal",
+    "sms": "SMS",
+    "email": "Correo Electrónico",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Seleccionar Plantilla",
+    "defaultTemplate": "Plantilla predeterminada",
+    "greeting": "¡Hola Nombre!",
+    "defaultMessage": "Esperamos que hayas disfrutado tu experiencia reciente con nosotros. ¿Podrías tomarte un momento para dejarnos una reseña?",
+    "reviewLink": "Enlace de Reseña"
+  },
+  "subject": {
+    "label": "Asunto",
+    "placeholder": "Ingrese el asunto del correo"
+  },
+  "whatsapp": {
+    "category": {
+      "label": "Categoría",
+      "marketing": "Marketing",
+      "utility": "Utilidad",
+      "authentication": "Autenticación"
+    },
+    "language": {
+      "label": "Idioma"
+    }
+  },
+  "schedule": {
+    "label": "Programar la plantilla (opcional)",
+    "date": "Fecha",
+    "time": "Hora"
+  },
+  "submit": "Guardar Plantilla",
+  "twilioWarning": {
+    "message": "Por favor configure su cuenta de Twilio para usar los canales SMS y WhatsApp",
+    "configureButton": "Configurar"
+  },
+  "shortCodes": {
+    "label": "Códigos cortos:",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "reviewLink": "{review_link}"
+  },
+  "validation": {
+    "nameRequired": "El nombre de la plantilla es requerido",
+    "subjectRequired": "El asunto es requerido para plantillas de correo",
+    "templateContentRequired": "El contenido de la plantilla es requerido"
+  },
+  "success": {
+    "title": "Plantilla Creada",
+    "description": "Tu plantilla ha sido creada exitosamente"
+  },
+  "error": {
+    "title": "Error",
+    "description": "No se pudo crear la plantilla. Inténtalo de nuevo."
+  }
+}

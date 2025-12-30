@@ -1,0 +1,15 @@
+{
+  "keywords": {
+    "title": "Mots-clés",
+    "subtitle": "Gérez et suivez le classement des mots-clés pour votre entreprise.",
+    "loadingSubtitle": "Gérez et suivez le classement des mots-clés pour votre entreprise",
+    "addKeyword": "Ajouter un mot-clé",
+    "searchKeyword": "Rechercher un mot-clé",
+    "errorTitle": "Erreur",
+    "errorFetch": "Échec du chargement des mots-clés",
+    "errorNoListing": "Aucun établissement sélectionné.",
+    "errorDelete": "Échec de la suppression des mots-clés. Veuillez réessayer.",
+    "deletedTitle": "Mots-clés supprimés",
+    "deletedMessage": "{{count}} mot-clé{{plural}} supprimé(s) avec succès."
+  }
+}

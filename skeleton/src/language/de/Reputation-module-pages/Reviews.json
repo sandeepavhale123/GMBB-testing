@@ -1,0 +1,41 @@
+{
+  "page": {
+    "title": "Bewertungen",
+    "subtitle": "Anzeigen und Verwalten von Kundenbewertungen aus allen verbundenen Kanälen"
+  },
+
+  "actions": {
+    "reviewIntegration": "Integration von Bewertungsplattformen",
+    "exportReviews": "Bewertungen exportieren",
+    "tryAgain": "Erneut versuchen"
+  },
+
+  "filters": {
+    "searchPlaceholder": "Bewertungen suchen...",
+    "channelPlaceholder": "Nach Kanal filtern",
+    "sentimentPlaceholder": "Nach Stimmung filtern",
+
+    "channels": {
+      "all": "Alle Kanäle",
+      "google": "Google Unternehmensprofil",
+      "facebook": "Facebook",
+      "opentable": "OpenTable",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "bbb": "Better Business Bureau (BBB)"
+    },
+
+    "sentiments": {
+      "all": "Alle Stimmungen",
+      "positive": "Positiv (4–5 Sterne)",
+      "neutral": "Neutral (3 Sterne)",
+      "negative": "Negativ (1–2 Sterne)"
+    }
+  },
+
+  "states": {
+    "loading": "Wird geladen...",
+    "showingResults": "{{count}} von {{total}} Bewertungen werden angezeigt",
+    "noResults": "Keine Bewertungen gefunden, die Ihren Filtern entsprechen"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "modulesMenu": {
+    "title": "Modules",
+    "comingSoon": "Bientôt disponible",
+    "utilities": {
+      "title": "Utilitaires",
+      "utmBuilder": {
+        "name": "Générateur de suivi UTM",
+        "description": "Créez des URL de campagne traçables"
+      },
+      "buyCredits": {
+        "name": "Acheter des crédits",
+        "description": "Achetez des crédits pour votre compte"
+      },
+      "mapCreator": {
+          "name": "Créateur de Cartes",
+          "description": "Créer des données de classement de mots-clés avec des coordonnées de carte"
+        }
+    },
+    "gmbListing": {
+      "single": {
+        "name": "Gérer la fiche GMB",
+        "description": "Gérez la fiche Google My Business de cet établissement"
+      },
+      "multiple": {
+        "name": "Tableau de bord principal",
+        "description": "Gérez vos fiches Google My Business"
+      }
+    },
+    "geoRanking": {
+      "name": "Classement GEO",
+      "description": "Suivez et optimisez vos classements dans les recherches locales"
+    },
+    "leadManagement": {
+      "name": "Gestion des prospects",
+      "description": "Gérez et suivez vos prospects efficacement."
+    },
+    "reputation": {
+      "name": "Réputation",
+      "description": "Surveillez et gérez votre réputation en ligne"
+    },
+    "seo": {
+      "name": "Correcteur SEO",
+      "description": "Détectez et corrigez automatiquement les problèmes SEO sur les sites web"
+    },
+     "socialPoster": {
+      "name": "Social Poster",
+      "description": "Planifiez et gérez les publications sur toutes les plateformes de médias sociaux"
+    }
+  }
+}

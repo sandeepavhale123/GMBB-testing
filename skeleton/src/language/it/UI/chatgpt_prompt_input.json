@@ -1,0 +1,16 @@
+{
+  "placeholder": "Messaggio...",
+  "removeImage": "Rimuovi immagine",
+  "imagePreviewAlt": "Anteprima immagine",
+  "fullSizePreviewAlt": "Anteprima a grandezza naturale",
+  "questions": "Domande",
+  "loadingQuestions": "Caricamento domande...",
+  "retry": "Riprova",
+  "selectCategory": "Seleziona una categoria:",
+  "back": "← Indietro",
+  "close": "Chiudi",
+  "recordVoice": "Registra voce",
+  "send": "Invia",
+  "sendMessage": "Invia messaggio",
+  "errorLoading": "Caricamento delle domande non riuscito. Per favore riprova."
+}

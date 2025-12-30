@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "checkRank": "Ranking prüfen",
+    "creditsHistory": "Guthabenverlauf",
+    "settings": "Einstellungen",
+    "aiChatbot": "KI-Chatbot"
+  },
+  "back": "Zurück"
+}

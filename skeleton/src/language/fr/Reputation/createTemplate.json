@@ -1,0 +1,64 @@
+{
+  "title": "Créer un Modèle",
+  "templateName": {
+    "label": "Nom du Modèle",
+    "placeholder": "Entrez le nom du modèle"
+  },
+  "channel": {
+    "label": "Sélectionner le Canal",
+    "sms": "SMS",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Sélectionner le Modèle",
+    "defaultTemplate": "Modèle par défaut",
+    "greeting": "Bonjour Nom!",
+    "defaultMessage": "Nous espérons que vous avez apprécié votre récente expérience avec nous. Pourriez-vous prendre un moment pour nous laisser un avis?",
+    "reviewLink": "Lien d'Avis"
+  },
+  "subject": {
+    "label": "Objet",
+    "placeholder": "Entrez l'objet de l'e-mail"
+  },
+  "whatsapp": {
+    "category": {
+      "label": "Catégorie",
+      "marketing": "Marketing",
+      "utility": "Utilitaire",
+      "authentication": "Authentification"
+    },
+    "language": {
+      "label": "Langue"
+    }
+  },
+  "schedule": {
+    "label": "Planifier le modèle (optionnel)",
+    "date": "Date",
+    "time": "Heure"
+  },
+  "submit": "Enregistrer le Modèle",
+  "twilioWarning": {
+    "message": "Veuillez configurer votre compte Twilio pour utiliser les canaux SMS et WhatsApp",
+    "configureButton": "Configurer"
+  },
+  "shortCodes": {
+    "label": "Codes courts:",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "reviewLink": "{review_link}"
+  },
+  "validation": {
+    "nameRequired": "Le nom du modèle est requis",
+    "subjectRequired": "L'objet est requis pour les modèles d'e-mail",
+    "templateContentRequired": "Le contenu du modèle est requis"
+  },
+  "success": {
+    "title": "Modèle Créé",
+    "description": "Votre modèle a été créé avec succès"
+  },
+  "error": {
+    "title": "Erreur",
+    "description": "Impossible de créer le modèle. Veuillez réessayer."
+  }
+}

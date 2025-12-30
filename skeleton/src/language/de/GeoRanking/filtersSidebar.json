@@ -1,0 +1,22 @@
+{
+  "filtersSidebar": {
+    "title": "Filter",
+    "labels": {
+      "selectKeyword": "Schlüsselwort auswählen",
+      "selectDate": "Datum auswählen",
+      "gridSize": "Rastergröße"
+    },
+    "keywords": {
+      "webDesign": "Webdesign",
+      "digitalMarketing": "Digitales Marketing",
+      "seoServices": "SEO-Dienste",
+      "localBusiness": "Lokales Unternehmen"
+    },
+    "gridOptions": {
+      "4x4": "4×4 Raster",
+      "5x5": "5×5 Raster",
+      "6x6": "6×6 Raster"
+    },
+    "button": "Erneut scannen"
+  }
+}

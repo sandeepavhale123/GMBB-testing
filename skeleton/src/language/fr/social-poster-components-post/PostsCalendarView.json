@@ -1,0 +1,54 @@
+{
+  "calendar": {
+    "today": "Aujourd'hui",
+    "selectDate": "Sélectionnez une date",
+    "noPostsTitle": "Aucune publication programmée",
+    "noPostsDesc": "Aucune publication n'est programmée pour cette date",
+    "schedulePost": "Cliquez sur une date dans le calendrier pour voir les publications programmées",
+    "createPost": "Créer une publication",
+    "postsScheduled": "{{count}} publication programmée",
+    "postsScheduled_plural": "{{count}} publications programmées",
+    "dayHeaders": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "more": "plus",
+    "postalt": "Vignette vidéo",
+    "Postmedia": "Média de la publication"
+  },
+
+  "status": {
+    "draft": "Brouillon",
+    "scheduled": "Programmé",
+    "publishing": "Publication en cours",
+    "published": "Publié",
+    "failed": "Échoué"
+  },
+
+  "postActions": {
+    "edit": "Modifier la publication",
+    "retryFail": "Réessayer les publications échouées",
+    "delete": "Supprimer la publication",
+    "view": "Voir les détails",
+    "retry": "Réessayer l'échec",
+    "retryAll": "Réessayer sur toutes les plateformes",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette publication ?"
+  },
+
+  "breakdown": {
+    "title": "Répartition par plateforme",
+    "description": "Statut détaillé pour chaque plateforme",
+    "postContent": "Contenu de la publication",
+    "retry": "Réessayer l'échec",
+    "success": "Succès",
+    "failed": "Échec",
+    "pending": "En attente",
+    "viewPublished": "Voir la publication publiée"
+  },
+
+  "instagramWarning": {
+    "title": "Publication Instagram publiée",
+    "message": "Cette publication a été publiée sur Instagram. En raison des limitations de l'API Instagram, les publications publiées ne peuvent pas être supprimées automatiquement.",
+    "deleteMessage": "Veuillez supprimer la publication manuellement depuis Instagram si nécessaire. La publication sera supprimée de ce système, mais restera sur Instagram.",
+    "deleteAnyway": "Supprimer quand même",
+    "cancel": "Annuler",
+    "system": "Supprimer du système"
+  }
+}

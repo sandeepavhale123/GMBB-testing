@@ -1,0 +1,16 @@
+{
+  "title": "Live Preview",
+  "selectPlatform": "Select platform",
+  "noPlatformSelected": "Select accounts to see preview",
+  "previewNotAvailable": "Preview not available for this platform",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "threads": "Threads",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Individual)",
+    "linkedin_organisation": "LinkedIn (Organisation)"
+  }
+}

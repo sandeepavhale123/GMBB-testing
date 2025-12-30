@@ -1,0 +1,30 @@
+{
+  "facebookPageModal": {
+    "title": "Select Facebook Page",
+    "description": "Choose a Facebook page to connect for reputation management",
+
+    "loading": {
+      "text": "Loading pages..."
+    },
+
+    "empty": {
+      "title": "No Facebook pages found.",
+      "subtitle": "Make sure you have admin access to at least one Facebook page."
+    },
+
+    "badges": {
+      "connected": "Connected",
+      "linkedToOther": "Linked to another listing"
+    },
+
+    "stats": {
+      "fans": "{{count}} fans"
+    },
+
+    "buttons": {
+      "cancel": "Cancel",
+      "connect": "Connect Page",
+      "connecting": "Connecting..."
+    }
+  }
+}

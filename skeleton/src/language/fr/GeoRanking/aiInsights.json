@@ -1,0 +1,13 @@
+{
+  "aiInsights": {
+    "title": "Analyses AI GMB Genie",
+    "smartRecommendations": "Recommandations intelligentes",
+    "description": "D'après vos données de classement, j'ai identifié 3 opportunités d'optimisation à fort impact qui pourraient améliorer votre visibilité locale de 23%.",
+    "points": {
+      "contentGaps": "✓ Analyse des lacunes de contenu",
+      "competitorInsights": "✓ Analyse des concurrents",
+      "actionPlan": "✓ Plan d'action"
+    },
+    "button": "Discutons-en"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "insightsComparisonChart": {
+    "title": {
+      "fallback": "Performance Trends",
+      "comparison": "6-Month Performance Comparison"
+    },
+    "view":"View All",
+    "description": {
+      "fallback": "Historical trends for key metrics based on available data",
+      "comparison": "Historical trends for key metrics over the last 6 months"
+    },
+    "error": {
+      "title": "Performance Comparison",
+      "failed": "Failed to load comparison data"
+    },
+    "loading": {
+      "title": "Loading comparison data..."
+    },
+    "metrics": {
+      "searchViews": "Google Search Views",
+      "mapsViews": "Google Maps Views",
+      "websiteClicks": "Website Clicks",
+      "phoneCalls": "Phone Calls"
+    },
+    "mobileLegend": {
+      "searchViews": "Search Views",
+      "mapsViews": "Maps Views",
+      "websiteClicks": "Website Clicks",
+      "phoneCalls": "Phone Calls"
+    }
+  }
+}

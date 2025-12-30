@@ -1,0 +1,15 @@
+{
+  "columns": {
+    "draft": "Borrador",
+    "scheduled": "Programada",
+    "publishing": "Publicando",
+    "published": "Publicado",
+    "failed": "Fallida"
+  },
+
+  "common": {
+    "noPosts": "Sin publicaciones",
+    "accounts": "cuentas",
+    "postPreviewAlt": "Vista previa de la publicación"
+  }
+}

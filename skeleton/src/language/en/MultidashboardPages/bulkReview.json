@@ -1,0 +1,28 @@
+{
+  "title": "Bulk Review Management",
+  "subtitle": "Manage reviews across all your listings.",
+  "configureAutoReply": "Configure Auto Reply",
+  "summary": {
+    "reviews": "Customer Reviews",
+    "loading": "Loading reviews...",
+    "noReviews": "No reviews found matching your criteria."
+  },
+  "export":"Export CSV",
+  "toast": {
+    "successTitle":"Success",
+    "replySuccess": "Reply sent successfully",
+    "replyError": "Failed to send reply",
+    "deleteSuccess": "Reply deleted successfully",
+    "deleteError": "Failed to delete reply"
+  },
+  "pagination": {
+    "showing": "Showing {{from}} to {{to}} of {{total}} reviews",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{pages}}"
+  },
+  "error": {
+    "title": "Error",
+    "retry": "Retry"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Guthabenverlauf",
+    "description": "Verfolgen Sie Ihre Guthabennutzung bei allen Ranking-Checks.",
+    "searchPlaceholder": "Schlüsselwörter suchen...",
+    "table": {
+      "keyword": "Schlüsselwort",
+      "type": "Guthabenart",
+      "credit": "Guthaben",
+      "date": "Datum"
+    },
+    "empty": {
+      "title": "Kein Guthabenverlauf gefunden",
+      "subtitle": "Versuchen Sie, Ihre Suche anzupassen"
+    }
+  }
+}

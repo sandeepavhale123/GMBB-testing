@@ -1,0 +1,23 @@
+{
+  "keywordSelector": {
+    "labels": {
+      "keyword": "Palabra clave"
+    },
+    "placeholders": {
+      "keyword": {
+        "loading": "Cargando palabras clave...",
+        "default": "Seleccionar palabra clave",
+        "search": "Buscar palabras clave..."
+      },
+      "date": {
+        "loading": "Cargando fechas...",
+        "default": "Seleccionar fecha del informe"
+      }
+    },
+    "messages": {
+      "loading": "Cargando...",
+      "noKeywords": "No se encontraron palabras clave"
+    },
+    "all": " Todas"
+  }
+}

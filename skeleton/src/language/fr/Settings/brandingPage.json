@@ -1,0 +1,25 @@
+{
+  "brandingPage": {
+    "title": "Personnalisation du thème",
+    "subtitle": "Personnalisez l'identité visuelle de votre application.",
+    "badge": "Marque blanche",
+    "actions": {
+      "save": "Enregistrer les modifications",
+      "reset": "Réinitialiser le thème"
+    },
+    "messages": {
+      "reset": {
+        "title": "Réinitialisation du thème",
+        "success": "Le thème a été réinitialisé avec succès.",
+        "errorTitle": "Erreur de réinitialisation",
+        "errorDescription": "Échec de la réinitialisation du thème. Veuillez réessayer."
+      },
+      "save": {
+        "successTitle": "Thème mis à jour avec succès",
+        "successDescription": "Votre thème a été mis à jour.",
+        "errorTitle": "Erreur lors de l'enregistrement du thème",
+        "errorDescription": "Échec de l'enregistrement du thème. Veuillez réessayer plus tard."
+      }
+    }
+  }
+}

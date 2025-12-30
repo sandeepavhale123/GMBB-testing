@@ -1,0 +1,15 @@
+{
+  "geoReport": {
+    "title": "GEO-Ranking-Bericht",
+    "loading": "GEO-Ranking-Bericht wird geladen...",
+    "error": {
+      "main": "Fehler beim Laden der Berichtsdaten",
+      "sub": "Bitte versuchen Sie es später erneut"
+    },
+    "area": "Bereich",
+    "priority": {
+      "high": "Hoch",
+      "medium": "Mittel"
+    }
+  }
+}

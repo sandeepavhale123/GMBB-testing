@@ -1,0 +1,30 @@
+{
+  "addAccountModal": {
+    "title": "Ajouter un compte Google Business",
+    "alert": {
+      "title": "Profil Google Business requis",
+      "description": "Vous devez vous authentifier avec Google et accorder l'accès à vos fiches Profil Business."
+    },
+    "instructions": {
+      "intro": "Après avoir cliqué sur \"Connecter le compte\", vous serez redirigé vers Google pour :",
+      "steps": {
+        "signIn": "Se connecter à votre compte Google",
+        "grantAccess": "Accorder l'accès aux données de votre Profil Business",
+        "authorize": "Autoriser les permissions de gestion des fiches"
+      }
+    },
+    "noProfile": {
+      "text": "Vous n'avez pas de Profil Google Business ? Créez-en un ici",
+      "url": "https://business.google.com"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "connect": "Connecter le compte",
+      "connecting": "Connexion en cours..."
+    },
+    "errors": {
+      "connectionError": "Erreur de connexion",
+      "failedToConnect": "Échec de l'initialisation de la connexion Google"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "refreshAccountModal": {
+    "title": "Select Listing Groups",
+    "description": "Choose the listing groups you want to refresh",
+    "selectAll": {
+      "label": "Select All Listing Groups",
+      "count": "{{selected}} of {{total}} selected"
+    },
+    "groups": {
+      "available": "Available Groups:",
+      "empty": "No listing groups available"
+    },
+    "footer": {
+      "selected": "{{count}} group selected",
+      "selectedPlural": "{{count}} groups selected"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "submit": "Submit ({{count}})",
+      "submitting": "Submitting..."
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "sentiment": {
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ"
+  },
+  "location": "{{locationName}} • {{zipcode}}",
+  "rating": "({{rating}}/5)",
+  "review": {
+    "comment": "Bewertungskommentar",
+    "repliedOn": "Geantwortet am {{date}}"
+  },
+  "actions": {
+    "generateAI": "Mit Genie generieren",
+    "replyManually": "Manuell antworten",
+    "editReply": "Antwort bearbeiten",
+    "deleteReply": "Antwort löschen"
+  },
+  "tooltips": {
+    "dnr": "Antwort deaktiviert — DNR (Nicht Antworten) Einstellung ist für diese Bewertung aktiv."
+  },
+  "dialogs": {
+    "deleteReply": {
+      "title": "Antwort löschen",
+      "description": "Möchten Sie diese Antwort wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Visualizza Dettagli",
+    "subtitle": "Visualizza i dettagli del media massivo selezionato"
+  },
+  "filter": {
+    "searchPlaceholder": "Cerca per nome dell'inserzione.",
+    "statusPlaceholder": "Filtra per stato",
+    "statusAll": "Stato Post",
+    "statusLive": "Attivo",
+    "statusScheduled": "Programmato",
+    "statusFailed": "Fallito"
+  },
+  "loading": {
+    "preview": "Caricamento dettagli del media..."
+  },
+  "error": {
+    "preview": "Errore nel caricamento dei dettagli del media: {{error}}",
+    "retry": "Riprova"
+  }
+}

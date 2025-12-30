@@ -1,0 +1,5 @@
+{
+  "listingManagementSummary": {
+    "showingListings": "Zeige {{listingsCount}} von {{totalListings}} Einträgen"
+  }
+}

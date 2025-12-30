@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "GEO-Ranking-Bericht erstellen",
+    "description": "Geben Sie Keywords ein und konfigurieren Sie die Einstellungen, um einen umfassenden GEO-Ranking-Bericht zu erstellen.",
+    "form": {
+      "keywords": "Keywords *",
+      "keywordsPlaceholder": "Keywords durch Kommas getrennt eingeben (max. 3)",
+      "gridSize": "Gittergröße *",
+      "gridSizePlaceholder": "Gittergröße auswählen",
+      "distanceUnit": "Entfernungseinheit *",
+      "meters": "Meter",
+      "miles": "Meilen",
+      "distanceValue": "Entfernungswert *",
+      "distanceValuePlaceholder": "Entfernung auswählen"
+    },
+    "buttons": {
+      "cancel": "Abbrechen",
+      "generate": "Bericht erstellen",
+      "generating": "Wird erstellt..."
+    },
+    "errors": {
+      "failed": "GEO-Ranking-Bericht konnte nicht erstellt werden."
+    },
+    "validation": {
+      "keywordsMin": "Keywords sind erforderlich.",
+      "maxKeyword": "Maximal 3 Keywords erlaubt.",
+      "keywords": "Mindestens 1 Keyword ist erforderlich.",
+      "grid": "Gittergröße muss 3 oder 5 sein.",
+      "distance": "Entfernungswert ist erforderlich."
+    }
+  }
+}

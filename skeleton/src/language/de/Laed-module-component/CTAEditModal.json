@@ -1,0 +1,35 @@
+{
+  "ctaModal": {
+    "editTitleCall": "Call-CTA-Einstellungen bearbeiten",
+    "editTitleAppointment": "Termin-CTA-Einstellungen bearbeiten",
+    "editDescription": "Passen Sie Ihren Call-to-Action-Header, die Beschreibung, den Button-Text und den Link an.",
+    "visibilityLabel": "CTA in Berichten anzeigen",
+    "visibilityHelp": "Schalten Sie um, um diesen CTA-Bereich in den generierten Berichten anzuzeigen oder auszublenden.",
+    "headerLabel": "CTA-Header",
+    "headerPlaceholder": "CTA-Header-Text eingeben",
+    "descriptionLabel": "CTA-Beschreibung",
+    "descriptionPlaceholder": "CTA-Beschreibungstext eingeben",
+    "buttonLabel": "Button-Beschriftung",
+    "buttonPlaceholder": "Button-Text eingeben",
+    "buttonLinkLabel": "Button-Link",
+    "buttonLinkPlaceholder": "https://example.com oder #contact",
+    "buttonLinkHelp": "Geben Sie eine vollständige URL (https://...) ein oder lassen Sie das Feld leer, wenn kein Link gewünscht ist.",
+    "cancel": "Abbrechen",
+    "save": "Änderungen speichern",
+    "saving": "Speichert...",
+    "toast": {
+      "validationTitle": "Validierungsfehler",
+      "validationDescription": "Bitte beheben Sie die Fehler, bevor Sie speichern.",
+      "saveSuccessTitle": "CTA-Einstellungen gespeichert",
+      "saveSuccessDescription": "Ihr Call-to-Action wurde erfolgreich aktualisiert.",
+      "saveFailTitle": "Speichern fehlgeschlagen",
+      "saveFailDescription": "CTA-Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut."
+    },
+    "default": {
+      "header": "STEIGERN SIE IHREN GBP SCORE &&& Erhöhen Sie Ihre Anrufe",
+      "description": "Erfahren Sie, wie Sie Ihren Mitarbeitern ein Monatsgehalt zahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Plan, um Ihre Konkurrenz zu schlagen!",
+      "buttonLabel": "JETZT TERMIN BUCHEN",
+      "buttonLinkLabel": "#contact"
+    }
+  }
+}

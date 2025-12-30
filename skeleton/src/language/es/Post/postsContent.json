@@ -1,0 +1,28 @@
+{
+  "totalPosts": "Total de publicaciones: {{count}}",
+  "totalPostsFiltered": "(filtrado)",
+  "selectPosts": "Seleccionar publicaciones",
+  "cancelSelection": "Cancelar selección",
+  "selectAll": "Seleccionar todo",
+  "deselectAll": "Deseleccionar todo",
+  "deleteSelected": "Eliminar seleccionadas ({{count}})",
+  "deleting": "Eliminando...",
+  "deletePostsTitle": "Eliminar publicaciones",
+  "deletePostsDescription": "¿Estás seguro de que deseas eliminar {{count}} publicación{{plural}} seleccionada(s)? Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "previous": "Anterior",
+  "next": "Siguiente",
+  "pageInfo": "Página {{current}} de {{total}}",
+  "toast": {
+    "error": "Error",
+    "noListingTitle": "Error",
+    "noListingDesc": "No se seleccionó ningún listado comercial. Por favor, selecciona uno primero.",
+    "noPostsTitle": "No se seleccionaron publicaciones",
+    "noPostsDesc": "Por favor, selecciona publicaciones para eliminar.",
+    "postsDeletedTitle": "Publicaciones eliminadas",
+    "postsDeletedDesc": "{{count}} publicación{{plural}} se eliminaron correctamente.",
+    "deleteFailedTitle": "Error al eliminar publicaciones",
+    "deleteFailedDesc": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
+  }
+}

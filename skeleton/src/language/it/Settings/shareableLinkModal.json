@@ -1,0 +1,31 @@
+{
+  "shareableLinkModal": {
+    "title": "Link Condivisibile",
+    "description1": "Condividi questo link con",
+    "description2": " {{firstName}} {{lastName}}",
+    "description3": "per dare loro accesso diretto al loro account.",
+    "allowListingsLabel": "Inserisci il numero di inserzioni consentite",
+    "availableSpots": "Posti disponibili nella Dashboard - {{spots}}",
+    "allowListingsPlaceholder": "Inserisci il numero di inserzioni consentite",
+    "directAccessLinkLabel": "Link di Accesso Diretto",
+    "toast": {
+      "copiedTitle": "Link copiato",
+      "copiedDescription": "Il link condivisibile è stato copiato negli appunti",
+      "failedTitle": "Copia fallita",
+      "failedDescription": "Per favore copia il link manualmente"
+    },
+    "linkDetails": {
+      "title": "Dettagli del Link:",
+      "points": {
+        "valid": "Valido per accesso diretto al login",
+        "bypass": "Ignora il processo standard di login",
+        "role": "Si applicano permessi basati sul ruolo",
+        "revoke": "Può essere revocato eliminando l'utente"
+      }
+    },
+    "buttons": {
+      "close": "Chiudi",
+      "testLink": "Testa Link"
+    }
+  }
+}

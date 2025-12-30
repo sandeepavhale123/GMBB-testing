@@ -1,0 +1,105 @@
+{
+  "title": {
+    "create": "Create Feedback Form",
+    "edit": "Edit Feedback Form",
+    "step1": "Feedback Form Details",
+    "step2": "Customization Options",
+    "step3": "Positive Feedback Redirect",
+    "step4": "Success Message"
+  },
+  "labels": {
+    "formName": "Form Name",
+    "logo": "Logo",
+    "feedback":"Feedback form",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "success":"Success!",
+    "positiveFeedbackTitle": "Positive Feedback Title",
+    "successTitle": "Success Title",
+    "successSubtitle": "Success Subtitle",
+    "positiveRatingThreshold": "Positive Feedback Threshold",
+    "reviewSites": "Review Sites",
+    "step": "Step {{currentStep}} of 4",
+    "stepDynamic": "Step {{currentStep}} of {{totalSteps}}",
+    "includeReviewLink": "Do you want to send review link with this feedback form?",
+    "formTitle":"Form Title",
+    "formSubtitle":"Form Subtitle",
+    "error":"Error",
+    "invalid":"Invalid URLs"
+  },
+  "placeholders": {
+    "formName": "e.g., Restaurant Feedback Form",
+    "url": "https://example.com/review",
+    "title": "Enter title",
+    "subtitle": "Enter subtitle",
+    "successTitle": "Enter success message title",
+    "successSubtitle": "Enter success message subtitle",
+    "positiveTitle": "Enter positive feedback title",
+    "option":"Select an option",
+    "rating":"Select rating threshold",
+    "postitve":"Enter positive feedback title..."
+  },
+  "messages": {
+    "loading": "Loading form data...",
+    "editing":"Editing existing form",
+    "validationError": "Validation Error",
+    "formNameRequired": "Form name is required",
+    "logoRequired": "Logo is required",
+    "validUrlRequired": "At least one review site URL is required",
+    "validMessage":"Please enter a form name",
+    "invalidUrls": "Please fix invalid URLs before proceeding",
+    "invalidUrlFormat": "Please enter a valid URL (e.g., https://example.com)",
+    "saved": "Feedback form created successfully",
+    "updated": "Feedback form updated successfully",
+    "saveError": "Failed to save feedback form",
+    "updateError": "Failed to update feedback form",
+    "createError":"Failed to create feedback form",
+    "accept":"Accepted: {{field}}",
+    "review":" Review and adjust your form's branding elements"
+  },
+  "buttons": {
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "update": "Update Form",
+    "saving": "Saving...",
+    "updating": "Updating...",
+    "edit": "Edit",
+    "reset": "Reset Form",
+    "submit": "Submit Feedback"
+  },
+  "tooltips": {
+    "formNameInfo": "This name is for your internal reference only",
+    "logoInfo": "Required - Upload your company logo",
+    "ratingInfo": "Choose the minimum star rating you consider as positive feedback",
+    "reviewSiteInfo": "Enter the review URLs where customers can leave their feedback. Only valid URLs will be displayed to users.",
+    "uploadInfo":"Click to upload or drag and drop",
+    "imgalt":"{{site}} logo",
+    "review":"Review on {{name}}"
+  },
+  "preview": {
+    "header": "Preview",
+    "logoPlaceholder": "LOGO",
+    "logoalt":"Logo Preview"
+  },
+  "formField":{
+    "label1":"Name",
+    "place1":"Enter your name",
+    "label2":"Email",
+    "place2":"Enter your email",
+    "label3":"Comment",
+    "place3":"Enter your comment"
+  },
+  "state":{
+    "successSubtitle":"We appreciate you taking the time to share your thoughts. Your feedback helps us improve our service.",
+    "successTitle":"Thank you for your feedback!",
+    "positiveFeedbackTitle":"We'd love to hear from you! Share your experience by leaving us a review.",
+    "subtitle":"We value your feedback and would love to hear from you.",
+    "title":"How was your experience with us?"
+  },
+  "rating":{
+    "lab1":"3 stars or above",
+    "lab2":"4 stars or above",
+    "lab3":"5 stars only"
+  }
+}

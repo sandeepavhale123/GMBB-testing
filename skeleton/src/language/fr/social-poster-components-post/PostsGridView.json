@@ -1,0 +1,38 @@
+{
+  "common": {
+    "noPosts": "Pas encore de publications",
+    "createFirstPost": "Créez votre première publication pour la voir ici",
+    "aredelete": "Êtes-vous sûr de vouloir supprimer cette publication ?",
+    "view": "Voir",
+    "edit": "Modifier",
+    "retry": "Réessayer",
+    "delete": "Supprimer",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page",
+    "of": "de"
+  },
+
+  "status": {
+    "draft": "Brouillon",
+    "scheduled": "Programmé",
+    "publishing": "Publication en cours",
+    "published": "Publié",
+    "failed": "Échoué"
+  },
+
+  "grid": {
+    "postDetails": "Détails de la publication",
+    "viewPublishedPost": "Voir la publication publiée",
+    "showing": "Affichage de",
+    "to": "à",
+    "of": "de",
+    "posts": "publications",
+
+    "instagramWarningTitle": "La publication Instagram ne peut pas être supprimée à distance",
+    "instagramWarningDesc": "L'API d'Instagram ne prend pas en charge la suppression des publications à distance. Si vous continuez, la publication sera supprimée de notre système, mais vous devrez la supprimer manuellement sur Instagram.",
+    "cancel": "Annuler",
+    "deleteFromSystem": "Supprimer du système",
+    "deleting": "Suppression en cours..."
+  }
+}

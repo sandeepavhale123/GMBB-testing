@@ -1,0 +1,41 @@
+{
+  "page": {
+    "title": "Reviews",
+    "subtitle": "View and manage customer reviews from all connected channels"
+  },
+
+  "actions": {
+    "reviewIntegration": "Review Site Integration",
+    "exportReviews": "Export Reviews",
+    "tryAgain": "Try Again"
+  },
+
+  "filters": {
+    "searchPlaceholder": "Search reviews...",
+    "channelPlaceholder": "Filter by Channel",
+    "sentimentPlaceholder": "Filter by Sentiment",
+
+    "channels": {
+      "all": "All Channels",
+      "google": "Google Business Profile",
+      "facebook": "Facebook",
+      "opentable": "OpenTable",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "bbb": "Better Business Bureau (BBB)"
+    },
+
+    "sentiments": {
+      "all": "All Sentiments",
+      "positive": "Positive (4-5 stars)",
+      "neutral": "Neutral (3 stars)",
+      "negative": "Negative (1-2 stars)"
+    }
+  },
+
+  "states": {
+    "loading": "Loading...",
+    "showingResults": "Showing {{count}} of {{total}} reviews",
+    "noResults": "No reviews found matching your filters"
+  }
+}

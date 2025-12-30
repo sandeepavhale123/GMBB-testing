@@ -1,0 +1,7 @@
+{
+  "listingManagementError": {
+    "pageTitle": "Gestisci gli Annunci",
+    "tryAgainButton": "Riprova",
+    "errorMessage": "{{error}}"
+  }
+}

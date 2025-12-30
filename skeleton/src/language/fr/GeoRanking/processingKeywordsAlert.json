@@ -1,0 +1,15 @@
+{
+  "processingKeywordsAlert": {
+    "success": {
+      "single": "{{count}} mot-clé soumis avec succès !",
+      "plural": "{{count}} mots-clés soumis avec succès !"
+    },
+    "alreadyProcessing": "+ {{count}} déjà en cours de traitement",
+    "inProgress": "Vos mots-clés sont en cours de traitement :",
+    "wait": "- veuillez patienter",
+    "processingNote": "Le traitement prendra quelques minutes. Les résultats apparaîtront automatiquement.",
+    "progressLabel": "Traitement des données du mot-clé...",
+    "newlySubmitted": "Nouvellement soumis :",
+    "alreadyProcessingLabel": "Déjà en cours de traitement :"
+  }
+}

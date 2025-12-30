@@ -1,0 +1,62 @@
+{
+  "integration": {
+    "mapApiKey": {
+      "success": {
+        "update": "Clave API actualizada correctamente",
+        "delete": "Clave API desconectada correctamente"
+      },
+      "error": {
+        "update": "No se pudo guardar la clave API. Por favor, inténtalo de nuevo.",
+        "delete": "No se pudo desconectar la clave API. Por favor, inténtalo de nuevo."
+      }
+    },
+    "subdomain": {
+      "success": {
+        "update": "Configuración del subdominio guardada correctamente",
+        "delete": "Subdominio eliminado correctamente"
+      },
+      "error": {
+        "update": "No se pudo guardar la configuración del subdominio. Por favor, inténtalo de nuevo.",
+        "delete": "No se pudo eliminar el subdominio. Por favor, inténtalo de nuevo."
+      }
+    },
+    "smtp": {
+      "success": {
+        "update": "Configuración SMTP guardada correctamente",
+        "delete": "Configuración SMTP eliminada correctamente",
+        "testEmail": "Correo de prueba SMTP enviado correctamente"
+      },
+      "error": {
+        "update": "No se pudo guardar la configuración SMTP. Por favor, inténtalo de nuevo.",
+        "delete": "No se pudo eliminar la configuración SMTP. Por favor, inténtalo de nuevo.",
+        "testEmail": "No se pudo enviar el correo de prueba. Verifica la configuración."
+      }
+    },
+    "mailgun": {
+      "success": {
+        "create": "Configuración Mailgun guardada correctamente",
+        "delete": "Configuración Mailgun eliminada correctamente"
+      },
+      "error": {
+        "create": "No se pudo guardar la configuración Mailgun.",
+        "delete": "No se pudo eliminar la configuración Mailgun."
+      }
+    },
+    "twilio": {
+      "success": {
+        "connect": "Cuenta Twilio conectada correctamente",
+        "disconnect": "Cuenta Twilio desconectada correctamente"
+      },
+      "error": {
+        "connect": "No se pudo conectar la cuenta Twilio.",
+        "disconnect": "No se pudo desconectar la cuenta Twilio."
+      }
+    },
+    "toast": {
+      "titleSuccess": "Éxito",
+      "titleError": "Error",
+      "titleTestSuccess": "Correo de prueba enviado",
+      "titleTestError": "Prueba fallida"
+    }
+  }
+}

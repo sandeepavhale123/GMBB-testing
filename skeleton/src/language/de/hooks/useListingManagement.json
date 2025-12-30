@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "Einträge suchen",
+  "filterAll": "Alle",
+  "filterActive": "Aktiv",
+  "filterInactive": "Inaktiv",
+  "viewListingSuccessTitle": "Eintrag wird geöffnet",
+  "viewListingSuccessDesc": "Öffne die Eintragsseite von {{name}}.",
+  "toggleSuccess": "Eintragsstatus erfolgreich aktualisiert",
+  "toggleFailed": "Aktualisierung des Eintragsstatus fehlgeschlagen",
+  "bulkStatusRefresh": "Unternehmenseinträge werden aktualisiert...",
+  "paginationNext": "Weiter",
+  "paginationPrev": "Zurück"
+}

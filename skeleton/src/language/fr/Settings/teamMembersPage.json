@@ -1,0 +1,60 @@
+{
+  "teamMembersPage": {
+    "title": "Membres de l'équipe",
+    "description": "Gérez les membres de votre équipe et leurs autorisations d'accès.",
+    "addMember": "Ajouter un membre",
+    "add": "Ajouter",
+    "searchPlaceholder": "Rechercher des membres par nom ou e-mail",
+    "allRoles": "Tous les rôles",
+    "staff": "Équipe",
+    "client": "Client",
+    "moderator": "Modérateur",
+    "totalMembers": "Total : {{count}}",
+    "error": {
+      "title": "Erreur lors du chargement des membres de l'équipe",
+      "tryAgain": "Réessayer"
+    },
+    "empty": {
+      "title": "Aucun membre trouvé",
+      "searchAdjust": "Essayez d'ajuster vos critères de recherche ou filtres",
+      "addFirst": "Commencez en ajoutant votre premier membre d'équipe"
+    },
+    "table": {
+      "member": "Membre",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "listings": "Listings",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "copy": {
+      "tooltip":"Copier l'e-mail",
+      "successTitle": "E-mail copié",
+      "successDesc": "L'adresse e-mail a été copiée dans le presse-papiers.",
+      "errorTitle": "Échec de la copie",
+      "errorDesc": "Impossible de copier l'adresse e-mail."
+    },
+    "password": {
+      "show": "Afficher le mot de passe",
+      "hide": "Masquer le mot de passe"
+    },
+    "dropdown": {
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "grid": {
+      "password": "Mot de passe :",
+      "role": "Rôle :",
+      "listings": "Listings :",
+      "status": "Statut :"
+    },
+    "roles": {
+      "Admin": "Admin",
+      "Editor": "Éditeur",
+      "Viewer": "Lecteur",
+      "Staff": "Équipe",
+      "Client": "Client",
+      "Moderator": "Modérateur"
+    }
+  }
+}

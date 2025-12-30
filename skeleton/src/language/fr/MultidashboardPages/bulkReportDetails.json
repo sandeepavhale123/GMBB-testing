@@ -1,0 +1,70 @@
+{
+  "bulkReportDetails": {
+    "toast": {
+      "emailSent": {
+        "title": "Email envoyé",
+        "description": "L'email du rapport a été renvoyé avec succès."
+      },
+      "emailsSent": {
+        "title": "Emails envoyés",
+        "description": "{{count}} emails ont été renvoyés avec succès."
+      },
+      "downloadStarted": {
+        "title": "Téléchargement commencé",
+        "description": "Le téléchargement {{format}} a commencé."
+      },
+      "allPdfStarted": {
+        "title": "Téléchargement commencé",
+        "description": "Le téléchargement du PDF tout-en-un a commencé."
+      },
+      "error": {
+        "title": "Erreur",
+        "resendEmail": "Échec du renvoi de l'email",
+        "bulkResend": "Échec du renvoi des emails",
+        "download": "Échec du téléchargement de {{format}}",
+        "downloadAll": "Échec du téléchargement du PDF tout-en-un"
+      }
+    },
+    "status": {
+      "completed": "Terminé",
+      "processing": "En cours",
+      "failed": "Échoué",
+      "pending": "En attente"
+    },
+    "delivery": {
+      "sent": "Envoyé",
+      "failed": "Échoué",
+      "pending": "En attente"
+    },
+    "errorState": {
+      "failedToLoad": "Échec du chargement des détails du rapport en masse",
+      "tryAgain": "Réessayer"
+    },
+    "header": {
+      "details": "Détails du rapport en masse • {{count}} emplacements",
+      "recipients": "Destinataires : {{recipients}}"
+    },
+    "download": {
+      "allPdf": "Télécharger le PDF tout-en-un",
+      "pdf": "Télécharger le PDF",
+      "allCsv": "Télécharger le CSV tout-en-un",
+      "csv": "Télécharger le CSV"
+
+    },
+    "table": {
+      "title": "Détails du rapport",
+      "location": "Emplacement",
+      "reportDate": "Date du rapport",
+      "status": "Statut",
+      "actions": "Actions",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "pagination": {
+      "showing": "Affichage de {{from}} à {{to}} sur {{total}} entrées",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {{current}} sur {{pages}}"
+    }
+  }
+}

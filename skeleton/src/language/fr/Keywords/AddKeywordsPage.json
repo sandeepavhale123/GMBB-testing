@@ -1,0 +1,34 @@
+{
+  "AddKeywordsPage": {
+    "back": "Retour",
+    "header": "Trouvez facilement les mots-clés à fort volume de recherche",
+    "inputPlaceholder": "Saisir le mot-clé principal ou la catégorie",
+    "filter": "Filtrer",
+    "searchButton": "Rechercher un mot-clé",
+    "searching": "Recherche en cours...",
+    "country": "Pays",
+    "language": "Langue",
+    "addedCount": "{{count}}/5",
+    "addingKeywords": "Ajout de mots-clés...",
+    "checkRank": "Vérifier le classement",
+    "recommendedKeywords": "Mots-clés recommandés",
+    "competition": "Concurrence :",
+    "localPack": "Pack local",
+    "addKeyword": "Ajouter un mot-clé",
+    "loadMore": "Charger plus de mots-clés",
+    "creditsRemaining": "Crédits restants",
+    "noCreditsWarning": "Vous n'avez plus de crédits. Mettez à niveau votre plan.",
+    "upgradePlan": "Mettre à niveau",
+    "toast": {
+      "keywordsFoundTitle": "Mots-clés trouvés",
+      "keywordsFoundDescription": "{{count}} mot(s)-clé(s) trouvé(s) avec des données de recherche.",
+      "authErrorTitle": "Erreur d'authentification",
+      "authErrorDescription": "Veuillez vérifier vos identifiants et réessayer.",
+      "searchFailedTitle": "Échec de la recherche",
+      "searchFailedDescription": "Impossible de récupérer les données des mots-clés. Veuillez réessayer."
+    },
+    "aria": {
+      "removeKeyword": "Supprimer {{keyword}}"
+    }
+  }
+}

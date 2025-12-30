@@ -1,0 +1,38 @@
+{
+  "publicMediaReport": {
+    "title": "Medienleistungsbericht",
+    "loading": {
+      "message": "Medienbericht wird geladen..."
+    },
+    "error": {
+      "title": "Fehler beim Laden des Berichts",
+      "description": "Der Medienleistungsbericht konnte nicht geladen werden. Bitte versuchen Sie es später erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "overviewStats": {
+      "totalMedia": "Gesamtmedien",
+      "totalPhotos": "Gesamtfotos",
+      "totalVideos": "Gesamtvideos",
+      "compareText": "{{value}}% im Vergleich zum vorherigen"
+    },
+    "charts": {
+      "mediaPerformance": "Medienbeitragsleistung im Zeitverlauf"
+    },
+    "chartLabels": {
+      "currentUploads": "Uploads der aktuellen Periode",
+      "previousUploads": "Uploads der vorherigen Periode"
+    },
+    "recentMedia": {
+      "title": "Medien",
+      "noData": "Keine Daten verfügbar",
+      "noImage": "Kein Bild",
+      "publishedOn": "Veröffentlicht am {{date}}",
+      "view": "Ansehen"
+    },
+    "mediaType": {
+      "image": "Bild",
+      "video": "Video",
+      "default": "Medien"
+    }
+  }
+}

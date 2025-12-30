@@ -1,0 +1,12 @@
+{
+  "offer": {
+    "startDateTime": "Fecha y Hora de Inicio",
+    "endDateTime": "Fecha y Hora de Finalización",
+    "couponCode": "Código de Cupón",
+    "couponCodePlaceholder": "Ingresa el código de cupón",
+    "redeemOnlineUrl": "URL de Canje Online",
+    "redeemOnlineUrlPlaceholder": "https://example.com/redeem",
+    "termsAndConditions": "Términos y Condiciones",
+    "termsAndConditionsPlaceholder": "Ingresa los términos y condiciones de esta oferta..."
+  }
+}

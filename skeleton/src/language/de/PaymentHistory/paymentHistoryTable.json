@@ -1,0 +1,35 @@
+{
+  "paymentHistoryTable": {
+    "title": "Zahlungsverlauf",
+    "loading": "Zahlungsverlauf wird geladen...",
+    "empty": {
+      "title": "Kein Zahlungsverlauf",
+      "description": "Ihr Zahlungsverlauf wird hier angezeigt, sobald Sie Ihre erste Zahlung getätigt haben."
+    },
+    "buttons": {
+      "refresh": "Aktualisieren",
+      "view": "Anzeigen"
+    },
+    "table": {
+      "transactionId": "Transaktions-ID",
+      "planName": "Planname",
+      "amount": "Betrag",
+      "dateTime": "Datum & Uhrzeit",
+      "email": "E-Mail",
+      "status": "Status",
+      "invoice": "Rechnung"
+    },
+    "pagination": {
+      "showing": "Zeige",
+      "to": "bis",
+      "of": "von",
+      "results": "Ergebnissen"
+    },
+    "status": {
+      "paid": "Bezahlt",
+      "failed": "Fehlgeschlagen",
+      "pending": "Ausstehend",
+      "unknown": "Unbekannt"
+    }
+  }
+}

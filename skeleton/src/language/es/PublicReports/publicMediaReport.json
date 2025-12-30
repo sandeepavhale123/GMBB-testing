@@ -1,0 +1,38 @@
+{
+  "publicMediaReport": {
+    "title": "Informe de rendimiento de medios",
+    "loading": {
+      "message": "Cargando informe de medios..."
+    },
+    "error": {
+      "title": "Error al cargar el informe",
+      "description": "No se pudo cargar el informe de rendimiento de medios. Por favor, inténtelo de nuevo más tarde.",
+      "retry": "Intentar de nuevo"
+    },
+    "overviewStats": {
+      "totalMedia": "Medios totales",
+      "totalPhotos": "Fotos totales",
+      "totalVideos": "Videos totales",
+      "compareText": "{{value}}% vs anterior"
+    },
+    "charts": {
+      "mediaPerformance": "Rendimiento de publicaciones de medios a lo largo del tiempo"
+    },
+    "chartLabels": {
+      "currentUploads": "Cargas del período actual",
+      "previousUploads": "Cargas del período anterior"
+    },
+    "recentMedia": {
+      "title": "Medios",
+      "noData": "No hay datos disponibles",
+      "noImage": "Sin imagen",
+      "publishedOn": "Publicado el {{date}}",
+      "view": "Ver"
+    },
+    "mediaType": {
+      "image": "Imagen",
+      "video": "Video",
+      "default": "Medio"
+    }
+  }
+}

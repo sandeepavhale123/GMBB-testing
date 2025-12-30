@@ -1,0 +1,22 @@
+{
+  "templateForm": {
+    "labels": {
+      "starRating": "Sternebewertung auswählen",
+      "templateContent": "Antwortvorlage"
+    },
+    "placeholders": {
+      "selectRating": "Sternebewertung für diese Vorlage auswählen",
+      "templateTextarea": "Schreiben Sie hier Ihre Antwortvorlage. Verwenden Sie Variablen wie {first_name}, um Antworten zu personalisieren..."
+    },
+    "tips": {
+      "personalization": "Tipp: Verwenden Sie die Variablen aus dem linken Bereich, um Ihre Vorlage persönlicher zu gestalten"
+    },
+    "buttons": {
+      "close": "Schließen",
+      "save": "Vorlage speichern",
+      "saving": "Speichert..."
+    },
+    "stars": "{{count}} Stern",
+    "stars_plural": "{{count}} Sterne"
+  }
+}

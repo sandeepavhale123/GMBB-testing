@@ -1,0 +1,16 @@
+{
+  "reportBranding": {
+    "success": {
+      "update": "Berichts-Branding erfolgreich aktualisiert",
+      "delete": "Berichts-Branding erfolgreich gelöscht"
+    },
+    "error": {
+      "update": "Das Aktualisieren des Berichts-Brandings ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "delete": "Das Löschen des Berichts-Brandings ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+    },
+    "toast": {
+      "titleSuccess": "Erfolg",
+      "titleError": "Fehler"
+    }
+  }
+}

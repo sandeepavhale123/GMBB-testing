@@ -1,0 +1,35 @@
+{
+  "title": "Branding de informes",
+  "subtitle": "Personaliza la apariencia de tus informes de leads",
+  "logo": {
+    "title": "Logo de la empresa",
+    "description": "Sube el logo de tu empresa para los informes",
+    "dropText": "Suelta tu logo aquí o haz clic para buscar",
+    "buttonText": "Elegir archivo",
+    "note": "Recomendado: formato PNG o JPG, máximo 2MB, 300x100px"
+  },
+  "colors": {
+    "title": "Esquema de colores",
+    "description": "Personaliza los colores de tu marca",
+    "primary": "Color primario",
+    "secondary": "Color secundario"
+  },
+  "companyInfo": {
+    "title": "Información de la empresa",
+    "description": "Detalles que aparecerán en tus informes",
+    "nameLabel": "Nombre de la empresa",
+    "namePlaceholder": "Ingresa el nombre de la empresa",
+    "websiteLabel": "Sitio web",
+    "websitePlaceholder": "https://tuempresa.com",
+    "phoneLabel": "Número de teléfono",
+    "phonePlaceholder": "+1 (555) 123-4567"
+  },
+  "preview": {
+    "title": "Vista previa",
+    "description": "Cómo se verá tu branding",
+    "lead": "Informe de leads"
+  },
+  "buttons": {
+    "save": "Guardar configuración de branding"
+  }
+}

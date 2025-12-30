@@ -1,0 +1,12 @@
+{
+  "editLogTab": {
+    "searchPlaceholder": "Rechercher dans les journaux de modifications...",
+    "searchButton": "Rechercher",
+    "resultsCount": "Affichage de {{count}} sur {{total}} journaux de modifications",
+    "errorLoad": "Échec du chargement des journaux de modifications",
+    "noData": "Aucun historique de modifications disponible",
+    "noSearchResults": "Aucun journal de modifications trouvé pour votre recherche",
+    "changedLabel": "Modifié",
+    "loading": "Chargement..."
+  }
+}

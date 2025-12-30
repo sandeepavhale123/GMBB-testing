@@ -1,0 +1,25 @@
+{
+  "brandingPage": {
+    "title": "Personalizzazione del Tema",
+    "subtitle": "Personalizza l'identità visiva della tua applicazione.",
+    "badge": "White Label",
+    "actions": {
+      "save": "Salva Modifiche",
+      "reset": "Reimposta Tema"
+    },
+    "messages": {
+      "reset": {
+        "title": "Tema Reimpostato",
+        "success": "Il tema è stato reimpostato con successo.",
+        "errorTitle": "Errore di Reimpostazione",
+        "errorDescription": "Impossibile reimpostare il tema. Riprova."
+      },
+      "save": {
+        "successTitle": "Tema aggiornato con successo",
+        "successDescription": "Il tuo tema è stato aggiornato.",
+        "errorTitle": "Errore nel salvataggio del tema",
+        "errorDescription": "Impossibile salvare il tema. Riprova più tardi."
+      }
+    }
+  }
+}

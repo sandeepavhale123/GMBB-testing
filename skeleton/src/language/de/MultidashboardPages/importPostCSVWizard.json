@@ -1,0 +1,84 @@
+{
+  "importPostCSVWizard": {
+    "title": "Beitrags-CSV importieren",
+    "steps": {
+      "1": "Einträge auswählen",
+      "2": "Datei hochladen",
+      "3": "Qualitätskontrolle",
+      "4": "Absenden"
+    },
+    "uploadError": "Upload-Fehler",
+    "stepCount": "Schritt {{currentStep}} von 4",
+    "selectListings": {
+      "heading": "Einträge auswählen",
+      "description": "Wählen Sie die Einträge und den Beitragstyp für Ihren Massenimport.",
+      "postTypeLabel": "Beitragstyp",
+      "postTypePlaceholder": "Dateityp auswählen",
+      "postTypeOptions": {
+        "0": "Dateityp auswählen",
+        "1": "Reguläre Beitragsdatei",
+        "2": "Event-Beitragsdatei",
+        "3": "Angebots-Beitragsdatei"
+      },
+      "next": "Weiter",
+      "generatingCSV": "CSV wird erstellt..."
+    },
+    "uploadFile": {
+      "heading": "Datei hochladen",
+      "description": "Laden Sie Ihre CSV-Datei für den Massenimport von Beiträgen hoch.",
+      "downloadSample": "Erstellte CSV-Datei herunterladen",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "uploading": "Wird hochgeladen..."
+    },
+    "qualityControl": {
+      "heading": "Qualitätskontrolle",
+      "description": "Überprüfen Sie die Validierungsergebnisse Ihrer hochgeladenen Datei.",
+      "uploadSummary": "Upload-Zusammenfassung",
+      "validationErrorsTitle": "Validierungsfehler gefunden – Bitte beheben und erneut hochladen",
+      "reuploadFile": "Datei erneut hochladen",
+      "allRowsValid": "Alle Zeilen erfolgreich validiert!",
+      "processedRows": "✓ {{count}} Zeilen verarbeitet",
+      "noErrors": "✓ Keine Validierungsfehler gefunden",
+      "readyForSubmission": "✓ Bereit zum Absenden",
+      "notesLabel": "Notizen (optional)",
+      "notesPlaceholder": "Fügen Sie Anmerkungen zu diesem Import hinzu...",
+      "submit": "Import absenden",
+      "saving": "Wird gespeichert...",
+      "fixErrors": "Fehler beheben, um fortzufahren"
+    },
+    "submit": {
+      "heading": "Herzlichen Glückwunsch!",
+      "description": "Alle Ihre Beiträge wurden erfolgreich in großen Mengen importiert.",
+      "goToDashboard": "Zum Haupt-Dashboard gehen",
+      "viewPostDetails": "Beitragsdetails anzeigen"
+    },
+    "row": "Zeile",
+    "error": "Fehler",
+    "file": "Datei",
+    "totalRows": "Gesamtzeilen",
+    "err": "Fehler",
+    "errors": {
+      "title": "Fehler",
+      "selectListing": "Bitte wählen Sie mindestens einen Eintrag aus.",
+      "selectPostType": "Bitte wählen Sie einen gültigen Beitragstyp aus.",
+      "selectFile": "Bitte wählen Sie eine Datei zum Hochladen aus.",
+      "noUploadedFile": "Keine hochgeladene Datei gefunden. Bitte laden Sie zuerst eine Datei hoch.",
+      "sampleNotAvailable": "Beispiel-CSV-Datei nicht verfügbar. Bitte gehen Sie zurück zu Schritt 1.",
+      "csvGenerateFailed": "CSV-Datei konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+      "uploadFailed": "Dateiupload fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "saveFailed": "Speichern der Massendatei fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "authFailed": "Authentifizierung fehlgeschlagen. Bitte melden Sie sich erneut an.",
+      "permissionDenied": "Sie haben keine Berechtigung, diese Aktion auszuführen.",
+      "serverError": "Serverfehler aufgetreten. Bitte versuchen Sie es später erneut."
+    },
+    "success": {
+      "title": "Erfolg",
+      "titleUpload": "Upload abgeschlossen",
+      "csvGenerated": "CSV-Datei erfolgreich erstellt",
+      "uploadSuccess": "Datei erfolgreich hochgeladen und validiert",
+      "uploadWithErrors": "Datei mit {{count}} Validierungsfehlern hochgeladen. Bitte überprüfen.",
+      "bulkSaveSuccess": "{{count}} Beiträge erfolgreich importiert"
+    }
+  }
+}

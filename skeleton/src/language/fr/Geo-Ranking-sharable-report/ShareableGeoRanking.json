@@ -1,0 +1,7 @@
+{
+  "reportNotFound": {
+    "title": "Rapport introuvable",
+    "description": "Ce rapport peut avoir expiré ou avoir été supprimé.",
+    "business": "Emplacement de l'entreprise"
+  }
+}

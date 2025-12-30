@@ -1,0 +1,14 @@
+{
+  "selectGoalStep": {
+    "title": "What are your main goals?",
+    "subtitle": "Select all that apply. We'll customize your experience based on your goals.",
+    "loadingMessage": "Loading your goals...",
+    "errorLoading": "Error loading goals",
+    "errorSaving": "Error saving goals",
+    "saving": "Saving...",
+    "saveSuccessTitle": "Goals saved successfully",
+    "saveSuccessDescription": "{{count}} goals have been saved.",
+    "continue": "Continue",
+    "continueWithCount": "Continue ({{count}} selected)"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "geoPositionModal": {
+    "toast": {
+      "copySuccess": {
+        "title": "Koordinaten kopiert!",
+        "description": "GPS-Koordinaten in die Zwischenablage kopiert"
+      },
+      "copyError": {
+        "title": "Kopieren fehlgeschlagen",
+        "description": "Koordinaten konnten nicht in die Zwischenablage kopiert werden"
+      }
+    },
+    "header": {
+      "copyButton": "Koordinaten kopieren",
+      "closeButton": "Modal schließen"
+    },
+    "content": {
+      "topResult": "Top-Ergebnis",
+      "loading": "Ergebnisse werden geladen...",
+      "noResults": "Keine Ergebnisse gefunden",
+      "yourBusiness": "Ihr Unternehmen",
+      "reviews": "{{count}} Bewertungen"
+    }
+  }
+}

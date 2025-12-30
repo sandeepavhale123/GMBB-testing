@@ -1,0 +1,60 @@
+{
+  "title": "Kontakt Hinzufügen",
+  "createGroup": {
+    "title": "Neue Gruppe erstellen",
+    "nameLabel": "Gruppenname",
+    "namePlaceholder": "Gruppenname eingeben",
+    "submitButton": "Erstellen"
+  },
+  "tabs": {
+    "manual": "Manuelle Eingabe",
+    "csv": "CSV Importieren"
+  },
+  "manual": {
+    "firstNameLabel": "Vorname",
+    "firstNamePlaceholder": "Vorname eingeben",
+    "lastNameLabel": "Nachname",
+    "lastNamePlaceholder": "Nachname eingeben",
+    "countryCodeLabel": "Ländervorwahl",
+    "countryCodePlaceholder": "Ländervorwahl auswählen",
+    "phoneLabel": "Telefonnummer",
+    "phonePlaceholder": "Telefonnummer eingeben",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "E-Mail-Adresse eingeben",
+    "submitButton": "Kontakt Hinzufügen"
+  },
+  "csv": {
+    "title": "Kontakte aus CSV Importieren",
+    "description": "Laden Sie eine CSV-Datei mit Kontaktinformationen hoch",
+    "downloadSample": "Beispiel-CSV Herunterladen",
+    "importButton": "Kontakte Importieren",
+    "fileColumns": "Erwartete Spalten: Vorname, Nachname, Ländervorwahl, Telefonnummer, E-Mail",
+    "selectGroupLabel": "Gruppe Auswählen",
+    "selectGroupPlaceholder": "Gruppe auswählen...",
+    "createNewGroup": "Neue Gruppe erstellen",
+    "newGroupPlaceholder": "Gruppenname eingeben",
+    "noGroups": "Keine Gruppen verfügbar"
+  },
+  "validation": {
+    "firstNameRequired": "Vorname ist erforderlich",
+    "firstNameMaxLength": "Vorname muss weniger als 50 Zeichen haben",
+    "lastNameRequired": "Nachname ist erforderlich",
+    "lastNameMaxLength": "Nachname muss weniger als 50 Zeichen haben",
+    "countryCodeRequired": "Ländervorwahl ist erforderlich",
+    "phoneRequired": "Telefonnummer ist erforderlich",
+    "phoneInvalid": "Telefonnummer muss 10-15 Ziffern haben",
+    "phoneNumeric": "Telefonnummer darf nur Ziffern enthalten",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "emailMaxLength": "E-Mail muss weniger als 255 Zeichen haben",
+    "csvRequired": "Bitte laden Sie eine CSV-Datei hoch"
+  },
+  "success": {
+    "contactAdded": "Kontakt erfolgreich hinzugefügt",
+    "contactsImported": "{{count}} Kontakte erfolgreich importiert"
+  },
+  "errors": {
+    "addFailed": "Fehler beim Hinzufügen des Kontakts. Bitte versuchen Sie es erneut.",
+    "importFailed": "Fehler beim Importieren der Kontakte. Bitte überprüfen Sie Ihre CSV-Datei."
+  },
+  "cancel": "Abbrechen"
+}

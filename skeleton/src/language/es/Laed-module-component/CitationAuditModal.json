@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Generar informe de auditoría de citas",
+    "description": "Complete los detalles del negocio para generar un informe completo de auditoría de citas.",
+    "form": {
+      "businessName": "Nombre del negocio *",
+      "businessNamePlaceholder": "Ingrese el nombre del negocio",
+      "phone": "Número de teléfono *",
+      "phonePlaceholder": "Ingrese el número de teléfono",
+      "keyword": "Palabra clave *",
+      "keywordPlaceholder": "Ingrese la palabra clave objetivo",
+      "city": "Ciudad *",
+      "cityPlaceholder": "Buscar ciudad"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "generate": "Generar informe",
+      "generating": "Generando..."
+    },
+    "errors": {
+      "cityRequired": "Por favor seleccione una ciudad válida",
+      "generateFailed": "No se pudo crear el informe de auditoría de citas"
+    },
+    "validation": {
+      "business": "El nombre del negocio es obligatorio.",
+      "phone": "El número de teléfono es obligatorio.",
+      "keyword": "La palabra clave es obligatoria.",
+      "city": "La ciudad es obligatoria."
+    }
+  }
+}

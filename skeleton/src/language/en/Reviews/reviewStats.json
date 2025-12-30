@@ -1,0 +1,14 @@
+{
+  "reviewStats": {
+    "cards": {
+      "totalReviews": "Total Reviews",
+      "pendingReplies": "Pending Replies",
+      "aiReplies": "AI Replies",
+      "manualReplies": "Manual Replies"
+    },
+    "loading": {
+      "skeletonTitle": "Loading...",
+      "skeletonValue": "Please wait"
+    }
+  }
+}

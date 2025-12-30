@@ -1,0 +1,49 @@
+{
+  "manageGoogleAccountPage": {
+    "pageTitle": "Manage Google Account",
+    "pageDescription": "Connect and monitor your Google Business Profiles to maximize local visibility and SEO performance.",
+    "searchPlaceholder": "Search accounts by name or email",
+    "activeListingsBadge": "Active Listings: {{active}}/{{allowed}}",
+    "addNewAccount": {
+      "full": "Add New Account",
+      "short": "Add"
+    },
+    "errorState": {
+      "tryAgain": "Try Again"
+    },
+    "loading": "Loading...",
+    "emptyState": {
+      "noAccountsConnected": "No accounts connected",
+      "noAccountsFound": "No accounts found",
+      "searchNoMatch": "No accounts match \"{searchTerm}\". Try a different search term.",
+      "addAccountCTA": "Click 'Add New Account' to sync your Google Business Profile."
+    },
+    "modals": {
+      "addAccount": "Add Account",
+      "deleteAccount": {
+        "title": "Delete Account",
+        "confirm": "Confirm Delete",
+        "accountDeleted": "The Google account \"{accountName}\" has been successfully deleted.",
+        "deleteTitle":"Delete Failed",
+        "deleteFailed": "Failed to delete the account. Please try again.",
+        "noEmail": "No email available",
+        "deleteSuccess":"Account Deleted",
+        "successDesc":"The Google account {{name}} has been successfully deleted."
+      },
+      "refreshAccount": {
+        "title": "Account Refreshed",
+        "updateTitle":"Update Failed",
+        "updateSuccess": "Listing Groups Updated",
+        "updateFailed": "Failed to update listing groups. Please try again.",
+        "refreshTitle":"Refresh Failed",
+        "refreshFailed": "Failed to refresh the account. Please try again."
+      }
+    },
+    "tableHeaders": {
+      "account": "Account",
+      "totalListings": "Total Listings",
+      "connectedListings": "Connected Listings",
+      "actions": "Actions"
+    }
+  }
+}

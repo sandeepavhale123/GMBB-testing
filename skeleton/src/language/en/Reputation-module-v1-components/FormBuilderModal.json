@@ -1,0 +1,33 @@
+{
+  "title": "Form Builder",
+  "formFields": "Form Fields",
+  "addField": "Add Field",
+  "editField": "Edit Field",
+  "newField":"New Field",
+  "label": "Label *",
+  "fieldName": "Field Name *",
+  "fieldType": "Field Type *",
+  "fieldlabel":"Field label",
+  "placeholder": "Placeholder",
+  "plText":"Placeholder text",
+  "fieldPlace":"field_name",
+  "requiredField": "Required field",
+  "options": "Options",
+  "enterOptions": "Enter one option per line",
+  "selectFieldToEdit": "Select a field to edit or add a new field",
+  "cancel": "Cancel",
+  "saveChanges": "Save Changes",
+  "cannotRemove": "This field cannot be removed",
+  "removeField": "Remove field",
+  "requiredDot": "• Required",
+  "fieldTypes": {
+    "text": "Text",
+    "email": "Email",
+    "textarea": "Textarea",
+    "number": "Number",
+    "date": "Date",
+    "select": "Select",
+    "radio": "Radio",
+    "checkboxGroup": "Checkbox Group"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "publicCitationReport": {
+    "title": "Informe de Rendimiento de Citaciones",
+    "tracker": {
+      "cardTitle": "Rastreador de Citaciones",
+      "listed": "Listado",
+      "notListed": "No listado"
+    },
+    "localPages": {
+      "title": "Páginas y Directorios Locales",
+      "description": "Tu puntuación de páginas y directorios locales se basa en el número de lugares en los que aparece tu listado, dividido por el número de páginas y directorios locales que hemos verificado."
+    },
+    "notmatch": "No coincide",
+    "audit": {
+      "title": "Auditoría de Citaciones",
+      "placeOrder": "Realizar pedido",
+      "tabs": {
+        "existing": "Citaciones Existentes",
+        "possible": "Citaciones Posibles"
+      }
+    },
+    "table": {
+      "existing": {
+        "website": "Sitio web",
+        "businessName": "Nombre del negocio",
+        "phone": "Teléfono",
+        "action": "Acción",
+        "view": "Ver"
+      },
+      "possible": {
+        "siteName": "Nombre del sitio",
+        "action": "Acción",
+        "fixNow": "Corregir ahora"
+      }
+    }
+  }
+}

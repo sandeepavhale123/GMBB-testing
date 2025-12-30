@@ -1,0 +1,44 @@
+{
+  "title": "Informe de Reseñas",
+  "loading": "Cargando informe de reseñas...",
+  "error": "Error al cargar el informe de reseñas",
+  "overview": {
+    "averageRating": "Calificación Promedio",
+    "totalReviews": "Total de Reseñas",
+    "manualReply": "Responder Manualmente",
+    "aiReply": "Respuesta con IA"
+  },
+  "sections": {
+    "ratingSummary": "Resumen de Conteo de Calificaciones",
+    "sentimentAnalysis": "Análisis de Sentimiento",
+    "reviewTrends": "Tendencias de Reseñas a lo Largo del Tiempo",
+    "reviewDataSummary": "Resumen de Datos de Reseñas",
+    "recentReviews": "Reseñas Recientes",
+    "reviews": "Reseñas"
+  },
+  "chart": {
+    "totalReviews": "Total de Reseñas",
+    "star5": "5 Estrellas",
+    "star4": "4 Estrellas",
+    "star3": "3 Estrellas",
+    "star2": "2 Estrellas",
+    "star1": "1 Estrella"
+  },
+  "labels": {
+    "star": "Estrella",
+    "reviews": "reseñas",
+    "reviewDate": "Fecha de Reseña",
+    "totalReview": "Reseña Total",
+    "fiveStar": "Calificación de 5 Estrellas",
+    "fourStar": "Calificación de 4 Estrellas",
+    "threeStar": "Calificación de 3 Estrellas",
+    "twoStar": "Calificación de 2 Estrellas",
+    "oneStar": "Calificación de 1 Estrella",
+    "positive": "Positivas",
+    "neutral": "Neutras",
+    "negative": "Negativas",
+    "noData": "No hay datos disponibles",
+    "vsPrevious": "vs período anterior"
+  },
+  "noresponse": "Sin respuesta"
+}

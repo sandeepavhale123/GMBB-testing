@@ -1,0 +1,52 @@
+{
+  "GeoRankingMapSection": {
+    "title": "GEO-Raster-Rangkarte",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Raster",
+      "distance": "Entfernung",
+      "engine": "Suchmaschine",
+      "engineValue": "Google Maps",
+      "frequency": "Häufigkeit"
+    },
+    "loading": {
+      "title": "Kartendaten werden geladen",
+      "description": "Rasterkoordinaten werden generiert..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Positionsübersicht"
+    },
+    "frequencyOptions": {
+      "one": "Einmalig",
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "monthly": "Monatlich"
+    },
+    "distanceMap": {
+      "label1": "100 Meter",
+      "label2": "200 Meter",
+      "label3": "500 Meter",
+      "label4": "1 Kilometer",
+      "label5": "2,5 Kilometer",
+      "label6": "5 Kilometer",
+      "label7": "10 Kilometer",
+      "label8": "25 Kilometer",
+      "label9": "0,1 Meilen",
+      "label10": "0,25 Meilen",
+      "label11": "0,5 Meilen",
+      "label12": "0,75 Meilen",
+      "label13": "1 Meile",
+      "label14": "2 Meilen",
+      "label15": "3 Meilen",
+      "label16": "5 Meilen",
+      "label17": "8 Meilen",
+      "label18": "10 Meilen"
+    },
+    "view": "Alle Schlüsselwörter anzeigen"
+  }
+}

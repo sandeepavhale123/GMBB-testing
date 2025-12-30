@@ -1,0 +1,38 @@
+{
+  "publicMediaReport": {
+    "title": "Rapport sur la performance des médias",
+    "loading": {
+      "message": "Chargement du rapport des médias..."
+    },
+    "error": {
+      "title": "Erreur lors du chargement du rapport",
+      "description": "Échec du chargement du rapport sur la performance des médias. Veuillez réessayer plus tard.",
+      "retry": "Réessayer"
+    },
+    "overviewStats": {
+      "totalMedia": "Total des médias",
+      "totalPhotos": "Total des photos",
+      "totalVideos": "Total des vidéos",
+      "compareText": "{{value}}% par rapport au précédent"
+    },
+    "charts": {
+      "mediaPerformance": "Performance des publications de médias au fil du temps"
+    },
+    "chartLabels": {
+      "currentUploads": "Téléversements de la période actuelle",
+      "previousUploads": "Téléversements de la période précédente"
+    },
+    "recentMedia": {
+      "title": "Médias",
+      "noData": "Aucune donnée disponible",
+      "noImage": "Aucune image",
+      "publishedOn": "Publié le {{date}}",
+      "view": "Voir"
+    },
+    "mediaType": {
+      "image": "Image",
+      "video": "Vidéo",
+      "default": "Média"
+    }
+  }
+}

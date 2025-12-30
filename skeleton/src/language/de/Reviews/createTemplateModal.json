@@ -1,0 +1,34 @@
+{
+  "createTemplateModal": {
+    "title": "Vorlage bearbeiten",
+    "leftPanel": {
+      "title": "Personalisieren",
+      "subtitle": "Ihre Antwortvorlagen",
+      "description": "Sie können beim Erstellen Ihrer Vorlagen die folgenden Variablen verwenden, um Ihre Antworten dynamischer und persönlicher zu gestalten:",
+      "variables": {
+        "fullName": " – Zeigt den vollständigen Namen des Bewerters an.",
+        "firstName": " – Zeigt den Vornamen des Bewerters an.",
+        "lastName": " – Zeigt den Nachnamen des Bewerters an.",
+        "ownerName": " – Zeigt Ihren (des Geschäftsinhabers) Namen an."
+      }
+    },
+    "form": {
+      "selectRatingLabel": "Bewertung auswählen",
+      "ratingOption": "{{count}} Stern",
+      "ratingOption_plural": "{{count}} Sterne",
+      "textareaPlaceholder": "Geben Sie Ihre Vorlage ein..."
+    },
+    "footer": {
+      "close": "Schließen",
+      "save": "Änderungen speichern",
+      "saving": "Speichert..."
+    },
+    "defaultTemplates": {
+      "5": "Vielen Dank, {first_name}, für Ihre fantastische 5-Sterne-Bewertung! 🌟 Es ist wirklich wunderbar zu hören, dass Sie eine großartige Erfahrung mit uns gemacht haben. Ihre freundlichen Worte bedeuten mir und dem Team sehr viel.\n\n~ {owner_name}",
+      "4": "Hallo {first_name}, vielen Dank für die 4-Sterne-Bewertung! Wir freuen uns, dass Sie eine positive Erfahrung mit uns gemacht haben. Wir würden gerne wissen, wie wir das nächste Mal eine 5-Sterne-Erfahrung für Sie schaffen können!\n\n~ {owner_name}",
+      "3": "Hallo {first_name}, danke, dass Sie sich die Zeit für eine 3-Sterne-Bewertung genommen haben. Wir schätzen Ihr Feedback und möchten gerne verstehen, wie wir Ihre Erfahrung verbessern können.\n\n~ {owner_name}",
+      "2": "Hallo {first_name}, danke für Ihre 2-Sterne-Bewertung. Es tut uns leid zu hören, dass Ihre Erfahrung nicht unseren Standards entsprach. Wir würden uns freuen, die Möglichkeit zu bekommen, dies zu verbessern.\n\n~ {owner_name}",
+      "1": "Hallo {first_name}, es tut uns sehr leid, Ihre 1-Sterne-Bewertung zu sehen. Das ist definitiv nicht die Erfahrung, die wir unseren Kunden bieten möchten. Bitte kontaktieren Sie uns direkt, damit wir das sofort klären können.\n\n~ {owner_name}"
+    }
+  }
+}

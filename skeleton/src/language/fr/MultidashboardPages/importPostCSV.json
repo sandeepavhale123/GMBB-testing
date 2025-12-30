@@ -1,0 +1,38 @@
+{
+  "importPostCSV": {
+    "title": "Gestion des publications en masse",
+    "importButton": "Importer un fichier CSV",
+    "searchPlaceholder": "Rechercher par nom de fichier ou note...",
+    "noRecordsFound": "Aucun enregistrement trouvé pour votre recherche.",
+    "noCSVFound": "Aucune importation CSV trouvée. Cliquez sur \"Importer\" pour commencer.",
+    "tableHeaders": {
+      "filename": "Nom du fichier",
+      "note": "Note",
+      "date": "Date",
+      "totalPosts": "Total des publications",
+      "listingsApplied": "Fiches appliquées",
+      "status": "Statut",
+      "action": "Action",
+      "listing": "Fiches"
+    },
+    "status": {
+      "completed": "terminé",
+      "processing": "en traitement",
+      "failed": "échec"
+    },
+    "deleteDialog": {
+      "title": "Supprimer l'importation CSV",
+      "description": "Êtes-vous sûr de vouloir supprimer l'enregistrement d'importation pour \"{{filename}}\" ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleting": "Suppression..."
+    },
+    "toast": {
+      "successTitle": "Succès",
+      "successMessage": "Enregistrement supprimé avec succès",
+      "errorTitle": "Erreur",
+      "errorMessage": "Échec de la suppression de l'enregistrement"
+    },
+    "paginationInfo": "Affichage de {{start}} à {{end}} sur {{total}} entrées"
+  }
+}

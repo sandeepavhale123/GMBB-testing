@@ -1,0 +1,12 @@
+{
+  "customerInteractionsTitle": "Customer Interactions",
+  "view":"View All",
+  "callsLabel": "Calls",
+  "websiteLabel": "Website",
+  "directionLabel": "Direction",
+  "messagesLabel": "Messages",
+  "desktopSearchLabel": "Desktop Search",
+  "desktopMapLabel": "Desktop Map",
+  "mobileSearchLabel": "Mobile Search",
+  "mobileMapLabel": "Mobile Map"
+}

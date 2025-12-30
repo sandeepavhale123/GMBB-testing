@@ -1,0 +1,26 @@
+{
+  "top20": {
+    "title": "Analyse des 20 meilleurs concurrents",
+    "searchAnalysis": "Analyse de recherche",
+    "keyword": "Mot-clé",
+    "location": "Localisation",
+    "yourPositionTitle": "Votre position",
+    "totalCompetitors": "Nombre total de concurrents",
+    "review": "avis",
+    "yourRank": "Votre classement",
+    "yourRating": "Votre note",
+    "avgCompetitorRating": "Note moyenne des concurrents",
+    "comparisonAnalysis": "Analyse comparative",
+    "rank": "Classement",
+    "businessName": "Nom de l’entreprise",
+    "category": "Catégorie",
+    "website": "Site web",
+    "rating": "Note",
+    "reviews": "Avis",
+    "keywordMatch": "Correspondance du mot-clé",
+    "yes": "Oui",
+    "no": "Non",
+    "you": "VOUS",
+    "yourBusiness": "(Votre entreprise)"
+  }
+}

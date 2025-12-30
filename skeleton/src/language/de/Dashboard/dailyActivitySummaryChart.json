@@ -1,0 +1,14 @@
+{
+  "title": "Tägliche Aktivitätsübersicht",
+  "subtitle": "Letzte 30 Tage",
+  "buttons": {
+    "line": "Linie",
+    "area": "Fläche"
+  },
+  "labels": {
+    "posts": "Beiträge",
+    "mediaResponded": "Medien beantwortet",
+    "reviews": "Bewertungen",
+    "qa": "Fragen & Antworten"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "editTeamMemberSettings": {
+    "loading": {
+      "text": "Cargando miembro del equipo..."
+    },
+    "errors": {
+      "editError": "Error al cargar el miembro del equipo",
+      "notFound": "Miembro del equipo no encontrado",
+      "listingsError": "Error al cargar los listados: {{error}}",
+      "updateProfile": "Error al actualizar el perfil",
+      "updateListings": "Error al actualizar las asignaciones de listados",
+      "updateListing": "Error al actualizar la asignación de listado"
+    },
+    "buttons": {
+      "back": "Volver",
+      "backToTeamMembers": "Volver a Miembros del Equipo",
+      "saveChanges": "Guardar Cambios",
+      "saving": "Guardando...",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "tabs": {
+      "profile": "Perfil",
+      "assignListings": "Asignar listados"
+    },
+    "profile": {
+      "title": "Editar Miembro del Equipo",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Dejar vacío para mantener la contraseña actual",
+      "role": "Seleccionar Rol",
+      "roles": {
+        "moderator": "Moderador",
+        "staff": "Personal",
+        "client": "Cliente"
+      }
+    },
+    "listings": {
+      "title": "Gestión de Listados",
+      "filter": {
+        "googleAccount": "Cuenta de Google",
+        "searchPlaceholder": "Buscar cuentas...",
+        "noAccounts": "No se encontraron cuentas",
+        "assignedListings": "Listados Asignados"
+      },
+      "table": {
+        "businessName": "Nombre del Negocio",
+        "account": "Cuenta",
+        "assign": "Asignar",
+        "loading": "Cargando listados...",
+        "noListings": "No se encontraron listados para la cuenta seleccionada"
+      },
+      "pagination": {
+        "pageInfo": "Página {{current}} de {{total}} • {{count}} listados",
+        "show": "Mostrar:",
+        "page": "Página",
+        "of": "de"
+      },
+      "badge": {
+        "assigned": "{{count}} Asignados"
+      }
+    },
+    "toasts": {
+      "success": {
+        "title": "Éxito",
+        "profileUpdated": "Perfil del miembro del equipo actualizado con éxito",
+        "listingsUpdated": "Asignaciones de listados actualizadas con éxito",
+        "listingUpdated": "Asignación de listado actualizada con éxito"
+      },
+      "error": {
+        "title": "Error",
+        "profileUpdate": "Error al actualizar el perfil",
+        "listingsUpdate": "Error al actualizar las asignaciones de listados"
+      }
+    },
+    "totalReplies": "Total de respuestas"
+  }
+}

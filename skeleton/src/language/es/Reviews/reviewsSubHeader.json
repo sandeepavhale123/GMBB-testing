@@ -1,0 +1,15 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Resumen de Reseñas",
+      "autoResponse": "Respuesta Automática"
+    },
+    "replySettingBadge": {
+      "prefix": "Configuración de respuesta automática activada: ",
+      "AI": "Respuesta AI",
+      "CUSTOM": "Plantilla Personalizada",
+      "DNR": "No Responder"
+    },
+    "export": "Exportar Reseñas"
+  }
+}

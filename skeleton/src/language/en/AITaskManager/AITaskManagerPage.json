@@ -1,0 +1,70 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Pending Tasks",
+      "completed": "Completed Tasks",
+      "oneTime": "One-time Tasks",
+      "recurring": "Recurring Tasks"
+    },
+
+    "tabs": {
+      "pending": "Pending ({{count}})",
+      "completed": "Completed ({{count}})",
+      "all": "All Tasks ({{count}})",
+      "recurring": "Recurring ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Frequency: {{value}}",
+      "status": {
+        "pending": "pending",
+        "inProgress": "in progress",
+        "completed": "completed",
+        "due": "due",
+        "oneTime": "one-time"
+      },
+      "type": {
+        "one-time": "one-time",
+        "recurring": "recurring"
+      },
+      "priority": {
+        "high": "High Priority"
+      },
+      "actions": {
+        "fix": "Fix",
+        "inProgress": "In Progress",
+        "markCompleted": "Mark Completed",
+        "revert": "Revert"
+      }
+    },
+
+    "loading": {
+      "title": "Loading AI Tasks",
+      "description": "Fetching your latest tasks..."
+    },
+
+    "noListing": {
+      "message": "No listing selected. Please select a listing to view AI tasks."
+    },
+
+    "emptyState": {
+      "title": "No tasks found",
+      "completedMessage": "Great job! Complete some tasks to see them here.",
+      "defaultMessage": "No tasks match the current filter."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Error",
+        "default": "Failed to revert task."
+      },
+      "success": {
+        "title": "Success"
+      },
+      "reverted": {
+        "title": "Reverted",
+        "message": "Task reverted to pending."
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "status": {
+    "published": "Live",
+    "scheduled": "Geplant",
+    "draft": "Entwurf",
+    "failed": "Fehlgeschlagen"
+  },
+  "toast": {
+    "errorTitle": "Fehler",
+    "noListingSelected": "Keine Unternehmensliste ausgewählt. Bitte wählen Sie zuerst eine Liste aus.",
+    "deletingPost": "Beitrag wird gelöscht...",
+    "preparingDeletion": "Löschen wird vorbereitet...",
+    "finalizing": "Abschluss...",
+    "successTitle": "Beitrag erfolgreich gelöscht",
+    "successDescription": "Löschung abgeschlossen",
+    "failedTitle": "Beitrag konnte nicht gelöscht werden",
+    "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  },
+  "dialog": {
+    "deleteTitle": "Beitrag löschen",
+    "deleteDescription": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "deleting": "Wird gelöscht..."
+  },
+  "ui": {
+    "untitled": "Unbenannter Beitrag",
+    "openOnGoogle": "Auf Google öffnen"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "reportBranding": {
+    "title": "Marca del Informe",
+    "form": {
+      "companyName": {
+        "label": "Nombre de la Empresa",
+        "placeholder": "Ingresa el nombre de la empresa"
+      },
+      "companyEmail": {
+        "label": "Correo Electrónico de la Empresa",
+        "placeholder": "empresa@ejemplo.com"
+      },
+      "companyWebsite": {
+        "label": "Sitio Web de la Empresa",
+        "placeholder": "https://www.empresa.com"
+      },
+      "companyPhone": {
+        "label": "Teléfono de la Empresa",
+        "placeholder": "+1 (555) 123-4567"
+      },
+      "companyAddress": {
+        "label": "Dirección de la Empresa",
+        "placeholder": "123 Business St, Ciudad, Estado 12345"
+      }
+    },
+    "logo": {
+      "label": "Subir Logotipo",
+      "description": "PNG, JPG, SVG de hasta 2MB. Recomendado: 200x80px",
+      "chooseButton": "Elegir Logotipo",
+      "selectedFile": "Seleccionado: {{fileName}}",
+      "ready": "✓ Listo",
+      "dropHere": "Suelta el logotipo aquí para subirlo"
+    },
+    "toast": {
+      "fileTooLargeTitle": "Archivo demasiado grande",
+      "fileTooLargeDescription": "El archivo del logotipo debe ser menor de 2MB",
+      "invalidFileTitle": "Tipo de archivo no válido",
+      "invalidFileDescription": "Por favor, sube un archivo de imagen (PNG, JPG, SVG)",
+      "uploadedTitle": "Logotipo del informe subido",
+      "uploadedDescription": "{{fileName}} listo para usar",
+      "removedTitle": "Logotipo del informe eliminado",
+      "removedDescription": "El logotipo se ha eliminado correctamente"
+    }
+  }
+}

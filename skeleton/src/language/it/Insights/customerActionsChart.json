@@ -1,0 +1,19 @@
+{
+  "customerActionsChart": {
+    "title": "Azioni dei clienti",
+    "description": "Azioni intraprese dai clienti sul tuo profilo.",
+    "metrics": {
+      "website": "Sito web",
+      "direction": "Indicazioni",
+      "messages": "Messaggi",
+      "calls": "Chiamate"
+    },
+    "chart": {
+      "barLabel": "Azioni"
+    },
+    "tooltips": {
+      "hide": "Nascondi {{metric}}",
+      "show": "Mostra {{metric}}"
+    }
+  }
+}

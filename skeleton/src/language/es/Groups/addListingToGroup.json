@@ -1,0 +1,12 @@
+{
+  "title": "Agregar Listados a {{groupName}}",
+  "noListingsTitle": "No se seleccionaron listados",
+  "noListingsDescription": "Por favor, seleccione al menos un listado para agregar al grupo.",
+  "successTitle": "Éxito",
+  "successDescription": "Se agregaron correctamente {{count}} listado{{plural}} a {{groupName}}. Total de listados: {{total}}",
+  "errorTitle": "Error",
+  "errorDescription": "No se pudieron agregar los listados al grupo. Por favor, inténtelo de nuevo.",
+  "cancel": "Cancelar",
+  "adding": "Agregando...",
+  "addListings": "Agregar {{count}} Listado{{plural}}"
+}

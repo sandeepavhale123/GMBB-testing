@@ -1,0 +1,22 @@
+{
+  "error": {
+    "message": "Error al cargar los datos del resumen",
+    "retry": "Reintentar"
+  },
+  "stats": {
+    "totalReviews": "Total de Reseñas",
+    "pendingReplies": "Respuestas Pendientes",
+    "aiReplies": "Respuestas de IA",
+    "manualReplies": "Respuestas Manuales"
+  },
+  "overallRating": {
+    "title": "Calificación General",
+    "reviewsAcross": "{{count}} reseñas en todos los listados"
+  },
+  "activitySummary": {
+    "title": "Resumen de Actividad",
+    "aiResponses": "Respuestas de IA",
+    "manualResponses": "Respuestas Manuales",
+    "pending": "Pendientes"
+  }
+}

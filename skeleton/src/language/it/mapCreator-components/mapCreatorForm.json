@@ -1,0 +1,46 @@
+{
+  "fields": {
+    "mapUrl": {
+      "label": "URL della Mappa",
+      "tooltip": "Inserisci un URL di Google Maps con la posizione dell’attività",
+      "placeholder": "https://www.google.com/maps/place/...",
+      "loading": "Recupero delle coordinate..."
+    },
+    "keywords": {
+      "label": "Parole Chiave",
+      "tooltip": "Inserisci parole chiave separate da virgola (es: pizza, ristorante italiano)",
+      "placeholder": "pizza, ristorante italiano, pasta"
+    },
+    "radius": {
+      "label": "Raggio",
+      "tooltip": "Seleziona il raggio di ricerca intorno alla posizione dell’attività",
+      "placeholder": "Seleziona il raggio"
+    },
+    "distance": {
+      "label": "Distanza",
+      "tooltip": "Seleziona un valore di distanza inferiore al raggio",
+      "placeholder": "Seleziona la distanza",
+      "loading": "Generazione delle coordinate..."
+    },
+    "description": {
+      "label": "Descrizione (Spin text consentito)",
+      "tooltip": "Inserisci una descrizione. Spin text supportato: {opzione1|opzione2|opzione3}",
+      "placeholder": "Inserisci descrizione"
+    },
+    "businessDetails": {
+      "label": "Dettagli Attività",
+      "tooltip": "Inserisci i dettagli nel formato: Nome Attività - URL",
+      "placeholder": "Inserisci dettagli dell’attività"
+    },
+    "relatedSearches": {
+      "label": "Ricerche Correlate",
+      "tooltip": "Inserisci ricerche correlate separate da virgole",
+      "placeholder": "Inserisci ricerche correlate"
+    }
+  },
+  "actions": {
+    "generate": "Genera CSV",
+    "generating": "Generazione...",
+    "reset": "Ripristina"
+  }
+}

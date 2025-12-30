@@ -1,0 +1,7 @@
+{
+  "listingManagementError": {
+    "pageTitle": "Gérer les fiches",
+    "tryAgainButton": "Réessayer",
+    "errorMessage": "{{error}}"
+  }
+}

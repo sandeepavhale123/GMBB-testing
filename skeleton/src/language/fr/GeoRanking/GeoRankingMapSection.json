@@ -1,0 +1,52 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Carte de classement GEO Grid",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Grille",
+      "distance": "Distance",
+      "engine": "Moteur",
+      "engineValue": "Google Maps",
+      "frequency": "Fréquence"
+    },
+    "loading": {
+      "title": "Chargement des données de la carte",
+      "description": "Génération des coordonnées de la grille..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Résumé de la position"
+    },
+    "frequencyOptions": {
+      "one": "Une fois",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel"
+    },
+    "distanceMap": {
+      "label1": "100 mètres",
+      "label2": "200 mètres",
+      "label3": "500 mètres",
+      "label4": "1 kilomètre",
+      "label5": "2,5 kilomètres",
+      "label6": "5 kilomètres",
+      "label7": "10 kilomètres",
+      "label8": "25 kilomètres",
+      "label9": "0,1 miles",
+      "label10": "0,25 miles",
+      "label11": "0,5 miles",
+      "label12": "0,75 miles",
+      "label13": "1 mile",
+      "label14": "2 miles",
+      "label15": "3 miles",
+      "label16": "5 miles",
+      "label17": "8 miles",
+      "label18": "10 miles"
+    },
+    "view": "Voir tous les mots-clés"
+  }
+}

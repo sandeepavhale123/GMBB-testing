@@ -1,0 +1,9 @@
+{
+  "aiActionButtons": {
+    "generating": "Generando...",
+    "generateImage": "Generar Imagen",
+    "regenerate": "Regenerar",
+    "processing": "Procesando...",
+    "useThis": "Usar Esto"
+  }
+}

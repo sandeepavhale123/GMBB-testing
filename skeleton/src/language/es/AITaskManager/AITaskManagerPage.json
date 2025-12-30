@@ -1,0 +1,70 @@
+{
+  "AITaskManagerPage": {
+    "summaryCards": {
+      "pending": "Tareas pendientes",
+      "completed": "Tareas completadas",
+      "oneTime": "Tareas únicas",
+      "recurring": "Tareas recurrentes"
+    },
+
+    "tabs": {
+      "pending": "Pendientes ({{count}})",
+      "completed": "Completadas ({{count}})",
+      "all": "Todas las tareas ({{count}})",
+      "recurring": "Recurrentes ({{count}})"
+    },
+
+    "task": {
+      "frequency": "Frecuencia: {{value}}",
+      "status": {
+        "pending": "pendiente",
+        "inProgress": "en progreso",
+        "completed": "completada",
+        "due": "vencida",
+        "oneTime": "única"
+      },
+      "type": {
+        "one-time": "única",
+        "recurring": "recurrente"
+      },
+      "priority": {
+        "high": "Alta prioridad"
+      },
+      "actions": {
+        "fix": "Corregir",
+        "inProgress": "En progreso",
+        "markCompleted": "Marcar como completada",
+        "revert": "Revertir"
+      }
+    },
+
+    "loading": {
+      "title": "Cargando tareas AI",
+      "description": "Recuperando tus últimas tareas..."
+    },
+
+    "noListing": {
+      "message": "No se ha seleccionado ninguna ficha. Por favor, selecciona una ficha para ver las tareas AI."
+    },
+
+    "emptyState": {
+      "title": "No se encontraron tareas",
+      "completedMessage": "¡Buen trabajo! Completa algunas tareas para verlas aquí.",
+      "defaultMessage": "Ninguna tarea coincide con el filtro actual."
+    },
+
+    "toasts": {
+      "error": {
+        "title": "Error",
+        "default": "No se pudo revertir la tarea."
+      },
+      "success": {
+        "title": "Éxito"
+      },
+      "reverted": {
+        "title": "Revertida",
+        "message": "Tarea revertida a pendiente."
+      }
+    }
+  }
+}

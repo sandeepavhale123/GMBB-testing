@@ -1,0 +1,29 @@
+{
+  "sentiment": {
+    "positive": "Positive",
+    "negative": "Negative",
+    "neutral": "Neutral"
+  },
+  "rating": {
+    "outOf": "{{rating}}/5"
+  },
+  "reply": {
+    "label": "Reply",
+    "aiReply": "AI Reply",
+    "editReply": "Edit Reply",
+    "deleteReply": "Delete Reply",
+    "cancel": "Cancel",
+    "deleteConfirmTitle": "Delete Reply",
+    "deleteConfirmDescription": "Are you sure you want to delete this reply? This action cannot be undone and the reply will be permanently removed from the review.",
+    "repliedOn": "Replied on {{date}}",
+    "deleting": "Deleting..."
+  },
+  "buttons": {
+    "ai": "AI",
+    "reply": "Reply",
+    "delete": "Delete"
+  },
+  "placeholders": {
+    "noComment": "No comment provided"
+  }
+}

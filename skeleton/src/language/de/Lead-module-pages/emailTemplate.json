@@ -1,0 +1,51 @@
+{
+  "title": "E-Mail-Vorlagen",
+  "subtitle": "Erstellen und verwalten Sie Ihre E-Mail-Vorlagen",
+  "newTemplate": "Neue Vorlage",
+
+  "templateList": {
+    "title": "Vorlagen",
+    "description": "Verwalten Sie Ihre E-Mail-Vorlagen"
+  },
+
+  "editor": {
+    "title": "Vorlagen-Editor",
+    "description": "Bearbeiten Sie den Inhalt Ihrer E-Mail-Vorlage",
+    "nameLabel": "Vorlagenname",
+    "namePlaceholder": "Vorlagenname eingeben",
+    "subjectLabel": "Betreffzeile",
+    "subjectPlaceholder": "E-Mail-Betreff eingeben",
+    "contentLabel": "E-Mail-Inhalt",
+    "contentPlaceholder": "Geben Sie hier den E-Mail-Inhalt ein...",
+    "variablesTitle": "Verfügbare Variablen"
+  },
+
+  "buttons": {
+    "preview": "Vorschau",
+    "saveDraft": "Als Entwurf speichern",
+    "saveActivate": "Speichern & Aktivieren"
+  },
+
+  "statuses": {
+    "Active": "Aktiv",
+    "Draft": "Entwurf",
+    "Inactive": "Inaktiv"
+  },
+
+  "template": {
+    "welcome": "Willkommens-E-Mail",
+    "welcomeMod": "vor 2 Tagen",
+    "follow": "Follow-up-Sequenz",
+    "followMod": "vor 1 Woche",
+    "news": "Newsletter-Vorlage",
+    "newsMod": "vor 3 Tagen",
+    "promo": "Werbeangebot",
+    "promoMod": "vor 2 Wochen"
+  },
+
+  "input": {
+    "email": "Willkommens-E-Mail",
+    "subject": "Willkommen bei unserem Service!",
+    "emailContent": "Hallo {{firstName}},\n\nWillkommen bei unserem Service! Wir freuen uns, Sie an Bord zu haben.\n\nDas können Sie erwarten:\n- Personalisierte Lead-Verwaltung\n- Erweiterte Analysen und Berichte\n- 24/7 Kundensupport\n\nWenn Sie Fragen haben, können Sie sich gerne an uns wenden.\n\nMit freundlichen Grüßen,\nDas Team"
+  }
+}

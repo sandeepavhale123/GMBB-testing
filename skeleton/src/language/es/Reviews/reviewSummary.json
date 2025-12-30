@@ -1,0 +1,29 @@
+{
+  "reviewSummary": {
+    "errors": {
+      "failedTitle": "Error al Cargar el Resumen de Reseñas",
+      "failedDescription": "Algo salió mal al cargar el resumen de reseñas.",
+      "retry": "Intentar de Nuevo"
+    },
+    "stats": {
+      "totalReviews": "Total de Reseñas",
+      "pendingReplies": "Respuestas Pendientes",
+      "aiReplies": "Respuestas AI",
+      "manualReplies": "Respuestas Manuales"
+    },
+    "overallRating": {
+      "title": "Calificación General",
+      "reviewsLabel": "{{count}} reseñas"
+    },
+    "sentiment": {
+      "title": "Análisis de Sentimiento",
+      "positive": "Positivo",
+      "neutral": "Neutral",
+      "negative": "Negativo"
+    },
+    "loading": {
+      "skeletonTitle": "Cargando...",
+      "skeletonSubtitle": "Por favor, espere mientras obtenemos sus datos"
+    }
+  }
+}

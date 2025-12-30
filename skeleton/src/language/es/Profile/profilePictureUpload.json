@@ -1,0 +1,11 @@
+{
+  "upload": {
+    "click": "Haz clic para subir o arrastra y suelta",
+    "drag": "o arrastra y suelta",
+    "fileTypes": "PNG, JPG, GIF hasta 10MB",
+    "chooseFile": "Elegir Archivo"
+  },
+  "preview": {
+    "sizeUnit": "MB"
+  }
+}

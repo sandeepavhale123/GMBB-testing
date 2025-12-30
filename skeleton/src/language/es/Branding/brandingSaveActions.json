@@ -1,0 +1,23 @@
+{
+  "brandingSaveActions": {
+    "toast": {
+      "success": {
+        "title": "Marca actualizada con éxito",
+        "description": "Tus cambios de marca blanca se han guardado"
+      },
+      "errorSave": {
+        "title": "Error al guardar los cambios",
+        "defaultDescription": "Por favor, inténtalo de nuevo más tarde"
+      },
+      "errorReset": {
+        "title": "Error al restablecer",
+        "defaultDescription": "Ocurrió un error"
+      }
+    },
+    "buttons": {
+      "reset": "Restablecer",
+      "saving": "Guardando...",
+      "saveChanges": "Guardar Cambios"
+    }
+  }
+}

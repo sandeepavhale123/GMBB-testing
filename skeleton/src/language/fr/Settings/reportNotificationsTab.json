@@ -1,0 +1,60 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Chargement des paramètres de notification..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Type de rapport",
+        "frequency": "Fréquence",
+        "action": "Action"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "Rapport des avis nouveaux / mis à jour",
+        "description": "Analyse détaillée des nouveaux avis clients et des avis mis à jour, avec notifications de rapport envoyées quotidiennement ou à chaque mise à jour."
+      },
+      "postReport": {
+        "name": "Rapport des publications GMB",
+        "description": "Analyse des performances de vos publications GMB, avec notifications de rapport envoyées quotidiennement ou à chaque nouvelle mise à jour disponible."
+      },
+      "geoRanking": {
+        "name": "Rapport de classement GEO",
+        "description": "Analyse des performances dans le classement des recherches locales, avec notifications de rapport envoyées quotidiennement ou à chaque mise à jour."
+      }
+    },
+    "frequency": {
+      "daily": "Quotidien",
+      "whenUpdated": "Lors des mises à jour",
+      "off": "Désactivé",
+      "tooltip": "Envoyer uniquement lorsqu'il y a de nouvelles données ou des changements dans le rapport"
+    },
+    "action": {
+      "all": "Tous",
+      "postOptions": {
+        "all": "TOUS",
+        "failed": "Échoué",
+        "live": "En direct"
+      },
+      "reviewOptions": {
+        "5star": "5 Étoiles",
+        "4star": "4 Étoiles",
+        "3star": "3 Étoiles",
+        "2star": "2 Étoiles",
+        "1star": "1 Étoile"
+      }
+    },
+    "toast": {
+      "success": {
+        "title": "Succès",
+        "description": "Paramètres de notification mis à jour avec succès"
+      },
+      "error": {
+        "title": "Erreur",
+        "load": "Échec du chargement des paramètres de notification",
+        "update": "Échec de la mise à jour des paramètres de notification"
+      }
+    }
+  }
+}

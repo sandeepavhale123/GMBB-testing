@@ -1,0 +1,25 @@
+{
+  "geoRankingReportPage": {
+    "processing": {
+      "title": "Elaborazione Parola Chiave",
+      "description": "La parola chiave è in elaborazione. Questo potrebbe richiedere alcuni minuti..."
+    },
+    "modal": {
+      "error": {
+        "title": "Errore",
+        "description": "Impossibile caricare i dettagli della posizione"
+      }
+    },
+    "multiKeywordAlert": {
+      "title": "Parole Chiave in Elaborazione",
+      "description": "Le tue parole chiave sono in elaborazione. Ci vorrà un po' di tempo. Puoi controllare i risultati nella pagina GEO Ranking.",
+      "action": "Vai alla pagina GEO Ranking"
+    },
+    "sidebar": {
+      "activeTab": "geo-ranking"
+    },
+    "underPerforming": {
+      "title": "Aree con Prestazioni Insufficienti"
+    }
+  }
+}

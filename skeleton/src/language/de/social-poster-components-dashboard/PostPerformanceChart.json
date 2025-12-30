@@ -1,0 +1,11 @@
+{
+  "title": "Beitragsaktivität",
+  "postsLabel": "Beiträge",
+
+  "timeRange": {
+    "last_week": "Letzte Woche",
+    "last_month": "Letzter Monat",
+    "last_6_months": "Letzte 6 Monate",
+    "last_12_months": "Letzte 12 Monate"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "search": {
+    "placeholder": "Search posts..."
+  },
+
+  "status": {
+    "placeholder": "Filter by Status",
+    "all": "All Status",
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "publishing": "Publishing",
+    "published": "Published",
+    "failed": "Failed"
+},
+
+  "platform.placeholder": "Filter by Platform",
+  "platform.all": "All Platforms",
+  "platform.facebook": "Facebook",
+  "platform.instagram": "Instagram",
+  "platform.twitter": "Twitter",
+  "platform.linkedin_individual": "LinkedIn (Individual)",
+  "platform.linkedin_organisation": "LinkedIn (Organisation)",
+  "platform.threads": "Threads",
+  "platform.pinterest": "Pinterest",
+  "platform.youtube": "YouTube",
+
+  "dateRange.placeholder": "Select date range",
+
+  "view.list": "List",
+  "view.grid": "Grid"
+}

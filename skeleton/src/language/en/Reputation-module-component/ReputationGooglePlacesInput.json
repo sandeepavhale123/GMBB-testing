@@ -1,0 +1,13 @@
+{
+  "placeholder": {
+    "default": "Search for a business...",
+    "loadingApiKey": "Loading...",
+    "initializing": "Initializing..."
+  },
+
+  "errors": {
+    "title": "Error",
+    "apiKey": "Failed to load Google Places API key.",
+    "mapsLoad": "Failed to load Google Maps"
+  }
+}

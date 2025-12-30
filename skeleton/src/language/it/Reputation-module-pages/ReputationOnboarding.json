@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Gestione della reputazione",
+    "description": "Importa le tue schede aziendali esistenti o aggiungi una nuova attività per iniziare a gestire la tua reputazione online su tutte le piattaforme."
+  },
+
+  "importListings": {
+    "title": "Importa schede esistenti",
+    "description": "Seleziona le sedi aziendali che desideri importare dalle fonti collegate.",
+    "searchPlaceholder": "Cerca schede...",
+    "selectAll": "Seleziona tutto",
+    "importButton": "Importa schede",
+    "importing": "Importazione in corso..."
+  },
+
+  "addBusiness": {
+    "title": "Aggiungi un'attività",
+    "description": "Non riesci a trovare la tua attività? Aggiungila manualmente utilizzando Google Places.",
+    "placeholder": "Cerca attività su Google",
+    "addButton": "Aggiungi attività",
+    "addingButton": "Aggiunta attività in corso...",
+    "successTitle": "Attività aggiunta",
+    "successDescription": "L'attività è stata aggiunta con successo.",
+    "errorTitle": "Aggiunta attività non riuscita",
+    "errorDescription": "Impossibile aggiungere l'attività. Riprova.",
+    "selectBusiness": "Seleziona un'attività valida prima di procedere."
+  },
+
+  "listings": {
+    "imported": "Importato",
+    "noListings": "Nessuna scheda disponibile per l'importazione."
+  },
+
+  "errors": {
+    "retry": "Riprova",
+    "importFailedTitle": "Importazione non riuscita",
+    "importFailedDescription": "Impossibile importare le schede.",
+    "generic": "Si è verificato un errore. Riprova."
+  },
+
+  "successDialog": {
+    "title": "Importazione completata",
+    "ok": "OK",
+    "summary": {
+      "inserted": "{{count}} scheda/e importata/e con successo.",
+      "skipped": "{{count}} ignorata/e.",
+      "invalid": "{{count}} non valida/e."
+    }
+  }
+}

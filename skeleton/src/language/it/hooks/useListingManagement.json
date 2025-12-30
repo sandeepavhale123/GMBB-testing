@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "Cerca inserzioni",
+  "filterAll": "Tutte",
+  "filterActive": "Attive",
+  "filterInactive": "Inattive",
+  "viewListingSuccessTitle": "Apertura Inserzione",
+  "viewListingSuccessDesc": "Apertura della pagina dell'inserzione {{name}}.",
+  "toggleSuccess": "Stato dell'inserzione aggiornato con successo",
+  "toggleFailed": "Impossibile aggiornare lo stato dell'inserzione",
+  "bulkStatusRefresh": "Aggiornamento delle inserzioni in corso...",
+  "paginationNext": "Successivo",
+  "paginationPrev": "Precedente"
+}

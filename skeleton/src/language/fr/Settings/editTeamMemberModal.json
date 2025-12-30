@@ -1,0 +1,50 @@
+{
+  "editTeamMemberModal": {
+    "title": "Modifier un membre de l'équipe",
+    "tabs": {
+      "profile": "Modifier le profil",
+      "listings": "Fiches",
+      "permissions": "Permissions"
+    },
+    "profile": {
+      "changePhoto": "Changer la photo",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "password": "Mot de passe",
+      "placeholder": {
+        "firstName": "Entrez le prénom",
+        "lastName": "Entrez le nom",
+        "password": "Entrez un nouveau mot de passe"
+      },
+      "role": "Rôle",
+      "selectRole": "Sélectionner un rôle",
+      "roles": {
+        "moderator": "Modérateur",
+        "staff": "Personnel",
+        "client": "Client"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "save": "Enregistrer les modifications"
+      }
+    },
+    "listings": {
+      "allowAccessTitle": "Autoriser l'accès aux fiches",
+      "allowAccessDescription": "Activer ou désactiver l'accès aux fiches",
+      "filterByAccount": "Filtrer par compte",
+      "allAccounts": "Tous les comptes",
+      "listingsTitle": "Fiches",
+      "accoun1": "Compte 1",
+      "accoun2": "Compte 2"
+    },
+    "permissions": {
+      "title": "Permissions des fonctionnalités",
+      "description": "Contrôlez les niveaux d'accès pour chaque fonctionnalité : Voir, Modifier ou Masquer",
+      "levels": {
+        "view": "Voir",
+        "edit": "Modifier",
+        "hide": "Masquer"
+      }
+    }
+  }
+}

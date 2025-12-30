@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Details anzeigen",
+    "subtitle": "Details der ausgewählten Massenmedien anzeigen"
+  },
+  "filter": {
+    "searchPlaceholder": "Nach Eintragsname suchen.",
+    "statusPlaceholder": "Nach Status filtern",
+    "statusAll": "Beitragsstatus",
+    "statusLive": "Live",
+    "statusScheduled": "Geplant",
+    "statusFailed": "Fehlgeschlagen"
+  },
+  "loading": {
+    "preview": "Medieninformationen werden geladen..."
+  },
+  "error": {
+    "preview": "Fehler beim Laden der Medieninformationen: {{error}}",
+    "retry": "Erneut versuchen"
+  }
+}

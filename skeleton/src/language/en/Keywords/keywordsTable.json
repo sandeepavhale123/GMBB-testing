@@ -1,0 +1,59 @@
+{
+  "keywordsTable": {
+    "emptyState": {
+      "title": "Start tracking your keywords",
+      "description": "Monitor your local search rankings by adding keywords relevant to your business. Track how your business appears in search results across different locations.",
+      "button": "Add Search Keywords"
+    },
+    "bulkActions": {
+      "selected": "{{count}} keyword{{plural}} selected",
+      "delete": "Delete Selected",
+      "deleting": "Deleting...",
+      "clear": "Clear Selection",
+      "confirmTitle": "Confirm Deletion",
+      "confirmDescription": "Are you sure you want to delete {{count}} keyword{{plural}}? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "table": {
+      "selectAll": "Select all keywords",
+      "columns": {
+        "srNo": "Sr. No",
+        "keyword": "Keyword",
+        "arp": "ARP",
+        "arpTooltip": "Average Ranking Position",
+        "atrp": "ATRP",
+        "atrpTooltip": "Average Total Ranking Points",
+        "solv": "SoLV",
+        "solvTooltip": "Share of Local Voice",
+        "addedOn": "Added On",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "viewRank": "View Rank",
+        "selectDelete": "Select for Delete",
+        "delete": "Delete"
+      }
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed",
+      "running": "Running"
+    },
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} results",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{current}} of {{total}}"
+    },
+    "error": {
+      "tryAgain": "Try Again"
+    },
+    "misc": {
+      "na": "N/A",
+      "invalidDate": "Invalid Date"
+    }
+  }
+}

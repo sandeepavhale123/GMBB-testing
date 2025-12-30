@@ -1,0 +1,6 @@
+{
+  "title": "Opzioni di pianificazione",
+  "date": "Data",
+  "time": "Ora",
+  "timezoneNote": "Il post sarà programmato per il fuso orario {{timezone}}"
+}

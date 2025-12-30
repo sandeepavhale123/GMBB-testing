@@ -1,0 +1,31 @@
+{
+  "search": {
+    "placeholder": "Beiträge suchen..."
+  },
+
+  "status": {
+    "placeholder": "Nach Status filtern",
+    "all": "Alle Status",
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "publishing": "Wird veröffentlicht",
+    "published": "Veröffentlicht",
+    "failed": "Fehlgeschlagen"
+  },
+
+  "platform.placeholder": "Nach Plattform filtern",
+  "platform.all": "Alle Plattformen",
+  "platform.facebook": "Facebook",
+  "platform.instagram": "Instagram",
+  "platform.twitter": "Twitter",
+  "platform.linkedin_individual": "LinkedIn (Individual)",
+  "platform.linkedin_organisation": "LinkedIn (Organisation)",
+  "platform.threads": "Threads",
+  "platform.pinterest": "Pinterest",
+  "platform.youtube": "YouTube",
+
+  "dateRange.placeholder": "Zeitraum auswählen",
+
+  "view.list": "Liste",
+  "view.grid": "Raster"
+}

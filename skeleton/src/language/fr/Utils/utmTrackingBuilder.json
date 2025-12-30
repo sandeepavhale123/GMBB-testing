@@ -1,0 +1,60 @@
+{
+  "modal": {
+    "title": "Générateur d'URL UTM",
+    "info": {
+      "title": "Qu'est-ce que le suivi UTM ?",
+      "description": "Les paramètres UTM sont des balises que vous ajoutez aux URL pour suivre vos campagnes marketing dans des outils d'analyse comme Google Analytics. Ils vous permettent de comprendre quelles campagnes génèrent du trafic et des conversions.",
+      "example": {
+        "title": "Exemple d'URL UTM :",
+        "url": "https://example.com?utm_source=google&utm_medium=cpc&utm_campaign=soldes_ete"
+      },
+      "benefits": {
+        "title": "Avantages :",
+        "list": [
+          "Suivez avec précision les performances de vos campagnes",
+          "Identifiez vos meilleures sources de trafic",
+          "Mesurez le retour sur investissement (ROI) de vos dépenses marketing",
+          "Optimisez votre stratégie marketing"
+        ]
+      }
+    },
+    "form": {
+      "websiteUrl": {
+        "label": "URL du site web",
+        "placeholder": "https://example.com"
+      },
+      "campaignName": {
+        "label": "Nom de la campagne",
+        "placeholder": "soldes_ete_2025"
+      },
+      "campaignSource": {
+        "label": "Source de la campagne",
+        "placeholder": "google, newsletter, facebook"
+      },
+      "campaignMedium": {
+        "label": "Support de la campagne",
+        "placeholder": "cpc, email, social"
+      },
+      "campaignTerm": {
+        "label": "Terme de la campagne",
+        "placeholder": "chaussures+running"
+      },
+      "campaignContent": {
+        "label": "Contenu de la campagne",
+        "placeholder": "banniere_pub, lien_texte"
+      },
+      "optional": "facultatif",
+      "generatedUrl": "URL UTM générée",
+      "copyUrl": "Copier l'URL",
+      "copySuccess": "URL UTM copiée dans le presse-papiers !",
+      "clearForm": "Effacer le formulaire",
+      "close": "Fermer"
+    },
+    "validation": {
+      "url": "Doit être une URL valide",
+      "campaign": "Le nom de la campagne est requis",
+      "Source": "La source de la campagne est requise",
+      "Medium": "Le support de la campagne est requis"
+    }
+  }
+}

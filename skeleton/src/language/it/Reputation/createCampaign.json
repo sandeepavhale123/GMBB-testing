@@ -1,0 +1,81 @@
+{
+  "title": "Crea Campagna",
+  "campaignName": {
+    "label": "Nome della Campagna",
+    "placeholder": "Inserisci il nome della campagna"
+  },
+  "campaignType": {
+    "label": "Tipo di Campagna",
+    "placeholder": "Seleziona tipo di campagna",
+    "review": "Campagna Recensioni",
+    "survey": "Campagna Sondaggio"
+  },
+  "toast": {
+    "error": "Errore",
+    "success": "Successo",
+    "csv": "Il file CSV è vuoto o non valido",
+    "nameColumns": "Il CSV deve contenere le colonne 'first_name' e 'last_name'",
+    "email": "Il CSV deve contenere la colonna 'email' per le campagne email",
+    "phone": "Il CSV deve contenere la colonna 'phone' per le campagne SMS/WhatsApp",
+    "invalidCont": "Nessun contatto valido trovato nel CSV",
+    "import": "{{newContacts}} contatti importati con successo",
+    "csvUploadSuccess": "{{count}} contatti importati dal CSV con successo",
+    "csvUploadFailed": "Impossibile caricare il file CSV",
+    "noCampagin": "Nessun ID campagna trovato. Crea prima una campagna."
+  },
+  "channel": {
+    "label": "Seleziona Canale",
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "contacts": {
+    "title": "Aggiungi contatti",
+    "importCSV": "Importa CSV",
+    "contactList": "Lista contatti",
+    "namePlaceholder": "Inserisci il nome",
+    "phonePlaceholder": "Inserisci il numero di telefono",
+    "emailPlaceholder": "Inserisci l'email",
+    "addButton": "Aggiungi",
+    "editButton": "Modifica",
+    "removeButton": "Rimuovi"
+  },
+  "template": {
+    "title": "Seleziona Modello",
+    "defaultTemplate": "Modello predefinito",
+    "greeting": "Ciao Nome!",
+    "defaultMessage": "Speriamo che tu abbia apprezzato la tua recente esperienza con noi. Potresti dedicare un momento per lasciarci una recensione?",
+    "reviewLink": "Link Recensione"
+  },
+  "feedbackForm": {
+    "label": "Seleziona Modulo Feedback",
+    "placeholder": "Scegli un modulo feedback",
+    "noFormsAvailable": "Nessun modulo feedback disponibile. Creane uno prima."
+  },
+  "schedule": {
+    "label": "Programma la campagna (opzionale)",
+    "date": "Data",
+    "time": "Ora"
+  },
+  "submit": "Invia",
+  "validation": {
+    "nameRequired": "Il nome della campagna è obbligatorio",
+    "contactRequired": "È richiesto almeno un contatto",
+    "invalidPhone": "Numero di telefono non valido (richiesti 10-15 cifre)"
+  },
+  "success": {
+    "title": "Campagna Creata",
+    "description": "La tua campagna è stata creata con successo"
+  },
+  "importModal": {
+    "title": "Importa File",
+    "downloadSample": "Scarica File di Esempio"
+  },
+  "sendPlatform": {
+    "title": "Seleziona Piattaforma di Invio",
+    "configured": "Configurato",
+    "notConfigured": "Configura",
+    "smtp": "SMTP",
+    "mailgun": "Mailgun"
+  }
+}

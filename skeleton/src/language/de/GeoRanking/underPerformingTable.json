@@ -1,0 +1,21 @@
+{
+  "UnderPerformingTable": {
+    "title": "Top-Leistung",
+    "loading": "Leistungs­schwache Bereiche werden geladen...",
+    "headers": {
+      "area": "Bereich",
+      "coordinate": "Koordinate",
+      "competitorName": "Name des Mitbewerbers",
+      "competitorRank": "Rang des Mitbewerbers",
+      "yourRank": "Ihr Rang",
+      "competitorRating": "Bewertung des Mitbewerbers",
+      "competitorReview": "Rezension des Mitbewerbers"
+    },
+    "notRanked": "Nicht platziert",
+    "noData": "Keine leistungsschwachen Bereiche gefunden",
+    "toast": {
+      "copiedTitle": "Kopiert!",
+      "copiedDescription": "Koordinate in die Zwischenablage kopiert"
+    }
+  }
+}

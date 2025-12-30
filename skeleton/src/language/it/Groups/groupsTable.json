@@ -1,0 +1,33 @@
+{
+  "loadingGroups": "Caricamento gruppi...",
+  "noGroupsTitle": "Nessun gruppo trovato",
+  "noGroupsDescription": "Inizia creando il tuo primo gruppo per organizzare le tue inserzioni.",
+  "bulkSelected": "{{count}} gruppo selezionato",
+  "bulkSelected_plural": "{{count}} gruppi selezionati",
+  "clearSelection": "Cancella selezione",
+  "deleteSelected": "Elimina selezionati ({{count}})",
+  "table": {
+    "groups": "Gruppi",
+    "locations": "Numero di Località",
+    "actions": "Azioni"
+  },
+  "dialog": {
+    "deleteGroupTitle": "Elimina gruppo",
+    "deleteGroupsTitle": "Elimina gruppi",
+    "deleteGroupDescription": "Sei sicuro di voler eliminare il gruppo \"{{name}}\"? Questa azione è irreversibile e rimuoverà il gruppo da tutte le inserzioni associate.",
+    "deleteGroupsDescription": "Sei sicuro di voler eliminare {{count}} gruppo selezionato? Questa azione è irreversibile e rimuoverà il gruppo da tutte le inserzioni associate.",
+    "deleteGroupsDescription_plural": "Sei sicuro di voler eliminare {{count}} gruppi selezionati? Questa azione è irreversibile e rimuoverà i gruppi da tutte le inserzioni associate.",
+    "cancel": "Annulla",
+    "delete": "Elimina gruppo",
+    "delete_plural": "Elimina {{count}} gruppi",
+    "deleting": "Eliminazione in corso..."
+  },
+  "toast": {
+    "successTitle": "Successo",
+    "errorTitle": "Errore",
+    "deleteSuccess": "Gruppo eliminato con successo",
+    "deleteSuccess_plural": "{{count}} gruppi eliminati con successo",
+    "deleteSuccess_singal": "{{count}} gruppo eliminato con successo",
+    "deleteFailed": "Eliminazione gruppo/i non riuscita"
+  }
+}

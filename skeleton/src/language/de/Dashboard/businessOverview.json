@@ -1,0 +1,10 @@
+{
+  "title": "Unternehmensübersicht",
+  "subtitle": "Wichtige Kennzahlen für {{listingName}}",
+  "metrics": {
+    "totalBusinesses": "Gesamtunternehmen",
+    "publishedPosts": "Veröffentlichte Beiträge",
+    "totalReviews": "Gesamtbewertungen",
+    "averageRating": "Durchschnittliche Bewertung"
+  }
+}

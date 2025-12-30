@@ -1,0 +1,23 @@
+{
+  "refreshAccountModal": {
+    "title": "Seleziona Gruppi di Inserzioni",
+    "description": "Scegli i gruppi di inserzioni che vuoi aggiornare",
+    "selectAll": {
+      "label": "Seleziona Tutti i Gruppi di Inserzioni",
+      "count": "{{selected}} di {{total}} selezionati"
+    },
+    "groups": {
+      "available": "Gruppi Disponibili:",
+      "empty": "Nessun gruppo di inserzioni disponibile"
+    },
+    "footer": {
+      "selected": "{{count}} gruppo selezionato",
+      "selectedPlural": "{{count}} gruppi selezionati"
+    },
+    "buttons": {
+      "cancel": "Annulla",
+      "submit": "Invia ({{count}})",
+      "submitting": "Invio in corso..."
+    }
+  }
+}

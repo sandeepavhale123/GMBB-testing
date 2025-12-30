@@ -1,0 +1,26 @@
+{
+  "geoRankingMap": {
+    "manualTitle": "Sélection manuelle de points",
+    "automaticTitle": "Visualisation automatique de la grille",
+    "loading": {
+      "main": "Chargement des données de la carte",
+      "automatic": "Génération des coordonnées de la grille...",
+      "manual": "Préparation de la carte..."
+    },
+    "zoom": {
+      "in": "Zoom avant",
+      "out": "Zoom arrière"
+    },
+    "defaultMarker": {
+      "title": "Emplacement par défaut",
+      "manualNote": "Passez en mode manuel pour placer des points personnalisés",
+      "centerNote": "Point central de l'entreprise"
+    },
+    "manualMarker": {
+      "title": "Point manuel",
+      "dragNote": "Glissez pour repositionner",
+      "removeButton": "Supprimer"
+    },
+    "gridMarker": "Point de grille : {{id}}"
+  }
+}

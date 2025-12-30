@@ -1,0 +1,53 @@
+{
+  "mapCreator": {
+    "title": "Karten-Ersteller",
+    "subtitle": "Keyword-Ranking-Daten erstellen und herunterladen",
+    "form": {
+      "mapUrl": {
+        "label": "Karten-URL",
+        "placeholder": "https://www.google.com/maps/place/...",
+        "tooltip": "Geben Sie eine Google Maps-URL ein, die den Geschäftsstandort enthält"
+      },
+      "keywords": {
+        "label": "Schlüsselwörter",
+        "placeholder": "Pizza, italienisches Restaurant, Pasta",
+        "tooltip": "Geben Sie durch Kommas getrennte Schlüsselwörter ein"
+      },
+      "radius": {
+        "label": "Radius",
+        "tooltip": "Wählen Sie den Suchradius um den Geschäftsstandort"
+      },
+      "distance": {
+        "label": "Entfernung",
+        "tooltip": "Wählen Sie einen Entfernungswert kleiner als der Radius"
+      },
+      "description": {
+        "label": "Beschreibung (Spin-Text erlaubt)",
+        "placeholder": "Beste {Pizza|italienisches Essen|Pasta} der Stadt",
+        "tooltip": "Spin-Text-Syntax: {Option1|Option2|Option3}"
+      },
+      "urls": {
+        "label": "URLs",
+        "placeholder": "https://beispiel.com, https://beispiel2.com",
+        "tooltip": "Geben Sie durch Kommas getrennte URLs ein"
+      },
+      "relatedSearches": {
+        "label": "Verwandte Suchen",
+        "placeholder": "Pizza in meiner Nähe, beste Pizza",
+        "tooltip": "Geben Sie durch Kommas getrennte verwandte Suchbegriffe ein"
+      },
+      "reset": "Zurücksetzen",
+      "generateCSV": "CSV generieren"
+    },
+    "map": {
+      "title": "Kartenvisualisierung",
+      "noCoordinates": "Geben Sie eine Karten-URL ein, um den Standort anzuzeigen"
+    },
+    "toast": {
+      "invalidUrl": "Bitte geben Sie eine gültige Google Maps-URL ein",
+      "noKeywords": "Bitte geben Sie mindestens ein Schlüsselwort ein",
+      "success": "CSV erfolgreich generiert!",
+      "error": "Fehler beim Generieren der CSV"
+    }
+  }
+}

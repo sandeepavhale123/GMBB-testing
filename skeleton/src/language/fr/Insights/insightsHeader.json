@@ -1,0 +1,20 @@
+{
+  "insightsHeader": {
+    "title": "Statistiques GMB",
+    "subtitle": "Analyse de performance de votre profil Google Business.",
+    "selectDateRange": "Sélectionner une plage de dates",
+    "last7Days": "7 Derniers Jours",
+    "last30Days": "30 Derniers Jours",
+    "last90Days": "90 Derniers Jours",
+    "last6Months": "6 Derniers Mois",
+    "last9Months": "9 Derniers Mois",
+    "last12Months": "12 Derniers Mois",
+    "customPeriod": "Période Personnalisée",
+    "fromTo": "Du : {{from}} - Au : {{to}}",
+    "refresh": "Rafraîchir",
+    "refreshing": "Rafraîchissement...",
+    "loading": "Chargement...",
+    "exportImage": "Exporter l’Image",
+    "exporting": "Exportation..."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "deleteAccountModal": {
+    "title": "Delete Account",
+    "description1": "Are you sure you want to delete the account ",
+    "description2": "\"{{accountName}}\"",
+    "description3": " with this email ",
+    "description4": " \"{{accountEmail}}\"",
+    "description5": "? This action cannot be undone and will remove all associated listings and data.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  }
+}

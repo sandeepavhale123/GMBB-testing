@@ -1,0 +1,38 @@
+{
+  "publicMediaReport": {
+    "title": "Media Performance Report",
+    "loading": {
+      "message": "Loading Media report..."
+    },
+    "error": {
+      "title": "Error Loading Report",
+      "description": "Failed to load the media performance report. Please try again later.",
+      "retry": "Try Again"
+    },
+    "overviewStats": {
+      "totalMedia": "Total Media",
+      "totalPhotos": "Total Photos",
+      "totalVideos": "Total Videos",
+      "compareText": "{{value}}% vs previous"
+    },
+    "charts": {
+      "mediaPerformance": "Media Post Performance Over Time"
+    },
+    "chartLabels": {
+      "currentUploads": "Current Period Uploads",
+      "previousUploads": "Previous Period Uploads"
+    },
+    "recentMedia": {
+      "title": "Media",
+      "noData": "No data available",
+      "noImage": "No Image",
+      "publishedOn": "Published on {{date}}",
+      "view": "View"
+    },
+     "mediaType": {
+    "image": "Image",
+    "video": "Video",
+    "default": "Media"
+  }
+  }
+}

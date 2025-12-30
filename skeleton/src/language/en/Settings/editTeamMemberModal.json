@@ -1,0 +1,50 @@
+{
+  "editTeamMemberModal": {
+    "title": "Edit Team Member",
+    "tabs": {
+      "profile": "Edit Profile",
+      "listings": "Listings",
+      "permissions": "Permissions"
+    },
+    "profile": {
+      "changePhoto": "Change Photo",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "password": "Password",
+      "placeholder": {
+        "firstName": "Enter first name",
+        "lastName": "Enter last name",
+        "password": "Enter new password"
+      },
+      "role": "Role",
+      "selectRole": "Select role",
+      "roles": {
+        "moderator": "Moderator",
+        "staff": "Staff",
+        "client": "Client"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "save": "Save Changes"
+      }
+    },
+    "listings": {
+      "allowAccessTitle": "Allow Listing Access",
+      "allowAccessDescription": "Enable or disable access to listings",
+      "filterByAccount": "Filter by Account",
+      "allAccounts": "All Accounts",
+      "listingsTitle": "Listings",
+      "accoun1":"Account 1",
+      "accoun2":"Account 2"
+    },
+    "permissions": {
+      "title": "Feature Permissions",
+      "description": "Control access levels for each feature: View, Edit, or Hide",
+      "levels": {
+        "view": "View",
+        "edit": "Edit",
+        "hide": "Hide"
+      }
+    }
+  }
+}

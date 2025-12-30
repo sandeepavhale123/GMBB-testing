@@ -1,0 +1,60 @@
+{
+  "teamMembersPage": {
+    "title": "Team Members",
+    "description": "Manage your team members and their access permissions.",
+    "addMember": "Add Member",
+    "add": "Add",
+    "searchPlaceholder": "Search members by name or email",
+    "allRoles": "All Roles",
+    "staff": "Staff",
+    "client": "Client",
+    "moderator": "Moderator",
+    "totalMembers": "Total: {{count}}",
+    "error": {
+      "title": "Error Loading Team Members",
+      "tryAgain": "Try Again"
+    },
+    "empty": {
+      "title": "No team members found",
+      "searchAdjust": "Try adjusting your search criteria or filters",
+      "addFirst": "Get started by adding your first team member"
+    },
+    "table": {
+      "member": "Member",
+      "email": "Email",
+      "password": "Password",
+      "listings": "Listings",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "copy": {
+      "tooltip":"Copy email",
+      "successTitle": "Email copied",
+      "successDesc": "Email address has been copied to clipboard.",
+      "errorTitle": "Failed to copy",
+      "errorDesc": "Could not copy email to clipboard."
+    },
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password"
+    },
+    "dropdown": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "grid": {
+      "password": "Password:",
+      "role": "Role:",
+      "listings": "Listings:",
+      "status": "Status:"
+    },
+    "roles": {
+      "Admin": "Admin",
+      "Editor": "Editor",
+      "Viewer": "Viewer",
+      "Staff": "Staff",
+      "Client": "Client",
+      "Moderator": "Moderator"
+    }
+  }
+}

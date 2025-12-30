@@ -1,0 +1,73 @@
+{
+  "aiAutoResponse": {
+    "header": {
+      "title": "Risposta Automatica AI",
+      "badge": "Powered by AI",
+      "description": "Lascia che l'AI generi risposte personalizzate e contestuali in base al contenuto e al sentiment della recensione."
+    },
+    "responseStyle": {
+      "label": "Stile della Risposta AI",
+      "placeholder": "Scegli il tuo stile di risposta...",
+      "options": {
+        "professional": "Professionale",
+        "friendly": "Amichevole",
+        "casual": "Casual",
+        "formal": "Formale",
+        "empathetic": "Empatico"
+      }
+    },
+    "advancedOptions": {
+      "label": "Opzioni Avanzate",
+      "note": "💡 L'AI adatterà questo stile al contenuto specifico della recensione e alla valutazione.",
+      "variables": {
+        "title": "Nota:",
+        "description": "Puoi usare le seguenti variabili nel testo della tua risposta per mostrare il nome del recensore: ",
+        "descBold": "{full_name}, {first_name}, {last_name}.",
+        "descEnd": "Per inserire il contenuto della risposta, usa",
+        "descEndVb": " {responcetext}",
+        "descTextEnd": ". Non dimenticare di includerlo nel tuo template."
+      },
+      "customPrompt": {
+        "label": "Prompt Personalizzato",
+        "placeholder": "es., Scrivi la risposta in spagnolo, includi un'offerta di sconto...",
+        "hint": "Aggiungi istruzioni specifiche per personalizzare come l'IA genera le risposte."
+      },
+      "replyText": {
+        "label": "Testo della Risposta",
+        "placeholder": "Inserisci il template della tua risposta..."
+      },
+      "starRatings": {
+        "label": "Applica alle valutazioni stellari",
+        "option": "{{count}} Stella"
+      },
+      "replyToOldReviews": {
+        "savedTitle": "Salvato",
+        "savedDescription": "Impostazioni della risposta alle recensioni vecchie aggiornate."
+      }
+    },
+    "latestReview": {
+      "title": "Genera una risposta AI di esempio",
+      "previewLabel": "Anteprima dell'ultima recensione"
+    },
+    "buttons": {
+      "generate": "Genera Risposta AI",
+      "regenerate": "Rigenera",
+      "generating": "Generando Risposta AI...",
+      "save": "Salva le Impostazioni AI",
+      "saving": "Salvataggio in corso..."
+    },
+    "toast": {
+      "success": {
+        "saveTitle": "Successo",
+        "saveDescription": "Risposta automatica AI salvata con successo!",
+        "generateDescription": "Risposta AI generata con successo!"
+      },
+      "error": {
+        "saveTitle": "Errore",
+        "saveDescription": "Impossibile salvare le impostazioni della risposta automatica AI",
+        "generateTitle": "Errore",
+        "generateDescription": "Impossibile generare la risposta"
+      }
+    }
+  }
+}

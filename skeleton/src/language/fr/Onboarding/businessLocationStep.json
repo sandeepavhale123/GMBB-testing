@@ -1,0 +1,19 @@
+{
+  "businessLocationStep": {
+    "title": "Où se situe votre entreprise ?",
+    "description": "Ajoutez l'adresse et les informations de contact de votre entreprise",
+    "addressLabel": "Adresse *",
+    "addressPlaceholder": "123 Rue Principale",
+    "cityLabel": "Ville *",
+    "cityPlaceholder": "Ville",
+    "stateLabel": "État *",
+    "statePlaceholder": "État",
+    "zipCodeLabel": "Code postal *",
+    "zipCodePlaceholder": "12345",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "(555) 123-4567",
+    "websiteLabel": "Site web",
+    "websitePlaceholder": "https://votresite.com",
+    "continueButton": "Continuer"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Loading notification settings..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Report Type",
+        "frequency": "Frequency",
+        "action": "Action"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "New / Updated Review Report",
+        "description": "Detailed analysis of new and updated customer reviews and ratings, with report notifications sent daily or whenever updates occur."
+      },
+      "postReport": {
+        "name": "GMB Post Report",
+        "description": "Performance analysis of your GMB posts, with report notifications sent daily or whenever new updates are available."
+      },
+      "geoRanking": {
+        "name": "GEO Ranking Report",
+        "description": "Local search ranking performance analysis, with report notifications sent daily or whenever updates occur."
+      }
+    },
+    "frequency": {
+      "daily": "Daily",
+      "whenUpdated": "When Updated",
+      "off": "Off",
+      "tooltip": "Send only when there's new or changed report data"
+    },
+    "action": {
+      "all": "All",
+      "postOptions": {
+        "all": "ALL",
+        "failed": "Failed",
+        "live": "Live"
+      },
+      "reviewOptions": {
+        "5star": "5 Star",
+        "4star": "4 Star",
+        "3star": "3 Star",
+        "2star": "2 Star",
+        "1star": "1 Star"
+      }
+    },
+    "toast": {
+      "success": {
+        "title": "Success",
+        "description": "Notification settings updated successfully"
+      },
+      "error": {
+        "title": "Error",
+        "load": "Failed to load notification settings",
+        "update": "Failed to update notification settings"
+      }
+    }
+  }
+}

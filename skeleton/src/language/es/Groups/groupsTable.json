@@ -1,0 +1,33 @@
+{
+  "loadingGroups": "Cargando grupos...",
+  "noGroupsTitle": "No se encontraron grupos",
+  "noGroupsDescription": "Comience creando su primer grupo para organizar sus listados.",
+  "bulkSelected": "{{count}} grupo seleccionado",
+  "bulkSelected_plural": "{{count}} grupos seleccionados",
+  "clearSelection": "Borrar selección",
+  "deleteSelected": "Eliminar seleccionados ({{count}})",
+  "table": {
+    "groups": "Grupos",
+    "locations": "No. de Ubicaciones",
+    "actions": "Acciones"
+  },
+  "dialog": {
+    "deleteGroupTitle": "Eliminar Grupo",
+    "deleteGroupsTitle": "Eliminar Grupos",
+    "deleteGroupDescription": "¿Está seguro de que desea eliminar el grupo \"{{name}}\"? Esta acción no se puede deshacer y eliminará el grupo de todos los listados asociados.",
+    "deleteGroupsDescription": "¿Está seguro de que desea eliminar {{count}} grupo seleccionado? Esta acción no se puede deshacer y eliminará el grupo de todos los listados asociados.",
+    "deleteGroupsDescription_plural": "¿Está seguro de que desea eliminar {{count}} grupos seleccionados? Esta acción no se puede deshacer y eliminará los grupos de todos los listados asociados.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar Grupo",
+    "delete_plural": "Eliminar {{count}} Grupos",
+    "deleting": "Eliminando..."
+  },
+  "toast": {
+    "successTitle": "Éxito",
+    "errorTitle": "Error",
+    "deleteSuccess": "Grupo eliminado correctamente",
+    "deleteSuccess_plural": "{{count}} grupos eliminados correctamente",
+    "deleteSuccess_singal": "{{count}} grupo eliminado correctamente",
+    "deleteFailed": "No se pudo eliminar el/los grupo(s)"
+  }
+}

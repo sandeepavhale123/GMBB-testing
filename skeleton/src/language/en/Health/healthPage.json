@@ -1,0 +1,142 @@
+{
+  "healthPage": {
+    "header": {
+      "title": "GMB Health Report",
+      "reportDate": "Report Date",
+      "refresh":"Refresh Report"
+    },
+    "summaryCards": {
+      "gmbHealthScore": "GMB Health Score",
+      "noOfReviews": "No. Of Reviews",
+      "gmbAvgRating": "GMB Avg Rating",
+      "noOfGmbPhotos": "No. Of GMB Media",
+      "noOfGmbPosts": "No. Of GMB Posts"
+    },
+    "introduction": {
+      "title": "Introduction",
+      "content": "Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the results of our 10-point evaluation."
+    },
+    "gmbReportAtGlance": {
+      "title": "Your GMB Report at a Glance",
+      "failedTests": "Failed Tests",
+      "passedTests": "Passed Tests"
+    },
+    "detailedBreakdown": {
+      "title":"Detailed Breakdown",
+      "highImpact": "High Impact",
+      "passed": "Passed",
+      "failed": "Failed",
+      "matter": "• Why It Matters:",
+      "recommendation":" • Recommendation:",
+      "sections": {
+        "description": {
+          "title": "Missing Description or Description Less Than 300 Characters",
+          "why": "A detailed description helps customers quickly understand what your business offers and builds trust. Short or missing descriptions can make your profile less appealing.",
+          "recommendation": "Write a comprehensive description of at least 300 characters that highlights your unique offerings, key services, and values."
+        },
+        "website": {
+          "title": "Missing Website",
+          "why": "A website link allows customers to explore your business in greater detail. Without it, potential customers might turn to competitors for more information.",
+          "recommendation": "Add a working website link to your GMB profile to boost credibility and drive traffic to your site."
+        },
+        "review": {
+          "title": "Review Count",
+          "why": "Reviews are social proof. Listings with fewer than 10 reviews appear less credible.",
+          "recommendation": "Encourage your satisfied customers to leave reviews. You can send them a direct link to your GMB profile."
+        },
+        "rating": {
+          "title": "Rating Below Average",
+          "why": "A higher rating indicates better customer satisfaction and improves visibility.",
+          "recommendation": "Respond to negative reviews politely and focus on customer service improvements."
+        },
+        "addCategory": {
+          "title": "Additional Categories Not Present or Less Than 5",
+          "why": "Additional categories help Google understand your services and display your listing for relevant searches.",
+          "recommendation": "Add categories that reflect all your services, like 'Emergency Plumbing' or 'Installation'."
+        },
+        "photo": {
+          "title": "Less Than 5 Photos",
+          "why": "High-quality photos enhance your profile and attract more customers.",
+          "recommendation": "Upload updated and clear photos regularly."
+        },
+        "workingHrs": {
+          "title": "Missing Working Hours",
+          "why": "Customers need to know when you're open. Missing hours can result in lost opportunities.",
+          "recommendation": "Add complete business hours, including holidays or special days."
+        },
+        "attributes": {
+          "title": "Missing or Incomplete Attributes",
+          "why": "Attributes like 'Free Wi-Fi' or 'Wheelchair Accessible' can influence a customer's decision.",
+          "recommendation": "Update your attributes based on customer expectations and your offerings."
+        },
+        "profile": {
+          "title": "Logo Not Present or Unclear",
+          "why": "A professional logo builds brand trust and makes your profile look credible.",
+          "recommendation": "Add a high-resolution logo that's consistent across platforms."
+        },
+        "competitor": {
+          "title": "Competitor Comparison",
+          "why": "You need to match or outperform your competitors to stay relevant.",
+          "recommendation": "Analyze what competitors are doing better and improve your listing."
+        },
+        "citation": {
+          "title": "Low Citation Count",
+          "why": "Citations boost local SEO and establish business legitimacy.",
+          "recommendation": "Submit your business to local directories like Yelp and Yellow Pages."
+        }
+      }
+    },
+    "competitorAnalysis": {
+      "title": "Competitor Analysis",
+      "subtitle":"See how you compare against your local competitors",
+      "moderateImpact": "Moderate Impact",
+      "description": "The listing outperforms or matches its competitors in key areas.",
+      "whyItMatters": "Standing out among competitors increases the chance of attracting more customers.",
+      "recommendation": "Analyze competitor profile and focus on areas where they excel such as better rating or more detailed description.",
+      "chart": {
+        "averageRating": "Average Rating",
+        "reviewCount": "Review Count",
+        "tooltipRating": "Rating",
+        "tooltipReviews": "Reviews",
+        "reviews": "reviews"
+      },
+      "table": {
+        "businessName": "Business Name",
+        "avgRating": "Avg. Rating",
+        "reviewCount": "Review Count",
+        "you":"YOU"
+      }
+    },
+    "citationAnalysis": {
+      "title": "Citation Analysis",
+      "highImpact": "High Impact",
+      "description": "The Listing Has Fewer Citation Than Competitors.",
+      "whyItMatters": "Citations improve local SEO ranking and signal credibility to search engines and customers.",
+      "recommendation": "Identify citation gaps by auditing competitor profiles. Submit your business to directories like Yelp, Yellow Pages and other niche-specific sites.",
+      "compare":"Compare local citation counts across competitors",
+      "chart": {
+        "citationCount": "Citation Count",
+        "tooltip": "Citation Count"
+      },
+      "table": {
+        "businessName": "Business Name",
+        "localCitation": "No. Local Citation"
+      }
+    },
+    "summaryOfRecommendations": {
+      "title": "Summary of Recommendations",
+      "recommendations": [
+        "Add a working website link.",
+        "Encourage satisfied customers to leave reviews.",
+        "Average Rating is below 4 stars.",
+        "The logo is present and professional.",
+        "Update your business hours.",
+        "Less Than 5 Photos. Enhance Photo."
+      ]
+    },
+    "tooltip":"{{value}} citations",
+    "loading": "Loading health data...",
+    "error": "Error",
+    "noData": "No data found"
+  }
+}

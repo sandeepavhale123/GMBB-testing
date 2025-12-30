@@ -1,0 +1,59 @@
+{
+  "keywordsTable": {
+    "emptyState": {
+      "title": "Beginnen Sie mit der Verfolgung Ihrer Keywords",
+      "description": "Überwachen Sie Ihre lokalen Suchrankings, indem Sie Keywords hinzufügen, die für Ihr Unternehmen relevant sind. Verfolgen Sie, wie Ihr Unternehmen in Suchergebnissen an verschiedenen Standorten erscheint.",
+      "button": "Such-Keywords hinzufügen"
+    },
+    "bulkActions": {
+      "selected": "{{count}} Keyword{{plural}} ausgewählt",
+      "delete": "Ausgewählte löschen",
+      "deleting": "Löschen...",
+      "clear": "Auswahl aufheben",
+      "confirmTitle": "Löschung bestätigen",
+      "confirmDescription": "Sind Sie sicher, dass Sie {{count}} Keyword{{plural}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
+    },
+    "table": {
+      "selectAll": "Alle Keywords auswählen",
+      "columns": {
+        "srNo": "Nr.",
+        "keyword": "Keyword",
+        "arp": "ARP",
+        "arpTooltip": "Durchschnittliche Ranking-Position",
+        "atrp": "ATRP",
+        "atrpTooltip": "Durchschnittliche Gesamt-Rankingpunkte",
+        "solv": "SoLV",
+        "solvTooltip": "Anteil der lokalen Stimmen",
+        "addedOn": "Hinzugefügt am",
+        "status": "Status",
+        "actions": "Aktionen"
+      },
+      "actions": {
+        "viewRank": "Ranking anzeigen",
+        "selectDelete": "Zum Löschen auswählen",
+        "delete": "Löschen"
+      }
+    },
+    "status": {
+      "completed": "Abgeschlossen",
+      "pending": "Ausstehend",
+      "failed": "Fehlgeschlagen",
+      "running": "Läuft"
+    },
+    "pagination": {
+      "showing": "Zeige {{from}} bis {{to}} von {{total}} Ergebnissen",
+      "previous": "Vorherige",
+      "next": "Nächste",
+      "page": "Seite {{current}} von {{total}}"
+    },
+    "error": {
+      "tryAgain": "Erneut versuchen"
+    },
+    "misc": {
+      "na": "N/V",
+      "invalidDate": "Ungültiges Datum"
+    }
+  }
+}

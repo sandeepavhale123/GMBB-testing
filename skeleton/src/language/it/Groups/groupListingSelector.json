@@ -1,0 +1,15 @@
+{
+  "label": "Seleziona Inserzioni *",
+  "loading": "Caricamento...",
+  "selectListings": "Seleziona inserzioni...",
+  "selectedCount": "{{count}} inserzione selezionata",
+  "selectedCount_plural": "{{count}} inserzioni selezionate",
+  "searchPlaceholder": "Cerca inserzioni...",
+  "noListingsFound": "Nessuna inserzione trovata.",
+  "locations": "Località",
+  "selectAll": "Seleziona Tutto",
+  "deselectAll": "Deseleziona Tutto",
+  "errorFetchListingsTitle": "Errore",
+  "errorFetchListingsDescription": "Impossibile recuperare le inserzioni",
+  "selectAtLeastOne": "Seleziona almeno un'inserzione per continuare."
+}

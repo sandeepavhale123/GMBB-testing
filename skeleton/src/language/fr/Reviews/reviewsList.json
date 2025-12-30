@@ -1,0 +1,37 @@
+{
+  "reviewsList": {
+    "title": "Avis des Clients",
+    "errors": {
+      "title": "Erreur",
+      "reviewsError": "Une erreur s'est produite lors de la récupération des avis.",
+      "replyError": "Erreur lors de l'envoi de la réponse",
+      "deleteReplyError": "Erreur lors de la suppression de la réponse",
+      "refreshError": "Erreur lors de l'actualisation des données",
+      "emptyReply": "Veuillez entrer un message de réponse"
+    },
+    "success": {
+      "title": "Succès",
+      "replyTitle": "Réponse supprimée",
+      "replySent": "Réponse envoyée avec succès",
+      "replyDeleted": "La réponse a été supprimée avec succès",
+      "refresh": "Les données des avis ont été actualisées avec succès"
+    },
+    "buttons": {
+      "tryAgain": "Réessayer",
+      "saveReply": "Enregistrer la réponse",
+      "cancel": "Annuler",
+      "deleteReply": "Supprimer la réponse"
+    },
+    "loading": {
+      "reviews": "Chargement des avis...",
+      "reply": "Envoi de la réponse...",
+      "deleting": "Suppression de la réponse..."
+    },
+    "emptyState": {
+      "noReviews": "Aucun avis pour le moment",
+      "noFilteredReviews": "Aucun avis ne correspond à vos filtres",
+      "noReviewsMessage": "Les avis apparaîtront ici une fois que les clients auront laissé des commentaires sur vos établissements.",
+      "noFilteredReviewsMessage": "Essayez d'ajuster vos critères de recherche ou filtres pour voir plus de résultats."
+    }
+  }
+}

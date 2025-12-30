@@ -1,0 +1,13 @@
+{
+  "deleteAccountModal": {
+    "title": "Konto löschen",
+    "description1": "Sind Sie sicher, dass Sie das Konto ",
+    "description2": "\"{{accountName}}\"",
+    "description3": " mit dieser E-Mail ",
+    "description4": " \"{{accountEmail}}\"",
+    "description5": " löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt alle zugehörigen Einträge und Daten.",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "deleting": "Wird gelöscht..."
+  }
+}

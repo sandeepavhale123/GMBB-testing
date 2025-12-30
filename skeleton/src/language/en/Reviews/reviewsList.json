@@ -1,0 +1,37 @@
+{
+  "reviewsList": {
+    "title": "Customer Reviews",
+    "errors": {
+      "title":"Error",
+      "reviewsError": "Something went wrong while fetching reviews.",
+      "replyError": "Error Sending Reply",
+      "deleteReplyError": "Error Deleting Reply",
+      "refreshError": "Error Refreshing Data",
+      "emptyReply": "Please enter a reply message"
+    },
+    "success": {
+      "title":"Success",
+      "replyTitle":"Reply Deleted",
+      "replySent": "Reply sent successfully",
+      "replyDeleted": "The reply has been deleted successfully",
+      "refresh": "Review data refreshed successfully"
+    },
+    "buttons": {
+      "tryAgain": "Try Again",
+      "saveReply": "Save Reply",
+      "cancel": "Cancel",
+      "deleteReply": "Delete Reply"
+    },
+    "loading": {
+      "reviews": "Loading reviews...",
+      "reply": "Sending reply...",
+      "deleting": "Deleting reply..."
+    },
+    "emptyState": {
+      "noReviews": "No reviews yet",
+      "noFilteredReviews": "No reviews match your filters",
+      "noReviewsMessage": "Reviews will appear here once customers leave feedback on your business listings.",
+      "noFilteredReviewsMessage": "Try adjusting your search criteria or filters to see more results."
+    }
+  }
+}

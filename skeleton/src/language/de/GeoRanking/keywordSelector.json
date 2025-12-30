@@ -1,0 +1,23 @@
+{
+  "keywordSelector": {
+    "labels": {
+      "keyword": "Schlüsselwort"
+    },
+    "placeholders": {
+      "keyword": {
+        "loading": "Schlüsselwörter werden geladen...",
+        "default": "Schlüsselwort auswählen",
+        "search": "Schlüsselwörter suchen..."
+      },
+      "date": {
+        "loading": "Daten werden geladen...",
+        "default": "Berichtsdatum auswählen"
+      }
+    },
+    "messages": {
+      "loading": "Wird geladen...",
+      "noKeywords": "Keine Schlüsselwörter gefunden"
+    },
+    "all": " Alle"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "reviewSummaryTitle": "Résumé des Avis",
+  "tryAgainButton": "Réessayer",
+  "reviewsLabel": "{{count}} avis",
+  "errorTitle": "Erreur",
+  "errorDescription": "Une erreur s’est produite. Veuillez réessayer.",
+  "viewAll": "Tout voir"
+}

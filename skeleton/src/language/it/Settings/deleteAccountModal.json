@@ -1,0 +1,13 @@
+{
+  "deleteAccountModal": {
+    "title": "Elimina Account",
+    "description1": "Sei sicuro di voler eliminare l'account ",
+    "description2": "\"{{accountName}}\"",
+    "description3": " con questa email ",
+    "description4": " \"{{accountEmail}}\"",
+    "description5": "? Questa azione non può essere annullata e rimuoverà tutti gli annunci e i dati associati.",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "deleting": "Eliminazione in corso..."
+  }
+}

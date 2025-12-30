@@ -1,0 +1,58 @@
+{
+  "recentReviews": {
+    "title": "Reseñas Recientes",
+    "viewAll": "Ver Todas las Reseñas",
+    "searchPlaceholder": "Buscar reseñas...",
+    "sort": {
+      "placeholder": "Ordenar por",
+      "newest": "Más Recientes",
+      "oldest": "Más Antiguas",
+      "highest": "Mayor Calificación",
+      "lowest": "Menor Calificación"
+    },
+    "filter": {
+      "placeholder": "Calificación",
+      "all": "Todas las Calificaciones",
+      "5": "5 Estrellas",
+      "4": "4 Estrellas",
+      "3": "3 Estrellas",
+      "2": "2 Estrellas",
+      "1": "1 Estrella"
+    },
+    "badges": {
+      "new": "Nueva",
+      "noReply": "Sin Respuesta",
+      "aiResponded": "Respondida por AI",
+      "manualReply": "Respuesta Manual"
+    },
+    "actions": {
+      "generateAI": "Generar Respuesta AI",
+      "manualReply": "Responder Manualmente",
+      "useResponse": "Usar Respuesta",
+      "cancel": "Cancelar",
+      "sendReply": "Enviar Respuesta"
+    },
+    "aiSection": {
+      "title": "Respuesta Sugerida por AI",
+      "placeholder": "Aquí aparecerá la respuesta sugerida por AI..."
+    },
+    "manualSection": {
+      "title": "Escribe tu respuesta",
+      "placeholder": "Escribe tu respuesta..."
+    },
+    "toasts": {
+      "aiGenerated": {
+        "title": "Respuesta AI Generada",
+        "description": "AI ha generado una respuesta para esta reseña."
+      },
+      "responseUsed": {
+        "title": "Respuesta Usada",
+        "description": "La respuesta sugerida por AI ha sido utilizada para esta reseña."
+      },
+      "replySent": {
+        "title": "Respuesta Enviada",
+        "description": "Tu respuesta manual ha sido enviada con éxito."
+      }
+    }
+  }
+}

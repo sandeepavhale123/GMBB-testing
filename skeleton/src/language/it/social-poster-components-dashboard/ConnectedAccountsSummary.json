@@ -1,0 +1,18 @@
+{
+  "connectedAccounts": "Account collegati",
+  "noAccounts": "Nessun account collegato",
+  "status": {
+    "connected": "Collegato"
+  },
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter/X",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Individuale)",
+    "linkedin_organisation": "LinkedIn (Organizzazione)",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  }
+}

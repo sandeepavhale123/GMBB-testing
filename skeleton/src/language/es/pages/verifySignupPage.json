@@ -1,0 +1,24 @@
+{
+  "verifySignupPage": {
+    "loading": {
+      "message": "Verificando su cuenta..."
+    },
+    "success": {
+      "title": "¡Registro verificado!",
+      "description": "Ahora puede iniciar sesión y comenzar a usar su cuenta.",
+      "buttonGoToLogin": "Ir a Iniciar Sesión"
+    },
+    "error": {
+      "title": "Verificación fallida",
+      "description": "Por favor, revise su correo electrónico para obtener un enlace de registro válido o inténtelo de nuevo.",
+      "buttonBackToSignup": "Volver al Registro",
+      "toast": {
+        "title": "Verificación fallida",
+        "missingSessionId": "Falta el ID de sesión en la URL."
+      }
+    },
+    "toast": {
+      "title": "Registro verificado"
+    }
+  }
+}

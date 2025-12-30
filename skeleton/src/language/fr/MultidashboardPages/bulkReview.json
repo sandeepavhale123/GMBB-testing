@@ -1,0 +1,28 @@
+{
+  "title": "Gestion des Avis en Masse",
+  "subtitle": "Gérez les avis sur toutes vos annonces.",
+  "configureAutoReply": "Configurer la Réponse Automatique",
+  "summary": {
+    "reviews": "Avis Clients",
+    "loading": "Chargement des avis...",
+    "noReviews": "Aucun avis trouvé correspondant à vos critères."
+  },
+  "export": "Exporter CSV",
+  "toast": {
+    "successTitle": "Succès",
+    "replySuccess": "Réponse envoyée avec succès",
+    "replyError": "Échec de l'envoi de la réponse",
+    "deleteSuccess": "Réponse supprimée avec succès",
+    "deleteError": "Échec de la suppression de la réponse"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} avis",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{pages}}"
+  },
+  "error": {
+    "title": "Erreur",
+    "retry": "Réessayer"
+  }
+}

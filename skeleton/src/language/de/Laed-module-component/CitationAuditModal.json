@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Citation Audit Bericht erstellen",
+    "description": "Füllen Sie die Geschäftsdaten aus, um einen umfassenden Citation Audit Bericht zu erstellen.",
+    "form": {
+      "businessName": "Unternehmensname *",
+      "businessNamePlaceholder": "Unternehmensname eingeben",
+      "phone": "Telefonnummer *",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "keyword": "Keyword *",
+      "keywordPlaceholder": "Ziel-Keyword eingeben",
+      "city": "Stadt *",
+      "cityPlaceholder": "Nach Stadt suchen"
+    },
+    "buttons": {
+      "cancel": "Abbrechen",
+      "generate": "Bericht erstellen",
+      "generating": "Wird erstellt..."
+    },
+    "errors": {
+      "cityRequired": "Bitte eine gültige Stadt auswählen",
+      "generateFailed": "Citation Audit Bericht konnte nicht erstellt werden"
+    },
+    "validation": {
+      "business": "Unternehmensname ist erforderlich.",
+      "phone": "Telefonnummer ist erforderlich.",
+      "keyword": "Keyword ist erforderlich.",
+      "city": "Stadt ist erforderlich."
+    }
+  }
+}

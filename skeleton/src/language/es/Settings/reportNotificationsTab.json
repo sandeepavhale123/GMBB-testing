@@ -1,0 +1,60 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Cargando configuración de notificaciones..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Tipo de Reporte",
+        "frequency": "Frecuencia",
+        "action": "Acción"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "Reporte de Reseñas Nuevas / Actualizadas",
+        "description": "Análisis detallado de reseñas y calificaciones de clientes nuevas o actualizadas, con notificaciones del reporte enviadas diariamente o cada vez que se produzcan actualizaciones."
+      },
+      "postReport": {
+        "name": "Reporte de Publicaciones de GMB",
+        "description": "Análisis del rendimiento de tus publicaciones de GMB, con notificaciones del reporte enviadas diariamente o cada vez que haya nuevas actualizaciones disponibles."
+      },
+      "geoRanking": {
+        "name": "Reporte de GEO Ranking",
+        "description": "Análisis del rendimiento en búsquedas locales, con notificaciones del reporte enviadas diariamente o cada vez que se produzcan actualizaciones."
+      }
+    },
+    "frequency": {
+      "daily": "Diariamente",
+      "whenUpdated": "Cuando se Actualice",
+      "off": "Desactivado",
+      "tooltip": "Enviar solo cuando haya datos nuevos o modificados en el reporte"
+    },
+    "action": {
+      "all": "Todos",
+      "postOptions": {
+        "all": "TODOS",
+        "failed": "Fallido",
+        "live": "Activo"
+      },
+      "reviewOptions": {
+        "5star": "5 Estrellas",
+        "4star": "4 Estrellas",
+        "3star": "3 Estrellas",
+        "2star": "2 Estrellas",
+        "1star": "1 Estrella"
+      }
+    },
+    "toast": {
+      "success": {
+        "title": "Éxito",
+        "description": "Configuración de notificaciones actualizada con éxito"
+      },
+      "error": {
+        "title": "Error",
+        "load": "Error al cargar la configuración de notificaciones",
+        "update": "Error al actualizar la configuración de notificaciones"
+      }
+    }
+  }
+}

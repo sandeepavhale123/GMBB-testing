@@ -1,0 +1,12 @@
+{
+  "offer": {
+    "startDateTime": "Startdatum & Uhrzeit",
+    "endDateTime": "Enddatum & Uhrzeit",
+    "couponCode": "Gutscheincode",
+    "couponCodePlaceholder": "Gutscheincode eingeben",
+    "redeemOnlineUrl": "Online einlösen URL",
+    "redeemOnlineUrlPlaceholder": "https://example.com/redeem",
+    "termsAndConditions": "Geschäftsbedingungen",
+    "termsAndConditionsPlaceholder": "Geben Sie die Geschäftsbedingungen für dieses Angebot ein..."
+  }
+}

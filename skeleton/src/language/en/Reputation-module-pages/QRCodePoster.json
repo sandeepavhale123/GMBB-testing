@@ -1,0 +1,69 @@
+{
+  "page": {
+    "editTitle": "Edit QR Code Poster",
+    "createTitle": "Create New Poster",
+    "subtitle": "Customize your QR code poster design",
+    "noListing": "Please select a listing to customize your QR code poster."
+  },
+
+  "fields": {
+    "reviewUrl": {
+      "label": "Review Link URL",
+      "helper": "Enter the URL where customers will leave reviews",
+      "placeholder": "https://g.page/your-business"
+    },
+    "logo": {
+      "label": "Business Logo",
+      "drag": "Drag and drop your logo here",
+      "browse": "or click to browse (PNG, JPG, SVG - Max 5MB)",
+      "change": "Click to change logo",
+      "alt":"Logo preview"
+    },
+    "businessName": {
+      "label": "Business Name",
+      "placeholder": "Your Business Name"
+    },
+    "title": {
+      "label": "Poster Title",
+      "placeholder": "Leave us a review!"
+    },
+    "subtitle": {
+      "label": "Subtitle",
+      "placeholder": "Scan the QR code to share your experience"
+    }
+  },
+
+  "colors": {
+    "label": "Color",
+    "background": "Background",
+    "text": "Text",
+    "pattern": "Pattern"
+  },
+
+  "theme": {
+    "label": "Theme"
+  },
+
+  "buttons": {
+    "save": "Save Poster",
+    "update": "Update Poster",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "download": "Download Poster",
+    "downloading": "Downloading..."
+  },
+
+  "toast": {
+    "success": "Success",
+    "error":"Error",
+    "validation":"Validation Error",
+    "posterDownloaded": "Poster downloaded successfully!",
+    "downloadFailed": "Failed to download poster",
+    "validationError": "Validation Error",
+    "businessRequired": "Please enter your business name",
+    "urlRequired": "Please enter a review link URL",
+    "listingRequired": "Please select a listing first",
+    "fileTooLarge": "Logo file is too large. Maximum size is 5MB",
+    "invalidFile": "Invalid file format. Please upload PNG, JPG, or SVG"
+  }
+}

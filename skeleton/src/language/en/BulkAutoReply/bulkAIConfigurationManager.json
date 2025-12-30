@@ -1,0 +1,65 @@
+{
+  "dnr": {
+    "title": "DNR Project",
+    "description1": "You have created this project for DNR (Do Not Respond).",
+    "description2": "This project is configured to not respond to reviews automatically."
+  },
+  "header": {
+    "title": "AI Auto Response",
+    "badge": "AI Powered",
+    "description": "Let AI generate personalized, contextual responses based on review content and sentiment."
+  },
+  "responseStyle": {
+    "label": "AI Response Style",
+    "placeholder": "Choose your response style...",
+    "styles": {
+      "professional": "Professional",
+      "friendly": "Friendly",
+      "casual": "Casual",
+      "formal": "Formal",
+      "empathetic": "Empathetic"
+    },
+    "hint": "💡 AI will adapt this style to each review's specific content and rating."
+  },
+  "advanced": {
+    "label": "Advanced Options",
+    "noteTitle": "Note:",
+    "noteText1": "You can use the following variables in your reply text to display the reviewer's name:",
+    "noteText2": ". To insert the response content, use ",
+    "noteText3": ". Don't forget to include it in your template.",
+    "customPrompt": {
+      "label": "Custom Prompt",
+      "placeholder": "Enter custom prompt",
+      "hint": "Add specific instructions to customize how the AI generates replies."
+    },
+    "replyText": "Reply Text",
+    "responsePlaceholder": "Enter your response template...",
+    "starRatings": "Apply For Star Ratings"
+  },
+  "sample": {
+    "title": "Generate Sample AI Response",
+    "subtitle": "Test how AI will respond to a sample review",
+    "button": "Generate Sample AI Response",
+    "buttonLoading": "Generating Sample Response...",
+    "reviewUser": "John Doe",
+    "reviewText": "Had an amazing experience! The service was excellent and the staff was very friendly. Everything exceeded my expectations. Will definitely come back again!",
+    "generatedLabel": "AI Generated Response:"
+  },
+  "replyExisting": {
+    "label": "Reply to Existing Reviews",
+    "description": "Enable this to automatically reply to reviews that were posted before enabling AI responses."
+  },
+  "save": {
+    "button": "Save AI Settings"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "saveSuccess": "AI Auto Reply settings saved successfully! Updated {{count}} location{{plural}}.",
+    "saveError": "Failed to save AI Auto Reply settings. Please try again.",
+    "toggleSuccess": "AI Auto Reply {{status}} successfully! Updated {{count}} location{{plural}}.",
+    "toggleError": "Failed to update AI Auto Reply status. Please try again.",
+    "replyToggleSuccess": "Reply to existing reviews {{status}} successfully! Updated {{count}} location{{plural}}.",
+    "replyToggleError": "Failed to update reply to existing reviews setting. Please try again."
+  }
+}

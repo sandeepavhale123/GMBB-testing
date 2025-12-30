@@ -1,0 +1,8 @@
+{
+  "title": "Activity Summary",
+  "labels": {
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "summary": "% Success vs. Failed"
+}

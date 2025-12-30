@@ -1,0 +1,8 @@
+{
+  "customPeriodModal": {
+    "title": "Select Custom Period",
+    "dateRangePlaceholder": "Select date range",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "header": {
+    "title": "Gestión Masiva de Medios",
+    "subtitle": "Sube y organiza medios en múltiples listados."
+  },
+  "buttons": {
+    "upload": "Subir Medios",
+    "tryAgain": "Intentar de Nuevo",
+    "viewDetails": "Ver Detalles",
+    "delete": "Eliminar",
+    "deleting": "Eliminando..."
+  },
+  "messages": {
+    "errorLoading": "Error al cargar medios masivos: {{error}}",
+    "noMediaTitle": "Aún no hay medios masivos",
+    "noMediaDescription": "Sube tus primeros medios masivos para empezar",
+    "noImage": "Sin imagen",
+    "noActivePosts": "No hay publicaciones activas",
+    "postedOn": "Publicado en {{count}} listados",
+    "failedOn": "Falló en {{count}} listados",
+    "scheduledOn": "Programado en {{count}} listados"
+  },
+  "mediaTypes": {
+    "video": "Video",
+    "photo": "Foto"
+  },
+  "location": "ubicaciones totales",
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} medios"
+  },
+  "deleteDialog": {
+    "title": "Eliminar Medio",
+    "description": "¿Estás seguro de que deseas eliminar \"{{title}}\"? Esta acción no se puede deshacer y eliminará el medio de todos los listados asociados.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar"
+  },
+  "toast": {
+    "success": {
+      "title": "Éxito",
+      "description": "Medio eliminado con éxito"
+    },
+    "error": {
+      "title": "Error",
+      "description": "No se pudo eliminar el medio. Por favor, inténtalo de nuevo."
+    }
+  }
+}

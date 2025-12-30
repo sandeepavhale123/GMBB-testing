@@ -1,0 +1,50 @@
+{
+  "citationPage": {
+    "loading": "Chargement de la page de citation...",
+    "searchForm": {
+      "title": "Rapport d'audit des citations",
+      "description": "Entrez les informations de votre entreprise pour démarrer l'audit des citations",
+      "businessNameLabel": "Nom de l'entreprise",
+      "businessNamePlaceholder": "Entrez le nom de l'entreprise",
+      "phoneLabel": "Téléphone",
+      "phonePlaceholder": "Entrez le numéro de téléphone",
+      "cityLabel": "Ville",
+      "cityPlaceholder": "Entrez le nom de la ville",
+      "searchButton": "Rechercher",
+      "searchingButton": "Recherche en cours..."
+    },
+    "management": {
+      "title": "Gestion des citations",
+      "description": "Surveillez et gérez vos citations d'entreprise dans les annuaires",
+      "refresh": "Actualiser la citation",
+      "refreshing": "Actualisation en cours...",
+      "newSearch": "Nouvelle recherche"
+    },
+    "trackerCard": {
+      "title": "Suivi des citations",
+      "listed": "Répertorié",
+      "notListed": "Non répertorié",
+      "listedPercent": "Répertorié"
+    },
+    "localPagesCard": {
+      "title": "Pages et annuaires locaux",
+      "description": "Le score de vos pages et annuaires locaux est basé sur le nombre d'endroits où votre fiche est présente, divisé par le nombre de pages et annuaires locaux que nous avons vérifiés."
+    },
+    "auditCard": {
+      "title": "Audit des citations",
+      "orderButton": "Passer la commande",
+      "existingTab": "Citation existante",
+      "possibleTab": "Citation possible",
+      "table": {
+        "website": "Site web",
+        "businessName": "Nom de l'entreprise",
+        "phone": "Téléphone",
+        "action": "Action",
+        "siteName": "Nom du site",
+        "view": "Voir",
+        "fixNow": "Corriger maintenant"
+      }
+    },
+    "noPhoneProvided": "Non correspondant"
+  }
+}

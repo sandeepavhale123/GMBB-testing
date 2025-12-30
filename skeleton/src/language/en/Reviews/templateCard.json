@@ -1,0 +1,41 @@
+{
+  "templateCard": {
+    "noTemplate": "No template created yet",
+    "enable": "Enable",
+    "enabling": "Enabling...",
+    "disable": "Disable",
+    "disabling": "Disabling...",
+    "manage": "Manage",
+    "create": "Create",
+    "availableVariables": "Available Variables",
+    "multipleResponses": {
+      "title": "Multiple Responses",
+      "note": "Note: If you want to use multiple responses, use a pipe symbol after each response."
+    },
+    "templateContent": "Template Content",
+    "textareaPlaceholder":"Enter your template response...",
+    "more":"more variations",
+    "systemTemplateNotice": "This is a system template loaded from your settings. Changes should be made through the main settings panel.",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save Template",
+    "saving": "Saving...",
+    "manageDialog": {
+      "title": {
+        "rating": "Manage {{starRating}}-Star Template",
+        "ratingOnly": "Manage Rating Only Template"
+      }
+    },
+    "disableDialog": {
+      "title": "Are you sure you want to remove this rating?",
+      "confirm": "Yes, Remove"
+    },
+    "toast": {
+      "error": {
+        "title": "Error",
+        "enable": "Failed to enable auto-reply setting.",
+        "disable": "Failed to disable auto-reply setting."
+      }
+    }
+  }
+}

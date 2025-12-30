@@ -1,0 +1,60 @@
+{
+  "reportNotificationsTab": {
+    "loading": {
+      "message": "Caricamento impostazioni notifiche..."
+    },
+    "table": {
+      "headers": {
+        "reportType": "Tipo di Rapporto",
+        "frequency": "Frequenza",
+        "action": "Azione"
+      }
+    },
+    "reports": {
+      "reviewReport": {
+        "name": "Rapporto Nuove / Aggiornate Recensioni",
+        "description": "Analisi dettagliata delle nuove recensioni e valutazioni dei clienti aggiornate, con notifiche del rapporto inviate quotidianamente o ogni volta che ci sono aggiornamenti."
+      },
+      "postReport": {
+        "name": "Rapporto Post GMB",
+        "description": "Analisi delle prestazioni dei tuoi post GMB, con notifiche del rapporto inviate quotidianamente o ogni volta che sono disponibili nuovi aggiornamenti."
+      },
+      "geoRanking": {
+        "name": "Rapporto GEO Ranking",
+        "description": "Analisi delle prestazioni del posizionamento nelle ricerche locali, con notifiche del rapporto inviate quotidianamente o ogni volta che ci sono aggiornamenti."
+      }
+    },
+    "frequency": {
+      "daily": "Quotidiano",
+      "whenUpdated": "Quando Aggiornato",
+      "off": "Disattivato",
+      "tooltip": "Invia solo quando ci sono nuovi dati o dati modificati nel rapporto"
+    },
+    "action": {
+      "all": "Tutti",
+      "postOptions": {
+        "all": "TUTTI",
+        "failed": "Fallito",
+        "live": "Attivo"
+      },
+      "reviewOptions": {
+        "5star": "5 Stelle",
+        "4star": "4 Stelle",
+        "3star": "3 Stelle",
+        "2star": "2 Stelle",
+        "1star": "1 Stella"
+      }
+    },
+    "toast": {
+      "success": {
+        "title": "Successo",
+        "description": "Impostazioni notifiche aggiornate con successo"
+      },
+      "error": {
+        "title": "Errore",
+        "load": "Impossibile caricare le impostazioni delle notifiche",
+        "update": "Impossibile aggiornare le impostazioni delle notifiche"
+      }
+    }
+  }
+}

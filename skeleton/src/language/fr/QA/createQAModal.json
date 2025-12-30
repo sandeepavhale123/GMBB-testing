@@ -1,0 +1,11 @@
+{
+  "createQAModal": {
+    "title": "Ajouter une nouvelle question/réponse",
+    "questionLabel": "Question",
+    "questionPlaceholder": "Entrez la question...",
+    "answerLabel": "Réponse",
+    "answerPlaceholder": "Entrez votre réponse...",
+    "cancel": "Annuler",
+    "submit": "Ajouter Q&R"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "placeholders": {
+    "businessName": "Nome Azienda",
+    "businessInitial": "A",
+    "uploadImage": "Carica un'immagine",
+    "timeAgo": "1 minuto fa"
+  },
+  "cta": {
+    "LEARN_MORE": "Scopri di più",
+    "BOOK": "Prenota ora",
+    "CALL": "Chiama ora",
+    "ORDER": "Ordina online",
+    "SHOP": "Acquista ora",
+    "SIGN_UP": "Iscriviti"
+  },
+  "engagement": {
+    "like": "Mi piace",
+    "comment": "Commenta",
+    "share": "Condividi"
+  }
+}

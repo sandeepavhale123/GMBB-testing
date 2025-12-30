@@ -1,0 +1,65 @@
+{
+  "dnr": {
+    "title": "Proyecto DNR",
+    "description1": "Has creado este proyecto para DNR (No Responder).",
+    "description2": "Este proyecto está configurado para no responder automáticamente a las reseñas."
+  },
+  "header": {
+    "title": "Respuesta Automática de IA",
+    "badge": "Impulsado por IA",
+    "description": "Permite que la IA genere respuestas personalizadas y contextuales según el contenido y el sentimiento de la reseña."
+  },
+  "responseStyle": {
+    "label": "Estilo de Respuesta de IA",
+    "placeholder": "Elige tu estilo de respuesta...",
+    "styles": {
+      "professional": "Profesional",
+      "friendly": "Amistoso",
+      "casual": "Informal",
+      "formal": "Formal",
+      "empathetic": "Empático"
+    },
+    "hint": "💡 La IA adaptará este estilo al contenido y la calificación específica de cada reseña."
+  },
+  "advanced": {
+    "label": "Opciones Avanzadas",
+    "noteTitle": "Nota:",
+    "noteText1": "Puedes usar las siguientes variables en tu texto de respuesta para mostrar el nombre del reseñador:",
+    "noteText2": ". Para insertar el contenido de la respuesta, usa ",
+    "noteText3": ". No olvides incluirlo en tu plantilla.",
+    "customPrompt": {
+      "label": "Indicación Personalizada",
+      "placeholder": "Ingresa indicación personalizada",
+      "hint": "Añade instrucciones específicas para personalizar cómo la IA genera las respuestas."
+    },
+    "replyText": "Texto de Respuesta",
+    "responsePlaceholder": "Ingresa tu plantilla de respuesta...",
+    "starRatings": "Aplicar a Calificaciones por Estrellas"
+  },
+  "sample": {
+    "title": "Generar Respuesta de IA de Muestra",
+    "subtitle": "Prueba cómo responderá la IA a una reseña de ejemplo",
+    "button": "Generar Respuesta de IA de Muestra",
+    "buttonLoading": "Generando Respuesta de Muestra...",
+    "reviewUser": "John Doe",
+    "reviewText": "¡Tuve una experiencia increíble! El servicio fue excelente y el personal muy amable. Todo superó mis expectativas. ¡Definitivamente volveré!",
+    "generatedLabel": "Respuesta Generada por IA:"
+  },
+  "replyExisting": {
+    "label": "Responder a Reseñas Existentes",
+    "description": "Activa esto para responder automáticamente a las reseñas que se publicaron antes de habilitar las respuestas de IA."
+  },
+  "save": {
+    "button": "Guardar Configuración de IA"
+  },
+  "toast": {
+    "success": "Éxito",
+    "error": "Error",
+    "saveSuccess": "¡Configuración de Respuesta Automática de IA guardada con éxito! Actualizado {{count}} ubicación{{plural}}.",
+    "saveError": "No se pudo guardar la configuración de Respuesta Automática de IA. Por favor, inténtalo de nuevo.",
+    "toggleSuccess": "¡Respuesta Automática de IA {{status}} con éxito! Actualizado {{count}} ubicación{{plural}}.",
+    "toggleError": "No se pudo actualizar el estado de la Respuesta Automática de IA. Por favor, inténtalo de nuevo.",
+    "replyToggleSuccess": "¡Responder a reseñas existentes {{status}} con éxito! Actualizado {{count}} ubicación{{plural}}.",
+    "replyToggleError": "No se pudo actualizar la configuración de responder a reseñas existentes. Por favor, inténtalo de nuevo."
+  }
+}

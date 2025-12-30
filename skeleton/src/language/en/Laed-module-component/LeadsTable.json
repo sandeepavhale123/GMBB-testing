@@ -1,0 +1,26 @@
+{
+  "leadsTable": {
+    "headers": {
+      "businessName": "Business Name",
+      "email": "Email",
+      "date": "Date",
+      "category": "Category",
+      "reports": "Reports",
+      "actions": "Actions"
+    },
+    "reportLabels": {
+      "gmbHealthReport": "GMB Health Report",
+      "citationAudit": "Citation Audit",
+      "geoRanking": "GEO Ranking",
+      "gmbProspect": "GMB Prospect",
+      "onPageReport": "On-Page Report",
+      "noReports": "No reports"
+    },
+    "fallbacks": {
+      "na": "N/A"
+    },
+    "empty": {
+      "noLeads": "No leads found. Add your first lead to get started."
+    }
+  }
+}

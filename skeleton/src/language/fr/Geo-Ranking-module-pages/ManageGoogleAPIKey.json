@@ -1,0 +1,43 @@
+{
+  "manageApiKey": {
+    "pageTitle": "Clé API Google Places",
+    "pageDescription": "Gérez votre clé API Google Places pour les vérifications de classement basées sur la localisation.",
+    "infoAlert": {
+      "description": "Vous avez besoin d'une clé API Google Places valide pour effectuer des vérifications de classement basées sur la localisation. Assurez-vous que votre clé API a les API Places et Geocoding activées.",
+      "getKey": "Obtenir une clé API"
+    },
+    "status": {
+      "title": "Statut actuel",
+      "configured": "Clé API configurée",
+      "keyLabel": "Clé",
+      "active": "Active",
+      "delete": "Supprimer",
+      "deleting": "Suppression en cours...",
+      "deleteTitle": "Supprimer la clé API",
+      "deleteDescription": "Êtes-vous sûr de vouloir supprimer votre clé API Google Places ? Cette action est irréversible et désactivera toutes les vérifications de classement basées sur la localisation.",
+      "cancel": "Annuler",
+      "confirmDelete": "Supprimer la clé API"
+    },
+    "config": {
+      "title": "Configuration de la clé API",
+      "label": "Clé API Google Places",
+      "placeholder": "Entrez votre clé API Google Places",
+      "add": "Ajouter",
+      "update": "Mettre à jour",
+      "saving": "Enregistrement en cours..."
+    },
+    "instructions": {
+      "title": "Comment générer une clé API Google Places :",
+      "step1": "1. Remarque - Vous devez activer la facturation pour le projet Google.",
+      "step2_p1": "2. Rendez-vous sur la console Google ",
+      "step2_p2": "Cloud Platform.",
+      "step3": "3. Cliquez sur le menu déroulant du projet et sélectionnez ou créez le projet pour lequel vous souhaitez ajouter une clé API.",
+      "step4": "4. Depuis le tableau de bord > Allez à Présentation des API > Cliquez sur Bibliothèque > Activez l'API Maps JavaScript & l'API Places en cliquant sur les deux respectivement.",
+      "step5": "5. Ensuite, cliquez sur le bouton menu et sélectionnez API & Services > Identifiants.",
+      "step6": "6. Sur la page des identifiants, menu déroulant Créer des identifiants - Sélectionnez l'option Clé API.",
+      "step7": "7. Une boîte de dialogue s'affiche avec « votre clé API nouvellement créée » - Copiez la clé.",
+      "step8": "8. Utilisez ou collez la clé générée sous Geo Ranking > Onglet Gérer la clé. (Activité unique - uniquement pour la première utilisation du contrôle de classement GEO).",
+      "step9": "9. Une fois que vous avez ajouté une clé, elle sera utilisée pour toutes vos fiches, et il n'est plus nécessaire de générer une clé séparée pour chaque fiche GMB."
+    }
+  }
+}

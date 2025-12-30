@@ -1,0 +1,60 @@
+{
+  "geoRankingReportForm": {
+    "title": "Berichtskonfiguration",
+    "keywords": {
+      "label": "Schlüsselwörter",
+      "placeholder": "keyword1, keyword2, keyword3",
+      "tooltip": "Fügen Sie bis zu 5 durch Kommas getrennte Schlüsselwörter hinzu",
+      "maxReached": "⚠️ Sie haben das Maximum von 5 Schlüsselwörtern erreicht. Sie können vorhandene Schlüsselwörter weiterhin bearbeiten.",
+      "limitExceededToastTitle": "Schlüsselwortlimit überschritten",
+      "limitExceededToastDesc": "Es wurden nur die ersten 5 Schlüsselwörter hinzugefügt. Das Maximum beträgt 5 Schlüsselwörter.",
+      "invalidToastTitle": "Ungültige Schlüsselwörter",
+      "invalidToastDesc": "Bitte überprüfen Sie Ihre Schlüsselwörter."
+    },
+    "searchDataEngine": {
+      "label": "Suchdaten-Engine",
+      "mapApi": "Map API",
+      "briefcaseApi": "Briefcase API",
+      "missingApiKeyTitle": "Fehlender API-Schlüssel",
+      "missingApiKeyDesc": "Bitte fügen Sie zuerst den API-Schlüssel hinzu, indem Sie zu Einstellungen → Integrationen gehen."
+    },
+    "mapPoint": {
+      "label": "Kartensymbol",
+      "automatic": "Automatisch",
+      "manually": "Manuell",
+      "manualInfo": "Klicken Sie auf die Karte, um Punkte manuell zu platzieren. Sie können sie verschieben, um die Position zu ändern.",
+      "pointsSelected": "Ausgewählte Punkte: {{count}}",
+      "clearAllPoints": "Alle Punkte löschen"
+    },
+    "distanceUnit": {
+      "label": "Entfernungseinheit",
+      "meters": "Meter",
+      "miles": "Meilen"
+    },
+    "distanceValue": {
+      "label": "Entfernung",
+      "placeholder": "Auswählen…"
+    },
+    "gridSize": {
+      "label": "Rastergröße"
+    },
+    "scheduleCheck": {
+      "label": "Überprüfung planen",
+      "options": {
+        "onetime": "Einmalig",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
+      }
+    },
+    "language": {
+      "label": "Sprache"
+    },
+    "buttons": {
+      "checkRank": "Rang prüfen",
+      "processingKeyword": "Schlüsselwort wird verarbeitet...",
+      "submittingRank": "Rang wird geprüft...",
+      "reset": "Zurücksetzen & Neue Suche"
+    },
+    "pollingInfo": "🔄 Das Schlüsselwort wird verarbeitet. Dies kann einige Minuten dauern..."
+  }
+}

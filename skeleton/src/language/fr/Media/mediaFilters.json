@@ -1,0 +1,34 @@
+{
+  "mediaFilters": {
+    "searchPlaceholder": "Rechercher des fichiers multimédias...",
+    "category": {
+      "placeholder": "Catégorie",
+      "all": "Toutes les catégories",
+      "cover": "Couverture",
+      "profile": "Profil",
+      "logo": "Logo",
+      "exterior": "Extérieur",
+      "interior": "Intérieur",
+      "product": "Produit",
+      "atWork": "Au travail",
+      "foodAndDrink": "Nourriture et boissons",
+      "menu": "Menu",
+      "commonArea": "Espace commun",
+      "rooms": "Chambres",
+      "teams": "Équipes",
+      "additional": "Supplémentaire"
+    },
+    "status": {
+      "placeholder": "Statut",
+      "all": "Tous les statuts",
+      "live": "En ligne",
+      "scheduled": "Planifié",
+      "failed": "Échoué"
+    },
+    "sortOrder": {
+      "placeholder": "Ordre",
+      "desc": "Décroissant",
+      "asc": "Croissant"
+    }
+  }
+}

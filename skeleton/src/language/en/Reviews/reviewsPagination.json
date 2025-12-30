@@ -1,0 +1,8 @@
+{
+  "reviewsPagination": {
+    "showing": "Showing {{start}} to {{end}} of {{total}} reviews",
+    "pageInfo": "Page {{page}} of {{totalPages}}",
+    "previous": "Previous",
+    "next": "Next"
+  }
+}

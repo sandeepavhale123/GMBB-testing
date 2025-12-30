@@ -1,0 +1,32 @@
+{
+  "title": "Konten verwalten",
+  "subtitle": "Verbinden und verwalten Sie Ihre Social-Media-Konten",
+
+  "button_connect_new": "Neu verbinden",
+
+  "search_placeholder": "Konten suchen...",
+
+  "filters": {
+    "all_platforms": "Alle Plattformen",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin_individual": "LinkedIn (Einzelperson)",
+    "linkedin_organisation": "LinkedIn (Organisation)",
+    "threads": "Threads",
+
+    "all_status": "Alle Status",
+    "healthy": "Aktiv",
+    "warning": "Warnung",
+    "error": "Fehler",
+    "disconnected": "Getrennt"
+  },
+
+  "toast": {
+    "success_title": "Verbindung erfolgreich!",
+    "failed_title": "Verbindung fehlgeschlagen",
+    "success_desc": "Erfolgreich verbunden",
+    "success_description_default": "{{platform}}-Konto erfolgreich verbunden",
+    "failed_description_default": "{{platform}}-Konto konnte nicht verbunden werden"
+  }
+}

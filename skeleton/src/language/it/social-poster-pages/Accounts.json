@@ -1,0 +1,32 @@
+{
+  "title": "Gestisci Account",
+  "subtitle": "Collega e gestisci i tuoi account dei social media",
+
+  "button_connect_new": "Collega Nuovo",
+
+  "search_placeholder": "Cerca account...",
+
+  "filters": {
+    "all_platforms": "Tutte le piattaforme",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin_individual": "LinkedIn (Individuale)",
+    "linkedin_organisation": "LinkedIn (Organizzazione)",
+    "threads": "Threads",
+
+    "all_status": "Tutti gli stati",
+    "healthy": "Attivo",
+    "warning": "Avviso",
+    "error": "Errore",
+    "disconnected": "Disconnesso"
+  },
+
+  "toast": {
+    "success_title": "Connessione riuscita!",
+    "failed_title": "Connessione fallita",
+    "success_desc": "Collegato con successo",
+    "success_description_default": "Account {{platform}} collegato con successo",
+    "failed_description_default": "Impossibile collegare l’account {{platform}}"
+  }
+}
