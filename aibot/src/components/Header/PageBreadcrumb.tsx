@@ -16,62 +16,37 @@ export const PageBreadcrumb: React.FC = () => {
   const { accountId } = useParams();
 
   const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
-    "/": [{ title: t("dashboard"), path: "/main-dashboard" }],
-    "/main-dashboard": [{ title: t("dashboard"), path: "/main-dashboard" }],
+    "/": [{ title: t("dashboard"), path: "/dashboard" }],
+    "/dashboard": [{ title: t("dashboard"), path: "/dashboard" }],
     "/profile": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("profile"), path: "/profile" },
     ],
     "/settings": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("settings"), path: "/settings" },
-    ],
-    "/settings/google-account": [
-      { title: t("dashboard"), path: "/main-dashboard" },
-      { title: t("settings"), path: "/settings" },
-      { title: t("manageGoogleAccount"), path: "/settings/google-account" },
     ],
     "/settings/subscription": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("settings"), path: "/settings" },
       { title: t("subscription"), path: "/settings/subscription" },
     ],
     "/settings/branding": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("settings"), path: "/settings" },
       { title: t("branding"), path: "/settings/branding" },
     ],
-    "/settings/theme-customization": [
-      { title: t("dashboard"), path: "/main-dashboard" },
-      { title: t("settings"), path: "/settings" },
-      { title: t("themeCustomization"), path: "/settings/theme-customization" },
-    ],
-    "/settings/report-branding": [
-      { title: t("dashboard"), path: "/main-dashboard" },
-      { title: t("settings"), path: "/settings" },
-      { title: t("reportBranding"), path: "/settings/report-branding" },
-    ],
-    "/settings/integrations": [
-      { title: t("dashboard"), path: "/main-dashboard" },
-      { title: t("settings"), path: "/settings" },
-      { title: t("integrations"), path: "/settings/integrations" },
-    ],
-    "/settings/listings": [
-      { title: t("dashboard"), path: "/main-dashboard" },
-      { title: t("settings"), path: "/settings" },
-      { title: t("manageGoogleAccount"), path: "/settings/google-account" },
-    ],
     "/settings/team-members": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("settings"), path: "/settings" },
       { title: t("teamMembers"), path: "/settings/team-members" },
     ],
     "/team": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("team"), path: "/team" },
     ],
     "/notifications": [
-      { title: t("dashboard"), path: "/main-dashboard" },
+      { title: t("dashboard"), path: "/dashboard" },
       { title: t("notifications"), path: "/notifications" },
     ],
   };
@@ -82,9 +57,6 @@ export const PageBreadcrumb: React.FC = () => {
     if (segments.length >= 2) {
       // Handle special case for settings sub-routes
       if (segments[1] === "settings" && segments[2]) {
-        if (segments[2] === "listings") {
-          return "/settings/listings";
-        }
         if (segments[2] === "team-members" && segments[3] === "edit") {
           return "/settings/team-members";
         }

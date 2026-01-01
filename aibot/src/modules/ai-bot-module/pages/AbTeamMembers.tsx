@@ -64,7 +64,7 @@ const AbTeamMembers: React.FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/module/ai-bot/dashboard')}
+              onClick={() => navigate('/dashboard')}
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>

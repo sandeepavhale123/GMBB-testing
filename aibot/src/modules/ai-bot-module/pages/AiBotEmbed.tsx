@@ -30,12 +30,7 @@ interface BotConfig {
   embed_settings: EmbedSettings;
   is_public: boolean;
   owner_id: string | null;
-}
-
-interface UserBranding {
   show_powered_by: boolean;
-  powered_by_text: string;
-  powered_by_url: string;
 }
 
 const AiBotEmbed: React.FC = () => {
@@ -45,7 +40,6 @@ const AiBotEmbed: React.FC = () => {
   
   const [botConfig, setBotConfig] = React.useState<BotConfig | null>(null);
   const [leadSettings, setLeadSettings] = React.useState<LeadFormSettings | null>(null);
-  const [branding, setBranding] = React.useState<UserBranding | null>(null);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -82,7 +76,7 @@ const AiBotEmbed: React.FC = () => {
       // Fetch bot config
       const { data: botData, error: botError } = await supabase
         .from('ab_bots')
-        .select('id, name, embed_settings, is_public, owner_id')
+        .select('id, name, embed_settings, is_public, owner_id, show_powered_by')
         .eq('id', botId)
         .eq('is_public', true)
         .single();
@@ -96,20 +90,8 @@ const AiBotEmbed: React.FC = () => {
       setBotConfig({
         ...botData,
         embed_settings: embedSettings || DEFAULT_EMBED_SETTINGS,
+        show_powered_by: botData.show_powered_by !== false,
       });
-
-      // Fetch user branding if bot has owner
-      if (botData.owner_id) {
-        const { data: brandingData } = await supabase
-          .from('ab_user_branding')
-          .select('show_powered_by, powered_by_text, powered_by_url')
-          .eq('user_id', botData.owner_id)
-          .maybeSingle();
-        
-        if (brandingData) {
-          setBranding(brandingData as UserBranding);
-        }
-      }
 
       // Fetch lead settings
       const { data: leadData, error: leadError } = await supabase
@@ -336,6 +318,7 @@ const AiBotEmbed: React.FC = () => {
           settings={leadSettings}
           bubbleColor={bubbleColor}
           onSubmit={handleLeadFormSubmit}
+          showPoweredBy={botConfig.show_powered_by}
         />
       ) : (
         <>
@@ -448,16 +431,16 @@ const AiBotEmbed: React.FC = () => {
                 </a>
               </div>
             )}
-            {/* Powered By Footer */}
-            {(branding?.show_powered_by ?? true) && (
+            {/* Powered By Footer - Conditional based on plan settings */}
+            {botConfig.show_powered_by && (
               <div className="mt-2 pt-2 border-t border-border text-center">
                 <a 
-                  href={branding?.powered_by_url || 'https://gmbbriefcase.com'} 
+                  href="https://gmbbriefcase.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-xs text-muted-foreground hover:underline"
                 >
-                  {branding?.powered_by_text || 'Powered by GMBBriefcase'}
+                  Powered by GMBBriefcase
                 </a>
               </div>
             )}

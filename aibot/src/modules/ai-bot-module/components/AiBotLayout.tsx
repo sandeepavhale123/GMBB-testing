@@ -1,16 +1,25 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { useAppSelector } from '@/hooks/useRedux';
 import { AbWorkspaceProvider } from '../context/AbWorkspaceContext';
-import { AbBotSidebar } from './AbBotSidebar';
+import { AbHeader } from './layout/AbHeader';
+import { AbSubNavBar } from './layout/AbSubNavBar';
+import { AbMainBody } from './layout/AbMainBody';
 
 const AiBotLayout: React.FC = () => {
+  const theme = useAppSelector((state) => state.theme);
+
   return (
     <AbWorkspaceProvider>
-      <div className="min-h-screen bg-background flex">
-        <AbBotSidebar />
-        <main className="flex-1 overflow-auto">
+      <div
+        className="min-h-screen flex flex-col"
+        style={{ backgroundColor: theme.bg_color || "hsl(var(--background))" }}
+      >
+        <AbHeader />
+        <AbSubNavBar />
+        <AbMainBody>
           <Outlet />
-        </main>
+        </AbMainBody>
       </div>
     </AbWorkspaceProvider>
   );

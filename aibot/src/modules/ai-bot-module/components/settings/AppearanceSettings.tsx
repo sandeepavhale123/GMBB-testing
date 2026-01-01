@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Palette, Type, Layout, Bot as BotIcon, Save, Shield } from 'lucide-react';
+import { Palette, Type, Layout, Bot as BotIcon, Save, Shield, Lock, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -15,6 +16,7 @@ import { EmbedSettings, DEFAULT_EMBED_SETTINGS } from '../../types';
 import { AppearancePreview } from './AppearancePreview';
 import { toast } from 'sonner';
 import { Json } from '@/integrations/supabase/types';
+import { useAbPlanLimits } from '../../hooks/useAbSubscription';
 
 interface AppearanceSettingsProps {
   botId: string;
@@ -31,9 +33,16 @@ const FONT_OPTIONS = [
 ];
 
 export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, botName }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [settings, setSettings] = useState<EmbedSettings>(DEFAULT_EMBED_SETTINGS);
   const [hasChanges, setHasChanges] = useState(false);
+  const [showPoweredBy, setShowPoweredBy] = useState(true);
+  
+  // Get plan limits to check appearance access
+  const { data: planLimits, isLoading: planLoading } = useAbPlanLimits();
+  const canCustomizeAppearance = planLimits?.can_customize_appearance ?? false;
+  const canRemoveBranding = planLimits?.can_remove_branding ?? false;
 
   // Fetch current settings
   const { data: botData, isLoading } = useQuery({
@@ -41,7 +50,7 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, b
     queryFn: async () => {
       const { data, error } = await supabase
         .from('ab_bots')
-        .select('embed_settings, name')
+        .select('embed_settings, name, show_powered_by')
         .eq('id', botId)
         .single();
       
@@ -58,6 +67,7 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, b
         ...DEFAULT_EMBED_SETTINGS,
         ...dbSettings,
       });
+      setShowPoweredBy(botData.show_powered_by !== false);
     }
   }, [botData]);
 
@@ -66,7 +76,10 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, b
     mutationFn: async (newSettings: EmbedSettings) => {
       const { error } = await supabase
         .from('ab_bots')
-        .update({ embed_settings: newSettings as unknown as Json })
+        .update({ 
+          embed_settings: newSettings as unknown as Json,
+          show_powered_by: showPoweredBy,
+        })
         .eq('id', botId);
       
       if (error) throw error;
@@ -91,8 +104,45 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, b
     saveMutation.mutate(settings);
   };
 
-  if (isLoading) {
+  if (isLoading || planLoading) {
     return <div className="animate-pulse h-96 bg-muted rounded-lg" />;
+  }
+
+  // Show upgrade prompt if user doesn't have appearance access
+  if (!canCustomizeAppearance) {
+    return (
+      <Card className="max-w-lg mx-auto mt-8">
+        <CardContent className="pt-8 text-center space-y-6">
+          <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+            <Lock className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold">Appearance Customization</h3>
+            <p className="text-muted-foreground">
+              Upgrade to a paid plan to customize your chatbot's appearance, colors, fonts, and more.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Sparkles className="h-4 w-4" />
+              <span>Custom colors and branding</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Palette className="h-4 w-4" />
+              <span>Font and layout options</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <EyeOff className="h-4 w-4" />
+              <span>Remove "Powered by" branding</span>
+            </div>
+          </div>
+          <Button onClick={() => navigate('/module/ai-bot/subscription')} className="gap-2">
+            <Sparkles className="h-4 w-4" />
+            View Plans & Upgrade
+          </Button>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
@@ -380,6 +430,50 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ botId, b
               />
               <p className="text-xs text-muted-foreground">Text shown at bottom of chat widget</p>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Branding Control - Only for paid users */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Eye className="h-4 w-4" />
+              Branding
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label>Show "Powered by GMBBriefcase"</Label>
+                <p className="text-xs text-muted-foreground">
+                  {canRemoveBranding 
+                    ? 'Toggle to show or hide the powered by badge' 
+                    : 'Upgrade to remove branding'}
+                </p>
+              </div>
+              <Switch
+                checked={showPoweredBy}
+                onCheckedChange={(checked) => {
+                  if (!canRemoveBranding && !checked) {
+                    toast.error('Upgrade to a paid plan to remove branding');
+                    return;
+                  }
+                  setShowPoweredBy(checked);
+                  setHasChanges(true);
+                }}
+                disabled={!canRemoveBranding && !showPoweredBy}
+              />
+            </div>
+            {!canRemoveBranding && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate('/module/ai-bot/subscription')}
+                className="w-full"
+              >
+                Upgrade to Remove Branding
+              </Button>
+            )}
           </CardContent>
         </Card>
 

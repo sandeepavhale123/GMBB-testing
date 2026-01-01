@@ -1,6 +1,6 @@
 import { lazyImport } from '../lazyImport';
 import { Navigate } from 'react-router-dom';
-import SupabaseProtectedRoute from '../SupabaseProtectedRoute';
+import { ProtectedRoute } from '../ProtectedRoute';
 
 const AiBotLayout = lazyImport(() => import('@/modules/ai-bot-module/components/AiBotLayout'));
 const Dashboard = lazyImport(() => import('@/modules/ai-bot-module/pages/Dashboard'));
@@ -11,7 +11,7 @@ const AiBotLogin = lazyImport(() => import('@/pages/AiBotLogin'));
 const AiBotEmbed = lazyImport(() => import('@/modules/ai-bot-module/pages/AiBotEmbed'));
 const AbWorkspaceSettings = lazyImport(() => import('@/modules/ai-bot-module/pages/AbWorkspaceSettings'));
 const AbTeamMembers = lazyImport(() => import('@/modules/ai-bot-module/pages/AbTeamMembers'));
-const AbBrandingPage = lazyImport(() => import('@/modules/ai-bot-module/pages/AbBrandingPage'));
+const AiBotSubscription = lazyImport(() => import('@/modules/ai-bot-module/pages/AiBotSubscription'));
 
 export const aiBotModuleRoutes = [
   {
@@ -24,16 +24,16 @@ export const aiBotModuleRoutes = [
     element: <AiBotEmbed />,
   },
   {
-    path: '/module/ai-bot',
+    path: '/',
     element: (
-      <SupabaseProtectedRoute>
+      <ProtectedRoute redirectTo="/login">
         <AiBotLayout />
-      </SupabaseProtectedRoute>
+      </ProtectedRoute>
     ),
     children: [
       {
         path: '',
-        element: <Navigate to="/module/ai-bot/dashboard" replace />,
+        element: <Navigate to="/dashboard" replace />,
       },
       {
         path: 'dashboard',
@@ -64,8 +64,8 @@ export const aiBotModuleRoutes = [
         element: <AbTeamMembers />,
       },
       {
-        path: 'workspace/branding',
-        element: <AbBrandingPage />,
+        path: 'subscription',
+        element: <AiBotSubscription />,
       },
     ],
   },

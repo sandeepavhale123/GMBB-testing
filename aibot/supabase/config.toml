@@ -23,3 +23,18 @@ verify_jwt = false
 
 [functions.ai-bot-webhook-trigger]
 verify_jwt = false
+
+[functions.ai-bot-send-invite]
+verify_jwt = true
+
+[functions.ab-create-checkout]
+verify_jwt = true
+
+[functions.ab-stripe-webhook]
+verify_jwt = false
+
+[functions.ab-send-payment-email]
+verify_jwt = false
+
+[functions.ab-manage-subscription]
+verify_jwt = true

@@ -59,26 +59,6 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/settings/theme-customization",
-    element: (
-      <RoleProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
-          <SettingsPage />
-        </DashboardTypeGuard>
-      </RoleProtectedRoute>
-    ),
-  },
-  {
-    path: "/settings/report-branding",
-    element: (
-      <RoleProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
-          <SettingsPage />
-        </DashboardTypeGuard>
-      </RoleProtectedRoute>
-    ),
-  },
-  {
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
@@ -86,16 +66,6 @@ export const generalRoutes: RouteConfig[] = [
           <SettingsPage />
         </DashboardTypeGuard>
       </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/settings/integrations",
-    element: (
-      <RoleProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
-          <SettingsPage />
-        </DashboardTypeGuard>
-      </RoleProtectedRoute>
     ),
   },
   {

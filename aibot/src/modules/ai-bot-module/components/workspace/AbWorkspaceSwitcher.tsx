@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, ChevronsUpDown, Plus, Settings, Users } from 'lucide-react';
+import { Check, ChevronsUpDown, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAbWorkspaceContext } from '../../context/AbWorkspaceContext';
 import { AbWorkspace } from '../../types/workspace';
-import { useNavigate } from 'react-router-dom';
 
 interface AbWorkspaceSwitcherProps {
   onCreateClick: () => void;
@@ -18,7 +17,6 @@ interface AbWorkspaceSwitcherProps {
 
 export const AbWorkspaceSwitcher: React.FC<AbWorkspaceSwitcherProps> = ({ onCreateClick }) => {
   const { workspaces, currentWorkspace, setCurrentWorkspace } = useAbWorkspaceContext();
-  const navigate = useNavigate();
 
   const handleWorkspaceSelect = (workspace: AbWorkspace) => {
     setCurrentWorkspace(workspace);
@@ -28,21 +26,19 @@ export const AbWorkspaceSwitcher: React.FC<AbWorkspaceSwitcherProps> = ({ onCrea
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
-          className="w-full justify-between px-3 py-2 h-auto"
+          variant="outline"
+          className="h-9 px-3 gap-2"
         >
-          <div className="flex items-center gap-2 truncate">
-            <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-              {currentWorkspace?.name.charAt(0).toUpperCase() || 'W'}
-            </div>
-            <span className="truncate font-medium">
-              {currentWorkspace?.name || 'Select Workspace'}
-            </span>
+          <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center text-primary font-semibold text-xs">
+            {currentWorkspace?.name.charAt(0).toUpperCase() || 'W'}
           </div>
+          <span className="truncate font-medium max-w-[120px] hidden sm:inline">
+            {currentWorkspace?.name || 'Select Workspace'}
+          </span>
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[240px]" align="start">
+      <DropdownMenuContent className="w-[240px]" align="end">
         {workspaces.map((workspace) => (
           <DropdownMenuItem
             key={workspace.id}
@@ -64,15 +60,6 @@ export const AbWorkspaceSwitcher: React.FC<AbWorkspaceSwitcherProps> = ({ onCrea
         <DropdownMenuItem onClick={onCreateClick}>
           <Plus className="h-4 w-4 mr-2" />
           Create Workspace
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate('/module/ai-bot/workspace/settings')}>
-          <Settings className="h-4 w-4 mr-2" />
-          Workspace Settings
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => navigate('/module/ai-bot/workspace/team')}>
-          <Users className="h-4 w-4 mr-2" />
-          Team Members
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -11,19 +11,14 @@ interface RoleProtectedRouteProps {
 }
 
 const RESTRICTED_SETTINGS_ROUTES = [
-  '/settings/google-account',
-  '/settings/listings',
   '/settings/team-members',
-  '/settings/subscription',
-  '/settings/theme-customization',
-  '/settings/report-branding',
-  '/settings/integrations'
+  '/settings/subscription'
 ];
 
 export const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({
   children,
   restrictedRoles = ['staff', 'client'],
-  redirectTo = '/location-dashboard'
+  redirectTo = '/dashboard'
 }) => {
   const { profileData } = useProfile();
   

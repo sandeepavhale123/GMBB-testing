@@ -119,7 +119,7 @@ const BotDetail: React.FC = () => {
       if (error) throw error;
       
       toast.success('Bot deleted successfully');
-      navigate('/module/ai-bot/dashboard');
+      navigate('/dashboard');
     } catch (err) {
       console.error('Failed to delete bot:', err);
       toast.error('Failed to delete bot');
@@ -176,7 +176,7 @@ const BotDetail: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center h-96 gap-4">
         <p className="text-muted-foreground">Bot not found</p>
-        <Button onClick={() => navigate('/module/ai-bot/dashboard')}>
+        <Button onClick={() => navigate('/dashboard')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Dashboard
         </Button>
@@ -191,7 +191,7 @@ const BotDetail: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/module/ai-bot/dashboard')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
@@ -219,7 +219,7 @@ const BotDetail: React.FC = () => {
           <Button variant="outline" onClick={() => window.open(embedUrl, '_blank')}>
             Preview
           </Button>
-          <Button onClick={() => navigate(`/module/ai-bot/edit/${botId}`)}>
+          <Button onClick={() => navigate(`/edit/${botId}`)}>
             Edit Bot
           </Button>
           <AlertDialog>
@@ -346,7 +346,7 @@ const BotDetail: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => navigate(`/module/ai-bot/edit/${botId}`)}>
+              <Button onClick={() => navigate(`/edit/${botId}`)}>
                 Edit Bot Configuration
               </Button>
             </CardContent>
@@ -386,7 +386,7 @@ const BotDetail: React.FC = () => {
                     Manage your bot's knowledge base
                   </CardDescription>
                 </div>
-                <Button onClick={() => navigate(`/module/ai-bot/edit/${botId}`)}>
+                <Button onClick={() => navigate(`/edit/${botId}`)}>
                   Add Sources
                 </Button>
               </div>

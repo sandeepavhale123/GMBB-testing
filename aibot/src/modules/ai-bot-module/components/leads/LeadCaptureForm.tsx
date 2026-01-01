@@ -18,6 +18,7 @@ interface LeadCaptureFormProps {
   bubbleColor: string;
   onSubmit: (leadId: string) => void;
   conversationSnapshot?: { role: 'user' | 'assistant'; content: string }[];
+  showPoweredBy?: boolean;
 }
 
 interface FormData {
@@ -34,6 +35,7 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   bubbleColor,
   onSubmit,
   conversationSnapshot = [],
+  showPoweredBy = true,
 }) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -224,6 +226,20 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
           {settings.submit_button_text || 'Start Chat'}
         </Button>
       </form>
+
+      {/* Powered By Footer - Conditional */}
+      {showPoweredBy && (
+        <div className="mt-4 pt-3 border-t border-border text-center">
+          <a 
+            href="https://gmbbriefcase.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-xs text-muted-foreground hover:underline"
+          >
+            Powered by GMBBriefcase
+          </a>
+        </div>
+      )}
     </div>
   );
 };

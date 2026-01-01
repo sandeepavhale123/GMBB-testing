@@ -1,10 +1,4 @@
-import { Navigate } from "react-router-dom";
-import { SmartRedirect } from "./SmartRedirect";
 import { RouteConfig } from "../routeConfig";
 
-export const rootRoutes: RouteConfig[] = [
-  {
-    path: "/",
-    element: <SmartRedirect />,
-  },
-];
+// Root route is now handled by aiBotModuleRoutes
+export const rootRoutes: RouteConfig[] = [];

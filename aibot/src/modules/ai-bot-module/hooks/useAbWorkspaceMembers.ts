@@ -54,6 +54,7 @@ export function useAbWorkspaceMembers() {
         throw new Error('This email has already been invited');
       }
 
+      // Insert the member record
       const { data, error } = await supabase
         .from('ab_workspace_members')
         .insert({
@@ -67,10 +68,41 @@ export function useAbWorkspaceMembers() {
         .single();
 
       if (error) throw error;
+
+      // Get inviter's name from profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name, first_name, email')
+        .eq('id', user.id)
+        .single();
+
+      const inviterName = profile?.full_name || profile?.first_name || profile?.email || 'A team member';
+
+      // Send invitation email via edge function
+      try {
+        const { error: emailError } = await supabase.functions.invoke('ai-bot-send-invite', {
+          body: {
+            email: input.email.toLowerCase(),
+            workspaceName: currentWorkspace.name,
+            inviterName: inviterName,
+            role: input.role,
+          },
+        });
+
+        if (emailError) {
+          console.error('Failed to send invitation email:', emailError);
+          // Don't throw - the member was added, just email failed
+          toast.warning('Member added but invitation email could not be sent');
+        }
+      } catch (emailErr) {
+        console.error('Error calling send-invite function:', emailErr);
+        toast.warning('Member added but invitation email could not be sent');
+      }
+
       return data as AbWorkspaceMember;
     },
-    onSuccess: () => {
-      toast.success('Invitation sent');
+    onSuccess: (_, variables) => {
+      toast.success(`Invitation sent to ${variables.email}`);
       queryClient.invalidateQueries({ queryKey: ['ab-workspace-members', currentWorkspace?.id] });
     },
     onError: (error: Error) => {

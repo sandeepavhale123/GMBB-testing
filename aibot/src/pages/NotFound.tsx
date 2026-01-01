@@ -19,7 +19,7 @@ const NotFound = () => {
 
   // ✅ Decide fallback dynamically
   const getFallbackPath = () => {
-    return "/main-dashboard";
+    return "/dashboard";
   };
 
   const handleBackHome = () => {

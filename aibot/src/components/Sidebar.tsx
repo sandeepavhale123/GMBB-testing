@@ -66,52 +66,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const menuItems: MenuItem[] = [
     {
-      id: "main-dashboard",
-      label: t("sidebar.menu.main-dashboard"),
-      icon: ArrowLeft,
-      path: "/main-dashboard",
-    },
-    {
       id: "overview",
       label: t("sidebar.menu.overview"),
       icon: LayoutDashboard,
-      path: "/location-dashboard",
-    },
-    {
-      id: "posts",
-      label: t("sidebar.menu.posts"),
-      icon: FileText,
-      path: "/posts",
-    },
-    {
-      id: "media",
-      label: t("sidebar.menu.media"),
-      icon: Image,
-      path: "/media",
-    },
-    {
-      id: "reviews",
-      label: t("sidebar.menu.reviews"),
-      icon: Star,
-      path: "/reviews",
-    },
-    {
-      id: "insights",
-      label: t("sidebar.menu.insights"),
-      icon: BarChart3,
-      path: "/insights",
-    },
-    {
-      id: "qa",
-      label: t("sidebar.menu.qa"),
-      icon: MessageCircleQuestion,
-      path: "/qa",
-    },
-    {
-      id: "businesses",
-      label: t("sidebar.menu.businesses"),
-      icon: Building,
-      path: "/business-info",
+      path: "/dashboard",
     },
     {
       id: "tracking",
@@ -119,12 +77,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: TrendingUp,
       path: null,
       subItems: [
-        {
-          id: "keywords",
-          label: t("sidebar.menu.keywords"),
-          icon: Search,
-          path: "/keywords",
-        },
         {
           id: "geo-ranking",
           label: t("sidebar.menu.geo-ranking"),
@@ -139,12 +91,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: BookOpen,
       path: "/citation",
     },
-    //  {
-    //   id: "ai-chatbot",
-    //   label: "AI Genie",
-    //   icon: Bot,
-    //   path: "/ai-chatbot"
-    // },
     {
       id: "reports",
       label: t("sidebar.menu.reports"),
@@ -164,13 +110,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           path: "/bulk-reports",
         },
       ],
-      // path: "/reports",
-    },
-    {
-      id: "gallery",
-      label: t("sidebar.menu.gallery"),
-      icon: Images,
-      path: "/gallery",
     },
     {
       id: "settings",

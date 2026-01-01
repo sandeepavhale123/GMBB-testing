@@ -22,15 +22,15 @@ const Dashboard: React.FC = () => {
   const isLoading = workspaceLoading || botsLoading;
 
   const handleCreateBot = () => {
-    navigate('/module/ai-bot/create');
+    navigate('/create');
   };
 
   const handleManageBot = (botId: string) => {
-    navigate(`/module/ai-bot/detail/${botId}`);
+    navigate(`/detail/${botId}`);
   };
 
   const handleEditBot = (botId: string) => {
-    navigate(`/module/ai-bot/edit/${botId}`);
+    navigate(`/edit/${botId}`);
   };
 
   const handlePreviewBot = (botId: string) => {

@@ -11,7 +11,7 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
   const onboarding = Number(localStorage.getItem("onboarding"));
   const resultRedirect =
     redirectTo ||
-    (onboarding !== 1 ? "/location-dashboard/default" : "/onboarding");
+    (onboarding !== 1 ? "/dashboard" : "/onboarding");
 
   const {
     isAuthenticated,
@@ -72,7 +72,7 @@ export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
       // If no saved path or it was too old, use default
       if (!resultRedirect) {
         resultRedirect =
-          onboarding !== 1 ? "/location-dashboard/default" : "/onboarding";
+          onboarding !== 1 ? "/dashboard" : "/onboarding";
       }
     }
 

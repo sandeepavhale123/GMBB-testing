@@ -99,7 +99,7 @@ const BotWizardContent: React.FC = () => {
       }
     }
 
-    navigate(`/module/ai-bot/detail/${bot.id}`);
+    navigate(`/detail/${bot.id}`);
   };
 
   const handleSaveDraft = () => handleSaveBot('draft');
@@ -142,7 +142,7 @@ const BotWizardContent: React.FC = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/module/ai-bot/')}
+              onClick={() => navigate('/')}
               className="mb-4 gap-2 text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />

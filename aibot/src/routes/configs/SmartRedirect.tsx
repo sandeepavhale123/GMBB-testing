@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
-import { profileService } from "@/services/profileService";
 
 export const SmartRedirect = () => {
   const { isAuthenticated, isAuthLoading, shouldWaitForAuth } = useAuthRedux();
   const [redirectPath, setRedirectPath] = useState<string | null>(null);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
   useEffect(() => {
     // Wait for auth to be determined
@@ -40,30 +38,8 @@ export const SmartRedirect = () => {
       sessionStorage.removeItem("navigation_saved_at");
       sessionStorage.removeItem("scrollY");
 
-      // Fetch user profile to determine dashboard type
-      const fetchProfileAndRedirect = async () => {
-        try {
-          setIsLoadingProfile(true);
-          const profile = await profileService.getUserProfile();
-
-          if (profile.dashboardType === 1) {
-            setRedirectPath("/main-dashboard");
-          } else if (profile.dashboardType === 2) {
-            setRedirectPath("/module/geo-ranking");
-          } else {
-            // dashboardType === 0 or default case
-            setRedirectPath("/location-dashboard/default");
-          }
-        } catch (error) {
-          // console.error("SmartRedirect: Failed to fetch profile:", error);
-          // Fallback to location dashboard on error
-          setRedirectPath("/location-dashboard/default");
-        } finally {
-          setIsLoadingProfile(false);
-        }
-      };
-
-      fetchProfileAndRedirect();
+      // Redirect to dashboard
+      setRedirectPath("/dashboard");
       return;
     }
 
@@ -99,50 +75,17 @@ export const SmartRedirect = () => {
       }
     }
 
-    // Default fallback - allow free navigation
-
-    // setRedirectPath("/location-dashboard/default");
-
-    // Default fallback - allow free navigation based on dashboardType
-    const fetchProfileForFallback = async () => {
-      try {
-        setIsLoadingProfile(true);
-        const profile = await profileService.getUserProfile();
-
-        if (profile.dashboardType === 1) {
-          setRedirectPath("/main-dashboard");
-        } else {
-          setRedirectPath("/location-dashboard/default");
-        }
-      } catch (error) {
-        // console.error(
-        //   "SmartRedirect: Failed to fetch profile in fallback:",
-        //   error
-        // );
-        // Fallback to location dashboard on error
-        setRedirectPath("/location-dashboard/default");
-      } finally {
-        setIsLoadingProfile(false);
-      }
-    };
-
-    fetchProfileForFallback();
+    // Default fallback - redirect to dashboard
+    setRedirectPath("/dashboard");
   }, [isAuthenticated, isAuthLoading, shouldWaitForAuth]);
 
   // Show loading while determining redirect
-  if (
-    isAuthLoading ||
-    shouldWaitForAuth ||
-    redirectPath === null ||
-    isLoadingProfile
-  ) {
+  if (isAuthLoading || shouldWaitForAuth || redirectPath === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">
-            Loading... from smart redirect
-          </p>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );

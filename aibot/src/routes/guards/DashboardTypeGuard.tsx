@@ -24,14 +24,7 @@ export const DashboardTypeGuard = ({
         // Check if user's dashboard type is allowed
         if (!allowedDashboardTypes.includes(profile.dashboardType)) {
           setShouldRedirect(true);
-
-          if (profile.dashboardType === 1) {
-            setRedirectPath("/main-dashboard");
-          } else if (profile.dashboardType === 2) {
-            setRedirectPath("/module/geo-ranking");
-          } else {
-            setRedirectPath("/location-dashboard/default");
-          }
+          setRedirectPath("/dashboard");
         } else {
           setShouldRedirect(false);
         }

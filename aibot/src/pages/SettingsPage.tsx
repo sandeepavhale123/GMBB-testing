@@ -27,7 +27,7 @@ const SettingsPage = () => {
   const role = profileData?.role?.toLowerCase();
   const isStaffOrClient = role === "staff" || role === "client";
 
-  // Get active tab from route
+  // Get active tab from route.
   const getActiveTab = () => {
     const path = location.pathname;
     if (path.includes("/subscription")) {
@@ -60,12 +60,7 @@ const SettingsPage = () => {
 
   const activeTab = getActiveTab();
   const isProfileLoaded = !!profileData?.role && !!profileData?.planExpDate;
-  if (
-    isProfileLoaded &&
-    isPlanExpired === true &&
-    activeTab !== "subscription" &&
-    activeTab !== "team-members"
-  ) {
+  if (isProfileLoaded && isPlanExpired === true && activeTab !== "subscription" && activeTab !== "team-members") {
     return <Navigate to="/settings/subscription" replace />;
   }
 
@@ -73,12 +68,8 @@ const SettingsPage = () => {
     if (isPlanExpired && isStaffOrClient) {
       return (
         <div className="p-8 text-center">
-          <h2 className="text-lg font-semibold text-red-600">
-            {t("settingsPage.planExpired.title")}
-          </h2>
-          <p className="text-sm mt-2 text-gray-600">
-            {t("settingsPage.planExpired.description")}
-          </p>
+          <h2 className="text-lg font-semibold text-red-600">{t("settingsPage.planExpired.title")}</h2>
+          <p className="text-sm mt-2 text-gray-600">{t("settingsPage.planExpired.description")}</p>
         </div>
       );
     }
@@ -149,9 +140,7 @@ const SettingsPage = () => {
             />
 
             {/* Settings Sub Header - Only show on main view and not on edit team member */}
-            {!isEditTeamMember() && (
-              <SettingsSubHeader activeTab={activeTab} />
-            )}
+            {!isEditTeamMember() && <SettingsSubHeader activeTab={activeTab} />}
 
             {/* Page Content */}
             <main className="flex-1 overflow-auto bg-gray-50">
