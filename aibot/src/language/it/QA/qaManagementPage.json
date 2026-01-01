@@ -1,0 +1,15 @@
+{
+  "qaManagementPage": {
+    "noListingSelected": {
+      "title": "Nessuna Inserzione Selezionata",
+      "description": "Seleziona un'inserzione aziendale per visualizzare le Domande e Risposte."
+    },
+    "loading": {
+      "message": "Caricamento dati Domande e Risposte..."
+    },
+    "error": {
+      "title": "Errore",
+      "description": "Impossibile caricare i dati delle Domande e Risposte"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "postViewModal": {
+    "title": "Aperçu de la publication",
+    "imageAlt": "Publication",
+    "imagePlaceholder": "Image de la publication",
+    "untitled": "Publication sans titre",
+    "status": {
+      "published": "Publié",
+      "scheduled": "Planifié",
+      "draft": "Brouillon",
+      "failed": "Échec"
+    },
+    "tagsLabel": "Étiquettes",
+    "meta": {
+      "publishDate": "Date de publication"
+    },
+    "buttons": {
+      "viewPost": "Voir la publication",
+      "close": "Fermer"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "loading": {
+    "accountsLoading": "Konten werden geladen..."
+  },
+  "error": {
+    "title": "Fehler beim Laden der Konten",
+    "description": "Verbundene Konten konnten nicht geladen werden"
+  },
+  "empty": {
+    "noResultsTitle": "Keine Konten gefunden",
+    "noResultsDescription": "Keine Konten entsprechen Ihrer Suche \"{{query}}\"",
+    "noAccountsTitle": "Keine verbundenen Konten",
+    "noAccountsDescription": "Verbinden Sie Ihre Social-Media-Konten, um zu beginnen"
+  },
+  "buttons": {
+    "refresh": "Aktualisieren",
+    "disconnect": "Trennen",
+    "pagesToggle": "Seiten/Konten ({{count}})"
+  },
+  "account": {
+    "connected": "Verbunden: {{date}}",
+    "lastRefreshed": "Zuletzt aktualisiert: {{date}}",
+    "tokenExpires": "• Token läuft ab {{time}}",
+    "followers": "Follower",
+    "status": {
+      "healthy": "Stabil",
+      "warning": "Warnung",
+      "error": "Fehler",
+      "disconnected": "Getrennt"
+    }
+  },
+  "dialogs": {
+    "confirmDisconnect": "Sind Sie sicher, dass Sie dieses Konto trennen möchten?"
+  },
+  "token": {
+    "refreshFailedTitle": "Verbindung fehlgeschlagen",
+    "refreshFailedDesc": "OAuth-Flow konnte nicht gestartet werden",
+    "refreshed": "Token aktualisiert",
+    "refreshSuccessDesc": "Token läuft in {{days}} Tagen ab",
+    "tokenExpiresSoon": "Token läuft bald ab. Bitte aktualisieren Sie Ihre Verbindung.",
+    "tokenExpiresSoonThreads": "Token läuft bald ab. Klicken Sie auf 'Aktualisieren', um die Token-Gültigkeit manuell um 60 Tage zu verlängern.",
+    "refresh": "Aktualisierung fehlgeschlagen",
+    "refreshDesc": "Token konnte nicht aktualisiert werden"
+  }
+}

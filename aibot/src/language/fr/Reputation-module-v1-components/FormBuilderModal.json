@@ -1,0 +1,33 @@
+{
+  "title": "Créateur de Formulaires",
+  "formFields": "Champs du formulaire",
+  "addField": "Ajouter un champ",
+  "editField": "Modifier le champ",
+  "newField": "Nouveau champ",
+  "label": "Étiquette *",
+  "fieldName": "Nom du champ *",
+  "fieldType": "Type de champ *",
+  "fieldlabel": "Étiquette du champ",
+  "placeholder": "Espace réservé",
+  "plText": "Texte d'espace réservé",
+  "fieldPlace": "nom_champ",
+  "requiredField": "Champ obligatoire",
+  "options": "Options",
+  "enterOptions": "Entrez une option par ligne",
+  "selectFieldToEdit": "Sélectionnez un champ à modifier ou ajoutez un nouveau champ",
+  "cancel": "Annuler",
+  "saveChanges": "Enregistrer les modifications",
+  "cannotRemove": "Ce champ ne peut pas être supprimé",
+  "removeField": "Supprimer le champ",
+  "requiredDot": "• Obligatoire",
+  "fieldTypes": {
+    "text": "Texte",
+    "email": "Email",
+    "textarea": "Zone de texte",
+    "number": "Nombre",
+    "date": "Date",
+    "select": "Sélectionner",
+    "radio": "Radio",
+    "checkboxGroup": "Groupe de cases à cocher"
+  }
+}

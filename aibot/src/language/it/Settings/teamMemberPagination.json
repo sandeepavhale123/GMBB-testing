@@ -1,0 +1,8 @@
+{
+  "teamMemberPagination": {
+    "info": "Visualizzati da {{start}} a {{end}} di {{total}} membri",
+    "pageInfo": "Pagina {{current}} di {{total}}",
+    "previous": "Precedente",
+    "next": "Successivo"
+  }
+}

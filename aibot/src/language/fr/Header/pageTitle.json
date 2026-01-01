@@ -1,0 +1,100 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Surveillez les performances de votre entreprise sur toutes les plateformes"
+  },
+  "aiTasks": {
+    "title": "Tâches IA",
+    "subtitle": "Gérez et suivez les tâches d’optimisation alimentées par l’intelligence artificielle"
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Gérez les informations et les préférences de votre compte"
+  },
+  "posts": {
+    "title": "Publications",
+    "subtitle": "Créez et gérez du contenu pour tous les emplacements de votre entreprise"
+  },
+  "mediaLibrary": {
+    "title": "Bibliothèque multimédia",
+    "subtitle": "Organisez et gérez les images et vidéos de votre entreprise sur toutes les plateformes"
+  },
+  "reviews": {
+    "title": "Avis",
+    "subtitle": "Surveillez et répondez aux commentaires des clients sur tous vos sites"
+  },
+  "qa": {
+    "title": "Questions & Réponses",
+    "subtitle": "Gérez les questions des clients et fournissez des réponses utiles"
+  },
+  "businessInfo": {
+    "title": "Gestion",
+    "subtitle": "Gérez vos fiches d’entreprise et les informations de localisation"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurez les préférences et intégrations de votre compte"
+  },
+  "manageListings": {
+    "title": "Gérer les fiches",
+    "subtitle": "Surveillez et gérez vos fiches Google Business Profile"
+  },
+  "insights": {
+    "title": "Aperçus",
+    "subtitle": "Analysez les performances pour améliorer votre visibilité locale"
+  },
+  "keywords": {
+    "title": "Mots-clés",
+    "subtitle": "Suivez le classement des mots-clés selon la localisation géographique"
+  },
+  "searchKeyword": {
+    "title": "Rechercher un mot-clé",
+    "subtitle": "Mots-clés"
+  },
+  "geoRanking": {
+    "title": "Classement GEO",
+    "subtitle": "Suivez le classement des mots-clés selon la localisation géographique"
+  },
+  "geoRankingReport": {
+    "title": "Rapport de classement GEO",
+    "subtitle": "Analyse détaillée des performances de votre recherche locale"
+  },
+  "citationManagement": {
+    "title": "Gestion des citations",
+    "subtitle": "Surveillez et gérez les citations de votre entreprise dans les répertoires"
+  },
+  "analytics": {
+    "title": "Analytique",
+    "subtitle": "Mesures complètes et données de performance de votre entreprise"
+  },
+  "team": {
+    "title": "Équipe",
+    "subtitle": "Gérez les membres de l’équipe et leurs autorisations d’accès"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Restez informé des alertes et mises à jour importantes"
+  },
+  "reports": {
+    "title": "Rapports",
+    "subtitle": "Affichez et générez des rapports de performance"
+  },
+  "aiChatbot": {
+    "title": "Assistance Génie IA",
+    "subtitle": "Obtenez une assistance alimentée par l’IA pour optimiser votre classement GEO"
+  },
+  "editTeamMember": {
+    "title": "Modifier un membre de l’équipe",
+    "subtitle": "Gérez le profil, l’accès aux fiches et les autorisations de fonctionnalités des membres de l’équipe"
+  },
+  "welcomeDashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Bon retour sur le tableau de bord de votre entreprise"
+  },
+  "gallery": {
+    "title": "Galerie"
+  },
+  "bulkReport": {
+    "title": "Rapport groupé"
+  }
+}

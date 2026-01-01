@@ -1,0 +1,14 @@
+{
+  "selectGoalStep": {
+    "title": "Quali sono i tuoi obiettivi principali?",
+    "subtitle": "Seleziona tutti quelli che si applicano. Personalizzeremo la tua esperienza in base ai tuoi obiettivi.",
+    "loadingMessage": "Caricamento dei tuoi obiettivi...",
+    "errorLoading": "Errore nel caricamento degli obiettivi",
+    "errorSaving": "Errore nel salvataggio degli obiettivi",
+    "saving": "Salvataggio in corso...",
+    "saveSuccessTitle": "Obiettivi salvati con successo",
+    "saveSuccessDescription": "{{count}} obiettivi sono stati salvati.",
+    "continue": "Continua",
+    "continueWithCount": "Continua ({{count}} selezionati)"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "reviewsList": {
+    "title": "Kundenbewertungen",
+    "errors": {
+      "title": "Fehler",
+      "reviewsError": "Beim Abrufen der Bewertungen ist ein Fehler aufgetreten.",
+      "replyError": "Fehler beim Senden der Antwort",
+      "deleteReplyError": "Fehler beim Löschen der Antwort",
+      "refreshError": "Fehler beim Aktualisieren der Daten",
+      "emptyReply": "Bitte geben Sie eine Antwortnachricht ein"
+    },
+    "success": {
+      "title": "Erfolg",
+      "replyTitle": "Antwort gelöscht",
+      "replySent": "Antwort erfolgreich gesendet",
+      "replyDeleted": "Die Antwort wurde erfolgreich gelöscht",
+      "refresh": "Bewertungsdaten erfolgreich aktualisiert"
+    },
+    "buttons": {
+      "tryAgain": "Erneut versuchen",
+      "saveReply": "Antwort speichern",
+      "cancel": "Abbrechen",
+      "deleteReply": "Antwort löschen"
+    },
+    "loading": {
+      "reviews": "Bewertungen werden geladen...",
+      "reply": "Antwort wird gesendet...",
+      "deleting": "Antwort wird gelöscht..."
+    },
+    "emptyState": {
+      "noReviews": "Noch keine Bewertungen",
+      "noFilteredReviews": "Keine Bewertungen entsprechen Ihren Filtern",
+      "noReviewsMessage": "Bewertungen werden hier angezeigt, sobald Kunden Feedback zu Ihren Unternehmenseinträgen hinterlassen.",
+      "noFilteredReviewsMessage": "Passen Sie Ihre Suchkriterien oder Filter an, um mehr Ergebnisse zu sehen."
+    }
+  }
+}

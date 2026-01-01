@@ -1,0 +1,25 @@
+{
+  "addKeywordsPage": {
+    "noListingSelected": {
+      "title": "Ningún listado seleccionado",
+      "description": "Por favor, seleccione un listado primero para agregar palabras clave."
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "noListing": "No se ha seleccionado ningún listado. Por favor, seleccione un listado primero.",
+      "keywordsAddedTitle": "Palabras clave agregadas",
+      "keywordsAddedDescription": "Se agregaron correctamente {{count}} palabra(s) clave a la cola.",
+      "keywordsAddFailed": "Error al agregar las palabras clave."
+    },
+    "pageTitle": "Agregar palabras clave",
+    "form": {
+      "keywordsLabel": "Palabras clave",
+      "keywordsPlaceholder": "Ingrese las palabras clave separadas por comas",
+      "languageLabel": "Idioma",
+      "distanceLabel": "Valor de distancia",
+      "gridSizeLabel": "Tamaño de la cuadrícula",
+      "addButton": "Agregar palabras clave",
+      "addingButton": "Agregando..."
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Gestionar Comentarios",
+  "pageDescription": "Revisa y gestiona los comentarios de clientes con calificaciones menores a 3 estrellas",
+  "summary": {
+    "totalFeedback": "Total de Comentarios",
+    "averageRating": "Calificación Promedio",
+    "pendingCount": "Pendientes",
+    "resolvedCount": "Resueltos"
+  },
+  "filters": {
+    "rating": "Calificación",
+    "channel": "Canal",
+    "status": "Estado",
+    "dateRange": "Rango de Fechas",
+    "search": "Buscar por nombre o mensaje...",
+    "exportCSV": "Exportar CSV",
+    "clearFilters": "Limpiar Filtros"
+  },
+  "table": {
+    "customerName": "Nombre del Cliente",
+    "rating": "Calificación",
+    "message": "Mensaje",
+    "channel": "Canal",
+    "submittedDate": "Fecha de Envío",
+    "status": "Estado",
+    "actions": "Acciones"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "reviewed": "Revisado",
+    "resolved": "Resuelto"
+  },
+  "channels": {
+    "google": "Google",
+    "facebook": "Facebook",
+    "yelp": "Yelp",
+    "direct": "Directo",
+    "email": "Email"
+  },
+  "modal": {
+    "title": "Detalles del Comentario",
+    "customerInfo": "Información del Cliente",
+    "customerName": "Nombre",
+    "customerEmail": "Email",
+    "customerPhone": "Teléfono",
+    "feedbackMessage": "Mensaje del Comentario",
+    "currentStatus": "Estado Actual",
+    "adminNotes": "Notas del Administrador",
+    "adminNotesPlaceholder": "Añade notas internas o comentarios sobre este comentario...",
+    "saveButton": "Guardar Cambios",
+    "closeButton": "Cerrar",
+    "submittedOn": "Enviado el",
+    "channel": "Canal"
+  },
+  "empty": {
+    "title": "No se Encontraron Comentarios",
+    "description": "No hay comentarios de clientes que coincidan con tus filtros.",
+    "noDataTitle": "No Hay Comentarios Aún",
+    "noDataDescription": "Los comentarios de clientes con calificaciones menores a 3 estrellas aparecerán aquí."
+  },
+  "toast": {
+    "updateSuccess": "Comentario actualizado correctamente",
+    "updateError": "Error al actualizar el comentario",
+    "exportSuccess": "Comentarios exportados correctamente",
+    "exportError": "Error al exportar los comentarios"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  }
+}

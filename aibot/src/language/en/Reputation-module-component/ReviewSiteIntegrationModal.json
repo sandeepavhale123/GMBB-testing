@@ -1,0 +1,53 @@
+{
+  "dialog": {
+    "connectTitle": "Connect {{channel}}",
+    "selectBusiness": "Select Your Business"
+  },
+
+  "buttons": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "continue": "Continue",
+    "connect": "Connect",
+    "search": "Search"
+  },
+
+  "states": {
+    "searching": "Searching...",
+    "connecting": "Connecting..."
+  },
+
+  "form": {
+    "profileUrl": "Profile URL",
+    "profileUrlHelp": "Enter your business profile URL from {{channel}}",
+    "businessName": "Business Name",
+    "businessNamePlaceholder": "Enter your business name",
+    "city": "City",
+    "cityPlaceholder": "Enter city",
+    "state": "State / Province",
+    "statePlaceholder": "Enter state or province",
+    "country": "Country",
+    "countryPlaceholder": "Select country"
+  },
+
+  "errors": {
+    "invalidUrl": "Please enter a valid URL",
+    "urlRequired": "URL is required",
+    "businessNameRequired": "Business name is required",
+    "businessNameMax": "Business name must be less than 100 characters",
+    "cityRequired": "City is required",
+    "cityMax": "City must be less than 100 characters",
+    "stateRequired": "State is required",
+    "stateMax": "State must be less than 100 characters",
+    "countryRequired": "Country is required",
+    "noBusinesses": "No businesses found. Try adjusting your search.",
+    "noVenues": "No venues found. Try adjusting your search.",
+    "searchFailed": "Search failed",
+    "yelpSearchFailed": "Failed to search Yelp. Please try again.",
+    "foursquareSearchFailed": "Failed to search Foursquare. Please try again."
+  },
+
+  "results": {
+    "reviews": "{{count}} reviews"
+  }
+}

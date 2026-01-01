@@ -1,0 +1,45 @@
+{
+  "loading": {
+    "accountsLoading": "Chargement des comptes..."
+  },
+  "error": {
+    "title": "Erreur lors du chargement des comptes",
+    "description": "Impossible de charger les comptes connectés"
+  },
+  "empty": {
+    "noResultsTitle": "Aucun compte trouvé",
+    "noResultsDescription": "Aucun compte ne correspond à votre recherche \"{{query}}\"",
+    "noAccountsTitle": "Aucun compte connecté",
+    "noAccountsDescription": "Connectez vos comptes de réseaux sociaux pour commencer"
+  },
+  "buttons": {
+    "refresh": "Rafraîchir",
+    "disconnect": "Déconnecter",
+    "pagesToggle": "Pages/Comptes ({{count}})"
+  },
+  "account": {
+    "connected": "Connecté : {{date}}",
+    "lastRefreshed": "Dernière mise à jour : {{date}}",
+    "tokenExpires": "• Le jeton expire {{time}}",
+    "followers": "abonnés",
+    "status": {
+      "healthy": "Sain",
+      "warning": "Avertissement",
+      "error": "Erreur",
+      "disconnected": "Déconnecté"
+    }
+  },
+  "dialogs": {
+    "confirmDisconnect": "Êtes-vous sûr de vouloir déconnecter ce compte ?"
+  },
+  "token": {
+    "refreshFailedTitle": "Échec de la connexion",
+    "refreshFailedDesc": "Impossible de lancer le flux OAuth",
+    "refreshed": "Jeton rafraîchi",
+    "refreshSuccessDesc": "Le jeton expirera dans {{days}} jours",
+    "tokenExpiresSoon": "Le jeton expirera bientôt. Veuillez rafraîchir votre connexion.",
+    "tokenExpiresSoonThreads": "Le jeton expirera bientôt. Cliquez sur « Rafraîchir » pour prolonger manuellement la validité du jeton (60 jours).",
+    "refresh": "Échec du rafraîchissement",
+    "refreshDesc": "Impossible de rafraîchir le jeton"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "bulkActions": {
+    "selected": "{{count}} medio seleccionado",
+    "selected_plural": "{{count}} medios seleccionados",
+    "deleteSelected": "Eliminar selección"
+  },
+  "status": {
+    "live": "En vivo",
+    "published": "Publicado",
+    "draft": "Borrador",
+    "scheduled": "Programado",
+    "failed": "Fallido"
+  },
+  "table": {
+    "listingName": "Nombre del listado",
+    "zipCode": "Código postal",
+    "status": "Estado",
+    "action": "Acción",
+    "noListings": "No se encontraron listados.",
+    "unknown": "Desconocido",
+    "na": "N/D",
+    "selectAll": "Seleccionar todos los medios"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{current}} de {{total}}"
+  },
+  "bulkDeleteDialog": {
+    "title": "Eliminar varios medios",
+    "description": "¿Está seguro de que desea eliminar {{count}} medio seleccionado? Esta acción no se puede deshacer.",
+    "description_plural": "¿Está seguro de que desea eliminar {{count}} medios seleccionados? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar todo"
+  },
+  "deleteDialog": {
+    "title": "¿Está seguro?",
+    "deleteTitle": "Eliminar medio",
+    "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente el medio.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar"
+  },
+  "toast": {
+    "successTitle": "Éxito",
+    "successDelete": "Medio eliminado con éxito",
+    "successBulkDelete": "{{count}} medios eliminados con éxito",
+    "errorTitle": "Error",
+    "errorDelete": "No se pudo eliminar el medio",
+    "errorBulkDelete": "No se pudieron eliminar algunos medios"
+  }
+}

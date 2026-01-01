@@ -1,0 +1,15 @@
+{
+  "processingKeywordsAlert": {
+    "success": {
+      "single": "¡{{count}} palabra clave enviada con éxito!",
+      "plural": "¡{{count}} palabras clave enviadas con éxito!"
+    },
+    "alreadyProcessing": "+ {{count}} ya en proceso",
+    "inProgress": "Tus palabras clave están en progreso:",
+    "wait": "- por favor espera",
+    "processingNote": "El procesamiento tomará unos minutos. Los resultados aparecerán automáticamente.",
+    "progressLabel": "Procesando datos de palabras clave...",
+    "newlySubmitted": "Recientemente enviadas:",
+    "alreadyProcessingLabel": "Ya en proceso:"
+  }
+}

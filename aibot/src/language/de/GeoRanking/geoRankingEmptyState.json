@@ -1,0 +1,16 @@
+{
+  "geoRankingEmptyState": {
+    "heading": "Beginnen Sie mit der Verfolgung Ihrer Rankings",
+    "description": "Verfolgen Sie die Rankings Ihres Google Business Profils an verschiedenen Standorten, um zu sehen, wie Sie in den lokalen Suchergebnissen abschneiden.",
+    "benefits": {
+      "monitorLocalPerformance": "Lokale Leistung überwachen",
+      "trackCompetitorRankings": "Rankings der Wettbewerber verfolgen"
+    },
+    "creditsP1": "Sie haben",
+    "creditsP2": "Guthaben übrig",
+    "button": {
+      "checkRank": "Ranking prüfen"
+    },
+    "additionalInfo": "Richten Sie die Keyword-Verfolgung ein, um die Leistung Ihres Unternehmens in den lokalen Suchergebnissen zu überwachen"
+  }
+}

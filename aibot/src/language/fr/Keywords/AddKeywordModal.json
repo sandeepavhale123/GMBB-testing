@@ -1,0 +1,14 @@
+{
+  "AddKeywordModal": {
+    "title": "Ajouter des mots-clés",
+    "inputPlaceholder": "Saisir un mot-clé",
+    "inputPlaceholderMax": "Maximum de 5 mots-clés autorisés",
+    "addButton": "Ajouter",
+    "addedKeywordsTitle": "Mots-clés ajoutés :",
+    "infoTitle": "Ce qui se passe ensuite :",
+    "infoDescription": "Nous vérifierons la position de classement de ces mots-clés dans différentes zones géographiques afin de vous montrer où votre entreprise apparaît dans les résultats de recherche locale.",
+    "close": "Fermer",
+    "checkRank": "Vérifier le classement",
+    "removeKeywordAria": "Supprimer {{keyword}}"
+  }
+}

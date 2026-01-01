@@ -1,0 +1,17 @@
+{
+  "unsubscriptionModal": {
+    "title": "Abonnement kündigen",
+    "description": "Es tut uns leid, dass Sie gehen. Bitte helfen Sie uns, uns zu verbessern, indem Sie Feedback geben.",
+    "feedbackLabel": "Teilen Sie uns mit, warum Sie Ihren Server kündigen. Vielleicht gibt es etwas, das GMB Briefcase verbessern kann.",
+    "feedbackPlaceholder": "Ihr Feedback hilft uns, besser zu werden...",
+    "feedbackCounter": "{{count}}/500 Zeichen",
+    "warningMessage": "Bitte seien Sie sicher, bevor Sie Ihren Server löschen, da alle Ihre Serverdaten verloren gehen können. Der Vorgang ist unwiderruflich.",
+    "confirmationLabelp1": "Geben Sie",
+    "confirmationLabelp2": " LÖSCHEN",
+    "confirmationLabelp3": " ein, um zu bestätigen:",
+    "confirmationPlaceholder": "Geben Sie LÖSCHEN ein, um zu bestätigen",
+    "closeButton": "Schließen",
+    "confirmButton": "Abonnement kündigen bestätigen",
+    "processing": "Verarbeitung..."
+  }
+}

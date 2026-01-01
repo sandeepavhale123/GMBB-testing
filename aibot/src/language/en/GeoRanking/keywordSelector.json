@@ -1,0 +1,23 @@
+{
+  "keywordSelector": {
+    "labels": {
+      "keyword": "Keyword"
+    },
+    "placeholders": {
+      "keyword": {
+        "loading": "Loading keywords...",
+        "default": "Select keyword",
+        "search": "Search keywords..."
+      },
+      "date": {
+        "loading": "Loading dates...",
+        "default": "Select report date"
+      }
+    },
+    "messages": {
+      "loading": "Loading...",
+      "noKeywords": "No keywords found"
+    },
+    "all":" All"
+  }
+}

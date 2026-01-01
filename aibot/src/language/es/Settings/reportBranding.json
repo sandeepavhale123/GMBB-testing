@@ -1,0 +1,98 @@
+{
+  "reportBranding": {
+    "title": "Personalización de Reportes",
+    "description": "Personaliza la identidad de tu empresa para los reportes generados.",
+    "deleteBranding": "Eliminar Personalización",
+    "whiteLabel": "Marca Blanca",
+    "companyInformation": "Información de la Empresa",
+    "fields": {
+      "companyName": {
+        "label": "Nombre de la Empresa",
+        "placeholder": "Ingresa el nombre de la empresa",
+        "error": "El nombre de la empresa es obligatorio"
+      },
+      "companyEmail": {
+        "label": "Correo de la Empresa",
+        "placeholder": "empresa@ejemplo.com",
+        "error": "Por favor ingresa un correo electrónico válido"
+      },
+      "companyWebsite": {
+        "label": "Sitio Web de la Empresa",
+        "placeholder": "https://www.empresa.com",
+        "error": "Por favor ingresa una URL de sitio web válida"
+      },
+      "companyPhone": {
+        "label": "Teléfono de la Empresa",
+        "placeholder": "+1 (555) 123-4567",
+        "error": "Por favor ingresa un número de teléfono válido"
+      },
+      "companyAddress": {
+        "label": "Dirección de la Empresa",
+        "placeholder": "123 Calle Negocio, Ciudad, Estado 12345",
+        "error": "Por favor ingresa una dirección válida"
+      },
+      "companyLogo": {
+        "label": "Logo de la Empresa",
+        "chooseButton": "Elegir Logo",
+        "removeButton": "Eliminar Logo",
+        "fileTooLarge": {
+          "title": "Archivo demasiado grande",
+          "description": "El archivo del logo debe ser menor a 2MB"
+        },
+        "invalidFile": {
+          "title": "Tipo de archivo inválido",
+          "description": "Por favor sube un archivo de imagen (PNG, JPG, SVG)"
+        },
+        "uploaded": {
+          "title": "Logo del reporte subido",
+          "description": "{{fileName}} listo para usar"
+        },
+        "removed": {
+          "title": "Logo del reporte eliminado",
+          "description": "El logo ha sido eliminado con éxito"
+        },
+        "dropHere": "Suelta el logo aquí para subirlo",
+        "requirements": "PNG, JPG, SVG hasta 2MB. Recomendado: 200 x 200px",
+        "ready": "✓ Listo",
+        "current": "✓ Logo actual subido",
+        "selected": "Seleccionado: {{fileName}}"
+      }
+    },
+    "saveChanges": {
+      "button": "Guardar Cambios",
+      "saving": "Guardando..."
+    },
+    "reportPreview": {
+      "title": "Vista Previa del Reporte",
+      "header": {
+        "companyNamePlaceholder": "Nombre de Tu Empresa",
+        "websitePlaceholder": "www.tuempresa.com",
+        "reportDate": "Fecha del Reporte"
+      },
+      "metrics": {
+        "avgRating": "Calificación Promedio",
+        "totalReviews": "Total de Reseñas"
+      },
+      "chart": {
+        "title": "Gráfico de Rendimiento"
+      },
+      "footer": {
+        "emailPlaceholder": "contacto@tuempresa.com",
+        "phonePlaceholder": "+1 (555) 123-4567",
+        "addressPlaceholder": "123 Calle Negocio, Ciudad, Estado",
+        "generatedOn": "Generado el"
+      }
+    },
+    "deleteDialog": {
+      "title": "Eliminar Personalización del Reporte",
+      "description": "¿Estás seguro de que deseas eliminar toda la personalización del reporte? Esta acción no se puede deshacer y eliminará el logo y la información de tu empresa de todos los reportes futuros.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar Personalización",
+      "deleting": "Eliminando..."
+    },
+    "validation": {
+      "errorTitle": "Error",
+      "errorDescription": "Por favor corrige los errores de validación"
+    }
+  }
+}

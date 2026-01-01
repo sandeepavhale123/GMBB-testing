@@ -1,0 +1,43 @@
+{
+  "signupForm": {
+    "title": "Create Your Account",
+    "subtitle": "Join GMB Briefcase today",
+    "fields": {
+      "firstName":"First Name *",
+      "lastName": "Last Name *",
+      "agencyName":"Agency Name *",        
+      "email": "Email Address *",       
+      "password":"Password *",
+      "plan": {
+        "label": "Select Plan *",
+        "options":{
+          "label1": "Select Plan" ,
+         "label2": "7$ for 7-day trial",
+           "label3": "Enterprise - $560 PM" ,
+          "label4": "Agency - $299 PM" ,
+          "label5": "Pro - $199 PM" ,
+           "label6": "Business - $99 PM" 
+        }
+      }
+    },
+    "buttons": {
+      "submitDefault": "Pay - Select Plan",
+      "reset": "Reset",
+      "loading": "Creating Account..."
+    },
+    "links": {
+      "loginPrompt": "Already have an account?",
+      "loginAction": "Sign in here"
+    },
+    "toasts": {
+      "formReset": {
+        "title": "Form Reset",
+        "description": "All fields have been cleared."
+      },
+      "validationError": {
+        "title": "Validation Error",
+        "description": "Please fix the highlighted fields and try again."
+      }
+    }
+  }
+}

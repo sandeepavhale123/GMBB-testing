@@ -1,0 +1,19 @@
+{
+  "postManagement": {
+    "title": "Resumen de Publicaciones",
+    "description": "Gestiona las publicaciones de tu Perfil de Empresa en Google",
+    "status": {
+      "live": "Publicaciones Activas",
+      "scheduled": "Programadas",
+      "failed": "Fallidas"
+    },
+    "actions": {
+      "create": "Crear Nueva Publicación",
+      "manage": "Gestionar Publicaciones"
+    },
+    "alerts": {
+      "failedPosts": "{{count}} publicaciones necesitan atención",
+      "actionRequired": "Se Requiere Acción"
+    }
+  }
+}

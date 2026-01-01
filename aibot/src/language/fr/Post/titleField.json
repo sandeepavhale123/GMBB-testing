@@ -1,0 +1,7 @@
+{
+  "titleField": {
+    "label": "Titre",
+    "requiredIndicator": "*",
+    "placeholder": "Entrez le titre..."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "addTeamMemberModal": {
+    "title": "Aggiungi Nuovo Membro del Team",
+    "profile": {
+      "uploadPhoto": "Carica Foto"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Nome",
+        "placeholder": "Inserisci il nome"
+      },
+      "lastName": {
+        "label": "Cognome",
+        "placeholder": "Inserisci il cognome"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Inserisci l'indirizzo email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Inserisci la password",
+        "show": "Mostra password",
+        "hide": "Nascondi password"
+      },
+      "role": {
+        "label": "Ruolo",
+        "placeholder": "Seleziona il ruolo",
+        "options": {
+          "moderator": "Moderatore",
+          "staff": "Staff",
+          "client": "Cliente"
+        }
+      }
+    },
+    "buttons": {
+      "cancel": "Annulla",
+      "add": "Aggiungi Membro",
+      "adding": "Aggiunta in corso..."
+    },
+    "messages": {
+      "validationError": {
+        "title": "Errore di Validazione",
+        "description": "Correggi i campi evidenziati."
+      },
+      "invalidEmail": {
+        "title": "Email Non Valida",
+        "description": "Inserisci un indirizzo email valido."
+      },
+      "success": {
+        "title": "Membro del Team Aggiunto",
+        "description": "{{firstName}} {{lastName}} è stato aggiunto con successo."
+      },
+      "error": {
+        "title": "Errore",
+        "default": "Impossibile aggiungere il membro del team. Riprova."
+      }
+    }
+  }
+}

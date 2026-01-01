@@ -1,0 +1,15 @@
+{
+  "postImage": {
+    "label": "Beitragsbild",
+    "clickToUpload": "Zum Hochladen klicken",
+    "orDragAndDrop": "oder per Drag & Drop",
+    "fileNote": "PNG, JPG bis zu 10 MB",
+    "remove": "Entfernen",
+    "aiImageName": "KI-generiertes Bild",
+    "aiImageSize": "Generiert",
+    "modal": {
+      "close": "Schließen",
+      "apply": "Anwenden"
+    }
+  }
+}

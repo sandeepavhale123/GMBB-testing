@@ -1,0 +1,57 @@
+{
+  "title": "Eingebettetes Iframe",
+  "subtitle": "Erstellen und verwalten Sie einbettbare Lead-Formulare",
+
+  "configuration": {
+    "title": "Iframe-Konfiguration",
+    "description": "Passen Sie die Einstellungen Ihres eingebetteten Formulars an",
+    "formTitleLabel": "Formulartitel",
+    "formTitlePlaceholder": "Formulartitel eingeben",
+    "widthLabel": "Breite",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Höhe",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Firmenlogo anzeigen",
+    "showLogoDescription": "Ihr Logo im Formular anzeigen",
+    "darkModeLabel": "Dunkelmodus aktivieren",
+    "darkModeDescription": "Benutzern erlauben, das dunkle Thema zu aktivieren",
+    "autoResizeLabel": "Automatische Größenanpassung",
+    "autoResizeDescription": "Iframe-Höhe automatisch anpassen",
+    "successMessageLabel": "Erfolgsmeldung",
+    "successMessagePlaceholder": "Nach dem Absenden des Formulars angezeigte Nachricht"
+  },
+
+  "embedCode": {
+    "title": "Embed-Code",
+    "description": "Kopieren Sie diesen Code, um das Formular auf Ihrer Website einzubetten",
+    "copied": "Kopiert!",
+    "copy": "Kopieren",
+    "preview": "Vorschau",
+    "test": "Formular testen",
+    "tipsTitle": "Integrationstipps:",
+    "tips1": "Fügen Sie das Iframe auf jeder HTML-Seite oder CMS-Seite ein",
+    "tips2": "Das Formular passt sich automatisch an das Design Ihrer Website an",
+    "tips3": "Alle Einreichungen werden in Ihrem Lead-Dashboard erfasst",
+    "tips4": "HTTPS ist für das Einbetten des Iframes erforderlich"
+  },
+
+  "activeEmbeds": {
+    "title": "Aktive Embeds",
+    "description": "Verwalten Sie Ihre eingesetzten Iframe-Formulare",
+    "submissions": "Einreichungen"
+  },
+
+  "statuses": {
+    "Active": "Aktiv",
+    "Inactive": "Inaktiv"
+  },
+
+  "name": {
+    "home": "Kontaktformular Startseite",
+    "homeDom": "ihrseite.com",
+    "landing": "Landingpage-Formular",
+    "landingDom": "landing.ihrseite.com",
+    "blog": "Blog-Sidebar-Formular",
+    "blogDom": "blog.ihrseite.com"
+  }
+}

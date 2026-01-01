@@ -1,0 +1,82 @@
+{
+  "email": {
+    "required": "L'adresse e-mail est obligatoire",
+    "invalid": "Veuillez saisir une adresse e-mail valide"
+  },
+  "password": {
+    "required": "Le mot de passe est obligatoire",
+    "minLength": "Le mot de passe doit contenir au moins 8 caractères",
+    "uppercase": "Le mot de passe doit contenir au moins une lettre majuscule",
+    "lowercase": "Le mot de passe doit contenir au moins une lettre minuscule",
+    "number": "Le mot de passe doit contenir au moins un chiffre",
+    "specialChar": "Le mot de passe doit contenir au moins un caractère spécial",
+    "mismatch": "Les mots de passe ne correspondent pas"
+  },
+  "name": {
+    "minLength": "Le nom doit contenir au moins 2 caractères",
+    "lettersOnly": "Le nom ne peut contenir que des lettres et des espaces",
+    "minAlphabetic": "Le nom doit contenir au moins 3 caractères alphabétiques"
+  },
+  "agency": {
+    "minLength": "Le nom de l'agence doit contenir au moins 3 caractères",
+    "minAlphabetic": "Le nom doit contenir au moins 3 caractères alphabétiques"
+  },
+  "plan": {
+    "required": "Veuillez sélectionner un plan"
+  },
+  "timezone": {
+    "required": "Le fuseau horaire est obligatoire"
+  },
+  "language": {
+    "required": "La langue est obligatoire"
+  },
+  "dashboardType": {
+    "required": "Le type de tableau de bord est obligatoire"
+  },
+  "business": {
+    "nameRequired": "Le nom de l'entreprise est obligatoire",
+    "nameMin": "Le nom de l'entreprise doit contenir au moins 2 caractères",
+    "urlInvalid": "Veuillez saisir une URL valide",
+    "timezoneRequired": "Veuillez sélectionner un fuseau horaire",
+    "typeRequired": "Veuillez sélectionner l'option qui vous décrit le mieux"
+  },
+  "apiKey": {
+    "required": "La clé API est obligatoire"
+  },
+  "disconnect": {
+    "confirmText": "Veuillez taper 'delete' pour confirmer"
+  },
+  "smtp": {
+    "fromName": "Le nom de l'expéditeur est obligatoire",
+    "minAlphabetic": "Le nom doit contenir au moins 3 caractères alphabétiques",
+    "email": "Veuillez saisir une adresse e-mail valide",
+    "host": "L'hôte SMTP est obligatoire",
+    "port": {
+      "required": "Le port SMTP est obligatoire",
+      "number": "Le port doit être un nombre"
+    },
+    "user": "L'utilisateur SMTP est obligatoire",
+    "password": "Le mot de passe SMTP est obligatoire"
+  },
+  "keywords": {
+    "max": "Vous pouvez ajouter un maximum de 5 mots-clés.",
+    "min": "Au moins un mot-clé est requis."
+  },
+  "branding": {
+    "nameRequired": "Le nom de l'entreprise est obligatoire",
+    "nameMin": "Le nom de l'entreprise doit contenir au moins 2 caractères",
+    "nameAlpha": "Le nom doit contenir au moins 3 caractères alphabétiques",
+    "email": "Veuillez saisir une adresse e-mail valide",
+    "url": "Veuillez saisir une URL valide",
+    "phone": {
+      "minLength": "Le numéro de téléphone doit contenir 10 chiffres",
+      "invalid": "Veuillez saisir un numéro de téléphone valide"
+    },
+    "address": {
+      "minLength": "L'adresse doit contenir au moins 10 caractères"
+    }
+  },
+  "team": {
+    "roleRequired": "Le rôle est obligatoire"
+  }
+}

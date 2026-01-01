@@ -1,0 +1,23 @@
+{
+  "page": {
+    "title": "Gestisci feedback",
+    "subtitle": "Crea e gestisci i tuoi moduli di raccolta feedback"
+  },
+  "error":{
+    "title":"Gestisci feedback e recensioni",
+    "description":"Automatizza la raccolta dei feedback e la generazione delle recensioni"
+  },
+  "buttons": {
+    "createFeedbackForm": "Crea modulo di feedback"
+  },
+  "alerts": {
+    "loadError": "Impossibile caricare i moduli di feedback. Riprova.",
+    "deleteError": "Impossibile eliminare il modulo di feedback. Riprova.",
+    "deleteNotFound": "Impossibile eliminare il modulo. ID del modulo non trovato."
+  },
+  "messages": {
+    "deleteSuccess": "Modulo di feedback eliminato con successo",
+    "error": "Errore",
+    "success": "Successo"
+  }
+}

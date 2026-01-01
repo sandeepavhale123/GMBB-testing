@@ -1,0 +1,23 @@
+{
+  "businessProfileCard": {
+    "tabs": {
+      "businessInfo": "Business Information",
+      "openingHours": "Opening Hours",
+      "editLog": "Edit Log"
+    },
+    "labels": {
+      "businessName": "Business Name",
+      "profileViews": "Profile views",
+      "position": "Position",
+      "visibility": "Visibility"
+    },
+    "buttons": {
+      "refresh": "Refresh",
+      "refreshing": "Refreshing...",
+      "editAccess": "Edit access"
+    },
+    "fallback": {
+      "avatar": "B"
+    }
+  }
+}

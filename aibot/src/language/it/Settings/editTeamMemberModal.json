@@ -1,0 +1,50 @@
+{
+  "editTeamMemberModal": {
+    "title": "Modifica Membro del Team",
+    "tabs": {
+      "profile": "Modifica Profilo",
+      "listings": "Annunci",
+      "permissions": "Permessi"
+    },
+    "profile": {
+      "changePhoto": "Cambia Foto",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "password": "Password",
+      "placeholder": {
+        "firstName": "Inserisci il nome",
+        "lastName": "Inserisci il cognome",
+        "password": "Inserisci nuova password"
+      },
+      "role": "Ruolo",
+      "selectRole": "Seleziona ruolo",
+      "roles": {
+        "moderator": "Moderatore",
+        "staff": "Staff",
+        "client": "Cliente"
+      },
+      "buttons": {
+        "cancel": "Annulla",
+        "save": "Salva Modifiche"
+      }
+    },
+    "listings": {
+      "allowAccessTitle": "Consenti Accesso agli Annunci",
+      "allowAccessDescription": "Abilita o disabilita l'accesso agli annunci",
+      "filterByAccount": "Filtra per Account",
+      "allAccounts": "Tutti gli Account",
+      "listingsTitle": "Annunci",
+      "accoun1": "Account 1",
+      "accoun2": "Account 2"
+    },
+    "permissions": {
+      "title": "Permessi delle Funzionalità",
+      "description": "Controlla i livelli di accesso per ogni funzionalità: Visualizza, Modifica o Nascondi",
+      "levels": {
+        "view": "Visualizza",
+        "edit": "Modifica",
+        "hide": "Nascondi"
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Gestión de Proyectos",
+      "description": "Administra tus proyectos de clasificación GEO."
+    },
+    "buttons": {
+      "createProject": "Crear Proyecto",
+      "editProject": "Editar Proyecto",
+      "updateProject": "Actualizar Proyecto",
+      "cancel": "Cancelar",
+      "deleteProject": "Eliminar Proyecto",
+      "view": "Ver",
+      "edit": "Editar",
+      "buy": "Comprar Créditos"
+    },
+    "dialog": {
+      "createNew": "Crear Nuevo Proyecto",
+      "edit": "Editar Proyecto",
+      "descCreate": "Introduce los detalles de tu nuevo proyecto de clasificación GEO.",
+      "descEdit": "Actualiza los detalles de tu proyecto de clasificación GEO.",
+      "projectName": "Nombre del Proyecto",
+      "notificationEmail": "Correo de Notificación",
+      "placeholder": {
+        "enterProjectName": "Introduce el nombre del proyecto",
+        "enterEmails": "Introduce correos separados por comas"
+      }
+    },
+    "summary": {
+      "noOfProject": "Número de Proyectos",
+      "noOfKeywords": "Número de Palabras Clave",
+      "noOfScheduledScan": "Número de Escaneos Programados",
+      "availableCredits": "Créditos Disponibles",
+      "creditsRemaining": "{{remaining}} restantes de {{total}} en total"
+    },
+    "table": {
+      "searchPlaceholder": "Buscar proyectos...",
+      "projectName": "Nombre del Proyecto",
+      "noOfKeywords": "Número de Palabras Clave",
+      "date": "Fecha",
+      "notificationEmail": "Correo de Notificación",
+      "action": "Acción",
+      "loadingProjects": "Cargando proyectos...",
+      "noProjectsFound": "No se encontraron proyectos",
+      "deleteConfirmationTitle": "Eliminar Proyecto",
+      "deleteConfirmationDescription": "Esta acción no se puede deshacer. Esto eliminará permanentemente el proyecto \"{name}\" y todos sus datos relacionados, incluidos palabras clave y puntos en el mapa.",
+      "typeDeleteToConfirm": "Escribe \"delete\" para confirmar",
+      "placeholderDelete": "delete",
+      "shareablelink": "Enlace Compartible",
+      "noEmailProvided": "No se proporcionó correo electrónico"
+    },
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} proyectos",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "alerts": {
+      "delete": "Eliminar",
+      "cancel": "Cancelar"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "status": {
+    "healthy": "Active",
+    "warning": "Warning",
+    "error": "Error",
+    "disconnected": "Not Connected"
+  },
+  "labels": {
+    "failedToLoad": "Failed to load platform stats",
+    "connectedAccounts": "Connected Accounts",
+    "individual": "Individual",
+    "organisation": "Organisation",
+    "connect": "Connect",
+    "comingSoon": "Coming Soon"
+  },
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter/X",
+    "linkedin": "LinkedIn",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  }
+}

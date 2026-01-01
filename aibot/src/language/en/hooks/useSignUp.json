@@ -1,0 +1,22 @@
+{
+  "toast": {
+    "validationError": {
+      "title": "Validation Error",
+      "description": "Please check your form data and try again."
+    },
+    "signupFailed": {
+      "title": "Signup Failed"
+    }
+  },
+  "errors": {
+    "network": "Network error. Please check your connection.",
+    "accountExists": "An account with this email already exists.",
+    "invalidData": "Invalid signup data. Please check your information.",
+    "failed": "Failed to create account. Please try again.",
+    "stripeInit": "Stripe failed to initialize.",
+    "noSessionUrl": "No checkout session or URL received."
+  },
+  "success": {
+    "redirecting": "Redirecting to payment..."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "aiReplyGenerator": {
+    "title": "AI Reply Generator",
+    "loading": "Generating AI reply...",
+    "generationFailed": "AI Generation Failed",
+    "generationFailedMessage": "Failed to generate AI reply. Please try again.",
+    "errorTitle": "Error",
+    "unexpectedError": "An unexpected error occurred while generating the reply.",
+    "placeholder": "AI generated reply...",
+    "saveReply": "Save Reply",
+    "regenerate": "Regenerate",
+    "cancel": "Cancel"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "reviewSummary": {
+    "errors": {
+      "failedTitle": "Fehler beim Laden der Bewertungsübersicht",
+      "failedDescription": "Beim Laden der Bewertungsübersicht ist ein Fehler aufgetreten.",
+      "retry": "Erneut versuchen"
+    },
+    "stats": {
+      "totalReviews": "Gesamtbewertungen",
+      "pendingReplies": "Ausstehende Antworten",
+      "aiReplies": "KI-Antworten",
+      "manualReplies": "Manuelle Antworten"
+    },
+    "overallRating": {
+      "title": "Gesamtbewertung",
+      "reviewsLabel": "{{count}} Bewertungen"
+    },
+    "sentiment": {
+      "title": "Stimmungsanalyse",
+      "positive": "Positiv",
+      "neutral": "Neutral",
+      "negative": "Negativ"
+    },
+    "loading": {
+      "skeletonTitle": "Lädt...",
+      "skeletonSubtitle": "Bitte warten Sie, während wir Ihre Daten abrufen"
+    }
+  }
+}

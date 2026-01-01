@@ -1,0 +1,139 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Total des fiches",
+      "subtitle": "Emplacements actifs",
+      "trend": "+2 ce mois-ci"
+    },
+    "avgRating": {
+      "title": "Note moyenne",
+      "subtitle": "Sur l'ensemble des fiches",
+      "trend": "↑ 0,3 points"
+    },
+    "totalReviews": {
+      "title": "Total des avis",
+      "subtitle": "Commentaires des clients",
+      "trend": "En amélioration"
+    },
+    "totalPosts": {
+      "title": "Total des publications",
+      "subtitle": "Publiées ce mois-ci",
+      "trend": "+12 cette semaine"
+    }
+  },
+  "errors": {
+    "metricsLoad": "Échec du chargement des métriques. Veuillez réessayer.",
+    "listingsLoad": "Échec du chargement des fiches. Veuillez réessayer.",
+    "postsLoad": "Échec du chargement des publications. Veuillez réessayer."
+  },
+  "dashboard": {
+    "title": "Fiche GMB – tableau de bord {{type}}",
+    "types": {
+      "default": "Tableau de bord par défaut",
+      "insight": "Tableau de bord des statistiques",
+      "review": "Tableau de bord des avis",
+      "location": "Tableau de bord des emplacements",
+      "post": "Tableau de bord des publications"
+    },
+    "review": "Avis",
+    "insight": "Statistiques",
+    "location": "Emplacement",
+    "post": "Publication",
+    "default": "Par défaut",
+    "shareReport": "Partager le rapport",
+    "searchPlaceholder": "Rechercher par nom de fiche ou code postal",
+    "allGroups": "Tous les groupes",
+    "filters": {
+      "allCategories": "Toutes les catégories",
+      "allStates": "Tous les États",
+      "allGroups": "Tous les groupes",
+      "reviewFilter": "Filtre des avis",
+      "allReviews": "Tous les avis",
+      "unrespondedReview": "Avis sans réponse",
+      "unrespondedARE": "ARE sans réponse",
+      "unrespondedDNR": "DNR sans réponse",
+      "excludeARE": "Exclure les avis ARE",
+      "excludeDNR": "Exclure les avis DNR",
+      "excludeARE_DNR": "Exclure les avis ARE/DNR",
+      "postStatus": "Statut de la publication",
+      "allPosts": "Toutes les publications",
+      "scheduledPost": "Publication programmée",
+      "livePost": "Publication en ligne",
+      "failedPost": "Publication échouée",
+      "insightDays": "Période",
+      "reviewDays": "Période des avis",
+      "allTime": "Depuis toujours",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
+      "last90Days": "90 derniers jours",
+      "last6Months": "6 derniers mois",
+      "last9Months": "9 derniers mois",
+      "last12Months": "12 derniers mois",
+      "customRange": "Plage personnalisée"
+    }
+  },
+  "export": "Exporter CSV",
+  "status": {
+    "loading": "Chargement...",
+    "error": "Erreur lors du chargement des données",
+    "showingPosts": "Affichage de {{count}} sur {{total}} publications",
+    "showingListings": "Affichage de {{count}} sur {{total}} fiches",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "rating": {
+    "excellent": "Excellent",
+    "good": "Bon",
+    "poor": "Médiocre"
+  },
+  "listing": {
+    "listingid": "ID : {{id}}",
+    "zipcode": "Code postal : {{zipcode}}",
+    "state": "État : {{city}}",
+    "fetchingData": "Récupération des données de la fiche...",
+    "visibility": "Visibilité",
+    "Search": "Recherche",
+    "Maps": "Cartes",
+    "Total": "Total",
+    "customerActions": "Actions des clients",
+    "clicks": "Clics",
+    "directions": "Itinéraires",
+    "calls": "Appels",
+    "messages": "Messages",
+    "reviewStats": "Statistiques des avis",
+    "reviewsReplies": "Avis / Réponses",
+    "autoReply": "Réponse automatique",
+    "reviewSentiment": "Sentiment des avis",
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif",
+    "listingStatus": "Statut de la fiche",
+    "visibilityLabel": "Visibilité :",
+    "completeLabel": "Complet :",
+    "lastUpdated": "Dernière mise à jour :",
+    "photos": "Photos",
+    "rating": "Note",
+    "website": "Site web",
+    "maps": "Cartes",
+    "avgRating": "Note moyenne",
+    "starRating": "Évaluation par étoiles",
+    "reviewsVsReplies": "Avis vs Réponses",
+    "lastPost": "Dernière publication",
+    "upcoming": "À venir",
+    "viewDetails": "Voir les détails",
+    "totalViews": "Vues totales",
+    "phone": "Téléphone",
+    "na": "N/D",
+    "stateLabel": "État",
+    "nopost": "Aucune publication"
+  },
+  "pagination": {
+    "showing": {
+      "posts": "Affichage de {{from}} à {{to}} sur {{total}} publications",
+      "listings": "Affichage de {{from}} à {{to}} sur {{total}} fiches"
+    },
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{pages}}"
+  }
+}

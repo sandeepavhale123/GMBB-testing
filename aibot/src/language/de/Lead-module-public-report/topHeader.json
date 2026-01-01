@@ -1,0 +1,16 @@
+{
+  "topHeader": {
+    "defaultTitle": "Berichts-Ranking",
+    "defaultSubtitle": "Professionelle Geschäftsberichte",
+    "navigation": {
+      "overall": "Gesamt",
+      "presence": "Präsenz",
+      "posts": "Beiträge",
+      "competitors": "Wettbewerber",
+      "reviews": "Bewertungen"
+    },
+    "menu": {
+      "toggle": "Navigationsmenü umschalten"
+    }
+  }
+}

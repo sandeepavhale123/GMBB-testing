@@ -1,0 +1,15 @@
+{
+  "PlaceOrderModal": {
+    "title": "Impostazioni Ordine",
+    "buttonTextLabel": "Testo del Pulsante",
+    "buttonTextPlaceholder": "Inserisci il testo del pulsante",
+    "buttonUrlLabel": "URL del Pulsante",
+    "buttonUrlPlaceholder": "https://esempio.com",
+    "enabledLabel": "Visibilità del Pulsante",
+    "enabledNote": "Quando disabilitato, il pulsante ordine sarà nascosto dal report di citazione pubblico.",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "saving": "Salvataggio...",
+    "loading": "Caricamento..."
+  }
+}

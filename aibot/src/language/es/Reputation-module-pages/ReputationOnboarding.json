@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Gestión de la reputación",
+    "description": "Importa tus listados comerciales existentes o agrega un nuevo negocio para comenzar a gestionar tu reputación en línea en todas las plataformas."
+  },
+
+  "importListings": {
+    "title": "Importar listados existentes",
+    "description": "Selecciona las ubicaciones comerciales que deseas importar desde tus fuentes conectadas.",
+    "searchPlaceholder": "Buscar listados...",
+    "selectAll": "Seleccionar todo",
+    "importButton": "Importar listados",
+    "importing": "Importando..."
+  },
+
+  "addBusiness": {
+    "title": "Agregar un negocio",
+    "description": "¿No encuentras tu negocio? Agrégalo manualmente usando Google Places.",
+    "placeholder": "Buscar negocio en Google",
+    "addButton": "Agregar negocio",
+    "addingButton": "Agregando negocio...",
+    "successTitle": "Negocio agregado",
+    "successDescription": "El negocio ha sido agregado correctamente.",
+    "errorTitle": "Error al agregar negocio",
+    "errorDescription": "No se pudo agregar el negocio. Por favor, inténtalo de nuevo.",
+    "selectBusiness": "Por favor selecciona un negocio válido antes de continuar."
+  },
+
+  "listings": {
+    "imported": "Importado",
+    "noListings": "No hay listados disponibles para importar."
+  },
+
+  "errors": {
+    "retry": "Intentar de nuevo",
+    "importFailedTitle": "Error de importación",
+    "importFailedDescription": "No se pudieron importar los listados.",
+    "generic": "Algo salió mal. Por favor, inténtalo de nuevo."
+  },
+
+  "successDialog": {
+    "title": "Importación exitosa",
+    "ok": "OK",
+    "summary": {
+      "inserted": "{{count}} listado(s) importado(s) correctamente.",
+      "skipped": "{{count}} omitido(s).",
+      "invalid": "{{count}} no válido(s)."
+    }
+  }
+}

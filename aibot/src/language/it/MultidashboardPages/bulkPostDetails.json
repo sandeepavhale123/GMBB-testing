@@ -1,0 +1,73 @@
+{
+  "bulkPostDetails": {
+    "header": {
+      "title": "Visualizza dettagli",
+      "subtitle": "Visualizza i dettagli del post multiplo selezionato"
+    },
+    "postPreview": {
+      "postedOn": "Pubblicato il:",
+      "viewPost": "Visualizza post",
+      "deletePost": "Elimina post"
+    },
+    "table": {
+      "listingName": "Nome elenco",
+      "zipCode": "Codice postale",
+      "status": "Stato",
+      "action": "Azione",
+      "noListings": "Nessun elenco trovato.",
+      "unknown": "Sconosciuto",
+      "post": "post",
+      "na": "N/D"
+    },
+    "filter": {
+      "searchPlaceholder": "Cerca per nome elenco.",
+      "statusPlaceholder": "Filtra per stato",
+      "postStatus": "Stato del post",
+      "live": "Attivo",
+      "scheduled": "Programmato",
+      "failed": "Non riuscito"
+    },
+    "status": {
+      "published": "pubblicato",
+      "live": "attivo",
+      "draft": "bozza",
+      "scheduled": "programmato",
+      "failed": "non riuscito"
+    },
+    "bulkActions": {
+      "selected": "{{count}} post selezionato",
+      "selected_plural": "{{count}} post selezionati",
+      "deleteSelected": "Elimina selezionati"
+    },
+    "pagination": {
+      "showing": "Visualizzati {{from}} a {{to}} di {{total}} elementi",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "page": "Pagina {{current}} di {{totalPages}}"
+    },
+    "dialogs": {
+      "bulkDelete": {
+        "title": "Elimina più post",
+        "description": "Sei sicuro di voler eliminare {{count}} post selezionati? Questa azione non può essere annullata.",
+        "cancel": "Annulla",
+        "confirm": "Elimina tutto"
+      },
+      "deleteSingle": {
+        "title": "Sei sicuro?",
+        "description": "Questa azione non può essere annullata. Il post sarà eliminato definitivamente.",
+        "cancel": "Annulla",
+        "confirm": "Elimina"
+      }
+    },
+    "messages": {
+      "successTitle": "Successo",
+      "successDelete": "Post eliminato con successo",
+      "successBulkDelete": "{{count}} post eliminati con successo",
+      "errorTitle": "Errore",
+      "errorDelete": "Impossibile eliminare il post",
+      "errorBulkDelete": "Impossibile eliminare alcuni post",
+      "errorDetails": "Errore nel caricamento dei dettagli del post: {{error}}",
+      "tryAgain": "Riprova"
+    }
+  }
+}

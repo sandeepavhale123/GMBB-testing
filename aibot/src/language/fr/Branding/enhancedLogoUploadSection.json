@@ -1,0 +1,53 @@
+{
+  "enhancedLogoUploadSection": {
+    "heading": "Logos de l’application",
+    "lightLogo": {
+      "label": "Logo en mode clair",
+      "uploadButton": "Choisir le logo clair",
+      "dropText": "Déposez le logo ici ou cliquez pour téléverser",
+      "fileInfo": "Sélectionné : {{fileName}}",
+      "currentLoaded": "✓ Logo actuel chargé",
+      "fileTooLarge": {
+        "title": "Fichier trop volumineux",
+        "description": "Le fichier du logo doit faire moins de 2 Mo"
+      },
+      "invalidFileType": {
+        "title": "Type de fichier invalide",
+        "description": "Veuillez téléverser une image (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logo clair téléversé",
+        "description": "{{fileName}} prêt à être utilisé"
+      },
+      "removed": {
+        "title": "Logo clair supprimé",
+        "description": "Le logo a été supprimé avec succès"
+      },
+      "instructions": "PNG, JPG, SVG jusqu’à 2 Mo. Recommandé : 200x60px"
+    },
+    "darkLogo": {
+      "label": "Logo en mode sombre",
+      "uploadButton": "Choisir le logo sombre",
+      "dropText": "Déposez le logo ici ou cliquez pour téléverser",
+      "fileInfo": "Sélectionné : {{fileName}}",
+      "currentLoaded": "✓ Logo actuel chargé",
+      "fileTooLarge": {
+        "title": "Fichier trop volumineux",
+        "description": "Le fichier du logo doit faire moins de 2 Mo"
+      },
+      "invalidFileType": {
+        "title": "Type de fichier invalide",
+        "description": "Veuillez téléverser une image (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logo sombre téléversé",
+        "description": "{{fileName}} prêt à être utilisé"
+      },
+      "removed": {
+        "title": "Logo sombre supprimé",
+        "description": "Le logo a été supprimé avec succès"
+      },
+      "instructions": "PNG, JPG, SVG jusqu’à 2 Mo. Recommandé : 200x60px"
+    }
+  }
+}

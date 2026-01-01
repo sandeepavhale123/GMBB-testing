@@ -1,0 +1,38 @@
+{
+  "importPostCSV": {
+    "title": "Bulk Post Management",
+    "importButton": "Import CSV file",
+    "searchPlaceholder": "Search by filename or note...",
+    "noRecordsFound": "No records found for your search.",
+    "noCSVFound": "No CSV imports found. Click \"Import\" to get started.",
+    "tableHeaders": {
+      "filename": "File name",
+      "note": "Note",
+      "date": "Date",
+      "totalPosts": "Total Posts",
+      "listingsApplied": "Listings Applied",
+      "status": "Status",
+      "action": "Action",
+      "listing":"Listings"
+    },
+    "status":{
+      "completed": "completed",
+      "processing":"processing",
+      "failed":"failed"
+    },
+    "deleteDialog": {
+      "title": "Delete CSV Import",
+      "description": "Are you sure you want to delete the import record for \"{{filename}}\"? This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "successTitle": "Success",
+      "successMessage": "Record deleted successfully",
+      "errorTitle": "Error",
+      "errorMessage": "Failed to delete record"
+    },
+    "paginationInfo": "Showing {{start}} to {{end}} of {{total}} entries"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "reviewsManagementPage": {
+    "tabs": {
+      "summary": "Résumé",
+      "autoResponse": "Réponse automatique"
+    },
+    "errors": {
+      "summaryError": {
+        "title": "Erreur lors du chargement du résumé des avis",
+        "description": "Une erreur est survenue lors du chargement du résumé des avis."
+      },
+      "reviewsError": {
+        "title": "Erreur lors du chargement des avis",
+        "description": "Une erreur est survenue lors de la récupération des avis."
+      },
+      "replyError": {
+        "title": "Erreur lors de l'envoi de la réponse",
+        "description": "Une erreur est survenue lors de l'envoi de votre réponse."
+      }
+    }
+  }
+}

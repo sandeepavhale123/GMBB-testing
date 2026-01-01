@@ -1,0 +1,32 @@
+{
+  "insightsComparisonChart": {
+    "title": {
+      "fallback": "Tendenze delle prestazioni",
+      "comparison": "Confronto delle prestazioni degli ultimi 6 mesi"
+    },
+    "view": "Vedi tutto",
+    "description": {
+      "fallback": "Andamenti storici delle metriche principali basati sui dati disponibili",
+      "comparison": "Andamenti storici delle metriche principali negli ultimi 6 mesi"
+    },
+    "error": {
+      "title": "Confronto delle prestazioni",
+      "failed": "Caricamento dei dati di confronto non riuscito"
+    },
+    "loading": {
+      "title": "Caricamento dei dati di confronto..."
+    },
+    "metrics": {
+      "searchViews": "Visualizzazioni nella Ricerca Google",
+      "mapsViews": "Visualizzazioni su Google Maps",
+      "websiteClicks": "Clic sul sito web",
+      "phoneCalls": "Chiamate telefoniche"
+    },
+    "mobileLegend": {
+      "searchViews": "Visualizzazioni di ricerca",
+      "mapsViews": "Visualizzazioni delle mappe",
+      "websiteClicks": "Clic sul sito web",
+      "phoneCalls": "Chiamate telefoniche"
+    }
+  }
+}

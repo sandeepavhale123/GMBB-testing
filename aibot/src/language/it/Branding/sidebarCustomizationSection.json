@@ -1,0 +1,43 @@
+{
+  "sidebarCustomization": {
+    "title": "Seleziona il colore di sfondo della barra laterale",
+    "themes": {
+      "theme_01": "Tema scuro",
+      "blue": "Blu",
+      "red": "Rosso",
+      "green": "Verde",
+      "brown": "Marrone",
+      "gray": "Grigio",
+      "purple": "Viola",
+      "custom": "Colori personalizzati"
+    },
+    "customModal": {
+      "title": "Selettore colori personalizzati",
+      "preview": {
+        "logo": "IL TUO LOGO",
+        "menuItems": {
+          "overview": "Panoramica",
+          "posts": "Post",
+          "media": "Media",
+          "insights": "Approfondimenti",
+          "geoRanking": "Classifica GEO"
+        }
+      },
+      "labels": {
+        "background": "Colore di sfondo",
+        "text": "Colore del testo",
+        "activeBackground": "Sfondo del menu attivo",
+        "activeText": "Testo del menu attivo"
+      },
+      "buttons": {
+        "reset": "Ripristina",
+        "cancel": "Annulla",
+        "apply": "Applica colori"
+      }
+    },
+    "customCard": {
+      "label": "Personalizzato",
+      "description": "Colori personalizzati"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "integrationComingSoon": "Integration coming soon",
+  "comingSoon": "Coming Soon",
+
+  "status": {
+    "connected": "Connected",
+    "notConnected": "Not Connected"
+  },
+
+  "reviews": "{{count}} reviews",
+
+  "lastSynced": "Last synced: {{date}}",
+
+  "buttons": {
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "cancel": "Cancel"
+  },
+
+  "disconnectDialog": {
+    "title": "Disconnect {{name}}?",
+    "description": "Are you sure you want to disconnect from {{name}}? This will stop syncing reviews from this platform.",
+    "confirm": "Disconnect"
+  }
+}

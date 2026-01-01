@@ -1,0 +1,12 @@
+{
+  "editLogTab": {
+    "searchPlaceholder": "Cerca nei log delle modifiche...",
+    "searchButton": "Cerca",
+    "resultsCount": "Visualizzati {{count}} di {{total}} log delle modifiche",
+    "errorLoad": "Caricamento dei log delle modifiche fallito",
+    "noData": "Nessuna cronologia delle modifiche disponibile",
+    "noSearchResults": "Nessun log delle modifiche trovato per la tua ricerca",
+    "changedLabel": "Modificato",
+    "loading": "Caricamento in corso..."
+  }
+}

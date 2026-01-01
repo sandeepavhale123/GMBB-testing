@@ -1,0 +1,134 @@
+{
+  "GenerateBulkReport": {
+    "pageTitle": "Generar Informe Masivo",
+    "pageDescription": "Crea y programa informes automatizados para múltiples ubicaciones.",
+
+    "reportDetails": {
+      "title": "Detalles del Informe",
+      "description": "Asigna un nombre a tu proyecto de informe y selecciona ubicaciones.",
+      "reportTitleLabel": "Título del informe",
+      "reportTitlePlaceholder": "Ingresa el título del informe...",
+      "locationsSelected": "{{count}} ubicaciones seleccionadas"
+    },
+
+    "reportTypes": {
+      "title": "Tipos de Informe",
+      "description": "Selecciona qué informes incluir en tu proyecto.",
+      "availableReports": "Informes Disponibles",
+      "selectAll": "Seleccionar Todo",
+      "deselectAll": "Deseleccionar Todo",
+      "sections": {
+        "posts": "Publicación GMB",
+        "media": "Publicación de Medios",
+        "reviews": "Reseña",
+        "qa": "Preguntas y Respuestas",
+        "insights": "Insights"
+      }
+    },
+
+    "scheduleConfig": {
+      "title": "Configuración del Horario",
+      "description": "Configura cuándo y con qué frecuencia se deben generar los informes.",
+      "scheduleTypeLabel": "Tipo de Programación",
+      "scheduleTypes": {
+        "oneTime": "Una Vez",
+        "weekly": "Semanal",
+        "monthly": "Mensual"
+      },
+      "fromDateLabel": "Fecha de Inicio",
+      "fromDatePlaceholder": "Selecciona fecha de inicio",
+      "toDateLabel": "Fecha de Fin",
+      "toDatePlaceholder": "Selecciona fecha de fin",
+      "selectFrequency": "Seleccionar Frecuencia",
+      "selectFrequencyPlaceholder": "Selecciona frecuencia...",
+      "selectWeek": "Enviar Correo Esta Semana",
+      "selectWeekPlaceholder": "Selecciona semana...",
+      "selectDay": "Enviar Correo El",
+      "selectDayPlaceholder": "Selecciona día...",
+      "weekOptions": {
+        "first": "Primera Semana",
+        "second": "Segunda Semana",
+        "third": "Tercera Semana",
+        "fourth": "Cuarta Semana",
+        "last": "Última Semana"
+      },
+      "days": {
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo"
+      },
+      "frequencies": {
+        "lastWeek": "Última Semana",
+        "last2Weeks": "Últimas 2 Semanas",
+        "last3Weeks": "Últimas 3 Semanas",
+        "last4Weeks": "Últimas 4 Semanas",
+        "last5Weeks": "Últimas 5 Semanas",
+        "lastMonth": "Último Mes",
+        "last2Months": "Últimos 2 Meses",
+        "last3Months": "Últimos 3 Meses",
+        "last6Months": "Últimos 6 Meses",
+        "last12Months": "Últimos 12 Meses"
+      }
+    },
+
+    "deliveryFormat": {
+      "title": "Formato de Entrega",
+      "descriptionSingle": "Elige cómo deseas recibir tu informe. Puedes seleccionar múltiples formatos.",
+      "descriptionMultiple": "Elige cómo deseas recibir tus informes. Para múltiples ubicaciones, puedes seleccionar un formato para un mejor rendimiento en la entrega.",
+      "csv": "Formato CSV",
+      "pdf": "Formato PDF",
+      "html": "Informe Público HTML",
+      "selectionGuide": "Guía de Selección:",
+      "selectionNoteSingle": "Puedes seleccionar múltiples formatos de entrega para tu informe de una sola ubicación.",
+      "selectionNoteMultiple": "Al generar informes para múltiples ubicaciones, solo puedes seleccionar un formato de entrega para optimizar el rendimiento."
+    },
+
+    "emailComposer": {
+      "title": "Compositor de Correo",
+      "description": "Configura cómo se enviarán los informes por correo electrónico.",
+      "to": "Para *",
+      "toPlaceholder": "destinatario1@ejemplo.com, destinatario2@ejemplo.com",
+      "cc": "CC",
+      "ccPlaceholder": "cc1@ejemplo.com, cc2@ejemplo.com",
+      "bcc": "BCC",
+      "bccPlaceholder": "bcc@ejemplo.com, bcc2@ejemplo.com",
+      "subject": "Asunto *",
+      "subjectPlaceholder": "Tus Informes Generados - {projectName}",
+      "message": "Mensaje *",
+      "messagePlaceholder": "Ingresa tu mensaje de correo..."
+    },
+
+    "actions": {
+      "cancel": "Cancelar",
+      "create": "Crear informe",
+      "creating": "Creando..."
+    },
+
+    "toasts": {
+      "reportCreatedTitle": "Proyecto de Informe Creado",
+      "reportCreatedDescription": "{{projectName}} ha sido creado exitosamente con ID de proyecto: {{projectId}}",
+      "errorTitle": "Error",
+      "errorMessage": "No se pudo crear el proyecto de informe. Por favor, inténtalo de nuevo."
+    },
+
+    "validation": {
+      "projectNameRequired": "El nombre del proyecto es obligatorio.",
+      "selectedListingsRequired": "Selecciona al menos una ubicación.",
+      "reportSectionsRequired": "Selecciona al menos un tipo de informe.",
+      "deliveryFormatRequired": "Selecciona al menos un formato de entrega.",
+      "emailToRequired": "El destinatario del correo es obligatorio.",
+      "emailSubjectRequired": "El asunto del correo es obligatorio.",
+      "emailMessageRequired": "El mensaje del correo es obligatorio.",
+      "invalidEmails": "Por favor, ingresa direcciones de correo válidas separadas por comas.",
+      "fromDateRequired": "La fecha de inicio es obligatoria para informes de una sola vez.",
+      "toDateRequired": "La fecha de fin es obligatoria para informes de una sola vez.",
+      "frequencyRequired": "La frecuencia es obligatoria para informes recurrentes.",
+      "emailDayRequired": "El día de envío es obligatorio para informes recurrentes.",
+      "emailWeekRequired": "La semana de envío es obligatoria para informes mensuales."
+    }
+  }
+}

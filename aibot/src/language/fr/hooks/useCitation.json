@@ -1,0 +1,37 @@
+{
+  "citationReport": {
+    "toast": {
+      "success": {
+        "create": {
+          "title": "Succès",
+          "description": "Le rapport de citations a été créé avec succès."
+        },
+        "fetch": {
+          "title": "Succès",
+          "description": "Les données d’audit des citations ont été récupérées avec succès."
+        },
+        "refresh": {
+          "title": "Succès",
+          "description": "Le rapport de citations a été actualisé avec succès."
+        }
+      },
+      "error": {
+        "create": {
+          "title": "Erreur",
+          "description": "Échec de la création du rapport de citations."
+        },
+        "fetch": {
+          "title": "Erreur",
+          "description": "Échec de la récupération des données d’audit des citations."
+        },
+        "refresh": {
+          "title": "Erreur",
+          "description": "Échec de l’actualisation du rapport de citations."
+        }
+      },
+      "validation": {
+        "requiredFields": "Le nom de l’entreprise, le téléphone et l’adresse sont requis."
+      }
+    }
+  }
+}

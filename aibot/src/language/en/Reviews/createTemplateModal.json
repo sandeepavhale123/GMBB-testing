@@ -1,0 +1,34 @@
+{
+  "createTemplateModal": {
+    "title": "Edit Template",
+    "leftPanel": {
+      "title": "Personalize",
+      "subtitle": "Your Reply Templates",
+      "description": "You can use the following variables while creating your templates to make your responses more dynamic and personalized:",
+      "variables": {
+        "fullName": " – Displays the reviewer's full name.",
+        "firstName": " – Displays the reviewer's first name.",
+        "lastName": " – Displays the reviewer's last name.",
+        "ownerName": " – Displays your (business owner's) name."
+      }
+    },
+    "form": {
+      "selectRatingLabel": "Select rating",
+      "ratingOption": "{{count}} Star",
+      "ratingOption_plural": "{{count}} Stars",
+      "textareaPlaceholder": "Enter your template message..."
+    },
+    "footer": {
+      "close": "Close",
+      "save": "Save changes",
+      "saving": "Saving..."
+    },
+    "defaultTemplates": {
+      "5": "Thank you so much, {first_name}, for your amazing 5-star review! 🌟 It's truly wonderful to hear that you had a great experience with us. Your kind words mean the world to me and the team.\n\n~ {owner_name}",
+      "4": "Hi {first_name}, thank you for the 4-star review! We're thrilled you had a positive experience with us. We'd love to know how we can make it a 5-star experience next time!\n\n~ {owner_name}",
+      "3": "Hello {first_name}, thank you for taking the time to leave a 3-star review. We appreciate your feedback and would love to understand how we can improve your experience.\n\n~ {owner_name}",
+      "2": "Hi {first_name}, thank you for your 2-star review. We're sorry to hear that your experience wasn't up to our standards. We'd appreciate the opportunity to make this right.\n\n~ {owner_name}",
+      "1": "Hello {first_name}, we're very sorry to see your 1-star review. This is clearly not the experience we want for our customers. Please reach out to us directly so we can resolve this immediately.\n\n~ {owner_name}"
+    }
+  }
+}

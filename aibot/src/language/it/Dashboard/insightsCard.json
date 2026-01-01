@@ -1,0 +1,26 @@
+{
+  "insightsCard": {
+    "title": "Panoramica delle Prestazioni",
+    "viewButton": "Visualizza",
+    "dateRange": {
+      "placeholder": "Seleziona periodo",
+      "last7Days": "Ultimi 7 giorni",
+      "last30Days": "Ultimi 30 giorni",
+      "last90Days": "Ultimi 90 giorni"
+    },
+    "visibility": {
+      "searchViews": "Visualizzazioni di ricerca",
+      "mapsViews": "Visualizzazioni su mappe"
+    },
+    "customerActions": {
+      "title": "Azioni dei Clienti",
+      "calls": "Chiamate",
+      "website": "Sito Web",
+      "directions": "Indicazioni",
+      "messages": "Messaggi"
+    },
+    "topSearchQueries": {
+      "title": "Principali Ricerche"
+    }
+  }
+}

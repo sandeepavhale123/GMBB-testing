@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Project Management",
+      "description": "Manage your GEO ranking projects."
+    },
+    "buttons": {
+      "createProject": "Create Project",
+      "editProject": "Edit Project",
+      "updateProject": "Update Project",
+      "cancel": "Cancel",
+      "deleteProject": "Delete Project",
+      "view":"View",
+      "edit": "Edit",
+      "buy":"Buy Credits"
+    },
+    "dialog": {
+      "createNew": "Create New Project",
+      "edit": "Edit Project",
+      "descCreate": "Enter the details for your new GEO ranking project.",
+      "descEdit": "Update the details for your GEO ranking project.",
+      "projectName": "Project Name",
+      "notificationEmail": "Notification Email",
+      "placeholder": {
+        "enterProjectName": "Enter project name",
+        "enterEmails": "Enter emails separated by commas"
+      }
+    },
+    "summary": {
+      "noOfProject": "No Of Project",
+      "noOfKeywords": "No Of Keywords",
+      "noOfScheduledScan": "No Of Scheduled Scan",
+      "availableCredits": "Available Credits",
+      "creditsRemaining": "{{remaining}} remaining of {{total}} total"
+    },
+    "table": {
+      "searchPlaceholder": "Search projects...",
+      "projectName": "Project Name",
+      "noOfKeywords": "No of Keywords",
+      "date": "Date",
+      "notificationEmail": "Notification Email",
+      "action": "Action",
+      "loadingProjects": "Loading projects...",
+      "noProjectsFound": "No projects found",
+      "deleteConfirmationTitle": "Delete Project",
+      "deleteConfirmationDescription": "This action cannot be undone. This will permanently delete the project \"{name}\" and all its related data including keywords and map points.",
+      "typeDeleteToConfirm": "Type \"delete\" to confirm",
+      "placeholderDelete": "delete",
+      "shareablelink" : "Shareable Link",
+      "noEmailProvided": "No email provided"
+    },
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} projects",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "alerts": {
+      "delete": "Delete",
+      "cancel": "Cancel"
+    }
+  }
+}

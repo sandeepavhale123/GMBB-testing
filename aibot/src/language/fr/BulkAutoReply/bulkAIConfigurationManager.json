@@ -1,0 +1,65 @@
+{
+  "dnr": {
+    "title": "Projet DNR",
+    "description1": "Vous avez créé ce projet pour DNR (Ne pas répondre).",
+    "description2": "Ce projet est configuré pour ne pas répondre automatiquement aux avis."
+  },
+  "header": {
+    "title": "Réponse automatique AI",
+    "badge": "Propulsé par AI",
+    "description": "Laissez l'IA générer des réponses personnalisées et contextuelles basées sur le contenu et le sentiment des avis."
+  },
+  "responseStyle": {
+    "label": "Style de réponse AI",
+    "placeholder": "Choisissez votre style de réponse...",
+    "styles": {
+      "professional": "Professionnel",
+      "friendly": "Amical",
+      "casual": "Décontracté",
+      "formal": "Formel",
+      "empathetic": "Empathique"
+    },
+    "hint": "💡 L'IA adaptera ce style au contenu spécifique et à la note de chaque avis."
+  },
+  "advanced": {
+    "label": "Options avancées",
+    "noteTitle": "Remarque :",
+    "noteText1": "Vous pouvez utiliser les variables suivantes dans votre texte de réponse pour afficher le nom de l'auteur de l'avis :",
+    "noteText2": ". Pour insérer le contenu de la réponse, utilisez ",
+    "noteText3": ". N'oubliez pas de l'inclure dans votre modèle.",
+    "customPrompt": {
+      "label": "Invite personnalisée",
+      "placeholder": "Entrez une invite personnalisée",
+      "hint": "Ajoutez des instructions spécifiques pour personnaliser la façon dont l'IA génère les réponses."
+    },
+    "replyText": "Texte de réponse",
+    "responsePlaceholder": "Saisissez votre modèle de réponse...",
+    "starRatings": "Appliquer aux évaluations par étoiles"
+  },
+  "sample": {
+    "title": "Générer un exemple de réponse AI",
+    "subtitle": "Testez comment l'IA répondra à un avis exemple",
+    "button": "Générer un exemple de réponse AI",
+    "buttonLoading": "Génération de la réponse exemple...",
+    "reviewUser": "John Doe",
+    "reviewText": "Expérience incroyable ! Le service était excellent et le personnel très sympathique. Tout a dépassé mes attentes. Je reviendrai certainement !",
+    "generatedLabel": "Réponse générée par AI :"
+  },
+  "replyExisting": {
+    "label": "Répondre aux avis existants",
+    "description": "Activez ceci pour répondre automatiquement aux avis publiés avant l'activation des réponses AI."
+  },
+  "save": {
+    "button": "Enregistrer les paramètres AI"
+  },
+  "toast": {
+    "success": "Succès",
+    "error": "Erreur",
+    "saveSuccess": "Paramètres de réponse automatique AI enregistrés avec succès ! {{count}} emplacement{{plural}} mis à jour.",
+    "saveError": "Impossible d'enregistrer les paramètres de réponse automatique AI. Veuillez réessayer.",
+    "toggleSuccess": "Réponse automatique AI {{status}} avec succès ! {{count}} emplacement{{plural}} mis à jour.",
+    "toggleError": "Impossible de mettre à jour le statut de la réponse automatique AI. Veuillez réessayer.",
+    "replyToggleSuccess": "Réponse aux avis existants {{status}} avec succès ! {{count}} emplacement{{plural}} mis à jour.",
+    "replyToggleError": "Impossible de mettre à jour les paramètres de réponse aux avis existants. Veuillez réessayer."
+  }
+}

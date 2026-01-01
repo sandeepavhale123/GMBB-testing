@@ -1,0 +1,48 @@
+{
+  "exportReviewsModal": {
+    "title": "Esporta dati delle recensioni",
+    "selectListingsLabel": "Seleziona le sedi",
+    "selectListingsPlaceholder": "Seleziona le sedi...",
+    "exportTypeLabel": "Scegli il tipo di esportazione",
+    "exportPlaceholder": "Seleziona il tipo di esportazione",
+    "exportTypeOptions": {
+      "1": "Report riepilogativo - Solo conteggio (nessun intervallo di date)",
+      "2": "Report riepilogativo personalizzato - Recensione per recensione (con intervallo di date)",
+      "3": "Report riepilogativo personalizzato - Solo conteggio (con intervallo di date)"
+    },
+    "starRatingsLabel": "Seleziona le valutazioni con stelle",
+    "selectAll": "Seleziona tutto",
+    "deselectAll": "Deseleziona tutto",
+    "starsSelected": "{{selected}} su {{total}} valutazioni con stelle selezionate",
+    "dateRangeLabel": "Seleziona un intervallo di date",
+    "dateRangePlaceholder": "Seleziona un intervallo di date per le recensioni",
+    "buttons": {
+      "cancel": "Annulla",
+      "export": "Esporta CSV",
+      "exporting": "Esportazione in corso..."
+    },
+    "rating": {
+      "rating1": "1 stella",
+      "rating2": "2 stelle",
+      "rating3": "3 stelle",
+      "rating4": "4 stelle",
+      "rating5": "5 stelle"
+    },
+    "toast": {
+      "validation": {
+        "title": "Errore di validazione",
+        "noListing": "Seleziona almeno una sede",
+        "noStar": "Seleziona almeno una valutazione con stelle",
+        "noDateRange": "Seleziona un intervallo di date"
+      },
+      "success": {
+        "title": "Successo",
+        "description": "File CSV generato e download avviato"
+      },
+      "error": {
+        "title": "Errore di esportazione",
+        "description": "Si è verificato un errore durante l’esportazione"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "performanceChart": {
+    "title": "Panoramica delle Prestazioni",
+    "description": "Monitora le metriche del tuo business nel tempo",
+    "metrics": {
+      "views": "Visualizzazioni",
+      "clicks": "Clic",
+      "calls": "Chiamate"
+    }
+  }
+}

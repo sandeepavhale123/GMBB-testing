@@ -1,0 +1,24 @@
+{
+  "postOverview": {
+    "title": "Panoramica dei Post",
+    "total": "{{count}} totale",
+    "status": {
+      "live": {
+        "label": "Post Pubblicati",
+        "message": "Tutto ok"
+      },
+      "scheduled": {
+        "label": "Programmati",
+        "message": "Tutto ok"
+      },
+      "failed": {
+        "label": "Falliti",
+        "message": "Necessita attenzione"
+      }
+    },
+    "actions": {
+      "create": "Crea Nuovo Post",
+      "manage": "Gestisci Post"
+    }
+  }
+}

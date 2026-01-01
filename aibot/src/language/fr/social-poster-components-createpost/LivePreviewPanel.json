@@ -1,0 +1,16 @@
+{
+  "title": "Aperçu en direct",
+  "selectPlatform": "Sélectionner une plateforme",
+  "noPlatformSelected": "Sélectionnez des comptes pour voir l'aperçu",
+  "previewNotAvailable": "Aperçu non disponible pour cette plateforme",
+
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "threads": "Threads",
+    "linkedin": "LinkedIn",
+    "linkedin_individual": "LinkedIn (Individuel)",
+    "linkedin_organisation": "LinkedIn (Organisation)"
+  }
+}

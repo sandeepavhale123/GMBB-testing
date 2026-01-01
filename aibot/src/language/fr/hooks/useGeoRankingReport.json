@@ -1,0 +1,46 @@
+{
+  "geoRanking": {
+    "form": {
+      "resetTitle": "Réinitialisation du formulaire",
+      "resetDescription": "Prêt pour une nouvelle recherche de mots-clés",
+      "keyword": "Mot-clé traité",
+      "keywordsRequired": "Les mots-clés sont obligatoires.",
+      "coordinatesRequired": "Aucune coordonnée disponible. Veuillez générer une grille ou placer des marqueurs."
+    },
+    "toast": {
+      "success": {
+        "title": "Succès",
+        "timeout": "Délai de traitement",
+        "submitRank": "Vérification du classement soumise avec succès",
+        "addKeywords": "Les mots-clés ont été ajoutés avec succès au projet",
+        "keywordProcessed": "Les données de classement de votre mot-clé sont maintenant disponibles !"
+      },
+      "error": {
+        "error": "Erreur",
+        "fetchDefaultCoordinates": "Échec de récupération des coordonnées par défaut",
+        "fetchGridCoordinates": "Échec de récupération des coordonnées de la grille",
+        "submitRank": "Échec de la soumission de la vérification du classement",
+        "addKeywords": "Échec de l'ajout des mots-clés",
+        "processingTimeout": "Le traitement du mot-clé prend plus de temps que prévu. Veuillez réessayer plus tard.",
+        "moduleOnly": "Cette fonction est uniquement disponible en mode module",
+        "selectBusinessProject": "Veuillez d'abord sélectionner une entreprise et un projet"
+      },
+      "info": {
+        "titleProcessing": "Traitement du mot-clé",
+        "titleKeyword": "Mot-clé en file d'attente",
+        "keywordInQueue": "Votre mot-clé est en file d'attente. Le traitement prendra un certain temps.",
+        "processingKeyword": "Veuillez patienter pendant que nous traitons les données de classement de votre mot-clé..."
+      }
+    },
+    "labels": {
+      "automatic": "Automatique",
+      "manual": "Manuellement",
+      "meters": "Mètres",
+      "miles": "Miles",
+      "distanceValue": "Valeur de distance",
+      "gridSize": "Taille de la grille",
+      "mapPoint": "Point sur la carte",
+      "scheduleCheck": "Planification"
+    }
+  }
+}

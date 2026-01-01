@@ -1,0 +1,11 @@
+{
+  "createQAModal": {
+    "title": "Add New Q&A",
+    "questionLabel": "Question",
+    "questionPlaceholder": "Enter the question...",
+    "answerLabel": "Answer",
+    "answerPlaceholder": "Enter your answer...",
+    "cancel": "Cancel",
+    "submit": "Add Q&A"
+  }
+}

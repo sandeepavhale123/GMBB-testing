@@ -1,0 +1,26 @@
+{
+  "label": "Select Locations",
+  "placeholders": {
+    "search": "Search locations..."
+  },
+  "item":"{{count}} item selected",
+  "items":"{{count}} items selected",
+  "sections": {
+    "groups": "Groups",
+    "locations": "Locations"
+  },
+  "actions": {
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All"
+  },
+  "status": {
+    "locations": "Locations"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "noResults": "No location found.",
+    "selectAtLeastOne": "Select at least one location to continue.",
+    "error": "Failed to fetch bulk reply details",
+    "errorTitle":"Error"
+  }
+}

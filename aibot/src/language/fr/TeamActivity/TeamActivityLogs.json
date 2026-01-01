@@ -1,0 +1,14 @@
+{
+  "activityLogs": {
+    "searchPlaceholder": "Rechercher des activités...",
+    "allMembers": "Tous les membres",
+    "fromDate": "Date de début",
+    "toDate": "Date de fin",
+    "noLogs": "Aucun journal d’activité trouvé",
+    "clearFilters": "Effacer les filtres",
+    "showing": "Affichage",
+    "of": "sur",
+    "perPage": "Par page",
+    "page": "Page"
+  }
+}

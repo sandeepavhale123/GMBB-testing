@@ -1,0 +1,42 @@
+{
+  "invoiceModal": {
+    "title": "Detalles de la Factura",
+    "download": "Descargar",
+    "loading": "Cargando detalles de la factura...",
+    "error": {
+      "title": "Error",
+      "noData": "No hay datos de factura disponibles para descargar.",
+      "captureFailed": "No se pudo capturar la imagen de la factura. Por favor, inténtelo de nuevo."
+    },
+    "success": {
+      "title": "Éxito",
+      "downloaded": "Imagen de la factura descargada con éxito."
+    },
+    "info": {
+      "name": "GMB Briefcase",
+      "email": "sales@citationbuilderpro.com",
+      "house": "T-16 Software Technology Park India,",
+      "address": "pp Garware Stadium, Cikalthana MIDC",
+      "city": "Aurangabad - 431005",
+      "mobile": "9822298988"
+    },
+    "sections": {
+      "billedFrom": "Facturado Desde",
+      "billedTo": "Facturado A",
+      "product": "Producto",
+      "productDescription": "DESCRIPCIÓN Y DETALLES DEL PRODUCTO:"
+    },
+    "table": {
+      "serial": "N.º",
+      "product": "Producto",
+      "total": "Total"
+    },
+    "invoiceInfo": {
+      "transactionId": "ID de Transacción",
+      "date": "Fecha"
+    },
+    "fallback": {
+      "failed": "No se pudieron cargar los detalles de la factura."
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "importPostCSVWizard": {
+    "title": "Importer un fichier CSV de publications",
+    "steps": {
+      "1": "Sélectionner les fiches",
+      "2": "Téléverser le fichier",
+      "3": "Contrôle de qualité",
+      "4": "Soumettre"
+    },
+    "uploadError": "Erreur de téléversement",
+    "stepCount": "Étape {{currentStep}} sur 4",
+    "selectListings": {
+      "heading": "Sélectionner les fiches",
+      "description": "Choisissez les fiches et le type de publication pour votre importation en masse.",
+      "postTypeLabel": "Type de publication",
+      "postTypePlaceholder": "Sélectionner le type de fichier",
+      "postTypeOptions": {
+        "0": "Sélectionner le type de fichier",
+        "1": "Fichier de publication standard",
+        "2": "Fichier de publication d'événement",
+        "3": "Fichier de publication d'offre"
+      },
+      "next": "Suivant",
+      "generatingCSV": "Génération du CSV..."
+    },
+    "uploadFile": {
+      "heading": "Téléverser le fichier",
+      "description": "Téléversez votre fichier CSV pour l'importation en masse des publications.",
+      "downloadSample": "Télécharger le fichier CSV généré",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "uploading": "Téléversement en cours..."
+    },
+    "qualityControl": {
+      "heading": "Contrôle de qualité",
+      "description": "Examinez les résultats de validation de votre fichier téléversé.",
+      "uploadSummary": "Résumé du téléversement",
+      "validationErrorsTitle": "Erreurs de validation détectées - Veuillez corriger et téléverser à nouveau",
+      "reuploadFile": "Téléverser à nouveau le fichier",
+      "allRowsValid": "Toutes les lignes ont été validées avec succès !",
+      "processedRows": "✓ {{count}} lignes traitées",
+      "noErrors": "✓ Aucune erreur de validation trouvée",
+      "readyForSubmission": "✓ Prêt pour la soumission",
+      "notesLabel": "Remarques (facultatif)",
+      "notesPlaceholder": "Ajoutez des remarques sur cette importation...",
+      "submit": "Soumettre l'importation",
+      "saving": "Enregistrement...",
+      "fixErrors": "Corrigez les erreurs pour continuer"
+    },
+    "submit": {
+      "heading": "Félicitations !",
+      "description": "Toutes vos publications ont été importées avec succès en masse.",
+      "goToDashboard": "Aller au tableau de bord principal",
+      "viewPostDetails": "Voir les détails de la publication"
+    },
+    "row": "Ligne",
+    "error": "erreur(s)",
+    "file": "Fichier",
+    "totalRows": "Total des lignes",
+    "err": "Erreurs",
+    "errors": {
+      "title": "Erreur",
+      "selectListing": "Veuillez sélectionner au moins une fiche.",
+      "selectPostType": "Veuillez sélectionner un type de publication valide.",
+      "selectFile": "Veuillez sélectionner un fichier à téléverser.",
+      "noUploadedFile": "Aucun fichier téléversé trouvé. Veuillez d'abord téléverser un fichier.",
+      "sampleNotAvailable": "Le fichier CSV d'exemple n'est pas disponible. Veuillez revenir à l'étape 1.",
+      "csvGenerateFailed": "Échec de la génération du fichier CSV. Veuillez réessayer.",
+      "uploadFailed": "Échec du téléversement du fichier. Veuillez réessayer.",
+      "saveFailed": "Échec de l'enregistrement du fichier en masse. Veuillez réessayer.",
+      "authFailed": "Échec de l'authentification. Veuillez vous reconnecter.",
+      "permissionDenied": "Vous n'avez pas la permission d'effectuer cette action.",
+      "serverError": "Une erreur du serveur s'est produite. Veuillez réessayer plus tard."
+    },
+    "success": {
+      "title": "Succès",
+      "titleUpload": "Téléversement terminé",
+      "csvGenerated": "Fichier CSV généré avec succès",
+      "uploadSuccess": "Fichier téléversé et validé avec succès",
+      "uploadWithErrors": "Fichier téléversé avec {{count}} erreurs de validation. Veuillez vérifier.",
+      "bulkSaveSuccess": "{{count}} publications importées avec succès"
+    }
+  }
+}

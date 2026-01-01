@@ -1,0 +1,343 @@
+{
+  "common": {
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  },
+  "title": "Einstellungen",
+  "tabs": {
+    "templates": "Vorlagen",
+    "contacts": "Kontakte",
+    "themeCustomization": "Design-Anpassung",
+    "integrations": "Integrationen"
+  },
+  "themeCustomization": {
+    "title": "Design-Anpassung",
+    "subtitle": "Passen Sie Ihr Branding und Erscheinungsbild an",
+    "badge": "Markenidentität",
+    "messages": {
+      "reset": {
+        "title": "Design zurücksetzen",
+        "success": "Design wurde erfolgreich zurückgesetzt",
+        "errorTitle": "Zurücksetzen fehlgeschlagen",
+        "errorDescription": "Design konnte nicht zurückgesetzt werden"
+      },
+      "save": {
+        "successTitle": "Design gespeichert",
+        "errorTitle": "Speichern fehlgeschlagen",
+        "errorDescription": "Design konnte nicht gespeichert werden"
+      }
+    }
+  },
+  "integrations": {
+    "title": "Integrationen",
+    "subtitle": "SMTP- und Subdomain-Einstellungen konfigurieren",
+    "status": {
+      "active": "Aktiv"
+    },
+    "smtp": {
+      "name": "SMTP-Details",
+      "description": "E-Mail-Versandeinstellungen für Benachrichtigungen konfigurieren",
+      "configureTitle": "SMTP konfigurieren",
+      "labels": {
+        "fromName": "Absendername",
+        "fromEmail": "Absender-E-Mail",
+        "smtpHost": "SMTP-Host",
+        "smtpPort": "SMTP-Port",
+        "smtpUser": "SMTP-Benutzer",
+        "smtpPassword": "SMTP-Passwort"
+      },
+      "placeholders": {
+        "fromName": "Absendernamen eingeben",
+        "fromEmail": "Absender-E-Mail eingeben",
+        "smtpHost": "smtp.beispiel.de",
+        "smtpPort": "587",
+        "smtpUser": "SMTP-Benutzernamen eingeben",
+        "smtpPassword": "SMTP-Passwort eingeben"
+      }
+    },
+    "subdomain": {
+      "name": "Subdomain-Konfiguration",
+      "description": "Richten Sie eine benutzerdefinierte Subdomain für Ihre Anwendung ein",
+      "label": "Subdomain",
+      "placeholder": "Subdomain eingeben",
+      "text": "Geben Sie die Subdomain ein, die Sie für Ihre Anwendung verwenden möchten",
+      "follow": "Folgen Sie diesen Schritten:",
+      "stepcount": "Schritt {{count}}",
+      "step1": "Wählen Sie Ihren Subdomain-Namen",
+      "step2": "Verweisen Sie Ihren A-Record auf ",
+      "step3p1": "Überprüfen Sie die DNS-Weiterleitung unter ",
+      "step3p2": "DNS Checker",
+      "step4": "Speichern Sie Ihre Konfiguration"
+    },
+    "disconnectDialog": {
+      "title": "Integration trennen",
+      "message": "Möchten Sie diese Integration wirklich trennen? Geben Sie zur Bestätigung „delete“ ein.",
+      "label": "Bestätigung",
+      "placeholder": "Geben Sie „delete“ zur Bestätigung ein"
+    },
+    "buttons": {
+      "configure": "Konfigurieren",
+      "edit": "Bearbeiten",
+      "disconnect": "Trennen",
+      "disconnecting": "Wird getrennt...",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "saving": "Speichern...",
+      "saveConfiguration": "Konfiguration speichern",
+      "reset": "Zurücksetzen",
+      "testSetting": "Einstellungen testen",
+      "testing": "Wird getestet...",
+      "loading": "Laden..."
+    },
+    "errors": {
+      "title": "Fehler",
+      "smtpRequired": "Bitte füllen Sie alle erforderlichen SMTP-Felder aus",
+      "smtpValidation": "Bitte überprüfen Sie Ihre SMTP-Konfiguration",
+      "subdomainRequired": "Bitte geben Sie eine Subdomain ein",
+      "noSmtp": "Keine SMTP-Konfiguration zum Trennen vorhanden",
+      "noSubdomain": "Keine Subdomain zum Trennen vorhanden",
+      "disconnectConfirmation": "Bitte geben Sie „delete“ zur Bestätigung ein"
+    }
+  },
+  "templates": {
+    "title": "Vorlagen",
+    "createButton": "Erstellen",
+    "searchPlaceholder": "Vorlagen suchen...",
+    "filterPlaceholder": "Nach Kanal filtern",
+    "filter": {
+      "all": "Alle Kanäle",
+      "email": "E-Mail",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "table": {
+      "name": "Name",
+      "channel": "Kanal",
+      "status": "Status",
+      "date": "Datum",
+      "action": "Aktion"
+    },
+    "status": {
+      "active": "Aktiv",
+      "waiting": "Wartet auf Genehmigung"
+    },
+    "actions": {
+      "view": "Ansehen",
+      "delete": "Löschen"
+    },
+    "empty": {
+      "title": "Noch keine Vorlagen",
+      "description": "Erstellen Sie Ihre erste Bewertungsanfrage-Vorlage",
+      "button": "Vorlage erstellen"
+    },
+    "deleteDialog": {
+      "title": "Vorlage löschen",
+      "description": "Möchten Sie diese Vorlage wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "success": "Vorlage erfolgreich gelöscht",
+      "error": "Vorlage konnte nicht gelöscht werden"
+    },
+    "bulkDelete": {
+      "button": "Löschen ({{count}})",
+      "success": "{{count}} Vorlagen erfolgreich gelöscht",
+      "error": "Vorlagen konnten nicht gelöscht werden"
+    },
+    "selectAll": "Alle auswählen",
+    "selectTemplate": "{{name}} auswählen",
+    "pagination": {
+      "showing": "{{from}} bis {{to}} von {{total}} Vorlagen"
+    }
+  },
+  "contacts": {
+    "title": "Kontakte",
+    "addButton": "Kontakt hinzufügen",
+    "empty": {
+      "title": "Keine Kontakte gefunden",
+      "description": "Beginnen Sie mit dem Hinzufügen Ihres ersten Kontakts"
+    },
+    "error": {
+      "title": "Kontakte konnten nicht geladen werden",
+      "description": "Beim Laden der Kontakte ist ein Fehler aufgetreten",
+      "retry": "Erneut versuchen"
+    },
+    "pagination": {
+      "showing": "Anzeige",
+      "of": "von",
+      "page": "Seite"
+    },
+    "tabs": {
+      "contacts": "Kontakte",
+      "groups": "Gruppen"
+    },
+    "filter": {
+      "searchPlaceholder": "Kontakte suchen...",
+      "searchGroupsPlaceholder": "Gruppen suchen...",
+      "all": "Alle Kontakte",
+      "phone": "Telefonnummer",
+      "email": "E-Mail",
+      "group": "Gruppe",
+      "createGroup": "Gruppe erstellen"
+    },
+    "groupsTable": {
+      "srNo": "Nr.",
+      "groupName": "Gruppenname",
+      "contactCount": "Anzahl Kontakte",
+      "action": "Aktion",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "editSuccess": "Gruppe erfolgreich aktualisiert",
+      "deleteSuccess": "Gruppe erfolgreich gelöscht",
+      "noGroups": "Keine Gruppen gefunden. Erstellen Sie eine Gruppe, um zu beginnen."
+    },
+    "table": {
+      "name": "Name",
+      "description": "Beschreibung",
+      "contacts": "Kontakte",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "group": "Gruppe",
+      "addedOn": "Hinzugefügt am",
+      "action": "Aktion"
+    },
+    "actions": {
+      "send": "Senden",
+      "view": "Ansehen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "countryCode": "Ländercode",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "group": "Gruppe",
+      "firstNamePlaceholder": "Vornamen eingeben",
+      "lastNamePlaceholder": "Nachnamen eingeben",
+      "countryCodePlaceholder": "Land auswählen",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "emailPlaceholder": "E-Mail-Adresse eingeben",
+      "selectGroup": "Gruppen auswählen",
+      "noGroups": "Keine Gruppen verfügbar"
+    },
+    "deleteDialog": {
+      "title": "Kontakt löschen",
+      "description": "Möchten Sie „{{contactName}}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "success": "Kontakt erfolgreich gelöscht",
+      "error": "Kontakt konnte nicht gelöscht werden"
+    },
+    "viewContact": {
+      "title": "Kontaktdetails",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "phone": "Telefonnummer",
+      "email": "E-Mail-Adresse",
+      "addedOn": "Hinzugefügt am",
+      "groups": "Gruppen",
+      "selectGroup": "Gruppe auswählen...",
+      "noGroups": "Keine Gruppen zugewiesen",
+      "addGroup": "Hinzufügen",
+      "removeGroup": "Gruppe entfernen",
+      "close": "Schließen"
+    },
+    "editContact": {
+      "title": "Kontakt bearbeiten",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "firstNamePlaceholder": "Vornamen eingeben",
+      "lastNamePlaceholder": "Nachnamen eingeben",
+      "countryCode": "Ländercode",
+      "phone": "Telefonnummer",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "E-Mail-Adresse eingeben",
+      "groups": "Gruppen",
+      "selectGroups": "Gruppen auswählen",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "updating": "Wird aktualisiert...",
+      "success": "Kontakt erfolgreich aktualisiert",
+      "error": "Kontakt konnte nicht aktualisiert werden",
+      "noChanges": "Keine Änderungen zu speichern"
+    },
+    "createGroup": {
+      "title": "Neue Gruppe erstellen",
+      "groupName": "Gruppenname",
+      "groupNamePlaceholder": "Gruppennamen eingeben",
+      "description": "Beschreibung (optional)",
+      "descriptionPlaceholder": "Gruppenbeschreibung eingeben",
+      "contactListTab": "Kontaktliste",
+      "importCsvTab": "CSV importieren",
+      "searchContacts": "Kontakte suchen...",
+      "name": "Name",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "noContacts": "Keine Kontakte gefunden",
+      "selectedCount": "{{count}} Kontakte ausgewählt",
+      "csvDropzone": "CSV-Datei hier ablegen oder klicken, um auszuwählen",
+      "selectFile": "Datei auswählen",
+      "selectedFile": "Ausgewählte Datei",
+      "cancel": "Abbrechen",
+      "save": "Gruppe erstellen",
+      "creating": "Wird erstellt...",
+      "success": "Gruppe erfolgreich erstellt",
+      "error": "Gruppe konnte nicht erstellt werden"
+    },
+    "editGroup": {
+      "title": "Gruppe bearbeiten",
+      "groupName": "Gruppenname",
+      "groupNamePlaceholder": "Gruppennamen eingeben",
+      "contactListTab": "Kontaktliste",
+      "importCsvTab": "CSV importieren",
+      "searchContacts": "Kontakte suchen...",
+      "name": "Name",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "noContacts": "Keine Kontakte gefunden",
+      "selectedCount": "{{count}} Kontakte ausgewählt",
+      "csvDropzone": "CSV-Datei hier ablegen oder klicken, um auszuwählen",
+      "selectFile": "Datei auswählen",
+      "selectedFile": "Ausgewählte Datei",
+      "cancel": "Abbrechen",
+      "save": "Änderungen speichern"
+    },
+    "group": {
+      "Failed": "Gruppen konnten nicht geladen werden",
+      "error": "Beim Abrufen der Gruppen ist ein Fehler aufgetreten.",
+      "retry": "Erneut versuchen",
+      "noGroup": "Keine Gruppen gefunden",
+      "createGroup": "Erstellen Sie Ihre erste Gruppe zur Organisation von Kontakten.",
+      "create": "Gruppe erstellen"
+    }
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
+  },
+  "sendReviewRequest": {
+    "title": "Bewertungsanfrage senden",
+    "selectTemplate": "Vorlage auswählen",
+    "selectTemplatePlaceholder": "Vorlage auswählen...",
+    "templateContent": "Nachrichteninhalt",
+    "noTemplatesAvailable": "Keine aktiven Vorlagen verfügbar",
+    "createTemplateFirst": "Bitte erstellen Sie zuerst eine Vorlage",
+    "templatePreview": "Vorschau",
+    "cancel": "Abbrechen",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "success": {
+      "title": "Bewertungsanfrage gesendet",
+      "description": "Ihre Bewertungsanfrage wurde erfolgreich an {{contactName}} gesendet"
+    },
+    "error": {
+      "title": "Senden fehlgeschlagen",
+      "description": "Bewertungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    }
+  }
+}

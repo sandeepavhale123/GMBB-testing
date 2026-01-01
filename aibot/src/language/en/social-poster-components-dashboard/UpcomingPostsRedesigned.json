@@ -1,0 +1,16 @@
+{
+  "upcomingPosts": "Upcoming Posts",
+  "loading": {
+    "upcomingPosts": "Upcoming Posts"
+  },
+  "error": {
+    "upcomingPostsFailed": "Failed to load upcoming posts"
+  },
+  "empty": {
+    "noScheduledPosts": "No Scheduled Posts",
+    "createFirstPost": "Create your first post to see it here"
+  },
+  "post": {
+    "previewAlt": "Post preview"
+  }
+}

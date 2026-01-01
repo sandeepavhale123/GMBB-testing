@@ -1,0 +1,34 @@
+{
+  "createTemplateModal": {
+    "title": "Modifier le modèle",
+    "leftPanel": {
+      "title": "Personnaliser",
+      "subtitle": "Vos modèles de réponse",
+      "description": "Vous pouvez utiliser les variables suivantes lors de la création de vos modèles pour rendre vos réponses plus dynamiques et personnalisées :",
+      "variables": {
+        "fullName": " – Affiche le nom complet du critique.",
+        "firstName": " – Affiche le prénom du critique.",
+        "lastName": " – Affiche le nom de famille du critique.",
+        "ownerName": " – Affiche votre nom (propriétaire de l'entreprise)."
+      }
+    },
+    "form": {
+      "selectRatingLabel": "Sélectionner la note",
+      "ratingOption": "{{count}} Étoile",
+      "ratingOption_plural": "{{count}} Étoiles",
+      "textareaPlaceholder": "Entrez le message de votre modèle..."
+    },
+    "footer": {
+      "close": "Fermer",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
+    },
+    "defaultTemplates": {
+      "5": "Merci beaucoup, {first_name}, pour votre avis 5 étoiles incroyable ! 🌟 C'est vraiment merveilleux de savoir que vous avez passé un excellent moment avec nous. Vos mots gentils signifient beaucoup pour moi et pour l'équipe.\n\n~ {owner_name}",
+      "4": "Bonjour {first_name}, merci pour votre avis 4 étoiles ! Nous sommes ravis que votre expérience avec nous ait été positive. Nous aimerions savoir comment rendre votre prochaine expérience 5 étoiles !\n\n~ {owner_name}",
+      "3": "Bonjour {first_name}, merci d'avoir pris le temps de laisser un avis 3 étoiles. Nous apprécions vos commentaires et aimerions comprendre comment améliorer votre expérience.\n\n~ {owner_name}",
+      "2": "Bonjour {first_name}, merci pour votre avis 2 étoiles. Nous sommes désolés que votre expérience n'ait pas été à la hauteur de nos standards. Nous apprécierions l'opportunité de rectifier cela.\n\n~ {owner_name}",
+      "1": "Bonjour {first_name}, nous sommes vraiment désolés de voir votre avis 1 étoile. Ce n'est clairement pas l'expérience que nous souhaitons pour nos clients. Veuillez nous contacter directement afin que nous puissions résoudre ce problème immédiatement.\n\n~ {owner_name}"
+    }
+  }
+}

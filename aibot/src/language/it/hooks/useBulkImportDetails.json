@@ -1,0 +1,15 @@
+{
+  "listings": {
+    "fetchError": "Errore nel recupero degli elenchi",
+    "noListingsFound": "Nessun elenco trovato per questo ID della cronologia."
+  },
+  "posts": {
+    "fetchError": "Errore nel recupero dei post",
+    "deleteError": "Errore durante l'eliminazione del post",
+    "deleteSuccess": "Post eliminato con successo"
+  },
+  "toast": {
+    "success": "Successo",
+    "error": "Errore"
+  }
+}

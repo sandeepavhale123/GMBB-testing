@@ -1,0 +1,28 @@
+{
+  "searchPlaceholder": "Nach Eintragsname oder Postleitzahl suchen",
+  "statusFilter": {
+    "placeholder": "Alle Bewertungen",
+    "all": "Alle Bewertungen",
+    "pending": "Antwort ausstehend",
+    "replied": "Antwort erhalten"
+  },
+  "sentimentFilter": {
+    "placeholder": "Alle Stimmungen",
+    "all": "Alle Stimmungen",
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ"
+  },
+  "sortFilter": {
+    "placeholder": "Neueste zuerst",
+    "newest": "Neueste zuerst",
+    "oldest": "Älteste zuerst",
+    "highest": "Höchste Bewertung",
+    "lowest": "Niedrigste Bewertung"
+  },
+  "dateRangePlaceholder": "Zeitraum auswählen",
+  "refresh": {
+    "button": "Aktualisieren",
+    "tooltip": "Bewertungen aktualisieren"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "title": {
+    "default": "Mappa di Classifica Geo",
+    "processing": "Elaborazione Parola Chiave...",
+    "results": "Risultati della Classifica delle Parole Chiave"
+  },
+  "mapPopup": {
+    "yourBusiness": "La Tua Attività",
+    "primaryLocation": "Sede Principale",
+    "gridPoint": "Punto Griglia {{index}}",
+    "awaitingResults": "In attesa dei risultati...",
+    "rank": "Posizione: {{rank}}",
+    "clickForDetails": "Clicca per dettagli",
+    "manualCoordinate": "Coordinata Manuale {{index}}",
+    "lat": "Lat: {{lat}}, Lng: {{lng}}",
+    "drag": "Trascina per riposizionare",
+    "remove": "Rimuovi"
+  },
+  "loading": {
+    "keywordTitle": "Elaborazione Dati Parola Chiave",
+    "gridTitle": "Caricamento Dati Mappa",
+    "keywordSubtitle": "Analizzando le classifiche di ricerca...",
+    "gridSubtitle": "Generazione delle coordinate della griglia..."
+  },
+  "zoom": {
+    "in": "Avvicina",
+    "out": "Allontana"
+  },
+  "legend": {
+    "title": "Legenda Classifica",
+    "top": "1-3 (Top)",
+    "good": "4-10 (Buono)",
+    "fair": "11-15 (Discreto)",
+    "poor": "16+ (Scarso)"
+  }
+}

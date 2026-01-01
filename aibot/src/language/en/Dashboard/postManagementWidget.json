@@ -1,0 +1,19 @@
+{
+  "postManagement": {
+    "title": "Post Overview",
+    "description": "Manage your Google Business Profile posts",
+    "status": {
+      "live": "Live Posts",
+      "scheduled": "Scheduled",
+      "failed": "Failed"
+    },
+    "actions": {
+      "create": "Create New Post",
+      "manage": "Manage Posts"
+    },
+    "alerts": {
+      "failedPosts": "{{count}} posts need attention",
+      "actionRequired": "Action Required"
+    }
+  }
+}

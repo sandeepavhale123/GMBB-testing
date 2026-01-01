@@ -1,0 +1,14 @@
+{
+  "reviewStats": {
+    "cards": {
+      "totalReviews": "Gesamtbewertungen",
+      "pendingReplies": "Ausstehende Antworten",
+      "aiReplies": "KI-Antworten",
+      "manualReplies": "Manuelle Antworten"
+    },
+    "loading": {
+      "skeletonTitle": "Lädt...",
+      "skeletonValue": "Bitte warten"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "GeoRankingHeader": {
+    "export": {
+      "failed": {
+        "title": "Export fehlgeschlagen",
+        "description": "Der Berichtinhalt konnte nicht zum Export gefunden werden."
+      },
+      "complete": {
+        "title": "Export abgeschlossen",
+        "description": "Ihr Geo-Ranking-Bericht wurde als Bild mit Abstand heruntergeladen."
+      },
+      "error": {
+        "title": "Export fehlgeschlagen",
+        "description": "Das Bild konnte nicht exportiert werden. Bitte versuchen Sie es erneut."
+      }
+    },
+    "progress": {
+      "refreshing": "Schlüsselwortdaten werden aktualisiert..."
+    }
+  }
+}

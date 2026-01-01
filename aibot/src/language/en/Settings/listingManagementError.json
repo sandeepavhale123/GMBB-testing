@@ -1,0 +1,7 @@
+{
+  "listingManagementError": {
+    "pageTitle": "Manage Listings",
+    "tryAgainButton": "Try Again",
+    "errorMessage": "{{error}}"
+  }
+}

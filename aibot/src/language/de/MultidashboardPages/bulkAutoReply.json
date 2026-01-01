@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "Massen-Auto-Antwort-Verwaltung",
+    "subtitle": "Verwalten Sie die automatischen Antwort-Einstellungen für Ihre Standorte."
+  },
+  "actions": {
+    "createProject": "Projekt erstellen",
+    "successTitle": "Erfolg",
+    "errorTitle": "Fehler",
+    "deleteSuccess": "Auto-Antwort-Projekt erfolgreich gelöscht",
+    "deleteError": "Projekt konnte nicht gelöscht werden",
+    "createSuccess": "Auto-Antwort-Projekt erfolgreich erstellt"
+  }
+}

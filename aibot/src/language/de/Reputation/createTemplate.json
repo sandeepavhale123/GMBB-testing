@@ -1,0 +1,53 @@
+{
+  "title": "Vorlage Erstellen",
+  "templateName": {
+    "label": "Vorlagenname",
+    "placeholder": "Vorlagennamen eingeben"
+  },
+  "channel": {
+    "label": "Kanal Auswählen",
+    "sms": "SMS",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Vorlage Auswählen",
+    "defaultTemplate": "Standardvorlage",
+    "greeting": "Hallo Name!",
+    "defaultMessage": "Wir hoffen, dass Ihnen Ihre letzte Erfahrung mit uns gefallen hat. Könnten Sie sich einen Moment Zeit nehmen, um uns eine Bewertung zu hinterlassen?",
+    "reviewLink": "Bewertungslink"
+  },
+  "subject": {
+    "label": "Betreff",
+    "placeholder": "E-Mail-Betreff eingeben"
+  },
+  "whatsapp": {
+    "category": {
+      "label": "Kategorie",
+      "marketing": "Marketing",
+      "utility": "Dienstprogramm",
+      "authentication": "Authentifizierung"
+    },
+    "language": {
+      "label": "Sprache"
+    }
+  },
+  "schedule": {
+    "label": "Vorlage planen (optional)",
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+  "submit": "Vorlage Speichern",
+  "validation": {
+    "nameRequired": "Vorlagenname ist erforderlich",
+    "subjectRequired": "Betreff ist für E-Mail-Vorlagen erforderlich"
+  },
+  "success": {
+    "title": "Vorlage Erstellt",
+    "description": "Ihre Vorlage wurde erfolgreich erstellt"
+  },
+  "error": {
+    "title": "Fehler",
+    "description": "Vorlage konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+  }
+}

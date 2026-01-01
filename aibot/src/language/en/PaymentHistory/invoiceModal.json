@@ -1,0 +1,42 @@
+{
+  "invoiceModal": {
+    "title": "Invoice Details",
+    "download": "Download",
+    "loading": "Loading invoice details...",
+    "error": {
+      "title": "Error",
+      "noData": "No invoice data available to download.",
+      "captureFailed": "Failed to capture invoice image. Please try again."
+    },
+    "success": {
+      "title": "Success",
+      "downloaded": "Invoice image downloaded successfully."
+    },
+    "info":{
+        "name":"GMB Briefcase",
+        "email":"sales@citationbuilderpro.com",
+        "house":"T-16 Software Technology Park India,",
+        "address":"pp Garware Stadium, Cikalthana MIDC",
+        "city":"Aurangabad - 431005",
+        "mobile":"9822298988"
+    },
+    "sections": {
+      "billedFrom": "Billed From",
+      "billedTo": "Billed To",
+      "product": "Product",
+      "productDescription": "PRODUCT DESCRIPTION & DETAILS:"
+    },
+    "table": {
+      "serial": "S. No.",
+      "product": "Product",
+      "total": "Total"
+    },
+    "invoiceInfo": {
+      "transactionId": "Transaction ID",
+      "date": "Date"
+    },
+    "fallback": {
+      "failed": "Failed to load invoice details."
+    }
+  }
+}

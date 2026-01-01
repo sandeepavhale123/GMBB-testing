@@ -1,0 +1,19 @@
+{
+  "businessLocationStep": {
+    "title": "Where is your business located?",
+    "description": "Add your business address and contact information",
+    "addressLabel": "Street Address *",
+    "addressPlaceholder": "123 Main Street",
+    "cityLabel": "City *",
+    "cityPlaceholder": "City",
+    "stateLabel": "State *",
+    "statePlaceholder": "State",
+    "zipCodeLabel": "ZIP Code *",
+    "zipCodePlaceholder": "12345",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "(555) 123-4567",
+    "websiteLabel": "Website",
+    "websitePlaceholder": "https://yourwebsite.com",
+    "continueButton": "Continue"
+  }
+}

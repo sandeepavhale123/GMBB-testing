@@ -1,0 +1,38 @@
+{
+  "title": "Detalles del Grupo",
+  "back": "Volver",
+  "addListing": "Agregar Ubicación",
+  "searchPlaceholder": "Buscar ubicaciones...",
+  "noLocations": "No hay ubicaciones en este grupo.",
+  "noSearchResults": "No se encontraron ubicaciones que coincidan con tu búsqueda.",
+  "table": {
+    "locationName": "Nombre de la Ubicación",
+    "zipCode": "Código Postal",
+    "email": "Correo Electrónico",
+    "actions": "Acciones",
+    "notAvailable": "N/D"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} ubicaciones",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{current}} de {{pages}}"
+  },
+  "deleteDialog": {
+    "title": "Eliminar Ubicación",
+    "description": "¿Estás seguro de que deseas eliminar \"{{locationName}}\" de este grupo? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar"
+  },
+  "toast": {
+    "successTitle": "Éxito",
+    "removeSuccess": "{{locationName}} ha sido eliminado del grupo.",
+    "errorTitle": "Error",
+    "removeError": "No se pudo eliminar la ubicación del grupo"
+  },
+  "errors": {
+    "loadFailed": "No se pudieron cargar los detalles del grupo"
+  },
+  "retry": "Reintentar",
+  "loading": "Cargando..."
+}

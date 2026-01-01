@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "steps": {
+      "1": {
+        "title": "Información del negocio",
+        "description": "Ingrese los detalles de su negocio para comenzar"
+      },
+      "2": {
+        "title": "Defina su objetivo",
+        "description": "Elija lo que desea lograr con esta configuración"
+      },
+      "3": {
+        "title": "Conectar cuenta de Google",
+        "description": "Vincule de forma segura su cuenta de Google para la integración"
+      },
+      "4": {
+        "title": "Seleccionar listados",
+        "description": "Elija el listado de Google que desea gestionar"
+      },
+      "5": {
+        "title": "Completar",
+        "description": "¡Configuración completada!"
+      }
+    },
+    "setup": "Progreso de la configuración",
+    "progress": "Paso {{currentStep}} de {{totalSteps}}",
+    "back": "Atrás"
+  }
+}

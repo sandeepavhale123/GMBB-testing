@@ -1,0 +1,18 @@
+{
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler",
+    "upload": {
+      "success": "Medien erfolgreich hochgeladen",
+      "failed": "Fehler beim Hochladen der Medien"
+    },
+    "delete": {
+      "success": "Medien erfolgreich gelöscht",
+      "failed": "Fehler beim Löschen der Medien"
+    },
+    "saveAI": {
+      "success": "KI-Bild erfolgreich gespeichert",
+      "failed": "Fehler beim Speichern des KI-Bildes"
+    }
+  }
+}

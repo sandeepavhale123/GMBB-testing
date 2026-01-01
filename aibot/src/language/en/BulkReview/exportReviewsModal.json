@@ -1,0 +1,48 @@
+{
+  "exportReviewsModal": {
+    "title": " Export Review Data",
+    "selectListingsLabel": "Select Listings",
+    "selectListingsPlaceholder": "Select listings...",
+    "exportTypeLabel": "Choose Export Type",
+    "exportPlaceholder": "Select export type",
+    "exportTypeOptions": {
+      "1": "Summary Report - Count Only (No Date Range)",
+      "2": "Custom Summary Report - Review By Review (With Date Range)",
+      "3": "Custom Summary Report - Count Only (With Date Range)"
+    },
+    "starRatingsLabel": "Select Star Ratings",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "starsSelected": "{{selected}} of {{total}} star ratings selected",
+    "dateRangeLabel": "Select Date Range",
+    "dateRangePlaceholder": "Select date range for reviews",
+    "buttons": {
+      "cancel": "Cancel",
+      "export": "Export CSV",
+      "exporting": "Exporting..."
+    },
+    "rating":{
+      "rating1":"1 Star",
+      "rating2":"2 Star",
+      "rating3":"3 Star",
+      "rating4":"4 Star",
+      "rating5":"5 Star"
+    },
+    "toast": {
+      "validation": {
+        "title": "Validation Error",
+        "noListing": "Please select at least one listing",
+        "noStar": "Please select at least one star rating",
+        "noDateRange": "Please select a date range"
+      },
+      "success": {
+        "title": "Success",
+        "description": "CSV file generated and download started"
+      },
+      "error": {
+        "title": "Export Failed",
+        "description": "An error occurred during export"
+      }
+    }
+  }
+}

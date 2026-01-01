@@ -1,0 +1,12 @@
+{
+  "profileUpdated": "Profil erfolgreich aktualisiert!",
+  "profileUpdatedtext": "Ihr Profil wurde aktualisiert. Die Änderungen sind jetzt in Ihrem Konto sichtbar.",
+  "updateFailed": "Aktualisierung fehlgeschlagen",
+  "updateErrorDesc": "Beim Aktualisieren Ihres Profils ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+  "validationError": "Validierungsfehler",
+  "validationErrorText": "Bitte beheben Sie die Fehler im Formular",
+  "saveChanges": "Änderungen speichern",
+  "saving": "Speichern...",
+  "updateFailedToastTitle": "Aktualisierung fehlgeschlagen",
+  "updateFailedToastDescription": "Ihr Profil konnte nicht aktualisiert werden. Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut."
+}

@@ -1,0 +1,8 @@
+{
+  "customPeriodModal": {
+    "title": "Seleziona Periodo Personalizzato",
+    "dateRangePlaceholder": "Seleziona intervallo di date",
+    "cancel": "Annulla",
+    "submit": "Invia"
+  }
+}

@@ -1,0 +1,402 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "title": "Settings",
+  "tabs": {
+    "templates": "Templates",
+    "contacts": "Contacts",
+    "themeCustomization": "Theme Customization",
+    "integrations": "Integrations"
+  },
+  "themeCustomization": {
+    "title": "Theme Customization",
+    "subtitle": "Customize your branding and appearance",
+    "badge": "Brand Identity",
+    "messages": {
+      "reset": {
+        "title": "Theme Reset",
+        "success": "Theme has been reset successfully",
+        "errorTitle": "Reset Failed",
+        "errorDescription": "Failed to reset theme"
+      },
+      "save": {
+        "successTitle": "Theme Saved",
+        "errorTitle": "Save Failed",
+        "errorDescription": "Failed to save theme"
+      }
+    }
+  },
+  "integrations": {
+    "title": "Integrations",
+    "subtitle": "Configure SMTP and subdomain settings",
+    "status": {
+      "active": "Active"
+    },
+    "smtp": {
+      "name": "SMTP Details",
+      "description": "Configure email sending settings for notifications",
+      "configureTitle": "Configure SMTP",
+      "labels": {
+        "fromName": "From Name",
+        "fromEmail": "From Email",
+        "smtpHost": "SMTP Host",
+        "smtpPort": "SMTP Port",
+        "smtpUser": "SMTP User",
+        "smtpPassword": "SMTP Password"
+      },
+      "placeholders": {
+        "fromName": "Enter sender name",
+        "fromEmail": "Enter sender email",
+        "smtpHost": "smtp.example.com",
+        "smtpPort": "587",
+        "smtpUser": "Enter SMTP username",
+        "smtpPassword": "Enter SMTP password"
+      }
+    },
+    "subdomain": {
+      "name": "Subdomain Configuration",
+      "description": "Set up a custom subdomain for your application",
+      "label": "Subdomain",
+      "placeholder": "Enter your subdomain",
+      "text": "Enter the subdomain you want to use for your application",
+      "follow": "Follow these steps:",
+      "stepcount": "Step {{count}}",
+      "step1": "Choose your subdomain name",
+      "step2": "Point your A record to ",
+      "step3p1": "Verify DNS propagation at ",
+      "step3p2": "DNS Checker",
+      "step4": "Save your configuration"
+    },
+    "disconnectDialog": {
+      "title": "Disconnect Integration",
+      "message": "Are you sure you want to disconnect this integration? Type 'delete' to confirm.",
+      "label": "Confirmation",
+      "placeholder": "Type 'delete' to confirm"
+    },
+    "buttons": {
+      "configure": "Configure",
+      "edit": "Edit",
+      "disconnect": "Disconnect",
+      "disconnecting": "Disconnecting...",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "saveConfiguration": "Save Configuration",
+      "reset": "Reset",
+      "testSetting": "Test Settings",
+      "testing": "Testing...",
+      "loading": "Loading..."
+    },
+    "errors": {
+      "title": "Error",
+      "smtpRequired": "Please fill in all required SMTP fields",
+      "smtpValidation": "Please check your SMTP configuration",
+      "subdomainRequired": "Please enter a subdomain",
+      "noSmtp": "No SMTP configuration to disconnect",
+      "noSubdomain": "No subdomain to disconnect",
+      "disconnectConfirmation": "Please type 'delete' to confirm"
+    }
+  },
+  "templates": {
+    "title": "Templates",
+    "createButton": "Create",
+    "searchPlaceholder": "Search templates...",
+    "filterPlaceholder": "Filter by channel",
+    "filter": {
+      "all": "All Channels",
+      "email": "Email",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "table": {
+      "name": "Name",
+      "channel": "Channel",
+      "status": "Status",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Active",
+      "waiting": "Waiting for Approval",
+      "approved": "Approved",
+      "draft": "Draft",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "paused": "Paused",
+      "noReason": "No rejection reason provided"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "submitApproval": "Submit to Approval",
+      "checkStatus": "Check Status"
+    },
+    "submitApproval": {
+      "success": "Template submitted for approval",
+      "error": "Failed to submit template for approval",
+      "noConfigError": "Missing Twilio configuration"
+    },
+    "checkStatus": {
+      "success": "Status: {{status}}",
+      "error": "Failed to check approval status"
+    },
+    "empty": {
+      "title": "No templates yet",
+      "description": "Create your first review request template to get started",
+      "button": "Create Template"
+    },
+    "deleteDialog": {
+      "title": "Delete Template",
+      "description": "Are you sure you want to delete this template? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting...",
+      "success": "Template deleted successfully",
+      "error": "Failed to delete template"
+    },
+    "bulkDelete": {
+      "button": "Delete ({{count}})",
+      "success": "{{count}} templates deleted successfully",
+      "error": "Failed to delete templates"
+    },
+    "selectAll": "Select all",
+    "selectTemplate": "Select {{name}}",
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} templates"
+    }
+  },
+  "contacts": {
+    "title": "Contacts",
+    "addButton": "Add Contact",
+    "load":"Failed to load groups",
+    "error1":"An error occurred while fetching groups.",
+    "retry":"Retry",
+    "noGroup":"No groups found",
+    "createGroupDesc":"Create your first group to organize contacts.",
+    "groupCreate":"Create Group",
+    "empty": {
+      "title": "No contacts found",
+      "description": "Start by adding your first contact"
+    },
+    "error": {
+      "title": "Failed to load contacts",
+      "description": "There was an error loading your contacts",
+      "retry": "Try Again"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "of": "of",
+      "page": "Page"
+    },
+    "tabs": {
+      "contacts": "Contacts",
+      "groups": "Groups"
+    },
+    "filter": {
+      "searchPlaceholder": "Search contacts...",
+      "searchGroupsPlaceholder": "Search groups...",
+      "all": "All Contacts",
+      "phone": "Phone No",
+      "email": "Email",
+      "group": "Group",
+      "createGroup": "Create Group"
+    },
+    "groupsTable": {
+      "srNo": "Sr. No",
+      "groupName": "Group Name",
+      "contactCount": "No. of Contacts",
+      "action": "Action",
+      "edit": "Edit",
+      "delete": "Delete",
+      "editSuccess": "Group updated successfully",
+      "deleteSuccess": "Group deleted successfully",
+      "noGroups": "No groups found. Create a group to get started."
+    },
+    "table": {
+      "name": "Name",
+      "description":"Description",
+      "contacts":"Contacts",
+      "phone": "Phone",
+      "email": "Email",
+      "group": "Group",
+      "addedOn": "Added on",
+      "action": "Action"
+    },
+    "actions": {
+      "send": "Send",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "countryCode": "Country Code",
+      "phone": "Phone",
+      "email": "Email",
+      "group": "Group",
+      "firstNamePlaceholder": "Enter first name",
+      "lastNamePlaceholder": "Enter last name",
+      "countryCodePlaceholder": "Select country",
+      "phonePlaceholder": "Enter phone number",
+      "emailPlaceholder": "Enter email address",
+      "selectGroup": "Select groups",
+      "noGroups": "No groups available"
+    },
+    "deleteDialog": {
+      "title": "Delete Contact",
+      "description": "Are you sure you want to delete \"{{contactName}}\"? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting...",
+      "success": "Contact deleted successfully",
+      "error": "Failed to delete contact"
+    },
+    "deleteGroup":{
+      "title":"Delete Group",
+      "description":"Are you sure you want to delete the group \"{{groupName}}\"? This action cannot be undone.",
+      "cancel":"Cancel",
+      "deleting":"Deleting...",
+      "delete":"Delete"
+    },
+    "viewContact": {
+      "title": "Contact Details",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "addedOn": "Added On",
+      "groups": "Groups",
+      "selectGroup": "Select a group to add...",
+      "noGroups": "No groups assigned",
+      "addGroup": "Add",
+      "removeGroup": "Remove group",
+      "close": "Close"
+    },
+    "editContact": {
+      "title": "Edit Contact",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "firstNamePlaceholder": "Enter first name",
+      "lastNamePlaceholder": "Enter last name",
+      "countryCode": "Country Code",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter email address",
+      "groups": "Groups",
+      "selectGroups": "Select groups",
+      "cancel": "Cancel",
+      "save": "Save",
+      "updating": "Updating...",
+      "success": "Contact updated successfully",
+      "error": "Failed to update contact",
+      "noChanges": "No changes to save"
+    },
+    "createGroup": {
+      "title": "Create New Group",
+      "groupName": "Group Name",
+      "groupNamePlaceholder": "Enter group name",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "Enter group description",
+      "contactListTab": "Contact List",
+      "importCsvTab": "Import CSV",
+      "searchContacts": "Search contacts...",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "noContacts": "No contacts found",
+      "selectedCount": "{{count}} contacts selected",
+      "csvDropzone": "Drag and drop a CSV file here, or click to select",
+      "selectFile": "Select File",
+      "selectedFile": "Selected file",
+      "cancel": "Cancel",
+      "save": "Create Group",
+      "creating": "Creating...",
+      "success": "Group created successfully",
+      "error": "Failed to create group"
+    },
+    "editGroup": {
+      "title": "Edit Group",
+      "groupName": "Group Name",
+      "description":"Description (optional)",
+      "groupNamePlaceholder": "Enter group name",
+      "contactListTab": "Contact List",
+      "importCsvTab": "Import CSV",
+      "searchContacts": "Search contacts...",
+      "descPlaceholder":"Enter description",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "saving":"Saving...",
+      "contactGroup":"No contacts in this group",
+      "noContacts": "No contacts found",
+      "selectedCount": "{{count}} contacts selected",
+      "csvDropzone": "Drag and drop a CSV file here, or click to select",
+      "selectFile": "Select File",
+      "selectedFile": "Selected file",
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "view":"View Members",
+      "add":"Add Contact"
+    },
+    "selectAll": "Select all contacts",
+    "bulkDelete": {
+      "button": "Delete ({{count}})",
+      "success": "{{count}} contacts deleted successfully",
+      "error": "Failed to delete contacts",
+      "partialSuccess": "{{deleted}} contacts deleted, {{invalid}} failed"
+    },
+    "bulkDeleteDialog": {
+      "title": "Delete Contacts",
+      "description": "Are you sure you want to delete {{count}} contacts? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    }
+  },
+  "groups": {
+    "selectAll": "Select all groups",
+    "bulkDelete": {
+      "button": "Delete ({{count}})",
+      "success": "{{count}} groups deleted successfully",
+      "error": "Failed to delete groups",
+      "partialSuccess": "{{deleted}} groups deleted, {{invalid}} failed"
+    },
+    "bulkDeleteDialog": {
+      "title": "Delete Groups",
+      "description": "Are you sure you want to delete {{count}} groups? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    }
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "sendReviewRequest": {
+    "title": "Send Review Request",
+    "selectTemplate": "Select a Template",
+    "selectTemplatePlaceholder": "Choose a template...",
+    "templateContent": "Message Content",
+    "noTemplatesAvailable": "No active templates available",
+    "createTemplateFirst": "Please create a template first",
+    "templatePreview": "Preview",
+    "cancel": "Cancel",
+    "send": "Send",
+    "sending": "Sending...",
+    "success": {
+      "title": "Review Request Sent",
+      "description": "Your review request has been sent successfully to {{contactName}}"
+    },
+    "error": {
+      "title": "Failed to Send",
+      "description": "Could not send review request. Please try again."
+    }
+  }
+}

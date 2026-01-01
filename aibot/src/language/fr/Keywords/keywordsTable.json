@@ -1,0 +1,59 @@
+{
+  "keywordsTable": {
+    "emptyState": {
+      "title": "Commencez à suivre vos mots-clés",
+      "description": "Surveillez vos classements dans la recherche locale en ajoutant des mots-clés pertinents pour votre entreprise. Suivez la manière dont votre entreprise apparaît dans les résultats de recherche à travers différents emplacements.",
+      "button": "Ajouter des mots-clés de recherche"
+    },
+    "bulkActions": {
+      "selected": "{{count}} mot-clé{{plural}} sélectionné(s)",
+      "delete": "Supprimer la sélection",
+      "deleting": "Suppression...",
+      "clear": "Effacer la sélection",
+      "confirmTitle": "Confirmer la suppression",
+      "confirmDescription": "Êtes-vous sûr de vouloir supprimer {{count}} mot-clé{{plural}} ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    },
+    "table": {
+      "selectAll": "Sélectionner tous les mots-clés",
+      "columns": {
+        "srNo": "N°",
+        "keyword": "Mot-clé",
+        "arp": "PRM",
+        "arpTooltip": "Position de classement moyenne",
+        "atrp": "PTCM",
+        "atrpTooltip": "Points de classement total moyen",
+        "solv": "PdVL",
+        "solvTooltip": "Part de voix locale",
+        "addedOn": "Ajouté le",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "actions": {
+        "viewRank": "Voir le classement",
+        "selectDelete": "Sélectionner pour supprimer",
+        "delete": "Supprimer"
+      }
+    },
+    "status": {
+      "completed": "Terminé",
+      "pending": "En attente",
+      "failed": "Échoué",
+      "running": "En cours"
+    },
+    "pagination": {
+      "showing": "Affichage de {{from}} à {{to}} sur {{total}} résultats",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {{current}} sur {{total}}"
+    },
+    "error": {
+      "tryAgain": "Réessayer"
+    },
+    "misc": {
+      "na": "N/A",
+      "invalidDate": "Date invalide"
+    }
+  }
+}

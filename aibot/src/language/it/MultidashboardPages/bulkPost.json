@@ -1,0 +1,47 @@
+{
+  "page": {
+    "title": "Gestione Pubblicazioni Multiple",
+    "subtitle": "Crea e programma pubblicazioni su più inserzioni."
+  },
+  "buttons": {
+    "createNew": "Crea Nuova Pubblicazione",
+    "createBulkPost": "Crea Pubblicazione Multipla",
+    "tryAgain": "Riprova",
+    "viewDetails": "Visualizza Dettagli",
+    "delete": "Elimina",
+    "deleting": "Eliminando...",
+    "cancel": "Annulla",
+    "confirmDelete": "Elimina",
+    "import": "Importa CSV"
+  },
+  "messages": {
+    "errorLoading": "Errore nel caricamento delle pubblicazioni multiple: {{error}}",
+    "noPostsTitle": "Ancora nessuna pubblicazione multipla",
+    "noPostsDescription": "Crea la tua prima pubblicazione multipla per iniziare",
+    "postedOn": "Pubblicato su {{count}} inserzioni",
+    "failedOn": "Fallito su {{count}} inserzioni",
+    "scheduledOn": "Programmato su {{count}} inserzioni",
+    "noActivePosts": "Nessuna pubblicazione attiva",
+    "untitledPost": "Pubblicazione senza titolo",
+    "noDescription": "Nessuna descrizione disponibile",
+    "noImage": "Nessuna immagine",
+    "location": "totale località"
+  },
+  "pagination": {
+    "showing": "Mostrando {{start}} a {{end}} di {{total}} pubblicazioni"
+  },
+  "dialog": {
+    "title": "Sei sicuro?",
+    "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente la pubblicazione multipla e tutti i dati associati."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Successo",
+      "description": "La pubblicazione multipla è stata eliminata con successo"
+    },
+    "deleteError": {
+      "title": "Errore",
+      "description": "Impossibile eliminare la pubblicazione multipla"
+    }
+  }
+}

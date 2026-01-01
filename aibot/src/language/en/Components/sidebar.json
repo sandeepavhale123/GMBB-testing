@@ -1,0 +1,40 @@
+{
+  "sidebar": {
+    "menu": {
+      "main-dashboard": "Main Dashboard",
+      "overview": "Dashboard",
+      "posts": "Posts",
+      "media": "Media",
+      "reviews": "Reviews",
+      "insights": "Insights",
+      "qa": "Q&A",
+      "businesses": "Management",
+      "tracking": "Tracking",
+      "keywords": "Keyword Research",
+      "geo-ranking": "GEO Ranking",
+      "citation": "Citation",
+      "reports": "Reports",
+      "performance-report": "Performance Report",
+      "bulk-report": "Bulk report",
+      "gallery": "Gallery",
+      "settings": "Settings"
+    },
+    "upgradeCard": {
+      "title": {
+        "planExpired": "Plan Expired",
+        "upgradePlan": "Upgrade Plan"
+      },
+      "description": {
+        "planExpired": "Your plan has expired. Renew to continue accessing features",
+        "upgradePlan": "Unlock premium features and get unlimited access"
+      },
+      "button": {
+        "renewNow": "Renew Now",
+        "upgradeNow": "Upgrade Now"
+      }
+    },
+    "profile": {
+      "userFallback": "User"
+    }
+  }
+}

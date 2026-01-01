@@ -1,0 +1,10 @@
+{
+  "title": "Business Overview",
+  "subtitle": "Key metrics for {{listingName}}",
+  "metrics": {
+    "totalBusinesses": "Total Businesses",
+    "publishedPosts": "Published Posts",
+    "totalReviews": "Total Reviews",
+    "averageRating": "Average Rating"
+  }
+}

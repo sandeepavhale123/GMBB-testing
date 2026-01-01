@@ -1,0 +1,15 @@
+{
+  "processingKeywordsAlert": {
+    "success": {
+      "single": "{{count}} keyword submitted successfully!",
+      "plural": "{{count}} keywords submitted successfully!"
+    },
+    "alreadyProcessing": "+ {{count}} already processing",
+    "inProgress": "Your keywords are in progress:",
+    "wait":"- please wait",
+    "processingNote": "Processing will take a few minutes. Results will appear automatically.",
+    "progressLabel": "Processing keyword data...",
+    "newlySubmitted": "Newly submitted:",
+    "alreadyProcessingLabel": "Already processing:"
+  }
+}

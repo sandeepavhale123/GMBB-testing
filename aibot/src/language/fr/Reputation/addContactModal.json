@@ -1,0 +1,41 @@
+{
+  "title": "Ajouter un Contact",
+  "tabs": {
+    "manual": "Saisie Manuelle",
+    "csv": "Importer CSV"
+  },
+  "manual": {
+    "nameLabel": "Nom",
+    "namePlaceholder": "Entrez le nom du contact",
+    "countryCodeLabel": "Code Pays",
+    "countryCodePlaceholder": "Sélectionnez le code pays",
+    "phoneLabel": "Numéro de Téléphone",
+    "phonePlaceholder": "Entrez le numéro de téléphone",
+    "submitButton": "Ajouter le Contact"
+  },
+  "csv": {
+    "title": "Importer des Contacts depuis CSV",
+    "description": "Téléchargez un fichier CSV avec les informations de contact",
+    "downloadSample": "Télécharger un CSV d'Exemple",
+    "importButton": "Importer les Contacts",
+    "fileColumns": "Colonnes attendues : Nom, Code Pays, Numéro de Téléphone"
+  },
+  "validation": {
+    "nameRequired": "Le nom est obligatoire",
+    "nameMaxLength": "Le nom doit contenir moins de 100 caractères",
+    "countryCodeRequired": "Le code pays est obligatoire",
+    "phoneRequired": "Le numéro de téléphone est obligatoire",
+    "phoneInvalid": "Le numéro de téléphone doit contenir 10 à 15 chiffres",
+    "phoneNumeric": "Le numéro de téléphone ne doit contenir que des chiffres",
+    "csvRequired": "Veuillez télécharger un fichier CSV"
+  },
+  "success": {
+    "contactAdded": "Contact ajouté avec succès",
+    "contactsImported": "{{count}} contacts importés avec succès"
+  },
+  "errors": {
+    "addFailed": "Échec de l'ajout du contact. Veuillez réessayer.",
+    "importFailed": "Échec de l'importation des contacts. Veuillez vérifier votre fichier CSV."
+  },
+  "cancel": "Annuler"
+}

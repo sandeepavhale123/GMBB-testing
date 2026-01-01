@@ -1,0 +1,16 @@
+{
+  "postsControls": {
+    "searchPlaceholder": "Rechercher des publications...",
+    "filter": {
+      "label": "Filtrer",
+      "all": "Toutes les publications",
+      "scheduled": "Publications programmées",
+      "live": "Publications en ligne",
+      "failed": "Publications échouées"
+    },
+    "dateRange": {
+      "placeholder": "Filtrer par période"
+    },
+    "resetFilters": "Réinitialiser les filtres"
+  }
+}

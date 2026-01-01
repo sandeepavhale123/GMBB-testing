@@ -1,0 +1,47 @@
+{
+  "page": {
+    "title": "Gestión de Publicaciones Masivas",
+    "subtitle": "Crea y programa publicaciones en múltiples listados."
+  },
+  "buttons": {
+    "createNew": "Crear Nueva Publicación",
+    "createBulkPost": "Crear Publicación Masiva",
+    "tryAgain": "Intentar de Nuevo",
+    "viewDetails": "Ver Detalles",
+    "delete": "Eliminar",
+    "deleting": "Eliminando...",
+    "cancel": "Cancelar",
+    "confirmDelete": "Eliminar",
+    "import": "Importar CSV"
+  },
+  "messages": {
+    "errorLoading": "Error al cargar publicaciones masivas: {{error}}",
+    "noPostsTitle": "Aún no hay publicaciones masivas",
+    "noPostsDescription": "Crea tu primera publicación masiva para comenzar",
+    "postedOn": "Publicado en {{count}} listados",
+    "failedOn": "Falló en {{count}} listados",
+    "scheduledOn": "Programado en {{count}} listados",
+    "noActivePosts": "No hay publicaciones activas",
+    "untitledPost": "Publicación sin título",
+    "noDescription": "No hay descripción disponible",
+    "noImage": "Sin imagen",
+    "location": "total de ubicaciones"
+  },
+  "pagination": {
+    "showing": "Mostrando {{start}} a {{end}} de {{total}} publicaciones"
+  },
+  "dialog": {
+    "title": "¿Estás seguro?",
+    "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente la publicación masiva y todos los datos asociados."
+  },
+  "toast": {
+    "deleteSuccess": {
+      "title": "Éxito",
+      "description": "La publicación masiva se eliminó correctamente"
+    },
+    "deleteError": {
+      "title": "Error",
+      "description": "No se pudo eliminar la publicación masiva"
+    }
+  }
+}

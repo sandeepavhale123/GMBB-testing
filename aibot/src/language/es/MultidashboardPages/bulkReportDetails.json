@@ -1,0 +1,70 @@
+{
+  "bulkReportDetails": {
+    "toast": {
+      "emailSent": {
+        "title": "Correo Enviado",
+        "description": "El correo del informe ha sido reenviado correctamente."
+      },
+      "emailsSent": {
+        "title": "Correos Enviados",
+        "description": "{{count}} correos han sido reenviados correctamente."
+      },
+      "downloadStarted": {
+        "title": "Descarga Iniciada",
+        "description": "La descarga de {{format}} ha comenzado."
+      },
+      "allPdfStarted": {
+        "title": "Descarga Iniciada",
+        "description": "La descarga del PDF todo-en-uno ha comenzado."
+      },
+      "error": {
+        "title": "Error",
+        "resendEmail": "No se pudo reenviar el correo",
+        "bulkResend": "No se pudieron reenviar los correos",
+        "download": "No se pudo descargar {{format}}",
+        "downloadAll": "No se pudo descargar el PDF todo-en-uno"
+      }
+    },
+    "status": {
+      "completed": "Completado",
+      "processing": "Procesando",
+      "failed": "Fallido",
+      "pending": "Pendiente"
+    },
+    "delivery": {
+      "sent": "Enviado",
+      "failed": "Fallido",
+      "pending": "Pendiente"
+    },
+    "errorState": {
+      "failedToLoad": "No se pudieron cargar los detalles del informe masivo",
+      "tryAgain": "Intentar de Nuevo"
+    },
+    "header": {
+      "details": "Detalles del informe masivo • {{count}} ubicaciones",
+      "recipients": "Destinatarios: {{recipients}}"
+    },
+    "download": {
+      "allPdf": "Descargar PDF todo en uno",
+      "pdf": "Descargar PDF",
+      "allCsv": "Descargar CSV todo en uno",
+      "csv": "Descargar CSV"
+
+    },
+    "table": {
+      "title": "Detalles del Informe",
+      "location": "Ubicación",
+      "reportDate": "Fecha del Informe",
+      "status": "Estado",
+      "actions": "Acciones",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {{current}} de {{pages}}"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "sentiment": {
+    "positive": "Positivo",
+    "negative": "Negativo",
+    "neutral": "Neutral"
+  },
+  "rating": {
+    "outOf": "{{rating}}/5"
+  },
+  "reply": {
+    "label": "Responder",
+    "aiReply": "Respuesta AI",
+    "editReply": "Editar Respuesta",
+    "deleteReply": "Eliminar Respuesta",
+    "cancel": "Cancelar",
+    "deleteConfirmTitle": "Eliminar Respuesta",
+    "deleteConfirmDescription": "¿Estás seguro de que deseas eliminar esta respuesta? Esta acción no se puede deshacer y la respuesta se eliminará permanentemente de la reseña.",
+    "repliedOn": "Respondido el {{date}}",
+    "deleting": "Eliminando..."
+  },
+  "buttons": {
+    "ai": "AI",
+    "reply": "Responder",
+    "delete": "Eliminar"
+  },
+  "placeholders": {
+    "noComment": "No se proporcionó comentario"
+  }
+}

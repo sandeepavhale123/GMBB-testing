@@ -1,0 +1,9 @@
+{
+  "upgradeNowConfirmationModal": {
+    "title": "Mettre à niveau le plan",
+    "description": "Êtes-vous sûr de vouloir passer au plan {{planName}} ?",
+    "cancelButton": "Annuler",
+    "confirmButton": "Oui, mettre à niveau",
+    "processing": "Traitement en cours..."
+  }
+}

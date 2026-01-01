@@ -1,0 +1,22 @@
+{
+  "connectGoogleStep": {
+    "title": "Authentification Google sécurisée",
+    "description": "Nous utilisons le système OAuth sécurisé de Google pour connecter votre compte. Vos identifiants ne sont jamais stockés sur nos serveurs.",
+    "button": "Se connecter avec Google",
+    "permissions": [
+      "Voir et gérer les informations de votre entreprise",
+      "Lire et répondre aux avis clients",
+      "Créer et gérer des publications",
+      "Accéder aux analyses de performance"
+    ],
+    "nextSteps": {
+      "title": "Que se passe-t-il ensuite ?",
+      "description": "Vous serez redirigé vers Google pour vous connecter et autoriser GMB Briefcase. Une fois connecté, nous importerons automatiquement vos fiches d’entreprise."
+    },
+    "legal": {
+      "agreement": "En vous connectant, vous acceptez nos",
+      "termsOfService": "Conditions d'utilisation",
+      "privacyPolicy": "Politique de confidentialité"
+    }
+  }
+}

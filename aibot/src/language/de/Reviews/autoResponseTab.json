@@ -1,0 +1,54 @@
+{
+  "autoResponseTab": {
+    "replyTemplates": {
+      "title": "Antwortvorlagen",
+      "description": "Erstellen Sie personalisierte Vorlagen für verschiedene Sternebewertungen.",
+      "tabs": {
+        "review": "Antwort auf Bewertung",
+        "ratingOnly": "Antwort nur auf Bewertung"
+      }
+    },
+    "aiAutoResponse": {
+      "title": "KI-Autoantwort",
+      "badge": "KI-gestützt",
+      "description": "Lassen Sie die KI personalisierte, kontextbezogene Antworten basierend auf Bewertungsinhalt und -stimmung generieren.",
+      "advancedOptions": {
+        "title": "Erweiterte Optionen",
+        "variables": {
+          "title": "Hinweis:",
+          "description": "Sie können folgende Variablen in Ihrem Antworttext verwenden, um den Namen des Bewerters anzuzeigen:",
+          "descBold": "{full_name}, {first_name}, {last_name}.",
+          "descEnd": "Um den Antwortinhalt einzufügen, verwenden Sie",
+          "descEndVb": "{responcetext}",
+          "descTextEnd": ". Vergessen Sie nicht, ihn in Ihre Vorlage einzufügen."
+        },
+        "replyText": "Antworttext",
+        "applyForStars": "Für Sternebewertungen anwenden"
+      },
+      "latestReview": {
+        "title": "Beispielantwort der KI generieren",
+        "preview": "Vorschau der neuesten Bewertung"
+      },
+      "buttons": {
+        "generate": "KI-Antwort generieren",
+        "regenerate": "Erneut generieren",
+        "generating": "KI-Antwort wird generiert...",
+        "save": "KI-Einstellungen speichern",
+        "saving": "Speichern..."
+      }
+    },
+    "noResponseMode": {
+      "title": "Nicht manuell oder automatisiert auf Bewertungen antworten",
+      "tooltip": "Manchmal erlauben Ihre Kunden Marketingagenturen nicht, auf Bewertungen zu antworten. In diesem Fall hilft Ihnen dieses Label, solche Einträge zu erkennen.",
+      "modal": {
+        "title": "Kein Antwortmodus aktivieren?",
+        "description": "Wenn Sie diesen Modus aktivieren, werden sowohl die automatischen Antworten als auch die KI-Autoantwort-Daten gelöscht. Sind Sie sicher, dass Sie diese Daten löschen und fortfahren möchten?",
+        "buttons": {
+          "cancel": "Abbrechen",
+          "confirm": "Ja, löschen und aktivieren",
+          "processing": "Verarbeite..."
+        }
+      }
+    }
+  }
+}

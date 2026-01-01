@@ -1,0 +1,8 @@
+{
+  "title": "Crear publicación",
+  "placeholder": "¿En qué estás pensando?",
+  "ai_generate": "Generar con IA",
+  "instagram_warning": "Instagram requiere al menos una imagen o video",
+  "uploading_media": "Subiendo medios...",
+  "character_limit_error": "El límite de caracteres es de {{limit}} caracteres"
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Dashboard Lead",
+  "description": "Gestisci e monitora i tuoi lead in modo efficace.",
+  "convertedLeads": "Lead Convertiti",
+  "totalLeads": "Lead Totali",
+  "remainingCredits": "Crediti Rimanenti",
+  "addLead": "Aggiungi Lead",
+  "leads": "Lead",
+  "manageLeads": "Gestisci il tuo database lead e monitora le interazioni",
+  "showingPage": "Pagina {{currentPage}} di {{totalPages}} ({{leadCount}} lead)",
+  "deleteLeadTitle": "Elimina Lead",
+  "deleteLeadDescription": "Sei sicuro di voler eliminare il lead per ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": "? Questa azione non può essere annullata.",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "deleting": "Eliminazione in corso...",
+  "reportIDMissing": "ID del rapporto non trovato per questo lead",
+  "noReportID": "Nessun ID rapporto trovato per questo lead",
+  "fetchError": "Impossibile recuperare i lead. Riprova."
+}

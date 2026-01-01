@@ -1,0 +1,24 @@
+{
+  "logoUpload": {
+    "title": "Anwendungs-Logos",
+    "lightLogo": {
+      "label": "Logo für den Hellmodus",
+      "description": "PNG, JPG bis zu 2MB. Empfohlen: 200x60px",
+      "chooseButton": "Hellmodus-Logo auswählen",
+      "selectedFile": "Ausgewählt: {{fileName}}"
+    },
+    "darkLogo": {
+      "label": "Logo für den Dunkelmodus",
+      "description": "PNG, JPG bis zu 2MB. Empfohlen: 200x60px",
+      "chooseButton": "Dunkelmodus-Logo auswählen",
+      "selectedFile": "Ausgewählt: {{fileName}}"
+    },
+    "toast": {
+      "fileTooLargeTitle": "Datei zu groß",
+      "fileTooLargeDescription": "Die Logo-Datei muss kleiner als 2MB sein",
+      "lightLogoSelectedTitle": "Hellmodus-Logo ausgewählt",
+      "darkLogoSelectedTitle": "Dunkelmodus-Logo ausgewählt",
+      "fileSelectedDescription": "{{fileName}} bereit zum Hochladen"
+    }
+  }
+}

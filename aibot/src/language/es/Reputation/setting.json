@@ -1,0 +1,272 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "title": "Configuración",
+  "tabs": {
+    "templates": "Plantillas",
+    "contacts": "Contactos",
+    "themeCustomization": "Personalización del tema",
+    "integrations": "Integraciones"
+  },
+  "themeCustomization": {
+    "title": "Personalización del tema",
+    "subtitle": "Personaliza tu marca y apariencia",
+    "badge": "Identidad de marca",
+    "messages": {
+      "reset": {
+        "title": "Restablecer tema",
+        "success": "El tema se ha restablecido correctamente",
+        "errorTitle": "Error al restablecer",
+        "errorDescription": "No se pudo restablecer el tema"
+      },
+      "save": {
+        "successTitle": "Tema guardado",
+        "errorTitle": "Error al guardar",
+        "errorDescription": "No se pudo guardar el tema"
+      }
+    }
+  },
+  "integrations": {
+    "title": "Integraciones",
+    "subtitle": "Configura SMTP y los ajustes de subdominio",
+    "status": {
+      "active": "Activo"
+    },
+    "smtp": {
+      "name": "Detalles SMTP",
+      "description": "Configura los ajustes de envío de correo electrónico para notificaciones",
+      "configureTitle": "Configurar SMTP",
+      "labels": {
+        "fromName": "Nombre del remitente",
+        "fromEmail": "Correo del remitente",
+        "smtpHost": "Host SMTP",
+        "smtpPort": "Puerto SMTP",
+        "smtpUser": "Usuario SMTP",
+        "smtpPassword": "Contraseña SMTP"
+      },
+      "placeholders": {
+        "fromName": "Introduce el nombre del remitente",
+        "fromEmail": "Introduce el correo del remitente",
+        "smtpHost": "smtp.example.com",
+        "smtpPort": "587",
+        "smtpUser": "Introduce el usuario SMTP",
+        "smtpPassword": "Introduce la contraseña SMTP"
+      }
+    },
+    "subdomain": {
+      "name": "Configuración de subdominio",
+      "description": "Configura un subdominio personalizado para tu aplicación",
+      "label": "Subdominio",
+      "placeholder": "Introduce tu subdominio",
+      "text": "Introduce el subdominio que deseas usar para tu aplicación",
+      "follow": "Sigue estos pasos:",
+      "stepcount": "Paso {{count}}",
+      "step1": "Elige el nombre de tu subdominio",
+      "step2": "Apunta tu registro A a ",
+      "step3p1": "Verifica la propagación de DNS en ",
+      "step3p2": "DNS Checker",
+      "step4": "Guarda tu configuración"
+    },
+    "disconnectDialog": {
+      "title": "Desconectar integración",
+      "message": "¿Estás seguro de que deseas desconectar esta integración? Escribe 'delete' para confirmar.",
+      "label": "Confirmación",
+      "placeholder": "Escribe 'delete' para confirmar"
+    },
+    "buttons": {
+      "configure": "Configurar",
+      "edit": "Editar",
+      "disconnect": "Desconectar",
+      "disconnecting": "Desconectando...",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "saveConfiguration": "Guardar configuración",
+      "reset": "Restablecer",
+      "testSetting": "Probar ajustes",
+      "testing": "Probando...",
+      "loading": "Cargando..."
+    },
+    "errors": {
+      "title": "Error",
+      "smtpRequired": "Por favor completa todos los campos SMTP obligatorios",
+      "smtpValidation": "Por favor verifica tu configuración SMTP",
+      "subdomainRequired": "Por favor introduce un subdominio",
+      "noSmtp": "No hay configuración SMTP para desconectar",
+      "noSubdomain": "No hay subdominio para desconectar",
+      "disconnectConfirmation": "Por favor escribe 'delete' para confirmar"
+    }
+  },
+  "templates": {
+    "title": "Plantillas",
+    "createButton": "Crear",
+    "searchPlaceholder": "Buscar plantillas...",
+    "filterPlaceholder": "Filtrar por canal",
+    "filter": {
+      "all": "Todos los canales",
+      "email": "Correo electrónico",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "table": {
+      "name": "Nombre",
+      "channel": "Canal",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción"
+    },
+    "status": {
+      "active": "Activo",
+      "waiting": "En espera de aprobación"
+    },
+    "actions": {
+      "view": "Ver",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay plantillas",
+      "description": "Crea tu primera plantilla de solicitud de reseñas para comenzar",
+      "button": "Crear plantilla"
+    },
+    "deleteDialog": {
+      "title": "Eliminar plantilla",
+      "description": "¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando...",
+      "success": "Plantilla eliminada correctamente",
+      "error": "No se pudo eliminar la plantilla"
+    },
+    "bulkDelete": {
+      "button": "Eliminar ({{count}})",
+      "success": "{{count}} plantillas eliminadas correctamente",
+      "error": "No se pudieron eliminar las plantillas"
+    },
+    "selectAll": "Seleccionar todo",
+    "selectTemplate": "Seleccionar {{name}}",
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} plantillas"
+    }
+  },
+  "contacts": {
+    "title": "Contactos",
+    "addButton": "Agregar contacto",
+    "empty": {
+      "title": "No se encontraron contactos",
+      "description": "Comienza agregando tu primer contacto"
+    },
+    "error": {
+      "title": "Error al cargar contactos",
+      "description": "Ocurrió un error al cargar tus contactos",
+      "retry": "Intentar de nuevo"
+    },
+    "pagination": {
+      "showing": "Mostrando",
+      "of": "de",
+      "page": "Página"
+    },
+    "tabs": {
+      "contacts": "Contactos",
+      "groups": "Grupos"
+    },
+    "filter": {
+      "searchPlaceholder": "Buscar contactos...",
+      "searchGroupsPlaceholder": "Buscar grupos...",
+      "all": "Todos los contactos",
+      "phone": "N.º de teléfono",
+      "email": "Correo electrónico",
+      "group": "Grupo",
+      "createGroup": "Crear grupo"
+    },
+    "groupsTable": {
+      "srNo": "N.º",
+      "groupName": "Nombre del grupo",
+      "contactCount": "N.º de contactos",
+      "action": "Acción",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "editSuccess": "Grupo actualizado correctamente",
+      "deleteSuccess": "Grupo eliminado correctamente",
+      "noGroups": "No se encontraron grupos. Crea un grupo para comenzar."
+    },
+    "table": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "contacts": "Contactos",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "group": "Grupo",
+      "addedOn": "Agregado el",
+      "action": "Acción"
+    },
+    "actions": {
+      "send": "Enviar",
+      "view": "Ver",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "countryCode": "Código de país",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "group": "Grupo",
+      "firstNamePlaceholder": "Introduce el nombre",
+      "lastNamePlaceholder": "Introduce el apellido",
+      "countryCodePlaceholder": "Selecciona el país",
+      "phonePlaceholder": "Introduce el número de teléfono",
+      "emailPlaceholder": "Introduce la dirección de correo",
+      "selectGroup": "Seleccionar grupos",
+      "noGroups": "No hay grupos disponibles"
+    },
+    "deleteDialog": {
+      "title": "Eliminar contacto",
+      "description": "¿Estás seguro de que deseas eliminar \"{{contactName}}\"? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando...",
+      "success": "Contacto eliminado correctamente",
+      "error": "No se pudo eliminar el contacto"
+    },
+    "posterCard": {
+      "title": "Póster QR Personalizado",
+      "description": "Crea un póster con tu marca que incluya tu código QR, logo y mensajes personalizados. Ideal para mostrar en tu negocio.",
+    "customizeButton": "Personalizar Póster"
+    }
+  },
+  "contacts": {
+    "selectAll": "Seleccionar todos los contactos",
+    "bulkDelete": {
+      "button": "Eliminar ({{count}})",
+      "success": "{{count}} contactos eliminados correctamente",
+      "error": "Error al eliminar contactos",
+      "partialSuccess": "{{deleted}} contactos eliminados, {{invalid}} fallidos"
+    },
+    "bulkDeleteDialog": {
+      "title": "Eliminar contactos",
+      "description": "¿Estás seguro de que deseas eliminar {{count}} contactos? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando..."
+    }
+  },
+  "groups": {
+    "selectAll": "Seleccionar todos los grupos",
+    "bulkDelete": {
+      "button": "Eliminar ({{count}})",
+      "success": "{{count}} grupos eliminados correctamente",
+      "error": "Error al eliminar grupos",
+      "partialSuccess": "{{deleted}} grupos eliminados, {{invalid}} fallidos"
+    },
+    "bulkDeleteDialog": {
+      "title": "Eliminar grupos",
+      "description": "¿Estás seguro de que deseas eliminar {{count}} grupos? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando..."
+    }
+  }
+}

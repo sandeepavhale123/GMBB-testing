@@ -1,0 +1,15 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Riepilogo Recensioni",
+      "autoResponse": "Risposta Automatica"
+    },
+    "replySettingBadge": {
+      "prefix": "Impostazione di risposta automatica attivata: ",
+      "AI": "Risposta AI",
+      "CUSTOM": "Modello Personalizzato",
+      "DNR": "Non Rispondere"
+    },
+    "export": "Esporta Recensioni"
+  }
+}

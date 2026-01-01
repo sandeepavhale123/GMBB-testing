@@ -1,0 +1,22 @@
+{
+  "dialog": {
+    "title": "Connecter un compte LinkedIn",
+    "description": "Choisissez le type de compte à connecter"
+  },
+  "individual": {
+    "title": "Connecter un profil individuel",
+    "description": "Connectez votre profil LinkedIn personnel pour publier en votre nom"
+  },
+  "organization": {
+    "title": "Connecter une page d'organisation",
+    "description": "Connectez la page de votre entreprise pour publier en tant qu'organisation"
+  },
+  "buttons": {
+    "connect": "Connecter",
+    "connecting": "Connexion..."
+  },
+  "errors": {
+    "oauthInitFailed": "Échec de l'initialisation de l'OAuth LinkedIn",
+    "connectFailed": "Échec de la connexion du compte LinkedIn"
+  }
+}

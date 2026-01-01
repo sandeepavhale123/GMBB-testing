@@ -1,0 +1,22 @@
+{
+  "buyCreditsModal": {
+    "title": "Acheter des Crédits de Recharge",
+    "creditsLabel": "Crédits",
+    "priceLabel": "Prix :",
+    "buyNowButton": "Acheter Maintenant",
+    "cancelButton": "Annuler",
+    "securePayment": "Paiement sécurisé traité par Stripe",
+    "alert": {
+      "paymentFailed": "Le paiement a échoué. Veuillez réessayer.",
+      "stripeInitFailed": "Échec de l’initialisation de Stripe",
+      "noSessionUrl": "Aucune session de paiement ou URL reçue"
+    },
+    "placeholder": {
+      "close": "Fermer"
+    },
+    "log": {
+      "backendResponse": "Réponse du backend",
+      "stripeKey": "Clé Stripe"
+    }
+  }
+}

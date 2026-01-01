@@ -1,0 +1,154 @@
+{
+  "loading": {
+    "report": "Chargement du rapport de santé GMB...",
+    "translations": "Chargement des traductions..."
+  },
+  "header": "Rapport de santé GMB",
+  "error": {
+    "title": "Erreur lors du chargement du rapport",
+    "message": "Impossible de charger le rapport de santé GMB avec l’ID : {{token}}",
+    "retry": "Réessayer",
+    "goBack": "Retour"
+  },
+  "order": {
+    "placeholder": "Trier par...",
+    "default": "Ordre par défaut",
+    "failed": "Échecs en premier",
+    "passed": "Réussites en premier"
+  },
+  "notFound": {
+    "title": "Rapport introuvable",
+    "message": "Le rapport de santé GMB demandé est introuvable.",
+    "reportId": "ID du rapport : {{token}}",
+    "goBack": "Retour"
+  },
+  "summaryCards": {
+    "healthScore": "Score de santé GMB",
+    "reviews": "Nombre d’avis",
+    "avgRating": "Note moyenne GMB",
+    "photos": "Nombre de photos GMB",
+    "posts": "Nombre de publications GMB"
+  },
+  "introduction": {
+    "title": "Introduction",
+    "message": "Bonjour, merci d’avoir évalué votre profil Google My Business (GMB). Vous trouverez ci-dessous les résultats de notre évaluation en 10 points."
+  },
+  "glanceReport": {
+    "title": "Votre rapport GMB en un coup d’œil",
+    "failedTests": "Tests échoués",
+    "passedTests": "Tests réussis"
+  },
+  "detailedBreakdown": {
+    "title": "Analyse détaillée",
+    "whyItMatters": "• Pourquoi c’est important :",
+    "recommendation": "• Recommandation :",
+    "highImpact": "Fort impact",
+    "passed": "Réussi",
+    "failed": "Échoué",
+    "description": {
+      "title": "Description manquante ou inférieure à 300 caractères",
+      "why": "Une description détaillée aide les clients à comprendre rapidement ce que propose votre entreprise et renforce la confiance. Une description courte ou absente rend votre profil moins attrayant.",
+      "recommendation": "Rédigez une description complète d’au moins 300 caractères mettant en avant vos offres uniques, vos principaux services et vos valeurs."
+    },
+    "website": {
+      "title": "Site web manquant",
+      "why": "Un lien vers votre site permet aux clients d’en savoir plus sur votre entreprise. Sans cela, ils pourraient se tourner vers vos concurrents.",
+      "recommendation": "Ajoutez un lien fonctionnel vers votre site web sur votre profil GMB pour renforcer votre crédibilité et générer du trafic."
+    },
+    "review": {
+      "title": "Nombre d’avis",
+      "why": "Les avis sont une preuve sociale. Les profils avec moins de 10 avis paraissent moins crédibles.",
+      "recommendation": "Encouragez vos clients satisfaits à laisser un avis. Vous pouvez leur envoyer un lien direct vers votre profil GMB."
+    },
+    "rating": {
+      "title": "Note inférieure à la moyenne",
+      "why": "Une note plus élevée indique une meilleure satisfaction client et améliore la visibilité.",
+      "recommendation": "Répondez poliment aux avis négatifs et concentrez-vous sur l’amélioration du service client."
+    },
+    "addCategory": {
+      "title": "Catégories supplémentaires manquantes ou inférieures à 5",
+      "why": "Les catégories supplémentaires aident Google à comprendre vos services et à afficher votre fiche dans les recherches pertinentes.",
+      "recommendation": "Ajoutez des catégories représentant tous vos services, comme 'Plomberie d’urgence' ou 'Installation'."
+    },
+    "photo": {
+      "title": "Moins de 5 photos",
+      "why": "Des photos de haute qualité améliorent votre profil et attirent plus de clients.",
+      "recommendation": "Téléversez régulièrement des photos claires et récentes."
+    },
+    "workingHrs": {
+      "title": "Heures d’ouverture manquantes",
+      "why": "Les clients doivent savoir quand vous êtes ouvert. Des horaires manquants peuvent entraîner des opportunités perdues.",
+      "recommendation": "Ajoutez des horaires complets, y compris les jours fériés ou les jours spéciaux."
+    },
+    "attributes": {
+      "title": "Attributs manquants ou incomplets",
+      "why": "Des attributs comme 'Wi-Fi gratuit' ou 'Accessible en fauteuil roulant' peuvent influencer la décision d’un client.",
+      "recommendation": "Mettez à jour vos attributs selon les attentes des clients et vos services."
+    },
+    "profile": {
+      "title": "Logo manquant ou flou",
+      "why": "Un logo professionnel renforce la confiance dans la marque et rend votre profil plus crédible.",
+      "recommendation": "Ajoutez un logo haute résolution cohérent sur toutes les plateformes."
+    },
+    "competitor": {
+      "title": "Comparaison avec les concurrents",
+      "why": "Vous devez égaler ou surpasser vos concurrents pour rester pertinent.",
+      "recommendation": "Analysez ce que font mieux vos concurrents et améliorez votre profil."
+    },
+    "citation": {
+      "title": "Nombre de citations faible",
+      "why": "Les citations renforcent le référencement local et la légitimité de votre entreprise.",
+      "recommendation": "Inscrivez votre entreprise dans des annuaires locaux comme Yelp ou Pages Jaunes."
+    }
+  },
+  "competitorAnalysis": {
+    "title": "Analyse des concurrents",
+    "moderateImpact": "Impact modéré",
+    "message": "La fiche surpasse ou égale ses concurrents dans les domaines clés.",
+    "chartTitle": "Analyse des concurrents",
+    "chartDescription": "Voyez comment vous vous situez par rapport à vos concurrents locaux",
+    "avgRating": "Note moyenne",
+    "reviewCount": "Nombre d’avis",
+    "message1": "Se démarquer parmi les concurrents augmente vos chances d’attirer plus de clients.",
+    "analyze": "Analysez le profil de vos concurrents et concentrez-vous sur les domaines où ils excellent, comme une meilleure note ou une description plus détaillée.",
+    "empty": "Aucune donnée concurrentielle trouvée",
+    "emptyDesc": "Nous n’avons trouvé aucune information concurrentielle pour cet emplacement pour le moment. Veuillez réessayer plus tard ou contacter le support si vous pensez qu’il s’agit d’une erreur."
+  },
+  "competitorTable": {
+    "business": "Nom de l’entreprise",
+    "avg": "Note moy.",
+    "review": "Nombre d’avis",
+    "you": "VOUS"
+  },
+  "citationAnalysis": {
+    "title": "Analyse des citations",
+    "highImpact": "Fort impact",
+    "message": "La fiche contient moins de citations que les concurrents.",
+    "why": "Les citations améliorent le référencement local et renforcent la crédibilité auprès des moteurs de recherche et des clients.",
+    "recommendation": "Identifiez les lacunes en citations en auditant les profils des concurrents. Inscrivez votre entreprise dans des annuaires comme Yelp, Pages Jaunes et d’autres sites spécialisés.",
+    "chartTitle": "Analyse des citations",
+    "chartDescription": "Comparez le nombre de citations locales entre concurrents",
+    "citationCount": "Nombre de citations",
+    "empty": "Aucune donnée de citation trouvée",
+    "emptyDesc": "Nous n’avons trouvé aucune information de citation pour cet emplacement. Les citations seront analysées une fois les données concurrentielles disponibles.",
+    "citation": "citations"
+  },
+  "citationTable": {
+    "business": "Nom de l’entreprise",
+    "local": "Nombre de citations locales"
+  },
+  "summaryRecommendations": {
+    "title": "Résumé des recommandations",
+    "item1": "Ajoutez un lien fonctionnel vers votre site web.",
+    "item2": "Encouragez les clients satisfaits à laisser un avis.",
+    "item3": "La note moyenne est inférieure à 4 étoiles.",
+    "item4": "Le logo est présent et professionnel.",
+    "item5": "Mettez à jour vos heures d’ouverture.",
+    "item6": "Moins de 5 photos. Améliorez vos visuels."
+  },
+  "chart": {
+    "rating": "Note",
+    "reviewTitle": "Avis",
+    "reviw": "avis"
+  }
+}

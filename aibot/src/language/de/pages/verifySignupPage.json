@@ -1,0 +1,24 @@
+{
+  "verifySignupPage": {
+    "loading": {
+      "message": "Ihr Konto wird überprüft..."
+    },
+    "success": {
+      "title": "Anmeldung verifiziert!",
+      "description": "Sie können sich jetzt anmelden und Ihr Konto nutzen.",
+      "buttonGoToLogin": "Zur Anmeldung"
+    },
+    "error": {
+      "title": "Verifizierung fehlgeschlagen",
+      "description": "Bitte überprüfen Sie Ihre E-Mail auf einen gültigen Anmeldelink oder versuchen Sie es erneut.",
+      "buttonBackToSignup": "Zur Anmeldung zurück",
+      "toast": {
+        "title": "Verifizierung fehlgeschlagen",
+        "missingSessionId": "Sitzungs-ID in der URL fehlt."
+      }
+    },
+    "toast": {
+      "title": "Anmeldung verifiziert"
+    }
+  }
+}

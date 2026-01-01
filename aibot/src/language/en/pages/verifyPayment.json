@@ -1,0 +1,22 @@
+{
+  "verifyPayment": {
+    "loading": {
+      "title": "Verifying Your Payment",
+      "description": "Please wait while we verify your payment..."
+    },
+    "success": {
+      "title": "Payment Verified Successfully!",
+      "description": "Your subscription has been activated successfully. You can now access all premium features.",
+      "button": "Continue"
+    },
+    "error": {
+      "title": "Payment Verification Failed",
+      "buttonTryAgain": "Try Again",
+      "buttonBackHome": "Back to Home",
+      "messages": {
+        "invalidParams": "Invalid verification parameters",
+        "verificationFailed": "Payment verification failed. Please try again."
+      }
+    }
+  }
+}

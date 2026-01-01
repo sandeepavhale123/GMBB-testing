@@ -1,0 +1,18 @@
+{
+  "businessHoursStep": {
+    "title": "Quand êtes-vous ouvert ?",
+    "description": "Définissez vos heures d'ouverture afin que les clients sachent quand vous rendre visite",
+    "days": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    },
+    "closedLabel": "Fermé",
+    "toLabel": "à",
+    "continueButton": "Continuer"
+  }
+}

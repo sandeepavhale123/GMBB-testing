@@ -1,0 +1,10 @@
+{
+  "title": "🎉 Feedback Form Created Successfully!",
+  "description": "Your form \"{{formName}}\" has been created. Share the link below with your customers.",
+  "formUrlLabel": "Form URL",
+  "copyInfo": "Click the copy icon to copy the form URL to your clipboard",
+  "copyLink": "Copy Link",
+  "goToDashboard": "Go to Dashboard",
+  "toastTitle": "Link Copied!",
+  "toastDescription": "Form URL has been copied to clipboard"
+}

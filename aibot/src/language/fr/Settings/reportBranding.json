@@ -1,0 +1,98 @@
+{
+  "reportBranding": {
+    "title": "Branding du rapport",
+    "description": "Personnalisez le branding de votre entreprise pour les rapports générés.",
+    "deleteBranding": "Supprimer le branding",
+    "whiteLabel": "Marque blanche",
+    "companyInformation": "Informations sur l'entreprise",
+    "fields": {
+      "companyName": {
+        "label": "Nom de l'entreprise",
+        "placeholder": "Entrez le nom de l'entreprise",
+        "error": "Le nom de l'entreprise est requis"
+      },
+      "companyEmail": {
+        "label": "Email de l'entreprise",
+        "placeholder": "entreprise@exemple.com",
+        "error": "Veuillez entrer une adresse email valide"
+      },
+      "companyWebsite": {
+        "label": "Site Web de l'entreprise",
+        "placeholder": "https://www.entreprise.com",
+        "error": "Veuillez entrer une URL valide"
+      },
+      "companyPhone": {
+        "label": "Téléphone de l'entreprise",
+        "placeholder": "+1 (555) 123-4567",
+        "error": "Veuillez entrer un numéro de téléphone valide"
+      },
+      "companyAddress": {
+        "label": "Adresse de l'entreprise",
+        "placeholder": "123 rue de l'entreprise, Ville, État 12345",
+        "error": "Veuillez entrer une adresse valide"
+      },
+      "companyLogo": {
+        "label": "Logo de l'entreprise",
+        "chooseButton": "Choisir le logo",
+        "removeButton": "Supprimer le logo",
+        "fileTooLarge": {
+          "title": "Fichier trop volumineux",
+          "description": "Le fichier du logo doit être inférieur à 2 Mo"
+        },
+        "invalidFile": {
+          "title": "Type de fichier invalide",
+          "description": "Veuillez télécharger un fichier image (PNG, JPG, SVG)"
+        },
+        "uploaded": {
+          "title": "Logo du rapport téléchargé",
+          "description": "{{fileName}} prêt à l'utilisation"
+        },
+        "removed": {
+          "title": "Logo du rapport supprimé",
+          "description": "Le logo a été supprimé avec succès"
+        },
+        "dropHere": "Déposez le logo ici pour le télécharger",
+        "requirements": "PNG, JPG, SVG jusqu'à 2 Mo. Recommandé : 200 x 200px",
+        "ready": "✓ Prêt",
+        "current": "✓ Logo actuel téléchargé",
+        "selected": "Sélectionné : {{fileName}}"
+      }
+    },
+    "saveChanges": {
+      "button": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
+    },
+    "reportPreview": {
+      "title": "Aperçu du rapport",
+      "header": {
+        "companyNamePlaceholder": "Nom de votre entreprise",
+        "websitePlaceholder": "www.votreentreprise.com",
+        "reportDate": "Date du rapport"
+      },
+      "metrics": {
+        "avgRating": "Note moyenne",
+        "totalReviews": "Total des avis"
+      },
+      "chart": {
+        "title": "Graphique de performance"
+      },
+      "footer": {
+        "emailPlaceholder": "contact@votreentreprise.com",
+        "phonePlaceholder": "+1 (555) 123-4567",
+        "addressPlaceholder": "123 rue de l'entreprise, Ville, État",
+        "generatedOn": "Généré le"
+      }
+    },
+    "deleteDialog": {
+      "title": "Supprimer le branding du rapport",
+      "description": "Êtes-vous sûr de vouloir supprimer tous les paramètres de branding du rapport ? Cette action est irréversible et supprimera votre logo et les informations de l'entreprise de tous les rapports futurs.",
+      "cancel": "Annuler",
+      "delete": "Supprimer le branding",
+      "deleting": "Suppression en cours..."
+    },
+    "validation": {
+      "errorTitle": "Erreur",
+      "errorDescription": "Veuillez corriger les erreurs de validation"
+    }
+  }
+}

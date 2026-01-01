@@ -1,0 +1,16 @@
+{
+  "geoRankingEmptyState": {
+    "heading": "Inizia a Monitorare i Tuoi Posizionamenti",
+    "description": "Monitora i posizionamenti del tuo Google Business Profile in diverse località per vedere come performi nei risultati di ricerca locale.",
+    "benefits": {
+      "monitorLocalPerformance": "Monitora le prestazioni locali",
+      "trackCompetitorRankings": "Monitora i posizionamenti dei competitor"
+    },
+    "creditsP1": "Hai",
+    "creditsP2": "crediti rimanenti",
+    "button": {
+      "checkRank": "Controlla Posizionamento"
+    },
+    "additionalInfo": "Imposta il monitoraggio delle parole chiave per tenere sotto controllo le prestazioni della tua attività nei risultati di ricerca locale"
+  }
+}

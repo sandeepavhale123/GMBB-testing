@@ -1,0 +1,8 @@
+{
+  "toastTitle": "Algo salió mal",
+  "toastDescription": "Ocurrió un error. Por favor, intente actualizar la página.",
+  "title": "Algo salió mal",
+  "description": "Hubo un error en este componente. Por favor, intente actualizar o contacte al soporte si el problema persiste.",
+  "devSummary": "Detalles del Error (Modo Desarrollador)",
+  "tryAgain": "Intentar de Nuevo"
+}

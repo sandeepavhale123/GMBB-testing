@@ -1,0 +1,20 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Entreprise",
+      "storeCode": "Code du magasin",
+      "category": "Catégorie",
+      "location": "Emplacement",
+      "status": "Statut",
+      "state": "État",
+      "actions": "Actions"
+    },
+    "status": {
+      "verified": "Vérifié",
+      "pending": "En attente",
+      "suspended": "Suspendu"
+    },
+    "noListings": "Aucune annonce trouvée correspondant à vos critères.",
+    "tootltip": "Activez ou désactivez vos annonces en basculant l'interrupteur"
+  }
+}

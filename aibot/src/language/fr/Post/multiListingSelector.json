@@ -1,0 +1,23 @@
+{
+  "multiListingSelector": {
+    "label": "Sélectionner les annonces et groupes",
+    "placeholder": "Sélectionnez les annonces et groupes...",
+    "loading": "Chargement...",
+    "noResults": "Aucune annonce trouvée.",
+    "searchPlaceholder": "Rechercher des annonces et groupes...",
+    "selectedCount": "{{count}} élément sélectionné",
+    "selectedCount_plural": "{{count}} éléments sélectionnés",
+    "groups": "Groupes",
+    "locations": "Emplacements",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "listings": "Annonces",
+    "unnamedGroup": "Groupe sans nom",
+    "unnamedLocation": "Emplacement sans nom",
+    "groupTag": "[Groupe]",
+    "locationTag": "[Emplacement]",
+    "selectHint": "Sélectionnez au moins une annonce ou un groupe pour continuer.",
+    "errorTitle": "Erreur",
+    "errorMessage": "Échec de récupération des annonces et groupes"
+  }
+}

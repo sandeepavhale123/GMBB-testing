@@ -1,0 +1,20 @@
+{
+  "title": "Post Programmati",
+  "viewAll": "Visualizza Tutti",
+  "loading": {
+    "retry": "Riprova"
+  },
+  "error": {
+    "failed": "Caricamento dei post programmati fallito"
+  },
+  "empty": {
+    "title": "Nessun post programmato",
+    "subtitle": "Crea un nuovo post per iniziare"
+  },
+  "table": {
+    "postImage": "Immagine del Post",
+    "postDescription": "Descrizione del Post",
+    "scheduledDate": "Data Programmata",
+    "action": "Azione"
+  }
+}

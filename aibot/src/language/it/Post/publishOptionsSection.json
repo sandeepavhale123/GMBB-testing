@@ -1,0 +1,15 @@
+{
+  "publishOptionsSection": {
+    "label": "Opzioni di Pubblicazione",
+    "publishOptionLabel": "Opzione di Pubblicazione",
+    "publishNow": "Pubblica Ora",
+    "schedulePost": "Programma Post",
+    "scheduleLabel": "Data e Ora di Programmazione",
+    "placeholder": {
+      "publishOption": "Scegli l'opzione di pubblicazione",
+      "postTags": "Inserisci i tag separati da virgole"
+    },
+    "postTagsLabel": "Tag del Post",
+    "siloCheckbox": "Aggiungi l'URL del tag del post precedente a questo post (Post Silo)."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Reputationsmanagement",
+    "description": "Importieren Sie Ihre bestehenden Unternehmenseinträge oder fügen Sie ein neues Unternehmen hinzu, um Ihre Online-Reputation plattformübergreifend zu verwalten."
+  },
+
+  "importListings": {
+    "title": "Vorhandene Einträge importieren",
+    "description": "Wählen Sie die Geschäftsstandorte aus, die Sie aus Ihren verbundenen Quellen importieren möchten.",
+    "searchPlaceholder": "Einträge suchen...",
+    "selectAll": "Alle auswählen",
+    "importButton": "Einträge importieren",
+    "importing": "Import wird durchgeführt..."
+  },
+
+  "addBusiness": {
+    "title": "Unternehmen hinzufügen",
+    "description": "Sie können Ihr Unternehmen nicht finden? Fügen Sie es manuell über Google Places hinzu.",
+    "placeholder": "Unternehmen bei Google suchen",
+    "addButton": "Unternehmen hinzufügen",
+    "addingButton": "Unternehmen wird hinzugefügt...",
+    "successTitle": "Unternehmen hinzugefügt",
+    "successDescription": "Das Unternehmen wurde erfolgreich hinzugefügt.",
+    "errorTitle": "Hinzufügen fehlgeschlagen",
+    "errorDescription": "Das Unternehmen konnte nicht hinzugefügt werden. Bitte versuchen Sie es erneut.",
+    "selectBusiness": "Bitte wählen Sie vor dem Fortfahren ein gültiges Unternehmen aus."
+  },
+
+  "listings": {
+    "imported": "Importiert",
+    "noListings": "Keine Einträge zum Importieren verfügbar."
+  },
+
+  "errors": {
+    "retry": "Erneut versuchen",
+    "importFailedTitle": "Import fehlgeschlagen",
+    "importFailedDescription": "Einträge konnten nicht importiert werden.",
+    "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+
+  "successDialog": {
+    "title": "Import erfolgreich",
+    "ok": "OK",
+    "summary": {
+      "inserted": "{{count}} Eintrag(e) erfolgreich importiert.",
+      "skipped": "{{count}} übersprungen.",
+      "invalid": "{{count}} ungültig."
+    }
+  }
+}

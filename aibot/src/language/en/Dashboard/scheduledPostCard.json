@@ -1,0 +1,20 @@
+{
+  "title": "Scheduled Posts",
+  "viewAll": "View All",
+  "loading": {
+    "retry": "Retry"
+  },
+  "error": {
+    "failed": "Failed to load scheduled posts"
+  },
+  "empty": {
+    "title": "No scheduled posts",
+    "subtitle": "Create a new post to get started"
+  }, 
+  "table": {
+    "postImage": "Post Image",
+    "postDescription": "Post Description",
+    "scheduledDate": "Scheduled Date",
+    "action": "Action"
+  }
+}

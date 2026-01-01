@@ -1,0 +1,41 @@
+{
+  "templateCard": {
+    "noTemplate": "Nessun modello creato ancora",
+    "enable": "Abilita",
+    "enabling": "Abilitazione...",
+    "disable": "Disabilita",
+    "disabling": "Disabilitazione...",
+    "manage": "Gestisci",
+    "create": "Crea",
+    "availableVariables": "Variabili disponibili",
+    "multipleResponses": {
+      "title": "Risposte multiple",
+      "note": "Nota: Se desideri utilizzare più risposte, utilizza il simbolo pipe dopo ogni risposta."
+    },
+    "templateContent": "Contenuto del modello",
+    "textareaPlaceholder": "Inserisci la risposta del modello...",
+    "more": "altre varianti",
+    "systemTemplateNotice": "Questo è un modello di sistema caricato dalle impostazioni. Le modifiche devono essere effettuate tramite il pannello principale delle impostazioni.",
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "save": "Salva modello",
+    "saving": "Salvataggio...",
+    "manageDialog": {
+      "title": {
+        "rating": "Gestisci modello {{starRating}} stelle",
+        "ratingOnly": "Gestisci modello solo valutazione"
+      }
+    },
+    "disableDialog": {
+      "title": "Sei sicuro di voler rimuovere questa valutazione?",
+      "confirm": "Sì, rimuovi"
+    },
+    "toast": {
+      "error": {
+        "title": "Errore",
+        "enable": "Impossibile abilitare la risposta automatica.",
+        "disable": "Impossibile disabilitare la risposta automatica."
+      }
+    }
+  }
+}

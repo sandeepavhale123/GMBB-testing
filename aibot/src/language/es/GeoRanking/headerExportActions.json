@@ -1,0 +1,21 @@
+{
+  "headerExportActions": {
+    "credits": {
+      "label": "Créditos disponibles",
+      "icon": "🪙"
+    },
+    "buttons": {
+      "refresh": {
+        "idle": "Actualizar",
+        "loading": "Actualizando..."
+      },
+      "clone": "Clonar",
+      "share": "Compartir",
+      "checkRank": "Verificar Posición",
+      "export": {
+        "idle": "Exportar Informe",
+        "loading": "Exportando..."
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "customerSearchSources": {
+    "title": "How Customers Search For Your Business",
+    "description": "Understanding how customers discover your business helps optimize your online presence. This breakdown shows whether customers find you through search results or map views, and whether they're using desktop or mobile devices to access your information.",
+    "totalSearches": "Total Searches",
+    "noData": "No data available",
+    "segments": {
+      "desktopSearch": "Desktop search",
+      "desktopMap": "Desktop map",
+      "mobileSearch": "Mobile search",
+      "mobileMap": "Mobile map"
+    }
+  }
+}

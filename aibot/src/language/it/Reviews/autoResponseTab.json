@@ -1,0 +1,54 @@
+{
+  "autoResponseTab": {
+    "replyTemplates": {
+      "title": "Template di Risposta",
+      "description": "Crea template personalizzati per diverse valutazioni stellari.",
+      "tabs": {
+        "review": "Risposta alla Recensione",
+        "ratingOnly": "Risposta Solo alla Valutazione"
+      }
+    },
+    "aiAutoResponse": {
+      "title": "Risposta Automatica AI",
+      "badge": "Powered by AI",
+      "description": "Lascia che l'AI generi risposte personalizzate e contestuali in base al contenuto e al sentiment della recensione.",
+      "advancedOptions": {
+        "title": "Opzioni Avanzate",
+        "variables": {
+          "title": "Nota:",
+          "description": "Puoi usare le seguenti variabili nel testo della tua risposta per mostrare il nome del recensore:",
+          "descBold": "{full_name}, {first_name}, {last_name}.",
+          "descEnd": "Per inserire il contenuto della risposta, usa",
+          "descEndVb": "{responcetext}",
+          "descTextEnd": ". Non dimenticare di includerlo nel tuo template."
+        },
+        "replyText": "Testo della Risposta",
+        "applyForStars": "Applica alle Valutazioni Stellari"
+      },
+      "latestReview": {
+        "title": "Genera una risposta AI di esempio",
+        "preview": "Anteprima dell'Ultima Recensione"
+      },
+      "buttons": {
+        "generate": "Genera Risposta AI",
+        "regenerate": "Rigenera",
+        "generating": "Generando Risposta AI...",
+        "save": "Salva Impostazioni AI",
+        "saving": "Salvataggio in corso..."
+      }
+    },
+    "noResponseMode": {
+      "title": "Non rispondere alla recensione in modo manuale o automatizzato",
+      "tooltip": "A volte i tuoi clienti non permettono alle agenzie di marketing di rispondere alle recensioni. In tal caso, questa etichetta ti aiuta a identificare tali inserzioni.",
+      "modal": {
+        "title": "Abilitare la Modalità Senza Risposta?",
+        "description": "Se abiliti questa modalità, i dati delle risposte automatiche e delle risposte automatiche AI verranno eliminati. Sei sicuro di voler eliminare questi dati e procedere?",
+        "buttons": {
+          "cancel": "Annulla",
+          "confirm": "Sì, Elimina e Abilita",
+          "processing": "Elaborazione in corso..."
+        }
+      }
+    }
+  }
+}

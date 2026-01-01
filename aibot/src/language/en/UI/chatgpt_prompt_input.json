@@ -1,0 +1,16 @@
+{
+  "placeholder": "Message...",
+  "removeImage": "Remove image",
+  "imagePreviewAlt": "Image preview",
+  "fullSizePreviewAlt": "Full size preview",
+  "questions": "Questions",
+  "loadingQuestions": "Loading questions...",
+  "retry": "Retry",
+  "selectCategory": "Select a category:",
+  "back": "← Back",
+  "close":"Close",
+  "recordVoice": "Record voice",
+  "send": "Send",
+  "sendMessage": "Send message",
+  "errorLoading": "Failed to load questions. Please try again."
+}

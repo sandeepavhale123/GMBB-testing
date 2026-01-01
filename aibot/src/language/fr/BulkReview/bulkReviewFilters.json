@@ -1,0 +1,28 @@
+{
+  "searchPlaceholder": "Rechercher par nom de fiche ou code postal",
+  "statusFilter": {
+    "placeholder": "Tous les avis",
+    "all": "Tous les avis",
+    "pending": "Réponse en attente",
+    "replied": "Répondu"
+  },
+  "sentimentFilter": {
+    "placeholder": "Tous les sentiments",
+    "all": "Tous les sentiments",
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif"
+  },
+  "sortFilter": {
+    "placeholder": "Les plus récents d'abord",
+    "newest": "Les plus récents d'abord",
+    "oldest": "Les plus anciens d'abord",
+    "highest": "Meilleure note",
+    "lowest": "Note la plus basse"
+  },
+  "dateRangePlaceholder": "Sélectionner la plage de dates",
+  "refresh": {
+    "button": "Actualiser",
+    "tooltip": "Actualiser les avis"
+  }
+}

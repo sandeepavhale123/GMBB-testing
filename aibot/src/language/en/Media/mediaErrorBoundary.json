@@ -1,0 +1,7 @@
+{
+  "mediaErrorBoundary": {
+    "title": "Something went wrong",
+    "description": "There was an error loading the media page. Please try refreshing or contact support if the problem persists.",
+    "retry": "Try Again"
+  }
+}

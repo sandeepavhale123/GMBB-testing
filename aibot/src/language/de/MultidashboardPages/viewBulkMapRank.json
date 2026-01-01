@@ -1,0 +1,52 @@
+{
+  "header": {
+    "titleFallback": "Keyword-Name",
+    "subtitle": "Rankingdetails und Leistungsmetriken anzeigen"
+  },
+
+  "errors": {
+    "keywordDetails": "Fehler beim Laden der Keyword-Details. Bitte versuchen Sie es erneut.",
+    "tableDetails": "Fehler beim Laden der Rankingdetails. Bitte versuchen Sie es erneut.",
+    "noData": "Keine Rankingdaten gefunden",
+    "deleteFailed": "Löschen der Einträge fehlgeschlagen"
+  },
+
+  "search": {
+    "placeholder": "Nach Firmenname, Stadt oder Postleitzahl suchen..."
+  },
+
+  "bulkActions": {
+    "clearSelection": "Auswahl löschen",
+    "deleteSelected": "Ausgewählte löschen",
+    "listing": "Eintrag",
+    "listings": "Einträge"
+  },
+
+  "table": {
+    "businessName": "Firmenname",
+    "rankPosition": "Rangposition",
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "lastChecked": "Zuletzt überprüft",
+    "status": "Status",
+    "actions": "Aktionen"
+  },
+
+  "deleteDialog": {
+    "title": "Löschung bestätigen",
+    "description": "Sind Sie sicher, dass Sie ",
+    "descriptionSecond": " löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "deleting": "Wird gelöscht..."
+  },
+
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler"
+  },
+  "keywordStatus": {
+    "completed": "abgeschlossen",
+    "running": "läuft"
+  }
+}

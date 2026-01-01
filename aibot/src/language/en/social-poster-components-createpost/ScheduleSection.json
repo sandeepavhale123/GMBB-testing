@@ -1,0 +1,16 @@
+{
+  "title": "Schedule",
+  "description": "Choose when to publish",
+
+  "options": {
+    "now": "Post Now",
+    "schedule": "Schedule for Later"
+  },
+
+  "fields": {
+    "date": "Date",
+    "time": "Time"
+  },
+
+  "timezoneNote": "Post will be scheduled for {{timezone}} timezone"
+}

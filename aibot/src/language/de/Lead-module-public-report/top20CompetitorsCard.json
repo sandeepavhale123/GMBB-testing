@@ -1,0 +1,26 @@
+{
+  "top20": {
+    "title": "Top-20-Wettbewerbsanalyse",
+    "searchAnalysis": "Suchanalyse",
+    "keyword": "Schlüsselwort",
+    "location": "Standort",
+    "yourPositionTitle": "Ihre Position",
+    "totalCompetitors": "Gesamtzahl der Wettbewerber",
+    "review": "Bewertungen",
+    "yourRank": "Ihr Rang",
+    "yourRating": "Ihre Bewertung",
+    "avgCompetitorRating": "Durchschnittliche Bewertung der Wettbewerber",
+    "comparisonAnalysis": "Vergleichsanalyse",
+    "rank": "Rang",
+    "businessName": "Unternehmensname",
+    "category": "Kategorie",
+    "website": "Webseite",
+    "rating": "Bewertung",
+    "reviews": "Bewertungen",
+    "keywordMatch": "Keyword-Übereinstimmung",
+    "yes": "Ja",
+    "no": "Nein",
+    "you": "SIE",
+    "yourBusiness": "(Ihr Unternehmen)"
+  }
+}

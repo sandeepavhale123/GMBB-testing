@@ -1,0 +1,45 @@
+{
+  "citationAudit": {
+    "title": "Rapport d’audit des citations",
+    "listingName": "Nom de l’entreprise",
+    "loading": "Chargement du rapport d’audit des citations...",
+    "loadError": "Échec du chargement du rapport d’audit des citations",
+    "retry": "Réessayer",
+
+    "metrics": {
+      "total": "Total des citations trouvées",
+      "accuracy": "Score de précision",
+      "missing": "Citations manquantes",
+      "duplicates": "Fiches en double"
+    },
+
+    "atAGlance": {
+      "title": "Votre rapport de citations en un coup d’œil",
+      "foundTitle": "Citations trouvées",
+      "foundDesc": "Citations actuellement présentes",
+      "missingTitle": "Citations manquantes",
+      "missingDesc": "Citations à ajouter"
+    },
+
+    "localPageScore": {
+      "title": "Score des pages locales et annuaires",
+      "description": "Votre score de pages locales et d’annuaires est basé sur le nombre d’endroits où votre fiche est présente, divisé par le nombre de pages locales et d’annuaires que nous avons vérifiés."
+    },
+
+    "tabs": {
+      "citation": "Audit des citations",
+      "existing": "Citations existantes",
+      "possible": "Citations possibles"
+    },
+
+    "table": {
+      "siteName": "Nom du site",
+      "businessName": "Nom de l’entreprise",
+      "phone": "Téléphone",
+      "action": "Action",
+      "notMatching": "Non correspondant",
+      "view": "Voir",
+      "add": "Ajouter la fiche"
+    }
+  }
+}

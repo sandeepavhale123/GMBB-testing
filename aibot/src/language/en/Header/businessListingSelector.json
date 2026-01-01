@@ -1,0 +1,9 @@
+{
+  "businessListingSelector": {
+    "noListings": "No listings available",
+    "loading": "Loading...",
+    "searchPlaceholder": "Search listings...",
+    "searching": "Searching...",
+    "noResults": "No listing found."
+  }
+}

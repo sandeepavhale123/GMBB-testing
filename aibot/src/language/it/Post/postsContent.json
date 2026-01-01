@@ -1,0 +1,28 @@
+{
+  "totalPosts": "Totale post: {{count}}",
+  "totalPostsFiltered": "(filtrato)",
+  "selectPosts": "Seleziona post",
+  "cancelSelection": "Annulla selezione",
+  "selectAll": "Seleziona tutto",
+  "deselectAll": "Deseleziona tutto",
+  "deleteSelected": "Elimina selezionati ({{count}})",
+  "deleting": "Eliminazione in corso...",
+  "deletePostsTitle": "Elimina post",
+  "deletePostsDescription": "Sei sicuro di voler eliminare {{count}} post{{plural}} selezionato/i? Questa azione non può essere annullata.",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "previous": "Precedente",
+  "next": "Successivo",
+  "pageInfo": "Pagina {{current}} di {{total}}",
+  "toast": {
+    "error": "Errore",
+    "noListingTitle": "Errore",
+    "noListingDesc": "Nessuna scheda aziendale selezionata. Selezionane una prima.",
+    "noPostsTitle": "Nessun post selezionato",
+    "noPostsDesc": "Seleziona i post da eliminare.",
+    "postsDeletedTitle": "Post eliminati",
+    "postsDeletedDesc": "{{count}} post{{plural}} eliminato/i con successo.",
+    "deleteFailedTitle": "Eliminazione dei post non riuscita",
+    "deleteFailedDesc": "Si è verificato un errore imprevisto. Riprova."
+  }
+}

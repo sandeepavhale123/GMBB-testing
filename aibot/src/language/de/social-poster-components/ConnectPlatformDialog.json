@@ -1,0 +1,41 @@
+{
+  "dialog": {
+    "title": "Soziale Medien Konten verbinden",
+    "description": "Wählen Sie aus, welche Plattformen Sie verbinden möchten"
+  },
+  "buttons": {
+    "connect": "Verbinden",
+    "connecting": "Verbinden..."
+  },
+  "platforms": {
+    "facebook_instagram": {
+      "name": "Facebook & Instagram",
+      "description": "Beide Plattformen mit einem einzigen OAuth verbinden"
+    },
+    "twitter": {
+      "name": "Twitter/X",
+      "description": "Verbinden Sie Ihr Twitter/X-Konto"
+    },
+    "linkedin": {
+      "name": "LinkedIn",
+      "description": "Verbinden Sie Ihr LinkedIn-Konto"
+    },
+    "threads": {
+      "name": "Threads",
+      "description": "Verbinde dein Threads-Konto"
+    },
+    "pinterest": {
+      "name": "Pinterest",
+      "description": "Bald verfügbar"
+    },
+    "youtube": {
+      "name": "YouTube",
+      "description": "Bald verfügbar"
+    }
+  },
+  "toast": {
+    "oauth_failed": "OAuth konnte nicht initialisiert werden",
+    "connect_failed": "Konto konnte nicht verbunden werden",
+    "coming_soon": "Diese Plattform ist bald verfügbar"
+  }
+}

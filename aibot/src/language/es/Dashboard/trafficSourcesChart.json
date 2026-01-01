@@ -1,0 +1,8 @@
+{
+  "title": "Resumen de Actividad",
+  "livePosts": "Publicaciones Activas",
+  "failedPosts": "Publicaciones Fallidas",
+  "successPosts": "{{count}} publicaciones exitosas",
+  "failedCountPosts": "{{count}} publicaciones fallidas",
+  "view": "Ver Todo"
+}

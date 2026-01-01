@@ -1,0 +1,41 @@
+{
+  "page": {
+    "title": "Recensioni",
+    "subtitle": "Visualizza e gestisci le recensioni dei clienti da tutti i canali collegati"
+  },
+
+  "actions": {
+    "reviewIntegration": "Integrazione del sito di recensioni",
+    "exportReviews": "Esporta recensioni",
+    "tryAgain": "Riprova"
+  },
+
+  "filters": {
+    "searchPlaceholder": "Cerca recensioni...",
+    "channelPlaceholder": "Filtra per canale",
+    "sentimentPlaceholder": "Filtra per sentimento",
+
+    "channels": {
+      "all": "Tutti i canali",
+      "google": "Profilo Google Business",
+      "facebook": "Facebook",
+      "opentable": "OpenTable",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "bbb": "Better Business Bureau (BBB)"
+    },
+
+    "sentiments": {
+      "all": "Tutti i sentimenti",
+      "positive": "Positivo (4-5 stelle)",
+      "neutral": "Neutrale (3 stelle)",
+      "negative": "Negativo (1-2 stelle)"
+    }
+  },
+
+  "states": {
+    "loading": "Caricamento in corso...",
+    "showingResults": "Mostrando {{count}} di {{total}} recensioni",
+    "noResults": "Nessuna recensione trovata corrispondente ai tuoi filtri"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "importPostCSVWizard": {
+    "title": "Importa Post CSV",
+    "steps": {
+      "1": "Seleziona schede",
+      "2": "Carica file",
+      "3": "Controllo qualità",
+      "4": "Invia"
+    },
+    "uploadError": "Errore di caricamento",
+    "stepCount": "Passaggio {{currentStep}} di 4",
+    "selectListings": {
+      "heading": "Seleziona schede",
+      "description": "Scegli le schede e il tipo di post per l'importazione in blocco.",
+      "postTypeLabel": "Tipo di post",
+      "postTypePlaceholder": "Seleziona tipo di file",
+      "postTypeOptions": {
+        "0": "Seleziona tipo di file",
+        "1": "File di post regolare",
+        "2": "File di post evento",
+        "3": "File di post offerta"
+      },
+      "next": "Avanti",
+      "generatingCSV": "Generazione del CSV in corso..."
+    },
+    "uploadFile": {
+      "heading": "Carica file",
+      "description": "Carica il tuo file CSV per l'importazione in blocco dei post.",
+      "downloadSample": "Scarica il file CSV generato",
+      "previous": "Precedente",
+      "next": "Avanti",
+      "uploading": "Caricamento in corso..."
+    },
+    "qualityControl": {
+      "heading": "Controllo qualità",
+      "description": "Esamina i risultati della convalida del file caricato.",
+      "uploadSummary": "Riepilogo del caricamento",
+      "validationErrorsTitle": "Errori di convalida trovati - Correggi e ricarica il file",
+      "reuploadFile": "Ricarica file",
+      "allRowsValid": "Tutte le righe sono state convalidate con successo!",
+      "processedRows": "✓ {{count}} righe elaborate",
+      "noErrors": "✓ Nessun errore di convalida trovato",
+      "readyForSubmission": "✓ Pronto per l'invio",
+      "notesLabel": "Note (opzionale)",
+      "notesPlaceholder": "Aggiungi eventuali note su questa importazione...",
+      "submit": "Invia importazione",
+      "saving": "Salvataggio in corso...",
+      "fixErrors": "Correggi gli errori per continuare"
+    },
+    "submit": {
+      "heading": "Congratulazioni!",
+      "description": "Tutti i tuoi post sono stati importati con successo in blocco.",
+      "goToDashboard": "Vai alla dashboard principale",
+      "viewPostDetails": "Visualizza i dettagli del post"
+    },
+    "row": "Riga",
+    "error": "errore/i",
+    "file": "File",
+    "totalRows": "Totale righe",
+    "err": "Errori",
+    "errors": {
+      "title": "Errore",
+      "selectListing": "Seleziona almeno una scheda.",
+      "selectPostType": "Seleziona un tipo di post valido.",
+      "selectFile": "Seleziona un file da caricare.",
+      "noUploadedFile": "Nessun file caricato trovato. Carica prima un file.",
+      "sampleNotAvailable": "Il file CSV di esempio non è disponibile. Torna al passaggio 1.",
+      "csvGenerateFailed": "Impossibile generare il file CSV. Riprova.",
+      "uploadFailed": "Caricamento del file non riuscito. Riprova.",
+      "saveFailed": "Salvataggio del foglio in blocco non riuscito. Riprova.",
+      "authFailed": "Autenticazione non riuscita. Accedi nuovamente.",
+      "permissionDenied": "Non hai il permesso per eseguire questa azione.",
+      "serverError": "Si è verificato un errore del server. Riprova più tardi."
+    },
+    "success": {
+      "title": "Successo",
+      "titleUpload": "Caricamento completato",
+      "csvGenerated": "File CSV generato con successo",
+      "uploadSuccess": "File caricato e convalidato con successo",
+      "uploadWithErrors": "File caricato con {{count}} errori di convalida. Si prega di controllare.",
+      "bulkSaveSuccess": "{{count}} post importati con successo"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "title": "Berichts-Branding",
+  "subtitle": "Passen Sie das Erscheinungsbild Ihrer Lead-Berichte an",
+  "logo": {
+    "title": "Firmenlogo",
+    "description": "Laden Sie Ihr Firmenlogo für Berichte hoch",
+    "dropText": "Ziehen Sie Ihr Logo hierher oder klicken Sie, um zu durchsuchen",
+    "buttonText": "Datei auswählen",
+    "note": "Empfohlen: PNG- oder JPG-Format, max. 2 MB, 300x100px"
+  },
+  "colors": {
+    "title": "Farbschema",
+    "description": "Passen Sie Ihre Markenfarben an",
+    "primary": "Primärfarbe",
+    "secondary": "Sekundärfarbe"
+  },
+  "companyInfo": {
+    "title": "Firmeninformationen",
+    "description": "Details, die in Ihren Berichten erscheinen",
+    "nameLabel": "Firmenname",
+    "namePlaceholder": "Firmenname eingeben",
+    "websiteLabel": "Webseite",
+    "websitePlaceholder": "https://ihrefirma.com",
+    "phoneLabel": "Telefonnummer",
+    "phonePlaceholder": "+49 123 4567890"
+  },
+  "preview": {
+    "title": "Vorschau",
+    "description": "So wird Ihr Branding angezeigt",
+    "lead": "Lead-Bericht"
+  },
+  "buttons": {
+    "save": "Branding-Einstellungen speichern"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "listingSwitcher": {
+    "searchPlaceholder": "Buscar listados...",
+    "searching": "Buscando...",
+    "noResults": "No se encontró ningún listado.",
+    "noListings": "No hay listados disponibles",
+    "loading": "Cargando...",
+    "errorMessage": "Error al cargar listados",
+    "retry": "Reintentar",
+    "addListings": "Agregar Listados"
+  }
+}

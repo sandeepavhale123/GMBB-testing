@@ -1,0 +1,157 @@
+{
+  "integrations": {
+    "title": "Integraciones",
+    "subtitle": "Administre sus integraciones de terceros y conexiones API.",
+
+    "mapApi": {
+      "name": "Clave de API de Google Maps",
+      "description": "Configure servicios de mapas para funciones basadas en la ubicación.",
+      "configureTitle": "Configurar clave de API de Google Maps",
+      "label": "Clave de API de Google Places",
+      "placeholder": "Ingrese su clave de API de Google Places",
+      "helper": "Esta clave de API se utilizará para todas las funciones basadas en la ubicación, incluido el Geo Ranking y los servicios de mapas.",
+      "howToTitle": "Cómo generar una clave de API de Google Places",
+      "steps": {
+        "1": "Nota: Debe habilitar la facturación para el proyecto de Google.",
+        "2-p1": "Visite la ",
+        "2-p2": "Consola de Google Cloud Platform.",
+        "3": "Haga clic en el menú desplegable del proyecto y seleccione o cree el proyecto para el cual desea agregar una clave de API.",
+        "4": "Desde el Panel → Vaya a la descripción general de APIs → Haga clic en Biblioteca → Habilite la API de Maps JavaScript y la API de Places.",
+        "5": "Después, haga clic en el botón de menú y seleccione APIs y servicios → Credenciales.",
+        "6": "En la página de Credenciales, en el menú desplegable Crear credenciales, seleccione la opción Clave de API.",
+        "7": "Aparecerá un cuadro de diálogo que mostrará su clave de API recién creada; copie la clave.",
+        "8": "Use o pegue la clave generada en Geo Ranking → pestaña Administrar clave. (Actividad única: solo en el primer uso de la verificación de Geo Ranking).",
+        "9": "Una vez que haya agregado una clave, se utilizará para todos sus listados y no será necesario generar una clave separada para cada listado de GMB."
+      }
+    },
+
+    "smtp": {
+      "name": "Detalles de SMTP",
+      "description": "Configure la configuración del servidor de correo electrónico para notificaciones.",
+      "configureTitle": "Configurar ajustes de SMTP",
+      "labels": {
+        "fromName": "Nombre del remitente",
+        "fromEmail": "Correo electrónico del remitente",
+        "smtpHost": "Host SMTP",
+        "smtpPort": "Puerto SMTP",
+        "smtpUser": "Usuario SMTP",
+        "smtpPassword": "Contraseña SMTP"
+      },
+      "placeholders": {
+        "fromName": "Su nombre o empresa",
+        "fromEmail": "su-correo@ejemplo.com",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "usuario",
+        "smtpPassword": "contraseña"
+      }
+    },
+
+    "subdomain": {
+      "name": "Configuración de subdominio",
+      "description": "Configure un subdominio de marca blanca para sus informes.",
+      "label": "Ingresar subdominio",
+      "configureTitle": "Configurar subdominio",
+      "placeholder": "ejemplo",
+      "text": "Ingrese el subdominio que desea utilizar (sin .com u otras extensiones)",
+      "follow": "Siga los siguientes pasos:",
+      "stepcount": "Paso {{count}}:",
+      "step1": "Agregue aquí el subdominio de marca blanca y guárdelo.",
+      "step2": "Agregue la IP en el administrador de DNS como un registro A:",
+      "step3p1": "Verifique la propagación de DNS en:",
+      "step3p2": "dnschecker.org",
+      "step4": "Una vez que haya terminado, infórmenos y actualizaremos su solicitud en las próximas 24 horas."
+    },
+
+    "mailgun": {
+      "name": "Mailgun",
+      "description": "Configure el servicio de correo electrónico Mailgun para el envío de correos.",
+      "configureTitle": "Configurar Mailgun",
+      "labels": {
+        "apiKey": "Clave de API",
+        "domain": "Dominio",
+        "region": "Región",
+        "fromEmail": "Correo electrónico del remitente",
+        "fromName": "Nombre del remitente",
+        "replyToEmail": "Correo electrónico de respuesta",
+        "configName": "Nombre de la configuración"
+      },
+      "placeholders": {
+        "apiKey": "Ingrese su clave de API de Mailgun",
+        "domain": "mg.sudominio.com",
+        "fromEmail": "noreply@sudominio.com",
+        "fromName": "Su empresa",
+        "replyToEmail": "support@sudominio.com",
+        "configName": "Mi configuración de Mailgun"
+      },
+      "regions": {
+        "us": "EE. UU.",
+        "eu": "UE"
+      }
+    },
+
+    "twilio": {
+      "name": "Twilio",
+      "description": "Conecte Twilio para servicios de mensajería SMS y WhatsApp.",
+      "configureTitle": "Configurar Twilio",
+      "labels": {
+        "accountSid": "SID de la cuenta",
+        "authToken": "Token de autenticación",
+        "configName": "Nombre de la configuración"
+      },
+      "placeholders": {
+        "accountSid": "Ingrese el SID de su cuenta de Twilio",
+        "authToken": "Ingrese su token de autenticación de Twilio",
+        "configName": "Mi cuenta de Twilio"
+      }
+    },
+
+    "citationButton": {
+      "name": "Botón de citación",
+      "description": "Personalice el botón de Realizar pedido que aparece en los informes públicos de citaciones."
+    },
+
+    "buttons": {
+      "configure": "Configurar",
+      "edit": "Editar",
+      "disconnect": "Desconectar",
+      "cancel": "Cancelar",
+      "saveConfiguration": "Guardar configuración",
+      "saving": "Guardando...",
+      "loading": "Cargando...",
+      "disconnecting": "Desconectando...",
+      "reset": "Restablecer",
+      "testing": "Probando...",
+      "testSetting": "Probar configuración SMTP",
+      "save": "Guardar"
+    },
+
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+
+    "disconnectDialog": {
+      "title": "Confirmar desconexión",
+      "message": "¿Está seguro de que desea desconectar esta integración? Esta acción no se puede deshacer.",
+      "label": "Escriba \"delete\" para confirmar:",
+      "placeholder": "Escriba 'delete' para confirmar"
+    },
+
+    "errors": {
+      "title": "Error",
+      "apiKeyRequired": "Por favor, ingrese una clave de API válida",
+      "disconnectConfirmation": "Por favor, escriba 'delete' para confirmar la desconexión",
+      "noApiKey": "No se encontró ninguna clave de API para desconectar",
+      "noSmtp": "No se encontró ninguna configuración SMTP para desconectar",
+      "noSubdomain": "No se encontró ningún subdominio para desconectar",
+      "noMailgun": "No se encontró ninguna configuración de Mailgun para desconectar",
+      "noTwilio": "No se encontró ninguna configuración de Twilio para desconectar",
+      "smtpRequired": "Por favor, complete todos los campos requeridos antes de realizar la prueba",
+      "smtpValidation": "Por favor, corrija los errores de validación",
+      "subdomainRequired": "Por favor, ingrese un subdominio",
+      "mailgunValidation": "Por favor, corrija los errores de validación",
+      "twilioValidation": "Por favor, corrija los errores de validación"
+    }
+  }
+}

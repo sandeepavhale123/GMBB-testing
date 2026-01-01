@@ -1,0 +1,14 @@
+{
+  "reviewStats": {
+    "cards": {
+      "totalReviews": "Nombre total d'avis",
+      "pendingReplies": "Réponses en attente",
+      "aiReplies": "Réponses IA",
+      "manualReplies": "Réponses manuelles"
+    },
+    "loading": {
+      "skeletonTitle": "Chargement...",
+      "skeletonValue": "Veuillez patienter"
+    }
+  }
+}

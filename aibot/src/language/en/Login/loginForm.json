@@ -1,0 +1,17 @@
+{
+  "signInAccount": "Sign in to your account",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "rememberMe": "Remember me",
+  "forgotPassword": "Forgot Password?",
+  "logInButton": "Log In",
+  "loggingIn": "Logging in...",
+  "validationErrorTitle": "Validation Error",
+  "validationErrorDescription": "Please fix the highlighted fields and try again.",
+  "subscriptionExpiredTitle": "Subscription Expired",
+  "subscriptionExpiredDescription": "Your plan has expired. Please renew to continue.",
+  "loginSuccessTitle": "Success",
+  "loginSuccessDescription": "Logged in successfully!",
+  "loginErrorTitle": "Error",
+  "loginErrorDescription": "Login failed. Please check your credentials."
+}

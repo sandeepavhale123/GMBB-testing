@@ -1,0 +1,77 @@
+{
+  "title": "Create Template",
+  "view":"View Template",
+  "edit":"Edit Template",
+  "area":"Template Area",
+  "back":" Back to Templates",
+  "saving":"Saving...",
+  "update":"Update Template",
+  "templateName": {
+    "label": "Template Name",
+    "placeholder": "Enter template name",
+    "content":"Enter your template content..."
+  },
+  "channel": {
+    "label": "Select Channel",
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Select Template",
+    "defaultTemplate": "Default template",
+    "greeting": "Hi Name!",
+    "defaultMessage": "We hope you enjoyed your recent experience with us. Could you please take a moment to leave us a review?",
+    "reviewLink": "Review Link"
+  },
+  "subject": {
+    "label": "Subject",
+    "placeholder": "Enter email subject"
+  },
+  "whatsapp": {
+    "category": {
+      "placeholder":"Select category",
+      "label": "Category",
+      "marketing": "Marketing",
+      "utility": "Utility",
+      "authentication": "Authentication"
+    },
+    "language": {
+      "placeholder":"Select language",
+      "label": "Language"
+    }
+  },
+  "schedule": {
+    "label": "Schedule the template (optional)",
+    "date": "Date",
+    "time": "Time"
+  },
+  "submit": "Save Template",
+  "twilioWarning": {
+    "message": "Please configure your Twilio account to use SMS and WhatsApp channels",
+    "configureButton": "Configure"
+  },
+  "shortCodes": {
+    "label": "Short codes:",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "reviewLink": "{review_link}"
+  },
+  "validation": {
+    "nameRequired": "Template name is required",
+    "subjectRequired": "Subject is required for email templates",
+    "templateContentRequired": "Template content is required",
+    "limit":"Template name must be less than 100 characters"
+  },
+  "success": {
+    "temp":"Template Updated",
+    "title": "Template Created",
+    "description": "Your template has been created successfully",
+    "update":"Your template has been updated successfully"
+  },
+  "error": {
+    "title": "Error",
+    "description": "Failed to create template. Please try again.",
+    "failed":"Failed to load template details"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "replyToOldReviewsCard": {
+    "label": "Reply to existing reviews (old review)",
+    "toast": {
+      "success": {
+        "title": "Success",
+        "enabled": "Reply to existing reviews enabled successfully.",
+        "disabled": "Reply to existing reviews disabled successfully."
+      },
+      "error": {
+        "title": "Error",
+        "default": "Something went wrong while updating setting."
+      }
+    }
+  }
+}

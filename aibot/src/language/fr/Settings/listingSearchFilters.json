@@ -1,0 +1,19 @@
+{
+  "listingSearchFilters": {
+    "searchPlaceholder": "Rechercher des fiches...",
+    "filterStatusPlaceholder": "Filtrer par statut",
+    "filterStatus": {
+      "all": "Tous les statuts",
+      "verified": "Vérifié",
+      "unverified": "Non vérifié",
+      "active": "Actif",
+      "inactive": "Inactif"
+    },
+    "filterActivePlaceholder": "Filtrer par activité",
+    "filterActive": {
+      "all": "Toutes les fiches",
+      "active": "Actives uniquement",
+      "inactive": "Inactives uniquement"
+    }
+  }
+}

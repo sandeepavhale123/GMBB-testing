@@ -1,0 +1,10 @@
+{
+  "postsEmptyState": {
+    "title": "Nessun post trovato",
+    "description": {
+      "withFilters": "Prova a modificare i tuoi filtri",
+      "withoutFilters": "Inizia creando il tuo primo post"
+    },
+    "createButton": "Crea post"
+  }
+}

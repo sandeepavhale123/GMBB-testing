@@ -1,0 +1,45 @@
+{
+  "reportBranding": {
+    "title": "Report Branding",
+    "form": {
+      "companyName": {
+        "label": "Company Name",
+        "placeholder": "Enter company name"
+      },
+      "companyEmail": {
+        "label": "Company Email",
+        "placeholder": "company@example.com"
+      },
+      "companyWebsite": {
+        "label": "Company Website",
+        "placeholder": "https://www.company.com"
+      },
+      "companyPhone": {
+        "label": "Company Phone",
+        "placeholder": "+1 (555) 123-4567"
+      },
+      "companyAddress": {
+        "label": "Company Address",
+        "placeholder": "123 Business St, City, State 12345"
+      }
+    },
+    "logo": {
+      "label": "Upload Logo",
+      "description": "PNG, JPG, SVG up to 2MB. Recommended: 200x80px",
+      "chooseButton": "Choose Logo",
+      "selectedFile": "Selected: {{fileName}}",
+      "ready": "✓ Ready",
+      "dropHere": "Drop logo here to upload"
+    },
+    "toast": {
+      "fileTooLargeTitle": "File too large",
+      "fileTooLargeDescription": "Logo file must be less than 2MB",
+      "invalidFileTitle": "Invalid file type",
+      "invalidFileDescription": "Please upload an image file (PNG, JPG, SVG)",
+      "uploadedTitle": "Report logo uploaded",
+      "uploadedDescription": "{{fileName}} ready for use",
+      "removedTitle": "Report logo removed",
+      "removedDescription": "Logo has been removed successfully"
+    }
+  }
+}

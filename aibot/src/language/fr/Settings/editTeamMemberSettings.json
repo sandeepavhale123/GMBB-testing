@@ -1,0 +1,80 @@
+{
+  "editTeamMemberSettings": {
+    "loading": {
+      "text": "Chargement du membre de l'équipe..."
+    },
+    "errors": {
+      "editError": "Erreur lors du chargement du membre de l'équipe",
+      "notFound": "Membre de l'équipe non trouvé",
+      "listingsError": "Erreur lors du chargement des fiches : {{error}}",
+      "updateProfile": "Échec de la mise à jour du profil",
+      "updateListings": "Échec de la mise à jour des affectations des fiches",
+      "updateListing": "Échec de la mise à jour de l'affectation de la fiche"
+    },
+    "buttons": {
+      "back": "Retour",
+      "backToTeamMembers": "Retour aux membres de l'équipe",
+      "saveChanges": "Enregistrer les modifications",
+      "saving": "Enregistrement...",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "tabs": {
+      "profile": "Profil",
+      "assignListings": "Attribuer des fiches"
+    },
+    "profile": {
+      "title": "Modifier le membre de l'équipe",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Laisser vide pour conserver le mot de passe actuel",
+      "role": "Sélectionner le rôle",
+      "roles": {
+        "moderator": "Modérateur",
+        "staff": "Personnel",
+        "client": "Client"
+      }
+    },
+    "listings": {
+      "title": "Gestion des fiches",
+      "filter": {
+        "googleAccount": "Compte Google",
+        "searchPlaceholder": "Rechercher des comptes...",
+        "noAccounts": "Aucun compte trouvé",
+        "assignedListings": "Fiches attribuées"
+      },
+      "table": {
+        "businessName": "Nom de l'entreprise",
+        "account": "Compte",
+        "assign": "Attribuer",
+        "loading": "Chargement des fiches...",
+        "noListings": "Aucune fiche trouvée pour le compte sélectionné"
+      },
+      "pagination": {
+        "pageInfo": "Page {{current}} sur {{total}} • {{count}} fiches",
+        "show": "Afficher :",
+        "page": "Page",
+        "of": "sur"
+      },
+      "badge": {
+        "assigned": "{{count}} attribuées"
+      }
+    },
+    "toasts": {
+      "success": {
+        "title": "Succès",
+        "profileUpdated": "Profil du membre de l'équipe mis à jour avec succès",
+        "listingsUpdated": "Affectations des fiches mises à jour avec succès",
+        "listingUpdated": "Affectation de la fiche mise à jour avec succès"
+      },
+      "error": {
+        "title": "Erreur",
+        "profileUpdate": "Échec de la mise à jour du profil",
+        "listingsUpdate": "Échec de la mise à jour des affectations des fiches"
+      }
+    },
+    "totalReplies": "Total des réponses"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "listingManagementSearchError": {
+    "noListingsWithSearchTerm": "No listings match \"{{searchTerm}}\". Try a different search term.",
+    "noListingsWithFilters": "No listings match your current filters. Try adjusting your filters.",
+    "noListingsFound": "No listings found."
+  }
+}

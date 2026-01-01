@@ -1,0 +1,68 @@
+{
+  "title": "Bewertung teilen",
+
+  "channels": {
+    "label": "Kanäle auswählen",
+    "google": "Google",
+    "facebook": "Facebook",
+    "facebookDisabledTooltip": "Bitte verbinden Sie Ihr Facebook-Konto, um diesen Dienst zu nutzen"
+  },
+
+  "theme": {
+    "label": "Themenfarbe"
+  },
+
+  "caption": {
+    "label": "Beitragsbeschreibung (optional)",
+    "placeholder": "Fügen Sie eine Beschreibung für Ihren Beitrag hinzu... (z. B. 'Schauen Sie sich diese tolle Bewertung an!')"
+  },
+
+  "schedule": {
+    "label": "Beitrag planen (optional)",
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+
+  "buttons": {
+    "preview": "Vorschau",
+    "submit": "Absenden",
+    "close": "Schließen",
+    "capturing": "Wird erfasst...",
+    "publishing": "Wird veröffentlicht..."
+  },
+
+  "actions": {
+    "like": "Gefällt mir",
+    "comment": "Kommentieren",
+    "share": "Teilen"
+  },
+
+  "toast": {
+    "success": {
+      "title": "Bild heruntergeladen",
+      "description": "Das Bild Ihres Bewertungsbeitrags wurde erfolgreich gespeichert."
+    },
+    "error": {
+      "title": "Bildaufnahme fehlgeschlagen",
+      "description": "Das Beitragsbild konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+    },
+    "publishSuccess": {
+      "title": "Beitrag veröffentlicht",
+      "description": "Ihre Bewertung wurde erfolgreich auf Facebook geteilt."
+    },
+    "publishError": {
+      "title": "Veröffentlichung fehlgeschlagen",
+      "description": "Veröffentlichung auf Facebook fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
+  },
+
+  "publishSuccess": {
+    "title": "Beitrag erfolgreich veröffentlicht!",
+    "description": "Ihre Bewertung wurde auf Facebook geteilt.",
+    "viewPost": "Beitrag ansehen"
+  },
+
+  "author": {
+    "anonymous": "Anonym"
+  }
+}

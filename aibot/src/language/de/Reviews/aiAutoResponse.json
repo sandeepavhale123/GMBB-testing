@@ -1,0 +1,73 @@
+{
+  "aiAutoResponse": {
+    "header": {
+      "title": "KI-Autoantwort",
+      "badge": "KI-gestützt",
+      "description": "Lassen Sie die KI personalisierte, kontextbezogene Antworten basierend auf dem Bewertungsinhalt und -sentiment generieren."
+    },
+    "responseStyle": {
+      "label": "KI-Antwortstil",
+      "placeholder": "Wählen Sie Ihren Antwortstil...",
+      "options": {
+        "professional": "Professionell",
+        "friendly": "Freundlich",
+        "casual": "Locker",
+        "formal": "Formal",
+        "empathetic": "Einfühlsam"
+      }
+    },
+    "advancedOptions": {
+      "label": "Erweiterte Optionen",
+      "note": "💡 Die KI passt diesen Stil an den spezifischen Inhalt und die Bewertung jeder Rezension an.",
+      "variables": {
+        "title": "Hinweis:",
+        "description": "Sie können folgende Variablen in Ihrem Antworttext verwenden, um den Namen des Bewerters anzuzeigen:  ",
+        "descBold": "{full_name}, {first_name}, {last_name}.",
+        "descEnd": "Um den Antwortinhalt einzufügen, verwenden Sie",
+        "descEndVb": " {responcetext}",
+        "descTextEnd": ". Vergessen Sie nicht, ihn in Ihre Vorlage einzufügen."
+      },
+      "customPrompt": {
+        "label": "Benutzerdefinierte Eingabeaufforderung",
+        "placeholder": "z.B. Schreiben Sie die Antwort auf Spanisch, fügen Sie ein Rabattangebot hinzu...",
+        "hint": "Fügen Sie spezifische Anweisungen hinzu, um die KI-Antwortgenerierung anzupassen."
+      },
+      "replyText": {
+        "label": "Antworttext",
+        "placeholder": "Geben Sie Ihre Antwortvorlage ein..."
+      },
+      "starRatings": {
+        "label": "Anwenden für Sternebewertungen",
+        "option": "{{count}} Stern"
+      },
+      "replyToOldReviews": {
+        "savedTitle": "Gespeichert",
+        "savedDescription": "Einstellung zur Antwort auf alte Bewertungen wurde aktualisiert."
+      }
+    },
+    "latestReview": {
+      "title": "Beispielantwort der KI generieren",
+      "previewLabel": "Vorschau der neuesten Bewertung"
+    },
+    "buttons": {
+      "generate": "KI-Antwort generieren",
+      "regenerate": "Erneut generieren",
+      "generating": "KI-Antwort wird generiert...",
+      "save": "KI-Einstellungen speichern",
+      "saving": "Speichern..."
+    },
+    "toast": {
+      "success": {
+        "saveTitle": "Erfolg",
+        "saveDescription": "KI-Autoantwort erfolgreich gespeichert!",
+        "generateDescription": "KI-Antwort erfolgreich generiert!"
+      },
+      "error": {
+        "saveTitle": "Fehler",
+        "saveDescription": "Speichern der KI-Autoantwort-Einstellungen fehlgeschlagen",
+        "generateTitle": "Fehler",
+        "generateDescription": "Antwort konnte nicht generiert werden"
+      }
+    }
+  }
+}

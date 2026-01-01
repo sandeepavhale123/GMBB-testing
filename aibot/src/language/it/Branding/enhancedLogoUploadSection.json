@@ -1,0 +1,53 @@
+{
+  "enhancedLogoUploadSection": {
+    "heading": "Loghi dell'applicazione",
+    "lightLogo": {
+      "label": "Logo modalità chiara",
+      "uploadButton": "Scegli logo chiaro",
+      "dropText": "Trascina qui il logo o clicca per caricare",
+      "fileInfo": "Selezionato: {{fileName}}",
+      "currentLoaded": "✓ Logo corrente caricato",
+      "fileTooLarge": {
+        "title": "File troppo grande",
+        "description": "Il file del logo deve essere inferiore a 2MB"
+      },
+      "invalidFileType": {
+        "title": "Tipo di file non valido",
+        "description": "Carica un file immagine (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logo chiaro caricato",
+        "description": "{{fileName}} pronto per l’uso"
+      },
+      "removed": {
+        "title": "Logo chiaro rimosso",
+        "description": "Il logo è stato rimosso con successo"
+      },
+      "instructions": "PNG, JPG, SVG fino a 2MB. Consigliato: 200x60px"
+    },
+    "darkLogo": {
+      "label": "Logo modalità scura",
+      "uploadButton": "Scegli logo scuro",
+      "dropText": "Trascina qui il logo o clicca per caricare",
+      "fileInfo": "Selezionato: {{fileName}}",
+      "currentLoaded": "✓ Logo corrente caricato",
+      "fileTooLarge": {
+        "title": "File troppo grande",
+        "description": "Il file del logo deve essere inferiore a 2MB"
+      },
+      "invalidFileType": {
+        "title": "Tipo di file non valido",
+        "description": "Carica un file immagine (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Logo scuro caricato",
+        "description": "{{fileName}} pronto per l’uso"
+      },
+      "removed": {
+        "title": "Logo scuro rimosso",
+        "description": "Il logo è stato rimosso con successo"
+      },
+      "instructions": "PNG, JPG, SVG fino a 2MB. Consigliato: 200x60px"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "searchPlaceholder": "Search by listing name or ZIP code",
+  "statusFilter": {
+    "placeholder": "All Reviews",
+    "all": "All Reviews",
+    "pending": "Pending Reply",
+    "replied": "Replied"
+  },
+  "sentimentFilter": {
+    "placeholder": "All Sentiment",
+    "all": "All Sentiment",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative"
+  },
+  "sortFilter": {
+    "placeholder": "Newest First",
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "highest": "Highest Rating",
+    "lowest": "Lowest Rating"
+  },
+  "dateRangePlaceholder": "Select date range",
+  "refresh": {
+    "button": "Refresh",
+    "tooltip": "Refresh reviews"
+  }
+}

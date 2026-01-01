@@ -1,0 +1,343 @@
+{
+  "common": {
+    "cancel": "Annulla",
+    "save": "Salva"
+  },
+  "title": "Impostazioni",
+  "tabs": {
+    "templates": "Modelli",
+    "contacts": "Contatti",
+    "themeCustomization": "Personalizzazione del tema",
+    "integrations": "Integrazioni"
+  },
+  "themeCustomization": {
+    "title": "Personalizzazione del tema",
+    "subtitle": "Personalizza il tuo branding e l’aspetto",
+    "badge": "Identità del brand",
+    "messages": {
+      "reset": {
+        "title": "Ripristino del tema",
+        "success": "Il tema è stato ripristinato correttamente",
+        "errorTitle": "Ripristino non riuscito",
+        "errorDescription": "Impossibile ripristinare il tema"
+      },
+      "save": {
+        "successTitle": "Tema salvato",
+        "errorTitle": "Salvataggio non riuscito",
+        "errorDescription": "Impossibile salvare il tema"
+      }
+    }
+  },
+  "integrations": {
+    "title": "Integrazioni",
+    "subtitle": "Configura le impostazioni SMTP e del sottodominio",
+    "status": {
+      "active": "Attivo"
+    },
+    "smtp": {
+      "name": "Dettagli SMTP",
+      "description": "Configura le impostazioni di invio email per le notifiche",
+      "configureTitle": "Configura SMTP",
+      "labels": {
+        "fromName": "Nome mittente",
+        "fromEmail": "Email mittente",
+        "smtpHost": "Host SMTP",
+        "smtpPort": "Porta SMTP",
+        "smtpUser": "Utente SMTP",
+        "smtpPassword": "Password SMTP"
+      },
+      "placeholders": {
+        "fromName": "Inserisci il nome del mittente",
+        "fromEmail": "Inserisci l’email del mittente",
+        "smtpHost": "smtp.example.com",
+        "smtpPort": "587",
+        "smtpUser": "Inserisci il nome utente SMTP",
+        "smtpPassword": "Inserisci la password SMTP"
+      }
+    },
+    "subdomain": {
+      "name": "Configurazione del sottodominio",
+      "description": "Imposta un sottodominio personalizzato per la tua applicazione",
+      "label": "Sottodominio",
+      "placeholder": "Inserisci il tuo sottodominio",
+      "text": "Inserisci il sottodominio che desideri utilizzare per la tua applicazione",
+      "follow": "Segui questi passaggi:",
+      "stepcount": "Passaggio {{count}}",
+      "step1": "Scegli il nome del tuo sottodominio",
+      "step2": "Indirizza il tuo record A a ",
+      "step3p1": "Verifica la propagazione DNS su ",
+      "step3p2": "DNS Checker",
+      "step4": "Salva la configurazione"
+    },
+    "disconnectDialog": {
+      "title": "Disconnetti integrazione",
+      "message": "Sei sicuro di voler disconnettere questa integrazione? Digita 'delete' per confermare.",
+      "label": "Conferma",
+      "placeholder": "Digita 'delete' per confermare"
+    },
+    "buttons": {
+      "configure": "Configura",
+      "edit": "Modifica",
+      "disconnect": "Disconnetti",
+      "disconnecting": "Disconnessione in corso...",
+      "cancel": "Annulla",
+      "save": "Salva",
+      "saving": "Salvataggio in corso...",
+      "saveConfiguration": "Salva configurazione",
+      "reset": "Ripristina",
+      "testSetting": "Test impostazioni",
+      "testing": "Test in corso...",
+      "loading": "Caricamento..."
+    },
+    "errors": {
+      "title": "Errore",
+      "smtpRequired": "Compila tutti i campi SMTP obbligatori",
+      "smtpValidation": "Controlla la configurazione SMTP",
+      "subdomainRequired": "Inserisci un sottodominio",
+      "noSmtp": "Nessuna configurazione SMTP da disconnettere",
+      "noSubdomain": "Nessun sottodominio da disconnettere",
+      "disconnectConfirmation": "Digita 'delete' per confermare"
+    }
+  },
+  "templates": {
+    "title": "Modelli",
+    "createButton": "Crea",
+    "searchPlaceholder": "Cerca modelli...",
+    "filterPlaceholder": "Filtra per canale",
+    "filter": {
+      "all": "Tutti i canali",
+      "email": "Email",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "table": {
+      "name": "Nome",
+      "channel": "Canale",
+      "status": "Stato",
+      "date": "Data",
+      "action": "Azione"
+    },
+    "status": {
+      "active": "Attivo",
+      "waiting": "In attesa di approvazione"
+    },
+    "actions": {
+      "view": "Visualizza",
+      "delete": "Elimina"
+    },
+    "empty": {
+      "title": "Nessun modello disponibile",
+      "description": "Crea il tuo primo modello di richiesta recensione per iniziare",
+      "button": "Crea modello"
+    },
+    "deleteDialog": {
+      "title": "Elimina modello",
+      "description": "Sei sicuro di voler eliminare questo modello? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina",
+      "deleting": "Eliminazione in corso...",
+      "success": "Modello eliminato correttamente",
+      "error": "Impossibile eliminare il modello"
+    },
+    "bulkDelete": {
+      "button": "Elimina ({{count}})",
+      "success": "{{count}} modelli eliminati correttamente",
+      "error": "Impossibile eliminare i modelli"
+    },
+    "selectAll": "Seleziona tutto",
+    "selectTemplate": "Seleziona {{name}}",
+    "pagination": {
+      "showing": "Mostrando da {{from}} a {{to}} di {{total}} modelli"
+    }
+  },
+  "contacts": {
+    "title": "Contatti",
+    "addButton": "Aggiungi contatto",
+    "empty": {
+      "title": "Nessun contatto trovato",
+      "description": "Inizia aggiungendo il tuo primo contatto"
+    },
+    "error": {
+      "title": "Caricamento contatti non riuscito",
+      "description": "Si è verificato un errore durante il caricamento dei contatti",
+      "retry": "Riprova"
+    },
+    "pagination": {
+      "showing": "Mostrando",
+      "of": "di",
+      "page": "Pagina"
+    },
+    "tabs": {
+      "contacts": "Contatti",
+      "groups": "Gruppi"
+    },
+    "filter": {
+      "searchPlaceholder": "Cerca contatti...",
+      "searchGroupsPlaceholder": "Cerca gruppi...",
+      "all": "Tutti i contatti",
+      "phone": "Numero di telefono",
+      "email": "Email",
+      "group": "Gruppo",
+      "createGroup": "Crea gruppo"
+    },
+    "groupsTable": {
+      "srNo": "N. prog.",
+      "groupName": "Nome gruppo",
+      "contactCount": "Numero di contatti",
+      "action": "Azione",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "editSuccess": "Gruppo aggiornato correttamente",
+      "deleteSuccess": "Gruppo eliminato correttamente",
+      "noGroups": "Nessun gruppo trovato. Crea un gruppo per iniziare."
+    },
+    "table": {
+      "name": "Nome",
+      "description": "Descrizione",
+      "contacts": "Contatti",
+      "phone": "Telefono",
+      "email": "Email",
+      "group": "Gruppo",
+      "addedOn": "Aggiunto il",
+      "action": "Azione"
+    },
+    "actions": {
+      "send": "Invia",
+      "view": "Visualizza",
+      "edit": "Modifica",
+      "delete": "Elimina"
+    },
+    "form": {
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "countryCode": "Prefisso paese",
+      "phone": "Telefono",
+      "email": "Email",
+      "group": "Gruppo",
+      "firstNamePlaceholder": "Inserisci il nome",
+      "lastNamePlaceholder": "Inserisci il cognome",
+      "countryCodePlaceholder": "Seleziona paese",
+      "phonePlaceholder": "Inserisci il numero di telefono",
+      "emailPlaceholder": "Inserisci l’indirizzo email",
+      "selectGroup": "Seleziona gruppi",
+      "noGroups": "Nessun gruppo disponibile"
+    },
+    "deleteDialog": {
+      "title": "Elimina contatto",
+      "description": "Sei sicuro di voler eliminare \"{{contactName}}\"? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina",
+      "deleting": "Eliminazione in corso...",
+      "success": "Contatto eliminato correttamente",
+      "error": "Impossibile eliminare il contatto"
+    },
+    "viewContact": {
+      "title": "Dettagli contatto",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "phone": "Numero di telefono",
+      "email": "Indirizzo email",
+      "addedOn": "Aggiunto il",
+      "groups": "Gruppi",
+      "selectGroup": "Seleziona un gruppo da aggiungere...",
+      "noGroups": "Nessun gruppo assegnato",
+      "addGroup": "Aggiungi",
+      "removeGroup": "Rimuovi gruppo",
+      "close": "Chiudi"
+    },
+    "editContact": {
+      "title": "Modifica contatto",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "firstNamePlaceholder": "Inserisci il nome",
+      "lastNamePlaceholder": "Inserisci il cognome",
+      "countryCode": "Prefisso paese",
+      "phone": "Numero di telefono",
+      "phonePlaceholder": "Inserisci il numero di telefono",
+      "email": "Indirizzo email",
+      "emailPlaceholder": "Inserisci l’indirizzo email",
+      "groups": "Gruppi",
+      "selectGroups": "Seleziona gruppi",
+      "cancel": "Annulla",
+      "save": "Salva",
+      "updating": "Aggiornamento in corso...",
+      "success": "Contatto aggiornato correttamente",
+      "error": "Impossibile aggiornare il contatto",
+      "noChanges": "Nessuna modifica da salvare"
+    },
+    "createGroup": {
+      "title": "Crea nuovo gruppo",
+      "groupName": "Nome gruppo",
+      "groupNamePlaceholder": "Inserisci il nome del gruppo",
+      "description": "Descrizione (opzionale)",
+      "descriptionPlaceholder": "Inserisci la descrizione del gruppo",
+      "contactListTab": "Elenco contatti",
+      "importCsvTab": "Importa CSV",
+      "searchContacts": "Cerca contatti...",
+      "name": "Nome",
+      "phone": "Telefono",
+      "email": "Email",
+      "noContacts": "Nessun contatto trovato",
+      "selectedCount": "{{count}} contatti selezionati",
+      "csvDropzone": "Trascina qui un file CSV oppure clicca per selezionare",
+      "selectFile": "Seleziona file",
+      "selectedFile": "File selezionato",
+      "cancel": "Annulla",
+      "save": "Crea gruppo",
+      "creating": "Creazione in corso...",
+      "success": "Gruppo creato correttamente",
+      "error": "Impossibile creare il gruppo"
+    },
+    "editGroup": {
+      "title": "Modifica gruppo",
+      "groupName": "Nome gruppo",
+      "groupNamePlaceholder": "Inserisci il nome del gruppo",
+      "contactListTab": "Elenco contatti",
+      "importCsvTab": "Importa CSV",
+      "searchContacts": "Cerca contatti...",
+      "name": "Nome",
+      "phone": "Telefono",
+      "email": "Email",
+      "noContacts": "Nessun contatto trovato",
+      "selectedCount": "{{count}} contatti selezionati",
+      "csvDropzone": "Trascina qui un file CSV oppure clicca per selezionare",
+      "selectFile": "Seleziona file",
+      "selectedFile": "File selezionato",
+      "cancel": "Annulla",
+      "save": "Salva modifiche"
+    },
+    "group": {
+      "Failed": "Caricamento gruppi non riuscito",
+      "error": "Si è verificato un errore durante il recupero dei gruppi.",
+      "retry": "Riprova",
+      "noGroup": "Nessun gruppo trovato",
+      "createGroup": "Crea il tuo primo gruppo per organizzare i contatti.",
+      "create": "Crea gruppo"
+    }
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "sendReviewRequest": {
+    "title": "Invia richiesta di recensione",
+    "selectTemplate": "Seleziona un modello",
+    "selectTemplatePlaceholder": "Scegli un modello...",
+    "templateContent": "Contenuto del messaggio",
+    "noTemplatesAvailable": "Nessun modello attivo disponibile",
+    "createTemplateFirst": "Crea prima un modello",
+    "templatePreview": "Anteprima",
+    "cancel": "Annulla",
+    "send": "Invia",
+    "sending": "Invio in corso...",
+    "success": {
+      "title": "Richiesta di recensione inviata",
+      "description": "La tua richiesta di recensione è stata inviata correttamente a {{contactName}}"
+    },
+    "error": {
+      "title": "Invio non riuscito",
+      "description": "Impossibile inviare la richiesta di recensione. Riprova."
+    }
+  }
+}

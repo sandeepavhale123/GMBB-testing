@@ -1,0 +1,54 @@
+{
+  "reviewSummary": "Bewertungsübersicht",
+  "sentimentBreakdown": "Stimmungsanalyse",
+  "reviewsCount": "{{count}} Bewertungen",
+  "positive": "Positiv",
+  "neutral": "Neutral",
+  "negative": "Negativ",
+  "recentReviews": "Neueste Bewertungen",
+  "searchPlaceholder": "Bewertungen suchen...",
+  "filters": {
+    "sortBy": "Sortieren nach",
+    "newest": "Neueste zuerst",
+    "oldest": "Älteste zuerst",
+    "highest": "Höchste Bewertung",
+    "lowest": "Niedrigste Bewertung",
+    "rating": "Bewertung",
+    "allRatings": "Alle Bewertungen",
+    "stars": "{{count}} Sterne",
+    "star": "1 Stern",
+    "sentiment": "Stimmung",
+    "all": "Alle",
+    "replyStatus": "Antwortstatus",
+    "allStatus": "Alle Status",
+    "responded": "Beantwortet",
+    "notResponded": "Nicht beantwortet"
+  },
+  "badges": {
+    "new": "Neu",
+    "noReply": "Keine Antwort",
+    "aiResponded": "KI geantwortet",
+    "manualReply": "Manuelle Antwort"
+  },
+  "buttons": {
+    "generateAIResponse": "KI-Antwort generieren",
+    "replyManually": "Manuell antworten",
+    "useResponse": "Antwort verwenden",
+    "cancel": "Abbrechen",
+    "sendReply": "Antwort senden"
+  },
+  "aiSuggestedResponse": "Von KI vorgeschlagene Antwort",
+  "writeYourReply": "Schreiben Sie Ihre Antwort",
+  "placeholders": {
+    "aiResponse": "Hier wird die von der KI vorgeschlagene Antwort angezeigt...",
+    "manualResponse": "Antwort eingeben..."
+  },
+  "toasts": {
+    "aiGeneratedTitle": "KI-Antwort erstellt",
+    "aiGeneratedDesc": "Die KI hat eine Antwort für diese Bewertung erstellt.",
+    "responseUsedTitle": "Antwort verwendet",
+    "responseUsedDesc": "Die von der KI vorgeschlagene Antwort wurde für diese Bewertung verwendet.",
+    "replySentTitle": "Antwort gesendet",
+    "replySentDesc": "Ihre manuelle Antwort wurde erfolgreich gesendet."
+  }
+}

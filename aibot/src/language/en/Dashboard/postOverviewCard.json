@@ -1,0 +1,24 @@
+{
+  "postOverview": {
+    "title": "Post Overview",
+    "total": "{{count}} total",
+    "status": {
+      "live": {
+        "label": "Live Posts",
+        "message": "All good"
+      },
+      "scheduled": {
+        "label": "Scheduled",
+        "message": "All good"
+      },
+      "failed": {
+        "label": "Failed",
+        "message": "Needs attention"
+      }
+    },
+    "actions": {
+      "create": "Create New Post",
+      "manage": "Manage Posts"
+    }
+  }
+}

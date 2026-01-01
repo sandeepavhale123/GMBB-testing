@@ -1,0 +1,12 @@
+{
+  "qaEmptyState": {
+    "title": {
+      "noQuestions": "Aún no hay preguntas de clientes",
+      "noMatches": "Ninguna pregunta coincide con tus filtros"
+    },
+    "description": {
+      "noQuestions": "Fomenta la participación en tus fichas para aumentar la confianza y la visibilidad.",
+      "noMatches": "Intenta ajustar tus criterios de búsqueda o filtros para ver más resultados."
+    }
+  }
+}

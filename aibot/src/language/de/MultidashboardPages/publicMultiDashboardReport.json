@@ -1,0 +1,127 @@
+{
+  "loading": {
+    "config": "Lade Berichtskonfiguration...",
+    "dashboard": "Lade Dashboard-Daten..."
+  },
+  "error": {
+    "config": "Berichtskonfiguration konnte nicht geladen werden",
+    "dashboard": "Dashboard-Daten konnten nicht geladen werden",
+    "retry": "Erneut versuchen"
+  },
+  "dashboardTypes": {
+    "default": "Standard",
+    "insight": "Einblick",
+    "review": "Bewertung",
+    "location": "Standort",
+    "post": "Beitrag"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Gesamtanzahl der Einträge",
+      "subtitle": "Aktive Standorte"
+    },
+    "avgRating": {
+      "title": "Durchschnittliche Bewertung",
+      "subtitle": "Über alle Einträge hinweg"
+    },
+    "totalPosts": {
+      "title": "Gesamtanzahl der Beiträge",
+      "subtitle": "Veröffentlichte Inhalte"
+    },
+    "totalReviews": {
+      "title": "Gesamtanzahl der Bewertungen",
+      "subtitle": "Kundenfeedback"
+    }
+  },
+  "listing": "GMB-Eintrag – {{name}} Dashboard",
+  "allcategories": "Alle Kategorien",
+  "filters": {
+    "dashboardSelector": "Dashboard-Typ auswählen",
+    "default": "Standard-Dashboard",
+    "insight": "Einblick-Dashboard",
+    "review": "Bewertungs-Dashboard",
+    "location": "Standort-Dashboard",
+    "post": "Beitrags-Dashboard",
+    "searchPlaceholder": "Nach Eintragsname oder Postleitzahl suchen.",
+    "categories": "Alle Kategorien",
+    "locations": "Alle Standorte",
+    "reviews": {
+      "all": "Alle Bewertungen",
+      "unresponded": "Nicht beantwortete Bewertung",
+      "unrespondedARE": "Nicht beantwortete ARE",
+      "unrespondedDNR": "Nicht beantwortete DNR",
+      "excludeARE": "ARE-Bewertungen ausschließen",
+      "excludeDNR": "DNR-Bewertungen ausschließen",
+      "excludeBoth": "ARE/DNR-Bewertungen ausschließen"
+    },
+    "posts": {
+      "status": "Beitragsstatus",
+      "all": "Alle Status",
+      "live": "Live",
+      "scheduled": "Geplant",
+      "failed": "Fehlgeschlagen"
+    },
+    "insightDays": "Zeitraum",
+    "reviewDays": "Bewertungszeitraum",
+    "allTime": "Gesamter Zeitraum",
+    "last7Days": "Letzte 7 Tage",
+    "last30Days": "Letzte 30 Tage",
+    "last90Days": "Letzte 90 Tage",
+    "last6Months": "Letzte 6 Monate",
+    "last9Months": "Letzte 9 Monate",
+    "last12Months": "Letzte 12 Monate",
+    "customRange": "Benutzerdefinierter Zeitraum"
+  },
+  "content": {
+    "showing": "Zeige {{count}} von {{total}} {{type}}",
+    "noData": "Keine Daten verfügbar",
+    "imageNotAvailable": "Bild nicht verfügbar",
+    "untitledPost": "Beitrag ohne Titel",
+    "openOnGoogle": "Auf Google öffnen",
+    "viewOnGoogle": "Auf Google My Business ansehen",
+    "img": "BILD"
+  },
+  "labels": {
+    "id": "ID: {{id}}",
+    "zip": "PLZ: {{zipcode}}",
+    "state": "Bundesland: {{city}}",
+    "visibility": "Sichtbarkeit",
+    "search": "Suche",
+    "maps": "Karten",
+    "total": "Gesamt",
+    "customerActions": "Kundenaktionen",
+    "clicks": "Klicks",
+    "directions": "Wegbeschreibungen",
+    "calls": "Anrufe",
+    "messages": "Nachrichten",
+    "reviewStats": "Bewertungsstatistiken",
+    "reviewsReplies": "Bewertungen / Antworten",
+    "autoReply": "Automatische Antwort",
+    "reviewSentiment": "Bewertungssentiment",
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "photos": "Fotos",
+    "rating": "Bewertung",
+    "website": "Webseite",
+    "map": "Karte",
+    "lastPosts": "Letzte Beiträge",
+    "upcoming": "Bevorstehend",
+    "lastPost": "Letzter Beitrag",
+    "upcomingPost": "Bevorstehend",
+    "zipLabel": "PLZ:",
+    "na": "N/V",
+    "totalView": "Gesamtansichten",
+    "stateLabel": "Bundesland",
+    "reviewLabel": "Bewertungen",
+    "zipcodeLabel": "Postleitzahl",
+    "nopost": "Kein Beitrag"
+  },
+  "pagination": {
+    "pageOf": "Seite {{current}} von {{total}}",
+    "previous": "Zurück",
+    "next": "Weiter"
+  }
+}

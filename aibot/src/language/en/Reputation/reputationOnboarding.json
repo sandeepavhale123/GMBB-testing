@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Manage Your Reputation in One Place",
+    "description": "Send review requests to your customers, handle negative feedback with care, create quick survey campaigns to collect opinions, and share your best reviews on social media — all from one easy-to-use dashboard."
+  },
+  "importListings": {
+    "title": "Import Existing Listings",
+    "description": "Easily import and review all your current listings with one click. Stay organized and ensure your business information is always up to date.",
+    "select": "Select",
+    "selectAll": "Select All",
+    "importButton": "Import Selected Listings",
+    "noListing":"No listings available to import.",
+    "importing":"Importing...",
+    "success":"Import Successful",
+    "listing":"listing(s) imported successfully.",
+    "ok":"OK"
+  },
+  "addListing": {
+    "title": "Add Listing",
+    "subtitle": "Didn't find your business in the listings?",
+    "noWorries": "No worries",
+    "description": "— Add a new one in seconds and start tracking reviews, ratings, and reputation performance instantly.",
+    "button": "Add Google Account",
+    "impoted":"(Imported)"
+  },
+  "addBusiness": {
+    "title": "Add Business",
+    "description": "Search for your business and add it to start managing reviews, ratings, and reputation.",
+    "placeholder": "Search for a business...",
+    "addButton": "Add Business",
+    "addingButton": "Adding...",
+    "successTitle": "Business Added",
+    "successDescription": "Your business has been added successfully.",
+    "errorTitle": "Error",
+    "errorDescription": "Failed to add business. Please try again.",
+    "selectBusiness": "Please select a valid business",
+    "note":"Note",
+    "noteDescription":"Business added but could not auto-select. Please select manually."
+  },
+    "errors": {
+    "retry": "Try Again",
+    "importFailedTitle": "Import Failed",
+    "importFailedDescription": "Failed to import listings.",
+    "generic": "Something went wrong. Please try again.",
+    "listingError":"An error occurred while importing listings"
+  },
+  "reputation":"Reputation Management",
+  "searchPlaceholder":"Search listings..."
+
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Gérer les Comptes",
+  "subtitle": "Connectez et gérez vos comptes de réseaux sociaux",
+
+  "button_connect_new": "Connecter un Nouveau",
+
+  "search_placeholder": "Rechercher des comptes...",
+
+  "filters": {
+    "all_platforms": "Toutes les plateformes",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin_individual": "LinkedIn (Individuel)",
+    "linkedin_organisation": "LinkedIn (Organisation)",
+    "threads": "Threads",
+
+    "all_status": "Tous les statuts",
+    "healthy": "Sain",
+    "warning": "Avertissement",
+    "error": "Erreur",
+    "disconnected": "Déconnecté"
+  },
+
+  "toast": {
+    "success_title": "Connexion réussie !",
+    "failed_title": "Échec de la connexion",
+    "success_desc": "Connecté avec succès",
+    "success_description_default": "Compte {{platform}} connecté avec succès",
+    "failed_description_default": "Échec de la connexion du compte {{platform}}"
+  }
+}

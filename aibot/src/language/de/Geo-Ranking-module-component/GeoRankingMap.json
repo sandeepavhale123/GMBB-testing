@@ -1,0 +1,36 @@
+{
+  "title": {
+    "default": "Geo-Ranking-Karte",
+    "processing": "Verarbeite Keyword...",
+    "results": "Keyword-Ranking-Ergebnisse"
+  },
+  "mapPopup": {
+    "yourBusiness": "Ihr Unternehmen",
+    "primaryLocation": "Hauptstandort",
+    "gridPoint": "Rasterpunkt {{index}}",
+    "awaitingResults": "Warte auf Ergebnisse...",
+    "rank": "Rang: {{rank}}",
+    "clickForDetails": "Für Details klicken",
+    "manualCoordinate": "Manuelle Koordinate {{index}}",
+    "lat": "Breite: {{lat}}, Länge: {{lng}}",
+    "drag": "Zum Verschieben ziehen",
+    "remove": "Entfernen"
+  },
+  "loading": {
+    "keywordTitle": "Keyword-Daten werden verarbeitet",
+    "gridTitle": "Kartendaten werden geladen",
+    "keywordSubtitle": "Suchrankings werden analysiert...",
+    "gridSubtitle": "Rasterkoordinaten werden generiert..."
+  },
+  "zoom": {
+    "in": "Hineinzoomen",
+    "out": "Herauszoomen"
+  },
+  "legend": {
+    "title": "Ranking-Legende",
+    "top": "1-3 (Top)",
+    "good": "4-10 (Gut)",
+    "fair": "11-15 (Befriedigend)",
+    "poor": "16+ (Schlecht)"
+  }
+}

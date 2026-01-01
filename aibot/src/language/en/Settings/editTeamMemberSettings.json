@@ -1,0 +1,80 @@
+{
+  "editTeamMemberSettings": {
+    "loading": {
+      "text": "Loading team member..."
+    },
+    "errors": {
+      "editError": "Error loading team member",
+      "notFound": "Team member not found",
+      "listingsError": "Error loading listings: {{error}}",
+      "updateProfile": "Failed to update profile",
+      "updateListings": "Failed to update listing assignments",
+      "updateListing": "Failed to update listing assignment"
+    },
+    "buttons": {
+      "back": "Back",
+      "backToTeamMembers": "Back to Team Members",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "tabs": {
+      "profile": "Profile",
+      "assignListings": "Assign listings"
+    },
+    "profile": {
+      "title": "Edit Team Member",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email Id",
+      "password": "Password",
+      "passwordPlaceholder": "Leave empty to keep current password",
+      "role": "Select Role",
+      "roles": {
+        "moderator": "Moderator",
+        "staff": "Staff",
+        "client": "Client"
+      }
+    },
+    "listings": {
+      "title": "Listing Management",
+      "filter": {
+        "googleAccount": "Google Account",
+        "searchPlaceholder": "Search accounts...",
+        "noAccounts": "No accounts found",
+        "assignedListings": "Assigned Listings"
+      },
+      "table": {
+        "businessName": "Business Name",
+        "account": "Account",
+        "assign": "Assign",
+        "loading": "Loading listings...",
+        "noListings": "No listings found for the selected account"
+      },
+      "pagination": {
+        "pageInfo": "Page {{current}} of {{total}} • {{count}} listings",
+        "show": "Show:",
+        "page": "Page",
+        "of": "of"
+      },
+      "badge": {
+        "assigned": "{{count}} Assigned"
+      }
+    },
+    "toasts": {
+      "success": {
+        "title":"Success",
+        "profileUpdated": "Team member profile updated successfully",
+        "listingsUpdated": "Listing assignments updated successfully",
+        "listingUpdated": "Listing assignment updated successfully"
+      },
+      "error": {
+        "title":"Error",
+        "profileUpdate": "Failed to update profile",
+        "listingsUpdate": "Failed to update listing assignments"
+      }
+    },
+    "totalReplies": "Total Replies"
+  }
+}

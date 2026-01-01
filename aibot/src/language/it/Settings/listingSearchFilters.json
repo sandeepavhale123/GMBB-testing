@@ -1,0 +1,19 @@
+{
+  "listingSearchFilters": {
+    "searchPlaceholder": "Cerca annunci...",
+    "filterStatusPlaceholder": "Filtra per stato",
+    "filterStatus": {
+      "all": "Tutti gli stati",
+      "verified": "Verificato",
+      "unverified": "Non verificato",
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "filterActivePlaceholder": "Filtra per attività",
+    "filterActive": {
+      "all": "Tutti gli annunci",
+      "active": "Solo attivi",
+      "inactive": "Solo inattivi"
+    }
+  }
+}

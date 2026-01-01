@@ -1,0 +1,33 @@
+{
+  "title": {
+    "create": "Créer",
+    "manage": "Gérer",
+    "ratingOnly": "Seulement la note",
+    "review": "Avis"
+  },
+  "availableVariables": "Variables disponibles",
+  "variables": {
+    "fullName": "{full_name}",
+    "firstName": "{first_name}",
+    "lastName": "{last_name}",
+    "businessName": "{business_name}",
+    "reviewContent": "{review_content}"
+  },
+  "multipleResponses": {
+    "title": "Réponses multiples",
+    "description": "Utilisez le symbole | pour séparer plusieurs variantes de réponse.",
+    "example": "Réponse 1 | Réponse 2 | Réponse 3"
+  },
+  "templateContent": "Contenu du modèle",
+  "placeholder": {
+    "ratingOnly": "Saisir la réponse pour les avis avec seulement une note...",
+    "review": "Saisir le modèle de réponse pour les avis avec commentaires..."
+  },
+  "usageInfo": "Ce modèle sera utilisé pour les réponses {{stars}} étoiles de type {{type}}.",
+  "buttons": {
+    "cancel": "Annuler",
+    "createTemplate": "Créer le modèle",
+    "saveChanges": "Enregistrer les modifications",
+    "saving": "Enregistrement..."
+  }
+}

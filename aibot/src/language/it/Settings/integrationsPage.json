@@ -1,0 +1,157 @@
+{
+  "integrations": {
+    "title": "Integrazioni",
+    "subtitle": "Gestisci le integrazioni di terze parti e le connessioni API.",
+
+    "mapApi": {
+      "name": "Chiave API Google Maps",
+      "description": "Configura i servizi di mappa per le funzionalità basate sulla posizione.",
+      "configureTitle": "Configura la chiave API Google Maps",
+      "label": "Chiave API Google Places",
+      "placeholder": "Inserisci la tua chiave API Google Places",
+      "helper": "Questa chiave API verrà utilizzata per tutte le funzionalità basate sulla posizione, inclusi Geo Ranking e i servizi di mappa.",
+      "howToTitle": "Come generare una chiave API Google Places",
+      "steps": {
+        "1": "Nota: è necessario abilitare la fatturazione per il progetto Google.",
+        "2-p1": "Visita la ",
+        "2-p2": "console di Google Cloud Platform.",
+        "3": "Fai clic sul menu a discesa del progetto e seleziona o crea il progetto per il quale desideri aggiungere una chiave API.",
+        "4": "Dalla dashboard → Vai alla panoramica delle API → Fai clic su Libreria → Abilita l’API Maps JavaScript e l’API Places.",
+        "5": "Successivamente fai clic sul pulsante del menu e seleziona API e servizi → Credenziali.",
+        "6": "Nella pagina Credenziali, nel menu a discesa Crea credenziali, seleziona l’opzione Chiave API.",
+        "7": "Apparirà una finestra di dialogo che mostrerà la tua chiave API appena creata — copiala.",
+        "8": "Usa o incolla la chiave generata in Geo Ranking → scheda Gestisci chiave. (Attività una tantum — solo al primo utilizzo del controllo GEO Ranking).",
+        "9": "Una volta aggiunta, la chiave verrà utilizzata per tutte le tue schede e non sarà più necessario generare una chiave separata per ogni scheda GMB."
+      }
+    },
+
+    "smtp": {
+      "name": "Dettagli SMTP",
+      "description": "Configura le impostazioni del server di posta elettronica per le notifiche.",
+      "configureTitle": "Configura le impostazioni SMTP",
+      "labels": {
+        "fromName": "Nome mittente",
+        "fromEmail": "Email mittente",
+        "smtpHost": "Host SMTP",
+        "smtpPort": "Porta SMTP",
+        "smtpUser": "Utente SMTP",
+        "smtpPassword": "Password SMTP"
+      },
+      "placeholders": {
+        "fromName": "Il tuo nome o azienda",
+        "fromEmail": "tuo-email@esempio.com",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "nome utente",
+        "smtpPassword": "password"
+      }
+    },
+
+    "subdomain": {
+      "name": "Configurazione del sottodominio",
+      "description": "Configura un sottodominio white label per i tuoi report.",
+      "label": "Inserisci il sottodominio",
+      "configureTitle": "Configura sottodominio",
+      "placeholder": "esempio",
+      "text": "Inserisci il sottodominio desiderato (senza .com o altre estensioni)",
+      "follow": "Segui i passaggi seguenti:",
+      "stepcount": "Passaggio {{count}}:",
+      "step1": "Aggiungi qui il sottodominio white label e salvalo.",
+      "step2": "Aggiungi l’indirizzo IP nel gestore DNS come record A:",
+      "step3p1": "Controlla la propagazione DNS su:",
+      "step3p2": "dnschecker.org",
+      "step4": "Una volta completato, informaci e aggiorneremo la tua richiesta entro le prossime 24 ore."
+    },
+
+    "mailgun": {
+      "name": "Mailgun",
+      "description": "Configura il servizio email Mailgun per l’invio di email.",
+      "configureTitle": "Configura Mailgun",
+      "labels": {
+        "apiKey": "Chiave API",
+        "domain": "Dominio",
+        "region": "Regione",
+        "fromEmail": "Email mittente",
+        "fromName": "Nome mittente",
+        "replyToEmail": "Email di risposta",
+        "configName": "Nome configurazione"
+      },
+      "placeholders": {
+        "apiKey": "Inserisci la tua chiave API Mailgun",
+        "domain": "mg.tuodominio.com",
+        "fromEmail": "noreply@tuodominio.com",
+        "fromName": "La tua azienda",
+        "replyToEmail": "support@tuodominio.com",
+        "configName": "La mia configurazione Mailgun"
+      },
+      "regions": {
+        "us": "USA",
+        "eu": "UE"
+      }
+    },
+
+    "twilio": {
+      "name": "Twilio",
+      "description": "Collega Twilio per i servizi di messaggistica SMS e WhatsApp.",
+      "configureTitle": "Configura Twilio",
+      "labels": {
+        "accountSid": "SID account",
+        "authToken": "Token di autenticazione",
+        "configName": "Nome configurazione"
+      },
+      "placeholders": {
+        "accountSid": "Inserisci il SID del tuo account Twilio",
+        "authToken": "Inserisci il tuo token di autenticazione Twilio",
+        "configName": "Il mio account Twilio"
+      }
+    },
+
+    "citationButton": {
+      "name": "Pulsante citazione",
+      "description": "Personalizza il pulsante Effettua ordine che appare nei report pubblici delle citazioni."
+    },
+
+    "buttons": {
+      "configure": "Configura",
+      "edit": "Modifica",
+      "disconnect": "Disconnetti",
+      "cancel": "Annulla",
+      "saveConfiguration": "Salva configurazione",
+      "saving": "Salvataggio...",
+      "loading": "Caricamento...",
+      "disconnecting": "Disconnessione...",
+      "reset": "Ripristina",
+      "testing": "Test in corso...",
+      "testSetting": "Testa impostazioni SMTP",
+      "save": "Salva"
+    },
+
+    "status": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+
+    "disconnectDialog": {
+      "title": "Conferma disconnessione",
+      "message": "Sei sicuro di voler disconnettere questa integrazione? Questa azione non può essere annullata.",
+      "label": "Digita \"delete\" per confermare:",
+      "placeholder": "Digita 'delete' per confermare"
+    },
+
+    "errors": {
+      "title": "Errore",
+      "apiKeyRequired": "Inserisci una chiave API valida",
+      "disconnectConfirmation": "Digita 'delete' per confermare la disconnessione",
+      "noApiKey": "Nessuna chiave API trovata da disconnettere",
+      "noSmtp": "Nessuna configurazione SMTP trovata da disconnettere",
+      "noSubdomain": "Nessun sottodominio trovato da disconnettere",
+      "noMailgun": "Nessuna configurazione Mailgun trovata da disconnettere",
+      "noTwilio": "Nessuna configurazione Twilio trovata da disconnettere",
+      "smtpRequired": "Compila tutti i campi richiesti prima del test",
+      "smtpValidation": "Correggi gli errori di validazione",
+      "subdomainRequired": "Inserisci un sottodominio",
+      "mailgunValidation": "Correggi gli errori di validazione",
+      "twilioValidation": "Correggi gli errori di validazione"
+    }
+  }
+}

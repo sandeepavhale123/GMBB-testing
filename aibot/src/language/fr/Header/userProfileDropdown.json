@@ -1,0 +1,13 @@
+{
+  "userProfileDropdown": {
+    "defaultUserName": "Utilisateur",
+    "defaultUserEmail": "utilisateur@example.com",
+    "viewProfile": "Voir le profil",
+    "accountSettings": "Paramètres du compte",
+    "logout": "Se déconnecter",
+    "switchToBulk": "Passer au tableau de bord groupé",
+    "switchToSingle": "Passer au tableau de bord individuel",
+    "switchSuccess": "Tableau de bord changé",
+    "switchError": "Échec du changement"
+  }
+}

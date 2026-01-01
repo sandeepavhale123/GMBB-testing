@@ -1,0 +1,60 @@
+{
+  "addTeamMemberModal": {
+    "title": "Ajouter un nouveau membre de l'équipe",
+    "profile": {
+      "uploadPhoto": "Téléverser une photo"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Prénom",
+        "placeholder": "Entrez le prénom"
+      },
+      "lastName": {
+        "label": "Nom",
+        "placeholder": "Entrez le nom"
+      },
+      "email": {
+        "label": "Adresse e-mail",
+        "placeholder": "Entrez l'adresse e-mail"
+      },
+      "password": {
+        "label": "Mot de passe",
+        "placeholder": "Entrez le mot de passe",
+        "show": "Afficher le mot de passe",
+        "hide": "Masquer le mot de passe"
+      },
+      "role": {
+        "label": "Rôle",
+        "placeholder": "Sélectionner un rôle",
+        "options": {
+          "moderator": "Modérateur",
+          "staff": "Équipe",
+          "client": "Client"
+        }
+      }
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "add": "Ajouter le membre",
+      "adding": "Ajout en cours..."
+    },
+    "messages": {
+      "validationError": {
+        "title": "Erreur de validation",
+        "description": "Veuillez corriger les champs mis en évidence."
+      },
+      "invalidEmail": {
+        "title": "E-mail invalide",
+        "description": "Veuillez entrer une adresse e-mail valide."
+      },
+      "success": {
+        "title": "Membre ajouté",
+        "description": "{{firstName}} {{lastName}} a été ajouté avec succès."
+      },
+      "error": {
+        "title": "Erreur",
+        "default": "Échec de l'ajout du membre. Veuillez réessayer."
+      }
+    }
+  }
+}

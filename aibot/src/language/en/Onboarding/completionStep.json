@@ -1,0 +1,16 @@
+{
+  "completionStep": {
+    "welcomeTitle": "🎉 Welcome to GMB Briefcase!",
+    "welcomeDescription": "Your account is set up and ready to go. Here's what you can do next:",
+    "helpSection": {
+      "title": "Need Help Getting Started?",
+      "description": "Our team is here to help you succeed. Access our knowledge base, video tutorials, or schedule a free onboarding call.",
+      "buttons": {
+        "helpCenter": "View Help Center",
+        "onboardingCall": "Schedule Onboarding Call"
+      }
+    },
+    "goToDashboardButton": "Go to Dashboard"
+  }
+  
+}

@@ -1,0 +1,20 @@
+{
+  "listingsTable": {
+    "headers": {
+      "business": "Attività",
+      "storeCode": "Codice negozio",
+      "category": "Categoria",
+      "location": "Posizione",
+      "status": "Stato",
+      "state": "Regione",
+      "actions": "Azioni"
+    },
+    "status": {
+      "verified": "Verificato",
+      "pending": "In sospeso",
+      "suspended": "Sospeso"
+    },
+    "noListings": "Nessun elenco trovato che corrisponda ai tuoi criteri.",
+    "tootltip": "Attiva o disattiva i tuoi elenchi usando l'interruttore"
+  }
+}

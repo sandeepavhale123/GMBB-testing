@@ -1,0 +1,11 @@
+{
+  "postTypeSelector": {
+    "label": "Beitragstyp",
+    "placeholder": "Beitragstyp auswählen",
+    "types": {
+      "regular": "Normaler Beitrag",
+      "event": "Event-Beitrag",
+      "offer": "Angebotsbeitrag"
+    }
+  }
+}

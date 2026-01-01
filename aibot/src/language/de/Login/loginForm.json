@@ -1,0 +1,17 @@
+{
+  "signInAccount": "Melden Sie sich bei Ihrem Konto an",
+  "emailLabel": "E-Mail",
+  "passwordLabel": "Passwort",
+  "rememberMe": "Angemeldet bleiben",
+  "forgotPassword": "Passwort vergessen?",
+  "logInButton": "Anmelden",
+  "loggingIn": "Anmeldung läuft...",
+  "validationErrorTitle": "Validierungsfehler",
+  "validationErrorDescription": "Bitte beheben Sie die markierten Felder und versuchen Sie es erneut.",
+  "subscriptionExpiredTitle": "Abonnement abgelaufen",
+  "subscriptionExpiredDescription": "Ihr Plan ist abgelaufen. Bitte erneuern Sie ihn, um fortzufahren.",
+  "loginSuccessTitle": "Erfolg",
+  "loginSuccessDescription": "Erfolgreich angemeldet!",
+  "loginErrorTitle": "Fehler",
+  "loginErrorDescription": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Zugangsdaten."
+}

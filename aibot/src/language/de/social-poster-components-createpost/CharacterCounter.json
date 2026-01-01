@@ -1,0 +1,16 @@
+{
+  "labels": {
+    "character_limit": "Zeichenlimit",
+    "no_limit": "Kein Limit",
+    "over_limit_suffix": "über Limit"
+  },
+  "platforms": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "threads": "Threads",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "status": {
+    "enabled": "Aktiviert",
+    "disabled": "Deaktiviert"
+  },
+  "content": {
+    "noContent": "Kein Inhalt",
+    "noTemplate": "Keine Vorlage erstellt"
+  },
+  "actions": {
+    "manage": "Verwalten",
+    "create": "Erstellen"
+  }
+}

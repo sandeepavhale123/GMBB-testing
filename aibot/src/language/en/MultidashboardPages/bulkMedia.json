@@ -1,0 +1,47 @@
+{
+  "header": {
+    "title": "Bulk Media Management",
+    "subtitle": "Upload and organize media across multiple listings."
+  },
+  "buttons": {
+    "upload": "Upload Media",
+    "tryAgain": "Try Again",
+    "viewDetails": "View Details",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+  "messages": {
+    "errorLoading": "Error loading bulk media: {{error}}",
+    "noMediaTitle": "No bulk media yet",
+    "noMediaDescription": "Upload your first bulk media to get started",
+    "noImage": "No image",
+    "noActivePosts": "No active posts",
+    "postedOn": "Posted on {{count}} listings",
+    "failedOn": "Failed on {{count}} listings",
+    "scheduledOn": "Scheduled on {{count}} listings"
+  },
+  "mediaTypes": {
+    "video": "Video",
+    "photo": "Photo"
+  },
+  "location":"total locations",
+  "pagination": {
+    "showing": "Showing {{from}} to {{to}} of {{total}} media"
+  },
+  "deleteDialog": {
+    "title": "Delete Media",
+    "description": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone and will remove the media from all associated listings.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "toast": {
+    "success": {
+      "title": "Success",
+      "description": "Media deleted successfully"
+    },
+    "error": {
+      "title": "Error",
+      "description": "Failed to delete media. Please try again."
+    }
+  }
+}

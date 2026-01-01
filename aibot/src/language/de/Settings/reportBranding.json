@@ -1,0 +1,98 @@
+{
+  "reportBranding": {
+    "title": "Berichtsbranding",
+    "description": "Passen Sie das Branding Ihres Unternehmens für die erstellten Berichte an.",
+    "deleteBranding": "Branding löschen",
+    "whiteLabel": "White Label",
+    "companyInformation": "Unternehmensinformationen",
+    "fields": {
+      "companyName": {
+        "label": "Firmenname",
+        "placeholder": "Firmennamen eingeben",
+        "error": "Firmenname ist erforderlich"
+      },
+      "companyEmail": {
+        "label": "Firmen-E-Mail",
+        "placeholder": "firma@beispiel.de",
+        "error": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      },
+      "companyWebsite": {
+        "label": "Firmenwebseite",
+        "placeholder": "https://www.firma.de",
+        "error": "Bitte geben Sie eine gültige Webseiten-URL ein"
+      },
+      "companyPhone": {
+        "label": "Firmentelefon",
+        "placeholder": "+49 (0) 123 4567890",
+        "error": "Bitte geben Sie eine gültige Telefonnummer ein"
+      },
+      "companyAddress": {
+        "label": "Firmenadresse",
+        "placeholder": "Musterstraße 1, 12345 Stadt",
+        "error": "Bitte geben Sie eine gültige Adresse ein"
+      },
+      "companyLogo": {
+        "label": "Firmenlogo",
+        "chooseButton": "Logo auswählen",
+        "removeButton": "Logo entfernen",
+        "fileTooLarge": {
+          "title": "Datei zu groß",
+          "description": "Die Logodatei darf nicht größer als 2MB sein"
+        },
+        "invalidFile": {
+          "title": "Ungültiger Dateityp",
+          "description": "Bitte laden Sie eine Bilddatei hoch (PNG, JPG, SVG)"
+        },
+        "uploaded": {
+          "title": "Berichtslogo hochgeladen",
+          "description": "{{fileName}} bereit zur Verwendung"
+        },
+        "removed": {
+          "title": "Berichtslogo entfernt",
+          "description": "Das Logo wurde erfolgreich entfernt"
+        },
+        "dropHere": "Logo hierher ziehen zum Hochladen",
+        "requirements": "PNG, JPG, SVG bis zu 2MB. Empfohlen: 200 x 200px",
+        "ready": "✓ Bereit",
+        "current": "✓ Aktuelles Logo hochgeladen",
+        "selected": "Ausgewählt: {{fileName}}"
+      }
+    },
+    "saveChanges": {
+      "button": "Änderungen speichern",
+      "saving": "Speichern..."
+    },
+    "reportPreview": {
+      "title": "Berichtsvorschau",
+      "header": {
+        "companyNamePlaceholder": "Ihr Firmenname",
+        "websitePlaceholder": "www.ihrefirma.de",
+        "reportDate": "Berichtsdatum"
+      },
+      "metrics": {
+        "avgRating": "Durchschnittsbewertung",
+        "totalReviews": "Gesamtbewertungen"
+      },
+      "chart": {
+        "title": "Leistungsdiagramm"
+      },
+      "footer": {
+        "emailPlaceholder": "kontakt@ihrefirma.de",
+        "phonePlaceholder": "+49 (0) 123 4567890",
+        "addressPlaceholder": "Musterstraße 1, Stadt, Bundesland",
+        "generatedOn": "Erstellt am"
+      }
+    },
+    "deleteDialog": {
+      "title": "Berichtsbranding löschen",
+      "description": "Sind Sie sicher, dass Sie alle Branding-Einstellungen für Berichte löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt Ihr Firmenlogo sowie Ihre Unternehmensinformationen aus allen zukünftigen Berichten.",
+      "cancel": "Abbrechen",
+      "delete": "Branding löschen",
+      "deleting": "Löschen..."
+    },
+    "validation": {
+      "errorTitle": "Fehler",
+      "errorDescription": "Bitte beheben Sie die Validierungsfehler"
+    }
+  }
+}

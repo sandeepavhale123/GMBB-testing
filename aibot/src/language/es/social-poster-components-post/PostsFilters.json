@@ -1,0 +1,31 @@
+{
+  "search": {
+    "placeholder": "Buscar publicaciones..."
+  },
+
+  "status": {
+    "placeholder": "Filtrar por estado",
+    "all": "Todos los estados",
+    "draft": "Borrador",
+    "scheduled": "Programada",
+    "publishing": "Publicando",
+    "published": "Publicado",
+    "failed": "Fallida"
+  },
+
+  "platform.placeholder": "Filtrar por plataforma",
+  "platform.all": "Todas las plataformas",
+  "platform.facebook": "Facebook",
+  "platform.instagram": "Instagram",
+  "platform.twitter": "Twitter",
+  "platform.linkedin_individual": "LinkedIn (Individual)",
+  "platform.linkedin_organisation": "LinkedIn (Organización)",
+  "platform.threads": "Threads",
+  "platform.pinterest": "Pinterest",
+  "platform.youtube": "YouTube",
+
+  "dateRange.placeholder": "Seleccionar rango de fechas",
+
+  "view.list": "Lista",
+  "view.grid": "Cuadrícula"
+}

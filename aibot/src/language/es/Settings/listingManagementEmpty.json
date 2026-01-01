@@ -1,0 +1,7 @@
+{
+  "listingManagementEmpty": {
+    "title": "No se encontraron listados",
+    "searchMessage": "Ningún listado coincide con \"{{searchTerm}}\". Prueba con otro término de búsqueda.",
+    "filterMessage": "Ningún listado coincide con tus filtros actuales. Intenta ajustar tus filtros."
+  }
+}

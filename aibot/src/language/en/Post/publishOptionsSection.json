@@ -1,0 +1,40 @@
+{
+  "publishOptionsSection": {
+    "label": "Publish Options",
+    "publishOptionLabel": "Publish Option",
+    "publishNow": "Publish Now",
+    "schedulePost": "Schedule Post",
+    "autoSchedule": "Auto Scheduling",
+    "scheduleLabel": "Schedule Date & Time",
+    "scheduleFrequencyLabel": "Schedule Frequency",
+    "frequencies": {
+      "daily": "Every Day",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    },
+    "dayLabel": "Day",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "recurrenceCountLabel": "Recurrence Count",
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "placeholder": {
+      "publishOption": "Choose publish option",
+      "postTags": "Enter tags separated by commas",
+      "selectFrequency": "Select frequency",
+      "selectDay": "Select day",
+      "selectDate": "Select date",
+      "selectTime": "Select time",
+      "recurrenceCount": "Enter count"
+    },
+    "postTagsLabel": "Post Tags",
+    "siloCheckbox": "Add previous post tag url by this post (Silo post)."
+  }
+}

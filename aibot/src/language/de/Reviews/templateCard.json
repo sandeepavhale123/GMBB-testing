@@ -1,0 +1,41 @@
+{
+  "templateCard": {
+    "noTemplate": "Noch keine Vorlage erstellt",
+    "enable": "Aktivieren",
+    "enabling": "Wird aktiviert...",
+    "disable": "Deaktivieren",
+    "disabling": "Wird deaktiviert...",
+    "manage": "Verwalten",
+    "create": "Erstellen",
+    "availableVariables": "Verfügbare Variablen",
+    "multipleResponses": {
+      "title": "Mehrere Antworten",
+      "note": "Hinweis: Wenn Sie mehrere Antworten verwenden möchten, verwenden Sie nach jeder Antwort ein Pipe-Symbol (|)."
+    },
+    "templateContent": "Vorlageninhalt",
+    "textareaPlaceholder": "Geben Sie Ihre Vorlagenantwort ein...",
+    "more": "mehr Varianten",
+    "systemTemplateNotice": "Dies ist eine Systemvorlage, die aus Ihren Einstellungen geladen wurde. Änderungen sollten über das Haupt-Einstellungsmenü vorgenommen werden.",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "save": "Vorlage speichern",
+    "saving": "Speichern...",
+    "manageDialog": {
+      "title": {
+        "rating": "{{starRating}}-Sterne-Vorlage verwalten",
+        "ratingOnly": "Nur Bewertungs-Vorlage verwalten"
+      }
+    },
+    "disableDialog": {
+      "title": "Sind Sie sicher, dass Sie diese Bewertung entfernen möchten?",
+      "confirm": "Ja, entfernen"
+    },
+    "toast": {
+      "error": {
+        "title": "Fehler",
+        "enable": "Automatische Antwort konnte nicht aktiviert werden.",
+        "disable": "Automatische Antwort konnte nicht deaktiviert werden."
+      }
+    }
+  }
+}

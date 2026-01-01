@@ -1,0 +1,16 @@
+{
+  "title": "Bericht teilen",
+  "validation": {
+    "selectAtLeastOne": "Bitte wählen Sie mindestens ein Listing oder eine Gruppe aus"
+  },
+  "errors": {
+    "failed": "Bericht konnte nicht erstellt werden",
+    "failedRetry": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+    "toastTitle": "Fehler",
+    "toastDescription": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+  },
+  "buttons": {
+    "cancel": "Abbrechen",
+    "generate": "Bericht erstellen"
+  }
+}

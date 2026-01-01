@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "steps": {
+      "1": {
+        "title": "Informazioni sull'azienda",
+        "description": "Inserisci i dettagli della tua attività per iniziare"
+      },
+      "2": {
+        "title": "Definisci il tuo obiettivo",
+        "description": "Scegli cosa desideri ottenere con questa configurazione"
+      },
+      "3": {
+        "title": "Collega l'account Google",
+        "description": "Collega in modo sicuro il tuo account Google per l'integrazione"
+      },
+      "4": {
+        "title": "Seleziona le inserzioni",
+        "description": "Scegli l'inserzione Google che desideri gestire"
+      },
+      "5": {
+        "title": "Completato",
+        "description": "Configurazione completata!"
+      }
+    },
+    "setup": "Progresso configurazione",
+    "progress": "Passaggio {{currentStep}} di {{totalSteps}}",
+    "back": "Indietro"
+  }
+}

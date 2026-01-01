@@ -1,0 +1,8 @@
+{
+  "reportsPage": {
+    "pageTitle": "Rapports",
+    "createReportButton": "Créer un rapport",
+    "loading": "Chargement des rapports...",
+    "error": "Erreur lors du chargement des rapports. Veuillez réessayer."
+  }
+}

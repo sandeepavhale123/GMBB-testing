@@ -1,0 +1,34 @@
+{
+  "ctaSettings": {
+    "default": {
+      "callCTA": {
+        "header": "BOOSTEZ VOTRE SCORE GBP &&& Augmentez vos appels",
+        "description": "Découvrez comment payer le salaire d’un mois à vos employés simplement en corrigeant ce qui ne va pas. Obtenez votre plan gratuit pour écraser la concurrence !",
+        "buttonLabel": "RÉSERVER UN APPEL",
+        "buttonLink": "#contact"
+      },
+      "appointmentCTA": {
+        "header": "BOOSTEZ VOTRE SCORE GBP &&& Augmentez vos appels",
+        "description": "Découvrez comment payer le salaire d’un mois à vos employés simplement en corrigeant ce qui ne va pas. Obtenez votre plan gratuit pour écraser la concurrence !",
+        "buttonLabel": "RÉSERVER UN APPEL",
+        "buttonLink": "#contact"
+      }
+    },
+    "toast": {
+      "errorTitle": "Erreur lors du chargement des paramètres de l’appel à l’action.",
+      "errorDesc": "Utilisation des paramètres par défaut. Veuillez actualiser pour réessayer.",
+      "ctaTitle": "Réinitialisation de l’appel à l’action",
+      "resetSuccess": "Les paramètres de l’appel à l’action ont été réinitialisés aux valeurs par défaut."
+    },
+    "validation": {
+      "headerRequired": "L’en-tête est obligatoire.",
+      "headerMax": "L’en-tête doit comporter moins de 100 caractères.",
+      "descriptionRequired": "La description est obligatoire.",
+      "descriptionMax": "La description doit comporter moins de 500 caractères.",
+      "buttonLabelRequired": "Le libellé du bouton est obligatoire.",
+      "buttonLabelMax": "Le libellé du bouton doit comporter moins de 50 caractères.",
+      "buttonLinkInvalid": "Veuillez entrer une URL valide.",
+      "hash": "Les liens de hachage doivent commencer par #"
+    }
+  }
+}

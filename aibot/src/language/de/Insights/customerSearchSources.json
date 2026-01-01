@@ -1,0 +1,14 @@
+{
+  "customerSearchSources": {
+    "title": "Wie Kunden nach Ihrem Unternehmen suchen",
+    "description": "Zu verstehen, wie Kunden Ihr Unternehmen entdecken, hilft dabei, Ihre Online-Präsenz zu optimieren. Diese Übersicht zeigt, ob Kunden Sie über Suchergebnisse oder Kartenansichten finden und ob sie Desktop- oder mobile Geräte nutzen, um auf Ihre Informationen zuzugreifen.",
+    "totalSearches": "Gesamt-Suchen",
+    "noData": "Keine Daten verfügbar",
+    "segments": {
+      "desktopSearch": "Desktop-Suche",
+      "desktopMap": "Desktop-Karte",
+      "mobileSearch": "Mobile Suche",
+      "mobileMap": "Mobile Karte"
+    }
+  }
+}

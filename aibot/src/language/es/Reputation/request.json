@@ -1,0 +1,198 @@
+{
+  "title": "Solicitudes de reseñas",
+  "subtitle": "Envía solicitudes de reseñas a tus clientes",
+  "createButton": "Crear",
+  "tabs": {
+    "campaign": "Campaña",
+    "siteIntegration": "Integración del sitio",
+    "qrCode": "Código QR",
+    "reviewLink": "Formulario de comentarios",
+    "feedbackForms": "Formulario de comentarios"
+  },
+  "integration": {
+    "title": "Integración de canales",
+    "description": "Conecta y gestiona las integraciones de tus plataformas de reseñas",
+    "available": "Integraciones disponibles",
+    "comming": "Próximamente",
+    "status": {
+      "connected": "Conectado",
+      "notConnected": "No conectado"
+    },
+    "button": {
+      "connect": "Conectar",
+      "disconnect": "Desconectar"
+    }
+  },
+  "qrCode": {
+    "title": "Código QR de reseñas",
+    "description": "Genera y descarga códigos QR para tus solicitudes de reseñas",
+    "simpleCard": {
+      "title": "Código QR simple",
+      "description": "Descarga un código QR básico que enlaza directamente a tu página de reseñas. Perfecto para compartir rápidamente e imprimir.",
+      "downloadButton": "Descargar código QR"
+    },
+    "posterCard": {
+      "title": "Póster QR personalizado",
+      "description": "Crea un póster con tu marca que incluya tu código QR, logotipo y mensajes personalizados. Ideal para mostrar en tu negocio.",
+      "customizeButton": "Personalizar póster"
+    }
+  },
+  "table": {
+    "name": "Nombre",
+    "channel": "Canal",
+    "status": "Estado",
+    "date": "Fecha",
+    "contacts": "Contactos",
+    "delivered": "Entregado",
+    "action": "Acción"
+  },
+  "status": {
+    "sent": "Enviado",
+    "pending": "Pendiente",
+    "scheduled": "Programado",
+    "draft": "Borrador",
+    "completed": "Completado",
+    "failed": "Fallido"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Correo electrónico",
+    "whatsapp": "WhatsApp"
+  },
+  "contactsModal": {
+    "title": "{{campaignName}} - Contactos",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "status": "Estado",
+    "noContacts": "No se encontraron contactos",
+    "showing": "Mostrando {{count}} de {{total}} contactos"
+  },
+  "actions": {
+    "view": "Ver",
+    "send": "Enviar",
+    "delete": "Eliminar"
+  },
+  "empty": {
+    "title": "Aún no hay campañas",
+    "description": "Crea tu primera campaña de solicitud de reseñas para comenzar",
+    "button": "Crear campaña"
+  },
+  "createCampaignModal": {
+    "title": "Crear campaña",
+    "campaignName": "Nombre de la campaña",
+    "placeholder": "Ingresa el nombre de la campaña",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "creating": "Creando..."
+  },
+  "comingSoon": {
+    "title": "Próximamente",
+    "description": "Esta función está en desarrollo"
+  },
+  "templates": {
+    "title": "Plantilla",
+    "createButton": "Crear",
+    "table": {
+      "name": "Nombre",
+      "channel": "Canal",
+      "status": "Estado",
+      "date": "Fecha",
+      "action": "Acción"
+    },
+    "status": {
+      "active": "Activa",
+      "draft": "Borrador"
+    },
+    "actions": {
+      "view": "Ver",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay plantillas",
+      "description": "Crea tu primera plantilla de solicitud de reseñas para comenzar",
+      "button": "Crear plantilla"
+    },
+    "deleteDialog": {
+      "title": "Eliminar plantilla",
+      "description": "¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Enviar solicitud de reseña",
+    "selectTemplate": "Seleccionar una plantilla",
+    "selectTemplatePlaceholder": "Elige una plantilla...",
+    "templateContent": "Contenido del mensaje",
+    "noTemplatesAvailable": "No hay plantillas activas disponibles",
+    "createTemplateFirst": "Por favor, crea una plantilla primero",
+    "templatePreview": "Vista previa",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "sms": "SMS",
+      "email": "Correo",
+      "phoneNotAvailable": "Número de teléfono no disponible",
+      "emailNotAvailable": "Dirección de correo no disponible"
+    },
+    "feedbackForm": {
+      "label": "Formulario de Comentarios",
+      "placeholder": "Selecciona un formulario...",
+      "empty": "No hay formularios disponibles"
+    },
+    "sender": {
+      "label": "Seleccionar Remitente",
+      "placeholder": "Elige un remitente...",
+      "notAvailable": "No hay remitentes disponibles"
+    },
+    "platform": {
+      "label": "Plataforma de Envío",
+      "smtp": "SMTP",
+      "mailgun": "Mailgun",
+      "configured": "Configurado",
+      "notConfigured": "No Configurado"
+    },
+    "subject": {
+      "label": "Asunto del Correo",
+      "placeholder": "Ingresa el asunto del correo..."
+    },
+    "success": {
+      "title": "Solicitud de reseña enviada",
+      "description": "Tu solicitud de reseña se ha enviado correctamente a {{contactName}}"
+    },
+    "error": {
+      "title": "Error al enviar",
+      "description": "No se pudo enviar la solicitud de reseña. Por favor, inténtalo de nuevo."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formulario de comentarios",
+    "description": "Crea y gestiona formularios de comentarios personalizados para tus clientes",
+    "createButton": "Crear formulario",
+    "table": {
+      "name": "Nombre",
+      "createdAt": "Creado el",
+      "action": "Acción"
+    },
+    "actions": {
+      "view": "Ver",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "empty": {
+      "title": "Aún no hay formularios de comentarios",
+      "description": "Crea tu primer formulario de comentarios personalizado para recopilar opiniones estructuradas",
+      "button": "Crear formulario de comentarios"
+    },
+    "deleteDialog": {
+      "title": "Eliminar formulario de comentarios",
+      "description": "¿Estás seguro de que deseas eliminar este formulario? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    },
+    "failed": "Error al cargar los formularios de comentarios. Por favor, inténtalo de nuevo."
+  }
+}

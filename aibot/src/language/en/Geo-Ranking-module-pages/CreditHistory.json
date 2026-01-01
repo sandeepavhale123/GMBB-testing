@@ -1,0 +1,17 @@
+{
+  "creditHistory": {
+    "title": "Credits History",
+    "description": "Track your credit usage across all ranking checks.",
+    "searchPlaceholder": "Search keywords...",
+    "table": {
+      "keyword": "Keyword",
+      "type": "Credit Type",
+      "credit": "Credit",
+      "date": "Date"
+    },
+    "empty": {
+      "title": "No credit history found",
+      "subtitle": "Try adjusting your search"
+    }
+  }
+}

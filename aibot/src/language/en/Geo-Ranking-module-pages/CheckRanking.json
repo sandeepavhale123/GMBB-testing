@@ -1,0 +1,10 @@
+{
+  "checkRanking": {
+    "title": "Check Rank",
+    "description": "Monitor your local search rankings across different locations.",
+    "alerts": {
+      "selectBusiness": "Please select a business first.",
+      "selectProject": "Please select a project first."
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Gestión Masiva de Reseñas",
+  "subtitle": "Gestiona las reseñas de todos tus listados.",
+  "configureAutoReply": "Configurar Respuesta Automática",
+  "summary": {
+    "reviews": "Reseñas de Clientes",
+    "loading": "Cargando reseñas...",
+    "noReviews": "No se encontraron reseñas que coincidan con tus criterios."
+  },
+  "export": "Exportar CSV",
+  "toast": {
+    "successTitle": "Éxito",
+    "replySuccess": "Respuesta enviada con éxito",
+    "replyError": "Error al enviar la respuesta",
+    "deleteSuccess": "Respuesta eliminada con éxito",
+    "deleteError": "Error al eliminar la respuesta"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} reseñas",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{current}} de {{pages}}"
+  },
+  "error": {
+    "title": "Error",
+    "retry": "Reintentar"
+  }
+}

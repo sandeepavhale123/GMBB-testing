@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "Gestione Risposta Automatica Massiva",
+    "subtitle": "Gestisci le impostazioni di risposta automatica per le tue sedi."
+  },
+  "actions": {
+    "createProject": "Crea Progetto",
+    "successTitle": "Successo",
+    "errorTitle": "Errore",
+    "deleteSuccess": "Progetto di risposta automatica eliminato con successo",
+    "deleteError": "Impossibile eliminare il progetto",
+    "createSuccess": "Progetto di risposta automatica creato con successo"
+  }
+}

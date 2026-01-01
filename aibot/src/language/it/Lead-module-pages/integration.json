@@ -1,0 +1,61 @@
+{
+  "title": "Integrazioni",
+  "subtitle": "Connetti la gestione lead con altri strumenti",
+  "availableIntegrations": {
+    "title": "Integrazioni Disponibili",
+    "description": "Connettiti ai tuoi strumenti e servizi preferiti"
+  },
+  "statuses": {
+    "Connected": "Connesso",
+    "Available": "Disponibile",
+    "Success": "Successo",
+    "Error": "Errore"
+  },
+  "buttons": {
+    "configure": "Configura",
+    "connect": "Connetti",
+    "saveApiSettings": "Salva Impostazioni API"
+  },
+  "apiSettings": {
+    "title": "Impostazioni API",
+    "description": "Gestisci l'accesso API e i webhook",
+    "apiKeyLabel": "Chiave API",
+    "webhookUrlLabel": "URL Webhook",
+    "webhooksPlaceholder": "https://tuoapp.com/webhook",
+    "webhookToggleLabel": "Abilita Webhook",
+    "webhookToggleDescription": "Invia dati in tempo reale al tuo endpoint",
+    "usageTitle": "Utilizzo API",
+    "requests": "Richieste questo mese",
+    "rateLimit": "Limite richieste"
+  },
+  "activity": {
+    "title": "Attività Integrazione",
+    "description": "Eventi recenti di sincronizzazione e integrazione"
+  },
+  "integration": {
+    "sales": "Salesforce",
+    "slaesDesc": "Sincronizza i lead nel tuo CRM Salesforce",
+    "salesSync": "2 ore fa",
+    "salesAct": "Sincronizzati 12 nuovi lead",
+    "hub": "HubSpot",
+    "hubDesc": "Importa contatti e monitora le interazioni",
+    "hubAct": "Connessione fallita - Timeout API",
+    "hubTime": "6 ore fa",
+    "email": "Mailchimp",
+    "emailDesc": "Aggiungi lead alle campagne email",
+    "emailSync": "1 ora fa",
+    "emailAct": "Aggiunti 5 contatti alla campagna",
+    "emailTime": "3 ore fa",
+    "slack": "Slack",
+    "slackDesc": "Ricevi notifiche dei nuovi lead su Slack",
+    "slackSync": "30 minuti fa",
+    "slackAct": "Notifica nuovo lead inviata",
+    "slackTime": "4 ore fa",
+    "zapier": "Zapier",
+    "zapierDesc": "Connettiti a oltre 5000 app tramite Zapier",
+    "google": "Google Sheets",
+    "googleDesc": "Esporta automaticamente i lead in Google Sheets",
+    "googleAct": "Esportati 25 lead nel foglio di calcolo",
+    "googleTime": "1 giorno fa"
+  }
+}

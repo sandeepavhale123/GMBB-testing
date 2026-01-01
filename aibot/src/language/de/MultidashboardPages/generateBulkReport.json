@@ -1,0 +1,134 @@
+{
+  "GenerateBulkReport": {
+    "pageTitle": "Massenbericht erstellen",
+    "pageDescription": "Erstellen und planen Sie automatisierte Berichte für mehrere Standorte.",
+
+    "reportDetails": {
+      "title": "Berichtsdetails",
+      "description": "Geben Sie Ihrem Berichtprojekt einen Namen und wählen Sie Standorte aus.",
+      "reportTitleLabel": "Berichtstitel",
+      "reportTitlePlaceholder": "Berichtstitel eingeben...",
+      "locationsSelected": "{{count}} Standorte ausgewählt"
+    },
+
+    "reportTypes": {
+      "title": "Berichtstypen",
+      "description": "Wählen Sie aus, welche Berichte in Ihr Projekt aufgenommen werden sollen.",
+      "availableReports": "Verfügbare Berichte",
+      "selectAll": "Alle auswählen",
+      "deselectAll": "Alle abwählen",
+      "sections": {
+        "posts": "GMB-Beitrag",
+        "media": "Medienbeitrag",
+        "reviews": "Bewertung",
+        "qa": "Fragen & Antworten",
+        "insights": "Einblicke"
+      }
+    },
+
+    "scheduleConfig": {
+      "title": "Zeitplanung konfigurieren",
+      "description": "Legen Sie fest, wann und wie oft Berichte erstellt werden sollen.",
+      "scheduleTypeLabel": "Zeitplantyp",
+      "scheduleTypes": {
+        "oneTime": "Einmalig",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
+      },
+      "fromDateLabel": "Von Datum",
+      "fromDatePlaceholder": "Startdatum auswählen",
+      "toDateLabel": "Bis Datum",
+      "toDatePlaceholder": "Enddatum auswählen",
+      "selectFrequency": "Häufigkeit auswählen",
+      "selectFrequencyPlaceholder": "Häufigkeit auswählen...",
+      "selectWeek": "E-Mail in dieser Woche senden",
+      "selectWeekPlaceholder": "Woche auswählen...",
+      "selectDay": "E-Mail senden am",
+      "selectDayPlaceholder": "Tag auswählen...",
+      "weekOptions": {
+        "first": "Erste Woche",
+        "second": "Zweite Woche",
+        "third": "Dritte Woche",
+        "fourth": "Vierte Woche",
+        "last": "Letzte Woche"
+      },
+      "days": {
+        "monday": "Montag",
+        "tuesday": "Dienstag",
+        "wednesday": "Mittwoch",
+        "thursday": "Donnerstag",
+        "friday": "Freitag",
+        "saturday": "Samstag",
+        "sunday": "Sonntag"
+      },
+      "frequencies": {
+        "lastWeek": "Letzte Woche",
+        "last2Weeks": "Letzte 2 Wochen",
+        "last3Weeks": "Letzte 3 Wochen",
+        "last4Weeks": "Letzte 4 Wochen",
+        "last5Weeks": "Letzte 5 Wochen",
+        "lastMonth": "Letzter Monat",
+        "last2Months": "Letzte 2 Monate",
+        "last3Months": "Letzte 3 Monate",
+        "last6Months": "Letzte 6 Monate",
+        "last12Months": "Letzte 12 Monate"
+      }
+    },
+
+    "deliveryFormat": {
+      "title": "Lieferformat",
+      "descriptionSingle": "Wählen Sie, wie Sie Ihren Bericht erhalten möchten. Sie können mehrere Formate auswählen.",
+      "descriptionMultiple": "Wählen Sie, wie Sie Ihre Berichte erhalten möchten. Für mehrere Standorte können Sie ein Format auswählen, um die Zustellleistung zu verbessern.",
+      "csv": "CSV-Format",
+      "pdf": "PDF-Format",
+      "html": "Öffentlicher HTML-Bericht",
+      "selectionGuide": "Auswahlhinweis:",
+      "selectionNoteSingle": "Für Ihren Einzelstandortbericht können Sie mehrere Lieferformate auswählen.",
+      "selectionNoteMultiple": "Bei Berichten für mehrere Standorte können Sie nur ein Lieferformat auswählen, um die Leistung zu optimieren."
+    },
+
+    "emailComposer": {
+      "title": "E-Mail-Composer",
+      "description": "Konfigurieren Sie, wie Berichte per E-Mail versendet werden.",
+      "to": "An *",
+      "toPlaceholder": "empfänger1@example.com, empfänger2@example.com",
+      "cc": "CC",
+      "ccPlaceholder": "cc1@example.com, cc2@example.com",
+      "bcc": "BCC",
+      "bccPlaceholder": "bcc@example.com, bcc2@example.com",
+      "subject": "Betreff *",
+      "subjectPlaceholder": "Ihre generierten Berichte - {projectName}",
+      "message": "Nachricht *",
+      "messagePlaceholder": "Geben Sie Ihre E-Mail-Nachricht ein..."
+    },
+
+    "actions": {
+      "cancel": "Abbrechen",
+      "create": "Bericht erstellen",
+      "creating": "Erstellen..."
+    },
+
+    "toasts": {
+      "reportCreatedTitle": "Berichtsprojekt erstellt",
+      "reportCreatedDescription": "{{projectName}} wurde erfolgreich mit der Projekt-ID: {{projectId}} erstellt",
+      "errorTitle": "Fehler",
+      "errorMessage": "Berichtsprojekt konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+    },
+
+    "validation": {
+      "projectNameRequired": "Projektname ist erforderlich.",
+      "selectedListingsRequired": "Wählen Sie mindestens einen Standort aus.",
+      "reportSectionsRequired": "Wählen Sie mindestens einen Berichtstyp aus.",
+      "deliveryFormatRequired": "Wählen Sie mindestens ein Lieferformat aus.",
+      "emailToRequired": "E-Mail-Empfänger ist erforderlich.",
+      "emailSubjectRequired": "E-Mail-Betreff ist erforderlich.",
+      "emailMessageRequired": "E-Mail-Nachricht ist erforderlich.",
+      "invalidEmails": "Bitte geben Sie gültige E-Mail-Adressen, getrennt durch Kommas, ein.",
+      "fromDateRequired": "Startdatum ist für einmalige Berichte erforderlich.",
+      "toDateRequired": "Enddatum ist für einmalige Berichte erforderlich.",
+      "frequencyRequired": "Häufigkeit ist für wiederkehrende Berichte erforderlich.",
+      "emailDayRequired": "E-Mail-Tag ist für wiederkehrende Berichte erforderlich.",
+      "emailWeekRequired": "E-Mail-Woche ist für monatliche Berichte erforderlich."
+    }
+  }
+}

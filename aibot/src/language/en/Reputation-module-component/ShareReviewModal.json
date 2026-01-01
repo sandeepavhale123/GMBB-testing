@@ -1,0 +1,68 @@
+{
+  "title": "Share Review",
+
+  "channels": {
+    "label": "Select the channels",
+    "google": "Google",
+    "facebook": "Facebook",
+    "facebookDisabledTooltip": "Please connect Facebook account to use this service"
+  },
+
+  "theme": {
+    "label": "Theme color"
+  },
+
+  "caption": {
+    "label": "Post Caption (optional)",
+    "placeholder": "Add a caption for your post... (e.g., \"Check out this amazing review!\")"
+  },
+
+  "schedule": {
+    "label": "Schedule the Post (optional)",
+    "date": "Date",
+    "time": "Time"
+  },
+
+  "buttons": {
+    "preview": "Preview",
+    "submit": "Submit",
+    "close": "Close",
+    "capturing": "Capturing...",
+    "publishing": "Publishing..."
+  },
+
+  "actions": {
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share"
+  },
+
+  "toast": {
+    "success": {
+      "title": "Image Downloaded",
+      "description": "Your review post image has been saved successfully."
+    },
+    "error": {
+      "title": "Image Capture Failed",
+      "description": "Failed to create post image. Please try again."
+    },
+    "publishSuccess": {
+      "title": "Post Published",
+      "description": "Your review has been shared to Facebook successfully."
+    },
+    "publishError": {
+      "title": "Publishing Failed",
+      "description": "Failed to publish to Facebook. Please try again."
+    }
+  },
+
+  "publishSuccess": {
+    "title": "Post Published Successfully!",
+    "description": "Your review has been shared to Facebook.",
+    "viewPost": "View Post"
+  },
+
+  "author": {
+    "anonymous": "Anonymous"
+  }
+}

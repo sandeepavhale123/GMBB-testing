@@ -1,0 +1,58 @@
+{
+  "recentReviews": {
+    "title": "Recensioni Recenti",
+    "viewAll": "Visualizza Tutte le Recensioni",
+    "searchPlaceholder": "Cerca nelle recensioni...",
+    "sort": {
+      "placeholder": "Ordina per",
+      "newest": "Più Recenti",
+      "oldest": "Meno Recenti",
+      "highest": "Valutazione più Alta",
+      "lowest": "Valutazione più Bassa"
+    },
+    "filter": {
+      "placeholder": "Valutazione",
+      "all": "Tutte le Valutazioni",
+      "5": "5 Stelle",
+      "4": "4 Stelle",
+      "3": "3 Stelle",
+      "2": "2 Stelle",
+      "1": "1 Stella"
+    },
+    "badges": {
+      "new": "Nuova",
+      "noReply": "Senza Risposta",
+      "aiResponded": "Risposta AI",
+      "manualReply": "Risposta Manuale"
+    },
+    "actions": {
+      "generateAI": "Genera Risposta AI",
+      "manualReply": "Rispondi Manualmente",
+      "useResponse": "Usa Risposta",
+      "cancel": "Annulla",
+      "sendReply": "Invia Risposta"
+    },
+    "aiSection": {
+      "title": "Risposta Suggerita dall'AI",
+      "placeholder": "La risposta suggerita dall'AI apparirà qui..."
+    },
+    "manualSection": {
+      "title": "Scrivi la tua risposta",
+      "placeholder": "Digita la tua risposta..."
+    },
+    "toasts": {
+      "aiGenerated": {
+        "title": "Risposta AI Generata",
+        "description": "L'AI ha generato una risposta per questa recensione."
+      },
+      "responseUsed": {
+        "title": "Risposta Utilizzata",
+        "description": "La risposta suggerita dall'AI è stata utilizzata per questa recensione."
+      },
+      "replySent": {
+        "title": "Risposta Inviata",
+        "description": "La tua risposta manuale è stata inviata con successo."
+      }
+    }
+  }
+}

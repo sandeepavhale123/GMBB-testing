@@ -1,0 +1,69 @@
+{
+  "bulkReportDetails": {
+    "toast": {
+      "emailSent": {
+        "title": "E-Mail gesendet",
+        "description": "Bericht-E-Mail wurde erfolgreich erneut gesendet."
+      },
+      "emailsSent": {
+        "title": "E-Mails gesendet",
+        "description": "{{count}} E-Mails wurden erfolgreich erneut gesendet."
+      },
+      "downloadStarted": {
+        "title": "Download gestartet",
+        "description": "{{format}}-Download wurde gestartet."
+      },
+      "allPdfStarted": {
+        "title": "Download gestartet",
+        "description": "Der All-in-One PDF-Download wurde gestartet."
+      },
+      "error": {
+        "title": "Fehler",
+        "resendEmail": "E-Mail konnte nicht erneut gesendet werden",
+        "bulkResend": "E-Mails konnten nicht erneut gesendet werden",
+        "download": "{{format}} konnte nicht heruntergeladen werden",
+        "downloadAll": "All-in-One PDF konnte nicht heruntergeladen werden"
+      }
+    },
+    "status": {
+      "completed": "Abgeschlossen",
+      "processing": "Verarbeitung",
+      "failed": "Fehlgeschlagen",
+      "pending": "Ausstehend"
+    },
+    "delivery": {
+      "sent": "Gesendet",
+      "failed": "Fehlgeschlagen",
+      "pending": "Ausstehend"
+    },
+    "errorState": {
+      "failedToLoad": "Konnte Bulk-Berichtsdetails nicht laden",
+      "tryAgain": "Erneut versuchen"
+    },
+    "header": {
+      "details": "Bulk-Berichtsdetails • {{count}} Standorte",
+      "recipients": "Empfänger: {{recipients}}"
+    },
+    "download": {
+      "allPdf": "Alle-in-Einem-PDF herunterladen",
+      "pdf": "PDF herunterladen",
+      "allCsv": "Alle-in-Einem-CSV herunterladen",
+      "csv": "CSV herunterladen"
+    },
+    "table": {
+      "title": "Berichtsdetails",
+      "location": "Standort",
+      "reportDate": "Berichtsdatum",
+      "status": "Status",
+      "actions": "Aktionen",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "pagination": {
+      "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
+      "previous": "Vorherige",
+      "next": "Nächste",
+      "page": "Seite {{current}} von {{pages}}"
+    }
+  }
+}

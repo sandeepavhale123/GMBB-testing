@@ -1,0 +1,68 @@
+{
+  "title": "Compartir Reseña",
+
+  "channels": {
+    "label": "Seleccionar canales",
+    "google": "Google",
+    "facebook": "Facebook",
+    "facebookDisabledTooltip": "Por favor, conecta tu cuenta de Facebook para usar este servicio"
+  },
+
+  "theme": {
+    "label": "Color del tema"
+  },
+
+  "caption": {
+    "label": "Descripción del post (opcional)",
+    "placeholder": "Añade una descripción para tu post... (ej., \"¡Mira esta increíble reseña!\")"
+  },
+
+  "schedule": {
+    "label": "Programar publicación (opcional)",
+    "date": "Fecha",
+    "time": "Hora"
+  },
+
+  "buttons": {
+    "preview": "Vista previa",
+    "submit": "Enviar",
+    "close": "Cerrar",
+    "capturing": "Capturando...",
+    "publishing": "Publicando..."
+  },
+
+  "actions": {
+    "like": "Me gusta",
+    "comment": "Comentar",
+    "share": "Compartir"
+  },
+
+  "toast": {
+    "success": {
+      "title": "Imagen descargada",
+      "description": "La imagen de tu reseña se ha guardado correctamente."
+    },
+    "error": {
+      "title": "Error al capturar imagen",
+      "description": "No se pudo crear la imagen del post. Por favor, inténtalo de nuevo."
+    },
+    "publishSuccess": {
+      "title": "Publicación exitosa",
+      "description": "Tu reseña se ha compartido en Facebook correctamente."
+    },
+    "publishError": {
+      "title": "Error al publicar",
+      "description": "No se pudo publicar en Facebook. Por favor, inténtalo de nuevo."
+    }
+  },
+
+  "publishSuccess": {
+    "title": "¡Publicación exitosa!",
+    "description": "Tu reseña se ha compartido en Facebook.",
+    "viewPost": "Ver publicación"
+  },
+
+  "author": {
+    "anonymous": "Anónimo"
+  }
+}

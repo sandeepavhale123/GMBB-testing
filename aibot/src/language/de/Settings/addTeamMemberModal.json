@@ -1,0 +1,60 @@
+{
+  "addTeamMemberModal": {
+    "title": "Neues Teammitglied hinzufügen",
+    "profile": {
+      "uploadPhoto": "Foto hochladen"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Vorname",
+        "placeholder": "Vorname eingeben"
+      },
+      "lastName": {
+        "label": "Nachname",
+        "placeholder": "Nachname eingeben"
+      },
+      "email": {
+        "label": "E-Mail-Adresse",
+        "placeholder": "E-Mail-Adresse eingeben"
+      },
+      "password": {
+        "label": "Passwort",
+        "placeholder": "Passwort eingeben",
+        "show": "Passwort anzeigen",
+        "hide": "Passwort verbergen"
+      },
+      "role": {
+        "label": "Rolle",
+        "placeholder": "Rolle auswählen",
+        "options": {
+          "moderator": "Moderator",
+          "staff": "Mitarbeiter",
+          "client": "Kunde"
+        }
+      }
+    },
+    "buttons": {
+      "cancel": "Abbrechen",
+      "add": "Mitglied hinzufügen",
+      "adding": "Wird hinzugefügt..."
+    },
+    "messages": {
+      "validationError": {
+        "title": "Validierungsfehler",
+        "description": "Bitte beheben Sie die markierten Felder."
+      },
+      "invalidEmail": {
+        "title": "Ungültige E-Mail",
+        "description": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "success": {
+        "title": "Teammitglied hinzugefügt",
+        "description": "{{firstName}} {{lastName}} wurde erfolgreich hinzugefügt."
+      },
+      "error": {
+        "title": "Fehler",
+        "default": "Teammitglied konnte nicht hinzugefügt werden. Bitte versuchen Sie es erneut."
+      }
+    }
+  }
+}

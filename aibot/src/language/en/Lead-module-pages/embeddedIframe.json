@@ -1,0 +1,56 @@
+{
+  "title": "Embedded Iframe",
+  "subtitle": "Generate and manage embeddable lead forms",
+
+  "configuration": {
+    "title": "Iframe Configuration",
+    "description": "Customize your embedded form settings",
+    "formTitleLabel": "Form Title",
+    "formTitlePlaceholder": "Enter form title",
+    "widthLabel": "Width",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Height",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Show Company Logo",
+    "showLogoDescription": "Display your logo in the form",
+    "darkModeLabel": "Enable Dark Mode",
+    "darkModeDescription": "Allow users to toggle dark theme",
+    "autoResizeLabel": "Auto-resize",
+    "autoResizeDescription": "Automatically adjust iframe height",
+    "successMessageLabel": "Success Message",
+    "successMessagePlaceholder": "Message shown after form submission"
+  },
+
+  "embedCode": {
+    "title": "Embed Code",
+    "description": "Copy this code to embed the form on your website",
+    "copied": "Copied!",
+    "copy": "Copy",
+    "preview": "Preview",
+    "test": "Test Form",
+    "tipsTitle": "Integration Tips:",
+    "tips1": "Add the iframe to any HTML page or CMS",
+    "tips2": "The form will match your site's theme automatically",
+    "tips3":"All submissions are captured in your lead dashboard",
+    "tips4":"HTTPS is required for iframe embedding"
+  },
+
+  "activeEmbeds": {
+    "title": "Active Embeds",
+    "description": "Manage your deployed iframe forms",
+    "submissions": "Submissions"
+  },
+
+  "statuses": {
+    "Active": "Active",
+    "Inactive": "Inactive"
+  },
+  "name":{
+    "home":"Homepage Contact Form",
+    "homeDom":"yoursite.com",
+    "landing":"Landing Page Form",
+    "landingDom":"landing.yoursite.com",
+    "blog":"Blog Sidebar Form",
+    "blogDom":"blog.yoursite.com"
+  }
+}

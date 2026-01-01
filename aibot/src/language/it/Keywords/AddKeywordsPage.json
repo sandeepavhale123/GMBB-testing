@@ -1,0 +1,34 @@
+{
+  "AddKeywordsPage": {
+    "back": "Indietro",
+    "header": "Trova facilmente le parole chiave con alto volume di ricerca",
+    "inputPlaceholder": "Inserisci parola chiave principale o categoria",
+    "filter": "Filtro",
+    "searchButton": "Cerca Parola Chiave",
+    "searching": "Ricerca in corso...",
+    "country": "Paese",
+    "language": "Lingua",
+    "addedCount": "{{count}}/5",
+    "addingKeywords": "Aggiunta parole chiave...",
+    "checkRank": "Controlla Posizione",
+    "recommendedKeywords": "Parole chiave consigliate",
+    "competition": "Competizione:",
+    "localPack": "Local pack",
+    "addKeyword": "Aggiungi parola chiave",
+    "loadMore": "Carica altre parole chiave",
+    "creditsRemaining": "Crediti rimanenti",
+    "noCreditsWarning": "Non hai crediti rimanenti. Aggiorna il tuo piano.",
+    "upgradePlan": "Aggiorna Piano",
+    "toast": {
+      "keywordsFoundTitle": "Parole chiave trovate",
+      "keywordsFoundDescription": "Trovate {{count}} parola/e chiave con dati di ricerca.",
+      "authErrorTitle": "Errore di autenticazione",
+      "authErrorDescription": "Controlla le tue credenziali e riprova.",
+      "searchFailedTitle": "Ricerca fallita",
+      "searchFailedDescription": "Impossibile recuperare i dati delle parole chiave. Per favore riprova."
+    },
+    "aria": {
+      "removeKeyword": "Rimuovi {{keyword}}"
+    }
+  }
+}

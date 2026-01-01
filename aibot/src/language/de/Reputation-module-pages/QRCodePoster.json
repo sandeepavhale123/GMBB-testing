@@ -1,0 +1,68 @@
+{
+  "page": {
+    "editTitle": "QR-Code-Poster bearbeiten",
+    "createTitle": "Neues Poster erstellen",
+    "subtitle": "Passen Sie das Design Ihres QR-Code-Posters an",
+    "noListing": "Bitte wählen Sie einen Eintrag aus, um Ihr QR-Code-Poster anzupassen."
+  },
+
+  "fields": {
+    "reviewUrl": {
+      "label": "Bewertungslink-URL",
+      "helper": "Geben Sie die URL ein, unter der Kunden Bewertungen hinterlassen können",
+      "placeholder": "https://g.page/ihr-unternehmen"
+    },
+    "logo": {
+      "label": "Unternehmenslogo",
+      "drag": "Ziehen Sie Ihr Logo hierher und legen Sie es ab",
+      "browse": "oder klicken Sie zum Durchsuchen (PNG, JPG, SVG – max. 5 MB)",
+      "change": "Klicken Sie, um das Logo zu ändern",
+      "alt": "Logo-Vorschau"
+    },
+    "businessName": {
+      "label": "Unternehmensname",
+      "placeholder": "Ihr Unternehmensname"
+    },
+    "title": {
+      "label": "Postertitel",
+      "placeholder": "Hinterlassen Sie uns eine Bewertung!"
+    },
+    "subtitle": {
+      "label": "Untertitel",
+      "placeholder": "Scannen Sie den QR-Code, um Ihre Erfahrung zu teilen"
+    }
+  },
+
+  "colors": {
+    "label": "Farbe",
+    "background": "Hintergrund",
+    "text": "Text",
+    "pattern": "Muster"
+  },
+
+  "theme": {
+    "label": "Design"
+  },
+
+  "buttons": {
+    "save": "Poster speichern",
+    "update": "Poster aktualisieren",
+    "saving": "Wird gespeichert...",
+    "cancel": "Abbrechen",
+    "download": "Poster herunterladen",
+    "downloading": "Wird heruntergeladen..."
+  },
+
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler",
+    "validation": "Validierungsfehler",
+    "posterDownloaded": "Poster erfolgreich heruntergeladen!",
+    "downloadFailed": "Download des Posters fehlgeschlagen",
+    "validationError": "Validierungsfehler",
+    "businessRequired": "Bitte geben Sie Ihren Unternehmensnamen ein",
+    "listingRequired": "Bitte wählen Sie zuerst einen Eintrag aus",
+    "fileTooLarge": "Die Logo-Datei ist zu groß. Maximale Größe: 5 MB",
+    "invalidFile": "Ungültiges Dateiformat. Bitte laden Sie PNG, JPG oder SVG hoch"
+  }
+}

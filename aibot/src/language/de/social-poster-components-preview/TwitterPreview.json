@@ -1,0 +1,8 @@
+{
+  "twitter": {
+    "fallbackname": "Ihr Unternehmen",
+    "fallbackContent": "Ihr Beitrag wird hier angezeigt...",
+    "timestampNow": "jetzt",
+    "alt": "Beitragsmedien"
+  }
+}

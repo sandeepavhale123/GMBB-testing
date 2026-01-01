@@ -1,0 +1,45 @@
+{
+  "reportBranding": {
+    "title": "Branding del report",
+    "form": {
+      "companyName": {
+        "label": "Nome dell’azienda",
+        "placeholder": "Inserisci il nome dell’azienda"
+      },
+      "companyEmail": {
+        "label": "Email aziendale",
+        "placeholder": "azienda@example.com"
+      },
+      "companyWebsite": {
+        "label": "Sito web aziendale",
+        "placeholder": "https://www.azienda.com"
+      },
+      "companyPhone": {
+        "label": "Telefono aziendale",
+        "placeholder": "+39 055 123-4567"
+      },
+      "companyAddress": {
+        "label": "Indirizzo aziendale",
+        "placeholder": "Via Business 123, Città, Provincia 12345"
+      }
+    },
+    "logo": {
+      "label": "Carica logo",
+      "description": "PNG, JPG, SVG fino a 2MB. Consigliato: 200x80px",
+      "chooseButton": "Scegli logo",
+      "selectedFile": "Selezionato: {{fileName}}",
+      "ready": "✓ Pronto",
+      "dropHere": "Trascina qui il logo per caricarlo"
+    },
+    "toast": {
+      "fileTooLargeTitle": "File troppo grande",
+      "fileTooLargeDescription": "Il file del logo deve essere inferiore a 2MB",
+      "invalidFileTitle": "Tipo di file non valido",
+      "invalidFileDescription": "Carica un file immagine (PNG, JPG, SVG)",
+      "uploadedTitle": "Logo del report caricato",
+      "uploadedDescription": "{{fileName}} pronto per l’uso",
+      "removedTitle": "Logo del report rimosso",
+      "removedDescription": "Il logo è stato rimosso con successo"
+    }
+  }
+}

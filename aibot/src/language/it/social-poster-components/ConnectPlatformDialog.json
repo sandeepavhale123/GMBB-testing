@@ -1,0 +1,41 @@
+{
+  "dialog": {
+    "title": "Collega gli account dei social media",
+    "description": "Scegli quali piattaforme vuoi collegare"
+  },
+  "buttons": {
+    "connect": "Collega",
+    "connecting": "Collegamento in corso..."
+  },
+  "platforms": {
+    "facebook_instagram": {
+      "name": "Facebook e Instagram",
+      "description": "Collega entrambe le piattaforme con un unico OAuth"
+    },
+    "twitter": {
+      "name": "Twitter/X",
+      "description": "Collega il tuo account Twitter/X"
+    },
+    "linkedin": {
+      "name": "LinkedIn",
+      "description": "Collega il tuo account LinkedIn"
+    },
+    "threads": {
+      "name": "Threads",
+      "description": "Collega il tuo account Threads"
+    },
+    "pinterest": {
+      "name": "Pinterest",
+      "description": "Prossimamente"
+    },
+    "youtube": {
+      "name": "YouTube",
+      "description": "Prossimamente"
+    }
+  },
+  "toast": {
+    "oauth_failed": "Impossibile inizializzare OAuth",
+    "connect_failed": "Impossibile collegare l'account",
+    "coming_soon": "Questa piattaforma sarà disponibile presto"
+  }
+}

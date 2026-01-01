@@ -1,0 +1,8 @@
+{
+  "qaPagination": {
+    "showing": "Zeige {{start}}-{{end}} von {{total}} Fragen",
+    "perPage": "Pro Seite:",
+    "previous": "Zurück",
+    "next": "Weiter"
+  }
+}

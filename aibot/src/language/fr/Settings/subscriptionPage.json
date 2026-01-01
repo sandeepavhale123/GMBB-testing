@@ -1,0 +1,68 @@
+{
+  "subscriptionPage": {
+    "title": "Plans d'abonnement",
+    "activePlan": "Votre plan est actif jusqu'au {{date}}.",
+    "expiredPlan": "Votre plan a expiré. Veuillez le renouveler pour continuer à accéder aux fonctionnalités.",
+    "description": "Choisissez le plan parfait pour les besoins de votre entreprise. Vous pouvez le mettre à niveau ou le rétrograder à tout moment.",
+    "unsubscribe": "Se désabonner",
+    "tabs": {
+      "pricingPlan": "Plan tarifaire",
+      "paymentHistory": "Historique des paiements"
+    },
+    "labels": {
+      "features": "Fonctionnalités",
+      "pricePerMonth": "Prix/mois",
+      "mostPopular": "Le plus populaire"
+    },
+    "buttons": {
+      "active": "Actif",
+      "processing": "Traitement...",
+      "payNow": "Payer maintenant",
+      "upgradeNow": "Mettre à niveau maintenant",
+      "contactSales": "Contacter les ventes"
+    },
+    "help": {
+      "title": "Besoin d'aide pour choisir ?",
+      "description": "Contactez notre équipe commerciale pour trouver le plan parfait pour les besoins de votre entreprise."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Erreur de paiement",
+        "description": "Échec du traitement du paiement. Veuillez réessayer."
+      },
+      "upgradeSuccess": {
+        "title": "Mise à niveau réussie"
+      },
+      "upgradeError": {
+        "title": "Erreur de mise à niveau",
+        "description": "Échec de la mise à niveau du plan. Veuillez réessayer."
+      },
+      "subscriptionCancelled": {
+        "title": "Abonnement annulé",
+        "description": "Votre abonnement a été annulé."
+      },
+      "cancelError": {
+        "title": "Erreur",
+        "description": "Échec de l'annulation de l'abonnement."
+      }
+    },
+    "planFeature": {
+      "name1": "Nombre d’inscriptions GMB autorisées",
+      "name2": "Vérification du classement des mots-clés par jour",
+      "name3": "Liste de mots-clés organiques",
+      "name4": "Vérification des mots-clés GEO",
+      "name5": "Ajouter une équipe",
+      "name6": "Rapport en marque blanche",
+      "name7": "Sous-domaine en marque blanche",
+      "unlmited": "Illimité"
+    },
+    "plans": {
+      "business": "Entreprise",
+      "pro": "Pro",
+      "agency": "Agence",
+      "enterprise": "Entreprise"
+    },
+    "upgrade": "Mettre à niveau",
+    "pay": "Payer maintenant"
+  }
+}

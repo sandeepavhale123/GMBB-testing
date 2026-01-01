@@ -1,0 +1,11 @@
+{
+  "qaFilters": {
+    "searchPlaceholder": "Rechercher des questions ou des fiches",
+    "status": {
+      "placeholder": "Tous les statuts",
+      "all": "Tous",
+      "answered": "Répondu",
+      "unanswered": "Non répondu"
+    }
+  }
+}

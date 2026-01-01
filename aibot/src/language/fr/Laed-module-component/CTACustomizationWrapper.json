@@ -1,0 +1,24 @@
+{
+  "ctaCustomization": {
+    "title": "Personnalisation du CTA",
+    "subtitle": "Personnalisez votre section d’appel à l’action pour les rapports de prospects.",
+    "previewTitle": "Aperçu",
+    "previewDescription": "Voici comment votre CTA apparaîtra dans les rapports de prospects.",
+    "toast": {
+      "resetTitle": "Réinitialisation du CTA",
+      "resetDescription": "Les paramètres du CTA ont été réinitialisés aux valeurs par défaut.",
+      "updateTitle": "CTA mis à jour",
+      "updateCallDescription": "Le CTA d’appel a été mis à jour avec succès.",
+      "updateAppointmentDescription": "Le CTA de rendez-vous a été mis à jour avec succès.",
+      "resetCallDescription": "Le CTA d’appel a été réinitialisé aux valeurs par défaut.",
+      "resetAppointmentDescription": "Le CTA de rendez-vous a été réinitialisé aux valeurs par défaut.",
+      "errorTitle": "Erreur",
+      "errorDescription": "Échec de la mise à jour des paramètres du CTA. Veuillez réessayer."
+    },
+    "defaultCTA": {
+      "header": "BOOSTEZ VOTRE SCORE GBP &&& augmentez vos appels",
+      "description": "Découvrez comment payer un mois de salaire à vos employés simplement en réparant ce qui ne va pas. Obtenez votre plan gratuit pour écraser la concurrence !",
+      "buttonLabel": "RÉSERVEZ UN APPEL"
+    }
+  }
+}

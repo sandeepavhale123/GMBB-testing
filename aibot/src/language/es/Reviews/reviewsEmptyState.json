@@ -1,0 +1,12 @@
+{
+  "reviewsEmptyState": {
+    "title": {
+      "filtered": "Ninguna reseña coincide con tus filtros",
+      "default": "Aún no hay reseñas"
+    },
+    "description": {
+      "filtered": "Intenta ajustar tus criterios de búsqueda o filtros para ver más resultados.",
+      "default": "Las reseñas aparecerán aquí una vez que los clientes dejen comentarios sobre tus listados de negocio."
+    }
+  }
+}

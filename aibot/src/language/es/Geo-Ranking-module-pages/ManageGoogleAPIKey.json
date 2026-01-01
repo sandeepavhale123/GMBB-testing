@@ -1,0 +1,43 @@
+{
+  "manageApiKey": {
+    "pageTitle": "Clave API de Google Places",
+    "pageDescription": "Gestiona tu clave API de Google Places para verificaciones de clasificación basadas en ubicación.",
+    "infoAlert": {
+      "description": "Necesitas una clave API válida de Google Places para realizar verificaciones de clasificación basadas en ubicación. Asegúrate de que tu clave API tenga habilitados Places API y Geocoding API.",
+      "getKey": "Obtener Clave API"
+    },
+    "status": {
+      "title": "Estado Actual",
+      "configured": "Clave API Configurada",
+      "keyLabel": "Clave",
+      "active": "Activa",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "deleteTitle": "Eliminar Clave API",
+      "deleteDescription": "¿Estás seguro de que deseas eliminar tu clave API de Google Places? Esta acción no se puede deshacer y deshabilitará todas las verificaciones de clasificación basadas en ubicación.",
+      "cancel": "Cancelar",
+      "confirmDelete": "Eliminar Clave API"
+    },
+    "config": {
+      "title": "Configuración de la Clave API",
+      "label": "Clave API de Google Places",
+      "placeholder": "Ingresa tu Clave API de Google Places",
+      "add": "Agregar",
+      "update": "Actualizar",
+      "saving": "Guardando..."
+    },
+    "instructions": {
+      "title": "Cómo generar una clave API de Google Places:",
+      "step1": "1. Nota: Debes habilitar la facturación para el proyecto de Google.",
+      "step2_p1": "2. Visita la ",
+      "step2_p2": "Consola de Google Cloud Platform.",
+      "step3": "3. Haz clic en el desplegable de proyectos y selecciona o crea el proyecto para el que deseas agregar una clave API.",
+      "step4": "4. Desde el Panel > Ir a visión general de APIs > Haz clic en Biblioteca > Habilita Maps JavaScript API y Habilita Places API haciendo clic en ambos respectivamente.",
+      "step5": "5. Después de eso, haz clic en el botón del menú y selecciona APIs y Servicios > Credenciales.",
+      "step6": "6. En la página de Credenciales, en Crear credenciales desplegable, selecciona la opción Clave API.",
+      "step7": "7. Esto crea un diálogo que muestra “tu clave API recién creada” - Copia la clave.",
+      "step8": "8. Usa o pega la clave generada en Geo Ranking > pestaña Administrar Clave. (Actividad de una sola vez - Solo para el primer uso de Verificación GEO).",
+      "step9": "9. Una vez que hayas agregado una clave, se usará para todas tus ubicaciones, y no será necesario generar una clave separada para cada listado de GMB."
+    }
+  }
+}

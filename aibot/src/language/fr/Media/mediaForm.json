@@ -1,0 +1,34 @@
+{
+  "mediaForm": {
+    "title": "Détails du média",
+    "fields": {
+      "titleLabel": "Titre ou légende",
+      "titlePlaceholder": "Entrez le titre ou la légende du média...",
+      "categoryLabel": "Catégorie",
+      "categoryPlaceholder": "Sélectionnez une catégorie",
+      "publishOptionsLabel": "Options de publication",
+      "publishOptionsPlaceholder": "Choisissez une option de publication",
+      "scheduleLabel": "Date et heure de programmation",
+      "timezoneLabel": "Votre fuseau horaire : {{timezone}}"
+    },
+    "categories": {
+      "cover": "Couverture",
+      "profile": "Profil",
+      "logo": "Logo",
+      "exterior": "Extérieur",
+      "interior": "Intérieur",
+      "product": "Produit",
+      "atWork": "Au travail",
+      "foodAndDrink": "Nourriture et boissons",
+      "menu": "Menu",
+      "commonArea": "Zone commune",
+      "rooms": "Chambres",
+      "teams": "Équipes",
+      "additional": "Supplémentaire"
+    },
+    "publishOptions": {
+      "now": "Publier maintenant",
+      "schedule": "Programmer"
+    }
+  }
+}

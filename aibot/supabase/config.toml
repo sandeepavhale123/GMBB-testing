@@ -1,0 +1,25 @@
+project_id = "uuamwkahckzufscqkviz"
+
+[functions.exchange-token]
+verify_jwt = false
+
+[functions.ai-bot-process-knowledge]
+verify_jwt = false
+
+[functions.ai-bot-upload-file]
+verify_jwt = true
+
+[functions.ai-bot-chat]
+verify_jwt = false
+
+[functions.ai-bot-retrain]
+verify_jwt = true
+
+[functions.ai-bot-save-lead]
+verify_jwt = false
+
+[functions.ai-bot-track-appointment]
+verify_jwt = false
+
+[functions.ai-bot-webhook-trigger]
+verify_jwt = false

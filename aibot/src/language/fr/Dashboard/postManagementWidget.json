@@ -1,0 +1,19 @@
+{
+  "postManagement": {
+    "title": "Aperçu des articles",
+    "description": "Gérez vos articles de votre fiche Google Business",
+    "status": {
+      "live": "Articles en ligne",
+      "scheduled": "Planifiés",
+      "failed": "Échoués"
+    },
+    "actions": {
+      "create": "Créer un nouvel article",
+      "manage": "Gérer les articles"
+    },
+    "alerts": {
+      "failedPosts": "{{count}} articles nécessitent une attention",
+      "actionRequired": "Action requise"
+    }
+  }
+}

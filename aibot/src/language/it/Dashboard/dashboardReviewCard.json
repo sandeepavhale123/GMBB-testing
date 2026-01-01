@@ -1,0 +1,29 @@
+{
+  "sentiment": {
+    "positive": "Positivo",
+    "negative": "Negativo",
+    "neutral": "Neutro"
+  },
+  "rating": {
+    "outOf": "{{rating}}/5"
+  },
+  "reply": {
+    "label": "Risposta",
+    "aiReply": "Risposta AI",
+    "editReply": "Modifica Risposta",
+    "deleteReply": "Elimina Risposta",
+    "cancel": "Annulla",
+    "deleteConfirmTitle": "Elimina Risposta",
+    "deleteConfirmDescription": "Sei sicuro di voler eliminare questa risposta? Questa azione non può essere annullata e la risposta verrà rimossa definitivamente dalla recensione.",
+    "repliedOn": "Risposto il {{date}}",
+    "deleting": "Eliminazione in corso..."
+  },
+  "buttons": {
+    "ai": "AI",
+    "reply": "Rispondi",
+    "delete": "Elimina"
+  },
+  "placeholders": {
+    "noComment": "Nessun commento fornito"
+  }
+}

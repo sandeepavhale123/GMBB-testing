@@ -1,0 +1,50 @@
+{
+  "citationPage": {
+    "loading": "Loading citation page...",
+    "searchForm": {
+      "title": "Citation Audit Report",
+      "description": "Enter your business details to start the citation audit.",
+      "businessNameLabel": "Business Name",
+      "businessNamePlaceholder": "Enter business name",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "Enter phone number",
+      "cityLabel": "City",
+      "cityPlaceholder": "Enter city name",
+      "searchButton": "Search",
+      "searchingButton": "Searching..."
+    },
+    "management": {
+      "title": "Citation Management",
+      "description": "Monitor and manage your business citations across directories",
+      "refresh": "Refresh Citation",
+      "refreshing": "Refreshing...",
+      "newSearch": "New Search"
+    },
+    "trackerCard": {
+      "title": "Citation Tracker",
+      "listed": "Listed",
+      "notListed": "Not Listed",
+      "listedPercent": "Listed"
+    },
+    "localPagesCard": {
+      "title": "Local Pages & Directories",
+      "description": "Your local page and directory score is based on the number of places in which your listing is present, divided by the number of local page and directories we've checked."
+    },
+    "auditCard": {
+      "title": "Citation Audit",
+      "orderButton": "Place Order",
+      "existingTab": "Existing Citation",
+      "possibleTab": "Possible Citation",
+      "table": {
+        "website": "Website",
+        "businessName": "Business Name",
+        "phone": "Phone",
+        "action": "Action",
+        "siteName": "Site Name",
+        "view": "View",
+        "fixNow": "Fix Now"
+      }
+    },
+    "noPhoneProvided": "Not Matching"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "top20": {
+    "title": "Top 20 Competitors Analysis",
+    "searchAnalysis": "Search Analysis",
+    "keyword": "Keyword",
+    "location": "Location",
+    "yourPositionTitle": "Your Position",
+    "totalCompetitors": "Total Competitors",
+    "review": "reviews",
+    "yourRank": "Your Rank",
+    "yourRating": "Your Rating",
+    "avgCompetitorRating": "Avg. Competitor Rating",
+    "comparisonAnalysis": "Comparison Analysis",
+    "rank": "Rank",
+    "businessName": "Business Name",
+    "category": "Category",
+    "website": "Website",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "keywordMatch": "Keyword Match",
+    "yes": "Yes",
+    "no": "No",
+    "you": "YOU",
+    "yourBusiness": "(Your Business)"
+  }
+}

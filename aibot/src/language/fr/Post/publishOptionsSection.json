@@ -1,0 +1,15 @@
+{
+  "publishOptionsSection": {
+    "label": "Options de publication",
+    "publishOptionLabel": "Option de publication",
+    "publishNow": "Publier maintenant",
+    "schedulePost": "Planifier la publication",
+    "scheduleLabel": "Date et heure de planification",
+    "placeholder": {
+      "publishOption": "Choisissez l'option de publication",
+      "postTags": "Entrez des étiquettes séparées par des virgules"
+    },
+    "postTagsLabel": "Étiquettes de publication",
+    "siloCheckbox": "Ajouter l'URL de l'étiquette du post précédent à cette publication (Post Silo)."
+  }
+}

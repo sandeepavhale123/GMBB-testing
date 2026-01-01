@@ -1,0 +1,36 @@
+{
+  "title": {
+    "default": "Mapa de Clasificación Geo",
+    "processing": "Procesando palabra clave...",
+    "results": "Resultados de Clasificación de Palabras Clave"
+  },
+  "mapPopup": {
+    "yourBusiness": "Tu Negocio",
+    "primaryLocation": "Ubicación Principal",
+    "gridPoint": "Punto de Cuadrícula {{index}}",
+    "awaitingResults": "Esperando resultados...",
+    "rank": "Posición: {{rank}}",
+    "clickForDetails": "Haz clic para más detalles",
+    "manualCoordinate": "Coordenada Manual {{index}}",
+    "lat": "Lat: {{lat}}, Lng: {{lng}}",
+    "drag": "Arrastrar para reposicionar",
+    "remove": "Eliminar"
+  },
+  "loading": {
+    "keywordTitle": "Procesando Datos de Palabras Clave",
+    "gridTitle": "Cargando Datos del Mapa",
+    "keywordSubtitle": "Analizando clasificaciones de búsqueda...",
+    "gridSubtitle": "Generando coordenadas de cuadrícula..."
+  },
+  "zoom": {
+    "in": "Acercar",
+    "out": "Alejar"
+  },
+  "legend": {
+    "title": "Leyenda de Clasificación",
+    "top": "1-3 (Superior)",
+    "good": "4-10 (Bueno)",
+    "fair": "11-15 (Regular)",
+    "poor": "16+ (Deficiente)"
+  }
+}

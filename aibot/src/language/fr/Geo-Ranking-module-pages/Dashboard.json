@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "header": {
+      "title": "Gestion de Projet",
+      "description": "Gérez vos projets de classement GEO."
+    },
+    "buttons": {
+      "createProject": "Créer un Projet",
+      "editProject": "Modifier le Projet",
+      "updateProject": "Mettre à Jour le Projet",
+      "cancel": "Annuler",
+      "deleteProject": "Supprimer le Projet",
+      "view": "Voir",
+      "edit": "Modifier",
+      "buy": "Acheter des Crédits"
+    },
+    "dialog": {
+      "createNew": "Créer un Nouveau Projet",
+      "edit": "Modifier le Projet",
+      "descCreate": "Saisissez les détails de votre nouveau projet de classement GEO.",
+      "descEdit": "Mettez à jour les détails de votre projet de classement GEO.",
+      "projectName": "Nom du Projet",
+      "notificationEmail": "Email de Notification",
+      "placeholder": {
+        "enterProjectName": "Entrez le nom du projet",
+        "enterEmails": "Entrez les emails séparés par des virgules"
+      }
+    },
+    "summary": {
+      "noOfProject": "Nombre de Projets",
+      "noOfKeywords": "Nombre de Mots-clés",
+      "noOfScheduledScan": "Nombre d'Analyses Planifiées",
+      "availableCredits": "Crédits Disponibles",
+      "creditsRemaining": "{{remaining}} restants sur {{total}} au total"
+    },
+    "table": {
+      "searchPlaceholder": "Rechercher des projets...",
+      "projectName": "Nom du Projet",
+      "noOfKeywords": "Nombre de Mots-clés",
+      "date": "Date",
+      "notificationEmail": "Email de Notification",
+      "action": "Action",
+      "loadingProjects": "Chargement des projets...",
+      "noProjectsFound": "Aucun projet trouvé",
+      "deleteConfirmationTitle": "Supprimer le Projet",
+      "deleteConfirmationDescription": "Cette action est irréversible. Cela supprimera définitivement le projet « {name} » et toutes ses données associées, y compris les mots-clés et les points de carte.",
+      "typeDeleteToConfirm": "Tapez \"delete\" pour confirmer",
+      "placeholderDelete": "delete",
+      "shareablelink": "Lien Partageable",
+      "noEmailProvided": "Aucun email fourni"
+    },
+    "pagination": {
+      "showing": "Affichage de {{from}} à {{to}} sur {{total}} projets",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "alerts": {
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    }
+  }
+}

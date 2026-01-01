@@ -1,0 +1,41 @@
+{
+  "page": {
+    "title": "Reseñas",
+    "subtitle": "Ver y gestionar reseñas de clientes de todos los canales conectados"
+  },
+
+  "actions": {
+    "reviewIntegration": "Integración de sitios de reseñas",
+    "exportReviews": "Exportar reseñas",
+    "tryAgain": "Intentar de nuevo"
+  },
+
+  "filters": {
+    "searchPlaceholder": "Buscar reseñas...",
+    "channelPlaceholder": "Filtrar por canal",
+    "sentimentPlaceholder": "Filtrar por sentimiento",
+
+    "channels": {
+      "all": "Todos los canales",
+      "google": "Perfil de empresa de Google",
+      "facebook": "Facebook",
+      "opentable": "OpenTable",
+      "yelp": "Yelp",
+      "foursquare": "Foursquare",
+      "bbb": "Better Business Bureau (BBB)"
+    },
+
+    "sentiments": {
+      "all": "Todos los sentimientos",
+      "positive": "Positivo (4–5 estrellas)",
+      "neutral": "Neutral (3 estrellas)",
+      "negative": "Negativo (1–2 estrellas)"
+    }
+  },
+
+  "states": {
+    "loading": "Cargando...",
+    "showingResults": "Mostrando {{count}} de {{total}} reseñas",
+    "noResults": "No se encontraron reseñas que coincidan con tus filtros"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "exportReviewsModal": {
+    "title": "Exporter les données d’avis",
+    "selectListingsLabel": "Sélectionner des établissements",
+    "selectListingsPlaceholder": "Sélectionner des établissements...",
+    "exportTypeLabel": "Choisir le type d’exportation",
+    "exportPlaceholder": "Sélectionner le type d’exportation",
+    "exportTypeOptions": {
+      "1": "Rapport récapitulatif - Comptage uniquement (aucune plage de dates)",
+      "2": "Rapport récapitulatif personnalisé - Avis par avis (avec plage de dates)",
+      "3": "Rapport récapitulatif personnalisé - Comptage uniquement (avec plage de dates)"
+    },
+    "starRatingsLabel": "Sélectionner les notes par étoiles",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "starsSelected": "{{selected}} sur {{total}} notes par étoiles sélectionnées",
+    "dateRangeLabel": "Sélectionner une plage de dates",
+    "dateRangePlaceholder": "Sélectionner une plage de dates pour les avis",
+    "buttons": {
+      "cancel": "Annuler",
+      "export": "Exporter CSV",
+      "exporting": "Exportation..."
+    },
+    "rating": {
+      "rating1": "1 étoile",
+      "rating2": "2 étoiles",
+      "rating3": "3 étoiles",
+      "rating4": "4 étoiles",
+      "rating5": "5 étoiles"
+    },
+    "toast": {
+      "validation": {
+        "title": "Erreur de validation",
+        "noListing": "Veuillez sélectionner au moins un établissement",
+        "noStar": "Veuillez sélectionner au moins une note par étoiles",
+        "noDateRange": "Veuillez sélectionner une plage de dates"
+      },
+      "success": {
+        "title": "Succès",
+        "description": "Fichier CSV généré et téléchargement lancé"
+      },
+      "error": {
+        "title": "Échec de l’exportation",
+        "description": "Une erreur s’est produite lors de l’exportation"
+      }
+    }
+  }
+}

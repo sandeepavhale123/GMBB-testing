@@ -1,0 +1,32 @@
+{
+  "publicPostReport": {
+    "title": "Rapporto sulle Prestazioni dei Post",
+    "loading": "Caricamento del rapporto sui post...",
+    "error": "Errore nel caricare il rapporto sui post",
+    "stats": {
+      "totalPosts": "Totale Post",
+      "totalScheduled": "Totale Programmati",
+      "publishedPosts": "Post Pubblicati",
+      "failedPosts": "Post Falliti"
+    },
+    "status": {
+      "published": "Pubblicato",
+      "scheduled": "Programmatico",
+      "failed": "Fallito"
+    },
+    "chart": {
+      "title": "Attività dei Post nel Tempo",
+      "currentPeriod": "Post del Periodo Attuale",
+      "previousPeriod": "Post del Periodo Precedente",
+      "noData": "Nessun dato disponibile"
+    },
+    "recentPosts": {
+      "title": "Post",
+      "noContent": "Nessun contenuto",
+      "viewOnGoogle": "Visualizza su Google"
+    },
+    "comparison": {
+      "vsPrevious": "{{value}}% vs precedente"
+    }
+  }
+}

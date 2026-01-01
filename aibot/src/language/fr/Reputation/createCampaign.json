@@ -1,0 +1,138 @@
+{
+  "title": "Créer une Campagne",
+  "campaignName": {
+    "label": "Nom de la Campagne",
+    "placeholder": "Entrez le nom de la campagne"
+  },
+  "campaignType": {
+    "label": "Type de Campagne",
+    "placeholder": "Sélectionner le type de campagne",
+    "review": "Campagne d'Avis",
+    "survey": "Campagne d'Enquête"
+  },
+  "toast": {
+    "error": "Erreur",
+    "success": "Succès",
+    "csv": "Le fichier CSV est vide ou invalide",
+    "nameColumns": "Le CSV doit contenir les colonnes 'first_name' et 'last_name'",
+    "email": "Le CSV doit contenir la colonne 'email' pour les campagnes email",
+    "phone": "Le CSV doit contenir la colonne 'phone' pour les campagnes SMS/WhatsApp",
+    "invalidCont": "Aucun contact valide trouvé dans le CSV",
+    "import": "{{newContacts}} contacts importés avec succès",
+    "csvUploadSuccess": "{{count}} contacts importés du CSV avec succès",
+    "csvUploadFailed": "Échec du téléchargement du fichier CSV",
+    "noCampagin": "Aucun ID de campagne trouvé. Veuillez d'abord créer une campagne."
+  },
+  "channel": {
+    "label": "Sélectionner le Canal",
+    "sms": "SMS",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "twilioRequired": "Veuillez intégrer votre compte Twilio pour utiliser ce service"
+  },
+  "contacts": {
+    "title": "Ajouter des contacts",
+    "importCSV": "Importer CSV",
+    "contactList": "Liste de contacts",
+    "namePlaceholder": "Entrez le nom",
+    "countryCodePlaceholder": "Code",
+    "phonePlaceholder": "Entrez le numéro de téléphone",
+    "emailPlaceholder": "Entrez l'e-mail",
+    "addButton": "Ajouter",
+    "editButton": "Modifier",
+    "removeButton": "Supprimer"
+  },
+  "template": {
+    "title": "Sélectionner le Modèle",
+    "defaultTemplate": "Modèle par défaut",
+    "greeting": "Bonjour Nom!",
+    "defaultMessage": "Nous espérons que vous avez apprécié votre récente expérience avec nous. Pourriez-vous prendre un moment pour nous laisser un avis?",
+    "reviewLink": "Lien d'Avis",
+    "noTemplateSelected": "Sélectionnez un modèle pour prévisualiser son contenu",
+    "shortCodes": "Codes courts disponibles (cliquez pour copier) :",
+    "copied": "Copié dans le presse-papiers !",
+    "readOnlyNote": "Le contenu du modèle ne peut pas être modifié pour les campagnes SMS/WhatsApp"
+  },
+  "sender": {
+    "title": "Sélectionner l'Expéditeur",
+    "placeholder": "Choisissez un expéditeur",
+    "noSendersAvailable": "Aucun expéditeur disponible. Configurez Twilio d'abord."
+  },
+  "feedbackForm": {
+    "label": "Sélectionner le Formulaire de Retour",
+    "placeholder": "Choisissez un formulaire",
+    "noFormsAvailable": "Aucun formulaire disponible. Créez-en un d'abord."
+  },
+  "schedule": {
+    "label": "Planifier la campagne (optionnel)",
+    "date": "Date",
+    "time": "Heure"
+  },
+  "submit": "Soumettre",
+  "validation": {
+    "nameRequired": "Le nom de la campagne est requis",
+    "contactRequired": "Au moins un contact est requis",
+    "invalidPhone": "Numéro de téléphone invalide (10-15 chiffres requis)",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+    "platformRequired": "Veuillez sélectionner une plateforme d'envoi d'e-mail (SMTP ou Mailgun)",
+    "contactValidationTitle": "Erreurs de validation des contacts",
+    "contactRowMissingName": "Ligne {{row}} : Le nom est manquant",
+    "contactRowMissingEmail": "Ligne {{row}} ({{name}}) : L'e-mail est manquant",
+    "contactRowMissingPhone": "Ligne {{row}} ({{name}}) : Le téléphone est manquant",
+    "contactRowInvalidEmail": "Ligne {{row}} ({{name}}) : Format d'e-mail invalide",
+    "contactRowInvalidPhone": "Ligne {{row}} ({{name}}) : Numéro de téléphone invalide",
+    "moreErrors": "...et {{count}} autre(s) erreur(s)"
+  },
+  "success": {
+    "title": "Campagne Créée",
+    "description": "Votre campagne a été créée avec succès"
+  },
+  "importModal": {
+    "title": "Importer un Fichier",
+    "downloadSample": "Télécharger un Fichier d'Exemple"
+  },
+  "contactListModal": {
+    "title": "Liste de contacts",
+    "tabs": {
+      "contactList": "Liste de contacts",
+      "importCSV": "Importer CSV"
+    },
+    "filter": {
+      "contacts": "Contacts",
+      "groups": "Groupes"
+    },
+    "table": {
+      "name": "Nom",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "group": "Groupe",
+      "groupName": "Nom du groupe",
+      "contactCount": "Nombre de contacts"
+    },
+    "csv": {
+      "title": "Importer CSV",
+      "downloadSample": "Télécharger un fichier exemple",
+      "description": "Téléchargez un fichier CSV avec des contacts à importer",
+      "selectGroupLabel": "Attribuer au groupe (Optionnel)",
+      "selectGroupPlaceholder": "Sélectionnez un groupe...",
+      "noGroups": "Aucun groupe disponible",
+      "importButton": "Importer"
+    },
+    "searchPlaceholder": "Rechercher des contacts ou des groupes...",
+    "groups": "Groupes",
+    "contacts": "Contacts",
+    "noResults": "Aucun résultat trouvé",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "cancel": "Annuler",
+    "addSelected": "Ajouter la sélection",
+    "selectedCount": "{{count}} sélectionné(s)"
+  },
+  "sendPlatform": {
+    "title": "Sélectionner la Plateforme d'Envoi",
+    "configured": "Configuré",
+    "notConfigured": "Configurer",
+    "smtp": "SMTP",
+    "mailgun": "Mailgun"
+  }
+}

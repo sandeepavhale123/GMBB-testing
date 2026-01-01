@@ -1,0 +1,38 @@
+{
+  "title": "Group Details",
+  "back": "Back",
+  "addListing": "Add Listing",
+  "searchPlaceholder": "Search locations...",
+  "noLocations": "No locations in this group.",
+  "noSearchResults": "No locations found matching your search.",
+  "table": {
+    "locationName": "Location Name",
+    "zipCode": "Zip Code",
+    "email": "Email",
+    "actions": "Actions",
+    "notAvailable": "N/A"
+  },
+  "pagination": {
+    "showing": "Showing {{from}} to {{to}} of {{total}} locations",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{pages}}"
+  },
+  "deleteDialog": {
+    "title": "Delete Location",
+    "description": "Are you sure you want to remove \"{{locationName}}\" from this group? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "toast": {
+    "successTitle":"Success",
+    "removeSuccess": "{{locationName}} has been removed from the group.",
+    "errorTitle":"Error",
+    "removeError": "Failed to remove location from group"
+  },
+  "errors": {
+    "loadFailed": "Failed to load group details"
+  },
+  "retry": "Retry",
+  "loading": "Loading..."
+}

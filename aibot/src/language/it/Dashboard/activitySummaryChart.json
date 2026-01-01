@@ -1,0 +1,8 @@
+{
+  "title": "Riepilogo Attività",
+  "labels": {
+    "success": "Successo",
+    "failed": "Fallito"
+  },
+  "summary": "% Successi vs. Falliti"
+}

@@ -1,0 +1,12 @@
+{
+  "offer": {
+    "startDateTime": "Start Date & Time",
+    "endDateTime": "End Date & Time",
+    "couponCode": "Coupon Code",
+    "couponCodePlaceholder": "Enter coupon code",
+    "redeemOnlineUrl": "Redeem Online URL",
+    "redeemOnlineUrlPlaceholder": "https://example.com/redeem",
+    "termsAndConditions": "Terms & Conditions",
+    "termsAndConditionsPlaceholder": "Enter terms and conditions for this offer..."
+  }
+}

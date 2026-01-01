@@ -1,0 +1,9 @@
+{
+  "dashboardTypes": {
+    "default": "Default",
+    "insight": "Insight",
+    "review": "Review",
+    "location": "Location",
+    "post": "Post"
+  }
+}

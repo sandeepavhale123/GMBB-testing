@@ -1,0 +1,20 @@
+{
+  "title": "Articles planifiés",
+  "viewAll": "Tout voir",
+  "loading": {
+    "retry": "Réessayer"
+  },
+  "error": {
+    "failed": "Échec du chargement des articles planifiés"
+  },
+  "empty": {
+    "title": "Aucun article planifié",
+    "subtitle": "Créez un nouvel article pour commencer"
+  },
+  "table": {
+    "postImage": "Image de l'article",
+    "postDescription": "Description de l'article",
+    "scheduledDate": "Date prévue",
+    "action": "Action"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "actionDropdown": {
+    "openMenu": "Apri menu",
+    "viewGmbHealthReport": "Visualizza rapporto salute GMB",
+    "generateGmbHealthReport": "Genera rapporto salute GMB",
+    "viewCitationAuditReport": "Visualizza rapporto audit citazioni",
+    "generateCitationAuditReport": "Genera rapporto audit citazioni",
+    "viewGeoRankingReport": "Visualizza rapporto ranking GEO",
+    "generateGeoRankingReport": "Genera rapporto ranking GEO",
+    "viewGmbProspectReport": "Visualizza rapporto prospetti GMB",
+    "generateGmbProspectReport": "Genera rapporto prospetti GMB",
+    "leadClassifier": "Classificatore lead",
+    "delete": "Elimina"
+  }
+}

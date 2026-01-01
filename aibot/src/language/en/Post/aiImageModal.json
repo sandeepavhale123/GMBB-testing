@@ -1,0 +1,37 @@
+{
+  "title": "GMB Genie Image Generator",
+  "form": {
+    "prompt": "Image Title / Prompt",
+    "promptPlaceholder": "Describe the image you want to generate...",
+    "variants": "Number of Variants",
+    "style": "Image Style (Optional)",
+    "stylePlaceholder": "Choose style"
+  },
+  "styles": {
+    "flat": "Flat",
+    "illustration": "Illustration",
+    "realistic": "Realistic",
+    "modern": "Modern",
+    "vintage": "Vintage"
+  },
+  "buttons": {
+    "generate": "Generate Images",
+    "generating": "Generating Images...",
+    "regenerate": "Regenerate",
+    "close": "Close",
+    "useSelected": "Use Selected"
+  },
+  "labels": {
+    "generatedImages": "Generated Images",
+    "select": "Select",
+    "selectedCount": "{{count}} image(s) selected"
+  },
+  "toast": {
+    "errorTitle": "Error",
+    "errorDescription": "Please enter a prompt to generate images.",
+    "successTitle": "Success",
+    "successDescription": "Generated {{count}} image(s) successfully.",
+    "failedTitle": "Error",
+    "failedDescription": "Failed to generate images. Please try again."
+  }
+}

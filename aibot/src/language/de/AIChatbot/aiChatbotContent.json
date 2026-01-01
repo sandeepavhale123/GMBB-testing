@@ -1,0 +1,31 @@
+{
+  "aiChatbotContent": {
+    "sidebar": {
+      "title": "Chatverlauf",
+      "newChat": "Neuer Chat",
+      "showHistory": "Verlauf anzeigen",
+      "hideHistory": "Verlauf ausblenden",
+      "loadingHistory": "Lade Chatverlauf...",
+      "noHistory": "Noch kein Chatverlauf vorhanden."
+    },
+    "mainChat": {
+      "title": "AI Genie Unterstützung",
+      "welcomeTitle": "Willkommen bei AI Genie Unterstützung.",
+      "welcomeDescription": "Stellen Sie mir Fragen zu Ihrer Unternehmensleistung, SEO-Optimierung, Geo-Ranking-Insights und mehr. Probieren Sie die vorgeschlagenen Fragen aus, um loszulegen!",
+      "loadingMessages": "Lade Chatnachrichten...",
+      "aiThinking": "Die KI denkt..."
+    },
+    "actions": {
+      "copy": "Kopieren",
+      "good": "Gut",
+      "bad": "Schlecht"
+    },
+    "deleteDialog": {
+      "title": "Chat-Sitzung löschen",
+      "description": "Möchten Sie diese Chat-Sitzung wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "deleting": "Lösche..."
+    }
+  }
+}

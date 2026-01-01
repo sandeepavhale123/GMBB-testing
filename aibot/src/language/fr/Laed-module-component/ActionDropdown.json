@@ -1,0 +1,15 @@
+{
+  "actionDropdown": {
+    "openMenu": "Ouvrir le menu",
+    "viewGmbHealthReport": "Voir le rapport de santé GMB",
+    "generateGmbHealthReport": "Générer le rapport de santé GMB",
+    "viewCitationAuditReport": "Voir le rapport d’audit des citations",
+    "generateCitationAuditReport": "Générer le rapport d’audit des citations",
+    "viewGeoRankingReport": "Voir le rapport de classement GEO",
+    "generateGeoRankingReport": "Générer le rapport de classement GEO",
+    "viewGmbProspectReport": "Voir le rapport de prospection GMB",
+    "generateGmbProspectReport": "Générer le rapport de prospection GMB",
+    "leadClassifier": "Classificateur de prospects",
+    "delete": "Supprimer"
+  }
+}

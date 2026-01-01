@@ -1,0 +1,17 @@
+{
+  "unsubscriptionModal": {
+    "title": "Annuler l'abonnement",
+    "description": "Nous sommes désolés de vous voir partir. Merci de nous aider à nous améliorer en fournissant vos retours.",
+    "feedbackLabel": "Dites-nous ce qui vous a poussé à résilier votre service. Peut-être y a-t-il quelque chose que GMB Briefcase peut améliorer.",
+    "feedbackPlaceholder": "Vos retours nous aident à nous améliorer...",
+    "feedbackCounter": "{{count}}/500 caractères",
+    "warningMessage": "Veuillez être sûr avant de supprimer votre service, car toutes vos données peuvent être perdues. Ce processus est irréversible.",
+    "confirmationLabelp1": "Tapez",
+    "confirmationLabelp2": " SUPPRIMER",
+    "confirmationLabelp3": "pour confirmer :",
+    "confirmationPlaceholder": "Tapez SUPPRIMER pour confirmer",
+    "closeButton": "Fermer",
+    "confirmButton": "Confirmer l'annulation",
+    "processing": "Traitement en cours..."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "verifyPayment": {
+    "loading": {
+      "title": "Vérification de votre paiement",
+      "description": "Veuillez patienter pendant que nous vérifions votre paiement..."
+    },
+    "success": {
+      "title": "Paiement vérifié avec succès !",
+      "description": "Votre abonnement a été activé avec succès. Vous pouvez maintenant accéder à toutes les fonctionnalités premium.",
+      "button": "Continuer"
+    },
+    "error": {
+      "title": "Échec de la vérification du paiement",
+      "buttonTryAgain": "Réessayer",
+      "buttonBackHome": "Retour à l'accueil",
+      "messages": {
+        "invalidParams": "Paramètres de vérification invalides",
+        "verificationFailed": "La vérification du paiement a échoué. Veuillez réessayer."
+      }
+    }
+  }
+}

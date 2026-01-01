@@ -1,0 +1,15 @@
+{
+  "postImage": {
+    "label": "Image du post",
+    "clickToUpload": "Cliquez pour télécharger",
+    "orDragAndDrop": "ou glissez-déposez",
+    "fileNote": "PNG, JPG jusqu’à 10 Mo",
+    "remove": "Supprimer",
+    "aiImageName": "Image générée par IA",
+    "aiImageSize": "Générée",
+    "modal": {
+      "close": "Fermer",
+      "apply": "Appliquer"
+    }
+  }
+}

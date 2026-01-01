@@ -1,0 +1,15 @@
+{
+  "completionStep": {
+    "welcomeTitle": "🎉 Willkommen bei GMB Briefcase!",
+    "welcomeDescription": "Ihr Konto ist eingerichtet und startklar. Das können Sie als Nächstes tun:",
+    "helpSection": {
+      "title": "Brauchen Sie Hilfe beim Einstieg?",
+      "description": "Unser Team unterstützt Sie gerne beim Erfolg. Greifen Sie auf unsere Wissensdatenbank, Video-Tutorials zu oder vereinbaren Sie einen kostenlosen Onboarding-Anruf.",
+      "buttons": {
+        "helpCenter": "Hilfe-Center anzeigen",
+        "onboardingCall": "Onboarding-Anruf vereinbaren"
+      }
+    },
+    "goToDashboardButton": "Zum Dashboard"
+  }
+}

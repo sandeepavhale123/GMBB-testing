@@ -1,0 +1,60 @@
+{
+  "teamMembersPage": {
+    "title": "Teammitglieder",
+    "description": "Verwalten Sie Ihre Teammitglieder und deren Zugriffsberechtigungen.",
+    "addMember": "Mitglied hinzufügen",
+    "add": "Hinzufügen",
+    "searchPlaceholder": "Mitglieder nach Name oder E-Mail suchen",
+    "allRoles": "Alle Rollen",
+    "staff": "Mitarbeiter",
+    "client": "Kunde",
+    "moderator": "Moderator",
+    "totalMembers": "Gesamt: {{count}}",
+    "error": {
+      "title": "Fehler beim Laden der Teammitglieder",
+      "tryAgain": "Erneut versuchen"
+    },
+    "empty": {
+      "title": "Keine Teammitglieder gefunden",
+      "searchAdjust": "Versuchen Sie, Ihre Suchkriterien oder Filter anzupassen",
+      "addFirst": "Fügen Sie Ihr erstes Teammitglied hinzu, um zu beginnen"
+    },
+    "table": {
+      "member": "Mitglied",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "listings": "Einträge",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "copy": {
+      "tooltip":"E-Mail kopieren",
+      "successTitle": "E-Mail kopiert",
+      "successDesc": "E-Mail-Adresse wurde in die Zwischenablage kopiert.",
+      "errorTitle": "Kopieren fehlgeschlagen",
+      "errorDesc": "Konnte die E-Mail nicht in die Zwischenablage kopieren."
+    },
+    "password": {
+      "show": "Passwort anzeigen",
+      "hide": "Passwort ausblenden"
+    },
+    "dropdown": {
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "grid": {
+      "password": "Passwort:",
+      "role": "Rolle:",
+      "listings": "Einträge:",
+      "status": "Status:"
+    },
+    "roles": {
+      "Admin": "Admin",
+      "Editor": "Editor",
+      "Viewer": "Betrachter",
+      "Staff": "Mitarbeiter",
+      "Client": "Kunde",
+      "Moderator": "Moderator"
+    }
+  }
+}

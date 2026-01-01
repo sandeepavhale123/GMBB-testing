@@ -1,0 +1,11 @@
+{
+  "postTypeSelector": {
+    "label": "Post Type",
+    "placeholder": "Choose post type",
+    "types": {
+      "regular": "Regular Post",
+      "event": "Event Post",
+      "offer": "Offer Post"
+    }
+  }
+}

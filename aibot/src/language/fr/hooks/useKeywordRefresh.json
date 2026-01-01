@@ -1,0 +1,30 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStarted": {
+        "title": "Actualisation démarrée",
+        "description": "Actualisation des données du mot-clé en cours..."
+      },
+      "refreshComplete": {
+        "title": "Actualisation terminée",
+        "description": "Les données du mot-clé ont été mises à jour avec succès"
+      },
+      "refreshTimeout": {
+        "title": "Délai d'actualisation dépassé",
+        "description": "L'actualisation prend plus de temps que prévu. Veuillez réessayer."
+      },
+      "refreshFailed": {
+        "title": "Actualisation échouée",
+        "description": "Impossible de mettre à jour le mot-clé"
+      }
+    },
+    "errors": {
+      "refreshTimeout": "Délai d'actualisation dépassé - veuillez réessayer",
+      "missingKeywordOrListing": "L'ID de l'annonce et le mot-clé sélectionné sont requis"
+    },
+    "labels": {
+      "refreshing": "Actualisation en cours...",
+      "progress": "Progression"
+    }
+  }
+}

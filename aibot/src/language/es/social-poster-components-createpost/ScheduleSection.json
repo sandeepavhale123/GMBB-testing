@@ -1,0 +1,16 @@
+{
+  "title": "Programar",
+  "description": "Elige cuándo publicar",
+
+  "options": {
+    "now": "Publicar ahora",
+    "schedule": "Programar para más tarde"
+  },
+
+  "fields": {
+    "date": "Fecha",
+    "time": "Hora"
+  },
+
+  "timezoneNote": "La publicación se programará para la zona horaria {{timezone}}"
+}

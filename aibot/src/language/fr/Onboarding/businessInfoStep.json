@@ -1,0 +1,22 @@
+{
+  "businessInfoStep": {
+    "title": "Parlez-nous de votre entreprise",
+    "description": "Nous utiliserons ces informations pour personnaliser votre expérience.",
+    "businessNameLabel": "Nom de l'entreprise/agence *",
+    "businessNamePlaceholder": "Entrez le nom de votre entreprise ou agence",
+    "websiteLabel": "Site web",
+    "websitePlaceholder": "https://votreentreprise.com",
+    "emailLabel": "Email de l'entreprise *",
+    "emailPlaceholder": "entreprise@example.com",
+    "timezoneLabel": "Fuseau horaire préféré *",
+    "timezonePlaceholder": "Sélectionnez votre fuseau horaire",
+    "timezoneSearch": "Rechercher un fuseau horaire...",
+    "noTimezone": "Aucun fuseau horaire trouvé.",
+    "dashboardTypeLabel": "Type de tableau de bord *",
+    "dashboardTypePlaceholder": "Sélectionnez le type d'entreprise",
+    "locationCountLabel": "Combien de sites souhaitez-vous gérer ?",
+    "locationCountPlaceholder": "Sélectionnez la plage de listings",
+    "continueButton": "Continuer",
+    "savingButton": "Enregistrement..."
+  }
+}

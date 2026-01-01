@@ -1,0 +1,16 @@
+{
+  "placeholder": "Message...",
+  "removeImage": "Supprimer l'image",
+  "imagePreviewAlt": "Aperçu de l'image",
+  "fullSizePreviewAlt": "Aperçu en taille réelle",
+  "questions": "Questions",
+  "loadingQuestions": "Chargement des questions...",
+  "retry": "Réessayer",
+  "selectCategory": "Sélectionnez une catégorie :",
+  "back": "← Retour",
+  "close": "Fermer",
+  "recordVoice": "Enregistrer la voix",
+  "send": "Envoyer",
+  "sendMessage": "Envoyer le message",
+  "errorLoading": "Échec du chargement des questions. Veuillez réessayer."
+}

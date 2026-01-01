@@ -1,0 +1,13 @@
+{
+  "userProfileDropdown": {
+    "defaultUserName": "Usuario",
+    "defaultUserEmail": "usuario@ejemplo.com",
+    "viewProfile": "Ver Perfil",
+    "accountSettings": "Configuración de la Cuenta",
+    "logout": "Cerrar Sesión",
+    "switchToBulk": "Cambiar a Panel Masivo",
+    "switchToSingle": "Cambiar a Panel Individual",
+    "switchSuccess": "Panel Cambiado",
+    "switchError": "Error al Cambiar"
+  }
+}

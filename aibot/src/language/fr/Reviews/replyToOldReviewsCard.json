@@ -1,0 +1,16 @@
+{
+  "replyToOldReviewsCard": {
+    "label": "Répondre aux avis existants (avis anciens)",
+    "toast": {
+      "success": {
+        "title": "Succès",
+        "enabled": "Réponse aux avis existants activée avec succès.",
+        "disabled": "Réponse aux avis existants désactivée avec succès."
+      },
+      "error": {
+        "title": "Erreur",
+        "default": "Une erreur est survenue lors de la mise à jour des paramètres."
+      }
+    }
+  }
+}

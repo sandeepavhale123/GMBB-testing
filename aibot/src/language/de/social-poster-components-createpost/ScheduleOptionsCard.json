@@ -1,0 +1,6 @@
+{
+  "title": "Planungsoptionen",
+  "date": "Datum",
+  "time": "Uhrzeit",
+  "timezoneNote": "Der Beitrag wird für die Zeitzone {{timezone}} geplant"
+}

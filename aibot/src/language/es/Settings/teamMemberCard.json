@@ -1,0 +1,10 @@
+{
+  "teamMemberCard": {  
+    "labels": {
+      "listings": "Listados",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "hiddenPassword": "••••••••"
+    }    
+  }
+}

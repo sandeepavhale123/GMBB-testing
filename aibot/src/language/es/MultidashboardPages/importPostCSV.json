@@ -1,0 +1,38 @@
+{
+  "importPostCSV": {
+    "title": "Gestión de Publicaciones Masivas",
+    "importButton": "Importar archivo CSV",
+    "searchPlaceholder": "Buscar por nombre de archivo o nota...",
+    "noRecordsFound": "No se encontraron registros para su búsqueda.",
+    "noCSVFound": "No se encontraron importaciones CSV. Haga clic en \"Importar\" para comenzar.",
+    "tableHeaders": {
+      "filename": "Nombre de archivo",
+      "note": "Nota",
+      "date": "Fecha",
+      "totalPosts": "Total de publicaciones",
+      "listingsApplied": "Listados aplicados",
+      "status": "Estado",
+      "action": "Acción",
+      "listing": "Listados"
+    },
+    "status": {
+      "completed": "completado",
+      "processing": "procesando",
+      "failed": "fallido"
+    },
+    "deleteDialog": {
+      "title": "Eliminar importación CSV",
+      "description": "¿Está seguro de que desea eliminar el registro de importación de \"{{filename}}\"? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando..."
+    },
+    "toast": {
+      "successTitle": "Éxito",
+      "successMessage": "Registro eliminado con éxito",
+      "errorTitle": "Error",
+      "errorMessage": "No se pudo eliminar el registro"
+    },
+    "paginationInfo": "Mostrando {{start}} a {{end}} de {{total}} entradas"
+  }
+}

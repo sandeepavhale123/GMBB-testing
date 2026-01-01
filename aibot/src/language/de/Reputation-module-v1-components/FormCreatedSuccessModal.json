@@ -1,0 +1,10 @@
+{
+  "title": "🎉 Feedback-Formular erfolgreich erstellt!",
+  "description": "Ihr Formular „{{formName}}“ wurde erstellt. Teilen Sie den untenstehenden Link mit Ihren Kunden.",
+  "formUrlLabel": "Formular-URL",
+  "copyInfo": "Klicken Sie auf das Kopiersymbol, um die Formular-URL in die Zwischenablage zu kopieren",
+  "copyLink": "Link kopieren",
+  "goToDashboard": "Zum Dashboard gehen",
+  "toastTitle": "Link kopiert!",
+  "toastDescription": "Die Formular-URL wurde in die Zwischenablage kopiert"
+}

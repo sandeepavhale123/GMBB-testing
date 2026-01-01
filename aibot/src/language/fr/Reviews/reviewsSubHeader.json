@@ -1,0 +1,15 @@
+{
+  "reviewsSubHeader": {
+    "tabs": {
+      "summary": "Résumé des Avis",
+      "autoResponse": "Réponse Automatique"
+    },
+    "replySettingBadge": {
+      "prefix": "Paramètre de réponse automatique activé : ",
+      "AI": "Réponse IA",
+      "CUSTOM": "Modèle Personnalisé",
+      "DNR": "Ne Pas Répondre"
+    },
+    "export": "Exporter les Avis"
+  }
+}

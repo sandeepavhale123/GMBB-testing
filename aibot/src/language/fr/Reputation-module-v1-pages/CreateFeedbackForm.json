@@ -1,0 +1,103 @@
+{
+  "title": {
+    "create": "Créer un formulaire de feedback",
+    "edit": "Modifier le formulaire de feedback",
+    "step1": "Détails du formulaire de feedback",
+    "step2": "Options de personnalisation",
+    "step3": "Redirection pour feedback positif",
+    "step4": "Message de succès"
+  },
+  "labels": {
+    "formName": "Nom du formulaire",
+    "logo": "Logo",
+    "feedback":"Formulaire de feedback",
+    "title": "Titre",
+    "subtitle": "Sous-titre",
+    "success":"Succès !",
+    "positiveFeedbackTitle": "Titre du feedback positif",
+    "successTitle": "Titre du succès",
+    "successSubtitle": "Sous-titre du succès",
+    "positiveRatingThreshold": "Seuil de feedback positif",
+    "reviewSites": "Sites d'avis",
+    "step": "Étape {{currentStep}} sur 4",
+    "formTitle":"Titre du formulaire",
+    "formSubtitle":"Sous-titre du formulaire",
+    "error":"Erreur",
+    "invalid":"URLs invalides"
+  },
+  "placeholders": {
+    "formName": "ex. : Formulaire de feedback restaurant",
+    "url": "https://exemple.com/avis",
+    "title": "Entrez le titre",
+    "subtitle": "Entrez le sous-titre",
+    "successTitle": "Entrez le titre du message de succès",
+    "successSubtitle": "Entrez le sous-titre du message de succès",
+    "positiveTitle": "Entrez le titre du feedback positif",
+    "option":"Sélectionnez une option",
+    "rating":"Sélectionnez le seuil d'évaluation",
+    "postitve":"Entrez le titre du feedback positif..."
+  },
+  "messages": {
+    "loading": "Chargement des données du formulaire...",
+    "editing":"Modification du formulaire existant",
+    "validationError": "Erreur de validation",
+    "formNameRequired": "Le nom du formulaire est requis",
+    "logoRequired": "Le logo est requis",
+    "validUrlRequired": "Au moins une URL de site d'avis est requise",
+    "validMessage":"Veuillez entrer un nom de formulaire",
+    "invalidUrls": "Veuillez corriger les URLs invalides avant de continuer",
+    "invalidUrlFormat": "Veuillez entrer une URL valide (ex. : https://exemple.com)",
+    "saved": "Formulaire de feedback créé avec succès",
+    "updated": "Formulaire de feedback mis à jour avec succès",
+    "saveError": "Échec de l'enregistrement du formulaire de feedback",
+    "updateError": "Échec de la mise à jour du formulaire de feedback",
+    "createError":"Échec de la création du formulaire de feedback",
+    "accept":"Accepté : {{field}}",
+    "review":"Vérifiez et ajustez les éléments de branding de votre formulaire"
+  },
+  "buttons": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "save": "Enregistrer",
+    "update": "Mettre à jour le formulaire",
+    "saving": "Enregistrement...",
+    "updating": "Mise à jour...",
+    "edit": "Modifier",
+    "reset": "Réinitialiser le formulaire",
+    "submit": "Envoyer le feedback"
+  },
+  "tooltips": {
+    "formNameInfo": "Ce nom est uniquement pour votre référence interne",
+    "logoInfo": "Requis - Téléchargez le logo de votre entreprise",
+    "ratingInfo": "Choisissez la note minimale que vous considérez comme un feedback positif",
+    "reviewSiteInfo": "Entrez les URLs des sites où les clients peuvent laisser leur feedback. Seules les URLs valides seront affichées aux utilisateurs.",
+    "uploadInfo":"Cliquez pour télécharger ou glissez-déposez",
+    "imgalt":"Logo {{site}}",
+    "review":"Avis sur {{name}}"
+  },
+  "preview": {
+    "header": "Aperçu",
+    "logoPlaceholder": "LOGO",
+    "logoalt":"Aperçu du logo"
+  },
+  "formField":{
+    "label1":"Nom",
+    "place1":"Entrez votre nom",
+    "label2":"Email",
+    "place2":"Entrez votre email",
+    "label3":"Commentaire",
+    "place3":"Entrez votre commentaire"
+  },
+  "state":{
+    "successSubtitle":"Nous apprécions que vous preniez le temps de partager vos impressions. Votre feedback nous aide à améliorer notre service.",
+    "successTitle":"Merci pour votre feedback !",
+    "positiveFeedbackTitle":"Nous aimerions avoir votre avis ! Partagez votre expérience en nous laissant un avis.",
+    "subtitle":"Votre avis compte et nous aimerions l'entendre.",
+    "title":"Comment s'est passée votre expérience avec nous ?"
+  },
+  "rating":{
+    "lab1":"3 étoiles ou plus",
+    "lab2":"4 étoiles ou plus",
+    "lab3":"5 étoiles uniquement"
+  }
+}

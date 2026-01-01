@@ -1,0 +1,12 @@
+{
+  "threads": {
+    "fallbackBusinessName": "Tu empresa",
+    "fallbackContent": "El contenido de tu publicación aparecerá aquí...",
+    "timestampNow": "ahora",
+    "altmedia": "Medios de la publicación",
+    "stats": {
+      "replies": "{{count}} respuestas",
+      "likes": "{{count}} me gusta"
+    }
+  }
+}

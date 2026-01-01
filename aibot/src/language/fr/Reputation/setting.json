@@ -1,0 +1,131 @@
+{
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+  "title": "Paramètres",
+  "tabs": {
+    "templates": "Modèles",
+    "contacts": "Contacts",
+    "themeCustomization": "Personnalisation du thème",
+    "integrations": "Intégrations"
+  },
+  "themeCustomization": {
+    "title": "Personnalisation du thème",
+    "subtitle": "Personnalisez votre image de marque et votre apparence",
+    "badge": "Identité de marque",
+    "messages": {
+      "reset": {
+        "title": "Réinitialisation du thème",
+        "success": "Le thème a été réinitialisé avec succès",
+        "errorTitle": "Échec de la réinitialisation",
+        "errorDescription": "Impossible de réinitialiser le thème"
+      },
+      "save": {
+        "successTitle": "Thème enregistré",
+        "errorTitle": "Échec de l’enregistrement",
+        "errorDescription": "Impossible d’enregistrer le thème"
+      }
+    }
+  },
+  "integrations": {
+    "title": "Intégrations",
+    "subtitle": "Configurer les paramètres SMTP et de sous-domaine",
+    "status": {
+      "active": "Actif"
+    },
+    "smtp": {
+      "name": "Détails SMTP",
+      "description": "Configurer les paramètres d’envoi d’e-mails pour les notifications",
+      "configureTitle": "Configurer SMTP",
+      "labels": {
+        "fromName": "Nom de l’expéditeur",
+        "fromEmail": "E-mail de l’expéditeur",
+        "smtpHost": "Hôte SMTP",
+        "smtpPort": "Port SMTP",
+        "smtpUser": "Utilisateur SMTP",
+        "smtpPassword": "Mot de passe SMTP"
+      },
+      "placeholders": {
+        "fromName": "Saisissez le nom de l’expéditeur",
+        "fromEmail": "Saisissez l’e-mail de l’expéditeur",
+        "smtpHost": "smtp.example.com",
+        "smtpPort": "587",
+        "smtpUser": "Saisissez le nom d’utilisateur SMTP",
+        "smtpPassword": "Saisissez le mot de passe SMTP"
+      }
+    },
+    "subdomain": {
+      "name": "Configuration du sous-domaine",
+      "description": "Configurer un sous-domaine personnalisé pour votre application",
+      "label": "Sous-domaine",
+      "placeholder": "Saisissez votre sous-domaine",
+      "text": "Saisissez le sous-domaine que vous souhaitez utiliser pour votre application",
+      "follow": "Suivez ces étapes :",
+      "stepcount": "Étape {{count}}",
+      "step1": "Choisissez le nom de votre sous-domaine",
+      "step2": "Pointez votre enregistrement A vers ",
+      "step3p1": "Vérifiez la propagation DNS sur ",
+      "step3p2": "DNS Checker",
+      "step4": "Enregistrez votre configuration"
+    },
+    "disconnectDialog": {
+      "title": "Déconnecter l’intégration",
+      "message": "Êtes-vous sûr de vouloir déconnecter cette intégration ? Tapez « delete » pour confirmer.",
+      "label": "Confirmation",
+      "placeholder": "Tapez « delete » pour confirmer"
+    },
+    "buttons": {
+      "configure": "Configurer",
+      "edit": "Modifier",
+      "disconnect": "Déconnecter",
+      "configure": "Configurer"
+    }
+  },
+  "qrCode": {
+    "title": "Code QR d'Avis",
+    "description": "Générez et téléchargez des codes QR pour vos demandes d'avis",
+    "simpleCard": {
+      "title": "Code QR Simple",
+      "description": "Téléchargez un code QR de base qui mène directement à votre page d'avis. Parfait pour un partage et une impression rapides.",
+      "downloadButton": "Télécharger le Code QR"
+    },
+    "posterCard": {
+      "title": "Poster QR Personnalisé",
+      "description": "Créez une affiche avec votre marque incluant votre code QR, logo et messages personnalisés. Idéal pour l'affichage dans votre établissement.",
+    "customizeButton": "Personnaliser le Poster"
+    }
+  },
+  "contacts": {
+    "selectAll": "Sélectionner tous les contacts",
+    "bulkDelete": {
+      "button": "Supprimer ({{count}})",
+      "success": "{{count}} contacts supprimés avec succès",
+      "error": "Échec de la suppression des contacts",
+      "partialSuccess": "{{deleted}} contacts supprimés, {{invalid}} échoués"
+    },
+    "bulkDeleteDialog": {
+      "title": "Supprimer les contacts",
+      "description": "Êtes-vous sûr de vouloir supprimer {{count}} contacts ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  },
+  "groups": {
+    "selectAll": "Sélectionner tous les groupes",
+    "bulkDelete": {
+      "button": "Supprimer ({{count}})",
+      "success": "{{count}} groupes supprimés avec succès",
+      "error": "Échec de la suppression des groupes",
+      "partialSuccess": "{{deleted}} groupes supprimés, {{invalid}} échoués"
+    },
+    "bulkDeleteDialog": {
+      "title": "Supprimer les groupes",
+      "description": "Êtes-vous sûr de vouloir supprimer {{count}} groupes ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  }
+}

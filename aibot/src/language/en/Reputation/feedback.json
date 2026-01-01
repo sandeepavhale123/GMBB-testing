@@ -1,0 +1,81 @@
+{
+  "pageTitle": "Manage Feedback",
+  "pageDescription": "Review and manage customer feedback for ratings below 3 stars",
+  "summary": {
+    "totalFeedback": "Total Feedback",
+    "averageRating": "Average Rating",
+    "pendingCount": "Pending",
+    "resolvedCount": "Resolved"
+  },
+  "filters": {
+    "rating": "Rating",
+    "channel": "Channel",
+    "status": "Status",
+    "dateRange": "Date Range",
+    "search": "Search by name or message...",
+    "exportCSV": "Export CSV",
+    "clearFilters": "Clear Filters"
+  },
+  "table": {
+    "campagin":"Campaign Type",
+    "customerName": "Customer Name",
+    "rating": "Rating",
+    "message": "Message",
+    "channel": "Channel",
+    "submittedDate": "Submitted Date",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "status": {
+    "all":"All Status",
+    "pending": "Pending",
+    "reviewed": "Reviewed",
+    "resolved": "Resolved"
+  },
+  "channels": {
+    "all":"All Channels",
+    "google": "Google",
+    "facebook": "Facebook",
+    "yelp": "Yelp",
+    "direct": "Direct",
+    "email": "Email"
+  },
+  "rating":{
+    "all":"All Ratings",
+    "one":"1 Star",
+    "two":"2 Stars"
+  },
+  "modal": {
+    "title": "Feedback Details",
+    "customerInfo": "Customer Information",
+    "customerName": "Name",
+    "customerEmail": "Email",
+    "customerPhone": "Phone",
+    "feedbackMessage": "Feedback Message",
+    "currentStatus": "Current Status",
+    "adminNotes": "Admin Notes",
+    "adminNotesPlaceholder": "Add internal notes or comments about this feedback...",
+    "saveButton": "Save Changes",
+    "closeButton": "Close",
+    "submittedOn": "Submitted on",
+    "channel": "Channel"
+  },
+  "empty": {
+    "title": "No Feedback Found",
+    "description": "There are no customer feedback entries matching your filters.",
+    "noDataTitle": "No Feedback Yet",
+    "noDataDescription": "Customer feedback for ratings below 3 stars will appear here."
+  },
+  "toast": {
+    "updateSuccess": "Feedback updated successfully",
+    "updateError": "Failed to update feedback",
+    "exportSuccess": "Feedback exported successfully",
+    "exportError": "Failed to export feedback"
+  },
+  "pagination": {
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+    "previous": "Previous",
+    "page":" Page {{currentPage}} of {{totalPages}}",
+    "next": "Next"
+  }
+}

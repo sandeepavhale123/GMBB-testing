@@ -1,0 +1,21 @@
+{
+  "title": "Lead Dashboard",
+  "description": "Manage and track your leads effectively.",
+  "convertedLeads": "Converted Leads",
+  "totalLeads": "Total Leads",
+  "remainingCredits": "Remaining Credits",
+  "addLead": "Add Lead",
+  "leads": "Leads",
+  "manageLeads": "Manage your lead database and track interactions",
+  "showingPage": "Showing page {{currentPage}} of {{totalPages}} ({{leadCount}} leads)",
+  "deleteLeadTitle": "Delete Lead",
+  "deleteLeadDescription": "Are you sure you want to delete the lead for ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": "? This action cannot be undone.",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleting": "Deleting...",
+  "reportIDMissing": "Report ID not found for this lead",
+  "noReportID": "No report ID found for this lead",
+  "fetchError": "Failed to fetch leads. Please try again."
+}

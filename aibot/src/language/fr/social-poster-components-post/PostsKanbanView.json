@@ -1,0 +1,15 @@
+{
+  "columns": {
+    "draft": "Brouillon",
+    "scheduled": "Programmé",
+    "publishing": "Publication en cours",
+    "published": "Publié",
+    "failed": "Échoué"
+  },
+
+  "common": {
+    "noPosts": "Pas de publications",
+    "accounts": "comptes",
+    "postPreviewAlt": "Aperçu de la publication"
+  }
+}

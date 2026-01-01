@@ -1,0 +1,8 @@
+{
+  "reportsPage": {
+    "pageTitle": "Reports",
+    "createReportButton": "Create Report",
+    "loading": "Loading reports...",
+    "error": "Error loading reports. Please try again."
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Gesamtanzahl der Einträge",
+      "subtitle": "Aktive Standorte",
+      "trend": "+2 in diesem Monat"
+    },
+    "avgRating": {
+      "title": "Durchschn. Bewertung",
+      "subtitle": "Über alle Einträge hinweg",
+      "trend": "↑ 0,3 Punkte"
+    },
+    "totalReviews": {
+      "title": "Gesamtbewertungen",
+      "subtitle": "Kundenfeedback",
+      "trend": "Verbessert sich"
+    },
+    "totalPosts": {
+      "title": "Gesamtanzahl der Beiträge",
+      "subtitle": "Diesen Monat veröffentlicht",
+      "trend": "+12 diese Woche"
+    }
+  },
+  "errors": {
+    "metricsLoad": "Fehler beim Laden der Metriken. Bitte versuchen Sie es erneut.",
+    "listingsLoad": "Fehler beim Laden der Einträge. Bitte versuchen Sie es erneut.",
+    "postsLoad": "Fehler beim Laden der Beiträge. Bitte versuchen Sie es erneut."
+  },
+  "dashboard": {
+    "title": "GMB-Eintrag – {{type}} Dashboard",
+    "types": {
+      "default": "Standard-Dashboard",
+      "insight": "Einblicke-Dashboard",
+      "review": "Bewertungs-Dashboard",
+      "location": "Standort-Dashboard",
+      "post": "Beitrags-Dashboard"
+    },
+    "review": "Bewertung",
+    "insight": "Einblicke",
+    "location": "Standort",
+    "post": "Beitrag",
+    "default": "Standard",
+    "shareReport": "Bericht teilen",
+    "searchPlaceholder": "Nach Eintragsnamen oder Postleitzahl suchen",
+    "allGroups": "Alle Gruppen",
+  "filters": {
+    "allCategories": "Alle Kategorien",
+    "allStates": "Alle Bundesländer",
+    "allGroups": "Alle Gruppen",
+    "reviewFilter": "Bewertungsfilter",
+    "allReviews": "Alle Bewertungen",
+    "unrespondedReview": "Unbeantwortete Bewertung",
+    "unrespondedARE": "Unbeantwortete ARE",
+    "unrespondedDNR": "Unbeantwortete DNR",
+    "excludeARE": "ARE-Bewertungen ausschließen",
+    "excludeDNR": "DNR-Bewertungen ausschließen",
+    "excludeARE_DNR": "ARE/DNR-Bewertungen ausschließen",
+    "postStatus": "Beitragsstatus",
+    "allPosts": "Alle Beiträge",
+    "scheduledPost": "Geplanter Beitrag",
+    "livePost": "Live-Beitrag",
+    "failedPost": "Fehlgeschlagener Beitrag",
+    "insightDays": "Zeitraum",
+    "reviewDays": "Bewertungszeitraum",
+    "allTime": "Gesamter Zeitraum",
+    "last7Days": "Letzte 7 Tage",
+    "last30Days": "Letzte 30 Tage",
+    "last90Days": "Letzte 90 Tage",
+    "last6Months": "Letzte 6 Monate",
+    "last9Months": "Letzte 9 Monate",
+    "last12Months": "Letzte 12 Monate",
+    "customRange": "Benutzerdefinierter Zeitraum"
+  }
+  },
+  "export": "CSV exportieren",
+  "status": {
+    "loading": "Wird geladen...",
+    "error": "Fehler beim Laden der Daten",
+    "showingPosts": "{{count}} von {{total}} Beiträgen werden angezeigt",
+    "showingListings": "{{count}} von {{total}} Einträgen werden angezeigt",
+    "previous": "Zurück",
+    "next": "Weiter"
+  },
+  "rating": {
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "poor": "Schlecht"
+  },
+  "listing": {
+    "listingid": "ID: {{id}}",
+    "zipcode": "PLZ: {{zipcode}}",
+    "state": "Bundesland: {{city}}",
+    "fetchingData": "Eintragsdaten werden abgerufen...",
+    "visibility": "Sichtbarkeit",
+    "Search": "Suche",
+    "Maps": "Karten",
+    "Total": "Gesamt",
+    "customerActions": "Kundenaktionen",
+    "clicks": "Klicks",
+    "directions": "Routen",
+    "calls": "Anrufe",
+    "messages": "Nachrichten",
+    "reviewStats": "Bewertungsstatistiken",
+    "reviewsReplies": "Bewertungen / Antworten",
+    "autoReply": "Automatische Antwort",
+    "reviewSentiment": "Bewertungssentiment",
+    "positive": "Positiv",
+    "neutral": "Neutral",
+    "negative": "Negativ",
+    "listingStatus": "Eintragsstatus",
+    "visibilityLabel": "Sichtbarkeit:",
+    "completeLabel": "Vollständig:",
+    "lastUpdated": "Zuletzt aktualisiert:",
+    "photos": "Fotos",
+    "rating": "Bewertung",
+    "website": "Webseite",
+    "maps": "Karten",
+    "avgRating": "Durchschn. Bewertung",
+    "starRating": "Sternebewertung",
+    "reviewsVsReplies": "Bewertungen vs. Antworten",
+    "lastPost": "Letzter Beitrag",
+    "upcoming": "Bevorstehend",
+    "viewDetails": "Details anzeigen",
+    "totalViews": "Gesamtansichten",
+    "phone": "Telefon",
+    "na": "N/V",
+    "stateLabel": "Bundesland",
+    "nopost": "Kein Beitrag"
+  },
+  "pagination": {
+    "showing": {
+      "posts": "Zeigt {{from}} bis {{to}} von {{total}} Beiträgen",
+      "listings": "Zeigt {{from}} bis {{to}} von {{total}} Einträgen"
+    },
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite {{current}} von {{pages}}"
+  }
+}

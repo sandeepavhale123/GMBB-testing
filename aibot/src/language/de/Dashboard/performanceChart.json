@@ -1,0 +1,11 @@
+{
+  "performanceChart": {
+    "title": "Leistungsübersicht",
+    "description": "Verfolgen Sie Ihre Unternehmenskennzahlen im Zeitverlauf",
+    "metrics": {
+      "views": "Ansichten",
+      "clicks": "Klicks",
+      "calls": "Anrufe"
+    }
+  }
+}

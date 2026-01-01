@@ -1,0 +1,8 @@
+{
+  "customPeriodModal": {
+    "title": "Sélectionner une Période Personnalisée",
+    "dateRangePlaceholder": "Sélectionner une plage de dates",
+    "cancel": "Annuler",
+    "submit": "Valider"
+  }
+}

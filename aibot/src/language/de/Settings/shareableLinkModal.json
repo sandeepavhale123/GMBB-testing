@@ -1,0 +1,31 @@
+{
+  "shareableLinkModal": {
+    "title": "Teilbarer Link",
+    "description1": "Teilen Sie diesen Link mit",
+    "description2": " {{firstName}} {{lastName}}",
+    "description3": "um ihnen direkten Zugriff auf ihr Konto zu geben.",
+    "allowListingsLabel": "Zulässige Einträge eingeben",
+    "availableSpots": "Verfügbare Plätze im Dashboard - {{spots}}",
+    "allowListingsPlaceholder": "Anzahl der erlaubten Einträge eingeben",
+    "directAccessLinkLabel": "Direktzugangslink",
+    "toast": {
+      "copiedTitle": "Link kopiert",
+      "copiedDescription": "Der teilbare Link wurde in die Zwischenablage kopiert",
+      "failedTitle": "Kopieren fehlgeschlagen",
+      "failedDescription": "Bitte kopieren Sie den Link manuell"
+    },
+    "linkDetails": {
+      "title": "Link-Details:",
+      "points": {
+        "valid": "Gültig für direkten Login-Zugang",
+        "bypass": "Umgeht den Standard-Login-Prozess",
+        "role": "Rollenbasierte Berechtigungen gelten",
+        "revoke": "Kann durch Löschen des Nutzers widerrufen werden"
+      }
+    },
+    "buttons": {
+      "close": "Schließen",
+      "testLink": "Link testen"
+    }
+  }
+}

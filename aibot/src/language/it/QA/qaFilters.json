@@ -1,0 +1,11 @@
+{
+  "qaFilters": {
+    "searchPlaceholder": "Cerca domande o inserzioni",
+    "status": {
+      "placeholder": "Tutti gli stati",
+      "all": "Tutti",
+      "answered": "Risposte",
+      "unanswered": "Non risposte"
+    }
+  }
+}

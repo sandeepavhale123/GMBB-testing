@@ -1,0 +1,30 @@
+{
+  "reportsTable": {
+    "loading": "Caricamento dei rapporti...",
+    "error": "Impossibile caricare i rapporti. Riprova più tardi.",
+    "noReports": {
+      "title": "Nessun rapporto trovato",
+      "description": "Crea il tuo primo rapporto per iniziare"
+    },
+    "period1": "Periodo 1:",
+    "period2": "Periodo 2:",
+    "to": "a",
+    "tableHeaders": {
+      "reportName": "Nome del rapporto",
+      "report": "Rapporto",
+      "reports": "Rapporti",
+      "reportType": "Tipo di rapporto",
+      "reportDate": "Data del rapporto",
+      "action": "Azione"
+    },
+    "reportTypes": {
+      "compare": "Confronto",
+      "individual": "Individuale"
+    },
+    "pagination": {
+      "previous": "Precedente",
+      "next": "Successivo",
+      "page": "Pagina {{current}} di {{total}}"
+    }
+  }
+}

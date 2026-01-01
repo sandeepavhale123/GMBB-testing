@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "Verwalten Sie Ihren Ruf an einem Ort",
+    "description": "Senden Sie Bewertungsanfragen an Ihre Kunden, gehen Sie sorgfältig mit negativem Feedback um, erstellen Sie schnelle Umfragekampagnen zur Meinungsgewinnung und teilen Sie Ihre besten Bewertungen in sozialen Medien – alles über ein benutzerfreundliches Dashboard."
+  },
+  "importListings": {
+    "title": "Vorhandene Einträge importieren",
+    "description": "Importieren und überprüfen Sie alle Ihre aktuellen Einträge ganz einfach mit nur einem Klick. Bleiben Sie organisiert und stellen Sie sicher, dass Ihre Unternehmensinformationen stets aktuell sind.",
+    "select": "Auswählen",
+    "selectAll": "Alle auswählen",
+    "importButton": "Ausgewählte Einträge importieren",
+    "noListing": "Keine Einträge zum Importieren verfügbar.",
+    "importing": "Wird importiert...",
+    "success": "Import erfolgreich",
+    "listing": "Eintrag(e) erfolgreich importiert.",
+    "ok": "OK"
+  },
+  "addListing": {
+    "title": "Eintrag hinzufügen",
+    "subtitle": "Ihr Unternehmen nicht in den Einträgen gefunden?",
+    "noWorries": "Kein Problem",
+    "description": "– Fügen Sie in wenigen Sekunden einen neuen hinzu und beginnen Sie sofort mit der Verfolgung von Bewertungen, Rezensionen und der Reputationsleistung.",
+    "button": "Google-Konto hinzufügen",
+    "impoted": "(Importiert)"
+  },
+  "addBusiness": {
+    "title": "Unternehmen hinzufügen",
+    "description": "Suchen Sie nach Ihrem Unternehmen und fügen Sie es hinzu, um Bewertungen, Rezensionen und Ihre Reputation zu verwalten.",
+    "placeholder": "Nach einem Unternehmen suchen...",
+    "addButton": "Unternehmen hinzufügen",
+    "addingButton": "Wird hinzugefügt...",
+    "successTitle": "Unternehmen hinzugefügt",
+    "successDescription": "Ihr Unternehmen wurde erfolgreich hinzugefügt.",
+    "errorTitle": "Fehler",
+    "errorDescription": "Unternehmen konnte nicht hinzugefügt werden. Bitte versuchen Sie es erneut.",
+    "selectBusiness": "Bitte wählen Sie ein gültiges Unternehmen aus",
+    "note": "Hinweis",
+    "noteDescription": "Unternehmen wurde hinzugefügt, konnte jedoch nicht automatisch ausgewählt werden. Bitte wählen Sie es manuell aus."
+  },
+  "errors": {
+    "retry": "Erneut versuchen",
+    "importFailedTitle": "Import fehlgeschlagen",
+    "importFailedDescription": "Einträge konnten nicht importiert werden.",
+    "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "listingError": "Beim Importieren der Einträge ist ein Fehler aufgetreten"
+  },
+  "reputation": "Reputationsmanagement",
+  "searchPlaceholder": "Einträge durchsuchen..."
+}

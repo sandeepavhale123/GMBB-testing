@@ -1,0 +1,30 @@
+{
+  "mediaPage": {
+    "title": "Vos médias",
+    "uploadButton": "Téléverser des médias",
+    "toast": {
+      "errorTitle": "Erreur",
+      "errorFetch": "Échec de récupération de la liste des médias",
+      "errorFetchRetry": "Échec de récupération de la liste des médias. Veuillez réessayer.",
+      "errorDelete": "Échec de la suppression du média",
+      "errorDeleteRetry": "Échec de la suppression du média. Veuillez réessayer.",
+      "successfully": "Succès",
+      "successDelete": "Média supprimé avec succès.",
+      "downloadStarted": "Téléchargement commencé",
+      "downloading": "Téléchargement de {{name}}...",
+      "coverImageSetTitle": "Image de couverture définie",
+      "coverImageSetDesc": "Le média a été défini comme image de couverture.",
+      "mediaUploadedTitle": "Média téléversé",
+      "mediaUploadedDesc": "{{count}} fichier(s) média téléversé(s) avec succès.",
+      "editMediaTitle": "Modifier le média",
+      "editMediaDesc": "La fonctionnalité de modification sera mise en œuvre."
+    },
+    "deleteDialog": {
+      "title": "Êtes-vous sûr(e) ?",
+      "description": "Cette action est irréversible. Cela supprimera définitivement le fichier média.",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleting": "Suppression..."
+    }
+  }
+}

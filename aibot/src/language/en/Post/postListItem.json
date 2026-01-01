@@ -1,0 +1,30 @@
+{
+  "status": {
+    "published": "Live",
+    "scheduled": "Scheduled",
+    "draft": "Draft",
+    "failed": "Failed"
+  },
+  "toast": {
+    "errorTitle": "Error",
+    "noListingSelected": "No business listing selected. Please select a listing first.",
+    "deletingPost": "Deleting post...",
+    "preparingDeletion": "Preparing deletion...",
+    "finalizing": "Finalizing...",
+    "successTitle": "Post deleted successfully",
+    "successDescription": "Deletion completed",
+    "failedTitle": "Failed to Delete Post",
+    "unexpectedError": "An unexpected error occurred. Please try again."
+  },
+  "dialog": {
+    "deleteTitle": "Delete Post",
+    "deleteDescription": "Are you sure you want to delete this post? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+  "ui": {
+    "untitled": "Untitled Post",
+    "openOnGoogle": "Open on Google"
+  }
+}

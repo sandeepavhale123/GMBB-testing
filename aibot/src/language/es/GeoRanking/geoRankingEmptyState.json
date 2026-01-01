@@ -1,0 +1,16 @@
+{
+  "geoRankingEmptyState": {
+    "heading": "Comienza a rastrear tus rankings",
+    "description": "Rastrea los rankings de tu Perfil de Negocio en Google en diferentes ubicaciones para ver cómo te desempeñas en los resultados de búsqueda locales.",
+    "benefits": {
+      "monitorLocalPerformance": "Monitorea el rendimiento local",
+      "trackCompetitorRankings": "Rastrea los rankings de la competencia"
+    },
+    "creditsP1": "Tienes",
+    "creditsP2": "créditos restantes",
+    "button": {
+      "checkRank": "Verificar ranking"
+    },
+    "additionalInfo": "Configura el seguimiento de palabras clave para monitorear el rendimiento de tu negocio en los resultados de búsqueda locales"
+  }
+}

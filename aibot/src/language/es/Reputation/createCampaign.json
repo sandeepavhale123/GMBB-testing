@@ -1,0 +1,120 @@
+{
+  "title": "Crear Campaña",
+  "campaignName": {
+    "label": "Nombre de la Campaña",
+    "placeholder": "Ingrese el nombre de la campaña"
+  },
+  "campaignType": {
+    "label": "Tipo de Campaña",
+    "placeholder": "Seleccionar tipo de campaña",
+    "review": "Campaña de Reseñas",
+    "survey": "Campaña de Encuesta"
+  },
+  "channel": {
+    "label": "Seleccionar Canal",
+    "sms": "SMS",
+    "email": "Correo Electrónico",
+    "whatsapp": "WhatsApp",
+    "twilioRequired": "Por favor integre su cuenta de Twilio para usar este servicio"
+  },
+  "contacts": {
+    "title": "Agregar contactos",
+    "importCSV": "Importar CSV",
+    "contactList": "Lista de contactos",
+    "namePlaceholder": "Ingrese el nombre",
+    "countryCodePlaceholder": "Código",
+    "phonePlaceholder": "Ingrese el número de teléfono",
+    "emailPlaceholder": "Ingrese el correo electrónico",
+    "addButton": "Agregar",
+    "editButton": "Editar",
+    "removeButton": "Eliminar",
+    "updateButton": "Actualizar",
+    "cancelButton": "Cancelar"
+  },
+  "template": {
+    "title": "Seleccionar Plantilla",
+    "defaultTemplate": "Plantilla predeterminada",
+    "greeting": "¡Hola Nombre!",
+    "defaultMessage": "Esperamos que hayas disfrutado tu experiencia reciente con nosotros. ¿Podrías tomarte un momento para dejarnos una reseña?",
+    "reviewLink": "Enlace de Reseña",
+    "noTemplateSelected": "Selecciona una plantilla para previsualizar su contenido",
+    "readOnlyNote": "El contenido de la plantilla no se puede editar para campañas SMS/WhatsApp",
+    "shortCodes": "Códigos cortos disponibles (clic para copiar):",
+    "copied": "¡Copiado al portapapeles!"
+  },
+  "sender": {
+    "title": "Seleccionar Remitente",
+    "placeholder": "Elige un remitente",
+    "noSendersAvailable": "No hay remitentes disponibles. Configura Twilio primero."
+  },
+  "feedbackForm": {
+    "label": "Seleccionar Formulario de Comentarios",
+    "placeholder": "Elegir un formulario",
+    "noFormsAvailable": "No hay formularios disponibles. Crea uno primero."
+  },
+  "schedule": {
+    "label": "Programar la campaña (opcional)",
+    "date": "Fecha",
+    "time": "Hora"
+  },
+  "submit": "Enviar",
+  "validation": {
+    "nameRequired": "El nombre de la campaña es requerido",
+    "contactRequired": "Se requiere al menos un contacto",
+    "invalidPhone": "Número de teléfono inválido (se requieren 10-15 dígitos)",
+    "invalidEmail": "Por favor ingrese una dirección de correo electrónico válida",
+    "platformRequired": "Por favor seleccione una plataforma de envío de correo (SMTP o Mailgun)",
+    "contactValidationTitle": "Errores de validación de contactos",
+    "contactRowMissingName": "Fila {{row}}: Falta el nombre",
+    "contactRowMissingEmail": "Fila {{row}} ({{name}}): Falta el email",
+    "contactRowMissingPhone": "Fila {{row}} ({{name}}): Falta el teléfono",
+    "contactRowInvalidEmail": "Fila {{row}} ({{name}}): Formato de email inválido",
+    "contactRowInvalidPhone": "Fila {{row}} ({{name}}): Número de teléfono inválido",
+    "moreErrors": "...y {{count}} error(es) más"
+  },
+  "success": {
+    "title": "Campaña Creada",
+    "description": "Tu campaña ha sido creada exitosamente"
+  },
+  "importModal": {
+    "title": "Importar Archivo",
+    "downloadSample": "Descargar Archivo de Muestra"
+  },
+  "contactListModal": {
+    "title": "Lista de contactos",
+    "tabs": {
+      "contactList": "Lista de contactos",
+      "importCSV": "Importar CSV"
+    },
+    "filter": {
+      "contacts": "Contactos",
+      "groups": "Grupos"
+    },
+    "table": {
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "group": "Grupo",
+      "groupName": "Nombre del grupo",
+      "contactCount": "Cantidad de contactos"
+    },
+    "csv": {
+      "title": "Importar CSV",
+      "downloadSample": "Descargar archivo de ejemplo",
+      "description": "Sube un archivo CSV con contactos para importar",
+      "selectGroupLabel": "Asignar a grupo (Opcional)",
+      "selectGroupPlaceholder": "Selecciona un grupo...",
+      "noGroups": "No hay grupos disponibles",
+      "importButton": "Importar"
+    },
+    "searchPlaceholder": "Buscar contactos o grupos...",
+    "groups": "Grupos",
+    "contacts": "Contactos",
+    "noResults": "No se encontraron resultados",
+    "selectAll": "Seleccionar todo",
+    "deselectAll": "Deseleccionar todo",
+    "cancel": "Cancelar",
+    "addSelected": "Agregar seleccionados",
+    "selectedCount": "{{count}} seleccionado(s)"
+  }
+}

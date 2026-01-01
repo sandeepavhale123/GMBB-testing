@@ -1,0 +1,8 @@
+{
+  "title": "Activity Summary",
+  "livePosts": "Live Posts",
+  "failedPosts": "Failed Posts",
+  "successPosts": "{{count}} Success posts",
+  "failedCountPosts": "{{count}} Failed posts",
+  "view":"View All"
+}

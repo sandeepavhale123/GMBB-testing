@@ -1,0 +1,26 @@
+{
+  "leadsTable": {
+    "headers": {
+      "businessName": "Nome attività",
+      "email": "Email",
+      "date": "Data",
+      "category": "Categoria",
+      "reports": "Rapporti",
+      "actions": "Azioni"
+    },
+    "reportLabels": {
+      "gmbHealthReport": "Rapporto Salute GMB",
+      "citationAudit": "Audit Citazioni",
+      "geoRanking": "GEO Ranking",
+      "gmbProspect": "Prospetti GMB",
+      "onPageReport": "Rapporto On-Page",
+      "noReports": "Nessun rapporto"
+    },
+    "fallbacks": {
+      "na": "N/D"
+    },
+    "empty": {
+      "noLeads": "Nessun lead trovato. Aggiungi il tuo primo lead per iniziare."
+    }
+  }
+}

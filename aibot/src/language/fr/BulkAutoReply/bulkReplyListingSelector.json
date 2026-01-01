@@ -1,0 +1,26 @@
+{
+  "label": "Sélectionner des emplacements",
+  "placeholders": {
+    "search": "Rechercher des emplacements..."
+  },
+  "item": "{{count}} élément sélectionné",
+  "items": "{{count}} éléments sélectionnés",
+  "sections": {
+    "groups": "Groupes",
+    "locations": "Emplacements"
+  },
+  "actions": {
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner"
+  },
+  "status": {
+    "locations": "Emplacements"
+  },
+  "messages": {
+    "loading": "Chargement...",
+    "noResults": "Aucun emplacement trouvé.",
+    "selectAtLeastOne": "Sélectionnez au moins un emplacement pour continuer.",
+    "error": "Échec de la récupération des détails de réponse en masse",
+    "errorTitle": "Erreur"
+  }
+}

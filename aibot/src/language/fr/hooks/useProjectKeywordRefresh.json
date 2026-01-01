@@ -1,0 +1,18 @@
+{
+  "keywordRefresh": {
+    "toast": {
+      "refreshStartedTitle": "Actualisation commencée",
+      "refreshStartedDescription": "Le processus d’actualisation des mots-clés a commencé.",
+      "refreshCompleteTitle": "Actualisation terminée",
+      "refreshCompleteDescription": "Les données des mots-clés ont été actualisées avec succès.",
+      "refreshTimeoutTitle": "Délai d’actualisation dépassé",
+      "refreshTimeoutDescription": "L’actualisation prend plus de temps que prévu. Veuillez réessayer.",
+      "refreshFailedTitle": "Échec de l’actualisation",
+      "refreshFailedDescription": "Impossible d’actualiser le mot-clé."
+    },
+    "error": {
+      "refreshTimeout": "Délai d’actualisation dépassé - veuillez réessayer",
+      "refreshFailed": "Impossible d’actualiser le mot-clé"
+    }
+  }
+}

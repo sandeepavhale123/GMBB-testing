@@ -1,0 +1,24 @@
+{
+  "deleteTeamMemberModal": {
+    "title": "Delete Team Member",
+    "description": "This action cannot be undone",
+    "confirmation1": "Are you sure you want to delete ",
+    "confirmation2": "{{firstName}} {{lastName}}",
+    "confirmation3": "? This will permanently remove their account and revoke all access to the system.",
+    "alsoRemoveTitle": "This will also remove:",
+    "alsoRemoveItems": {
+      "listings": "• Access to {{listingsCount}} listings",
+      "permissions": "• All assigned permissions",
+      "credentials": "• Account credentials and settings"
+    },
+    "cancel": "Cancel",
+    "delete": "Delete Member",
+    "deleting": "Deleting...",
+    "toast": {
+      "successTitle": "Success",
+      "successDescription": "Team member deleted successfully",
+      "errorTitle": "Error",
+      "errorDescription": "Failed to delete team member"
+    }
+  }
+}

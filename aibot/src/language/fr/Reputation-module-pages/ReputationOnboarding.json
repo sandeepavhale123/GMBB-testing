@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Gestion de la réputation",
+    "description": "Importez vos fiches d’entreprise existantes ou ajoutez une nouvelle entreprise pour commencer à gérer votre réputation en ligne sur toutes les plateformes."
+  },
+
+  "importListings": {
+    "title": "Importer des fiches existantes",
+    "description": "Sélectionnez les emplacements d’entreprise que vous souhaitez importer depuis vos sources connectées.",
+    "searchPlaceholder": "Rechercher des fiches...",
+    "selectAll": "Tout sélectionner",
+    "importButton": "Importer les fiches",
+    "importing": "Importation en cours..."
+  },
+
+  "addBusiness": {
+    "title": "Ajouter une entreprise",
+    "description": "Vous ne trouvez pas votre entreprise ? Ajoutez-la manuellement via Google Places.",
+    "placeholder": "Rechercher une entreprise sur Google",
+    "addButton": "Ajouter une entreprise",
+    "addingButton": "Ajout de l’entreprise en cours...",
+    "successTitle": "Entreprise ajoutée",
+    "successDescription": "L’entreprise a été ajoutée avec succès.",
+    "errorTitle": "Échec de l’ajout de l’entreprise",
+    "errorDescription": "Impossible d’ajouter l’entreprise. Veuillez réessayer.",
+    "selectBusiness": "Veuillez sélectionner une entreprise valide avant de continuer."
+  },
+
+  "listings": {
+    "imported": "Importée",
+    "noListings": "Aucune fiche disponible à importer."
+  },
+
+  "errors": {
+    "retry": "Réessayer",
+    "importFailedTitle": "Échec de l’importation",
+    "importFailedDescription": "Échec de l’importation des fiches.",
+    "generic": "Une erreur s’est produite. Veuillez réessayer."
+  },
+
+  "successDialog": {
+    "title": "Importation réussie",
+    "ok": "OK",
+    "summary": {
+      "inserted": "{{count}} fiche(s) importée(s) avec succès.",
+      "skipped": "{{count}} ignorée(s).",
+      "invalid": "{{count}} non valide(s)."
+    }
+  }
+}

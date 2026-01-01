@@ -1,0 +1,12 @@
+{
+  "listingSwitcher": {
+    "searchPlaceholder": "Cerca annunci...",
+    "searching": "Ricerca in corso...",
+    "noResults": "Nessun annuncio trovato.",
+    "noListings": "Nessun annuncio disponibile",
+    "loading": "Caricamento...",
+    "errorMessage": "Impossibile caricare gli annunci",
+    "retry": "Riprova",
+    "addListings": "Aggiungi annunci"
+  }
+}

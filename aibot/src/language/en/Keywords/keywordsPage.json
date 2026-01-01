@@ -1,0 +1,15 @@
+{
+  "keywords": {
+    "title": "Keywords",
+    "subtitle": "Manage and track keyword rankings for your business.",
+    "loadingSubtitle": "Manage and track keyword rankings for your business",
+    "addKeyword": "Add Keyword",
+    "searchKeyword": "Search Keyword",
+    "errorTitle": "Error",
+    "errorFetch": "Failed to fetch keywords",
+    "errorNoListing": "No listing selected.",
+    "errorDelete": "Failed to delete keywords. Please try again.",
+    "deletedTitle": "Keywords deleted",
+    "deletedMessage": "{{count}} keyword{{plural}} deleted successfully."
+  }
+}

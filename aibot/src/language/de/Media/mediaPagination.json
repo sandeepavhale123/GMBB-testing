@@ -1,0 +1,8 @@
+{
+  "mediaPagination": {
+    "showing": "Zeige {{start}} bis {{end}} von {{total}} Mediendateien",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "pageInfo": "Seite {{current}} von {{total}}"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "geoRankingReportForm": {
+    "title": "Report Configuration",
+    "keywords": {
+      "label": "Keywords",
+      "placeholder": "keyword1, keyword2, keyword3",
+      "tooltip": "Add up to 5 keywords separated by commas",
+      "maxReached": "⚠️ You have reached the maximum limit of 5 keywords. You can still edit existing keywords.",
+      "limitExceededToastTitle": "Keyword Limit Exceeded",
+      "limitExceededToastDesc": "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
+      "invalidToastTitle": "Invalid Keywords",
+      "invalidToastDesc": "Please check your keywords."
+    },
+    "searchDataEngine": {
+      "label": "Search Data Engine",
+      "mapApi": "Map API",
+      "briefcaseApi": "Briefcase API",
+      "missingApiKeyTitle": "Missing API Key",
+      "missingApiKeyDesc": "Please add the API key first by going to Settings → Integration page."
+    },
+    "mapPoint": {
+      "label": "Map Point",
+      "automatic": "Automatic",
+      "manually": "Manually",
+      "manualInfo": "Click on the map to place points manually. You can drag them to reposition.",
+      "pointsSelected": "Points selected: {{count}}",
+      "clearAllPoints": "Clear All Points"
+    },
+    "distanceUnit": {
+      "label": "Distance Unit",
+      "meters": "Meters",
+      "miles": "Miles"
+    },
+    "distanceValue": {
+      "label": "Distance",
+      "placeholder": "Choose…"
+    },
+    "gridSize": {
+      "label": "Grid Size"
+    },
+    "scheduleCheck": {
+      "label": "Schedule Check",
+      "options": {
+        "onetime": "One-time",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      }
+    },
+    "language": {
+      "label": "Language"
+    },
+    "buttons": {
+      "checkRank": "Check rank",
+      "processingKeyword": "Processing keyword...",
+      "submittingRank": "Checking rank...",
+      "reset": "Reset & New Search"
+    },
+    "pollingInfo": "🔄 Keyword is being processed. This may take a few minutes..."
+  }
+}

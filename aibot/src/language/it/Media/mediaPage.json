@@ -1,0 +1,30 @@
+{
+  "mediaPage": {
+    "title": "I Tuoi Media",
+    "uploadButton": "Carica Media",
+    "toast": {
+      "errorTitle": "Errore",
+      "errorFetch": "Impossibile recuperare l'elenco dei media",
+      "errorFetchRetry": "Impossibile recuperare l'elenco dei media. Per favore riprova.",
+      "errorDelete": "Impossibile eliminare il media",
+      "errorDeleteRetry": "Impossibile eliminare il media. Per favore riprova.",
+      "successfully": "Successo",
+      "successDelete": "Media eliminato con successo.",
+      "downloadStarted": "Download Avviato",
+      "downloading": "Scaricamento di {{name}}...",
+      "coverImageSetTitle": "Immagine di Copertura Impostata",
+      "coverImageSetDesc": "Il media è stato impostato come immagine di copertura.",
+      "mediaUploadedTitle": "Media Caricato",
+      "mediaUploadedDesc": "{{count}} file multimediali caricati con successo.",
+      "editMediaTitle": "Modifica Media",
+      "editMediaDesc": "La funzionalità di modifica sarà implementata."
+    },
+    "deleteDialog": {
+      "title": "Sei sicuro?",
+      "description": "Questa azione non può essere annullata. Il file multimediale sarà eliminato permanentemente.",
+      "cancel": "Annulla",
+      "delete": "Elimina",
+      "deleting": "Eliminando..."
+    }
+  }
+}

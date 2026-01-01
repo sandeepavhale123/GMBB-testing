@@ -1,0 +1,14 @@
+{
+  "qaCardTitle": "Fragen & Antworten",
+  "qaCardFor": "Für {{listingName}}",
+  "qaCardResponseRate": "{{rate}}% Antwortquote",
+
+  "answeredTitle": "Beantwortet",
+  "answeredSubtitle": "Beantwortete Fragen",
+
+  "pendingTitle": "Ausstehend",
+  "pendingSubtitle": "Antwort ausstehend",
+
+  "answerPendingBtn": "Ausstehende Fragen beantworten",
+  "viewAllBtn": "Alle Q&A anzeigen"
+}

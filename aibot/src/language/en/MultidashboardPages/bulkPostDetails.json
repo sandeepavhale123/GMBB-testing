@@ -1,0 +1,73 @@
+{
+  "bulkPostDetails": {
+    "header": {
+      "title": "View Details",
+      "subtitle": "View details of the selected bulk post"
+    },
+    "postPreview": {
+      "postedOn": "Posted on:",
+      "viewPost": "View Post",
+      "deletePost": "Delete Post"
+    },
+    "table": {
+      "listingName": "Listing Name",
+      "zipCode": "Zip Code",
+      "status": "Status",
+      "action": "Action",
+      "noListings": "No listings found.",
+      "unknown": "Unknown",
+      "post": "post",
+      "na": "N/A"
+    },
+    "filter": {
+      "searchPlaceholder": "Search by listing name.",
+      "statusPlaceholder": "Filter by status",
+      "postStatus": "Post Status",
+      "live": "Live",
+      "scheduled": "Scheduled",
+      "failed": "Failed"
+    },
+    "status":{
+      "published":"published",
+      "live":"live",
+      "draft":"draft",
+      "scheduled":"scheduled",
+      "failed":"failed"
+    },
+    "bulkActions": {
+      "selected": "{{count}} post selected",
+      "selected_plural": "{{count}} posts selected",
+      "deleteSelected": "Delete Selected"
+    },
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{current}} of {{totalPages}}"
+    },
+    "dialogs": {
+      "bulkDelete": {
+        "title": "Delete Multiple Posts",
+        "description": "Are you sure you want to delete {{count}} selected post(s)? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete All"
+      },
+      "deleteSingle": {
+        "title": "Are you sure?",
+        "description": "This action cannot be undone. This will permanently delete the post.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
+    },
+    "messages": {
+      "successTitle":"Success",
+      "successDelete": "Post deleted successfully",
+      "successBulkDelete": "{{count}} posts deleted successfully",
+      "errorTitle":"Error",
+      "errorDelete": "Failed to delete post",
+      "errorBulkDelete": "Failed to delete some posts",
+      "errorDetails": "Error loading post details: {{error}}",
+      "tryAgain": "Try Again"
+    }
+  }
+}

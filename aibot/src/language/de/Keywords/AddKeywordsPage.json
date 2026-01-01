@@ -1,0 +1,34 @@
+{
+  "AddKeywordsPage": {
+    "back": "Zurück",
+    "header": "Finden Sie einfach Keywords mit hohem Suchvolumen",
+    "inputPlaceholder": "Primäres Keyword oder Kategorie eingeben",
+    "filter": "Filter",
+    "searchButton": "Keyword suchen",
+    "searching": "Suche...",
+    "country": "Land",
+    "language": "Sprache",
+    "addedCount": "{{count}}/5",
+    "addingKeywords": "Keywords werden hinzugefügt...",
+    "checkRank": "Ranking prüfen",
+    "recommendedKeywords": "Empfohlene Keywords",
+    "competition": "Wettbewerb:",
+    "localPack": "Local Pack",
+    "addKeyword": "Keyword hinzufügen",
+    "loadMore": "Weitere Keywords laden",
+    "creditsRemaining": "verbleibende Guthaben",
+    "noCreditsWarning": "Sie haben keine Credits mehr. Aktualisieren Sie Ihren Plan.",
+    "upgradePlan": "Plan aktualisieren",
+    "toast": {
+      "keywordsFoundTitle": "Keywords gefunden",
+      "keywordsFoundDescription": "{{count}} Keyword(s) mit Suchdaten gefunden.",
+      "authErrorTitle": "Authentifizierungsfehler",
+      "authErrorDescription": "Bitte überprüfen Sie Ihre Anmeldedaten und versuchen Sie es erneut.",
+      "searchFailedTitle": "Suche fehlgeschlagen",
+      "searchFailedDescription": "Keyword-Daten konnten nicht abgerufen werden. Bitte versuchen Sie es erneut."
+    },
+    "aria": {
+      "removeKeyword": "{{keyword}} entfernen"
+    }
+  }
+}

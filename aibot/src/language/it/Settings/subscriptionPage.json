@@ -1,0 +1,68 @@
+{
+  "subscriptionPage": {
+    "title": "Piani di Abbonamento",
+    "activePlan": "Il tuo piano è attivo fino al {{date}}.",
+    "expiredPlan": "Il tuo piano è scaduto. Rinnova per continuare ad accedere alle funzionalità.",
+    "description": "Scegli il piano perfetto per le esigenze della tua attività. Puoi effettuare l'upgrade o il downgrade in qualsiasi momento.",
+    "unsubscribe": "Annulla iscrizione",
+    "tabs": {
+      "pricingPlan": "Piano Tariffario",
+      "paymentHistory": "Storico Pagamenti"
+    },
+    "labels": {
+      "features": "Funzionalità",
+      "pricePerMonth": "Prezzo/PM",
+      "mostPopular": "Più Popolare"
+    },
+    "buttons": {
+      "active": "Attivo",
+      "processing": "Elaborazione...",
+      "payNow": "Paga Ora",
+      "upgradeNow": "Effettua Upgrade",
+      "contactSales": "Contatta le Vendite"
+    },
+    "help": {
+      "title": "Hai Bisogno di Aiuto nella Scelta?",
+      "description": "Contatta il nostro team commerciale per trovare il piano perfetto per le esigenze della tua attività."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Errore di Pagamento",
+        "description": "Impossibile elaborare il pagamento. Riprova."
+      },
+      "upgradeSuccess": {
+        "title": "Upgrade Effettuato con Successo"
+      },
+      "upgradeError": {
+        "title": "Errore nell'Upgrade",
+        "description": "Impossibile effettuare l'upgrade del piano. Riprova."
+      },
+      "subscriptionCancelled": {
+        "title": "Abbonamento Annullato",
+        "description": "Il tuo abbonamento è stato annullato."
+      },
+      "cancelError": {
+        "title": "Errore",
+        "description": "Impossibile annullare l'abbonamento."
+      }
+    },
+    "planFeature": {
+      "name1": "Numero di Inserzioni GMB Consentite",
+      "name2": "Controllo Posizionamento KW al giorno",
+      "name3": "Elenco KW Organiche",
+      "name4": "Controllo KW GEO",
+      "name5": "Aggiungi Team",
+      "name6": "Report White Label",
+      "name7": "Sottodominio White Label",
+      "unlmited": "Illimitato"
+    },
+    "plans": {
+      "business": "Business",
+      "pro": "Pro",
+      "agency": "Agenzia",
+      "enterprise": "Enterprise"
+    },
+    "upgrade": "Effettua Upgrade",
+    "pay": "Paga Ora"
+  }
+}

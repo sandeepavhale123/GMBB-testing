@@ -1,0 +1,47 @@
+{
+  "dialog": {
+    "title": "Create Auto Reply Project",
+    "description": "Set up automated replies for your listings by configuring templates and settings.",
+    "close": "Close",
+    "createProject": "Create Project",
+    "creating": "Creating..."
+  },
+  "labels": {
+    "projectName": "Project Name",
+    "replyType": "Reply Type",
+    "projectPlaceholder":"Enter project name"
+  },
+  "replyTypes": {
+    "ai": {
+      "title": "AI Generated Replies",
+      "description": "Smart responses powered by AI"
+    },
+    "template": {
+      "title": "Custom Template",
+      "description": "Use your own reply template"
+    },
+    "dnr": {
+      "title": "DNR (Do Not Respond)",
+      "description": "Skip auto-replies for these listings"
+    }
+  },
+  "toast": {
+    "success": {
+    "title":"Success",
+    "created": "Auto-reply project created successfully"
+    },
+    "error": {
+      "title":"Error",
+      "projectName": "Please enter a project name",
+      "selectListing": "Please select at least one listing.",
+      "createProject": "Failed to create auto-reply project"
+    }
+  },
+  "conflictDialog": {
+    "title": "Auto-Reply Settings Conflict",
+    "description": "The following locations already have auto-reply settings configured. You can remove individual listings or continue to override all:",
+    "overrideInfo": "Creating this project will override the existing auto-reply settings for the remaining locations.",
+    "cancel": "Cancel",
+    "overrideContinue": "Override & Continue"
+  }
+}

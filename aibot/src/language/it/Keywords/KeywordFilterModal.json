@@ -1,0 +1,77 @@
+{
+  "KeywordFilterModal": {
+    "title": "Filtra Parole Chiave",
+    "labels": {
+      "country": "Paese",
+      "language": "Lingua"
+    },
+    "placeholders": {
+      "selectCountry": "Seleziona paese",
+      "selectLanguage": "Seleziona lingua"
+    },
+    "buttons": {
+      "cancel": "Annulla",
+      "apply": "Applica"
+    },
+    "countries": {
+      "2840": "Stati Uniti",
+      "2826": "Regno Unito",
+      "2124": "Canada",
+      "2036": "Australia",
+      "2276": "Germania",
+      "2250": "Francia",
+      "2724": "Spagna",
+      "2380": "Italia",
+      "2528": "Paesi Bassi",
+      "2056": "Belgio",
+      "2752": "Svezia",
+      "2578": "Norvegia",
+      "2208": "Danimarca",
+      "2246": "Finlandia",
+      "2616": "Polonia",
+      "2203": "Cechia",
+      "2040": "Austria",
+      "2756": "Svizzera",
+      "2392": "Giappone",
+      "2410": "Corea del Sud",
+      "156": "Cina",
+      "2356": "India",
+      "2076": "Brasile",
+      "2484": "Messico",
+      "2032": "Argentina"
+    },
+    "languages": {
+      "ar": "Arabo",
+      "bg": "Bulgaro",
+      "ca": "Catalano",
+      "hr": "Croato",
+      "cs": "Ceco",
+      "da": "Danese",
+      "nl": "Olandese",
+      "en": "Inglese",
+      "et": "Estone",
+      "fi": "Finlandese",
+      "fr": "Francese",
+      "de": "Tedesco",
+      "el": "Greco",
+      "he": "Ebraico",
+      "hu": "Ungherese",
+      "id": "Indonesiano",
+      "it": "Italiano",
+      "ja": "Giapponese",
+      "ko": "Coreano",
+      "lv": "Lituano",
+      "lt": "Lettonia",
+      "no": "Norvegese",
+      "pl": "Polacco",
+      "pt": "Portoghese",
+      "ro": "Rumeno",
+      "ru": "Russo",
+      "es": "Spagnolo",
+      "sv": "Svedese",
+      "tr": "Turco",
+      "uk": "Ucraino",
+      "zh": "Cinese"
+    }
+  }
+}

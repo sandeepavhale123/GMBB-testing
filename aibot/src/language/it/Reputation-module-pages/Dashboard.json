@@ -1,0 +1,46 @@
+{
+  "page": {
+    "title": "Dashboard di gestione della reputazione",
+    "subtitle": "Monitora e gestisci la tua reputazione online su tutte le piattaforme"
+  },
+
+  "summary": {
+    "overallRating": {
+      "title": "Valutazione complessiva",
+      "subtitle": "Basata su {{count}} recensioni"
+    },
+    "totalReviews": {
+      "title": "Totale recensioni",
+      "subtitle": "Ultimi 30 giorni: +{{count}}"
+    },
+    "responseRate": {
+      "title": "Tasso di risposta",
+      "subtitle": "Tempo medio di risposta: {{time}}"
+    },
+    "sentiment": {
+      "title": "Analisi del sentiment",
+      "subtitle": "Sentiment positivo"
+    }
+  },
+
+  "channels": {
+    "title": "Canali",
+    "subtitle": "Gestisci i canali",
+    "connected": "Connesso",
+    "notConnected": "Non connesso",
+    "connect": "Connetti"
+  },
+
+  "reviewTracking": {
+    "google": "Monitoraggio recensioni Google",
+    "facebook": "Monitoraggio recensioni Facebook",
+    "yelp": "Monitoraggio recensioni Yelp",
+    "last7Days": "Ultimi 7 giorni",
+    "selectChannel": "Seleziona canale"
+  },
+
+  "months": {
+    "jun24": "Giu '24",
+    "jun": "Giu"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "title": "Costruttore di moduli",
+  "formFields": "Campi del modulo",
+  "addField": "Aggiungi campo",
+  "editField": "Modifica campo",
+  "newField":"Nuovo campo",
+  "label": "Etichetta *",
+  "fieldName": "Nome campo *",
+  "fieldType": "Tipo di campo *",
+  "fieldlabel":"Etichetta del campo",
+  "placeholder": "Segnaposto",
+  "plText":"Testo del segnaposto",
+  "fieldPlace":"nome_campo",
+  "requiredField": "Campo obbligatorio",
+  "options": "Opzioni",
+  "enterOptions": "Inserisci un'opzione per riga",
+  "selectFieldToEdit": "Seleziona un campo da modificare o aggiungi un nuovo campo",
+  "cancel": "Annulla",
+  "saveChanges": "Salva modifiche",
+  "cannotRemove": "Questo campo non può essere rimosso",
+  "removeField": "Rimuovi campo",
+  "requiredDot": "• Obbligatorio",
+  "fieldTypes": {
+    "text": "Testo",
+    "email": "Email",
+    "textarea": "Area di testo",
+    "number": "Numero",
+    "date": "Data",
+    "select": "Seleziona",
+    "radio": "Radio",
+    "checkboxGroup": "Gruppo di checkbox"
+  }
+}

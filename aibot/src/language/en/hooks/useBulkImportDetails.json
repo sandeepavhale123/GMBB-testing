@@ -1,0 +1,15 @@
+{
+  "listings": {
+    "fetchError": "Failed to fetch listings",
+    "noListingsFound": "No listings found for this history ID."
+  },
+  "posts": {
+    "fetchError": "Failed to fetch posts",
+    "deleteError": "Failed to delete post",
+    "deleteSuccess": "Post deleted successfully"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error"
+  }
+}

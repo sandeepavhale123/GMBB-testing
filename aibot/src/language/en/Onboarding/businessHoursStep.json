@@ -1,0 +1,18 @@
+{
+  "businessHoursStep": {
+    "title": "When are you open?",
+    "description": "Set your business hours so customers know when to visit",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "closedLabel": "Closed",
+    "toLabel": "to",
+    "continueButton": "Continue"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "tableHeaders": {
+    "projectName": "Nombre del proyecto",
+    "locations": "N. de ubicaciones",
+    "status": "Estado",
+    "responseType": "Tipo de respuesta",
+    "createdDate": "Fecha de creación",
+    "actions": "Acciones"
+  },
+  "status": {
+    "active": "Activo",
+    "draft": "Borrador"
+  },
+  "loading": "Cargando proyectos...",
+  "noProjects": "No se encontraron proyectos de respuesta automática.",
+  "location": "ubicación",
+  "locations": "ubicaciones",
+  "deleteTitle": "Eliminar proyecto de respuesta automática",
+  "deleteDescription": "¿Estás seguro de que deseas eliminar \"{{projectName}}\"? Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "error": "Error",
+  "delete": "Eliminar",
+  "paginationInfo": "Mostrando {{start}} a {{end}} de {{total}} proyectos"
+}

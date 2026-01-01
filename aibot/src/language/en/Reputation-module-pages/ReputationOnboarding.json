@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Reputation Management",
+    "description": "Import your existing business listings or add a new business to start managing your online reputation across platforms."
+  },
+
+  "importListings": {
+    "title": "Import Existing Listings",
+    "description": "Select business locations you want to import from your connected sources.",
+    "searchPlaceholder": "Search listings...",
+    "selectAll": "Select All",
+    "importButton": "Import Listings",
+    "importing": "Importing..."
+  },
+
+  "addBusiness": {
+    "title": "Add a Business",
+    "description": "Can't find your business? Add it manually using Google Places.",
+    "placeholder": "Search business on Google",
+    "addButton": "Add Business",
+    "addingButton": "Adding Business...",
+    "successTitle": "Business Added",
+    "successDescription": "The business has been added successfully.",
+    "errorTitle": "Add Business Failed",
+    "errorDescription": "Unable to add the business. Please try again.",
+    "selectBusiness": "Please select a valid business before proceeding."
+  },
+
+  "listings": {
+    "imported": "Imported",
+    "noListings": "No listings available to import."
+  },
+
+  "errors": {
+    "retry": "Try Again",
+    "importFailedTitle": "Import Failed",
+    "importFailedDescription": "Failed to import listings.",
+    "generic": "Something went wrong. Please try again."
+  },
+
+  "successDialog": {
+    "title": "Import Successful",
+    "ok": "OK",
+    "summary": {
+      "inserted": "{{count}} listing(s) imported successfully.",
+      "skipped": "{{count}} skipped.",
+      "invalid": "{{count}} invalid."
+    }
+  }
+}

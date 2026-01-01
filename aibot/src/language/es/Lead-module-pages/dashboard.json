@@ -1,0 +1,21 @@
+{
+  "title": "Panel de Leads",
+  "description": "Administra y realiza un seguimiento de tus leads de manera efectiva.",
+  "convertedLeads": "Leads convertidos",
+  "totalLeads": "Total de leads",
+  "remainingCredits": "Créditos restantes",
+  "addLead": "Agregar lead",
+  "leads": "Leads",
+  "manageLeads": "Administra tu base de datos de leads y realiza un seguimiento de las interacciones",
+  "showingPage": "Mostrando página {{currentPage}} de {{totalPages}} ({{leadCount}} leads)",
+  "deleteLeadTitle": "Eliminar lead",
+  "deleteLeadDescription": "¿Estás seguro de que deseas eliminar el lead de ",
+  "deleteLeadDescription1": "{{businessName}}",
+  "deleteLeadDescription2": "? Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "deleting": "Eliminando...",
+  "reportIDMissing": "ID del informe no encontrado para este lead",
+  "noReportID": "No se encontró ID de informe para este lead",
+  "fetchError": "No se pudieron obtener los leads. Por favor, inténtalo de nuevo."
+}

@@ -1,0 +1,170 @@
+{
+  "title": "Richieste di recensione",
+  "subtitle": "Invia richieste di recensione ai tuoi clienti",
+  "createButton": "Crea",
+  "tabs": {
+    "campaign": "Campagna",
+    "siteIntegration": "Integrazione del sito",
+    "qrCode": "Codice QR",
+    "reviewLink": "Modulo di feedback",
+    "feedbackForms": "Modulo di feedback"
+  },
+  "integration": {
+    "title": "Integrazione dei canali",
+    "description": "Connetti e gestisci le integrazioni delle piattaforme di recensioni",
+    "available": "Integrazioni disponibili",
+    "comming": "In arrivo",
+    "status": {
+      "connected": "Connesso",
+      "notConnected": "Non connesso"
+    },
+    "button": {
+      "connect": "Connetti",
+      "disconnect": "Disconnetti"
+    }
+  },
+  "qrCode": {
+    "title": "Codice QR per recensioni",
+    "description": "Genera e scarica codici QR per le tue richieste di recensione",
+    "simpleCard": {
+      "title": "Codice QR semplice",
+      "description": "Scarica un codice QR di base che rimanda direttamente alla tua pagina di recensioni. Perfetto per la condivisione rapida e la stampa.",
+      "downloadButton": "Scarica codice QR"
+    },
+    "posterCard": {
+      "title": "Poster QR personalizzato",
+      "description": "Crea un poster brandizzato con il tuo codice QR, logo e messaggi personalizzati. Ideale da esporre nella tua sede.",
+      "customizeButton": "Personalizza poster"
+    }
+  },
+  "table": {
+    "name": "Nome",
+    "channel": "Canale",
+    "status": "Stato",
+    "date": "Data",
+    "contacts": "Contatti",
+    "delivered": "Consegnato",
+    "action": "Azione"
+  },
+  "status": {
+    "sent": "Inviato",
+    "pending": "In sospeso",
+    "scheduled": "Programmato",
+    "draft": "Bozza",
+    "completed": "Completato",
+    "failed": "Non riuscito"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "contactsModal": {
+    "title": "{{campaignName}} - Contatti",
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono",
+    "status": "Stato",
+    "noContacts": "Nessun contatto trovato",
+    "showing": "Visualizzati {{count}} di {{total}} contatti"
+  },
+  "actions": {
+    "view": "Visualizza",
+    "send": "Invia",
+    "delete": "Elimina"
+  },
+  "empty": {
+    "title": "Nessuna campagna presente",
+    "description": "Crea la tua prima campagna di richieste di recensione per iniziare",
+    "button": "Crea campagna"
+  },
+  "createCampaignModal": {
+    "title": "Crea campagna",
+    "campaignName": "Nome della campagna",
+    "placeholder": "Inserisci il nome della campagna",
+    "cancel": "Annulla",
+    "continue": "Continua",
+    "creating": "Creazione in corso..."
+  },
+  "comingSoon": {
+    "title": "In arrivo",
+    "description": "Questa funzionalità è in fase di sviluppo"
+  },
+  "templates": {
+    "title": "Template",
+    "createButton": "Crea",
+    "table": {
+      "name": "Nome",
+      "channel": "Canale",
+      "status": "Stato",
+      "date": "Data",
+      "action": "Azione"
+    },
+    "status": {
+      "active": "Attivo",
+      "draft": "Bozza"
+    },
+    "actions": {
+      "view": "Visualizza",
+      "delete": "Elimina"
+    },
+    "empty": {
+      "title": "Nessun template presente",
+      "description": "Crea il tuo primo template di richiesta di recensione per iniziare",
+      "button": "Crea template"
+    },
+    "deleteDialog": {
+      "title": "Elimina template",
+      "description": "Sei sicuro di voler eliminare questo template? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Invia richiesta di recensione",
+    "selectTemplate": "Seleziona un template",
+    "selectTemplatePlaceholder": "Scegli un template...",
+    "templateContent": "Contenuto del messaggio",
+    "noTemplatesAvailable": "Nessun template attivo disponibile",
+    "createTemplateFirst": "Crea prima un template",
+    "templatePreview": "Anteprima",
+    "cancel": "Annulla",
+    "send": "Invia",
+    "sending": "Invio in corso...",
+    "success": {
+      "title": "Richiesta di recensione inviata",
+      "description": "La tua richiesta di recensione è stata inviata con successo a {{contactName}}"
+    },
+    "error": {
+      "title": "Invio non riuscito",
+      "description": "Impossibile inviare la richiesta di recensione. Riprova."
+    }
+  },
+  "feedbackForms": {
+    "title": "Modulo di feedback",
+    "description": "Crea e gestisci moduli di feedback personalizzati per i tuoi clienti",
+    "createButton": "Crea modulo",
+    "table": {
+      "name": "Nome",
+      "createdAt": "Creato il",
+      "action": "Azione"
+    },
+    "actions": {
+      "view": "Visualizza",
+      "edit": "Modifica",
+      "delete": "Elimina"
+    },
+    "empty": {
+      "title": "Nessun modulo di feedback presente",
+      "description": "Crea il tuo primo modulo di feedback personalizzato per raccogliere feedback strutturati",
+      "button": "Crea modulo di feedback"
+    },
+    "deleteDialog": {
+      "title": "Elimina modulo di feedback",
+      "description": "Sei sicuro di voler eliminare questo modulo? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    },
+    "failed": "Impossibile caricare i moduli di feedback. Riprova."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "listingManagementEmpty": {
+    "title": "Aucune fiche trouvée",
+    "searchMessage": "Aucune fiche ne correspond à « {{searchTerm}} ». Essayez un autre terme de recherche.",
+    "filterMessage": "Aucune fiche ne correspond à vos filtres actuels. Essayez d'ajuster vos filtres."
+  }
+}

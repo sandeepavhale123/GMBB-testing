@@ -1,0 +1,10 @@
+{
+  "title": "Gesundheitsscore & Maßnahmen",
+  "overallHealthScore": "Gesamter Gesundheitsscore",
+  "aiActions": "KI-Maßnahmen",
+  "manualActions": "Manuelle Maßnahmen",
+  "aiAutoOptimize": "KI-Auto-Optimierung",
+  "quickWinsTitle": "Schnelle Erfolge",
+  "quickWinsDescription": "Empfohlene Maßnahmen zur Verbesserung Ihres Profils",
+  "complete": "Abgeschlossen"
+}

@@ -1,0 +1,24 @@
+{ "totalPosts": "Total Posts: {{count}}", 
+ "totalPostsFiltered": "(filtered)",
+ "selectPosts": "Select Posts", "cancelSelection": "Cancel Selection",
+  "selectAll": "Select All", "deselectAll": "Deselect All",
+  "deleteSelected": "Delete Selected ({{count}})",
+  "deleting": "Deleting...",
+  "deletePostsTitle": "Delete Posts",
+  "deletePostsDescription": "Are you sure you want to delete {{count}} selected post{{plural}}? This action cannot be undone.", "cancel": "Cancel",
+  "delete": "Delete",
+  "previous": "Previous", 
+  "next": "Next", 
+  "pageInfo": "Page {{current}} of {{total}}", 
+  "toast": { 
+    "error": "Error", 
+    "noListingTitle": "Error", 
+    "noListingDesc": "No business listing selected. Please select a listing first.", 
+    "noPostsTitle": "No Posts Selected", 
+    "noPostsDesc": "Please select posts to delete.", 
+    "postsDeletedTitle": "Posts Deleted", 
+    "postsDeletedDesc": "{{count}} post{{plural}} have been successfully deleted.", 
+    "deleteFailedTitle": "Failed to Delete Posts", 
+    "deleteFailedDesc": "An unexpected error occurred. Please try again." 
+    } 
+  }

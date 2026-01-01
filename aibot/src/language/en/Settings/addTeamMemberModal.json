@@ -1,0 +1,60 @@
+{
+  "addTeamMemberModal": {
+    "title": "Add New Team Member",
+    "profile": {
+      "uploadPhoto": "Upload Photo"
+    },
+    "fields": {
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Enter first name"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Enter last name"
+      },
+      "email": {
+        "label": "Email ID",
+        "placeholder": "Enter email address"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password",
+        "show": "Show password",
+        "hide": "Hide password"
+      },
+      "role": {
+        "label": "Role",
+        "placeholder": "Select role",
+        "options": {
+          "moderator": "Moderator",
+          "staff": "Staff",
+          "client": "Client"
+        }
+      }
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "add": "Add Member",
+      "adding": "Adding..."
+    },
+    "messages": {
+      "validationError": {
+        "title": "Validation Error",
+        "description": "Please fix the highlighted fields."
+      },
+      "invalidEmail": {
+        "title": "Invalid Email",
+        "description": "Please enter a valid email address."
+      },
+      "success": {
+        "title": "Team Member Added",
+        "description": "{{firstName}} {{lastName}} has been added successfully."
+      },
+      "error": {
+        "title": "Error",
+        "default": "Failed to add team member. Please try again."
+      }
+    }
+  }
+}

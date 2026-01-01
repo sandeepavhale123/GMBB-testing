@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Credit History",
+  "pageDescription": "Track your credit usage and purchases.",
+  "buyCredits": "Buy Credits",
+
+  "currentCredits": "Current Credits",
+  "currentCreditsSub": "Available for use",
+  "creditsUsed": "Credits Used",
+  "creditsUsedSub": "Credits consumed",
+  "totalAllocated": "Total Allocated",
+  "totalAllocatedSub": "Total credits",
+
+  "creditUsageTitle": "Credit Usage",
+  "creditUsageDescription": "Your current credit consumption.",
+  "usedLabel": "Used: {{used}} credits",
+  "availableLabel": "Available: {{available}} credits",
+  "loadingUsage": "Unable to load credit usage data",
+
+  "historyTitle": "Credits History",
+  "searchPlaceholder": "Search by business name...",
+
+  "table": {
+    "businessName": "Business Name",
+    "reportType": "Report Type",
+    "credit": "Credit",
+    "date": "Date"
+  },
+
+  "noHistoryTitle": "No credit history found",
+  "noHistoryDescription": "Your credit usage will appear here",
+  "noSearchResults": "Try adjusting your search",
+
+  "loadErrorTitle": "Failed to load credit history",
+  "loadErrorDescription": "Please try again later"
+}

@@ -1,0 +1,23 @@
+{
+  "visibilitySummaryTitle": "Resumen de Visibilidad",
+  "visibilitySummarySubtitle": "Vistas totales desde la Búsqueda de Google y Google Maps.",
+  "view": "Ver todo",
+  
+  "googleSearchViews": "Vistas en la Búsqueda de Google",
+  "googleMapsViews": "Vistas en Google Maps",
+  
+  "percentageChange": "{{value}}% con respecto al período anterior",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Búsqueda",
+  "mapsBarName": "Mapas",
+  
+  "searchViewsLegend": "Vistas de Búsqueda",
+  "mapsViewsLegend": "Vistas de Mapas",
+
+  "hideTitle": "Ocultar vistas de búsqueda",
+  "showTitle": "Mostrar vistas de búsqueda",
+
+  "hideMap": "Ocultar vistas de mapas",
+  "showMap": "Mostrar vistas de mapas"
+}

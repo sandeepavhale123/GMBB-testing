@@ -1,0 +1,80 @@
+{
+  "editTeamMemberSettings": {
+    "loading": {
+      "text": "Caricamento membro del team..."
+    },
+    "errors": {
+      "editError": "Errore durante il caricamento del membro del team",
+      "notFound": "Membro del team non trovato",
+      "listingsError": "Errore durante il caricamento degli annunci: {{error}}",
+      "updateProfile": "Impossibile aggiornare il profilo",
+      "updateListings": "Impossibile aggiornare gli annunci assegnati",
+      "updateListing": "Impossibile aggiornare l'annuncio assegnato"
+    },
+    "buttons": {
+      "back": "Indietro",
+      "backToTeamMembers": "Torna ai membri del team",
+      "saveChanges": "Salva Modifiche",
+      "saving": "Salvataggio in corso...",
+      "previous": "Precedente",
+      "next": "Successivo"
+    },
+    "tabs": {
+      "profile": "Profilo",
+      "assignListings": "Assegna Annunci"
+    },
+    "profile": {
+      "title": "Modifica Membro del Team",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "email": "Email",
+      "password": "Password",
+      "passwordPlaceholder": "Lascia vuoto per mantenere la password attuale",
+      "role": "Seleziona Ruolo",
+      "roles": {
+        "moderator": "Moderatore",
+        "staff": "Staff",
+        "client": "Cliente"
+      }
+    },
+    "listings": {
+      "title": "Gestione Annunci",
+      "filter": {
+        "googleAccount": "Account Google",
+        "searchPlaceholder": "Cerca account...",
+        "noAccounts": "Nessun account trovato",
+        "assignedListings": "Annunci Assegnati"
+      },
+      "table": {
+        "businessName": "Nome Attività",
+        "account": "Account",
+        "assign": "Assegna",
+        "loading": "Caricamento annunci...",
+        "noListings": "Nessun annuncio trovato per l'account selezionato"
+      },
+      "pagination": {
+        "pageInfo": "Pagina {{current}} di {{total}} • {{count}} annunci",
+        "show": "Mostra:",
+        "page": "Pagina",
+        "of": "di"
+      },
+      "badge": {
+        "assigned": "{{count}} Assegnati"
+      }
+    },
+    "toasts": {
+      "success": {
+        "title": "Successo",
+        "profileUpdated": "Profilo del membro del team aggiornato con successo",
+        "listingsUpdated": "Annunci assegnati aggiornati con successo",
+        "listingUpdated": "Annuncio assegnato aggiornato con successo"
+      },
+      "error": {
+        "title": "Errore",
+        "profileUpdate": "Impossibile aggiornare il profilo",
+        "listingsUpdate": "Impossibile aggiornare gli annunci assegnati"
+      }
+    },
+    "totalReplies": "Risposte totali"
+  }
+}

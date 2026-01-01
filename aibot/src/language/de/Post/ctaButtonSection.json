@@ -1,0 +1,17 @@
+{
+  "cta": {
+    "includeButton": "CTA-Schaltfläche einfügen",
+    "buttonType": "Schaltflächentyp",
+    "chooseTypePlaceholder": "Wählen Sie den Typ der CTA-Schaltfläche",
+    "buttonUrl": "Schaltflächen-URL",
+    "urlPlaceholder": "https://example.com",
+    "options": {
+      "LEARN_MORE": "Mehr erfahren",
+      "BOOK": "Jetzt buchen",
+      "CALL": "Jetzt anrufen",
+      "ORDER": "Online bestellen",
+      "SHOP": "Jetzt einkaufen",
+      "SIGN_UP": "Anmelden"
+    }
+  }
+}

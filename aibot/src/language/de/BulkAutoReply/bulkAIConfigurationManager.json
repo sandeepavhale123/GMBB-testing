@@ -1,0 +1,65 @@
+{
+  "dnr": {
+    "title": "DNR-Projekt",
+    "description1": "Sie haben dieses Projekt für DNR (Do Not Respond) erstellt.",
+    "description2": "Dieses Projekt ist so konfiguriert, dass nicht automatisch auf Bewertungen geantwortet wird."
+  },
+  "header": {
+    "title": "KI-Antwortautomatisierung",
+    "badge": "KI-gestützt",
+    "description": "Lassen Sie die KI personalisierte, kontextbezogene Antworten basierend auf dem Bewertungsinhalt und der Stimmung generieren."
+  },
+  "responseStyle": {
+    "label": "KI-Antwortstil",
+    "placeholder": "Wählen Sie Ihren Antwortstil...",
+    "styles": {
+      "professional": "Professionell",
+      "friendly": "Freundlich",
+      "casual": "Locker",
+      "formal": "Formell",
+      "empathetic": "Einfühlsam"
+    },
+    "hint": "💡 Die KI passt diesen Stil an den spezifischen Inhalt und die Bewertung jeder Rezension an."
+  },
+  "advanced": {
+    "label": "Erweiterte Optionen",
+    "noteTitle": "Hinweis:",
+    "noteText1": "Sie können die folgenden Variablen in Ihrem Antworttext verwenden, um den Namen des Rezensenten anzuzeigen:",
+    "noteText2": ". Um den Antwortinhalt einzufügen, verwenden Sie ",
+    "noteText3": ". Vergessen Sie nicht, es in Ihre Vorlage aufzunehmen.",
+    "customPrompt": {
+      "label": "Benutzerdefinierte Eingabeaufforderung",
+      "placeholder": "Benutzerdefinierte Eingabeaufforderung eingeben",
+      "hint": "Fügen Sie spezifische Anweisungen hinzu, um anzupassen, wie die KI Antworten generiert."
+    },
+    "replyText": "Antworttext",
+    "responsePlaceholder": "Geben Sie Ihre Antwortvorlage ein...",
+    "starRatings": "Für Sternebewertungen anwenden"
+  },
+  "sample": {
+    "title": "Beispiel-KI-Antwort generieren",
+    "subtitle": "Testen Sie, wie die KI auf eine Beispielbewertung reagieren würde",
+    "button": "Beispiel-KI-Antwort generieren",
+    "buttonLoading": "Beispielantwort wird generiert...",
+    "reviewUser": "John Doe",
+    "reviewText": "Hatte eine großartige Erfahrung! Der Service war ausgezeichnet und das Personal sehr freundlich. Alles hat meine Erwartungen übertroffen. Werde definitiv wiederkommen!",
+    "generatedLabel": "Von der KI generierte Antwort:"
+  },
+  "replyExisting": {
+    "label": "Auf bestehende Bewertungen antworten",
+    "description": "Aktivieren Sie dies, um automatisch auf Bewertungen zu antworten, die vor der Aktivierung der KI-Antworten veröffentlicht wurden."
+  },
+  "save": {
+    "button": "KI-Einstellungen speichern"
+  },
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler",
+    "saveSuccess": "KI-Antwortautomatisierung erfolgreich gespeichert! {{count}} Standort{{plural}} aktualisiert.",
+    "saveError": "Fehler beim Speichern der KI-Antwortautomatisierung. Bitte versuchen Sie es erneut.",
+    "toggleSuccess": "KI-Antwortautomatisierung erfolgreich {{status}}! {{count}} Standort{{plural}} aktualisiert.",
+    "toggleError": "Fehler beim Aktualisieren des KI-Antwortstatus. Bitte versuchen Sie es erneut.",
+    "replyToggleSuccess": "Antwort auf bestehende Bewertungen erfolgreich {{status}}! {{count}} Standort{{plural}} aktualisiert.",
+    "replyToggleError": "Fehler beim Aktualisieren der Einstellung für Antworten auf bestehende Bewertungen. Bitte versuchen Sie es erneut."
+  }
+}

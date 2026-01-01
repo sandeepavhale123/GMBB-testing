@@ -1,0 +1,13 @@
+{
+  "error": "Bevorstehende Beiträge konnten nicht geladen werden",
+
+  "empty": {
+    "noScheduled": "Keine geplanten Beiträge",
+    "createFirst": "Erstelle deinen ersten Beitrag, um ihn hier zu sehen"
+  },
+
+  "post": {
+    "previewAlt": "Beitragsvorschau",
+    "accounts": "{{count}} Konten"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "deleteTeamMemberModal": {
+    "title": "Elimina Membro del Team",
+    "description": "Questa azione non può essere annullata",
+    "confirmation1": "Sei sicuro di voler eliminare ",
+    "confirmation2": "{{firstName}} {{lastName}}",
+    "confirmation3": "? Questo rimuoverà definitivamente il loro account e revocherà tutti gli accessi al sistema.",
+    "alsoRemoveTitle": "Questo rimuoverà anche:",
+    "alsoRemoveItems": {
+      "listings": "• Accesso a {{listingsCount}} annunci",
+      "permissions": "• Tutti i permessi assegnati",
+      "credentials": "• Credenziali e impostazioni dell'account"
+    },
+    "cancel": "Annulla",
+    "delete": "Elimina Membro",
+    "deleting": "Eliminazione in corso...",
+    "toast": {
+      "successTitle": "Successo",
+      "successDescription": "Membro del team eliminato con successo",
+      "errorTitle": "Errore",
+      "errorDescription": "Impossibile eliminare il membro del team"
+    }
+  }
+}

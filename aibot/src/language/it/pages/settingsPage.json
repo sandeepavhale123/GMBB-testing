@@ -1,0 +1,8 @@
+{
+  "settingsPage": {
+    "planExpired": {
+      "title": "Il piano dell'applicazione è scaduto.",
+      "description": "Contatta il tuo amministratore per l'accesso."
+    }
+  }
+}

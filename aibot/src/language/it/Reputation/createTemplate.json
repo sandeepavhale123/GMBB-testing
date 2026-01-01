@@ -1,0 +1,53 @@
+{
+  "title": "Crea Modello",
+  "templateName": {
+    "label": "Nome del Modello",
+    "placeholder": "Inserisci il nome del modello"
+  },
+  "channel": {
+    "label": "Seleziona Canale",
+    "sms": "SMS",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
+  },
+  "template": {
+    "title": "Seleziona Modello",
+    "defaultTemplate": "Modello predefinito",
+    "greeting": "Ciao Nome!",
+    "defaultMessage": "Speriamo che tu abbia apprezzato la tua recente esperienza con noi. Potresti dedicare un momento per lasciarci una recensione?",
+    "reviewLink": "Link Recensione"
+  },
+  "subject": {
+    "label": "Oggetto",
+    "placeholder": "Inserisci l'oggetto dell'email"
+  },
+  "whatsapp": {
+    "category": {
+      "label": "Categoria",
+      "marketing": "Marketing",
+      "utility": "Utilità",
+      "authentication": "Autenticazione"
+    },
+    "language": {
+      "label": "Lingua"
+    }
+  },
+  "schedule": {
+    "label": "Programma il modello (opzionale)",
+    "date": "Data",
+    "time": "Ora"
+  },
+  "submit": "Salva Modello",
+  "validation": {
+    "nameRequired": "Il nome del modello è obbligatorio",
+    "subjectRequired": "L'oggetto è obbligatorio per i modelli email"
+  },
+  "success": {
+    "title": "Modello Creato",
+    "description": "Il tuo modello è stato creato con successo"
+  },
+  "error": {
+    "title": "Errore",
+    "description": "Impossibile creare il modello. Riprova."
+  }
+}

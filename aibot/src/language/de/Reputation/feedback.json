@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Feedback Verwalten",
+  "pageDescription": "Überprüfen und verwalten Sie Kundenfeedback mit Bewertungen unter 3 Sternen",
+  "summary": {
+    "totalFeedback": "Gesamt-Feedback",
+    "averageRating": "Durchschnittsbewertung",
+    "pendingCount": "Ausstehend",
+    "resolvedCount": "Gelöst"
+  },
+  "filters": {
+    "rating": "Bewertung",
+    "channel": "Kanal",
+    "status": "Status",
+    "dateRange": "Datumsbereich",
+    "search": "Nach Name oder Nachricht suchen...",
+    "exportCSV": "CSV Exportieren",
+    "clearFilters": "Filter Löschen"
+  },
+  "table": {
+    "customerName": "Kundenname",
+    "rating": "Bewertung",
+    "message": "Nachricht",
+    "channel": "Kanal",
+    "submittedDate": "Eingangsdatum",
+    "status": "Status",
+    "actions": "Aktionen"
+  },
+  "status": {
+    "pending": "Ausstehend",
+    "reviewed": "Überprüft",
+    "resolved": "Gelöst"
+  },
+  "channels": {
+    "google": "Google",
+    "facebook": "Facebook",
+    "yelp": "Yelp",
+    "direct": "Direkt",
+    "email": "E-Mail"
+  },
+  "modal": {
+    "title": "Feedback-Details",
+    "customerInfo": "Kundeninformationen",
+    "customerName": "Name",
+    "customerEmail": "E-Mail",
+    "customerPhone": "Telefon",
+    "feedbackMessage": "Feedback-Nachricht",
+    "currentStatus": "Aktueller Status",
+    "adminNotes": "Admin-Notizen",
+    "adminNotesPlaceholder": "Fügen Sie interne Notizen oder Kommentare zu diesem Feedback hinzu...",
+    "saveButton": "Änderungen Speichern",
+    "closeButton": "Schließen",
+    "submittedOn": "Eingereicht am",
+    "channel": "Kanal"
+  },
+  "empty": {
+    "title": "Kein Feedback Gefunden",
+    "description": "Es gibt keine Kundenfeedback-Einträge, die Ihren Filtern entsprechen.",
+    "noDataTitle": "Noch Kein Feedback",
+    "noDataDescription": "Kundenfeedback mit Bewertungen unter 3 Sternen wird hier angezeigt."
+  },
+  "toast": {
+    "updateSuccess": "Feedback erfolgreich aktualisiert",
+    "updateError": "Feedback konnte nicht aktualisiert werden",
+    "exportSuccess": "Feedback erfolgreich exportiert",
+    "exportError": "Feedback konnte nicht exportiert werden"
+  },
+  "pagination": {
+    "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
+    "previous": "Zurück",
+    "next": "Weiter"
+  }
+}

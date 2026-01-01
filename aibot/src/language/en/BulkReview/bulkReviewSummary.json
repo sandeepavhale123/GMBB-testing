@@ -1,0 +1,22 @@
+{
+  "error": {
+    "message": "Error loading summary data",
+    "retry": "Retry"
+  },
+  "stats": {
+    "totalReviews": "Total Reviews",
+    "pendingReplies": "Pending Replies",
+    "aiReplies": "AI Replies",
+    "manualReplies": "Manual Replies"
+  },
+  "overallRating": {
+    "title": "Overall Rating",
+    "reviewsAcross": "{{count}} reviews across all listings"
+  },
+  "activitySummary": {
+    "title": "Activity Summary",
+    "aiResponses": "AI Responses",
+    "manualResponses": "Manual Responses",
+    "pending": "Pending"
+  }
+}

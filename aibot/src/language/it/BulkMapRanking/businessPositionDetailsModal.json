@@ -1,0 +1,15 @@
+{
+  "businessPositionDetailsModal": {
+    "header": {
+      "title": "Dettagli posizione",
+      "closeButton": "Chiudi modale"
+    },
+    "content": {
+      "topResult": "Risultati di classificazione",
+      "loading": "Caricamento risultati...",
+      "noResults": "Nessun risultato trovato",
+      "yourBusiness": "La tua attività",
+      "reviews": "{{count}} recensioni"
+    }
+  }
+}

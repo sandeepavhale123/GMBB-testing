@@ -1,0 +1,30 @@
+{
+  "reportsTable": {
+    "loading": "Cargando informes...",
+    "error": "No se pudieron cargar los informes. Por favor, inténtalo de nuevo más tarde.",
+    "noReports": {
+      "title": "No se encontraron informes",
+      "description": "Crea tu primer informe para comenzar"
+    },
+    "period1": "Período 1:",
+    "period2": "Período 2:",
+    "to": "a",
+    "tableHeaders": {
+      "reportName": "Nombre del informe",
+      "report": "Informe",
+      "reports": "Informes",
+      "reportType": "Tipo de informe",
+      "reportDate": "Fecha del informe",
+      "action": "Acción"
+    },
+    "reportTypes": {
+      "compare": "Comparación",
+      "individual": "Individual"
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {{current}} de {{total}}"
+    }
+  }
+}

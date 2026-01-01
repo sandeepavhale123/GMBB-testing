@@ -1,0 +1,73 @@
+{
+  "aiAutoResponse": {
+    "header": {
+      "title": "Réponse automatique IA",
+      "badge": "Propulsé par l'IA",
+      "description": "Laissez l'IA générer des réponses personnalisées et contextuelles en fonction du contenu et du sentiment des avis."
+    },
+    "responseStyle": {
+      "label": "Style de réponse IA",
+      "placeholder": "Choisissez votre style de réponse...",
+      "options": {
+        "professional": "Professionnel",
+        "friendly": "Amical",
+        "casual": "Décontracté",
+        "formal": "Formel",
+        "empathetic": "Empathique"
+      }
+    },
+    "advancedOptions": {
+      "label": "Options avancées",
+      "note": "💡 L'IA adaptera ce style au contenu spécifique et à la note de chaque avis.",
+      "variables": {
+        "title": "Note :",
+        "description": "Vous pouvez utiliser les variables suivantes dans votre texte de réponse pour afficher le nom du critique :  ",
+        "descBold":"{full_name}, {first_name}, {last_name}.",
+        "descEnd":"Pour insérer le contenu de la réponse, utilisez",
+        "descEndVb":" {responcetext}",
+        "descTextEnd":". N'oubliez pas de l'inclure dans votre modèle."
+      },
+      "customPrompt": {
+        "label": "Invite Personnalisée",
+        "placeholder": "ex., Écrivez la réponse en espagnol, incluez une offre de réduction...",
+        "hint": "Ajoutez des instructions spécifiques pour personnaliser la génération des réponses par l'IA."
+      },
+      "replyText": {
+        "label": "Texte de réponse",
+        "placeholder": "Entrez votre modèle de réponse..."
+      },
+      "starRatings": {
+        "label": "Appliquer pour les notes étoiles",
+        "option": "{{count}} étoile"
+      },
+      "replyToOldReviews": {
+        "savedTitle": "Enregistré",
+        "savedDescription": "Paramètre de réponse aux anciens avis mis à jour."
+      }
+    },
+    "latestReview": {
+      "title": "Générer un exemple de réponse IA",
+      "previewLabel": "Aperçu du dernier avis"
+    },
+    "buttons": {
+      "generate": "Générer la réponse IA",
+      "regenerate": "Régénérer",
+      "generating": "Génération de la réponse IA...",
+      "save": "Enregistrer les paramètres IA",
+      "saving": "Enregistrement..."
+    },
+    "toast": {
+      "success": {
+        "saveTitle": "Succès",
+        "saveDescription": "Réponse automatique IA enregistrée avec succès !",
+        "generateDescription": "Réponse IA générée avec succès !"
+      },
+      "error": {
+        "saveTitle": "Erreur",
+        "saveDescription": "Échec de l'enregistrement des paramètres de réponse automatique IA",
+        "generateTitle": "Erreur",
+        "generateDescription": "Échec de la génération de la réponse"
+      }
+    }
+  }
+}

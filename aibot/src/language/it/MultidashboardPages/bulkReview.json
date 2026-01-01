@@ -1,0 +1,28 @@
+{
+  "title": "Gestione recensioni in blocco",
+  "subtitle": "Gestisci le recensioni di tutti i tuoi annunci.",
+  "configureAutoReply": "Configura risposta automatica",
+  "summary": {
+    "reviews": "Recensioni dei clienti",
+    "loading": "Caricamento recensioni...",
+    "noReviews": "Nessuna recensione trovata corrispondente ai tuoi criteri."
+  },
+  "export": "Esporta CSV",
+  "toast": {
+    "successTitle": "Successo",
+    "replySuccess": "Risposta inviata con successo",
+    "replyError": "Impossibile inviare la risposta",
+    "deleteSuccess": "Risposta eliminata con successo",
+    "deleteError": "Impossibile eliminare la risposta"
+  },
+  "pagination": {
+    "showing": "Visualizzazione da {{from}} a {{to}} di {{total}} recensioni",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{pages}}"
+  },
+  "error": {
+    "title": "Errore",
+    "retry": "Riprova"
+  }
+}

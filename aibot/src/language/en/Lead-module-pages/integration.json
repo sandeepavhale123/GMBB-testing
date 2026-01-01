@@ -1,0 +1,61 @@
+{
+  "title": "Integrations",
+  "subtitle": "Connect your lead management with other tools",
+  "availableIntegrations": {
+    "title": "Available Integrations",
+    "description": "Connect with your favorite tools and services"
+  },
+  "statuses": {
+    "Connected": "Connected",
+    "Available": "Available",
+    "Success": "Success",
+    "Error": "Error"
+  },
+  "buttons": {
+    "configure": "Configure",
+    "connect": "Connect",
+    "saveApiSettings": "Save API Settings"
+  },
+  "apiSettings": {
+    "title": "API Settings",
+    "description": "Manage your API access and webhooks",
+    "apiKeyLabel": "API Key",
+    "webhookUrlLabel": "Webhook URL",
+    "webhooksPlaceholder":"https://yourapp.com/webhook",
+    "webhookToggleLabel": "Enable Webhooks",
+    "webhookToggleDescription": "Send real-time data to your endpoint",
+    "usageTitle": "API Usage",
+    "requests": "Requests this month",
+    "rateLimit": "Rate limit"
+  },
+  "activity": {
+    "title": "Integration Activity",
+    "description": "Recent sync and integration events"
+  },
+  "integration":{
+    "sales":"Salesforce",
+    "slaesDesc": "Sync leads to your Salesforce CRM",
+    "salesSync":"2 hours ago",
+    "salesAct":"Synced 12 new leads",
+    "hub":"HubSpot",
+    "hubDesc":"Import contacts and track interactions",
+    "hubAct":"Connection failed - API timeout",
+    "hubTime":"6 hours ago",
+    "email":"Mailchimp",
+    "emailDesc":"Add leads to email marketing campaigns",
+    "emailSync":"1 hour ago",
+    "emailAct":"Added 5 contacts to campaign",
+    "emailTime": "3 hours ago",
+    "slack":"Slack",
+    "slackDesc": "Get notified of new leads in Slack",
+    "slackSync":"30 minutes ago",
+    "slackAct":"New lead notification sent",
+    "slackTime":"4 hours ago",
+    "zapier":"Zapier",
+    "zapierDesc":"Connect to 5000+ apps via Zapier",
+    "google":"Google Sheets",
+    "googleDesc":"Export leads to Google Sheets automatically",
+    "googleAct":"Exported 25 leads to spreadsheet",
+    "googleTime":"1 day ago"
+  }
+}

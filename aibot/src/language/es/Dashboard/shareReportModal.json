@@ -1,0 +1,16 @@
+{
+  "title": "Compartir Informe",
+  "validation": {
+    "selectAtLeastOne": "Por favor, selecciona al menos un listado o grupo"
+  },
+  "errors": {
+    "failed": "Error al generar el informe",
+    "failedRetry": "Error al generar el informe. Por favor, inténtalo de nuevo.",
+    "toastTitle": "Error",
+    "toastDescription": "Error al generar el informe. Por favor, inténtalo de nuevo."
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "generate": "Generar Informe"
+  }
+}

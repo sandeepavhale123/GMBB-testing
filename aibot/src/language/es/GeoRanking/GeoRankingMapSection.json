@@ -1,0 +1,52 @@
+{
+  "GeoRankingMapSection": {
+    "title": "Mapa de Clasificación de Cuadrícula GEO",
+    "labels": {
+      "gps": "GPS",
+      "grid": "Cuadrícula",
+      "distance": "Distancia",
+      "engine": "Motor",
+      "engineValue": "Google Maps",
+      "frequency": "Frecuencia"
+    },
+    "loading": {
+      "title": "Cargando Datos del Mapa",
+      "description": "Generando coordenadas de cuadrícula..."
+    },
+    "metrics": {
+      "arp": "ARP",
+      "atrp": "ATRP",
+      "solv": "SoLV"
+    },
+    "positionSummary": {
+      "title": "Resumen de Posición"
+    },
+    "frequencyOptions": {
+      "one": "Una Vez",
+      "daily": "Diario",
+      "weekly": "Semanal",
+      "monthly": "Mensual"
+    },
+    "distanceMap": {
+      "label1": "100 Metros",
+      "label2": "200 Metros",
+      "label3": "500 Metros",
+      "label4": "1 Kilómetro",
+      "label5": "2.5 Kilómetros",
+      "label6": "5 Kilómetros",
+      "label7": "10 Kilómetros",
+      "label8": "25 Kilómetros",
+      "label9": "0.1 Millas",
+      "label10": "0.25 Millas",
+      "label11": "0.5 Millas",
+      "label12": "0.75 Millas",
+      "label13": "1 Milla",
+      "label14": "2 Millas",
+      "label15": "3 Millas",
+      "label16": "5 Millas",
+      "label17": "8 Millas",
+      "label18": "10 Millas"
+    },
+    "view": "Ver Todas las Palabras Clave"
+  }
+}

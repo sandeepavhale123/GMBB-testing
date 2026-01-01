@@ -1,0 +1,44 @@
+{
+  "title": "Rapporto delle Recensioni",
+  "loading": "Caricamento del rapporto delle recensioni...",
+  "error": "Errore durante il caricamento del rapporto delle recensioni",
+  "overview": {
+    "averageRating": "Valutazione Media",
+    "totalReviews": "Totale Recensioni",
+    "manualReply": "Risposta Manuale",
+    "aiReply": "Risposta AI"
+  },
+  "sections": {
+    "ratingSummary": "Riepilogo del Numero di Valutazioni",
+    "sentimentAnalysis": "Analisi del Sentimento",
+    "reviewTrends": "Andamento delle Recensioni nel Tempo",
+    "reviewDataSummary": "Riepilogo dei Dati delle Recensioni",
+    "recentReviews": "Recensioni Recenti",
+    "reviews": "Recensioni"
+  },
+  "chart": {
+    "totalReviews": "Totale Recensioni",
+    "star5": "5 Stelle",
+    "star4": "4 Stelle",
+    "star3": "3 Stelle",
+    "star2": "2 Stelle",
+    "star1": "1 Stella"
+  },
+  "labels": {
+    "star": "Stella",
+    "reviews": "recensioni",
+    "reviewDate": "Data della Recensione",
+    "totalReview": "Totale Recensione",
+    "fiveStar": "Valutazione 5 Stelle",
+    "fourStar": "Valutazione 4 Stelle",
+    "threeStar": "Valutazione 3 Stelle",
+    "twoStar": "Valutazione 2 Stelle",
+    "oneStar": "Valutazione 1 Stella",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "noData": "Nessun dato disponibile",
+    "vsPrevious": "rispetto al precedente"
+  },
+  "noresponse": "Nessuna Risposta"
+}

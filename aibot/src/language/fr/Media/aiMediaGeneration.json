@@ -1,0 +1,16 @@
+{
+  "aiMediaGeneration": {
+    "title": "Créer une image avec Genie",
+    "missingPromptTitle": "Invite manquante",
+    "missingPromptDescription": "Veuillez décrire l'image que vous souhaitez créer.",
+    "generationSuccessTitle": "Images générées",
+    "generationSuccessDescription": "{{count}} image{{plural}} générée{{plural}} avec succès.",
+    "generationFailedTitle": "Échec de la génération",
+    "generationFailedDescription": "Impossible de générer les images. Veuillez réessayer.",
+    "imageReadyTitle": "Image prête",
+    "imageReadyDescription": "L'image générée par l'IA est prête à être téléchargée.",
+    "perPage": "Par page :",
+    "next": "Suivant",
+    "previous": "Précédent"
+  }
+}

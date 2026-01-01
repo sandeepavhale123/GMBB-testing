@@ -1,0 +1,23 @@
+{
+  "multiListingSelector": {
+    "label": "Select Listings",
+    "placeholder": "Select listings...",
+    "loading": "Loading...",
+    "noResults": "No listings found.",
+    "searchPlaceholder": "Search listings and groups...",
+    "selectedCount": "{{count}} item selected",
+    "selectedCount_plural": "{{count}} items selected",
+    "groups": "Groups",
+    "locations": "Locations",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "listings": "Listings",
+    "unnamedGroup": "Unnamed Group",
+    "unnamedLocation": "Unnamed Location",
+    "groupTag": "[Group]",
+    "locationTag": "[Location]",
+    "selectHint": "Select at least one listing or group to continue.",
+    "errorTitle": "Error",
+    "errorMessage": "Failed to fetch listings and groups"
+  }
+}

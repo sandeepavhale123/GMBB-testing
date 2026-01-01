@@ -1,0 +1,134 @@
+{
+  "GenerateBulkReport": {
+    "pageTitle": "Generate Bulk Report",
+    "pageDescription": "Create and schedule automated reports for multiple locations.",
+
+    "reportDetails": {
+      "title": "Report Details",
+      "description": "Give your report project a name and select locations.",
+      "reportTitleLabel": "Report title",
+      "reportTitlePlaceholder": "Enter report title...",
+      "locationsSelected": "{{count}} locations selected"
+    },
+
+    "reportTypes": {
+      "title": "Report Types",
+      "description": "Select which reports to include in your project.",
+      "availableReports": "Available Reports",
+      "selectAll": "Select All",
+      "deselectAll": "Deselect All",
+      "sections": {
+        "posts": "GMB Post",
+        "media": "Media Post",
+        "reviews": "Review",
+        "qa": "Q and A",
+        "insights": "Insights"
+      }
+    },
+
+    "scheduleConfig": {
+      "title": "Schedule Configuration",
+      "description": "Configure when and how often reports should be generated.",
+      "scheduleTypeLabel": "Schedule Type",
+      "scheduleTypes": {
+        "oneTime": "One Time",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
+      "fromDateLabel": "From Date",
+      "fromDatePlaceholder": "Pick start date",
+      "toDateLabel": "To Date",
+      "toDatePlaceholder": "Pick end date",
+      "selectFrequency": "Select Frequency",
+      "selectFrequencyPlaceholder": "Select frequency...",
+      "selectWeek": "Send Email On This Week",
+      "selectWeekPlaceholder": "Select week...",
+      "selectDay": "Send Email On",
+      "selectDayPlaceholder": "Select day...",
+      "weekOptions": {
+        "first": "First Week",
+        "second": "Second Week",
+        "third": "Third Week",
+        "fourth": "Fourth Week",
+        "last": "Last Week"
+      },
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      },
+      "frequencies": {
+        "lastWeek": "Last Week",
+        "last2Weeks": "Last 2 Weeks",
+        "last3Weeks": "Last 3 Weeks",
+        "last4Weeks": "Last 4 Weeks",
+        "last5Weeks": "Last 5 Weeks",
+        "lastMonth": "Last Month",
+        "last2Months": "Last 2 Months",
+        "last3Months": "Last 3 Months",
+        "last6Months": "Last 6 Months",
+        "last12Months": "Last 12 Months"
+      }
+    },
+
+    "deliveryFormat": {
+      "title": "Delivery Format",
+      "descriptionSingle": "Choose how you want to receive your report. You can select multiple formats.",
+      "descriptionMultiple": "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance.",
+      "csv": "CSV Format",
+      "pdf": "PDF Format",
+      "html": "HTML Public Report",
+      "selectionGuide": "Selection Guide:",
+      "selectionNoteSingle": "You can select multiple delivery formats for your single listing report.",
+      "selectionNoteMultiple": "When generating reports for multiple listings, you can only select one delivery format to optimize performance."
+    },
+
+    "emailComposer": {
+      "title": "Email Composer",
+      "description": "Configure how reports will be sent via email.",
+      "to": "To *",
+      "toPlaceholder": "recipient1@example.com, recipient2@example.com",
+      "cc": "CC",
+      "ccPlaceholder": "cc1@example.com, cc2@example.com",
+      "bcc": "BCC",
+      "bccPlaceholder": "bcc@example.com, bcc2@example.com",
+      "subject": "Subject *",
+      "subjectPlaceholder": "Your Generated Reports - {projectName}",
+      "message": "Message *",
+      "messagePlaceholder": "Enter your email message..."
+    },
+
+    "actions": {
+      "cancel": "Cancel",
+      "create": "Create report",
+      "creating": "Creating..."
+    },
+
+    "toasts": {
+      "reportCreatedTitle": "Report Project Created",
+      "reportCreatedDescription": "{{projectName}} has been successfully created with project ID: {{projectId}}",
+      "errorTitle": "Error",
+      "errorMessage": "Failed to create report project. Please try again."
+    },
+
+    "validation": {
+      "projectNameRequired": "Project name is required.",
+      "selectedListingsRequired": "Select at least one location.",
+      "reportSectionsRequired": "Select at least one report type.",
+      "deliveryFormatRequired": "Select at least one delivery format.",
+      "emailToRequired": "Email recipient is required.",
+      "emailSubjectRequired": "Email subject is required.",
+      "emailMessageRequired": "Email message is required.",
+      "invalidEmails": "Please enter valid email addresses separated by commas.",
+      "fromDateRequired": "Start date is required for one-time reports.",
+      "toDateRequired": "End date is required for one-time reports.",
+      "frequencyRequired": "Frequency is required for recurring reports.",
+      "emailDayRequired": "Email day is required for recurring reports.",
+      "emailWeekRequired": "Email week is required for monthly reports."
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "Gérez votre réputation en un seul endroit",
+    "description": "Envoyez des demandes d’avis à vos clients, gérez les retours négatifs avec soin, créez des campagnes de sondages rapides pour recueillir des opinions et partagez vos meilleurs avis sur les réseaux sociaux — le tout depuis un tableau de bord simple d’utilisation."
+  },
+  "importListings": {
+    "title": "Importer des fiches existantes",
+    "description": "Importez et consultez facilement toutes vos fiches actuelles en un seul clic. Restez organisé et assurez-vous que les informations de votre entreprise sont toujours à jour.",
+    "select": "Sélectionner",
+    "selectAll": "Tout sélectionner",
+    "importButton": "Importer les fiches sélectionnées",
+    "noListing": "Aucune fiche disponible à importer.",
+    "importing": "Importation en cours...",
+    "success": "Importation réussie",
+    "listing": "fiche(s) importée(s) avec succès.",
+    "ok": "OK"
+  },
+  "addListing": {
+    "title": "Ajouter une fiche",
+    "subtitle": "Vous n’avez pas trouvé votre entreprise dans les fiches ?",
+    "noWorries": "Pas d’inquiétude",
+    "description": "— Ajoutez-en une nouvelle en quelques secondes et commencez immédiatement à suivre les avis, les notes et les performances de votre réputation.",
+    "button": "Ajouter un compte Google",
+    "impoted": "(Importée)"
+  },
+  "addBusiness": {
+    "title": "Ajouter une entreprise",
+    "description": "Recherchez votre entreprise et ajoutez-la pour commencer à gérer les avis, les notes et votre réputation.",
+    "placeholder": "Rechercher une entreprise...",
+    "addButton": "Ajouter une entreprise",
+    "addingButton": "Ajout en cours...",
+    "successTitle": "Entreprise ajoutée",
+    "successDescription": "Votre entreprise a été ajoutée avec succès.",
+    "errorTitle": "Erreur",
+    "errorDescription": "Impossible d’ajouter l’entreprise. Veuillez réessayer.",
+    "selectBusiness": "Veuillez sélectionner une entreprise valide",
+    "note": "Remarque",
+    "noteDescription": "L’entreprise a été ajoutée, mais n’a pas pu être sélectionnée automatiquement. Veuillez la sélectionner manuellement."
+  },
+  "errors": {
+    "retry": "Réessayer",
+    "importFailedTitle": "Échec de l’importation",
+    "importFailedDescription": "Échec de l’importation des fiches.",
+    "generic": "Une erreur s’est produite. Veuillez réessayer.",
+    "listingError": "Une erreur est survenue lors de l’importation des fiches"
+  },
+  "reputation": "Gestion de la réputation",
+  "searchPlaceholder": "Rechercher des fiches..."
+}

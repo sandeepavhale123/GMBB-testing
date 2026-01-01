@@ -1,0 +1,50 @@
+{
+  "citationPage": {
+    "loading": "Cargando la página de citas...",
+    "searchForm": {
+      "title": "Informe de Auditoría de Citas",
+      "description": "Ingrese los datos de su empresa para iniciar la auditoría de citas",
+      "businessNameLabel": "Nombre del negocio",
+      "businessNamePlaceholder": "Ingrese el nombre del negocio",
+      "phoneLabel": "Teléfono",
+      "phonePlaceholder": "Ingrese el número de teléfono",
+      "cityLabel": "Ciudad",
+      "cityPlaceholder": "Ingrese el nombre de la ciudad",
+      "searchButton": "Buscar",
+      "searchingButton": "Buscando..."
+    },
+    "management": {
+      "title": "Gestión de Citas",
+      "description": "Supervise y gestione las citas de su negocio en los directorios",
+      "refresh": "Actualizar cita",
+      "refreshing": "Actualizando...",
+      "newSearch": "Nueva búsqueda"
+    },
+    "trackerCard": {
+      "title": "Rastreador de Citas",
+      "listed": "Listadas",
+      "notListed": "No Listadas",
+      "listedPercent": "Listadas"
+    },
+    "localPagesCard": {
+      "title": "Páginas Locales y Directorios",
+      "description": "Su puntuación en páginas locales y directorios se basa en el número de lugares en los que su anuncio está presente, dividido por el número de páginas locales y directorios que hemos revisado."
+    },
+    "auditCard": {
+      "title": "Auditoría de Citas",
+      "orderButton": "Realizar Pedido",
+      "existingTab": "Cita Existente",
+      "possibleTab": "Cita Posible",
+      "table": {
+        "website": "Sitio web",
+        "businessName": "Nombre del negocio",
+        "phone": "Teléfono",
+        "action": "Acción",
+        "siteName": "Nombre del sitio",
+        "view": "Ver",
+        "fixNow": "Corregir Ahora"
+      }
+    },
+    "noPhoneProvided": "No Coincide"
+  }
+}

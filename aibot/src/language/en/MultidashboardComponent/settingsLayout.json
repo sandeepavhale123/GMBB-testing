@@ -1,0 +1,15 @@
+{
+  "title": "Settings",
+  "subtitle": "Manage your account and preferences.",
+  "nav": {
+    "googleAccount": "Google Account",
+    "manageGroups": "Manage Groups",
+    "teamMembers": "Team Members",
+    "subscription": "Subscription",
+    "themeCustomization": "Theme Customization",
+    "reportBranding": "Report Branding",
+    "notifications": "Notifications",
+    "integrations": "Integrations",
+    "activityLogs" : "Activity Logs"
+  }
+} 

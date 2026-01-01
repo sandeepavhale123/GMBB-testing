@@ -1,0 +1,31 @@
+{
+  "enhancedFaviconUploadSection": {
+    "title": "Favicon",
+    "uploadLabel": "Téléverser un favicon",
+    "uploadButton": "Choisir un favicon",
+    "fileRequirements": "PNG, JPG jusqu’à 1 Mo. Recommandé : 32x32px ou 16x16px",
+    "selectedFile": "Sélectionné : {{fileName}}",
+    "applied": "✓ Appliqué",
+    "currentLoaded": "✓ Favicon actuel chargé",
+    "dropHere": "Déposez le favicon ici pour le téléverser",
+
+    "toast": {
+      "fileTooLarge": {
+        "title": "Fichier trop volumineux",
+        "description": "Le fichier favicon doit faire moins de 1 Mo"
+      },
+      "invalidFileType": {
+        "title": "Type de fichier invalide",
+        "description": "Veuillez téléverser une image (PNG, JPG)"
+      },
+      "uploaded": {
+        "title": "Favicon téléversé",
+        "description": "{{fileName}} prêt à être utilisé"
+      },
+      "removed": {
+        "title": "Favicon supprimé",
+        "description": "Le favicon a été supprimé avec succès"
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "bulkActions": {
+    "selected": "{{count}} média sélectionné",
+    "selected_plural": "{{count}} médias sélectionnés",
+    "deleteSelected": "Supprimer la sélection"
+  },
+  "status": {
+    "live": "En direct",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "scheduled": "Planifié",
+    "failed": "Échec"
+  },
+  "table": {
+    "listingName": "Nom de l'annonce",
+    "zipCode": "Code postal",
+    "status": "Statut",
+    "action": "Action",
+    "noListings": "Aucune annonce trouvée.",
+    "unknown": "Inconnu",
+    "na": "N/A",
+    "selectAll": "Sélectionner tous les médias"
+  },
+  "pagination": {
+    "showing": "Affichage de {{from}} à {{to}} sur {{total}} entrées",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{total}}"
+  },
+  "bulkDeleteDialog": {
+    "title": "Supprimer plusieurs médias",
+    "description": "Êtes-vous sûr de vouloir supprimer {{count}} média sélectionné ? Cette action est irréversible.",
+    "description_plural": "Êtes-vous sûr de vouloir supprimer {{count}} médias sélectionnés ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "confirm": "Tout supprimer"
+  },
+  "deleteDialog": {
+    "title": "Êtes-vous sûr ?",
+    "deleteTitle": "Supprimer le média",
+    "description": "Cette action est irréversible. Cela supprimera définitivement le média.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer"
+  },
+  "toast": {
+    "successTitle": "Succès",
+    "successDelete": "Média supprimé avec succès",
+    "successBulkDelete": "{{count}} médias supprimés avec succès",
+    "errorTitle": "Erreur",
+    "errorDelete": "Échec de la suppression du média",
+    "errorBulkDelete": "Échec de la suppression de certains médias"
+  }
+}

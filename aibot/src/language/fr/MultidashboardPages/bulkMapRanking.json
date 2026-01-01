@@ -1,0 +1,45 @@
+{
+    "header": {
+        "title": "Classement de Carte en Lot"
+    },
+    "buttons": {
+        "checkRack": "Vérifier le Rang",
+        "cancel": "Annuler",
+        "deleting": "Suppression...",
+        "delete": "Supprimer"
+    },
+    "summerCard": {
+        "noOfKeywords": "Nombre de Mots-Clés",
+        "totalProjects": "Nombre de recherches",
+        "scheduledScan": "Analyse Programmée",
+        "credits": "Crédits"
+    },
+    "placeholder": {
+        "searchKeyword": "Rechercher des mots-clés..."
+    },
+    "tableColumns": {
+        "keyword": "Mot-Clé",
+        "noOfChecks": "Nombre de Vérifications",
+        "schedule": "Planning",
+        "lastChecked": "Dernière Vérification",
+        "nextCheck": "Prochaine Vérification",
+        "status": "Statut",
+        "action": "Action"
+    },
+    "messages": {
+        "nokeywordsFoundMatchingYourSearch": "Aucun mot-clé correspondant à votre recherche",
+        "noKeywordsAvailable": "Aucun mot-clé disponible"
+    },
+    "deleteAlertBox": {
+        "title": "Supprimer le Mot-Clé",
+        "description": "Êtes-vous sûr de vouloir supprimer le mot-clé « {{keyword}} » ? Cette action est irréversible."
+    },
+    "toastMessage": {
+        "deleteFailed": "Échec de la Suppression",
+        "failedToDeleteKeyword": "Échec de la suppression du mot-clé"
+    },
+    "status": {
+        "completed": "Terminé",
+        "running": "En cours"
+    }
+}

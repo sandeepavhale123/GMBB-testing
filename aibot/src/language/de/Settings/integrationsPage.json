@@ -1,0 +1,157 @@
+{
+  "integrations": {
+    "title": "Integrationen",
+    "subtitle": "Verwalten Sie Ihre Drittanbieter-Integrationen und API-Verbindungen.",
+
+    "mapApi": {
+      "name": "Google Maps API-Schlüssel",
+      "description": "Konfigurieren Sie Kartendienste für standortbasierte Funktionen.",
+      "configureTitle": "Google Maps API-Schlüssel konfigurieren",
+      "label": "Google Places API-Schlüssel",
+      "placeholder": "Geben Sie Ihren Google Places API-Schlüssel ein",
+      "helper": "Dieser API-Schlüssel wird für alle standortbasierten Funktionen verwendet, einschließlich Geo-Ranking und Kartendienste.",
+      "howToTitle": "So generieren Sie einen Google Places API-Schlüssel",
+      "steps": {
+        "1": "Hinweis – Sie müssen die Abrechnung für das Google-Projekt aktivieren.",
+        "2-p1": "Besuchen Sie die ",
+        "2-p2": "Google Cloud Platform Console.",
+        "3": "Klicken Sie auf das Projekt-Drop-down und wählen oder erstellen Sie das Projekt, für das Sie einen API-Schlüssel hinzufügen möchten.",
+        "4": "Gehen Sie im Dashboard zu APIs-Übersicht → Klicken Sie auf Bibliothek → Aktivieren Sie die Maps JavaScript API und die Places API.",
+        "5": "Klicken Sie anschließend auf die Menü-Schaltfläche und wählen Sie APIs & Dienste → Anmeldedaten.",
+        "6": "Erstellen Sie auf der Seite Anmeldedaten über das Dropdown „Anmeldedaten erstellen“ einen API-Schlüssel.",
+        "7": "Ein Dialog zeigt Ihren neu erstellten API-Schlüssel an — kopieren Sie den Schlüssel.",
+        "8": "Verwenden oder fügen Sie den generierten Schlüssel unter Geo-Ranking → Registerkarte „Schlüssel verwalten“ ein. (Einmalige Aktion – nur bei der ersten Nutzung der GEO-Ranking-Prüfung).",
+        "9": "Sobald Sie einen Schlüssel hinzugefügt haben, wird er für alle Ihre Einträge verwendet und es ist nicht mehr erforderlich, für jeden GMB-Eintrag einen separaten Schlüssel zu erstellen."
+      }
+    },
+
+    "smtp": {
+      "name": "SMTP-Details",
+      "description": "Konfigurieren Sie die E-Mail-Servereinstellungen für Benachrichtigungen.",
+      "configureTitle": "SMTP-Einstellungen konfigurieren",
+      "labels": {
+        "fromName": "Absendername",
+        "fromEmail": "Absender-E-Mail",
+        "smtpHost": "SMTP-Host",
+        "smtpPort": "SMTP-Port",
+        "smtpUser": "SMTP-Benutzer",
+        "smtpPassword": "SMTP-Passwort"
+      },
+      "placeholders": {
+        "fromName": "Ihr Name oder Unternehmen",
+        "fromEmail": "ihre-email@beispiel.de",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "smtpUser": "benutzername",
+        "smtpPassword": "passwort"
+      }
+    },
+
+    "subdomain": {
+      "name": "Subdomain-Konfiguration",
+      "description": "Konfigurieren Sie eine White-Label-Subdomain für Ihre Berichte.",
+      "label": "Subdomain eingeben",
+      "configureTitle": "Subdomain konfigurieren",
+      "placeholder": "beispiel",
+      "text": "Geben Sie Ihre gewünschte Subdomain ein (ohne .com oder andere Endungen)",
+      "follow": "Befolgen Sie die folgenden Schritte:",
+      "stepcount": "Schritt {{count}}:",
+      "step1": "Fügen Sie hier die White-Label-Subdomain hinzu und speichern Sie sie.",
+      "step2": "Fügen Sie die IP im DNS-Manager als A-Record hinzu:",
+      "step3p1": "Bitte überprüfen Sie die DNS-Propagation unter:",
+      "step3p2": "dnschecker.org",
+      "step4": "Sobald Sie fertig sind, informieren Sie uns bitte. Wir aktualisieren Ihre Anfrage innerhalb der nächsten 24 Stunden."
+    },
+
+    "mailgun": {
+      "name": "Mailgun",
+      "description": "Konfigurieren Sie den Mailgun-E-Mail-Dienst zum Versenden von E-Mails.",
+      "configureTitle": "Mailgun konfigurieren",
+      "labels": {
+        "apiKey": "API-Schlüssel",
+        "domain": "Domain",
+        "region": "Region",
+        "fromEmail": "Absender-E-Mail",
+        "fromName": "Absendername",
+        "replyToEmail": "Antwort-an-E-Mail",
+        "configName": "Konfigurationsname"
+      },
+      "placeholders": {
+        "apiKey": "Geben Sie Ihren Mailgun API-Schlüssel ein",
+        "domain": "mg.ihredomain.de",
+        "fromEmail": "noreply@ihredomain.de",
+        "fromName": "Ihr Unternehmen",
+        "replyToEmail": "support@ihredomain.de",
+        "configName": "Meine Mailgun-Konfiguration"
+      },
+      "regions": {
+        "us": "USA",
+        "eu": "EU"
+      }
+    },
+
+    "twilio": {
+      "name": "Twilio",
+      "description": "Verbinden Sie Twilio für SMS- und WhatsApp-Nachrichtendienste.",
+      "configureTitle": "Twilio konfigurieren",
+      "labels": {
+        "accountSid": "Account SID",
+        "authToken": "Auth-Token",
+        "configName": "Konfigurationsname"
+      },
+      "placeholders": {
+        "accountSid": "Geben Sie Ihre Twilio Account SID ein",
+        "authToken": "Geben Sie Ihr Twilio Auth-Token ein",
+        "configName": "Mein Twilio-Konto"
+      }
+    },
+
+    "citationButton": {
+      "name": "Zitationsschaltfläche",
+      "description": "Passen Sie die Schaltfläche „Bestellung aufgeben“ an, die in öffentlichen Zitationsberichten angezeigt wird."
+    },
+
+    "buttons": {
+      "configure": "Konfigurieren",
+      "edit": "Bearbeiten",
+      "disconnect": "Trennen",
+      "cancel": "Abbrechen",
+      "saveConfiguration": "Konfiguration speichern",
+      "saving": "Wird gespeichert...",
+      "loading": "Wird geladen...",
+      "disconnecting": "Wird getrennt...",
+      "reset": "Zurücksetzen",
+      "testing": "Wird getestet...",
+      "testSetting": "SMTP-Einstellungen testen",
+      "save": "Speichern"
+    },
+
+    "status": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+
+    "disconnectDialog": {
+      "title": "Trennung bestätigen",
+      "message": "Sind Sie sicher, dass Sie diese Integration trennen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "label": "Geben Sie „delete“ zur Bestätigung ein:",
+      "placeholder": "Geben Sie „delete“ zur Bestätigung ein"
+    },
+
+    "errors": {
+      "title": "Fehler",
+      "apiKeyRequired": "Bitte geben Sie einen gültigen API-Schlüssel ein",
+      "disconnectConfirmation": "Bitte geben Sie „delete“ ein, um die Trennung zu bestätigen",
+      "noApiKey": "Kein API-Schlüssel zum Trennen gefunden",
+      "noSmtp": "Keine SMTP-Konfiguration zum Trennen gefunden",
+      "noSubdomain": "Keine Subdomain zum Trennen gefunden",
+      "noMailgun": "Keine Mailgun-Konfiguration zum Trennen gefunden",
+      "noTwilio": "Keine Twilio-Konfiguration zum Trennen gefunden",
+      "smtpRequired": "Bitte füllen Sie vor dem Testen alle erforderlichen Felder aus",
+      "smtpValidation": "Bitte beheben Sie die Validierungsfehler",
+      "subdomainRequired": "Bitte geben Sie eine Subdomain ein",
+      "mailgunValidation": "Bitte beheben Sie die Validierungsfehler",
+      "twilioValidation": "Bitte beheben Sie die Validierungsfehler"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "themeColorsSection": {
+    "title": "Colori del tema",
+    "toast": {
+      "title": "Colore del tema aggiornato",
+      "description": "Applicato {{color}} come colore principale"
+    },
+    "currentTheme": "Tema attuale: "
+  }
+}

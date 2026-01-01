@@ -1,0 +1,34 @@
+{
+  "mediaForm": {
+    "title": "Dettagli del Media",
+    "fields": {
+      "titleLabel": "Titolo o Didascalia",
+      "titlePlaceholder": "Inserisci il titolo o la didascalia del media...",
+      "categoryLabel": "Categoria",
+      "categoryPlaceholder": "Seleziona la categoria",
+      "publishOptionsLabel": "Opzioni di Pubblicazione",
+      "publishOptionsPlaceholder": "Scegli l'opzione di pubblicazione",
+      "scheduleLabel": "Data e Ora di Programmazione",
+      "timezoneLabel": "Il tuo fuso orario: {{timezone}}"
+    },
+    "categories": {
+      "cover": "Copertura",
+      "profile": "Profilo",
+      "logo": "Logo",
+      "exterior": "Esterno",
+      "interior": "Interno",
+      "product": "Prodotto",
+      "atWork": "Al lavoro",
+      "foodAndDrink": "Cibo e Bevande",
+      "menu": "Menu",
+      "commonArea": "Area comune",
+      "rooms": "Stanze",
+      "teams": "Squadre",
+      "additional": "Aggiuntivo"
+    },
+    "publishOptions": {
+      "now": "Pubblica ora",
+      "schedule": "Programma"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "aiAutoResponse": {
+    "header": {
+      "title": "AI Auto Response",
+      "badge": "AI Powered",
+      "description": "Let AI generate personalized, contextual responses based on review content and sentiment."
+    },
+    "responseStyle": {
+      "label": "AI Response Style",
+      "placeholder": "Choose your response style...",
+      "options": {
+        "professional": "Professional",
+        "friendly": "Friendly",
+        "casual": "Casual",
+        "formal": "Formal",
+        "empathetic": "Empathetic"
+      }
+    },
+    "advancedOptions": {
+      "label": "Advanced Options",
+      "note": "💡 AI will adapt this style to each review's specific content and rating.",
+      "variables": {
+        "title": "Note:",
+        "description": "You can use the following variables in your reply text to display the reviewer’s name:  ",
+        "descBold":"{full_name}, {first_name}, {last_name}.",
+        "descEnd":"To insert the response content, use",
+        "descEndVb":" {responcetext}",
+        "descTextEnd":". Don’t forget to include it in your template."
+      },
+      "customPrompt": {
+        "label": "Custom Prompt",
+        "placeholder": "Enter custom prompt",
+        "hint": "Add specific instructions to customize how the AI generates replies."
+      },
+      "replyText": {
+        "label": "Reply Text",
+        "placeholder": "Enter your response template..."
+      },
+      "starRatings": {
+        "label": "Apply For Star Ratings",
+        "option": "{{count}} Star"
+      },
+      "replyToOldReviews": {
+        "savedTitle": "Saved",
+        "savedDescription": "Old review reply setting updated."
+      }
+    },
+    "latestReview": {
+      "title": "Generate a sample AI response",
+      "previewLabel": "Latest Review Preview"
+    },
+    "buttons": {
+      "generate": "Generate AI Response",
+      "regenerate": "Regenerate",
+      "generating": "Generating AI Response...",
+      "save": "Save AI Settings",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "success": {
+        "saveTitle": "Success",
+        "saveDescription": "AI Auto Reply saved successfully!",
+        "generateDescription": "AI Response generated successfully!"
+      },
+      "error": {
+        "saveTitle": "Error",
+        "saveDescription": "Failed to save AI auto reply settings",
+        "generateTitle": "Error",
+        "generateDescription": "Failed to generate response"
+      }
+    }
+  }
+}

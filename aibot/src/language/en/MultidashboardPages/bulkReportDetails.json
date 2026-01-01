@@ -1,0 +1,69 @@
+{
+  "bulkReportDetails": {
+    "toast": {
+      "emailSent": {
+        "title": "Email Sent",
+        "description": "Report email has been resent successfully."
+      },
+      "emailsSent": {
+        "title": "Emails Sent",
+        "description": "{{count}} emails have been resent successfully."
+      },
+      "downloadStarted": {
+        "title": "Download Started",
+        "description": "{{format}} download has started."
+      },
+      "allPdfStarted": {
+        "title": "Download Started",
+        "description": "All-in-one PDF download has started."
+      },
+      "error": {
+        "title": "Error",
+        "resendEmail": "Failed to resend email",
+        "bulkResend": "Failed to resend emails",
+        "download": "Failed to download {{format}}",
+        "downloadAll": "Failed to download all-in-one PDF" 
+      }
+    },
+    "status": {
+      "completed": "Completed",
+      "processing": "Processing",
+      "failed": "Failed",
+      "pending": "Pending"
+    },
+    "delivery": {
+      "sent": "Sent",
+      "failed": "Failed",
+      "pending": "Pending"
+    },
+    "errorState": {
+      "failedToLoad": "Failed to load bulk report details",
+      "tryAgain": "Try Again"
+    },
+    "header": {
+      "details": "Bulk report details • {{count}} locations",
+      "recipients": "Recipients: {{recipients}}"
+    },
+    "download": {
+      "allPdf": "Download All-in-One PDF",
+      "pdf": "Download PDF",
+      "allCsv": "Download All-in-One CSV",
+      "csv": "Download CSV"
+    },
+    "table": {
+      "title": "Report Details",
+      "location": "Location",
+      "reportDate": "Report Date",
+      "status": "Status",
+      "actions": "Actions",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{current}} of {{pages}}"
+    }
+  }
+}

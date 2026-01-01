@@ -1,0 +1,8 @@
+{
+  "settingsPage": {
+    "planExpired": {
+      "title": "Der Anwendungsplan ist abgelaufen.",
+      "description": "Bitte wenden Sie sich für den Zugriff an Ihren Administrator."
+    }
+  }
+}

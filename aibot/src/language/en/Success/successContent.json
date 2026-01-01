@@ -1,0 +1,31 @@
+{
+  "successContent": {
+    "messages": {
+      "password-reset": {
+        "title": "Password Updated Successfully!",
+        "description": "Your password has been updated. You can now log in with your new password."
+      },
+      "payment": {
+        "title": "Payment Successful!",
+        "description": "Thank you for your subscription! Your payment has been processed successfully."
+      },
+      "profile-update": {
+        "title": "Profile Updated!",
+        "description": "Your profile has been successfully updated."
+      },
+      "verification": {
+        "title": "Verification Complete!",
+        "description": "Your account has been successfully verified."
+      },
+      "general": {
+        "title": "Success!",
+        "description": "Your action has been completed successfully."
+      }
+    },
+    "buttons": {
+      "goToDashboard": "Go to Dashboard",
+      "goToLogin": "Go to Login",
+      "goBack": "Go Back"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "keywordsTable": {
+    "emptyState": {
+      "title": "Comienza a rastrear tus palabras clave",
+      "description": "Monitorea el posicionamiento local de tu negocio agregando palabras clave relevantes. Sigue cómo aparece tu negocio en los resultados de búsqueda en diferentes ubicaciones.",
+      "button": "Agregar Palabras Clave"
+    },
+    "bulkActions": {
+      "selected": "{{count}} palabra{{plural}} seleccionada{{plural}}",
+      "delete": "Eliminar Seleccionadas",
+      "deleting": "Eliminando...",
+      "clear": "Borrar Selección",
+      "confirmTitle": "Confirmar Eliminación",
+      "confirmDescription": "¿Estás seguro de que deseas eliminar {{count}} palabra{{plural}}? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    },
+    "table": {
+      "selectAll": "Seleccionar todas las palabras clave",
+      "columns": {
+        "srNo": "N.º",
+        "keyword": "Palabra Clave",
+        "arp": "ARP",
+        "arpTooltip": "Posición Media de Ranking",
+        "atrp": "ATRP",
+        "atrpTooltip": "Puntos Totales Medios de Ranking",
+        "solv": "SoLV",
+        "solvTooltip": "Participación de Voz Local",
+        "addedOn": "Agregado el",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "actions": {
+        "viewRank": "Ver Posición",
+        "selectDelete": "Seleccionar para Eliminar",
+        "delete": "Eliminar"
+      }
+    },
+    "status": {
+      "completed": "Completado",
+      "pending": "Pendiente",
+      "failed": "Fallido",
+      "running": "En Progreso"
+    },
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} resultados",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {{current}} de {{total}}"
+    },
+    "error": {
+      "tryAgain": "Intentar de Nuevo"
+    },
+    "misc": {
+      "na": "N/D",
+      "invalidDate": "Fecha Inválida"
+    }
+  }
+}

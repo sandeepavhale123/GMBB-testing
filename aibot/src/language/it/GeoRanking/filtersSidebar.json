@@ -1,0 +1,22 @@
+{
+  "filtersSidebar": {
+    "title": "Filtri",
+    "labels": {
+      "selectKeyword": "Seleziona parola chiave",
+      "selectDate": "Seleziona data",
+      "gridSize": "Dimensione griglia"
+    },
+    "keywords": {
+      "webDesign": "Web Design",
+      "digitalMarketing": "Marketing Digitale",
+      "seoServices": "Servizi SEO",
+      "localBusiness": "Attività Locale"
+    },
+    "gridOptions": {
+      "4x4": "Griglia 4×4",
+      "5x5": "Griglia 5×5",
+      "6x6": "Griglia 6×6"
+    },
+    "button": "Riscansiona"
+  }
+}

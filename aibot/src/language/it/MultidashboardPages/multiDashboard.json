@@ -1,0 +1,139 @@
+{
+  "metrics": {
+    "totalListings": {
+      "title": "Totale inserzioni",
+      "subtitle": "Sedi attive",
+      "trend": "+2 questo mese"
+    },
+    "avgRating": {
+      "title": "Valutazione media",
+      "subtitle": "Su tutte le inserzioni",
+      "trend": "↑ 0,3 punti"
+    },
+    "totalReviews": {
+      "title": "Totale recensioni",
+      "subtitle": "Feedback dei clienti",
+      "trend": "In miglioramento"
+    },
+    "totalPosts": {
+      "title": "Totale post",
+      "subtitle": "Pubblicati questo mese",
+      "trend": "+12 questa settimana"
+    }
+  },
+  "errors": {
+    "metricsLoad": "Caricamento delle metriche non riuscito. Riprova.",
+    "listingsLoad": "Caricamento delle inserzioni non riuscito. Riprova.",
+    "postsLoad": "Caricamento dei post non riuscito. Riprova."
+  },
+  "dashboard": {
+    "title": "GMB Listing – Dashboard {{type}}",
+    "types": {
+      "default": "Dashboard predefinita",
+      "insight": "Dashboard approfondimenti",
+      "review": "Dashboard recensioni",
+      "location": "Dashboard sedi",
+      "post": "Dashboard post"
+    },
+    "review": "Recensioni",
+    "insight": "Approfondimenti",
+    "location": "Sede",
+    "post": "Post",
+    "default": "Predefinito",
+    "shareReport": "Condividi rapporto",
+    "searchPlaceholder": "Cerca per nome inserzione o CAP",
+    "allGroups": "Tutti i gruppi",
+    "filters": {
+      "allCategories": "Tutte le categorie",
+      "allStates": "Tutti gli stati",
+      "allGroups": "Tutti i gruppi",
+      "reviewFilter": "Filtro recensioni",
+      "allReviews": "Tutte le recensioni",
+      "unrespondedReview": "Recensione senza risposta",
+      "unrespondedARE": "ARE senza risposta",
+      "unrespondedDNR": "DNR senza risposta",
+      "excludeARE": "Escludi recensioni ARE",
+      "excludeDNR": "Escludi recensioni DNR",
+      "excludeARE_DNR": "Escludi recensioni ARE/DNR",
+      "postStatus": "Stato del post",
+      "allPosts": "Tutti i post",
+      "scheduledPost": "Post programmato",
+      "livePost": "Post attivo",
+      "failedPost": "Post non riuscito",
+      "insightDays": "Periodo di tempo",
+      "reviewDays": "Periodo recensioni",
+      "allTime": "Tutto il periodo",
+      "last7Days": "Ultimi 7 giorni",
+      "last30Days": "Ultimi 30 giorni",
+      "last90Days": "Ultimi 90 giorni",
+      "last6Months": "Ultimi 6 mesi",
+      "last9Months": "Ultimi 9 mesi",
+      "last12Months": "Ultimi 12 mesi",
+      "customRange": "Intervallo personalizzato"
+    }
+  },
+  "export": "Esporta CSV",
+  "status": {
+    "loading": "Caricamento...",
+    "error": "Errore nel caricamento dei dati",
+    "showingPosts": "Visualizzazione di {{count}} su {{total}} post",
+    "showingListings": "Visualizzazione di {{count}} su {{total}} inserzioni",
+    "previous": "Precedente",
+    "next": "Successivo"
+  },
+  "rating": {
+    "excellent": "Eccellente",
+    "good": "Buono",
+    "poor": "Scarso"
+  },
+  "listing": {
+    "listingid": "ID: {{id}}",
+    "zipcode": "CAP: {{zipcode}}",
+    "state": "Stato: {{city}}",
+    "fetchingData": "Recupero dati inserzione...",
+    "visibility": "Visibilità",
+    "Search": "Ricerca",
+    "Maps": "Mappe",
+    "Total": "Totale",
+    "customerActions": "Azioni dei clienti",
+    "clicks": "Clic",
+    "directions": "Indicazioni",
+    "calls": "Chiamate",
+    "messages": "Messaggi",
+    "reviewStats": "Statistiche recensioni",
+    "reviewsReplies": "Recensioni / Risposte",
+    "autoReply": "Risposta automatica",
+    "reviewSentiment": "Sentimento recensioni",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "listingStatus": "Stato inserzione",
+    "visibilityLabel": "Visibilità:",
+    "completeLabel": "Completato:",
+    "lastUpdated": "Ultimo aggiornamento:",
+    "photos": "Foto",
+    "rating": "Valutazione",
+    "website": "Sito web",
+    "maps": "Mappe",
+    "avgRating": "Valutazione media",
+    "starRating": "Valutazione a stelle",
+    "reviewsVsReplies": "Recensioni vs Risposte",
+    "lastPost": "Ultimo post",
+    "upcoming": "Prossimo",
+    "viewDetails": "Visualizza dettagli",
+    "totalViews": "Visualizzazioni totali",
+    "phone": "Telefono",
+    "na": "N/D",
+    "stateLabel": "Stato",
+    "nopost": "Nessun post"
+  },
+  "pagination": {
+    "showing": {
+      "posts": "Visualizzazione da {{from}} a {{to}} di {{total}} post",
+      "listings": "Visualizzazione da {{from}} a {{to}} di {{total}} inserzioni"
+    },
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{pages}}"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "title": "Iframe integrado",
+  "subtitle": "Genera y administra formularios de leads embebibles",
+
+  "configuration": {
+    "title": "Configuración del Iframe",
+    "description": "Personaliza la configuración de tu formulario embebido",
+    "formTitleLabel": "Título del formulario",
+    "formTitlePlaceholder": "Ingrese el título del formulario",
+    "widthLabel": "Ancho",
+    "widthPlaceholder": "100%",
+    "heightLabel": "Alto",
+    "heightPlaceholder": "400",
+    "showLogoLabel": "Mostrar logo de la empresa",
+    "showLogoDescription": "Muestra tu logo en el formulario",
+    "darkModeLabel": "Habilitar modo oscuro",
+    "darkModeDescription": "Permitir a los usuarios alternar el tema oscuro",
+    "autoResizeLabel": "Autoajuste",
+    "autoResizeDescription": "Ajusta automáticamente la altura del iframe",
+    "successMessageLabel": "Mensaje de éxito",
+    "successMessagePlaceholder": "Mensaje mostrado después del envío del formulario"
+  },
+
+  "embedCode": {
+    "title": "Código para embeber",
+    "description": "Copia este código para incrustar el formulario en tu sitio web",
+    "copied": "¡Copiado!",
+    "copy": "Copiar",
+    "preview": "Vista previa",
+    "test": "Probar formulario",
+    "tipsTitle": "Consejos de integración:",
+    "tips1": "Agrega el iframe a cualquier página HTML o CMS",
+    "tips2": "El formulario se adaptará automáticamente al tema de tu sitio",
+    "tips3": "Todos los envíos se registran en tu panel de leads",
+    "tips4": "Se requiere HTTPS para incrustar el iframe"
+  },
+
+  "activeEmbeds": {
+    "title": "Iframes activos",
+    "description": "Administra tus formularios iframe desplegados",
+    "submissions": "Envíos"
+  },
+
+  "statuses": {
+    "Active": "Activo",
+    "Inactive": "Inactivo"
+  },
+
+  "name": {
+    "home": "Formulario de contacto de la página principal",
+    "homeDom": "tusitio.com",
+    "landing": "Formulario de página de aterrizaje",
+    "landingDom": "landing.tusitio.com",
+    "blog": "Formulario de barra lateral del blog",
+    "blogDom": "blog.tusitio.com"
+  }
+}

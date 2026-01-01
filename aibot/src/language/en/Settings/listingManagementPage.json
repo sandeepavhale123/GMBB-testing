@@ -1,0 +1,10 @@
+{
+  "listingManagementPage": {
+    "pageTitle": "Manage Listings",
+    "backButton": "Back",
+    "loadingListings": "Loading listings...",
+    "errorTitle": "Unable to Load Listings",
+    "errorMessage": "{{error}}",
+    "retryButton": "Try Again"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "logoUpload": {
+    "title": "Application Logos",
+    "lightLogo": {
+      "label": "Light Mode Logo",
+      "description": "PNG, JPG up to 2MB. Recommended: 200x60px",
+      "chooseButton": "Choose Light Logo",
+      "selectedFile": "Selected: {{fileName}}"
+    },
+    "darkLogo": {
+      "label": "Dark Mode Logo",
+      "description": "PNG, JPG up to 2MB. Recommended: 200x60px",
+      "chooseButton": "Choose Dark Logo",
+      "selectedFile": "Selected: {{fileName}}"
+    },
+    "toast": {
+      "fileTooLargeTitle": "File too large",
+      "fileTooLargeDescription": "Logo file must be less than 2MB",
+      "lightLogoSelectedTitle": "Light logo selected",
+      "darkLogoSelectedTitle": "Dark logo selected",
+      "fileSelectedDescription": "{{fileName}} ready for upload"
+    }
+  }
+}

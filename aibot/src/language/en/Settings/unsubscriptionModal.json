@@ -1,0 +1,17 @@
+{
+  "unsubscriptionModal": {
+    "title": "Cancel Subscription",
+    "description": "We're sorry to see you go. Please help us improve by providing feedback.",
+    "feedbackLabel": "Let us know what made you terminate your server. Maybe there is something that GMB Briefcase can fix.",
+    "feedbackPlaceholder": "Your feedback helps us improve...",
+    "feedbackCounter": "{{count}}/500 characters",
+    "warningMessage": "Please be sure before deleting your server as all your server data can be lost. The process is irreversible.",
+    "confirmationLabelp1": "Type",
+    "confirmationLabelp2": " DELETE",
+    "confirmationLabelp3": "to confirm:",
+    "confirmationPlaceholder": "Type DELETE to confirm",
+    "closeButton": "Close",
+    "confirmButton": "Confirm Unsubscription",
+    "processing": "Processing..."
+  }
+}

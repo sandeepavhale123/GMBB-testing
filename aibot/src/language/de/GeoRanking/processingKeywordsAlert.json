@@ -1,0 +1,15 @@
+{
+  "processingKeywordsAlert": {
+    "success": {
+      "single": "{{count}} Schlüsselwort erfolgreich übermittelt!",
+      "plural": "{{count}} Schlüsselwörter erfolgreich übermittelt!"
+    },
+    "alreadyProcessing": "+ {{count}} wird bereits verarbeitet",
+    "inProgress": "Ihre Schlüsselwörter werden verarbeitet:",
+    "wait": "- bitte warten",
+    "processingNote": "Die Verarbeitung dauert einige Minuten. Ergebnisse erscheinen automatisch.",
+    "progressLabel": "Schlüsselwort-Daten werden verarbeitet...",
+    "newlySubmitted": "Neu übermittelt:",
+    "alreadyProcessingLabel": "Bereits in Verarbeitung:"
+  }
+}

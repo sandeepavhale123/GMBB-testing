@@ -1,0 +1,27 @@
+{
+  "selectListingsStep": {
+    "title": "Seleziona le tue schede aziendali",
+    "subtitle": "Scegli le schede di Google Business Profile che desideri gestire con GMB Briefcase.",
+    "connectedTo": "Connesso a {{email}}",
+    "allowedToSelect": "Permesso di selezionare: {{count}} scheda{{plural}}",
+    "foundListings": "Trovate {{count}} scheda aziendale{{plural}}",
+    "searchPlaceholder": "Cerca le schede per nome, indirizzo o categoria...",
+    "selectAll": "Seleziona tutto",
+    "deselectAll": "Deseleziona tutto",
+    "verified": "Verificato",
+    "notVerified": "Non verificato",
+    "noListingsFound": "Nessuna scheda trovata corrispondente a \"{{term}}\"",
+    "limitReachedTitle": "Limite raggiunto",
+    "limitReachedDescription": "Secondo il tuo piano, hai un limite di {{count}} schede.",
+    "limitReachedRemaining": "Puoi selezionare solo {{count}} scheda/e in più.",
+    "successTitle": "Successo",
+    "successDescription": "{{count}} scheda{{plural}} connessa con successo",
+    "connectionFailedTitle": "Connessione fallita",
+    "connectionFailedDescription": "Impossibile connettere le schede. Per favore riprova.",
+    "connectButton": "Connetti con {{count}} scheda{{plural}}",
+    "selectToContinue": "Seleziona una scheda per continuare",
+    "connecting": "Connessione in corso...",
+    "supportText": "Non vedi la tua attività? Puoi",
+    "contactSupport": "contattare il supporto"
+  }
+}

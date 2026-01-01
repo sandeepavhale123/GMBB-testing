@@ -1,0 +1,24 @@
+{
+  "ctaCustomization": {
+    "title": "CTA-Anpassung",
+    "subtitle": "Passen Sie Ihren Call-to-Action-Bereich für Lead-Berichte an.",
+    "previewTitle": "Vorschau",
+    "previewDescription": "So wird Ihr CTA in den Lead-Berichten angezeigt.",
+    "toast": {
+      "resetTitle": "CTA zurückgesetzt",
+      "resetDescription": "CTA-Einstellungen wurden auf die Standardwerte zurückgesetzt.",
+      "updateTitle": "CTA aktualisiert",
+      "updateCallDescription": "Call-CTA wurde erfolgreich aktualisiert.",
+      "updateAppointmentDescription": "Termin-CTA wurde erfolgreich aktualisiert.",
+      "resetCallDescription": "Call-CTA wurde auf Standardwerte zurückgesetzt.",
+      "resetAppointmentDescription": "Termin-CTA wurde auf Standardwerte zurückgesetzt.",
+      "errorTitle": "Fehler",
+      "errorDescription": "CTA-Einstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+    },
+    "defaultCTA": {
+      "header": "STEIGERN SIE IHREN GBP SCORE &&& Erhöhen Sie Ihre Anrufe",
+      "description": "Erfahren Sie, wie Sie Ihren Mitarbeitern ein Monatsgehalt zahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Plan, um Ihre Konkurrenz zu schlagen!",
+      "buttonLabel": "JETZT TERMIN BUCHEN"
+    }
+  }
+}

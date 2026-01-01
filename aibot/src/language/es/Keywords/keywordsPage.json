@@ -1,0 +1,15 @@
+{
+  "keywords": {
+    "title": "Palabras Clave",
+    "subtitle": "Gestiona y realiza un seguimiento del posicionamiento de palabras clave para tu negocio.",
+    "loadingSubtitle": "Gestiona y realiza un seguimiento del posicionamiento de palabras clave para tu negocio",
+    "addKeyword": "Agregar Palabra Clave",
+    "searchKeyword": "Buscar Palabra Clave",
+    "errorTitle": "Error",
+    "errorFetch": "No se pudieron obtener las palabras clave",
+    "errorNoListing": "No se seleccionó ningún listado.",
+    "errorDelete": "No se pudieron eliminar las palabras clave. Inténtalo de nuevo.",
+    "deletedTitle": "Palabras Clave Eliminadas",
+    "deletedMessage": "{{count}} palabra{{plural}} eliminada{{plural}} con éxito."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "createReportModal": {
+    "title": "Informe de Rendimiento",
+    "fields": {
+      "reportName": {
+        "label": "Nombre del Informe",
+        "placeholder": "Ingresa el nombre del informe"
+      },
+      "reportType": {
+        "label": "Tipo de Informe",
+        "compareLabel": "Informe de Comparación"
+      },
+      "dateRange": {
+        "label": "Rango de Fechas",
+        "select": "Selecciona el rango de fechas",
+        "period1": {
+          "label": "Periodo 1 (Actual)",
+          "select": "Selecciona el primer periodo"
+        },
+        "period2": {
+          "label": "Periodo 2 (Anterior)",
+          "select": "Selecciona el segundo periodo"
+        }
+      },
+      "sectionsToggle": {
+        "label": "Alterna para mostrar u ocultar secciones del informe"
+      },
+      "sections": {
+        "label": "Secciones del Informe",
+        "generateReport": "Generar Informe"
+      }
+    },
+    "buttons": {
+      "close": "Cerrar",
+      "generate": "Generar",
+      "generating": "Generando..."
+    }
+  }
+}

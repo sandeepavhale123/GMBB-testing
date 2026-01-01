@@ -1,0 +1,117 @@
+{
+  "loading": {
+    "config": "Chargement de la configuration du rapport...",
+    "dashboard": "Chargement des données du tableau de bord..."
+  },
+  "error": {
+    "config": "Échec du chargement de la configuration du rapport",
+    "dashboard": "Échec du chargement des données du tableau de bord",
+    "retry": "Réessayer"
+  },
+  "dashboardTypes": {
+    "default": "Par défaut",
+    "insight": "Aperçu",
+    "review": "Avis",
+    "location": "Emplacement",
+    "post": "Publication"
+  },
+  "metrics": {
+    "totalListings": {
+      "title": "Nombre total de fiches",
+      "subtitle": "Emplacements actifs"
+    },
+    "avgRating": {
+      "title": "Note moyenne",
+      "subtitle": "Sur toutes les fiches"
+    },
+    "totalPosts": {
+      "title": "Nombre total de publications",
+      "subtitle": "Contenu publié"
+    },
+    "totalReviews": {
+      "title": "Nombre total d’avis",
+      "subtitle": "Commentaires des clients"
+    }
+  },
+  "listing": "Fiche GMB – tableau de bord {{name}}",
+  "allcategories": "Toutes les catégories",
+  "filters": {
+    "dashboardSelector": "Sélectionner le type de tableau de bord",
+    "default": "Tableau de bord par défaut",
+    "insight": "Tableau de bord Insight",
+    "review": "Tableau de bord des avis",
+    "location": "Tableau de bord des emplacements",
+    "post": "Tableau de bord des publications",
+    "searchPlaceholder": "Rechercher par nom de fiche ou code postal.",
+    "categories": "Toutes les catégories",
+    "locations": "Tous les emplacements",
+    "reviews": {
+      "all": "Tous les avis",
+      "unresponded": "Avis sans réponse",
+      "unrespondedARE": "ARE sans réponse",
+      "unrespondedDNR": "DNR sans réponse",
+      "excludeARE": "Exclure les avis ARE",
+      "excludeDNR": "Exclure les avis DNR",
+      "excludeBoth": "Exclure les avis ARE/DNR"
+    },
+    "posts": {
+      "status": "Statut de la publication",
+      "all": "Tous les statuts",
+      "live": "En ligne",
+      "scheduled": "Planifié",
+      "failed": "Échoué"
+    }
+  },
+  "content": {
+    "showing": "Affichage de {{count}} sur {{total}} {{type}}",
+    "noData": "Aucune donnée disponible",
+    "imageNotAvailable": "Image non disponible",
+    "untitledPost": "Publication sans titre",
+    "openOnGoogle": "Ouvrir sur Google",
+    "viewOnGoogle": "Voir sur Google My Business",
+    "img": "IMG"
+  },
+  "labels": {
+    "id": "ID : {{id}}",
+    "zip": "Code postal : {{zipcode}}",
+    "state": "État : {{city}}",
+    "visibility": "Visibilité",
+    "search": "Recherche",
+    "maps": "Cartes",
+    "total": "Total",
+    "customerActions": "Actions des clients",
+    "clicks": "Clics",
+    "directions": "Itinéraires",
+    "calls": "Appels",
+    "messages": "Messages",
+    "reviewStats": "Statistiques des avis",
+    "reviewsReplies": "Avis / Réponses",
+    "autoReply": "Réponse automatique",
+    "reviewSentiment": "Sentiment des avis",
+    "positive": "Positif",
+    "neutral": "Neutre",
+    "negative": "Négatif",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "photos": "Photos",
+    "rating": "Évaluation",
+    "website": "Site Web",
+    "map": "Carte",
+    "lastPosts": "Dernières publications",
+    "upcoming": "À venir",
+    "lastPost": "Dernière publication",
+    "upcomingPost": "À venir",
+    "zipLabel": "Code postal :",
+    "na": "N/A",
+    "totalView": "Nombre total de vues",
+    "stateLabel": "État",
+    "reviewLabel": "Avis",
+    "zipcodeLabel": "Code postal",
+    "nopost": "Aucune publication"
+  },
+  "pagination": {
+    "pageOf": "Page {{current}} sur {{total}}",
+    "previous": "Précédent",
+    "next": "Suivant"
+  }
+}

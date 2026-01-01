@@ -1,0 +1,82 @@
+{
+  "email": {
+    "required": "El correo electrónico es obligatorio",
+    "invalid": "Por favor, introduce una dirección de correo electrónico válida"
+  },
+  "password": {
+    "required": "La contraseña es obligatoria",
+    "minLength": "La contraseña debe tener al menos 8 caracteres",
+    "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+    "lowercase": "La contraseña debe contener al menos una letra minúscula",
+    "number": "La contraseña debe contener al menos un número",
+    "specialChar": "La contraseña debe contener al menos un carácter especial",
+    "mismatch": "Las contraseñas no coinciden"
+  },
+  "name": {
+    "minLength": "El nombre debe tener al menos 2 caracteres",
+    "lettersOnly": "El nombre solo puede contener letras y espacios",
+    "minAlphabetic": "El nombre debe contener al menos 3 caracteres alfabéticos"
+  },
+  "agency": {
+    "minLength": "El nombre de la agencia debe tener al menos 3 caracteres",
+    "minAlphabetic": "El nombre debe contener al menos 3 caracteres alfabéticos"
+  },
+  "plan": {
+    "required": "Por favor, selecciona un plan"
+  },
+  "timezone": {
+    "required": "La zona horaria es obligatoria"
+  },
+  "language": {
+    "required": "El idioma es obligatorio"
+  },
+  "dashboardType": {
+    "required": "El tipo de panel es obligatorio"
+  },
+  "business": {
+    "nameRequired": "El nombre del negocio es obligatorio",
+    "nameMin": "El nombre del negocio debe tener al menos 2 caracteres",
+    "urlInvalid": "Por favor, introduce una URL válida",
+    "timezoneRequired": "Por favor, selecciona una zona horaria",
+    "typeRequired": "Por favor, selecciona la opción que mejor te describa"
+  },
+  "apiKey": {
+    "required": "La clave API es obligatoria"
+  },
+  "disconnect": {
+    "confirmText": "Por favor, escribe 'delete' para confirmar"
+  },
+  "smtp": {
+    "fromName": "El nombre del remitente es obligatorio",
+    "minAlphabetic": "El nombre debe contener al menos 3 caracteres alfabéticos",
+    "email": "Por favor, introduce una dirección de correo electrónico válida",
+    "host": "El host SMTP es obligatorio",
+    "port": {
+      "required": "El puerto SMTP es obligatorio",
+      "number": "El puerto debe ser un número"
+    },
+    "user": "El usuario SMTP es obligatorio",
+    "password": "La contraseña SMTP es obligatoria"
+  },
+  "keywords": {
+    "max": "Puedes agregar un máximo de 5 palabras clave.",
+    "min": "Se requiere al menos una palabra clave."
+  },
+  "branding": {
+    "nameRequired": "El nombre de la empresa es obligatorio",
+    "nameMin": "El nombre de la empresa debe tener al menos 2 caracteres",
+    "nameAlpha": "El nombre debe contener al menos 3 caracteres alfabéticos",
+    "email": "Por favor, introduce una dirección de correo electrónico válida",
+    "url": "Por favor, introduce una URL válida",
+    "phone": {
+      "minLength": "El número de teléfono debe tener 10 dígitos",
+      "invalid": "Por favor, introduce un número de teléfono válido"
+    },
+    "address": {
+      "minLength": "La dirección debe tener al menos 10 caracteres"
+    }
+  },
+  "team": {
+    "roleRequired": "El rol es obligatorio"
+  }
+}

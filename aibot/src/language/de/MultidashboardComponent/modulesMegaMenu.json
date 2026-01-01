@@ -1,0 +1,46 @@
+{
+  "title": "Module",
+  "comingSoon": "Demnächst verfügbar",
+  "beta": "Beta",
+  "utilities": {
+    "title": "Dienstprogramme",
+    "utmBuilder": {
+      "name": "UTM-URL Generator",
+      "description": "Erstelle verfolgbaren Kampagnen-URLs"
+    },
+    "buyCredits": {
+      "name": "Guthaben kaufen",
+      "description": "Kaufe Guthaben für dein Konto"
+    },
+    "mapCreator": {
+      "name": "Karten-Generator",
+      "description": "Erstelle Keyword-Ranking-Daten mit Kartenkoordinaten"
+    }
+  },
+  "modules": {
+    "manageGmb": {
+      "name": "GMB-Eintrag verwalten",
+      "description": "Verwalte deine Google My Business Einträge"
+    },
+    "geoRanking": {
+      "name": "GEO-Ranking",
+      "description": "Verfolge und optimiere deine lokalen Suchrankings"
+    },
+    "leadManagement": {
+      "name": "Lead-Management",
+      "description": "Verwalte und verfolge deine Leads effektiv"
+    },
+    "reputation": {
+      "name": "Reputation",
+      "description": "Überwache und verwalte deinen Online-Ruf"
+    },
+    "seo": {
+      "name": "SEO-Fixer",
+      "description": "Erkennt und behebt automatisch SEO-Probleme auf Websites"
+    },
+     "socialPoster": {
+      "name": "Social Poster",
+      "description": "Planen und verwalten Sie Beiträge auf allen Social-Media-Plattformen"
+    }
+  }
+}

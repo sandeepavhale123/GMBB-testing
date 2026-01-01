@@ -1,0 +1,15 @@
+{
+  "stats": {
+    "totalAccounts": "Gesamtkonten",
+    "totalPosts": "Gesamtbeiträge",
+    "scheduledPosts": "Geplante Beiträge",
+    "successRate": "Erfolgsquote",
+
+    "labels": {
+      "connected": "verbunden",
+      "allTime": "gesamt",
+      "upcoming": "bevorstehend",
+      "overall": "insgesamt"
+    }
+  }
+}

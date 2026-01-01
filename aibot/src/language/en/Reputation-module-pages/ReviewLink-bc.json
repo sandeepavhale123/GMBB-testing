@@ -1,0 +1,69 @@
+{
+  "reviewLink": {
+    "steps": {
+      "step1": "Review Link",
+      "step2": "Review Link - Positive Feedback",
+      "step3": "Review Link - Feedback Form",
+      "step4": "Review Link - Success Message"
+    },
+
+    "buttons": {
+      "next": "Next",
+      "previous": "Previous",
+      "save": "Save",
+      "preview": "Preview",
+      "clear": "Clear",
+      "send": "Send"
+    },
+
+    "labels": {
+      "logo": "Logo",
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "reviewSites": "Review Sites",
+      "form": "Form",
+      "nameField": "Name field",
+      "emailPhoneField": "Email/Phone field",
+      "commentField": "Comment field",
+      "sub":"Sub title"
+    },
+
+    "placeholders": {
+      "title": "Enter title...",
+      "subtitle": "Enter subtitle...",
+      "positiveTitle": "Enter positive feedback title...",
+      "feedbackFormTitle": "Enter feedback form title",
+      "name": "Enter name",
+      "emailPhone": "Enter email or phone no.",
+      "comment": "Comment",
+      "successTitle": "Enter success message title",
+      "successSubtitle": "Enter success message subtitle",
+      "namePlacholder":"Enter name placeholder",
+      "emailPlaceholder":"Enter email/phone placeholder",
+      "commentPlaceholder":"Enter comment placeholder",
+      "success":"Enter success message title"
+    },
+
+    "tooltips": {
+      "formInfo": "Edit the form field placeholders below to customize how they appear in your review form"
+    },
+
+    "preview": {
+      "heading": "Preview",
+      "viewPublic": "View Public Page",
+      "reviewOn": "Review on {{site}}",
+      "poweredBy": "Powered by My Agency",
+      "alt":"Logo Preview",
+      "logo":"LOGO"
+    },
+
+    "defaults": {
+      "ratingTitle": "How would you rate your overall experience with us?",
+      "ratingSubtitle": "Please click below to review your experience.",
+      "positiveFeedbackTitle": "We'd love to hear from you! Share your experience by leaving us a review.",
+      "feedbackFormTitle": "We'd love your private feedback to help us improve. Leave your phone number so we can reach out and resolve any issue if needed.",
+      "successTitle": "Thanks, your feedback has been submitted!",
+      "successSubtitle": "We really appreciate your comments."
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Kampagne Erstellen",
+  "campaignName": {
+    "label": "Kampagnenname",
+    "placeholder": "Kampagnennamen eingeben"
+  },
+  "campaignType": {
+    "label": "Kampagnentyp",
+    "placeholder": "Kampagnentyp auswählen",
+    "review": "Bewertungskampagne",
+    "survey": "Umfragekampagne"
+  },
+  "channel": {
+    "label": "Kanal Auswählen",
+    "sms": "SMS",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp"
+  },
+  "contacts": {
+    "title": "Kontakte hinzufügen",
+    "importCSV": "CSV Importieren",
+    "contactList": "Kontaktliste",
+    "namePlaceholder": "Namen eingeben",
+    "countryCodePlaceholder": "Code",
+    "phonePlaceholder": "Telefonnummer eingeben",
+    "emailPlaceholder": "E-Mail eingeben",
+    "addButton": "Hinzufügen",
+    "editButton": "Bearbeiten",
+    "removeButton": "Entfernen",
+    "updateButton": "Aktualisieren",
+    "cancelButton": "Abbrechen"
+  },
+  "template": {
+    "title": "Vorlage Auswählen",
+    "defaultTemplate": "Standardvorlage",
+    "greeting": "Hallo Name!",
+    "defaultMessage": " Wir hoffen, dass Ihnen Ihre letzte Erfahrung mit uns gefallen hat. Könnten Sie sich einen Moment Zeit nehmen, um uns eine Bewertung zu hinterlassen? ",
+    "reviewLink": "Bewertungslink"
+  },
+  "feedbackForm": {
+    "label": "Feedback-Formular Auswählen",
+    "placeholder": "Formular auswählen",
+    "noFormsAvailable": "Keine Feedback-Formulare verfügbar. Erstellen Sie zuerst eines."
+  },
+  "schedule": {
+    "label": "Kampagne planen (optional)",
+    "date": "Datum",
+    "time": "Uhrzeit"
+  },
+  "submit": "Absenden",
+  "validation": {
+    "nameRequired": "Kampagnenname ist erforderlich",
+    "contactRequired": "Mindestens ein Kontakt ist erforderlich",
+    "invalidPhone": "Ungültige Telefonnummer (10-15 Ziffern erforderlich)"
+  },
+  "success": {
+    "title": "Kampagne Erstellt",
+    "description": "Ihre Kampagne wurde erfolgreich erstellt"
+  },
+  "importModal": {
+    "title": "Datei Importieren",
+    "downloadSample": "Beispieldatei Herunterladen"
+  },
+  "contactListModal": {
+    "title": "Kontaktliste",
+    "tabs": {
+      "contactList": "Kontaktliste",
+      "importCSV": "CSV importieren"
+    },
+    "filter": {
+      "contacts": "Kontakte",
+      "groups": "Gruppen"
+    },
+    "table": {
+      "name": "Name",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "group": "Gruppe",
+      "groupName": "Gruppenname",
+      "contactCount": "Kontaktanzahl"
+    },
+    "csv": {
+      "title": "CSV importieren",
+      "downloadSample": "Beispieldatei herunterladen",
+      "description": "Laden Sie eine CSV-Datei mit Kontakten zum Importieren hoch",
+      "selectGroupLabel": "Gruppe zuweisen (Optional)",
+      "selectGroupPlaceholder": "Wählen Sie eine Gruppe...",
+      "noGroups": "Keine Gruppen verfügbar",
+      "importButton": "Importieren"
+    },
+    "searchPlaceholder": "Kontakte oder Gruppen suchen...",
+    "groups": "Gruppen",
+    "contacts": "Kontakte",
+    "noResults": "Keine Ergebnisse gefunden",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "cancel": "Abbrechen",
+    "addSelected": "Ausgewählte hinzufügen",
+    "selectedCount": "{{count}} ausgewählt"
+  }
+}

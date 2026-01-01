@@ -1,0 +1,8 @@
+{
+  "listingManagementLoading": {
+    "pageTitle": "Administrar Listados",
+    "statisticsLoading": "Cargando estadísticas...",
+    "searchLoading": "Cargando búsqueda y filtros...",
+    "tableLoading": "Cargando tabla..."
+  }
+}

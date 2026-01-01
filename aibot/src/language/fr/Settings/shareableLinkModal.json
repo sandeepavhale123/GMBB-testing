@@ -1,0 +1,31 @@
+{
+  "shareableLinkModal": {
+    "title": "Lien partageable",
+    "description1": "Partagez ce lien avec",
+    "description2": " {{firstName}} {{lastName}}",
+    "description3": "pour leur donner un accès direct à leur compte.",
+    "allowListingsLabel": "Saisir les annonces autorisées",
+    "availableSpots": "Places disponibles sur le tableau de bord - {{spots}}",
+    "allowListingsPlaceholder": "Entrez le nombre d'annonces autorisées",
+    "directAccessLinkLabel": "Lien d'accès direct",
+    "toast": {
+      "copiedTitle": "Lien copié",
+      "copiedDescription": "Le lien partageable a été copié dans le presse-papiers",
+      "failedTitle": "Échec de la copie",
+      "failedDescription": "Veuillez copier le lien manuellement"
+    },
+    "linkDetails": {
+      "title": "Détails du lien :",
+      "points": {
+        "valid": "Valide pour un accès direct",
+        "bypass": "Contourne le processus de connexion standard",
+        "role": "Les autorisations basées sur le rôle s'appliquent",
+        "revoke": "Peut être révoqué en supprimant l'utilisateur"
+      }
+    },
+    "buttons": {
+      "close": "Fermer",
+      "testLink": "Tester le lien"
+    }
+  }
+}

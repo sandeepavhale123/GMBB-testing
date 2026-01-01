@@ -1,0 +1,21 @@
+{
+  "UnderPerformingTable": {
+    "title": "Mejor Rendimiento",
+    "loading": "Cargando áreas con bajo rendimiento...",
+    "headers": {
+      "area": "Área",
+      "coordinate": "Coordenada",
+      "competitorName": "Nombre del Competidor",
+      "competitorRank": "Rango del Competidor",
+      "yourRank": "Tu Rango",
+      "competitorRating": "Calificación del Competidor",
+      "competitorReview": "Reseña del Competidor"
+    },
+    "notRanked": "No Clasificado",
+    "noData": "No se encontraron áreas con bajo rendimiento",
+    "toast": {
+      "copiedTitle": "¡Copiado!",
+      "copiedDescription": "Coordenada copiada al portapapeles"
+    }
+  }
+}

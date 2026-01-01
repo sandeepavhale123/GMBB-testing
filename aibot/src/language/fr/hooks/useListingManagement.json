@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "Rechercher des annonces",
+  "filterAll": "Toutes",
+  "filterActive": "Actives",
+  "filterInactive": "Inactives",
+  "viewListingSuccessTitle": "Ouverture de l'annonce",
+  "viewListingSuccessDesc": "Ouverture de la page de l'annonce {{name}}.",
+  "toggleSuccess": "Statut de l'annonce mis à jour avec succès",
+  "toggleFailed": "Échec de la mise à jour du statut de l'annonce",
+  "bulkStatusRefresh": "Actualisation des annonces en cours...",
+  "paginationNext": "Suivant",
+  "paginationPrev": "Précédent"
+}

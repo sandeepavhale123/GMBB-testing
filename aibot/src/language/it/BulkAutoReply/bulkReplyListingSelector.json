@@ -1,0 +1,26 @@
+{
+  "label": "Seleziona Posizioni",
+  "placeholders": {
+    "search": "Cerca posizioni..."
+  },
+  "item": "{{count}} elemento selezionato",
+  "items": "{{count}} elementi selezionati",
+  "sections": {
+    "groups": "Gruppi",
+    "locations": "Posizioni"
+  },
+  "actions": {
+    "selectAll": "Seleziona tutto",
+    "deselectAll": "Deseleziona tutto"
+  },
+  "status": {
+    "locations": "Posizioni"
+  },
+  "messages": {
+    "loading": "Caricamento in corso...",
+    "noResults": "Nessuna posizione trovata.",
+    "selectAtLeastOne": "Seleziona almeno una posizione per continuare.",
+    "error": "Impossibile recuperare i dettagli della risposta multipla",
+    "errorTitle": "Errore"
+  }
+}

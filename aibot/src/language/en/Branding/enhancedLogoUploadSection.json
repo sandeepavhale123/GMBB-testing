@@ -1,0 +1,53 @@
+{
+  "enhancedLogoUploadSection": {
+    "heading": "Application Logos",
+    "lightLogo": {
+      "label": "Logo for Light Mode",
+      "uploadButton": "Select Light Logo",
+      "dropText": "Drop the logo here or click to upload",
+      "fileInfo": "Selected: {{fileName}}",
+      "currentLoaded": "✓ Current logo loaded",
+      "fileTooLarge": {
+        "title": "File too large",
+        "description": "The logo file must be smaller than 2 MB"
+      },
+      "invalidFileType": {
+        "title": "Invalid file type",
+        "description": "Please upload an image file (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Light logo uploaded",
+        "description": "{{fileName}} is ready to use"
+      },
+      "removed": {
+        "title": "Light logo removed",
+        "description": "Logo was successfully removed"
+      },
+      "instructions": "PNG, JPG, SVG up to 2 MB. Recommended: 200x60px"
+    },
+    "darkLogo": {
+      "label": "Logo for Dark Mode",
+      "uploadButton": "Select Dark Logo",
+      "dropText": "Drop the logo here or click to upload",
+      "fileInfo": "Selected: {{fileName}}",
+      "currentLoaded": "✓ Current logo loaded",
+      "fileTooLarge": {
+        "title": "File too large",
+        "description": "The logo file must be smaller than 2 MB"
+      },
+      "invalidFileType": {
+        "title": "Invalid file type",
+        "description": "Please upload an image file (PNG, JPG, SVG)"
+      },
+      "uploaded": {
+        "title": "Dark logo uploaded",
+        "description": "{{fileName}} is ready to use"
+      },
+      "removed": {
+        "title": "Dark logo removed",
+        "description": "Logo was successfully removed"
+      },
+      "instructions": "PNG, JPG, SVG up to 2 MB. Recommended: 200x60px"
+    }
+  }
+}

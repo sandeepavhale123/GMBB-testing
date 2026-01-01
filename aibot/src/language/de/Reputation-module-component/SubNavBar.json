@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "review": "Bewertungen",
+    "request": "Anfragen",
+    "feedback": "Feedback",
+    "setting": "Einstellungen"
+  },
+  "back": "Zurück"
+}

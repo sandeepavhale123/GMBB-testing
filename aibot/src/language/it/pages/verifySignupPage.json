@@ -1,0 +1,24 @@
+{
+  "verifySignupPage": {
+    "loading": {
+      "message": "Verifica del tuo account..."
+    },
+    "success": {
+      "title": "Registrazione Verificata!",
+      "description": "Ora puoi accedere e iniziare a usare il tuo account.",
+      "buttonGoToLogin": "Vai al Login"
+    },
+    "error": {
+      "title": "Verifica Fallita",
+      "description": "Controlla la tua email per un link di registrazione valido o riprova.",
+      "buttonBackToSignup": "Torna alla Registrazione",
+      "toast": {
+        "title": "Verifica Fallita",
+        "missingSessionId": "ID sessione mancante nell'URL."
+      }
+    },
+    "toast": {
+      "title": "Registrazione Verificata"
+    }
+  }
+}

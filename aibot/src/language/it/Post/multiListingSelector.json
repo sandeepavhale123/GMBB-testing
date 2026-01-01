@@ -1,0 +1,23 @@
+{
+  "multiListingSelector": {
+    "label": "Seleziona Inserzioni e Gruppi",
+    "placeholder": "Seleziona inserzioni e gruppi...",
+    "loading": "Caricamento...",
+    "noResults": "Nessuna inserzione trovata.",
+    "searchPlaceholder": "Cerca inserzioni e gruppi...",
+    "selectedCount": "{{count}} elemento selezionato",
+    "selectedCount_plural": "{{count}} elementi selezionati",
+    "groups": "Gruppi",
+    "locations": "Posizioni",
+    "selectAll": "Seleziona Tutto",
+    "deselectAll": "Deseleziona Tutto",
+    "listings": "Inserzioni",
+    "unnamedGroup": "Gruppo Senza Nome",
+    "unnamedLocation": "Posizione Senza Nome",
+    "groupTag": "[Gruppo]",
+    "locationTag": "[Posizione]",
+    "selectHint": "Seleziona almeno un'inserzione o un gruppo per continuare.",
+    "errorTitle": "Errore",
+    "errorMessage": "Impossibile recuperare inserzioni e gruppi"
+  }
+}

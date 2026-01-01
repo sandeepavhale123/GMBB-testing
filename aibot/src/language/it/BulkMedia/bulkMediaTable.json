@@ -1,0 +1,52 @@
+{
+  "bulkActions": {
+    "selected": "{{count}} media selezionato",
+    "selected_plural": "{{count}} media selezionati",
+    "deleteSelected": "Elimina selezionati"
+  },
+  "status": {
+    "live": "Live",
+    "published": "Pubblicato",
+    "draft": "Bozza",
+    "scheduled": "Programmato",
+    "failed": "Fallito"
+  },
+  "table": {
+    "listingName": "Nome inserzione",
+    "zipCode": "CAP",
+    "status": "Stato",
+    "action": "Azione",
+    "noListings": "Nessuna inserzione trovata.",
+    "unknown": "Sconosciuto",
+    "na": "N/D",
+    "selectAll": "Seleziona tutti i media"
+  },
+  "pagination": {
+    "showing": "Mostrando {{from}} a {{to}} di {{total}} voci",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "page": "Pagina {{current}} di {{total}}"
+  },
+  "bulkDeleteDialog": {
+    "title": "Elimina più media",
+    "description": "Sei sicuro di voler eliminare {{count}} media selezionato? Questa azione non può essere annullata.",
+    "description_plural": "Sei sicuro di voler eliminare {{count}} media selezionati? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "confirm": "Elimina tutto"
+  },
+  "deleteDialog": {
+    "title": "Sei sicuro?",
+    "deleteTitle": "Elimina media",
+    "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente il media.",
+    "cancel": "Annulla",
+    "confirm": "Elimina"
+  },
+  "toast": {
+    "successTitle": "Successo",
+    "successDelete": "Media eliminato con successo",
+    "successBulkDelete": "{{count}} media eliminati con successo",
+    "errorTitle": "Errore",
+    "errorDelete": "Impossibile eliminare il media",
+    "errorBulkDelete": "Impossibile eliminare alcuni media"
+  }
+}

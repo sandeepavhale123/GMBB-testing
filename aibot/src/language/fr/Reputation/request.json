@@ -1,0 +1,198 @@
+{
+  "title": "Demandes d’avis",
+  "subtitle": "Envoyez des demandes d’avis à vos clients",
+  "createButton": "Créer",
+  "tabs": {
+    "campaign": "Campagne",
+    "siteIntegration": "Intégration du site",
+    "qrCode": "Code QR",
+    "reviewLink": "Formulaire de retour",
+    "feedbackForms": "Formulaire de retour"
+  },
+  "integration": {
+    "title": "Intégration des canaux",
+    "description": "Connectez et gérez les intégrations de vos plateformes d’avis",
+    "available": "Intégrations disponibles",
+    "comming": "Bientôt disponible",
+    "status": {
+      "connected": "Connecté",
+      "notConnected": "Non connecté"
+    },
+    "button": {
+      "connect": "Connecter",
+      "disconnect": "Déconnecter"
+    }
+  },
+  "qrCode": {
+    "title": "Code QR d’avis",
+    "description": "Générez et téléchargez des codes QR pour vos demandes d’avis",
+    "simpleCard": {
+      "title": "Code QR simple",
+      "description": "Téléchargez un code QR basique menant directement à votre page d’avis. Parfait pour un partage rapide et l’impression.",
+      "downloadButton": "Télécharger le code QR"
+    },
+    "posterCard": {
+      "title": "Affiche QR personnalisée",
+      "description": "Créez une affiche personnalisée avec votre code QR, votre logo et des messages sur mesure. Idéale pour l’affichage dans votre établissement.",
+      "customizeButton": "Personnaliser l’affiche"
+    }
+  },
+  "table": {
+    "name": "Nom",
+    "channel": "Canal",
+    "status": "Statut",
+    "date": "Date",
+    "contacts": "Contacts",
+    "delivered": "Livré",
+    "action": "Action"
+  },
+  "status": {
+    "sent": "Envoyé",
+    "pending": "En attente",
+    "scheduled": "Planifié",
+    "draft": "Brouillon",
+    "completed": "Terminé",
+    "failed": "Échec"
+  },
+  "channel": {
+    "sms": "SMS",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp"
+  },
+  "contactsModal": {
+    "title": "{{campaignName}} - Contacts",
+    "name": "Nom",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "status": "Statut",
+    "noContacts": "Aucun contact trouvé",
+    "showing": "Affichage de {{count}} sur {{total}} contacts"
+  },
+  "actions": {
+    "view": "Voir",
+    "send": "Envoyer",
+    "delete": "Supprimer"
+  },
+  "empty": {
+    "title": "Aucune campagne pour le moment",
+    "description": "Créez votre première campagne de demande d’avis pour commencer",
+    "button": "Créer une campagne"
+  },
+  "createCampaignModal": {
+    "title": "Créer une campagne",
+    "campaignName": "Nom de la campagne",
+    "placeholder": "Saisissez le nom de la campagne",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "creating": "Création en cours..."
+  },
+  "comingSoon": {
+    "title": "Bientôt disponible",
+    "description": "Cette fonctionnalité est en cours de développement"
+  },
+  "templates": {
+    "title": "Modèle",
+    "createButton": "Créer",
+    "table": {
+      "name": "Nom",
+      "channel": "Canal",
+      "status": "Statut",
+      "date": "Date",
+      "action": "Action"
+    },
+    "status": {
+      "active": "Actif",
+      "draft": "Brouillon"
+    },
+    "actions": {
+      "view": "Voir",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun modèle pour le moment",
+      "description": "Créez votre premier modèle de demande d’avis pour commencer",
+      "button": "Créer un modèle"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le modèle",
+      "description": "Êtes-vous sûr de vouloir supprimer ce modèle ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    }
+  },
+  "sendReviewRequest": {
+    "title": "Envoyer une demande d’avis",
+    "selectTemplate": "Sélectionner un modèle",
+    "selectTemplatePlaceholder": "Choisissez un modèle...",
+    "templateContent": "Contenu du message",
+    "noTemplatesAvailable": "Aucun modèle actif disponible",
+    "createTemplateFirst": "Veuillez d’abord créer un modèle",
+    "templatePreview": "Aperçu",
+    "cancel": "Annuler",
+    "send": "Envoyer",
+    "sending": "Envoi en cours...",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "sms": "SMS",
+      "email": "Email",
+      "phoneNotAvailable": "Numéro de téléphone non disponible",
+      "emailNotAvailable": "Adresse email non disponible"
+    },
+    "feedbackForm": {
+      "label": "Formulaire de Feedback",
+      "placeholder": "Sélectionnez un formulaire...",
+      "empty": "Aucun formulaire disponible"
+    },
+    "sender": {
+      "label": "Sélectionner l'Expéditeur",
+      "placeholder": "Choisissez un expéditeur...",
+      "notAvailable": "Aucun expéditeur disponible"
+    },
+    "platform": {
+      "label": "Plateforme d'Envoi",
+      "smtp": "SMTP",
+      "mailgun": "Mailgun",
+      "configured": "Configuré",
+      "notConfigured": "Non Configuré"
+    },
+    "subject": {
+      "label": "Objet de l'Email",
+      "placeholder": "Entrez l'objet de l'email..."
+    },
+    "success": {
+      "title": "Demande d’avis envoyée",
+      "description": "Votre demande d’avis a été envoyée avec succès à {{contactName}}"
+    },
+    "error": {
+      "title": "Échec de l’envoi",
+      "description": "Impossible d’envoyer la demande d’avis. Veuillez réessayer."
+    }
+  },
+  "feedbackForms": {
+    "title": "Formulaire de retour",
+    "description": "Créez et gérez des formulaires de retour personnalisés pour vos clients",
+    "createButton": "Créer un formulaire",
+    "table": {
+      "name": "Nom",
+      "createdAt": "Créé le",
+      "action": "Action"
+    },
+    "actions": {
+      "view": "Voir",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "empty": {
+      "title": "Aucun formulaire de retour pour le moment",
+      "description": "Créez votre premier formulaire de retour personnalisé pour collecter des retours structurés",
+      "button": "Créer un formulaire de retour"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le formulaire de retour",
+      "description": "Êtes-vous sûr de vouloir supprimer ce formulaire ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    },
+    "failed": "Échec du chargement des formulaires de retour. Veuillez réessayer."
+  }
+}

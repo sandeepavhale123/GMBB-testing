@@ -1,0 +1,14 @@
+{
+  "AddKeywordModal": {
+    "title": "Agregar Palabras Clave",
+    "inputPlaceholder": "Ingresa palabra clave",
+    "inputPlaceholderMax": "Máximo 5 palabras clave permitidas",
+    "addButton": "Agregar",
+    "addedKeywordsTitle": "Palabras Clave Agregadas:",
+    "infoTitle": "Qué sucede a continuación:",
+    "infoDescription": "Verificaremos la posición de estas palabras clave en diferentes ubicaciones geográficas para mostrarte dónde aparece tu negocio en los resultados de búsqueda locales.",
+    "close": "Cerrar",
+    "checkRank": "Verificar Posición",
+    "removeKeywordAria": "Eliminar {{keyword}}"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "status": {
+    "published": "In Diretta",
+    "scheduled": "Pianificato",
+    "draft": "Bozza",
+    "failed": "Fallito"
+  },
+  "labels": {
+    "noDate": "Nessuna data",
+    "untitledPost": "Post senza titolo",
+    "imageNotAvailable": "Immagine non disponibile",
+    "scheduledAt": "Pianificato: {{date}}"
+  },
+  "toast": {
+    "error": {
+      "title": "Errore",
+      "noListing": "Nessuna attività selezionata. Seleziona prima una attività."
+    },
+    "deleting": "Eliminazione post in corso...",
+    "preparing": "Preparazione eliminazione...",
+    "finalizing": "Finalizzazione in corso...",
+    "success": {
+      "title": "Post eliminato con successo",
+      "desc": "Eliminazione completata"
+    },
+    "failed": {
+      "title": "Eliminazione del post fallita",
+      "desc": "Si è verificato un errore imprevisto. Riprova."
+    }
+  },
+  "modal": {
+    "delete": {
+      "title": "Elimina Post",
+      "description": "Sei sicuro di voler eliminare questo post? Questa azione non può essere annullata.",
+      "cancel": "Annulla",
+      "confirm": "Elimina",
+      "deleting": "Eliminazione in corso..."
+    }
+  },
+  "buttons": {
+    "openOnGoogle": "Apri il post su Google"
+  }
+}

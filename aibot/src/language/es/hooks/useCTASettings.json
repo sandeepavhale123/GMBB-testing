@@ -1,0 +1,34 @@
+{
+  "ctaSettings": {
+    "default": {
+      "callCTA": {
+        "header": "IMPULSA TU PUNTUACIÓN GBP &&& Aumenta tus llamadas",
+        "description": "Aprende cómo pagar el salario de un mes a tus empleados simplemente corrigiendo lo que está roto. ¡Obtén tu plan gratuito para superar a la competencia!",
+        "buttonLabel": "RESERVAR UNA LLAMADA",
+        "buttonLink": "#contacto"
+      },
+      "appointmentCTA": {
+        "header": "IMPULSA TU PUNTUACIÓN GBP &&& Aumenta tus llamadas",
+        "description": "Aprende cómo pagar el salario de un mes a tus empleados simplemente corrigiendo lo que está roto. ¡Obtén tu plan gratuito para superar a la competencia!",
+        "buttonLabel": "RESERVAR UNA LLAMADA",
+        "buttonLink": "#contacto"
+      }
+    },
+    "toast": {
+      "errorTitle": "Error al cargar la configuración del CTA.",
+      "errorDesc": "Usando la configuración predeterminada. Por favor, actualiza para intentarlo nuevamente.",
+      "ctaTitle": "Restablecer CTA",
+      "resetSuccess": "La configuración del CTA se ha restablecido a los valores predeterminados."
+    },
+    "validation": {
+      "headerRequired": "El encabezado es obligatorio.",
+      "headerMax": "El encabezado debe tener menos de 100 caracteres.",
+      "descriptionRequired": "La descripción es obligatoria.",
+      "descriptionMax": "La descripción debe tener menos de 500 caracteres.",
+      "buttonLabelRequired": "La etiqueta del botón es obligatoria.",
+      "buttonLabelMax": "La etiqueta del botón debe tener menos de 50 caracteres.",
+      "buttonLinkInvalid": "Por favor, introduce una URL válida.",
+      "hash": "Los enlaces hash deben comenzar con #."
+    }
+  }
+}

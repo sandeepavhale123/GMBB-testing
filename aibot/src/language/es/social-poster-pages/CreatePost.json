@@ -1,0 +1,44 @@
+{
+  "createPost": {
+    "titleCreate": "Crear Publicación",
+    "titleEdit": "Editar Publicación",
+    "subtitle": "Redacta y programa publicaciones en múltiples plataformas",
+
+    "errors": {
+      "enterContent": "Por favor ingresa el contenido de la publicación",
+      "selectAccount": "Por favor selecciona al menos una cuenta",
+      "exceedsLimit": "El contenido supera el límite de {{limit}} caracteres",
+      "instagramMediaRequired": "Instagram requiere al menos una imagen o un video",
+      "scheduleMissing": "Por favor selecciona fecha y hora para la publicación programada",
+      "invalidFile": "Por favor sube un archivo de imagen o video válido",
+      "onlyOneMedia": "Solo puedes subir 1 video o 1 imagen",
+      "uploadFailed": "Error al subir el archivo multimedia. Inténtalo de nuevo.",
+      "removeFailed": "Error al eliminar el archivo multimedia"
+    },
+
+    "success": {
+      "mediaUploaded": "Archivo multimedia subido exitosamente",
+      "mediaRemoved": "Archivo multimedia eliminado exitosamente",
+      "formReset": "Formulario restablecido"
+    },
+
+    "buttons": {
+      "cancel": "Cancelar",
+      "insertLink": "Insertar Enlace"
+    },
+
+    "dialogs": {
+      "emojiPicker": "Seleccionar Emoji",
+      "linkDialogTitle": "Agregar Enlace",
+      "linkDialogDescription": "Ingresa el texto y la URL del enlace",
+      "previewTitle": "Vista Previa de la Publicación"
+    },
+
+    "labels": {
+      "linkText": "Texto del Enlace",
+      "url": "URL",
+      "placeholder": "Haz clic aquí",
+      "url-place": "https://example.com"
+    }
+  }
+}

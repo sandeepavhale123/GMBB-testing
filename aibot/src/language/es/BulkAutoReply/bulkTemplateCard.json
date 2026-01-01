@@ -1,0 +1,14 @@
+{
+  "status": {
+    "enabled": "Habilitado",
+    "disabled": "Deshabilitado"
+  },
+  "content": {
+    "noContent": "Sin contenido",
+    "noTemplate": "No se ha creado ninguna plantilla"
+  },
+  "actions": {
+    "manage": "Gestionar",
+    "create": "Crear"
+  }
+}

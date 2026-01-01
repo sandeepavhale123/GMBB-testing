@@ -1,0 +1,34 @@
+{
+  "ctaSettings": {
+    "default": {
+      "callCTA": {
+        "header": "STEIGERN SIE IHREN GBP-SCORE &&& Erhöhen Sie Ihre Anrufe",
+        "description": "Erfahren Sie, wie Sie das Gehalt eines Monats für Ihre Mitarbeiter bezahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Leitfaden, um Ihre Konkurrenz zu übertreffen!",
+        "buttonLabel": "EIN GESPRÄCH BUCHEN",
+        "buttonLink": "#kontakt"
+      },
+      "appointmentCTA": {
+        "header": "STEIGERN SIE IHREN GBP-SCORE &&& Erhöhen Sie Ihre Anrufe",
+        "description": "Erfahren Sie, wie Sie das Gehalt eines Monats für Ihre Mitarbeiter bezahlen können, indem Sie einfach beheben, was nicht funktioniert. Holen Sie sich Ihren kostenlosen Leitfaden, um Ihre Konkurrenz zu übertreffen!",
+        "buttonLabel": "EIN GESPRÄCH BUCHEN",
+        "buttonLink": "#kontakt"
+      }
+    },
+    "toast": {
+      "errorTitle": "Fehler beim Laden der CTA-Einstellungen.",
+      "errorDesc": "Standardwerte werden verwendet. Bitte aktualisieren Sie, um es erneut zu versuchen.",
+      "ctaTitle": "CTA-Zurücksetzung",
+      "resetSuccess": "Die CTA-Einstellungen wurden auf die Standardwerte zurückgesetzt."
+    },
+    "validation": {
+      "headerRequired": "Überschrift ist erforderlich.",
+      "headerMax": "Die Überschrift darf nicht länger als 100 Zeichen sein.",
+      "descriptionRequired": "Beschreibung ist erforderlich.",
+      "descriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein.",
+      "buttonLabelRequired": "Schaltflächenbeschriftung ist erforderlich.",
+      "buttonLabelMax": "Die Schaltflächenbeschriftung darf nicht länger als 50 Zeichen sein.",
+      "buttonLinkInvalid": "Bitte geben Sie eine gültige URL ein.",
+      "hash": "Hash-Links müssen mit # beginnen."
+    }
+  }
+}

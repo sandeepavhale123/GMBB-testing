@@ -1,0 +1,14 @@
+{
+  "title": "Riepilogo Attività Giornaliera",
+  "subtitle": "Ultimi 30 giorni",
+  "buttons": {
+    "line": "Linea",
+    "area": "Area"
+  },
+  "labels": {
+    "posts": "Post",
+    "mediaResponded": "Media Risposto",
+    "reviews": "Recensioni",
+    "qa": "Domande e Risposte"
+  }
+}

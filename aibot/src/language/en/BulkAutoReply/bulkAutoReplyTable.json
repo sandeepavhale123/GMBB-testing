@@ -1,0 +1,24 @@
+{
+  "tableHeaders": {
+    "projectName": "Project Name",
+    "locations": "No. of Locations",
+    "status": "Status",
+    "responseType": "Response Type",
+    "createdDate": "Created Date",
+    "actions": "Actions"
+  },
+   "status": {
+    "active": "Active",
+    "draft": "Draft"
+  },
+  "loading": "Loading projects...",
+  "noProjects": "No auto reply projects found.",
+  "location": "location",
+  "locations": "locations",
+  "deleteTitle": "Delete Auto Reply Project",
+  "deleteDescription": "Are you sure you want to delete \"{{projectName}}\"? This action cannot be undone.",
+  "cancel": "Cancel",
+  "error":"Error",
+  "delete": "Delete",
+  "paginationInfo": "Showing {{start}} to {{end}} of {{total}} projects"
+}

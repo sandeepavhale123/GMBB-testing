@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "Gestion des réponses automatiques en masse",
+    "subtitle": "Gérez les paramètres de réponse automatique pour vos emplacements."
+  },
+  "actions": {
+    "createProject": "Créer un projet",
+    "successTitle": "Succès",
+    "errorTitle": "Erreur",
+    "deleteSuccess": "Projet de réponse automatique supprimé avec succès",
+    "deleteError": "Échec de la suppression du projet",
+    "createSuccess": "Projet de réponse automatique créé avec succès"
+  }
+}

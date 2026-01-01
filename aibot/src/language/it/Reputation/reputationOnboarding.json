@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "Gestisci la tua reputazione in un unico posto",
+    "description": "Invia richieste di recensione ai tuoi clienti, gestisci con attenzione i feedback negativi, crea campagne di sondaggi rapidi per raccogliere opinioni e condividi le tue migliori recensioni sui social media — tutto da un’unica dashboard facile da usare."
+  },
+  "importListings": {
+    "title": "Importa annunci esistenti",
+    "description": "Importa e rivedi facilmente tutti i tuoi annunci attuali con un solo clic. Rimani organizzato e assicurati che le informazioni della tua attività siano sempre aggiornate.",
+    "select": "Seleziona",
+    "selectAll": "Seleziona tutto",
+    "importButton": "Importa gli annunci selezionati",
+    "noListing": "Nessun annuncio disponibile da importare.",
+    "importing": "Importazione in corso...",
+    "success": "Importazione riuscita",
+    "listing": "annuncio/i importato/i con successo.",
+    "ok": "OK"
+  },
+  "addListing": {
+    "title": "Aggiungi annuncio",
+    "subtitle": "Non hai trovato la tua attività negli annunci?",
+    "noWorries": "Nessun problema",
+    "description": "— Aggiungine uno nuovo in pochi secondi e inizia subito a monitorare recensioni, valutazioni e le prestazioni della tua reputazione.",
+    "button": "Aggiungi account Google",
+    "impoted": "(Importato)"
+  },
+  "addBusiness": {
+    "title": "Aggiungi attività",
+    "description": "Cerca la tua attività e aggiungila per iniziare a gestire recensioni, valutazioni e la tua reputazione.",
+    "placeholder": "Cerca un’attività...",
+    "addButton": "Aggiungi attività",
+    "addingButton": "Aggiunta in corso...",
+    "successTitle": "Attività aggiunta",
+    "successDescription": "La tua attività è stata aggiunta con successo.",
+    "errorTitle": "Errore",
+    "errorDescription": "Impossibile aggiungere l’attività. Per favore, riprova.",
+    "selectBusiness": "Seleziona un’attività valida",
+    "note": "Nota",
+    "noteDescription": "L’attività è stata aggiunta, ma non è stato possibile selezionarla automaticamente. Selezionala manualmente."
+  },
+  "errors": {
+    "retry": "Riprova",
+    "importFailedTitle": "Importazione non riuscita",
+    "importFailedDescription": "Impossibile importare gli annunci.",
+    "generic": "Qualcosa è andato storto. Per favore, riprova.",
+    "listingError": "Si è verificato un errore durante l’importazione degli annunci"
+  },
+  "reputation": "Gestione della reputazione",
+  "searchPlaceholder": "Cerca annunci..."
+}

@@ -1,0 +1,23 @@
+{
+  "visibilitySummaryTitle": "Riepilogo della Visibilità",
+  "visibilitySummarySubtitle": "Visualizzazioni totali da Ricerca Google e Google Maps.",
+  "view": "Visualizza tutto",
+  
+  "googleSearchViews": "Visualizzazioni da Ricerca Google",
+  "googleMapsViews": "Visualizzazioni da Google Maps",
+  
+  "percentageChange": "{{value}}% rispetto al periodo precedente",
+  "positiveChangePrefix": "+",
+  
+  "searchBarName": "Ricerca",
+  "mapsBarName": "Mappe",
+  
+  "searchViewsLegend": "Visualizzazioni di Ricerca",
+  "mapsViewsLegend": "Visualizzazioni di Mappe",
+
+  "hideTitle": "Nascondi visualizzazioni di ricerca",
+  "showTitle": "Mostra visualizzazioni di ricerca",
+
+  "hideMap": "Nascondi visualizzazioni di mappe",
+  "showMap": "Mostra visualizzazioni di mappe"
+}

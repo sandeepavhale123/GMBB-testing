@@ -1,0 +1,8 @@
+{
+  "title": "Aktivitätsübersicht",
+  "labels": {
+    "success": "Erfolgreich",
+    "failed": "Fehlgeschlagen"
+  },
+  "summary": "% Erfolgreich vs. Fehlgeschlagen"
+}

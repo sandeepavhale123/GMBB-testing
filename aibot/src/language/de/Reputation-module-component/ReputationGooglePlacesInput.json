@@ -1,0 +1,13 @@
+{
+  "placeholder": {
+    "default": "Nach einem Unternehmen suchen...",
+    "loadingApiKey": "Wird geladen...",
+    "initializing": "Wird initialisiert..."
+  },
+
+  "errors": {
+    "title": "Fehler",
+    "apiKey": "Google Places API-Schlüssel konnte nicht geladen werden.",
+    "mapsLoad": "Google Maps konnte nicht geladen werden"
+  }
+}

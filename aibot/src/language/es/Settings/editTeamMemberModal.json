@@ -1,0 +1,50 @@
+{
+  "editTeamMemberModal": {
+    "title": "Editar Miembro del Equipo",
+    "tabs": {
+      "profile": "Editar Perfil",
+      "listings": "Listados",
+      "permissions": "Permisos"
+    },
+    "profile": {
+      "changePhoto": "Cambiar Foto",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "password": "Contraseña",
+      "placeholder": {
+        "firstName": "Ingrese el nombre",
+        "lastName": "Ingrese el apellido",
+        "password": "Ingrese nueva contraseña"
+      },
+      "role": "Rol",
+      "selectRole": "Seleccionar rol",
+      "roles": {
+        "moderator": "Moderador",
+        "staff": "Personal",
+        "client": "Cliente"
+      },
+      "buttons": {
+        "cancel": "Cancelar",
+        "save": "Guardar Cambios"
+      }
+    },
+    "listings": {
+      "allowAccessTitle": "Permitir Acceso a Listados",
+      "allowAccessDescription": "Habilitar o deshabilitar el acceso a los listados",
+      "filterByAccount": "Filtrar por Cuenta",
+      "allAccounts": "Todas las Cuentas",
+      "listingsTitle": "Listados",
+      "accoun1": "Cuenta 1",
+      "accoun2": "Cuenta 2"
+    },
+    "permissions": {
+      "title": "Permisos de Funciones",
+      "description": "Controla los niveles de acceso para cada función: Ver, Editar o Ocultar",
+      "levels": {
+        "view": "Ver",
+        "edit": "Editar",
+        "hide": "Ocultar"
+      }
+    }
+  }
+}

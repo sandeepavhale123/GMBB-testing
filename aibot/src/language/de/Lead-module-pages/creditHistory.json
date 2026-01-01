@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Guthabenverlauf",
+  "pageDescription": "Verfolgen Sie Ihre Guthabennutzung und Käufe.",
+  "buyCredits": "Guthaben kaufen",
+
+  "currentCredits": "Aktuelles Guthaben",
+  "currentCreditsSub": "Verfügbar zur Nutzung",
+  "creditsUsed": "Verbrauchtes Guthaben",
+  "creditsUsedSub": "Genutztes Guthaben",
+  "totalAllocated": "Gesamt zugeteilt",
+  "totalAllocatedSub": "Gesamtes Guthaben",
+
+  "creditUsageTitle": "Guthabenverbrauch",
+  "creditUsageDescription": "Ihr aktueller Guthabenverbrauch.",
+  "usedLabel": "Verbraucht: {{used}} Guthaben",
+  "availableLabel": "Verfügbar: {{available}} Guthaben",
+  "loadingUsage": "Guthabenverbrauch konnte nicht geladen werden",
+
+  "historyTitle": "Guthabenverlauf",
+  "searchPlaceholder": "Nach Unternehmensname suchen...",
+
+  "table": {
+    "businessName": "Unternehmensname",
+    "reportType": "Berichtstyp",
+    "credit": "Guthaben",
+    "date": "Datum"
+  },
+
+  "noHistoryTitle": "Kein Guthabenverlauf gefunden",
+  "noHistoryDescription": "Ihre Guthabennutzung wird hier angezeigt",
+  "noSearchResults": "Versuchen Sie, Ihre Suche anzupassen",
+
+  "loadErrorTitle": "Guthabenverlauf konnte nicht geladen werden",
+  "loadErrorDescription": "Bitte versuchen Sie es später erneut"
+}

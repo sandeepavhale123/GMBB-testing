@@ -1,0 +1,27 @@
+{
+  "title": "Select Accounts",
+
+  "loading": {
+    "loadingAccounts": "Loading accounts..."
+  },
+
+  "dropdown": {
+    "placeholder": "Select accounts...",
+    "selectedCount": "{{count}} account selected",
+    "selectedCountPlural": "{{count}} accounts selected"
+  },
+
+  "actions": {
+    "selectAll": "Select All Accounts",
+    "deselectAll": "Deselect All",
+    "selectAllPlatform": "Select All",
+    "deselectAllPlatform": "Deselect All",
+    "showLess": "Show less",
+    "showMore": "+{{count}} more"
+  },
+
+  "platformNames": {
+    "linkedin_individual": "LinkedIn (Individual)",
+    "linkedin_organisation": "LinkedIn (Organisation)"
+  }
+}

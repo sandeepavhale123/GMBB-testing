@@ -1,0 +1,11 @@
+{
+  "chart": {
+    "title": "Andamento dell'interazione",
+    "interactions": "Interazioni",
+    "growth": "+18%",
+    "last30Days": "Ultimi 30 giorni"
+  },
+  "tooltip": {
+    "engagement": "Interazione"
+  }
+}

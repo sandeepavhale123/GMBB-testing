@@ -1,0 +1,23 @@
+{
+  "brandingSaveActions": {
+    "toast": {
+      "success": {
+        "title": "Branding updated successfully",
+        "description": "Your white-label branding changes have been saved."
+      },
+      "errorSave": {
+        "title": "Error saving changes",
+        "defaultDescription": "Please try again later"
+      },
+      "errorReset": {
+        "title": "Error in reset",
+        "defaultDescription": "An error occurred"
+      }
+    },
+    "buttons": {
+      "reset": "Reset",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes"
+    }
+  }
+}

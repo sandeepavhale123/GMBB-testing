@@ -1,0 +1,77 @@
+{
+  "KeywordFilterModal": {
+    "title": "Filter Keywords",
+    "labels": {
+      "country": "Country",
+      "language": "Language"
+    },
+    "placeholders": {
+      "selectCountry": "Select country",
+      "selectLanguage": "Select language"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "apply": "Apply"
+    },
+    "countries": {
+      "2840": "United States",
+      "2826": "United Kingdom",
+      "2124": "Canada",
+      "2036": "Australia",
+      "2276": "Germany",
+      "2250": "France",
+      "2724": "Spain",
+      "2380": "Italy",
+      "2528": "Netherlands",
+      "2056": "Belgium",
+      "2752": "Sweden",
+      "2578": "Norway",
+      "2208": "Denmark",
+      "2246": "Finland",
+      "2616": "Poland",
+      "2203": "Czechia",
+      "2040": "Austria",
+      "2756": "Switzerland",
+      "2392": "Japan",
+      "2410": "South Korea",
+      "156": "China",
+      "2356": "India",
+      "2076": "Brazil",
+      "2484": "Mexico",
+      "2032": "Argentina"
+    },
+    "languages": {
+      "ar": "Arabic",
+      "bg": "Bulgarian",
+      "ca": "Catalan",
+      "hr": "Croatian",
+      "cs": "Czech",
+      "da": "Danish",
+      "nl": "Dutch",
+      "en": "English",
+      "et": "Estonian",
+      "fi": "Finnish",
+      "fr": "French",
+      "de": "German",
+      "el": "Greek",
+      "he": "Hebrew",
+      "hu": "Hungarian",
+      "id": "Indonesian",
+      "it": "Italian",
+      "ja": "Japanese",
+      "ko": "Korean",
+      "lv": "Latvian",
+      "lt": "Lithuanian",
+      "no": "Norwegian",
+      "pl": "Polish",
+      "pt": "Portuguese",
+      "ro": "Romanian",
+      "ru": "Russian",
+      "es": "Spanish",
+      "sv": "Swedish",
+      "tr": "Turkish",
+      "uk": "Ukrainian",
+      "zh": "Chinese"
+    }
+  }
+}

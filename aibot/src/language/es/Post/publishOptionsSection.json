@@ -1,0 +1,15 @@
+{
+  "publishOptionsSection": {
+    "label": "Opciones de Publicación",
+    "publishOptionLabel": "Opción de Publicación",
+    "publishNow": "Publicar Ahora",
+    "schedulePost": "Programar Publicación",
+    "scheduleLabel": "Fecha y Hora de Programación",
+    "placeholder": {
+      "publishOption": "Elige una opción de publicación",
+      "postTags": "Introduce etiquetas separadas por comas"
+    },
+    "postTagsLabel": "Etiquetas de la Publicación",
+    "siloCheckbox": "Agregar la URL de la etiqueta de la publicación anterior mediante esta publicación (Publicación Silo)."
+  }
+}

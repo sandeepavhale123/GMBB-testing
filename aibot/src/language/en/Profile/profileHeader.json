@@ -1,0 +1,14 @@
+{
+  "changePassword": "Change Password",
+  "manageSubscription": "Manage Subscription",
+  "profilePicUpdated": "Profile picture updated",
+  "profileUpdated": "Your profile has been successfully updated.",
+  "invalidFileType": "Invalid file type",
+  "invalidFileTypeDesc": "Please upload a valid image file.",
+  "fileTooLarge": "File too large",
+  "fileTooLargeDesc": "Please select an image smaller than 5MB.",
+  "updateFailed": "Update Failed",
+  "updateErrorDesc": "An error occurred while updating your profile.",
+  "uploadFailed":"Upload failed",
+  "uploadDesc":"Failed to update profile picture. Please try again."
+}

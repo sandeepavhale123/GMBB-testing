@@ -1,0 +1,25 @@
+{
+  "addKeywordsPage": {
+    "noListingSelected": {
+      "title": "Aucune fiche sélectionnée",
+      "description": "Veuillez d'abord sélectionner une fiche pour ajouter des mots-clés."
+    },
+    "toast": {
+      "errorTitle": "Erreur",
+      "noListing": "Aucune fiche sélectionnée. Veuillez en sélectionner une d'abord.",
+      "keywordsAddedTitle": "Mots-clés ajoutés",
+      "keywordsAddedDescription": "{{count}} mot(s)-clé(s) ajouté(s) avec succès à la file d’attente.",
+      "keywordsAddFailed": "Échec de l’ajout des mots-clés."
+    },
+    "pageTitle": "Ajouter des mots-clés",
+    "form": {
+      "keywordsLabel": "Mots-clés",
+      "keywordsPlaceholder": "Entrez les mots-clés séparés par des virgules",
+      "languageLabel": "Langue",
+      "distanceLabel": "Valeur de distance",
+      "gridSizeLabel": "Taille de la grille",
+      "addButton": "Ajouter des mots-clés",
+      "addingButton": "Ajout en cours..."
+    }
+  }
+}

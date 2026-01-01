@@ -1,0 +1,17 @@
+{
+  "gbpProfileOptimization": "Optimización del Perfil GBP",
+  "optimizationExcellent": "Nivel de optimización excelente",
+  "optimizationHealthy": "Nivel de optimización saludable",
+  "optimizationNeedsImprovement": "La optimización necesita mejorar",
+  "optmized": "optimizado",
+  "checkGMBReport": "Ver informe de salud de GMB",
+  "posts": "Publicaciones",
+  "reviews": "Reseñas",
+  "geoRanking": "Ranking GEO",
+  "geo": "GEO",
+  "insights": "Estadísticas",
+  "postPreviewTitle": "Vista Previa de Publicación",
+  "previewText": "Vista previa de la publicación",
+  "previewError": "No se puede mostrar la vista previa",
+  "close": "Cerrar"
+}

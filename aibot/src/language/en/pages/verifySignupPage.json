@@ -1,0 +1,24 @@
+{
+  "verifySignupPage": {
+    "loading": {
+      "message": "Verifying your account..."
+    },
+    "success": {
+      "title": "Signup Verified!",
+      "description": "You can now log in and start using your account.",
+      "buttonGoToLogin": "Go to Login"
+    },
+    "error": {
+      "title": "Verification Failed",
+      "description": "Please check your email for a valid signup link or try again.",
+      "buttonBackToSignup": "Back to Signup",
+      "toast": {
+        "title": "Verification Failed",
+        "missingSessionId": "Missing session ID in URL."
+      }
+    },
+    "toast": {
+      "title": "Signup Verified"
+    }
+  }
+}

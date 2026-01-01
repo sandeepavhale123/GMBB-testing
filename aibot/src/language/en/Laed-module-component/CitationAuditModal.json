@@ -1,0 +1,31 @@
+{
+  "citationAudit": {
+    "title": "Generate Citation Audit Report",
+    "description": "Fill in the business details to generate a comprehensive citation audit report.",
+    "form": {
+      "businessName": "Business Name *",
+      "businessNamePlaceholder": "Enter business name",
+      "phone": "Phone Number *",
+      "phonePlaceholder": "Enter phone number",
+      "keyword": "Keyword *",
+      "keywordPlaceholder": "Enter target keyword",
+      "city": "City *",
+      "cityPlaceholder": "Search for city"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "generate": "Generate Report",
+      "generating": "Generating..."
+    },
+    "errors": {
+      "cityRequired": "Please select a valid city",
+      "generateFailed": "Failed to create citation audit report"
+    },
+    "validation":{
+      "business":"Business name is required.",
+      "phone":"Phone number is required.",
+      "keyword":"Keyword is required.",
+      "city":"City is required."
+    }
+  }
+}

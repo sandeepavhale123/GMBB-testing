@@ -1,0 +1,17 @@
+{
+  "geoProjects": {
+    "toast": {
+      "createSuccess": "Progetto creato con successo",
+      "createError": "Impossibile creare il progetto",
+      "updateSuccess": "Progetto aggiornato con successo",
+      "updateError": "Impossibile aggiornare il progetto",
+      "deleteSuccess": "Progetto e tutti i dati correlati eliminati con successo",
+      "deleteError": "Impossibile eliminare il progetto"
+    },
+    "fallback": {
+      "noEmailProvided": "Nessuna email fornita",
+      "fetchProjectsError": "Errore durante il recupero dei progetti GEO",
+      "fetchOverviewError": "Errore durante il recupero della panoramica GEO"
+    }
+  }
+}

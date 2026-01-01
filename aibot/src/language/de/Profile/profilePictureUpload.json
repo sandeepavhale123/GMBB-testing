@@ -1,0 +1,11 @@
+{
+  "upload": {
+    "click": "Zum Hochladen klicken oder per Drag & Drop ablegen",
+    "drag": "oder per Drag & Drop ablegen",
+    "fileTypes": "PNG, JPG, GIF bis zu 10 MB",
+    "chooseFile": "Datei auswählen"
+  },
+  "preview": {
+    "sizeUnit": "MB"
+  }
+}

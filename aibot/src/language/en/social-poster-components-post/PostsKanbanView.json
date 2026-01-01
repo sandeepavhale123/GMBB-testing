@@ -1,0 +1,15 @@
+{
+  "columns": {
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "publishing": "Publishing",
+    "published": "Published",
+    "failed": "Failed"
+  },
+
+  "common": {
+    "noPosts": "No posts",
+    "accounts": "accounts",
+    "postPreviewAlt": "Post preview"
+  }
+}

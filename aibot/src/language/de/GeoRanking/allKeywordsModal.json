@@ -1,0 +1,38 @@
+{
+  "allKeywordsModal": {
+    "title": "Alle Schlüsselwörter",
+    "searchPlaceholder": "Schlüsselwörter suchen...",
+    "bulkActions": {
+      "selectedCount": "{{count}} Schlüsselwort/Schlüsselwörter ausgewählt",
+      "deleteSelected": "Ausgewählte löschen"
+    },
+    "table": {
+      "srNo": "Nr.",
+      "keyword": "Schlüsselwort",
+      "actions": "Aktionen",
+      "loading": "Schlüsselwörter werden geladen...",
+      "noKeywords": {
+        "search": "Keine Schlüsselwörter gefunden, die Ihrer Suche entsprechen",
+        "default": "Keine Schlüsselwörter verfügbar"
+      }
+    },
+    "buttons": {
+      "close": "Schließen",
+      "viewKeyword": "Schlüsselwortdetails anzeigen",
+      "deleteKeyword": "Schlüsselwort löschen",
+      "delete": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "cancel": "Abbrechen"
+    },
+    "deleteDialog": {
+      "title": "Sind Sie sicher?",
+      "description": "Dies wird {{count}} Schlüsselwort/Schlüsselwörter dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "toast": {
+      "successTitle": "Erfolg",
+      "successDescription": "{{count}} Schlüsselwort/Schlüsselwörter erfolgreich gelöscht",
+      "errorTitle": "Fehler",
+      "errorDescription": "Fehler beim Löschen der Schlüsselwörter"
+    }
+  }
+}

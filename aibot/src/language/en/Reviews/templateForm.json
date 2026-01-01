@@ -1,0 +1,22 @@
+{
+  "templateForm": {
+    "labels": {
+      "starRating": "Select Star Rating",
+      "templateContent": "Reply Template"
+    },
+    "placeholders": {
+      "selectRating": "Choose star rating for this template",
+      "templateTextarea": "Write your reply template here. Use variables like {first_name} to personalize responses..."
+    },
+    "tips": {
+      "personalization": "Tip: Use the variables from the left panel to make your template more personal"
+    },
+    "buttons": {
+      "close": "Close",
+      "save": "Save Template",
+      "saving": "Saving..."
+    },
+    "stars": "{{count}} Star",
+    "stars_plural": "{{count}} Stars"
+  }
+}

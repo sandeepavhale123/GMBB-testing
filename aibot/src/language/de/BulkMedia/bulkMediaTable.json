@@ -1,0 +1,52 @@
+{
+  "bulkActions": {
+    "selected": "{{count}} Medium ausgewählt",
+    "selected_plural": "{{count}} Medien ausgewählt",
+    "deleteSelected": "Auswahl löschen"
+  },
+  "status": {
+    "live": "Live",
+    "published": "Veröffentlicht",
+    "draft": "Entwurf",
+    "scheduled": "Geplant",
+    "failed": "Fehlgeschlagen"
+  },
+  "table": {
+    "listingName": "Eintragsname",
+    "zipCode": "Postleitzahl",
+    "status": "Status",
+    "action": "Aktion",
+    "noListings": "Keine Einträge gefunden.",
+    "unknown": "Unbekannt",
+    "na": "N/V",
+    "selectAll": "Alle Medien auswählen"
+  },
+  "pagination": {
+    "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "page": "Seite {{current}} von {{total}}"
+  },
+  "bulkDeleteDialog": {
+    "title": "Mehrere Medien löschen",
+    "description": "Sind Sie sicher, dass Sie {{count}} ausgewähltes Medium löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "description_plural": "Sind Sie sicher, dass Sie {{count}} ausgewählte Medien löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "confirm": "Alle löschen"
+  },
+  "deleteDialog": {
+    "title": "Sind Sie sicher?",
+    "deleteTitle": "Medium löschen",
+    "description": "Diese Aktion kann nicht rückgängig gemacht werden. Das Medium wird dauerhaft gelöscht.",
+    "cancel": "Abbrechen",
+    "confirm": "Löschen"
+  },
+  "toast": {
+    "successTitle": "Erfolg",
+    "successDelete": "Medium erfolgreich gelöscht",
+    "successBulkDelete": "{{count}} Medien erfolgreich gelöscht",
+    "errorTitle": "Fehler",
+    "errorDelete": "Löschen des Mediums fehlgeschlagen",
+    "errorBulkDelete": "Löschen einiger Medien fehlgeschlagen"
+  }
+}

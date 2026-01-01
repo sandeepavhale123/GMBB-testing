@@ -1,0 +1,16 @@
+{
+  "title": "Partager le rapport",
+  "validation": {
+    "selectAtLeastOne": "Veuillez sélectionner au moins une fiche ou un groupe"
+  },
+  "errors": {
+    "failed": "Échec de la génération du rapport",
+    "failedRetry": "Échec de la génération du rapport. Veuillez réessayer.",
+    "toastTitle": "Erreur",
+    "toastDescription": "Échec de la génération du rapport. Veuillez réessayer."
+  },
+  "buttons": {
+    "cancel": "Annuler",
+    "generate": "Générer le rapport"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "page": {
+    "title": "Gérer les feedbacks",
+    "subtitle": "Créez et gérez vos formulaires de collecte de feedback"
+  },
+  "error":{
+    "title":"Gérer les feedbacks et avis",
+    "description":"Automatisez la collecte de feedback et la génération d'avis"
+  },
+  "buttons": {
+    "createFeedbackForm": "Créer un formulaire de feedback"
+  },
+  "alerts": {
+    "loadError": "Échec du chargement des formulaires de feedback. Veuillez réessayer.",
+    "deleteError": "Échec de la suppression du formulaire de feedback. Veuillez réessayer.",
+    "deleteNotFound": "Impossible de supprimer le formulaire. ID du formulaire introuvable."
+  },
+  "messages": {
+    "deleteSuccess": "Formulaire de feedback supprimé avec succès",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "error": "Failed to load upcoming posts",
+
+  "empty": {
+    "noScheduled": "No Scheduled Posts",
+    "createFirst": "Create your first post to see it here"
+  },
+
+  "post": {
+    "previewAlt": "Post preview",
+    "accounts": "{{count}} accounts"
+  }
+}

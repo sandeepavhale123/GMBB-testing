@@ -1,0 +1,32 @@
+{
+  "geoRanking": {
+    "title": "Generar informe de clasificación GEO",
+    "description": "Ingrese palabras clave y configure los ajustes para generar un informe completo de clasificación GEO.",
+    "form": {
+      "keywords": "Palabras clave *",
+      "keywordsPlaceholder": "Ingrese palabras clave separadas por comas (máx. 3)",
+      "gridSize": "Tamaño de la cuadrícula *",
+      "gridSizePlaceholder": "Seleccione el tamaño de la cuadrícula",
+      "distanceUnit": "Unidad de distancia *",
+      "meters": "Metros",
+      "miles": "Millas",
+      "distanceValue": "Valor de la distancia *",
+      "distanceValuePlaceholder": "Seleccione la distancia"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "generate": "Generar informe",
+      "generating": "Generando..."
+    },
+    "errors": {
+      "failed": "No se pudo crear el informe de clasificación GEO."
+    },
+    "validation": {
+      "keywordsMin": "Se requieren palabras clave.",
+      "maxKeyword": "Se permiten un máximo de 3 palabras clave.",
+      "keywords": "Se requiere al menos 1 palabra clave.",
+      "grid": "El tamaño de la cuadrícula debe ser 3 o 5.",
+      "distance": "Se requiere el valor de la distancia."
+    }
+  }
+}

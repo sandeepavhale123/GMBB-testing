@@ -1,0 +1,26 @@
+{
+  "top20": {
+    "title": "Análisis de los 20 Principales Competidores",
+    "searchAnalysis": "Análisis de Búsqueda",
+    "keyword": "Palabra Clave",
+    "location": "Ubicación",
+    "yourPositionTitle": "Tu Posición",
+    "totalCompetitors": "Total de Competidores",
+    "review": "reseñas",
+    "yourRank": "Tu Rango",
+    "yourRating": "Tu Calificación",
+    "avgCompetitorRating": "Calificación Promedio de Competidores",
+    "comparisonAnalysis": "Análisis Comparativo",
+    "rank": "Rango",
+    "businessName": "Nombre del Negocio",
+    "category": "Categoría",
+    "website": "Sitio Web",
+    "rating": "Calificación",
+    "reviews": "Reseñas",
+    "keywordMatch": "Coincidencia de Palabra Clave",
+    "yes": "Sí",
+    "no": "No",
+    "you": "TÚ",
+    "yourBusiness": "(Tu Negocio)"
+  }
+}

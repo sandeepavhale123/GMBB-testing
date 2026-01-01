@@ -1,0 +1,18 @@
+{
+  "toasts": {
+    "createGmbHealthReportSuccess": "GMB Health report created successfully!",
+    "createGmbHealthReportError": "Failed to create GMB Health report",
+    "createGeoReportSuccess": "GEO Ranking report created successfully!",
+    "createGeoReportError": "Failed to create GEO ranking report",
+    "createCitationReportSuccess": "Citation audit report created successfully!",
+    "createCitationReportError": "Failed to create citation audit report",
+    "createProspectReportSuccess": "GMB Prospect report created successfully!",
+    "createProspectReportError": "Failed to create GMB Prospect report",
+    "updateLeadClassifierSuccess": "Lead classification updated successfully!",
+    "updateLeadClassifierError": "Failed to update lead classification.",
+    "failedCTA": "Failed to save CTA settings",
+    "resetCTA": "Failed to reset CTA settings.",
+    "leadSuccess": "Lead deleted successfully!",
+    "leadFail": "Failed to delete lead."
+  }
+}

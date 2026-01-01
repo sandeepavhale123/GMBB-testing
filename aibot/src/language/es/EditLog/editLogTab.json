@@ -1,0 +1,12 @@
+{
+  "editLogTab": {
+    "searchPlaceholder": "Buscar en los registros de edición...",
+    "searchButton": "Buscar",
+    "resultsCount": "Mostrando {{count}} de {{total}} registros de edición",
+    "errorLoad": "Error al cargar los registros de edición",
+    "noData": "No hay historial de ediciones disponible",
+    "noSearchResults": "No se encontraron registros de edición para su búsqueda",
+    "changedLabel": "Modificado",
+    "loading": "Cargando..."
+  }
+}

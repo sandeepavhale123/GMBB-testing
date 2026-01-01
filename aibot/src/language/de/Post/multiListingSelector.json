@@ -1,0 +1,23 @@
+{
+  "multiListingSelector": {
+    "label": "Listen & Gruppen auswählen",
+    "placeholder": "Listen und Gruppen auswählen...",
+    "loading": "Lädt...",
+    "noResults": "Keine Listen gefunden.",
+    "searchPlaceholder": "Listen und Gruppen suchen...",
+    "selectedCount": "{{count}} Element ausgewählt",
+    "selectedCount_plural": "{{count}} Elemente ausgewählt",
+    "groups": "Gruppen",
+    "locations": "Standorte",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "listings": "Listen",
+    "unnamedGroup": "Unbenannte Gruppe",
+    "unnamedLocation": "Unbenannter Standort",
+    "groupTag": "[Gruppe]",
+    "locationTag": "[Standort]",
+    "selectHint": "Wählen Sie mindestens eine Liste oder Gruppe aus, um fortzufahren.",
+    "errorTitle": "Fehler",
+    "errorMessage": "Abrufen von Listen und Gruppen fehlgeschlagen"
+  }
+}

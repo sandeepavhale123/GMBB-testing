@@ -1,0 +1,98 @@
+{
+  "reportBranding": {
+    "title": "Branding del Rapporto",
+    "description": "Personalizza il branding della tua azienda per i rapporti generati.",
+    "deleteBranding": "Elimina Branding",
+    "whiteLabel": "White Label",
+    "companyInformation": "Informazioni sull'Azienda",
+    "fields": {
+      "companyName": {
+        "label": "Nome Azienda",
+        "placeholder": "Inserisci il nome dell'azienda",
+        "error": "Il nome dell'azienda è obbligatorio"
+      },
+      "companyEmail": {
+        "label": "Email Aziendale",
+        "placeholder": "azienda@example.com",
+        "error": "Inserisci un indirizzo email valido"
+      },
+      "companyWebsite": {
+        "label": "Sito Web Aziendale",
+        "placeholder": "https://www.azienda.com",
+        "error": "Inserisci un URL valido del sito web"
+      },
+      "companyPhone": {
+        "label": "Telefono Aziendale",
+        "placeholder": "+39 012 345 6789",
+        "error": "Inserisci un numero di telefono valido"
+      },
+      "companyAddress": {
+        "label": "Indirizzo Aziendale",
+        "placeholder": "Via Business 123, Città, Provincia CAP",
+        "error": "Inserisci un indirizzo valido"
+      },
+      "companyLogo": {
+        "label": "Logo Aziendale",
+        "chooseButton": "Scegli Logo",
+        "removeButton": "Rimuovi Logo",
+        "fileTooLarge": {
+          "title": "File troppo grande",
+          "description": "Il file del logo deve essere inferiore a 2MB"
+        },
+        "invalidFile": {
+          "title": "Tipo di file non valido",
+          "description": "Carica un file immagine (PNG, JPG, SVG)"
+        },
+        "uploaded": {
+          "title": "Logo del rapporto caricato",
+          "description": "{{fileName}} pronto per l'uso"
+        },
+        "removed": {
+          "title": "Logo del rapporto rimosso",
+          "description": "Il logo è stato rimosso con successo"
+        },
+        "dropHere": "Trascina il logo qui per caricarlo",
+        "requirements": "PNG, JPG, SVG fino a 2MB. Consigliato: 200 x 200px",
+        "ready": "✓ Pronto",
+        "current": "✓ Logo attuale caricato",
+        "selected": "Selezionato: {{fileName}}"
+      }
+    },
+    "saveChanges": {
+      "button": "Salva Modifiche",
+      "saving": "Salvataggio in corso..."
+    },
+    "reportPreview": {
+      "title": "Anteprima del Rapporto",
+      "header": {
+        "companyNamePlaceholder": "Nome della Tua Azienda",
+        "websitePlaceholder": "www.tuaazienda.com",
+        "reportDate": "Data del Rapporto"
+      },
+      "metrics": {
+        "avgRating": "Valutazione Media",
+        "totalReviews": "Recensioni Totali"
+      },
+      "chart": {
+        "title": "Grafico delle Prestazioni"
+      },
+      "footer": {
+        "emailPlaceholder": "contatto@tuaazienda.com",
+        "phonePlaceholder": "+39 012 345 6789",
+        "addressPlaceholder": "Via Business 123, Città, Provincia",
+        "generatedOn": "Generato il"
+      }
+    },
+    "deleteDialog": {
+      "title": "Elimina Branding del Rapporto",
+      "description": "Sei sicuro di voler eliminare tutte le impostazioni di branding del rapporto? Questa azione è irreversibile e rimuoverà il logo e le informazioni della tua azienda da tutti i rapporti futuri.",
+      "cancel": "Annulla",
+      "delete": "Elimina Branding",
+      "deleting": "Eliminazione in corso..."
+    },
+    "validation": {
+      "errorTitle": "Errore",
+      "errorDescription": "Correggi gli errori di validazione"
+    }
+  }
+}

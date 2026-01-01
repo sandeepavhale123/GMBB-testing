@@ -1,0 +1,8 @@
+{
+  "reportsPage": {
+    "pageTitle": "Berichte",
+    "createReportButton": "Bericht erstellen",
+    "loading": "Lade Berichte...",
+    "error": "Fehler beim Laden der Berichte. Bitte versuchen Sie es erneut."
+  }
+}

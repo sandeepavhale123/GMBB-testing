@@ -1,0 +1,22 @@
+{
+  "aiParameters": {
+    "numberOfVariants": "Número de Variantes",
+    "style": "Estilo",
+    "variants": {
+      "one": "1 variante",
+      "two": "2 variantes",
+      "three": "3 variantes",
+      "four": "4 variantes"
+    },
+    "styles": {
+      "realistic": "Realista",
+      "artistic": "Artístico",
+      "cartoon": "Dibujo Animado",
+      "abstract": "Abstracto",
+      "minimalist": "Minimalista",
+      "vintage": "Vintage",
+      "modern": "Moderno",
+      "file1": "Archivo-1"
+    }
+  }
+}

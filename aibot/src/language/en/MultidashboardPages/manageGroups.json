@@ -1,0 +1,11 @@
+{
+  "title": "Manage Groups",
+  "createGroup": "Create Group",
+  "searchPlaceholder": "Search groups...",
+  "toast": {
+    "error":"Error",
+    "fetchError": "Failed to fetch groups",
+    "deleteError": "Failed to delete group",
+    "bulkDeleteError": "Failed to delete groups"
+  }
+}

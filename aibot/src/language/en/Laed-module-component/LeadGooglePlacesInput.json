@@ -1,0 +1,18 @@
+{
+  "leadGooglePlacesInput": {
+    "placeholders": {
+      "default": "Search for a business...",
+      "loading": "Loading Google Places..."
+    },
+    "errors": {
+      "apiKeyMissing": {
+        "title": "API Key Missing",
+        "description": "Google Places API key is not configured."
+      },
+      "initializationFailed": {
+        "title": "Initialization Failed",
+        "description": "Failed to initialize Google Places API."
+      }
+    }
+  }
+}

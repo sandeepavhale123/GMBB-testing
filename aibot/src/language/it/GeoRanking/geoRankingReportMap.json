@@ -1,0 +1,46 @@
+{
+  "geoRankingReportMap": {
+    "title": {
+      "default": "Mappa del Ranking Geo",
+      "processing": "Elaborazione Parola Chiave...",
+      "results": "Risultati del Ranking Parola Chiave"
+    },
+    "loading": {
+      "processingTitle": "Elaborazione Dati Parola Chiave",
+      "processingSubtitle": "Analisi dei ranking di ricerca...",
+      "loadingTitle": "Caricamento Dati Mappa",
+      "loadingSubtitle": "Generazione coordinate griglia..."
+    },
+    "popup": {
+      "business": {
+        "title": "La tua attività",
+        "subtitle": "Posizione principale"
+      },
+      "gridPoint": {
+        "title": "Punto Griglia {{index}}",
+        "subtitle": "In attesa dei risultati..."
+      },
+      "rankMarker": {
+        "title": "Posizione: {{rank}}",
+        "subtitle": "Clicca per dettagli"
+      },
+      "manual": {
+        "title": "Coordinata Manuale {{index}}",
+        "latlng": "Lat: {{lat}}, Lng: {{lng}}",
+        "drag": "Trascina per riposizionare",
+        "remove": "Rimuovi"
+      }
+    },
+    "zoom": {
+      "in": "Zoom Avanti",
+      "out": "Zoom Indietro"
+    },
+    "legend": {
+      "title": "Legenda Ranking",
+      "top": "1-3 (Top)",
+      "good": "4-10 (Buono)",
+      "fair": "11-15 (Discreto)",
+      "poor": "16+ (Scarso)"
+    }
+  }
+}

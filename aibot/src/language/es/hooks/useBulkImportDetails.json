@@ -1,0 +1,15 @@
+{
+  "listings": {
+    "fetchError": "Error al obtener los listados",
+    "noListingsFound": "No se encontraron listados para este ID de historial."
+  },
+  "posts": {
+    "fetchError": "Error al obtener las publicaciones",
+    "deleteError": "Error al eliminar la publicación",
+    "deleteSuccess": "Publicación eliminada con éxito"
+  },
+  "toast": {
+    "success": "Éxito",
+    "error": "Error"
+  }
+}

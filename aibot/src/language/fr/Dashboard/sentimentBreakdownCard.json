@@ -1,0 +1,9 @@
+{
+  "sentimentBreakdownTitle": "Répartition des sentiments",
+  "positiveLabel": "Positif",
+  "neutralLabel": "Neutre",
+  "negativeLabel": "Négatif",
+  "tryAgain": "Réessayer",
+  "errorMessage": "Une erreur s’est produite. Veuillez réessayer.",
+  "viewAll": "Tout voir"
+}

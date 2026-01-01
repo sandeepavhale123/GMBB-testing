@@ -1,0 +1,18 @@
+{
+  "qaCard": {
+    "answered": "Répondu",
+    "unanswered": "Non répondu",
+    "askedBy": "Posé par",
+    "anonymousUser": "Utilisateur anonyme",
+    "reply": "Répondre",
+    "replyTitle": "Utilisez des mots-clés pertinents dans votre réponse",
+    "answerPlaceholder": "Rédigez votre réponse en utilisant des mots-clés pertinents tels que les noms de villes, les services ou les produits pour améliorer le SEO local...",
+    "postAnswer": "Publier la réponse",
+    "cancel": "Annuler",
+    "answeredLabel": "Répondu {{timeAgo}}",
+    "listingFallback": {
+      "name": "Fiche d'entreprise",
+      "address": "Emplacement"
+    }
+  }
+}

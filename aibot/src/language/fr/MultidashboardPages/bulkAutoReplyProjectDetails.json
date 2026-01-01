@@ -1,0 +1,22 @@
+{
+  "header": {
+    "fallbackTitle": "Détails du projet",
+    "subtitle": "Gérez les modèles de réponses automatiques et les emplacements pour ce projet."
+  },
+  "loading": {
+    "spinnerAlt": "Chargement des détails du projet..."
+  },
+  "error": {
+    "message": "Échec du chargement des détails du projet",
+    "retry": "Réessayer"
+  },
+  "toast": {
+    "saveChanges": {
+      "title": "Enregistrer les modifications",
+      "description": "Modifications enregistrées avec succès !"
+    }
+  },
+  "projectType": {
+    "unsupported": "Type de projet non pris en charge : {{type}}"
+  }
+}

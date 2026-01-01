@@ -1,0 +1,68 @@
+{
+  "subscriptionPage": {
+    "title": "Planes de suscripción",
+    "activePlan": "Tu plan está activo hasta {{date}}.",
+    "expiredPlan": "Tu plan ha expirado. Por favor, renuévalo para seguir accediendo a las funciones.",
+    "description": "Elige el plan perfecto para las necesidades de tu negocio. Puedes actualizarlo o degradarlo en cualquier momento.",
+    "unsubscribe": "Darse de baja",
+    "tabs": {
+      "pricingPlan": "Plan de precios",
+      "paymentHistory": "Historial de pagos"
+    },
+    "labels": {
+      "features": "Características",
+      "pricePerMonth": "Precio/mes",
+      "mostPopular": "Más popular"
+    },
+    "buttons": {
+      "active": "Activo",
+      "processing": "Procesando...",
+      "payNow": "Pagar ahora",
+      "upgradeNow": "Actualizar ahora",
+      "contactSales": "Contactar ventas"
+    },
+    "help": {
+      "title": "¿Necesitas ayuda para elegir?",
+      "description": "Contacta a nuestro equipo de ventas para encontrar el plan perfecto para tu negocio."
+    },
+    "toast": {
+      "paymentError": {
+        "title": "Error de pago",
+        "description": "No se pudo procesar el pago. Por favor, inténtalo de nuevo."
+      },
+      "upgradeSuccess": {
+        "title": "Actualización exitosa"
+      },
+      "upgradeError": {
+        "title": "Error de actualización",
+        "description": "No se pudo actualizar el plan. Por favor, inténtalo de nuevo."
+      },
+      "subscriptionCancelled": {
+        "title": "Suscripción cancelada",
+        "description": "Tu suscripción ha sido cancelada."
+      },
+      "cancelError": {
+        "title": "Error",
+        "description": "No se pudo cancelar la suscripción."
+      }
+    },
+    "planFeature": {
+      "name1": "Número de listados GMB permitidos",
+      "name2": "Verificación de rango de KW por día",
+      "name3": "Listado de KW orgánicos",
+      "name4": "Verificación de KW GEO",
+      "name5": "Agregar equipo",
+      "name6": "Informe de marca blanca",
+      "name7": "Subdominio de marca blanca",
+      "unlmited": "Ilimitado"
+    },
+    "plans": {
+      "business": "Negocio",
+      "pro": "Pro",
+      "agency": "Agencia",
+      "enterprise": "Empresa"
+    },
+    "upgrade": "Actualizar ahora",
+    "pay": "Pagar ahora"
+  }
+}

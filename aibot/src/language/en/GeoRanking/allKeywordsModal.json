@@ -1,0 +1,38 @@
+{
+  "allKeywordsModal": {
+    "title": "All Keywords",
+    "searchPlaceholder": "Search keywords...",
+    "bulkActions": {
+      "selectedCount": "{{count}} keyword(s) selected",
+      "deleteSelected": "Delete Selected"
+    },
+    "table": {
+      "srNo": "Sr. No.",
+      "keyword": "Keyword",
+      "actions": "Actions",
+      "loading": "Loading keywords...",
+      "noKeywords": {
+        "search": "No keywords found matching your search",
+        "default": "No keywords available"
+      }
+    },
+    "buttons": {
+      "close": "Close",
+      "viewKeyword": "View keyword details",
+      "deleteKeyword": "Delete keyword",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel"
+    },
+    "deleteDialog": {
+      "title": "Are you sure?",
+      "description": "This will permanently delete {{count}} keyword(s). This action cannot be undone."
+    },
+    "toast": {
+      "successTitle": "Success",
+      "successDescription": "{{count}} keyword(s) deleted successfully",
+      "errorTitle": "Error",
+      "errorDescription": "Failed to delete keywords"
+    }
+  }
+}

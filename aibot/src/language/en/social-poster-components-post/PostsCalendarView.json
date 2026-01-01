@@ -1,0 +1,54 @@
+{
+  "calendar": {
+    "today": "Today",
+    "selectDate": "Select a Date",
+    "noPostsTitle": "No Posts Scheduled",
+    "noPostsDesc": "No posts are scheduled for this date",
+    "schedulePost":"Click on a date in the calendar to view scheduled posts",
+    "createPost": "Create Post",
+    "postsScheduled": "{{count}} post scheduled",
+    "postsScheduled_plural": "{{count}} posts scheduled",
+    "dayHeaders": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "more":"more",
+    "postalt":"Video thumbnail",
+    "Postmedia":"Post media"
+  },
+
+  "status": {
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "publishing": "Publishing",
+    "published": "Published",
+    "failed": "Failed"
+  },
+
+  "postActions": {
+    "edit": "Edit Post",
+    "retryFail":"Retry failed posts",
+    "delete": "Delete Post",
+    "view":"View Details",
+    "retry": "Retry Failed",
+    "retryAll": "Retry All Platforms",
+    "confirmDelete": "Are you sure you want to delete this post?"
+  },
+
+  "breakdown": {
+    "title": "Platform Breakdown",
+    "description": "Detailed status for each platform",
+    "postContent": "Post Content",
+    "retry":"Retry Failed",
+    "success": "Success",
+    "failed": "Failed",
+    "pending": "Pending",
+    "viewPublished": "View published post"
+  },
+
+  "instagramWarning": {
+    "title": "Instagram Post Published",
+    "message": "This post has been published to Instagram. Due to Instagram API limitations, published posts cannot be deleted automatically.",
+    "deleteMessage":" Please delete the post manually from Instagram if needed. The post will be removed from this system, but will remain on Instagram.",
+    "deleteAnyway": "Delete Anyway",
+    "cancel": "Cancel",
+    "system":"Delete from System"
+  }
+}

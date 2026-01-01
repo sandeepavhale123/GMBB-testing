@@ -1,0 +1,25 @@
+{
+  "integrationComingSoon": "Integration in Kürze verfügbar",
+  "comingSoon": "Demnächst verfügbar",
+
+  "status": {
+    "connected": "Verbunden",
+    "notConnected": "Nicht verbunden"
+  },
+
+  "reviews": "{{count}} Bewertungen",
+
+  "lastSynced": "Zuletzt synchronisiert: {{date}}",
+
+  "buttons": {
+    "connect": "Verbinden",
+    "disconnect": "Trennen",
+    "cancel": "Abbrechen"
+  },
+
+  "disconnectDialog": {
+    "title": "{{name}} trennen?",
+    "description": "Möchten Sie die Verbindung mit {{name}} wirklich trennen? Dadurch wird die Synchronisierung der Bewertungen von dieser Plattform beendet.",
+    "confirm": "Trennen"
+  }
+}

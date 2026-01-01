@@ -1,0 +1,15 @@
+{
+  "keywords": {
+    "title": "Keywords",
+    "subtitle": "Verwalten und überwachen Sie die Keyword-Rankings für Ihr Unternehmen.",
+    "loadingSubtitle": "Verwalten und überwachen Sie die Keyword-Rankings für Ihr Unternehmen",
+    "addKeyword": "Keyword hinzufügen",
+    "searchKeyword": "Keyword suchen",
+    "errorTitle": "Fehler",
+    "errorFetch": "Keywords konnten nicht abgerufen werden",
+    "errorNoListing": "Keine Auflistung ausgewählt.",
+    "errorDelete": "Keywords konnten nicht gelöscht werden. Bitte erneut versuchen.",
+    "deletedTitle": "Keywords gelöscht",
+    "deletedMessage": "{{count}} Keyword{{plural}} erfolgreich gelöscht."
+  }
+}

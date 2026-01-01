@@ -1,0 +1,22 @@
+{
+  "dialog": {
+    "title": "LinkedIn-Konto verbinden",
+    "description": "Wählen Sie den Kontotyp aus, den Sie verbinden möchten"
+  },
+  "individual": {
+    "title": "Persönliches Profil verbinden",
+    "description": "Verbinden Sie Ihr persönliches LinkedIn-Profil, um als Sie selbst zu posten"
+  },
+  "organization": {
+    "title": "Unternehmensseite verbinden",
+    "description": "Verbinden Sie Ihre Unternehmensseite, um als Ihr Unternehmen zu posten"
+  },
+  "buttons": {
+    "connect": "Verbinden",
+    "connecting": "Verbinden..."
+  },
+  "errors": {
+    "oauthInitFailed": "LinkedIn OAuth konnte nicht initialisiert werden",
+    "connectFailed": "LinkedIn-Konto konnte nicht verbunden werden"
+  }
+}

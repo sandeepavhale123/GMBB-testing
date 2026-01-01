@@ -1,0 +1,22 @@
+{
+  "header": {
+    "fallbackTitle": "Detalles del Proyecto",
+    "subtitle": "Administra las plantillas de respuesta automática y las ubicaciones de este proyecto."
+  },
+  "loading": {
+    "spinnerAlt": "Cargando detalles del proyecto..."
+  },
+  "error": {
+    "message": "Error al cargar los detalles del proyecto",
+    "retry": "Reintentar"
+  },
+  "toast": {
+    "saveChanges": {
+      "title": "Guardar Cambios",
+      "description": "¡Cambios guardados con éxito!"
+    }
+  },
+  "projectType": {
+    "unsupported": "Tipo de proyecto no soportado: {{type}}"
+  }
+}

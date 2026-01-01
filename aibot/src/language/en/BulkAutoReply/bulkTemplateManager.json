@@ -1,0 +1,23 @@
+{
+  "titles": {
+    "replyTemplates": "Reply Templates"
+  },
+  "tabs": {
+    "review": "Reply for Review",
+    "rating": "Reply for Rating Only"
+  },
+  "toast": {
+    "success": {
+        "title":"Success",
+      "enabled": "Template enabled successfully",
+      "disabled": "Template disabled successfully",
+      "saved": "Template saved successfully"
+    },
+    "error": {
+        "title":"Error",
+      "projectId": "Project ID not found",
+      "updateTemplate": "Failed to update template status",
+      "saveTemplate": "Failed to save template"
+    }
+  }
+}
