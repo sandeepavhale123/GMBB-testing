@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 .env
+aibot/vite.config
+aibot/src/providers/AppProviders.tsx
+.vite.config
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
