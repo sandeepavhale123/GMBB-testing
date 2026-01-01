@@ -23,37 +23,40 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useI18nNamespace } from "@/hooks/useI18nNamespace";
 export const ModulesMegaMenu: React.FC = () => {
   const { t } = useI18nNamespace("MultidashboardComponent/modulesMegaMenu");
+
+  const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL; 
+ 
   const modules = [
     {
       name: t("modules.geoRanking.name"),
       description: t("modules.geoRanking.description"),
       icon: TrendingUp,
-      href: "/module/geo-ranking",
+      href: `${FRONTEND_BASE_URL}module/geo-ranking`,
     },
     {
       name: t("modules.leadManagement.name"),
       description: t("modules.leadManagement.description"),
       icon: Users,
-      href: "/module/lead",
+      href: `${FRONTEND_BASE_URL}module/lead`,
     },
     {
       name: t("modules.seo.name"),
       description: t("modules.seo.description"),
       icon: Search,
-      href: "/module/live-seo-fixer",
+      href: `${FRONTEND_BASE_URL}module/live-seo-fixer`,
       beta: true,
     },
      {
       name: t("modules.socialPoster.name"),
       description: t("modules.socialPoster.description"),
       icon: Share2,
-      href: "/social-poster",
+      href: `${FRONTEND_BASE_URL}social-poster`,
     },
     {
       name: t("modules.reputation.name"),
       description: t("modules.reputation.description"),
       icon: Star,
-      href: "/module/reputation",
+      href: `${FRONTEND_BASE_URL}module/reputation`,
       beta: true,
     },
     // {
@@ -100,7 +103,7 @@ export const ModulesMegaMenu: React.FC = () => {
         description: t("modules.manageGmb.description"),
         icon: Grid3X3,
         href:
-          dashboardType === 0 ? "/location-dashboard/id" : "/main-dashboard",
+          dashboardType === 0 ? "/location-dashboard/id" : `${FRONTEND_BASE_URL}main-dashboard`,
         comingSoon: false,
         beta: false,
       };

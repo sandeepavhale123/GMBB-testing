@@ -29,7 +29,7 @@ export const AppProviders = ({ children }: AppProvidersProps) => {
     <Provider store={store}>
       <ThemeProvider>
         <TooltipProvider>
-          <BrowserRouter>
+          <BrowserRouter basename="/aibot/">
             <ToastProvider>
               <NotificationProvider>
                 {children}
